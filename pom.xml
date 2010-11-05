@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>org.codehaus.sonar-plugins</groupId>
+		<version>5</version>
+		<relativePath>../parent</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.sonar.plugins</groupId>
+  <artifactId>sonar-cxx-plugin</artifactId>
+  <packaging>sonar-plugin</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Sonar C++ Plugin</name>
+  <description>C++ Plugin for Sonar</description>
+
+  <!-- optional -->
+  <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
+  <issueManagement>
+  	<system>JIRA</system>
+  	<url>http://jira.codehaus.org/browse/SONARPLUGINS/component/14579</url>
+  </issueManagement>
+  <inceptionYear>2010</inceptionYear>
+  <scm>
+  	<connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/cxx</connection>
+  	<developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx</developerConnection>
+  	<url>http://svn.sonar-plugins.codehaus.org</url>
+  </scm>
+  <organization>
+  </organization>
+  <licenses>
+    <license>
+    	<name>GNU LGPL v3</name>
+    	<url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses> 
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <version>2.3.1</version>
+    </dependency>
+    
+    <!-- add your dependencies here -->
+    
+    <!-- unit tests -->
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-testing-harness</artifactId>
+      <version>2.3.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>pmd</groupId>
+    	<artifactId>pmd</artifactId>
+    	<version>4.2.5</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.sonar</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>0.1</version>
+        <extensions>true</extensions>
+        <configuration>
+          <pluginKey>cxx-core-plugin</pluginKey>
+          <pluginClass>org.sonar.plugins.cxx.CxxPlugin</pluginClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <properties>
+  	<sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
+  	<sonar.importSources>true</sonar.importSources>
+  	<sonar.language>java</sonar.language>
+  </properties>
+</project>
