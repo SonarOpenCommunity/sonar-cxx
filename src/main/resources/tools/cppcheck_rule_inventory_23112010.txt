@@ -1,0 +1,75 @@
+// from http://sourceforge.net/apps/trac/cppcheck/wiki/ErrorMessages
+(autoVariables, error) Wrong assignment of an auto-variable to an effective parameter of a function
+(returnLocalVariable, error) Returning pointer to local array variable
+(returnReference, error) Returning reference to auto variable
+(returnTempReference, error) Returning reference to temporary
+(returnAutocstr, error) Returning pointer to auto variable
+(returnTempPointer, error) Returning pointer to temporary
+(arrayIndexOutOfBounds, error) Array index out of bounds
+(bufferAccessOutOfBounds, error) Buffer access out-of-bounds: buffer
+(dangerousStdCin, possible error) Dangerous usage of std::cin, possible buffer overrun
+(strncatUsage, possible error) Dangerous usage of strncat. Tip: the 3rd parameter means maximum number of characters to append
+(outOfBounds, error) index is out of bounds
+(sizeArgumentAsChar, possible error) The size argument is given as a char constant
+(terminateStrncpy, style) After a strncpy() the buffer should be zero-terminated
+(noConstructor, style) The class 'classname' has no constructor. Member variables not initialized.
+(uninitVar, style) Member variable not initialized in the constructor 'classname::varname'
+(operatorEqVarError, possible style) Member variable 'classname::' is not assigned a value in 'classname::operator='
+(unusedPrivateFunction, style) Unused private function 'classname::funcname'
+(memsetClass, error) Using 'memfunc' on class
+(memsetStruct, error) Using 'memfunc' on struct that contains a 'std::classname'
+(operatorEq, style) 'operator=' should return something
+(virtualDestructor, error) Class Base which is inherited by class Derived does not have a virtual destructor
+(thisSubtraction, possible style) Suspicious pointer subtraction
+(operatorEqRetRefThis, style) 'operator=' should return reference to self
+(operatorEqToSelf, possible style) 'operator=' should check for assignment to self
+(functionConst, style) The function 'class::function' can be const
+(dangerousFunctionmktemp, style) Found 'mktemp'. You should use 'mkstemp' instead
+(dangerousFunctiongets, style) Found 'gets'. You should use 'fgets' instead
+(dangerousFunctionscanf, style) Found 'scanf'. You should use 'fgets' instead
+(exceptThrowInDestructor, style) Throwing exception in destructor
+(exceptNew, style) Upon exception there is memory leak: p
+(exceptRealloc, style) Upon exception p becomes a dead pointer
+(exceptDeallocThrow, error) Throwing exception in invalid state, p points at deallocated memory
+(memleak, error) Memory leak: varname
+(resourceLeak, error) Resource leak: varname
+(deallocDealloc, error) Deallocating a deallocated pointer: varname
+(deallocuse, error) Dereferencing 'varname' after it is deallocated / released
+(mismatchSize, error) The given size sz is mismatching
+(mismatchAllocDealloc, error) Mismatching allocation and deallocation: varname
+(sprintfOverlappingData, error) Undefined behaviour: varname is used wrong in call to sprintf or snprintf. Quote: If copying takes place between objects that overlap as a result of a call to sprintf() or snprintf(), the results are undefined.
+(udivError, error) Unsigned division. The result will be wrong.
+(nullPointer, error) Possible null pointer dereference: pointer
+(uninitstring, error) Dangerous usage of 'varname' (strncpy doesn't always 0-terminate it)
+(uninitdata, error) Data is allocated but not initialized: varname
+(uninitvar, error) Uninitialized variable: varname
+(zerodiv, error) Division by zero
+(wrongmathcall, error) Passing value to () leads to undefined result
+(cstyleCast, style) C-style pointer casting
+(redundantIfDelete0, style) Redundant condition. It is safe to deallocate a NULL pointer
+(redundantIfRemove, style) Redundant condition. The remove function in the STL will not do anything if element doesn't exist
+(dangerousUsageStrtol, error) Invalid radix in call to strtol or strtoul. Must be 0 or 2-36
+(udivWarning, possible style) Division with signed and unsigned operators
+(unusedStructMember, style) struct or union member 'structname::variable' is never used
+(passedByValue, style) Function parameter 'parametername' is passed by value. It could be passed by reference instead.
+(constStatement, style) Redundant code: Found a statement that begins with type constant
+(charArrayIndex, style) Warning - using char variable as array index
+(charBitOp, style) Warning - using char variable in bit operation
+(variableScope, style) The scope of the variable varname can be reduced
+(conditionAlwaysTrueFalse, style) Condition is always true/false
+(strPlusChar, error) Unusual pointer arithmetic
+(postIncrementDecrement, possible style) Pre-Incrementing variable 'varname' is preferred to Post-Incrementing
+(iterators, error) Same iterator is used with both container1 and container2
+(mismatchingContainers, error) mismatching containers
+(eraseDereference, error) Dereferenced iterator 'iter' has been erased
+(stlOutOfBounds, error) When i==foo.size(), foo[i] is out of bounds
+(erase, error) Dangerous iterator usage. After erase the iterator is invalid so dereferencing it or comparing it with another iterator is invalid.
+(invalidIterator, error) After push_back|push_front|insert, the iterator 'iterator' may be invalid
+(invalidPointer, error) Invalid pointer 'pointer' after push_back / push_front
+(stlBoundries, error) container range check should use != and not &lt; since the order of the pointers isn't guaranteed
+(stlIfFind, style) Suspicious condition. The result of find is an iterator, but it is not properly checked.
+(stlIfStrFind, possible style) Suspicious condition. string::find will return 0 if the string is found at position 0. If this is what you want to check then string::compare is a faster alternative because it doesn't scan through the string.
+(stlSize, possible style) Use list.empty() instead of list.size() to guarantee fast code. size() can take linear time but empty() is guaranteed to take constant time.
+(unusedFunction, style) The function 'funcName' is never used
+(syntaxError, error) Invalid number of character ( ) when these macros are defined
+(cppcheckError, error) ### Internal error in Cppcheck. Please report it.

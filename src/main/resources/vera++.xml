@@ -1,0 +1,218 @@
+<rules>
+	<rule>
+		<key>F001</key>
+		<priority>MINOR</priority>
+		<name>F001</name>
+		<configKey>F001</configKey>
+		<category name="Efficiency"/>
+		<description>(CR) detected in isolation</description>
+	</rule>
+	<rule>
+		<key>F002</key>
+		<priority>MINOR</priority>
+		<name>F002</name>
+		<configKey>F002</configKey>
+		<category name="Efficiency"/>
+		<description>directory or file name malformed</description>
+	</rule>
+	<rule>
+		<key>L001</key>
+		<priority>MINOR</priority>
+		<name>L001</name>
+		<configKey>L001</configKey>
+		<category name="Efficiency"/>
+		<description>trailing whitespace</description>
+	</rule>
+	<rule>
+		<key>L002</key>
+		<priority>MINOR</priority>
+		<name>L002</name>
+		<configKey>L002</configKey>
+		<category name="Efficiency"/>
+		<description>horizontal tab used</description>
+	</rule>
+	<rule>
+		<key>L003</key>
+		<priority>MINOR</priority>
+		<name>L003</name>
+		<configKey>L003</configKey>
+		<category name="Efficiency"/>
+		<description>leading/trailing empty line(s)</description>
+	</rule>
+	<rule>
+		<key>L004</key>
+		<priority>MINOR</priority>
+		<name>L004</name>
+		<configKey>L004</configKey>
+		<category name="Efficiency"/>
+		<description>line is longer than ${maxLength} characters</description>
+	</rule>
+	<rule>
+		<key>L005</key>
+		<priority>MINOR</priority>
+		<name>L005</name>
+		<configKey>L005</configKey>
+		<category name="Efficiency"/>
+		<description>too many consecutive empty lines</description>
+	</rule>
+	<rule>
+		<key>L006</key>
+		<priority>MINOR</priority>
+		<name>L006</name>
+		<configKey>L006</configKey>
+		<category name="Efficiency"/>
+		<description>source file is too long</description>
+	</rule>
+	<rule>
+		<key>T001</key>
+		<priority>MINOR</priority>
+		<name>T001</name>
+		<configKey>T001</configKey>
+		<category name="Efficiency"/>
+		<description>line-continuation in one-line comment</description>
+	</rule>
+	<rule>
+		<key>T002</key>
+		<priority>MINOR</priority>
+		<name>T002</name>
+		<configKey>T002</configKey>
+		<category name="Efficiency"/>
+		<description>reserved name used for macro </description>
+	</rule>
+	<rule>
+		<key>T003</key>
+		<priority>MINOR</priority>
+		<name>T003</name>
+		<configKey>T003</configKey>
+		<category name="Efficiency"/>
+		<description>keyword not followed by a single space         </description>
+	</rule>
+	<rule>
+		<key>T004</key>
+		<priority>MINOR</priority>
+		<name>T004</name>
+		<configKey>T004</configKey>
+		<category name="Efficiency"/>
+		<description>colon not immediately after the \'$lastKeywordValue\' keyword</description>
+	</rule>
+	<rule>
+		<key>T005</key>
+		<priority>MINOR</priority>
+		<name>T005</name>
+		<configKey>T005</configKey>
+		<category name="Efficiency"/>
+		<description>keyword not immediately followed by a semicolon</description>
+	</rule>
+	<rule>
+		<key>T006</key>
+		<priority>MINOR</priority>
+		<name>T006</name>
+		<configKey>T006</configKey>
+		<category name="Efficiency"/>
+		<description>keyword not immediately followed by a semicolon or a single space</description>
+	</rule>
+	<rule>
+		<key>T007</key>
+		<priority>MINOR</priority>
+		<name>T007</name>
+		<configKey>T007</configKey>
+		<category name="Efficiency"/>
+		<description>semicolon is isolated from other tokens</description>
+	</rule>
+	<rule>
+		<key>T008</key>
+		<priority>MINOR</priority>
+		<name>T008</name>
+		<configKey>T008</configKey>
+		<category name="Efficiency"/>
+		<description>keyword not followed by a single space</description>
+	</rule>
+	<rule>
+		<key>T009</key>
+		<priority>MINOR</priority>
+		<name>T009</name>
+		<configKey>T009</configKey>
+		<category name="Efficiency"/>
+		<description>comma should not be preceded/followed by whitespace</description>
+	</rule>
+	<rule>
+		<key>T010</key>
+		<priority>MINOR</priority>
+		<name>T010</name>
+		<configKey>T010</configKey>
+		<category name="Efficiency"/>
+		<description>identifier should not be composed of only 'l' and 'O'</description>
+	</rule>
+	<rule>
+		<key>T011</key>
+		<priority>MINOR</priority>
+		<name>T011</name>
+		<configKey>T011</configKey>
+		<category name="Efficiency"/>
+		<description>opening/closing curly bracket mistake</description>
+	</rule>
+	<rule>
+		<key>T012</key>
+		<priority>MINOR</priority>
+		<name>T012</name>
+		<configKey>T012</configKey>
+		<category name="Efficiency"/>
+		<description>negation operator used in its short form</description>
+	</rule>
+	<rule>
+		<key>T013</key>
+		<priority>MINOR</priority>
+		<name>T013</name>
+		<configKey>T013</configKey>
+		<category name="Efficiency"/>
+		<description>no copyright notice found</description>
+	</rule>
+	<rule>
+		<key>T014</key>
+		<priority>MINOR</priority>
+		<name>T014</name>
+		<configKey>T014</configKey>
+		<category name="Efficiency"/>
+		<description>no reference to the Boost Software License found</description>
+	</rule>
+	<rule>
+		<key>T015</key>
+		<priority>MINOR</priority>
+		<name>T015</name>
+		<configKey>T015</configKey>
+		<category name="Efficiency"/>
+		<description>URL links misuse</description>
+	</rule>
+	<rule>
+		<key>T016</key>
+		<priority>MINOR</priority>
+		<name>T016</name>
+		<configKey>T016</configKey>
+		<category name="Efficiency"/>
+		<description>min/max potential macro substitution problem</description>
+	</rule>
+	<rule>
+		<key>T017</key>
+		<priority>MINOR</priority>
+		<name>T017</name>
+		<configKey>T017</configKey>
+		<category name="Efficiency"/>
+		<description>unnamed namespace not allowed in header file</description>
+	</rule>
+	<rule>
+		<key>T018</key>
+		<priority>MINOR</priority>
+		<name>T018</name>
+		<configKey>T018</configKey>
+		<category name="Efficiency"/>
+		<description>using namespace not allowed in header file</description>
+	</rule>
+	<rule>
+		<key>T019</key>
+		<priority>MINOR</priority>
+		<name>T019</name>
+		<configKey>T019</configKey>
+		<category name="Efficiency"/>
+		<description>full block {} expected in the control structure</description>
+	</rule>
+</rules>

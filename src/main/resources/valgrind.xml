@@ -1,0 +1,114 @@
+<rules>
+	<rule>
+		<key>InvalidFree</key>
+		<priority>CRITICAL</priority>
+		<name>InvalidFree</name>
+		<configKey>InvalidFree</configKey>
+		<category name="Reliability"/>
+		<description>InvalidFree</description>
+	</rule>
+	<rule>
+		<key>MismatchedFree</key>
+		<priority>CRITICAL</priority>
+		<name>MismatchedFree</name>
+		<configKey>MismatchedFree</configKey>
+		<category name="Reliability"/>
+		<description>MismatchedFree</description>
+	</rule>
+	<rule>
+		<key>InvalidRead</key>
+		<priority>CRITICAL</priority>
+		<name>InvalidRead</name>
+		<configKey>InvalidRead</configKey>
+		<category name="Reliability"/>
+		<description>InvalidRead</description>
+	</rule>
+	<rule>
+		<key>InvalidWrite</key>
+		<priority>CRITICAL</priority>
+		<name>InvalidWrite</name>
+		<configKey>InvalidWrite</configKey>
+		<category name="Reliability"/>
+		<description>InvalidWrite</description>
+	</rule>
+	<rule>
+		<key>InvalidJump</key>
+		<priority>CRITICAL</priority>
+		<name>InvalidJump</name>
+		<configKey>InvalidJump</configKey>
+		<category name="Reliability"/>
+		<description>InvalidJump</description>
+	</rule>
+	<rule>
+		<key>Overlap</key>
+		<priority>CRITICAL</priority>
+		<name>Overlap</name>
+		<configKey>Overlap</configKey>
+		<category name="Reliability"/>
+		<description>Overlap</description>
+	</rule>
+	<rule>
+		<key>InvalidMemPool</key>
+		<priority>CRITICAL</priority>
+		<name>InvalidMemPool</name>
+		<configKey>InvalidMemPool</configKey>
+		<category name="Reliability"/>
+		<description>InvalidMemPool</description>
+	</rule>
+	<rule>
+		<key>UninitCondition</key>
+		<priority>CRITICAL</priority>
+		<name>UninitCondition</name>
+		<configKey>UninitCondition</configKey>
+		<category name="Reliability"/>
+		<description>UninitCondition</description>
+	</rule>
+	<rule>
+		<key>UninitValue</key>
+		<priority>CRITICAL</priority>
+		<name>UninitValue</name>
+		<configKey>UninitValue</configKey>
+		<category name="Reliability"/>
+		<description>UninitValue</description>
+	</rule>
+	<rule>
+		<key>SyscallParam</key>
+		<priority>CRITICAL</priority>
+		<name>SyscallParam</name>
+		<configKey>SyscallParam</configKey>
+		<category name="Reliability"/>
+		<description>SyscallParam</description>
+	</rule>
+	<rule>
+		<key>ClientCheck</key>
+		<priority>CRITICAL</priority>
+		<name>ClientCheck</name>
+		<configKey>ClientCheck</configKey>
+		<category name="Reliability"/>
+		<description>ClientCheck</description>
+	</rule>
+	<rule>
+		<key>Leak_DefinitelyLost</key>
+		<priority>CRITICAL</priority>
+		<name>Leak_DefinitelyLost</name>
+		<configKey>Leak_DefinitelyLost</configKey>
+		<category name="Reliability"/>
+		<description>Leak_DefinitelyLost</description>
+	</rule>
+	<rule>
+		<key>Leak_PossiblyLost</key>
+		<priority>CRITICAL</priority>
+		<name>Leak_PossiblyLost</name>
+		<configKey>Leak_PossiblyLost</configKey>
+		<category name="Reliability"/>
+		<description>Leak_PossiblyLost</description>
+	</rule>
+	<rule>
+		<key>Leak_StillReachable</key>
+		<priority>CRITICAL</priority>
+		<name>Leak_StillReachable</name>
+		<configKey>Leak_StillReachable</configKey>
+		<category name="Reliability"/>
+		<description>Leak_StillReachable</description>
+	</rule>
+</rules>

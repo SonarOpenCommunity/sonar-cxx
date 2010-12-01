@@ -1,5 +1,5 @@
 /*
- * Sonar, open source software quality management tool.
+ * Sonar Cxx Plugin, open source software quality management tool.
  * Copyright (C) 2010 ${name}
  * mailto:contact AT sonarsource DOT com
  *
@@ -44,7 +44,7 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
 	
 	protected Resource<CxxDir> createResource(File file, List<File> sourceDirs, boolean unitTest)
 	{
-	  return CxxFile.fromAbsolute(project, file.getAbsolutePath());
+	  return CxxFile.fromFileName(project, file.getAbsolutePath(), false);
 	}
 	/*
 	public void analyse(Project project, SensorContext context)

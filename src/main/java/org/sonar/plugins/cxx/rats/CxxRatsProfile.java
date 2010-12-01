@@ -1,5 +1,5 @@
 /*
- * Sonar, open source software quality management tool.
+ * Sonar Cxx Plugin, open source software quality management tool.
  * Copyright (C) 2010 ${name}
  * mailto:contact AT sonarsource DOT com
  *
@@ -18,28 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.rats;
 
-import org.sonar.api.profiles.ProfileDefinition;
-import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
-import org.sonar.api.utils.ValidationMessages;
+import org.sonar.plugins.cxx.utils.CxxAbstractProfileDefinition;
 
 
-public final class CxxRatsProfile extends ProfileDefinition {
-  private static final String PROFILE_FILE = "rats-profile.xml";  
-  private XMLProfileParser xmlProfileParser;
-  
-  public CxxRatsProfile(XMLProfileParser xmlProfileParser)
-  {
-    this.xmlProfileParser = xmlProfileParser;
-  }
-  
-  @Override
-  public RulesProfile createProfile(ValidationMessages messages) {
-    RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(), PROFILE_FILE, messages);
-    profile.setDefaultProfile(true);
-    profile.setProvided(true);
-    return profile;
-  }
+public final class CxxRatsProfile extends CxxAbstractProfileDefinition {
+
+	  public CxxRatsProfile(XMLProfileParser xmlProfileParser) {
+		  super(xmlProfileParser);
+	  }
+	  
+	  @Override
+	  protected String ProfileFileName() {
+		  return "rats-profile.xml";
+	  }
 }

@@ -1,530 +1,166 @@
 <rules>
 	<rule>
-		<key>access</key>
-		<name>access</name>
-		<description>A potential TOCTOU (Time Of Check, Time Of Use) vulnerability 
-		exists. This is the first line where a check has occured.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/access</configKey>
-	</rule>
-
-	<rule>
-		<key>creat</key>
-		<name>creat</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/creat</configKey>
-	</rule>
-
-	<rule>
-		<key>mknod</key>
-		<name>mknod</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/mknod</configKey>
-	</rule>
-	
-	<rule>
-		<key>mkfifo</key>
-		<name>mkfifo</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/mkfifo</configKey>
-	</rule>
-	
-	<rule>
-		<key>pathconf</key>
-		<name>pathconf</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/pathconf</configKey>
-	</rule>
-	
-	<rule>
-		<key>opendir</key>
-		<name>opendir</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/opendir</configKey>
-	</rule>
-	
-	<rule>
-		<key>dirname</key>
-		<name>dirname</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/dirname</configKey>
-	</rule>
-	
-	<rule>
-		<key>basename</key>
-		<name>basename</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/basename</configKey>
-	</rule>
-	
-	<rule>
-		<key>scandir</key>
-		<name>scandir</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/scandir</configKey>
-	</rule>
-	
-	<rule>
-		<key>fopen</key>
-		<name>fopen</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/fopen</configKey>
-	</rule>
-	
-	<rule>
-		<key>lstat</key>
-		<name>lstat</name>
-		<description>A potential TOCTOU (Time Of Check, Time Of Use) vulnerability 
-		exists. This is the first line where a check has occured.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/lstat</configKey>
-	</rule>
-	
-	<rule>
-		<key>stat</key>
-		<name>stat</name>
-		<description>A potential TOCTOU (Time Of Check, Time Of Use) vulnerability 
-		exists. This is the first line where a check has occured.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/stat</configKey>
-	</rule>
-	
-	<rule>
-		<key>open</key>
-		<name>open</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/open</configKey>
-	</rule>
-	
-	<rule>
-		<key>chmod</key>
-		<name>chmod</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/chmod</configKey>
-	</rule>
-	
-	<rule>
-		<key>chown</key>
-		<name>chown</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/chown</configKey>
-	</rule>
-	
-	<rule>
-		<key>chgrp</key>
-		<name>chgrp</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/chgrp</configKey>
-	</rule>
-	
-	<rule>
-		<key>rename</key>
-		<name>rename</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/rename</configKey>
-	</rule>
-	
-	<rule>
-		<key>mkdir</key>
-		<name>mkdir</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/mkdir</configKey>
-	</rule>
-	
-	<rule>
-		<key>mkdirp</key>
-		<name>mkdirp</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/mkdirp</configKey>
-	</rule>
-	
-	<rule>
-		<key>rmdirp</key>
-		<name>rmdirp</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/rmdirp</configKey>
-	</rule>
-	
-	<rule>
-		<key>rmdir</key>
-		<name>rmdir</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/rmdir</configKey>
-	</rule>
-	
-	<rule>
-		<key>remove</key>
-		<name>remove</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/remove</configKey>
-	</rule>
-	
-	<rule>
-		<key>unlink</key>
-		<name>unlink</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/unlink</configKey>
-	</rule>
-	
-	<rule>
-		<key>link</key>
-		<name>link</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/link</configKey>
-	</rule>
-	
-	<rule>
-		<key>lchown</key>
-		<name>lchown</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/lchown</configKey>
-	</rule>
-	
-	<rule>
-		<key>execve</key>
-		<name>execve</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/execve</configKey>
-	</rule>
-	
-	<rule>
-		<key>execl</key>
-		<name>execl</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/execl</configKey>
-	</rule>
-	
-	<rule>
-		<key>execlp</key>
-		<name>execlp</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/execlp</configKey>
-	</rule>
-	
-	<rule>
-		<key>execle</key>
-		<name>execle</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/execle</configKey>
-	</rule>
-	
-	<rule>
-		<key>execv</key>
-		<name>execv</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/execv</configKey>
-	</rule>
-	
-	<rule>
-		<key>execvp</key>
-		<name>execvp</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/execvp</configKey>
-	</rule>
-	
-	<rule>
-		<key>fopen</key>
-		<name>fopen</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/fopen</configKey>
-	</rule>
-	
-	<rule>
-		<key>freopen</key>
-		<name>freopen</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/freopen</configKey>
-	</rule>
-	<rule>
-		<key>mktemp</key>
-		<name>mktemp</name>
-		<description>A potential race condition vulnerability exists here.  Normally a call
-      to this function is vulnerable only when a match check precedes it.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/mktemp</configKey>
-	</rule>
-	
-	<rule>
 		<key>drand48</key>
 		<name>drand48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/drand48</configKey>
 	</rule>
 	
 	<rule>
 		<key>erand48</key>
 		<name>erand48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/erand48</configKey>
 	</rule>
 	
 	<rule>
 		<key>initstate</key>
 		<name>initstate</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/initstate</configKey>
 	</rule>
 	
 	<rule>
 		<key>jrand48</key>
 		<name>jrand48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/jrand48</configKey>
 	</rule>
 	
 	<rule>
 		<key>lcong48</key>
 		<name>lcong48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/lcong48</configKey>
 	</rule>
 	
 	<rule>
 		<key>lrand48</key>
 		<name>lrand48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/lrand48</configKey>
 	</rule>
 	
 	<rule>
 		<key>mrand48</key>
 		<name>mrand48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/mrand48</configKey>
 	</rule>
 	
 	<rule>
 		<key>nrand48</key>
 		<name>nrand48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/nrand48</configKey>
 	</rule>
 	
 	<rule>
 		<key>random</key>
 		<name>random</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/random</configKey>
 	</rule>
 	
 	<rule>
 		<key>seed48</key>
 		<name>seed48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/seed48</configKey>
 	</rule>
 	
 	<rule>
 		<key>setstate</key>
 		<name>setstate</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/setstate</configKey>
 	</rule>
 	
 	<rule>
 		<key>srand</key>
 		<name>srand</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/srand</configKey>
 	</rule>
 	
 	<rule>
 		<key>srand48</key>
 		<name>srand48</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/srand48</configKey>
 	</rule>
 	
 	<rule>
 		<key>strfry</key>
 		<name>strfry</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/strfry</configKey>
 	</rule>
 	
 	<rule>
 		<key>memfrob</key>
 		<name>memfrob</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/memfrob</configKey>
 	</rule>
 	
 	<rule>
 		<key>crypt</key>
 		<name>crypt</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/crypt</configKey>
 	</rule>
 	
 	<rule>
 		<key>srandom</key>
 		<name>srandom</name>
-		<description>Standard random number generators should not be used to generate randomness used 
-		for security reasons. For security sensitive randomness a crytographic randomness generator 
-		that provides sufficient entropy should be used.</description>
+		<description>Standard random number generators should not be used to generate randomness used for security reasons. For security sensitive randomness a crytographic randomness generator that provides sufficient entropy should be used.</description>
 		<category name="Reliability"/>
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/srandom</configKey>
 	</rule>
-		
+	
+	<rule>
+		<key>memcpy</key>
+		<name>memcpy</name>
+		<description>Double check that your buffer is as big as you specify. When using functions that accept a number n of bytes to copy, such as strncpy, be aware that if the dest buffer size = n it may not NULL-terminate the string.</description>
+		<category name="Reliability"/>
+		<priority>CRITICAL</priority>
+		<configKey>config/memcpy</configKey>
+	</rule>
+	
 	<rule>
 		<key>chroot</key>
 		<name>chroot</name>
@@ -537,8 +173,7 @@
 	<rule>
 		<key>gets</key>
 		<name>gets</name>
-		<description>Gets is unsafe!! No bounds checking is performed, buffer is easily overflowable 
-		by user. Use fgets(buf, size, stdin) instead.</description>
+		<description>Gets is unsafe!! No bounds checking is performed, buffer is easily overflowable by user. Use fgets(buf, size, stdin) instead.</description>
 		<category name="Reliability" />
 		<priority>CRITICAL</priority>
 		<configKey>config/gets</configKey>
@@ -551,7 +186,7 @@
 come from an untrusted source without first verifying that it contains nothing
 dangerous.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/system</configKey>
 	</rule>
 	
@@ -562,19 +197,16 @@ dangerous.</description>
 come from an untrusted source without first verifying that it contains nothing
 dangerous.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/popen</configKey>
 	</rule>
 	
 	<rule>
 		<key>getenv</key>
 		<name>getenv</name>
-		<description>Environment variables are highly untrustable input. They may be of any length, 
-		and contain any data. Do not make any assumptions regarding content or length. If at all 
-		possible avoid using them, and if it is necessary, sanitize them and truncate them to a 
-		reasonable length.</description>
+		<description>Environment variables are highly untrustable input. They may be of any length, and contain any data. Do not make any assumptions regarding content or length. If at all possible avoid using them, and if it is necessary, sanitize them and truncate them to a reasonable length.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/getenv</configKey>
 	</rule>
 	
@@ -585,7 +217,7 @@ dangerous.</description>
 more data than can be handled, resulting in a buffer overflow.
 		</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/strcpy</configKey>
 	</rule>
 	
@@ -596,18 +228,16 @@ more data than can be handled, resulting in a buffer overflow.
 more data than can be handled, resulting in a buffer overflow.
 		</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/strcat</configKey>
 	</rule>
 	
 	<rule>
 		<key>printf</key>
 		<name>printf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 1 
-		to this function call does not come from an untrusted source that could have added 
-		formatting characters that the code is not prepared to handle.</description>
+		<description>Check to be sure that the non-constant format string passed as argument 1 to this function call does not come from an untrusted source that could have added formatting characters that the code is not prepared to handle.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/printf</configKey>
 	</rule>
 	
@@ -620,7 +250,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/sprintf</configKey>
 	</rule>
 	
@@ -633,7 +263,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wsprintf</configKey>
 	</rule>
 
@@ -646,7 +276,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wsprintfA</configKey>
 	</rule>
 	
@@ -659,7 +289,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wsprintfW</configKey>
 	</rule>
 	
@@ -671,7 +301,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_snprintf</configKey>
 	</rule>
 
@@ -683,7 +313,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MINOR</priority>
 		<configKey>config/_snwprintf</configKey>
 	</rule>
 	
@@ -696,7 +326,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/lstrcpy</configKey>
 	</rule>
 
@@ -709,7 +339,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/lstrcpyA</configKey>
 	</rule>
 	
@@ -722,7 +352,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/lstrcpyW</configKey>
 	</rule>
 	
@@ -735,7 +365,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wcscpy</configKey>
 	</rule>
 	
@@ -748,7 +378,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_mbscpy</configKey>
 	</rule>
 	
@@ -761,7 +391,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tcscpy</configKey>
 	</rule>
 	
@@ -774,7 +404,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCpy</configKey>
 	</rule>
 	
@@ -787,7 +417,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCpyA</configKey>
 	</rule>
 	
@@ -800,7 +430,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCpyW</configKey>
 	</rule>
 	
@@ -813,7 +443,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/lstrcat</configKey>
 	</rule>
 
@@ -826,7 +456,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wcscat</configKey>
 	</rule>
 	
@@ -839,7 +469,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_mbscat</configKey>
 	</rule>
 
@@ -852,7 +482,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tcscat</configKey>
 	</rule>
 	
@@ -865,7 +495,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCat</configKey>
 	</rule>
 	
@@ -878,7 +508,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatA</configKey>
 	</rule>
 	
@@ -891,7 +521,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatW</configKey>
 	</rule>
 	
@@ -903,7 +533,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/strxfrm</configKey>
 	</rule>
 	
@@ -915,7 +545,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wcsxfrm</configKey>
 	</rule>
 	
@@ -927,7 +557,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tcsxfrm</configKey>
 	</rule>
 	
@@ -939,7 +569,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCpyN</configKey>
 	</rule>
 	
@@ -951,7 +581,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCpyNA</configKey>
 	</rule>
 	
@@ -963,7 +593,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCpyNW</configKey>
 	</rule>
 	
@@ -975,7 +605,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/lstrcpynW</configKey>
 	</rule>
 	
@@ -987,7 +617,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wcsncpy</configKey>
 	</rule>
 		
@@ -999,7 +629,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_mbsncpy</configKey>
 	</rule>
 	
@@ -1011,7 +641,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tcsncpy</configKey>
 	</rule>
 	
@@ -1023,7 +653,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_mbsnbcat</configKey>
 	</rule>
 	
@@ -1035,7 +665,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wcsncat</configKey>
 	</rule>
 	
@@ -1047,7 +677,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tcnscat</configKey>
 	</rule>
 	
@@ -1058,7 +688,7 @@ the string.</description>
 		this wrong can cause a buffer overflow since you will indicate that the buffer is twice the 
 		size it actually is. Don't forget about NULL termination.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/MultiByteToWideChar</configKey>
 	</rule>
 	
@@ -1070,7 +700,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/WideCharToMultiByte</configKey>
 	</rule>
 	
@@ -1082,7 +712,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrNCat</configKey>
 	</rule>
 	
@@ -1094,7 +724,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatBuff</configKey>
 	</rule>
 	
@@ -1106,7 +736,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatBuffA</configKey>
 	</rule>
 	
@@ -1118,7 +748,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatBuffW</configKey>
 	</rule>
 	
@@ -1130,7 +760,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatN</configKey>
 	</rule>
 	
@@ -1142,7 +772,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatNA</configKey>
 	</rule>
 	
@@ -1154,7 +784,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrCatNW</configKey>
 	</rule>
 	
@@ -1166,7 +796,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatByteSize</configKey>
 	</rule>
 	
@@ -1178,7 +808,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatByteSizeA</configKey>
 	</rule>
 	
@@ -1190,7 +820,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatByteSizeW</configKey>
 	</rule>
 	
@@ -1202,7 +832,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatByteSize64</configKey>
 	</rule>
 	
@@ -1214,7 +844,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatByteSize64A</configKey>
 	</rule>
 	
@@ -1226,7 +856,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatByteSize64W</configKey>
 	</rule>
 	
@@ -1238,7 +868,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatKBSize</configKey>
 	</rule>
 	
@@ -1250,7 +880,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatKBSizeA</configKey>
 	</rule>
 	
@@ -1262,7 +892,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFormatKBSizeW</configKey>
 	</rule>
 	
@@ -1274,7 +904,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFromTimeInterval</configKey>
 	</rule>
 	
@@ -1286,7 +916,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFromTimeIntervalA</configKey>
 	</rule>
 	
@@ -1298,7 +928,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/StrFromTimeIntervalW</configKey>
 	</rule>
 	
@@ -1310,7 +940,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wvnsprintf</configKey>
 	</rule>
 	
@@ -1322,7 +952,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wvnsprintfA</configKey>
 	</rule>
 	
@@ -1334,7 +964,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wvnsprintfW</configKey>
 	</rule>
 	
@@ -1346,7 +976,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wnsprintf</configKey>
 	</rule>
 	
@@ -1358,7 +988,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wnsprintfA</configKey>
 	</rule>
 	
@@ -1370,7 +1000,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/wnsprintfW</configKey>
 	</rule>
 	
@@ -1380,7 +1010,7 @@ the string.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAddExtension</configKey>
 	</rule>
 	
@@ -1390,7 +1020,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAddExtensionA</configKey>
 	</rule>
 	
@@ -1400,7 +1030,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAddExtensionW</configKey>
 	</rule>
 	
@@ -1410,7 +1040,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAddBackslash</configKey>
 	</rule>
 	
@@ -1420,7 +1050,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAddBackslashA</configKey>
 	</rule>
 	
@@ -1430,7 +1060,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAddBackslashW</configKey>
 	</rule>
 	
@@ -1440,7 +1070,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAppend</configKey>
 	</rule>
 	
@@ -1450,7 +1080,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAppendA</configKey>
 	</rule>
 	
@@ -1460,7 +1090,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathAppendW</configKey>
 	</rule>
 	
@@ -1470,7 +1100,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathCanonicalize</configKey>
 	</rule>
 	
@@ -1480,7 +1110,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathCanonicalizeA</configKey>
 	</rule>	
 	
@@ -1490,7 +1120,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathCanonicalizeW</configKey>
 	</rule>
 	
@@ -1500,7 +1130,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathCombine</configKey>
 	</rule>
 	
@@ -1510,7 +1140,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathCombineA</configKey>
 	</rule>
 	
@@ -1520,7 +1150,7 @@ function to be safe.</description>
 		<description>Buffer size must be _MAX_PATH+1 or larger for this
 function to be safe.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/PathCombineW</configKey>
 	</rule>
 	
@@ -1531,7 +1161,7 @@ function to be safe.</description>
 no path is specified, allowing trojan DLL's to be inserted elsewhere even
 if the intended DLL is correctly protected from overwriting. Make sure to specify the full path.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/LoadLibrary</configKey>
 	</rule>
 		
@@ -1542,7 +1172,7 @@ if the intended DLL is correctly protected from overwriting. Make sure to specif
 no path is specified, allowing trojan DLL's to be inserted elsewhere even
 if the intended DLL is correctly protected from overwriting. Make sure to specify the full path.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/LoadLibraryA</configKey>
 	</rule>
 	
@@ -1553,7 +1183,7 @@ if the intended DLL is correctly protected from overwriting. Make sure to specif
 no path is specified, allowing trojan DLL's to be inserted elsewhere even
 if the intended DLL is correctly protected from overwriting. Make sure to specify the full path.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/LoadLibraryW</configKey>
 	</rule>
 	
@@ -1566,7 +1196,7 @@ basically suid root for the machine. If you are calling the function rather
 than implementing it, howabout *not* calling it in the system's security
 context if possible?</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/GetExtensionVersion</configKey>
 	</rule>
 
@@ -1579,7 +1209,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToChar</configKey>
 	</rule>
 	
@@ -1592,7 +1222,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToCharA</configKey>
 	</rule>
 
@@ -1605,7 +1235,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToCharW</configKey>
 	</rule>
 	
@@ -1617,7 +1247,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToCharBuff</configKey>
 	</rule>
 	
@@ -1629,7 +1259,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToCharBuffA</configKey>
 	</rule>
 	
@@ -1641,7 +1271,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToCharBuffW</configKey>
 	</rule>
 	
@@ -1654,7 +1284,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToAnsi</configKey>
 	</rule>	
 	
@@ -1667,7 +1297,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToAnsiA</configKey>
 	</rule>
 	
@@ -1680,7 +1310,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToAnsiW</configKey>
 	</rule>
 	
@@ -1692,7 +1322,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToAnsiBuff</configKey>
 	</rule>
 	
@@ -1704,7 +1334,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToAnsiBuffA</configKey>
 	</rule>
 	
@@ -1716,7 +1346,7 @@ When using functions that accept a number n of bytes to copy, such as
 strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
 the string.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/OemToAnsiBuffW</configKey>
 	</rule>
 
@@ -1729,7 +1359,7 @@ files may be overwritten, and trojan DLL's may be dropped in these
 locations. Never use a user-input filename when writing to a location given
 by GetTempPath().</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/GetTempPath</configKey>
 	</rule>
 
@@ -1742,7 +1372,7 @@ files may be overwritten, and trojan DLL's may be dropped in these
 locations. Never use a user-input filename when writing to a location given
 by GetTempPath().</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/GetTempPathA</configKey>
 	</rule>
 
@@ -1755,7 +1385,7 @@ files may be overwritten, and trojan DLL's may be dropped in these
 locations. Never use a user-input filename when writing to a location given
 by GetTempPath().</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/GetTempPathW</configKey>
 	</rule>
 	
@@ -1767,7 +1397,7 @@ insecure (susceptible to race conditions).  Use a securely generated file
 name, for example, by pulling 64 bits of randomness from /dev/random, base 
 64 encoding it and using that as a file suffix.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/GetTempFileName</configKey>
 	</rule>
 	
@@ -1779,7 +1409,7 @@ insecure (susceptible to race conditions).  Use a securely generated file
 name, for example, by pulling 64 bits of randomness from /dev/random, base 
 64 encoding it and using that as a file suffix.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/GetTempFileNameA</configKey>
 	</rule>	
 
@@ -1791,7 +1421,7 @@ insecure (susceptible to race conditions).  Use a securely generated file
 name, for example, by pulling 64 bits of randomness from /dev/random, base 
 64 encoding it and using that as a file suffix.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/GetTempFileNameW</configKey>
 	</rule>	
 
@@ -1804,7 +1434,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/ShellExecute</configKey>
 	</rule>	
 	
@@ -1817,7 +1447,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/ShellExecuteA</configKey>
 	</rule>	
 
@@ -1830,7 +1460,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/ShellExecuteW</configKey>
 	</rule>	
 	
@@ -1843,7 +1473,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/ShellExecuteEx</configKey>
 	</rule>
 
@@ -1856,7 +1486,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/ShellExecuteExA</configKey>
 	</rule>
 	
@@ -1869,7 +1499,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/ShellExecuteExW</configKey>
 	</rule>
 	
@@ -1882,7 +1512,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wsystem</configKey>
 	</rule>
 	
@@ -1893,7 +1523,7 @@ by the operating system, providing another opportunity for trojans.</description
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texecl</configKey>
 	</rule>
 	
@@ -1904,7 +1534,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execl</configKey>
 	</rule>
 	
@@ -1915,7 +1545,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexecl</configKey>
 	</rule>
 	
@@ -1926,7 +1556,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texecle</configKey>
 	</rule>
 	
@@ -1937,7 +1567,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execle</configKey>
 	</rule>
 	
@@ -1948,7 +1578,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexecle</configKey>
 	</rule>
 
@@ -1961,7 +1591,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texeclp</configKey>
 	</rule>
 
@@ -1974,7 +1604,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execlp</configKey>
 	</rule>
 	
@@ -1987,7 +1617,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexeclp</configKey>
 	</rule>
 
@@ -2000,7 +1630,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texeclpe</configKey>
 	</rule>
 	
@@ -2013,7 +1643,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execlpe</configKey>
 	</rule>
 	
@@ -2026,7 +1656,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexeclpe</configKey>
 	</rule>
 	
@@ -2037,7 +1667,7 @@ by the operating system, providing another opportunity for trojans.</description
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texecv</configKey>
 	</rule>
 	
@@ -2048,7 +1678,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execv</configKey>
 	</rule>
 	
@@ -2059,7 +1689,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexecv</configKey>
 	</rule>
 	
@@ -2070,7 +1700,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texecve</configKey>
 	</rule>
 	
@@ -2081,7 +1711,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execve</configKey>
 	</rule>
 	
@@ -2092,7 +1722,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexecve</configKey>
 	</rule>
 	
@@ -2105,7 +1735,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texecvp</configKey>
 	</rule>
 	
@@ -2118,7 +1748,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execvp</configKey>
 	</rule>
 	
@@ -2131,7 +1761,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexecvp</configKey>
 	</rule>
 	
@@ -2145,7 +1775,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_texecvpe</configKey>
 	</rule>
 	
@@ -2158,7 +1788,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_execvpe</configKey>
 	</rule>
 	
@@ -2171,7 +1801,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wexecvpe</configKey>
 	</rule>
 	
@@ -2182,7 +1812,7 @@ by the operating system, providing another opportunity for trojans.</description
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnl</configKey>
 	</rule>
 	
@@ -2193,7 +1823,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnl</configKey>
 	</rule>
 	
@@ -2204,7 +1834,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnl</configKey>
 	</rule>
 	
@@ -2215,7 +1845,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnle</configKey>
 	</rule>
 	
@@ -2226,7 +1856,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnle</configKey>
 	</rule>
 	
@@ -2237,7 +1867,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnle</configKey>
 	</rule>
 	
@@ -2250,7 +1880,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnlp</configKey>
 	</rule>	
 	
@@ -2263,7 +1893,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnlp</configKey>
 	</rule>
 	
@@ -2276,7 +1906,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnlp</configKey>
 	</rule>
 	
@@ -2289,7 +1919,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnlpe</configKey>
 	</rule>
 	
@@ -2302,7 +1932,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnlpe</configKey>
 	</rule>
 	
@@ -2315,7 +1945,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnlpe</configKey>
 	</rule>
 	
@@ -2326,7 +1956,7 @@ by the operating system, providing another opportunity for trojans.</description
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnv</configKey>
 	</rule>
 	
@@ -2337,7 +1967,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnv</configKey>
 	</rule>
 	
@@ -2348,7 +1978,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnv</configKey>
 	</rule>
 	
@@ -2359,7 +1989,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnve</configKey>
 	</rule>
 	
@@ -2370,7 +2000,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnve</configKey>
 	</rule>
 	
@@ -2381,7 +2011,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnve</configKey>
 	</rule>
 	
@@ -2392,7 +2022,7 @@ Make sure to specify a file extension.</description>
 a program (good!), it will run .com files before .exe files and the like.  
 Make sure to specify a file extension.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnle</configKey>
 	</rule>
 
@@ -2405,7 +2035,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnvp</configKey>
 	</rule>
 	
@@ -2418,7 +2048,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnvp</configKey>
 	</rule>
 	
@@ -2431,7 +2061,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnvp</configKey>
 	</rule>
 	
@@ -2444,7 +2074,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_tspawnvpe</configKey>
 	</rule>
 	
@@ -2457,7 +2087,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_spawnvpe</configKey>
 	</rule>
 	
@@ -2470,7 +2100,7 @@ file. This can allow trojans to be executed instead.  Also, be sure to
 specify a file extension, since otherwise multiple extensions will be tried
 by the operating system, providing another opportunity for trojans.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/_wspawnvpe</configKey>
 	</rule>
 
@@ -2483,7 +2113,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/scanf</configKey>
 	</rule>
 	
@@ -2496,7 +2126,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/sscanf</configKey>
 	</rule>
 	
@@ -2509,7 +2139,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/fscanf</configKey>
 	</rule>
 	
@@ -2522,7 +2152,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/vfscanf</configKey>
 	</rule>
 	
@@ -2535,7 +2165,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/vsprintf</configKey>
 	</rule>
 	
@@ -2548,7 +2178,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/vscanf</configKey>
 	</rule>
 	
@@ -2561,7 +2191,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/vsscanf</configKey>
 	</rule>
 	
@@ -2574,7 +2204,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/streadd</configKey>
 	</rule>
 	
@@ -2587,7 +2217,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/strecpy</configKey>
 	</rule>
 
@@ -2600,7 +2230,7 @@ characters that the code is not prepared to handle.  Additionally, the format
 string could contain `%s' without precision that could result in a buffer
 overflow.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/strtrns</configKey>
 	</rule>
 	
@@ -2612,927 +2242,14 @@ big. This function may still internally overflow a static
 buffer, try to avoid using it. If you must, check the size 
 the path your pass in is no longer than MAXPATHLEN.</description>
 		<category name="Reliability" />
-		<priority>INFO</priority>
+		<priority>MAJOR</priority>
 		<configKey>config/realpath</configKey>
 	</rule>
 	
-	<rule>
-		<key>syslog</key>
-		<name>syslog</name>
-		<description>Truncate all input strings to a reasonable length 
-before passing them to this function.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/syslog</configKey>
-	</rule>
 	
-	<rule>
-		<key>getopt</key>
-		<name>getopt</name>
-		<description>Truncate all input strings to a reasonable length 
-before passing them to this function.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/getopt</configKey>
-	</rule>
 	
-	<rule>
-		<key>getopt_long</key>
-		<name>getopt_long</name>
-		<description>Truncate all input strings to a reasonable length 
-before passing them to this function.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/getopt_long</configKey>
-	</rule>
 	
-	<rule>
-		<key>getpass</key>
-		<name>getpass</name>
-		<description>Truncate all input strings to a reasonable length 
-before passing them to this function.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/getpass</configKey>
-	</rule>
 	
-	<rule>
-		<key>getchar</key>
-		<name>getchar</name>
-		<description>Check buffer boundaries if calling this function in a loop 
-and make sure you are not in danger of writing past the allocated space.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/getchar</configKey>
-	</rule>
 	
-	<rule>
-		<key>fgetc</key>
-		<name>fgetc</name>
-		<description>Check buffer boundaries if calling this function in a loop 
-and make sure you are not in danger of writing past the allocated space.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/fgetc</configKey>
-	</rule>
 	
-	<rule>
-		<key>getc</key>
-		<name>getc</name>
-		<description>Check buffer boundaries if calling this function in a loop 
-and make sure you are not in danger of writing past the allocated space.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/getc</configKey>
-	</rule>
-	
-	<rule>
-		<key>read</key>
-		<name>read</name>
-		<description>Check buffer boundaries if calling this function in a loop 
-and make sure you are not in danger of writing past the allocated space.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/read</configKey>
-	</rule>
-	
-	<rule>
-		<key>bcopy</key>
-		<name>bcopy</name>
-		<description>Double check that your buffer is as big as you specify.
-When using functions that accept a number n of bytes to copy, such as 
-strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
-the string.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/bcopy</configKey>
-	</rule>
-	
-	<rule>
-		<key>fgets</key>
-		<name>fgets</name>
-		<description>Double check that your buffer is as big as you specify.
-When using functions that accept a number n of bytes to copy, such as 
-strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
-the string.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/fgets</configKey>
-	</rule>
-	
-	<rule>
-		<key>cin</key>
-		<name>cin</name>
-		<description>cin is unsafe.  No bounds checking is performed.  Buffer is easily 
-overflowable by user.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/cin</configKey>
-	</rule>
-		
-	<rule>
-		<key>memcpy</key>
-		<name>memcpy</name>
-		<description>Double check that your buffer is as big as you specify. When using functions 
-		that accept a number n of bytes to copy, such as strncpy, be aware that if the dest 
-		buffer size = n it may not NULL-terminate the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/memcpy</configKey>
-	</rule>
-	
-	
-	<rule>
-		<key>fprintf</key>
-		<name>fprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability" />
-		<priority>INFO</priority>
-		<configKey>config/fprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>snprintf</key>
-		<name>snprintf</name>
-		<description>Double check that your buffer is as big as you specify. When using functions 
-		that accept a number n of bytes to copy, such as strncpy, be aware that if the dest buffer 
-		size = n it may not NULL-terminate the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/snprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>strccpy</key>
-		<name>strccpy</name>
-		<description>Double check that your buffer is as big as you specify. When using functions 
-		that accept a number n of bytes to copy, such as strncpy, be aware that if the dest buffer 
-		size = n it may not NULL-terminate the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/strccpy</configKey>
-	</rule>
-	
-	<rule>
-		<key>strcadd</key>
-		<name>strcadd</name>
-		<description>Double check that your buffer is as big as you specify. When using functions 
-		that accept a number n of bytes to copy, such as strncpy, be aware that if the dest buffer 
-		size = n it may not NULL-terminate the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/strcadd</configKey>
-	</rule>
-	
-	<rule>
-		<key>strncpy</key>
-		<name>strncpy</name>
-		<description>Double check that your buffer is as big as you specify. When using functions 
-		that accept a number n of bytes to copy, such as strncpy, be aware that if the dest buffer 
-		size = n it may not NULL-terminate the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/strncpy</configKey>
-	</rule>
-	
-	<rule>
-		<key>_vnsprintf</key>
-		<name>_vnsprintf</name>
-		<description>Double check that your buffer is as big as you specify. When using functions 
-		that accept a number n of bytes to copy, such as strncpy, be aware that if the dest buffer 
-		size = n it may not NULL-terminate the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_vnsprintf</configKey>
-	</rule>
-	
-
-	<rule>
-		<key>tmpfile</key>
-		<name>tmpfile</name>
-		<description>Many calls for generating temporary file names are 
-insecure (susceptible to race conditions).  Use a securely generated file
-name, for example, by pulling 64 bits of randomness from /dev/random, base 
-64 encoding it and using that as a file suffix.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/tmpfile</configKey>
-	</rule>
-
-	<rule>
-		<key>tmpnam</key>
-		<name>tmpnam</name>
-		<description>Many calls for generating temporary file names are 
-insecure (susceptible to race conditions).  Use a securely generated file
-name, for example, by pulling 64 bits of randomness from /dev/random, base 
-64 encoding it and using that as a file suffix.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/tmpnam</configKey>
-	</rule>
-	
-	<rule>
-		<key>tempnam</key>
-		<name>tempnam</name>
-		<description>Many calls for generating temporary file names are 
-insecure (susceptible to race conditions).  Use a securely generated file
-name, for example, by pulling 64 bits of randomness from /dev/random, base 
-64 encoding it and using that as a file suffix.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/tempnam</configKey>
-	</rule>
-	
-	<rule>
-		<key>getlogin</key>
-		<name>getlogin</name>
-		<description>The results of this call are easy to forge.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/getlogin</configKey>
-	</rule>
-	
-	<rule>
-		<key>cuserid</key>
-		<name>cuserid</name>
-		<description>This may be forgable.  Whether it is or not, even the man page recommends against using this.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/cuserid</configKey>
-	</rule>
-	
-	<rule>
-		<key>ttyname</key>
-		<name>ttyname</name>
-		<description>The results are easy for an attacker to forge, and not reliable.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/ttyname</configKey>
-	</rule>
-		
-	<rule>
-		<key>fread</key>
-		<name>fread</name>
-		<description>Input source.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/fread</configKey>
-	</rule>
-	
-	<rule>
-		<key>recv</key>
-		<name>recv</name>
-		<description>Input source.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/recv</configKey>
-	</rule>
-	
-	<rule>
-		<key>recvfrom</key>
-		<name>recvfrom</name>
-		<description>Input source.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/recvfrom</configKey>
-	</rule>
-	
-	<rule>
-		<key>recvmsg</key>
-		<name>recvmsg</name>
-		<description>Input source.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/recvmsg</configKey>
-	</rule>
-	
-	<rule>
-		<key>readdir</key>
-		<name>readdir</name>
-		<description>Input source.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/readdir</configKey>
-	</rule>
-	
-	<rule>
-		<key>readlink</key>
-		<name>readlink</name>
-		<description>Input source.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/readlink</configKey>
-	</rule>
-	
-	<rule>
-		<key>signal</key>
-		<name>signal</name>
-		<description>When setting signal handlers, do not use the same 
-function to handle multiple signals. There exists the possibility a 
-race condition will result if 2 or more different signals are sent 
-to the process at nearly the same time. Also, when writing signal 
-handlers, it is best to do as little as possible in them. The best 
-strategy is to use the signal handler to set a flag, that another 
-part of the program tests and performs the appropriate action(s) 
-when it is set.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/signal</configKey>
-	</rule>
-	
-	<rule>
-		<key>gethostbyname</key>
-		<name>gethostbyname</name>
-		<description>DNS results can easily be forged by an attacker (or 
-arbitrarily set to large values, etc), and should not be trusted.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/gethostbyname</configKey>
-	</rule>
-	
-	<rule>
-		<key>gethostbyaddr</key>
-		<name>gethostbyaddr</name>
-		<description>DNS results can easily be forged by an attacker (or 
-arbitrarily set to large values, etc), and should not be trusted.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/gethostbyaddr</configKey>
-	</rule>
-	
-	<rule>
-		<key>realloc</key>
-		<name>realloc</name>
-		<description>Don't use on memory intended to be secure, because the 
-old structure will not be zeroed out.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/realloc</configKey>
-	</rule>
-	
-	<rule>
-		<key>fork</key>
-		<name>fork</name>
-		<description>Remember that sensitive data get copied on fork.  For example, a random
-      number generator's internal state will get duplicated, and the child
-      may start outputting identical number streams.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/fork</configKey>
-	</rule>
-	
-	<rule>
-		<key>vfork</key>
-		<name>vfork</name>
-		<description>Some implementations may be broken.  Additionally, 
-      Remember that sensitive data get copied on fork.  For example, a random
-      number generator's internal state will get duplicated, and the child
-      may start outputting identical number streams.  Use fork() instead.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/vfork</configKey>
-	</rule>
-	
-	<rule>
-		<key>_mbsnbcpy</key>
-		<name>_mbsnbcpy</name>
-		<description>Double check that your buffer is as big as you specify.
-When using functions that accept a number n of bytes to copy, such as 
-strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
-the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_mbsnbcpy</configKey>
-	</rule>
-	
-	<rule>
-		<key>CopyMemory</key>
-		<name>CopyMemory</name>
-		<description>Double check that your buffer is as big as you specify.
-When using functions that accept a number n of bytes to copy, such as 
-strncpy, be aware that if the dest buffer size = n it may not NULL-terminate 
-the string.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/CopyMemory</configKey>
-	</rule>
-	
-	<rule>
-		<key>strlen</key>
-		<name>strlen</name>
-		<description>This function does not properly handle non-NULL terminated
-strings.  This does not result in exploitable code, but can lead to access 
-violations.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/strlen</configKey>
-	</rule>
-	
-	<rule>
-		<key>_tcslen</key>
-		<name>_tcslen</name>
-		<description>This function does not properly handle non-NULL terminated
-strings.  This does not result in exploitable code, but can lead to access 
-violations.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_tcslen</configKey>
-	</rule>
-	
-	<rule>
-		<key>_mbslen</key>
-		<name>_mbslen</name>
-		<description>This function does not properly handle non-NULL terminated
-strings.  This does not result in exploitable code, but can lead to access 
-violations.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_mbslen</configKey>
-	</rule>
-	
-	<rule>
-		<key>wcslen</key>
-		<name>wcslen</name>
-		<description>This function does not properly handle non-NULL terminated
-strings.  This does not result in exploitable code, but can lead to access 
-violations.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/wcslen</configKey>
-	</rule>
-	
-	<rule>
-		<key>CreateProcess</key>
-		<name>CreateProcess</name>
-		<description>Many program execution commands under Windows will search
-the path for a program if you do not explicitly specify a full path to the 
-file. This can allow trojans to be executed instead.  Also, be sure to
-specify a file extension, since otherwise multiple extensions will be tried
-by the operating system, providing another opportunity for trojans.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/CreateProcess</configKey>
-	</rule>
-	
-	<rule>
-		<key>CreateProcessAsUser</key>
-		<name>CreateProcessAsUser</name>
-		<description>Many program execution commands under Windows will search
-the path for a program if you do not explicitly specify a full path to the 
-file. This can allow trojans to be executed instead.  Also, be sure to
-specify a file extension, since otherwise multiple extensions will be tried
-by the operating system, providing another opportunity for trojans.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/CreateProcessAsUser</configKey>
-	</rule>
-	
-	<rule>
-		<key>CreateProcessWithLogon</key>
-		<name>CreateProcessWithLogon</name>
-		<description>Many program execution commands under Windows will search
-the path for a program if you do not explicitly specify a full path to the 
-file. This can allow trojans to be executed instead.  Also, be sure to
-specify a file extension, since otherwise multiple extensions will be tried
-by the operating system, providing another opportunity for trojans.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/CreateProcessWithLogon</configKey>
-	</rule>
-	
-	<rule>
-		<key>WinExec</key>
-		<name>WinExec</name>
-		<description>Many program execution commands under Windows will search
-the path for a program if you do not explicitly specify a full path to the 
-file. This can allow trojans to be executed instead.  Also, be sure to
-specify a file extension, since otherwise multiple extensions will be tried
-by the operating system, providing another opportunity for trojans.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/WinExec</configKey>
-	</rule>
-	
-	<rule>
-		<key>RpcImpersonateClient</key>
-		<name>RpcImpersonateClient</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/RpcImpersonateClient</configKey>
-	</rule>
-	
-	<rule>
-		<key>RpcImpersonateLoggedOnUser</key>
-		<name>RpcImpersonateLoggedOnUser</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/RpcImpersonateLoggedOnUser</configKey>
-	</rule>
-	
-	<rule>
-		<key>CoImpersonateClient</key>
-		<name>CoImpersonateClient</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/CoImpersonateClient</configKey>
-	</rule>
-	
-	<rule>
-		<key>ImpersonateNamedPipeClient</key>
-		<name>ImpersonateNamedPipeClient</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/ImpersonateNamedPipeClient</configKey>
-	</rule>
-	
-	<rule>
-		<key>ImpersonateDdeClientWindow</key>
-		<name>ImpersonateDdeClientWindow</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/ImpersonateDdeClientWindow</configKey>
-	</rule>
-	
-	<rule>
-		<key>ImpersonateSecurityContext</key>
-		<name>ImpersonateSecurityContext</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/ImpersonateSecurityContext</configKey>
-	</rule>
-	
-	<rule>
-		<key>QuerySecurityContextToken</key>
-		<name>QuerySecurityContextToken</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/QuerySecurityContextToken</configKey>
-	</rule>
-	
-	<rule>
-		<key>SetThreadToken</key>
-		<name>SetThreadToken</name>
-		<description>Impersonation functions return error codes when they 
-fail.  These error codes must be checked otherwise code could be run with 
-extra privileges when an impersonation has failed.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/SetThreadToken</configKey>
-	</rule>
-	
-	<rule>
-		<key>SetSecurityDescriptorDacl</key>
-		<name>SetSecurityDescriptorDacl</name>
-		<description>If the third argument, pDacl, is NULL there is no 
-		protection from attack.  As an example, an attacker could set 
-		a Deny All to Everyone ACE on such an object.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/SetSecurityDescriptorDacl</configKey>
-	</rule>
-
-	<rule>
-		<key>AfxLoadLibrary</key>
-		<name>AfxLoadLibrary</name>
-		<description>LoadLibrary will search several places for a library if
-no path is specified, allowing trojan DLL's to be inserted elsewhere even
-if the intended DLL is correctly protected from overwriting. Make sure to specify the full path.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/AfxLoadLibrary</configKey>
-	</rule>
-	
-	<rule>
-		<key>InitializeCriticalSection</key>
-		<name>InitializeCriticalSection</name>
-		<description>This function can throw exceptions in low memory 
-conditions.  Use InitialCriticalSectionAndSpinCount instead.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/InitializeCriticalSection</configKey>
-	</rule>
-	
-	<rule>
-		<key>EnterCriticalSection</key>
-		<name>EnterCriticalSection</name>
-		<description>This function can throw exceptions in low memory 
-conditions.  Use InitialCriticalSectionAndSpinCount instead.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/EnterCriticalSection</configKey>
-	</rule>
-	
-	<rule>
-		<key>_tprintf</key>
-		<name>_tprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_tprintf</configKey>
-	</rule>
-
-	<rule>
-		<key>wprintf</key>
-		<name>wprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/wprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>_cprintf</key>
-		<name>_cprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_cprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>swprintf</key>
-		<name>swprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/swprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>_stprintf</key>
-		<name>_stprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_stprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>_ftprintf</key>
-		<name>_ftprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_ftprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>fwprintf</key>
-		<name>fwprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/fwprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>swscanf</key>
-		<name>swscanf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/swscanf</configKey>
-	</rule>	
-	
-	<rule>
-		<key>_stscanf</key>
-		<name>_stscanf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_stscanf</configKey>
-	</rule>
-	
-	<rule>
-		<key>_cscanf</key>
-		<name>_cscanf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_cscanf</configKey>
-	</rule>
-	
-	<rule>
-		<key>_ftscanf</key>
-		<name>_ftscanf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_ftscanf</configKey>
-	</rule>
-	
-	<rule>
-		<key>fwscanf</key>
-		<name>fwscanf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/fwscanf</configKey>
-	</rule>
-	
-	<rule>
-		<key>_tscanf</key>
-		<name>_tscanf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_tscanf</configKey>
-	</rule>
-	
-	<rule>
-		<key>wscanf</key>
-		<name>wscanf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>CRITICAL</priority>
-		<configKey>config/wscanf</configKey>
-	</rule>
-	
-	<rule>
-		<key>vprintf</key>
-		<name>vprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/vprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>vwprintf</key>
-		<name>vwprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/vwprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>vfprintf</key>
-		<name>vfprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/vfprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>vfwprintf</key>
-		<name>vfwprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/vfwprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>vswprintf</key>
-		<name>vswprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/vswprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>_vsnwprintf</key>
-		<name>_vsnwprintf</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/_vsnwprintf</configKey>
-	</rule>
-	
-	<rule>
-		<key>catgets</key>
-		<name>catgets</name>
-		<description>Environment variables are highly untrustable input. They may be of 
-		any length, and contain any data. Do not make any assumptions regarding content 
-		or length. If at all possible avoid using them, and if it is necessary, 
-		sanitize them and truncate them to a reasonable length.  catgets() can utilize 
-		the NLSPATH environment variable.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/catgets</configKey>
-	</rule>
-	
-	<rule>
-		<key>gettext</key>
-		<name>gettext</name>
-		<description>Environment variables are highly untrustable input. They may be 
-		of any length, and contain any data. Do not make any assumptions regarding 
-		content or length. If at all possible avoid using them, and if it is 
-		necessary, sanitize them and truncate them to a reasonable length.  
-		gettext() can utilize the LC_ALL or LC_MESSAGES environment variables.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/gettext</configKey>
-	</rule>
-	
-	<rule>
-		<key>strncat</key>
-		<name>strncat</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle. Consider using strlcat()
-instead.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/strncat</configKey>		
-	</rule>
-	
-	<rule>
-		<key>getwd</key>
-		<name>getwd</name>
-		<description>Check to be sure that the non-constant format string passed as argument 2
-to this function call does not come from an untrusted source that could have added 
-formatting characters that the code is not prepared to handle.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/getwd</configKey>		
-	</rule>
-	
-	<rule>
-		<key>umask</key>
-		<name>umask</name>
-		<description>umask() can easily be used to create files with unsafe priviledges.  
-		It should be set to restrictive values.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/umask</configKey>		
-	</rule>
-	
-	<rule>
-		<key>AddAccessAllowedAce</key>
-		<name>AddAccessAllowedAce</name>
-		<description>This function does not set the inheritance bits in the Access 
-		Controle Entry, making it vulnerable.</description>
-		<category name="Reliability"/>
-		<priority>INFO</priority>
-		<configKey>config/AddAccessAllowedAce</configKey>		
-	</rule>	
 </rules>
-
-

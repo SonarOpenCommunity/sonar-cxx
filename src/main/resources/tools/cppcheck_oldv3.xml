@@ -1,0 +1,594 @@
+<rules>
+	<rule>
+		<key>autoVariables</key>
+		<priority>CRITICAL</priority>
+		<name>autoVariables</name>
+		<configKey>autoVariables</configKey>
+		<category name="Reliability"/>
+		<description>Wrong assignment of an auto-variable to an effective parameter of a function</description>
+	</rule>
+	<rule>
+		<key>returnLocalVariable</key>
+		<priority>CRITICAL</priority>
+		<name>returnLocalVariable</name>
+		<configKey>returnLocalVariable</configKey>
+		<category name="Reliability"/>
+		<description>Returning pointer to local array variable</description>
+	</rule>
+	<rule>
+		<key>returnReference</key>
+		<priority>CRITICAL</priority>
+		<name>returnReference</name>
+		<configKey>returnReference</configKey>
+		<category name="Reliability"/>
+		<description>Returning reference to auto variable</description>
+	</rule>
+	<rule>
+		<key>returnTempReference</key>
+		<priority>CRITICAL</priority>
+		<name>returnTempReference</name>
+		<configKey>returnTempReference</configKey>
+		<category name="Reliability"/>
+		<description>Returning reference to temporary</description>
+	</rule>
+	<rule>
+		<key>returnAutocstr</key>
+		<priority>CRITICAL</priority>
+		<name>returnAutocstr</name>
+		<configKey>returnAutocstr</configKey>
+		<category name="Reliability"/>
+		<description>Returning pointer to auto variable</description>
+	</rule>
+	<rule>
+		<key>returnTempPointer</key>
+		<priority>CRITICAL</priority>
+		<name>returnTempPointer</name>
+		<configKey>returnTempPointer</configKey>
+		<category name="Reliability"/>
+		<description>Returning pointer to temporary</description>
+	</rule>
+	<rule>
+		<key>arrayIndexOutOfBounds</key>
+		<priority>CRITICAL</priority>
+		<name>arrayIndexOutOfBounds</name>
+		<configKey>arrayIndexOutOfBounds</configKey>
+		<category name="Reliability"/>
+		<description>Array index out of bounds</description>
+	</rule>
+	<rule>
+		<key>bufferAccessOutOfBounds</key>
+		<priority>CRITICAL</priority>
+		<name>bufferAccessOutOfBounds</name>
+		<configKey>bufferAccessOutOfBounds</configKey>
+		<category name="Reliability"/>
+		<description>Buffer access out-of-bounds: buffer</description>
+	</rule>
+	<rule>
+		<key>dangerousStdCin</key>
+		<priority>MAJOR</priority>
+		<name>dangerousStdCin</name>
+		<configKey>dangerousStdCin</configKey>
+		<category name="Reliability"/>
+		<description>Dangerous usage of std::cin, possible buffer overrun</description>
+	</rule>
+	<rule>
+		<key>strncatUsage</key>
+		<priority>MAJOR</priority>
+		<name>strncatUsage</name>
+		<configKey>strncatUsage</configKey>
+		<category name="Reliability"/>
+		<description>Dangerous usage of strncat. Tip: the 3rd parameter means maximum number of characters to append</description>
+	</rule>
+	<rule>
+		<key>outOfBounds</key>
+		<priority>CRITICAL</priority>
+		<name>outOfBounds</name>
+		<configKey>outOfBounds</configKey>
+		<category name="Reliability"/>
+		<description>index is out of bounds</description>
+	</rule>
+	<rule>
+		<key>sizeArgumentAsChar</key>
+		<priority>MAJOR</priority>
+		<name>sizeArgumentAsChar</name>
+		<configKey>sizeArgumentAsChar</configKey>
+		<category name="Reliability"/>
+		<description>The size argument is given as a char constant</description>
+	</rule>
+	<rule>
+		<key>terminateStrncpy</key>
+		<priority>MINOR</priority>
+		<name>terminateStrncpy</name>
+		<configKey>terminateStrncpy</configKey>
+		<category name="Reliability"/>
+		<description>After a strncpy() the buffer should be zero-terminated</description>
+	</rule>
+	<rule>
+		<key>noConstructor</key>
+		<priority>MINOR</priority>
+		<name>noConstructor</name>
+		<configKey>noConstructor</configKey>
+		<category name="Reliability"/>
+		<description>The class 'classname' has no constructor. Member variables not initialized.</description>
+	</rule>
+	<rule>
+		<key>uninitVar</key>
+		<priority>MINOR</priority>
+		<name>uninitVar</name>
+		<configKey>uninitVar</configKey>
+		<category name="Reliability"/>
+		<description>Member variable not initialized in the constructor 'classname::varname'</description>
+	</rule>
+	<rule>
+		<key>operatorEqVarError</key>
+		<priority>INFO</priority>
+		<name>operatorEqVarError</name>
+		<configKey>operatorEqVarError</configKey>
+		<category name="Reliability"/>
+		<description>Member variable 'classname::' is not assigned a value in 'classname::operator='</description>
+	</rule>
+	<rule>
+		<key>unusedPrivateFunction</key>
+		<priority>MINOR</priority>
+		<name>unusedPrivateFunction</name>
+		<configKey>unusedPrivateFunction</configKey>
+		<category name="Reliability"/>
+		<description>Unused private function 'classname::funcname'</description>
+	</rule>
+	<rule>
+		<key>memsetClass</key>
+		<priority>CRITICAL</priority>
+		<name>memsetClass</name>
+		<configKey>memsetClass</configKey>
+		<category name="Reliability"/>
+		<description>Using 'memfunc' on class</description>
+	</rule>
+	<rule>
+		<key>memsetStruct</key>
+		<priority>CRITICAL</priority>
+		<name>memsetStruct</name>
+		<configKey>memsetStruct</configKey>
+		<category name="Reliability"/>
+		<description>Using 'memfunc' on struct that contains a 'std::classname'</description>
+	</rule>
+	<rule>
+		<key>operatorEq</key>
+		<priority>MINOR</priority>
+		<name>operatorEq</name>
+		<configKey>operatorEq</configKey>
+		<category name="Reliability"/>
+		<description>'operator=' should return something</description>
+	</rule>
+	<rule>
+		<key>virtualDestructor</key>
+		<priority>CRITICAL</priority>
+		<name>virtualDestructor</name>
+		<configKey>virtualDestructor</configKey>
+		<category name="Reliability"/>
+		<description>Class Base which is inherited by class Derived does not have a virtual destructor</description>
+	</rule>
+	<rule>
+		<key>thisSubtraction</key>
+		<priority>INFO</priority>
+		<name>thisSubtraction</name>
+		<configKey>thisSubtraction</configKey>
+		<category name="Reliability"/>
+		<description>Suspicious pointer subtraction</description>
+	</rule>
+	<rule>
+		<key>operatorEqRetRefThis</key>
+		<priority>MINOR</priority>
+		<name>operatorEqRetRefThis</name>
+		<configKey>operatorEqRetRefThis</configKey>
+		<category name="Reliability"/>
+		<description>'operator=' should return reference to self</description>
+	</rule>
+	<rule>
+		<key>operatorEqToSelf</key>
+		<priority>INFO</priority>
+		<name>operatorEqToSelf</name>
+		<configKey>operatorEqToSelf</configKey>
+		<category name="Reliability"/>
+		<description>'operator=' should check for assignment to self</description>
+	</rule>
+	<rule>
+		<key>functionConst</key>
+		<priority>MINOR</priority>
+		<name>functionConst</name>
+		<configKey>functionConst</configKey>
+		<category name="Reliability"/>
+		<description>The function 'class::function' can be const</description>
+	</rule>
+	<rule>
+		<key>dangerousFunctionmktemp</key>
+		<priority>MINOR</priority>
+		<name>dangerousFunctionmktemp</name>
+		<configKey>dangerousFunctionmktemp</configKey>
+		<category name="Reliability"/>
+		<description>Found 'mktemp'. You should use 'mkstemp' instead</description>
+	</rule>
+	<rule>
+		<key>dangerousFunctiongets</key>
+		<priority>MINOR</priority>
+		<name>dangerousFunctiongets</name>
+		<configKey>dangerousFunctiongets</configKey>
+		<category name="Reliability"/>
+		<description>Found 'gets'. You should use 'fgets' instead</description>
+	</rule>
+	<rule>
+		<key>dangerousFunctionscanf</key>
+		<priority>MINOR</priority>
+		<name>dangerousFunctionscanf</name>
+		<configKey>dangerousFunctionscanf</configKey>
+		<category name="Reliability"/>
+		<description>Found 'scanf'. You should use 'fgets' instead</description>
+	</rule>
+	<rule>
+		<key>exceptThrowInDestructor</key>
+		<priority>MINOR</priority>
+		<name>exceptThrowInDestructor</name>
+		<configKey>exceptThrowInDestructor</configKey>
+		<category name="Reliability"/>
+		<description>Throwing exception in destructor</description>
+	</rule>
+	<rule>
+		<key>exceptNew</key>
+		<priority>MINOR</priority>
+		<name>exceptNew</name>
+		<configKey>exceptNew</configKey>
+		<category name="Reliability"/>
+		<description>Upon exception there is memory leak: p</description>
+	</rule>
+	<rule>
+		<key>exceptRealloc</key>
+		<priority>MINOR</priority>
+		<name>exceptRealloc</name>
+		<configKey>exceptRealloc</configKey>
+		<category name="Reliability"/>
+		<description>Upon exception p becomes a dead pointer</description>
+	</rule>
+	<rule>
+		<key>exceptDeallocThrow</key>
+		<priority>CRITICAL</priority>
+		<name>exceptDeallocThrow</name>
+		<configKey>exceptDeallocThrow</configKey>
+		<category name="Reliability"/>
+		<description>Throwing exception in invalid state, p points at deallocated memory</description>
+	</rule>
+	<rule>
+		<key>memleak</key>
+		<priority>CRITICAL</priority>
+		<name>memleak</name>
+		<configKey>memleak</configKey>
+		<category name="Reliability"/>
+		<description>Memory leak: varname</description>
+	</rule>
+	<rule>
+		<key>resourceLeak</key>
+		<priority>CRITICAL</priority>
+		<name>resourceLeak</name>
+		<configKey>resourceLeak</configKey>
+		<category name="Reliability"/>
+		<description>Resource leak: varname</description>
+	</rule>
+	<rule>
+		<key>deallocDealloc</key>
+		<priority>CRITICAL</priority>
+		<name>deallocDealloc</name>
+		<configKey>deallocDealloc</configKey>
+		<category name="Reliability"/>
+		<description>Deallocating a deallocated pointer: varname</description>
+	</rule>
+	<rule>
+		<key>deallocuse</key>
+		<priority>CRITICAL</priority>
+		<name>deallocuse</name>
+		<configKey>deallocuse</configKey>
+		<category name="Reliability"/>
+		<description>Dereferencing 'varname' after it is deallocated / released</description>
+	</rule>
+	<rule>
+		<key>mismatchSize</key>
+		<priority>CRITICAL</priority>
+		<name>mismatchSize</name>
+		<configKey>mismatchSize</configKey>
+		<category name="Reliability"/>
+		<description>The given size sz is mismatching</description>
+	</rule>
+	<rule>
+		<key>mismatchAllocDealloc</key>
+		<priority>CRITICAL</priority>
+		<name>mismatchAllocDealloc</name>
+		<configKey>mismatchAllocDealloc</configKey>
+		<category name="Reliability"/>
+		<description>Mismatching allocation and deallocation: varname</description>
+	</rule>
+	<rule>
+		<key>sprintfOverlappingData</key>
+		<priority>CRITICAL</priority>
+		<name>sprintfOverlappingData</name>
+		<configKey>sprintfOverlappingData</configKey>
+		<category name="Reliability"/>
+		<description>Undefined behaviour: varname is used wrong in call to sprintf or snprintf. Quote: If copying takes place between objects that overlap as a result of a call to sprintf() or snprintf(), the results are undefined.</description>
+	</rule>
+	<rule>
+		<key>udivError</key>
+		<priority>CRITICAL</priority>
+		<name>udivError</name>
+		<configKey>udivError</configKey>
+		<category name="Reliability"/>
+		<description>Unsigned division. The result will be wrong.</description>
+	</rule>
+	<rule>
+		<key>nullPointer</key>
+		<priority>CRITICAL</priority>
+		<name>nullPointer</name>
+		<configKey>nullPointer</configKey>
+		<category name="Reliability"/>
+		<description>Possible null pointer dereference: pointer</description>
+	</rule>
+	<rule>
+		<key>uninitstring</key>
+		<priority>CRITICAL</priority>
+		<name>uninitstring</name>
+		<configKey>uninitstring</configKey>
+		<category name="Reliability"/>
+		<description>Dangerous usage of 'varname' (strncpy doesn't always 0-terminate it)</description>
+	</rule>
+	<rule>
+		<key>uninitdata</key>
+		<priority>CRITICAL</priority>
+		<name>uninitdata</name>
+		<configKey>uninitdata</configKey>
+		<category name="Reliability"/>
+		<description>Data is allocated but not initialized: varname</description>
+	</rule>
+	<rule>
+		<key>uninitvar</key>
+		<priority>CRITICAL</priority>
+		<name>uninitvar</name>
+		<configKey>uninitvar</configKey>
+		<category name="Reliability"/>
+		<description>Uninitialized variable: varname</description>
+	</rule>
+	<rule>
+		<key>zerodiv</key>
+		<priority>CRITICAL</priority>
+		<name>zerodiv</name>
+		<configKey>zerodiv</configKey>
+		<category name="Reliability"/>
+		<description>Division by zero</description>
+	</rule>
+	<rule>
+		<key>wrongmathcall</key>
+		<priority>CRITICAL</priority>
+		<name>wrongmathcall</name>
+		<configKey>wrongmathcall</configKey>
+		<category name="Reliability"/>
+		<description>Passing value to () leads to undefined result</description>
+	</rule>
+	<rule>
+		<key>cstyleCast</key>
+		<priority>MINOR</priority>
+		<name>cstyleCast</name>
+		<configKey>cstyleCast</configKey>
+		<category name="Reliability"/>
+		<description>C-style pointer casting</description>
+	</rule>
+	<rule>
+		<key>redundantIfDelete0</key>
+		<priority>MINOR</priority>
+		<name>redundantIfDelete0</name>
+		<configKey>redundantIfDelete0</configKey>
+		<category name="Reliability"/>
+		<description>Redundant condition. It is safe to deallocate a NULL pointer</description>
+	</rule>
+	<rule>
+		<key>redundantIfRemove</key>
+		<priority>MINOR</priority>
+		<name>redundantIfRemove</name>
+		<configKey>redundantIfRemove</configKey>
+		<category name="Reliability"/>
+		<description>Redundant condition. The remove function in the STL will not do anything if element doesn't exist</description>
+	</rule>
+	<rule>
+		<key>dangerousUsageStrtol</key>
+		<priority>CRITICAL</priority>
+		<name>dangerousUsageStrtol</name>
+		<configKey>dangerousUsageStrtol</configKey>
+		<category name="Reliability"/>
+		<description>Invalid radix in call to strtol or strtoul. Must be 0 or 2-36</description>
+	</rule>
+	<rule>
+		<key>udivWarning</key>
+		<priority>INFO</priority>
+		<name>udivWarning</name>
+		<configKey>udivWarning</configKey>
+		<category name="Reliability"/>
+		<description>Division with signed and unsigned operators</description>
+	</rule>
+	<rule>
+		<key>unusedStructMember</key>
+		<priority>MINOR</priority>
+		<name>unusedStructMember</name>
+		<configKey>unusedStructMember</configKey>
+		<category name="Reliability"/>
+		<description>struct or union member 'structname::variable' is never used</description>
+	</rule>
+	<rule>
+		<key>passedByValue</key>
+		<priority>MINOR</priority>
+		<name>passedByValue</name>
+		<configKey>passedByValue</configKey>
+		<category name="Reliability"/>
+		<description>Function parameter 'parametername' is passed by value. It could be passed by reference instead.</description>
+	</rule>
+	<rule>
+		<key>constStatement</key>
+		<priority>MINOR</priority>
+		<name>constStatement</name>
+		<configKey>constStatement</configKey>
+		<category name="Reliability"/>
+		<description>Redundant code: Found a statement that begins with type constant</description>
+	</rule>
+	<rule>
+		<key>charArrayIndex</key>
+		<priority>MINOR</priority>
+		<name>charArrayIndex</name>
+		<configKey>charArrayIndex</configKey>
+		<category name="Reliability"/>
+		<description>Warning - using char variable as array index</description>
+	</rule>
+	<rule>
+		<key>charBitOp</key>
+		<priority>MINOR</priority>
+		<name>charBitOp</name>
+		<configKey>charBitOp</configKey>
+		<category name="Reliability"/>
+		<description>Warning - using char variable in bit operation</description>
+	</rule>
+	<rule>
+		<key>variableScope</key>
+		<priority>MINOR</priority>
+		<name>variableScope</name>
+		<configKey>variableScope</configKey>
+		<category name="Reliability"/>
+		<description>The scope of the variable varname can be reduced</description>
+	</rule>
+	<rule>
+		<key>conditionAlwaysTrueFalse</key>
+		<priority>MINOR</priority>
+		<name>conditionAlwaysTrueFalse</name>
+		<configKey>conditionAlwaysTrueFalse</configKey>
+		<category name="Reliability"/>
+		<description>Condition is always true/false</description>
+	</rule>
+	<rule>
+		<key>strPlusChar</key>
+		<priority>CRITICAL</priority>
+		<name>strPlusChar</name>
+		<configKey>strPlusChar</configKey>
+		<category name="Reliability"/>
+		<description>Unusual pointer arithmetic</description>
+	</rule>
+	<rule>
+		<key>postIncrementDecrement</key>
+		<priority>INFO</priority>
+		<name>postIncrementDecrement</name>
+		<configKey>postIncrementDecrement</configKey>
+		<category name="Reliability"/>
+		<description>Pre-Incrementing variable 'varname' is preferred to Post-Incrementing</description>
+	</rule>
+	<rule>
+		<key>iterators</key>
+		<priority>CRITICAL</priority>
+		<name>iterators</name>
+		<configKey>iterators</configKey>
+		<category name="Reliability"/>
+		<description>Same iterator is used with both container1 and container2</description>
+	</rule>
+	<rule>
+		<key>mismatchingContainers</key>
+		<priority>CRITICAL</priority>
+		<name>mismatchingContainers</name>
+		<configKey>mismatchingContainers</configKey>
+		<category name="Reliability"/>
+		<description>mismatching containers</description>
+	</rule>
+	<rule>
+		<key>eraseDereference</key>
+		<priority>CRITICAL</priority>
+		<name>eraseDereference</name>
+		<configKey>eraseDereference</configKey>
+		<category name="Reliability"/>
+		<description>Dereferenced iterator 'iter' has been erased</description>
+	</rule>
+	<rule>
+		<key>stlOutOfBounds</key>
+		<priority>CRITICAL</priority>
+		<name>stlOutOfBounds</name>
+		<configKey>stlOutOfBounds</configKey>
+		<category name="Reliability"/>
+		<description>When i==foo.size(), foo[i] is out of bounds</description>
+	</rule>
+	<rule>
+		<key>erase</key>
+		<priority>CRITICAL</priority>
+		<name>erase</name>
+		<configKey>erase</configKey>
+		<category name="Reliability"/>
+		<description>Dangerous iterator usage. After erase the iterator is invalid so dereferencing it or comparing it with another iterator is invalid.</description>
+	</rule>
+	<rule>
+		<key>invalidIterator</key>
+		<priority>CRITICAL</priority>
+		<name>invalidIterator</name>
+		<configKey>invalidIterator</configKey>
+		<category name="Reliability"/>
+		<description>After push_back|push_front|insert, the iterator 'iterator' may be invalid</description>
+	</rule>
+	<rule>
+		<key>invalidPointer</key>
+		<priority>CRITICAL</priority>
+		<name>invalidPointer</name>
+		<configKey>invalidPointer</configKey>
+		<category name="Reliability"/>
+		<description>Invalid pointer 'pointer' after push_back / push_front</description>
+	</rule>
+	<rule>
+		<key>stlBoundries</key>
+		<priority>CRITICAL</priority>
+		<name>stlBoundries</name>
+		<configKey>stlBoundries</configKey>
+		<category name="Reliability"/>
+		<description>container range check should use != and not &lt; since the order of the pointers isn't guaranteed</description>
+	</rule>
+	<rule>
+		<key>stlIfFind</key>
+		<priority>MINOR</priority>
+		<name>stlIfFind</name>
+		<configKey>stlIfFind</configKey>
+		<category name="Reliability"/>
+		<description>Suspicious condition. The result of find is an iterator, but it is not properly checked.</description>
+	</rule>
+	<rule>
+		<key>stlIfStrFind</key>
+		<priority>INFO</priority>
+		<name>stlIfStrFind</name>
+		<configKey>stlIfStrFind</configKey>
+		<category name="Reliability"/>
+		<description>Suspicious condition. string::find will return 0 if the string is found at position 0. If this is what you want to check then string::compare is a faster alternative because it doesn't scan through the string.</description>
+	</rule>
+	<rule>
+		<key>stlSize</key>
+		<priority>INFO</priority>
+		<name>stlSize</name>
+		<configKey>stlSize</configKey>
+		<category name="Reliability"/>
+		<description>Use list.empty() instead of list.size() to guarantee fast code. size() can take linear time but empty() is guaranteed to take constant time.</description>
+	</rule>
+	<rule>
+		<key>unusedFunction</key>
+		<priority>MINOR</priority>
+		<name>unusedFunction</name>
+		<configKey>unusedFunction</configKey>
+		<category name="Reliability"/>
+		<description>The function 'funcName' is never used</description>
+	</rule>
+	<rule>
+		<key>syntaxError</key>
+		<priority>CRITICAL</priority>
+		<name>syntaxError</name>
+		<configKey>syntaxError</configKey>
+		<category name="Reliability"/>
+		<description>Invalid number of character ( ) when these macros are defined</description>
+	</rule>
+	<rule>
+		<key>cppcheckError</key>
+		<priority>CRITICAL</priority>
+		<name>cppcheckError</name>
+		<configKey>cppcheckError</configKey>
+		<category name="Reliability"/>
+		<description>### Internal error in Cppcheck. Please report it.</description>
+	</rule>
+</rules>

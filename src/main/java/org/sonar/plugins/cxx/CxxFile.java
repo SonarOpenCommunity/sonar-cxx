@@ -1,6 +1,6 @@
 /*
- * Sonar, open source software quality management tool.
- * Copyright (C) 2010 ${name}
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 Franck Bonin
  * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
@@ -21,86 +21,154 @@
 package org.sonar.plugins.cxx;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.WildcardPattern;
+import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 
-public final class CxxFile extends Resource<CxxDir>{
-	private CxxDir   directory;
-	private String   name;
-	private String   description;
-	private String   qualifier;
-	private String   scope;
+public final class CxxFile extends Resource<CxxDir> {
+	private CxxDir directory;
+	private String name;
+	private String description;
+	private String qualifier;
+	private String scope;
 	private Language language;
-	
+
 	@Override
 	public String getDescription() {
 		return description;
 	}
-	
+
 	@Override
-	public Language getLanguage() { 
+	public Language getLanguage() {
 		return language;
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
 	}
 	
 	@Override
+	public String getLongName() {
+		return name;
+	}
+
+	@Override
 	public CxxDir getParent() {
 		return directory;
 	}
-	
+
 	@Override
 	public String getQualifier() {
 		return qualifier;
 	}
 	
+	public boolean isUnitTest() {
+	    return qualifier.equals(Resource.QUALIFIER_UNIT_TEST_CLASS);
+	}
+
 	@Override
 	public String getScope() {
 		return scope;
 	}
-	
+
 	@Override
 	public boolean matchFilePattern(String pattern) {
-		String patternWithoutFileSuffix = StringUtils.substringBeforeLast(pattern, ".");
-		WildcardPattern matcher = WildcardPattern.create(patternWithoutFileSuffix, "/");
+		logger.info("matchFilePattern call with {} on {}", pattern, getKey());
+		String patternWithoutFileSuffix = StringUtils.substringBeforeLast(
+				pattern, ".");
+		WildcardPattern matcher = WildcardPattern.create(
+				patternWithoutFileSuffix, "/");
 		return matcher.match(getKey());
 	}
 
-	@Override
-	public String getLongName() {
-		return "File " + name;
-	}
+	private static Logger logger = LoggerFactory
+			.getLogger(CxxCppCheckSensor.class);
 	
-	public CxxFile(CxxDir folder, File file, boolean testUnit)
+	private String CanonicalizeAbsoluteFilePath(String filePath)
 	{
-		/*
-		 * @note Resource.SCOPE_FILE is deprecated. Use SCOPE_ENTITY instead.
-		 */
-		scope = Resource.SCOPE_ENTITY;
-		qualifier = testUnit ? Resource.QUALIFIER_UNIT_TEST_CLASS : Resource.QUALIFIER_FILE;
-		language  = CxxLanguage.INSTANCE;
-		directory = folder;
-		name      = file.getName();
-		setKey((folder.getAbsolutePath() + "/" + file.getName()).replace('/', ':'));
-	}
-	
-	public static CxxFile fromAbsolute(Project project, String filename)
-	{
-		final String path = StringUtils.substringBeforeLast(filename, "/");
-		final String file = StringUtils.substringAfterLast(filename, "/");
-		
-		final CxxDir dir = CxxDir.fromAbsolute(project, path);
-		if (dir != null)
-		{
-			return new CxxFile(dir, new File(file), false);
+		filePath = filePath.replaceAll("/./", "/").replaceAll("/+", "/");
+		//logger.info("Build FilePath 2 = {}", filePath);
+		File tmp = new File(filePath);
+		try {
+			filePath = tmp.getCanonicalPath();
+		} catch (IOException e) {
+			filePath = tmp.getAbsolutePath();
 		}
-		return null;
+		return filePath;
+	}
+	
+	private void initIdentifierFromAbsolutFilePath(Project project, String absoluteFilePath)
+	{
+		directory = CxxDir.fromAbsolute(project, StringUtils
+				.substringBeforeLast(absoluteFilePath, "/"));
+		name = StringUtils.substringAfterLast(absoluteFilePath, "/");
+		setKey((directory.getProjectPath() + "/" + name).replace('/', ':'));
+	}
+
+	private CxxFile(Project project, String fileName, String[] includeSearchPath, boolean unitTest) {
+		if (fileName == null) {
+			throw new IllegalArgumentException("fileName is null");
+		}
+		if (includeSearchPath == null || includeSearchPath.length == 0) {
+			throw new IllegalArgumentException("includeSearchPath is null or empty");
+		}
+		logger.info("FileName received : {}", fileName);
+		
+		scope = Resource.SCOPE_ENTITY;
+		qualifier = unitTest ? Resource.QUALIFIER_UNIT_TEST_CLASS : Resource.QUALIFIER_CLASS;//Resource.QUALIFIER_FILE;
+		language = CxxLanguage.INSTANCE;
+
+		String realFileName = StringUtils.trim(fileName).replace('\\', '/');
+		if (new File(realFileName).isAbsolute()) { //realFileName.startsWith("/")) {
+			logger.info("we got an absolute path");
+			realFileName = CanonicalizeAbsoluteFilePath(realFileName);
+			initIdentifierFromAbsolutFilePath(project, realFileName);
+		} else if (realFileName.contains("/")) {
+			logger.info("we got a relative path");
+			for (String includePath : includeSearchPath) {
+				String pathToTest = null;
+				if (new File(includePath).isAbsolute())
+					pathToTest = includePath + "/" + realFileName;	
+				else
+					pathToTest = project.getFileSystem().getBasedir().toString() + "/" + includePath + "/" + realFileName;						
+				//logger.info("Build FilePath 1 = {}", pathToTest);
+				pathToTest = CanonicalizeAbsoluteFilePath(pathToTest);
+				if (new File(pathToTest).exists()) {
+					realFileName = pathToTest;
+					break;
+				}
+			}
+			initIdentifierFromAbsolutFilePath(project, realFileName);
+		} else {
+			logger.info("we got something else");
+			directory = CxxDir.fromAbsolute(project, realFileName);
+			name = realFileName;
+			setKey(realFileName);
+		}
+		
+		Object t[] = {realFileName, getKey(), name, directory.getKey()};
+		logger.info("CxxFile created from fileName {},  key = {}, Name = {}, directorykey = {}", t);
+	}
+
+	public static CxxFile fromFileName(Project project, String filename, boolean unitTest) {
+		String includePath[] = {""};
+		return new CxxFile(project, filename, includePath, unitTest);
+	}
+	
+	public static CxxFile fromFileName(Project project, String filename, String[] includeSearchPath, boolean unitTest) {
+		ArrayList<String> aTmp = new ArrayList<String>();
+		aTmp.addAll(Arrays.asList(includeSearchPath));
+		aTmp.add(0, "");
+		return new CxxFile(project, filename, aTmp.toArray(new String[0]), unitTest);
 	}
 }

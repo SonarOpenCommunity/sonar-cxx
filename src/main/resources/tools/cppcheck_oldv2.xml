@@ -1,0 +1,495 @@
+<rules>
+	<!--
+
+		 - INFO possibleStyle - MINOR style -MAJOR possibleError - CRITICAL error - BLOCKER 5
+		Maintainability Portability Reliability Usability
+	-->
+
+<!-- checkautovariables.cpp -->
+	<rule>
+		<key>autoVariables</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[autoVariables]]></name>
+		<configKey><![CDATA[autoVariables]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[autoVariables]]></description>
+	</rule>
+	<rule>
+		<key>returnLocalVariable</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[returnLocalVariable]]></name>
+		<configKey><![CDATA[returnLocalVariable]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[returnLocalVariable]]></description>
+	</rule>
+
+<!-- checkbufferoverrun.cpp -->
+	<rule>
+		<key>arrayIndexOutOfBounds</key>
+		<priority>MAJOR</priority>
+		<name><![CDATA[arrayIndexOutOfBounds]]></name>
+		<configKey><![CDATA[arrayIndexOutOfBounds]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[arrayIndexOutOfBounds]]></description>
+	</rule>
+	<rule>
+		<key>bufferOverrun</key>
+		<priority>MAJOR</priority>
+		<name><![CDATA[bufferOverrun]]></name>
+		<configKey><![CDATA[bufferOverrun]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[bufferOverrun]]></description>
+	</rule>
+	<rule>
+		<key>strncatUsage</key>
+		<priority>MAJOR</priority>
+		<name><![CDATA[strncatUsage]]></name>
+		<configKey><![CDATA[strncatUsage]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[strncatUsage]]></description>
+	</rule>
+	<rule>
+		<key>outOfBounds</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[outOfBounds]]></name>
+		<configKey><![CDATA[outOfBounds]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[outOfBounds]]></description>
+	</rule>
+	<rule>
+		<key>sizeArgumentAsChar</key>
+		<priority>MAJOR</priority>
+		<name><![CDATA[sizeArgumentAsChar]]></name>
+		<configKey><![CDATA[sizeArgumentAsChar]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[sizeArgumentAsChar]]></description>
+	</rule>
+
+<!-- checkclass.cpp -->
+	<rule>
+		<key>noConstructor</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[noConstructor]]></name>
+		<configKey><![CDATA[noConstructor]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[noConstructor]]></description>
+	</rule>
+	<rule>
+		<key>uninitVar</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[uninitVar]]></name>
+		<configKey><![CDATA[uninitVar]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[uninitVar]]></description>
+	</rule>
+	<rule>
+		<key>operatorEqVarError</key>
+		<priority>INFO</priority>
+		<name><![CDATA[operatorEqVarError]]></name>
+		<configKey><![CDATA[operatorEqVarError]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[operatorEqVarError]]></description>
+	</rule>
+	<rule>
+		<key>unusedPrivateFunction</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[unusedPrivateFunction]]></name>
+		<configKey><![CDATA[unusedPrivateFunction]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[unusedPrivateFunction]]></description>
+	</rule>
+	<rule>
+		<key>memsetClass</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[memsetClass]]></name>
+		<configKey><![CDATA[memsetClass]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[memsetClass]]></description>
+	</rule>
+	<rule>
+		<key>memsetStruct</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[memsetStruct]]></name>
+		<configKey><![CDATA[memsetStruct]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[memsetStruct]]></description>
+	</rule>
+	<rule>
+		<key>operatorEq</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[operatorEq]]></name>
+		<configKey><![CDATA[operatorEq]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[operatorEq]]></description>
+	</rule>
+	<rule>
+		<key>virtualDestructor</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[virtualDestructor]]></name>
+		<configKey><![CDATA[virtualDestructor]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[virtualDestructor]]></description>
+	</rule>
+
+<!-- checkdangerousfunctions.cpp -->
+	<rule>
+		<key>dangerousFunctionmktemp</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[dangerousFunctionmktemp]]></name>
+		<configKey><![CDATA[dangerousFunctionmktemp]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[dangerousFunctionmktemp]]></description>
+	</rule>
+	<rule>
+		<key>dangerousFunctiongets</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[dangerousFunctiongets]]></name>
+		<configKey><![CDATA[dangerousFunctiongets]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[dangerousFunctiongets]]></description>
+	</rule>
+	<rule>
+		<key>dangerousFunctionscanf</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[dangerousFunctionscanf]]></name>
+		<configKey><![CDATA[dangerousFunctionscanf]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[dangerousFunctionscanf]]></description>
+	</rule>
+
+<!-- checkother.cpp -->
+	<rule>
+		<key>cstyleCast</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[cstyleCast]]></name>
+		<configKey><![CDATA[cstyleCast]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[cstyleCast]]></description>
+	</rule>
+	<rule>
+		<key>redundantIfDelete0</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[redundantIfDelete0]]></name>
+		<configKey><![CDATA[redundantIfDelete0]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[redundantIfDelete0]]></description>
+	</rule>
+	<rule>
+		<key>redundantIfRemove</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[redundantIfRemove]]></name>
+		<configKey><![CDATA[redundantIfRemove]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[redundantIfRemove]]></description>
+	</rule>
+	<rule>
+		<key>dangerousUsageStrtol</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[dangerousUsageStrtol]]></name>
+		<configKey><![CDATA[dangerousUsageStrtol]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[dangerousUsageStrtol]]></description>
+	</rule>
+	<rule>
+		<key>ifNoAction</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[ifNoAction]]></name>
+		<configKey><![CDATA[ifNoAction]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[ifNoAction]]></description>
+	</rule>
+	<rule>
+		<key>sprintfOverlappingData</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[sprintfOverlappingData]]></name>
+		<configKey><![CDATA[sprintfOverlappingData]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[sprintfOverlappingData]]></description>
+	</rule>
+	<rule>
+		<key>udivError</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[udivError]]></name>
+		<configKey><![CDATA[udivError]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[udivError]]></description>
+	</rule>
+	<rule>
+		<key>udivWarning</key>
+		<priority>INFO</priority>
+		<name><![CDATA[udivWarning]]></name>
+		<configKey><![CDATA[udivWarning]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[udivWarning]]></description>
+	</rule>
+	<rule>
+		<key>unusedStructMember</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[unusedStructMember]]></name>
+		<configKey><![CDATA[unusedStructMember]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[unusedStructMember]]></description>
+	</rule>
+	<rule>
+		<key>passedByValue</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[passedByValue]]></name>
+		<configKey><![CDATA[passedByValue]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[passedByValue]]></description>
+	</rule>
+	<rule>
+		<key>constStatement</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[constStatement]]></name>
+		<configKey><![CDATA[constStatement]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[constStatement]]></description>
+	</rule>
+	<rule>
+		<key>charArrayIndex</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[charArrayIndex]]></name>
+		<configKey><![CDATA[charArrayIndex]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[charArrayIndex]]></description>
+	</rule>
+	<rule>
+		<key>charBitOp</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[charBitOp]]></name>
+		<configKey><![CDATA[charBitOp]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[charBitOp]]></description>
+	</rule>
+	<rule>
+		<key>variableScope</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[variableScope]]></name>
+		<configKey><![CDATA[variableScope]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[variableScope]]></description>
+	</rule>
+	<rule>
+		<key>conditionAlwaysTrueFalse</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[conditionAlwaysTrueFalse]]></name>
+		<configKey><![CDATA[conditionAlwaysTrueFalse]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[conditionAlwaysTrueFalse]]></description>
+	</rule>
+	<rule>
+		<key>strPlusChar</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[strPlusChar]]></name>
+		<configKey><![CDATA[strPlusChar]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[strPlusChar]]></description>
+	</rule>
+	<rule>
+		<key>nullPointer</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[nullPointer]]></name>
+		<configKey><![CDATA[nullPointer]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[nullPointer]]></description>
+	</rule>
+	<rule>
+		<key>zerodiv</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[zerodiv]]></name>
+		<configKey><![CDATA[zerodiv]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[zerodiv]]></description>
+	</rule>
+	<rule>
+		<key>postIncrementDecrement</key>
+		<priority>INFO</priority>
+		<name><![CDATA[postIncrementDecrement]]></name>
+		<configKey><![CDATA[postIncrementDecrement]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[postIncrementDecrement]]></description>
+	</rule>
+
+<!-- checkstl.cpp -->
+	<rule>
+		<key>iterators</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[iterators]]></name>
+		<configKey><![CDATA[iterators]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[iterators]]></description>
+	</rule>
+	<rule>
+		<key>eraseDereference</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[eraseDereference]]></name>
+		<configKey><![CDATA[eraseDereference]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[eraseDereference]]></description>
+	</rule>
+	<rule>
+		<key>stlOutOfBounds</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[stlOutOfBounds]]></name>
+		<configKey><![CDATA[stlOutOfBounds]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[stlOutOfBounds]]></description>
+	</rule>
+	<rule>
+		<key>erase</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[erase]]></name>
+		<configKey><![CDATA[erase]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[erase]]></description>
+	</rule>
+	<rule>
+		<key>pushback</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[pushback]]></name>
+		<configKey><![CDATA[pushback]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[pushback]]></description>
+	</rule>
+	<rule>
+		<key>stlBoundries</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[stlBoundries]]></name>
+		<configKey><![CDATA[stlBoundries]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[stlBoundries]]></description>
+	</rule>
+
+
+<!-- checkmemoryleak.cpp -->
+	<rule>
+		<key>memleak</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[memleak]]></name>
+		<configKey><![CDATA[memleak]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[memleak]]></description>
+	</rule>
+	<rule>
+		<key>memleakall</key>
+		<priority>MAJOR</priority>
+		<name><![CDATA[memleakall]]></name>
+		<configKey><![CDATA[memleakall]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[memleakall]]></description>
+	</rule>
+	<rule>
+		<key>mismatchAllocDealloc</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[mismatchAllocDealloc]]></name>
+		<configKey><![CDATA[mismatchAllocDealloc]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[mismatchAllocDealloc]]></description>
+	</rule>
+	<rule>
+		<key>resourceLeak</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[resourceLeak]]></name>
+		<configKey><![CDATA[resourceLeak]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[resourceLeak]]></description>
+	</rule>
+	<rule>
+		<key>deallocDealloc</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[deallocDealloc]]></name>
+		<configKey><![CDATA[deallocDealloc]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[deallocDealloc]]></description>
+	</rule>
+	<rule>
+		<key>deallocuse</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[deallocuse]]></name>
+		<configKey><![CDATA[deallocuse]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[deallocuse]]></description>
+	</rule>
+	<rule>
+		<key>mismatchSize</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[mismatchSize]]></name>
+		<configKey><![CDATA[mismatchSize]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[mismatchSize]]></description>
+	</rule>
+	<rule>
+		<key>mismatchAllocDealloc</key>
+		<priority>CRITICAL</priority>
+		<name><![CDATA[mismatchAllocDealloc]]></name>
+		<configKey><![CDATA[mismatchAllocDealloc]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[mismatchAllocDealloc]]></description>
+	</rule>
+
+<!-- checkunusedfunctions.cpp -->
+	<rule>
+		<key>unusedFunction</key>
+		<priority>MINOR</priority>
+		<name><![CDATA[unusedFunction]]></name>
+		<configKey><![CDATA[unusedFunction]]></configKey>
+		<category name="Reliability" />
+		<description><![CDATA[unusedFunction]]></description>
+	</rule>
+
+</rules>
+
+
+
+<!-- 
+reportError(tok, Severity::error, "autoVariables", "Invalid deallocation");
+reportError(tok, Severity::error, "returnLocalVariable", "Returning pointer to local array variable");
+
+reportError(_callStack, Severity::possibleError, "arrayIndexOutOfBounds", "Array index out of bounds");
+reportError(tok, Severity::possibleError, "bufferOverrun", "Buffer overrun");
+reportError(tok, Severity::possibleError, "strncatUsage", "Dangerous usage of strncat. Tip: the 3rd parameter means maximum number of characters to append");
+reportError(tok, Severity::error, "outOfBounds", what + " is out of bounds");
+reportError(tok, Severity::possibleError, "sizeArgumentAsChar", "The size argument is given as a char constant");
+
+reportError(tok, Severity::style, "noConstructor", "The class '" + classname + "' has no constructor");
+reportError(tok, Severity::style, "uninitVar", "Member variable not initialized in the constructor '" + classname + "::" + varname + "'");
+reportError(tok, Severity::possibleStyle, "operatorEqVarError", "Member variable '" + classname + "::" + varname + "' is not assigned a value in '"+classname + "::operator=" + "'");
+reportError(tok, Severity::style, "unusedPrivateFunction", "Unused private function '" + classname + "::" + funcname + "'");
+reportError(tok, Severity::error, "memsetClass", "Using '" + memfunc + "' on class");
+reportError(tok, Severity::error, "memsetStruct", "Using '" + memfunc + "' on struct that contains a 'std::" + classname + "'");
+reportError(tok, Severity::style, "operatorEq", "'operator=' should return something");
+reportError(tok, Severity::error, "virtualDestructor", "Class " + Base + " which is inherited by class " + Derived + " does not have a virtual destructor");
+
+reportError(tok, Severity::style, "dangerousFunctionmktemp", "Found 'mktemp'. You should use 'mkstemp' instead");
+reportError(tok, Severity::style, "dangerousFunctiongets", "Found 'gets'. You should use 'fgets' instead");
+reportError(tok, Severity::style, "dangerousFunctionscanf", "Found 'scanf'. You should use 'fgets' instead");
+
+reportError(tok, Severity::style, "cstyleCast", "C-style pointer casting");
+reportError(tok, Severity::style, "redundantIfDelete0", "Redundant condition. It is safe to deallocate a NULL pointer");
+reportError(tok, Severity::style, "redundantIfRemove", "Redundant condition. The remove function in the STL will not do anything if element doesn't exist");
+reportError(tok, Severity::error, "dangerousUsageStrtol", "Invalid radix in call to strtol or strtoul. Must be 0 or 2-36");
+reportError(tok, Severity::style, "ifNoAction", "Found redundant if condition - 'if (condition);'");
+reportError(tok, Severity::error, "sprintfOverlappingData", "Overlapping data buffer " + varname + "\nWhen using sprintf the same buffer must not be used both for output and input. The behaviour is undefined when that happens.\nFor example: 'sprintf(str,\"<%s>\",str);'");
+reportError(tok, Severity::error, "udivError", "Unsigned division. The result will be wrong.");
+reportError(tok, Severity::possibleStyle, "udivWarning", "Warning: Division with signed and unsigned operators");
+reportError(tok, Severity::style, "unusedStructMember", "struct or union member '" + structname + "::" + varname + "' is never used");
+reportError(tok, Severity::style, "passedByValue", "Function parameter '" + parname + "' is passed by value. It could be passed by reference instead.");
+reportError(tok, Severity::style, "constStatement", "Redundant code: Found a statement that begins with " + type + " constant");
+reportError(tok, Severity::style, "charArrayIndex", "Warning - using char variable as array index");
+reportError(tok, Severity::style, "charBitOp", "Warning - using char variable in bit operation");
+reportError(tok, Severity::style, "variableScope", "The scope of the variable " + varname + " can be limited");
+reportError(tok, Severity::style, "conditionAlwaysTrueFalse", "Condition is always " + truefalse);
+reportError(tok, Severity::error, "strPlusChar", "Unusual pointer arithmetic");
+reportError(tok, Severity::error, "nullPointer", "Possible null pointer dereference: " + varname);
+reportError(tok, Severity::error, "zerodiv", "Division by zero");
+reportError(tok, Severity::possibleStyle, "postIncrementDecrement", ("Pre-" + type + " variable '" + var_name + "' is preferred to Post-" + type));
+
+reportError(tok, Severity::error, "iterators", "Same iterator is used with both " + container1 + " and " + container2);
+reportError(tok, Severity::error, "eraseDereference", "Dereferenced iterator '" + itername + "' has been erased");
+reportError(tok, Severity::error, "stlOutOfBounds", "When " + num + "==" + var + ".size(), " + var + "[" + num + "] is out of bounds");
+reportError(tok, Severity::error, "erase", "Dangerous usage of erase\nAfter erase has been used the iterator may be invalid so dereferencing it or comparing it with other iterator is invalid.");
+reportError(tok, Severity::error, "pushback", "After push_back or push_front, the iterator '" + iterator_name + "' may be invalid");
+reportError(tok, Severity::error, "pushback", "Invalid pointer '" + pointer_name + "' after push_back / push_front");
+reportError(tok, Severity::error, "stlBoundries", container_name + " range check should use != and not < since the order of the pointers isn't guaranteed");
+-->

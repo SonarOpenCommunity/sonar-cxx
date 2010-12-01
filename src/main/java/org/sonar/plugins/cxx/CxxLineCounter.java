@@ -1,5 +1,5 @@
 /*
- * Sonar, open source software quality management tool.
+ * Sonar Cxx Plugin, open source software quality management tool.
  * Copyright (C) 2010 ${name}
  * mailto:contact AT sonarsource DOT com
  *
@@ -42,7 +42,7 @@ public final class CxxLineCounter implements Sensor {
 		
 		for (File file : sources)
 		{
-			CxxFile cxxFile = CxxFile.fromAbsolute(project, file.getAbsolutePath());
+			CxxFile cxxFile = CxxFile.fromFileName(project, file.getAbsolutePath(), false);
 			try
 			{
 				Source result = new Source(new FileReader(file), codeRecognizer, "//");

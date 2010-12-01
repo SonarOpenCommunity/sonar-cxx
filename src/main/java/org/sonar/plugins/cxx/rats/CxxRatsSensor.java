@@ -1,5 +1,5 @@
 /*
- * Sonar, open source software quality management tool.
+ * Sonar Cxx Plugin, open source software quality management tool.
  * Copyright (C) 2010 ${name}
  * mailto:contact AT sonarsource DOT com
  *
@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.rats;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -154,7 +154,7 @@ public final class CxxRatsSensor implements Sensor {
       for(Element line : lines)
       {
         final int lineNumber = Integer.parseInt(line.getTextTrim());
-        final CxxFile ressource = CxxFile.fromAbsolute(project, filename);
+        final CxxFile ressource = CxxFile.fromFileName(project, filename, false);
         final Rule rule = ruleFinder.   findByKey(CxxRatsRuleRepository.REPOSITORY_KEY, type);
         final Violation violation = Violation.create(rule, ressource);
 

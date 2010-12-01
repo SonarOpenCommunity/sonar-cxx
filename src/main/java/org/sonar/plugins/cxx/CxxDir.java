@@ -1,5 +1,5 @@
 /*
- * Sonar, open source software quality management tool.
+ * Sonar Cxx Plugin, open source software quality management tool.
  * Copyright (C) 2010 ${name}
  * mailto:contact AT sonarsource DOT com
  *
@@ -88,23 +88,27 @@ public final class CxxDir extends Resource<Project>{
 		scope     = Resource.SCOPE_SPACE;
 		qualifier = testUnit ? Resource.QUALIFIER_UNIT_TEST_CLASS : Resource.QUALIFIER_DIRECTORY;
 		language  = CxxLanguage.INSTANCE;
-		project   = null;
+		project   = p;
 		name      = dir.getName();
 		
-		absolutePath = dir.getAbsoluteFile().toString().replaceFirst(p.getFileSystem().getBasedir().toString(), "");
+		absolutePath = dir.getAbsoluteFile().toString();//.replaceFirst(p.getFileSystem().getBasedir().toString(), "");
 		relativePath = absolutePath.replaceFirst(p.getFileSystem().getBasedir().toString(), ""); 
 		setKey(relativePath.replace('/', '.'));
 	}
 	
-	public static CxxDir fromAbsolute(Project project, String path)
+	public static CxxDir fromAbsolute(Project p, String path)
 	{		
-		final File       d       = new File(path);			
-		return new CxxDir(project, d, false);
+		return new CxxDir(p, new File(path), false);
+	}
+	
+	public static CxxDir fromProjectDir(Project p, String path)
+	{
+		return new CxxDir(p, new File(p.getFileSystem().getBasedir().toString() + path), false);
 	}
 	
 	public String getAbsolutePath()
 	{
-		return absolutePath;	
+		return absolutePath;
 	}
 	
 	public String getProjectPath()

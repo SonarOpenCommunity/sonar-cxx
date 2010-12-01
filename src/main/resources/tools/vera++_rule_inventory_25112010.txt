@@ -1,0 +1,27 @@
+F001|||warning|||(CR) detected in isolation
+F002|||warning|||directory or file name malformed
+L001|||warning|||trailing whitespace
+L002|||warning|||horizontal tab used
+L003|||warning|||leading/trailing empty line(s)
+L004|||warning|||line is longer than ${maxLength} characters
+L005|||warning|||too many consecutive empty lines
+L006|||warning|||source file is too long
+T001|||warning|||line-continuation in one-line comment
+T002|||warning|||reserved name used for macro 
+T003|||warning|||keyword not followed by a single space         
+T004|||warning|||colon not immediately after the \'$lastKeywordValue\' keyword
+T005|||warning|||keyword not immediately followed by a semicolon
+T006|||warning|||keyword not immediately followed by a semicolon or a single space
+T007|||warning|||semicolon is isolated from other tokens
+T008|||warning|||keyword not followed by a single space
+T009|||warning|||comma should not be preceded/followed by whitespace
+T010|||warning|||identifier should not be composed of only 'l' and 'O'
+T011|||warning|||opening/closing curly bracket mistake
+T012|||warning|||negation operator used in its short form
+T013|||warning|||no copyright notice found
+T014|||warning|||no reference to the Boost Software License found
+T015|||warning|||URL links misuse
+T016|||warning|||min/max potential macro substitution problem
+T017|||warning|||unnamed namespace not allowed in header file
+T018|||warning|||using namespace not allowed in header file
+T019|||warning|||full block {} expected in the control structure

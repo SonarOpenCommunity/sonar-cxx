@@ -1,0 +1,14 @@
+InvalidFree|||error|||InvalidFree
+MismatchedFree|||error|||MismatchedFree
+InvalidRead|||error|||InvalidRead
+InvalidWrite|||error|||InvalidWrite
+InvalidJump|||error|||InvalidJump
+Overlap|||error|||Overlap
+InvalidMemPool|||error|||InvalidMemPool
+UninitCondition|||error|||UninitCondition
+UninitValue|||error|||UninitValue
+SyscallParam|||error|||SyscallParam
+ClientCheck|||error|||ClientCheck
+Leak_DefinitelyLost|||error|||Leak_DefinitelyLost
+Leak_PossiblyLost|||error|||Leak_PossiblyLost
+Leak_StillReachable|||error|||Leak_StillReachable

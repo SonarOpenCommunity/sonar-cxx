@@ -1,6 +1,6 @@
 /*
  * Sonar Cxx Plugin, open source software quality management tool.
- * Copyright (C) 2010 ${name}
+ * Copyright (C) 2010 Franck Bonin
  * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
@@ -17,23 +17,18 @@
  * License along with Sonar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+package org.sonar.plugins.cxx.cppcheck;
 
-package org.sonar.plugins.cxx;
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
-import org.sonar.api.resources.AbstractLanguage;
-
-public final class CxxLanguage extends AbstractLanguage {
-	public static final String KEY = "c++";
-	public static final String[] SUFFIXES = {"cxx", "cpp", "h", "hxx"};
-	public static final CxxLanguage INSTANCE = new CxxLanguage();
-	
-	public CxxLanguage()
-	{
-		super(KEY, "c++");
+public class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
+	@Override
+	protected String RepositoryFileName() {
+		return "/cppcheck.xml";
 	}
-
-	public String[] getFileSuffixes()
-	{
-		return SUFFIXES;
+	  
+	@Override
+	protected String RepositoryName() {
+		return "cppcheck";
 	}
 }

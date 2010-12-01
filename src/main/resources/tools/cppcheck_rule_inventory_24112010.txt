@@ -1,0 +1,78 @@
+zerodiv|||error|||Division by zero.
+thisSubtraction|||style|||Suspicious pointer subtraction.
+functionConst|||style|||function can be const.
+noConstructor|||style|||Class has no constructor. Member variables not initialized.
+uninitVar|||style|||Member variable not initialized in constructor.
+operatorEqVarError|||style|||Member variable is not assigned a value in operator=.
+unusedPrivateFunction|||style|||Unused private function.
+memsetClass|||error|||Using memfunc on class.
+memsetStruct|||error|||Using memfunc on struct that contains std::.
+operatorEq|||style|||operator= should return something.
+virtualDestructor|||error|||Inherited class does not have a virtual destructor.
+operatorEqRetRefThis|||style|||operator= should return reference to self.
+operatorEqToSelf|||style|||operator= should check for assignment to self.
+invalidIterator1|||error|||Invalid iterator.
+iterators|||error|||Same iterator is used with both containers.
+eraseDereference|||error|||Dereferenced iterator has been erased.
+eraseByValue|||error|||Iterator becomes invalid when deleted by value.
+mismatchingContainers|||error|||mismatching containers.
+stlOutOfBounds|||error|||Tab is used out of bounds.
+erase|||error|||Dangerous iterator usage. After erase the iterator is invalid so dereferencing it or comparing it with another iterator is invalid.
+invalidIterator2|||error|||Iterator may be invalid after function.
+invalidPointer|||error|||Invalid pointer after push_back / push_front.
+stlBoundries|||error|||Range check should use != and not &lt; since the order of the pointers isn't guaranteed.
+stlIfStrFind|||style|||Suspicious condition. string::find will return 0 if the string is found at position 0. If this is what you want to check then string::compare is a faster alternative because it doesn't scan through the string.
+stlIfFind|||style|||Suspicious condition. The result of find is an iterator, but it is not properly checked.
+style, "stlSize", "Use empty() instead of size() to guarantee fast code. size() can take linear time but empty() is guaranteed to take constant time."));
+redundantIfRemove|||style|||Redundant condition. The remove function in the STL will not do anything if element doesn't exist.
+autoVariables|||error|||Return of the address of an auto-variable.
+autoVariables|||error|||Invalid deallocation.
+returnLocalVariable|||error|||Returning pointer to local array variable.
+autoVariables|||error|||Wrong assignment of an auto-variable to an effective parameter of a function.
+returnReference|||error|||Returning reference to auto variable.
+returnTempReference|||error|||Returning reference to temporary.
+returnAutocstr|||error|||Returning pointer to auto variable.
+returnTempPointer|||error|||Returning pointer to temporary.
+exceptThrowInDestructor|||style|||Throwing exception in destructor.
+exceptDeallocThrow|||error|||Throwing exception in invalid state, variable points at deallocated memory.
+publicAllocationError|||style|||Possible leak in public function. The pointer '" + varname + "' is not deallocated before it is allocated.
+arrayIndexOutOfBounds|||error|||Index out of bounds.
+bufferAccessOutOfBounds|||error|||Buffer access out-of-bounds.
+strncatUsage|||style|||Dangerous usage of strncat. Tip: the 3rd parameter means maximum number of characters to append.
+outOfBounds|||error|||Access is out of bounds.
+sizeArgumentAsChar|||style|||The size argument is given as a char constant.
+terminateStrncpy|||style|||After a strncpy() the buffer should be zero-terminated.
+insecureCmdLineArgs|||error|||Buffer overrun possible for long cmd-line args.
+negativeIndex|||error|||Array index is out of bounds.
+obsoleteFunctions|||style|||Obsolete functions.
+invalidscanf|||style|||scanf without field width limits can crash with huge input data.
+unusedVariable|||style|||Unused variable.
+unreadVariable|||style|||Variable is assigned a value that is never used.
+unassignedVariable|||style|||Variable is not assigned a value.
+cstyleCast|||style|||C-style pointer casting.
+dangerousUsageStrtol|||error|||Invalid radix in call to strtol or strtoul. Must be 0 or 2-36.
+sprintfOverlappingData|||error|||Undefined behaviour:variable is used wrong in call to sprintf or snprintf.
+udivError|||error|||Unsigned division. The result will be wrong.
+unusedStructMember|||style|||struct or union member is never used.
+passedByValue|||style|||Function parameter is passed by value. It could be passed by reference instead.
+constStatement|||style|||Redundant code: Found a statement that begins with constant.
+charArrayIndex|||style|||Warning - using char variable as array index.
+charBitOp|||style|||Warning - using char variable in bit operation.
+variableScope|||style|||The scope of the variable can be reduced.
+conditionAlwaysTrueFalse|||style|||Condition is always true or false.
+strPlusChar|||error|||Unusual pointer arithmetic.
+nullPointer|||error|||Possible null pointer dereference.
+uninitstring|||error|||Dangerous usage of variable (strncpy doesn't always 0-terminate it).
+uninitdata|||error|||Data is allocated but not initialized.
+uninitvar|||error|||Uninitialized variable.
+zerodiv|||error|||Division by zero.
+wrongmathcall|||error|||Passing value leads to undefined result.
+postIncrementDecrement|||style|||Pre-Increment/Decrement is preferred to Post-IncrementDecrement.
+emptyStringTest|||style|||Empty string test can be simplified.
+fflushOnInputStream|||error|||fflush() called on input stream may result in undefined behaviour.
+sizeofsizeof|||style|||Suspicious code 'sizeof sizeof ..', most likely there should only be one sizeof. The current code is equivalent to 'sizeof(size_t)'.
+sizeofCalculation|||style|||Found calculation inside sizeof().
+redundantAssignInSwitch|||error|||Redundant assignment of variable in switch.
+selfAssignment|||style|||Redundant assignment variable to itself.
+unusedScopedObject|||style|||instance of object destroyed immediately.
+unusedFunction|||style|||Function is never used.

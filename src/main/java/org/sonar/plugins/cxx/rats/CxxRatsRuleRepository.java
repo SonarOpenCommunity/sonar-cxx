@@ -18,37 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.rats;
 
-import java.io.File;
-import java.util.List;
 
-import net.sourceforge.pmd.cpd.CPPLanguage;
-import net.sourceforge.pmd.cpd.Tokenizer;
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
-import org.sonar.api.batch.CpdMapping;
-import org.sonar.api.resources.Language;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
-
-public final class CxxCpdMapping implements CpdMapping {
-	private final CPPLanguage language = new CPPLanguage();
-	private Project project;
+public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
+	@Override
+	protected String RepositoryFileName() {
+		return "/rats.xml";
+	}
 	
-	public CxxCpdMapping(Project project)
-	{
-		this.project = project;
-	}
-		
-	public Resource<CxxDir> createResource(File file, List<File> dirs) {
-		return CxxFile.fromFileName(project, file.getAbsolutePath(), false);
-	}
-
-	public Language getLanguage() {
-		return CxxLanguage.INSTANCE;
-	}
-
-	public Tokenizer getTokenizer() {
-		return language.getTokenizer();
+	@Override
+	protected String RepositoryName() {
+		return "rats";
 	}
 }
+

@@ -1,6 +1,6 @@
 /*
  * Sonar Cxx Plugin, open source software quality management tool.
- * Copyright (C) 2010 ${name}
+ * Copyright (C) 2010 Franck Bonin
  * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
@@ -18,22 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.valgrind;
 
-import org.sonar.api.resources.AbstractLanguage;
 
-public final class CxxLanguage extends AbstractLanguage {
-	public static final String KEY = "c++";
-	public static final String[] SUFFIXES = {"cxx", "cpp", "h", "hxx"};
-	public static final CxxLanguage INSTANCE = new CxxLanguage();
-	
-	public CxxLanguage()
-	{
-		super(KEY, "c++");
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
+
+public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
+	@Override
+	protected String RepositoryFileName() {
+		return "/valgrind.xml";
 	}
-
-	public String[] getFileSuffixes()
-	{
-		return SUFFIXES;
+	  
+	@Override
+	protected String RepositoryName() {
+		return "valgrind";
 	}
 }

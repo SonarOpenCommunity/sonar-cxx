@@ -1,6 +1,6 @@
 /*
- * Sonar, open source software quality management tool.
- * Copyright (C) 2010 ${name}
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 Franck Bonin
  * mailto:contact AT sonarsource DOT com
  *
  * Sonar is free software; you can redistribute it and/or
@@ -17,35 +17,35 @@
  * License along with Sonar; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.utils;
 
 import java.io.InputStream;
 import java.util.List;
 
 import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.api.rules.RuleRepository;
-//import org.sonar.api.rules.RulesCategory;
+import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxPlugin;
 
-public final class CxxRatsRuleRepository extends RuleRepository {
-  public static final String REPOSITORY_KEY = CxxPlugin.KEY;
-  private static final String XML_FILE = "/rats.xml";
-  
-  
-  public CxxRatsRuleRepository()
-  {
-    super(REPOSITORY_KEY, CxxLanguage.KEY);
-    setName("rats");
-  }
-  
-  @Override
-  public List<Rule> createRules() {
-    final XMLRuleParser xmlParser = new XMLRuleParser();
-    final InputStream xmlStream = getClass().getResourceAsStream(XML_FILE);
-    return xmlParser.parse(xmlStream);
-    
-  }
+public abstract class CxxAbstractRuleRepository extends RuleRepository {
+	  public static final String REPOSITORY_KEY = CxxPlugin.KEY;
+	  
+	  abstract protected String RepositoryFileName();
+	  abstract protected String RepositoryName();
+	  
+	  public CxxAbstractRuleRepository()
+	  {
+	    super(REPOSITORY_KEY, CxxLanguage.KEY);
+	    setName(RepositoryName());
+	  }
+	  
+	  @Override
+	  public List<Rule> createRules() {
+	    final XMLRuleParser xmlParser = new XMLRuleParser();
+	    final InputStream xmlStream = getClass().getResourceAsStream(RepositoryFileName());
+	    return xmlParser.parse(xmlStream);
+	    
+	  }
 
-}
+	}
