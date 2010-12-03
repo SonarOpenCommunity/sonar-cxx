@@ -68,22 +68,22 @@ public class CxxVeraxxSensor  extends ReportsHelper implements Sensor {
 	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/vera++-result-*.xml";
 
 	@Override
-	protected String getARTIFACT_ID() {
+	protected String getArtifactId() {
 		return ARTIFACT_ID;
 	}
 
 	@Override
-	protected String getDEFAULT_REPORTS_DIR() {
+	protected String getDefaultReportsDir() {
 		return DEFAULT_VERAXX_REPORTS_DIR;
 	}
 
 	@Override
-	protected String getDEFAULT_REPORTS_FILE_PATTERN() {
+	protected String getDefaultReportsFilePattern() {
 		return DEFAULT_REPORTS_FILE_PATTERN;
 	}
 
 	@Override
-	protected String getGROUP_ID() {
+	protected String getGroupId() {
 		return GROUP_ID;
 	}
 

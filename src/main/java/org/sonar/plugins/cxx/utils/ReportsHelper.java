@@ -29,17 +29,21 @@ import org.slf4j.Logger;
 import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.resources.Project;
 
+/**
+ * @todo VH : prefer CXXSENSOR because it's the common code between all CCX sensor
+ * @author fbonin
+ */
 public abstract class ReportsHelper {
 
 	protected abstract Logger getLogger();
 
-	protected abstract String getGROUP_ID();
+	protected abstract String getGroupId();
 
-	protected abstract String getARTIFACT_ID();
+	protected abstract String getArtifactId();
 
-	protected abstract String getDEFAULT_REPORTS_DIR();
+	protected abstract String getDefaultReportsDir();
 
-	protected abstract String getDEFAULT_REPORTS_FILE_PATTERN();
+	protected abstract String getDefaultReportsFilePattern();
 
 	public File getReportsDirectory(Project project) {
 
@@ -57,7 +61,7 @@ public abstract class ReportsHelper {
 
 	private File getReportDirectoryFromPluginConfiguration(Project project) {
 		MavenPlugin mavenPlugin = MavenPlugin.getPlugin(project.getPom(),
-				getGROUP_ID(), getARTIFACT_ID());
+				getGroupId(), getArtifactId());
 		if (mavenPlugin != null) {
 			String path = mavenPlugin.getParameter("directory");
 			if (path != null) {
@@ -69,7 +73,7 @@ public abstract class ReportsHelper {
 
 	private File getReportDirectoryFromDefaultPath(Project project) {
 		return new File(project.getFileSystem().getReportOutputDir(),
-				getDEFAULT_REPORTS_DIR());
+				getDefaultReportsDir());
 	}
 
 	public File[] getReports(Project project, File dir) {
@@ -77,7 +81,7 @@ public abstract class ReportsHelper {
 		FileSet afileSet = new FileSet();
 		afileSet.setDirectory(dir.getAbsolutePath());
 		MavenPlugin plugin = MavenPlugin.getPlugin(project.getPom(),
-				getGROUP_ID(), getARTIFACT_ID());
+				getGroupId(), getArtifactId());
 		String includes[] = null;
 		String excludes[] = null;
 		if (plugin != null) {
@@ -85,16 +89,16 @@ public abstract class ReportsHelper {
 			excludes = plugin.getParameters("excludes/exclude");
 		} else {
 			includes = new String[1];
-			includes[1] = getDEFAULT_REPORTS_FILE_PATTERN();
+			includes[1] = getDefaultReportsFilePattern();
 			excludes = new String[0];
 		}
 		getLogger()
 				.info(
-						getGROUP_ID() + " " + getARTIFACT_ID()
+						getGroupId() + " " + getArtifactId()
 								+ " includes value = {}", includes);
 		getLogger()
 				.info(
-						getGROUP_ID() + " " + getARTIFACT_ID()
+						getGroupId() + " " + getArtifactId()
 								+ " excludes value = {}", excludes);
 		afileSet.setIncludes(Arrays.asList(includes));
 		afileSet.setExcludes(Arrays.asList(excludes));
@@ -112,7 +116,7 @@ public abstract class ReportsHelper {
 	public String[] getReportsIncludeSourcePath(Project project)
 	{
 		MavenPlugin plugin = MavenPlugin.getPlugin(project.getPom(),
-				getGROUP_ID(), getARTIFACT_ID());
+				getGroupId(), getArtifactId());
 		String includes[] = null;
 		if (plugin != null) {
 			includes = plugin.getParameters("reportsIncludeSourcePath/include");

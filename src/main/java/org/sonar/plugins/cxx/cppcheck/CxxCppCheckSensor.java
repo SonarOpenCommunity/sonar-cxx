@@ -68,22 +68,22 @@ public class CxxCppCheckSensor  extends ReportsHelper implements Sensor {
 	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppcheck-result-*.xml";
 
 	@Override
-	protected String getARTIFACT_ID() {
+    protected String getArtifactId() {
 		return ARTIFACT_ID;
 	}
 
 	@Override
-	protected String getDEFAULT_REPORTS_DIR() {
+    protected String getDefaultReportsDir() {
 		return DEFAULT_CPPCHECK_REPORTS_DIR;
 	}
 
 	@Override
-	protected String getDEFAULT_REPORTS_FILE_PATTERN() {
+    protected String getDefaultReportsFilePattern() {
 		return DEFAULT_REPORTS_FILE_PATTERN;
 	}
 
 	@Override
-	protected String getGROUP_ID() {
+    protected String getGroupId() {
 		return GROUP_ID;
 	}
 
@@ -134,13 +134,14 @@ public class CxxCppCheckSensor  extends ReportsHelper implements Sensor {
 			String msg = error.getAttrValue("msg");
 			String file = error.getAttrValue("file");
 			String line = error.getAttrValue("line");
-			if (StringUtils.isEmpty(line)) line = "0";
+            if (StringUtils.isEmpty(line)) {
+                line = "0";
+            }
 	    	if (!StringUtils.isEmpty(file)) {
 		        CxxFile ressource = CxxFile.fromFileName(project, file, getReportsIncludeSourcePath(project), false);
 		        if (fileExist(context, ressource)) {
 			        Rule rule = ruleFinder.findByKey(CxxCppCheckRuleRepository.REPOSITORY_KEY, id);
-			        if (rule != null)
-			        {
+                    if (rule != null) {
 			        	Object t[] = {id, msg, line, ressource.getKey()};
 			        	logger.info("error id={} msg={} found at line {} from ressource {}", t);
 	
@@ -152,9 +153,7 @@ public class CxxCppCheckSensor  extends ReportsHelper implements Sensor {
 			        	Object t[] = {id, msg, line, file};
 			        	logger.warn("No rule for error id={} msg={} found at line {} from file {}", t);
 			        }
-		        }
-		        else
-		        {
+                } else {
 		        	Object t[] = {id, msg, line, file};
 		        	logger.warn("error id={} msg={} found at line {} from file {} has no ressource associated", t);	
 		        }
