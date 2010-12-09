@@ -120,6 +120,10 @@ public abstract class ReportsHelper {
 		String includes[] = null;
 		if (plugin != null) {
 			includes = plugin.getParameters("reportsIncludeSourcePath/include");
+		}else{
+            // VH Workaround to run without include source path
+            // This exists because I don't understand IncludeSourcePath
+            includes = new String[]{"."};
 		}
 		return includes;
 	}
