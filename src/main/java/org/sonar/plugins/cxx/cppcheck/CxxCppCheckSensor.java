@@ -25,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-import java.util.logging.Level;
 
 import javax.xml.stream.XMLStreamException;
 import org.apache.commons.configuration.Configuration;
@@ -155,7 +154,6 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
             parseReport(project, new FileInputStream(xmlFile), context);
         } catch (FileNotFoundException ex) {
             logger.error("CppCheck Report not found : "+xmlFile.getAbsoluteFile(), ex);
-            java.util.logging.Logger.getLogger(CxxCppCheckSensor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -194,7 +192,7 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
               xmlStream.close();
             }
           } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(CxxCppCheckSensor.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Can't close the xml stream", ex);
           }
         }
     }
