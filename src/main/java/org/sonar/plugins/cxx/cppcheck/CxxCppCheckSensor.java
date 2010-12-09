@@ -21,6 +21,7 @@ package org.sonar.plugins.cxx.cppcheck;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -28,6 +29,7 @@ import java.util.logging.Level;
 
 import javax.xml.stream.XMLStreamException;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.io.input.TeeInputStream;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -119,8 +121,16 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
                 p = Runtime.getRuntime().exec(cmd);
                 p.waitFor();
 
+                // Write result in local file
+                File resultOutputFile = new File(project.getFileSystem().getSonarWorkingDirectory()+"/cppcheck-result.xml");
+                //resultOutputFile.createNewFile();
+                logger.debug("Output result to "+resultOutputFile.getAbsolutePath());
+                
                 // Becarefull ... CppCheck print its result into Error output !
-                parseReport(project, p.getErrorStream(), context);
+                // TeeInputStream is used to read result from stream and both write it to a file
+                FileOutputStream fos = new FileOutputStream(resultOutputFile);
+                TeeInputStream tis = new TeeInputStream(p.getErrorStream(),fos , true);
+                parseReport(project, tis, context);
 
             } catch (InterruptedException ex) {
                 logger.error("Analysis can't wait for the end of the process", ex);
@@ -153,7 +163,7 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
      * Parse the stream of CppCheck XML report
      * 
      * @param project
-     * @param xmlStream
+     * @param xmlStream - This stream will be closed at the end of this method
      * @param context 
      */
     private void parseReport(final Project project, InputStream xmlStream,
@@ -178,6 +188,14 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
             
         } catch (XMLStreamException e) {
             throw new XmlParserException(e);
+        } finally{
+          try {
+            if(xmlStream!=null){
+              xmlStream.close();
+            }
+          } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(CxxCppCheckSensor.class.getName()).log(Level.SEVERE, null, ex);
+          }
         }
     }
 
