@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-#
+# 
 # A report generator for gcov 3.4
 #
 # This routine generates a format that is similar to the format generated 
@@ -11,7 +11,8 @@
 # Copyright (2008) Sandia Corporation. Under the terms of Contract
 # DE-AC04-94AL85000 with Sandia Corporation, the U.S. Government
 # retains certain rights in this software.
-# Copyright (2010) Franck Bonin
+# Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+# Author(s) : Franck Bonin, Neticoa SAS France.
 # 
 # Outstanding issues
 #   - verify that gcov 3.4 or newer is being used

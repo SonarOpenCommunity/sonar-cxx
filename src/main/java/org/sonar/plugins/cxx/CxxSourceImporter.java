@@ -1,33 +1,31 @@
 /*
- * SonarCxxPlugin, open source software for C++ quality management tool.
- * Copyright (C) 2010 François DORIN, Franck Bonin
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Author(s) : Franck Bonin, Neticoa SAS France.
  *
- * SonarCxxPlugin is free software; you can redistribute it and/or
+ * Sonar Cxx Plugin is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * SonarCxxPlugin is distributed in the hope that it will be useful,
+ * Sonar Cxx Plugin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with SonarCxxPlugin; if not, write to the Free Software
+ * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
 package org.sonar.plugins.cxx;
 
-//import java.io.IOException;
 import java.io.File;
 import java.util.List;
 
-//import org.apache.commons.io.FileUtils;
-//import org.apache.commons.lang.StringUtils;
 
 import org.sonar.api.batch.AbstractSourceImporter;
-//import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 
@@ -35,44 +33,44 @@ import org.sonar.api.resources.Resource;
 public final class CxxSourceImporter extends AbstractSourceImporter {
 	private Project project;
 	
+	public static final String GROUP_ID = "org.codehaus.mojo";
+	public static final String ARTIFACT_ID = "cxx-maven-plugin";
+
+	protected String getMAVEN_PLUGIN_ARTIFACT_ID() {
+		return ARTIFACT_ID;
+	}
+	
+	protected String getMAVEN_PLUGIN_GROUP_ID() {
+		return GROUP_ID;
+	}
+	
 	public CxxSourceImporter(Project p)
 	{
 		super(CxxLanguage.INSTANCE);
 		project = p;
+		
+		// add my import sources
+		MavenPlugin plugin = MavenPlugin.getPlugin(project.getPom(),
+				getMAVEN_PLUGIN_GROUP_ID(), getMAVEN_PLUGIN_ARTIFACT_ID());
+		String sourceDirs[] = null;
+		if (plugin != null) {
+			sourceDirs = plugin.getParameters("/sourceDirs/param");
+			for (String aPath : sourceDirs) {
+				project.getPom().addCompileSourceRoot(aPath);
+			}
+			sourceDirs = plugin.getParameters("/sourceDirs/sourceDir");
+			for (String aPath : sourceDirs) {
+				project.getPom().addCompileSourceRoot(aPath);
+			}
+		}
+		
 	}
 	
 	protected Resource<CxxDir> createResource(File file, List<File> sourceDirs, boolean unitTest)
 	{
 	  return CxxFile.fromFileName(project, file.getAbsolutePath(), false);
 	}
-	/*
-	public void analyse(Project project, SensorContext context)
-	{
-		final List<File> sources = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
-		
-		for(File file : sources)
-		{
-			final String absolutePath = StringUtils.substringBeforeLast(file.getAbsolutePath(), "/");									
-			final CxxDir dir = CxxDir.fromAbsolute(project, absolutePath);
-			
-			if (dir != null)
-			{				
-				try
-				{
-					final String content = FileUtils.readFileToString(file, "UTF-8");
-					CxxFile cxxFile = new CxxFile(dir, file, false);
-					
-					context.saveResource(cxxFile);
-					context.saveSource(cxxFile, content);
-					
-				}
-				catch(IOException ex)
-				{
-					//System.out.println("IO Eception");
-				}
-			}
-		}
-	}	*/
+
 	@Override
 	public String toString()
 	{

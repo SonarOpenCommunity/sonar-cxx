@@ -1,22 +1,22 @@
 /*
- * SonarCxxPlugin, open source software for C++ quality management tool.
- * Copyright (C) 2010 François DORIN, Franck Bonin
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Author(s) : Franck Bonin, Neticoa SAS France.
  *
- * SonarCxxPlugin is free software; you can redistribute it and/or
+ * Sonar Cxx Plugin is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * SonarCxxPlugin is distributed in the hope that it will be useful,
+ * Sonar Cxx Plugin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with SonarCxxPlugin; if not, write to the Free Software
+ * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 package org.sonar.plugins.cxx.cppncss;
 
 import java.io.File;
@@ -55,14 +55,20 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 		return CxxPlugin.KEY.equals(project.getLanguageKey());
 	}
 
-	public static final String GROUP_ID = "org.codehaus.sonar.plugins";
-	public static final String ARTIFACT_ID = "sonar-cxx-plugin.cppncss";
+	public static final String GROUP_ID = "org.codehaus.mojo";
+	public static final String ARTIFACT_ID = "cxx-maven-plugin";
+	public static final String SENSOR_ID = "cppncss";
 	public static final String DEFAULT_GCOVR_REPORTS_DIR = "cppncss-reports";
 	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppncss-result-*.xml";
 
 	@Override
 	protected String getArtifactId() {
 		return ARTIFACT_ID;
+	}
+	
+	@Override
+	protected String getSensorId() {
+		return SENSOR_ID;
 	}
 
 	@Override
@@ -227,7 +233,7 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 			throws ParseException, XMLStreamException {
 		while (mesure.getNext() != null) {
 			String type = mesure.getAttrValue("type");
-			logger.info("collect Mesure type = {}",type);
+			logger.debug("collect Mesure type = {}",type);
 			if (!StringUtils.isEmpty(type)) {
 
 				SMInputCursor mesureChild = mesure.childElementCursor().advance();
@@ -236,11 +242,11 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 				List<String> valueLabels = new ArrayList<String>();
 				if (mesureChild.getLocalName().equalsIgnoreCase("labels"))
 				{
-					logger.info("collect labels");
+					logger.debug("collect labels");
 					SMInputCursor itemValueLabels = mesureChild.childElementCursor("label");
 					while (itemValueLabels.getNext() != null) {
 						String label = itemValueLabels.getElemStringValue();
-						logger.info("new label = {}", label);
+						logger.debug("new label = {}", label);
 						valueLabels.add(label);
 					}
 				}
@@ -277,7 +283,7 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 				String fileName = loc[0];
 				
 				Object tab[] = {fileName, className, funcName};
-				logger.info("collect Funtion : fileName = {}, className = {}, funcName = {}", tab);
+				logger.debug("collect Funtion : fileName = {}, className = {}, funcName = {}", tab);
 				FileData data = fileDataPerFilename.get(fileName);
 				if (data == null) {
 					data = new FileData(fileName);

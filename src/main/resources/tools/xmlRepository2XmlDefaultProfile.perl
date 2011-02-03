@@ -1,5 +1,7 @@
+#! /usr/bin/env perl
 #  An XML repository generator for C++ check rules 
-#  Copyright (c) 2010 Franck Bonin.
+# Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+# Author(s) : Franck Bonin, Neticoa SAS France.
 #
 #  This Software is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU Lesser General Public

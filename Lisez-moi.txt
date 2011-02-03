@@ -1,70 +1,75 @@
-Le plugin SonarCxxPlugin nécessite la fourniture de nouveaux paramètres depuis le fichier de description du projet (pom.xml). Ces paramètres sont fournies de la façon suivante :
+Le plugin Sonar Cxx Plugin nécessite la fourniture de nouveaux paramètres depuis le fichier de description du projet (pom.xml).
+Ces paramètres sont fournies de la façon suivante, principalement depuis le noeud configuration du plugin maven cxx:
 
-  <!-- Extrait de pom.xml -->
+ <!-- extrait de pom.xml -->
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.sonar.plugins</groupId>
-        <artifactId>sonar-cxx-plugin.xunit</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cxx-maven-plugin</artifactId>
         <configuration>
-          <directory>${basedir}/build_testu</directory>
-          <includes><include>**/xunit-*.xml</include></includes>
-          <!--<excludes><exclude>**/*.cpp</exclude></excludes>-->
+          <sourceDirs>
+            <sourceDir>sources/application</sourceDir>
+            <sourceDir>sources/utils</sourceDir>
+            <sourceDir>sources/tests</sourceDir>
+          </sourceDirs>
+          <!-- Les sous noeuds suivants sont seulement nécessaires au plugin sonar-cxx afin qu'il puisse . -->
+          <!-- localiser les diférenets rapports. Cet exemple fournies les valeurs par defaut du plugin sonar-cxx. -->
+          <!-- Il est donc aussi simple de ne pas les laisser dans le pom.xml si les rapports sont produits aux bons endroits -->
+          <xunit>
+            <directory>${basedir}/xunit-reports</directory>
+            <includes>
+              <include>**/xunit-result-*.xml</include>
+            </includes>
+          </xunit>
+          <gcovr>
+            <directory>${basedir}/gcovr-reports</directory>
+            <includes>
+              <include>**/gcovr-reports-*.xml</include>
+            </includes>
+          </gcovr>
+          <cppcheck>
+            <directory>${basedir}/cppcheck-reports</directory>
+            <includes>
+              <include>**/cppcheck-result-*.xml</include>
+            </includes>
+            <reportsIncludeSourcePath>
+              <include>..</include>
+            </reportsIncludeSourcePath>
+          </cppcheck>
+          <cppncss>
+            <directory>${basedir}/cppncss-reports</directory>
+            <includes>
+              <include>**/cppncss-result-*.xml</include>
+            </includes>
+            <reportsIncludeSourcePath>
+              <include>..</include>
+            </reportsIncludeSourcePath>
+          </cppncss>
+          <veraxx>
+            <directory>${basedir}/vera++-reports</directory>
+            <includes>
+              <include>**/vera++-result-*.xml</include>
+            </includes>
+            <reportsIncludeSourcePath>
+              <include>..</include>
+            </reportsIncludeSourcePath>
+          </veraxx>
+          <valgrind>
+            <directory>${basedir}/valgrind-reports</directory>
+            <includes>
+              <include>**/valgrind-result-*.xml</include>
+            </includes>
+            <reportsIncludeSourcePath>
+              <include>..</include>
+            </reportsIncludeSourcePath>
+          </valgrind>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.sonar.plugins</groupId>
-        <artifactId>sonar-cxx-plugin.gcovr</artifactId>
-        <configuration>
-          <directory>${basedir}</directory>
-          <includes><include>**/coverage.xml</include></includes>
-          <!--<excludes><exclude>**/*.cpp</exclude></excludes>-->
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.sonar.plugins</groupId>
-        <artifactId>sonar-cxx-plugin.cppcheck</artifactId>
-        <configuration>
-          <directory>${basedir}</directory>
-          <includes><include>**/cppcheck-result-*.xml</include></includes>
-          <!--<excludes><exclude>**/*.cpp</exclude></excludes>-->
-          <reportsIncludeSourcePath><include>..</include></reportsIncludeSourcePath>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.sonar.plugins</groupId>
-        <artifactId>sonar-cxx-plugin.cppncss</artifactId>
-        <configuration>
-          <directory>${basedir}</directory>
-          <includes><include>**/cppncss-result-*.xml</include></includes>
-          <!--<excludes><exclude>**/*.cpp</exclude></excludes>-->
-          <reportsIncludeSourcePath><include>..</include></reportsIncludeSourcePath>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.sonar.plugins</groupId>
-        <artifactId>sonar-cxx-plugin.vera++</artifactId>
-        <configuration>
-          <directory>${basedir}</directory>
-          <includes><include>**/vera++-result-*.xml</include></includes>
-          <!--<excludes><exclude>**/*.cpp</exclude></excludes>-->
-          <reportsIncludeSourcePath><include>..</include></reportsIncludeSourcePath>
-        </configuration>
-      </plugin>
-      <plugin> 
-        <groupId>org.codehaus.sonar.plugins</groupId> 
-        <artifactId>sonar-cxx-plugin.valgrind</artifactId> 
-        <configuration> 
-          <directory>${basedir}</directory> 
-          <includes><include>**/valgrind.xml</include></includes> 
-          <!--<excludes><exclude>**/*.cpp</exclude></excludes>--> 
-          <reportsIncludeSourcePath><include>..</include></reportsIncludeSourcePath> 
-        </configuration> 
       </plugin>
     </plugins>	
-    <sourceDirectory>${basedir}/sources</sourceDirectory>
+    <!-- <sourceDirectory> est inutile le noeud <configuration><sourceDirs> du plugin cxx-maven est plus précis -->
+    <!-- <sourceDirectory>${basedir}/sources</sourceDirectory> -->
   </build>
-
   <properties>
     <sonar.language>c++</sonar.language>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -78,8 +83,13 @@ Le sous-nœud <properties><sonar.language> désigne le langage cible de la compi
 
 Le sous-nœud <properties><sonar.dynamicAnalysis> désigne le type d'analyse à effectuer. Il est pour l'instant nécessaire de préciser «reuseReports» pour que l'ensemble des composants du plugin SonarCxxPlugin fonctionnent.
 
-Le sous-nœud <build><sourceDirectory> désigne le répertoire à explorer pour inventorier les ficher source (C++) du projet. Les extensions reconnues sont "cxx", "cpp", "h" et "hxx".
+Le sous-nœud <configuration><sourceDirs><sourceDir> désigne les répertoires à explorer pour inventorier les fichers sources (C++) du projet. Il se substitue au nœud <sourceDirectory>. Les extensions reconnues sont "cxx", "cpp", "h" et "hxx".
 
-Les sous-nœuds <build><plugins><plugin><configuration> de chaque plugin permettent de trouver les différents fichiers rapport, produit et déposer par les outils dans l'arborescence du projet.
+Le sous-nœud <build><plugins><plugin><configuration><xunit> permet au senor Xunit de trouver ces différents fichiers rapports.
+Le sous-nœud <build><plugins><plugin><configuration><gcovr> permet au senor coverage de trouver ces différents fichiers rapports.
+Le sous-nœud <build><plugins><plugin><configuration><cppcheck> permet au senor cppcheck de trouver ces différents fichiers rapports.
+Le sous-nœud <build><plugins><plugin><configuration><cppncss> permet au senor cppncss de trouver ces différents fichiers rapports.
+Le sous-nœud <build><plugins><plugin><configuration><veraxx> permet au senor veraxx de trouver ces différents fichiers rapports.
+Le sous-nœud <build><plugins><plugin><configuration><valgrind> permet au senor valgrind de trouver ces différents fichiers rapports.
 
-Les sous-nœuds <build><plugins><plugin><configuration><reportsIncludeSourcePath> permettent de préfixer les chemins des fichiers source cités dans les différents rapports d'analyse, par un ou plusieurs répertoires (relatif ou absolu). Cette option est équivalente à l'option «-I» utilisé lors de la compilation des modules objets c++, en cela qu'elle permet de retrouver les fichiers inclus.
+Les sous-nœuds <build><plugins><plugin><configuration><XXX><reportsIncludeSourcePath> permettent de préfixer les chemins des fichiers source cités dans les différents rapports d'analyse, par un ou plusieurs répertoires (relatif ou absolu). Cette option est équivalente à l'option «-I» utilisé lors de la compilation des modules objets c++, en cela qu'elle permet de retrouver les fichiers inclus.

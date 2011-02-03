@@ -1,7 +1,7 @@
 <rules>
 	<rule>
 		<key>InvalidFree</key>
-		<priority>CRITICAL</priority>
+		<priority>MAJOR</priority>
 		<name>InvalidFree</name>
 		<configKey>InvalidFree</configKey>
 		<category name="Reliability"/>
@@ -9,7 +9,7 @@
 	</rule>
 	<rule>
 		<key>MismatchedFree</key>
-		<priority>CRITICAL</priority>
+		<priority>MAJOR</priority>
 		<name>MismatchedFree</name>
 		<configKey>MismatchedFree</configKey>
 		<category name="Reliability"/>
@@ -17,7 +17,7 @@
 	</rule>
 	<rule>
 		<key>InvalidRead</key>
-		<priority>CRITICAL</priority>
+		<priority>MAJOR</priority>
 		<name>InvalidRead</name>
 		<configKey>InvalidRead</configKey>
 		<category name="Reliability"/>
@@ -25,7 +25,7 @@
 	</rule>
 	<rule>
 		<key>InvalidWrite</key>
-		<priority>CRITICAL</priority>
+		<priority>MAJOR</priority>
 		<name>InvalidWrite</name>
 		<configKey>InvalidWrite</configKey>
 		<category name="Reliability"/>
@@ -33,7 +33,7 @@
 	</rule>
 	<rule>
 		<key>InvalidJump</key>
-		<priority>CRITICAL</priority>
+		<priority>MAJOR</priority>
 		<name>InvalidJump</name>
 		<configKey>InvalidJump</configKey>
 		<category name="Reliability"/>
@@ -41,7 +41,7 @@
 	</rule>
 	<rule>
 		<key>Overlap</key>
-		<priority>CRITICAL</priority>
+		<priority>MAJOR</priority>
 		<name>Overlap</name>
 		<configKey>Overlap</configKey>
 		<category name="Reliability"/>
@@ -49,7 +49,7 @@
 	</rule>
 	<rule>
 		<key>InvalidMemPool</key>
-		<priority>CRITICAL</priority>
+		<priority>MAJOR</priority>
 		<name>InvalidMemPool</name>
 		<configKey>InvalidMemPool</configKey>
 		<category name="Reliability"/>
@@ -57,7 +57,7 @@
 	</rule>
 	<rule>
 		<key>UninitCondition</key>
-		<priority>CRITICAL</priority>
+		<priority>MINOR</priority>
 		<name>UninitCondition</name>
 		<configKey>UninitCondition</configKey>
 		<category name="Reliability"/>
@@ -65,7 +65,7 @@
 	</rule>
 	<rule>
 		<key>UninitValue</key>
-		<priority>CRITICAL</priority>
+		<priority>MINOR</priority>
 		<name>UninitValue</name>
 		<configKey>UninitValue</configKey>
 		<category name="Reliability"/>
@@ -73,7 +73,7 @@
 	</rule>
 	<rule>
 		<key>SyscallParam</key>
-		<priority>CRITICAL</priority>
+		<priority>MINOR</priority>
 		<name>SyscallParam</name>
 		<configKey>SyscallParam</configKey>
 		<category name="Reliability"/>
@@ -81,7 +81,7 @@
 	</rule>
 	<rule>
 		<key>ClientCheck</key>
-		<priority>CRITICAL</priority>
+		<priority>MINOR</priority>
 		<name>ClientCheck</name>
 		<configKey>ClientCheck</configKey>
 		<category name="Reliability"/>
@@ -89,7 +89,7 @@
 	</rule>
 	<rule>
 		<key>Leak_DefinitelyLost</key>
-		<priority>CRITICAL</priority>
+		<priority>MINOR</priority>
 		<name>Leak_DefinitelyLost</name>
 		<configKey>Leak_DefinitelyLost</configKey>
 		<category name="Reliability"/>
@@ -97,7 +97,7 @@
 	</rule>
 	<rule>
 		<key>Leak_PossiblyLost</key>
-		<priority>CRITICAL</priority>
+		<priority>MINOR</priority>
 		<name>Leak_PossiblyLost</name>
 		<configKey>Leak_PossiblyLost</configKey>
 		<category name="Reliability"/>
@@ -105,7 +105,7 @@
 	</rule>
 	<rule>
 		<key>Leak_StillReachable</key>
-		<priority>CRITICAL</priority>
+		<priority>MINOR</priority>
 		<name>Leak_StillReachable</name>
 		<configKey>Leak_StillReachable</configKey>
 		<category name="Reliability"/>

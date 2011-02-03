@@ -1,19 +1,22 @@
 /*
- * SonarCxxPlugin, open source software for C++ quality management tool.
- * Copyright (C) 2010 François DORIN, Franck Bonin
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 SonarSource
+ * mailto:contact AT sonarsource DOT com
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Author(s) : Franck Bonin, Neticoa SAS France.
  *
- * SonarCxxPlugin is free software; you can redistribute it and/or
+ * Sonar Cxx Plugin is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * SonarCxxPlugin is distributed in the hope that it will be useful,
+ * Sonar Cxx Plugin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with SonarCxxPlugin; if not, write to the Free Software
+ * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
@@ -68,14 +71,20 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
 				&& CxxPlugin.KEY.equals(project.getLanguageKey());
 	}
 
-	public static final String GROUP_ID = "org.codehaus.sonar.plugins";
-	public static final String ARTIFACT_ID = "sonar-cxx-plugin.xunit";
+	public static final String GROUP_ID = "org.codehaus.mojo";
+	public static final String ARTIFACT_ID = "cxx-maven-plugin";
+	public static final String SENSOR_ID = "xunit";
 	public static final String DEFAULT_XUNIT_REPORTS_DIR = "xunit-reports";
-	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/TEST*.xml";
+	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/xunit-result-*.xml";
 	
 	@Override
 	protected String getArtifactId() {
 		return ARTIFACT_ID;
+	}
+	
+	@Override
+	protected String getSensorId() {
+		return SENSOR_ID;
 	}
 
 	@Override
@@ -120,6 +129,7 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
 		Set<TestSuiteReport> analyzedReports = new HashSet<TestSuiteReport>();
 		try {
 			for (File report : reports) {
+				logger.info("parsing {}", report);
 				TestSuiteParser parserHandler = new TestSuiteParser();
 				StaxParser parser = new StaxParser(parserHandler, false);
 				parser.parse(report);
@@ -210,7 +220,7 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
 
 	private Resource<?> getUnitTestResource(Project project,
 			TestSuiteReport fileReport) {
-		logger.info("Unit Test Resource key = {}", fileReport.getClassKey());
+		logger.debug("Unit Test Resource key = {}", fileReport.getClassKey());
 		return CxxFile.fromFileName(project, fileReport.getClassKey(), true);
 	}
 

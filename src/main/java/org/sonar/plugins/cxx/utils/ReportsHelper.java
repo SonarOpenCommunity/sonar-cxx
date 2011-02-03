@@ -1,22 +1,22 @@
 /*
- * SonarCxxPlugin, open source software for C++ quality management tool.
- * Copyright (C) 2010 François DORIN, Franck Bonin
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Author(s) : Franck Bonin, Neticoa SAS France.
  *
- * SonarCxxPlugin is free software; you can redistribute it and/or
+ * Sonar Cxx Plugin is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * SonarCxxPlugin is distributed in the hope that it will be useful,
+ * Sonar Cxx Plugin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with SonarCxxPlugin; if not, write to the Free Software
+ * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
@@ -38,6 +38,8 @@ public abstract class ReportsHelper {
 	protected abstract Logger getLogger();
 
 	protected abstract String getGroupId();
+	
+	protected abstract String getSensorId();
 
 	protected abstract String getArtifactId();
 
@@ -63,7 +65,7 @@ public abstract class ReportsHelper {
 		MavenPlugin mavenPlugin = MavenPlugin.getPlugin(project.getPom(),
 				getGroupId(), getArtifactId());
 		if (mavenPlugin != null) {
-			String path = mavenPlugin.getParameter("directory");
+			String path = mavenPlugin.getParameter(getSensorId() + "/directory");
 			if (path != null) {
 				return project.getFileSystem().resolvePath(path);
 			}
@@ -72,7 +74,7 @@ public abstract class ReportsHelper {
 	}
 
 	private File getReportDirectoryFromDefaultPath(Project project) {
-		return new File(project.getFileSystem().getReportOutputDir(),
+		return new File(project.getFileSystem().getBasedir(),//$FB For Cpp project getReportOutputDir(), make no sense
 				getDefaultReportsDir());
 	}
 
@@ -85,11 +87,14 @@ public abstract class ReportsHelper {
 		String includes[] = null;
 		String excludes[] = null;
 		if (plugin != null) {
-			includes = plugin.getParameters("includes/include");
-			excludes = plugin.getParameters("excludes/exclude");
-		} else {
+			includes = plugin.getParameters(getSensorId() + "/includes/include");
+			excludes = plugin.getParameters(getSensorId() + "/excludes/exclude");
+		}
+		if (null == includes || includes.length == 0) {
 			includes = new String[1];
-			includes[1] = getDefaultReportsFilePattern();
+			includes[0] = getDefaultReportsFilePattern();
+		}
+		if (null == excludes) {
 			excludes = new String[0];
 		}
 		getLogger()
@@ -119,11 +124,15 @@ public abstract class ReportsHelper {
 				getGroupId(), getArtifactId());
 		String includes[] = null;
 		if (plugin != null) {
-			includes = plugin.getParameters("reportsIncludeSourcePath/include");
-		}else{
-            // VH Workaround to run without include source path
-            // This exists because I don't understand IncludeSourcePath
-            includes = new String[]{"."};
+			includes = plugin.getParameters(getSensorId() + "/reportsIncludeSourcePath/include");
+		} else {
+	        // VH Workaround to run without include source path
+	        // This exists because I don't understand IncludeSourcePath
+	        includes = new String[]{"."};
+			// FB : IncludeSourcePath is use when there is a mismatch
+			// between report relative resource path (see gcovr reports for example)
+			// end pom.xml relative source path (used by sensor to locate resources)
+			// anyway returning "." may not be a bad things
 		}
 		return includes;
 	}

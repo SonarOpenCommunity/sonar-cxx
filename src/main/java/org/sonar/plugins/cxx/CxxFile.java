@@ -1,19 +1,21 @@
 /*
- * SonarCxxPlugin, open source software for C++ quality management tool.
- * Copyright (C) 2010 François DORIN, Franck Bonin
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 François DORIN
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Author(s) : Franck Bonin, Neticoa SAS France.
  *
- * SonarCxxPlugin is free software; you can redistribute it and/or
+ * Sonar Cxx Plugin is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * SonarCxxPlugin is distributed in the hope that it will be useful,
+ * Sonar Cxx Plugin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with SonarCxxPlugin; if not, write to the Free Software
+ * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
@@ -82,7 +84,7 @@ public final class CxxFile extends Resource<CxxDir> {
 
 	@Override
 	public boolean matchFilePattern(String pattern) {
-		logger.info("matchFilePattern call with {} on {}", pattern, getKey());
+		logger.debug("matchFilePattern call with {} on {}", pattern, getKey());
 		String patternWithoutFileSuffix = StringUtils.substringBeforeLast(
 				pattern, ".");
 		WildcardPattern matcher = WildcardPattern.create(
@@ -121,7 +123,7 @@ public final class CxxFile extends Resource<CxxDir> {
 		if (includeSearchPath == null || includeSearchPath.length == 0) {
 			throw new IllegalArgumentException("includeSearchPath is null or empty");
 		}
-		logger.info("FileName received : {}", fileName);
+		logger.debug("FileName received : {}", fileName);
 		
 		scope = Resource.SCOPE_ENTITY;
 		qualifier = unitTest ? Resource.QUALIFIER_UNIT_TEST_CLASS : Resource.QUALIFIER_CLASS;//Resource.QUALIFIER_FILE;
@@ -129,11 +131,11 @@ public final class CxxFile extends Resource<CxxDir> {
 
 		String realFileName = StringUtils.trim(fileName).replace('\\', '/');
 		if (new File(realFileName).isAbsolute()) { //realFileName.startsWith("/")) {
-			logger.info("we got an absolute path");
+			logger.debug("we got an absolute path");
 			realFileName = CanonicalizeAbsoluteFilePath(realFileName);
 			initIdentifierFromAbsolutFilePath(project, realFileName);
 		} else if (realFileName.contains("/")) {
-			logger.info("we got a relative path");
+			logger.debug("we got a relative path");
 			for (String includePath : includeSearchPath) {
 				String pathToTest = null;
 				if (new File(includePath).isAbsolute())
@@ -149,14 +151,14 @@ public final class CxxFile extends Resource<CxxDir> {
 			}
 			initIdentifierFromAbsolutFilePath(project, realFileName);
 		} else {
-			logger.info("we got something else");
+			logger.debug("we got something else");
 			directory = CxxDir.fromAbsolute(project, realFileName);
 			name = realFileName;
 			setKey(realFileName);
 		}
 		
 		Object t[] = {realFileName, getKey(), name, directory.getKey()};
-		logger.info("CxxFile created from fileName {},  key = {}, Name = {}, directorykey = {}", t);
+		logger.debug("CxxFile created from fileName {},  key = {}, Name = {}, directorykey = {}", t);
 	}
 
 	public static CxxFile fromFileName(Project project, String filename, boolean unitTest) {

@@ -1,19 +1,20 @@
 /*
- * SonarCxxPlugin, open source software for C++ quality management tool.
- * Copyright (C) 2010 François DORIN, Franck Bonin
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Author(s) : Franck Bonin, Neticoa SAS France.
  *
- * SonarCxxPlugin is free software; you can redistribute it and/or
+ * Sonar Cxx Plugin is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
  *
- * SonarCxxPlugin is distributed in the hope that it will be useful,
+ * Sonar Cxx Plugin is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with SonarCxxPlugin; if not, write to the Free Software
+ * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
@@ -69,16 +70,22 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 	  }
 	
 
-	public static final String GROUP_ID = "org.codehaus.sonar.plugins";
-	public static final String ARTIFACT_ID = "sonar-cxx-plugin.gcovr";
+	public static final String GROUP_ID = "org.codehaus.mojo";
+	public static final String ARTIFACT_ID = "cxx-maven-plugin";
+	public static final String SENSOR_ID = "gcovr";
 	public static final String DEFAULT_GCOVR_REPORTS_DIR = "gcovr-reports";
-	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/coverage.xml";
+	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/gcovr-result-*.xml";
 
 	private class GcovrReportsHelper extends ReportsHelper
 	{
 		@Override
 		protected String getArtifactId() {
 			return ARTIFACT_ID;
+		}
+		
+		@Override
+		protected String getSensorId() {
+			return SENSOR_ID;
 		}
 	
 		@Override
@@ -107,14 +114,29 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 		File reportDirectory = reportHelper.getReportsDirectory(project);
 		if (reportDirectory != null) {
 			File reports[] = reportHelper.getReports(project, reportDirectory);
+			Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
 			for (File report : reports) {
-				parseReport(project, report, context);
+				parseReport(project, report, context, fileDataPerFilename);
+			}
+			for (FileData cci : fileDataPerFilename.values()) {
+				logger.debug("collectPackageMeasures fileKeyExist? {}", cci.getFile().getKey());
+				if (fileExist(context, cci.getFile())) {
+					logger.debug("collectPackageMeasures file Exist {}", cci.getFile().getKey());
+					for (Measure measure : cci.getMeasures()) {
+						logger.debug("collectPackageMeasures mesure value = {}", measure.toString());
+						context.saveMeasure(cci.getFile(), measure);
+					}
+				}
+				else
+				{
+					logger.warn("collectPackageMeasures file {} IS NOT inventoried ", cci.getFile().getKey());					
+				}
 			}
 		}
 	}
 
 	private void parseReport(final Project project, File xmlFile,
-			final SensorContext context) {
+			final SensorContext context, final Map<String, FileData> dataPerFilename) {
 		try {
 			logger.info("parsing {}", xmlFile);
 			StaxParser parser = new StaxParser(
@@ -124,9 +146,9 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 								throws XMLStreamException {
 							try {
 								rootCursor.advance();
-								collectPackageMeasures(project, rootCursor
-										.descendantElementCursor("package"),
-										context);
+								collectPackageMeasures(project, 
+										rootCursor.descendantElementCursor("package"),
+										context, dataPerFilename);
 							} catch (ParseException e) {
 								throw new XMLStreamException(e);
 							}
@@ -139,26 +161,11 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 	}
 
 	private void collectPackageMeasures(Project project, SMInputCursor pack,
-			SensorContext context) throws ParseException, XMLStreamException {
-		//logger.info("collectPackageMeasures");
+			SensorContext context, Map<String, FileData> dataPerFilename) throws ParseException, XMLStreamException {
+		logger.debug("collectPackageMeasures");
 		while (pack.getNext() != null) {
-			Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
 			collectFileMeasures(project, pack.descendantElementCursor("class"),
-					fileDataPerFilename);
-			for (FileData cci : fileDataPerFilename.values()) {
-				//logger.info("collectPackageMeasures fileKeyExist? {}", cci.getFile().getKey());
-				if (fileExist(context, cci.getFile())) {
-					logger.info("collectPackageMeasures file Exist {}", cci.getFile().getKey());
-					for (Measure measure : cci.getMeasures()) {
-						//logger.info("collectPackageMeasures mesure value = {}", measure.toString());
-						context.saveMeasure(cci.getFile(), measure);
-					}
-				}
-				else
-				{
-					logger.info("collectPackageMeasures file DOES NOT Exist {}", cci.getFile().getKey());					
-				}
-			}
+					dataPerFilename);
 		}
 	}
 
@@ -169,15 +176,17 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 	private void collectFileMeasures(Project project, SMInputCursor clazz,
 			Map<String, FileData> dataPerFilename) throws ParseException,
 			XMLStreamException {
-		//logger.info("collectFileMeasures");
+		logger.debug("collectFileMeasures");
 		while (clazz.getNext() != null) {
 			String fileName = clazz.getAttrValue("filename");
-			FileData data = dataPerFilename.get(fileName);//javaStyleName);
+			CxxFile cxxfile = CxxFile.fromFileName(project, fileName, false);
+			String FileKey = cxxfile.getKey();
+			FileData data = dataPerFilename.get(FileKey);
 			if (data == null) {
-				data = new FileData(CxxFile.fromFileName(project, fileName, false));
-				dataPerFilename.put(fileName/*javaStyleName*/, data);
+				data = new FileData(cxxfile);
+				dataPerFilename.put(FileKey, data);
+				logger.debug("collectFileMeasures created CXXFILe", data.getFile().getKey());
 			}
-			//logger.info("collectFileMeasures created CXXFILe", data.getFile().getName());
 			collectFileData(clazz, data);
 		}
 	}
@@ -185,7 +194,7 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 	private void collectFileData(SMInputCursor clazz, FileData data)
 			throws ParseException, XMLStreamException {
 
-		//logger.info("collectFileData");
+		logger.debug("collectFileData");
 		SMInputCursor line = clazz.childElementCursor("lines").advance()
 				.childElementCursor("line");
 		while (line.getNext() != null) {
@@ -224,14 +233,26 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 			if (lineHits > 0) {
 				coveredLines++;
 			}
-			lineHitsBuilder.add(lineId, lineHits);
+			Map<String, Integer> props = lineHitsBuilder.getProps();
+			if (props.containsKey(lineId)) {
+				logger.debug("lineHitsBuilder find pre-existing line");
+				props.put(lineId, props.get(lineId) + lineHits);
+			} else { 
+				lineHitsBuilder.add(lineId, lineHits);
+			}
 		}
 
 		public void addConditionLine(String lineId, int coveredConditions,
 				int conditions, String label) {
 			this.conditions += conditions;
 			this.coveredConditions += coveredConditions;
-			branchHitsBuilder.add(lineId, label);
+			Map<String, String> props = branchHitsBuilder.getProps();
+			if (props.containsKey(lineId)) {
+				logger.debug("branchHitsBuilder find pre-existing line");
+				props.put(lineId, props.get(lineId) + ", " + label);
+			} else { 
+				branchHitsBuilder.add(lineId, label);
+			}
 		}
 
 		public FileData(CxxFile file) {
@@ -241,13 +262,6 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 		public List<Measure> getMeasures() {
 			List<Measure> measures = new ArrayList<Measure>();
 			if (lines > 0) {
-/* sonar comput this by itself
- 				measures.add(new Measure(CoreMetrics.COVERAGE,
-						calculateCoverage(coveredLines + coveredConditions,
-								lines + conditions)));
-
-				measures.add(new Measure(CoreMetrics.LINE_COVERAGE,
-						calculateCoverage(coveredLines, lines)));*/
 				measures.add(new Measure(CoreMetrics.LINES_TO_COVER,
 						(double) lines));
 				measures.add(new Measure(CoreMetrics.UNCOVERED_LINES,
@@ -256,9 +270,6 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 						PersistenceMode.DATABASE));
 
 				if (conditions > 0) {
-/* sonar comput this by itself
- 				measures.add(new Measure(CoreMetrics.BRANCH_COVERAGE,
-							calculateCoverage(coveredConditions, conditions)));*/
 					measures.add(new Measure(CoreMetrics.CONDITIONS_TO_COVER,
 							(double) conditions));
 					measures.add(new Measure(CoreMetrics.UNCOVERED_CONDITIONS,
@@ -279,12 +290,4 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 	public String toString() {
 		return getClass().getSimpleName();
 	}
-
-	private double calculateCoverage(int coveredElements, int elements) {
-		if (elements > 0) {
-			return scaleValue(100.0 * ((double) coveredElements / (double) elements));
-		}
-		return 0.0;
-	}
-
 }
