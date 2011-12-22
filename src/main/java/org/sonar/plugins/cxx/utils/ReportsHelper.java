@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.model.FileSet;
+import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.resources.Project;
@@ -47,9 +48,9 @@ public abstract class ReportsHelper {
 
 	protected abstract String getDefaultReportsFilePattern();
 
-	public File getReportsDirectory(Project project) {
+	public File getReportsDirectory(Project project, MavenProject mavenProject) {
 
-		File report = getReportDirectoryFromPluginConfiguration(project);
+		File report = getReportDirectoryFromPluginConfiguration(project, mavenProject);
 		if (report == null) {
 			report = getReportDirectoryFromDefaultPath(project);
 		}
@@ -61,8 +62,8 @@ public abstract class ReportsHelper {
 		return report;
 	}
 
-	private File getReportDirectoryFromPluginConfiguration(Project project) {
-		MavenPlugin mavenPlugin = MavenPlugin.getPlugin(project.getPom(),
+	private File getReportDirectoryFromPluginConfiguration(Project project, MavenProject mavenProject) {
+		MavenPlugin mavenPlugin = MavenPlugin.getPlugin(mavenProject,
 				getGroupId(), getArtifactId());
 		if (mavenPlugin != null) {
 			String path = mavenPlugin.getParameter(getSensorId() + "/directory");
@@ -78,11 +79,11 @@ public abstract class ReportsHelper {
 				getDefaultReportsDir());
 	}
 
-	public File[] getReports(Project project, File dir) {
+	public File[] getReports(MavenProject mavenProject, File dir) {
 
 		FileSet afileSet = new FileSet();
 		afileSet.setDirectory(dir.getAbsolutePath());
-		MavenPlugin plugin = MavenPlugin.getPlugin(project.getPom(),
+		MavenPlugin plugin = MavenPlugin.getPlugin(mavenProject,
 				getGroupId(), getArtifactId());
 		String includes[] = null;
 		String excludes[] = null;
@@ -118,9 +119,9 @@ public abstract class ReportsHelper {
 		return aListFile.toArray(new File[0]);
 	}
 	
-	public String[] getReportsIncludeSourcePath(Project project)
+	public String[] getReportsIncludeSourcePath(MavenProject mavenProject)
 	{
-		MavenPlugin plugin = MavenPlugin.getPlugin(project.getPom(),
+		MavenPlugin plugin = MavenPlugin.getPlugin(mavenProject,
 				getGroupId(), getArtifactId());
 		String includes[] = null;
 		if (plugin != null) {

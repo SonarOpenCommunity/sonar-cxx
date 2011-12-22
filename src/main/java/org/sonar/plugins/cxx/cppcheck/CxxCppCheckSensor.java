@@ -33,6 +33,7 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.io.input.TeeInputStream;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ import org.sonar.plugins.cxx.utils.ReportsHelper;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
-
+import org.sonar.api.batch.SupportedEnvironment;
 /**
  * Sensor for CppCheck external tool.
  * 
@@ -59,6 +60,7 @@ import org.sonar.api.rules.Violation;
  * @todo enable include dirs (-I)
  * @todo allow configuration of path to analyze
  */
+@SupportedEnvironment({"maven"})
 public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
 
 	private static final String EXEC = "cppcheck";
@@ -70,17 +72,26 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
 	private static final String DEFAULT_CPPCHECK_REPORTS_DIR = "cppcheck-reports";
 	private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppcheck-result-*.xml";
 
-	private RuleFinder ruleFinder;
+	private RuleFinder ruleFinder = null;
 	private boolean dynamicAnalysis = false;
+	private MavenProject mavenProject = null;
 	
-	public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf) {
+	public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p)
+	{
 		this.ruleFinder = ruleFinder;
 		this.dynamicAnalysis = conf.getBoolean(
 				"sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
+		mavenProject = p.getPom();
+	}
+	
+	public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p, MavenProject mp) {
+		this.ruleFinder = ruleFinder;
+		this.dynamicAnalysis = conf.getBoolean(
+				"sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
+		mavenProject = mp;
 	}
 
-	private static Logger logger = LoggerFactory
-			.getLogger(CxxCppCheckSensor.class);
+	private static Logger logger = LoggerFactory.getLogger(CxxCppCheckSensor.class);
 
 	/**
 	 * This plugin should be executed on C++ project
@@ -127,8 +138,13 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
 			Process p;
 
 			try {
-				String cmd = EXEC + " " + ARGS + " "
-						+ project.getPom().getBuild().getSourceDirectory();
+				String cmd = EXEC + " " + ARGS + " ";
+						//+ project.getPom().getBuild().getSourceDirectory();
+				// $FB project FileSystem content has been patched by CxxSourceImporter
+				for (File file : project.getFileSystem().getSourceDirs())
+				{
+					cmd += "\"" + file.getAbsolutePath()+ "\" ";
+				}
 				logger.debug(cmd);
 				p = Runtime.getRuntime().exec(cmd);
 				p.waitFor();
@@ -157,9 +173,9 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
 			}
 
 		} else {
-			File reportDirectory = getReportsDirectory(project);
+			File reportDirectory = getReportsDirectory(project, mavenProject);
 			if (reportDirectory != null) {
-				File reports[] = getReports(project, reportDirectory);
+				File reports[] = getReports(mavenProject, reportDirectory);
 				for (File report : reports) {
 					parseReport(project, report, context);
 				}
@@ -232,7 +248,7 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
 			}
 			if (!StringUtils.isEmpty(file)) {
 				CxxFile ressource = CxxFile.fromFileName(project, file,
-						getReportsIncludeSourcePath(project), false);
+						getReportsIncludeSourcePath(mavenProject), false);
 				if (fileExist(context, ressource)) {
 					Rule rule = ruleFinder.findByKey(
 							CxxCppCheckRuleRepository.REPOSITORY_KEY, id);

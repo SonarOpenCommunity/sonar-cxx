@@ -1,8 +1,9 @@
 /*
+ 
  * Sonar Cxx Plugin, open source software quality management tool.
  * Copyright (C) 2010 SonarSource
  * mailto:contact AT sonarsource DOT com
- * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits r�serv�s.
  * Author(s) : Franck Bonin, Neticoa SAS France.
  *
  * Sonar Cxx Plugin is free software; you can redistribute it and/or
@@ -23,20 +24,35 @@
 package org.sonar.plugins.cxx.xunit;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.AbstractCoverageExtension;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -48,7 +64,7 @@ import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
-
+import org.sonar.api.batch.SupportedEnvironment;
 /**
  * Copied from sonar-surefire-plugin with modifications: JavaFile replaced by
  * C++ getUnitTestResource use Project to locate C++ File getReports use
@@ -56,26 +72,56 @@ import org.sonar.plugins.cxx.utils.ReportsHelper;
  * use Fileset (ex ** /TEST*.xml)
  * 
  */
+
+
+@SupportedEnvironment({"maven"})
 public class CxxXunitSensor extends ReportsHelper implements Sensor {
+	
+	private static final String GROUP_ID = "org.codehaus.mojo";
+	private static final String ARTIFACT_ID = "cxx-maven-plugin";
+	private static final String SENSOR_ID = "xunit";
+	private static final String DEFAULT_XUNIT_REPORTS_DIR = "xunit-reports";
+	private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/xunit-result-*.xml";
+	
+	private String xslt_url = null;
+	
+	private MavenProject mavenProject = null;
 
-	private static Logger logger = LoggerFactory
-			.getLogger(CxxXunitSensor.class);
-
+	public CxxXunitSensor(Configuration conf, Project p)
+	{
+		mavenProject = p.getPom();
+		config(conf);
+	}
+	
+	public CxxXunitSensor(Configuration conf, Project p, MavenProject mp)
+	{
+		mavenProject = mp;
+		config(conf);
+	}
+	
+	protected void config(Configuration conf)
+	{
+		xslt_url = conf.getString("sonar.xunit.xslt.url");
+		// $FB surcharge directement depuis le plugin cxx-maven
+		MavenPlugin mavenPlugin = MavenPlugin.getPlugin(mavenProject,
+				getGroupId(), getArtifactId());
+		if (mavenPlugin != null)
+		{
+			xslt_url = mavenPlugin.getParameter(getSensorId() + "/xslt/url");
+		}
+	}
+	
 	@DependsUpon
 	public Class<?> dependsUponCoverageSensors() {
 		return AbstractCoverageExtension.class;
 	}
 
+	private static Logger logger = LoggerFactory.getLogger(CxxXunitSensor.class);
+	
 	public boolean shouldExecuteOnProject(Project project) {
 		return project.getAnalysisType().isDynamic(true)
 				&& CxxPlugin.KEY.equals(project.getLanguageKey());
 	}
-
-	public static final String GROUP_ID = "org.codehaus.mojo";
-	public static final String ARTIFACT_ID = "cxx-maven-plugin";
-	public static final String SENSOR_ID = "xunit";
-	public static final String DEFAULT_XUNIT_REPORTS_DIR = "xunit-reports";
-	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/xunit-result-*.xml";
 	
 	@Override
 	protected String getArtifactId() {
@@ -108,12 +154,13 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
 	}
 	
 	public void analyse(Project project, SensorContext context) {
-		File reportDirectory = getReportsDirectory(project);
+		File reportDirectory = getReportsDirectory(project, mavenProject);
 		if (reportDirectory != null) {
-			File[] reports = getReports(project, reportDirectory);
+			File[] reports = getReports(mavenProject, reportDirectory);
 			if (reports.length == 0) {
 				insertZeroWhenNoReports(project, context);
 			} else {
+				transformReport(project, reports, context);
 				parseReport(project, reports, context);
 			}
 		}
@@ -125,10 +172,52 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
 		}
 	}
 
+	private void transformReport(Project project, File[] reports, SensorContext context) {
+		
+		try {
+			if (this.xslt_url != null) {
+				URL url = new URL(this.xslt_url);
+				logger.debug("xslt used :"+this.xslt_url);
+				Source xsl = new StreamSource(url.openStream());
+				for (int i = 0; i < reports.length; i++) {
+					Source source = new StreamSource(reports[i]);
+					
+					File fileOutPut = new File(reports[i].getAbsolutePath() + ".after_xslt");
+
+					Result result = new StreamResult(fileOutPut);
+
+					TransformerFactory factory = TransformerFactory.newInstance();
+					Templates template = factory.newTemplates(xsl);
+
+					Transformer xformer = template.newTransformer();
+					xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+					xformer.transform(source, result);
+					reports[i] = fileOutPut;
+				}
+			}
+			else
+			{
+			  logger.debug("No xslt.");
+			}
+		}
+		catch (MalformedURLException e) { 
+			throw new XmlParserException("Url doesn't existe", e); 
+		}
+		catch (FileNotFoundException e) { 
+			throw new XmlParserException("Url doesn't existe", e); 
+		}
+		catch (UnknownHostException e) { 
+			throw new XmlParserException("UnknownHostException : " + this.xslt_url, e); 
+		}
+		catch (Exception e) {
+			throw new XmlParserException("Can not parse xunit reports", e);
+		}
+	}
+		
 	private void parseReport(Project project, File[] reports, SensorContext context) {
 		Set<TestSuiteReport> analyzedReports = new HashSet<TestSuiteReport>();
-		try {
-			for (File report : reports) {
+		for (File report : reports) {
+			try {
 				logger.info("parsing {}", report);
 				TestSuiteParser parserHandler = new TestSuiteParser();
 				StaxParser parser = new StaxParser(parserHandler, false);
@@ -169,10 +258,9 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
 						analyzedReports.add(fileReport);
 					}
 				}
+			} catch (Exception e) {
+				logger.warn("Can't parse, skipped.");
 			}
-
-		} catch (Exception e) {
-			throw new XmlParserException("Can not parse xunit reports", e);
 		}
 	}
 

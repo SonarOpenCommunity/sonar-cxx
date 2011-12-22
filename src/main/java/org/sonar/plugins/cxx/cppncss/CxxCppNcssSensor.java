@@ -29,7 +29,9 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
@@ -40,27 +42,52 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
+import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
+import org.sonar.api.batch.SupportedEnvironment;
+
+@SupportedEnvironment({"maven"})
 public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(CxxCppNcssSensor.class);
+	private static final String GROUP_ID = "org.codehaus.mojo";
+	private static final String ARTIFACT_ID = "cxx-maven-plugin";
+	private static final String SENSOR_ID = "cppncss";
+	private static final String DEFAULT_GCOVR_REPORTS_DIR = "cppncss-reports";
+	private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppncss-result-*.xml";
+
+	private MavenProject mavenProject = null;
+	
+	public CxxCppNcssSensor(Project p)
+	{
+		mavenProject = p.getPom();
+	}
+	
+	public CxxCppNcssSensor(Project p, MavenProject mp)
+	{
+		mavenProject = mp;
+	}
+
+	public void analyse(Project project, SensorContext context) {
+		File reportDirectory = getReportsDirectory(project, mavenProject);
+		if (reportDirectory != null) {
+			File reports[] = getReports(mavenProject, reportDirectory);
+			for (File report : reports) {
+				parseReport(project, report, context);
+			}
+		}
+	}
+	
+	private static Logger logger = LoggerFactory.getLogger(CxxCppNcssSensor.class);
 
 	public boolean shouldExecuteOnProject(Project project) {
 		return CxxPlugin.KEY.equals(project.getLanguageKey());
 	}
-
-	public static final String GROUP_ID = "org.codehaus.mojo";
-	public static final String ARTIFACT_ID = "cxx-maven-plugin";
-	public static final String SENSOR_ID = "cppncss";
-	public static final String DEFAULT_GCOVR_REPORTS_DIR = "cppncss-reports";
-	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppncss-result-*.xml";
-
+	
 	@Override
 	protected String getArtifactId() {
 		return ARTIFACT_ID;
@@ -70,35 +97,25 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 	protected String getSensorId() {
 		return SENSOR_ID;
 	}
-
+	
 	@Override
 	protected String getDefaultReportsDir() {
 		return DEFAULT_GCOVR_REPORTS_DIR;
 	}
-
+	
 	@Override
 	protected String getDefaultReportsFilePattern() {
 		return DEFAULT_REPORTS_FILE_PATTERN;
 	}
-
+	
 	@Override
 	protected String getGroupId() {
 		return GROUP_ID;
 	}
-
+	
 	@Override
 	protected Logger getLogger() {
 		return logger;
-	}
-
-	public void analyse(Project project, SensorContext context) {
-		File reportDirectory = getReportsDirectory(project);
-		if (reportDirectory != null) {
-			File reports[] = getReports(project, reportDirectory);
-			for (File report : reports) {
-				parseReport(project, report, context);
-			}
-		}
 	}
 
 	private final static Number[] METHODS_DISTRIB_BOTTOM_LIMITS = { 1, 2, 4, 6,
@@ -155,7 +172,7 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 
 		public void saveMetric(Project project, SensorContext context) {
 			CxxFile file = CxxFile.fromFileName(project, FileName,
-					getReportsIncludeSourcePath(project), false);
+					getReportsIncludeSourcePath(mavenProject), false);
 			if (context.getResource(file) != null) {
 				
 				RangeDistributionBuilder complexityMethodsDistribution = new RangeDistributionBuilder(

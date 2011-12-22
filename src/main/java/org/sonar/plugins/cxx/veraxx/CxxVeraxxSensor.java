@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
@@ -44,30 +45,46 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.Violation;
+import org.sonar.api.batch.SupportedEnvironment;
 
+@SupportedEnvironment({"maven"})
 public class CxxVeraxxSensor  extends ReportsHelper implements Sensor {
 
-	  private RuleFinder ruleFinder;
-	  
-	  public CxxVeraxxSensor(RuleFinder ruleFinder)
-	  {
-	    this.ruleFinder   = ruleFinder;
-	  }
+	private static final String GROUP_ID = "org.codehaus.mojo";
+	private static final String ARTIFACT_ID = "cxx-maven-plugin";
+	private static final String SENSOR_ID = "veraxx";
+	private static final String DEFAULT_VERAXX_REPORTS_DIR = "vera++-reports";
+	private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/vera++-result-*.xml";
 	
-	private static Logger logger = LoggerFactory
-			.getLogger(CxxVeraxxSensor.class);
+    private RuleFinder ruleFinder = null;
+    private MavenProject mavenProject = null;
+	  
+	public CxxVeraxxSensor(RuleFinder ruleFinder)
+	{
+		//logger.info("CxxVeraxxSensor(RuleFinder ruleFinder)");
+	    this.ruleFinder = ruleFinder;
+	}
+
+	public CxxVeraxxSensor(RuleFinder ruleFinder, Project p)
+	{
+		//logger.info("CxxVeraxxSensor(RuleFinder ruleFinder, Project p)");
+	    this.ruleFinder = ruleFinder;
+		mavenProject = p.getPom();
+	}
+	
+	public CxxVeraxxSensor(RuleFinder ruleFinder, Project p, MavenProject mp)
+	{
+		//logger.info("CxxVeraxxSensor(RuleFinder ruleFinder, Project p, MavenProject mp)");
+	    this.ruleFinder = ruleFinder;
+		mavenProject = mp;
+	}
+	
+	private static Logger logger = LoggerFactory.getLogger(CxxVeraxxSensor.class);
 
 	
 	public boolean shouldExecuteOnProject(Project project) {
 		return CxxPlugin.KEY.equals(project.getLanguageKey());
 	}
-	
-
-	public static final String GROUP_ID = "org.codehaus.mojo";
-	public static final String ARTIFACT_ID = "cxx-maven-plugin";
-	public static final String SENSOR_ID = "veraxx";
-	public static final String DEFAULT_VERAXX_REPORTS_DIR = "vera++-reports";
-	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/vera++-result-*.xml";
 
 	@Override
 	protected String getArtifactId() {
@@ -100,9 +117,9 @@ public class CxxVeraxxSensor  extends ReportsHelper implements Sensor {
 	}
 	
 	public void analyse(Project project, SensorContext context) {
-		File reportDirectory = getReportsDirectory(project);
+		File reportDirectory = getReportsDirectory(project, mavenProject);
 		if (reportDirectory != null) {
-			File reports[] = getReports(project, reportDirectory);
+			File reports[] = getReports(mavenProject, reportDirectory);
 			for (File report : reports) {
 				parseReport(project, report, context);
 			}
@@ -150,7 +167,7 @@ public class CxxVeraxxSensor  extends ReportsHelper implements Sensor {
 						
 						if (StringUtils.isEmpty(line)) line = "0";
 		
-				        CxxFile ressource = CxxFile.fromFileName(project, fileName, getReportsIncludeSourcePath(project), false);
+				        CxxFile ressource = CxxFile.fromFileName(project, fileName, getReportsIncludeSourcePath(mavenProject), false);
 				        if (fileExist(context, ressource)) {
 					        Rule rule = ruleFinder.findByKey(CxxVeraxxRuleRepository.REPOSITORY_KEY, source);
 					        if (rule != null)

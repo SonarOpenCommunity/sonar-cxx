@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.gcovr;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
@@ -52,6 +53,7 @@ import javax.xml.stream.XMLStreamException;
 import static java.util.Locale.ENGLISH;
 import static org.sonar.api.utils.ParsingUtils.parseNumber;
 import static org.sonar.api.utils.ParsingUtils.scaleValue;
+import org.sonar.api.batch.SupportedEnvironment;
 
 /**
  * TODO copied from sonar-cobertura-plugin with modifications: JavaFile replaced
@@ -59,23 +61,36 @@ import static org.sonar.api.utils.ParsingUtils.scaleValue;
  * C++ File getReports use FileSetManager for smarter report select using new
  * now plugin configuration use Fileset (ex ** /coverage.xml)
  */
-public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor {
 
-	private static Logger logger = LoggerFactory
-	.getLogger(CxxGcovrSensor.class);
+
+@SupportedEnvironment({"maven"})
+public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor {
+	
+	private static final String GROUP_ID = "org.codehaus.mojo";
+	private static final String ARTIFACT_ID = "cxx-maven-plugin";
+	private static final String SENSOR_ID = "gcovr";
+	private static final String DEFAULT_GCOVR_REPORTS_DIR = "gcovr-reports";
+	private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/gcovr-result-*.xml";
+	
+	private MavenProject mavenProject = null;
+	
+	public CxxGcovrSensor(Project p)
+	{
+		mavenProject = p.getPom();
+	}
+	
+	public CxxGcovrSensor(Project p, MavenProject mp)
+	{
+		mavenProject = mp;
+	}
+	
+	private static Logger logger = LoggerFactory.getLogger(CxxGcovrSensor.class);
 
 	@Override
-	  public boolean shouldExecuteOnProject(Project project) {
+	public boolean shouldExecuteOnProject(Project project) {
 	    return super.shouldExecuteOnProject(project) && CxxPlugin.KEY.equals(project.getLanguageKey());
-	  }
+	}
 	
-
-	public static final String GROUP_ID = "org.codehaus.mojo";
-	public static final String ARTIFACT_ID = "cxx-maven-plugin";
-	public static final String SENSOR_ID = "gcovr";
-	public static final String DEFAULT_GCOVR_REPORTS_DIR = "gcovr-reports";
-	public static final String DEFAULT_REPORTS_FILE_PATTERN = "**/gcovr-result-*.xml";
-
 	private class GcovrReportsHelper extends ReportsHelper
 	{
 		@Override
@@ -111,9 +126,9 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 	GcovrReportsHelper reportHelper = new GcovrReportsHelper();
 	
 	public void analyse(Project project, SensorContext context) {
-		File reportDirectory = reportHelper.getReportsDirectory(project);
+		File reportDirectory = reportHelper.getReportsDirectory(project, mavenProject);
 		if (reportDirectory != null) {
-			File reports[] = reportHelper.getReports(project, reportDirectory);
+			File reports[] = reportHelper.getReports(mavenProject, reportDirectory);
 			Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
 			for (File report : reports) {
 				parseReport(project, report, context, fileDataPerFilename);
