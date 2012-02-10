@@ -1,140 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-	
-<!--keep following <parent> for codeHaus deployement -->
   
   <parent>
-    <artifactId>parent</artifactId>
     <groupId>org.codehaus.sonar-plugins</groupId>
-    <version>5</version>
+    <artifactId>parent</artifactId>
+    <version>10</version>
     <relativePath>../parent</relativePath>
   </parent>
-
-<!--Remove following <groupId> for codeHaus deployement -->	
-<!--  <groupId>org.codehaus.sonar-plugins</groupId>-->
   
   <artifactId>sonar-cxx-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   <version>0.0.5-SNAPSHOT</version>
   <name>Sonar C++ Plugin</name>
   <description>C++ Plugin for Sonar</description>
-
-  <!-- optional -->
   <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
-  <issueManagement>
-  	<system>JIRA</system>
-  	<url>http://jira.codehaus.org/browse/SONARPLUGINS/component/14579</url>
-  </issueManagement>
   <inceptionYear>2010</inceptionYear>
-  <scm>
-  	<connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/cxx</connection>
-  	<developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx</developerConnection>
-  	<url>http://svn.sonar-plugins.codehaus.org</url>
-  </scm>
-  <organization>
-  </organization>
+  
   <licenses>
     <license>
-    	<name>GNU LGPL v3</name>
-    	<url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <name>GNU LGPL v3</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
       <distribution>repo</distribution>
     </license>
-  </licenses> 
-  
-<!--Remove following <distributionManagement> for codeHaus deployement -->
-<!--  <distributionManagement>
-    <repository>
-      <id>neticoa-nexus</id>
-      <name>neticoa releases</name>
-      <url>http://hudson.neticoa.lan:8080/nexus/content/repositories/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>neticoa-nexus</id>
-      <name>neticoa snapshots</name>
-      <url>http://hudson.neticoa.lan:8080/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement> --> 
+  </licenses>
 
+  <!-- TODO -->
+  <!-- <developers> -->
+  <!-- </developers> -->
+  
+  <scm>
+    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/cxx</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx</developerConnection>
+    <url>http://svn.codehaus.org/sonar-plugins</url>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/14579</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Bamboo</system>
+    <url>http://bamboo.ci.codehaus.org/browse/SONAR-CPP</url>
+  </ciManagement>
+  
   <properties>
     <jdk.min.version>1.5</jdk.min.version>
-    <sonar.buildVersion>2.7</sonar.buildVersion>
-
+    <sonar.version>2.7</sonar.version>
     <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
     <sonar.importSources>true</sonar.importSources>
     <sonar.language>java</sonar.language>
+    <sonar.pluginKey>cxx</sonar.pluginKey>
+    <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
   </properties>
   
   <dependencies>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.buildVersion}</version>
-      <!--<version>2.3.1</version>-->
+      <version>${sonar.version}</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.codehaus.plexus</groupId>
-          <artifactId>plexus-utils</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
-
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-project</artifactId>
       <version>2.0.9</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-testing-harness</artifactId>
+      <version>${sonar.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>pmd</groupId>
+      <artifactId>pmd</artifactId>
+      <version>4.2.5</version>
+      <scope>compile</scope>
       <exclusions>
         <exclusion>
-          <groupId>org.codehaus.plexus</groupId>
-          <artifactId>plexus-container-default</artifactId>
+          <groupId>jaxen</groupId>
+          <artifactId>jaxen</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>org.codehaus.plexus</groupId>
-          <artifactId>plexus-utils</artifactId>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>asm</groupId>
+          <artifactId>asm</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
 
-    <!-- add your dependencies here -->
-    
-    <!-- unit tests -->
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-testing-harness</artifactId>
-      <version>${sonar.buildVersion}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>pmd</groupId>
-    	<artifactId>pmd</artifactId>
-    	<version>4.2.5</version>
-    	<type>jar</type>
-    	<scope>compile</scope>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
-
+  
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.sonar</groupId>
-        <artifactId>sonar-packaging-maven-plugin</artifactId>
-        <version>0.1</version>
-        <extensions>true</extensions>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
         <configuration>
-          <pluginKey>cxx-core-plugin</pluginKey>
-          <pluginClass>org.sonar.plugins.cxx.CxxPlugin</pluginClass>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <!--<version>2.0.2</version>-->
-        <configuration>
-          <source>${jdk.min.version}</source>
-          <target>${jdk.min.version}</target>
-          <encoding>UTF-8</encoding>
+          <header>src/license-header.txt</header>
         </configuration>
       </plugin>
     </plugins>
