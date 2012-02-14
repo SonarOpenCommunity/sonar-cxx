@@ -19,25 +19,8 @@
  */
 package org.sonar.plugins.cxx.gcovr;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
-import org.codehaus.staxmate.in.SMInputCursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.AbstractCoverageExtension;
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.PersistenceMode;
-import org.sonar.api.measures.PropertiesBuilder;
-import org.sonar.api.resources.Project;
-import org.sonar.api.utils.StaxParser;
-import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxFile;
-import org.sonar.plugins.cxx.CxxPlugin;
-import org.sonar.plugins.cxx.utils.ReportsHelper;
+import static java.util.Locale.ENGLISH;
+import static org.sonar.api.utils.ParsingUtils.parseNumber;
 
 import java.io.File;
 import java.text.ParseException;
@@ -48,10 +31,26 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import static java.util.Locale.ENGLISH;
-import static org.sonar.api.utils.ParsingUtils.parseNumber;
-import static org.sonar.api.utils.ParsingUtils.scaleValue;
+import org.apache.commons.lang.StringUtils;
+import org.apache.maven.project.MavenProject;
+import org.codehaus.staxmate.in.SMHierarchicCursor;
+import org.codehaus.staxmate.in.SMInputCursor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.AbstractCoverageExtension;
+import org.sonar.api.batch.Sensor;
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.SupportedEnvironment;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.PersistenceMode;
+import org.sonar.api.measures.PropertiesBuilder;
+import org.sonar.api.resources.Project;
+import org.sonar.api.utils.StaxParser;
+import org.sonar.api.utils.XmlParserException;
+import org.sonar.plugins.cxx.CxxFile;
+import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.utils.ReportsHelper;
 
 /**
  * TODO copied from sonar-cobertura-plugin with modifications: JavaFile replaced by C++, fixed SONARPLUGINS-696 C++ collectFileMeasures use

@@ -19,29 +19,28 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.Plugin;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sonar.api.Extension;
+import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
-import org.sonar.plugins.cxx.gcovr.CxxGcovrSensor;
-import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
-import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckProfile;
+import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
+import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 import org.sonar.plugins.cxx.cppncss.CxxCppNcssSensor;
+import org.sonar.plugins.cxx.gcovr.CxxGcovrSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsProfile;
-import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
+import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.valgrind.CxxValgrindProfile;
 import org.sonar.plugins.cxx.valgrind.CxxValgrindRuleRepository;
 import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
-import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
-import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxProfile;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
+import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
+import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 
 @Properties({ @Property(key = CxxPlugin.KEY, name = "CXX Core Plugin", description = "CXX Core Plugin for Sonar", project = false,
     global = true) })

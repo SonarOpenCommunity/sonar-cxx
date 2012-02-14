@@ -48,6 +48,7 @@ import org.sonar.api.batch.AbstractCoverageExtension;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
@@ -60,7 +61,6 @@ import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
-import org.sonar.api.batch.SupportedEnvironment;
 
 /**
  * Copied from sonar-surefire-plugin with modifications: JavaFile replaced by C++ getUnitTestResource use Project to locate C++ File

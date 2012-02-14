@@ -21,7 +21,6 @@ package org.sonar.plugins.cxx.veraxx;
 
 import java.io.File;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -33,18 +32,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.resources.Project;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxPlugin;
-import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.RuleRepository;
-import org.sonar.api.rules.Violation;
-import org.sonar.api.batch.SupportedEnvironment;
 
 @SupportedEnvironment({ "maven" })
 public class CxxVeraxxSensor extends ReportsHelper implements Sensor {

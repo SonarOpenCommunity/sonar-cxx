@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sonar.api.web.CodeColorizerFormat;
-
 import org.sonar.colorizer.CDocTokenizer;
 import org.sonar.colorizer.CppDocTokenizer;
 import org.sonar.colorizer.KeywordsTokenizer;

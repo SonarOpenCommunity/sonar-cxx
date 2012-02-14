@@ -22,17 +22,14 @@ package org.sonar.plugins.cxx;
 import java.io.File;
 import java.util.List;
 
+import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.AbstractSourceImporter;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.batch.maven.MavenPlugin;
-import org.apache.maven.project.MavenProject;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-
-import org.sonar.api.batch.SupportedEnvironment;
-import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 
 @SupportedEnvironment({ "maven" })
 public final class CxxSourceImporter extends AbstractSourceImporter {

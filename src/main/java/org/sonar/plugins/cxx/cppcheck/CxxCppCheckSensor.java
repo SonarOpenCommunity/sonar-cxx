@@ -28,9 +28,9 @@ import java.io.InputStream;
 import java.text.ParseException;
 
 import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.io.input.TeeInputStream;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -39,16 +39,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.resources.Project;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
-import org.sonar.api.batch.SupportedEnvironment;
 
 /**
  * Sensor for CppCheck external tool.

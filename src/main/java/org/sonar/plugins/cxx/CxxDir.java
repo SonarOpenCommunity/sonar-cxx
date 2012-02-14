@@ -22,10 +22,10 @@ package org.sonar.plugins.cxx;
 import java.io.File;
 
 import org.apache.commons.lang.StringUtils;
-import org.sonar.api.utils.WildcardPattern;
 import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.utils.WildcardPattern;
 
 public final class CxxDir extends Resource<Project> {
 
