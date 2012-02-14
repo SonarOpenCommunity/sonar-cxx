@@ -54,6 +54,7 @@ public final class CxxPlugin implements Plugin {
   /**
    * @deprecated this is not used anymore
    */
+  @Deprecated
   public String getKey() {
     return KEY;
   }
@@ -61,6 +62,7 @@ public final class CxxPlugin implements Plugin {
   /**
    * @deprecated this is not used anymore
    */
+  @Deprecated
   public String getName() {
     return "C++ plugin";
   }
@@ -68,6 +70,7 @@ public final class CxxPlugin implements Plugin {
   /**
    * @deprecated this is not used anymore
    */
+  @Deprecated
   public String getDescription() {
     return "Add support for C++ language.";
   }

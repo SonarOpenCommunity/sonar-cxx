@@ -153,8 +153,9 @@ public class CxxVeraxxSensor extends ReportsHelper implements Sensor {
 
           if ( !StringUtils.isEmpty(source)) {
 
-            if (StringUtils.isEmpty(line))
+            if (StringUtils.isEmpty(line)) {
               line = "0";
+            }
 
             CxxFile ressource = CxxFile.fromFileName(project, fileName, getReportsIncludeSourcePath(mavenProject), false);
             if (fileExist(context, ressource)) {

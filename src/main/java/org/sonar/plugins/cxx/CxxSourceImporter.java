@@ -95,6 +95,7 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
     return GROUP_ID;
   }
 
+  @Override
   protected Resource<CxxDir> createResource(File file, List<File> sourceDirs, boolean unitTest) {
     // project has been setted in analyse()
     return CxxFile.fromFileName(project, file.getAbsolutePath(), false);

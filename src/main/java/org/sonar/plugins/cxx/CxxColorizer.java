@@ -39,6 +39,7 @@ public final class CxxColorizer extends CodeColorizerFormat {
     super(CxxLanguage.KEY);
   }
 
+  @Override
   public List<Tokenizer> getTokenizers() {
     if (tokens == null) {
       tokens = new ArrayList<Tokenizer>();

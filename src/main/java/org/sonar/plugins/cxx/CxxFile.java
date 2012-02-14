@@ -131,9 +131,11 @@ public final class CxxFile extends Resource<CxxDir> {
       logger.debug("we got a relative path");
       for (String includePath : includeSearchPath) {
         String pathToTest = null;
-        if (new File(includePath).isAbsolute())
+        if (new File(includePath).isAbsolute()) {
           pathToTest = includePath + "/" + realFileName;
-        else pathToTest = project.getFileSystem().getBasedir().toString() + "/" + includePath + "/" + realFileName;
+        } else {
+          pathToTest = project.getFileSystem().getBasedir().toString() + "/" + includePath + "/" + realFileName;
+        }
         // logger.info("Build FilePath 1 = {}", pathToTest);
         pathToTest = CanonicalizeAbsoluteFilePath(pathToTest);
         if (new File(pathToTest).exists()) {
