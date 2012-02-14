@@ -1,6 +1,6 @@
 /*
  * Sonar Cxx Plugin, open source software quality management tool.
- * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits reserves.
  * Author(s) : Franck Bonin, Neticoa SAS France.
  *
  * Sonar Cxx Plugin is free software; you can redistribute it and/or
@@ -17,7 +17,6 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 package org.sonar.plugins.cxx.veraxx;
 
 
