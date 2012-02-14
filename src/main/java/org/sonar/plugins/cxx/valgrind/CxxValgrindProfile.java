@@ -22,15 +22,14 @@ package org.sonar.plugins.cxx.valgrind;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractProfileDefinition;
 
-
 public final class CxxValgrindProfile extends CxxAbstractProfileDefinition {
 
-	  public CxxValgrindProfile(XMLProfileParser xmlProfileParser) {
-		  super(xmlProfileParser);
-	  }
-	  
-	  @Override
-	  protected String ProfileFileName() {
-		  return "valgrind-profile.xml";
-	  }
+  public CxxValgrindProfile(XMLProfileParser xmlProfileParser) {
+    super(xmlProfileParser);
+  }
+
+  @Override
+  protected String ProfileFileName() {
+    return "valgrind-profile.xml";
+  }
 }

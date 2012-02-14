@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,8 +36,7 @@ import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser.XmlStreamHandler;
 
 /**
- * copied from sonar-surefire-plugin with modifications :
- * getTimeAttributeInMS : Time can be void
+ * copied from sonar-surefire-plugin with modifications : getTimeAttributeInMS : Time can be void
  */
 public class TestSuiteParser implements XmlStreamHandler {
 
@@ -135,13 +133,13 @@ public class TestSuiteParser implements XmlStreamHandler {
   private Double getTimeAttributeInMS(SMInputCursor testCaseCursor) throws XMLStreamException {
     // hardcoded to Locale.ENGLISH see http://jira.codehaus.org/browse/SONAR-602
     try {
-    	String sTime = testCaseCursor.getAttrValue("time");
-    	if (!StringUtils.isEmpty(sTime)) {
-    		Double time = ParsingUtils.parseNumber(sTime, Locale.ENGLISH);
-    		return !Double.isNaN(time) ? ParsingUtils.scaleValue(time * 1000, 3) : 0;
-    	}else {
-    		return 0.0;
-    	}
+      String sTime = testCaseCursor.getAttrValue("time");
+      if ( !StringUtils.isEmpty(sTime)) {
+        Double time = ParsingUtils.parseNumber(sTime, Locale.ENGLISH);
+        return !Double.isNaN(time) ? ParsingUtils.scaleValue(time * 1000, 3) : 0;
+      } else {
+        return 0.0;
+      }
     } catch (ParseException e) {
       throw new XMLStreamException(e);
     }

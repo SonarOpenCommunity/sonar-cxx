@@ -32,51 +32,34 @@ import org.sonar.squid.measures.Metric;
 import org.sonar.squid.recognizer.CodeRecognizer;
 import org.sonar.squid.text.Source;
 
-public final class CxxLineCounter implements Sensor {	
-	
-  public void analyse(Project project, SensorContext context)
-	{
-		final List<File> sources = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
-		final CodeRecognizer codeRecognizer = new CodeRecognizer(0.9, new CxxLanguageFootprint());
-		
-		for (File file : sources)
-		{
-			CxxFile cxxFile = CxxFile.fromFileName(project, file.getAbsolutePath(), false);
-			try
-			{
-				Source result = new Source(new FileReader(file), codeRecognizer, "//");
-				
-				context.saveMeasure(cxxFile, 
-									CoreMetrics.LINES,
-									(double) result.getMeasure(Metric.LINES));
-				context.saveMeasure(cxxFile,
-									CoreMetrics.COMMENT_LINES,
-									(double) result.getMeasure(Metric.COMMENT_LINES));
-				context.saveMeasure(cxxFile,
-									CoreMetrics.COMMENT_BLANK_LINES,
-									(double) result.getMeasure(Metric.COMMENT_BLANK_LINES));
-				context.saveMeasure(cxxFile, 
-									CoreMetrics.COMMENTED_OUT_CODE_LINES, 
-									(double) result.getMeasure(Metric.COMMENTED_OUT_CODE_LINES));
-				context.saveMeasure(cxxFile,
-									CoreMetrics.NCLOC,
-									(double) result.getMeasure(Metric.LINES_OF_CODE));								
-			}
-			catch(FileNotFoundException ex)
-			{
-				
-			}		
-		}
-	}
-	
-	public boolean shouldExecuteOnProject(Project project)
-	{
-		return project.getLanguageKey().equals(CxxLanguage.KEY);
-	}	
-	
-	@Override
-	public String toString()
-	{
-	  return getClass().getSimpleName();
-	}
+public final class CxxLineCounter implements Sensor {
+
+  public void analyse(Project project, SensorContext context) {
+    final List<File> sources = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
+    final CodeRecognizer codeRecognizer = new CodeRecognizer(0.9, new CxxLanguageFootprint());
+
+    for (File file : sources) {
+      CxxFile cxxFile = CxxFile.fromFileName(project, file.getAbsolutePath(), false);
+      try {
+        Source result = new Source(new FileReader(file), codeRecognizer, "//");
+
+        context.saveMeasure(cxxFile, CoreMetrics.LINES, (double) result.getMeasure(Metric.LINES));
+        context.saveMeasure(cxxFile, CoreMetrics.COMMENT_LINES, (double) result.getMeasure(Metric.COMMENT_LINES));
+        context.saveMeasure(cxxFile, CoreMetrics.COMMENT_BLANK_LINES, (double) result.getMeasure(Metric.COMMENT_BLANK_LINES));
+        context.saveMeasure(cxxFile, CoreMetrics.COMMENTED_OUT_CODE_LINES, (double) result.getMeasure(Metric.COMMENTED_OUT_CODE_LINES));
+        context.saveMeasure(cxxFile, CoreMetrics.NCLOC, (double) result.getMeasure(Metric.LINES_OF_CODE));
+      } catch (FileNotFoundException ex) {
+
+      }
+    }
+  }
+
+  public boolean shouldExecuteOnProject(Project project) {
+    return project.getLanguageKey().equals(CxxLanguage.KEY);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }

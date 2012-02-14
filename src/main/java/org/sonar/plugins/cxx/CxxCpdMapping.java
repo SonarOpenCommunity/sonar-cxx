@@ -31,23 +31,23 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 
 public final class CxxCpdMapping implements CpdMapping {
-	private final CPPLanguage language = new CPPLanguage();
-	private Project project;
-	
-	public CxxCpdMapping(Project project)
-	{
-		this.project = project;
-	}
-		
-	public Resource<CxxDir> createResource(File file, List<File> dirs) {
-		return CxxFile.fromFileName(project, file.getAbsolutePath(), false);
-	}
 
-	public Language getLanguage() {
-		return CxxLanguage.INSTANCE;
-	}
+  private final CPPLanguage language = new CPPLanguage();
+  private Project project;
 
-	public Tokenizer getTokenizer() {
-		return language.getTokenizer();
-	}
+  public CxxCpdMapping(Project project) {
+    this.project = project;
+  }
+
+  public Resource<CxxDir> createResource(File file, List<File> dirs) {
+    return CxxFile.fromFileName(project, file.getAbsolutePath(), false);
+  }
+
+  public Language getLanguage() {
+    return CxxLanguage.INSTANCE;
+  }
+
+  public Tokenizer getTokenizer() {
+    return language.getTokenizer();
+  }
 }

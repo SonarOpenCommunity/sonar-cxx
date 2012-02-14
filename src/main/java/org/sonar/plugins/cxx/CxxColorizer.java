@@ -31,37 +31,23 @@ import org.sonar.colorizer.StringTokenizer;
 import org.sonar.colorizer.Tokenizer;
 
 public final class CxxColorizer extends CodeColorizerFormat {
-	public static final String[] KEYWORDS = {
-		"auto", 
-		"char", "class",
-		"double",
-		"float",
-		"inline", "int",
-		"long",
-		"private", "protected", "public", 
-		"return",
-		"short", "static", "struct",
-		"template", "throw", "typedef", "typename",
-		"union", "unsigned",
-		"virtual", "void"
-		};
-	private static List<Tokenizer> tokens;
-	
-	public CxxColorizer()
-	{		
-		super(CxxLanguage.KEY);		
-	}
-	
-	public List<Tokenizer> getTokenizers()
-	{
-		if (tokens == null)
-		{
-			tokens = new ArrayList<Tokenizer>();
-			tokens.add(new StringTokenizer("<span class=\"s\">", "</span>"));
-			tokens.add(new KeywordsTokenizer("<span class=\"k\">", "</span>", KEYWORDS));
-			tokens.add(new CDocTokenizer("<span class=\"c\">", "</span>"));
-			tokens.add(new CppDocTokenizer("<span class=\"c\">", "</span>"));
-		}
-		return tokens;
-	}
+
+  public static final String[] KEYWORDS = { "auto", "char", "class", "double", "float", "inline", "int", "long", "private", "protected",
+      "public", "return", "short", "static", "struct", "template", "throw", "typedef", "typename", "union", "unsigned", "virtual", "void" };
+  private static List<Tokenizer> tokens;
+
+  public CxxColorizer() {
+    super(CxxLanguage.KEY);
+  }
+
+  public List<Tokenizer> getTokenizers() {
+    if (tokens == null) {
+      tokens = new ArrayList<Tokenizer>();
+      tokens.add(new StringTokenizer("<span class=\"s\">", "</span>"));
+      tokens.add(new KeywordsTokenizer("<span class=\"k\">", "</span>", KEYWORDS));
+      tokens.add(new CDocTokenizer("<span class=\"c\">", "</span>"));
+      tokens.add(new CppDocTokenizer("<span class=\"c\">", "</span>"));
+    }
+    return tokens;
+  }
 }

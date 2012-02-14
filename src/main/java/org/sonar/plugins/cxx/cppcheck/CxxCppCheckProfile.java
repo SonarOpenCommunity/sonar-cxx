@@ -22,15 +22,14 @@ package org.sonar.plugins.cxx.cppcheck;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractProfileDefinition;
 
-
 public final class CxxCppCheckProfile extends CxxAbstractProfileDefinition {
 
-	  public CxxCppCheckProfile(XMLProfileParser xmlProfileParser) {
-		  super(xmlProfileParser);
-	  }
-	  
-	  @Override
-	  protected String ProfileFileName() {
-		  return "cppcheck-profile.xml";
-	  }
+  public CxxCppCheckProfile(XMLProfileParser xmlProfileParser) {
+    super(xmlProfileParser);
+  }
+
+  @Override
+  protected String ProfileFileName() {
+    return "cppcheck-profile.xml";
+  }
 }

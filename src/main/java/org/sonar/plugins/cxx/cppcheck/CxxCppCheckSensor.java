@@ -49,6 +49,7 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.batch.SupportedEnvironment;
+
 /**
  * Sensor for CppCheck external tool.
  * 
@@ -59,234 +60,204 @@ import org.sonar.api.batch.SupportedEnvironment;
  * @todo enable include dirs (-I)
  * @todo allow configuration of path to analyze
  */
-@SupportedEnvironment({"maven"})
+@SupportedEnvironment({ "maven" })
 public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
 
-	private static final String EXEC = "cppcheck";
-	private static final String ARGS = "--enable=all -v --quiet --xml";
+  private static final String EXEC = "cppcheck";
+  private static final String ARGS = "--enable=all -v --quiet --xml";
 
-	private static final String GROUP_ID = "org.codehaus.mojo";
-	private static final String ARTIFACT_ID = "cxx-maven-plugin";
-	private static final String SENSOR_ID = "cppcheck";
-	private static final String DEFAULT_CPPCHECK_REPORTS_DIR = "cppcheck-reports";
-	private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppcheck-result-*.xml";
+  private static final String GROUP_ID = "org.codehaus.mojo";
+  private static final String ARTIFACT_ID = "cxx-maven-plugin";
+  private static final String SENSOR_ID = "cppcheck";
+  private static final String DEFAULT_CPPCHECK_REPORTS_DIR = "cppcheck-reports";
+  private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppcheck-result-*.xml";
 
-	private RuleFinder ruleFinder = null;
-	private boolean dynamicAnalysis = false;
-	private MavenProject mavenProject = null;
-	
-	public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p)
-	{
-		this.ruleFinder = ruleFinder;
-		this.dynamicAnalysis = conf.getBoolean(
-				"sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
-		mavenProject = p.getPom();
-	}
-	
-	public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p, MavenProject mp) {
-		this.ruleFinder = ruleFinder;
-		this.dynamicAnalysis = conf.getBoolean(
-				"sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
-		mavenProject = mp;
-	}
+  private RuleFinder ruleFinder = null;
+  private boolean dynamicAnalysis = false;
+  private MavenProject mavenProject = null;
 
-	private static Logger logger = LoggerFactory.getLogger(CxxCppCheckSensor.class);
+  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p) {
+    this.ruleFinder = ruleFinder;
+    this.dynamicAnalysis = conf.getBoolean("sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
+    mavenProject = p.getPom();
+  }
 
-	/**
-	 * This plugin should be executed on C++ project
-	 * 
-	 * @param project
-	 * @return
-	 */
-	public boolean shouldExecuteOnProject(Project project) {
-		return CxxPlugin.KEY.equals(project.getLanguageKey());
-	}
+  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p, MavenProject mp) {
+    this.ruleFinder = ruleFinder;
+    this.dynamicAnalysis = conf.getBoolean("sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
+    mavenProject = mp;
+  }
 
-	@Override
-	protected String getArtifactId() {
-		return ARTIFACT_ID;
-	}
+  private static Logger logger = LoggerFactory.getLogger(CxxCppCheckSensor.class);
 
-	@Override
-	protected String getSensorId() {
-		return SENSOR_ID;
-	}
+  /**
+   * This plugin should be executed on C++ project
+   * 
+   * @param project
+   * @return
+   */
+  public boolean shouldExecuteOnProject(Project project) {
+    return CxxPlugin.KEY.equals(project.getLanguageKey());
+  }
 
-	@Override
-	protected String getDefaultReportsDir() {
-		return DEFAULT_CPPCHECK_REPORTS_DIR;
-	}
+  @Override
+  protected String getArtifactId() {
+    return ARTIFACT_ID;
+  }
 
-	@Override
-	protected String getDefaultReportsFilePattern() {
-		return DEFAULT_REPORTS_FILE_PATTERN;
-	}
+  @Override
+  protected String getSensorId() {
+    return SENSOR_ID;
+  }
 
-	@Override
-	protected String getGroupId() {
-		return GROUP_ID;
-	}
+  @Override
+  protected String getDefaultReportsDir() {
+    return DEFAULT_CPPCHECK_REPORTS_DIR;
+  }
 
-	@Override
-	protected Logger getLogger() {
-		return logger;
-	}
+  @Override
+  protected String getDefaultReportsFilePattern() {
+    return DEFAULT_REPORTS_FILE_PATTERN;
+  }
 
-	public void analyse(Project project, SensorContext context) {
-		if (dynamicAnalysis) {
-			Process p;
+  @Override
+  protected String getGroupId() {
+    return GROUP_ID;
+  }
 
-			try {
-				String cmd = EXEC + " " + ARGS + " ";
-						//+ project.getPom().getBuild().getSourceDirectory();
-				// $FB project FileSystem content has been patched by CxxSourceImporter
-				for (File file : project.getFileSystem().getSourceDirs())
-				{
-					cmd += "\"" + file.getAbsolutePath()+ "\" ";
-				}
-				logger.debug(cmd);
-				p = Runtime.getRuntime().exec(cmd);
-				p.waitFor();
+  @Override
+  protected Logger getLogger() {
+    return logger;
+  }
 
-				// Write result in local file
-				File resultOutputFile = new File(project.getFileSystem()
-						.getSonarWorkingDirectory()
-						+ "/cppcheck-result.xml");
-				// resultOutputFile.createNewFile();
-				logger.debug("Output result to "
-						+ resultOutputFile.getAbsolutePath());
+  public void analyse(Project project, SensorContext context) {
+    if (dynamicAnalysis) {
+      Process p;
 
-				// Becarefull ... CppCheck print its result into Error output !
-				// TeeInputStream is used to read result from stream and both
-				// write it to a file
-				FileOutputStream fos = new FileOutputStream(resultOutputFile);
-				TeeInputStream tis = new TeeInputStream(p.getErrorStream(),
-						fos, true);
-				parseReport(project, tis, context);
+      try {
+        String cmd = EXEC + " " + ARGS + " ";
+        // + project.getPom().getBuild().getSourceDirectory();
+        // $FB project FileSystem content has been patched by CxxSourceImporter
+        for (File file : project.getFileSystem().getSourceDirs()) {
+          cmd += "\"" + file.getAbsolutePath() + "\" ";
+        }
+        logger.debug(cmd);
+        p = Runtime.getRuntime().exec(cmd);
+        p.waitFor();
 
-			} catch (InterruptedException ex) {
-				logger.error("Analysis can't wait for the end of the process",
-						ex);
-			} catch (IOException ex) {
-				logger.error("IO EXCEPTION", ex);
-			}
+        // Write result in local file
+        File resultOutputFile = new File(project.getFileSystem().getSonarWorkingDirectory() + "/cppcheck-result.xml");
+        // resultOutputFile.createNewFile();
+        logger.debug("Output result to " + resultOutputFile.getAbsolutePath());
 
-		} else {
-			File reportDirectory = getReportsDirectory(project, mavenProject);
-			if (reportDirectory != null) {
-				File reports[] = getReports(mavenProject, reportDirectory);
-				for (File report : reports) {
-					parseReport(project, report, context);
-				}
-			}
-		}
-	}
+        // Becarefull ... CppCheck print its result into Error output !
+        // TeeInputStream is used to read result from stream and both
+        // write it to a file
+        FileOutputStream fos = new FileOutputStream(resultOutputFile);
+        TeeInputStream tis = new TeeInputStream(p.getErrorStream(), fos, true);
+        parseReport(project, tis, context);
 
-	private void parseReport(final Project project, File xmlFile,
-			final SensorContext context) {
-		try {
-			parseReport(project, new FileInputStream(xmlFile), context);
-		} catch (FileNotFoundException ex) {
-			logger.error("CppCheck Report not found : "
-					+ xmlFile.getAbsoluteFile(), ex);
-		}
-	}
+      } catch (InterruptedException ex) {
+        logger.error("Analysis can't wait for the end of the process", ex);
+      } catch (IOException ex) {
+        logger.error("IO EXCEPTION", ex);
+      }
 
-	/**
-	 * Parse the stream of CppCheck XML report
-	 * 
-	 * @param project
-	 * @param xmlStream
-	 *            - This stream will be closed at the end of this method
-	 * @param context
-	 */
-	private void parseReport(final Project project, InputStream xmlStream,
-			final SensorContext context) {
-		try {
-			logger.info("parsing CppCheck XML stream{}");
-			StaxParser parser = new StaxParser(
-					new StaxParser.XmlStreamHandler() {
+    } else {
+      File reportDirectory = getReportsDirectory(project, mavenProject);
+      if (reportDirectory != null) {
+        File reports[] = getReports(mavenProject, reportDirectory);
+        for (File report : reports) {
+          parseReport(project, report, context);
+        }
+      }
+    }
+  }
 
-						public void stream(SMHierarchicCursor rootCursor)
-								throws XMLStreamException {
-							try {
-								rootCursor.advance();
-								collectError(project, rootCursor
-										.childElementCursor("error"), context);
-							} catch (ParseException e) {
-								throw new XMLStreamException(e);
-							}
-						}
-					});
-			parser.parse(xmlStream);
-		} catch (XMLStreamException e) {
-			throw new XmlParserException(e);
-		} finally {
-			try {
-				if (xmlStream != null) {
-					xmlStream.close();
-				}
-			} catch (IOException ex) {
-				logger.error("Can't close the xml stream", ex);
-			}
-		}
-	}
+  private void parseReport(final Project project, File xmlFile, final SensorContext context) {
+    try {
+      parseReport(project, new FileInputStream(xmlFile), context);
+    } catch (FileNotFoundException ex) {
+      logger.error("CppCheck Report not found : " + xmlFile.getAbsoluteFile(), ex);
+    }
+  }
 
-	private void collectError(Project project, SMInputCursor error,
-			SensorContext context) throws ParseException, XMLStreamException {
-		while (error.getNext() != null) {
-			// logger.info("collectError nodename = {} {}",
-			// error.getPrefixedName(), error.getAttrCount());
+  /**
+   * Parse the stream of CppCheck XML report
+   * 
+   * @param project
+   * @param xmlStream
+   *          - This stream will be closed at the end of this method
+   * @param context
+   */
+  private void parseReport(final Project project, InputStream xmlStream, final SensorContext context) {
+    try {
+      logger.info("parsing CppCheck XML stream{}");
+      StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
-			String id = error.getAttrValue("id");
-			String msg = error.getAttrValue("msg");
-			String file = error.getAttrValue("file");
-			String line = error.getAttrValue("line");
-			if (StringUtils.isEmpty(line)) {
-				line = "0";
-			}
-			if (!StringUtils.isEmpty(file)) {
-				CxxFile ressource = CxxFile.fromFileName(project, file,
-						getReportsIncludeSourcePath(mavenProject), false);
-				if (fileExist(context, ressource)) {
-					Rule rule = ruleFinder.findByKey(
-							CxxCppCheckRuleRepository.REPOSITORY_KEY, id);
-					if (rule != null) {
-						Object t[] = { id, msg, line, ressource.getKey() };
-						logger
-								.debug(
-										"error id={} msg={} found at line {} from ressource {}",
-										t);
+        public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
+          try {
+            rootCursor.advance();
+            collectError(project, rootCursor.childElementCursor("error"), context);
+          } catch (ParseException e) {
+            throw new XMLStreamException(e);
+          }
+        }
+      });
+      parser.parse(xmlStream);
+    } catch (XMLStreamException e) {
+      throw new XmlParserException(e);
+    } finally {
+      try {
+        if (xmlStream != null) {
+          xmlStream.close();
+        }
+      } catch (IOException ex) {
+        logger.error("Can't close the xml stream", ex);
+      }
+    }
+  }
 
-						Violation violation = Violation.create(rule, ressource);
-						violation.setMessage(msg);
-						violation.setLineId(Integer.parseInt(line));
-						context.saveViolation(violation);
-					} else {
-						Object t[] = { id, msg, line, file };
-						logger
-								.warn(
-										"No rule for error id={} msg={} found at line {} from file {}",
-										t);
-					}
-				} else {
-					Object t[] = { id, msg, line, file };
-					logger
-							.warn(
-									"error id={} msg={} found at line {} from file {} has no ressource associated",
-									t);
-				}
-			} else {
-				Object t[] = { id, msg, line };
-				logger
-						.warn(
-								"error id={} msg={} found at line {} has no file associated",
-								t);
-			}
-		}
-	}
+  private void collectError(Project project, SMInputCursor error, SensorContext context) throws ParseException, XMLStreamException {
+    while (error.getNext() != null) {
+      // logger.info("collectError nodename = {} {}",
+      // error.getPrefixedName(), error.getAttrCount());
 
-	private boolean fileExist(SensorContext context, CxxFile file) {
-		return context.getResource(file) != null;
-	}
+      String id = error.getAttrValue("id");
+      String msg = error.getAttrValue("msg");
+      String file = error.getAttrValue("file");
+      String line = error.getAttrValue("line");
+      if (StringUtils.isEmpty(line)) {
+        line = "0";
+      }
+      if ( !StringUtils.isEmpty(file)) {
+        CxxFile ressource = CxxFile.fromFileName(project, file, getReportsIncludeSourcePath(mavenProject), false);
+        if (fileExist(context, ressource)) {
+          Rule rule = ruleFinder.findByKey(CxxCppCheckRuleRepository.REPOSITORY_KEY, id);
+          if (rule != null) {
+            Object t[] = { id, msg, line, ressource.getKey() };
+            logger.debug("error id={} msg={} found at line {} from ressource {}", t);
+
+            Violation violation = Violation.create(rule, ressource);
+            violation.setMessage(msg);
+            violation.setLineId(Integer.parseInt(line));
+            context.saveViolation(violation);
+          } else {
+            Object t[] = { id, msg, line, file };
+            logger.warn("No rule for error id={} msg={} found at line {} from file {}", t);
+          }
+        } else {
+          Object t[] = { id, msg, line, file };
+          logger.warn("error id={} msg={} found at line {} from file {} has no ressource associated", t);
+        }
+      } else {
+        Object t[] = { id, msg, line };
+        logger.warn("error id={} msg={} found at line {} has no file associated", t);
+      }
+    }
+  }
+
+  private boolean fileExist(SensorContext context, CxxFile file) {
+    return context.getResource(file) != null;
+  }
 }

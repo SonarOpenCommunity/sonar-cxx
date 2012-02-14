@@ -27,97 +27,92 @@ import org.sonar.api.resources.Language;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 
-public final class CxxDir extends Resource<Project>{
-	private Project  project;
-	private String   name;
-	private String   description;
-	private String   qualifier;
-	private String   scope;
-	private Language language;
-	private String   absolutePath;
-	private String   relativePath;
-	
-	@Override
-	public String getDescription() {
-		return description;
-	}
-	
-	@Override
-	public Language getLanguage() { 
-		return language;
-	}
-	
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	@Override
-	public Project getParent() {
-		return project;
-	}
+public final class CxxDir extends Resource<Project> {
 
-	@Override
-	public String getQualifier() {
-		return qualifier;
-	}
-	
-	@Override
-	public String getScope() {
-		return scope;
-	}
-	
-	@Override
-	public boolean matchFilePattern(String pattern) {
-		String patternWithoutFileSuffix = StringUtils.substringBeforeLast(pattern, ".");
-		WildcardPattern matcher = WildcardPattern.create(patternWithoutFileSuffix, "/");
-		return matcher.match(getKey());
-	}
+  private Project project;
+  private String name;
+  private String description;
+  private String qualifier;
+  private String scope;
+  private Language language;
+  private String absolutePath;
+  private String relativePath;
 
-	@Override
-	public String getLongName() {
-		return "Directory " + name;
-	}
-	
-	private CxxDir(Project p, File dir, boolean testUnit)
-	{
-		/*
-		 * @note Resource.SCOPE_DIRECTORY is deprecated. Use SCOPE_SPACE instead.
-		 */		
-		scope     = Resource.SCOPE_SPACE;
-		qualifier = testUnit ? Resource.QUALIFIER_UNIT_TEST_CLASS : Resource.QUALIFIER_DIRECTORY;
-		language  = CxxLanguage.INSTANCE;
-		project   = p;
-		name      = dir.getName();
-		
-		absolutePath = dir.getAbsoluteFile().toString();//.replaceFirst(p.getFileSystem().getBasedir().toString(), "");
-		relativePath = absolutePath.replaceFirst(p.getFileSystem().getBasedir().toString(), ""); 
-		setKey(relativePath.replace('/', '.'));
-	}
-	
-	public static CxxDir fromAbsolute(Project p, String path)
-	{		
-		return new CxxDir(p, new File(path), false);
-	}
-	
-	public static CxxDir fromProjectDir(Project p, String path)
-	{
-		return new CxxDir(p, new File(p.getFileSystem().getBasedir().toString() + path), false);
-	}
-	
-	public String getAbsolutePath()
-	{
-		return absolutePath;
-	}
-	
-	public String getProjectPath()
-	{
-	  return relativePath;
-	}
-	
-	@Override
-	public String toString()
-	{
-	  return getClass().getSimpleName();
-	}
+  @Override
+  public String getDescription() {
+    return description;
+  }
+
+  @Override
+  public Language getLanguage() {
+    return language;
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public Project getParent() {
+    return project;
+  }
+
+  @Override
+  public String getQualifier() {
+    return qualifier;
+  }
+
+  @Override
+  public String getScope() {
+    return scope;
+  }
+
+  @Override
+  public boolean matchFilePattern(String pattern) {
+    String patternWithoutFileSuffix = StringUtils.substringBeforeLast(pattern, ".");
+    WildcardPattern matcher = WildcardPattern.create(patternWithoutFileSuffix, "/");
+    return matcher.match(getKey());
+  }
+
+  @Override
+  public String getLongName() {
+    return "Directory " + name;
+  }
+
+  private CxxDir(Project p, File dir, boolean testUnit) {
+    /*
+     * @note Resource.SCOPE_DIRECTORY is deprecated. Use SCOPE_SPACE instead.
+     */
+    scope = Resource.SCOPE_SPACE;
+    qualifier = testUnit ? Resource.QUALIFIER_UNIT_TEST_CLASS : Resource.QUALIFIER_DIRECTORY;
+    language = CxxLanguage.INSTANCE;
+    project = p;
+    name = dir.getName();
+
+    absolutePath = dir.getAbsoluteFile().toString();// .replaceFirst(p.getFileSystem().getBasedir().toString(), "");
+    relativePath = absolutePath.replaceFirst(p.getFileSystem().getBasedir().toString(), "");
+    setKey(relativePath.replace('/', '.'));
+  }
+
+  public static CxxDir fromAbsolute(Project p, String path) {
+    return new CxxDir(p, new File(path), false);
+  }
+
+  public static CxxDir fromProjectDir(Project p, String path) {
+    return new CxxDir(p, new File(p.getFileSystem().getBasedir().toString() + path), false);
+  }
+
+  public String getAbsolutePath() {
+    return absolutePath;
+  }
+
+  public String getProjectPath() {
+    return relativePath;
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }

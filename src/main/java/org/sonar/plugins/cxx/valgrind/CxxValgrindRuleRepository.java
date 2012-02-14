@@ -19,17 +19,17 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
-	@Override
-	protected String RepositoryFileName() {
-		return "/valgrind.xml";
-	}
-	  
-	@Override
-	protected String RepositoryName() {
-		return "valgrind";
-	}
+
+  @Override
+  protected String RepositoryFileName() {
+    return "/valgrind.xml";
+  }
+
+  @Override
+  protected String RepositoryName() {
+    return "valgrind";
+  }
 }

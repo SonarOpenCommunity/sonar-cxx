@@ -22,15 +22,14 @@ package org.sonar.plugins.cxx.rats;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractProfileDefinition;
 
-
 public final class CxxRatsProfile extends CxxAbstractProfileDefinition {
 
-	  public CxxRatsProfile(XMLProfileParser xmlProfileParser) {
-		  super(xmlProfileParser);
-	  }
-	  
-	  @Override
-	  protected String ProfileFileName() {
-		  return "rats-profile.xml";
-	  }
+  public CxxRatsProfile(XMLProfileParser xmlProfileParser) {
+    super(xmlProfileParser);
+  }
+
+  @Override
+  protected String ProfileFileName() {
+    return "rats-profile.xml";
+  }
 }

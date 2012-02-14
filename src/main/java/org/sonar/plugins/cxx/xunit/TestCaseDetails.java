@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-
 /**
  * TODO copied from sonar-surefire-plugin
  */

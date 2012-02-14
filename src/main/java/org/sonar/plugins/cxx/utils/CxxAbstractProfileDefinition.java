@@ -24,24 +24,23 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.utils.ValidationMessages;
 
-
 public abstract class CxxAbstractProfileDefinition extends ProfileDefinition {
-	 // private static final String PROFILE_FILE = "cppcheck-profile.xml";  
-	  private XMLProfileParser xmlProfileParser;
-	  
-	  abstract protected String ProfileFileName();
-	  
-	  // default profile contain all rule
-	  public CxxAbstractProfileDefinition(XMLProfileParser xmlProfileParser)
-	  {
-	    this.xmlProfileParser = xmlProfileParser;
-	  }
-	  
-	  @Override
-	  public RulesProfile createProfile(ValidationMessages messages) {
-	    RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(), ProfileFileName(), messages);
-	    profile.setDefaultProfile(true);
-	    profile.setProvided(true);
-	    return profile;
-	  }
-	}
+
+  // private static final String PROFILE_FILE = "cppcheck-profile.xml";
+  private XMLProfileParser xmlProfileParser;
+
+  abstract protected String ProfileFileName();
+
+  // default profile contain all rule
+  public CxxAbstractProfileDefinition(XMLProfileParser xmlProfileParser) {
+    this.xmlProfileParser = xmlProfileParser;
+  }
+
+  @Override
+  public RulesProfile createProfile(ValidationMessages messages) {
+    RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(), ProfileFileName(), messages);
+    profile.setDefaultProfile(true);
+    profile.setProvided(true);
+    return profile;
+  }
+}

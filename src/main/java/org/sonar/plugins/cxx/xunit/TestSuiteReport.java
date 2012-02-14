@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

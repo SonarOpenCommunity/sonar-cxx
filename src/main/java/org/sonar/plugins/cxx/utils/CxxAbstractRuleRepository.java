@@ -29,23 +29,24 @@ import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 
 public abstract class CxxAbstractRuleRepository extends RuleRepository {
-	  public static final String REPOSITORY_KEY = CxxPlugin.KEY;
-	  
-	  abstract protected String RepositoryFileName();
-	  abstract protected String RepositoryName();
-	  
-	  public CxxAbstractRuleRepository()
-	  {
-	    super(REPOSITORY_KEY, CxxLanguage.KEY);
-	    setName(RepositoryName());
-	  }
-	  
-	  @Override
-	  public List<Rule> createRules() {
-	    final XMLRuleParser xmlParser = new XMLRuleParser();
-	    final InputStream xmlStream = getClass().getResourceAsStream(RepositoryFileName());
-	    return xmlParser.parse(xmlStream);
-	    
-	  }
 
-	}
+  public static final String REPOSITORY_KEY = CxxPlugin.KEY;
+
+  abstract protected String RepositoryFileName();
+
+  abstract protected String RepositoryName();
+
+  public CxxAbstractRuleRepository() {
+    super(REPOSITORY_KEY, CxxLanguage.KEY);
+    setName(RepositoryName());
+  }
+
+  @Override
+  public List<Rule> createRules() {
+    final XMLRuleParser xmlParser = new XMLRuleParser();
+    final InputStream xmlStream = getClass().getResourceAsStream(RepositoryFileName());
+    return xmlParser.parse(xmlStream);
+
+  }
+
+}

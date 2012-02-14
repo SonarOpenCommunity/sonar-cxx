@@ -19,18 +19,17 @@
  */
 package org.sonar.plugins.cxx.rats;
 
-
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
-	@Override
-	protected String RepositoryFileName() {
-		return "/rats.xml";
-	}
-	
-	@Override
-	protected String RepositoryName() {
-		return "rats";
-	}
-}
 
+  @Override
+  protected String RepositoryFileName() {
+    return "/rats.xml";
+  }
+
+  @Override
+  protected String RepositoryName() {
+    return "rats";
+  }
+}

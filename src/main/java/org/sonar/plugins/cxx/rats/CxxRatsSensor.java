@@ -41,17 +41,17 @@ import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 
 public final class CxxRatsSensor implements Sensor {
+
   static final String PATH = "/src/main/native";
   static final String EXEC = "rats";
   static final String ARGS = "-w 3 --xml";
-  
+
   private RuleFinder ruleFinder;
-  
-  public CxxRatsSensor(RuleFinder ruleFinder)
-  {
-    this.ruleFinder   = ruleFinder;
+
+  public CxxRatsSensor(RuleFinder ruleFinder) {
+    this.ruleFinder = ruleFinder;
   }
-  
+
   public boolean shouldExecuteOnProject(Project project) {
     return project.getLanguageKey().equals(CxxLanguage.KEY);
   }
@@ -60,31 +60,27 @@ public final class CxxRatsSensor implements Sensor {
     final StringBuilder sb = new StringBuilder();
     String sourceDir;
     Process p;
-    
+
     sb.append(project.getFileSystem().getBasedir().getAbsoluteFile());
     sb.append(PATH);
     sourceDir = sb.toString();
-        
-    try
-    {
+
+    try {
       File temp = File.createTempFile("temp", "rats");
       p = Runtime.getRuntime().exec(EXEC + " " + ARGS + " " + sourceDir);
-      
+
       temp.deleteOnExit();
       writeFile(temp, p.getInputStream());
-      
+
       analyseXmlReport(temp, project, sensorContext);
+    } catch (IOException ex) {
+
     }
-    catch(IOException ex)
-    {
-      
-    }       
   }
 
-  void writeFile(File file, InputStream is) throws IOException
-  {
+  void writeFile(File file, InputStream is) throws IOException {
     final OutputStream fo = new FileOutputStream(file);
-    
+
     byte[] buf = new byte[1024];
     int len;
     while ((len = is.read(buf)) > 0) {
@@ -93,80 +89,58 @@ public final class CxxRatsSensor implements Sensor {
     is.close();
     fo.close();
   }
-  
-  void analyseXmlReport(File xmlReport, Project project, SensorContext context)
-  {
+
+  void analyseXmlReport(File xmlReport, Project project, SensorContext context) {
     final SAXBuilder builder = new SAXBuilder(false);
-    try
-    {
+    try {
       final Document doc = builder.build(xmlReport);
-      final Element  root = doc.getRootElement();
-      
+      final Element root = doc.getRootElement();
+
       @SuppressWarnings("unchecked")
       final List<Element> vulnerabilities = root.getChildren("vulnerability");
-      
-      for (Element element : vulnerabilities)
-      {
+
+      for (Element element : vulnerabilities) {
         analyseVulnerabilities(element, project, context);
       }
-    }
-    catch(JDOMException ex)
-    {
-      
-    }
-    catch(IOException ex)
-    {
-      
+    } catch (JDOMException ex) {
+
+    } catch (IOException ex) {
+
     }
   }
-  
+
   /*
-   *   <vulnerability>
-   *     <severity>High</severity>
-   *     <type>fixed size global buffer</type>
-   *     <message>
-   *       Extra care should be taken to ensure that character arrays that are
-   *       allocated on the stack are used safely.  They are prime targets for
-   *       buffer overflow attacks.
-   *     </message>
-   *     <file>
-   *       <name>ModuloCalculo/src/CompactaAReal.cpp</name>
-   *       <line>40</line>
-   *       <line>58</line>
-   *     </file>
-   *   </vulnerability>
+   * <vulnerability> <severity>High</severity> <type>fixed size global buffer</type> <message> Extra care should be taken to ensure that
+   * character arrays that are allocated on the stack are used safely. They are prime targets for buffer overflow attacks. </message> <file>
+   * <name>ModuloCalculo/src/CompactaAReal.cpp</name> <line>40</line> <line>58</line> </file> </vulnerability>
    */
-  void analyseVulnerabilities(Element vulnerability, Project project, SensorContext context) 
-  {
-    final String type     = vulnerability.getChild("type").getTextTrim();
-    final String message  = vulnerability.getChild("message").getTextTrim();
-    
+  void analyseVulnerabilities(Element vulnerability, Project project, SensorContext context) {
+    final String type = vulnerability.getChild("type").getTextTrim();
+    final String message = vulnerability.getChild("message").getTextTrim();
+
     @SuppressWarnings("unchecked")
     final List<Element> files = vulnerability.getChildren("file");
-    
-    for(Element file : files)
-    {
+
+    for (Element file : files) {
       final String filename = file.getChild("name").getTextTrim();
-      
+
       @SuppressWarnings("unchecked")
       final List<Element> lines = file.getChildren("line");
-      for(Element line : lines)
-      {
+      for (Element line : lines) {
         final int lineNumber = Integer.parseInt(line.getTextTrim());
         final CxxFile ressource = CxxFile.fromFileName(project, filename, false);
-        final Rule rule = ruleFinder.   findByKey(CxxRatsRuleRepository.REPOSITORY_KEY, type);
+        final Rule rule = ruleFinder.findByKey(CxxRatsRuleRepository.REPOSITORY_KEY, type);
         final Violation violation = Violation.create(rule, ressource);
 
         violation.setMessage(message);
         violation.setLineId(lineNumber);
-        context.saveViolation(violation);        
+        context.saveViolation(violation);
       }
-    }    
+    }
   }
-  
+
   @Override
-  public String toString()
-  {
+  public String toString() {
     return getClass().getSimpleName();
   }
 }

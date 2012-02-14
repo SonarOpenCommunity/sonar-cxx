@@ -43,19 +43,15 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxProfile;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Properties( {
-  @Property(key = CxxPlugin.KEY,      
-      name = "CXX Core Plugin",
-      description = "CXX Core Plugin for Sonar",
-      project = false, global = true) })
-
-      
+@Properties({ @Property(key = CxxPlugin.KEY, name = "CXX Core Plugin", description = "CXX Core Plugin for Sonar", project = false,
+    global = true) })
 /**
  * This class is the entry point for all extensions
  */
 public final class CxxPlugin implements Plugin {
+
   public static final String KEY = "c++";
+
   /**
    * @deprecated this is not used anymore
    */
@@ -79,35 +75,33 @@ public final class CxxPlugin implements Plugin {
 
   // This is where you're going to declare all your Sonar extensions
   public List<Class<? extends Extension>> getExtensions() {
-	  List<Class<? extends Extension>> l;
-	  l = new ArrayList<Class<? extends Extension>>();
-	  l.add(CxxLanguage.class);
-	  l.add(CxxSourceImporter.class);
-	  l.add(CxxColorizer.class);
-	  l.add(CxxLineCounter.class);
-	  l.add(CxxCpdMapping.class);
-	  l.add(CxxRatsRuleRepository.class);
-	  l.add(CxxRatsSensor.class);
-	  l.add(CxxRatsProfile.class);
-	  l.add(CxxXunitSensor.class);
-	  l.add(CxxGcovrSensor.class);
-	  l.add(CxxCppCheckRuleRepository.class);
-	  l.add(CxxCppCheckSensor.class);
-	  l.add(CxxCppCheckProfile.class);
-	  l.add(CxxCppNcssSensor.class);
-	  l.add(CxxVeraxxRuleRepository.class);
-	  l.add(CxxVeraxxSensor.class);
-	  l.add(CxxVeraxxProfile.class);
-	  l.add(CxxValgrindRuleRepository.class);
-	  l.add(CxxValgrindSensor.class);
-	  l.add(CxxValgrindProfile.class);
+    List<Class<? extends Extension>> l;
+    l = new ArrayList<Class<? extends Extension>>();
+    l.add(CxxLanguage.class);
+    l.add(CxxSourceImporter.class);
+    l.add(CxxColorizer.class);
+    l.add(CxxLineCounter.class);
+    l.add(CxxCpdMapping.class);
+    l.add(CxxRatsRuleRepository.class);
+    l.add(CxxRatsSensor.class);
+    l.add(CxxRatsProfile.class);
+    l.add(CxxXunitSensor.class);
+    l.add(CxxGcovrSensor.class);
+    l.add(CxxCppCheckRuleRepository.class);
+    l.add(CxxCppCheckSensor.class);
+    l.add(CxxCppCheckProfile.class);
+    l.add(CxxCppNcssSensor.class);
+    l.add(CxxVeraxxRuleRepository.class);
+    l.add(CxxVeraxxSensor.class);
+    l.add(CxxVeraxxProfile.class);
+    l.add(CxxValgrindRuleRepository.class);
+    l.add(CxxValgrindSensor.class);
+    l.add(CxxValgrindProfile.class);
     return l;
   }
 
-  @Override  
+  @Override
   public String toString() {
     return getClass().getSimpleName();
   }
 }
-
-

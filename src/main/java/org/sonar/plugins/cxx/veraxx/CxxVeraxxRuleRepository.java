@@ -19,17 +19,17 @@
  */
 package org.sonar.plugins.cxx.veraxx;
 
-
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
-	@Override
-	protected String RepositoryFileName() {
-		return "/vera++.xml";
-	}
-	  
-	@Override
-	protected String RepositoryName() {
-		return "vera++";
-	}
+
+  @Override
+  protected String RepositoryFileName() {
+    return "/vera++.xml";
+  }
+
+  @Override
+  protected String RepositoryName() {
+    return "vera++";
+  }
 }
