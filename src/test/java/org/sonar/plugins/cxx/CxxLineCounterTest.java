@@ -64,7 +64,7 @@ public class CxxLineCounterTest {
   }
   
   private Project mockProject() throws java.net.URISyntaxException {
-    File file = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunk.cc").toURI());
+    File file = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
     File basedir = new File(getClass().getResource("/").toURI());
     
     List<File> sources = new ArrayList<File>();
