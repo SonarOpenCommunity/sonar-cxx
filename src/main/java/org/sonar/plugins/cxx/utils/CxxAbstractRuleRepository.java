@@ -26,11 +26,11 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
-  public static final String REPOSITORY_KEY = CxxPlugin.KEY;
+  public static final String REPOSITORY_KEY = CxxLanguage.KEY;
 
   abstract protected String RepositoryFileName();
 

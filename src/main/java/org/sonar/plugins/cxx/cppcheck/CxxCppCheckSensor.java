@@ -47,7 +47,7 @@ import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
-import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
 /**
@@ -97,7 +97,7 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
    * @return
    */
   public boolean shouldExecuteOnProject(Project project) {
-    return CxxPlugin.KEY.equals(project.getLanguageKey());
+    return CxxLanguage.KEY.equals(project.getLanguageKey());
   }
 
   @Override

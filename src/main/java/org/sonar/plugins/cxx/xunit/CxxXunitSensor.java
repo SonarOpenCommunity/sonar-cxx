@@ -59,7 +59,7 @@ import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
-import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
 /**
@@ -108,7 +108,7 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
   private static Logger logger = LoggerFactory.getLogger(CxxXunitSensor.class);
 
   public boolean shouldExecuteOnProject(Project project) {
-    return project.getAnalysisType().isDynamic(true) && CxxPlugin.KEY.equals(project.getLanguageKey());
+    return project.getAnalysisType().isDynamic(true) && CxxLanguage.KEY.equals(project.getLanguageKey());
   }
 
   @Override

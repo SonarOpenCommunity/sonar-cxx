@@ -22,9 +22,9 @@ package org.sonar.plugins.cxx;
 import org.sonar.api.resources.AbstractLanguage;
 
 public final class CxxLanguage extends AbstractLanguage {
-
+  private static final String[] SUFFIXES = { "cxx", "cpp", "h", "hxx" };
+  
   public static final String KEY = "c++";
-  public static final String[] SUFFIXES = { "cxx", "cpp", "h", "hxx" };
   public static final CxxLanguage INSTANCE = new CxxLanguage();
 
   public CxxLanguage() {

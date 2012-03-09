@@ -49,7 +49,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxFile;
-import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
 /**
@@ -81,7 +81,7 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
 
   @Override
   public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project) && CxxPlugin.KEY.equals(project.getLanguageKey());
+    return super.shouldExecuteOnProject(project) && CxxLanguage.KEY.equals(project.getLanguageKey());
   }
 
   private class GcovrReportsHelper extends ReportsHelper {

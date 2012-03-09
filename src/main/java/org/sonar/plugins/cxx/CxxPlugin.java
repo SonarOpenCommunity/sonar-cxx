@@ -24,8 +24,6 @@ import java.util.List;
 
 import org.sonar.api.Extension;
 import org.sonar.api.Plugin;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckProfile;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
@@ -42,21 +40,13 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 
-@Properties({ @Property(key = CxxPlugin.KEY, name = "CXX Core Plugin", description = "CXX Core Plugin for Sonar", project = false,
-    global = true) })
-/**
- * This class is the entry point for all extensions
- */
 public final class CxxPlugin implements Plugin {
-
-  public static final String KEY = "c++";
-
   /**
    * @deprecated this is not used anymore
    */
   @Deprecated
   public String getKey() {
-    return KEY;
+    return "C++ plugin";
   }
 
   /**
@@ -75,10 +65,8 @@ public final class CxxPlugin implements Plugin {
     return "Add support for C++ language.";
   }
 
-  // This is where you're going to declare all your Sonar extensions
   public List<Class<? extends Extension>> getExtensions() {
-    List<Class<? extends Extension>> l;
-    l = new ArrayList<Class<? extends Extension>>();
+    List<Class<? extends Extension>> l = new ArrayList<Class<? extends Extension>>();
     l.add(CxxLanguage.class);
     l.add(CxxSourceImporter.class);
     l.add(CxxColorizer.class);

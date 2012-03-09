@@ -30,9 +30,11 @@ import org.sonar.colorizer.StringTokenizer;
 import org.sonar.colorizer.Tokenizer;
 
 public final class CxxColorizer extends CodeColorizerFormat {
-
-  public static final String[] KEYWORDS = { "auto", "char", "class", "double", "float", "inline", "int", "long", "private", "protected",
-      "public", "return", "short", "static", "struct", "template", "throw", "typedef", "typename", "union", "unsigned", "virtual", "void" };
+  private static final String[] KEYWORDS = {
+    "auto", "char", "class", "double", "float", "inline", "int", "long", "private", "protected",
+    "public", "return", "short", "static", "struct", "template", "throw", "typedef", "typename",
+    "union", "unsigned", "virtual", "void"
+  };
   private static List<Tokenizer> tokens;
 
   public CxxColorizer() {
