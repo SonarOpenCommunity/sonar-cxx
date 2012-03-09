@@ -44,10 +44,10 @@
   </ciManagement>
   
   <properties>
-    <jdk.min.version>1.5</jdk.min.version>
+    <!-- <jdk.min.version>1.5</jdk.min.version> -->
     <sonar.version>2.7</sonar.version>
-    <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
-    <sonar.importSources>true</sonar.importSources>
+    <!-- <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis> -->
+    <!-- <sonar.importSources>true</sonar.importSources> -->
     <sonar.language>java</sonar.language>
     <sonar.pluginKey>cxx</sonar.pluginKey>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
@@ -60,6 +60,20 @@
       <version>${sonar.version}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- <dependency> -->
+    <!--   <groupId>org.codehaus.sonar.plugins</groupId> -->
+    <!--   <artifactId>sonar-surefire-plugin</artifactId> -->
+    <!--   <type>sonar-plugin</type> -->
+    <!--   <version>${sonar.version}</version> -->
+    <!--   <scope>provided</scope> -->
+    <!-- </dependency> -->
+    <!-- <dependency> -->
+    <!--   <groupId>org.codehaus.sonar.plugins</groupId> -->
+    <!--   <artifactId>sonar-cobertura-plugin</artifactId> -->
+    <!--   <type>sonar-plugin</type> -->
+    <!--   <version>${sonar.version}</version> -->
+    <!--   <scope>provided</scope> -->
+    <!-- </dependency> -->
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-project</artifactId>
@@ -98,6 +112,26 @@
       <artifactId>jdom</artifactId>
       <version>1.0</version>
       <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-ws-client</artifactId>
+      <version>${sonar.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   
