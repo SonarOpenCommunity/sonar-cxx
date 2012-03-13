@@ -29,7 +29,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.anyDouble;
 import static org.mockito.Mockito.any;
 
-import java.io.File;
 import java.net.URISyntaxException;
 
 import org.junit.Before;
@@ -39,8 +38,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.resources.ProjectFileSystem;
-
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCppNcssSensorTest {
   private CxxCppNcssSensor sensor;
@@ -49,7 +47,7 @@ public class CxxCppNcssSensorTest {
   
   @Before
   public void setUp() throws java.net.URISyntaxException {
-    project = mockProject();
+    project = TestUtils.mockProject();
     sensor = new CxxCppNcssSensor(project);
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
@@ -65,16 +63,5 @@ public class CxxCppNcssSensorTest {
     verify(context, times(5)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.COMPLEXITY), anyDouble());
     verify(context, times(15)).saveMeasure((Resource) anyObject(), any(Measure.class));
-  }
-  
-  private Project mockProject() throws java.net.URISyntaxException {
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    File basedir = new File(getClass().getResource("/org/sonar/plugins/cxx/").toURI());
-    when(fileSystem.getBasedir()).thenReturn(basedir);
-    
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
-    
-    return project;
   }
 }

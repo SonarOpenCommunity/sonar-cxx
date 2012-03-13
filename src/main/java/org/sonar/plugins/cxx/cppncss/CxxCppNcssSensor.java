@@ -44,7 +44,6 @@ import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
@@ -163,7 +162,8 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
     }
 
     public void saveMetric(Project project, SensorContext context) {
-      CxxFile file = CxxFile.fromFileName(project, FileName, getReportsIncludeSourcePath(mavenProject), false);
+      org.sonar.api.resources.File file =
+        org.sonar.api.resources.File.fromIOFile(new File(FileName), project);
       if (context.getResource(file) != null) {
 
         RangeDistributionBuilder complexityMethodsDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION,

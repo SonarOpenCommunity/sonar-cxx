@@ -43,7 +43,6 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
@@ -180,11 +179,11 @@ public class CxxValgrindSensor extends ReportsHelper implements Sensor {
 
   private class FileData {
 
-    FileData(CxxFile f) {
+    FileData(org.sonar.api.resources.File f) {
       file = f;
     }
-
-    private CxxFile file;
+    
+    private org.sonar.api.resources.File file;
 
     public void saveMetric(Project project, SensorContext context) {
 
@@ -228,7 +227,8 @@ public class CxxValgrindSensor extends ReportsHelper implements Sensor {
       // logger.info("collectError nodename = {} {}", error.getPrefixedName(), error.getAttrCount());
       SMInputCursor child = error.childElementCursor();
       ValgrindError ValError = new ValgrindError();
-      Map<String, CxxFile> FileInvolved = new HashMap<String, CxxFile>();
+      Map<String, org.sonar.api.resources.File> FileInvolved =
+        new HashMap<String, org.sonar.api.resources.File>();
       while (child.getNext() != null) {
         if (child.getLocalName().equalsIgnoreCase("unique")) {
           ValError.unique = child.getElemStringValue();
@@ -254,11 +254,11 @@ public class CxxValgrindSensor extends ReportsHelper implements Sensor {
               } else if (frameChild.getLocalName().equalsIgnoreCase("line")) {
                 f.line = frameChild.getElemStringValue();
               }
-              CxxFile cxxfile = null;
+              org.sonar.api.resources.File cxxfile = null;
               if ( !StringUtils.isEmpty(f.file) && !StringUtils.isEmpty(f.dir)) {
-                cxxfile = CxxFile.fromFileName(project, f.dir + "/" + f.file, false);
+                cxxfile = org.sonar.api.resources.File.fromIOFile(new File(f.dir + "/" + f.file), project);
               } else if ( !StringUtils.isEmpty(f.file)) {
-                cxxfile = CxxFile.fromFileName(project, f.file, false);
+                cxxfile = org.sonar.api.resources.File.fromIOFile(new File(f.file), project);
               }
               if (null != cxxfile && fileExist(context, cxxfile) && !StringUtils.isEmpty(f.line)) {
                 List<String> Lines = ValError.LinesErrorPerFileKey.get(cxxfile.getKey());
@@ -278,7 +278,7 @@ public class CxxValgrindSensor extends ReportsHelper implements Sensor {
           }
         }
       }
-      for (CxxFile curResource : FileInvolved.values()) {
+      for (org.sonar.api.resources.File curResource : FileInvolved.values()) {
         FileData data = fileDataPerFilename.get(curResource.getKey());
         if (data == null) {
           data = new FileData(curResource);
@@ -289,7 +289,7 @@ public class CxxValgrindSensor extends ReportsHelper implements Sensor {
     }
   }
 
-  private boolean fileExist(SensorContext context, CxxFile file) {
+  private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
     return context.getResource(file) != null;
   }
 }

@@ -28,18 +28,14 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.resources.ProjectFileSystem;
 
 public class CxxLineCounterTest {
   private CxxLineCounter sensor;
@@ -64,21 +60,17 @@ public class CxxLineCounterTest {
   }
   
   private Project mockProject() throws java.net.URISyntaxException {
-    File file = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
-    File basedir = new File(getClass().getResource("/").toURI());
+    Project project = TestUtils.mockProject();
     
-    List<File> sources = new ArrayList<File>();
-    sources.add(file);
+    File sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
+    File sourceDir = new File(getClass().getResource("/").toURI());
+    List<File> sourceFiles = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
+    sourceFiles.clear();
+    sourceFiles.add(sourceFile);
+    List<File> sourceDirs = project.getFileSystem().getSourceDirs();
+    sourceDirs.clear();
+    sourceDirs.add(sourceDir);
     
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    when(fileSystem.getBasedir()).thenReturn(basedir);
-    when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-    when(fileSystem.getSourceFiles(CxxLanguage.INSTANCE)).thenReturn(sources);
-    
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
-    when(project.getLanguageKey()).thenReturn(CxxLanguage.KEY);
-
     return project;
   }
 }

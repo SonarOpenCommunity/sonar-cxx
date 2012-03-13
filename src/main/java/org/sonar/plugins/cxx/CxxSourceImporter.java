@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
@@ -29,7 +28,6 @@ import org.sonar.api.batch.AbstractSourceImporter;
 import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
 
 @SupportedEnvironment({ "maven" })
 public final class CxxSourceImporter extends AbstractSourceImporter {
@@ -53,7 +51,7 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
     if (null != mavenProject) {
       logger.info("Maven project as been found using deprecated sonar API");
     }
-    addCxxSourceDir();
+    //addCxxSourceDir();
   }
 
   public CxxSourceImporter(Project p, MavenProject mp) {
@@ -61,7 +59,7 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
     logger.info("Maven project is available");
     project = p;
     mavenProject = mp;
-    addCxxSourceDir();
+    //addCxxSourceDir();
   }
 
   private static Logger logger = LoggerFactory.getLogger(CxxSourceImporter.class);
@@ -93,12 +91,6 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
 
   protected String getMAVEN_PLUGIN_GROUP_ID() {
     return GROUP_ID;
-  }
-
-  @Override
-  protected Resource<CxxDir> createResource(File file, List<File> sourceDirs, boolean unitTest) {
-    // project has been setted in analyse()
-    return CxxFile.fromFileName(project, file.getAbsolutePath(), false);
   }
 
   @Override

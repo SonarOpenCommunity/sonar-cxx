@@ -28,45 +28,46 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.CoreProperties;
+import org.apache.commons.configuration.Configuration;
 
 public class CxxSourceImporterTest {
   @Test
   public void testSourceImporter() throws URISyntaxException {
     SensorContext context = mock(SensorContext.class);
     Project project = mockProject();
-    CxxSourceImporter importer = new CxxSourceImporter(project);
+    CxxSourceImporter importer = new CxxSourceImporter();
     
     importer.analyse(project, context);
     
     verify(context).saveSource((Resource) anyObject(), eq("<c++ source>\n"));
   }
   
-  
   private Project mockProject() throws java.net.URISyntaxException {
-    File file = new File(getClass().getResource("/org/sonar/plugins/cxx/source.cc").toURI());
-    File basedir = new File(getClass().getResource("/").toURI());
+    Project project = TestUtils.mockProject();
     
-    List<File> sources = new ArrayList<File>();
-    sources.add(file);
+    File sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/source.cc").toURI());
+    File sourceDir = new File(getClass().getResource("/org/sonar/plugins/cxx").toURI());
+    List<File> sourceFiles = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
+    sourceFiles.clear();
+    sourceFiles.add(sourceFile);
+    List<File> sourceDirs = project.getFileSystem().getSourceDirs();
+    sourceDirs.clear();
+    sourceDirs.add(sourceDir);
     
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    when(fileSystem.getBasedir()).thenReturn(basedir);
-    when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-    when(fileSystem.getSourceFiles(CxxLanguage.INSTANCE)).thenReturn(sources);
+    Configuration config = mock(Configuration.class);
+    when(config.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
+                           CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
+    when(project.getConfiguration()).thenReturn(config);
     
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
-    when(project.getLanguageKey()).thenReturn(CxxLanguage.KEY);
+    when(project.getLanguage()).thenReturn(CxxLanguage.INSTANCE);
     
     return project;
   }

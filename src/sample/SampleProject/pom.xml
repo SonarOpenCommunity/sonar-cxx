@@ -585,10 +585,12 @@
   </profiles>
   <build>
     <!-- We have our own <configuration><sourceDirs> node inside cxx plugin configuration -->
-    <!-- <sourceDirectory>${basedir}/sources</sourceDirectory> -->
+    <sourceDirectory>sources</sourceDirectory>
   </build>
   <properties>
     <sonar.language>c++</sonar.language>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.scm.enabled>true</sonar.scm.enabled>
+    <sonar.scm.url>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx/src/sample/SampleProject</sonar.scm.url>
   </properties>
 </project>

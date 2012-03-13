@@ -37,8 +37,8 @@ public class CxxSampleProjectIT {
 
   private static Sonar sonar;
   private static final String PROJECT_SAMPLE = "NETICOA:SAMPLE";
-  private static final String DIR_UTILS = "NETICOA:SAMPLE:.sources.utils";
-  private static final String FILE_CODECHUNKS = "NETICOA:SAMPLE::sources:utils:code_chunks.cpp";
+  private static final String DIR_UTILS = "NETICOA:SAMPLE:utils";
+  private static final String FILE_CODECHUNKS = "NETICOA:SAMPLE:utils/code_chunks.cpp";
   
   @BeforeClass
   public static void buildServer() {
@@ -56,8 +56,9 @@ public class CxxSampleProjectIT {
   @Test
   public void projectsMetrics() {
     String[] metricNames =
-      {"ncloc", "lines", "files", "directories", "functions", "comment_lines_density",
-       "comment_lines", "comment_blank_lines", "commented_out_code_lines", 
+      {"ncloc", "lines",
+       "files", "directories", "functions",
+       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines", 
        "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files", 
        "complexity", "function_complexity", "violations", "violations_density"
       };
@@ -67,7 +68,7 @@ public class CxxSampleProjectIT {
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
     
-    double[] expectedValues = {87, 142, 6, 4, 6, 11.2, 11, 2, 21, 26.8, 38, 2, 1, 7, 1.2, 25, 69.0};
+    double[] expectedValues = {88.0, 144.0, 6.0, 3.0, 6.0, 12.0, 12.0, 2.0, 21.0, 26.4, 38.0, 2.0, 1.0, 7.0, 1.2, 25.0, 69.3};
     assertThat(values, is(expectedValues));
     
     assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=5;2=1;4=0;6=0;8=0;10=0;12=0"));
@@ -89,7 +90,7 @@ public class CxxSampleProjectIT {
       values[i] = getPackageMeasure(metricNames[i]).getValue();
     }
     
-    double[] expectedValues = {52, 94, 2, 1, 2, 16.1, 10, 2, 21, 40.4, 38, 2, 1, 3, 1.5, 9, 78.8};
+    double[] expectedValues = {52.0, 94.0, 2.0, 1.0, 2.0, 16.1, 10.0, 2.0, 21.0, 40.4, 38.0, 2.0, 1.0, 3.0, 1.5, 9.0, 78.8};
     assertThat(values, is(expectedValues));
     
     assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=1;2=1;4=0;6=0;8=0;10=0;12=0"));
@@ -111,7 +112,7 @@ public class CxxSampleProjectIT {
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
     
-    double[] expectedValues = {48, 88, 1, 1, 17.2, 10, 2, 21, 43.2, 38, 2, 1, 2, 2, 6, 81.3};
+    double[] expectedValues = {48.0, 88.0, 1.0, 1.0, 17.2, 10.0, 2.0, 21.0, 43.2, 38.0, 2.0, 1.0, 2.0, 2.0, 6.0, 81.3};
     assertThat(values, is(expectedValues));
   }
 

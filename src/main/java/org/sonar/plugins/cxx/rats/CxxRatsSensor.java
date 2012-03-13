@@ -36,7 +36,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
-import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
@@ -138,7 +137,8 @@ public final class CxxRatsSensor extends ReportsHelper implements Sensor {
 
       for (Element line : lines) {
         final int lineNumber = Integer.parseInt(line.getTextTrim());
-        final CxxFile ressource = CxxFile.fromFileName(project, filename, false);
+        final org.sonar.api.resources.File ressource =
+          org.sonar.api.resources.File.fromIOFile(new File(filename), project);
         final Rule rule = ruleFinder.findByKey(CxxRatsRuleRepository.REPOSITORY_KEY, type);
         final Violation violation = Violation.create(rule, ressource);
 

@@ -39,7 +39,8 @@ public final class CxxLineCounter implements Sensor {
     final CodeRecognizer codeRecognizer = new CodeRecognizer(0.9, new CxxLanguageFootprint());
 
     for (File file : sources) {
-      CxxFile cxxFile = CxxFile.fromFileName(project, file.getAbsolutePath(), false);
+      org.sonar.api.resources.File cxxFile =
+        org.sonar.api.resources.File.fromIOFile(file, project);
       try {
         Source result = new Source(new FileReader(file), codeRecognizer, "//");
 

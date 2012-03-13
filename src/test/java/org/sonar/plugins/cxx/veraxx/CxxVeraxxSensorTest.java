@@ -29,17 +29,16 @@ import static org.mockito.Mockito.anyObject;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.resources.ProjectFileSystem;
-
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxVeraxxSensorTest {
   private CxxVeraxxSensor sensor;
@@ -49,7 +48,7 @@ public class CxxVeraxxSensorTest {
   @Before
   public void setUp() throws java.net.URISyntaxException {
     project = mockProject();
-    RuleFinder ruleFinder = mockRuleFinder();
+    RuleFinder ruleFinder = TestUtils.mockRuleFinder();
     sensor = new CxxVeraxxSensor(ruleFinder, project);
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
@@ -63,22 +62,22 @@ public class CxxVeraxxSensorTest {
   }
   
   private Project mockProject() throws java.net.URISyntaxException {
-    File basedir = new File(getClass().getResource("/org/sonar/plugins/cxx/").toURI());
+    Project project = TestUtils.mockProject();
     
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    when(fileSystem.getBasedir()).thenReturn(basedir);
+    // works only with relative paths... should look at this later
+    List<File> sourceFiles = project.getFileSystem().getSourceFiles();
+    sourceFiles.clear();
+    sourceFiles.add(new File("sources/application/main.cpp"));
+    sourceFiles.add(new File("sources/tests/SAMPLE-test.cpp"));
+    sourceFiles.add(new File("sources/tests/SAMPLE-test.h"));
+    sourceFiles.add(new File("sources/tests/main.cpp"));
+    sourceFiles.add(new File("sources/utils/code_chunks.cpp"));
+    sourceFiles.add(new File("sources/utils/utils.cpp"));
     
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
+    List<File> sourceDirs = project.getFileSystem().getSourceDirs();
+    sourceDirs.clear();
+    sourceDirs.add(new File("sources"));
     
     return project;
-  }
-
-  private RuleFinder mockRuleFinder(){
-    Rule ruleMock = Rule.create("", "", "");
-    RuleFinder ruleFinder = mock(RuleFinder.class);
-    when(ruleFinder.findByKey((String) anyObject(),
-                              (String) anyObject())).thenReturn(ruleMock);
-    return ruleFinder;
   }
 }

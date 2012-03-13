@@ -48,7 +48,6 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
@@ -169,8 +168,8 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
       collectFileMeasures(project, pack.descendantElementCursor("class"), dataPerFilename);
     }
   }
-
-  private boolean fileExist(SensorContext context, CxxFile file) {
+  
+  private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
     return context.getResource(file) != null;
   }
 
@@ -179,15 +178,24 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
     logger.debug("collectFileMeasures");
     while (clazz.getNext() != null) {
       String fileName = clazz.getAttrValue("filename");
-      CxxFile cxxfile = CxxFile.fromFileName(project, fileName, false);
-      String FileKey = cxxfile.getKey();
-      FileData data = dataPerFilename.get(FileKey);
-      if (data == null) {
-        data = new FileData(cxxfile);
-        dataPerFilename.put(FileKey, data);
-        logger.debug("collectFileMeasures created CXXFILe", data.getFile().getKey());
+      
+      org.sonar.api.resources.File cxxfile =
+        org.sonar.api.resources.File.fromIOFile(new File(fileName), project);
+      if (cxxfile != null) {
+        String FileKey = cxxfile.getKey();
+        FileData data = dataPerFilename.get(FileKey);
+        if (data == null) {
+          data = new FileData(cxxfile);
+          dataPerFilename.put(FileKey, data);
+          logger.debug("collectFileMeasures created CXXFILe", data.getFile().getKey());
+        }
+        collectFileData(clazz, data);
       }
-      collectFileData(clazz, data);
+      else{
+        //advance to next block without collecting
+        SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
+        while (line.getNext() != null);
+      }
     }
   }
 
@@ -216,7 +224,7 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
     private int coveredLines = 0;
     private int coveredConditions = 0;
 
-    private CxxFile file;
+    private org.sonar.api.resources.File file;
     private PropertiesBuilder<String, Integer> lineHitsBuilder = new PropertiesBuilder<String, Integer>(CoreMetrics.COVERAGE_LINE_HITS_DATA);
     private PropertiesBuilder<String, String> branchHitsBuilder = new PropertiesBuilder<String, String>(
         CoreMetrics.BRANCH_COVERAGE_HITS_DATA);
@@ -247,7 +255,7 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
       }
     }
 
-    public FileData(CxxFile file) {
+    public FileData(org.sonar.api.resources.File file) {
       this.file = file;
     }
 
@@ -267,7 +275,7 @@ public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor 
       return measures;
     }
 
-    public CxxFile getFile() {
+    public org.sonar.api.resources.File getFile() {
       return file;
     }
   }

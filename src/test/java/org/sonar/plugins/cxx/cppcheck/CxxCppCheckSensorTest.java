@@ -21,30 +21,23 @@
 package org.sonar.plugins.cxx.cppcheck;
 
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
 
-import java.io.File;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.commons.configuration.Configuration;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.Violation;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.resources.ProjectFileSystem;
-
-import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCppCheckSensorTest {
   private CxxCppCheckSensor sensor;
@@ -54,8 +47,8 @@ public class CxxCppCheckSensorTest {
   @Before
   public void setUp() throws java.net.URISyntaxException {
     Configuration config = mock(Configuration.class);
-    project = mockProject();
-    RuleFinder ruleFinder = mockRuleFinder();
+    project = TestUtils.mockProject();
+    RuleFinder ruleFinder = TestUtils.mockRuleFinder();
     sensor = new CxxCppCheckSensor(ruleFinder, config, project);
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
@@ -66,27 +59,5 @@ public class CxxCppCheckSensorTest {
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
     verify(context, times(2)).saveViolation(any(Violation.class));
-  }
-  
-  private Project mockProject() throws java.net.URISyntaxException {
-    File basedir = new File(getClass().getResource("/org/sonar/plugins/cxx/").toURI());
-    
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    when(fileSystem.getBasedir()).thenReturn(basedir);
-    when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-    
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
-    when(project.getLanguageKey()).thenReturn(CxxLanguage.KEY);
-    
-    return project;
-  }
-
-  private RuleFinder mockRuleFinder(){
-    Rule ruleMock = Rule.create("", "", "");
-    RuleFinder ruleFinder = mock(RuleFinder.class);
-    when(ruleFinder.findByKey((String) anyObject(),
-                              (String) anyObject())).thenReturn(ruleMock);
-    return ruleFinder;
   }
 }

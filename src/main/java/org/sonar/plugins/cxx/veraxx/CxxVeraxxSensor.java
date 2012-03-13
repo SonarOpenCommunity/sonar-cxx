@@ -39,7 +39,6 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
@@ -157,8 +156,9 @@ public class CxxVeraxxSensor extends ReportsHelper implements Sensor {
               line = "0";
             }
 
-            CxxFile ressource = CxxFile.fromFileName(project, fileName, getReportsIncludeSourcePath(mavenProject), false);
-            if (fileExist(context, ressource)) {
+            org.sonar.api.resources.File ressource =
+              org.sonar.api.resources.File.fromIOFile(new File(fileName), project);
+            if (ressource != null && fileExist(context, ressource)) {
               Rule rule = ruleFinder.findByKey(CxxVeraxxRuleRepository.REPOSITORY_KEY, source);
               if (rule != null) {
                 Object t[] = { source, message, line, ressource.getKey() };
@@ -186,7 +186,7 @@ public class CxxVeraxxSensor extends ReportsHelper implements Sensor {
     }
   }
 
-  private boolean fileExist(SensorContext context, CxxFile file) {
+  private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
     return context.getResource(file) != null;
   }
 }

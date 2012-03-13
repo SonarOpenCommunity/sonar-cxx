@@ -27,19 +27,16 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyObject;
 
-import java.io.File;
 import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.resources.ProjectFileSystem;
-
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxRatsSensorTest {
   private CxxRatsSensor sensor;
@@ -48,8 +45,8 @@ public class CxxRatsSensorTest {
   
   @Before
   public void setUp() throws java.net.URISyntaxException {
-    project = mockProject();
-    RuleFinder ruleFinder = mockRuleFinder();
+    project = TestUtils.mockProject();
+    RuleFinder ruleFinder = TestUtils.mockRuleFinder();
     sensor = new CxxRatsSensor(ruleFinder, project);
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
@@ -60,25 +57,5 @@ public class CxxRatsSensorTest {
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
     verify(context, times(2)).saveViolation(any(Violation.class));
-  }
-  
-  private Project mockProject() throws java.net.URISyntaxException {
-    File basedir = new File(getClass().getResource("/org/sonar/plugins/cxx/").toURI());
-    
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    when(fileSystem.getBasedir()).thenReturn(basedir);
-    
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
-    
-    return project;
-  }
-  
-  private RuleFinder mockRuleFinder(){
-    Rule ruleMock = Rule.create("", "", "");
-    RuleFinder ruleFinder = mock(RuleFinder.class);
-    when(ruleFinder.findByKey((String) anyObject(),
-                              (String) anyObject())).thenReturn(ruleMock);
-    return ruleFinder;
   }
 }

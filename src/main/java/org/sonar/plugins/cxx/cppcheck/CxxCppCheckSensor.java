@@ -46,7 +46,6 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
@@ -231,11 +230,12 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
         line = "0";
       }
       if ( !StringUtils.isEmpty(file)) {
-        CxxFile ressource = CxxFile.fromFileName(project, file, getReportsIncludeSourcePath(mavenProject), false);
+        org.sonar.api.resources.File ressource =
+          org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (fileExist(context, ressource)) {
           Rule rule = ruleFinder.findByKey(CxxCppCheckRuleRepository.REPOSITORY_KEY, id);
           if (rule != null) {
-            Object t[] = { id, msg, line, ressource.getKey() };
+            Object t[] = { id, msg, line, ressource };
             logger.debug("error id={} msg={} found at line {} from ressource {}", t);
 
             Violation violation = Violation.create(rule, ressource);
@@ -257,7 +257,7 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
     }
   }
 
-  private boolean fileExist(SensorContext context, CxxFile file) {
+  private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
     return context.getResource(file) != null;
   }
 }

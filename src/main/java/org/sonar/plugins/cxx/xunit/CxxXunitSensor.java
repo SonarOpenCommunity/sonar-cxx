@@ -58,7 +58,6 @@ import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxFile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.ReportsHelper;
 
@@ -260,7 +259,8 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
 
   private Resource<?> getUnitTestResource(Project project, TestSuiteReport fileReport) {
     logger.debug("Unit Test Resource key = {}", fileReport.getClassKey());
-    return CxxFile.fromFileName(project, fileReport.getClassKey(), true);
+    return org.sonar.api.resources.File.fromIOFile(new File(fileReport.getClassKey()),
+                                                   project);
   }
 
   @Override

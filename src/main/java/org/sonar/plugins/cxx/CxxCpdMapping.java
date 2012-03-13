@@ -39,8 +39,8 @@ public final class CxxCpdMapping implements CpdMapping {
     this.project = project;
   }
 
-  public Resource<CxxDir> createResource(File file, List<File> dirs) {
-    return CxxFile.fromFileName(project, file.getAbsolutePath(), false);
+  public Resource<?> createResource(File file, List<File> dirs) {
+    return org.sonar.api.resources.File.fromIOFile(file, project);
   }
 
   public Language getLanguage() {
