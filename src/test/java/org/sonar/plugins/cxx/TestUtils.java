@@ -30,6 +30,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.configuration.Configuration;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.resources.Project;
@@ -63,13 +64,18 @@ public class TestUtils{
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
     when(fileSystem.getBasedir()).thenReturn(reportsBasedir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-    when(fileSystem.getSourceFiles(CxxLanguage.INSTANCE)).thenReturn(sourceFiles);
+    when(fileSystem.getSourceFiles(mockCxxLanguage())).thenReturn(sourceFiles);
     when(fileSystem.getSourceDirs()).thenReturn(sourceDirs);
     
     Project project = mock(Project.class);
     when(project.getFileSystem()).thenReturn(fileSystem);
-    when(project.getLanguage()).thenReturn(CxxLanguage.INSTANCE);
+    CxxLanguage lang = mockCxxLanguage();
+    when(project.getLanguage()).thenReturn(lang);
     
     return project;
+  }
+  
+  public static CxxLanguage mockCxxLanguage(){
+    return new CxxLanguage(mock(Configuration.class)); 
   }
 }

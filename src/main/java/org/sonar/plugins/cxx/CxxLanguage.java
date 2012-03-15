@@ -19,19 +19,26 @@
  */
 package org.sonar.plugins.cxx;
 
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.resources.AbstractLanguage;
 
 public final class CxxLanguage extends AbstractLanguage {
-  private static final String[] SUFFIXES = { "cxx", "cpp", "h", "hxx" };
+  static final String DEFAULT_FILE_SUFFIXES = "cxx,cpp,cc,h,hxx,hpp,hh";
+  private Configuration config;
   
   public static final String KEY = "c++";
-  public static final CxxLanguage INSTANCE = new CxxLanguage();
-
-  public CxxLanguage() {
+  
+  public CxxLanguage(Configuration config) {
     super(KEY, "c++");
+    this.config = config;
   }
-
+  
   public String[] getFileSuffixes() {
-    return SUFFIXES;
+    String[] suffixes = config.getStringArray(CxxPlugin.FILE_SUFFIXES_KEY);
+    if (suffixes == null || suffixes.length == 0) {
+      suffixes = StringUtils.split(DEFAULT_FILE_SUFFIXES, ",");
+    }
+    return suffixes;
   }
 }

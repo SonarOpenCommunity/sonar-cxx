@@ -19,18 +19,31 @@
  */
 package org.sonar.plugins.cxx;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
+import org.apache.commons.configuration.BaseConfiguration;
+import org.apache.commons.configuration.Configuration;
 import org.junit.Test;
 import org.sonar.plugins.cxx.CxxLanguage;
 
 public class CxxLanguageTest {
   @Test
-  public void shouldProvideValidSuffixes() {
-    CxxLanguage cxx = new CxxLanguage();
-    assert(cxx.getFileSuffixes() != null);
+  public void shouldReturnConfiguredSuffixes() {
+    Configuration config = new BaseConfiguration();
+    config.setProperty(CxxPlugin.FILE_SUFFIXES_KEY, "C, c");
+    CxxLanguage cxx = new CxxLanguage(config);
+    
+    String[] expected = {"C", "c"};
+    assertThat(cxx.getFileSuffixes(), is(expected));
   }
-  
+
   @Test
-  public void shouldProvideValidInstance() {
-    assert(CxxLanguage.INSTANCE != null);
+  public void shouldFallbackToDefaultIfNoSuffixesConfigured() {
+    Configuration config = new BaseConfiguration();
+    CxxLanguage cxx = new CxxLanguage(config);
+    String[] suffixes = cxx.getFileSuffixes();
+    assert(suffixes != null);
+    assert(suffixes.length > 0);
   }
 }

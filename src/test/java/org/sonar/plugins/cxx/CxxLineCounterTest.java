@@ -43,7 +43,7 @@ public class CxxLineCounterTest {
   
   @Before
   public void setUp() {
-    sensor = new CxxLineCounter();
+    sensor = new CxxLineCounter(TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
   }
   
@@ -64,7 +64,7 @@ public class CxxLineCounterTest {
     
     File sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
     File sourceDir = new File(getClass().getResource("/").toURI());
-    List<File> sourceFiles = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
+    List<File> sourceFiles = project.getFileSystem().getSourceFiles(TestUtils.mockCxxLanguage());
     sourceFiles.clear();
     sourceFiles.add(sourceFile);
     List<File> sourceDirs = project.getFileSystem().getSourceDirs();

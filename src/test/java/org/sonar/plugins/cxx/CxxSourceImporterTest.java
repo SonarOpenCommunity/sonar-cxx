@@ -43,7 +43,7 @@ public class CxxSourceImporterTest {
   public void testSourceImporter() throws URISyntaxException {
     SensorContext context = mock(SensorContext.class);
     Project project = mockProject();
-    CxxSourceImporter importer = new CxxSourceImporter();
+    CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage());
     
     importer.analyse(project, context);
     
@@ -55,7 +55,7 @@ public class CxxSourceImporterTest {
     
     File sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/source.cc").toURI());
     File sourceDir = new File(getClass().getResource("/org/sonar/plugins/cxx").toURI());
-    List<File> sourceFiles = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
+    List<File> sourceFiles = project.getFileSystem().getSourceFiles(TestUtils.mockCxxLanguage());
     sourceFiles.clear();
     sourceFiles.add(sourceFile);
     List<File> sourceDirs = project.getFileSystem().getSourceDirs();
@@ -66,8 +66,6 @@ public class CxxSourceImporterTest {
     when(config.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
                            CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
     when(project.getConfiguration()).thenReturn(config);
-    
-    when(project.getLanguage()).thenReturn(CxxLanguage.INSTANCE);
     
     return project;
   }

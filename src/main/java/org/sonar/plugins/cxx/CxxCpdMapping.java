@@ -33,10 +33,12 @@ import org.sonar.api.resources.Resource;
 public final class CxxCpdMapping implements CpdMapping {
 
   private final CPPLanguage language = new CPPLanguage();
+  private CxxLanguage lang;
   private Project project;
 
-  public CxxCpdMapping(Project project) {
+  public CxxCpdMapping(Project project, CxxLanguage lang) {
     this.project = project;
+    this.lang = lang;
   }
 
   public Resource<?> createResource(File file, List<File> dirs) {
@@ -44,7 +46,7 @@ public final class CxxCpdMapping implements CpdMapping {
   }
 
   public Language getLanguage() {
-    return CxxLanguage.INSTANCE;
+    return lang;
   }
 
   public Tokenizer getTokenizer() {

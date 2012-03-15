@@ -33,9 +33,13 @@ import org.sonar.squid.recognizer.CodeRecognizer;
 import org.sonar.squid.text.Source;
 
 public final class CxxLineCounter implements Sensor {
+  private CxxLanguage lang;
+  public CxxLineCounter(CxxLanguage lang) {
+    this.lang = lang;
+  }
 
   public void analyse(Project project, SensorContext context) {
-    final List<File> sources = project.getFileSystem().getSourceFiles(CxxLanguage.INSTANCE);
+    final List<File> sources = project.getFileSystem().getSourceFiles(lang);
     final CodeRecognizer codeRecognizer = new CodeRecognizer(0.9, new CxxLanguageFootprint());
 
     for (File file : sources) {

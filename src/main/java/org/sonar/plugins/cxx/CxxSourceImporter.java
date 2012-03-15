@@ -38,13 +38,13 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
   private Project project = null;
   private MavenProject mavenProject = null;
 
-  public CxxSourceImporter() {
-    super(CxxLanguage.INSTANCE);
+  public CxxSourceImporter(CxxLanguage lang) {
+    super(lang);
     logger.info("CxxSourceImporter()");
   }
 
-  public CxxSourceImporter(Project p) {
-    super(CxxLanguage.INSTANCE);
+  public CxxSourceImporter(Project p, CxxLanguage lang) {
+    super(lang);
     logger.info("Maven project seems not to be available");
     project = p;
     mavenProject = project.getPom();
@@ -54,8 +54,8 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
     //addCxxSourceDir();
   }
 
-  public CxxSourceImporter(Project p, MavenProject mp) {
-    super(CxxLanguage.INSTANCE);
+  public CxxSourceImporter(Project p, MavenProject mp, CxxLanguage lang) {
+    super(lang);
     logger.info("Maven project is available");
     project = p;
     mavenProject = mp;

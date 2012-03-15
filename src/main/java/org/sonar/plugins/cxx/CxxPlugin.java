@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.sonar.api.Extension;
 import org.sonar.api.Plugin;
+import org.sonar.api.Properties;
+import org.sonar.api.Property;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckProfile;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
@@ -40,7 +42,18 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 
+@Properties({
+    @Property(
+      key = CxxPlugin.FILE_SUFFIXES_KEY,
+      defaultValue = CxxLanguage.DEFAULT_FILE_SUFFIXES,
+      name = "File suffixes",
+      description = "Comma-separated list of suffixes for files to analyze. Leave empty to use the default.",
+      global = true,
+      project = true)
+})
 public final class CxxPlugin implements Plugin {
+  static final String FILE_SUFFIXES_KEY = "sonar.cxx.suffixes";
+
   /**
    * @deprecated this is not used anymore
    */
