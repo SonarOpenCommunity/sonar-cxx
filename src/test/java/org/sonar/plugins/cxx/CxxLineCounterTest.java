@@ -27,7 +27,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.junit.Before;
@@ -48,7 +47,7 @@ public class CxxLineCounterTest {
   }
   
   @Test
-  public void testLineCounting() throws java.net.URISyntaxException {
+  public void testLineCounting() {
     Project project = mockProject();
     sensor.analyse(project, context);
     
@@ -59,11 +58,19 @@ public class CxxLineCounterTest {
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(58.0));
   }
   
-  private Project mockProject() throws java.net.URISyntaxException {
+  private Project mockProject() {
     Project project = TestUtils.mockProject();
     
-    File sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
-    File sourceDir = new File(getClass().getResource("/").toURI());
+    File sourceFile;
+    File sourceDir;
+    try{
+      sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
+      sourceDir = new File(getClass().getResource("/").toURI());
+    } catch(java.net.URISyntaxException e) {
+      System.out.println("Got an exception while mockint project: " + e);
+      return null;
+    }
+
     List<File> sourceFiles = project.getFileSystem().getSourceFiles(TestUtils.mockCxxLanguage());
     sourceFiles.clear();
     sourceFiles.add(sourceFile);

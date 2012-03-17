@@ -27,8 +27,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyObject;
 
-import java.net.URISyntaxException;
-
+import org.apache.commons.configuration.Configuration;
 import org.junit.Ignore;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,21 +38,21 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.plugins.cxx.TestUtils;
 
-@Ignore // This unit test (the production code, actually) depends
-        // on absolute paths in the report file and will fail if checked out
-        // elsewhere. The valgrind sensor would *also* fail if the project
-        // is moved to a different place after creating the reports and before
-        // analyzing. Skip for now...
+// @Ignore // This unit test (the production code, actually) depends
+//         // on absolute paths in the report file and will fail if checked out
+//         // elsewhere. The valgrind sensor would *also* fail if the project
+//         // is moved to a different place after creating the reports and before
+//         // analyzing. Skip for now...
 public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
   private SensorContext context;
   private Project project;
   
   @Before
-  public void setUp() throws java.net.URISyntaxException {
+  public void setUp() {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxValgrindSensor(ruleFinder, project);
+    sensor = new CxxValgrindSensor(ruleFinder, mock(Configuration.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

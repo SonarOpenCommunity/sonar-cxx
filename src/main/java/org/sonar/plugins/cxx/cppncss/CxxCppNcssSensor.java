@@ -29,93 +29,44 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.ReportsHelper;
+import org.sonar.plugins.cxx.CxxSensor;
 
-@SupportedEnvironment({ "maven" })
-public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
+public class CxxCppNcssSensor extends CxxSensor {
+  public static final String REPORT_PATH_KEY = "sonar.cxx.cppncss.reportPath";
+  private static final String DEFAULT_REPORT_PATH = "cppncss-reports/cppncss-result-*.xml";
+  private static Logger logger = LoggerFactory.getLogger(CxxCppNcssSensor.class);
+  private static final Number[] METHODS_DISTRIB_BOTTOM_LIMITS = { 1, 2, 4, 6, 8, 10, 12 };
+  private static final Number[] FILE_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
+  private static final Number[] CLASS_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
 
-  private static final String GROUP_ID = "org.codehaus.mojo";
-  private static final String ARTIFACT_ID = "cxx-maven-plugin";
-  private static final String SENSOR_ID = "cppncss";
-  private static final String DEFAULT_GCOVR_REPORTS_DIR = "cppncss-reports";
-  private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppncss-result-*.xml";
-
-  private MavenProject mavenProject = null;
-
-  public CxxCppNcssSensor(Project p) {
-    mavenProject = p.getPom();
-  }
-
-  public CxxCppNcssSensor(Project p, MavenProject mp) {
-    mavenProject = mp;
+  private Configuration conf;
+  
+  public CxxCppNcssSensor(Configuration conf) {
+    this.conf = conf;
   }
 
   public void analyse(Project project, SensorContext context) {
-    File reportDirectory = getReportsDirectory(project, mavenProject);
-    if (reportDirectory != null) {
-      File reports[] = getReports(mavenProject, reportDirectory);
-      for (File report : reports) {
-        parseReport(project, report, context);
-      }
+    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    for (File report : reports) {
+      parseReport(project, report, context);
     }
   }
 
-  private static Logger logger = LoggerFactory.getLogger(CxxCppNcssSensor.class);
-
-  public boolean shouldExecuteOnProject(Project project) {
-    return CxxLanguage.KEY.equals(project.getLanguageKey());
-  }
-
-  @Override
-  protected String getArtifactId() {
-    return ARTIFACT_ID;
-  }
-
-  @Override
-  protected String getSensorId() {
-    return SENSOR_ID;
-  }
-
-  @Override
-  protected String getDefaultReportsDir() {
-    return DEFAULT_GCOVR_REPORTS_DIR;
-  }
-
-  @Override
-  protected String getDefaultReportsFilePattern() {
-    return DEFAULT_REPORTS_FILE_PATTERN;
-  }
-
-  @Override
-  protected String getGroupId() {
-    return GROUP_ID;
-  }
-
-  @Override
-  protected Logger getLogger() {
-    return logger;
-  }
-
-  private final static Number[] METHODS_DISTRIB_BOTTOM_LIMITS = { 1, 2, 4, 6, 8, 10, 12 };
-  private final static Number[] FILE_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
-  private final static Number[] CLASS_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
-
+  
   private class FileData {
 
     FileData(String name) {
@@ -201,7 +152,7 @@ public class CxxCppNcssSensor extends ReportsHelper implements Sensor {
 
   private void parseReport(final Project project, File xmlFile, final SensorContext context) {
     try {
-      logger.info("parsing {}", xmlFile);
+      logger.info("parsing cppncss report '{}'", xmlFile);
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
         public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {

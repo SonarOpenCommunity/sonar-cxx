@@ -32,22 +32,18 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.io.input.TeeInputStream;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.ReportsHelper;
+import org.sonar.plugins.cxx.CxxSensor;
 
 /**
  * Sensor for CppCheck external tool.
@@ -59,74 +55,21 @@ import org.sonar.plugins.cxx.utils.ReportsHelper;
  * @todo enable include dirs (-I)
  * @todo allow configuration of path to analyze
  */
-@SupportedEnvironment({ "maven" })
-public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
-
+public class CxxCppCheckSensor extends CxxSensor {
   private static final String EXEC = "cppcheck";
   private static final String ARGS = "--enable=all -v --quiet --xml";
-
-  private static final String GROUP_ID = "org.codehaus.mojo";
-  private static final String ARTIFACT_ID = "cxx-maven-plugin";
-  private static final String SENSOR_ID = "cppcheck";
-  private static final String DEFAULT_CPPCHECK_REPORTS_DIR = "cppcheck-reports";
-  private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/cppcheck-result-*.xml";
-
-  private RuleFinder ruleFinder = null;
-  private boolean dynamicAnalysis = false;
-  private MavenProject mavenProject = null;
-
-  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p) {
-    this.ruleFinder = ruleFinder;
-    this.dynamicAnalysis = conf.getBoolean("sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
-    mavenProject = p.getPom();
-  }
-
-  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf, Project p, MavenProject mp) {
-    this.ruleFinder = ruleFinder;
-    this.dynamicAnalysis = conf.getBoolean("sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
-    mavenProject = mp;
-  }
-
   private static Logger logger = LoggerFactory.getLogger(CxxCppCheckSensor.class);
-
-  /**
-   * This plugin should be executed on C++ project
-   * 
-   * @param project
-   * @return
-   */
-  public boolean shouldExecuteOnProject(Project project) {
-    return CxxLanguage.KEY.equals(project.getLanguageKey());
-  }
-
-  @Override
-  protected String getArtifactId() {
-    return ARTIFACT_ID;
-  }
-
-  @Override
-  protected String getSensorId() {
-    return SENSOR_ID;
-  }
-
-  @Override
-  protected String getDefaultReportsDir() {
-    return DEFAULT_CPPCHECK_REPORTS_DIR;
-  }
-
-  @Override
-  protected String getDefaultReportsFilePattern() {
-    return DEFAULT_REPORTS_FILE_PATTERN;
-  }
-
-  @Override
-  protected String getGroupId() {
-    return GROUP_ID;
-  }
-
-  @Override
-  protected Logger getLogger() {
-    return logger;
+  public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
+  private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
+  
+  private RuleFinder ruleFinder = null;
+  private Configuration conf = null;
+  private boolean dynamicAnalysis = false;
+  
+  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf) {
+    this.ruleFinder = ruleFinder;
+    this.conf = conf;
+    this.dynamicAnalysis = conf.getBoolean("sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
   }
 
   public void analyse(Project project, SensorContext context) {
@@ -163,18 +106,17 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
       }
 
     } else {
-      File reportDirectory = getReportsDirectory(project, mavenProject);
-      if (reportDirectory != null) {
-        File reports[] = getReports(mavenProject, reportDirectory);
-        for (File report : reports) {
-          parseReport(project, report, context);
-        }
+      File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                  REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+      for (File report : reports) {
+        parseReport(project, report, context);
       }
     }
   }
 
   private void parseReport(final Project project, File xmlFile, final SensorContext context) {
     try {
+      logger.info("parsing cppcheck report '{}'", xmlFile);
       parseReport(project, new FileInputStream(xmlFile), context);
     } catch (FileNotFoundException ex) {
       logger.error("CppCheck Report not found : " + xmlFile.getAbsoluteFile(), ex);
@@ -191,7 +133,6 @@ public class CxxCppCheckSensor extends ReportsHelper implements Sensor {
    */
   private void parseReport(final Project project, InputStream xmlStream, final SensorContext context) {
     try {
-      logger.info("parsing CppCheck XML stream{}");
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
         public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {

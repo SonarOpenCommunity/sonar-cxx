@@ -31,16 +31,13 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.AbstractCoverageExtension;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
@@ -48,8 +45,7 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.ReportsHelper;
+import org.sonar.plugins.cxx.CxxSensor;
 
 /**
  * TODO copied from sonar-cobertura-plugin with modifications: JavaFile replaced by C++, fixed SONARPLUGINS-696 C++ collectFileMeasures use
@@ -57,93 +53,42 @@ import org.sonar.plugins.cxx.utils.ReportsHelper;
  * /coverage.xml)
  */
 
-@SupportedEnvironment({ "maven" })
-public class CxxGcovrSensor extends AbstractCoverageExtension implements Sensor {
-
-  private static final String GROUP_ID = "org.codehaus.mojo";
-  private static final String ARTIFACT_ID = "cxx-maven-plugin";
-  private static final String SENSOR_ID = "gcovr";
-  private static final String DEFAULT_GCOVR_REPORTS_DIR = "gcovr-reports";
-  private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/gcovr-result-*.xml";
-
-  private MavenProject mavenProject = null;
-
-  public CxxGcovrSensor(Project p) {
-    mavenProject = p.getPom();
-  }
-
-  public CxxGcovrSensor(Project p, MavenProject mp) {
-    mavenProject = mp;
-  }
-
+public class CxxGcovrSensor extends CxxSensor {
+  public static final String REPORT_PATH_KEY = "sonar.cxx.gcovr.reportPath";
+  private static final String DEFAULT_REPORT_PATH = "gcovr-reports/gcovr-result-*.xml";
   private static Logger logger = LoggerFactory.getLogger(CxxGcovrSensor.class);
-
-  @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project) && CxxLanguage.KEY.equals(project.getLanguageKey());
+  
+  private Configuration conf = null;
+  
+  public CxxGcovrSensor(Configuration conf) {
+    this.conf = conf;
   }
-
-  private class GcovrReportsHelper extends ReportsHelper {
-
-    @Override
-    protected String getArtifactId() {
-      return ARTIFACT_ID;
-    }
-
-    @Override
-    protected String getSensorId() {
-      return SENSOR_ID;
-    }
-
-    @Override
-    protected String getDefaultReportsDir() {
-      return DEFAULT_GCOVR_REPORTS_DIR;
-    }
-
-    @Override
-    protected String getDefaultReportsFilePattern() {
-      return DEFAULT_REPORTS_FILE_PATTERN;
-    }
-
-    @Override
-    protected String getGroupId() {
-      return GROUP_ID;
-    }
-
-    @Override
-    protected Logger getLogger() {
-      return logger;
-    }
-  }
-
-  GcovrReportsHelper reportHelper = new GcovrReportsHelper();
-
+  
   public void analyse(Project project, SensorContext context) {
-    File reportDirectory = reportHelper.getReportsDirectory(project, mavenProject);
-    if (reportDirectory != null) {
-      File reports[] = reportHelper.getReports(mavenProject, reportDirectory);
-      Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
-      for (File report : reports) {
-        parseReport(project, report, context, fileDataPerFilename);
-      }
-      for (FileData cci : fileDataPerFilename.values()) {
-        logger.debug("collectPackageMeasures fileKeyExist? {}", cci.getFile().getKey());
-        if (fileExist(context, cci.getFile())) {
-          logger.debug("collectPackageMeasures file Exist {}", cci.getFile().getKey());
-          for (Measure measure : cci.getMeasures()) {
-            logger.debug("collectPackageMeasures mesure value = {}", measure.toString());
-            context.saveMeasure(cci.getFile(), measure);
-          }
-        } else {
-          logger.warn("collectPackageMeasures file {} IS NOT inventoried ", cci.getFile().getKey());
+    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    
+    Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
+    for (File report : reports) {
+      parseReport(project, report, context, fileDataPerFilename);
+    }
+    for (FileData cci : fileDataPerFilename.values()) {
+      logger.debug("collectPackageMeasures fileKeyExist? {}", cci.getFile().getKey());
+      if (fileExist(context, cci.getFile())) {
+        logger.debug("collectPackageMeasures file Exist {}", cci.getFile().getKey());
+        for (Measure measure : cci.getMeasures()) {
+          logger.debug("collectPackageMeasures mesure value = {}", measure.toString());
+          context.saveMeasure(cci.getFile(), measure);
         }
+      } else {
+        logger.warn("collectPackageMeasures file {} IS NOT inventoried ", cci.getFile().getKey());
       }
     }
   }
 
   private void parseReport(final Project project, File xmlFile, final SensorContext context, final Map<String, FileData> dataPerFilename) {
     try {
-      logger.info("parsing {}", xmlFile);
+      logger.info("parsing gcovr report '{}'", xmlFile);
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
         public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {

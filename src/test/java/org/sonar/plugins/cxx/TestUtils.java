@@ -45,10 +45,19 @@ public class TestUtils{
     return ruleFinder;
   }
 
-  public static Project mockProject() throws java.net.URISyntaxException {
-    File reportsBasedir = new File(TestUtils.class.getResource("/org/sonar/plugins/cxx/").toURI());
-    File sourcesRootdir = new File(new File(TestUtils.class.getResource("/").toURI()),
-                                   "../../src/sample/SampleProject");
+  public static Project mockProject() {
+    File reportsBasedir;
+    File sourcesRootdir;
+    
+    try{
+      reportsBasedir = new File(TestUtils.class.getResource("/org/sonar/plugins/cxx/").toURI());
+      sourcesRootdir = new File(new File(TestUtils.class.getResource("/").toURI()),
+                                "../../src/sample/SampleProject");
+    }
+    catch(java.net.URISyntaxException e){
+      System.out.println("Get exception mocking project: " + e);
+      return null;
+    }
     
     List<File> sourceFiles = new ArrayList<File>();
     sourceFiles.add(new File(sourcesRootdir, "sources/application/main.cpp"));

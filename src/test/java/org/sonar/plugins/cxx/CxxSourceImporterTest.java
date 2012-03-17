@@ -27,7 +27,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.junit.Before;
@@ -40,7 +39,7 @@ import org.apache.commons.configuration.Configuration;
 
 public class CxxSourceImporterTest {
   @Test
-  public void testSourceImporter() throws URISyntaxException {
+  public void testSourceImporter() {
     SensorContext context = mock(SensorContext.class);
     Project project = mockProject();
     CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage());
@@ -50,11 +49,19 @@ public class CxxSourceImporterTest {
     verify(context).saveSource((Resource) anyObject(), eq("<c++ source>\n"));
   }
   
-  private Project mockProject() throws java.net.URISyntaxException {
+  private Project mockProject() {
     Project project = TestUtils.mockProject();
+
+    File sourceFile;
+    File sourceDir;
+    try{
+      sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/source.cc").toURI());
+      sourceDir = new File(getClass().getResource("/org/sonar/plugins/cxx").toURI());
+    } catch (java.net.URISyntaxException e) {
+      System.out.println("Error while mocking project: " + e);
+      return null;
+    }
     
-    File sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/source.cc").toURI());
-    File sourceDir = new File(getClass().getResource("/org/sonar/plugins/cxx").toURI());
     List<File> sourceFiles = project.getFileSystem().getSourceFiles(TestUtils.mockCxxLanguage());
     sourceFiles.clear();
     sourceFiles.add(sourceFile);

@@ -29,8 +29,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.anyDouble;
 import static org.mockito.Mockito.any;
 
-import java.net.URISyntaxException;
-
 import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,10 +45,10 @@ public class CxxXunitSensorTest {
   private Project project;
   
   @Before
-  public void setUp() throws java.net.URISyntaxException {
+  public void setUp() {
     Configuration config = mock(Configuration.class);
     project = TestUtils.mockProject();
-    sensor = new CxxXunitSensor(config, project);
+    sensor = new CxxXunitSensor(config);
     context = mock(SensorContext.class);
   }
   

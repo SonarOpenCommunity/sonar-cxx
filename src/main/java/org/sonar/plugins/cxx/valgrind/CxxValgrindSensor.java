@@ -28,99 +28,46 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.project.MavenProject;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.SupportedEnvironment;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.ReportsHelper;
+import org.sonar.plugins.cxx.CxxSensor;
 
-@SupportedEnvironment({ "maven" })
-public class CxxValgrindSensor extends ReportsHelper implements Sensor {
-
-  private static final String GROUP_ID = "org.codehaus.mojo";
-  private static final String ARTIFACT_ID = "cxx-maven-plugin";
-  private static final String SENSOR_ID = "valgrind";
-  private static final String DEFAULT_VERAXX_REPORTS_DIR = "valgrind-reports";
-  private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/valgrind-result-*.xml";
-
-  private RuleFinder ruleFinder = null;
-  private MavenProject mavenProject = null;
-
-  public CxxValgrindSensor(RuleFinder ruleFinder) {
-    this.ruleFinder = ruleFinder;
-  }
-
-  public CxxValgrindSensor(RuleFinder ruleFinder, Project p) {
-    this.ruleFinder = ruleFinder;
-    mavenProject = p.getPom();
-  }
-
-  public CxxValgrindSensor(RuleFinder ruleFinder, Project p, MavenProject mp) {
-    this.ruleFinder = ruleFinder;
-    mavenProject = mp;
-  }
-
+public class CxxValgrindSensor extends CxxSensor {
+  public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
+  private static final String DEFAULT_REPORT_PATH = "valgrind-reports/valgrind-result-*.xml";
   private static Logger logger = LoggerFactory.getLogger(CxxValgrindSensor.class);
-
-  public boolean shouldExecuteOnProject(Project project) {
-    return CxxLanguage.KEY.equals(project.getLanguageKey());
-  }
-
-  @Override
-  protected String getArtifactId() {
-    return ARTIFACT_ID;
-  }
-
-  @Override
-  protected String getSensorId() {
-    return SENSOR_ID;
-  }
-
-  @Override
-  protected String getDefaultReportsDir() {
-    return DEFAULT_VERAXX_REPORTS_DIR;
-  }
-
-  @Override
-  protected String getDefaultReportsFilePattern() {
-    return DEFAULT_REPORTS_FILE_PATTERN;
-  }
-
-  @Override
-  protected String getGroupId() {
-    return GROUP_ID;
-  }
-
-  @Override
-  protected Logger getLogger() {
-    return logger;
+  
+  private RuleFinder ruleFinder = null;
+  private Configuration conf = null;
+  
+  public CxxValgrindSensor(RuleFinder ruleFinder, Configuration conf) {
+    this.ruleFinder = ruleFinder;
+    this.conf = conf;
   }
 
   public void analyse(Project project, SensorContext context) {
-    File reportDirectory = getReportsDirectory(project, mavenProject);
-    if (reportDirectory != null) {
-      File reports[] = getReports(mavenProject, reportDirectory);
-      for (File report : reports) {
-        parseReport(project, report, context);
-      }
+    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    for (File report : reports) {
+      parseReport(project, report, context);
     }
   }
 
   private void parseReport(final Project project, File xmlFile, final SensorContext context) {
     try {
-      logger.info("parsing {}", xmlFile);
+      logger.info("parsing valgrind report '{}'", xmlFile);
+      
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
         public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {

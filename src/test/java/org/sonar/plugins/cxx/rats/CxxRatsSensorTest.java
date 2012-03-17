@@ -27,8 +27,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyObject;
 
-import java.net.URISyntaxException;
-
+import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
@@ -44,10 +43,10 @@ public class CxxRatsSensorTest {
   private Project project;
   
   @Before
-  public void setUp() throws java.net.URISyntaxException {
+  public void setUp() {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxRatsSensor(ruleFinder, project);
+    sensor = new CxxRatsSensor(ruleFinder, mock(Configuration.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

@@ -41,15 +41,11 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.AbstractCoverageExtension;
 import org.sonar.api.batch.DependsUpon;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.SupportedEnvironment;
-import org.sonar.api.batch.maven.MavenPlugin;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -58,8 +54,7 @@ import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.ReportsHelper;
+import org.sonar.plugins.cxx.CxxSensor;
 
 /**
  * Copied from sonar-surefire-plugin with modifications: JavaFile replaced by C++ getUnitTestResource use Project to locate C++ File
@@ -67,36 +62,18 @@ import org.sonar.plugins.cxx.utils.ReportsHelper;
  * 
  */
 
-@SupportedEnvironment({ "maven" })
-public class CxxXunitSensor extends ReportsHelper implements Sensor {
-
-  private static final String GROUP_ID = "org.codehaus.mojo";
-  private static final String ARTIFACT_ID = "cxx-maven-plugin";
-  private static final String SENSOR_ID = "xunit";
-  private static final String DEFAULT_XUNIT_REPORTS_DIR = "xunit-reports";
-  private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/xunit-result-*.xml";
-
-  private String xslt_url = null;
-
-  private MavenProject mavenProject = null;
-
-  public CxxXunitSensor(Configuration conf, Project p) {
-    mavenProject = p.getPom();
-    config(conf);
-  }
-
-  public CxxXunitSensor(Configuration conf, Project p, MavenProject mp) {
-    mavenProject = mp;
-    config(conf);
-  }
-
-  protected void config(Configuration conf) {
-    xslt_url = conf.getString("sonar.xunit.xslt.url");
-    // $FB surcharge directement depuis le plugin cxx-maven
-    MavenPlugin mavenPlugin = MavenPlugin.getPlugin(mavenProject, getGroupId(), getArtifactId());
-    if (mavenPlugin != null) {
-      xslt_url = mavenPlugin.getParameter(getSensorId() + "/xslt/url");
-    }
+public class CxxXunitSensor extends CxxSensor {
+  public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
+  public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
+  private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
+  private static Logger logger = LoggerFactory.getLogger(CxxXunitSensor.class);
+  
+  private String xsltURL = null;
+  private Configuration conf = null;
+  
+  public CxxXunitSensor(Configuration conf) {
+    this.conf = conf;
+    xsltURL = conf.getString(XSLT_URL_KEY);
   }
 
   @DependsUpon
@@ -104,52 +81,15 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
     return AbstractCoverageExtension.class;
   }
 
-  private static Logger logger = LoggerFactory.getLogger(CxxXunitSensor.class);
-
-  public boolean shouldExecuteOnProject(Project project) {
-    return project.getAnalysisType().isDynamic(true) && CxxLanguage.KEY.equals(project.getLanguageKey());
-  }
-
-  @Override
-  protected String getArtifactId() {
-    return ARTIFACT_ID;
-  }
-
-  @Override
-  protected String getSensorId() {
-    return SENSOR_ID;
-  }
-
-  @Override
-  protected String getDefaultReportsDir() {
-    return DEFAULT_XUNIT_REPORTS_DIR;
-  }
-
-  @Override
-  protected String getDefaultReportsFilePattern() {
-    return DEFAULT_REPORTS_FILE_PATTERN;
-  }
-
-  @Override
-  protected String getGroupId() {
-    return GROUP_ID;
-  }
-
-  @Override
-  protected Logger getLogger() {
-    return logger;
-  }
-
   public void analyse(Project project, SensorContext context) {
-    File reportDirectory = getReportsDirectory(project, mavenProject);
-    if (reportDirectory != null) {
-      File[] reports = getReports(mavenProject, reportDirectory);
-      if (reports.length == 0) {
-        insertZeroWhenNoReports(project, context);
-      } else {
-        transformReport(project, reports, context);
-        parseReport(project, reports, context);
-      }
+    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    
+    if (reports.length == 0) {
+      insertZeroWhenNoReports(project, context);
+    } else {
+      transformReport(project, reports, context);
+      parseReport(project, reports, context);
     }
   }
 
@@ -162,9 +102,9 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
   private void transformReport(Project project, File[] reports, SensorContext context) {
 
     try {
-      if (this.xslt_url != null) {
-        URL url = new URL(this.xslt_url);
-        logger.debug("xslt used :" + this.xslt_url);
+      if (this.xsltURL != null) {
+        URL url = new URL(this.xsltURL);
+        logger.debug("xslt used :" + this.xsltURL);
         Source xsl = new StreamSource(url.openStream());
         for (int i = 0; i < reports.length; i++) {
           Source source = new StreamSource(reports[i]);
@@ -189,7 +129,7 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
     } catch (FileNotFoundException e) {
       throw new XmlParserException("Url doesn't existe", e);
     } catch (UnknownHostException e) {
-      throw new XmlParserException("UnknownHostException : " + this.xslt_url, e);
+      throw new XmlParserException("UnknownHostException : " + this.xsltURL, e);
     } catch (Exception e) {
       throw new XmlParserException("Can not parse xunit reports", e);
     }
@@ -199,7 +139,7 @@ public class CxxXunitSensor extends ReportsHelper implements Sensor {
     Set<TestSuiteReport> analyzedReports = new HashSet<TestSuiteReport>();
     for (File report : reports) {
       try {
-        logger.info("parsing {}", report);
+        logger.info("parsing xunit report '{}'", report);
         TestSuiteParser parserHandler = new TestSuiteParser();
         StaxParser parser = new StaxParser(parserHandler, false);
         parser.parse(report);

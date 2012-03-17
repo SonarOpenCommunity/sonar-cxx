@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
@@ -32,7 +31,8 @@ import org.sonar.squid.measures.Metric;
 import org.sonar.squid.recognizer.CodeRecognizer;
 import org.sonar.squid.text.Source;
 
-public final class CxxLineCounter implements Sensor {
+
+public final class CxxLineCounter extends CxxSensor {
   private CxxLanguage lang;
   public CxxLineCounter(CxxLanguage lang) {
     this.lang = lang;
@@ -57,10 +57,6 @@ public final class CxxLineCounter implements Sensor {
 
       }
     }
-  }
-
-  public boolean shouldExecuteOnProject(Project project) {
-    return project.getLanguageKey().equals(CxxLanguage.KEY);
   }
 
   @Override

@@ -29,8 +29,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.anyDouble;
 import static org.mockito.Mockito.any;
 
-import java.net.URISyntaxException;
-
+import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
@@ -46,9 +45,9 @@ public class CxxCppNcssSensorTest {
   private Project project;
   
   @Before
-  public void setUp() throws java.net.URISyntaxException {
+  public void setUp() {
     project = TestUtils.mockProject();
-    sensor = new CxxCppNcssSensor(project);
+    sensor = new CxxCppNcssSensor(mock(Configuration.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

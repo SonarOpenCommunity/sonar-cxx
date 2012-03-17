@@ -26,79 +26,44 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.apache.commons.configuration.Configuration;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
-import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.ReportsHelper;
+import org.sonar.plugins.cxx.CxxSensor;
 
 
-public final class CxxRatsSensor extends ReportsHelper implements Sensor {
+public final class CxxRatsSensor extends CxxSensor {
   private static Logger logger = LoggerFactory.getLogger(CxxRatsSensor.class);
-  private static final String DEFAULT_RATS_REPORTS_DIR = "rats-reports";
-  private static final String DEFAULT_REPORTS_FILE_PATTERN = "**/rats-result-*.xml";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
+  private static final String DEFAULT_REPORT_PATH = "rats-reports/rats-result-*.xml";
   
   private RuleFinder ruleFinder;
-  private Project project;
+  private Configuration conf;
   
-  public CxxRatsSensor(RuleFinder ruleFinder, Project project) {
+  public CxxRatsSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
-    this.project = project;
-  }
-  
-  public boolean shouldExecuteOnProject(Project project) {
-    return project.getLanguageKey().equals(CxxLanguage.KEY);
-  }
-
-  @Override
-  protected String getDefaultReportsDir() {
-    return DEFAULT_RATS_REPORTS_DIR;
-  }
-  
-  @Override
-  protected String getDefaultReportsFilePattern() {
-    return DEFAULT_REPORTS_FILE_PATTERN;
-  }
-
-  @Override
-  protected String getArtifactId() {
-    return "";
-  }
-  
-  @Override
-  protected String getSensorId() {
-    return "";
-  }
-  
-  @Override
-  protected String getGroupId() {
-    return "";
-  }
-  
-  @Override
-  protected Logger getLogger() {
-    return logger;
+    this.conf = conf;
   }
   
   public void analyse(Project project, SensorContext context) {
-    File reportDirectory = getReportsDirectory(project, null);
-    if (reportDirectory != null) {
-      File reports[] = getReports(null, reportDirectory);
-      for (File report : reports) {
-        analyseXmlReport(report, project, context);
-      }
+    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    for (File report : reports) {
+      analyseXmlReport(report, project, context);
     }
   }
   
 
   void analyseXmlReport(File xmlReport, Project project, SensorContext context) {
+    logger.info("parsing rats report '{}'", xmlReport);
+    
     final SAXBuilder builder = new SAXBuilder(false);
     try {
       final Document doc = builder.build(xmlReport);

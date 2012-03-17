@@ -28,9 +28,9 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyObject;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.List;
 
+import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
@@ -46,10 +46,10 @@ public class CxxVeraxxSensorTest {
   private Project project;
   
   @Before
-  public void setUp() throws java.net.URISyntaxException {
+  public void setUp() {
     project = mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxVeraxxSensor(ruleFinder, project);
+    sensor = new CxxVeraxxSensor(ruleFinder, mock(Configuration.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
@@ -61,7 +61,7 @@ public class CxxVeraxxSensorTest {
     verify(context, times(10)).saveViolation(any(Violation.class));
   }
   
-  private Project mockProject() throws java.net.URISyntaxException {
+  private Project mockProject() {
     Project project = TestUtils.mockProject();
     
     // works only with relative paths... should look at this later

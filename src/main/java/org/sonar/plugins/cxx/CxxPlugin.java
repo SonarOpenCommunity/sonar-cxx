@@ -49,8 +49,64 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
       name = "File suffixes",
       description = "Comma-separated list of suffixes for files to analyze. Leave empty to use the default.",
       global = true,
+      project = true),
+    @Property(
+      key = CxxCppCheckSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to cppcheck report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxCppNcssSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to cppncss report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxGcovrSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to gcovr report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxRatsSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to rats report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxValgrindSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to valgrind report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxVeraxxSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to vera++ report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxXunitSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to unit test execution report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxXunitSensor.XSLT_URL_KEY,
+      defaultValue = "",
+      name = "URL of the xslt transformer",
+      description = "TODO",
+      global = false,
       project = true)
-})
+      })
 public final class CxxPlugin implements Plugin {
   static final String FILE_SUFFIXES_KEY = "sonar.cxx.suffixes";
 

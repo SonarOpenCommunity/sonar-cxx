@@ -27,8 +27,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
 
-import java.net.URISyntaxException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.commons.configuration.Configuration;
@@ -45,11 +43,11 @@ public class CxxCppCheckSensorTest {
   private Project project;
   
   @Before
-  public void setUp() throws java.net.URISyntaxException {
+  public void setUp() {
     Configuration config = mock(Configuration.class);
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxCppCheckSensor(ruleFinder, config, project);
+    sensor = new CxxCppCheckSensor(ruleFinder, config);
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
