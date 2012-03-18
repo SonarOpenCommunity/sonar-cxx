@@ -17,28 +17,18 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+
 package org.sonar.plugins.cxx;
 
-import net.sourceforge.pmd.cpd.CPPLanguage;
-import net.sourceforge.pmd.cpd.Tokenizer;
+import static org.junit.Assert.assertEquals;
 
-import org.sonar.api.batch.AbstractCpdMapping;
-import org.sonar.api.resources.Language;
+import org.junit.Test;
 
-public final class CxxCpdMapping extends AbstractCpdMapping {
-
-  private final CPPLanguage language = new CPPLanguage();
-  private CxxLanguage lang;
-
-  public CxxCpdMapping(CxxLanguage lang) {
-    this.lang = lang;
-  }
-
-  public Language getLanguage() {
-    return lang;
-  }
-
-  public Tokenizer getTokenizer() {
-    return language.getTokenizer();
+public class CxxCpdMappingTest {
+  @Test
+  public void testMapping() {
+    CxxCpdMapping mapping = new CxxCpdMapping(TestUtils.mockCxxLanguage());
+    assertEquals(CxxLanguage.class, mapping.getLanguage().getClass());
+    assert(mapping.getTokenizer().getClass() != null);
   }
 }
