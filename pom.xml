@@ -29,6 +29,13 @@
   <!-- <developers> -->
   <!-- </developers> -->
   
+  <contributors>
+    <contributor>
+      <name>Mathias Cocheril</name>
+      <email>mathias.cocheril-ext@sgcib.com</email>
+    </contributor>
+  </contributors>
+
   <scm>
     <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/cxx</connection>
     <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx</developerConnection>
