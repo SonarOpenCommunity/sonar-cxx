@@ -22,14 +22,15 @@ package org.sonar.plugins.cxx.cppcheck;
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 public class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
+  static final String KEY = "cppcheck";
 
-  @Override
-  protected String RepositoryFileName() {
-    return "/cppcheck.xml";
+  public CxxCppCheckRuleRepository() {
+    super(KEY);
+    setName(KEY);
   }
-
+  
   @Override
-  protected String RepositoryName() {
-    return "cppcheck";
+  protected String fileName() {
+    return "/cppcheck.xml";
   }
 }

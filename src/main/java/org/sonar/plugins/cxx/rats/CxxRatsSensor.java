@@ -104,7 +104,7 @@ public final class CxxRatsSensor extends CxxSensor {
         final int lineNumber = Integer.parseInt(line.getTextTrim());
         final org.sonar.api.resources.File ressource =
           org.sonar.api.resources.File.fromIOFile(new File(filename), project);
-        final Rule rule = ruleFinder.findByKey(CxxRatsRuleRepository.REPOSITORY_KEY, type);
+        final Rule rule = ruleFinder.findByKey(CxxRatsRuleRepository.KEY, type);
         final Violation violation = Violation.create(rule, ressource);
 
         violation.setMessage(message);

@@ -26,25 +26,19 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.CxxLanguage;
 
 public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
-  public static final String REPOSITORY_KEY = CxxLanguage.KEY;
+  abstract protected String fileName();
 
-  abstract protected String RepositoryFileName();
-
-  abstract protected String RepositoryName();
-
-  public CxxAbstractRuleRepository() {
-    super(REPOSITORY_KEY, CxxLanguage.KEY);
-    setName(RepositoryName());
+  public CxxAbstractRuleRepository(String key) {
+    super(key, CxxLanguage.KEY);
   }
 
   @Override
   public List<Rule> createRules() {
     final XMLRuleParser xmlParser = new XMLRuleParser();
-    final InputStream xmlStream = getClass().getResourceAsStream(RepositoryFileName());
+    final InputStream xmlStream = getClass().getResourceAsStream(fileName());
     return xmlParser.parse(xmlStream);
 
   }

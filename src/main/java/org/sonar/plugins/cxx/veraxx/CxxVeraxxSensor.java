@@ -102,7 +102,7 @@ public class CxxVeraxxSensor extends CxxSensor {
             org.sonar.api.resources.File ressource =
               org.sonar.api.resources.File.fromIOFile(new File(fileName), project);
             if (ressource != null && fileExist(context, ressource)) {
-              Rule rule = ruleFinder.findByKey(CxxVeraxxRuleRepository.REPOSITORY_KEY, source);
+              Rule rule = ruleFinder.findByKey(CxxVeraxxRuleRepository.KEY, source);
               if (rule != null) {
                 Object t[] = { source, message, line, ressource.getKey() };
                 logger.debug("error source={} message={} found at line {} from ressource {}", t);

@@ -135,7 +135,7 @@ public class CxxValgrindSensor extends CxxSensor {
     public void saveMetric(Project project, SensorContext context) {
 
       for (ValgrindError error : fileErrors.values()) {
-        Rule rule = ruleFinder.findByKey(CxxValgrindRuleRepository.REPOSITORY_KEY, error.kind);
+        Rule rule = ruleFinder.findByKey(CxxValgrindRuleRepository.KEY, error.kind);
         if (rule != null) {
           List<String> Lines = error.LinesErrorPerFileKey.get(file.getKey());
           if (Lines != null) {

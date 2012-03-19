@@ -22,14 +22,15 @@ package org.sonar.plugins.cxx.rats;
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
+  static final String KEY = "rats";
 
-  @Override
-  protected String RepositoryFileName() {
-    return "/rats.xml";
+  public CxxRatsRuleRepository() {
+    super(KEY);
+    setName(KEY);
   }
 
   @Override
-  protected String RepositoryName() {
-    return "rats";
+  protected String fileName() {
+    return "/rats.xml";
   }
 }

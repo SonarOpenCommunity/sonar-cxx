@@ -22,14 +22,15 @@ package org.sonar.plugins.cxx.valgrind;
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
+  static final String KEY = "valgrind";
 
-  @Override
-  protected String RepositoryFileName() {
-    return "/valgrind.xml";
+  public CxxValgrindRuleRepository() {
+    super(KEY);
+    setName(KEY);
   }
 
   @Override
-  protected String RepositoryName() {
-    return "valgrind";
+  protected String fileName() {
+    return "/valgrind.xml";
   }
 }

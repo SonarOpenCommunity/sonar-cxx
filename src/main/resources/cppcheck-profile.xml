@@ -3,380 +3,410 @@
 	<language>c++</language>
 	<rules>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>autoVariables</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>returnLocalVariable</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>returnReference</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>returnTempReference</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>returnAutocstr</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>returnTempPointer</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>memleak</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>memleakOnRealloc</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>resourceLeak</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>deallocDealloc</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>deallocuse</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>mismatchSize</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>mismatchAllocDealloc</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>debug</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>publicAllocationError</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>leakNoVarFunctionCall</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>cppcheckError</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>variableHidingTypedef</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unnecessaryForwardDeclaration</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>variableHidingEnum</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>syntaxError</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>cppcheckError</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>uninitstring</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>uninitdata</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>uninitvar</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>preprocessorErrorDirective</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>noQuoteCharPair</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>missingInclude</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>nullPointer</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>exceptThrowInDestructor</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>exceptDeallocThrow</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unusedFunction</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>invalidscanf</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unusedVariable</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unreadVariable</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unassignedVariable</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>cstyleCast</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>dangerousUsageStrtol</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>sprintfOverlappingData</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>udivError</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unusedStructMember</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>passedByValue</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>constStatement</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>charArrayIndex</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>charBitOp</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>variableScope</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>conditionAlwaysTrueFalse</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>strPlusChar</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>zerodiv</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>wrongmathcall</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>fflushOnInputStream</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>sizeofsizeof</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>sizeofCalculation</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>redundantAssignInSwitch</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>selfAssignment</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>assignmentInAssert</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>incorrectLogicOperator</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unusedScopedObject</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>noConstructor</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>operatorEqVarError</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>unusedPrivateFunction</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>memsetClass</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>memsetStruct</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>operatorEq</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>operatorEqRetRefThis</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>operatorEqToSelf</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>virtualDestructor</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>thisSubtraction</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>functionConst</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>arrayIndexOutOfBounds</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>bufferAccessOutOfBounds</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>strncatUsage</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>outOfBounds</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>sizeArgumentAsChar</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>terminateStrncpy</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>insecureCmdLineArgs</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>negativeIndex</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>invalidIterator1</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>iterators</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>eraseDereference</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>eraseByValue</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>mismatchingContainers</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>stlOutOfBounds</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>erase</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>invalidIterator2</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>invalidPointer</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>stlBoundries</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>stlIfStrFind</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>stlIfFind</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>stlSize</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>redundantIfRemove</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>StlMissingComparison</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+		  <repositoryKey>cppcheck</repositoryKey>
 			<key>stlcstr</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>postfixOperator</key>
 		</rule>
+
+	        <rule>
+		  <repositoryKey>cppcheck</repositoryKey>
+	          <key>postIncrementDecrement</key>
+	        </rule>
+        
+	        <rule>
+		  <repositoryKey>cppcheck</repositoryKey>
+	          <key>exceptNew</key>
+                </rule>
+                
+	        <rule>
+		  <repositoryKey>cppcheck</repositoryKey>
+	          <key>exceptRealloc</key>
+                </rule>
+
+	        <rule>
+		  <repositoryKey>cppcheck</repositoryKey>
+	          <key>redundantIfDelete0</key>
+	        </rule>
+                
+	        <rule>
+		  <repositoryKey>cppcheck</repositoryKey>
+	          <key>uninitVar</key>
+	        </rule>
+                
+	        <rule>
+		  <repositoryKey>cppcheck</repositoryKey>
+	          <key>unusedFunction</key>
+	        </rule>
 	</rules>
 </profile>

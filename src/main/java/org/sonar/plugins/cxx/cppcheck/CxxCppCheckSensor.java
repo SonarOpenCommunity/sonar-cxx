@@ -174,7 +174,7 @@ public class CxxCppCheckSensor extends CxxSensor {
         org.sonar.api.resources.File ressource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (fileExist(context, ressource)) {
-          Rule rule = ruleFinder.findByKey(CxxCppCheckRuleRepository.REPOSITORY_KEY, id);
+          Rule rule = ruleFinder.findByKey(CxxCppCheckRuleRepository.KEY, id);
           if (rule != null) {
             Object t[] = { id, msg, line, ressource };
             logger.debug("error id={} msg={} found at line {} from ressource {}", t);

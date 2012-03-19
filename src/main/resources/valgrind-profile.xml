@@ -3,59 +3,59 @@
 	<language>c++</language>
 	<rules>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>InvalidFree</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>MismatchedFree</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>InvalidRead</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>InvalidWrite</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>InvalidJump</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>Overlap</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>InvalidMemPool</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>UninitCondition</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>UninitValue</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>SyscallParam</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>ClientCheck</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>Leak_DefinitelyLost</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>Leak_PossiblyLost</key>
 		</rule>
 		<rule>
-			<repositoryKey>c++</repositoryKey>
+			<repositoryKey>valgrind</repositoryKey>
 			<key>Leak_StillReachable</key>
 		</rule>
 	</rules>
