@@ -29,7 +29,7 @@ public final class CxxVeraxxProfile extends CxxAbstractProfileDefinition {
   }
 
   @Override
-  protected String ProfileFileName() {
+  protected String profileFileName() {
     return "vera++-profile.xml";
   }
 }

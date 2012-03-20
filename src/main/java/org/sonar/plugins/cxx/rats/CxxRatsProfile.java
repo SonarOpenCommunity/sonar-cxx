@@ -29,7 +29,7 @@ public final class CxxRatsProfile extends CxxAbstractProfileDefinition {
   }
 
   @Override
-  protected String ProfileFileName() {
+  protected String profileFileName() {
     return "rats-profile.xml";
   }
 }

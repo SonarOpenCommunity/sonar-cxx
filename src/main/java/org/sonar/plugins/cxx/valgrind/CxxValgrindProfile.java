@@ -29,7 +29,7 @@ public final class CxxValgrindProfile extends CxxAbstractProfileDefinition {
   }
 
   @Override
-  protected String ProfileFileName() {
+  protected String profileFileName() {
     return "valgrind-profile.xml";
   }
 }

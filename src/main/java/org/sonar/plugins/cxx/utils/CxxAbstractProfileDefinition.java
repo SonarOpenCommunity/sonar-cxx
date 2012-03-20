@@ -25,20 +25,17 @@ import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.utils.ValidationMessages;
 
 public abstract class CxxAbstractProfileDefinition extends ProfileDefinition {
-
-  // private static final String PROFILE_FILE = "cppcheck-profile.xml";
   private XMLProfileParser xmlProfileParser;
-
-  abstract protected String ProfileFileName();
-
-  // default profile contain all rule
+  
+  abstract protected String profileFileName();
+  
   public CxxAbstractProfileDefinition(XMLProfileParser xmlProfileParser) {
     this.xmlProfileParser = xmlProfileParser;
   }
 
   @Override
   public RulesProfile createProfile(ValidationMessages messages) {
-    RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(), ProfileFileName(), messages);
+    RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(), profileFileName(), messages);
     profile.setDefaultProfile(true);
     profile.setProvided(true);
     return profile;

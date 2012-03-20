@@ -29,7 +29,7 @@ public final class CxxCppCheckProfile extends CxxAbstractProfileDefinition {
   }
 
   @Override
-  protected String ProfileFileName() {
+  protected String profileFileName() {
     return "cppcheck-profile.xml";
   }
 }
