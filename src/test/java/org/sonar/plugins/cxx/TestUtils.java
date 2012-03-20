@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
 import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
@@ -42,9 +43,10 @@ public class TestUtils{
     RuleFinder ruleFinder = mock(RuleFinder.class);
     when(ruleFinder.findByKey((String) anyObject(),
                               (String) anyObject())).thenReturn(ruleMock);
+    when(ruleFinder.find((RuleQuery) anyObject())).thenReturn(ruleMock);
     return ruleFinder;
   }
-
+  
   public static Project mockProject() {
     File reportsBasedir;
     File sourcesRootdir;
