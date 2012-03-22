@@ -20,12 +20,10 @@
 package org.sonar.plugins.cxx.veraxx;
 
 import java.io.File;
-import java.text.ParseException;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
@@ -34,10 +32,12 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
+import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxSensor;
+
 
 public class CxxVeraxxSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
@@ -46,90 +46,73 @@ public class CxxVeraxxSensor extends CxxSensor {
   
   private RuleFinder ruleFinder = null;
   private Configuration conf = null;
+
   
   public CxxVeraxxSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }
 
+  
   public void analyse(Project project, SensorContext context) {
-    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    for (File report : reports) {
-      parseReport(project, report, context);
-    }
-  }
-
-  private void parseReport(final Project project, File xmlFile, final SensorContext context) {
     try {
-      logger.info("parsing vera++ report '{}'", xmlFile);
-      StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-
-        public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-          try {
-            rootCursor.advance();
-            collectFile(project, rootCursor.childElementCursor("file"), context);
-          } catch (ParseException e) {
-            throw new XMLStreamException(e);
-          }
-        }
-      });
-      parser.parse(xmlFile);
-    } catch (XMLStreamException e) {
-      throw new XmlParserException(e);
-    }
-  }
-
-  private void collectFile(Project project, SMInputCursor file, SensorContext context) throws ParseException, XMLStreamException {
-    while (file.getNext() != null) {
-      // logger.info("collectError nodename = {} {}", error.getPrefixedName(), error.getAttrCount());
-      String fileName = file.getAttrValue("name");
-      if ( !StringUtils.isEmpty(fileName)) {
-        SMInputCursor error = file.childElementCursor("error");
-        while (error.getNext() != null) {
-
-          String line = error.getAttrValue("line");
-          String severity = error.getAttrValue("severity");
-          String message = error.getAttrValue("message");
-          String source = error.getAttrValue("source");
-
-          if ( !StringUtils.isEmpty(source)) {
-
-            if (StringUtils.isEmpty(line)) {
-              line = "0";
-            }
-
-            org.sonar.api.resources.File ressource =
-              org.sonar.api.resources.File.fromIOFile(new File(fileName), project);
-            if (ressource != null && fileExist(context, ressource)) {
-              Rule rule = ruleFinder.findByKey(CxxVeraxxRuleRepository.KEY, source);
-              if (rule != null) {
-                Object t[] = { source, message, line, ressource.getKey() };
-                logger.debug("error source={} message={} found at line {} from ressource {}", t);
-
-                Violation violation = Violation.create(rule, ressource);
-                violation.setMessage(message);
-                violation.setLineId(Integer.parseInt(line));
-                context.saveViolation(violation);
-              } else {
-                Object t[] = { source, message, line, fileName };
-                logger.warn("No rule for error source={} message={} found at line {} from file {}", t);
-              }
-            } else {
-              Object t[] = { source, message, line, fileName };
-              logger.warn("error id={} msg={} found at line {} from file {} has no ressource associated", t);
-            }
-          } else {
-            logger.warn("error no source for error");
-          }
-        }
-      } else {
-        logger.warn("error no name in file node");
+      File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                  REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+      for (File report : reports) {
+        parseReport(project, context, report);
       }
+    } catch (Exception e) {
+      String msg = new StringBuilder()
+        .append("Cannot feed the vera++-data into sonar, details: '")
+        .append(e)
+        .append("'")
+        .toString();
+      throw new SonarException(msg, e);
     }
   }
 
-  private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
-    return context.getResource(file) != null;
+  
+  private void parseReport(final Project project, final SensorContext context, File report)
+    throws XMLStreamException 
+  {
+    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
+        rootCursor.advance();
+        
+        SMInputCursor fileCursor = rootCursor.childElementCursor("file");
+        while (fileCursor.getNext() != null) {
+          String name = fileCursor.getAttrValue("name");
+          
+          SMInputCursor errorCursor = fileCursor.childElementCursor("error");
+          while (errorCursor.getNext() != null) {
+            int line = Integer.parseInt(errorCursor.getAttrValue("line"));
+            String message = errorCursor.getAttrValue("message");
+            String source = errorCursor.getAttrValue("source");
+            
+            processError(project, context, name, line, source, message);
+          }
+        }
+      }
+    });
+    
+    parser.parse(report);
+  }
+
+  
+  void processError(Project project, SensorContext context,
+                    String file, int line, String ruleId, String msg) {
+    RuleQuery ruleQuery = RuleQuery.create()
+      .withRepositoryKey(CxxVeraxxRuleRepository.KEY)
+      .withConfigKey(ruleId);
+    Rule rule = ruleFinder.find(ruleQuery);
+    if (rule != null) {
+      org.sonar.api.resources.File resource =
+        org.sonar.api.resources.File.fromIOFile(new File(file), project);
+      Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
+      context.saveViolation(violation);
+    }
+    else{
+      logger.warn("Cannot find the rule {}-{}, skipping violation", CxxVeraxxRuleRepository.KEY, ruleId);
+    }
   }
 }

@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx.rats;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -35,7 +34,9 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
+import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxSensor;
 
 
@@ -46,73 +47,76 @@ public final class CxxRatsSensor extends CxxSensor {
   
   private RuleFinder ruleFinder;
   private Configuration conf;
+
   
   public CxxRatsSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }
+
   
   public void analyse(Project project, SensorContext context) {
-    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    for (File report : reports) {
-      analyseXmlReport(report, project, context);
+    try {
+      File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                  REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+      for (File report : reports) {
+        parseReport(project, context, report);
+      }
+    } catch (Exception e) {
+      String msg = new StringBuilder()
+        .append("Cannot feed the rats data into sonar, details: '")
+        .append(e)
+        .append("'")
+        .toString();
+      throw new SonarException(msg, e);
+    }
+  }
+
+  
+  void parseReport(Project project, SensorContext context, File report)
+    throws org.jdom.JDOMException, java.io.IOException
+  {
+    logger.info("parsing rats report '{}'", report);
+    
+    SAXBuilder builder = new SAXBuilder(false);
+    Element root = builder.build(report).getRootElement();
+    
+    List<Element> vulnerabilities = root.getChildren("vulnerability");
+    for (Element vulnerability : vulnerabilities) {
+      String type = vulnerability.getChild("type").getTextTrim();
+      String message = vulnerability.getChild("message").getTextTrim();
+      
+      List<Element> files = vulnerability.getChildren("file");
+      
+      for (Element file : files) {
+        String fileName = file.getChild("name").getTextTrim();
+        
+        List<Element> lines = file.getChildren("line");
+        for (Element lineElem : lines) {
+          int line = Integer.parseInt(lineElem.getTextTrim());
+          processError(project, context, fileName, line, type, message);
+        }
+      }
     }
   }
   
-
-  void analyseXmlReport(File xmlReport, Project project, SensorContext context) {
-    logger.info("parsing rats report '{}'", xmlReport);
-    
-    final SAXBuilder builder = new SAXBuilder(false);
-    try {
-      final Document doc = builder.build(xmlReport);
-      final Element root = doc.getRootElement();
-
-      @SuppressWarnings("unchecked")
-      final List<Element> vulnerabilities = root.getChildren("vulnerability");
-      
-      for (Element element : vulnerabilities) {
-        analyseVulnerabilities(element, project, context);
-      }
-    } catch (JDOMException ex) {
-      logger.warn("Cannot analyse " + xmlReport.getPath());
-    } catch (IOException ex) {
-      logger.warn("Cannot analyse " + xmlReport.getPath());
+  void processError(Project project, SensorContext context,
+                    String file, int line, String ruleId, String msg) {
+    RuleQuery ruleQuery = RuleQuery.create()
+      .withRepositoryKey(CxxRatsRuleRepository.KEY)
+      .withKey(ruleId);
+    Rule rule = ruleFinder.find(ruleQuery);
+    if (rule != null) {
+      org.sonar.api.resources.File resource =
+        org.sonar.api.resources.File.fromIOFile(new File(file), project);
+      Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
+      context.saveViolation(violation);
+    }
+    else{
+      logger.warn("Cannot find the rule {}-{}, skipping violation", CxxRatsRuleRepository.KEY, ruleId);
     }
   }
 
-  /*
-   * <vulnerability> <severity>High</severity> <type>fixed size global buffer</type> <message> Extra care should be taken to ensure that
-   * character arrays that are allocated on the stack are used safely. They are prime targets for buffer overflow attacks. </message> <file>
-   * <name>ModuloCalculo/src/CompactaAReal.cpp</name> <line>40</line> <line>58</line> </file> </vulnerability>
-   */
-  void analyseVulnerabilities(Element vulnerability, Project project, SensorContext context) {
-    final String type = vulnerability.getChild("type").getTextTrim();
-    final String message = vulnerability.getChild("message").getTextTrim();
-    
-    @SuppressWarnings("unchecked")
-    final List<Element> files = vulnerability.getChildren("file");
-
-    for (Element file : files) {
-      final String filename = file.getChild("name").getTextTrim();
-      
-      @SuppressWarnings("unchecked")
-      final List<Element> lines = file.getChildren("line");
-
-      for (Element line : lines) {
-        final int lineNumber = Integer.parseInt(line.getTextTrim());
-        final org.sonar.api.resources.File ressource =
-          org.sonar.api.resources.File.fromIOFile(new File(filename), project);
-        final Rule rule = ruleFinder.findByKey(CxxRatsRuleRepository.KEY, type);
-        final Violation violation = Violation.create(rule, ressource);
-
-        violation.setMessage(message);
-        violation.setLineId(lineNumber);
-        context.saveViolation(violation);
-      }
-    }
-  }
   
   @Override
   public String toString() {
