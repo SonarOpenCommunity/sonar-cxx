@@ -43,17 +43,17 @@ public class CxxVeraxxSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
   private static final String DEFAULT_REPORT_PATH = "vera++-reports/vera++-result-*.xml";
   private static Logger logger = LoggerFactory.getLogger(CxxVeraxxSensor.class);
-  
+
   private RuleFinder ruleFinder = null;
   private Configuration conf = null;
 
-  
+
   public CxxVeraxxSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }
 
-  
+
   public void analyse(Project project, SensorContext context) {
     try {
       File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
@@ -71,34 +71,34 @@ public class CxxVeraxxSensor extends CxxSensor {
     }
   }
 
-  
+
   private void parseReport(final Project project, final SensorContext context, File report)
-    throws XMLStreamException 
+    throws XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance();
-        
+
         SMInputCursor fileCursor = rootCursor.childElementCursor("file");
         while (fileCursor.getNext() != null) {
           String name = fileCursor.getAttrValue("name");
-          
+
           SMInputCursor errorCursor = fileCursor.childElementCursor("error");
           while (errorCursor.getNext() != null) {
             int line = Integer.parseInt(errorCursor.getAttrValue("line"));
             String message = errorCursor.getAttrValue("message");
             String source = errorCursor.getAttrValue("source");
-            
+
             processError(project, context, name, line, source, message);
           }
         }
       }
     });
-    
+
     parser.parse(report);
   }
 
-  
+
   void processError(Project project, SensorContext context,
                     String file, int line, String ruleId, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()

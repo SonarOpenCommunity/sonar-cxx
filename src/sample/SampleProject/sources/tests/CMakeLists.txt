@@ -41,15 +41,15 @@ SET(SAMPLE_PROJECT_TESTS_MAIN_QT_HDRS
 SET(SAMPLE_PROJECT_TESTS_UI_SRCS
 )
 
-# Add your header files here !  
+# Add your header files here !
 SET(SAMPLE_PROJECT_TESTS_UI_HDRS
 )
 
-# Add your resource files here ! 
+# Add your resource files here !
 SET(SAMPLE_PROJECT_TESTS_UI_QRC
 )
 
-# Add your ui files here ! 
+# Add your ui files here !
 SET(SAMPLE_PROJECT_TESTS_UI_UI
 )
 
@@ -80,7 +80,7 @@ INCLUDE(${QT_USE_FILE})
 QT4_ADD_RESOURCES( SAMPLE_PROJECT_TESTS_QRC_SRCS
         ${SAMPLE_PROJECT_TESTS_UI_QRC})
 
-# Add your QT headers file here !			
+# Add your QT headers file here !
 QT4_WRAP_CPP(SAMPLE_PROJECT_TESTS_MOC_SRCS
         ${SAMPLE_PROJECT_TESTS_MAIN_QT_HDRS}
         ${SAMPLE_PROJECT_TESTS_QAPPLICATION_QOBJ_HDRS}

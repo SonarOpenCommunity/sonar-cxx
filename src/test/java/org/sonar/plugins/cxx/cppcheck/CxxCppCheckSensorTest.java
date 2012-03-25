@@ -41,7 +41,7 @@ public class CxxCppCheckSensorTest {
   private CxxCppCheckSensor sensor;
   private SensorContext context;
   private Project project;
-  
+
   @Before
   public void setUp() {
     Configuration config = mock(Configuration.class);
@@ -52,7 +52,7 @@ public class CxxCppCheckSensorTest {
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
   }
-  
+
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);

@@ -26,9 +26,9 @@ import org.sonar.api.utils.ValidationMessages;
 
 public abstract class CxxAbstractProfileDefinition extends ProfileDefinition {
   private XMLProfileParser xmlProfileParser;
-  
+
   abstract protected String profileFileName();
-  
+
   public CxxAbstractProfileDefinition(XMLProfileParser xmlProfileParser) {
     this.xmlProfileParser = xmlProfileParser;
   }

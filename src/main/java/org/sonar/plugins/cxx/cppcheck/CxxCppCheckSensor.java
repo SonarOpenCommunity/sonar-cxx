@@ -46,9 +46,9 @@ import org.sonar.plugins.cxx.CxxSensor;
 
 /**
  * Sensor for CppCheck external tool.
- * 
+ *
  * CppCheck is an equivalent to FindBug but for C++
- * 
+ *
  * @author fbonin
  * @author vhardion
  * @todo enable include dirs (-I)
@@ -60,19 +60,19 @@ public class CxxCppCheckSensor extends CxxSensor {
   private static Logger logger = LoggerFactory.getLogger(CxxCppCheckSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
-  
+
   private RuleFinder ruleFinder = null;
   private Configuration conf = null;
   private boolean dynamicAnalysis = false;
-  
-  
+
+
   public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
     this.dynamicAnalysis = conf.getBoolean("sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
   }
 
-  
+
   public void analyse(Project project, SensorContext context) {
     try {
       if (dynamicAnalysis) {
@@ -94,12 +94,12 @@ public class CxxCppCheckSensor extends CxxSensor {
     }
   }
 
-  
+
   void analyseDynamicly(Project project, SensorContext context)
     throws javax.xml.stream.XMLStreamException
   {
     Process p;
-    
+
     try {
       String cmd = EXEC + " " + ARGS + " ";
       // + project.getPom().getBuild().getSourceDirectory();
@@ -110,7 +110,7 @@ public class CxxCppCheckSensor extends CxxSensor {
       logger.debug(cmd);
       p = Runtime.getRuntime().exec(cmd);
       p.waitFor();
-      
+
       // Write result in local file
       File resultOutputFile = new File(project.getFileSystem().getSonarWorkingDirectory() + "/cppcheck-result.xml");
       // resultOutputFile.createNewFile();
@@ -122,7 +122,7 @@ public class CxxCppCheckSensor extends CxxSensor {
       FileOutputStream fos = new FileOutputStream(resultOutputFile);
       TeeInputStream tis = new TeeInputStream(p.getErrorStream(), fos, true);
       parseReport(project, context, tis);
-        
+
     } catch (InterruptedException ex) {
       logger.error("Analysis can't wait for the end of the process", ex);
     } catch (IOException ex) {
@@ -130,7 +130,7 @@ public class CxxCppCheckSensor extends CxxSensor {
     }
   }
 
-  
+
   private void parseReport(final Project project, final SensorContext context, File report)
     throws IOException, javax.xml.stream.XMLStreamException
   {
@@ -138,14 +138,14 @@ public class CxxCppCheckSensor extends CxxSensor {
     parseReport(project, context, new FileInputStream(report));
   }
 
-  
+
   private void parseReport(final Project project, final SensorContext context, InputStream stream)
     throws IOException, javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance(); //results
-        
+
         SMInputCursor errorCursor = rootCursor.childElementCursor("error"); //error
         while (errorCursor.getNext() != null) {
           String file = errorCursor.getAttrValue("file");
@@ -153,16 +153,16 @@ public class CxxCppCheckSensor extends CxxSensor {
           String id = errorCursor.getAttrValue("id");
           String severity = errorCursor.getAttrValue("severity");
           String msg = errorCursor.getAttrValue("msg");
-          
+
           processError(project, context, file, Integer.parseInt(line), id, severity, msg);
         }
       }
     });
-    
+
     parser.parse(stream);
   }
 
-  
+
   void processError(Project project, SensorContext context, String file, int line, String ruleId,
                     String severity, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()

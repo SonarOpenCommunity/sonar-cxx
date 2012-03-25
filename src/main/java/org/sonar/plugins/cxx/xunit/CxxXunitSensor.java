@@ -59,7 +59,7 @@ import org.sonar.plugins.cxx.CxxSensor;
 /**
  * Copied from sonar-surefire-plugin with modifications: JavaFile replaced by C++ getUnitTestResource use Project to locate C++ File
  * getReports use FileSetManager for smarter report select using new now plugin configuration use Fileset (ex ** /TEST*.xml)
- * 
+ *
  */
 
 public class CxxXunitSensor extends CxxSensor {
@@ -67,10 +67,10 @@ public class CxxXunitSensor extends CxxSensor {
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
   private static Logger logger = LoggerFactory.getLogger(CxxXunitSensor.class);
-  
+
   private String xsltURL = null;
   private Configuration conf = null;
-  
+
   public CxxXunitSensor(Configuration conf) {
     this.conf = conf;
     xsltURL = conf.getString(XSLT_URL_KEY);
@@ -84,7 +84,7 @@ public class CxxXunitSensor extends CxxSensor {
   public void analyse(Project project, SensorContext context) {
     File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                 REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    
+
     if (reports.length == 0) {
       insertZeroWhenNoReports(project, context);
     } else {

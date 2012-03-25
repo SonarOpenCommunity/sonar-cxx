@@ -47,7 +47,7 @@ public abstract class CxxSensor implements Sensor {
     }
 
     logger.debug("using pattern '{}' to find reports" + reportPath);
-    
+
     DirectoryScanner scanner = new DirectoryScanner();
     String[] includes = new String[1];
     includes[0] = reportPath;
@@ -55,12 +55,12 @@ public abstract class CxxSensor implements Sensor {
     scanner.setBasedir(new File(baseDir));
     scanner.scan();
     String[] relPaths = scanner.getIncludedFiles();
-    
+
     List<File> reports = new ArrayList<File>();
     for (String relPath : relPaths) {
       reports.add(new File(baseDir, relPath));
     }
-    
+
     return reports.toArray(new File[0]);
   }
 }

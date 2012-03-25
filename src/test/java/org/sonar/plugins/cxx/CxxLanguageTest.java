@@ -33,7 +33,7 @@ public class CxxLanguageTest {
     Configuration config = new BaseConfiguration();
     config.setProperty(CxxPlugin.FILE_SUFFIXES_KEY, "C, c");
     CxxLanguage cxx = new CxxLanguage(config);
-    
+
     String[] expected = {"C", "c"};
     assertThat(cxx.getFileSuffixes(), is(expected));
   }

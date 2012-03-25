@@ -43,7 +43,7 @@ public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
   private SensorContext context;
   private Project project;
-  
+
   @Before
   public void setUp() {
     Configuration config = mock(Configuration.class);
@@ -51,11 +51,11 @@ public class CxxXunitSensorTest {
     sensor = new CxxXunitSensor(config);
     context = mock(SensorContext.class);
   }
-  
+
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    
+
     verify(context, times(1)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.TESTS), anyDouble());
     verify(context, times(1)).saveMeasure((Resource) anyObject(),

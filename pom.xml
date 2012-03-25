@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
     <version>11</version>
     <relativePath>../parent</relativePath>
   </parent>
-  
+
   <artifactId>sonar-cxx-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   <version>0.0.5-SNAPSHOT</version>
@@ -16,7 +16,7 @@
   <description>C++ Plugin for Sonar</description>
   <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
   <inceptionYear>2010</inceptionYear>
-  
+
   <licenses>
     <license>
       <name>GNU LGPL v3</name>
@@ -28,7 +28,7 @@
   <!-- TODO -->
   <!-- <developers> -->
   <!-- </developers> -->
-  
+
   <contributors>
     <contributor>
       <name>Mathias Cocheril</name>
@@ -49,7 +49,7 @@
     <system>Bamboo</system>
     <url>http://bamboo.ci.codehaus.org/browse/SONAR-CPP</url>
   </ciManagement>
-  
+
   <properties>
     <!-- <jdk.min.version>1.5</jdk.min.version> -->
     <sonar.version>2.7</sonar.version>
@@ -59,7 +59,7 @@
     <sonar.pluginKey>cxx</sonar.pluginKey>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
   </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
@@ -141,7 +141,7 @@
       </exclusions>
     </dependency>
   </dependencies>
-  
+
   <build>
     <plugins>
       <plugin>

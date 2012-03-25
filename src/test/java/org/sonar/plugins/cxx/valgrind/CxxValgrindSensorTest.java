@@ -47,7 +47,7 @@ public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
   private SensorContext context;
   private Project project;
-  
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();

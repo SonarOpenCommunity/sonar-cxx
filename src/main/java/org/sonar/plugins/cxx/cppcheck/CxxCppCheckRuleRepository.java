@@ -28,7 +28,7 @@ public class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
     super(KEY);
     setName(KEY);
   }
-  
+
   @Override
   protected String fileName() {
     return "/cppcheck.xml";

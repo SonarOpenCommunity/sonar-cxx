@@ -100,12 +100,12 @@
     <name>One-line comments should not have forced continuation</name>
     <description>
       The one-line comment is a comment that starts with //.
-      
+
       The usual intent is to let the comment continue till the end of
       the line, but the preprocessing rules of the language allow to
       actually continue the comment in the next line if line-splicing
       is forced with the backslash at the end of the line.
-      
+
       But the line-splicing works only if the backslash is really the
       last character in the line - which is error prone because any
       white characters that might appear after the backslash will
@@ -123,7 +123,7 @@
       implementations. One of the most frequent violations is a
       definition of preprocessor macro that begins with underscore
       followed by a capital letter or containing two consecutive
-      underscores. 
+      underscores.
 
       Even though the majority of known compilers use more obscure
       names for internal purposes and the above code is not likely to
@@ -314,7 +314,7 @@
     <configKey>T018</configKey>
     <name>Using namespace not allowed in header file</name>
     <description>
-      Using namespace directives are not allowed in header files. 
+      Using namespace directives are not allowed in header files.
 
       The using namespace directive imports names from the given
       namespace and when used in a header file influences the global

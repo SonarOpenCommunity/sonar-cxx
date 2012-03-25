@@ -25,7 +25,7 @@ public final class CxxSourceImporter extends AbstractSourceImporter {
   public CxxSourceImporter(CxxLanguage lang) {
     super(lang);
   }
-  
+
   @Override
   public String toString() {
     return getClass().getSimpleName();

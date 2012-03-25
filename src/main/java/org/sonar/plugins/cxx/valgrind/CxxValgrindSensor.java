@@ -47,10 +47,10 @@ public class CxxValgrindSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
   private static final String DEFAULT_REPORT_PATH = "valgrind-reports/valgrind-result-*.xml";
   private static Logger logger = LoggerFactory.getLogger(CxxValgrindSensor.class);
-  
+
   private RuleFinder ruleFinder = null;
   private Configuration conf = null;
-  
+
   public CxxValgrindSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
@@ -67,7 +67,7 @@ public class CxxValgrindSensor extends CxxSensor {
   private void parseReport(final Project project, File xmlFile, final SensorContext context) {
     try {
       logger.info("parsing valgrind report '{}'", xmlFile);
-      
+
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
         public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
@@ -129,7 +129,7 @@ public class CxxValgrindSensor extends CxxSensor {
     FileData(org.sonar.api.resources.File f) {
       file = f;
     }
-    
+
     private org.sonar.api.resources.File file;
 
     public void saveMetric(Project project, SensorContext context) {

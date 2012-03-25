@@ -46,11 +46,11 @@ public class TestUtils{
     when(ruleFinder.find((RuleQuery) anyObject())).thenReturn(ruleMock);
     return ruleFinder;
   }
-  
+
   public static Project mockProject() {
     File reportsBasedir;
     File sourcesRootdir;
-    
+
     try{
       reportsBasedir = new File(TestUtils.class.getResource("/org/sonar/plugins/cxx/").toURI());
       sourcesRootdir = new File(new File(TestUtils.class.getResource("/").toURI()),
@@ -60,7 +60,7 @@ public class TestUtils{
       System.out.println("Get exception mocking project: " + e);
       return null;
     }
-    
+
     List<File> sourceFiles = new ArrayList<File>();
     sourceFiles.add(new File(sourcesRootdir, "sources/application/main.cpp"));
     sourceFiles.add(new File(sourcesRootdir, "sources/tests/SAMPLE-test.cpp"));
@@ -68,25 +68,25 @@ public class TestUtils{
     sourceFiles.add(new File(sourcesRootdir, "sources/tests/main.cpp"));
     sourceFiles.add(new File(sourcesRootdir, "sources/utils/code_chunks.cpp"));
     sourceFiles.add(new File(sourcesRootdir, "sources/utils/utils.cpp"));
-    
+
     List<File> sourceDirs = new ArrayList<File>();
     sourceDirs.add(new File(sourcesRootdir, "sources"));
-    
+
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
     when(fileSystem.getBasedir()).thenReturn(reportsBasedir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
     when(fileSystem.getSourceFiles(mockCxxLanguage())).thenReturn(sourceFiles);
     when(fileSystem.getSourceDirs()).thenReturn(sourceDirs);
-    
+
     Project project = mock(Project.class);
     when(project.getFileSystem()).thenReturn(fileSystem);
     CxxLanguage lang = mockCxxLanguage();
     when(project.getLanguage()).thenReturn(lang);
-    
+
     return project;
   }
-  
+
   public static CxxLanguage mockCxxLanguage(){
-    return new CxxLanguage(mock(Configuration.class)); 
+    return new CxxLanguage(mock(Configuration.class));
   }
 }

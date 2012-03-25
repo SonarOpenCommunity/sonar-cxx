@@ -39,28 +39,28 @@ import org.sonar.api.resources.Resource;
 public class CxxLineCounterTest {
   private CxxLineCounter sensor;
   private SensorContext context;
-  
+
   @Before
   public void setUp() {
     sensor = new CxxLineCounter(TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
   }
-  
+
   @Test
   public void testLineCounting() {
     Project project = mockProject();
     sensor.analyse(project, context);
-    
+
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(92.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMMENT_LINES), eq(9.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMMENT_BLANK_LINES), eq(5.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMMENTED_OUT_CODE_LINES), eq(8.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(58.0));
   }
-  
+
   private Project mockProject() {
     Project project = TestUtils.mockProject();
-    
+
     File sourceFile;
     File sourceDir;
     try{
@@ -77,7 +77,7 @@ public class CxxLineCounterTest {
     List<File> sourceDirs = project.getFileSystem().getSourceDirs();
     sourceDirs.clear();
     sourceDirs.add(sourceDir);
-    
+
     return project;
   }
 }

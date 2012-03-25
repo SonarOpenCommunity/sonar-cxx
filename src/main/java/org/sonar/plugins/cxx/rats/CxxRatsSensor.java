@@ -44,17 +44,17 @@ public final class CxxRatsSensor extends CxxSensor {
   private static Logger logger = LoggerFactory.getLogger(CxxRatsSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
   private static final String DEFAULT_REPORT_PATH = "rats-reports/rats-result-*.xml";
-  
+
   private RuleFinder ruleFinder;
   private Configuration conf;
 
-  
+
   public CxxRatsSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }
 
-  
+
   public void analyse(Project project, SensorContext context) {
     try {
       File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
@@ -72,25 +72,25 @@ public final class CxxRatsSensor extends CxxSensor {
     }
   }
 
-  
+
   void parseReport(Project project, SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException
   {
     logger.info("parsing rats report '{}'", report);
-    
+
     SAXBuilder builder = new SAXBuilder(false);
     Element root = builder.build(report).getRootElement();
-    
+
     List<Element> vulnerabilities = root.getChildren("vulnerability");
     for (Element vulnerability : vulnerabilities) {
       String type = vulnerability.getChild("type").getTextTrim();
       String message = vulnerability.getChild("message").getTextTrim();
-      
+
       List<Element> files = vulnerability.getChildren("file");
-      
+
       for (Element file : files) {
         String fileName = file.getChild("name").getTextTrim();
-        
+
         List<Element> lines = file.getChildren("line");
         for (Element lineElem : lines) {
           int line = Integer.parseInt(lineElem.getTextTrim());
@@ -99,7 +99,7 @@ public final class CxxRatsSensor extends CxxSensor {
       }
     }
   }
-  
+
   void processError(Project project, SensorContext context,
                     String file, int line, String ruleId, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()
@@ -117,7 +117,7 @@ public final class CxxRatsSensor extends CxxSensor {
     }
   }
 
-  
+
   @Override
   public String toString() {
     return getClass().getSimpleName();

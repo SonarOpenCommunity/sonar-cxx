@@ -41,7 +41,7 @@ public class CxxRatsSensorTest {
   private CxxRatsSensor sensor;
   private SensorContext context;
   private Project project;
-  
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
@@ -51,7 +51,7 @@ public class CxxRatsSensorTest {
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
   }
-  
+
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);

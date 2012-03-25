@@ -37,14 +37,14 @@ public class CxxSensorTest {
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   private final String INVALID_REPORT_PATH = "something";
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
-  
+
   private class CxxSensorImpl extends CxxSensor {
     public void analyse(Project p, SensorContext sc){}
   };
-  
+
   private CxxSensor sensor;
   private File baseDir;
-  
+
   @Before
   public void init() {
     sensor = new CxxSensorImpl();
@@ -61,31 +61,31 @@ public class CxxSensorTest {
   public void shouldntThrowWhenInstantiating() {
     new CxxSensorImpl();
   }
-  
+
   @Test
   public void shouldExecuteOnlyWhenNecessary() {
-    // which means: only on cxx projects 
+    // which means: only on cxx projects
     CxxSensor sensor = new CxxSensorImpl();
     Project cxxProject = mockProjectWithLanguageKey(CxxLanguage.KEY);
     Project foreignProject = mockProjectWithLanguageKey("whatever");
     assert(sensor.shouldExecuteOnProject(cxxProject));
     assert(!sensor.shouldExecuteOnProject(foreignProject));
   }
-  
+
   @Test
   public void getReports_shouldFindSomethingIfThere(){
     File[] reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
                                        "", VALID_REPORT_PATH);
     assertFound(reports);
   }
-  
+
   @Test
   public void getReports_shouldFindNothingIfNotThere(){
     File[] reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
                                        "", INVALID_REPORT_PATH);
     assertNotFound(reports);
   }
-  
+
   @Test
   public void getReports_shouldUseConfigurationWithHigherPriority(){
     // we'll detect this condition by passing something not existing as config property
@@ -94,12 +94,12 @@ public class CxxSensorTest {
 
     Configuration config = mock(Configuration.class);
     when(config.getString(REPORT_PATH_PROPERTY_KEY)).thenReturn(INVALID_REPORT_PATH);
-    
+
     File[] reports = sensor.getReports(config, baseDir.getPath(),
                                        REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertFound(reports);
   }
-  
+
   @Test
   public void getReports_shouldFallbackToDefaultIfNothingConfigured(){
     Configuration config = mock(Configuration.class);
@@ -107,14 +107,14 @@ public class CxxSensorTest {
                                        REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertFound(reports);
   }
-  
+
   private void assertFound(File[] reports){
     assert(reports != null);
     assert(reports.length == 1);
     assert(reports[0].exists());
     assert(reports[0].isAbsolute());
   }
-  
+
   private void assertNotFound(File[] reports){
     assert(reports != null);
     assert(reports.length == 0);

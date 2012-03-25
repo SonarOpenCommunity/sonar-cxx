@@ -43,12 +43,12 @@ public class CxxSourceImporterTest {
     SensorContext context = mock(SensorContext.class);
     Project project = mockProject();
     CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage());
-    
+
     importer.analyse(project, context);
-    
+
     verify(context).saveSource((Resource) anyObject(), eq("<c++ source>\n"));
   }
-  
+
   private Project mockProject() {
     Project project = TestUtils.mockProject();
 
@@ -61,19 +61,19 @@ public class CxxSourceImporterTest {
       System.out.println("Error while mocking project: " + e);
       return null;
     }
-    
+
     List<File> sourceFiles = project.getFileSystem().getSourceFiles(TestUtils.mockCxxLanguage());
     sourceFiles.clear();
     sourceFiles.add(sourceFile);
     List<File> sourceDirs = project.getFileSystem().getSourceDirs();
     sourceDirs.clear();
     sourceDirs.add(sourceDir);
-    
+
     Configuration config = mock(Configuration.class);
     when(config.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
                            CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
     when(project.getConfiguration()).thenReturn(config);
-    
+
     return project;
   }
 }

@@ -39,7 +39,7 @@ public class CxxSampleProjectIT {
   private static final String PROJECT_SAMPLE = "NETICOA:SAMPLE";
   private static final String DIR_UTILS = "NETICOA:SAMPLE:utils";
   private static final String FILE_CODECHUNKS = "NETICOA:SAMPLE:utils/code_chunks.cpp";
-  
+
   @BeforeClass
   public static void buildServer() {
     sonar = Sonar.create("http://localhost:9000");
@@ -58,19 +58,19 @@ public class CxxSampleProjectIT {
     String[] metricNames =
       {"ncloc", "lines",
        "files", "directories", "functions",
-       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines", 
-       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files", 
+       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines",
+       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
        "complexity", "function_complexity", "violations", "violations_density"
       };
-    
+
     double[] values = new double[metricNames.length];
     for(int i = 0; i < metricNames.length; ++i){
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
-    
+
     double[] expectedValues = {88.0, 144.0, 6.0, 3.0, 6.0, 12.0, 12.0, 2.0, 21.0, 26.4, 38.0, 2.0, 1.0, 7.0, 1.2, 26.0, 63.6};
     assertThat(values, is(expectedValues));
-    
+
     assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=5;2=1;4=0;6=0;8=0;10=0;12=0"));
   }
 
@@ -79,39 +79,39 @@ public class CxxSampleProjectIT {
     String[] metricNames =
       {"ncloc", "lines",
        "files", "directories", "functions",
-       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines", 
-       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files", 
+       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines",
+       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
        "complexity", "function_complexity",
        "violations", "violations_density"
       };
-    
+
     double[] values = new double[metricNames.length];
     for(int i = 0; i < metricNames.length; ++i){
       values[i] = getPackageMeasure(metricNames[i]).getValue();
     }
-    
+
     double[] expectedValues = {52.0, 94.0, 2.0, 1.0, 2.0, 16.1, 10.0, 2.0, 21.0, 40.4, 38.0, 2.0, 1.0, 3.0, 1.5, 10.0, 69.2};
     assertThat(values, is(expectedValues));
-    
+
     assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=1;2=1;4=0;6=0;8=0;10=0;12=0"));
   }
-  
+
   @Test
   public void filesMetrics() {
     String[] metricNames =
       {"ncloc", "lines",
        "files", "functions",
-       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines", 
-       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files", 
+       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines",
+       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
        "complexity", "function_complexity",
        "violations", "violations_density"
       };
-    
+
     double[] values = new double[metricNames.length];
     for(int i = 0; i < metricNames.length; ++i){
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
-    
+
     double[] expectedValues = {48.0, 88.0, 1.0, 1.0, 17.2, 10.0, 2.0, 21.0, 43.2, 38.0, 2.0, 1.0, 2.0, 2.0, 7.0, 70.8};
     assertThat(values, is(expectedValues));
   }
@@ -120,7 +120,7 @@ public class CxxSampleProjectIT {
     Resource resource = sonar.find(ResourceQuery.createForMetrics(PROJECT_SAMPLE, metricKey));
     return resource!=null ? resource.getMeasure(metricKey) : null;
   }
-  
+
   private Measure getPackageMeasure(String metricKey) {
     Resource resource = sonar.find(ResourceQuery.createForMetrics(DIR_UTILS, metricKey));
     return resource!=null ? resource.getMeasure(metricKey) : null;

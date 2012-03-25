@@ -53,7 +53,7 @@ public class CxxCppNcssSensor extends CxxSensor {
   private static final Number[] CLASS_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
 
   private Configuration conf;
-  
+
   public CxxCppNcssSensor(Configuration conf) {
     this.conf = conf;
   }
@@ -66,7 +66,7 @@ public class CxxCppNcssSensor extends CxxSensor {
     }
   }
 
-  
+
   private class FileData {
 
     FileData(String name) {

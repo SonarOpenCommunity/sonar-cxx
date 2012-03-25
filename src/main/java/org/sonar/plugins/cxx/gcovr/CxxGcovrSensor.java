@@ -57,17 +57,17 @@ public class CxxGcovrSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.gcovr.reportPath";
   private static final String DEFAULT_REPORT_PATH = "gcovr-reports/gcovr-result-*.xml";
   private static Logger logger = LoggerFactory.getLogger(CxxGcovrSensor.class);
-  
+
   private Configuration conf = null;
-  
+
   public CxxGcovrSensor(Configuration conf) {
     this.conf = conf;
   }
-  
+
   public void analyse(Project project, SensorContext context) {
     File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                 REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    
+
     Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
     for (File report : reports) {
       parseReport(project, report, context, fileDataPerFilename);
@@ -113,7 +113,7 @@ public class CxxGcovrSensor extends CxxSensor {
       collectFileMeasures(project, pack.descendantElementCursor("class"), dataPerFilename);
     }
   }
-  
+
   private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
     return context.getResource(file) != null;
   }
@@ -123,7 +123,7 @@ public class CxxGcovrSensor extends CxxSensor {
     logger.debug("collectFileMeasures");
     while (clazz.getNext() != null) {
       String fileName = clazz.getAttrValue("filename");
-      
+
       org.sonar.api.resources.File cxxfile =
         org.sonar.api.resources.File.fromIOFile(new File(fileName), project);
       if (cxxfile != null) {

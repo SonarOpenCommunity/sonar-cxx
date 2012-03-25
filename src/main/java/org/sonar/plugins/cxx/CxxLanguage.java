@@ -26,14 +26,14 @@ import org.sonar.api.resources.AbstractLanguage;
 public final class CxxLanguage extends AbstractLanguage {
   static final String DEFAULT_FILE_SUFFIXES = "cxx,cpp,cc,h,hxx,hpp,hh";
   private Configuration config;
-  
+
   public static final String KEY = "c++";
-  
+
   public CxxLanguage(Configuration config) {
     super(KEY, "c++");
     this.config = config;
   }
-  
+
   public String[] getFileSuffixes() {
     String[] suffixes = config.getStringArray(CxxPlugin.FILE_SUFFIXES_KEY);
     if (suffixes == null || suffixes.length == 0) {

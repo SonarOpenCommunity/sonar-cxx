@@ -43,7 +43,7 @@ public class CxxCppNcssSensorTest {
   private CxxCppNcssSensor sensor;
   private SensorContext context;
   private Project project;
-  
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
@@ -52,11 +52,11 @@ public class CxxCppNcssSensorTest {
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
   }
-  
+
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    
+
     verify(context, times(5)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.FUNCTIONS), anyDouble());
     verify(context, times(5)).saveMeasure((Resource) anyObject(),

@@ -46,7 +46,7 @@ public class CxxGcovrSensorTest {
   private CxxGcovrSensor sensor;
   private SensorContext context;
   private Project project;
-  
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
@@ -55,7 +55,7 @@ public class CxxGcovrSensorTest {
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
   }
-  
+
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);

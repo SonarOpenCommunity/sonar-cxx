@@ -95,7 +95,7 @@
                   <!-- <sourceDirs>
                     <sourceDir>sources/application</sourceDir>
                     <sourceDir>sources/utils</sourceDir>
-                    <sourceDir>sources/tests</sourceDir> 
+                    <sourceDir>sources/tests</sourceDir>
                   </sourceDirs>-->
                   <includeDirs>
                     <includeDir>${basedir}/builds/Unix Makefiles/RELEASE/application</includeDir>
@@ -581,7 +581,7 @@
         </plugins>
      </build>
     </profile>
-    
+
   </profiles>
   <build>
     <!-- We have our own <configuration><sourceDirs> node inside cxx plugin configuration -->

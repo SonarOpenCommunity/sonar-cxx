@@ -4,12 +4,12 @@
 ########################################################################################
 ########################################################################################
 PROJECT (Utils)
-	
+
 ########################################################################################
 # C++ INCLUDE DIRECTORIES
 
 # Add a new include path in this list !
-INCLUDE_DIRECTORIES (	
+INCLUDE_DIRECTORIES (
 	${PROJECT_SOURCE_DIR}
 )
 
@@ -25,12 +25,12 @@ SET(UTILS_SRCS
 	"${UTILS_MAIN_DIR_SRCS}/code_chunks.cpp"
         )
 
-# Add your QObject header files here !	
+# Add your QObject header files here !
 SET(UTILS_HDRS)
 
 # Add your QObject header files here !
 SET(UTILS_QT_HDRS)
-	
+
 
 ########################################################################################
 # QT PROJECT MOC/QRC/UI STUFF
@@ -54,14 +54,14 @@ INCLUDE(${QT_USE_FILE})
 # Add your QT headers file here !
 QT4_WRAP_CPP(UTILS_MOC_SRCS ${UTILS_QT_HDRS})
 
-	
+
 ########################################################################################
 # BINARY TARGET
 
 # Create your library target here !
 # utils is a static library that depends on sources code (headers are mentionned only ta appears in vcproj)
 ADD_LIBRARY(Utils STATIC
-	${UTILS_SRCS} 
+	${UTILS_SRCS}
         ${UTILS_HDRS}
         ${UTILS_MOC_SRCS}
         ${UTILS_QT_HDRS})

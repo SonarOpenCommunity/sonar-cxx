@@ -44,7 +44,7 @@ public class CxxVeraxxSensorTest {
   private CxxVeraxxSensor sensor;
   private SensorContext context;
   private Project project;
-  
+
   @Before
   public void setUp() {
     project = mockProject();
@@ -54,16 +54,16 @@ public class CxxVeraxxSensorTest {
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
   }
-  
+
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
     verify(context, times(10)).saveViolation(any(Violation.class));
   }
-  
+
   private Project mockProject() {
     Project project = TestUtils.mockProject();
-    
+
     // works only with relative paths... should look at this later
     List<File> sourceFiles = project.getFileSystem().getSourceFiles();
     sourceFiles.clear();
@@ -73,11 +73,11 @@ public class CxxVeraxxSensorTest {
     sourceFiles.add(new File("sources/tests/main.cpp"));
     sourceFiles.add(new File("sources/utils/code_chunks.cpp"));
     sourceFiles.add(new File("sources/utils/utils.cpp"));
-    
+
     List<File> sourceDirs = project.getFileSystem().getSourceDirs();
     sourceDirs.clear();
     sourceDirs.add(new File("sources"));
-    
+
     return project;
   }
 }

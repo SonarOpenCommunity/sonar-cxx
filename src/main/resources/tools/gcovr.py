@@ -1,9 +1,9 @@
 #! /usr/bin/env python
-# 
+#
 # A report generator for gcov 3.4
 #
-# This routine generates a format that is similar to the format generated 
-# by the Python coverage.py module.  This code is similar to the 
+# This routine generates a format that is similar to the format generated
+# by the Python coverage.py module.  This code is similar to the
 # data processing performed by lcov's geninfo command.  However, we
 # don't worry about parsing the *.gcna files, and backwards compatibility for
 # older versions of gcov is not supported.
@@ -13,7 +13,7 @@
 # retains certain rights in this software.
 # Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits réservés.
 # Author(s) : Franck Bonin, Neticoa SAS France.
-# 
+#
 # Outstanding issues
 #   - verify that gcov 3.4 or newer is being used
 #   - verify support for symbolic links
@@ -85,7 +85,7 @@ class CoverageData(object):
 
             tmp.sort()
             return ",".join([str(x) for x in tmp]) or ""
-        
+
         tmp = list(self.uncovered)
         if len(tmp) == 0:
             return ""
@@ -106,7 +106,7 @@ class CoverageData(object):
                        == item - last - 1:
                     last = item
                     continue
-                
+
                 if first==last:
                     ranges.append(str(first))
                 else:
@@ -130,7 +130,7 @@ class CoverageData(object):
         else:
             total = len(self.all_lines)
             cover = len(self.covered)
-            
+
         percent = total and str(int(100.0*cover/total)) or "--"
         return (total, cover, percent)
 
@@ -243,7 +243,7 @@ def process_gcov_data(file, covdata, options):
             lineno = int(segments[1].strip())
         except:
             pass # keep previous line number!
-            
+
         if tmp[0] == '#':
             uncovered.add( lineno )
         elif tmp[0] in "0123456789":
@@ -408,7 +408,7 @@ def print_xml_report(covdata):
         data = covdata[f]
         (dir, fname) = os.path.split(f)
         dir = dir[prefix:]
-        
+
         package = packages.setdefault(
             dir, [ doc.createElement("package"), {},
                    0, 0, 0, 0 ] )
@@ -450,7 +450,7 @@ def print_xml_report(covdata):
                 conditions = doc.createElement("conditions")
                 conditions.appendChild(cond)
                 l.appendChild(conditions)
-                
+
             lines.appendChild(l)
 
         className = fname.replace('.', '_')
