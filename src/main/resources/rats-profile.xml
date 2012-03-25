@@ -5,984 +5,1520 @@
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>drand48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>erand48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>initstate</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>jrand48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lcong48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lrand48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>mrand48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>nrand48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>random</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>seed48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>setstate</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>srand</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>srand48</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strfry</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>memfrob</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>crypt</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>srandom</key>
-    </rule>			
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>memcpy</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>fixed size global buffer</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>fixed size local buffer</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strncpy</key>
-    </rule>			
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>chroot</key>
-    </rule>		
+      <priority>INFO</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>gets</key>
-    </rule>		
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>system</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>popen</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>getenv</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strcpy</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strcat</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>printf</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>sprintf</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wsprintf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wsprintfA</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wsprintfW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_snprintf</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_snwprintf</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lstrcpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lstrcpyA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lstrcpyW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wcscpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_mbscpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tcscpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCpyA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCpyW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lstrcat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wcscat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_mbscat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tcscat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strxfrm</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wcsxfrm</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tcsxfrm</key>
+      <priority>MAJOR</priority>
     </rule>
 
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lstrcpyn</key>
+      <priority>MINOR</priority>
     </rule>
 
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCpyN</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCpyNA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCpyNW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>lstrcpynW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wcsncpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_mbsncpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tcsncpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_mbsnbcat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wcsncat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tcsncat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>MultiByteToWideChar</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>WideCharToMultiByte</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrNCat</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatBuff</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatBuffA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatBuffW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatN</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatNA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrCatNW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatByteSize</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatByteSizeA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatByteSizeW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatByteSize64</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatByteSize64A</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatByteSize64W</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatKBSize</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatKBSizeA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFormatKBSizeW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFromTimeInterval</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>StrFromTimeIntervalA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
-      <key>StrFromTimeIntevalW</key>
+      <key>StrFromTimeIntervalW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wvnsprintf</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wvnsprintfA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wvnsprintfW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wnsprintf</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wnsprintfA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wnsprintfW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAddExtension</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAddExtensionA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAddExtensionW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAddBackslash</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAddBackslashA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
-      <key>PathAddBackSlashW</key>
+      <key>PathAddBackslashW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAppend</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAppendA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathAppendW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathCanonicalize</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathCanonicalizeA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathCanonicalizeW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathCombine</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathCombineA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>PathCombineW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>LoadLibrary</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>LoadLibraryA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>LoadLibraryW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>GetExtensionVersion</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToChar</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToCharA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToCharW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToCharBuff</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToCharBuffA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToCharBuffW</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToAnsi</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToAnsiA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToAnsiW</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToAnsiBuff</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToAnsiBuffA</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>OemToAnsiBuffW</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>GetTempPath</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>GetTempPathA</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>GetTempPathW</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>GetTempFileName</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>GetTempFileNameA</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>GetTempFileNameW</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecute</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteEx</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteExA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteExW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wsystem</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texecl</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execl</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexecl</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texecle</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execle</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexecle</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texeclp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execlp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexeclp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texeclpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execlpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexeclpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texecv</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execv</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexecv</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texecve</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execve</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexecve</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texecvp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execvp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexecvp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_texecvpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_execvpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wexecvpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnl</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnl</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnl</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnle</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnle</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnle</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnlp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnlp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnlp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnlpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnlpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnlpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnv</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnv</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnv</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnve</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnve</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnve</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnvp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnvp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnvp</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tspawnvpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_spawnvpe</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_wspawnvpe</key>
-    </rule>		
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>scanf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>sscanf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>fscanf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>vfscanf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>vsprintf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>vscanf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>vsscanf</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>streadd</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strecpy</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strtrns</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>realpath</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>syslog</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>getopt</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>getopt_long</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>getpass</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>getchar</key>
+      <priority>MAJOR</priority>
     </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>fgetc</key>
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>getc</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>read</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>bcopy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>fgets</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>cin</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>memcpy</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>snprintf</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strccpy</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strcadd</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strncpy</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_vsnprintf</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>tmpfile</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>tmpnam</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>tempnam</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>getlogin</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>cuserid</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>ttyname</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>signal</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>gethostbyname</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>gethostbyaddr</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>realloc</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>fork</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>vfork</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_mbsnbcpy</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>CopyMemory</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strlen</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_tcslen</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>_mbslen</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>wcslen</key>
+      <priority>MINOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>CreateProcess</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>CreateProcessAsUser</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>CreateProcessWithLogon</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>WinExec</key>
+      <priority>CRITICAL</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>RpcImpersonateClient</key>
+      <priority>MAJOR</priority>
     </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>ImpersonateLoggedOnUser</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>CoImpersonateClient</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>ImpersonateNamedPipeClient</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>ImpersonateDdeClientWindow</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>ImpersonateSecurityContext</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>QuerySecurityContextToken</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>SetThreadToken</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>SetSecurityDescriptorDacl</key>
-    </rule>	
+      <priority>MAJOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>AfxLoadLibrary</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>LoadLibraryEx</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>InitializeCriticalSection</key>
-    </rule>	
+      <priority>MINOR</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>EnterCriticalSection</key>
-    </rule>			
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>catgets</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>gettext</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>strncat</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>umask</key>
-    </rule>	
+      <priority>CRITICAL</priority>
+    </rule>
+
     <rule>
       <repositoryKey>rats</repositoryKey>
       <key>AddAccessAllowedAce</key>
-    </rule>				
+      <priority>CRITICAL</priority>
+    </rule>
   </rules>
 </profile>

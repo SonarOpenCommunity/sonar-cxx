@@ -149,7 +149,7 @@
     <key>T004</key>
     <priority>MINOR</priority>
     <configKey>T004</configKey>
-    <name>colon not immediately after the \'$lastKeywordValue\' keyword</name>
+    <name>Keyword not immediately followed by a colon</name>
     <description>
       The keywords "default", "private", "protected" and "public"
       should be immediately followed by a colon, unless used in the
@@ -174,7 +174,7 @@
     <description>
       The return and throw keywords should be immediately followed by
       a semicolon or a single space. An exception to this rule is
-      allowed for exeption specifications.
+      allowed for exception specifications.
     </description>
   </rule>
   <rule>
@@ -228,7 +228,7 @@
     <name>Opening/closing curly bracket mistake</name>
     <description>
       Corresponding curly brackets should be either in the same line
-      or in the same column. This promotes clarity by emphasising
+      or in the same column. This promotes clarity by emphasizing
       scopes, but allows concise style of one-line definitions and
       empty blocks.
     </description>
