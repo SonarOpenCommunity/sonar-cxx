@@ -20,16 +20,15 @@
 package org.sonar.plugins.cxx.valgrind;
 
 import java.io.File;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
@@ -38,205 +37,261 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxSensor;
+import org.sonar.api.utils.SonarException;
+
 
 public class CxxValgrindSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
   private static final String DEFAULT_REPORT_PATH = "valgrind-reports/valgrind-result-*.xml";
   private static Logger logger = LoggerFactory.getLogger(CxxValgrindSensor.class);
-
+  
   private RuleFinder ruleFinder = null;
   private Configuration conf = null;
-
+  
   public CxxValgrindSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }
-
+  
   public void analyse(Project project, SensorContext context) {
-    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    for (File report : reports) {
-      parseReport(project, report, context);
+    try {
+      File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                  REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+      for (File report : reports) {
+        parseReport(project, context, report);
+      }
+    } catch (Exception e) {
+      String msg = new StringBuilder()
+        .append("Cannot feed the valgrind-data into sonar, details: '")
+        .append(e)
+        .append("'")
+        .toString();
+      throw new SonarException(msg, e);
     }
   }
 
-  private void parseReport(final Project project, File xmlFile, final SensorContext context) {
-    try {
-      logger.info("parsing valgrind report '{}'", xmlFile);
-
-      StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-
-        public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-          try {
-            Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
-            rootCursor.advance();
-            collectError(project, rootCursor.childElementCursor("error"), fileDataPerFilename, context);
-            for (FileData d : fileDataPerFilename.values()) {
-              d.saveMetric(project, context);
-            }
-          } catch (ParseException e) {
-            e.printStackTrace();
-            throw new XMLStreamException(e);
+  private void parseReport(final Project project, final SensorContext context, File report)
+    throws XMLStreamException 
+  {
+    logger.info("parsing valgrind report '{}'", report);
+    
+    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
+        Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
+        
+        rootCursor.advance();
+        SMInputCursor errorCursor = rootCursor.childElementCursor("error");
+        while (errorCursor.getNext() != null) {
+          valgrindErrors.add(parseErrorTag(errorCursor));
+        }
+        
+        for (ValgrindError error: valgrindErrors) {
+          ValgrindFrame frame = error.getLastOwnFrame(project.getFileSystem().getBasedir().getPath());
+          if(frame != null) {
+            processError(project, context, frame.getPath(), frame.line, error.kind, error.toString());
           }
         }
-      });
-      parser.parse(xmlFile);
-    } catch (XMLStreamException e) {
-      e.printStackTrace();
-      throw new XmlParserException(e);
-    }
-  }
-
-  private class Frame {
-
-    private String fn = "";
-    private String dir = "";
-    private String file = "";
-    private String line = "";
-
-    public String getText() {
-      return "Function :" + fn + " at line :" + line;
-    }
-  }
-
-  private class ValgrindError {
-
-    private List<Frame> stack = new ArrayList<Frame>();
-    private List<String> comments = new ArrayList<String>();
-    private String kind = "";
-    private String unique = "";
-    public Map<String, List<String>> LinesErrorPerFileKey = new HashMap<String, List<String>>();
-
-    public String getText() {
-      StringBuilder res = new StringBuilder();
-      for (String comment : comments) {
-        res.append(comment + "\n");
       }
-      res.append("Stack trace : \n");
-      for (Frame f : stack) {
-        res.append(f.getText() + "\n");
+    });
+    
+    parser.parse(report);
+  }
+
+  private void processError(Project project, SensorContext context,
+                            String file, int line, String ruleId, String msg) {
+    RuleQuery ruleQuery = RuleQuery.create()
+      .withRepositoryKey(CxxValgrindRuleRepository.KEY)
+      .withConfigKey(ruleId);
+    Rule rule = ruleFinder.find(ruleQuery);
+    if (rule != null) {
+      org.sonar.api.resources.File resource =
+        org.sonar.api.resources.File.fromIOFile(new File(file), project);
+      Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
+      context.saveViolation(violation);
+    }
+    else{
+      logger.warn("Cannot find the rule {}-{}, skipping violation", CxxValgrindRuleRepository.KEY, ruleId);
+    }
+  }
+
+  private ValgrindError parseErrorTag(SMInputCursor error)
+    throws XMLStreamException
+  {
+    SMInputCursor child = error.childElementCursor();
+    ValgrindError valError = new ValgrindError();
+    
+    while (child.getNext() != null) {
+      String tagName = child.getLocalName();
+      if ("kind".equalsIgnoreCase(tagName)) {
+        valError.kind = child.getElemStringValue();
+      } else if (tagName.matches(".*what.*")) {
+        valError.text = child.childElementCursor("text").advance().getElemStringValue();
+      } else if ("stack".equalsIgnoreCase(tagName)) {
+        valError.stack = parseStackTag(child);
+      }
+    }
+
+    return valError;
+  }
+
+  private ValgrindStack parseStackTag(SMInputCursor child)
+    throws javax.xml.stream.XMLStreamException
+  {
+    ValgrindStack stack = new ValgrindStack();
+    SMInputCursor frameCursor = child.childElementCursor("frame");
+    while (frameCursor.getNext() != null) {
+      
+      SMInputCursor frameChild = frameCursor.childElementCursor();
+      ValgrindFrame frame = new ValgrindFrame();
+      while (frameChild.getNext() != null) {
+        String tagName = frameChild.getLocalName();
+        
+        if ("ip".equalsIgnoreCase(tagName)) {
+          frame.ip = frameChild.getElemStringValue();
+        } else if ("obj".equalsIgnoreCase(tagName)) {
+          frame.obj = frameChild.getElemStringValue();
+        } else if ("fn".equalsIgnoreCase(tagName)) {
+          frame.fn = frameChild.getElemStringValue();
+        } else if ("dir".equalsIgnoreCase(tagName)) {
+          frame.dir = frameChild.getElemStringValue();
+        } else if ("file".equalsIgnoreCase(tagName)) {
+          frame.file = frameChild.getElemStringValue();
+        } else if ("line".equalsIgnoreCase(tagName)) {
+          frame.line = Integer.parseInt(frameChild.getElemStringValue());
+        }
+      }
+      stack.frames.add(frame);
+    }
+    
+    return stack;
+  }
+
+  static class ValgrindError {
+    String text = "";
+    ValgrindStack stack;
+    String kind = "";
+    
+    @Override
+    public String toString() { return text + "\n\n" + stack; }
+    
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ValgrindError other = (ValgrindError) o;
+      return hashCode() == other.hashCode();
+    }
+
+    public int hashCode() {
+      return new HashCodeBuilder()
+        .append(kind)
+        .append(stack)
+        .toHashCode();
+    }
+
+    ValgrindFrame getLastOwnFrame(String basedir) {
+      for(ValgrindFrame frame: stack.frames){
+        if (isInside(frame.dir, basedir)){
+          return frame;
+        }
+      }
+      return null;
+    }
+    
+    private boolean isInside(String path, String folder) {
+      return "".equals(path) ? false : path.startsWith(folder);
+    }
+  }
+  
+  static class ValgrindStack {
+    List<ValgrindFrame> frames = new ArrayList<ValgrindFrame>();
+
+    @Override
+    public String toString() {
+      StringBuilder res = new StringBuilder();
+      for (ValgrindFrame frame: frames) {
+        res.append(frame);
+        res.append("\n");
       }
       return res.toString();
     }
-  }
 
-  private class FileData {
-
-    FileData(org.sonar.api.resources.File f) {
-      file = f;
+    public int hashCode() {
+      HashCodeBuilder builder = new HashCodeBuilder();
+      for(ValgrindFrame frame: frames) {
+        builder.append(frame);
+      }
+      return builder.toHashCode();
     }
 
-    private org.sonar.api.resources.File file;
-
-    public void saveMetric(Project project, SensorContext context) {
-
-      for (ValgrindError error : fileErrors.values()) {
-        Rule rule = ruleFinder.findByKey(CxxValgrindRuleRepository.KEY, error.kind);
-        if (rule != null) {
-          List<String> Lines = error.LinesErrorPerFileKey.get(file.getKey());
-          if (Lines != null) {
-            List<String> Done = new ArrayList<String>();
-            for (String line : Lines) {
-              if ( !Done.contains(file.getKey() + error.unique + line)) {
-                Object t[] = { file.getKey(), error.getText(), line };
-                // logger.info("error (source={}) message={} found at line {}", t);
-                Violation violation = Violation.create(rule, file);
-                violation.setMessage(error.getText());
-                violation.setLineId(Integer.parseInt(line));
-                context.saveViolation(violation);
-                Done.add(file.getKey() + error.unique + line);
-              } else {
-                Object t[] = { error.getText(), file.getKey(), line };
-                logger.warn("error (message={}) in source={} at line {} already reported", t);
-              }
-            }
-          } else {
-            Object t[] = { error.getText(), file.getKey() };
-            logger.warn("No Line for error (message={}) in source={} message={}", t);
-          }
-        } else {
-          Object t[] = { error.getText(), file.getKey() };
-          logger.warn("No rule for error (message={}) in source={}", t);
-        }
+    
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
       }
-    }
-
-    public Map<String, ValgrindError> fileErrors = new HashMap<String, ValgrindError>();
-  }
-
-  private void collectError(Project project, SMInputCursor error, Map<String, FileData> fileDataPerFilename, SensorContext context)
-      throws ParseException, XMLStreamException {
-    while (error.getNext() != null) {
-      // logger.info("collectError nodename = {} {}", error.getPrefixedName(), error.getAttrCount());
-      SMInputCursor child = error.childElementCursor();
-      ValgrindError ValError = new ValgrindError();
-      Map<String, org.sonar.api.resources.File> FileInvolved =
-        new HashMap<String, org.sonar.api.resources.File>();
-      while (child.getNext() != null) {
-        if (child.getLocalName().equalsIgnoreCase("unique")) {
-          ValError.unique = child.getElemStringValue();
-        } else if (child.getLocalName().equalsIgnoreCase("kind")) {
-          ValError.kind = child.getElemStringValue();
-        } else if (child.getLocalName().matches(".*what.*")) {
-          SMInputCursor text = child.childElementCursor("text");
-          while (text.getNext() != null) {
-            ValError.comments.add(text.getElemStringValue());
-          }
-        } else if (child.getLocalName().equalsIgnoreCase("stack")) {
-          SMInputCursor frame = child.childElementCursor("frame");
-          while (frame.getNext() != null) {
-            SMInputCursor frameChild = frame.childElementCursor();
-            Frame f = new Frame();
-            while (frameChild.getNext() != null) {
-              if (frameChild.getLocalName().equalsIgnoreCase("fn")) {
-                f.fn = frameChild.getElemStringValue();
-              } else if (frameChild.getLocalName().equalsIgnoreCase("dir")) {
-                f.dir = frameChild.getElemStringValue();
-              } else if (frameChild.getLocalName().equalsIgnoreCase("file")) {
-                f.file = frameChild.getElemStringValue();
-              } else if (frameChild.getLocalName().equalsIgnoreCase("line")) {
-                f.line = frameChild.getElemStringValue();
-              }
-              org.sonar.api.resources.File cxxfile = null;
-              if ( !StringUtils.isEmpty(f.file) && !StringUtils.isEmpty(f.dir)) {
-                cxxfile = org.sonar.api.resources.File.fromIOFile(new File(f.dir + "/" + f.file), project);
-              } else if ( !StringUtils.isEmpty(f.file)) {
-                cxxfile = org.sonar.api.resources.File.fromIOFile(new File(f.file), project);
-              }
-              if (null != cxxfile && fileExist(context, cxxfile) && !StringUtils.isEmpty(f.line)) {
-                List<String> Lines = ValError.LinesErrorPerFileKey.get(cxxfile.getKey());
-                if (Lines == null) {
-                  Lines = new ArrayList<String>();
-                  ValError.LinesErrorPerFileKey.put(cxxfile.getKey(), Lines);
-                }
-                if ( -1 == Lines.indexOf(f.line)) {
-                  Lines.add(f.line);
-                }
-                if (null == FileInvolved.get(cxxfile.getKey())) {
-                  FileInvolved.put(cxxfile.getKey(), cxxfile);
-                }
-              }
-            }
-            ValError.stack.add(f);
-          }
-        }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
       }
-      for (org.sonar.api.resources.File curResource : FileInvolved.values()) {
-        FileData data = fileDataPerFilename.get(curResource.getKey());
-        if (data == null) {
-          data = new FileData(curResource);
-          fileDataPerFilename.put(curResource.getKey(), data);
-        }
-        data.fileErrors.put(ValError.unique, ValError);
-      }
+      ValgrindStack other = (ValgrindStack) o;
+      return hashCode() == other.hashCode();
     }
   }
+  
+  static class ValgrindFrame extends Object{
+    String ip = "?";
+    String obj = "";
+    String fn = "?";
+    String dir = "";
+    String file = "";
+    int line = -1;
 
-  private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
-    return context.getResource(file) != null;
+    @Override
+    public String toString() {
+      StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
+      if(isLocationKnown()){
+        builder.append(" (")
+          .append("".equals(file) ? ("in " + obj) : (file + ":" + getLine()))
+          .append(")");
+      }
+      
+      return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      ValgrindFrame other = (ValgrindFrame) o;
+      return hashCode() == other.hashCode();
+    }
+
+    public int hashCode() {
+      return new HashCodeBuilder()
+        .append(obj)
+        .append(fn)
+        .append(dir)
+        .append(file)
+        .append(line)
+        .toHashCode();
+    }
+    
+    String getPath() { return new File(dir, file).getPath(); }
+    
+    private boolean isLocationKnown() { return !("".equals(file) && "".equals(obj)); }
+    
+    private String getLine() { return line == -1 ? "" : Integer.toString(line); }
   }
 }

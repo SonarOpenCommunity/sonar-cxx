@@ -48,32 +48,29 @@ public class TestUtils{
   }
 
   public static Project mockProject() {
-    File reportsBasedir;
-    File sourcesRootdir;
+    File baseDir;
 
     try{
-      reportsBasedir = new File(TestUtils.class.getResource("/org/sonar/plugins/cxx/").toURI());
-      sourcesRootdir = new File(new File(TestUtils.class.getResource("/").toURI()),
-                                "../../src/sample/SampleProject");
+      baseDir = new File(TestUtils.class.getResource("/org/sonar/plugins/cxx/").toURI());
     }
     catch(java.net.URISyntaxException e){
-      System.out.println("Get exception mocking project: " + e);
+      System.out.println("Got exception mocking project: " + e);
       return null;
     }
 
     List<File> sourceFiles = new ArrayList<File>();
-    sourceFiles.add(new File(sourcesRootdir, "sources/application/main.cpp"));
-    sourceFiles.add(new File(sourcesRootdir, "sources/tests/SAMPLE-test.cpp"));
-    sourceFiles.add(new File(sourcesRootdir, "sources/tests/SAMPLE-test.h"));
-    sourceFiles.add(new File(sourcesRootdir, "sources/tests/main.cpp"));
-    sourceFiles.add(new File(sourcesRootdir, "sources/utils/code_chunks.cpp"));
-    sourceFiles.add(new File(sourcesRootdir, "sources/utils/utils.cpp"));
+    sourceFiles.add(new File(baseDir, "sources/application/main.cpp"));
+    sourceFiles.add(new File(baseDir, "sources/tests/SAMPLE-test.cpp"));
+    sourceFiles.add(new File(baseDir, "sources/tests/SAMPLE-test.h"));
+    sourceFiles.add(new File(baseDir, "sources/tests/main.cpp"));
+    sourceFiles.add(new File(baseDir, "sources/utils/code_chunks.cpp"));
+    sourceFiles.add(new File(baseDir, "sources/utils/utils.cpp"));
 
     List<File> sourceDirs = new ArrayList<File>();
-    sourceDirs.add(new File(sourcesRootdir, "sources"));
+    sourceDirs.add(new File(baseDir, "sources"));
 
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
-    when(fileSystem.getBasedir()).thenReturn(reportsBasedir);
+    when(fileSystem.getBasedir()).thenReturn(baseDir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
     when(fileSystem.getSourceFiles(mockCxxLanguage())).thenReturn(sourceFiles);
     when(fileSystem.getSourceDirs()).thenReturn(sourceDirs);

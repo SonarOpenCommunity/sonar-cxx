@@ -110,7 +110,7 @@
       <ip>0x804DE1E</ip>
       <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -184,9 +184,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -260,9 +260,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -336,9 +336,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -412,9 +412,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -488,9 +488,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -564,9 +564,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -640,9 +640,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -715,9 +715,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -790,9 +790,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -861,9 +861,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>
@@ -930,9 +930,9 @@
     </frame>
     <frame>
       <ip>0x804DE1E</ip>
-      <obj>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
+      <obj>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</obj>
       <fn>main</fn>
-      <dir>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests</dir>
+      <dir>/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests</dir>
       <file>main.cpp</file>
       <line>6</line>
     </frame>

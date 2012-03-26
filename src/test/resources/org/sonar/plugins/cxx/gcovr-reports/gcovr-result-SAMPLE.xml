@@ -5,7 +5,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
   <packages>
     <package branch-rate="0.5" complexity="0.0" line-rate="0.625" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.builds.Unix Makefiles.COVERAGE.tests">
       <classes>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx" line-rate="0.625" name="moc_SAMPLE-test_cxx">
+        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx" line-rate="0.625" name="moc_SAMPLE-test_cxx">
           <lines>
             <line branch="false" hits="1" number="65"/>
             <line branch="false" hits="1" number="67"/>
@@ -45,7 +45,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
     </package>
     <package branch-rate="0.0" complexity="0.0" line-rate="0.0" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.builds.Unix Makefiles.COVERAGE.tests.............sources.tests">
       <classes>
-        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/tests/../../../../sources/tests/SAMPLE-test.h" line-rate="0.0" name="SAMPLE-test_h">
+        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/tests/../../../../sources/tests/SAMPLE-test.h" line-rate="0.0" name="SAMPLE-test_h">
           <lines>
             <line branch="false" hits="0" number="6"/>
           </lines>
@@ -54,7 +54,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
     </package>
     <package branch-rate="0.5" complexity="0.0" line-rate="1.0" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.sources.tests">
       <classes>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests/SAMPLE-test.cpp" line-rate="1.0" name="SAMPLE-test_cpp">
+        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/SAMPLE-test.cpp" line-rate="1.0" name="SAMPLE-test_cpp">
           <lines>
             <line branch="false" hits="1" number="8"/>
             <line branch="true" condition-coverage="50% (1/2)" hits="1" number="10">
@@ -66,7 +66,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
             <line branch="false" hits="1" number="6"/>
           </lines>
         </class>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests/SAMPLE-test.h" line-rate="1.0" name="SAMPLE-test_h">
+        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/SAMPLE-test.h" line-rate="1.0" name="SAMPLE-test_h">
           <lines>
             <line branch="true" condition-coverage="50% (1/2)" hits="1" number="6">
               <conditions>
@@ -75,7 +75,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
             </line>
           </lines>
         </class>
-        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/sources/tests/main.cpp" line-rate="1.0" name="main_cpp">
+        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/main.cpp" line-rate="1.0" name="main_cpp">
           <lines>
             <line branch="false" hits="1" number="8"/>
             <line branch="false" hits="1" number="9"/>
