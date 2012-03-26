@@ -20,15 +20,11 @@
 package org.sonar.plugins.cxx.cppcheck;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+//import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.io.input.TeeInputStream;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.slf4j.Logger;
@@ -41,7 +37,7 @@ import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.api.utils.XmlParserException;
+//import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxSensor;
 
 /**
@@ -55,34 +51,25 @@ import org.sonar.plugins.cxx.CxxSensor;
  * @todo allow configuration of path to analyze
  */
 public class CxxCppCheckSensor extends CxxSensor {
-  private static final String EXEC = "cppcheck";
-  private static final String ARGS = "--enable=all -v --quiet --xml";
   private static Logger logger = LoggerFactory.getLogger(CxxCppCheckSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
 
   private RuleFinder ruleFinder = null;
   private Configuration conf = null;
-  private boolean dynamicAnalysis = false;
-
 
   public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
-    this.dynamicAnalysis = conf.getBoolean("sonar.cxx.cppcheck.runAnalysis", this.dynamicAnalysis);
   }
 
 
   public void analyse(Project project, SensorContext context) {
     try {
-      if (dynamicAnalysis) {
-        analyseDynamicly(project, context);
-      } else {
-        File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+      File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                   REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-        for (File report : reports) {
-          parseReport(project, context, report);
-        }
+      for (File report : reports) {
+        parseReport(project, context, report);
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -95,52 +82,8 @@ public class CxxCppCheckSensor extends CxxSensor {
   }
 
 
-  void analyseDynamicly(Project project, SensorContext context)
-    throws javax.xml.stream.XMLStreamException
-  {
-    Process p;
-
-    try {
-      String cmd = EXEC + " " + ARGS + " ";
-      // + project.getPom().getBuild().getSourceDirectory();
-      // $FB project FileSystem content has been patched by CxxSourceImporter
-      for (File file : project.getFileSystem().getSourceDirs()) {
-        cmd += "\"" + file.getAbsolutePath() + "\" ";
-      }
-      logger.debug(cmd);
-      p = Runtime.getRuntime().exec(cmd);
-      p.waitFor();
-
-      // Write result in local file
-      File resultOutputFile = new File(project.getFileSystem().getSonarWorkingDirectory() + "/cppcheck-result.xml");
-      // resultOutputFile.createNewFile();
-      logger.debug("Output result to " + resultOutputFile.getAbsolutePath());
-
-      // Becarefull ... CppCheck print its result into Error output !
-      // TeeInputStream is used to read result from stream and both
-      // write it to a file
-      FileOutputStream fos = new FileOutputStream(resultOutputFile);
-      TeeInputStream tis = new TeeInputStream(p.getErrorStream(), fos, true);
-      parseReport(project, context, tis);
-
-    } catch (InterruptedException ex) {
-      logger.error("Analysis can't wait for the end of the process", ex);
-    } catch (IOException ex) {
-      logger.error("IO EXCEPTION", ex);
-    }
-  }
-
-
   private void parseReport(final Project project, final SensorContext context, File report)
-    throws IOException, javax.xml.stream.XMLStreamException
-  {
-    logger.info("parsing cppcheck report '{}'", report);
-    parseReport(project, context, new FileInputStream(report));
-  }
-
-
-  private void parseReport(final Project project, final SensorContext context, InputStream stream)
-    throws IOException, javax.xml.stream.XMLStreamException
+    throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
@@ -159,7 +102,7 @@ public class CxxCppCheckSensor extends CxxSensor {
       }
     });
 
-    parser.parse(stream);
+    parser.parse(report);
   }
 
 
