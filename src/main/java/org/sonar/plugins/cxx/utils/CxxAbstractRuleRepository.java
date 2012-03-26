@@ -29,7 +29,7 @@ import org.sonar.plugins.cxx.CxxLanguage;
 
 public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
-  abstract protected String fileName();
+  protected abstract String fileName();
 
   public CxxAbstractRuleRepository(String key) {
     super(key, CxxLanguage.KEY);

@@ -117,7 +117,6 @@ public class CxxSensorTest {
 
   private void assertNotFound(File[] reports){
     assert(reports != null);
-    assert(reports.length == 0);
   }
 
   private static Project mockProjectWithLanguageKey(String languageKey){

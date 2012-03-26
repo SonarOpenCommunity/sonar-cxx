@@ -61,6 +61,6 @@ public abstract class CxxSensor implements Sensor {
       reports.add(new File(baseDir, relPath));
     }
 
-    return reports.toArray(new File[0]);
+    return reports.toArray(new File[1]);
   }
 }

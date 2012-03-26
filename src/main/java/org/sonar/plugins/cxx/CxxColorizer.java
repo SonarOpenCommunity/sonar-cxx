@@ -35,7 +35,7 @@ public final class CxxColorizer extends CodeColorizerFormat {
     "public", "return", "short", "static", "struct", "template", "throw", "typedef", "typename",
     "union", "unsigned", "virtual", "void"
   };
-  private static List<Tokenizer> tokens;
+  private List<Tokenizer> tokenizers;
 
   public CxxColorizer() {
     super(CxxLanguage.KEY);
@@ -43,13 +43,14 @@ public final class CxxColorizer extends CodeColorizerFormat {
 
   @Override
   public List<Tokenizer> getTokenizers() {
-    if (tokens == null) {
-      tokens = new ArrayList<Tokenizer>();
-      tokens.add(new StringTokenizer("<span class=\"s\">", "</span>"));
-      tokens.add(new KeywordsTokenizer("<span class=\"k\">", "</span>", KEYWORDS));
-      tokens.add(new CDocTokenizer("<span class=\"c\">", "</span>"));
-      tokens.add(new CppDocTokenizer("<span class=\"c\">", "</span>"));
+    if (tokenizers == null) {
+      String tagAfter = "</span>";
+      tokenizers = new ArrayList<Tokenizer>();
+      tokenizers.add(new StringTokenizer("<span class=\"s\">", tagAfter));
+      tokenizers.add(new KeywordsTokenizer("<span class=\"k\">", tagAfter, KEYWORDS));
+      tokenizers.add(new CDocTokenizer("<span class=\"c\">", tagAfter));
+      tokenizers.add(new CppDocTokenizer("<span class=\"c\">", tagAfter));
     }
-    return tokens;
+    return tokenizers;
   }
 }
