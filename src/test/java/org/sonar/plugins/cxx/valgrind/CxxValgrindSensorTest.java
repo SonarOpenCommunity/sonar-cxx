@@ -53,7 +53,7 @@ public class CxxValgrindSensorTest {
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
   }
 
-  //@Ignore // This unit test (the production code, actually) depends
+  @Ignore // This unit test (the production code, actually) depends
           // on absolute paths in the report file and will fail if checked out
           // elsewhere. The valgrind sensor would *also* fail if the project
           // is moved to a different place after creating the reports and before
@@ -61,6 +61,6 @@ public class CxxValgrindSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(4)).saveViolation(any(Violation.class));
+    verify(context, times(5)).saveViolation(any(Violation.class));
   }
 }
