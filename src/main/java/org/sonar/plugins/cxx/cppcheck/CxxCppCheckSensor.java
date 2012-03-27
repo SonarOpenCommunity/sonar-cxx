@@ -1,3 +1,4 @@
+
 /*
  * Sonar Cxx Plugin, open source software quality management tool.
  * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits reserves.
@@ -20,24 +21,16 @@
 package org.sonar.plugins.cxx.cppcheck;
 
 import java.io.File;
-//import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.configuration.Configuration;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.RuleQuery;
-import org.sonar.api.rules.Violation;
-import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.StaxParser;
-//import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxSensor;
 
 /**
@@ -51,38 +44,22 @@ import org.sonar.plugins.cxx.CxxSensor;
  * @todo allow configuration of path to analyze
  */
 public class CxxCppCheckSensor extends CxxSensor {
-  private static Logger logger = LoggerFactory.getLogger(CxxCppCheckSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
-
-  private RuleFinder ruleFinder = null;
-  private Configuration conf = null;
-
+  
   public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf) {
-    this.ruleFinder = ruleFinder;
-    this.conf = conf;
+    super(ruleFinder, conf);
   }
-
-
-  public void analyse(Project project, SensorContext context) {
-    try {
-      File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                  REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-      for (File report : reports) {
-        parseReport(project, context, report);
-      }
-    } catch (Exception e) {
-      String msg = new StringBuilder()
-        .append("Cannot feed the cppcheck data into sonar, details: '")
-        .append(e)
-        .append("'")
-        .toString();
-      throw new SonarException(msg, e);
-    }
+  
+  protected String reportPathKey() {
+    return REPORT_PATH_KEY;
   }
-
-
-  private void parseReport(final Project project, final SensorContext context, File report)
+  
+  protected String defaultReportPath() {
+    return DEFAULT_REPORT_PATH;
+  }
+  
+  protected void parseReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -94,32 +71,14 @@ public class CxxCppCheckSensor extends CxxSensor {
           String file = errorCursor.getAttrValue("file");
           String line = errorCursor.getAttrValue("line");
           String id = errorCursor.getAttrValue("id");
-          String severity = errorCursor.getAttrValue("severity");
           String msg = errorCursor.getAttrValue("msg");
-
-          processError(project, context, file, Integer.parseInt(line), id, severity, msg);
+          
+          saveViolation(project, context, CxxCppCheckRuleRepository.KEY,
+                        file, Integer.parseInt(line), id, msg);
         }
       }
     });
 
     parser.parse(report);
-  }
-
-
-  void processError(Project project, SensorContext context, String file, int line, String ruleId,
-                    String severity, String msg) {
-    RuleQuery ruleQuery = RuleQuery.create()
-      .withRepositoryKey(CxxCppCheckRuleRepository.KEY)
-      .withConfigKey(ruleId);
-    Rule rule = ruleFinder.find(ruleQuery);
-    if (rule != null) {
-      org.sonar.api.resources.File resource =
-        org.sonar.api.resources.File.fromIOFile(new File(file), project);
-      Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
-      context.saveViolation(violation);
-    }
-    else{
-      logger.warn("Cannot find the rule {}-{}, skipping violation", CxxCppCheckRuleRepository.KEY, ruleId);
-    }
   }
 }
