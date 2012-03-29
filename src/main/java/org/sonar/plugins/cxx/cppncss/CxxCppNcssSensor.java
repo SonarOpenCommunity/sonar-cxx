@@ -20,230 +20,211 @@
 package org.sonar.plugins.cxx.cppncss;
 
 import java.io.File;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.xml.stream.XMLStreamException;
-
 import org.apache.commons.configuration.Configuration;
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.CxxSensor;
 
 public class CxxCppNcssSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppncss.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppncss-reports/cppncss-result-*.xml";
-  private static Logger logger = LoggerFactory.getLogger(CxxCppNcssSensor.class);
   private static final Number[] METHODS_DISTRIB_BOTTOM_LIMITS = { 1, 2, 4, 6, 8, 10, 12 };
   private static final Number[] FILE_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
   private static final Number[] CLASS_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
 
-  private Configuration conf;
-
   public CxxCppNcssSensor(Configuration conf) {
-    this.conf = conf;
+    super(conf);
   }
 
-  public void analyse(Project project, SensorContext context) {
-    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    for (File report : reports) {
-      parseReport(project, report, context);
+  protected String reportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+  
+  protected String defaultReportPath() {
+    return DEFAULT_REPORT_PATH;
+  }
+
+  protected void parseReport(final Project project, final SensorContext context, File report)
+    throws javax.xml.stream.XMLStreamException
+  {
+    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+      public void stream(SMHierarchicCursor rootCursor)  throws javax.xml.stream.XMLStreamException {
+        Map<String, FileData> files = new HashMap<String, FileData>();
+        rootCursor.advance(); //cppncss
+        
+        SMInputCursor measureCursor = rootCursor.childElementCursor("measure");
+        while (measureCursor.getNext() != null) {
+          collectMeasure(measureCursor, files);
+        }
+
+        for (FileData fileData: files.values()) {
+          saveMetrics(project, context, fileData);
+        }
+      }
+    });
+    parser.parse(report);
+  }
+  
+  private void collectMeasure(SMInputCursor measureCursor, Map<String, FileData> files)
+    throws javax.xml.stream.XMLStreamException
+  {
+    // collect only function measures
+    String type = measureCursor.getAttrValue("type");
+    if (type.equalsIgnoreCase("function")) {
+      collectFunctions(measureCursor, files);
     }
   }
 
+  private void collectFunctions(SMInputCursor measureCursor, Map<String, FileData> files)
+    throws javax.xml.stream.XMLStreamException
+  {
+    // determine the position of ccn measure using 'labels' analysis
+    SMInputCursor childCursor = measureCursor.childElementCursor();
+    int ccnIndex = indexOfCCN(childCursor.advance());
+    
+    // iterate over the function items and collect them
+    while (childCursor.getNext() != null) {
+      if("item".equalsIgnoreCase(childCursor.getLocalName())){
+        collectFunction(ccnIndex, childCursor, files);
+      }
+    }
+  }
+  
+  private int indexOfCCN(SMInputCursor labelsCursor) throws javax.xml.stream.XMLStreamException { 
+    int index = 0;
+    SMInputCursor labelCursor = labelsCursor.childElementCursor();
+    while (labelCursor.getNext() != null) {
+      if ("CCN".equalsIgnoreCase(labelCursor.getElemStringValue())) {
+        return index;
+      }
+      index++;
+    }
+    throw labelCursor.constructStreamException("Cannot find the CNN-label");
+  }
+  
+  private void collectFunction(int ccnIndex, SMInputCursor itemCursor, Map<String, FileData> files)
+    throws javax.xml.stream.XMLStreamException
+  {
+    String name = itemCursor.getAttrValue("name");
+    String loc[] = name.split(" at ");
+    String fullFuncName = loc[0];
+    String fullFileName = loc[1];
 
+    loc = fullFuncName.split("::");
+    String className = (loc.length > 1) ? loc[0] : "GLOBAL";
+    String funcName = (loc.length > 1) ? loc[1] : loc[0];
+    loc = fullFileName.split(":");
+    String fileName = loc[0];
+    
+    FileData fileData = files.get(fileName);
+    if (fileData == null) {
+      fileData = new FileData(fileName);
+      files.put(fileName, fileData);
+    }
+
+    SMInputCursor valueCursor = itemCursor.childElementCursor("value");
+    String methodComplexity = stringValueOfChildWithIndex(valueCursor, ccnIndex);
+    fileData.addMethod(className, funcName, Integer.parseInt(methodComplexity.trim()));
+  }
+  
+  private String stringValueOfChildWithIndex(SMInputCursor cursor, int targetIndex)
+    throws javax.xml.stream.XMLStreamException
+  {
+    int index = 0;
+    while (index <= targetIndex){
+      cursor.advance();
+      index++;
+    }
+    return cursor.getElemStringValue();
+  }
+  
+  private void saveMetrics(Project project, SensorContext context, FileData fileData) {
+    org.sonar.api.resources.File file =
+      org.sonar.api.resources.File.fromIOFile(new File(fileData.getName()), project);
+    
+    if (context.getResource(file) != null) {
+      RangeDistributionBuilder complexityMethodsDistribution =
+        new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION,
+                                     METHODS_DISTRIB_BOTTOM_LIMITS);
+      RangeDistributionBuilder complexityFileDistribution =
+        new RangeDistributionBuilder(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION,
+                                     FILE_DISTRIB_BOTTOM_LIMITS);
+      RangeDistributionBuilder complexityClassDistribution =
+        new RangeDistributionBuilder(CoreMetrics.CLASS_COMPLEXITY_DISTRIBUTION,
+                                     CLASS_DISTRIB_BOTTOM_LIMITS);
+      
+      complexityFileDistribution.add(fileData.getComplexity());
+      for (ClassData classData: fileData.getClasses()) {
+        complexityClassDistribution.add(classData.getComplexity());
+        for (Integer complexity: classData.getMethodComplexities()) {
+          complexityMethodsDistribution.add(complexity);
+        }
+      }
+      
+      context.saveMeasure(file, CoreMetrics.FUNCTIONS, (double)fileData.getNoMethods());
+      context.saveMeasure(file, CoreMetrics.COMPLEXITY, (double)fileData.getComplexity());
+      context.saveMeasure(file, complexityMethodsDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+      context.saveMeasure(file, complexityClassDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+      context.saveMeasure(file, complexityFileDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+    }
+  }
+  
   private class FileData {
-
+    private String name;
+    private int noMethods = 0;
+    private Map<String, ClassData> classes = new HashMap<String, ClassData>();
+    private int complexity = 0;
+    
     FileData(String name) {
-      FileName = name;
+      this.name = name;
     }
 
-    private class classData {
+    public String getName() { return name; }
 
-      private Map<String, Integer> ComplexityPerMethod = new HashMap<String, Integer>();
-      private Integer ClassComplexity = new Integer(0);
-      private Integer NbClassMethod = new Integer(0);
+    public int getNoMethods() { return noMethods; }
+    
+    public int getComplexity() { return complexity; }
+    
+    public Collection<ClassData> getClasses() { return classes.values(); }
 
-      private void putComplexityPerMethod(String name, Integer Complexity) {
-        NbClassMethod++;
-        ClassComplexity += Complexity;
-        Integer c = ComplexityPerMethod.get(name);
-        if (c == null) {
-          c = new Integer(Complexity);
-          ComplexityPerMethod.put(name, c);
-        } else {
-          // alert !
-        }
+    public void addMethod(String className, String methodName, int complexity) {
+      noMethods++;
+      this.complexity += complexity;
+      
+      ClassData classData = classes.get(className);
+      if (classData == null) {
+        classData = new ClassData();
+        classes.put(className, classData);
       }
-
-      public Integer getClassComplexity() {
-        return ClassComplexity;
-      }
-
-      public Collection<Integer> complexityPerMethodValues() {
-        return ComplexityPerMethod.values();
-      }
-    }
-
-    public void addMethod(String clazz, String name, Integer Complexity) {
-      NbMethod++;
-      FileComplexity += Complexity;
-
-      classData ComplexityPerMethod = ComplexityPerClassPerMethod.get(clazz);
-      if (ComplexityPerMethod == null) {
-        ComplexityPerMethod = new classData();
-        ComplexityPerClassPerMethod.put(clazz, ComplexityPerMethod);
-      }
-      ComplexityPerMethod.putComplexityPerMethod(name, Complexity);
-    }
-
-    public void saveMetric(Project project, SensorContext context) {
-      org.sonar.api.resources.File file =
-        org.sonar.api.resources.File.fromIOFile(new File(FileName), project);
-      if (context.getResource(file) != null) {
-
-        RangeDistributionBuilder complexityMethodsDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION,
-            METHODS_DISTRIB_BOTTOM_LIMITS);
-        RangeDistributionBuilder complexityFileDistribution = new RangeDistributionBuilder(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION,
-            FILE_DISTRIB_BOTTOM_LIMITS);
-        RangeDistributionBuilder complexityClassDistribution = new RangeDistributionBuilder(CoreMetrics.CLASS_COMPLEXITY_DISTRIBUTION,
-            CLASS_DISTRIB_BOTTOM_LIMITS);
-
-        complexityFileDistribution.add(FileComplexity);
-        for (classData cd : ComplexityPerClassPerMethod.values()) {
-          complexityClassDistribution.add(cd.getClassComplexity());
-          for (Integer c : cd.complexityPerMethodValues()) {
-            complexityMethodsDistribution.add(c);
-          }
-        }
-        context.saveMeasure(file, CoreMetrics.FUNCTIONS, NbMethod.doubleValue());
-        context.saveMeasure(file, CoreMetrics.COMPLEXITY, FileComplexity.doubleValue());
-        // logger.info("File saveMeasure NbMethod={}, FileComplexity={}", NbMethod, FileComplexity);
-
-        context.saveMeasure(file, complexityMethodsDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
-        // logger.info("File complexityMethodsDistribution={}", complexityMethodsDistribution.build());
-        context.saveMeasure(file, complexityClassDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
-        // logger.info("File complexityClassDistribution={}", complexityClassDistribution.build());
-        context.saveMeasure(file, complexityFileDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
-        // logger.info("File complexityFileDistribution={}", complexityFileDistribution.build());
-      }
-    }
-
-    private String FileName;
-    private Integer NbMethod = new Integer(0);
-    private Map<String, classData> ComplexityPerClassPerMethod = new HashMap<String, classData>();
-    private Integer FileComplexity = new Integer(0);
-  }
-
-  private void parseReport(final Project project, File xmlFile, final SensorContext context) {
-    try {
-      logger.info("parsing cppncss report '{}'", xmlFile);
-      StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-
-        public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-          try {
-            Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
-            rootCursor.advance();
-            collectMeasure(project, rootCursor.childElementCursor("measure"), fileDataPerFilename, context);
-            for (FileData d : fileDataPerFilename.values()) {
-              d.saveMetric(project, context);
-            }
-          } catch (ParseException e) {
-            throw new XMLStreamException(e);
-          }
-        }
-      });
-      parser.parse(xmlFile);
-    } catch (XMLStreamException e) {
-      throw new XmlParserException(e);
+      classData.addMethod(methodName, complexity);
     }
   }
-
-  private void collectMeasure(Project project, SMInputCursor mesure, Map<String, FileData> fileDataPerFilename, SensorContext context)
-      throws ParseException, XMLStreamException {
-    while (mesure.getNext() != null) {
-      String type = mesure.getAttrValue("type");
-      logger.debug("collect Mesure type = {}", type);
-      if ( !StringUtils.isEmpty(type)) {
-
-        SMInputCursor mesureChild = mesure.childElementCursor().advance();
-
-        // collect labels
-        List<String> valueLabels = new ArrayList<String>();
-        if (mesureChild.getLocalName().equalsIgnoreCase("labels")) {
-          logger.debug("collect labels");
-          SMInputCursor itemValueLabels = mesureChild.childElementCursor("label");
-          while (itemValueLabels.getNext() != null) {
-            String label = itemValueLabels.getElemStringValue();
-            logger.debug("new label = {}", label);
-            valueLabels.add(label);
-          }
-        }
-
-        // collect only function metrics
-        if (type.equalsIgnoreCase("Function")) {
-          collectFunctionItems(project, fileDataPerFilename, valueLabels, mesureChild, context);
-        } else if (type.equalsIgnoreCase("File")) {
-          // nothing
-        }
-      }
+  
+  private class ClassData {
+    private Map<String, Integer> methodComplexities = new HashMap<String, Integer>();
+    private int complexity = 0;
+    
+    public void addMethod(String name, int complexity) {
+      this.complexity += complexity;
+      methodComplexities.put(name, complexity);
     }
-  }
-
-  private void collectFunctionItems(Project project, Map<String, FileData> fileDataPerFilename, List<String> valueLabels,
-      SMInputCursor items, SensorContext context) throws ParseException, XMLStreamException {
-
-    while (items.getNext() != null) {
-
-      String name = items.getAttrValue("name");
-      // logger.info("collect Funtion name = {}", name);
-      if ( !StringUtils.isEmpty(name)) {
-        String loc[] = name.split(" at ");
-        String fullFuncName = loc[0];
-        String fullFileName = loc[1];
-
-        loc = fullFuncName.split("::");
-        String className = (loc.length > 1) ? loc[0] : "GLOBAL";
-        String funcName = (loc.length > 1) ? loc[1] : loc[0];
-        loc = fullFileName.split(":");
-        String fileName = loc[0];
-
-        Object tab[] = { fileName, className, funcName };
-        logger.debug("collect Funtion : fileName = {}, className = {}, funcName = {}", tab);
-        FileData data = fileDataPerFilename.get(fileName);
-        if (data == null) {
-          data = new FileData(fileName);
-          fileDataPerFilename.put(fileName, data);
-        }
-
-        SMInputCursor value = items.childElementCursor("value");
-        int i = 0;
-        while (value.getNext() != null) {
-          if (valueLabels.get(i).equalsIgnoreCase("CCN")) {
-            String MethodeComplexity = value.getElemStringValue();
-            if ( !StringUtils.isEmpty(MethodeComplexity)) {
-              // logger.info("Found Funtion CCN = {}", MethodeComplexity);
-              data.addMethod(className, funcName, Integer.parseInt(MethodeComplexity.trim()));
-            }
-          }
-          i++;
-        }
-      }
+    
+    public Integer getComplexity() {
+      return complexity;
+    }
+    
+    public Collection<Integer> getMethodComplexities() {
+      return methodComplexities.values();
     }
   }
 }

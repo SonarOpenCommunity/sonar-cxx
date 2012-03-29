@@ -44,8 +44,8 @@ public abstract class CxxSensor implements Sensor {
   public CxxSensor() {
   }
 
-  public CxxSensor(RuleFinder ruleFinder) {
-    this.ruleFinder = ruleFinder;
+  public CxxSensor(Configuration conf) {
+    this.conf = conf;
   }
 
   public CxxSensor(RuleFinder ruleFinder, Configuration conf) {
