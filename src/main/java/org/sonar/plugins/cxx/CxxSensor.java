@@ -59,8 +59,8 @@ public abstract class CxxSensor implements Sensor {
   
   public void analyse(Project project, SensorContext context) {
     try {
-      File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                  reportPathKey(), defaultReportPath());
+      List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                      reportPathKey(), defaultReportPath());
       for (File report : reports) {
         logger.info("Parsing report '{}'", report);
         parseReport(project, context, report);
@@ -75,10 +75,10 @@ public abstract class CxxSensor implements Sensor {
     }
   }
   
-  public File[] getReports(Configuration conf,
-                           String baseDir,
-                           String reportPathPropertyKey,
-                           String defaultReportPath) {
+  public List<File> getReports(Configuration conf,
+                               String baseDir,
+                               String reportPathPropertyKey,
+                               String defaultReportPath) {
     String reportPath = conf.getString(reportPathPropertyKey, null);
     if(reportPath == null){
       reportPath = defaultReportPath;
@@ -98,8 +98,8 @@ public abstract class CxxSensor implements Sensor {
     for (String relPath : relPaths) {
       reports.add(new File(baseDir, relPath));
     }
-
-    return reports.toArray(new File[1]);
+    
+    return reports;
   }
 
   protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,

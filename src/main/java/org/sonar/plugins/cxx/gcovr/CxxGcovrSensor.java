@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.gcovr;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,7 @@ public class CxxGcovrSensor extends CxxSensor implements CoverageExtension{
   }
 
   public void analyse(Project project, SensorContext context) {
-    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+    List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                 REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     for (File report : reports) {
       parseReport(project, context, report);

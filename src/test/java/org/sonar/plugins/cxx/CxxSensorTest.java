@@ -26,6 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
 import org.sonar.api.resources.Project;
@@ -74,15 +75,15 @@ public class CxxSensorTest {
 
   @Test
   public void getReports_shouldFindSomethingIfThere(){
-    File[] reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
-                                       "", VALID_REPORT_PATH);
+    List<File> reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
+                                           "", VALID_REPORT_PATH);
     assertFound(reports);
   }
 
   @Test
   public void getReports_shouldFindNothingIfNotThere(){
-    File[] reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
-                                       "", INVALID_REPORT_PATH);
+    List<File> reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
+                                           "", INVALID_REPORT_PATH);
     assertNotFound(reports);
   }
 
@@ -94,28 +95,28 @@ public class CxxSensorTest {
 
     Configuration config = mock(Configuration.class);
     when(config.getString(REPORT_PATH_PROPERTY_KEY)).thenReturn(INVALID_REPORT_PATH);
-
-    File[] reports = sensor.getReports(config, baseDir.getPath(),
-                                       REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
+    
+    List<File> reports = sensor.getReports(config, baseDir.getPath(),
+                                           REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertFound(reports);
   }
 
   @Test
   public void getReports_shouldFallbackToDefaultIfNothingConfigured(){
     Configuration config = mock(Configuration.class);
-    File[] reports = sensor.getReports(config, baseDir.getPath(),
-                                       REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
+    List<File> reports = sensor.getReports(config, baseDir.getPath(),
+                                           REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertFound(reports);
   }
 
-  private void assertFound(File[] reports){
+  private void assertFound(List<File> reports){
     assert(reports != null);
-    assert(reports.length == 1);
-    assert(reports[0].exists());
-    assert(reports[0].isAbsolute());
+    assert(reports.size() == 1);
+    assert(reports.get(0).exists());
+    assert(reports.get(0).isAbsolute());
   }
-
-  private void assertNotFound(File[] reports){
+  
+  private void assertNotFound(List<File> reports){
     assert(reports != null);
   }
 

@@ -82,9 +82,9 @@ public class CxxXunitSensor extends CxxSensor {
   }
 
   public void analyse(Project project, SensorContext context) {
-    File[] reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+    List<File> tmp = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                 REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-
+    File[] reports = tmp.toArray(new File[0]);
     if (reports.length == 0) {
       insertZeroWhenNoReports(project, context);
     } else {
