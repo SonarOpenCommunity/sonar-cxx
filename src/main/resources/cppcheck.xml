@@ -1,754 +1,1871 @@
+<?xml version="1.0" encoding="ASCII"?>
 <rules>
-	<rule>
-		<key>autoVariables</key>
-		<priority>MAJOR</priority>
-		<name>autoVariables</name>
-		<configKey>autoVariables</configKey>
-		<category name="Reliability"/>
-		<description>Return of the address or invalid deallocation of an auto-variable</description>
-	</rule>
-	<rule>
-		<key>returnLocalVariable</key>
-		<priority>MAJOR</priority>
-		<name>returnLocalVariable</name>
-		<configKey>returnLocalVariable</configKey>
-		<category name="Reliability"/>
-		<description>Returning pointer to local array variable</description>
-	</rule>
-	<rule>
-		<key>returnReference</key>
-		<priority>MAJOR</priority>
-		<name>returnReference</name>
-		<configKey>returnReference</configKey>
-		<category name="Reliability"/>
-		<description>Returning reference to auto variable</description>
-	</rule>
-	<rule>
-		<key>returnTempReference</key>
-		<priority>MAJOR</priority>
-		<name>returnTempReference</name>
-		<configKey>returnTempReference</configKey>
-		<category name="Reliability"/>
-		<description>Returning reference to temporary</description>
-	</rule>
-	<rule>
-		<key>returnAutocstr</key>
-		<priority>MAJOR</priority>
-		<name>returnAutocstr</name>
-		<configKey>returnAutocstr</configKey>
-		<category name="Reliability"/>
-		<description>Returning pointer to auto variable</description>
-	</rule>
-	<rule>
-		<key>returnTempPointer</key>
-		<priority>MAJOR</priority>
-		<name>returnTempPointer</name>
-		<configKey>returnTempPointer</configKey>
-		<category name="Reliability"/>
-		<description>Returning pointer to temporary</description>
-	</rule>
-	<rule>
-		<key>memleak</key>
-		<priority>MAJOR</priority>
-		<name>memleak</name>
-		<configKey>memleak</configKey>
-		<category name="Reliability"/>
-		<description>Memory leak</description>
-	</rule>
-	<rule>
-		<key>memleakOnRealloc</key>
-		<priority>MAJOR</priority>
-		<name>memleakOnRealloc</name>
-		<configKey>memleakOnRealloc</configKey>
-		<category name="Reliability"/>
-		<description>Common realloc mistake: variable nulled but not freed upon failure</description>
-	</rule>
-	<rule>
-		<key>resourceLeak</key>
-		<priority>MAJOR</priority>
-		<name>resourceLeak</name>
-		<configKey>resourceLeak</configKey>
-		<category name="Reliability"/>
-		<description>Resource leak</description>
-	</rule>
-	<rule>
-		<key>deallocDealloc</key>
-		<priority>MAJOR</priority>
-		<name>deallocDealloc</name>
-		<configKey>deallocDealloc</configKey>
-		<category name="Reliability"/>
-		<description>Deallocating a deallocated pointer</description>
-	</rule>
-	<rule>
-		<key>deallocuse</key>
-		<priority>MAJOR</priority>
-		<name>deallocuse</name>
-		<configKey>deallocuse</configKey>
-		<category name="Reliability"/>
-		<description>Dereferencing variable after it is deallocated / released</description>
-	</rule>
-	<rule>
-		<key>mismatchSize</key>
-		<priority>MAJOR</priority>
-		<name>mismatchSize</name>
-		<configKey>mismatchSize</configKey>
-		<category name="Reliability"/>
-		<description>The given size is mismatching</description>
-	</rule>
-	<rule>
-		<key>mismatchAllocDealloc</key>
-		<priority>MAJOR</priority>
-		<name>mismatchAllocDealloc</name>
-		<configKey>mismatchAllocDealloc</configKey>
-		<category name="Reliability"/>
-		<description>Mismatching allocation and deallocation</description>
-	</rule>
-	<rule>
-		<key>debug</key>
-		<priority>MINOR</priority>
-		<name>debug</name>
-		<configKey>debug</configKey>
-		<category name="Reliability"/>
-		<description>undefine error, the checking continues anyway.</description>
-	</rule>
-	<rule>
-		<key>publicAllocationError</key>
-		<priority>MINOR</priority>
-		<name>publicAllocationError</name>
-		<configKey>publicAllocationError</configKey>
-		<category name="Reliability"/>
-		<description>Possible leak in public function. The pointer variable is not deallocated before it is allocated.</description>
-	</rule>
-	<rule>
-		<key>leakNoVarFunctionCall</key>
-		<priority>MAJOR</priority>
-		<name>leakNoVarFunctionCall</name>
-		<configKey>leakNoVarFunctionCall</configKey>
-		<category name="Reliability"/>
-		<description>Allocation not released.</description>
-	</rule>
-	<rule>
-		<key>cppcheckError</key>
-		<priority>MAJOR</priority>
-		<name>cppcheckError</name>
-		<configKey>cppcheckError</configKey>
-		<category name="Reliability"/>
-		<description>Internal error. Token::Match called with varid 0.</description>
-	</rule>
-	<rule>
-		<key>variableHidingTypedef</key>
-		<priority>INFO</priority>
-		<name>variableHidingTypedef</name>
-		<configKey>variableHidingTypedef</configKey>
-		<category name="Reliability"/>
-		<description>this hides typedef with same name</description>
-	</rule>
-	<rule>
-		<key>unnecessaryForwardDeclaration</key>
-		<priority>INFO</priority>
-		<name>unnecessaryForwardDeclaration</name>
-		<configKey>unnecessaryForwardDeclaration</configKey>
-		<category name="Reliability"/>
-		<description>forward declaration unnecessary, already declared</description>
-	</rule>
-	<rule>
-		<key>variableHidingEnum</key>
-		<priority>INFO</priority>
-		<name>variableHidingEnum</name>
-		<configKey>variableHidingEnum</configKey>
-		<category name="Reliability"/>
-		<description>this hides enumerator with same name</description>
-	</rule>
-	<rule>
-		<key>syntaxError</key>
-		<priority>MAJOR</priority>
-		<name>syntaxError</name>
-		<configKey>syntaxError</configKey>
-		<category name="Reliability"/>
-		<description>syntax error for : characters that are unhandled, bad source code or bad macro</description>
-	</rule>
-	<rule>
-		<key>cppcheckError</key>
-		<priority>MAJOR</priority>
-		<name>cppcheckError</name>
-		<configKey>cppcheckError</configKey>
-		<category name="Reliability"/>
-		<description>### Internal error in Cppcheck. Please report it.</description>
-	</rule>
-	<rule>
-		<key>uninitstring</key>
-		<priority>MAJOR</priority>
-		<name>uninitstring</name>
-		<configKey>uninitstring</configKey>
-		<category name="Reliability"/>
-		<description>Dangerous usage of variable strncpy doesn't always 0-terminate it</description>
-	</rule>
-	<rule>
-		<key>uninitdata</key>
-		<priority>MAJOR</priority>
-		<name>uninitdata</name>
-		<configKey>uninitdata</configKey>
-		<category name="Reliability"/>
-		<description>Data is allocated but not initialized</description>
-	</rule>
-	<rule>
-		<key>uninitvar</key>
-		<priority>MAJOR</priority>
-		<name>uninitvar</name>
-		<configKey>uninitvar</configKey>
-		<category name="Reliability"/>
-		<description>Uninitialized variable</description>
-	</rule>
-	<rule>
-		<key>preprocessorErrorDirective</key>
-		<priority>MAJOR</priority>
-		<name>preprocessorErrorDirective</name>
-		<configKey>preprocessorErrorDirective</configKey>
-		<category name="Reliability"/>
-		<description>preprocessorErrorDirective</description>
-	</rule>
-	<rule>
-		<key>noQuoteCharPair</key>
-		<priority>MAJOR</priority>
-		<name>noQuoteCharPair</name>
-		<configKey>noQuoteCharPair</configKey>
-		<category name="Reliability"/>
-		<description>No pair for character. Can't process file. File is either invalid or unicode, which is currently not supported.</description>
-	</rule>
-	<rule>
-		<key>missingInclude</key>
-		<priority>INFO</priority>
-		<name>missingInclude</name>
-		<configKey>missingInclude</configKey>
-		<category name="Reliability"/>
-		<description>Include file: not found.</description>
-	</rule>
-	<rule>
-		<key>nullPointer</key>
-		<priority>MAJOR</priority>
-		<name>nullPointer</name>
-		<configKey>nullPointer</configKey>
-		<category name="Reliability"/>
-		<description>Null pointer dereference</description>
-	</rule>
-	<rule>
-		<key>exceptThrowInDestructor</key>
-		<priority>MAJOR</priority>
-		<name>exceptThrowInDestructor</name>
-		<configKey>exceptThrowInDestructor</configKey>
-		<category name="Reliability"/>
-		<description>Throwing exception in destructor</description>
-	</rule>
-	<rule>
-		<key>exceptDeallocThrow</key>
-		<priority>MAJOR</priority>
-		<name>exceptDeallocThrow</name>
-		<configKey>exceptDeallocThrow</configKey>
-		<category name="Reliability"/>
-		<description>Throwing exception in invalid state, variable points at deallocated memory</description>
-	</rule>
-	<rule>
-		<key>unusedFunction</key>
-		<priority>INFO</priority>
-		<name>unusedFunction</name>
-		<configKey>unusedFunction</configKey>
-		<category name="Reliability"/>
-		<description>The function is never used</description>
-	</rule>
-	<rule>
-		<key>invalidscanf</key>
-		<priority>MINOR</priority>
-		<name>invalidscanf</name>
-		<configKey>invalidscanf</configKey>
-		<category name="Reliability"/>
-		<description>scanf without field width limits can crash with huge input data</description>
-	</rule>
-	<rule>
-		<key>unusedVariable</key>
-		<priority>INFO</priority>
-		<name>unusedVariable</name>
-		<configKey>unusedVariable</configKey>
-		<category name="Reliability"/>
-		<description>Unused variable</description>
-	</rule>
-	<rule>
-		<key>unreadVariable</key>
-		<priority>INFO</priority>
-		<name>unreadVariable</name>
-		<configKey>unreadVariable</configKey>
-		<category name="Reliability"/>
-		<description>Variable is assigned a value that is never read</description>
-	</rule>
-	<rule>
-		<key>unassignedVariable</key>
-		<priority>INFO</priority>
-		<name>unassignedVariable</name>
-		<configKey>unassignedVariable</configKey>
-		<category name="Reliability"/>
-		<description>Variable is not assigned a value</description>
-	</rule>
-	<rule>
-		<key>cstyleCast</key>
-		<priority>INFO</priority>
-		<name>cstyleCast</name>
-		<configKey>cstyleCast</configKey>
-		<category name="Reliability"/>
-		<description>C-style pointer casting</description>
-	</rule>
-	<rule>
-		<key>dangerousUsageStrtol</key>
-		<priority>MAJOR</priority>
-		<name>dangerousUsageStrtol</name>
-		<configKey>dangerousUsageStrtol</configKey>
-		<category name="Reliability"/>
-		<description>Invalid radix in call to strtol or strtoul. Must be 0 or 2-36</description>
-	</rule>
-	<rule>
-		<key>sprintfOverlappingData</key>
-		<priority>MAJOR</priority>
-		<name>sprintfOverlappingData</name>
-		<configKey>sprintfOverlappingData</configKey>
-		<category name="Reliability"/>
-		<description>Undefined behaviour: Variable is used wrong in call to sprintf or snprintf. Quote: If copying takes place between objects that overlap as a result of a call to sprintf() or snprintf(), the results are undefined.</description>
-	</rule>
-	<rule>
-		<key>udivError</key>
-		<priority>MAJOR</priority>
-		<name>udivError</name>
-		<configKey>udivError</configKey>
-		<category name="Reliability"/>
-		<description>Unsigned division. The result will be wrong.</description>
-	</rule>
-	<rule>
-		<key>unusedStructMember</key>
-		<priority>INFO</priority>
-		<name>unusedStructMember</name>
-		<configKey>unusedStructMember</configKey>
-		<category name="Reliability"/>
-		<description>struct or union member is never used</description>
-	</rule>
-	<rule>
-		<key>passedByValue</key>
-		<priority>MINOR</priority>
-		<name>passedByValue</name>
-		<configKey>passedByValue</configKey>
-		<category name="Reliability"/>
-		<description>Function parameter  should be passed by reference.</description>
-	</rule>
-	<rule>
-		<key>constStatement</key>
-		<priority>MINOR</priority>
-		<name>constStatement</name>
-		<configKey>constStatement</configKey>
-		<category name="Reliability"/>
-		<description>Redundant code: Found a statement that begins with constant</description>
-	</rule>
-	<rule>
-		<key>charArrayIndex</key>
-		<priority>MINOR</priority>
-		<name>charArrayIndex</name>
-		<configKey>charArrayIndex</configKey>
-		<category name="Reliability"/>
-		<description>Using char variable as array index</description>
-	</rule>
-	<rule>
-		<key>charBitOp</key>
-		<priority>MINOR</priority>
-		<name>charBitOp</name>
-		<configKey>charBitOp</configKey>
-		<category name="Reliability"/>
-		<description>Using char variable in bit operation</description>
-	</rule>
-	<rule>
-		<key>variableScope</key>
-		<priority>INFO</priority>
-		<name>variableScope</name>
-		<configKey>variableScope</configKey>
-		<category name="Reliability"/>
-		<description>The scope of the variable can be reduced</description>
-	</rule>
-	<rule>
-		<key>conditionAlwaysTrueFalse</key>
-		<priority>INFO</priority>
-		<name>conditionAlwaysTrueFalse</name>
-		<configKey>conditionAlwaysTrueFalse</configKey>
-		<category name="Reliability"/>
-		<description>Condition is always true or false</description>
-	</rule>
-	<rule>
-		<key>strPlusChar</key>
-		<priority>MAJOR</priority>
-		<name>strPlusChar</name>
-		<configKey>strPlusChar</configKey>
-		<category name="Reliability"/>
-		<description>Unusual pointer arithmetic</description>
-	</rule>
-	<rule>
-		<key>zerodiv</key>
-		<priority>MAJOR</priority>
-		<name>zerodiv</name>
-		<configKey>zerodiv</configKey>
-		<category name="Reliability"/>
-		<description>Division by zero</description>
-	</rule>
-	<rule>
-		<key>wrongmathcall</key>
-		<priority>MAJOR</priority>
-		<name>wrongmathcall</name>
-		<configKey>wrongmathcall</configKey>
-		<category name="Reliability"/>
-		<description>Passed value leads to undefined result</description>
-	</rule>
-	<rule>
-		<key>fflushOnInputStream</key>
-		<priority>MAJOR</priority>
-		<name>fflushOnInputStream</name>
-		<configKey>fflushOnInputStream</configKey>
-		<category name="Reliability"/>
-		<description>fflush() called on input stream variable may result in undefined behaviour</description>
-	</rule>
-	<rule>
-		<key>sizeofsizeof</key>
-		<priority>MINOR</priority>
-		<name>sizeofsizeof</name>
-		<configKey>sizeofsizeof</configKey>
-		<category name="Reliability"/>
-		<description>Calling sizeof for 'sizeof'.</description>
-	</rule>
-	<rule>
-		<key>sizeofCalculation</key>
-		<priority>MINOR</priority>
-		<name>sizeofCalculation</name>
-		<configKey>sizeofCalculation</configKey>
-		<category name="Reliability"/>
-		<description>Found calculation inside sizeof()</description>
-	</rule>
-	<rule>
-		<key>redundantAssignInSwitch</key>
-		<priority>MINOR</priority>
-		<name>redundantAssignInSwitch</name>
-		<configKey>redundantAssignInSwitch</configKey>
-		<category name="Reliability"/>
-		<description>Redundant assignment of variable in switch</description>
-	</rule>
-	<rule>
-		<key>selfAssignment</key>
-		<priority>MINOR</priority>
-		<name>selfAssignment</name>
-		<configKey>selfAssignment</configKey>
-		<category name="Reliability"/>
-		<description>Redundant assignment of variable to itself</description>
-	</rule>
-	<rule>
-		<key>assignmentInAssert</key>
-		<priority>MINOR</priority>
-		<name>assignmentInAssert</name>
-		<configKey>assignmentInAssert</configKey>
-		<category name="Reliability"/>
-		<description>Assert statement modifies variable.</description>
-	</rule>
-	<rule>
-		<key>incorrectLogicOperator</key>
-		<priority>MINOR</priority>
-		<name>incorrectLogicOperator</name>
-		<configKey>incorrectLogicOperator</configKey>
-		<category name="Reliability"/>
-		<description>Mutual exclusion over || always evaluates to true. Did you intend to use &amp;&amp; instead?</description>
-	</rule>
-	<rule>
-		<key>unusedScopedObject</key>
-		<priority>MAJOR</priority>
-		<name>unusedScopedObject</name>
-		<configKey>unusedScopedObject</configKey>
-		<category name="Reliability"/>
-		<description>instance of variable object destroyed immediately</description>
-	</rule>
-	<rule>
-		<key>noConstructor</key>
-		<priority>INFO</priority>
-		<name>noConstructor</name>
-		<configKey>noConstructor</configKey>
-		<category name="Reliability"/>
-		<description>The class does not have a constructor.</description>
-	</rule>
-	<rule>
-		<key>operatorEqVarError</key>
-		<priority>MINOR</priority>
-		<name>operatorEqVarError</name>
-		<configKey>operatorEqVarError</configKey>
-		<category name="Reliability"/>
-		<description>Member variable is not assigned a value</description>
-	</rule>
-	<rule>
-		<key>unusedPrivateFunction</key>
-		<priority>INFO</priority>
-		<name>unusedPrivateFunction</name>
-		<configKey>unusedPrivateFunction</configKey>
-		<category name="Reliability"/>
-		<description>Unused private function</description>
-	</rule>
-	<rule>
-		<key>memsetClass</key>
-		<priority>MAJOR</priority>
-		<name>memsetClass</name>
-		<configKey>memsetClass</configKey>
-		<category name="Reliability"/>
-		<description>Using memfunc on class</description>
-	</rule>
-	<rule>
-		<key>memsetStruct</key>
-		<priority>MAJOR</priority>
-		<name>memsetStruct</name>
-		<configKey>memsetStruct</configKey>
-		<category name="Reliability"/>
-		<description>Using memfunc on struct that contains a 'std::'</description>
-	</rule>
-	<rule>
-		<key>operatorEq</key>
-		<priority>INFO</priority>
-		<name>operatorEq</name>
-		<configKey>operatorEq</configKey>
-		<category name="Reliability"/>
-		<description>'operator=' should return something</description>
-	</rule>
-	<rule>
-		<key>operatorEqRetRefThis</key>
-		<priority>INFO</priority>
-		<name>operatorEqRetRefThis</name>
-		<configKey>operatorEqRetRefThis</configKey>
-		<category name="Reliability"/>
-		<description>'operator=' should return reference to self</description>
-	</rule>
-	<rule>
-		<key>operatorEqToSelf</key>
-		<priority>MINOR</priority>
-		<name>operatorEqToSelf</name>
-		<configKey>operatorEqToSelf</configKey>
-		<category name="Reliability"/>
-		<description>'operator=' should check for assignment to self</description>
-	</rule>
-	<rule>
-		<key>virtualDestructor</key>
-		<priority>MAJOR</priority>
-		<name>virtualDestructor</name>
-		<configKey>virtualDestructor</configKey>
-		<category name="Reliability"/>
-		<description>Class which is inherited does not have a virtual destructor</description>
-	</rule>
-	<rule>
-		<key>thisSubtraction</key>
-		<priority>MINOR</priority>
-		<name>thisSubtraction</name>
-		<configKey>thisSubtraction</configKey>
-		<category name="Reliability"/>
-		<description>Suspicious pointer subtraction</description>
-	</rule>
-	<rule>
-		<key>functionConst</key>
-		<priority>INFO</priority>
-		<name>functionConst</name>
-		<configKey>functionConst</configKey>
-		<category name="Reliability"/>
-		<description>The function  can be const</description>
-	</rule>
-	<rule>
-		<key>arrayIndexOutOfBounds</key>
-		<priority>MAJOR</priority>
-		<name>arrayIndexOutOfBounds</name>
-		<configKey>arrayIndexOutOfBounds</configKey>
-		<category name="Reliability"/>
-		<description>[index] out of bounds</description>
-	</rule>
-	<rule>
-		<key>bufferAccessOutOfBounds</key>
-		<priority>MAJOR</priority>
-		<name>bufferAccessOutOfBounds</name>
-		<configKey>bufferAccessOutOfBounds</configKey>
-		<category name="Reliability"/>
-		<description>Buffer access out-of-bounds</description>
-	</rule>
-	<rule>
-		<key>strncatUsage</key>
-		<priority>MINOR</priority>
-		<name>strncatUsage</name>
-		<configKey>strncatUsage</configKey>
-		<category name="Reliability"/>
-		<description>Dangerous usage of strncat. Tip: the 3rd parameter means maximum number of characters to append</description>
-	</rule>
-	<rule>
-		<key>outOfBounds</key>
-		<priority>MAJOR</priority>
-		<name>outOfBounds</name>
-		<configKey>outOfBounds</configKey>
-		<category name="Reliability"/>
-		<description>This is out of bounds</description>
-	</rule>
-	<rule>
-		<key>sizeArgumentAsChar</key>
-		<priority>MINOR</priority>
-		<name>sizeArgumentAsChar</name>
-		<configKey>sizeArgumentAsChar</configKey>
-		<category name="Reliability"/>
-		<description>The size argument is given as a char constant</description>
-	</rule>
-	<rule>
-		<key>terminateStrncpy</key>
-		<priority>MINOR</priority>
-		<name>terminateStrncpy</name>
-		<configKey>terminateStrncpy</configKey>
-		<category name="Reliability"/>
-		<description>After a strncpy() the buffer should be zero-terminated</description>
-	</rule>
-	<rule>
-		<key>insecureCmdLineArgs</key>
-		<priority>MAJOR</priority>
-		<name>insecureCmdLineArgs</name>
-		<configKey>insecureCmdLineArgs</configKey>
-		<category name="Reliability"/>
-		<description>Buffer overrun possible for long cmd-line args</description>
-	</rule>
-	<rule>
-		<key>negativeIndex</key>
-		<priority>MAJOR</priority>
-		<name>negativeIndex</name>
-		<configKey>negativeIndex</configKey>
-		<category name="Reliability"/>
-		<description>[index] negative or out of bounds</description>
-	</rule>
-	<rule>
-		<key>invalidIterator1</key>
-		<priority>MAJOR</priority>
-		<name>invalidIterator1</name>
-		<configKey>invalidIterator1</configKey>
-		<category name="Reliability"/>
-		<description>Invalid iterator</description>
-	</rule>
-	<rule>
-		<key>iterators</key>
-		<priority>MAJOR</priority>
-		<name>iterators</name>
-		<configKey>iterators</configKey>
-		<category name="Reliability"/>
-		<description>Same iterator is used with both containers</description>
-	</rule>
-	<rule>
-		<key>eraseDereference</key>
-		<priority>MAJOR</priority>
-		<name>eraseDereference</name>
-		<configKey>eraseDereference</configKey>
-		<category name="Reliability"/>
-		<description>Dereferenced iterator has been erased</description>
-	</rule>
-	<rule>
-		<key>eraseByValue</key>
-		<priority>MAJOR</priority>
-		<name>eraseByValue</name>
-		<configKey>eraseByValue</configKey>
-		<category name="Reliability"/>
-		<description>Iterator becomes invalid when deleted by value</description>
-	</rule>
-	<rule>
-		<key>mismatchingContainers</key>
-		<priority>MAJOR</priority>
-		<name>mismatchingContainers</name>
-		<configKey>mismatchingContainers</configKey>
-		<category name="Reliability"/>
-		<description>mismatching containers</description>
-	</rule>
-	<rule>
-		<key>stlOutOfBounds</key>
-		<priority>MAJOR</priority>
-		<name>stlOutOfBounds</name>
-		<configKey>stlOutOfBounds</configKey>
-		<category name="Reliability"/>
-		<description>Container[Container.size] is out of bounds</description>
-	</rule>
-	<rule>
-		<key>erase</key>
-		<priority>MAJOR</priority>
-		<name>erase</name>
-		<configKey>erase</configKey>
-		<category name="Reliability"/>
-		<description>Dangerous iterator usage. After erase the iterator is invalid so dereferencing it or comparing it with another iterator is invalid.</description>
-	</rule>
-	<rule>
-		<key>invalidIterator2</key>
-		<priority>MAJOR</priority>
-		<name>invalidIterator2</name>
-		<configKey>invalidIterator2</configKey>
-		<category name="Reliability"/>
-		<description>After function call iterator may be invalid</description>
-	</rule>
-	<rule>
-		<key>invalidPointer</key>
-		<priority>MAJOR</priority>
-		<name>invalidPointer</name>
-		<configKey>invalidPointer</configKey>
-		<category name="Reliability"/>
-		<description>Invalid pointerafter push_back / push_front</description>
-	</rule>
-	<rule>
-		<key>stlBoundries</key>
-		<priority>MAJOR</priority>
-		<name>stlBoundries</name>
-		<configKey>stlBoundries</configKey>
-		<category name="Reliability"/>
-		<description>Container range check should use != and not &gt; since the order of the pointers isn't guaranteed</description>
-	</rule>
-	<rule>
-		<key>stlIfStrFind</key>
-		<priority>MINOR</priority>
-		<name>stlIfStrFind</name>
-		<configKey>stlIfStrFind</configKey>
-		<category name="Reliability"/>
-		<description>Suspicious condition. string::find will return 0 if the string is found at position 0. If this is what you want to check then string::compare is a faster alternative because it doesn't scan through the string.</description>
-	</rule>
-	<rule>
-		<key>stlIfFind</key>
-		<priority>MINOR</priority>
-		<name>stlIfFind</name>
-		<configKey>stlIfFind</configKey>
-		<category name="Reliability"/>
-		<description>Suspicious condition. The result of find is an iterator, but it is not properly checked.</description>
-	</rule>
-	<rule>
-		<key>stlSize</key>
-		<priority>MINOR</priority>
-		<name>stlSize</name>
-		<configKey>stlSize</configKey>
-		<category name="Reliability"/>
-		<description>Possible inefficient checking for Variable emptiness. Using .empty() instead of .size() can be faster.</description>
-	</rule>
-	<rule>
-		<key>redundantIfRemove</key>
-		<priority>INFO</priority>
-		<name>redundantIfRemove</name>
-		<configKey>redundantIfRemove</configKey>
-		<category name="Reliability"/>
-		<description>Redundant checking of STL container element.</description>
-	</rule>
-	<rule>
-		<key>StlMissingComparison</key>
-		<priority>MINOR</priority>
-		<name>StlMissingComparison</name>
-		<configKey>StlMissingComparison</configKey>
-		<category name="Reliability"/>
-		<description>Missing bounds check for extra iterator increment in loop.</description>
-	</rule>
-	<rule>
-		<key>stlcstr</key>
-		<priority>MAJOR</priority>
-		<name>stlcstr</name>
-		<configKey>stlcstr</configKey>
-		<category name="Reliability"/>
-		<description>Dangerous usage of c_str()</description>
-	</rule>
-	<rule>
-		<key>postfixOperator</key>
-		<priority>MINOR</priority>
-		<name>postfixOperator</name>
-		<configKey>postfixOperator</configKey>
-		<category name="Reliability"/>
-		<description>Prefer prefix ++/-- operators for non-primitive types. Pre-increment/decrement can be more efficient than post-increment/decrement. Post-increment/decrement usually involves keeping a copy of the previous value around and adds a little extra code.</description>
-	</rule>
+  <rule>
+    <key>AssignmentAddressToInteger</key>
+    <configkey>AssignmentAddressToInteger</configkey>
+    <name>Assigning an address value to an integer (int/long/etc.) type is not portable</name>
+    <description>
+      Assigning an address value to an integer (int/long/etc.) type is
+      not portable.
+    </description>
+  </rule>
+  <rule>
+    <key>AssignmentIntegerToAddress</key>
+    <configkey>AssignmentIntegerToAddress</configkey>
+    <name>Assigning an integer (int/long/etc) to a pointer is not portable</name>
+    <description>
+      Assigning an integer (int/long/etc) to a pointer is not portable.
+    </description>
+  </rule>
+  <rule>
+    <key>autoVariables</key>
+    <configkey>autoVariables</configkey>
+    <name>Assigning address of local auto-variable to a function parameter</name>
+    <description>
+      Assigning address of local auto-variable to a function
+      parameter.
+    </description>
+  </rule>
+  <rule>
+    <key>returnAddressOfAutoVariable</key>
+    <configkey>returnAddressOfAutoVariable</configkey>
+    <name>Return of the address of an auto-variable</name>
+    <description>
+      Return of the address of an auto-variable.
+    </description>
+  </rule>
+  <rule>
+    <key>returnLocalVariable</key>
+    <configkey>returnLocalVariable</configkey>
+    <name>Returning pointer to local array variable</name>
+    <description>
+      Returning pointer to local array variable.
+    </description>
+  </rule>
+  <rule>
+    <key>returnReference</key>
+    <configkey>returnReference</configkey>
+    <name>Returning reference to auto variable</name>
+    <description>
+      Returning reference to auto variable.
+    </description>
+  </rule>
+  <rule>
+    <key>returnTempReference</key>
+    <configkey>returnTempReference</configkey>
+    <name>Returning reference to temporary</name>
+    <description>
+      Returning reference to temporary.
+    </description>
+  </rule>
+  <rule>
+    <key>returnAutocstr</key>
+    <configkey>returnAutocstr</configkey>
+    <name>Returning pointer to auto variable</name>
+    <description>
+      Returning pointer to auto variable.
+    </description>
+  </rule>
+  <rule>
+    <key>returnTempPointer</key>
+    <configkey>returnTempPointer</configkey>
+    <name>Returning pointer to temporary</name>
+    <description>
+      Returning pointer to temporary.
+    </description>
+  </rule>
+  <rule>
+    <key>autovarInvalidDeallocation</key>
+    <configkey>autovarInvalidDeallocation</configkey>
+    <name>Deallocating auto-variable is invalid</name>
+    <description>
+      Deallocating auto-variable is invalid.
+    </description>
+  </rule>
+  <rule>
+    <key>arrayIndexOutOfBounds</key>
+    <configkey>arrayIndexOutOfBounds</configkey>
+    <name>Array index out of bounds</name>
+    <description>
+      Array index out of bounds.
+    </description>
+  </rule>
+  <rule>
+    <key>bufferAccessOutOfBounds</key>
+    <configkey>bufferAccessOutOfBounds</configkey>
+    <name>Buffer access out-of-bounds</name>
+    <description>
+      Buffer access out-of-bounds.
+    </description>
+  </rule>
+  <rule>
+    <key>outOfBounds</key>
+    <configkey>outOfBounds</configkey>
+    <name>Index is out of bounds: Supplied size is larger than actual size</name>
+    <description>
+      Index is out of bounds: Supplied size is larger than actual size.
+    </description>
+  </rule>
+  <rule>
+    <key>terminateStrncpy</key>
+    <configkey>terminateStrncpy</configkey>
+    <name>The buffer may not be zero-terminated after the call to strncpy()</name>
+    <description>
+      The buffer may not be zero-terminated after the call to
+      strncpy().
+    </description>
+  </rule>
+  <rule>
+    <key>negativeIndex</key>
+    <configkey>negativeIndex</configkey>
+    <name>Negative array index</name>
+    <description>
+      Negative array index is always out of bounds.
+    </description>
+  </rule>
+  <rule>
+    <key>insecureCmdLineArgs</key>
+    <configkey>insecureCmdLineArgs</configkey>
+    <name>Buffer overrun possible for long cmd-line args</name>
+    <description>
+      Buffer overrun possible for long cmd-line args.
+    </description>
+  </rule>
+  <rule>
+    <key>pointerOutOfBounds</key>
+    <configkey>pointerOutOfBounds</configkey>
+    <name>Array pointer out of bounds</name>
+    <description>
+      Undefined behavior: pointer arithmetic result does not point
+      into or just past the end of the array.
+    </description>
+  </rule>
+  <rule>
+    <key>arrayIndexThenCheck</key>
+    <configkey>arrayIndexThenCheck</configkey>
+    <name>Array index is used before limits check</name>
+    <description>
+      Array index is used before limits check.
+    </description>
+  </rule>
+  <rule>
+    <key>noConstructor</key>
+    <configkey>noConstructor</configkey>
+    <name>Class does not have a constructor</name>
+    <description>
+      Class does not have a constructor.
+    </description>
+  </rule>
+  <rule>
+    <key>uninitVar</key>
+    <configkey>uninitVar</configkey>
+    <name>Member variable is not initialized in the constructor</name>
+    <description>
+      Member variable is not initialized in the constructor.
+    </description>
+  </rule>
+  <rule>
+    <key>operatorEqVarError</key>
+    <configkey>operatorEqVarError</configkey>
+    <name>Member variable is not assigned a value in the assignment operator</name>
+    <description>
+      Member variable is not assigned a value in the assignment
+      operator.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedPrivateFunction</key>
+    <configkey>unusedPrivateFunction</configkey>
+    <name>Unused private function</name>
+    <description>
+      Unused private function.
+    </description>
+  </rule>
+  <rule>
+    <key>memsetClass</key>
+    <configkey>memsetClass</configkey>
+    <name>Invalid usage of memset|memmove|memcpy on classes</name>
+    <description>
+      Usage of the functions from the memset-family on classes should
+      be avoided because it leads to undefined behaviour in a number of
+      cases (e.g. when the class contains a virtual method). Use
+      constructors or init-routines to initialize your members instead.
+    </description>
+  </rule>
+  <rule>
+    <key>operatorEq</key>
+    <configkey>operatorEq</configkey>
+    <name>'class::operator=' should return 'class &amp;'</name>
+    <description>
+      'class::operator=' should return 'class &amp;'.
+    </description>
+  </rule>
+  <rule>
+    <key>thisSubtraction</key>
+    <configkey>thisSubtraction</configkey>
+    <name>Suspicious pointer subtraction</name>
+    <description>
+      Suspicious pointer subtraction
+    </description>
+  </rule>
+  <rule>
+    <key>operatorEqRetRefThis</key>
+    <configkey>operatorEqRetRefThis</configkey>
+    <name>'operator=' should return reference to self</name>
+    <description>
+      'operator=' should return reference to self.
+    </description>
+  </rule>
+  <rule>
+    <key>operatorEqToSelf</key>
+    <configkey>operatorEqToSelf</configkey>
+    <name>'operator=' should check for assignment to self</name>
+    <description>
+      'operator=' should check for assignment to self.
+    </description>
+  </rule>
+  <rule>
+    <key>exceptThrowInDestructor</key>
+    <configkey>exceptThrowInDestructor</configkey>
+    <name>Throwing exception in destructor</name>
+    <description>
+      Throwing exception in destructor.
+    </description>
+  </rule>
+  <rule>
+    <key>exceptDeallocThrow</key>
+    <configkey>exceptDeallocThrow</configkey>
+    <name>Throwing exception in invalid state</name>
+    <description>
+      Throwing exception in invalid state: a pointer points at deallocated
+      memory.
+    </description>
+  </rule>
+  <rule>
+    <key>exceptRethrowCopy</key>
+    <configkey>exceptRethrowCopy</configkey>
+    <name>Throwing a copy of the caught exception instead of rethrowing the original exception</name>
+    <description>
+      Throwing a copy of the caught exception instead of rethrowing
+      the original exception.
+    </description>
+  </rule>
+  <rule>
+    <key>catchExceptionByValue</key>
+    <configkey>catchExceptionByValue</configkey>
+    <name>Exception should be caught by reference</name>
+    <description>
+      Exception should be caught by reference.
+    </description>
+  </rule>
+  <rule>
+    <key>assignIfError</key>
+    <configkey>assignIfError</configkey>
+    <name>Mismatching assignment and comparison, comparison is always false</name>
+    <description>
+      Mismatching assignment and comparison, comparison is always
+      false.
+    </description>
+  </rule>
+  <rule>
+    <key>comparisonError</key>
+    <configkey>comparisonError</configkey>
+    <name>Expression is always false</name>
+    <description>
+      Expression is always false.
+    </description>
+  </rule>
+  <rule>
+    <key>multiCondition</key>
+    <configkey>multiCondition</configkey>
+    <name>'else if' condition matches previous condition</name>
+    <description>
+      'else if' condition matches previous condition.
+    </description>
+  </rule>
+  <rule>
+    <key>memleak</key>
+    <configkey>memleak</configkey>
+    <name>Memory leak</name>
+    <description>
+      Memory leak.
+    </description>
+  </rule>
+  <rule>
+    <key>resourceLeak</key>
+    <configkey>resourceLeak</configkey>
+    <name>Resource leak</name>
+    <description>
+      Resource leak.
+    </description>
+  </rule>
+  <rule>
+    <key>deallocDealloc</key>
+    <configkey>deallocDealloc</configkey>
+    <name>Deallocating a deallocated pointer</name>
+    <description>
+      Deallocating a deallocated pointer.
+    </description>
+  </rule>
+  <rule>
+    <key>deallocuse</key>
+    <configkey>deallocuse</configkey>
+    <name>Dereferencing variable after it is deallocated / released</name>
+    <description>
+      Dereferencing variable after it is deallocated / released.
+    </description>
+  </rule>
+  <rule>
+    <key>mismatchSize</key>
+    <configkey>mismatchSize</configkey>
+    <name>The given size is mismatching</name>
+    <description>
+      The given size is mismatching.
+    </description>
+  </rule>
+  <rule>
+    <key>mismatchAllocDealloc</key>
+    <configkey>mismatchAllocDealloc</configkey>
+    <name>Mismatching allocation and deallocation</name>
+    <description>
+      Mismatching allocation and deallocation.
+    </description>
+  </rule>
+  <rule>
+    <key>memleakOnRealloc</key>
+    <configkey>memleakOnRealloc</configkey>
+    <name>Common realloc mistake: variable nulled but not freed upon failure</name>
+    <description>
+      Common realloc mistake: variable nulled but not freed upon
+      failure.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsasctime</key>
+    <configkey>nonreentrantFunctionsasctime</configkey>
+    <name>Avoid usage of the function 'asctime'</name>
+    <description>
+      The function 'asctime' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'asctime_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionscrypt</key>
+    <configkey>nonreentrantFunctionscrypt</configkey>
+    <name>Avoid usage of the function 'crypt'</name>
+    <description>
+      The function 'crypt' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'crypt_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsctermid</key>
+    <configkey>nonreentrantFunctionsctermid</configkey>
+    <name>Avoid usage of the function 'ctermid'</name>
+    <description>
+      The function 'ctermid' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'ctermid_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsctime</key>
+    <configkey>nonreentrantFunctionsctime</configkey>
+    <name>Avoid usage of the function 'ctime'</name>
+    <description>
+      The function 'ctime' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'ctime_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsecvt</key>
+    <configkey>nonreentrantFunctionsecvt</configkey>
+    <name>Avoid usage of the function 'ecvt'</name>
+    <description>
+      The function 'ecvt' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'ecvt_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsfcvt</key>
+    <configkey>nonreentrantFunctionsfcvt</configkey>
+    <name>Avoid usage of the function 'fcvt'</name>
+    <description>
+      The function 'fcvt' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'fcvt_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsfgetgrent</key>
+    <configkey>nonreentrantFunctionsfgetgrent</configkey>
+    <name>Avoid usage of the function 'fgetgrent'</name>
+    <description>
+      The function 'fgetgrent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'fgetgrent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsfgetpwent</key>
+    <configkey>nonreentrantFunctionsfgetpwent</configkey>
+    <name>Avoid usage of the function 'fgetpwent'</name>
+    <description>
+      The function 'fgetpwent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'fgetpwent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsfgetspent</key>
+    <configkey>nonreentrantFunctionsfgetspent</configkey>
+    <name>Avoid usage of the function 'fgetspent'</name>
+    <description>
+      The function 'fgetspent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'fgetspent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgcvt</key>
+    <configkey>nonreentrantFunctionsgcvt</configkey>
+    <name>Avoid usage of the function 'gcvt'</name>
+    <description>
+      The function 'gcvt' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'gcvt_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetgrent</key>
+    <configkey>nonreentrantFunctionsgetgrent</configkey>
+    <name>Avoid usage of the function 'getgrent'</name>
+    <description>
+      The function 'getgrent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getgrent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetgrgid</key>
+    <configkey>nonreentrantFunctionsgetgrgid</configkey>
+    <name>Avoid usage of the function 'getgrgid'</name>
+    <description>
+      The function 'getgrgid' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getgrgid_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetgrnam</key>
+    <configkey>nonreentrantFunctionsgetgrnam</configkey>
+    <name>Avoid usage of the function 'getgrnam'</name>
+    <description>
+      The function 'getgrnam' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getgrnam_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgethostbyaddr</key>
+    <configkey>nonreentrantFunctionsgethostbyaddr</configkey>
+    <name>Avoid usage of the function 'gethostbyaddr'</name>
+    <description>
+      The function 'gethostbyaddr' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'gethostbyaddr_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgethostbyname</key>
+    <configkey>nonreentrantFunctionsgethostbyname</configkey>
+    <name>Avoid usage of the function 'gethostbyname'</name>
+    <description>
+      The function 'gethostbyname' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'gethostbyname_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgethostbyname2</key>
+    <configkey>nonreentrantFunctionsgethostbyname2</configkey>
+    <name>Avoid usage of the function 'gethostbyname2'</name>
+    <description>
+      The function 'gethostbyname2' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'gethostbyname2_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgethostent</key>
+    <configkey>nonreentrantFunctionsgethostent</configkey>
+    <name>Avoid usage of the function 'gethostent'</name>
+    <description>
+      The function 'gethostent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'gethostent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetlogin</key>
+    <configkey>nonreentrantFunctionsgetlogin</configkey>
+    <name>Avoid usage of the function 'getlogin'</name>
+    <description>
+      The function 'getlogin' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getlogin_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetnetbyaddr</key>
+    <configkey>nonreentrantFunctionsgetnetbyaddr</configkey>
+    <name>Avoid usage of the function 'getnetbyaddr'</name>
+    <description>
+      The function 'getnetbyaddr' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getnetbyaddr_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetnetbyname</key>
+    <configkey>nonreentrantFunctionsgetnetbyname</configkey>
+    <name>Avoid usage of the function 'getnetbyname'</name>
+    <description>
+      The function 'getnetbyname' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getnetbyname_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetnetgrent</key>
+    <configkey>nonreentrantFunctionsgetnetgrent</configkey>
+    <name>Avoid usage of the function 'getnetgrent'</name>
+    <description>
+      The function 'getnetgrent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getnetgrent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetprotobyname</key>
+    <configkey>nonreentrantFunctionsgetprotobyname</configkey>
+    <name>Avoid usage of the function 'getprotobyname'</name>
+    <description>
+      The function 'getprotobyname' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getprotobyname_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetpwent</key>
+    <configkey>nonreentrantFunctionsgetpwent</configkey>
+    <name>Avoid usage of the function 'getpwent'</name>
+    <description>
+      The function 'getpwent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getpwent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetpwnam</key>
+    <configkey>nonreentrantFunctionsgetpwnam</configkey>
+    <name>Avoid usage of the function 'getpwnam'</name>
+    <description>
+      The function 'getpwnam' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getpwnam_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetpwuid</key>
+    <configkey>nonreentrantFunctionsgetpwuid</configkey>
+    <name>Avoid usage of the function 'getpwuid'</name>
+    <description>
+      The function 'getpwuid' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getpwuid_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetrpcbyname</key>
+    <configkey>nonreentrantFunctionsgetrpcbyname</configkey>
+    <name>Avoid usage of the function 'getrpcbyname'</name>
+    <description>
+      The function 'getrpcbyname' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getrpcbyname_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetrpcbynumber</key>
+    <configkey>nonreentrantFunctionsgetrpcbynumber</configkey>
+    <name>Avoid usage of the function 'getrpcbynumber'</name>
+    <description>
+      The function 'getrpcbynumber' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getrpcbynumber_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetrpcent</key>
+    <configkey>nonreentrantFunctionsgetrpcent</configkey>
+    <name>Avoid usage of the function 'getrpcent'</name>
+    <description>
+      The function 'getrpcent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getrpcent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetservbyname</key>
+    <configkey>nonreentrantFunctionsgetservbyname</configkey>
+    <name>Avoid usage of the function 'getservbyname'</name>
+    <description>
+      The function 'getservbyname' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getservbyname_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetservbyport</key>
+    <configkey>nonreentrantFunctionsgetservbyport</configkey>
+    <name>Avoid usage of the function 'getservbyport'</name>
+    <description>
+      The function 'getservbyport' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getservbyport_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetservent</key>
+    <configkey>nonreentrantFunctionsgetservent</configkey>
+    <name>Avoid usage of the function 'getservent'</name>
+    <description>
+      The function 'getservent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getservent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetspent</key>
+    <configkey>nonreentrantFunctionsgetspent</configkey>
+    <name>Avoid usage of the function 'getspent'</name>
+    <description>
+      The function 'getspent' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getspent_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgetspnam</key>
+    <configkey>nonreentrantFunctionsgetspnam</configkey>
+    <name>Avoid usage of the function 'getspnam'</name>
+    <description>
+      The function 'getspnam' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'getspnam_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsgmtime</key>
+    <configkey>nonreentrantFunctionsgmtime</configkey>
+    <name>Avoid usage of the function 'gmtime'</name>
+    <description>
+      The function 'gmtime' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'gmtime_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionslocaltime</key>
+    <configkey>nonreentrantFunctionslocaltime</configkey>
+    <name>Avoid usage of the function 'localtime'</name>
+    <description>
+      The function 'localtime' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'localtime_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsrand</key>
+    <configkey>nonreentrantFunctionsrand</configkey>
+    <name>Avoid usage of the function 'rand'</name>
+    <description>
+      The function 'rand' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'rand_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsreaddir</key>
+    <configkey>nonreentrantFunctionsreaddir</configkey>
+    <name>Avoid usage of the function 'readdir'</name>
+    <description>
+      The function 'readdir' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'readdir_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsstrtok</key>
+    <configkey>nonreentrantFunctionsstrtok</configkey>
+    <name>Avoid usage of the function 'strtok'</name>
+    <description>
+      The function 'strtok' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'strtok_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionstempnam</key>
+    <configkey>nonreentrantFunctionstempnam</configkey>
+    <name>Avoid usage of the function 'tempnam'</name>
+    <description>
+      The function 'tempnam' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'tempnam_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionstmpnam</key>
+    <configkey>nonreentrantFunctionstmpnam</configkey>
+    <name>Avoid usage of the function 'tmpnam'</name>
+    <description>
+      The function 'tmpnam' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'tmpnam_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nonreentrantFunctionsttyname</key>
+    <configkey>nonreentrantFunctionsttyname</configkey>
+    <name>Avoid usage of the function 'ttyname'</name>
+    <description>
+      The function 'ttyname' is not reentrant. For threadsafe
+      applications it is recommended to use the reentrant replacement
+      function 'ttyname_r'.
+    </description>
+  </rule>
+  <rule>
+    <key>nullPointer</key>
+    <configkey>nullPointer</configkey>
+    <name>Possible null pointer dereference</name>
+    <description>
+      Possible null pointer dereference.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsbcmp</key>
+    <configkey>obsoleteFunctionsbcmp</configkey>
+    <name>Avoid usage of the function 'bcmp'</name>
+    <description>
+      The function 'bcmp' is obsolete. It is recommended that new
+      applications use the 'memcmp' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsbcopy</key>
+    <configkey>obsoleteFunctionsbcopy</configkey>
+    <name>Avoid usage of the function 'bcopy'</name>
+    <description>
+      The function 'bcopy' is obsolete. It is recommended that new
+      applications use the 'memmove' or 'memcpy' functions.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsbsd_signal</key>
+    <configkey>obsoleteFunctionsbsd_signal</configkey>
+    <name>Avoid usage of the function 'bsd_signal'</name>
+    <description>
+      The function 'bsd_signal' is obsolete. It is recommended that
+      new applications use the 'sigaction' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsbzero</key>
+    <configkey>obsoleteFunctionsbzero</configkey>
+    <name>Avoid usage of the function 'bzero'</name>
+    <description>
+      The function 'bzero' is obsolete. It is recommended that new
+      applications use the 'memset' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsecvt</key>
+    <configkey>obsoleteFunctionsecvt</configkey>
+    <name>Avoid usage of the function 'ecvt'</name>
+    <description>
+      The function 'ecvt' is obsolete. It is recommended that new
+      applications use the 'sprintf' function
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsfcvt</key>
+    <configkey>obsoleteFunctionsfcvt</configkey>
+    <name>Avoid usage of the function 'fcvt'</name>
+    <description>
+      The function 'fcvt' is obsolete. It is recommended that new
+      applications use the 'sprintf' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsftime</key>
+    <configkey>obsoleteFunctionsftime</configkey>
+    <name>Avoid usage of the function 'ftime'</name>
+    <description>
+      The function 'ftime' is obsolete.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsgcvt</key>
+    <configkey>obsoleteFunctionsgcvt</configkey>
+    <name>Avoid usage of the function 'gcvt'</name>
+    <description>
+      The function 'gcvt' is obsolete. It is recommended that new
+      applications use the 'sprintf' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsgetcontext</key>
+    <configkey>obsoleteFunctionsgetcontext</configkey>
+    <name>Avoid usage of the function 'getcontext'</name>
+    <description>
+      The function 'getcontext' is obsolete. Due to portability issues
+      with this function, applications are recommended to be rewritten to
+      use POSIX threads.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsgethostbyaddr</key>
+    <configkey>obsoleteFunctionsgethostbyaddr</configkey>
+    <name>Avoid usage of the function 'gethostbyaddr'</name>
+    <description>
+      The function 'gethostbyaddr' is obsolete. It is recommended that
+      new applications use the 'getnameinfo' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsgethostbyname</key>
+    <configkey>obsoleteFunctionsgethostbyname</configkey>
+    <name>Avoid usage of the function 'gethostbyname'</name>
+    <description>
+      The function 'gethostbyname' is obsolete. It is recommended that
+      new applications use the 'getaddrinfo' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsgets</key>
+    <configkey>obsoleteFunctionsgets</configkey>
+    <name>Avoid usage of the function 'gets'</name>
+    <description>
+      The function 'gets' is obsolete. It is recommended that
+      new applications use the 'fgets' function instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsgetwd</key>
+    <configkey>obsoleteFunctionsgetwd</configkey>
+    <name>Avoid usage of the function 'getwd'</name>
+    <description>
+      The function 'getwd' is obsolete. It is recommended that new
+      applications use the 'getcwd' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsindex</key>
+    <configkey>obsoleteFunctionsindex</configkey>
+    <name>Avoid usage of the function 'index'</name>
+    <description>
+      The function 'index' is obsolete. It is recommended to use the
+      function 'strchr' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsmakecontext</key>
+    <configkey>obsoleteFunctionsmakecontext</configkey>
+    <name>Avoid usage of the function 'makecontext'</name>
+    <description>
+      The function 'makecontext' is obsolete. Due to portability
+      issues with this function, applications are recommended to be
+      rewritten to use POSIX threads.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionspthread_attr_getstackaddr</key>
+    <configkey>obsoleteFunctionspthread_attr_getstackaddr</configkey>
+    <name>Avoid usage of the function 'pthread_attr_getstackaddr'</name>
+    <description>
+      The function 'pthread_attr_getstackaddr' is obsolete. It is
+      recommended that new applications use the 'pthread_attr_getstack'
+      function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionspthread_attr_setstackaddr</key>
+    <configkey>obsoleteFunctionspthread_attr_setstackaddr</configkey>
+    <name>Avoid usage of the function 'pthread_attr_setstackaddr'</name>
+    <description>
+      The function 'pthread_attr_setstackaddr' is obsolete. It is
+      recommended that new applications use the 'pthread_attr_setstack'
+      function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsrindex</key>
+    <configkey>obsoleteFunctionsrindex</configkey>
+    <name>Avoid usage of the function 'rindex'</name>
+    <description>
+      The function 'rindex' is obsolete. It is recommended to use the
+      function 'strrchr' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsscalbln</key>
+    <configkey>obsoleteFunctionsscalbln</configkey>
+    <name>Avoid usage of the function 'scalb'</name>
+    <description>
+      The function 'scalb' is obsolete. It is recommended to use
+      either 'scalbln', 'scalblnf' or 'scalblnl' instead of this function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsswapcontext</key>
+    <configkey>obsoleteFunctionsswapcontext</configkey>
+    <name>Avoid usage of the function 'swapcontext'</name>
+    <description>
+      The function 'swapcontext' is obsolete. Due to portability
+      issues with this function, applications are recommended to be
+      rewritten to use POSIX threads.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsualarm</key>
+    <configkey>obsoleteFunctionsualarm</configkey>
+    <name>Avoid usage of the function 'ualarm'</name>
+    <description>
+      The function 'ualarm' is obsolete. It is recommended to use
+      either 'timer_create', 'timer_delete', 'timer_getoverrun',
+      'timer_gettime', or 'timer_settime' instead of this function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsusleep</key>
+    <configkey>obsoleteFunctionsusleep</configkey>
+    <name>Avoid usage of the function 'usleep'</name>
+    <description>
+      The function 'usleep' is obsolete. It is recommended that new
+      applications use the 'nanosleep' or 'setitimer' function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsvfork</key>
+    <configkey>obsoleteFunctionsvfork</configkey>
+    <name>Avoid usage of the function 'vfork'</name>
+    <description>
+      The function 'vfork' is obsolete. It is recommended to use the
+      function 'fork' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionswcswcs</key>
+    <configkey>obsoleteFunctionswcswcs</configkey>
+    <name>Avoid usage of the function 'wcswcs'</name>
+    <description>
+      The function 'wcswcs' is obsolete. It is recommended to use the
+      function 'wcsstr' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>assignBoolToPointer</key>
+    <configkey>assignBoolToPointer</configkey>
+    <name>Assigning bool value to pointer (converting bool value to address)</name>
+    <description>
+      Assigning bool value to pointer (converting bool value to
+      address).
+    </description>
+  </rule>
+  <rule>
+    <key>sprintfOverlappingData</key>
+    <configkey>sprintfOverlappingData</configkey>
+    <name>Undefined behavior: variable is used as parameter and destination in s[n]printf()</name>
+    <description>
+      Undefined behavior: variable is used as parameter and
+      destination in s[n]printf(). From Single UNIX Specification: "If
+      copying takes place between objects that overlap as a result of a call
+      to sprintf() or snprintf(), the results are undefined".
+    </description>
+  </rule>
+  <rule>
+    <key>staticStringCompare</key>
+    <configkey>staticStringCompare</configkey>
+    <name>Unnecessary comparison of static strings</name>
+    <description>
+      Unnecessary comparison of static strings.
+    </description>
+  </rule>
+  <rule>
+    <key>udivError</key>
+    <configkey>udivError</configkey>
+    <name>Unsigned division. The result will be wrong</name>
+    <description>
+      Unsigned division. The result will be wrong.
+    </description>
+  </rule>
+  <rule>
+    <key>zerodiv</key>
+    <configkey>zerodiv</configkey>
+    <name>Division by zero</name>
+    <description>
+      Division by zero.
+    </description>
+  </rule>
+  <rule>
+    <key>wrongmathcall</key>
+    <configkey>wrongmathcall</configkey>
+    <name>Passing value to () leads to undefined result</name>
+    <description>
+      Passing value to () leads to undefined result.
+    </description>
+  </rule>
+  <rule>
+    <key>fflushOnInputStream</key>
+    <configkey>fflushOnInputStream</configkey>
+    <name>fflush() called on input stream "stdin" may result in undefined behaviour</name>
+    <description>
+      fflush() called on input stream "stdin" may result in undefined
+      behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>functionConst</key>
+    <configkey>functionConst</configkey>
+    <name>Member function can be const</name>
+    <description>
+      Technically the member function can be const.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedScopedObject</key>
+    <configkey>unusedScopedObject</configkey>
+    <name>Instance destroyed immediately</name>
+    <description>
+      Instance destroyed immediately.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeofwithsilentarraypointer</key>
+    <configkey>sizeofwithsilentarraypointer</configkey>
+    <name>Using sizeof for array given as function argument returns the size of pointer</name>
+    <description>
+      Using sizeof for array given as function argument returns the
+      size of pointer.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeofwithnumericparameter</key>
+    <configkey>sizeofwithnumericparameter</configkey>
+    <name>Using sizeof with a numeric constant as function argument might not be what you intended</name>
+    <description>
+      Using sizeof with a numeric constant as function argument might
+      not be what you intended.
+    </description>
+  </rule>
+  <rule>
+    <key>cstyleCast</key>
+    <configkey>cstyleCast</configkey>
+    <name>C-style pointer casting</name>
+    <description>
+      C-style pointer casting.
+    </description>
+  </rule>
+  <rule>
+    <key>dangerousUsageStrtol</key>
+    <configkey>dangerousUsageStrtol</configkey>
+    <name>Invalid radix in call to strtol or strtoul. Must be 0 or 2-36</name>
+    <description>
+      Invalid radix in call to strtol or strtoul. Must be 0 or 2-36.
+    </description>
+  </rule>
+  <rule>
+    <key>passedByValue</key>
+    <configkey>passedByValue</configkey>
+    <name>Function parameter should be passed by reference</name>
+    <description>
+      Function parameter should be passed by reference.
+    </description>
+  </rule>
+  <rule>
+    <key>constStatement</key>
+    <configkey>constStatement</configkey>
+    <name>Redundant code: Found a statement that begins with type constant</name>
+    <description>
+      Redundant code: Found a statement that begins with type constant.
+    </description>
+  </rule>
+  <rule>
+    <key>charArrayIndex</key>
+    <configkey>charArrayIndex</configkey>
+    <name>Using char type as array index</name>
+    <description>
+      Using char type as array index.
+    </description>
+  </rule>
+  <rule>
+    <key>charBitOp</key>
+    <configkey>charBitOp</configkey>
+    <name>When using char variables in bit operations, sign extension can generate unexpected results</name>
+    <description>
+      When using char variables in bit operations, sign extension can
+      generate unexpected results.
+    </description>
+  </rule>
+  <rule>
+    <key>variableScope</key>
+    <configkey>variableScope</configkey>
+    <name>The scope of the variable can be reduced</name>
+    <description>
+      The scope of the variable can be reduced.
+    </description>
+  </rule>
+  <rule>
+    <key>strPlusChar</key>
+    <configkey>strPlusChar</configkey>
+    <name>Unusual pointer arithmetic</name>
+    <description>
+      Unusual pointer arithmetic.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeofsizeof</key>
+    <configkey>sizeofsizeof</configkey>
+    <name>Calling sizeof for 'sizeof'</name>
+    <description>
+      Calling sizeof for 'sizeof'.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeofCalculation</key>
+    <configkey>sizeofCalculation</configkey>
+    <name>Found calculation inside sizeof()</name>
+    <description>
+      Found calculation inside sizeof().
+    </description>
+  </rule>
+  <rule>
+    <key>redundantAssignInSwitch</key>
+    <configkey>redundantAssignInSwitch</configkey>
+    <name>Redundant assignment in switch</name>
+    <description>
+      Redundant assignment in switch.
+    </description>
+  </rule>
+  <rule>
+    <key>switchCaseFallThrough</key>
+    <configkey>switchCaseFallThrough</configkey>
+    <name>Switch falls through case without comment</name>
+    <description>
+      Switch falls through case without comment.
+    </description>
+  </rule>
+  <rule>
+    <key>selfAssignment</key>
+    <configkey>selfAssignment</configkey>
+    <name>Redundant assignment to itself</name>
+    <description>
+      Redundant assignment to itself.
+    </description>
+  </rule>
+  <rule>
+    <key>assignmentInAssert</key>
+    <configkey>assignmentInAssert</configkey>
+    <name>Assert statement modifies variable</name>
+    <description>
+      Assert statement modifies variable.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidscanf</key>
+    <configkey>invalidscanf</configkey>
+    <name>scanf without field width limits can crash with huge input data</name>
+    <description>
+      scanf without field width limits can crash with huge input data.
+    </description>
+  </rule>
+  <rule>
+    <key>incorrectLogicOperator</key>
+    <configkey>incorrectLogicOperator</configkey>
+    <name>Suspicious use of the '||' logic operator</name>
+    <description>
+      Mutual exclusion over || always evaluates to true. Did you
+      intend to use &amp;&amp; instead?
+    </description>
+  </rule>
+  <rule>
+    <key>memsetZeroBytes</key>
+    <configkey>memsetZeroBytes</configkey>
+    <name>Effectless memset() call</name>
+    <description>
+      memset() called to fill 0 bytes.
+    </description>
+  </rule>
+  <rule>
+    <key>clarifyCalculation</key>
+    <configkey>clarifyCalculation</configkey>
+    <name>Clarify calculation precedence for + and ?</name>
+    <description>
+      Clarify calculation precedence for + and ?
+    </description>
+  </rule>
+  <rule>
+    <key>clarifyCondition</key>
+    <configkey>clarifyCondition</configkey>
+    <name>Suspicious condition (assignment+comparison)</name>
+    <description>
+      Suspicious condition (assignment+comparison), it can be
+      clarified with parentheses.
+    </description>
+  </rule>
+  <rule>
+    <key>incorrectStringCompare</key>
+    <configkey>incorrectStringCompare</configkey>
+    <name>Mismatch of the string literal and legth argument for substr()</name>
+    <description>
+      String literal doesn't match length argument for substr().
+    </description>
+  </rule>
+  <rule>
+    <key>incrementboolean</key>
+    <configkey>incrementboolean</configkey>
+    <name>Suspicious use of the postfix '++' operator on a boolean</name>
+    <description>
+      The use of a variable of type bool with the ++ postfix operator
+      is always true and deprecated by the C++ Standard.
+    </description>
+  </rule>
+  <rule>
+    <key>comparisonOfBoolWithInt</key>
+    <configkey>comparisonOfBoolWithInt</configkey>
+    <name>Suspicious comparison of a boolean with an integer</name>
+    <description>
+      Comparison of a boolean with integer that is neither 1 nor 0.
+    </description>
+  </rule>
+  <rule>
+    <key>conditionAlwaysTrueFalse</key>
+    <configkey>conditionAlwaysTrueFalse</configkey>
+    <name>Condition is always true/false</name>
+    <description>
+      The condition evaluates always to true/false.
+    </description>
+  </rule>
+
+  <error id="conditionAlwaysTrueFalse" severity="style" msg="Condition is always true/false"/>
+
+  <rule>
+    <key>duplicateIf</key>
+    <configkey>duplicateIf</configkey>
+    <name>Redundant 'if'-expressions</name>
+    <description>
+      Found duplicate if expressions.
+    </description>
+  </rule>
+  <rule>
+    <key>duplicateBranch</key>
+    <configkey>duplicateBranch</configkey>
+    <name>Redundant 'if' and 'else' branches</name>
+    <description>
+      Found duplicate branches for if and else.
+    </description>
+  </rule>
+  <rule>
+    <key>duplicateExpression</key>
+    <configkey>duplicateExpression</configkey>
+    <name>Same expression on both sides of '&amp;&amp;'</name>
+    <description>
+      Same expression on both sides of '&amp;&amp;'.
+    </description>
+  </rule>
+  <rule>
+    <key>duplicateBreak</key>
+    <configkey>duplicateBreak</configkey>
+    <name>Consecutive return, break, continue, goto or throw statements are unnecessary</name>
+    <description>
+      Consecutive return, break, continue, goto or throw statements
+      are unnecessary.
+    </description>
+  </rule>
+  <rule>
+    <key>unsignedLessThanZero</key>
+    <configkey>unsignedLessThanZero</configkey>
+    <name>Checking if unsigned variable is less than zero</name>
+    <description>
+      Checking if unsigned variable is less than zero.
+    </description>
+  </rule>
+  <rule>
+    <key>unsignedPositive</key>
+    <configkey>unsignedPositive</configkey>
+    <name>An unsigned variable can't be negative so it is unnecessary to test it</name>
+    <description>
+      An unsigned variable can't be negative so it is unnecessary to
+      test it.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidIterator1</key>
+    <configkey>invalidIterator1</configkey>
+    <name>Invalid iterator</name>
+    <description>
+      Invalid iterator.
+    </description>
+  </rule>
+  <rule>
+    <key>iterators</key>
+    <configkey>iterators</configkey>
+    <name>Same iterator is used with two different containers</name>
+    <description>
+      Same iterator is used with two different containers.
+    </description>
+  </rule>
+  <rule>
+    <key>mismatchingContainers</key>
+    <configkey>mismatchingContainers</configkey>
+    <name>Mismatching containers</name>
+    <description>
+      Mismatching containers.
+    </description>
+  </rule>
+  <rule>
+    <key>eraseDereference</key>
+    <configkey>eraseDereference</configkey>
+    <name>Dereferenced iterator an already erased iterator</name>
+    <description>
+      Dereferenced iterator an already erased iterator.
+    </description>
+  </rule>
+  <rule>
+    <key>stlOutOfBounds</key>
+    <configkey>stlOutOfBounds</configkey>
+    <name>When i==foo.size(), foo[i] is out of bounds</name>
+    <description>
+      When i==foo.size(), foo[i] is out of bounds.
+    </description>
+  </rule>
+  <rule>
+    <key>erase</key>
+    <configkey>erase</configkey>
+    <name>Dangerous iterator usage after erase()-method</name>
+    <description>
+      Dangerous iterator usage after erase()-method. After erase the
+      iterator is invalid so dereferencing it or comparing it with another
+      iterator is invalid.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidIterator2</key>
+    <configkey>invalidIterator2</configkey>
+    <name>Iterators may get invalid after push_back|push_front|insert</name>
+    <description>
+      Iterators may get invalid after push_back|push_front|insert.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPointer</key>
+    <configkey>invalidPointer</configkey>
+    <name>Invalid pointer after push_back / push_front</name>
+    <description>
+      Invalid pointer after push_back / push_front.
+    </description>
+  </rule>
+  <rule>
+    <key>stlBoundries</key>
+    <configkey>stlBoundries</configkey>
+    <name>Dangerous container iterator compare using &lt; operator for container</name>
+    <description>
+      Dangerous container iterator compare using &lt; operator for
+      container.
+    </description>
+  </rule>
+  <rule>
+    <key>stlIfFind</key>
+    <configkey>stlIfFind</configkey>
+    <name>Suspicious condition. The result of find is an iterator, but it is not properly checked</name>
+    <description>
+      Suspicious condition. The result of find is an iterator, but it
+      is not properly checked.
+    </description>
+  </rule>
+  <rule>
+    <key>stlIfStrFind</key>
+    <configkey>stlIfStrFind</configkey>
+    <name>Suspicious checking of string::find() return value</name>
+    <description>
+      Suspicious checking of string::find() return value. string::find
+      will return '0' if the string is found at position '0'. If this is
+      what you want to check then string::compare is a faster alternative
+      because it doesn't scan through the string.
+    </description>
+  </rule>
+  <rule>
+    <key>stlcstr</key>
+    <configkey>stlcstr</configkey>
+    <name>Dangerous usage of c_str(). The returned value by c_str() is invalid after this call</name>
+    <description>
+      Dangerous usage of c_str(). The returned value by c_str() is
+      invalid after this call.
+    </description>
+  </rule>
+  <rule>
+    <key>stlSize</key>
+    <configkey>stlSize</configkey>
+    <name>Prefer .empty() to .size() == 0 for emptiness checking</name>
+    <description>
+      Possible inefficient checking for emptiness. Using .empty()
+      instead of .size() can be faster.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantIfRemove</key>
+    <configkey>redundantIfRemove</configkey>
+    <name>Redundant checking of STL container element</name>
+    <description>
+      Redundant checking of STL container element.
+    </description>
+  </rule>
+  <rule>
+    <key>useAutoPointerCopy</key>
+    <configkey>useAutoPointerCopy</configkey>
+    <name>Be careful when using 'auto_ptr' copy</name>
+    <description>
+      Copy 'auto_ptr' pointer to another do not create two equal
+      objects since one has lost its ownership of the pointer.
+    </description>
+  </rule>
+  <rule>
+    <key>useAutoPointerContainer</key>
+    <configkey>useAutoPointerContainer</configkey>
+    <name>Don't store 'auto-ptr' in a STL container</name>
+    <description>
+      You can randomly lose access to pointers if you store 'auto_ptr'
+      pointers in a container because the copy-semantics of 'auto_ptr' are
+      not compatible with containers.
+    </description>
+  </rule>
+  <rule>
+    <key>useAutoPointerArray</key>
+    <configkey>useAutoPointerArray</configkey>
+    <name>Usage of 'auto_ptr' for pointers obtained with operator 'new[]'</name>
+    <description>
+      Object pointed by an 'auto_ptr' is destroyed using operator
+      'delete'. Calling 'delete' an an pointer obtained with 'new[]' leads
+      to undefined behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>uninitstring</key>
+    <configkey>uninitstring</configkey>
+    <name>Dangerous usage of variable (strncpy doesn't always 0-terminate it)</name>
+    <description>
+      Dangerous usage of variable (strncpy doesn't always 0-terminate
+      it).
+    </description>
+  </rule>
+  <rule>
+    <key>uninitdata</key>
+    <configkey>uninitdata</configkey>
+    <name>Data is allocated but not initialized</name>
+    <description>
+      Data is allocated but not initialized.
+    </description>
+  </rule>
+  <rule>
+    <key>uninitvar</key>
+    <configkey>uninitvar</configkey>
+    <name>Uninitialized variable</name>
+    <description>
+      Uninitialized variable.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedFunction</key>
+    <configkey>unusedFunction</configkey>
+    <name>Unused function</name>
+    <description>
+      The function is never used.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedVariable</key>
+    <configkey>unusedVariable</configkey>
+    <name>Unused variable</name>
+    <description>
+      Unused variable.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedAllocatedMemory</key>
+    <configkey>unusedAllocatedMemory</configkey>
+    <name>Variable is allocated memory that is never used</name>
+    <description>
+      Variable is allocated memory that is never used.
+    </description>
+  </rule>
+  <rule>
+    <key>unreadVariable</key>
+    <configkey>unreadVariable</configkey>
+    <name>Unused value</name>
+    <description>
+      Variable is assigned a value that is never used.
+    </description>
+  </rule>
+  <rule>
+    <key>unassignedVariable</key>
+    <configkey>unassignedVariable</configkey>
+    <name>Variable is not assigned a value</name>
+    <description>
+      Variable is not assigned a value.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedStructMember</key>
+    <configkey>unusedStructMember</configkey>
+    <name>Unused struct or union member</name>
+    <description>
+      Struct or union member is never used.
+    </description>
+  </rule>
+  <rule>
+    <key>postfixOperator</key>
+    <configkey>postfixOperator</configkey>
+    <name>Prefer prefix ++/-- operators for non-primitive types</name>
+    <description>
+      Pre-increment/decrement can be more efficient than
+      post-increment/decrement. Post-increment/decrement usually involves
+      keeping a copy of the previous value around and adds a little extra
+      code.
+    </description>
+  </rule>
+  <rule>
+    <key>syntaxError</key>
+    <configkey>syntaxError</configkey>
+    <name>Syntax error</name>
+    <description>
+      Cppcheck cannot tokenize the code correctly.
+    </description>
+  </rule>
+  <rule>
+    <key>cppcheckError</key>
+    <configkey>cppcheckError</configkey>
+    <name>Internal cppcheck error</name>
+    <description>
+      Analysis failed. If the code is valid then please report this
+      failure.
+    </description>
+  </rule>
+  <rule>
+    <key>unnecessaryForwardDeclaration</key>
+    <configkey>unnecessaryForwardDeclaration</configkey>
+    <name>Redundant forward declaration</name>
+    <description>
+      Forward declaration unnecessary, already declared.
+    </description>
+  </rule>
+  <rule>
+    <key>variableHidingEnum</key>
+    <configkey>variableHidingEnum</configkey>
+    <name>Variable hides enumerator with same name</name>
+    <description>
+      Variable hides enumerator with same name.
+    </description>
+  </rule>
+  <rule>
+    <key>variableHidingTypedef</key>
+    <configkey>variableHidingTypedef</configkey>
+    <name>Variable hides typedef with same name</name>
+    <description>
+      Variable hides typedef with same name
+    </description>
+  </rule>
+  <rule>
+    <key>unnecessaryQualification</key>
+    <configkey>unnecessaryQualification</configkey>
+    <name>Unnecessary qualification</name>
+    <description>
+      Extra qualification is unnecessary and considered an error by
+      many compilers.
+    </description>
+  </rule>
+  <rule>
+    <key>missingInclude</key>
+    <configkey>missingInclude</configkey>
+    <name>Missing include</name>
+    <description>
+      An include file cannot be found.
+    </description>
+  </rule>
+  <rule>
+    <key>preprocessorErrorDirective</key>
+    <configkey>preprocessorErrorDirective</configkey>
+    <name>Preprocessor directive error</name>
+    <description>
+      Preprocessor directive error.
+    </description>
+  </rule>
+
+  <!-- ########### New in cppcheck 1.51 ########### -->
+  <rule>
+    <key>initializerList</key>
+    <configkey>initializerList</configkey>
+    <name>Member variable is in wrong order in the initializer list</name>
+    <description>
+      Member variable is in wrong order in the initializer list.
+    </description>
+  </rule>
+  <rule>
+    <key>possibleBufferAccessOutOfBounds</key>
+    <configkey>possibleBufferAccessOutOfBounds</configkey>
+    <name>Possible buffer overflow if strlen(source) is larger than or equal to sizeof(destination)</name>
+    <description>
+      Possible buffer overflow if strlen(source) is larger than or
+      equal to sizeof(destination).
+    </description>
+  </rule>
+  <rule>
+    <key>returnAddressOfFunctionParameter</key>
+    <configkey>returnAddressOfFunctionParameter</configkey>
+    <name>Return the address of a function parameter</name>
+    <description>
+      Return the address of a function parameter.
+    </description>
+  </rule>
+  <rule>
+    <key>secondAlwaysTrueFalseWhenFirstTrue</key>
+    <configkey>secondAlwaysTrueFalseWhenFirstTrue</configkey>
+    <name>Redundant condition</name>
+    <description>
+      When first comparison is true, the second comparison is always true.
+    </description>
+  </rule>
+
+  <!-- ########### New in cppcheck 1.52 ########### -->
+  <rule>
+    <key>boostForeachError</key>
+    <configkey>boostForeachError</configkey>
+    <name>Invalid usage of BOOST_FOREACH</name>
+    <description>
+      BOOST_FOREACH caches the end() iterator. It's undefined behavior
+      if you modify the container.
+    </description>
+  </rule>
+  <rule>
+    <key>compareBoolExpressionWithInt</key>
+    <configkey>compareBoolExpressionWithInt</configkey>
+    <name>Comparison of a boolean expression with an integer other than 0 or 1</name>
+    <description>
+      Comparison of a boolean expression with an integer other than 0
+      or 1.
+    </description>
+  </rule>
+  <rule>
+    <key>coutCerrMisusage</key>
+    <configkey>coutCerrMisusage</configkey>
+    <name>Invalid usage of output stream: '&lt;&lt; std::cout'</name>
+    <description>
+      Invalid usage of output stream: '&lt;&lt; std::cout'.
+    </description>
+  </rule>
+  <rule>
+    <key>incorrectStringBooleanError</key>
+    <configkey>incorrectStringBooleanError</configkey>
+    <name>Suspicious comparison of boolean with a string literal</name>
+    <description>
+      A boolean comparison with the string literal is always true.
+    </description>
+  </rule>
+  <rule>
+    <key>stringCompare</key>
+    <configkey>stringCompare</configkey>
+    <name>Comparison of identical string variables</name>
+    <description>
+      Comparison of identical string variables.
+    </description>
+  </rule>
+  <rule>
+    <key>unreachableCode</key>
+    <configkey>unreachableCode</configkey>
+    <name>Statements following return, break, continue, goto or throw will never be executed</name>
+    <description>
+      Statements following return, break, continue, goto or throw will
+      never be executed.
+    </description>
+  </rule>
+  <rule>
+    <key>uselessCallsCompare</key>
+    <configkey>uselessCallsCompare</configkey>
+    <name>It is inefficient to call 'str.find(str)' as it always returns 0</name>
+    <description>
+      It is inefficient to call 'str.find(str)' as it always returns 0.
+    </description>
+  </rule>
+  <rule>
+    <key>uselessCallsSwap</key>
+    <configkey>uselessCallsSwap</configkey>
+    <name>It is inefficient to swap a object with itself by calling 'str.swap(str)'</name>
+    <description>
+      It is inefficient to swap a object with itself by calling
+      'str.swap(str)'.
+    </description>
+  </rule>
+  <rule>
+    <key>uselessCallsSubstr</key>
+    <configkey>uselessCallsSubstr</configkey>
+    <name>Function 'substr' useless call. Function create copy of the 'str' object</name>
+    <description>
+      Function 'substr' useless call. Function create copy of the
+      'str' object.
+    </description>
+  </rule>
+  <rule>
+    <key>wrongcctypecall</key>
+    <configkey>wrongcctypecall</configkey>
+    <name>Wrong usage of a function from the ctype-family</name>
+    <description>
+      Passing negative values to the functions of the ctype-family
+      (isalnum|isalpha|isascii|is..) causes undefined behavior.
+    </description>
+  </rule>
+
+  <!-- ########### New in cppcheck 1.53 ########### -->
+  <rule>
+    <key>doubleFree</key>
+    <configkey>doubleFree</configkey>
+    <name>Memory is freed twice</name>
+    <description>
+      Memory is freed twice.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPrintfArgType_s</key>
+    <configkey>invalidPrintfArgType_s</configkey>
+    <name>Invalid printf argument type (character pointer required)</name>
+    <description>
+      Invalid printf argument type (character pointer required).
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPrintfArgType_n</key>
+    <configkey>invalidPrintfArgType_n</configkey>
+    <name>Invalid printf argument type (integer pointer required)</name>
+    <description>
+      Invalid printf argument type (integer pointer required).
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPrintfArgType_p</key>
+    <configkey>invalidPrintfArgType_p</configkey>
+    <name>Invalid printf argument type (integer or pointer required)</name>
+    <description>
+      Invalid printf argument type (integer or pointer required).
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPrintfArgType_int</key>
+    <configkey>invalidPrintfArgType_int</configkey>
+    <name>Invalid printf argument type (integer required)</name>
+    <description>
+      Invalid printf argument type (integer required).
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPrintfArgType_float</key>
+    <configkey>invalidPrintfArgType_float</configkey>
+    <name>Invalid printf argument type (floating point number required)</name>
+    <description>
+      Invalid printf argument type (floating point number required).
+    </description>
+  </rule>
+  <rule>
+    <key>invalidScanfArgType</key>
+    <configkey>invalidScanfArgType</configkey>
+    <name>scanf argument no. 1: requires non-const pointers or arrays as arguments</name>
+    <description>
+      scanf argument no. 1: requires non-const pointers or arrays as
+      arguments.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsasctime</key>
+    <configkey>obsoleteFunctionsasctime</configkey>
+    <name>Avoid usage of the function 'asctime'</name>
+    <description>
+      The function 'asctime' is obsolete. It is recommended to use the
+      function 'strftime' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsasctime_r</key>
+    <configkey>obsoleteFunctionsasctime_r</configkey>
+    <name>Avoid usage of the function 'asctime_r'</name>
+    <description>
+      The function 'asctime_r' is obsolete. It is recommended to use
+      the function 'strftime' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsctime</key>
+    <configkey>obsoleteFunctionsctime</configkey>
+    <name>Avoid usage of the function 'ctime'</name>
+    <description>
+      The function 'ctime' is obsolete. It is recommended to use the
+      function 'strftime' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsrand_r</key>
+    <configkey>obsoleteFunctionsrand_r</configkey>
+    <name>Avoid usage of the function 'rand_r'</name>
+    <description>
+      The function 'rand_r' is obsolete. It is recommended to use the
+      function 'rand' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionstmpnam</key>
+    <configkey>obsoleteFunctionstmpnam</configkey>
+    <name>Avoid usage of the function 'tmpnam'</name>
+    <description>
+      The function 'tmpnam' is obsolete. It is recommended to use
+      either 'tmpfile', 'mkstemp', or 'mkdtemp' instead for this function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionstmpnam_r</key>
+    <configkey>obsoleteFunctionstmpnam_r</configkey>
+    <name>Avoid usage of the function 'tmpnam_r'</name>
+    <description>
+      The function 'tmpnam_r' is obsolete. It is recommended to use
+      either 'tmpfile', 'mkstemp', or 'mkdtemp' instead for this function.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsutime</key>
+    <configkey>obsoleteFunctionsutime</configkey>
+    <name>Avoid usage of the function 'utime'</name>
+    <description>
+      The function 'utime' is obsolete. It is recommended to use the
+      function 'utimensat' instead.
+    </description>
+  </rule>
+  <rule>
+    <key>wrongPrintfScanfArgNum</key>
+    <configkey>wrongPrintfScanfArgNum</configkey>
+    <name>Wrong number of parameters given to printf()</name>
+    <description>
+      Wrong number of parameters given to printf().
+    </description>
+  </rule>
 </rules>

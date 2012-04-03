@@ -68,7 +68,7 @@ public class CxxSampleProjectIT {
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {89.0, 145.0, 6.0, 3.0, 6.0, 12.7, 13.0, 2.0, 21.0, 26.2, 38.0, 2.0, 1.0, 7.0, 1.2, 20.0, 57.3};
+    double[] expectedValues = {89.0, 145.0, 6.0, 3.0, 6.0, 12.7, 13.0, 2.0, 21.0, 26.2, 38.0, 2.0, 1.0, 7.0, 1.2, 18.0, 64.0};
     assertThat(values, is(expectedValues));
 
     assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=5;2=1;4=0;6=0;8=0;10=0;12=0"));
