@@ -68,7 +68,7 @@ public class CxxSampleProjectIT {
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {89.0, 145.0, 6.0, 3.0, 6.0, 12.7, 13.0, 2.0, 21.0, 26.2, 38.0, 2.0, 1.0, 7.0, 1.2, 18.0, 64.0};
+    double[] expectedValues = {89.0, 145.0, 6.0, 3.0, 6.0, 12.7, 13.0, 2.0, 21.0, 26.2, 38.0, 2.0, 1.0, 7.0, 1.2, 19.0, 60.7};
     assertThat(values, is(expectedValues));
 
     assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=5;2=1;4=0;6=0;8=0;10=0;12=0"));
@@ -90,7 +90,7 @@ public class CxxSampleProjectIT {
       values[i] = getPackageMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {52.0, 94.0, 2.0, 1.0, 2.0, 16.1, 10.0, 2.0, 21.0, 40.4, 38.0, 2.0, 1.0, 3.0, 1.5, 10.0, 69.2};
+    double[] expectedValues = {52.0, 94.0, 2.0, 1.0, 2.0, 16.1, 10.0, 2.0, 21.0, 40.4, 38.0, 2.0, 1.0, 3.0, 1.5, 11.0, 63.5};
     assertThat(values, is(expectedValues));
 
     assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=1;2=1;4=0;6=0;8=0;10=0;12=0"));
@@ -112,7 +112,7 @@ public class CxxSampleProjectIT {
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {48.0, 88.0, 1.0, 1.0, 17.2, 10.0, 2.0, 21.0, 43.2, 38.0, 2.0, 1.0, 2.0, 2.0, 7.0, 70.8};
+    double[] expectedValues = {48.0, 88.0, 1.0, 1.0, 17.2, 10.0, 2.0, 21.0, 43.2, 38.0, 2.0, 1.0, 2.0, 2.0, 8.0, 66.7};
     assertThat(values, is(expectedValues));
   }
 

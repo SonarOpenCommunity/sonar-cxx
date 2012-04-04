@@ -19,15 +19,13 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-/**
- * TODO copied from sonar-surefire-plugin
- */
+
 public class TestCaseDetails {
 
-  public final static String STATUS_OK = "ok";
-  public final static String STATUS_ERROR = "error";
-  public final static String STATUS_FAILURE = "failure";
-  public final static String STATUS_SKIPPED = "skipped";
+  public static final String STATUS_OK = "ok";
+  public static final String STATUS_ERROR = "error";
+  public static final String STATUS_FAILURE = "failure";
+  public static final String STATUS_SKIPPED = "skipped";
 
   private String name;
   private String status;

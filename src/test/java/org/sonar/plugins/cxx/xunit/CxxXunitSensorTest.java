@@ -29,6 +29,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.anyDouble;
 import static org.mockito.Mockito.any;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,5 +71,39 @@ public class CxxXunitSensorTest {
     verify(context, times(1)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
     verify(context, times(1)).saveMeasure((Resource) anyObject(), any(Measure.class));
+  }
+
+  @Test(expected=java.net.MalformedURLException.class)
+  public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
+    throws java.io.IOException, javax.xml.transform.TransformerException 
+  {
+    Configuration config = mock(Configuration.class);
+    when(config.getString(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("whatever");
+    sensor = new CxxXunitSensor(config);
+    
+    sensor.transformReport(project, cppunitReportList(), context);
+  }
+  
+  @Test
+  public void transformReport_shouldTransformCppunitReport()
+    throws java.io.IOException, javax.xml.transform.TransformerException 
+  {
+    Configuration config = mock(Configuration.class);
+    when(config.getString(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("cppunit-1.x-to-junit-1.0.xsl");
+    sensor = new CxxXunitSensor(config);
+    List<File> reports = cppunitReportList();
+    File reportBefore = reports.get(0);
+    
+    sensor.transformReport(project, reports, context);
+    
+    assert(reports.get(0) != reportBefore);
+  }
+  
+  List<File> cppunitReportList() {
+    List<File> reports = new ArrayList<File>();
+    File reportBefore = new File(new File(project.getFileSystem().getBasedir().getPath(), "xunit-reports"),
+                                 "cppunit-report.xml");
+    reports.add(reportBefore);
+    return reports;
   }
 }

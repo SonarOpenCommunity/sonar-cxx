@@ -41,7 +41,10 @@ import org.sonar.api.utils.StaxParser.XmlStreamHandler;
 public class TestSuiteParser implements XmlStreamHandler {
 
   private Map<String, TestSuiteReport> reportsPerClass = new HashMap<String, TestSuiteReport>();
-
+  
+  /**
+   * {@inheritDoc}
+   */
   public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
     SMInputCursor testSuite = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
     SMEvent testSuiteEvent;
@@ -122,9 +125,11 @@ public class TestSuiteParser implements XmlStreamHandler {
         setStackAndMessage(detail, childNode);
       }
     }
-    // make sure we loop till the end of the elements cursor
+
     while (childNode.getNext() != null) {
+      // make sure we loop till the end of the elements cursor
     }
+    
     detail.setTimeMS(time.intValue());
     detail.setStatus(status);
     return detail;

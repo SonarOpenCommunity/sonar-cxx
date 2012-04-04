@@ -20,10 +20,8 @@
 package org.sonar.plugins.cxx.xunit;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
+import java.io.InputStream;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +31,6 @@ import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -53,16 +50,20 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.api.utils.XmlParserException;
+import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxSensor;
 
 /**
- * Copied from sonar-surefire-plugin with modifications: JavaFile replaced by C++ getUnitTestResource use Project to locate C++ File
- * getReports use FileSetManager for smarter report select using new now plugin configuration use Fileset (ex ** /TEST*.xml)
- *
+ * {@inheritDoc}
  */
-
 public class CxxXunitSensor extends CxxSensor {
+  //
+  // This is basically a copy of sonar-surefire-plugin with xsl transformation
+  // thrown in and a small change allowing the 'time'-attribute to be empty
+  // This code (in this) should die: it should reuse the AbstractSurefireParser
+  // as soon as it is suitable for this.
+  // 
+  
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
@@ -71,118 +72,134 @@ public class CxxXunitSensor extends CxxSensor {
   private String xsltURL = null;
   private Configuration conf = null;
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxXunitSensor(Configuration conf) {
     this.conf = conf;
     xsltURL = conf.getString(XSLT_URL_KEY);
   }
-
+  
+  /**
+   * {@inheritDoc}
+   */
   @DependsUpon
   public Class<?> dependsUponCoverageSensors() {
     return AbstractCoverageExtension.class;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void analyse(Project project, SensorContext context) {
-    List<File> tmp = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    File[] reports = tmp.toArray(new File[0]);
-    if (reports.length == 0) {
-      insertZeroWhenNoReports(project, context);
-    } else {
-      transformReport(project, reports, context);
-      parseReport(project, reports, context);
+    Exception exc = null;
+    try {
+      List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+                                      REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+      if (reports.isEmpty()) {
+        insertZeroWhenNoReports(project, context);
+      } else {
+        transformReport(project, reports, context);
+        parseReport(project, reports, context);
+      }
+    } catch (java.io.IOException e) {
+      exc = e;
+    } catch (javax.xml.transform.TransformerException e) {
+      exc = e;
+    } catch (javax.xml.stream.XMLStreamException e) {
+      exc = e;
+    }
+    
+    if (exc != null) {
+      String msg = new StringBuilder()
+        .append("Cannot feed the data into sonar, details: '")
+        .append(exc)
+        .append("'")
+        .toString();
+      throw new SonarException(msg, exc);
     }
   }
-
+  
   private void insertZeroWhenNoReports(Project pom, SensorContext context) {
-    if ( !StringUtils.equalsIgnoreCase("pom", pom.getPackaging())) {
+    if (!StringUtils.equalsIgnoreCase("pom", pom.getPackaging())) {
       context.saveMeasure(CoreMetrics.TESTS, 0.0);
     }
   }
-
-  private void transformReport(Project project, File[] reports, SensorContext context) {
-
-    try {
-      if (this.xsltURL != null) {
+  
+  void transformReport(Project project, List<File> reports, SensorContext context)
+    throws java.io.IOException, javax.xml.transform.TransformerException
+  {
+    if (this.xsltURL != null) {
+      logger.debug("xslt used: " + this.xsltURL);
+      InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + this.xsltURL);
+      if (inputStream == null)
+      {
         URL url = new URL(this.xsltURL);
-        logger.debug("xslt used :" + this.xsltURL);
-        Source xsl = new StreamSource(url.openStream());
-        for (int i = 0; i < reports.length; i++) {
-          Source source = new StreamSource(reports[i]);
-
-          File fileOutPut = new File(reports[i].getAbsolutePath() + ".after_xslt");
-
-          Result result = new StreamResult(fileOutPut);
-
-          TransformerFactory factory = TransformerFactory.newInstance();
-          Templates template = factory.newTemplates(xsl);
-
-          Transformer xformer = template.newTransformer();
-          xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-          xformer.transform(source, result);
-          reports[i] = fileOutPut;
-        }
-      } else {
-        logger.debug("No xslt.");
+        inputStream = url.openStream();
       }
-    } catch (MalformedURLException e) {
-      throw new XmlParserException("Url doesn't existe", e);
-    } catch (FileNotFoundException e) {
-      throw new XmlParserException("Url doesn't existe", e);
-    } catch (UnknownHostException e) {
-      throw new XmlParserException("UnknownHostException : " + this.xsltURL, e);
-    } catch (Exception e) {
-      throw new XmlParserException("Can not parse xunit reports", e);
+      
+      Source xsl = new StreamSource(inputStream);
+      TransformerFactory factory = TransformerFactory.newInstance();
+      Templates template = factory.newTemplates(xsl);
+      Transformer xformer = template.newTransformer();
+      xformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      
+      for (int i = 0; i < reports.size(); i++) {
+        Source source = new StreamSource(reports.get(i));
+        File fileOutPut = new File(reports.get(i).getAbsolutePath() + ".after_xslt");
+        Result result = new StreamResult(fileOutPut);
+        xformer.transform(source, result);
+        reports.set(i, fileOutPut);
+      }
+    } else {
+      logger.debug("No xslt.");
     }
   }
-
-  private void parseReport(Project project, File[] reports, SensorContext context) {
+  
+  private void parseReport(Project project, List<File> reports, SensorContext context)
+    throws javax.xml.stream.XMLStreamException
+  {
     Set<TestSuiteReport> analyzedReports = new HashSet<TestSuiteReport>();
     for (File report : reports) {
-      try {
-        logger.info("parsing xunit report '{}'", report);
-        TestSuiteParser parserHandler = new TestSuiteParser();
-        StaxParser parser = new StaxParser(parserHandler, false);
-        parser.parse(report);
-
-        for (TestSuiteReport fileReport : parserHandler.getParsedReports()) {
-          if ( !fileReport.isValid() || analyzedReports.contains(fileReport)) {
-            continue;
+      logger.info("parsing xunit report '{}'", report);
+      TestSuiteParser parserHandler = new TestSuiteParser();
+      StaxParser parser = new StaxParser(parserHandler, false);
+      parser.parse(report);
+      
+      for (TestSuiteReport fileReport : parserHandler.getParsedReports()) {
+        if (fileReport.isValid() && !analyzedReports.contains(fileReport)
+            && fileReport.getTests() > 0) {
+          double testsCount = fileReport.getTests() - fileReport.getSkipped();
+          saveClassMeasure(project, context, fileReport, CoreMetrics.SKIPPED_TESTS, fileReport.getSkipped());
+          saveClassMeasure(project, context, fileReport, CoreMetrics.TESTS, testsCount);
+          saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_ERRORS, fileReport.getErrors());
+          saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_FAILURES, fileReport.getFailures());
+          saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_EXECUTION_TIME, fileReport.getTimeMS());
+          double passedTests = testsCount - fileReport.getErrors() - fileReport.getFailures();
+          if (testsCount > 0) {
+            double percentage = passedTests * 100d / testsCount;
+            saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(percentage));
           }
-          if (fileReport.getTests() > 0) {
-            double testsCount = fileReport.getTests() - fileReport.getSkipped();
-            saveClassMeasure(project, context, fileReport, CoreMetrics.SKIPPED_TESTS, fileReport.getSkipped());
-            saveClassMeasure(project, context, fileReport, CoreMetrics.TESTS, testsCount);
-            saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_ERRORS, fileReport.getErrors());
-            saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_FAILURES, fileReport.getFailures());
-            saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_EXECUTION_TIME, fileReport.getTimeMS());
-            double passedTests = testsCount - fileReport.getErrors() - fileReport.getFailures();
-            if (testsCount > 0) {
-              double percentage = passedTests * 100d / testsCount;
-              saveClassMeasure(project, context, fileReport, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(percentage));
-            }
-            saveTestsDetails(project, context, fileReport);
-            analyzedReports.add(fileReport);
-          }
+          saveTestsDetails(project, context, fileReport);
+          analyzedReports.add(fileReport);
         }
-      } catch (Exception e) {
-        logger.warn("Can't parse, skipped.");
       }
     }
   }
 
-  private void saveTestsDetails(Project project, SensorContext context, TestSuiteReport fileReport) throws TransformerException {
-    StringBuilder testCaseDetails = new StringBuilder(256);
+  private void saveTestsDetails(Project project, SensorContext context, TestSuiteReport fileReport) {
+    StringBuilder testCaseDetails = new StringBuilder();
     testCaseDetails.append("<tests-details>");
     List<TestCaseDetails> details = fileReport.getDetails();
     for (TestCaseDetails detail : details) {
       testCaseDetails.append("<testcase status=\"").append(detail.getStatus()).append("\" time=\"").append(detail.getTimeMS())
-          .append("\" name=\"").append(detail.getName()).append("\"");
+        .append("\" name=\"").append(detail.getName()).append("\"");
       boolean isError = detail.getStatus().equals(TestCaseDetails.STATUS_ERROR);
       if (isError || detail.getStatus().equals(TestCaseDetails.STATUS_FAILURE)) {
         testCaseDetails.append(">").append(isError ? "<error message=\"" : "<failure message=\"")
-            .append(StringEscapeUtils.escapeXml(detail.getErrorMessage())).append("\">").append("<![CDATA[")
-            .append(StringEscapeUtils.escapeXml(detail.getStackTrace())).append("]]>").append(isError ? "</error>" : "</failure>")
-            .append("</testcase>");
+          .append(StringEscapeUtils.escapeXml(detail.getErrorMessage())).append("\">").append("<![CDATA[")
+          .append(StringEscapeUtils.escapeXml(detail.getStackTrace())).append("]]>").append(isError ? "</error>" : "</failure>")
+          .append("</testcase>");
       } else {
         testCaseDetails.append("/>");
       }
