@@ -592,5 +592,17 @@
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.scm.enabled>true</sonar.scm.enabled>
     <sonar.scm.url>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx/src/sample/SampleProject</sonar.scm.url>
+
+    <!-- other properties supported by the cxx-plugin: -->
+    <!-- <sonar.cxx.suffixes></sonar.cxx.suffixes> -->
+    <!-- <sonar.cxx.cppcheck.reportPath></sonar.cxx.cppcheck.reportPath> -->
+    <!-- <sonar.cxx.cppncss.reportPath></sonar.cxx.cppncss.reportPath> -->
+    <!-- <sonar.cxx.gcovr.reportPath></sonar.cxx.gcovr.reportPath> -->
+    <!-- <sonar.cxx.rats.reportPath></sonar.cxx.rats.reportPath> -->
+    <!-- <sonar.cxx.valgrind.reportPath></sonar.cxx.valgrind.reportPath> -->
+    <!-- <sonar.cxx.vera.reportPath></sonar.cxx.vera.reportPath> -->
+    <!-- <sonar.cxx.xunit.reportPath></sonar.cxx.xunit.reportPath> -->
+    <!-- <sonar.cxx.xunit.xsltURL></sonar.cxx.xunit.xsltURL> -->
+    
   </properties>
 </project>
