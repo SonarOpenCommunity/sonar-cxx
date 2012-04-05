@@ -59,6 +59,6 @@ public class CxxGcovrSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(24)).saveMeasure((Resource) anyObject(), any(Measure.class));
+    verify(context, times(15)).saveMeasure((Resource) anyObject(), any(Measure.class));
   }
 }

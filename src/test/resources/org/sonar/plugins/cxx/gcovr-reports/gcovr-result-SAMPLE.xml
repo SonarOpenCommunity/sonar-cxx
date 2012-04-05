@@ -1,49 +1,11 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage
-          SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
-<coverage branch-rate="0.5" line-rate="0.76" timestamp="1332941296" version="gcovr 2.4-prerelease">
-  <sources>
-    <source>
-      .
-    </source>
-  </sources>
+SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
+<coverage>
   <packages>
-    <package branch-rate="0.5" complexity="0.0" line-rate="1.0" name=".home.wenns.src.sonar-plugins.cxx_gcovexp.src.sample.SampleProject.sources.tests">
+    <package branch-rate="0.5" complexity="0.0" line-rate="0.625" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.builds.Unix Makefiles.COVERAGE.tests">
       <classes>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx_gcovexp/src/sample/SampleProject/sources/tests/SAMPLE-test.cpp" line-rate="1.0" name="SAMPLE-test_cpp">
-          <lines>
-            <line branch="false" hits="1" number="8"/>
-            <line branch="true" condition-coverage="50% (1/2)" hits="1" number="10">
-              <conditions>
-                <condition coverage="50%" number="0" type="jump"/>
-              </conditions>
-            </line>
-            <line branch="false" hits="1" number="4"/>
-            <line branch="false" hits="1" number="6"/>
-          </lines>
-        </class>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx_gcovexp/src/sample/SampleProject/sources/tests/SAMPLE-test.h" line-rate="1.0" name="SAMPLE-test_h">
-          <lines>
-            <line branch="true" condition-coverage="50% (1/2)" hits="1" number="6">
-              <conditions>
-                <condition coverage="50%" number="0" type="jump"/>
-              </conditions>
-            </line>
-          </lines>
-        </class>
-        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx_gcovexp/src/sample/SampleProject/sources/tests/main.cpp" line-rate="1.0" name="main_cpp">
-          <lines>
-            <line branch="false" hits="1" number="8"/>
-            <line branch="false" hits="1" number="9"/>
-            <line branch="false" hits="1" number="4"/>
-            <line branch="false" hits="1" number="6"/>
-          </lines>
-        </class>
-      </classes>
-    </package>
-    <package branch-rate="0.5" complexity="0.0" line-rate="0.625" name=".home.wenns.src.sonar-plugins.cxx_gcovexp.src.sample.SampleProject.builds.Unix Makefiles.COVERAGE.tests">
-      <classes>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx_gcovexp/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx" line-rate="0.625" name="moc_SAMPLE-test_cxx">
+        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx" line-rate="0.625" name="moc_SAMPLE-test_cxx">
           <lines>
             <line branch="false" hits="1" number="65"/>
             <line branch="false" hits="1" number="67"/>
@@ -77,6 +39,48 @@
             <line branch="false" hits="0" number="60"/>
             <line branch="false" hits="0" number="61"/>
             <line branch="false" hits="0" number="62"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package branch-rate="0.0" complexity="0.0" line-rate="0.0" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.builds.Unix Makefiles.COVERAGE.tests.............sources.tests">
+      <classes>
+        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/tests/../../../../sources/tests/SAMPLE-test.h" line-rate="0.0" name="SAMPLE-test_h">
+          <lines>
+            <line branch="false" hits="0" number="6"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package branch-rate="0.5" complexity="0.0" line-rate="1.0" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.sources.tests">
+      <classes>
+        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/SAMPLE-test.cpp" line-rate="1.0" name="SAMPLE-test_cpp">
+          <lines>
+            <line branch="false" hits="1" number="8"/>
+            <line branch="true" condition-coverage="50% (1/2)" hits="1" number="10">
+              <conditions>
+                <condition coverage="50%" number="0" type="jump"/>
+              </conditions>
+            </line>
+            <line branch="false" hits="1" number="4"/>
+            <line branch="false" hits="1" number="6"/>
+          </lines>
+        </class>
+        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/SAMPLE-test.h" line-rate="1.0" name="SAMPLE-test_h">
+          <lines>
+            <line branch="true" condition-coverage="50% (1/2)" hits="1" number="6">
+              <conditions>
+                <condition coverage="50%" number="0" type="jump"/>
+              </conditions>
+            </line>
+          </lines>
+        </class>
+        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/main.cpp" line-rate="1.0" name="main_cpp">
+          <lines>
+            <line branch="false" hits="1" number="8"/>
+            <line branch="false" hits="1" number="9"/>
+            <line branch="false" hits="1" number="4"/>
+            <line branch="false" hits="1" number="6"/>
           </lines>
         </class>
       </classes>
