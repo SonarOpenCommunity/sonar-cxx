@@ -25,19 +25,31 @@ import net.sourceforge.pmd.cpd.Tokenizer;
 import org.sonar.api.batch.AbstractCpdMapping;
 import org.sonar.api.resources.Language;
 
+/**
+ * {@inheritDoc}
+ */
 public final class CxxCpdMapping extends AbstractCpdMapping {
 
   private final CPPLanguage language = new CPPLanguage();
   private CxxLanguage lang;
 
+  /**
+   *  {@inheritDoc}
+   */
   public CxxCpdMapping(CxxLanguage lang) {
     this.lang = lang;
   }
 
+  /**
+   *  {@inheritDoc}
+   */
   public Language getLanguage() {
     return lang;
   }
 
+  /**
+   *  {@inheritDoc}
+   */
   public Tokenizer getTokenizer() {
     return language.getTokenizer();
   }

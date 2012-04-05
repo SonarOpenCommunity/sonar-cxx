@@ -21,9 +21,15 @@ package org.sonar.plugins.cxx.veraxx;
 
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
+/**
+ * {@inheritDoc}
+ */
 public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "vera++";
-
+  
+  /**
+   * {@inheritDoc}
+   */
   public CxxVeraxxRuleRepository() {
     super(KEY);
     setName(KEY);

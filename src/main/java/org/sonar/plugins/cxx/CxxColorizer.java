@@ -29,6 +29,9 @@ import org.sonar.colorizer.KeywordsTokenizer;
 import org.sonar.colorizer.StringTokenizer;
 import org.sonar.colorizer.Tokenizer;
 
+/**
+ * {@inheritDoc}
+ */
 public final class CxxColorizer extends CodeColorizerFormat {
   private static final String[] KEYWORDS = {
     "auto", "char", "class", "double", "float", "inline", "int", "long", "private", "protected",
@@ -37,6 +40,9 @@ public final class CxxColorizer extends CodeColorizerFormat {
   };
   private List<Tokenizer> tokenizers;
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxColorizer() {
     super(CxxLanguage.KEY);
   }

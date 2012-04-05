@@ -47,6 +47,9 @@ public class CxxCppCheckSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   
+  /**
+   * {@inheritDoc}
+   */
   public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf) {
     super(ruleFinder, conf);
   }
@@ -63,6 +66,9 @@ public class CxxCppCheckSensor extends CxxSensor {
     throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+      /**
+       * {@inheritDoc}
+       */
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance(); //results
 

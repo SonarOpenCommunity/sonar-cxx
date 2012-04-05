@@ -36,6 +36,9 @@ import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 
+/**
+ * {@inheritDoc}
+ */
 public abstract class CxxSensor implements Sensor {
   private static Logger logger = LoggerFactory.getLogger(CxxSensor.class);
   private RuleFinder ruleFinder;
@@ -44,19 +47,31 @@ public abstract class CxxSensor implements Sensor {
   public CxxSensor() {
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxSensor(Configuration conf) {
     this.conf = conf;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public boolean shouldExecuteOnProject(Project project) {
     return CxxLanguage.KEY.equals(project.getLanguageKey());
   }
-  
+
+  /**
+   * {@inheritDoc}
+   */
   public void analyse(Project project, SensorContext context) {
     try {
       List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
@@ -75,10 +90,10 @@ public abstract class CxxSensor implements Sensor {
     }
   }
   
-  public List<File> getReports(Configuration conf,
-                               String baseDir,
-                               String reportPathPropertyKey,
-                               String defaultReportPath) {
+  protected List<File> getReports(Configuration conf,
+                                  String baseDir,
+                                  String reportPathPropertyKey,
+                                  String defaultReportPath) {
     String reportPath = conf.getString(reportPathPropertyKey, null);
     if(reportPath == null){
       reportPath = defaultReportPath;

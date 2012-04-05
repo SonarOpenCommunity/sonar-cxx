@@ -21,7 +21,14 @@ package org.sonar.plugins.cxx;
 
 import org.sonar.api.batch.AbstractSourceImporter;
 
+/**
+ * {@inheritDoc}
+ */
 public final class CxxSourceImporter extends AbstractSourceImporter {
+  
+  /**
+   * {@inheritDoc}
+   */
   public CxxSourceImporter(CxxLanguage lang) {
     super(lang);
   }

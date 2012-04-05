@@ -28,8 +28,14 @@ import org.sonar.squid.recognizer.EndWithDetector;
 import org.sonar.squid.recognizer.KeywordsDetector;
 import org.sonar.squid.recognizer.LanguageFootprint;
 
+/**
+ * {@inheritDoc}
+ */
 public final class CxxLanguageFootprint implements LanguageFootprint {
 
+  /**
+   * {@inheritDoc}
+   */
   public Set<Detector> getDetectors() {
     final Set<Detector> detectors = new HashSet<Detector>();
 

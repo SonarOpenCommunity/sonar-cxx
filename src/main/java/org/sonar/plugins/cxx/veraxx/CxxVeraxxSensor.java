@@ -30,11 +30,16 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.CxxSensor;
 
-
+/**
+ * {@inheritDoc}
+ */
 public class CxxVeraxxSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
   private static final String DEFAULT_REPORT_PATH = "vera++-reports/vera++-result-*.xml";
-
+  
+  /**
+   * {@inheritDoc}
+   */
   public CxxVeraxxSensor(RuleFinder ruleFinder, Configuration conf) {
     super(ruleFinder, conf);
   }
@@ -51,6 +56,9 @@ public class CxxVeraxxSensor extends CxxSensor {
     throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+      /**
+       * {@inheritDoc}
+       */
       public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
         rootCursor.advance();
 

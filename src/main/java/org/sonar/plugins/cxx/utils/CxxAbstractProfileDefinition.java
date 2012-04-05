@@ -24,11 +24,17 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.utils.ValidationMessages;
 
+/**
+ * {@inheritDoc}
+ */
 public abstract class CxxAbstractProfileDefinition extends ProfileDefinition {
   private XMLProfileParser xmlProfileParser;
 
   protected abstract String profileFileName();
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxAbstractProfileDefinition(XMLProfileParser xmlProfileParser) {
     this.xmlProfileParser = xmlProfileParser;
   }

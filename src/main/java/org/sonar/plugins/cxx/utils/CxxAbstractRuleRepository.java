@@ -27,10 +27,16 @@ import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 
+/**
+ * {@inheritDoc}
+ */
 public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
   protected abstract String fileName();
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxAbstractRuleRepository(String key) {
     super(key, CxxLanguage.KEY);
   }

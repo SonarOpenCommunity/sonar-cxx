@@ -134,6 +134,9 @@ public final class CxxPlugin implements Plugin {
     return "Add support for C++ language.";
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public List<Class<? extends Extension>> getExtensions() {
     List<Class<? extends Extension>> l = new ArrayList<Class<? extends Extension>>();
     l.add(CxxLanguage.class);

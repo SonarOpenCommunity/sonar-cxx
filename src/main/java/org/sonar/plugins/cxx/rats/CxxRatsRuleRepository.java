@@ -21,9 +21,15 @@ package org.sonar.plugins.cxx.rats;
 
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
+/**
+ * {@inheritDoc}
+ */
 public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "rats";
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxRatsRuleRepository() {
     super(KEY);
     setName(KEY);

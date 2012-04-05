@@ -21,9 +21,15 @@ package org.sonar.plugins.cxx.valgrind;
 
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
+/**
+ * {@inheritDoc}
+ */
 public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "valgrind";
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxValgrindRuleRepository() {
     super(KEY);
     setName(KEY);

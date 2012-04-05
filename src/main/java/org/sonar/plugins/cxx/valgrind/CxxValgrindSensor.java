@@ -35,10 +35,16 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.CxxSensor;
 
+/**
+ * {@inheritDoc}
+ */
 public class CxxValgrindSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
   private static final String DEFAULT_REPORT_PATH = "valgrind-reports/valgrind-result-*.xml";
   
+  /**
+   * {@inheritDoc}
+   */
   public CxxValgrindSensor(RuleFinder ruleFinder, Configuration conf) {
     super(ruleFinder, conf);
   }
@@ -55,6 +61,9 @@ public class CxxValgrindSensor extends CxxSensor {
     throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+      /**
+       * {@inheritDoc}
+       */
       public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
         Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
         
@@ -81,20 +90,27 @@ public class CxxValgrindSensor extends CxxSensor {
     throws javax.xml.stream.XMLStreamException
   {
     SMInputCursor child = error.childElementCursor();
-    ValgrindError valError = new ValgrindError();
     
+    String kind = null;
+    String text = null;
+    ValgrindStack stack = null;
     while (child.getNext() != null) {
       String tagName = child.getLocalName();
       if ("kind".equalsIgnoreCase(tagName)) {
-        valError.kind = child.getElemStringValue();
+        kind = child.getElemStringValue();
       } else if (tagName.matches(".*what.*")) {
-        valError.text = child.childElementCursor("text").advance().getElemStringValue();
+        text = child.childElementCursor("text").advance().getElemStringValue();
       } else if ("stack".equalsIgnoreCase(tagName)) {
-        valError.stack = parseStackTag(child);
+        stack = parseStackTag(child);
       }
     }
-
-    return valError;
+    
+    if (text == null || kind == null || stack == null) {
+      String msg = "Valgrind error is incomplete: we require all of 'kind', '*what.text' and 'stack'";
+      child.throwStreamException(msg);
+    }
+    
+    return new ValgrindError(kind, text, stack);
   }
 
   private ValgrindStack parseStackTag(SMInputCursor child)
@@ -105,35 +121,58 @@ public class CxxValgrindSensor extends CxxSensor {
     while (frameCursor.getNext() != null) {
       
       SMInputCursor frameChild = frameCursor.childElementCursor();
-      ValgrindFrame frame = new ValgrindFrame();
+      
+      String ip = "?";
+      String obj = "";
+      String fn = "?";
+      String dir = "";
+      String file = "";
+      int line = -1;
+      
       while (frameChild.getNext() != null) {
         String tagName = frameChild.getLocalName();
         
         if ("ip".equalsIgnoreCase(tagName)) {
-          frame.ip = frameChild.getElemStringValue();
+          ip = frameChild.getElemStringValue();
         } else if ("obj".equalsIgnoreCase(tagName)) {
-          frame.obj = frameChild.getElemStringValue();
+          obj = frameChild.getElemStringValue();
         } else if ("fn".equalsIgnoreCase(tagName)) {
-          frame.fn = frameChild.getElemStringValue();
+          fn = frameChild.getElemStringValue();
         } else if ("dir".equalsIgnoreCase(tagName)) {
-          frame.dir = frameChild.getElemStringValue();
+          dir = frameChild.getElemStringValue();
         } else if ("file".equalsIgnoreCase(tagName)) {
-          frame.file = frameChild.getElemStringValue();
+          file = frameChild.getElemStringValue();
         } else if ("line".equalsIgnoreCase(tagName)) {
-          frame.line = Integer.parseInt(frameChild.getElemStringValue());
+          line = Integer.parseInt(frameChild.getElemStringValue());
         }
       }
-      stack.frames.add(frame);
+      stack.addFrame((new ValgrindFrame(ip, obj, fn, dir, file, line)));
     }
     
     return stack;
   }
 
+  /**
+   * Represents an error found by valgrind. It always has an id,
+   * a descriptive text and a stack trace.
+   */
   static class ValgrindError {
-    String text = "";
-    ValgrindStack stack;
-    String kind = "";
+    private String kind;
+    private String text;
+    private ValgrindStack stack;
     
+    /**
+     * Constructs a ValgrindError out of the given attributes
+     * @param kind The kind of error, plays the role of an id
+     * @param text Description of the error
+     * @param stack The associated call stack
+     */
+    public ValgrindError(String kind, String text, ValgrindStack stack) {
+      this.kind = kind;
+      this.text = text;
+      this.stack = stack;
+    }
+
     @Override
     public String toString() { return text + "\n\n" + stack; }
     
@@ -149,6 +188,7 @@ public class CxxValgrindSensor extends CxxSensor {
       return hashCode() == other.hashCode();
     }
 
+    @Override
     public int hashCode() {
       return new HashCodeBuilder()
         .append(kind)
@@ -170,9 +210,16 @@ public class CxxValgrindSensor extends CxxSensor {
     }
   }
   
+  /** Represents a call stack, consists basically of a list of frames */
   static class ValgrindStack {
-    List<ValgrindFrame> frames = new ArrayList<ValgrindFrame>();
-
+    private List<ValgrindFrame> frames = new ArrayList<ValgrindFrame>();
+    
+    /**
+     * Adds a stack frame to this call stack
+     * @param frame The frame to add
+     */
+    public void addFrame(ValgrindFrame frame) { frames.add(frame); }
+    
     @Override
     public String toString() {
       StringBuilder res = new StringBuilder();
@@ -183,6 +230,7 @@ public class CxxValgrindSensor extends CxxSensor {
       return res.toString();
     }
 
+    @Override
     public int hashCode() {
       HashCodeBuilder builder = new HashCodeBuilder();
       for(ValgrindFrame frame: frames) {
@@ -204,14 +252,31 @@ public class CxxValgrindSensor extends CxxSensor {
     }
   }
   
-  static class ValgrindFrame extends Object{
-    String ip = "?";
-    String obj = "";
-    String fn = "?";
-    String dir = "";
-    String file = "";
-    int line = -1;
+  /**
+   * Represents a stack frame. Overwrites equality. Has a string serialization that
+   * resembles the valgrind output in textual mode.
+   */
+  static class ValgrindFrame{
+    private String ip;
+    private String obj;
+    private String fn;
+    private String dir;
+    private String file;
+    private int line;
 
+    /**
+     * Constucts a stack frame with given attributes. Its perfectly valid if some of them
+     * are empty or dont carry meaningfull information.
+     */
+    public ValgrindFrame(String ip, String obj, String fn, String dir, String file, int line){
+      this.ip = ip;
+      this.obj = obj;
+      this.fn = fn;
+      this.dir = dir;
+      this.file = file;
+      this.line = line;
+    }
+    
     @Override
     public String toString() {
       StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
@@ -236,6 +301,7 @@ public class CxxValgrindSensor extends CxxSensor {
       return hashCode() == other.hashCode();
     }
 
+    @Override
     public int hashCode() {
       return new HashCodeBuilder()
         .append(obj)

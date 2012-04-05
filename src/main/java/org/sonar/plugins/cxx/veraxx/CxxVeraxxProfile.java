@@ -22,8 +22,14 @@ package org.sonar.plugins.cxx.veraxx;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractProfileDefinition;
 
+/**
+ * {@inheritDoc}
+ */
 public final class CxxVeraxxProfile extends CxxAbstractProfileDefinition {
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxVeraxxProfile(XMLProfileParser xmlProfileParser) {
     super(xmlProfileParser);
   }

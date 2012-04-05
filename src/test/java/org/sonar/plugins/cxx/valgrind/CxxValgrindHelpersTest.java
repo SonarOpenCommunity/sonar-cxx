@@ -30,17 +30,9 @@ public class CxxValgrindHelpersTest {
   
   @Before
   public void setUp() {
-    frame = new CxxValgrindSensor.ValgrindFrame();
-    frame.fn = frame.file = "lala";
-    frame.line = 111;
-    
-    equalFrame = new CxxValgrindSensor.ValgrindFrame();
-    equalFrame.fn = equalFrame.file = "lala";
-    equalFrame.line = 111;
-    
-    otherFrame = new CxxValgrindSensor.ValgrindFrame();
-    otherFrame.fn = otherFrame.file = "haha";
-    otherFrame.line = 222;
+    frame = new CxxValgrindSensor.ValgrindFrame("", "", "lala", "", "lala", 111);
+    equalFrame = new CxxValgrindSensor.ValgrindFrame("", "", "lala", "", "lala", 111);
+    otherFrame = new CxxValgrindSensor.ValgrindFrame("", "", "haha", "", "haha", 111);
   }
   
   @Test
@@ -60,19 +52,19 @@ public class CxxValgrindHelpersTest {
   @Test
   public void stackEqualityWorksAsExpected() {
     CxxValgrindSensor.ValgrindStack stack = new CxxValgrindSensor.ValgrindStack();
-    stack.frames.add(frame);
-    stack.frames.add(otherFrame);
+    stack.addFrame(frame);
+    stack.addFrame(otherFrame);
 
     CxxValgrindSensor.ValgrindStack equalStack = new CxxValgrindSensor.ValgrindStack();
-    equalStack.frames.add(equalFrame);
-    equalStack.frames.add(otherFrame);
+    equalStack.addFrame(equalFrame);
+    equalStack.addFrame(otherFrame);
     
     CxxValgrindSensor.ValgrindStack otherStack = new CxxValgrindSensor.ValgrindStack();
-    otherStack.frames.add(otherFrame);
+    otherStack.addFrame(otherFrame);
     
     CxxValgrindSensor.ValgrindStack otherStack2 = new CxxValgrindSensor.ValgrindStack();
-    otherStack2.frames.add(otherFrame);
-    otherStack2.frames.add(frame);
+    otherStack2.addFrame(otherFrame);
+    otherStack2.addFrame(frame);
     
     //reflexivity
     assert(stack.equals(stack));

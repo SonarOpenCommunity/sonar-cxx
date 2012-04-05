@@ -35,6 +35,9 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.CxxSensor;
 
+/**
+ * {@inheritDoc}
+ */
 public class CxxCppNcssSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppncss.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppncss-reports/cppncss-result-*.xml";
@@ -42,6 +45,9 @@ public class CxxCppNcssSensor extends CxxSensor {
   private static final Number[] FILE_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
   private static final Number[] CLASS_DISTRIB_BOTTOM_LIMITS = { 0, 5, 10, 20, 30, 60, 90 };
 
+  /**
+   * {@inheritDoc}
+   */
   public CxxCppNcssSensor(Configuration conf) {
     super(conf);
   }
@@ -58,6 +64,9 @@ public class CxxCppNcssSensor extends CxxSensor {
     throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+      /**
+       * {@inheritDoc}
+       */
       public void stream(SMHierarchicCursor rootCursor)  throws javax.xml.stream.XMLStreamException {
         Map<String, FileData> files = new HashMap<String, FileData>();
         rootCursor.advance(); //cppncss
@@ -179,7 +188,7 @@ public class CxxCppNcssSensor extends CxxSensor {
     }
   }
   
-  private class FileData {
+  private static class FileData {
     private String name;
     private int noMethods = 0;
     private Map<String, ClassData> classes = new HashMap<String, ClassData>();
@@ -195,8 +204,15 @@ public class CxxCppNcssSensor extends CxxSensor {
     
     public int getComplexity() { return complexity; }
     
+    /** @return data for classes contained in this file */
     public Collection<ClassData> getClasses() { return classes.values(); }
 
+    /**
+     * Adds complexity data for a method with given name in a given class
+     * @param className Name of method's class
+     * @param methodName The name of the method to add data for
+     * @param complexity The complexity number to store
+     */
     public void addMethod(String className, String methodName, int complexity) {
       noMethods++;
       this.complexity += complexity;
@@ -210,10 +226,15 @@ public class CxxCppNcssSensor extends CxxSensor {
     }
   }
   
-  private class ClassData {
+  private static class ClassData {
     private Map<String, Integer> methodComplexities = new HashMap<String, Integer>();
     private int complexity = 0;
     
+    /**
+     * Adds complexity data for a method with given name
+     * @param name The name of the method to add data for
+     * @param complexity The complexity number to store
+     */
     public void addMethod(String name, int complexity) {
       this.complexity += complexity;
       methodComplexities.put(name, complexity);
@@ -223,6 +244,7 @@ public class CxxCppNcssSensor extends CxxSensor {
       return complexity;
     }
     
+    /** @return complexity numbers for methods inside of this class */
     public Collection<Integer> getMethodComplexities() {
       return methodComplexities.values();
     }
