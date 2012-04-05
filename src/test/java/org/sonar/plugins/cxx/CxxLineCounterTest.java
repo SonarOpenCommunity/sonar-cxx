@@ -33,6 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 
@@ -42,7 +43,7 @@ public class CxxLineCounterTest {
 
   @Before
   public void setUp() {
-    sensor = new CxxLineCounter(TestUtils.mockCxxLanguage());
+    sensor = new CxxLineCounter();
     context = mock(SensorContext.class);
   }
 
@@ -61,19 +62,21 @@ public class CxxLineCounterTest {
   private Project mockProject() {
     Project project = TestUtils.mockProject();
 
-    File sourceFile;
     File sourceDir;
+    InputFile inputFile = null;
     try{
-      sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
       sourceDir = new File(getClass().getResource("/").toURI());
+      inputFile = mock(InputFile.class);
+      when(inputFile.getFile())
+        .thenReturn(new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI()));
     } catch(java.net.URISyntaxException e) {
-      System.out.println("Got an exception while mockint project: " + e);
+      System.out.println("Got an exception while mocking project: " + e);
       return null;
     }
-
-    List<File> sourceFiles = project.getFileSystem().getSourceFiles(TestUtils.mockCxxLanguage());
-    sourceFiles.clear();
-    sourceFiles.add(sourceFile);
+    
+    List<InputFile> mainFiles = project.getFileSystem().mainFiles(CxxLanguage.KEY);
+    mainFiles.clear();
+    mainFiles.add(inputFile);
     List<File> sourceDirs = project.getFileSystem().getSourceDirs();
     sourceDirs.clear();
     sourceDirs.add(sourceDir);

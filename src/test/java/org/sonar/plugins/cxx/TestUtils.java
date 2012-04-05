@@ -34,6 +34,7 @@ import org.apache.commons.configuration.Configuration;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Rule;
+import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 
@@ -65,7 +66,9 @@ public class TestUtils{
     sourceFiles.add(new File(baseDir, "sources/tests/main.cpp"));
     sourceFiles.add(new File(baseDir, "sources/utils/code_chunks.cpp"));
     sourceFiles.add(new File(baseDir, "sources/utils/utils.cpp"));
-
+    
+    List<InputFile> mainFiles = fromSourceFiles(sourceFiles);
+    
     List<File> sourceDirs = new ArrayList<File>();
     sourceDirs.add(new File(baseDir, "sources"));
 
@@ -73,6 +76,7 @@ public class TestUtils{
     when(fileSystem.getBasedir()).thenReturn(baseDir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
     when(fileSystem.getSourceFiles(mockCxxLanguage())).thenReturn(sourceFiles);
+    when(fileSystem.mainFiles(CxxLanguage.KEY)).thenReturn(mainFiles);
     when(fileSystem.getSourceDirs()).thenReturn(sourceDirs);
 
     Project project = mock(Project.class);
@@ -82,7 +86,17 @@ public class TestUtils{
 
     return project;
   }
-
+  
+  private static List<InputFile> fromSourceFiles(List<File> sourceFiles){
+    List<InputFile> result = new ArrayList<InputFile>();
+    for(File file: sourceFiles) {
+      InputFile inputFile = mock(InputFile.class);
+      when(inputFile.getFile()).thenReturn(new File(file, ""));
+      result.add(inputFile);
+    }
+    return result;
+  }
+  
   public static CxxLanguage mockCxxLanguage(){
     return new CxxLanguage(mock(Configuration.class));
   }
