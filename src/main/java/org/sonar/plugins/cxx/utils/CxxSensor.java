@@ -127,10 +127,13 @@ public abstract class CxxSensor implements Sensor {
     if (rule != null) {
       org.sonar.api.resources.File resource =
         org.sonar.api.resources.File.fromIOFile(new File(file), project);
-      Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
-      context.saveViolation(violation);
-    }
-    else{
+      if (context.getResource(resource) != null) {
+        Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
+        context.saveViolation(violation);
+      } else {
+        logger.debug("Cannot find the file '{}', skipping violation '{}'", file, msg);
+      }
+    } else {
       logger.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
   }
