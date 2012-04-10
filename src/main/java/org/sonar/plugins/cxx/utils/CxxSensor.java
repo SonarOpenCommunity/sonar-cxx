@@ -17,7 +17,7 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +35,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}

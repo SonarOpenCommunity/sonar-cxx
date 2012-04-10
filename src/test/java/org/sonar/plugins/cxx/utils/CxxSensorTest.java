@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.utils;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -33,6 +33,8 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.batch.SensorContext;
 import org.junit.Test;
 import org.junit.Before;
+import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxSensorTest {
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";

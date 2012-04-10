@@ -45,7 +45,7 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxSensor;
 
 /**
  * {@inheritDoc}

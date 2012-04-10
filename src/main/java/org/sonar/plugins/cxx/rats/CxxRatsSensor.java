@@ -28,7 +28,7 @@ import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.plugins.cxx.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxSensor;
 
 /**
  * {@inheritDoc}

@@ -33,7 +33,7 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxSensor;
 
 /**
  * {@inheritDoc}

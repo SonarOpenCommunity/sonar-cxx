@@ -17,7 +17,7 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.squid;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,12 +35,14 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.squid.measures.Metric;
 import org.sonar.squid.recognizer.CodeRecognizer;
 import org.sonar.squid.text.Source;
+import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}
  */
-public final class CxxLineCounter extends CxxSensor {
-  private static final Logger LOGGER = LoggerFactory.getLogger(CxxLineCounter.class);
+public final class CxxSquidSensor extends CxxSensor {
+  private static final Logger LOGGER = LoggerFactory.getLogger(CxxSquidSensor.class);
 
   /**
    * {@inheritDoc}

@@ -17,7 +17,7 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.squid;
 
 import java.util.HashSet;
 import java.util.Set;

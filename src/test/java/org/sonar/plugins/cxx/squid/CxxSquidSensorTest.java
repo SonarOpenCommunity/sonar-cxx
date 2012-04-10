@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.squid;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
@@ -36,14 +36,16 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.TestUtils;
 
-public class CxxLineCounterTest {
-  private CxxLineCounter sensor;
+public class CxxSquidSensorTest {
+  private CxxSquidSensor sensor;
   private SensorContext context;
 
   @Before
   public void setUp() {
-    sensor = new CxxLineCounter();
+    sensor = new CxxSquidSensor();
     context = mock(SensorContext.class);
   }
 
