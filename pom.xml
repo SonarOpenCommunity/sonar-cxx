@@ -58,7 +58,7 @@
     <sonar.version>2.7</sonar.version>
     <sonar.pluginKey>cxx</sonar.pluginKey>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
-    <sonar.artifact.path>target/${artifactId}-${version}.jar</sonar.artifact.path>
+    <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
   </properties>
 
   <dependencies>
