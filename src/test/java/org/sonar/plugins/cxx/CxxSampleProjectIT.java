@@ -19,20 +19,18 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-import java.util.List;
-import java.util.LinkedList;
-
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.sonar.wsclient.Sonar;
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
 import org.sonar.wsclient.services.ResourceQuery;
 
+@Ignore
 public class CxxSampleProjectIT {
 
   private static Sonar sonar;

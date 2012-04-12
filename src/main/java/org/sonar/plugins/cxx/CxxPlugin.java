@@ -30,7 +30,7 @@ import org.sonar.plugins.cxx.cppcheck.CxxCppCheckProfile;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 import org.sonar.plugins.cxx.cppncss.CxxCppNcssSensor;
-import org.sonar.plugins.cxx.gcovr.CxxGcovrSensor;
+import org.sonar.plugins.cxx.coverage.CxxGcovrSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsProfile;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;

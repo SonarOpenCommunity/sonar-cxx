@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 
-package org.sonar.plugins.cxx.gcovr;
+package org.sonar.plugins.cxx.coverage;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;

@@ -20,39 +20,50 @@
 
 package org.sonar.plugins.cxx;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.RuleQuery;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.RuleQuery;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class TestUtils{
   public static RuleFinder mockRuleFinder(){
     Rule ruleMock = Rule.create("", "", "");
     RuleFinder ruleFinder = mock(RuleFinder.class);
     when(ruleFinder.findByKey((String) anyObject(),
-                              (String) anyObject())).thenReturn(ruleMock);
+        (String) anyObject())).thenReturn(ruleMock);
     when(ruleFinder.find((RuleQuery) anyObject())).thenReturn(ruleMock);
     return ruleFinder;
+  }
+
+  public static File loadResource(String resourceName) throws URISyntaxException {
+      URL resource = TestUtils.class.getResource(resourceName);
+      if(resource == null) {
+        throw new URISyntaxException(resourceName, "Resource file not found");
+      }
+      return new File(resource.toURI());
   }
 
   public static Project mockProject() {
     File baseDir;
 
     try{
-      baseDir = new File(TestUtils.class.getResource("/org/sonar/plugins/cxx/").toURI());
+      baseDir = loadResource("/org/sonar/plugins/cxx/");
     }
     catch(java.net.URISyntaxException e){
       System.out.println("Got exception mocking project: " + e);
@@ -66,9 +77,9 @@ public class TestUtils{
     sourceFiles.add(new File(baseDir, "sources/tests/main.cpp"));
     sourceFiles.add(new File(baseDir, "sources/utils/code_chunks.cpp"));
     sourceFiles.add(new File(baseDir, "sources/utils/utils.cpp"));
-    
+
     List<InputFile> mainFiles = fromSourceFiles(sourceFiles);
-    
+
     List<File> sourceDirs = new ArrayList<File>();
     sourceDirs.add(new File(baseDir, "sources"));
 
@@ -86,7 +97,7 @@ public class TestUtils{
 
     return project;
   }
-  
+
   private static List<InputFile> fromSourceFiles(List<File> sourceFiles){
     List<InputFile> result = new ArrayList<InputFile>();
     for(File file: sourceFiles) {
@@ -96,7 +107,7 @@ public class TestUtils{
     }
     return result;
   }
-  
+
   public static CxxLanguage mockCxxLanguage(){
     return new CxxLanguage(mock(Configuration.class));
   }
