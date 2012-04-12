@@ -26,6 +26,7 @@ import org.apache.commons.configuration.Configuration;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxSensor;
@@ -36,14 +37,24 @@ import org.sonar.plugins.cxx.utils.CxxSensor;
 public final class CxxRatsSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
   private static final String DEFAULT_REPORT_PATH = "rats-reports/rats-result-*.xml";
+  private RulesProfile profile;
 
   /**
    * {@inheritDoc}
    */
-  public CxxRatsSensor(RuleFinder ruleFinder, Configuration conf) {
+  public CxxRatsSensor(RuleFinder ruleFinder, Configuration conf, RulesProfile profile) {
     super(ruleFinder, conf);
+    this.profile = profile;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  public boolean shouldExecuteOnProject(Project project) {
+    return super.shouldExecuteOnProject(project)
+      && !profile.getActiveRulesByRepository(CxxRatsRuleRepository.KEY).isEmpty();
+  }
+  
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }

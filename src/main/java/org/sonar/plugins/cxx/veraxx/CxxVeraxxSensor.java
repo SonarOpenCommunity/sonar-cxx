@@ -26,6 +26,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxSensor;
@@ -36,12 +37,22 @@ import org.sonar.plugins.cxx.utils.CxxSensor;
 public class CxxVeraxxSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
   private static final String DEFAULT_REPORT_PATH = "vera++-reports/vera++-result-*.xml";
+  private RulesProfile profile;
   
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxSensor(RuleFinder ruleFinder, Configuration conf) {
+  public CxxVeraxxSensor(RuleFinder ruleFinder, Configuration conf, RulesProfile profile) {
     super(ruleFinder, conf);
+    this.profile = profile;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean shouldExecuteOnProject(Project project) {
+    return super.shouldExecuteOnProject(project)
+      && !profile.getActiveRulesByRepository(CxxVeraxxRuleRepository.KEY).isEmpty();
   }
   
   protected String reportPathKey() {

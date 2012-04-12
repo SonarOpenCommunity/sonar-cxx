@@ -31,6 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.apache.commons.configuration.Configuration;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
@@ -47,7 +48,8 @@ public class CxxCppCheckSensorTest {
     Configuration config = mock(Configuration.class);
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxCppCheckSensor(ruleFinder, config);
+    RulesProfile profile = mock(RulesProfile.class);
+    sensor = new CxxCppCheckSensor(ruleFinder, config, profile);
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

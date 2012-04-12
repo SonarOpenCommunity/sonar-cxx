@@ -31,6 +31,7 @@ import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
@@ -46,7 +47,7 @@ public class CxxRatsSensorTest {
   public void setUp() {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxRatsSensor(ruleFinder, mock(Configuration.class));
+    sensor = new CxxRatsSensor(ruleFinder, mock(Configuration.class), mock(RulesProfile.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

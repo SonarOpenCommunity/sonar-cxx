@@ -28,6 +28,7 @@ import org.apache.commons.configuration.Configuration;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
@@ -46,12 +47,23 @@ import org.sonar.plugins.cxx.utils.CxxSensor;
 public class CxxCppCheckSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
+  private RulesProfile profile;
   
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf) {
+  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf,
+                           RulesProfile profile) {
     super(ruleFinder, conf);
+    this.profile = profile;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean shouldExecuteOnProject(Project project) {
+    return super.shouldExecuteOnProject(project)
+      && !profile.getActiveRulesByRepository(CxxCppCheckRuleRepository.KEY).isEmpty();
   }
   
   protected String reportPathKey() {
