@@ -35,8 +35,6 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
@@ -46,6 +44,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
 import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
@@ -59,7 +58,6 @@ public class CxxGcovrSensor extends CxxSensor {
   
   public static final String REPORT_PATH_KEY = "sonar.cxx.gcovr.reportPath";
   private static final String DEFAULT_REPORT_PATH = "gcovr-reports/gcovr-result-*.xml";
-  private static Logger logger = LoggerFactory.getLogger(CxxGcovrSensor.class);
 
   private Configuration conf = null;
 
@@ -75,30 +73,30 @@ public class CxxGcovrSensor extends CxxSensor {
    */
   public void analyse(Project project, SensorContext context) {
     List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-
+                                    REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    
     Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
     for (File report : reports) {
       parseReport(project, report, fileDataPerFilename);
     }
     for (FileData cci : fileDataPerFilename.values()) {
+      String filePath = cci.getFile().getKey();
       if (fileExist(context, cci.getFile())) {
-        logger.debug("file exists: '{}'", cci.getFile().getKey());
+        CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : cci.getMeasures()) {
-          logger.debug("saving measure: '{}'", measure.toString());
           context.saveMeasure(cci.getFile(), measure);
         }
       } else {
-        logger.warn("file '{}' IS NOT inventoried ", cci.getFile().getKey());
+        CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
       }
     }
   }
   
   private void parseReport(final Project project, File xmlFile, final Map<String, FileData> dataPerFilename) {
     try {
-      logger.debug("parsing gcovr report '{}'", xmlFile);
+      CxxUtils.LOG.info("Parsing report '{}'", xmlFile);
+      
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-        
         /**
          * {@inheritDoc}
          */
@@ -148,7 +146,7 @@ public class CxxGcovrSensor extends CxxSensor {
       }
       else{
         //advance to next block without collecting
-        logger.debug("could not get resource for '{}', skipping", fileName);
+        CxxUtils.LOG.debug("Could not get resource for '{}', skipping", fileName);
         SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
         while (line.getNext() != null);
       }
@@ -231,10 +229,5 @@ public class CxxGcovrSensor extends CxxSensor {
     public org.sonar.api.resources.File getFile() {
       return file;
     }
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
   }
 }

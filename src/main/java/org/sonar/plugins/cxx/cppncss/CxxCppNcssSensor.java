@@ -34,6 +34,7 @@ import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
@@ -158,10 +159,13 @@ public class CxxCppNcssSensor extends CxxSensor {
   }
   
   private void saveMetrics(Project project, SensorContext context, FileData fileData) {
+    String filePath = fileData.getName();
     org.sonar.api.resources.File file =
-      org.sonar.api.resources.File.fromIOFile(new File(fileData.getName()), project);
+      org.sonar.api.resources.File.fromIOFile(new File(filePath), project);
     
     if (context.getResource(file) != null) {
+      CxxUtils.LOG.debug("Saving complexity measures for file '{}'", filePath);
+      
       RangeDistributionBuilder complexityMethodsDistribution =
         new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION,
                                      METHODS_DISTRIB_BOTTOM_LIMITS);
@@ -185,6 +189,9 @@ public class CxxCppNcssSensor extends CxxSensor {
       context.saveMeasure(file, complexityMethodsDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
       context.saveMeasure(file, complexityClassDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
       context.saveMeasure(file, complexityFileDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+      
+    } else {
+      CxxUtils.LOG.debug("Ignoring complexity measures for file '{}'", filePath);
     }
   }
   

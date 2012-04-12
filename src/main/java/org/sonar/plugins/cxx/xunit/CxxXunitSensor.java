@@ -38,8 +38,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.AbstractCoverageExtension;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
@@ -52,6 +50,7 @@ import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
@@ -67,8 +66,6 @@ public class CxxXunitSensor extends CxxSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
-  private static Logger logger = LoggerFactory.getLogger(CxxXunitSensor.class);
-
   private String xsltURL = null;
   private Configuration conf = null;
 
@@ -129,12 +126,11 @@ public class CxxXunitSensor extends CxxSensor {
   void transformReport(Project project, List<File> reports, SensorContext context)
     throws java.io.IOException, javax.xml.transform.TransformerException
   {
-    if (this.xsltURL != null) {
-      logger.debug("xslt used: " + this.xsltURL);
-      InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + this.xsltURL);
-      if (inputStream == null)
-      {
-        URL url = new URL(this.xsltURL);
+    if (xsltURL != null) {
+      CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
+      InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
+      if (inputStream == null) {
+        URL url = new URL(xsltURL);
         inputStream = url.openStream();
       }
       
@@ -152,7 +148,7 @@ public class CxxXunitSensor extends CxxSensor {
         reports.set(i, fileOutPut);
       }
     } else {
-      logger.debug("No xslt.");
+      CxxUtils.LOG.debug("Transformation skipped: no xslt given");
     }
   }
   
@@ -161,7 +157,7 @@ public class CxxXunitSensor extends CxxSensor {
   {
     Set<TestSuiteReport> analyzedReports = new HashSet<TestSuiteReport>();
     for (File report : reports) {
-      logger.info("parsing xunit report '{}'", report);
+      CxxUtils.LOG.info("Parsing report '{}'", report);
       TestSuiteParser parserHandler = new TestSuiteParser();
       StaxParser parser = new StaxParser(parserHandler, false);
       parser.parse(report);
@@ -205,6 +201,8 @@ public class CxxXunitSensor extends CxxSensor {
       }
     }
     testCaseDetails.append("</tests-details>");
+
+    CxxUtils.LOG.debug("Saving test execution measures for file '{}'", fileReport.getClassKey());
     context.saveMeasure(getUnitTestResource(project, fileReport), new Measure(CoreMetrics.TEST_DATA, testCaseDetails.toString()));
   }
 
@@ -215,13 +213,7 @@ public class CxxXunitSensor extends CxxSensor {
   }
 
   private Resource<?> getUnitTestResource(Project project, TestSuiteReport fileReport) {
-    logger.debug("Unit Test Resource key = {}", fileReport.getClassKey());
     return org.sonar.api.resources.File.fromIOFile(new File(fileReport.getClassKey()),
                                                    project);
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
   }
 }

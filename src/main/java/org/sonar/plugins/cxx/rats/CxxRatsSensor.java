@@ -77,9 +77,4 @@ public final class CxxRatsSensor extends CxxSensor {
       }
     }
   }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
 }

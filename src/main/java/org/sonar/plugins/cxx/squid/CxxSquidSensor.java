@@ -19,14 +19,13 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.InputFile;
@@ -35,15 +34,14 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.squid.measures.Metric;
 import org.sonar.squid.recognizer.CodeRecognizer;
 import org.sonar.squid.text.Source;
-import org.sonar.plugins.cxx.utils.CxxSensor;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
 public final class CxxSquidSensor extends CxxSensor {
-  private static final Logger LOGGER = LoggerFactory.getLogger(CxxSquidSensor.class);
-
   /**
    * {@inheritDoc}
    */
@@ -52,11 +50,14 @@ public final class CxxSquidSensor extends CxxSensor {
     final CodeRecognizer codeRecognizer = new CodeRecognizer(0.9, new CxxLanguageFootprint());
     
     for (InputFile inputFile : sources) {
-      org.sonar.api.resources.File cxxFile =
-        org.sonar.api.resources.File.fromIOFile(inputFile.getFile(), project);
+      File file = inputFile.getFile();
+      org.sonar.api.resources.File cxxFile = org.sonar.api.resources.File.fromIOFile(file, project);
+      
+      CxxUtils.LOG.debug("Saving size measures for file '{}'", file.getPath());
+      
       Reader reader = null;
       try {
-        reader = new FileReader(inputFile.getFile());
+        reader = new FileReader(file);
         Source result = new Source(reader, codeRecognizer, "//");
         
         context.saveMeasure(cxxFile, CoreMetrics.LINES, (double) result.getMeasure(Metric.LINES));
@@ -64,22 +65,16 @@ public final class CxxSquidSensor extends CxxSensor {
         context.saveMeasure(cxxFile, CoreMetrics.COMMENT_BLANK_LINES, (double) result.getMeasure(Metric.COMMENT_BLANK_LINES));
         context.saveMeasure(cxxFile, CoreMetrics.COMMENTED_OUT_CODE_LINES, (double) result.getMeasure(Metric.COMMENTED_OUT_CODE_LINES));
         context.saveMeasure(cxxFile, CoreMetrics.NCLOC, (double) result.getMeasure(Metric.LINES_OF_CODE));
-        LOGGER.debug("Analyzed file '{}'", inputFile.getFile().getAbsolutePath());
       } catch (IOException exc) {
         String msg = new StringBuilder()
           .append("Cannot analyse the file: '")
-          .append(inputFile.getFile().getAbsolutePath())
+          .append(file.getPath())
           .append("'")
           .toString();
         throw new SonarException(msg, exc);
       } finally {
         IOUtils.closeQuietly(reader);
       }
-    }
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
+    } 
   }
 }
