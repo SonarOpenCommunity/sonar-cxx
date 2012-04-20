@@ -23,8 +23,7 @@ clean:
 
 ############################ Sonar-related rules ###############################
 
-#onar: sonar_cppcheck sonar_vera sonar_rats sonar_cppncss sonar_valgrind sonar_coverage sonar_sonar
-sonar: sonar_cppcheck sonar_cppncss sonar_runtests sonar_coverage sonar_sonar
+sonar: sonar_cppcheck sonar_vera sonar_rats sonar_cppncss sonar_runtests sonar_coverage sonar_sonar
 
 CPPCHECK_INCLUDES = -Isrc
 SOURCES_TO_ANALYSE = src
