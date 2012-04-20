@@ -4,5 +4,6 @@
 class Bar {
 public:
     int foo();
+    void do_valgrind_errors();
 };
 #endif

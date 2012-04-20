@@ -109,8 +109,10 @@ public class CxxValgrindSensor extends CxxSensor {
       String tagName = child.getLocalName();
       if ("kind".equalsIgnoreCase(tagName)) {
         kind = child.getElemStringValue();
-      } else if (tagName.matches(".*what.*")) {
+      } else if ("xwhat".equalsIgnoreCase(tagName)) {
         text = child.childElementCursor("text").advance().getElemStringValue();
+      } else if ("what".equalsIgnoreCase(tagName)) {
+        text = child.getElemStringValue();
       } else if ("stack".equalsIgnoreCase(tagName)) {
         stack = parseStackTag(child);
       }

@@ -25,4 +25,9 @@ namespace {
     TEST_F(Component1Test, DISABLED_foo_skipped) {
         ASSERT_EQ(1, 1);
     }
+    
+    TEST_F(Component1Test, foo_leaking) {
+        Bar *b = new Bar();
+        b->do_valgrind_errors();
+    }
 }
