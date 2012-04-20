@@ -37,7 +37,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.plugins.cxx.TestUtils;
 
-//@Ignore // This unit test (the production code, actually) depends
+@Ignore // This unit test (the production code, actually) depends
         // on absolute paths in the report file and will fail if checked out
         // elsewhere. The gcov sensor would *also* fail if the project
         // is moved to a different place after creating the reports and before
