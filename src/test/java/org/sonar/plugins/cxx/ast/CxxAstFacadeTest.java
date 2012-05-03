@@ -39,14 +39,8 @@ public class CxxAstFacadeTest {
 
   @Before
   public void setup() {
-    try {
-      testFile = mock(InputFile.class);
-      when(testFile.getFile()).thenReturn( TestUtils.loadResource(TEST_FILE) );
-    }
-    catch(URISyntaxException e) {
-      CxxUtils.LOG.error("Error while mocking test - " + e.getMessage());
-      fail();
-    }
+    testFile = mock(InputFile.class);
+    when(testFile.getFile()).thenReturn( TestUtils.loadResource(TEST_FILE) );
   }
 
   @Test

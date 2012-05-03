@@ -938,6 +938,110 @@
     </frame>
   </stack>
 </error>
+<error>
+  <unique>0x14</unique>
+  <tid>1</tid>
+  <kind>UninitCondition</kind>
+  <what>Conditional jump or move depends on uninitialised value(s)</what>
+  <stack>
+    <frame>
+      <ip>0x8071703</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>Bar::do_valgrind_errors()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/src/lib</dir>
+      <file>component1.cc</file>
+      <line>30</line>
+    </frame>
+    <frame>
+      <ip>0x804B7E9</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>(anonymous namespace)::Component1Test_foo_leaking_Test::TestBody()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests</dir>
+      <file>test_component1.cc</file>
+      <line>31</line>
+    </frame>
+    <frame>
+      <ip>0x8069610</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>void testing::internal::HandleSehExceptionsInMethodIfSupported&lt;testing::Test, void&gt;(testing::Test*, void (testing::Test::*)(), char const*)</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>2090</line>
+    </frame>
+    <frame>
+      <ip>0x8064CAF</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>void testing::internal::HandleExceptionsInMethodIfSupported&lt;testing::Test, void&gt;(testing::Test*, void (testing::Test::*)(), char const*)</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>2126</line>
+    </frame>
+    <frame>
+      <ip>0x80516CF</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>testing::Test::Run()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>2162</line>
+    </frame>
+    <frame>
+      <ip>0x805217E</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>testing::TestInfo::Run()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>2338</line>
+    </frame>
+    <frame>
+      <ip>0x80529C8</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>testing::TestCase::Run()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>2445</line>
+    </frame>
+    <frame>
+      <ip>0x8057EE5</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>testing::internal::UnitTestImpl::RunAllTests()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>4237</line>
+    </frame>
+    <frame>
+      <ip>0x806A7D8</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>bool testing::internal::HandleSehExceptionsInMethodIfSupported&lt;testing::internal::UnitTestImpl, bool&gt;(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*)</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>2090</line>
+    </frame>
+    <frame>
+      <ip>0x8065AE5</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>bool testing::internal::HandleExceptionsInMethodIfSupported&lt;testing::internal::UnitTestImpl, bool&gt;(testing::internal::UnitTestImpl*, bool (testing::internal::UnitTestImpl::*)(), char const*)</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>2126</line>
+    </frame>
+    <frame>
+      <ip>0x8056362</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>testing::UnitTest::Run()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest.cc</file>
+      <line>3874</line>
+    </frame>
+    <frame>
+      <ip>0x807161F</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>main</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/tests/gtest-1.6.0/src</dir>
+      <file>gtest_main.cc</file>
+      <line>38</line>
+    </frame>
+  </stack>
+</error>
 
 <errorcounts>
 </errorcounts>

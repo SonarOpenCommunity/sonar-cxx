@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+
+<valgrindoutput>
+
+<protocolversion>4</protocolversion>
+<protocoltool>memcheck</protocoltool>
+
+<preamble>
+  <line>Memcheck, a memory error detector</line>
+  <line>Copyright (C) 2002-2009, and GNU GPL'd, by Julian Seward et al.</line>
+  <line>Using Valgrind-3.6.0.SVN-Debian and LibVEX; rerun with -h for copyright info</line>
+  <line>Command: /home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix\ Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</line>
+</preamble>
+
+<pid>3245</pid>
+<ppid>2882</ppid>
+<tool>memcheck</tool>
+
+<args>
+  <vargv>
+    <exe>/usr/bin/valgrind.bin</exe>
+    <arg>--suppressions=/usr/lib/valgrind/debian-libc6-dbg.supp</arg>
+    <arg>--leak-check=yes</arg>
+    <arg>--demangle=yes</arg>
+    <arg>--xml=yes</arg>
+    <arg>--xml-file=/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/valgrind-reports/valgrind-result-SAMPLE.xml</arg>
+  </vargv>
+  <argv>
+    <exe>/home/wenns/src/sonar-plugins/cxx/src/sample/SampleProject/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</exe>
+  </argv>
+</args>
+
+<status>
+  <state>RUNNING</state>
+  <time>00:00:00:00.119 </time>
+</status>
+
+
+<status>
+  <state>FINISHED</state>
+  <time>00:00:00:38.480 </time>
+</status>
+
+<error>
+  <unique>0x14</unique>
+  <tid>1</tid>
+  <kind>UninitCondition</kind>
+  <!-- error: no what or xwhat tag  -->
+  <!-- <what>Conditional jump or move depends on uninitialised value(s)</what> -->
+  <stack>
+    <frame>
+      <ip>0x8071703</ip>
+      <obj>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/build/test_component1</obj>
+      <fn>Bar::do_valgrind_errors()</fn>
+      <dir>/home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject2/src/lib</dir>
+      <file>component1.cc</file>
+      <line>30</line>
+    </frame>
+  </stack>
+</error>
+
+<errorcounts>
+</errorcounts>
+
+<suppcounts>
+  <pair>
+    <count>227</count>
+    <name>dl-hack3-cond-1</name>
+  </pair>
+</suppcounts>
+
+</valgrindoutput>

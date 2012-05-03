@@ -51,24 +51,20 @@ public class TestUtils{
     return ruleFinder;
   }
 
-  public static File loadResource(String resourceName) throws URISyntaxException {
-      URL resource = TestUtils.class.getResource(resourceName);
-      if(resource == null) {
-        throw new URISyntaxException(resourceName, "Resource file not found");
-      }
-      return new File(resource.toURI());
+  public static File loadResource(String resourceName) {
+    URL resource = TestUtils.class.getResource(resourceName);
+    File resourceAsFile = null;
+    try{
+      resourceAsFile = new File(resource.toURI());
+    } catch (URISyntaxException e) {
+      System.out.println("Cannot load resource: " + resourceName);
+    }
+    
+    return resourceAsFile;
   }
 
   public static Project mockProject() {
-    File baseDir;
-
-    try{
-      baseDir = loadResource("/org/sonar/plugins/cxx/");
-    }
-    catch(java.net.URISyntaxException e){
-      System.out.println("Got exception mocking project: " + e);
-      return null;
-    }
+    File baseDir = loadResource("/org/sonar/plugins/cxx/");
 
     List<File> sourceFiles = new ArrayList<File>();
     sourceFiles.add(new File(baseDir, "sources/application/main.cpp"));

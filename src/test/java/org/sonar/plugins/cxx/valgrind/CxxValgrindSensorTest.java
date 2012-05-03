@@ -25,10 +25,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyObject;
+import static org.mockito.Mockito.anyString;
+
+import java.util.Set;
+import java.util.HashSet;
 
 import org.apache.commons.configuration.Configuration;
-import org.junit.Ignore;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
@@ -51,17 +53,38 @@ public class CxxValgrindSensorTest {
     sensor = new CxxValgrindSensor(ruleFinder, mock(Configuration.class), mock(RulesProfile.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
-    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
+    when(context.getResource(any(Resource.class))).thenReturn(resourceMock);
   }
 
-  @Ignore // This unit test (the production code, actually) depends
-          // on absolute paths in the report file and will fail if checked out
-          // elsewhere. The valgrind sensor would *also* fail if the project
-          // is moved to a different place after creating the reports and before
-          // analyzing. Skip for now...
   @Test
-  public void shouldReportCorrectViolations() {
+  public void shouldNotThrowWhenGivenValidData() {
     sensor.analyse(project, context);
-    verify(context, times(5)).saveViolation(any(Violation.class));
+  }
+
+  @Test
+  public void shouldSaveViolationIfErrorIsInside() {
+    Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
+    valgrindErrors.add(mockValgrindError(true));
+    sensor.saveErrors(project, context, valgrindErrors);
+    verify(context, times(1)).saveViolation(any(Violation.class));
+  }
+
+  @Test
+  public void shouldNotSaveViolationIfErrorIsOutside() {
+    Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
+    valgrindErrors.add(mockValgrindError(false));
+    sensor.saveErrors(project, context, valgrindErrors);
+    verify(context, times(0)).saveViolation(any(Violation.class));
+  }
+
+  private ValgrindError mockValgrindError(boolean inside){
+    ValgrindError error = mock(ValgrindError.class);
+    ValgrindFrame frame = inside == true ? generateValgrindFrame() : null;
+    when(error.getLastOwnFrame((anyString()))).thenReturn(frame);
+    return error;
+  }
+
+  private ValgrindFrame generateValgrindFrame(){
+    return new ValgrindFrame("ip", "obj", "fn", "dir", "file", 1);
   }
 }
