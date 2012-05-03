@@ -80,11 +80,13 @@ public class CxxGcovrSensor extends CxxSensor {
       parseReport(project, report, fileDataPerFilename);
     }
     for (FileData cci : fileDataPerFilename.values()) {
-      String filePath = cci.getFile().getKey();
-      if (fileExist(context, cci.getFile())) {
+      String filePath = cci.getFileName();
+      org.sonar.api.resources.File cxxfile =
+        org.sonar.api.resources.File.fromIOFile(new File(filePath), project);
+      if (fileExist(context, cxxfile)) {
         CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : cci.getMeasures()) {
-          context.saveMeasure(cci.getFile(), measure);
+          context.saveMeasure(cxxfile, measure);
         }
       } else {
         CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
@@ -132,24 +134,12 @@ public class CxxGcovrSensor extends CxxSensor {
   {
     while (clazz.getNext() != null) {
       String fileName = clazz.getAttrValue("filename");
-      
-      org.sonar.api.resources.File cxxfile =
-        org.sonar.api.resources.File.fromIOFile(new File(fileName), project);
-      if (cxxfile != null) {
-        String fileKey = cxxfile.getKey();
-        FileData data = dataPerFilename.get(fileKey);
-        if (data == null) {
-          data = new FileData(cxxfile);
-          dataPerFilename.put(fileKey, data);
-        }
-        collectFileData(clazz, data);
+      FileData data = dataPerFilename.get(fileName);
+      if (data == null) {
+        data = new FileData(fileName);
+        dataPerFilename.put(fileName, data);
       }
-      else{
-        //advance to next block without collecting
-        CxxUtils.LOG.debug("Could not get resource for '{}', skipping", fileName);
-        SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
-        while (line.getNext() != null);
-      }
+      collectFileData(clazz, data);
     }
   }
 
@@ -176,7 +166,7 @@ public class CxxGcovrSensor extends CxxSensor {
     private int coveredLines = 0;
     private int coveredConditions = 0;
 
-    private org.sonar.api.resources.File file;
+    private String fileName;
     private PropertiesBuilder<String, Integer> lineHitsBuilder =
       new PropertiesBuilder<String, Integer>(CoreMetrics.COVERAGE_LINE_HITS_DATA);
     private PropertiesBuilder<String, String> branchHitsBuilder =
@@ -206,8 +196,8 @@ public class CxxGcovrSensor extends CxxSensor {
       }
     }
 
-    public FileData(org.sonar.api.resources.File file) {
-      this.file = file;
+    public FileData(String fileName) {
+      this.fileName = fileName;
     }
 
     public List<Measure> getMeasures() {
@@ -226,8 +216,8 @@ public class CxxGcovrSensor extends CxxSensor {
       return measures;
     }
 
-    public org.sonar.api.resources.File getFile() {
-      return file;
+    public String getFileName() {
+      return fileName;
     }
   }
 }

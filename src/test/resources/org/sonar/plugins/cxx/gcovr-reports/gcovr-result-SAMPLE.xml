@@ -1,11 +1,83 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage
 SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
-<coverage>
+<coverage branch-rate="0.5" line-rate="0.27397260274" timestamp="1335184370" version="gcovr 2.5-prerelease (r2774)">
+  <sources>
+    <source>
+      /home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject
+    </source>
+  </sources>
   <packages>
-    <package branch-rate="0.5" complexity="0.0" line-rate="0.625" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.builds.Unix Makefiles.COVERAGE.tests">
+    <package branch-rate="0.0" complexity="0.0" line-rate="0.0" name="sources.utils">
       <classes>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx" line-rate="0.625" name="moc_SAMPLE-test_cxx">
+        <class branch-rate="0.0" complexity="0.0" filename="sources/utils/code_chunks.cpp" line-rate="0.0" name="code_chunks_cpp">
+          <lines>
+            <line branch="false" hits="0" number="17"/>
+            <line branch="false" hits="0" number="20"/>
+            <line branch="false" hits="0" number="22"/>
+            <line branch="false" hits="0" number="23"/>
+            <line branch="false" hits="0" number="24"/>
+            <line branch="false" hits="0" number="25"/>
+            <line branch="false" hits="0" number="26"/>
+            <line branch="false" hits="0" number="27"/>
+            <line branch="false" hits="0" number="28"/>
+            <line branch="false" hits="0" number="29"/>
+            <line branch="false" hits="0" number="30"/>
+            <line branch="false" hits="0" number="31"/>
+            <line branch="false" hits="0" number="32"/>
+            <line branch="false" hits="0" number="33"/>
+            <line branch="false" hits="0" number="34"/>
+            <line branch="false" hits="0" number="35"/>
+            <line branch="false" hits="0" number="36"/>
+            <line branch="false" hits="0" number="37"/>
+            <line branch="false" hits="0" number="38"/>
+            <line branch="false" hits="0" number="39"/>
+            <line branch="false" hits="0" number="40"/>
+            <line branch="false" hits="0" number="43"/>
+            <line branch="false" hits="0" number="44"/>
+            <line branch="false" hits="0" number="45"/>
+            <line branch="false" hits="0" number="46"/>
+            <line branch="false" hits="0" number="47"/>
+            <line branch="false" hits="0" number="48"/>
+            <line branch="false" hits="0" number="49"/>
+            <line branch="false" hits="0" number="50"/>
+            <line branch="false" hits="0" number="51"/>
+            <line branch="false" hits="0" number="52"/>
+            <line branch="false" hits="0" number="53"/>
+            <line branch="false" hits="0" number="54"/>
+            <line branch="false" hits="0" number="55"/>
+            <line branch="false" hits="0" number="56"/>
+            <line branch="false" hits="0" number="57"/>
+            <line branch="false" hits="0" number="58"/>
+            <line branch="false" hits="0" number="59"/>
+            <line branch="false" hits="0" number="60"/>
+            <line branch="false" hits="0" number="61"/>
+            <line branch="false" hits="0" number="85"/>
+          </lines>
+        </class>
+        <class branch-rate="0.0" complexity="0.0" filename="sources/utils/utils.cpp" line-rate="0.0" name="utils_cpp">
+          <lines>
+            <line branch="false" hits="0" number="2"/>
+            <line branch="false" hits="0" number="4"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package branch-rate="0.0" complexity="0.0" line-rate="0.0" name="sources.application">
+      <classes>
+        <class branch-rate="0.0" complexity="0.0" filename="sources/application/main.cpp" line-rate="0.0" name="main_cpp">
+          <lines>
+            <line branch="false" hits="0" number="8"/>
+            <line branch="false" hits="0" number="3"/>
+            <line branch="false" hits="0" number="5"/>
+            <line branch="false" hits="0" number="7"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package branch-rate="0.5" complexity="0.0" line-rate="0.625" name="builds.Unix Makefiles.COVERAGE.tests">
+      <classes>
+        <class branch-rate="0.5" complexity="0.0" filename="builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx" line-rate="0.625" name="moc_SAMPLE-test_cxx">
           <lines>
             <line branch="false" hits="1" number="65"/>
             <line branch="false" hits="1" number="67"/>
@@ -43,21 +115,13 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
         </class>
       </classes>
     </package>
-    <package branch-rate="0.0" complexity="0.0" line-rate="0.0" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.builds.Unix Makefiles.COVERAGE.tests.............sources.tests">
+    <package branch-rate="0.5" complexity="0.0" line-rate="1.0" name="sources.tests">
       <classes>
-        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/builds/Unix Makefiles/COVERAGE/tests/../../../../sources/tests/SAMPLE-test.h" line-rate="0.0" name="SAMPLE-test_h">
-          <lines>
-            <line branch="false" hits="0" number="6"/>
-          </lines>
-        </class>
-      </classes>
-    </package>
-    <package branch-rate="0.5" complexity="0.0" line-rate="1.0" name=".home.wenns.src.sonar-plugins.cxx.src.sample.SampleProject.sources.tests">
-      <classes>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/SAMPLE-test.cpp" line-rate="1.0" name="SAMPLE-test_cpp">
+        <class branch-rate="0.5" complexity="0.0" filename="sources/tests/SAMPLE-test.cpp" line-rate="1.0" name="SAMPLE-test_cpp">
           <lines>
             <line branch="false" hits="1" number="8"/>
-            <line branch="true" condition-coverage="50% (1/2)" hits="1" number="10">
+            <line branch="false" hits="1" number="10"/>
+            <line branch="true" condition-coverage="50% (1/2)" hits="1" number="11">
               <conditions>
                 <condition coverage="50%" number="0" type="jump"/>
               </conditions>
@@ -66,7 +130,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
             <line branch="false" hits="1" number="6"/>
           </lines>
         </class>
-        <class branch-rate="0.5" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/SAMPLE-test.h" line-rate="1.0" name="SAMPLE-test_h">
+        <class branch-rate="0.5" complexity="0.0" filename="sources/tests/SAMPLE-test.h" line-rate="1.0" name="SAMPLE-test_h">
           <lines>
             <line branch="true" condition-coverage="50% (1/2)" hits="1" number="6">
               <conditions>
@@ -75,7 +139,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
             </line>
           </lines>
         </class>
-        <class branch-rate="0.0" complexity="0.0" filename="/home/wenns/src/sonar-plugins/cxx/target/test-classes/org/sonar/plugins/cxx/sources/tests/main.cpp" line-rate="1.0" name="main_cpp">
+        <class branch-rate="0.0" complexity="0.0" filename="sources/tests/main.cpp" line-rate="1.0" name="main_cpp">
           <lines>
             <line branch="false" hits="1" number="8"/>
             <line branch="false" hits="1" number="9"/>
