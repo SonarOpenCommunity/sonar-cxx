@@ -1,0 +1,2814 @@
+<?xml version="1.0" encoding="ASCII"?>
+<profile>
+  <name>Default C++ Profile</name>
+  <language>c++</language>
+  <rules>
+    <!-- ##################################################  -->
+    <!-- ################# cppcheck rules #################  -->
+    <!-- ##################################################  -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>AssignmentAddressToInteger</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>AssignmentIntegerToAddress</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>autoVariables</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>returnAddressOfAutoVariable</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>returnLocalVariable</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>returnReference</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>returnTempReference</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>returnAutocstr</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>returnTempPointer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>autovarInvalidDeallocation</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>arrayIndexOutOfBounds</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>bufferAccessOutOfBounds</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>outOfBounds</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>terminateStrncpy</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>negativeIndex</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>insecureCmdLineArgs</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>pointerOutOfBounds</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>arrayIndexThenCheck</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>noConstructor</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uninitVar</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>operatorEqVarError</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unusedPrivateFunction</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memsetClass</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>operatorEq</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>thisSubtraction</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>operatorEqRetRefThis</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>operatorEqToSelf</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>exceptThrowInDestructor</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>exceptDeallocThrow</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>exceptRethrowCopy</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>catchExceptionByValue</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>assignIfError</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>comparisonError</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>multiCondition</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memleak</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>resourceLeak</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>deallocDealloc</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>deallocuse</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>mismatchSize</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>mismatchAllocDealloc</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memleakOnRealloc</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsasctime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionscrypt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsctermid</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsctime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsecvt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsfcvt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsfgetgrent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsfgetpwent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsfgetspent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgcvt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetgrent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetgrgid</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetgrnam</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgethostbyaddr</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgethostbyname</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgethostbyname2</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgethostent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetlogin</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetnetbyaddr</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetnetbyname</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetnetgrent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetprotobyname</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetpwent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetpwnam</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetpwuid</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetrpcbyname</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetrpcbynumber</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetrpcent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetservbyname</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetservbyport</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetservent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetspent</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgetspnam</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsgmtime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionslocaltime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsrand</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsreaddir</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsstrtok</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionstempnam</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionstmpnam</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nonreentrantFunctionsttyname</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nullPointer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsbcmp</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsbcopy</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsbsd_signal</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsbzero</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsecvt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsfcvt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsftime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsgcvt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsgetcontext</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsgethostbyaddr</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsgethostbyname</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsgets</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsgetwd</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsindex</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsmakecontext</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionspthread_attr_getstackaddr</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionspthread_attr_setstackaddr</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsrindex</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsscalbln</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsswapcontext</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsualarm</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsusleep</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsvfork</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionswcswcs</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>assignBoolToPointer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sprintfOverlappingData</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>staticStringCompare</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>udivError</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>zerodiv</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>wrongmathcall</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>fflushOnInputStream</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>functionConst</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unusedScopedObject</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofwithsilentarraypointer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofwithnumericparameter</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>cstyleCast</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>dangerousUsageStrtol</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>passedByValue</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>constStatement</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>charArrayIndex</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>charBitOp</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>variableScope</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>strPlusChar</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofsizeof</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofCalculation</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>redundantAssignInSwitch</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>switchCaseFallThrough</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>selfAssignment</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>assignmentInAssert</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidscanf</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>incorrectLogicOperator</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memsetZeroBytes</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>clarifyCalculation</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>clarifyCondition</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>incorrectStringCompare</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>incrementboolean</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>comparisonOfBoolWithInt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>conditionAlwaysTrueFalse</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>duplicateIf</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>duplicateBranch</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>duplicateExpression</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>duplicateBreak</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unsignedLessThanZero</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unsignedPositive</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidIterator1</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>iterators</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>mismatchingContainers</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>eraseDereference</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlOutOfBounds</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>erase</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidIterator2</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPointer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlBoundries</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlIfFind</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlIfStrFind</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlcstr</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlSize</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>redundantIfRemove</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>useAutoPointerCopy</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>useAutoPointerContainer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>useAutoPointerArray</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uninitstring</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uninitdata</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uninitvar</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unusedFunction</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unusedVariable</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unusedAllocatedMemory</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unreadVariable</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unassignedVariable</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unusedStructMember</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>postfixOperator</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>syntaxError</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>cppcheckError</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unnecessaryForwardDeclaration</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>variableHidingEnum</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>variableHidingTypedef</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unnecessaryQualification</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>missingInclude</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>preprocessorErrorDirective</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <!-- ########### New in cppcheck 1.51 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>initializerList</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>possibleBufferAccessOutOfBounds</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>returnAddressOfFunctionParameter</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>secondAlwaysTrueFalseWhenFirstTrue</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <!-- ########### New in cppcheck 1.52 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>boostForeachError</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>compareBoolExpressionWithInt</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>coutCerrMisusage</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>incorrectStringBooleanError</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stringCompare</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unreachableCode</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uselessCallsCompare</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uselessCallsSwap</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uselessCallsSubstr</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>wrongcctypecall</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <!-- ########### New in cppcheck 1.53 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>doubleFree</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPrintfArgType_s</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPrintfArgType_n</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPrintfArgType_p</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPrintfArgType_int</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPrintfArgType_float</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfArgType</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsasctime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsasctime_r</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsctime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsrand_r</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionstmpnam</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionstmpnam_r</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsutime</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>wrongPrintfScanfArgNum</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+
+    <!-- ##############################################  -->
+    <!-- ################# rats rules #################  -->
+    <!-- ##############################################  -->
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>drand48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>erand48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>initstate</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>jrand48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lcong48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lrand48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>mrand48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>nrand48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>random</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>seed48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>setstate</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>srand</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>srand48</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strfry</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>memfrob</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>crypt</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>srandom</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>memcpy</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>fixed size global buffer</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>fixed size local buffer</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strncpy</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>chroot</key>
+      <priority>INFO</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>gets</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>system</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>popen</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>getenv</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strcpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strcat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>printf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>sprintf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wsprintf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wsprintfA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wsprintfW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_snprintf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_snwprintf</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lstrcpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lstrcpyA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lstrcpyW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wcscpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_mbscpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tcscpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCpyA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCpyW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lstrcat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wcscat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_mbscat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tcscat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strxfrm</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wcsxfrm</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tcsxfrm</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lstrcpyn</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCpyN</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCpyNA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCpyNW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>lstrcpynW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wcsncpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_mbsncpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tcsncpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_mbsnbcat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wcsncat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tcsncat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>MultiByteToWideChar</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>WideCharToMultiByte</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrNCat</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatBuff</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatBuffA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatBuffW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatN</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatNA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrCatNW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatByteSize</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatByteSizeA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatByteSizeW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatByteSize64</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatByteSize64A</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatByteSize64W</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatKBSize</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatKBSizeA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFormatKBSizeW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFromTimeInterval</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFromTimeIntervalA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>StrFromTimeIntervalW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wvnsprintf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wvnsprintfA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wvnsprintfW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wnsprintf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wnsprintfA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wnsprintfW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAddExtension</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAddExtensionA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAddExtensionW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAddBackslash</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAddBackslashA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAddBackslashW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAppend</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAppendA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathAppendW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathCanonicalize</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathCanonicalizeA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathCanonicalizeW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathCombine</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathCombineA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>PathCombineW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>LoadLibrary</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>LoadLibraryA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>LoadLibraryW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>GetExtensionVersion</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToChar</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToCharA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToCharW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToCharBuff</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToCharBuffA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToCharBuffW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToAnsi</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToAnsiA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToAnsiW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToAnsiBuff</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToAnsiBuffA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>OemToAnsiBuffW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>GetTempPath</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>GetTempPathA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>GetTempPathW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>GetTempFileName</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>GetTempFileNameA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>GetTempFileNameW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecute</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteEx</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteExA</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ShellExecuteExW</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wsystem</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texecl</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execl</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexecl</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texecle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexecle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texeclp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execlp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexeclp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texeclpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execlpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexeclpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texecv</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execv</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexecv</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texecve</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execve</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexecve</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texecvp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execvp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexecvp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_texecvpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_execvpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wexecvpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnl</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnl</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnl</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnlp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnlp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnlp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnlpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnlpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnlpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnv</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnv</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnv</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnve</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnve</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnve</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnle</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnvp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnvp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnvp</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tspawnvpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_spawnvpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_wspawnvpe</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>scanf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>sscanf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>fscanf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>vfscanf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>vsprintf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>vscanf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>vsscanf</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>streadd</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strecpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strtrns</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>realpath</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>syslog</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>getopt</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>getopt_long</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>getpass</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>getchar</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>fgetc</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>getc</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>read</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>bcopy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>fgets</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>cin</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>memcpy</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>snprintf</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strccpy</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strcadd</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strncpy</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_vsnprintf</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>tmpfile</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>tmpnam</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>tempnam</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>getlogin</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>cuserid</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ttyname</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>signal</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>gethostbyname</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>gethostbyaddr</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>realloc</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>fork</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>vfork</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_mbsnbcpy</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>CopyMemory</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strlen</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_tcslen</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>_mbslen</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>wcslen</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>CreateProcess</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>CreateProcessAsUser</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>CreateProcessWithLogon</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>WinExec</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>RpcImpersonateClient</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ImpersonateLoggedOnUser</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>CoImpersonateClient</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ImpersonateNamedPipeClient</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ImpersonateDdeClientWindow</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>ImpersonateSecurityContext</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>QuerySecurityContextToken</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>SetThreadToken</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>SetSecurityDescriptorDacl</key>
+      <priority>MAJOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>AfxLoadLibrary</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>LoadLibraryEx</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>InitializeCriticalSection</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>EnterCriticalSection</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>catgets</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>gettext</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>strncat</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>umask</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats</repositoryKey>
+      <key>AddAccessAllowedAce</key>
+      <priority>CRITICAL</priority>
+    </rule>
+
+
+    <!-- ##################################################  -->
+    <!-- ################# valgrind rules #################  -->
+    <!-- ##################################################  -->
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>InvalidFree</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>MismatchedFree</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>InvalidRead</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>InvalidWrite</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>InvalidJump</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>Overlap</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>InvalidMemPool</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>UninitCondition</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>UninitValue</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>SyscallParam</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>ClientCheck</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>Leak_DefinitelyLost</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>Leak_IndirectlyLost</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>Leak_PossiblyLost</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind</repositoryKey>
+      <key>Leak_StillReachable</key>
+      <priority>MINOR</priority>
+    </rule>
+
+
+    <!-- ##################################################  -->
+    <!-- ################# vera++ rules #################  -->
+    <!-- ##################################################  -->
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>F001</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>F002</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>L001</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>L002</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>L003</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>L004</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>L005</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>L006</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T001</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T002</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T003</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T004</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T005</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T006</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T007</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T008</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T009</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T010</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T011</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T012</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T013</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T014</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T015</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T016</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T017</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T018</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>vera++</repositoryKey>
+      <key>T019</key>
+      <priority>MINOR</priority>
+    </rule>
+  </rules>
+</profile>

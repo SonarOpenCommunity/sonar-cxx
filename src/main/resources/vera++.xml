@@ -1,7 +1,6 @@
 <rules>
   <rule>
     <key>F001</key>
-    <priority>MINOR</priority>
     <configKey>F001</configKey>
     <name>(CR) detected in isolation</name>
     <description>
@@ -12,7 +11,6 @@
   </rule>
   <rule>
     <key>F002</key>
-    <priority>MINOR</priority>
     <configKey>F002</configKey>
     <name>File names should be well formed</name>
     <description>
@@ -25,7 +23,6 @@
   </rule>
   <rule>
     <key>L001</key>
-    <priority>MINOR</priority>
     <configKey>L001</configKey>
     <name>Avoid trailing whitespace</name>
     <description>
@@ -41,7 +38,6 @@
   </rule>
   <rule>
     <key>L002</key>
-    <priority>MINOR</priority>
     <configKey>L002</configKey>
     <name>Don't use tab characters</name>
     <description>
@@ -52,7 +48,6 @@
   </rule>
   <rule>
     <key>L003</key>
-    <priority>MINOR</priority>
     <configKey>L003</configKey>
     <name>No leading and no trailing empty lines</name>
     <description>
@@ -63,7 +58,6 @@
   </rule>
   <rule>
     <key>L004</key>
-    <priority>MINOR</priority>
     <configKey>L004</configKey>
     <name>Line too long</name>
     <description>
@@ -72,7 +66,6 @@
   </rule>
   <rule>
     <key>L005</key>
-    <priority>MINOR</priority>
     <configKey>L005</configKey>
     <name>Too many consecutive empty lines</name>
     <description>
@@ -85,7 +78,6 @@
   </rule>
   <rule>
     <key>L006</key>
-    <priority>MINOR</priority>
     <configKey>L006</configKey>
     <name>Source file is too long</name>
     <description>
@@ -95,7 +87,6 @@
   </rule>
   <rule>
     <key>T001</key>
-    <priority>MINOR</priority>
     <configKey>T001</configKey>
     <name>One-line comments should not have forced continuation</name>
     <description>
@@ -115,7 +106,6 @@
   </rule>
   <rule>
     <key>T002</key>
-    <priority>MINOR</priority>
     <configKey>T002</configKey>
     <name>Reserved name used for macro</name>
     <description>
@@ -136,7 +126,6 @@
   </rule>
   <rule>
     <key>T003</key>
-    <priority>MINOR</priority>
     <configKey>T003</configKey>
     <name>Keyword not followed by a single space</name>
     <description>
@@ -147,7 +136,6 @@
   </rule>
   <rule>
     <key>T004</key>
-    <priority>MINOR</priority>
     <configKey>T004</configKey>
     <name>Keyword not immediately followed by a colon</name>
     <description>
@@ -158,7 +146,6 @@
   </rule>
   <rule>
     <key>T005</key>
-    <priority>MINOR</priority>
     <configKey>T005</configKey>
     <name>Keyword not immediately followed by a semicolon</name>
     <description>
@@ -168,7 +155,6 @@
   </rule>
   <rule>
     <key>T006</key>
-    <priority>MINOR</priority>
     <configKey>T006</configKey>
     <name>Keyword not immediately followed by a semicolon or a single space</name>
     <description>
@@ -179,7 +165,6 @@
   </rule>
   <rule>
     <key>T007</key>
-    <priority>MINOR</priority>
     <configKey>T007</configKey>
     <name>Semicolon is isolated from other tokens</name>
     <description>
@@ -190,7 +175,6 @@
   </rule>
   <rule>
     <key>T008</key>
-    <priority>MINOR</priority>
     <configKey>T008</configKey>
     <name>Keyword not followed by a single space</name>
     <description>
@@ -200,7 +184,6 @@
   </rule>
   <rule>
     <key>T009</key>
-    <priority>MINOR</priority>
     <configKey>T009</configKey>
     <name>Wrong spacing around comma</name>
     <description>
@@ -211,7 +194,6 @@
   </rule>
   <rule>
     <key>T010</key>
-    <priority>MINOR</priority>
     <configKey>T010</configKey>
     <name>Identifiers should not be composed of only 'l' and 'O'</name>
     <description>
@@ -223,7 +205,6 @@
   </rule>
   <rule>
     <key>T011</key>
-    <priority>MINOR</priority>
     <configKey>T011</configKey>
     <name>Opening/closing curly bracket mistake</name>
     <description>
@@ -235,7 +216,6 @@
   </rule>
   <rule>
     <key>T012</key>
-    <priority>MINOR</priority>
     <configKey>T012</configKey>
     <name>Negation operator used in its short form</name>
     <description>
@@ -246,7 +226,6 @@
   </rule>
   <rule>
     <key>T013</key>
-    <priority>MINOR</priority>
     <configKey>T013</configKey>
     <name>No copyright notice found</name>
     <description>
@@ -260,7 +239,6 @@
   </rule>
   <rule>
     <key>T014</key>
-    <priority>MINOR</priority>
     <configKey>T014</configKey>
     <name>No reference to the Boost Software License found</name>
     <description>
@@ -274,7 +252,6 @@
   </rule>
   <rule>
     <key>T015</key>
-    <priority>MINOR</priority>
     <configKey>T015</configKey>
     <name>Incorrect HTML links</name>
     <description>
@@ -284,7 +261,6 @@
   </rule>
   <rule>
     <key>T016</key>
-    <priority>MINOR</priority>
     <configKey>T016</configKey>
     <name>Min/max potential macro substitution problem</name>
     <description>
@@ -293,7 +269,6 @@
   </rule>
   <rule>
     <key>T017</key>
-    <priority>MINOR</priority>
     <configKey>T017</configKey>
     <name>Unnamed namespace not allowed in header file</name>
     <description>
@@ -310,7 +285,6 @@
   </rule>
   <rule>
     <key>T018</key>
-    <priority>MINOR</priority>
     <configKey>T018</configKey>
     <name>Using namespace not allowed in header file</name>
     <description>
@@ -329,7 +303,6 @@
   </rule>
   <rule>
     <key>T019</key>
-    <priority>MINOR</priority>
     <configKey>T019</configKey>
     <name>Full block {} expected in the control structure</name>
     <description>

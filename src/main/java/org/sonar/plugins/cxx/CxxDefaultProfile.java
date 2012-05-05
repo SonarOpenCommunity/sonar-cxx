@@ -17,25 +17,32 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.cppcheck;
+package org.sonar.plugins.cxx;
 
+import org.sonar.api.profiles.ProfileDefinition;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
-import org.sonar.plugins.cxx.utils.CxxAbstractProfileDefinition;
+import org.sonar.api.utils.ValidationMessages;
 
 /**
  * {@inheritDoc}
  */
-public final class CxxCppCheckProfile extends CxxAbstractProfileDefinition {
-  
+public class CxxDefaultProfile extends ProfileDefinition {
+  private XMLProfileParser xmlProfileParser;
+
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckProfile(XMLProfileParser xmlProfileParser) {
-    super(xmlProfileParser);
+  public CxxDefaultProfile(XMLProfileParser xmlProfileParser) {
+    this.xmlProfileParser = xmlProfileParser;
   }
 
   @Override
-  protected String profileFileName() {
-    return "cppcheck-profile.xml";
+  public RulesProfile createProfile(ValidationMessages messages) {
+    RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
+                                                          "default-profile.xml", messages);
+    profile.setDefaultProfile(true);
+    profile.setProvided(true);
+    return profile;
   }
 }
