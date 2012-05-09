@@ -30,11 +30,13 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
 public final class CxxRatsSensor extends CxxSensor {
+  private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
   private static final String DEFAULT_REPORT_PATH = "rats-reports/rats-result-*.xml";
   private RulesProfile profile;
@@ -65,13 +67,13 @@ public final class CxxRatsSensor extends CxxSensor {
   
   protected void parseReport(Project project, SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException
-  {
+  {    
     SAXBuilder builder = new SAXBuilder(false);
     Element root = builder.build(report).getRootElement();
 
     List<Element> vulnerabilities = root.getChildren("vulnerability");
     for (Element vulnerability : vulnerabilities) {
-      String type = vulnerability.getChild("type").getTextTrim();
+      String type = getVulnerabilityType(vulnerability.getChild("type"));
       String message = vulnerability.getChild("message").getTextTrim();
 
       List<Element> files = vulnerability.getChildren("file");
@@ -87,5 +89,12 @@ public final class CxxRatsSensor extends CxxSensor {
         }
       }
     }
+  }
+
+  private String getVulnerabilityType(Element child) {
+    if(child != null) {
+      return child.getTextTrim();
+    }
+    return MISSING_RATS_TYPE;
   }
 }

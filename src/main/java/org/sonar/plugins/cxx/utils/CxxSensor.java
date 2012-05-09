@@ -93,7 +93,7 @@ public abstract class CxxSensor implements Sensor {
   }
 
   protected List<File> getReports(Configuration conf,
-                                  String baseDir,
+                                  String baseDirPath,
                                   String reportPathPropertyKey,
                                   String defaultReportPath) {
     String reportPath = conf.getString(reportPathPropertyKey, null);
@@ -107,13 +107,13 @@ public abstract class CxxSensor implements Sensor {
     String[] includes = new String[1];
     includes[0] = reportPath;
     scanner.setIncludes(includes);
-    scanner.setBasedir(new File(baseDir));
+    scanner.setBasedir(new File(baseDirPath));
     scanner.scan();
     String[] relPaths = scanner.getIncludedFiles();
 
     List<File> reports = new ArrayList<File>();
     for (String relPath : relPaths) {
-      reports.add(new File(baseDir, relPath));
+      reports.add(new File(baseDirPath, relPath));
     }
     
     return reports;
