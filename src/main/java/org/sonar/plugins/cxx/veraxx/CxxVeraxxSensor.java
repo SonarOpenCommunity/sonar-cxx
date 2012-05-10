@@ -63,7 +63,7 @@ public class CxxVeraxxSensor extends CxxSensor {
     return DEFAULT_REPORT_PATH;
   }
   
-  protected void parseReport(final Project project, final SensorContext context, File report)
+  protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {

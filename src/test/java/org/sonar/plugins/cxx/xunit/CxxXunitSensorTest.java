@@ -52,7 +52,7 @@ public class CxxXunitSensorTest {
   public void setUp() {
     Configuration config = mock(Configuration.class);
     project = TestUtils.mockProject();
-    sensor = new CxxXunitSensor(config);
+    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
   }
 
@@ -60,28 +60,49 @@ public class CxxXunitSensorTest {
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
 
-    verify(context, times(1)).saveMeasure((Resource) anyObject(),
+    verify(context, times(3)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.TESTS), anyDouble());
-    verify(context, times(1)).saveMeasure((Resource) anyObject(),
+    verify(context, times(3)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.SKIPPED_TESTS), anyDouble());
-    verify(context, times(1)).saveMeasure((Resource) anyObject(),
+    verify(context, times(3)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.TEST_ERRORS), anyDouble());
-    verify(context, times(1)).saveMeasure((Resource) anyObject(),
+    verify(context, times(3)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.TEST_FAILURES), anyDouble());
-    verify(context, times(1)).saveMeasure((Resource) anyObject(),
+    verify(context, times(2)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
-    verify(context, times(1)).saveMeasure((Resource) anyObject(), any(Measure.class));
+    verify(context, times(3)).saveMeasure((Resource) anyObject(), any(Measure.class));
   }
 
+  @Test
+  public void shouldReportZeroTestWhenNoReportFound() {
+    Configuration config = mock(Configuration.class);
+    when(config.getString(CxxXunitSensor.REPORT_PATH_KEY, null)).thenReturn("notexistingpath");
+    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    
+    sensor.analyse(project, context);
+    
+    verify(context, times(1)).saveMeasure(eq(CoreMetrics.TESTS), eq(0.0));
+  }
+
+  @Test(expected=org.sonar.api.utils.SonarException.class)
+  public void shouldThrowWhenGivenInvalidTime() {
+    Configuration config = mock(Configuration.class);
+    when(config.getString(CxxXunitSensor.REPORT_PATH_KEY, null))
+      .thenReturn("xunit-reports/invalid-time-xunit-report.xml");
+    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    
+    sensor.analyse(project, context);
+  }
+  
   @Test(expected=java.net.MalformedURLException.class)
   public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
     throws java.io.IOException, javax.xml.transform.TransformerException 
   {
     Configuration config = mock(Configuration.class);
     when(config.getString(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("whatever");
-    sensor = new CxxXunitSensor(config);
+    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     
-    sensor.transformReport(project, cppunitReportList(), context);
+    sensor.transformReport(cppunitReport());
   }
   
   @Test
@@ -90,20 +111,16 @@ public class CxxXunitSensorTest {
   {
     Configuration config = mock(Configuration.class);
     when(config.getString(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("cppunit-1.x-to-junit-1.0.xsl");
-    sensor = new CxxXunitSensor(config);
-    List<File> reports = cppunitReportList();
-    File reportBefore = reports.get(0);
+    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    File reportBefore = cppunitReport();
     
-    sensor.transformReport(project, reports, context);
+    File reportAfter = sensor.transformReport(reportBefore);
     
-    assert(reports.get(0) != reportBefore);
+    assert(reportAfter != reportBefore);
   }
   
-  List<File> cppunitReportList() {
-    List<File> reports = new ArrayList<File>();
-    File reportBefore = new File(new File(project.getFileSystem().getBasedir().getPath(), "xunit-reports"),
-                                 "cppunit-report.xml");
-    reports.add(reportBefore);
-    return reports;
+  File cppunitReport() {
+    return new File(new File(project.getFileSystem().getBasedir().getPath(), "xunit-reports"),
+                    "cppunit-report.xml");
   }
 }

@@ -29,134 +29,109 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.ElementFilter;
-import org.codehaus.staxmate.in.SMEvent;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser.XmlStreamHandler;
 
 /**
- * copied from sonar-surefire-plugin with modifications : getTimeAttributeInMS : Time can be void
+ * {@inheritDoc}
  */
 public class TestSuiteParser implements XmlStreamHandler {
-
-  private Map<String, TestSuiteReport> reportsPerClass = new HashMap<String, TestSuiteReport>();
+  
+  private Map<String, TestSuite> testSuites = new HashMap<String, TestSuite>();
   
   /**
    * {@inheritDoc}
    */
   public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-    SMInputCursor testSuite = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
-    SMEvent testSuiteEvent;
-    while ((testSuiteEvent = testSuite.getNext()) != null) {
-      if (testSuiteEvent.compareTo(SMEvent.START_ELEMENT) == 0) {
-        String testSuiteClassName = testSuite.getAttrValue("name");
-        if (StringUtils.contains(testSuiteClassName, "$")) {
-          // test suites for inner classes are ignored
-          return;
+    SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
+    while (testSuiteCursor.getNext() != null) {
+      String testSuiteClassName = testSuiteCursor.getAttrValue("name");
+      
+      SMInputCursor testCaseCursor = testSuiteCursor.childElementCursor("testcase");
+      while (testCaseCursor.getNext() != null) {
+        String testClassName = getClassname(testCaseCursor, testSuiteClassName);
+        TestSuite report = testSuites.get(testClassName);
+        if (report == null) {
+          report = new TestSuite(testClassName);
+          testSuites.put(testClassName, report);
         }
-        SMInputCursor testCase = testSuite.childCursor(new ElementFilter("testcase"));
-        SMEvent event;
-        while ((event = testCase.getNext()) != null) {
-          if (event.compareTo(SMEvent.START_ELEMENT) == 0) {
-            String testClassName = getClassname(testCase, testSuiteClassName);
-            TestSuiteReport report = reportsPerClass.get(testClassName);
-            if (report == null) {
-              report = new TestSuiteReport(testClassName);
-              reportsPerClass.put(testClassName, report);
-            }
-            cumulateTestCaseDetails(testCase, report);
-          }
-        }
+        report.addTestCase(parseTestCaseTag(testCaseCursor));
       }
     }
   }
-
-  public Collection<TestSuiteReport> getParsedReports() {
-    return reportsPerClass.values();
+  
+  /**
+   * Returns successfully parsed reports as a collection of TestSuite objects.
+   */
+  public Collection<TestSuite> getParsedReports() {
+    return testSuites.values();
   }
 
-  private String getClassname(SMInputCursor testCaseCursor, String defaultClassname) throws XMLStreamException {
+  private String getClassname(SMInputCursor testCaseCursor, String defaultClassname)
+    throws XMLStreamException
+  {
     String testClassName = testCaseCursor.getAttrValue("classname");
-    testClassName = StringUtils.substringBeforeLast(testClassName, "$");
     return testClassName == null ? defaultClassname : testClassName;
   }
-
-  private void cumulateTestCaseDetails(SMInputCursor testCaseCursor, TestSuiteReport report) throws XMLStreamException {
-    TestCaseDetails detail = getTestCaseDetails(testCaseCursor);
-    if (detail.getStatus().equals(TestCaseDetails.STATUS_SKIPPED)) {
-      report.setSkipped(report.getSkipped() + 1);
-    } else if (detail.getStatus().equals(TestCaseDetails.STATUS_FAILURE)) {
-      report.setFailures(report.getFailures() + 1);
-    } else if (detail.getStatus().equals(TestCaseDetails.STATUS_ERROR)) {
-      report.setErrors(report.getErrors() + 1);
-    }
-    report.setTests(report.getTests() + 1);
-    report.setTimeMS(report.getTimeMS() + detail.getTimeMS());
-    report.getDetails().add(detail);
-  }
-
-  private void setStackAndMessage(TestCaseDetails detail, SMInputCursor stackAndMessageCursor) throws XMLStreamException {
-    detail.setErrorMessage(stackAndMessageCursor.getAttrValue("message"));
-    String stack = stackAndMessageCursor.collectDescendantText();
-    detail.setStackTrace(stack);
-  }
-
-  private TestCaseDetails getTestCaseDetails(SMInputCursor testCaseCursor) throws XMLStreamException {
-    TestCaseDetails detail = new TestCaseDetails();
-    String name = getTestCaseName(testCaseCursor);
-    detail.setName(name);
-
-    String status = TestCaseDetails.STATUS_OK;
-    Double time = getTimeAttributeInMS(testCaseCursor);
-
-    SMInputCursor childNode = testCaseCursor.descendantElementCursor();
-    if (childNode.getNext() != null) {
-      String elementName = childNode.getLocalName();
+  
+  private TestCase parseTestCaseTag(SMInputCursor testCaseCursor)
+    throws XMLStreamException
+  {
+    // TODO: get a decent grammar for the junit format and check the
+    // logic inside this method against it.
+    
+    String name = parseTestCaseName(testCaseCursor);
+    Double time = parseTime(testCaseCursor);
+    String status = "ok";
+    String stack = "";
+    String msg = "";
+    
+    SMInputCursor childCursor = testCaseCursor.childElementCursor();
+    if (childCursor.getNext() != null) {
+      String elementName = childCursor.getLocalName();
       if (elementName.equals("skipped")) {
-        status = TestCaseDetails.STATUS_SKIPPED;
-        // bug with surefire reporting wrong time for skipped tests
-        time = 0d;
+        status = "skipped";
       } else if (elementName.equals("failure")) {
-        status = TestCaseDetails.STATUS_FAILURE;
-        setStackAndMessage(detail, childNode);
+        status = "failure";
+        msg = childCursor.getAttrValue("message");
+        stack = childCursor.collectDescendantText();
       } else if (elementName.equals("error")) {
-        status = TestCaseDetails.STATUS_ERROR;
-        setStackAndMessage(detail, childNode);
+        status = "error";
+        msg = childCursor.getAttrValue("message");
+        stack = childCursor.collectDescendantText();
       }
     }
-
-    while (childNode.getNext() != null) {
-      // make sure we loop till the end of the elements cursor
-    }
     
-    detail.setTimeMS(time.intValue());
-    detail.setStatus(status);
-    return detail;
+    return new TestCase(name, time.intValue(), status, stack, msg);
   }
 
-  private Double getTimeAttributeInMS(SMInputCursor testCaseCursor) throws XMLStreamException {
-    // hardcoded to Locale.ENGLISH see http://jira.codehaus.org/browse/SONAR-602
+  private double parseTime(SMInputCursor testCaseCursor)
+    throws XMLStreamException
+  {
+    double time = 0.0;
     try {
       String sTime = testCaseCursor.getAttrValue("time");
-      if ( !StringUtils.isEmpty(sTime)) {
-        Double time = ParsingUtils.parseNumber(sTime, Locale.ENGLISH);
-        return !Double.isNaN(time) ? ParsingUtils.scaleValue(time * 1000, 3) : 0;
-      } else {
-        return 0.0;
+      if (!StringUtils.isEmpty(sTime)) {
+        Double tmp = ParsingUtils.parseNumber(sTime, Locale.ENGLISH);
+        if (!Double.isNaN(tmp)) {
+          time = ParsingUtils.scaleValue(tmp * 1000, 3);
+        }
       }
     } catch (ParseException e) {
       throw new XMLStreamException(e);
     }
+
+    return time;
   }
 
-  private String getTestCaseName(SMInputCursor testCaseCursor) throws XMLStreamException {
-    String classname = testCaseCursor.getAttrValue("classname");
+  private String parseTestCaseName(SMInputCursor testCaseCursor) throws XMLStreamException {
     String name = testCaseCursor.getAttrValue("name");
-    if (StringUtils.contains(classname, "$")) {
-      return StringUtils.substringAfterLast(classname, "$") + "/" + name;
+    String classname = testCaseCursor.getAttrValue("classname");
+    if (classname != null) {
+      name = classname + "/" + name;
     }
     return name;
   }
-
 }

@@ -74,8 +74,12 @@ public abstract class CxxSensor implements Sensor {
       List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                       reportPathKey(), defaultReportPath());
       for (File report : reports) {
-        CxxUtils.LOG.info("Parsing report '{}'", report);
-        parseReport(project, context, report);
+        CxxUtils.LOG.info("Processing report '{}'", report);
+        processReport(project, context, report);
+      }
+      
+      if (reports.isEmpty()) {
+        handleNoReportsCase(context);
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -139,9 +143,11 @@ public abstract class CxxSensor implements Sensor {
     }
   }
   
-  protected void parseReport(Project project, SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException, org.jdom.JDOMException, java.io.IOException
+  protected void processReport(Project project, SensorContext context, File report)
+    throws Exception
   {}
+
+  protected void handleNoReportsCase(SensorContext context) {}
   
   protected String reportPathKey() { return ""; };
   

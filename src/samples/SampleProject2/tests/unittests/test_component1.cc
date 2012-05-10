@@ -6,6 +6,8 @@ using namespace std;
 
 namespace {
     class Component1Test : public ::testing::Test {
+    public:
+        Component1Test() { throw "boom"; }
     protected:
         Bar bar;
     };

@@ -23,85 +23,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO copied from sonar-surefire-plugin
+ * Represents a unit test suite. Contains testcases, maintains some statistics.
+ * Reports testcase details in sonar-conform XML
  */
-public class TestSuiteReport {
+public class TestSuite {
 
-  private String classKey;
+  private String key;
   private int errors = 0;
   private int skipped = 0;
   private int tests = 0;
-  private int timeMS = 0;
+  private int time = 0;
   private int failures = 0;
-
-  private List<TestCaseDetails> details;
-
-  public TestSuiteReport(String classKey) {
-    super();
-    this.classKey = classKey;
-    this.details = new ArrayList<TestCaseDetails>();
+  private List<TestCase> testCases;
+  
+  /**
+   * Creates a testsuite instance uniquely identified by the given key
+   * @param key The key to construct a testsuite for
+   */
+  public TestSuite(String key) {
+    this.key = key;
+    this.testCases = new ArrayList<TestCase>();
   }
-
-  public String getClassKey() {
-    return classKey;
+  
+  public String getKey() {
+    return key;
   }
 
   public int getErrors() {
     return errors;
   }
-
-  public void setErrors(int errors) {
-    this.errors = errors;
-  }
-
+  
   public int getSkipped() {
     return skipped;
-  }
-
-  public void setSkipped(int skipped) {
-    this.skipped = skipped;
   }
 
   public int getTests() {
     return tests;
   }
 
-  public void setTests(int tests) {
-    this.tests = tests;
-  }
-
-  public int getTimeMS() {
-    return timeMS;
-  }
-
-  public void setTimeMS(int timeMS) {
-    this.timeMS = timeMS;
+  public int getTime() {
+    return time;
   }
 
   public int getFailures() {
     return failures;
   }
-
-  public void setFailures(int failures) {
-    this.failures = failures;
-  }
-
-  public List<TestCaseDetails> getDetails() {
-    return details;
-  }
-
-  public void setDetails(List<TestCaseDetails> details) {
-    this.details = details;
-  }
-
-  public boolean isValid() {
-    return classKey != null && !isInnerClass();
-  }
-
-  private boolean isInnerClass() {
-    return classKey != null && classKey.contains("$");
-  }
-
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -110,13 +77,43 @@ public class TestSuiteReport {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    TestSuiteReport that = (TestSuiteReport) o;
-    return classKey.equals(that.classKey);
+    
+    TestSuite that = (TestSuite) o;
+    return key.equals(that.key);
   }
 
   @Override
   public int hashCode() {
-    return classKey.hashCode();
+    return key.hashCode();
+  }
+  
+  /**
+   * Adds the given test case to this testsuite maintaining the internal statistics
+   * @param tc the test case to add
+   */
+  public void addTestCase(TestCase tc){ 
+    if (tc.isSkipped()) {
+      skipped++;
+    } else if (tc.isFailure()) {
+      failures++;
+    } else if (tc.isError()) {
+      errors++;
+    }
+    tests++;
+    time += tc.getTime();
+    testCases.add(tc);
+  }
+
+  /**
+   * Returns execution details as sonar-conform XML
+   */
+  public String getDetails() { 
+    StringBuilder details = new StringBuilder();
+    details.append("<tests-details>");
+    for (TestCase tc: testCases) {
+      details.append(tc.getDetails());
+    }
+    details.append("</tests-details>");
+    return details.toString();
   }
 }

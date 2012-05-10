@@ -65,7 +65,7 @@ public final class CxxRatsSensor extends CxxSensor {
     return DEFAULT_REPORT_PATH;
   }
   
-  protected void parseReport(Project project, SensorContext context, File report)
+  protected void processReport(Project project, SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException
   {    
     SAXBuilder builder = new SAXBuilder(false);
