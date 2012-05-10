@@ -1200,7 +1200,7 @@
     <configkey>incorrectLogicOperator</configkey>
     <name>Suspicious use of the '||' logic operator</name>
     <description>
-      Mutual exclusion over || always evaluates to true. Did you
+      Logical disjunction always evaluates to true. Did you
       intend to use &amp;&amp; instead?
     </description>
   </rule>
@@ -1251,7 +1251,7 @@
     <configkey>comparisonOfBoolWithInt</configkey>
     <name>Suspicious comparison of a boolean with an integer</name>
     <description>
-      Comparison of a boolean with integer that is neither 1 nor 0.
+      Comparison of a boolean with an integer that is neither 1 nor 0.
     </description>
   </rule>
   <rule>
@@ -1404,7 +1404,7 @@
     <configkey>stlIfStrFind</configkey>
     <name>Suspicious checking of string::find() return value</name>
     <description>
-      Suspicious checking of string::find() return value. string::find
+      Inefficient usage of string::find in condition. string::find
       will return '0' if the string is found at position '0'. If this is
       what you want to check then string::compare is a faster alternative
       because it doesn't scan through the string.
@@ -1615,6 +1615,14 @@
       Preprocessor directive error.
     </description>
   </rule>
+  <rule>
+    <key>publicAllocationError</key>
+    <configkey>publicAllocationError</configkey>
+    <name>Possible leak in public function</name>
+    <description>
+      Possible leak in public function. The pointer is not deallocated before it is allocated.
+    </description>
+  </rule>
 
   <!-- ########### New in cppcheck 1.51 ########### -->
   <rule>
@@ -1725,8 +1733,7 @@
     <configkey>uselessCallsSubstr</configkey>
     <name>Function 'substr' useless call. Function create copy of the 'str' object</name>
     <description>
-      Function 'substr' useless call. Function create copy of the
-      'str' object.
+      Useless call of function 'substr' because it returns a copy of the object. Use operator= instead.
     </description>
   </rule>
   <rule>
@@ -1866,6 +1873,64 @@
     <name>Wrong number of parameters given to printf()</name>
     <description>
       Wrong number of parameters given to printf().
+    </description>
+  </rule>
+
+  <!-- ########### New in cppcheck 1.54 ########### -->
+  <rule>
+    <key>uninitMemberVar</key>
+    <configkey>uninitMemberVar</configkey>
+    <name>Member variable is not initialized in the constructor</name>
+    <description>
+      Member variable is not initialized in the constructor.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantCondition</key>
+    <configkey>redundantCondition</configkey>
+    <name>Redundant condition</name>
+    <description>
+      This condition will always have the same result.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPointerCast</key>
+    <configkey>invalidPointerCast</configkey>
+    <name>Invalid pointer casting</name>
+    <description>
+      This casting is not portable due to different binary data representations on different platforms.
+    </description>
+  </rule>
+  <rule>
+    <key>virtualDestructor</key>
+    <configkey>virtualDestructor</configkey>
+    <name>Base classes should have virtual destructors</name>
+    <description>
+      Class Base which is inherited by class Derived does not have a virtual destructor
+    </description>
+  </rule>
+  <rule>
+    <key>leakNoVarFunctionCall</key>
+    <configkey>leakNoVarFunctionCall</configkey>
+    <name>Memory leak across function calls</name>
+    <description>
+      Memory allocated inside the called function is not freed by the caller function.
+    </description>
+  </rule>
+  <rule>
+    <key>stlcstrReturn</key>
+    <configkey>stlcstrReturn</configkey>
+    <name>Redundant c_str()-conversion in functions return</name>
+    <description>
+      Returning the result of c_str() in a function that returns std::string is slow and redundant.
+    </description>
+  </rule>
+  <rule>
+    <key>stlcstrParam</key>
+    <configkey>stlcstrParam</configkey>
+    <name>Redundant c_str()-conversion in parameter passing</name>
+    <description>
+      Passing the result of c_str() to a function that takes std::string as argument 0 is slow and redundant.
     </description>
   </rule>
 </rules>

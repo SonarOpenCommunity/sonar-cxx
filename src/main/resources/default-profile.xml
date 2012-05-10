@@ -916,6 +916,11 @@
       <key>preprocessorErrorDirective</key>
       <priority>MAJOR</priority>
     </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>publicAllocationError</key>
+      <priority>MAJOR</priority>
+    </rule>
 
     <!-- ########### New in cppcheck 1.51 ########### -->
     <rule>
@@ -1068,6 +1073,42 @@
       <priority>MAJOR</priority>
     </rule>
 
+    <!-- ########### New in cppcheck 1.54 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uninitMemberVar</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>redundantCondition</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPointerCast</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>virtualDestructor</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>leakNoVarFunctionCall</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlcstrReturn</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlcstrParam</key>
+      <priority>MINOR</priority>
+    </rule>
 
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
