@@ -6,8 +6,6 @@ using namespace std;
 
 namespace {
     class Component1Test : public ::testing::Test {
-    public:
-        Component1Test() { throw "boom"; }
     protected:
         Bar bar;
     };
@@ -29,7 +27,6 @@ namespace {
     }
     
     TEST_F(Component1Test, foo_leaking) {
-        Bar *b = new Bar();
-        b->do_valgrind_errors();
+        Bar().do_valgrind_errors();
     }
 }
