@@ -11,7 +11,7 @@
 
   <artifactId>sonar-cxx-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>0.1</version>
+  <version>0.2-SNAPSHOT</version>
   <name>Sonar C++ Plugin</name>
   <description>C++ Plugin for Sonar</description>
   <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
@@ -45,9 +45,9 @@
   </contributors>
 
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/tags/sonar-cxx-plugin-0.1</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-cxx-plugin-0.1</developerConnection>
-    <url>scm:svn:https://svn.codehaus.org/sonar-plugins/tags/sonar-cxx-plugin-0.1</url>
+    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/trunk/cxx</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx</developerConnection>
+    <url>http://svn.codehaus.org/sonar-plugins</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
