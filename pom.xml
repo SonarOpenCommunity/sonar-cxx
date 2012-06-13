@@ -25,9 +25,13 @@
     </license>
   </licenses>
 
-  <!-- TODO -->
-  <!-- <developers> -->
-  <!-- </developers> -->
+  <developers>
+    <developer>
+      <id>fbonin</id>
+      <name>Franck Bonin</name>
+      <email>franck.bonin@free.fr</email>
+    </developer>
+  </developers>
 
   <contributors>
     <contributor>
