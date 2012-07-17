@@ -35,13 +35,13 @@ import org.sonar.squid.measures.Metric;
 import org.sonar.squid.recognizer.CodeRecognizer;
 import org.sonar.squid.text.Source;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
-public final class CxxSquidSensor extends CxxSensor {
+public final class CxxSquidSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */

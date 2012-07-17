@@ -36,16 +36,16 @@ import org.junit.Before;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
 
-public class CxxSensorTest {
+public class CxxReportSensorTest {
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   private final String INVALID_REPORT_PATH = "something";
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
-  private class CxxSensorImpl extends CxxSensor {
+  private class CxxSensorImpl extends CxxReportSensor {
     public void analyse(Project p, SensorContext sc){}
   };
 
-  private CxxSensor sensor;
+  private CxxReportSensor sensor;
   private File baseDir;
 
   @Before
@@ -68,7 +68,7 @@ public class CxxSensorTest {
   @Test
   public void shouldExecuteOnlyWhenNecessary() {
     // which means: only on cxx projects
-    CxxSensor sensor = new CxxSensorImpl();
+    CxxReportSensor sensor = new CxxSensorImpl();
     Project cxxProject = mockProjectWithLanguageKey(CxxLanguage.KEY);
     Project foreignProject = mockProjectWithLanguageKey("whatever");
     assert(sensor.shouldExecuteOnProject(cxxProject));

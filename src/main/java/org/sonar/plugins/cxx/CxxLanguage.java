@@ -27,27 +27,64 @@ import org.sonar.api.resources.AbstractLanguage;
  * {@inheritDoc}
  */
 public final class CxxLanguage extends AbstractLanguage {
-  static final String DEFAULT_FILE_SUFFIXES = "cxx,cpp,cc,h,hxx,hpp,hh";
-  private Configuration config;
-
+  public static final String DEFAULT_SOURCE_SUFFIXES = "cxx,cpp,cc,c";
+  public static final String DEFAULT_HEADER_SUFFIXES = "hxx,hpp,hh,h";
   public static final String KEY = "c++";
+  
+  private String[] sourceSuffixes;
+  private String[] headerSuffixes;
+  private String[] fileSuffixes;
 
   /**
    * {@inheritDoc}
    */
   public CxxLanguage(Configuration config) {
     super(KEY, "c++");
-    this.config = config;
+    sourceSuffixes = createStringArray(config.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES); 
+    headerSuffixes = createStringArray(config.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
+    fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
+  }
+  
+  public CxxLanguage() {
+    super(KEY, "c++");
+    sourceSuffixes = createStringArray(null, DEFAULT_SOURCE_SUFFIXES); 
+    headerSuffixes = createStringArray(null, DEFAULT_HEADER_SUFFIXES);
+    fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
+  }
+  
+  public String[] mergeArrays(String[] array1, String[] array2) {
+    String[] result = new String[array1.length + array2.length];
+    System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
+    System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
+    return result;
   }
 
   /**
    * {@inheritDoc}
    */
   public String[] getFileSuffixes() {
-    String[] suffixes = config.getStringArray(CxxPlugin.FILE_SUFFIXES_KEY);
-    if (suffixes == null || suffixes.length == 0) {
-      suffixes = StringUtils.split(DEFAULT_FILE_SUFFIXES, ",");
-    }
-    return suffixes;
+    return fileSuffixes;
   }
+
+  /**
+   * @return  suffixes for c++ source files
+   */
+  public String[] getSourceFileSuffixes() {
+    return sourceSuffixes;
+  }
+
+  /**
+   * @return  suffixes for c++ header files
+   */
+  public String[] getHeaderFileSuffixes() {
+    return headerSuffixes; 
+  }
+
+  private String[] createStringArray(String[] values, String defaultValues) {
+    if(values == null || values.length == 0) {
+      return StringUtils.split(defaultValues, ",");
+    }
+    return values;
+  }
+  
 }

@@ -33,13 +33,13 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
-public class CxxCppNcssSensor extends CxxSensor {
+public class CxxCppNcssSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppncss.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppncss-reports/cppncss-result-*.xml";
   private static final Number[] METHODS_DISTRIB_BOTTOM_LIMITS = { 1, 2, 4, 6, 8, 10, 12 };

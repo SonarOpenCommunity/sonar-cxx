@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.utils;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,4 +37,15 @@ public final class CxxUtils {
    * Default logger.
    */
   public static final Logger LOG = LoggerFactory.getLogger("CxxPlugin");
+
+  /**
+   * @param file
+   * @return Returns file path of provided file, or "null" if file == null
+   */
+  public static String fileToAbsolutePath(File file) {
+    if(file == null) {
+      return "null";
+    }
+    return file.getAbsolutePath();
+  }  
 }

@@ -27,12 +27,12 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
  * {@inheritDoc}
  */
-public class CxxValgrindSensor extends CxxSensor {
+public class CxxValgrindSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
   private static final String DEFAULT_REPORT_PATH = "valgrind-reports/valgrind-result-*.xml";
   private RulesProfile profile;

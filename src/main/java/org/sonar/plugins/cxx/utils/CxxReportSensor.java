@@ -38,23 +38,23 @@ import org.sonar.plugins.cxx.CxxLanguage;
 /**
  * {@inheritDoc}
  */
-public abstract class CxxSensor implements Sensor {
+public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   private Configuration conf = null;
 
-  public CxxSensor() {}
+  public CxxReportSensor() {}
   
   /**
    * {@inheritDoc}
    */
-  public CxxSensor(Configuration conf) {
+  public CxxReportSensor(Configuration conf) {
     this.conf = conf;
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxSensor(RuleFinder ruleFinder, Configuration conf) {
+  public CxxReportSensor(RuleFinder ruleFinder, Configuration conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }

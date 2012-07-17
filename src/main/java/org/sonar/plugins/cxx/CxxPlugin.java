@@ -26,27 +26,36 @@ import org.sonar.api.Extension;
 import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.plugins.cxx.cohesion.CxxCohesionSensor;
+import org.sonar.plugins.cxx.coverage.CxxGcovrSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 import org.sonar.plugins.cxx.cppncss.CxxCppNcssSensor;
-import org.sonar.plugins.cxx.coverage.CxxGcovrSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
+import org.sonar.plugins.cxx.rfc.CxxRfcSensor;
+import org.sonar.plugins.cxx.squid.CxxSquidSensor;
 import org.sonar.plugins.cxx.valgrind.CxxValgrindRuleRepository;
 import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
-import org.sonar.plugins.cxx.squid.CxxSquidSensor;
 
 @Properties({
     @Property(
-      key = CxxPlugin.FILE_SUFFIXES_KEY,
-      defaultValue = CxxLanguage.DEFAULT_FILE_SUFFIXES,
-      name = "File suffixes",
-      description = "Comma-separated list of suffixes for files to analyze. Leave empty to use the default.",
+      key = CxxPlugin.SOURCE_FILE_SUFFIXES_KEY,
+      defaultValue = CxxLanguage.DEFAULT_SOURCE_SUFFIXES,
+      name = "Source files suffixes",
+      description = "Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.",
       global = true,
       project = true),
+    @Property(
+        key = CxxPlugin.HEADER_FILE_SUFFIXES_KEY,
+        defaultValue = CxxLanguage.DEFAULT_HEADER_SUFFIXES,
+        name = "Header files suffixes",
+        description = "Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.",
+        global = true,
+        project = true),
     @Property(
       key = CxxCppCheckSensor.REPORT_PATH_KEY,
       defaultValue = "",
@@ -105,7 +114,8 @@ import org.sonar.plugins.cxx.squid.CxxSquidSensor;
       project = true)
       })
 public final class CxxPlugin implements Plugin {
-  static final String FILE_SUFFIXES_KEY = "sonar.cxx.suffixes";
+  static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
+  static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
 
   /**
    * @deprecated this is not used anymore
@@ -138,6 +148,8 @@ public final class CxxPlugin implements Plugin {
     List<Class<? extends Extension>> l = new ArrayList<Class<? extends Extension>>();
     l.add(CxxLanguage.class);
     l.add(CxxSourceImporter.class);
+    l.add(CxxCohesionSensor.class);
+    l.add(CxxRfcSensor.class);
     l.add(CxxColorizer.class);
     l.add(CxxSquidSensor.class);
     l.add(CxxCpdMapping.class);

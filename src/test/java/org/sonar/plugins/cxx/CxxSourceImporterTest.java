@@ -29,13 +29,12 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.util.List;
 
-import org.junit.Before;
+import org.apache.commons.configuration.Configuration;
 import org.junit.Test;
+import org.sonar.api.CoreProperties;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.CoreProperties;
-import org.apache.commons.configuration.Configuration;
 
 public class CxxSourceImporterTest {
   @Test

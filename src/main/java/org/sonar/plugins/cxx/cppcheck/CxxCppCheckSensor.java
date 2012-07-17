@@ -33,7 +33,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
@@ -46,7 +46,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * @todo enable include dirs (-I)
  * @todo allow configuration of path to analyze
  */
-public class CxxCppCheckSensor extends CxxSensor {
+public class CxxCppCheckSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   private RulesProfile profile;

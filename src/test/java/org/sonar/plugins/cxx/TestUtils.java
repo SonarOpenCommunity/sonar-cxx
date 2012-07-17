@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
+import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
@@ -63,34 +64,52 @@ public class TestUtils{
     return resourceAsFile;
   }
 
+  /**
+   * @return  default mock project
+   */
   public static Project mockProject() {
-    File baseDir = loadResource("/org/sonar/plugins/cxx/");
-
-    List<File> sourceFiles = new ArrayList<File>();
-    sourceFiles.add(new File(baseDir, "sources/application/main.cpp"));
-    sourceFiles.add(new File(baseDir, "sources/tests/SAMPLE-test.cpp"));
-    sourceFiles.add(new File(baseDir, "sources/tests/SAMPLE-test.h"));
-    sourceFiles.add(new File(baseDir, "sources/tests/main.cpp"));
-    sourceFiles.add(new File(baseDir, "sources/utils/code_chunks.cpp"));
-    sourceFiles.add(new File(baseDir, "sources/utils/utils.cpp"));
-
-    List<InputFile> mainFiles = fromSourceFiles(sourceFiles);
-
+    File baseDir;
+    baseDir = loadResource("/org/sonar/plugins/cxx/");  //we skip "SampleProject" dir because report dirs as here
+    
     List<File> sourceDirs = new ArrayList<File>();
-    sourceDirs.add(new File(baseDir, "sources"));
-
+    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/application/") );
+    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/utils/")); 
+    
+    List<File> testDirs = new ArrayList<File>();      
+    testDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/tests/"));
+    
+    return mockProject(baseDir, sourceDirs, testDirs);
+  }
+  
+  /**
+   * Mock project
+   * @param baseDir project base dir
+   * @param sourceFiles project source files
+   * @return  mocked project
+   */
+  public static Project mockProject(File baseDir, List<File> sourceDirs, List<File> testDirs) {
+    List<File> mainSourceFiles = scanForSourceFiles(sourceDirs);
+    List<File> testSourceFiles = scanForSourceFiles(testDirs);
+    
+    List<InputFile> mainFiles = fromSourceFiles(mainSourceFiles);
+    List<InputFile> testFiles = fromSourceFiles(testSourceFiles);
+    
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
     when(fileSystem.getBasedir()).thenReturn(baseDir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-    when(fileSystem.getSourceFiles(mockCxxLanguage())).thenReturn(sourceFiles);
+    when(fileSystem.getSourceFiles(mockCxxLanguage())).thenReturn(mainSourceFiles);
+    when(fileSystem.getTestFiles(mockCxxLanguage())).thenReturn(testSourceFiles);
     when(fileSystem.mainFiles(CxxLanguage.KEY)).thenReturn(mainFiles);
+    when(fileSystem.testFiles(CxxLanguage.KEY)).thenReturn(testFiles);
     when(fileSystem.getSourceDirs()).thenReturn(sourceDirs);
+    when(fileSystem.getTestDirs()).thenReturn(testDirs);
 
     Project project = mock(Project.class);
     when(project.getFileSystem()).thenReturn(fileSystem);
     CxxLanguage lang = mockCxxLanguage();
     when(project.getLanguage()).thenReturn(lang);
-
+    when(project.getLanguageKey()).thenReturn(lang.getKey());
+    
     return project;
   }
 
@@ -106,5 +125,27 @@ public class TestUtils{
 
   public static CxxLanguage mockCxxLanguage(){
     return new CxxLanguage(mock(Configuration.class));
+  }
+  
+  private static List<File> scanForSourceFiles(List<File> sourceDirs) {
+    List<File> result = new ArrayList<File>();
+    String[] suffixes = mockCxxLanguage().getFileSuffixes();
+    String[] includes = new String[ suffixes.length ];
+    for(int i = 0; i < includes.length; ++i) {
+      includes[i] = "**/*." + suffixes[i];
+    }
+    
+    DirectoryScanner scanner = new DirectoryScanner();
+    for(File baseDir : sourceDirs) {
+      scanner.setBasedir(baseDir);
+      scanner.setIncludes(includes);  
+      scanner.scan();
+      for (String relPath : scanner.getIncludedFiles()) {
+        File f = new File(baseDir, relPath);
+        result.add(f);
+      }  
+    }
+    
+    return result;
   }
 }

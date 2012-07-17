@@ -24,26 +24,72 @@ import static org.junit.Assert.assertThat;
 
 import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.Configuration;
+import org.junit.Before;
 import org.junit.Test;
-import org.sonar.plugins.cxx.CxxLanguage;
 
 public class CxxLanguageTest {
+  
+  private Configuration config;
+  
+  @Before
+  public void setup() {
+    config = new BaseConfiguration();
+  }
+  
   @Test
-  public void shouldReturnConfiguredSuffixes() {
-    Configuration config = new BaseConfiguration();
-    config.setProperty(CxxPlugin.FILE_SUFFIXES_KEY, "C, c");
+  public void shouldReturnConfiguredFileSuffixes() {
+    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, "C,c");
+    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, "H,h");
     CxxLanguage cxx = new CxxLanguage(config);
 
-    String[] expected = {"C", "c"};
+    String[] expected = {"C", "c", "H", "h"};
+    String[] expectedSources = {"C", "c"};
+    String[] expectedHeaders = {"H", "h"};
+    
     assertThat(cxx.getFileSuffixes(), is(expected));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
-
+  
   @Test
-  public void shouldFallbackToDefaultIfNoSuffixesConfigured() {
-    Configuration config = new BaseConfiguration();
+  public void shouldReturnDefaultFileSuffixes() {
     CxxLanguage cxx = new CxxLanguage(config);
-    String[] suffixes = cxx.getFileSuffixes();
-    assert(suffixes != null);
-    assert(suffixes.length > 0);
+    
+    String[] expectedSources = {"cxx", "cpp", "cc", "c"};
+    String[] expectedHeaders = {"hxx", "hpp", "hh", "h"};
+    String[] expectedAll = {"cxx", "cpp", "cc", "c", "hxx", "hpp", "hh", "h"};
+    
+    assertThat(cxx.getFileSuffixes(), is(expectedAll));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
   }
+  
+  @Test
+  public void shouldReturnConfiguredSourceSuffixes() {
+    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, "C,c");
+    CxxLanguage cxx = new CxxLanguage(config);
+    
+    String[] expectedSources = {"C", "c"};
+    String[] expectedHeaders = {"hxx", "hpp", "hh", "h"};
+    String[] expectedAll = {"C", "c", "hxx", "hpp", "hh", "h"};
+    
+    assertThat(cxx.getFileSuffixes(), is(expectedAll));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
+  }
+  
+  @Test
+  public void shouldReturnConfiguredHeaderSuffixes() {
+    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, "H,h");
+    CxxLanguage cxx = new CxxLanguage(config);
+    
+    String[] expectedSources = {"cxx", "cpp", "cc", "c"};
+    String[] expectedHeaders = {"H", "h"};
+    String[] expectedAll = {"cxx", "cpp", "cc", "c", "H", "h"};
+    
+    assertThat(cxx.getFileSuffixes(), is(expectedAll));
+    assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
+    assertThat(cxx.getHeaderFileSuffixes(), is(expectedHeaders));
+  }
+    
 }

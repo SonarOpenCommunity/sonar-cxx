@@ -43,13 +43,13 @@ import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.api.utils.XmlParserException;
-import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
-public class CxxGcovrSensor extends CxxSensor {
+public class CxxGcovrSensor extends CxxReportSensor {
   //
   // This is a modified copy of sonar-cobertura-plugin.
   // This code is deemed to die. We can make it reuse the AbstractCoberturaParser as

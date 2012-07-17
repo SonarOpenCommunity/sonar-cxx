@@ -20,12 +20,14 @@
 
 package org.sonar.plugins.cxx;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class CxxPluginTest {
   @Test
   public void testGetExtensions() throws Exception {
     CxxPlugin plugin = new CxxPlugin();
-    assert (plugin.getExtensions().size() == 17);
+    assertEquals(19, plugin.getExtensions().size());
   }
 }

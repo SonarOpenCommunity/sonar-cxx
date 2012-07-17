@@ -42,14 +42,14 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}
  */
-public class CxxXunitSensor extends CxxSensor {
+public class CxxXunitSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";

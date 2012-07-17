@@ -29,13 +29,13 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.plugins.cxx.utils.CxxSensor;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
-public final class CxxRatsSensor extends CxxSensor {
+public final class CxxRatsSensor extends CxxReportSensor {
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
   private static final String DEFAULT_REPORT_PATH = "rats-reports/rats-result-*.xml";

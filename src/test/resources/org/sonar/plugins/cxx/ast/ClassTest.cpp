@@ -1,20 +1,28 @@
+#include "extern/ExternHeader.h"
+#include "ClassTest.h"
 
-class MyClass
-{
-public:
-  void  setValue(int value);
-  int   getValue();
-  
-  int   publicMember;
+/**
+*	Documentation comment
+**/
+void MyClass::setValue(int value) {
+	publicMember = value;
+}
 
-protected:
-  int   sanityCheck();
-  
-  int   protectedMember;
+int MyClass::getValue() {
+	return publicMember;
+}
 
-private:
-  void init();
-  bool isValid();  
-  
-  float privateMember;
-};
+int MyClass::sanityCheck() {
+	//do some stuff
+	return 0;
+}
+
+void MyClass::init() {
+	publicMember = 0;
+	protectedMember = 0;
+	privateMember = 0.0f;
+}
+
+bool MyClass::isValid() {
+	return publicMember == protectedMember;
+}
