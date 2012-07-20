@@ -157,37 +157,37 @@
     <!-- Replace the add jars section with the following system-dependencies, when -->
     <!-- the sonar analysis of the plugins doesnt work for you -->
     
-    <dependency>
-      <groupId>org.eclipse.cdt</groupId>
-      <artifactId>core</artifactId>
-      <version>5.3.2</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/org.eclipse.cdt.core_5.3.2.201202111925.jar</systemPath>
-    </dependency>
+    <!-- <dependency> -->
+    <!--   <groupId>org.eclipse.cdt</groupId> -->
+    <!--   <artifactId>core</artifactId> -->
+    <!--   <version>5.3.2</version> -->
+    <!--   <scope>system</scope> -->
+    <!--   <systemPath>${project.basedir}/lib/org.eclipse.cdt.core_5.3.2.201202111925.jar</systemPath> -->
+    <!-- </dependency> -->
 
-    <dependency>
-      <groupId>org.eclipse.cdt</groupId>
-      <artifactId>core_source</artifactId>
-      <version>5.3.2</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/org.eclipse.cdt.core.source_5.3.2.201202111925.jar</systemPath>
-    </dependency>
+    <!-- <dependency> -->
+    <!--   <groupId>org.eclipse.cdt</groupId> -->
+    <!--   <artifactId>core_source</artifactId> -->
+    <!--   <version>5.3.2</version> -->
+    <!--   <scope>system</scope> -->
+    <!--   <systemPath>${project.basedir}/lib/org.eclipse.cdt.core.source_5.3.2.201202111925.jar</systemPath> -->
+    <!-- </dependency> -->
 
-    <dependency>
-      <groupId>org.eclipse.core</groupId>
-      <artifactId>resources</artifactId>
-      <version>5.3.2</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/org.eclipse.core.resources.jar</systemPath>
-    </dependency>
+    <!-- <dependency> -->
+    <!--   <groupId>org.eclipse.core</groupId> -->
+    <!--   <artifactId>resources</artifactId> -->
+    <!--   <version>5.3.2</version> -->
+    <!--   <scope>system</scope> -->
+    <!--   <systemPath>${project.basedir}/lib/org.eclipse.core.resources.jar</systemPath> -->
+    <!-- </dependency> -->
 
-    <dependency>
-      <groupId>org.eclipse.core</groupId>
-      <artifactId>runtime</artifactId>
-      <version>5.3.2</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/org.eclipse.core.runtime-3.1.0.jar</systemPath>
-    </dependency>
+    <!-- <dependency> -->
+    <!--   <groupId>org.eclipse.core</groupId> -->
+    <!--   <artifactId>runtime</artifactId> -->
+    <!--   <version>5.3.2</version> -->
+    <!--   <scope>system</scope> -->
+    <!--   <systemPath>${project.basedir}/lib/org.eclipse.core.runtime-3.1.0.jar</systemPath> -->
+    <!-- </dependency> -->
     
   </dependencies>
   
@@ -201,31 +201,31 @@
         </configuration>
       </plugin>
 
-      <!-- <plugin> -->
-      <!--   <groupId>com.googlecode.addjars-maven-plugin</groupId> -->
-      <!--   <artifactId>addjars-maven-plugin</artifactId> -->
-      <!--   <version>1.0.3</version> -->
-      <!--   <executions> -->
-      <!--     <execution> -->
-      <!--       <goals> -->
-      <!--         <goal>add-jars</goal> -->
-      <!--       </goals> -->
-      <!--       <configuration> -->
-      <!--         <resources> -->
-      <!--           <resource> -->
-      <!--             <directory>${basedir}/lib</directory> -->
-      <!--             <includes> -->
-      <!--               <include>**/*.jar</include> -->
-      <!--             </includes> -->
-      <!--             <excludes> -->
-      <!--               <exclude>**/*.source_*.jar</exclude> -->
-      <!--             </excludes> -->
-      <!--           </resource> -->
-      <!--         </resources> -->
-      <!--       </configuration> -->
-      <!--     </execution> -->
-      <!--   </executions> -->
-      <!-- </plugin> -->
+      <plugin>
+        <groupId>com.googlecode.addjars-maven-plugin</groupId>
+        <artifactId>addjars-maven-plugin</artifactId>
+        <version>1.0.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>add-jars</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>${basedir}/lib</directory>
+                  <includes>
+                    <include>**/*.jar</include>
+                  </includes>
+                  <excludes>
+                    <exclude>**/*.source_*.jar</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       
     </plugins>
   </build>
