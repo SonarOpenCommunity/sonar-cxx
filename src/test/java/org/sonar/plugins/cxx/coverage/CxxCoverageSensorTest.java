@@ -37,15 +37,15 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.plugins.cxx.TestUtils;
 
-public class CxxGcovrSensorTest {
-  private CxxGcovrSensor sensor;
+public class CxxCoverageSensorTest {
+  private CxxCoverageSensor sensor;
   private SensorContext context;
   private Project project;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    sensor = new CxxGcovrSensor(mock(Configuration.class));
+    sensor = new CxxCoverageSensor(mock(Configuration.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

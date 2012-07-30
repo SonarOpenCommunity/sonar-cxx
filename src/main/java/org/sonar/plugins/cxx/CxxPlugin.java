@@ -27,7 +27,7 @@ import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.plugins.cxx.cohesion.CxxCohesionSensor;
-import org.sonar.plugins.cxx.coverage.CxxGcovrSensor;
+import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 import org.sonar.plugins.cxx.cppncss.CxxCppNcssSensor;
@@ -71,7 +71,7 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
       global = false,
       project = true),
     @Property(
-      key = CxxGcovrSensor.REPORT_PATH_KEY,
+      key = CxxCoverageSensor.REPORT_PATH_KEY,
       defaultValue = "",
       name = "Path to gcovr report(s)",
       description = "Relative to projects' root. Ant patterns are accepted",
@@ -156,7 +156,7 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxRatsRuleRepository.class);
     l.add(CxxRatsSensor.class);
     l.add(CxxXunitSensor.class);
-    l.add(CxxGcovrSensor.class);
+    l.add(CxxCoverageSensor.class);
     l.add(CxxCppCheckRuleRepository.class);
     l.add(CxxCppCheckSensor.class);
     l.add(CxxCppNcssSensor.class);
