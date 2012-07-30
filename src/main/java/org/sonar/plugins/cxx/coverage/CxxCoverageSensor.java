@@ -29,7 +29,10 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.configuration.Configuration;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.CoverageMeasuresBuilder;
 import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -62,22 +65,24 @@ public class CxxCoverageSensor extends CxxReportSensor {
     List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
                                     REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     CxxUtils.LOG.debug("Parsing coverage reports");
-    analyseReports(project, context, reports);
-
+    Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
+    saveMeasures(project, context, coverageMeasures, false);
+    
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
 				      IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
-    analyseReports(project, context, itReports);
+    coverageMeasures = parseReports(itReports);
+    saveMeasures(project, context, coverageMeasures, true);
   }
   
-  private void analyseReports(Project project, SensorContext context, 
-			     List<File> reports) {
-    Map<String, FileData> fileDataPerFilename = new HashMap<String, FileData>();
+  private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
+    Map<String, CoverageMeasuresBuilder>  coverageMeasures = new HashMap<String, CoverageMeasuresBuilder>();
+    
     for (File report : reports) {
       boolean parsed = false;
       for (CoverageParser parser: parsers){
 	try{
-	  parser.parseReport(report, fileDataPerFilename);
+	  parser.parseReport(report, coverageMeasures);
 
 	  CxxUtils.LOG.debug("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
 	  parsed = true;
@@ -91,20 +96,52 @@ public class CxxCoverageSensor extends CxxReportSensor {
 	CxxUtils.LOG.error("Report {} cannot be parsed", report);
       }
     }
-    
-    for (FileData cci : fileDataPerFilename.values()) {
-      String filePath = cci.getFileName();
+
+    return coverageMeasures;
+  }
+
+  private void saveMeasures(Project project,
+			    SensorContext context,
+			    Map<String, CoverageMeasuresBuilder> coverageMeasures,
+			    boolean itTest) {
+    for(Map.Entry<String, CoverageMeasuresBuilder> entry: coverageMeasures.entrySet()) {
+      String filePath = entry.getKey();
       org.sonar.api.resources.File cxxfile =
         org.sonar.api.resources.File.fromIOFile(new File(filePath), project);
       if (fileExist(context, cxxfile)) {
         CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
-        for (Measure measure : cci.getMeasures()) {
-          context.saveMeasure(cxxfile, measure);
+        for (Measure measure : entry.getValue().createMeasures()) {
+	  measure = itTest ? convertToItMeasure(measure) : measure;
+	  context.saveMeasure(cxxfile, measure);
         }
       } else {
         CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
       }
     }
+  }
+    
+  Measure convertToItMeasure(Measure measure){
+    Measure itMeasure = null;
+    Metric metric = measure.getMetric();
+    Double value = measure.getValue();
+    
+    if (CoreMetrics.LINES_TO_COVER.equals(metric)) {
+      itMeasure = new Measure(CoreMetrics.IT_LINES_TO_COVER, value);
+    } else if (CoreMetrics.UNCOVERED_LINES.equals(metric)) {
+      itMeasure = new Measure(CoreMetrics.IT_UNCOVERED_LINES, value);
+    } else if (CoreMetrics.COVERAGE_LINE_HITS_DATA.equals(metric)) {
+      itMeasure = new Measure(CoreMetrics.IT_COVERAGE_LINE_HITS_DATA, measure.getData());
+    } else if (CoreMetrics.CONDITIONS_TO_COVER.equals(metric)) {
+      itMeasure = new Measure(CoreMetrics.IT_CONDITIONS_TO_COVER, value);
+    } else if (CoreMetrics.UNCOVERED_CONDITIONS.equals(metric)) {
+      itMeasure = new Measure(CoreMetrics.IT_UNCOVERED_CONDITIONS, value);
+    } else if (CoreMetrics.COVERED_CONDITIONS_BY_LINE.equals(metric)) {
+      itMeasure = new Measure(CoreMetrics.IT_COVERED_CONDITIONS_BY_LINE, measure.getData());
+    } else if (CoreMetrics.CONDITIONS_BY_LINE.equals(metric)) {
+      itMeasure = new Measure(CoreMetrics.IT_CONDITIONS_BY_LINE, measure.getData());
+    }
+    
+    return itMeasure;
   }
   
   private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {

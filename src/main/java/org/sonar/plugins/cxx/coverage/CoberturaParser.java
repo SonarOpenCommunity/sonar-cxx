@@ -19,11 +19,7 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import static java.util.Locale.ENGLISH;
-import static org.sonar.api.utils.ParsingUtils.parseNumber;
-
 import java.io.File;
-import java.text.ParseException;
 import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
@@ -31,6 +27,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
+import org.sonar.api.measures.CoverageMeasuresBuilder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -38,8 +35,10 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CoberturaParser implements CoverageParser {
-  
-  public void parseReport(File xmlFile, final Map<String, FileData> dataPerFilename)
+  /**
+   * {@inheritDoc}
+   */
+  public void parseReport(File xmlFile, final Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException
   {
     CxxUtils.LOG.info("Parsing report '{}'", xmlFile);
@@ -50,50 +49,45 @@ public class CoberturaParser implements CoverageParser {
        */
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
 	rootCursor.advance();
-	collectPackageMeasures(rootCursor.descendantElementCursor("package"), dataPerFilename);
+	collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
       }
     });
     parser.parse(xmlFile);
   }
-
-  private void collectPackageMeasures(SMInputCursor pack, Map<String, FileData> dataPerFilename)
+  
+  private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException
   {
     while (pack.getNext() != null) {
-      collectFileMeasures(pack.descendantElementCursor("class"), dataPerFilename);
+      collectFileMeasures(pack.descendantElementCursor("class"), coverageData);
     }
   }
 
-  private void collectFileMeasures(SMInputCursor clazz, Map<String, FileData> dataPerFilename)
+  private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException
   {
     while (clazz.getNext() != null) {
       String fileName = clazz.getAttrValue("filename");
-      FileData data = dataPerFilename.get(fileName);
-      if (data == null) {
-        data = new FileData(fileName);
-        dataPerFilename.put(fileName, data);
+      CoverageMeasuresBuilder builder = coverageData.get(fileName);
+      if (builder == null) {
+        builder = CoverageMeasuresBuilder.create();
+        coverageData.put(fileName, builder);
       }
-      collectFileData(clazz, data);
+      collectFileData(clazz, builder);
     }
   }
 
-  private void collectFileData(SMInputCursor clazz, FileData data) throws XMLStreamException {
+  private void collectFileData(SMInputCursor clazz, CoverageMeasuresBuilder builder) throws XMLStreamException {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
     while (line.getNext() != null) {
-      String lineId = line.getAttrValue("number");
-      try {
-	data.addLine(lineId, (int) parseNumber(line.getAttrValue("hits"), ENGLISH));
-      } catch (ParseException e) {
-	throw new XMLStreamException(e);
-      }
+      int lineId = Integer.parseInt(line.getAttrValue("number"));
+      builder.setHits(lineId, Integer.parseInt(line.getAttrValue("hits")));
 
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");
       if (StringUtils.equals(isBranch, "true") && StringUtils.isNotBlank(text)) {
-        String[] conditions = StringUtils.split(StringUtils.substringBetween(text, "(", ")"), "/");
-        data.addConditionLine(lineId, Integer.parseInt(conditions[0]), Integer.parseInt(conditions[1]),
-            StringUtils.substringBefore(text, " "));
+	String[] conditions = StringUtils.split(StringUtils.substringBetween(text, "(", ")"), "/");
+	builder.setConditions(lineId,  Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));
       }
     }
   }
