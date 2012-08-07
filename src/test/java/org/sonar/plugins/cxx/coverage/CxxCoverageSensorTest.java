@@ -54,6 +54,6 @@ public class CxxCoverageSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(66)).saveMeasure((Resource) anyObject(), any(Measure.class));
+    verify(context, times(33)).saveMeasure((Resource) anyObject(), any(Measure.class));
   }
 }

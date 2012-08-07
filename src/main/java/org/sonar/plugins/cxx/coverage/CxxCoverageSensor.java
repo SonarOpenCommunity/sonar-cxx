@@ -56,6 +56,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public CxxCoverageSensor(Configuration conf) {
     this.conf = conf;
     parsers.add(new CoberturaParser());
+    parsers.add(new BullseyeParser());    
   }
 
   /**
@@ -70,7 +71,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-				      IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
+                                      IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
     coverageMeasures = parseReports(itReports);
     saveMeasures(project, context, coverageMeasures, true);
   }
@@ -81,19 +82,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
     for (File report : reports) {
       boolean parsed = false;
       for (CoverageParser parser: parsers){
-	try{
-	  parser.parseReport(report, coverageMeasures);
-
-	  CxxUtils.LOG.debug("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
-	  parsed = true;
-	  break;
-	} catch (XMLStreamException e) {
-	  CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
-	}
+        try{
+          coverageMeasures.clear();
+          parser.parseReport(report, coverageMeasures);
+          
+          if (!coverageMeasures.isEmpty()) {
+            parsed = true;
+            CxxUtils.LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
+            break;            
+          }
+        } catch (XMLStreamException e) {
+          CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
+        }
       }
       
       if(!parsed){
-	CxxUtils.LOG.error("Report {} cannot be parsed", report);
+        CxxUtils.LOG.error("Report {} cannot be parsed", report);
       }
     }
 
@@ -101,9 +105,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   private void saveMeasures(Project project,
-			    SensorContext context,
-			    Map<String, CoverageMeasuresBuilder> coverageMeasures,
-			    boolean itTest) {
+                            SensorContext context,
+                            Map<String, CoverageMeasuresBuilder> coverageMeasures,
+                            boolean itTest) {
     for(Map.Entry<String, CoverageMeasuresBuilder> entry: coverageMeasures.entrySet()) {
       String filePath = entry.getKey();
       org.sonar.api.resources.File cxxfile =
@@ -111,8 +115,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
       if (fileExist(context, cxxfile)) {
         CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : entry.getValue().createMeasures()) {
-	  measure = itTest ? convertToItMeasure(measure) : measure;
-	  context.saveMeasure(cxxfile, measure);
+          measure = itTest ? convertToItMeasure(measure) : measure;
+          context.saveMeasure(cxxfile, measure);
         }
       } else {
         CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
