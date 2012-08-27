@@ -33,6 +33,7 @@ import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.utils.CxxOsValidator;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -133,9 +134,10 @@ public class CxxCppNcssSensor extends CxxReportSensor {
     loc = fullFuncName.split("::");
     String className = (loc.length > 1) ? loc[0] : "GLOBAL";
     String funcName = (loc.length > 1) ? loc[1] : loc[0];
-    loc = fullFileName.split(":");
-    String fileName = loc[0];
     
+    CxxCppNcssFile file = new CxxCppNcssFile(fullFileName, CxxOsValidator.getOSType());
+    String fileName = file.getFileName();
+        
     FileData fileData = files.get(fileName);
     if (fileData == null) {
       fileData = new FileData(fileName);
