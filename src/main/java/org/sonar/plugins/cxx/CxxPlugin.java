@@ -31,6 +31,8 @@ import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 import org.sonar.plugins.cxx.cppncss.CxxCppNcssSensor;
+import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
+import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.rfc.CxxRfcSensor;
@@ -60,6 +62,13 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
       key = CxxCppCheckSensor.REPORT_PATH_KEY,
       defaultValue = "",
       name = "Path to cppcheck report(s)",
+      description = "Relative to projects' root. Ant patterns are accepted",
+      global = false,
+      project = true),
+    @Property(
+      key = CxxPCLintSensor.REPORT_PATH_KEY,
+      defaultValue = "",
+      name = "Path to pclint report(s)",
       description = "Relative to projects' root. Ant patterns are accepted",
       global = false,
       project = true),
@@ -159,12 +168,15 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxCoverageSensor.class);
     l.add(CxxCppCheckRuleRepository.class);
     l.add(CxxCppCheckSensor.class);
+    l.add(CxxPCLintRuleRepository.class);
+    l.add(CxxPCLintSensor.class);
     l.add(CxxCppNcssSensor.class);
     l.add(CxxVeraxxRuleRepository.class);
     l.add(CxxVeraxxSensor.class);
     l.add(CxxValgrindRuleRepository.class);
     l.add(CxxValgrindSensor.class);
     l.add(CxxDefaultProfile.class);
+    l.add(CxxWithPCLintProfile.class);
     return l;
   }
 

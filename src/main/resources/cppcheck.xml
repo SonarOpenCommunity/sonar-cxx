@@ -1787,6 +1787,14 @@
       Invalid printf argument type (integer required).
     </description>
   </rule>
+   <rule>
+    <key>invalidPrintfArgType_sint</key>
+    <configkey>invalidPrintfArgType_sint</configkey>
+    <name>Invalid printf argument type (signed integer required)</name>
+    <description>
+      Invalid printf argument type (signed integer required).
+    </description>
+  </rule> 
   <rule>
     <key>invalidPrintfArgType_float</key>
     <configkey>invalidPrintfArgType_float</configkey>
@@ -1933,4 +1941,66 @@
       Passing the result of c_str() to a function that takes std::string as argument 0 is slow and redundant.
     </description>
   </rule>
+  <!-- ########### Missing for cppcheck 1.54 ########### -->
+  <rule>
+    <key>StlMissingComparison</key>
+    <configkey>StlMissingComparison</configkey>
+    <name>Missing bounds check for extra iterator increment in loop</name>
+    <description>
+      Missing bounds check for extra iterator increment in loop. The iterator incrementing is suspicious - it is incremented at line 'line-number-1' and then at line 'line-number-2'
+      The loop might unintentionally skip an element in the container. There is no comparison between these increments to prevent that the iterator is incremented beyond the end. 
+    </description>
+  </rule>
+    <rule>
+    <key>strncatUsage</key>
+    <configkey>strncatUsage</configkey>
+    <name>Dangerous usage of strncat</name>
+    <description>
+      Dangerous usage of strncat - 3rd parameter is the maximum number of characters to append.
+      strncat appends at max its 3rd parameter's amount of characters. The safe way to use strncat is to calculate remaining space in the buffer and use it as 3rd parameter.
+    </description>
+  </rule>
+   <!-- ########### New in cppcheck 1.55 ########### --> 
+    <rule>
+    <key>useInitializationList</key>
+    <configkey>useInitializationList</configkey>
+    <name>member variable shall be initialized using constructor</name>
+    <description>
+      When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don't explicitly write them to the initialization list. 
+      You could avoid assigning 'symbol' a value by passing the value to the constructor in the initialization list.
+    </description>
+  </rule>
+   <rule>
+    <key>invalidScanfFormatWidth</key>
+    <configkey>invalidScanfFormatWidth</configkey>
+    <name>wrong width for scanf parameter</name>
+    <description>
+      Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
+    </description>
+  </rule>  
+   <rule>
+    <key>missingScanfFormatWidth</key>
+    <configkey>missingScanfFormatWidth</configkey>
+    <name>wrong width for scanf parameter</name>
+    <description>
+      Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
+    </description>
+  </rule>
+    <!-- ########### Missing or new in cppcheck 1.56 ########### -->
+    <rule>
+      <key>uselessCallsEmpty</key>
+      <configkey>uselessCallsEmpty</configkey>
+    <name>Useless call of function 'empty()'</name>
+    <description>
+      Useless call of function 'empty()'. Did you intend to call 'clear()' instead?
+    </description>
+    </rule>
+    <rule>
+      <key>clarifyStatement</key>
+      <configkey>clarifyStatement</configkey>
+    <name>Check statement and clarify behavior</name>
+    <description>
+      A statement like '*A++;' might not do what you intended. 'operator*' is executed before postfix 'operator++'. Thus, the dereference is meaningless. Did you intend to write '(*A)++;'?
+    </description>
+    </rule>  
 </rules>

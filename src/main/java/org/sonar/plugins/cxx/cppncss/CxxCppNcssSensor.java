@@ -65,6 +65,7 @@ public class CxxCppNcssSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException
   {
+	try {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -84,6 +85,9 @@ public class CxxCppNcssSensor extends CxxReportSensor {
       }
     });
     parser.parse(report);
+	} catch (javax.xml.stream.XMLStreamException e){
+		CxxUtils.LOG.info("Ignore XML stream exception for CppNccs '{}'",e.toString());
+	}
   }
   
   private void collectMeasure(SMInputCursor measureCursor, Map<String, FileData> files)

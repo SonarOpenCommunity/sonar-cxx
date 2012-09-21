@@ -17,17 +17,26 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
+package org.sonar.plugins.cxx.pclint;
 
-package org.sonar.plugins.cxx;
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
-import static org.junit.Assert.assertEquals;
+/**
+ * {@inheritDoc}
+ */
+public final class CxxPCLintRuleRepository extends CxxAbstractRuleRepository {
+  static final String KEY = "pclint";
+  
+  /**
+   * {@inheritDoc}
+   */
+  public CxxPCLintRuleRepository() {
+    super(KEY);
+    setName(KEY);
+  }
 
-import org.junit.Test;
-
-public class CxxPluginTest {
-  @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(22, plugin.getExtensions().size());
+  @Override
+  protected String fileName() {
+    return "/pclint.xml";
   }
 }

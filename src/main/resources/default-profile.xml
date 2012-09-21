@@ -1024,6 +1024,11 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidPrintfArgType_sint</key>
+      <priority>MINOR</priority>
+    </rule> 
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
       <key>invalidPrintfArgType_float</key>
       <priority>MINOR</priority>
     </rule>
@@ -1109,7 +1114,44 @@
       <key>stlcstrParam</key>
       <priority>MINOR</priority>
     </rule>
-
+    <!-- ########### Missing for cppcheck 1.54 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>StlMissingComparison</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>strncatUsage</key>
+      <priority>MINOR</priority>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.55 ########### -->
+     <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>useInitializationList</key>
+      <priority>MINOR</priority>
+    </rule>     
+     <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfFormatWidth</key>
+      <priority>MAJOR</priority>
+    </rule>
+     <rule>
+    <repositoryKey>cppcheck</repositoryKey>
+      <key>missingScanfFormatWidth</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.56 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uselessCallsEmpty</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>clarifyStatement</key>
+      <priority>CRITICAL</priority>
+    </rule>   
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->
