@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion> 
 
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
-    <version>13</version>
-    <relativePath>../parent</relativePath>
+    <version>14</version>
   </parent>
-
-  <artifactId>sonar-cxx-plugin</artifactId>
-  <packaging>sonar-plugin</packaging>
+  
+  <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+  <artifactId>cxx</artifactId>
   <version>0.2-SNAPSHOT</version>
-  <name>Sonar C++ Plugin</name>
-  <description>C++ Plugin for Sonar</description>
-  <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
-  <inceptionYear>2010</inceptionYear>
+  <packaging>pom</packaging>
 
+  <name>Cxx</name>
+  <inceptionYear>2011</inceptionYear>
+  <organization>
+    <name>Waleri Enns</name>
+  </organization>
   <licenses>
     <license>
-      <name>GNU LGPL v3</name>
+      <name>GNU LGPL 3</name>
       <url>http://www.gnu.org/licenses/lgpl.txt</url>
       <distribution>repo</distribution>
     </license>
@@ -28,175 +28,87 @@
 
   <developers>
     <developer>
-      <id>fbonin</id>
-      <name>Franck Bonin</name>
-      <email>franck.bonin@free.fr</email>
+      <id>wenns</id>
+      <name>Waleri Enns</name>
     </developer>
   </developers>
 
-  <contributors>
-    <contributor>
-      <name>Mathias Cocheril</name>
-      <email>mathias.cocheril-ext@sgcib.com</email>
-    </contributor>
-    <contributor>
-      <name>JP Chemali</name>
-      <email>jshemali@hotmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Sylvain Hellegouarch</name>
-      <email>sh@defuze.org</email>
-    </contributor>
-    <contributor>
-      <name>Przemyslaw Kociolek</name>
-      <email>przemyslaw.kociolek@sabre.com</email>
-    </contributor>
-  </contributors>
+  <modules>
+    <module>cxx-squid</module>
+    <!-- <module>cxx-checks</module> -->
+    <module>sonar-cxx-plugin</module>
+    <module>sslr-cxx-toolkit</module>
+  </modules>
 
-  <scm>
-    <connection>scm:svn:http://svn.codehaus.org/sonar-plugins/branches/cxx-plugin-ast</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/sonar-plugins/branches/cxx-plugin-ast</developerConnection>
-    <url>http://svn.codehaus.org/sonar-plugins</url>
-  </scm>
-  <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/14579</url>
-  </issueManagement>
-  <ciManagement>
-    <system>Bamboo</system>
-    <url>http://bamboo.ci.codehaus.org/browse/SONAR-CPP</url>
-  </ciManagement>
+  <!-- <scm> -->
+  <!--   <connection>scm:git:git@github.com:SonarCommunity/sonar-python.git</connection> -->
+  <!--   <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-python.git</developerConnection> -->
+  <!--   <url>https://github.com/SonarCommunity/sonar-python</url> -->
+  <!-- </scm> -->
+  <!-- <issueManagement> -->
+  <!--   <system>JIRA</system> -->
+  <!--   <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/15262</url> -->
+  <!-- </issueManagement> -->
+  <!-- <ciManagement> -->
+  <!--   <system>Bamboo</system> -->
+  <!--   <url>http://bamboo.ci.codehaus.org/browse/SONAR-PYTHON</url> -->
+  <!-- </ciManagement> -->
 
   <properties>
-    <sonar.version>2.12</sonar.version>
-    <sonar.pluginKey>cxx</sonar.pluginKey>
+    <license.title>Sonar C++ Plugin (Community) </license.title>
+
+    <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+    
+    <sonar.version>2.9</sonar.version>
+    <sslr.version>1.15</sslr.version>
+    
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
-    <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
+    <sonar.pluginName>C++ (Community)</sonar.pluginName>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar.plugins</groupId>
-      <artifactId>sonar-cobertura-plugin</artifactId>
-      <type>sonar-plugin</type>
-      <version>${sonar.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.0.9</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-testing-harness</artifactId>
-      <version>${sonar.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>pmd</groupId>
-      <artifactId>pmd</artifactId>
-      <version>4.2.5</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>jaxen</groupId>
-          <artifactId>jaxen</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>asm</groupId>
-          <artifactId>asm</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>jdom</groupId>
-      <artifactId>jdom</artifactId>
-      <version>1.0</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-ws-client</artifactId>
-      <version>${sonar.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>3.1</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.1</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.eclipse.cdt</groupId>
-      <artifactId>core</artifactId>
-      <version>5.3.2</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.eclipse.core</groupId>
-      <artifactId>resources</artifactId>
-      <version>3.1.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.core</groupId>
-      <artifactId>runtime</artifactId>
-      <version>3.1.0</version>
-    </dependency>
-  </dependencies>
   
-  <repositories>
-    <repository>
-      <id>lib</id>
-      <name>lib</name>
-      <releases>
-        <enabled>true</enabled>
-        <checksumPolicy>ignore</checksumPolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <url>file://${project.basedir}/lib</url>
-    </repository>
-  </repositories>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-        <configuration>
-          <header>src/license-header.txt</header>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.codehaus.sonar.sslr</groupId>
+        <artifactId>sslr-core</artifactId>
+        <version>${sslr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.sonar.sslr</groupId>
+        <artifactId>sslr-toolkit</artifactId>
+        <version>${sslr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.sonar.sslr</groupId>
+        <artifactId>sslr-testing-harness</artifactId>
+        <version>${sslr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId>
+        <artifactId>sslr-squid-bridge</artifactId>
+        <version>2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.10</version>
+      </dependency>
+      <dependency>
+        <groupId>org.easytesting</groupId>
+        <artifactId>fest-assert</artifactId>
+        <version>1.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.9.0</version>
+      </dependency>
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>0.9.15</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
 </project>

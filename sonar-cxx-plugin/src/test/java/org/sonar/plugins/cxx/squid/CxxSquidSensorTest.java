@@ -1,0 +1,118 @@
+/*
+ * Sonar Cxx Plugin, open source software quality management tool.
+ * Copyright (C) 2010 - 2011, Neticoa SAS France - Tous droits reserves.
+ * Author(s) : Franck Bonin, Neticoa SAS France.
+ *
+ * Sonar Cxx Plugin is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * Sonar Cxx Plugin is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Sonar Cxx Plugin; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ */
+
+package org.sonar.plugins.cxx.squid;
+
+import org.apache.commons.configuration.Configuration;
+import org.junit.Before;
+import org.junit.Test;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.resources.InputFile;
+import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Resource;
+import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.plugins.cxx.CxxPlugin;
+
+import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
+
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+public class CxxSquidSensorTest {
+  private CxxSquidSensor sensor;
+  private SensorContext context;
+  private Configuration config;
+  
+  @Before
+  public void setUp() {
+    config = mock(Configuration.class);
+    sensor = new CxxSquidSensor(config);
+    context = mock(SensorContext.class);
+  }
+
+  @Test
+  public void testLineCounting() {
+    Project project = mockProject();
+    sensor.analyse(project, context);
+
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(92.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(54.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(50.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(7.0));
+    
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(19.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMMENT_BLANK_LINES), eq(7.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMMENT_LINES), eq(15.0));
+  }
+
+  private Project mockProject() {
+    Project project = TestUtils.mockProject();
+
+    File sourceDir;
+    InputFile inputFile = null;
+    try{
+      sourceDir = new File(getClass().getResource("/").toURI());
+      inputFile = mock(InputFile.class);
+      when(inputFile.getFile())
+        .thenReturn(new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI()));
+    } catch(java.net.URISyntaxException e) {
+      System.out.println("Got an exception while mocking project: " + e);
+      return null;
+    }
+
+    List<InputFile> mainFiles = project.getFileSystem().mainFiles(CxxLanguage.KEY);
+    mainFiles.clear();
+    mainFiles.add(inputFile);
+    List<File> sourceDirs = project.getFileSystem().getSourceDirs();
+    sourceDirs.clear();
+    sourceDirs.add(sourceDir);
+
+    return project;
+  }
+  
+  @Test
+  public void testReplacingOfExtenalMacros() {
+    when(config.getStringArray(CxxPlugin.DEFINES_KEY)).thenReturn(new String[]{"MACRO class A{};"});
+    
+    List<File> sourceDirs = new ArrayList<File>();
+    List<File> testDirs = new ArrayList<File>();      
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/SquidTestProject/");
+    sourceDirs.add(baseDir);
+    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
+    
+    sensor.analyse(project, context);
+    
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(2.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0)); //??
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(0.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(1.0));
+  }
+}
