@@ -30,7 +30,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
-
+import org.sonar.plugins.cxx.utils.CxxUtils;
 /**
  * {@inheritDoc}
  */
@@ -66,30 +66,40 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException
   {
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-      /**
-       * {@inheritDoc}
-       */
-      public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-        rootCursor.advance();
-
-        SMInputCursor fileCursor = rootCursor.childElementCursor("file");
-        while (fileCursor.getNext() != null) {
-          String name = fileCursor.getAttrValue("name");
-
-          SMInputCursor errorCursor = fileCursor.childElementCursor("error");
-          while (errorCursor.getNext() != null) {
-            int line = Integer.parseInt(errorCursor.getAttrValue("line"));
-            String message = errorCursor.getAttrValue("message");
-            String source = errorCursor.getAttrValue("source");
-
-            saveViolation(project, context, CxxVeraxxRuleRepository.KEY,
-                          name, line, source, message);
-          }
-        }
-      }
-    });
-
-    parser.parse(report);
+    try {  
+	    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+	      /**
+	       * {@inheritDoc}
+	       */
+	      public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
+	        rootCursor.advance();
+	
+	        SMInputCursor fileCursor = rootCursor.childElementCursor("file");
+	        while (fileCursor.getNext() != null) {
+	          String name = fileCursor.getAttrValue("name");
+	
+	          SMInputCursor errorCursor = fileCursor.childElementCursor("error");
+	          while (errorCursor.getNext() != null) {
+	        	  if (!name.equals("error")) {
+		            int line = Integer.parseInt(errorCursor.getAttrValue("line"));
+		            String message = errorCursor.getAttrValue("message");
+		            String source = errorCursor.getAttrValue("source");
+		
+		            saveViolation(project, context, CxxVeraxxRuleRepository.KEY,
+		                          name, line, source, message);
+	        	  } else {
+	                CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
+	                        errorCursor.getAttrValue("line"),
+	                        errorCursor.getAttrValue("message"));
+	        	  }
+	          }
+	        }
+	      }
+	    });
+	
+	    parser.parse(report);
+		} catch (com.ctc.wstx.exc.WstxUnexpectedCharException e){
+			CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'",e.toString());
+		}
   }
 }
