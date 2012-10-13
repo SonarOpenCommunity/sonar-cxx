@@ -67,7 +67,9 @@ public final class CxxRatsSensor extends CxxReportSensor {
   
   protected void processReport(Project project, SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException
-  {    
+  { 
+	try
+	{
     SAXBuilder builder = new SAXBuilder(false);
     Element root = builder.build(report).getRootElement();
 
@@ -86,9 +88,13 @@ public final class CxxRatsSensor extends CxxReportSensor {
           int line = Integer.parseInt(lineElem.getTextTrim());
           saveViolation(project, context, CxxRatsRuleRepository.KEY,
                         fileName, line, type, message);
-        }
+       }
       }
-    }
+     }
+    } catch (org.jdom.input.JDOMParseException e){
+    	// when RATS fails the XML file might be incomplete
+    	CxxUtils.LOG.error("Ignore incomplete XML output from RATS '{}'",e.toString());  
+      }
   }
 
   private String getVulnerabilityType(Element child) {
