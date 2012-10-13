@@ -86,7 +86,7 @@ public class CxxCppNcssSensor extends CxxReportSensor {
     });
     parser.parse(report);
 	} catch (javax.xml.stream.XMLStreamException e){
-		CxxUtils.LOG.info("Ignore XML stream exception for CppNccs '{}'",e.toString());
+		CxxUtils.LOG.warn("Ignore XML stream exception for CppNccs '{}'",e.toString());
 	}
   }
   
