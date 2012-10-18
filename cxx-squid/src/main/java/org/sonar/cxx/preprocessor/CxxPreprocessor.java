@@ -77,7 +77,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     public String toString(){
       return name
-        + (params.size() == 0 ? "" : "(" + serialize(params) + ")")
+        + (params == null ? "" : "(" + serialize(params) + ")")
         + " -> '" + serialize(body) + "'";
     }
 
@@ -200,14 +200,14 @@ public class CxxPreprocessor extends Preprocessor {
         int tokensConsumed = 0;
         List<Token> arguments = new ArrayList<Token>();
 
-        if (macro.params.size() == 0) {
+        if (macro.params == null) {
           tokensConsumed = 1;
           replTokens = stripEOF(CxxLexer.create(this).lex(serialize(macro.body)));
         }
         else {
-          int tokensConsumedMatchingParams = matchArguments(tokens.subList(1, tokens.size()), arguments);
-          if (tokensConsumedMatchingParams > 0 && macro.params.size() == arguments.size()) {
-            tokensConsumed = tokensConsumedMatchingParams + 1;
+          int tokensConsumedMatchingArgs = matchArguments(tokens.subList(1, tokens.size()), arguments);
+          if (tokensConsumedMatchingArgs > 0 && macro.params.size() == arguments.size()) {
+            tokensConsumed = tokensConsumedMatchingArgs + 1;
             String replacement = replaceParams(macro.body, macro.params, arguments);
 
             LOG.debug("lexing macro body: '{}'", replacement);
@@ -319,18 +319,6 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  List<Token> getParams(AstNode macroAst) {
-    List<Token> params = new ArrayList<Token>();
-    AstNode paramAst = macroAst.findFirstChild(pplineParser.getGrammar().identifier_list);
-    if (paramAst != null) {
-      for (AstNode node : paramAst.findDirectChildren(IDENTIFIER)) {
-        params.add(node.getToken());
-      }
-    }
-
-    return params;
-  }
-
   String replaceParams(List<Token> body, List<Token>  parameters, List<Token> arguments) {
     // Replace all parameters by according arguments
     // "Stringify" the argument if the according parameter is preceded by an #
@@ -398,19 +386,31 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private Macro parseMacroDefinition(String macroDef){
-    Macro macro = null;
-
     AstNode ast = pplineParser.parse(macroDef);
-    AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
+    AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().pp_token);
+    String macroName = nameNode.getTokenValue();
+    AstNode afterName = nameNode.nextSibling();
 
-    if (!replList.getTokenValue().equals("")) {
-      String macroName = ast.findFirstChild(pplineParser.getGrammar().pp_token).getTokenValue();
-      List<Token> macroBody = replList.getTokens().subList(0, replList.getTokens().size() - 1);
-      List<Token> macroParams = getParams(ast);
-
-      macro = new Macro(macroName, macroParams, macroBody);
+    List<Token> macroParams = null;
+    if(afterName.getTokenValue().equals("(")){
+      macroParams = getParams(ast.findFirstChild(pplineParser.getGrammar().identifier_list));
     }
-    return macro;
+    
+    AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
+    List<Token> macroBody = replList.getTokens().subList(0, replList.getTokens().size() - 1);
+    
+    return new Macro(macroName, macroParams, macroBody);
+  }
+
+  List<Token> getParams(AstNode identListAst) {
+    List<Token> params = new ArrayList<Token>();
+    if (identListAst != null) {
+      for (AstNode node : identListAst.findDirectChildren(IDENTIFIER)) {
+        params.add(node.getToken());
+      }
+    }
+    
+    return params;
   }
 
   String parseIncludeLine(String includeLine){

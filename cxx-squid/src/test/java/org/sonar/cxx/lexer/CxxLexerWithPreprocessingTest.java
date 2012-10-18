@@ -85,6 +85,13 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
+  public void expanding_macro_with_empty_parameterlist() {
+    List<Token> tokens = lexer.lex("#define M() 0\n M()");
+    assertThat(tokens).hasSize(2);
+    assertThat(tokens, hasToken("0", CxxTokenType.NUMBER));
+  }
+  
+  @Test
   public void expanding_functionlike_macros_withextraparantheses() {
     List<Token> tokens = lexer.lex("#define neg(a) -a\n neg((1))");
     assertThat(tokens).hasSize(5);
