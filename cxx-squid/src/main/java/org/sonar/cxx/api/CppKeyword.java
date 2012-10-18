@@ -22,24 +22,48 @@ package org.sonar.cxx.api;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.TokenType;
 
-public enum CxxTokenType implements TokenType {
-  NUMBER,
-  STRING,
-  CHARACTER,
-  PREPROCESSOR,
-  PREPROCESSOR_DEFINE,
-  PREPROCESSOR_INCLUDE;
+/**
+ * C++ Standard, Section 16 "Preprocessing directives"
+ */
+public enum CppKeyword implements TokenType {
+  IF("#if"),
+  IFDEF("#ifdef"),
+  IFNDEF("#ifndef"),
+  ELIF("#elif"),
+  ELSE("#else"),
+  ENDIF("#endif"),
+  INCLUDE("#include"),
+  DEFINE("#define"),
+  UNDEF("#undef"),
+  LINE("#line"),
+  ERROR("#error"),
+  PRAGMA("#pragma");
+
+  private final String value;
+
+  private CppKeyword(String value) {
+    this.value = value;
+  }
 
   public String getName() {
     return name();
   }
 
   public String getValue() {
-    return name();
+    return value;
   }
 
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
+  }
+
+  public static String[] keywordValues() {
+    CppKeyword[] keywordsEnum = CppKeyword.values();
+    String[] keywords = new String[keywordsEnum.length];
+    for (int i = 0; i < keywords.length; i++) {
+      keywords[i] = keywordsEnum[i].getValue();
+    }
+    return keywords;
   }
 
 }

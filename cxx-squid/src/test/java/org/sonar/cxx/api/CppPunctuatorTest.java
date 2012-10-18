@@ -25,17 +25,15 @@ import org.junit.Test;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class CxxTokenTypeTest {
+public class CppPunctuatorTest {
 
   @Test
   public void test() {
-    assertThat(CxxTokenType.values()).hasSize(6);
+    assertThat(CppPunctuator.values()).hasSize(70);
 
     AstNode astNode = mock(AstNode.class);
-    for (CxxTokenType tokenType : CxxTokenType.values()) {
-      assertThat(tokenType.getName()).isEqualTo(tokenType.name());
-      assertThat(tokenType.getValue()).isEqualTo(tokenType.name());
-      assertThat(tokenType.hasToBeSkippedFromAst(astNode)).isFalse();
+    for (CppPunctuator punctuator : CppPunctuator.values()) {
+      assertThat(punctuator.hasToBeSkippedFromAst(astNode)).isFalse();
     }
   }
 

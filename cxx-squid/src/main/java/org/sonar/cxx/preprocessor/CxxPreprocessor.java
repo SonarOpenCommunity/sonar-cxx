@@ -28,38 +28,53 @@ import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
+import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.lexer.CxxLexer;
+import org.sonar.squid.api.SourceProject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import static org.sonar.cxx.api.CppPunctuator.LT;
+import static org.sonar.cxx.api.CxxTokenType.NUMBER;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_DEFINE;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_INCLUDE;
+import static org.sonar.cxx.api.CxxTokenType.STRING;
 
 public class CxxPreprocessor extends Preprocessor {
   static class MismatchException extends Exception {
     private String why;
-    MismatchException(String why){
+
+    MismatchException(String why) {
       this.why = why;
     }
-    
-    public String toString() { return why; }
+
+    public String toString() {
+      return why;
+    }
   }
-  
+
   class Macro {
     public Macro(String name, List<Token> params, List<Token> body) {
       this.name = name;
       this.params = params;
       this.body = body;
     }
-    
+
     public String toString(){
       return name
         + (params.size() == 0 ? "" : "(" + serialize(params) + ")")
@@ -70,27 +85,48 @@ public class CxxPreprocessor extends Preprocessor {
     public List<Token> params;
     public List<Token> body;
   }
-  
+
   public static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
   private CppGrammar grammar = new CppGrammar();
-  private Parser<CppGrammar> defineParser = null;
+  private Parser<CppGrammar> pplineParser = null;
   private Map<String, Macro> macros = new HashMap<String, Macro>();
+  private Set<String> analysedFiles = new HashSet<String>();
+  private SourceCodeProvider codeProvider = new SourceCodeProvider();
+  private SquidAstVisitorContext context;
+
 
   public CxxPreprocessor() {
-    this(new CxxConfiguration());
+    this(new CxxConfiguration(),
+         new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project")),
+         new SourceCodeProvider()
+      );
   }
-  
+
   public CxxPreprocessor(CxxConfiguration conf) {
-    CxxConfiguration defineLexerConf = new CxxConfiguration();
-    defineLexerConf.setPreprocessorChannelEnabled(false);
-    Lexer cppLexer = CxxLexer.create(defineLexerConf);
-    defineParser = Parser.builder(grammar).withLexer(cppLexer).build();
-    
+    this(conf,
+         new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project")),
+         new SourceCodeProvider()
+      );
+  }
+
+  public CxxPreprocessor(CxxConfiguration conf, SquidAstVisitorContext context) {
+    this(conf, context, new SourceCodeProvider());
+  }
+
+  public CxxPreprocessor(CxxConfiguration conf,
+                         SquidAstVisitorContext context,
+                         SourceCodeProvider sourceCodeProvider) {
+    this.context = context;
+    codeProvider = sourceCodeProvider;
+
+    Lexer cppLexer = CppLexer.create(conf);
+    pplineParser = Parser.builder(grammar).withLexer(cppLexer).build();
+
     // parse the configured defines and store into the macro library
     for(String define: conf.getDefines()){
       LOG.debug("parsing external macro: '{}'", define);
-      Macro macro = parseMacroDefinition(define);
-      if(macro != null){
+      Macro macro = parseMacroDefinition("#define " + define);
+      if (macro != null) {
         LOG.info("storing external macro: " + macro);
         macros.put(macro.name, macro);
       }
@@ -102,32 +138,55 @@ public class CxxPreprocessor extends Preprocessor {
     Token token = tokens.get(0);
     TokenType ttype = token.getType();
 
-    if (ttype == CxxTokenType.PREPROCESSOR) {
+    if (ttype == PREPROCESSOR) {
 
       // For now, we just ignore all preprocessor directives except the defines
       // and strip them from the stream
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
-    } else if (ttype == CxxTokenType.PREPROCESSOR_DEFINE) {
+    }
+    else if (ttype == PREPROCESSOR_INCLUDE) {
+
+      //
+      // Included files have to be scanned with the (only) goal of gathering macros.
+      // This is done as follows:
+      // a) parse the preprocessor line using the preprocessor line parser
+      // b) if not done yet, try to find the according source code
+      // c) if found, feed it into a special lexer, which calls back only if it finds relevant
+      //    preprossor directives (currently: include's and define's)
+
+      String includedFile = parseIncludeLine(token.getValue());
+      if(!analysedFiles.contains(includedFile)){
+        analysedFiles.add(includedFile);
+
+        File file = context.getFile();
+        String dir = file == null ? "" : file.getParent();
+        String sourceCode = codeProvider.getSourceCode(includedFile, dir);
+        if(sourceCode != null){
+          LOG.debug("processing include '{}'", includedFile);
+          IncludeLexer.create(this).lex(sourceCode);
+        }
+        else{
+          LOG.debug("cannot find the sources for '{}'", includedFile);
+        }
+      }
+      else{
+        LOG.debug("skipping already included file '{}'", includedFile);
+      }
+
+      return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+    } else if (ttype == PREPROCESSOR_DEFINE) {
 
       // Here we have a define directive. Parse it and store the result in a dictionary.
-      // TODO: Open question: how to ensure that (most?) macros are known before hitting
-      // instances of them in the code?
-      // Alternative 1: we behave like a compiler and follow (recursively) all the the #includes
-      // Alternative 2: we are lazy, expand all stuff what we know, and let the user provide
-      // the expansions for all the macros we dont.
 
-      //the parse routine cannot handle the '#define' prefix
-      String definition = token.getValue().substring(7);
-
-      Macro macro = parseMacroDefinition(definition);
-      if(macro != null){
-        LOG.trace("storing macro: " + macro);
+      Macro macro = parseMacroDefinition(token.getValue());
+      if (macro != null) {
+        LOG.debug("storing macro: " + macro);
         macros.put(macro.name, macro);
       }
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
-    } else if(ttype != CxxTokenType.STRING && ttype != CxxTokenType.NUMBER){
+    } else if(ttype != STRING && ttype != NUMBER){
 
       //
       // Every identifier and every keyword can be a macro instance.
@@ -151,7 +210,7 @@ public class CxxPreprocessor extends Preprocessor {
             tokensConsumed = tokensConsumedMatchingParams + 1;
             String replacement = replaceParams(macro.body, macro.params, arguments);
 
-            LOG.trace("lexing macro body: '{}'", replacement);
+            LOG.debug("lexing macro body: '{}'", replacement);
 
             replTokens = stripEOF(CxxLexer.create(this).lex(replacement));
           }
@@ -160,7 +219,7 @@ public class CxxPreprocessor extends Preprocessor {
         if (tokensConsumed > 0) {
           replTokens = reallocate(replTokens, token);
 
-          LOG.trace("replacing '" + token.getValue()
+          LOG.debug("replacing '" + token.getValue()
             + (arguments.size() == 0
                 ? ""
                 : "(" + serialize(arguments) + ")") + "' --> '" + serialize(replTokens) + "'");
@@ -196,22 +255,21 @@ public class CxxPreprocessor extends Preprocessor {
         rest = matchArgument(rest, arguments);
         try{
           rest = match(rest, ",");
-        }
-        catch(MismatchException me){
+        } catch (MismatchException me) {
           break;
         }
       }
       while(true);
-      
+
       rest = match(rest, ")");
     } catch(MismatchException me){
       LOG.error(me.toString());
       return 0;
     }
-    
+
     return tokens.size() - rest.size();
   }
-  
+
   List<Token> match(List<Token> tokens, String str) throws MismatchException {
     if(!tokens.get(0).getValue().equals(str)){
       throw new MismatchException("Mismatch: expected '" + str + "' got: '"
@@ -228,7 +286,7 @@ public class CxxPreprocessor extends Preprocessor {
     Token currToken = firstToken;
     String curr = currToken.getValue();
     List<Token> matchedTokens = new LinkedList<Token>();
-    
+
     while (true){
       if(nestingLevel == 0 && (",".equals(curr) || ")".equals(curr))){
         if(tokensConsumed > 0){
@@ -237,19 +295,19 @@ public class CxxPreprocessor extends Preprocessor {
                        .setColumn(firstToken.getColumn())
                        .setURI(firstToken.getURI())
                        .setValueAndOriginalValue(serialize(matchedTokens))
-                       .setType(CxxTokenType.STRING)
+                       .setType(STRING)
                        .build());
         }
         return tokens.subList(tokensConsumed, noTokens);
       }
-      
+
       if (curr.equals("(")) {
         nestingLevel++;
       }
       if (curr.equals(")")) {
         nestingLevel--;
       }
-      
+
       tokensConsumed++;
       if(tokensConsumed == noTokens){
         throw new MismatchException("reached the end of the stream while matching a macro argument");
@@ -260,10 +318,10 @@ public class CxxPreprocessor extends Preprocessor {
       curr = currToken.getValue();
     }
   }
-    
+
   List<Token> getParams(AstNode macroAst) {
     List<Token> params = new ArrayList<Token>();
-    AstNode paramAst = macroAst.findFirstChild(defineParser.getGrammar().identifier_list);
+    AstNode paramAst = macroAst.findFirstChild(pplineParser.getGrammar().identifier_list);
     if (paramAst != null) {
       for (AstNode node : paramAst.findDirectChildren(IDENTIFIER)) {
         params.add(node.getToken());
@@ -338,20 +396,49 @@ public class CxxPreprocessor extends Preprocessor {
 
     return reallocated;
   }
-  
+
   private Macro parseMacroDefinition(String macroDef){
     Macro macro = null;
-    
-    AstNode ast = defineParser.parse(macroDef);
-    AstNode replList = ast.findFirstChild(defineParser.getGrammar().replacement_list);
-      
+
+    AstNode ast = pplineParser.parse(macroDef);
+    AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
+
     if (!replList.getTokenValue().equals("")) {
-      String macroName = ast.getFirstChild().getTokenValue();
+      String macroName = ast.findFirstChild(pplineParser.getGrammar().pp_token).getTokenValue();
       List<Token> macroBody = replList.getTokens().subList(0, replList.getTokens().size() - 1);
       List<Token> macroParams = getParams(ast);
-      
+
       macro = new Macro(macroName, macroParams, macroBody);
     }
     return macro;
+  }
+
+  String parseIncludeLine(String includeLine){
+    String result = null;
+
+    AstNode ast = pplineParser.parse(includeLine);
+    AstNode includedFile = ast.findFirstChild(STRING);
+    if(includedFile != null){
+      result = stripQuotes(includedFile.getTokenValue());
+    }
+    else {
+      AstNode node = ast.findFirstChild(LT).nextSibling();
+      StringBuilder sb = new StringBuilder();
+      while(true){
+        String value = node.getTokenValue();
+        if(value.equals(">"))
+          break;
+        sb.append(value);
+        node = node.nextSibling();
+      }
+
+      result = sb.toString();
+    }
+
+    return result;
+  }
+
+  String stripQuotes(String str){
+    return str.substring(1, str.length()-1);
   }
 }

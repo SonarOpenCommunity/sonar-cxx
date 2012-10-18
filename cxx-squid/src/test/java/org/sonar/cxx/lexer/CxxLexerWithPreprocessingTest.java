@@ -22,28 +22,33 @@ package org.sonar.cxx.lexer;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import org.junit.BeforeClass;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
+import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
-import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
+import org.sonar.cxx.preprocessor.SourceCodeProvider;
 
-import java.util.List;
+import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
-import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CxxLexerWithPreprocessingTest {
 
   private static Lexer lexer;
-  
+
   public CxxLexerWithPreprocessingTest(){
     lexer = CxxLexer.create(new CxxPreprocessor(), new JoinStringsPreprocessor());
   }
@@ -99,13 +104,6 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2);
     assertThat(tokens, hasToken("\"\\\"x\\\"\"", CxxTokenType.STRING));
   }
-
-  // @Test
-  // public void expanding_hashoperator_quoting2() {
-  // List<Token> tokens = lexer.lex("#define str(a) # a\n str(\" \\\" \")");
-  // assertThat(tokens).hasSize(2);
-  // assertThat(tokens, hasToken("\\\" \\\\\\\" \\\"", CxxTokenType.STRING));
-  // }
 
   @Test
   public void expanding_chained_macros() {
@@ -206,20 +204,36 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("new_debug", GenericTokenType.IDENTIFIER));
   }
 
-  // FIXME: doesnt work yet
-  // @Test
-  // public void using_keyword_as_macro_parameter(){
-  //   List<Token> tokens = lexer.lex("#define macro(new) new\n"
-  //                                  + "macro(a)");
-  //   assertThat(tokens).hasSize(2); // identifier + EOF
-  //   assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
-  // }
-  
+  @Test
+  public void using_keyword_as_macro_parameter(){
+    List<Token> tokens = lexer.lex("#define macro(new) new\n"
+                                   + "macro(a)");
+    assertThat(tokens).hasSize(2); // identifier + EOF
+    assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
+  }
+
   @Test
   public void using_keyword_as_macro_argument(){
     List<Token> tokens = lexer.lex("#define X(a) a\n"
                                    + "X(new)");
     assertThat(tokens).hasSize(2); // kw + EOF
     assertThat(tokens, hasToken("new", CxxKeyword.NEW));
+  }
+
+  @Test
+  public void includes_are_working(){
+    SourceCodeProvider scp = mock(SourceCodeProvider.class);
+    when(scp.getSourceCode(eq("file"), anyString())).thenReturn("#define A B\n");
+
+    SquidAstVisitorContext ctx = mock(SquidAstVisitorContext.class);
+    when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
+
+    CxxPreprocessor pp = new CxxPreprocessor(new CxxConfiguration(), ctx, scp);
+    lexer = CxxLexer.create(pp, new JoinStringsPreprocessor());
+
+    List<Token> tokens = lexer.lex("#include <file>\n"
+                                   + "A");
+    assertThat(tokens).hasSize(2); // B + EOF
+    assertThat(tokens, hasToken("B", GenericTokenType.IDENTIFIER));
   }
 }

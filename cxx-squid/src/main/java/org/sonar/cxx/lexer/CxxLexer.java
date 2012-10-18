@@ -29,6 +29,9 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.channels.CharacterLiteralsChannel;
+import org.sonar.cxx.channels.PreprocessorChannel;
+import org.sonar.cxx.channels.StringLiteralsChannel;
 
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.and;

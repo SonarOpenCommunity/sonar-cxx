@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.lexer;
+package org.sonar.cxx.channels;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
@@ -25,21 +25,26 @@ import org.sonar.channel.Channel;
 import org.sonar.channel.CodeReader;
 import org.sonar.cxx.api.CxxTokenType;
 
-public class CharacterLiteralsChannel extends Channel<Lexer> {
+/**
+  */
+public class StringLiteralsChannel extends Channel<Lexer> {
+
   private static final char EOF = (char) -1;
 
   private final StringBuilder sb = new StringBuilder();
 
   private int index;
   private char ch;
+  private boolean rawMode = false;
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
+    rawMode = false;
     int line = code.getLinePosition();
     int column = code.getColumnPosition();
     index = 0;
-    readPrefix(code);
-    if ((ch != '\'')) {
+    readStringPrefix(code);
+    if ((ch != '\"')) {
       return false;
     }
     if (!read(code)) {
@@ -53,13 +58,15 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
         .setColumn(column)
         .setURI(output.getURI())
         .setValueAndOriginalValue(sb.toString())
-        .setType(CxxTokenType.CHARACTER)
+        .setType(CxxTokenType.STRING)
         .build());
     sb.setLength(0);
     return true;
   }
 
   private boolean read(CodeReader code) {
+    // TODO: proper reading raw strings.
+
     index++;
     while (code.charAt(index) != ch) {
       if (code.charAt(index) == EOF) {
@@ -75,9 +82,17 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
     return true;
   }
 
-  private void readPrefix(CodeReader code) {
+  private void readStringPrefix(CodeReader code) {
     ch = code.charAt(index);
     if ((ch == 'u') || (ch == 'U') || ch == 'L') {
+      index++;
+      if (ch == 'u' && code.charAt(index) == '8') {
+        index++;
+      }
+      ch = code.charAt(index);
+    }
+    if (ch == 'R') {
+      rawMode = true;
       index++;
       ch = code.charAt(index);
     }

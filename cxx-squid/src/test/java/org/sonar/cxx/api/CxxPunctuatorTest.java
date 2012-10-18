@@ -29,7 +29,7 @@ public class CxxPunctuatorTest {
 
   @Test
   public void test() {
-    assertThat(CxxPunctuator.values()).hasSize(53);
+    assertThat(CxxPunctuator.values()).hasSize(49);
 
     AstNode astNode = mock(AstNode.class);
     for (CxxPunctuator punctuator : CxxPunctuator.values()) {

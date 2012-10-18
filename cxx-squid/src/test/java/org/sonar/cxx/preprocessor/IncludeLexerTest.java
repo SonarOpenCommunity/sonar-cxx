@@ -17,40 +17,44 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.lexer;
+package org.sonar.cxx.preprocessor;
 
+import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxTokenType;
 
+import java.util.List;
+
+import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
 
-public class CxxLexer_PreprocessorDisabled_Test {
+public class IncludeLexerTest {
 
-  private static Lexer lexer;
-
-  @BeforeClass
-  public static void init() {
-    lexer = CxxLexer.create();
-  }
+  private static Lexer lexer = IncludeLexer.create();
 
   @Test
-  public void preprocessor_directives() {
+  public void proper_preprocessor_directives_are_created() {
     assertThat(lexer.lex("#include <iostream>"), hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR_INCLUDE));
     assertThat(lexer.lex("#define lala"), hasToken("#define lala", CxxTokenType.PREPROCESSOR_DEFINE));
-
-    assertThat(lexer.lex("#include <iostream>")).hasSize(2);
-    assertThat(lexer.lex("#define\\\ncontinued line")).hasSize(2);
-    assertThat(lexer.lex("#include <iostream>\n1"), hasToken("1", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("#ifdef lala"), hasToken("#ifdef lala", CxxTokenType.PREPROCESSOR));
   }
-  
+
   @Test
-  public void preprocessor_continued_define() {
-    assertThat(lexer.lex("#define M\\\n"
-                         +"0"),
-               hasToken("#define M 0", CxxTokenType.PREPROCESSOR_DEFINE));
+  public void continued_lines_are_handled_correctly() {
+    List<Token> tokens = lexer.lex("#define\\\nname");
+    assertThat(tokens, hasToken("#define name", CxxTokenType.PREPROCESSOR_DEFINE));
+    assertThat(tokens).hasSize(2);
+  }
+
+  @Test
+  public void all_but_preprocessor_stuff_is_swallowed() {
+    // all the other stuff should be consumed by the lexer without
+    // generating any tokens
+    List<Token> tokens = lexer.lex("void foo();");
+    assertThat(tokens).hasSize(1);
+    assertThat(tokens, hasToken("EOF", EOF));
   }
 }

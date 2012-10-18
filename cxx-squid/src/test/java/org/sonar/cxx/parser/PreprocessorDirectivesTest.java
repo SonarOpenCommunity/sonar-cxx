@@ -17,26 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.api;
+package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.impl.Parser;
 import org.junit.Test;
+import org.sonar.cxx.api.CxxGrammar;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import static com.sonar.sslr.test.parser.ParserMatchers.parse;
+import static org.junit.Assert.assertThat;
 
-public class CxxTokenTypeTest {
+public class PreprocessorDirectivesTest {
+
+  Parser<CxxGrammar> p = CxxParser.create();
+  CxxGrammar g = p.getGrammar();
 
   @Test
-  public void test() {
-    assertThat(CxxTokenType.values()).hasSize(6);
+  public void preprocessor_directives() {
+    assertThat(p, parse("#define IDX 10\n"
+      + "array[IDX];"));
 
-    AstNode astNode = mock(AstNode.class);
-    for (CxxTokenType tokenType : CxxTokenType.values()) {
-      assertThat(tokenType.getName()).isEqualTo(tokenType.name());
-      assertThat(tokenType.getValue()).isEqualTo(tokenType.name());
-      assertThat(tokenType.hasToBeSkippedFromAst(astNode)).isFalse();
-    }
+    assertThat(p, parse("#define CHECKCODE(candidate,arrayofvalues,truestatement,falsestatement)\\\n"
+      + "{\\\n"
+      + "  const char **p;\\\n"
+      + "  if ((candidate))\\\n"
+      + "    for (p=(arrayofvalues);*p;p++)\\\n"
+      + "      if (!strcasecmp((candidate), *p))\\\n"
+      + "	truestatement;\\\n"
+      + "  falsestatement;\\\n"
+      + "}"));
   }
-
 }

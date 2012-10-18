@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.lexer;
+package org.sonar.cxx.channels;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
@@ -39,10 +39,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
     }
 
     String tokenValue = read(code);
-    CxxTokenType tokenType =
-        tokenValue.length() > 7 && tokenValue.substring(1, 7).equals("define")
-            ? CxxTokenType.PREPROCESSOR_DEFINE
-            : CxxTokenType.PREPROCESSOR;
+    CxxTokenType tokenType = classify(tokenValue);
 
     output.addToken(Token.builder()
         .setLine(line)
@@ -66,8 +63,9 @@ public class PreprocessorChannel extends Channel<Lexer> {
       }
       if (ch == '\\' && isNewline((char) code.peek())) {
         // the newline is escaped: we have a the multi line preprocessor directive
-        // consume both the backslash and the newline
+        // consume both the backslash and the newline, insert a space instead
         consumeNewline(code);
+        sb.append(' ');
         ch = (char) code.pop();
       }
       sb.append(ch);
@@ -91,4 +89,17 @@ public class PreprocessorChannel extends Channel<Lexer> {
     return (ch == '\n') || (ch == '\r');
   }
 
+  private CxxTokenType classify(String tokenValue){
+    CxxTokenType type = CxxTokenType.PREPROCESSOR;
+    if(tokenValue.length() > 7){
+      String prefix = tokenValue.substring(1, 7);
+      if(prefix.equals("define")){
+        type = CxxTokenType.PREPROCESSOR_DEFINE;
+      } else if(prefix.equals("includ")){
+        type = CxxTokenType.PREPROCESSOR_INCLUDE;
+      }
+    }
+    
+    return type;
+  }
 }

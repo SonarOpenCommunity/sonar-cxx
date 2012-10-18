@@ -22,8 +22,6 @@ package org.sonar.cxx.preprocessor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.impl.Parser;
 import org.junit.Test;
-import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.lexer.CxxLexer;
 
 import static com.sonar.sslr.test.parser.ParserMatchers.parse;
 import static org.junit.Assert.assertThat;
@@ -34,37 +32,61 @@ public class CppGrammarTest {
   private CppGrammar g = null;
 
   public CppGrammarTest() {
-    CxxConfiguration conf = new CxxConfiguration();
-    conf.setPreprocessorChannelEnabled(false);
-    p = Parser.builder(new CppGrammar()).withLexer(CxxLexer.create(conf)).build();
+    p = Parser.builder(new CppGrammar()).withLexer(CppLexer.create()).build();
     g = p.getGrammar();
   }
 
   @Test
   public void define_line() {
+    p.setRootRule(g.define_line);
+
     g.replacement_list.mock();
     g.identifier_list.mock();
+    g.pp_token.mock();
 
-    assertThat(p, parse("foo replacement_list"));
-    assertThat(p, parse("foo ( ) replacement_list"));
-    assertThat(p, parse("foo ( identifier_list ) replacement_list"));
-    assertThat(p, parse("foo ( ... ) replacement_list"));
-    assertThat(p, parse("foo ( identifier_list, ... ) replacement_list"));
+    assertThat(p, parse("#define pp_token replacement_list"));
+    assertThat(p, parse("#define pp_token ( ) replacement_list"));
+    assertThat(p, parse("#define pp_token ( identifier_list ) replacement_list"));
+    assertThat(p, parse("#define pp_token ( ... ) replacement_list"));
+    assertThat(p, parse("#define pp_token ( identifier_list, ... ) replacement_list"));
   }
 
   @Test
   public void define_line_reallife() {
-    assertThat(p, parse("ALGOSTUFF_HPPEOF"));
-    assertThat(p, parse("lala(a, b) a b"));
-    assertThat(p, parse("new dew_debug"));
-    assertThat(p, parse("macro(true, false) a"));
-    assertThat(p, parse("TRUE true"));
-    assertThat(p, parse("true TRUE"));
+    assertThat(p, parse("#define ALGOSTUFF_HPPEOF"));
+    assertThat(p, parse("#define lala(a, b) a b"));
+    assertThat(p, parse("#define new dew_debug"));
+    assertThat(p, parse("#define macro(true, false) a"));
+    assertThat(p, parse("#define TRUE true"));
+    assertThat(p, parse("#define true TRUE"));
+  }
+
+  @Test
+  public void include_line() {
+    p.setRootRule(g.include_line);
+
+    g.pp_token.mock();
+
+    assertThat(p, parse("#include < pp_token >"));
+    assertThat(p, parse("#include < pp_token pp_token >"));
+    assertThat(p, parse("#include \"jabadu\""));
+  }
+
+  @Test
+  public void include_line_reallife() {
+    p.setRootRule(g.include_line);
+
+    assertThat(p, parse("#include <file>"));
+    assertThat(p, parse("#include <file.h>"));
+    assertThat(p, parse("#include <fi_le.h>"));
+    assertThat(p, parse("#include \"file\""));
+    assertThat(p, parse("#include \"file.h\""));
+    assertThat(p, parse("#include \"fi_le.h\""));
   }
 
   @Test
   public void define_containing_identifier_list() {
-    AstNode define = p.parse("lala(a, b) a b");
+    AstNode define = p.parse("#define lala(a, b) a b");
     assert (define.findFirstChild(g.identifier_list) != null);
   }
 

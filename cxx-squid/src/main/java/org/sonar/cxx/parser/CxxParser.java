@@ -21,6 +21,7 @@ package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.impl.events.ParsingEventListener;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.lexer.CxxLexer;
@@ -38,8 +39,15 @@ public final class CxxParser {
 
   public static Parser<CxxGrammar> create(CxxConfiguration conf, ParsingEventListener... parsingEventListeners) {
     return Parser.builder((CxxGrammar) new CxxGrammarImpl())
-        .withLexer(CxxLexer.create(conf, new CxxPreprocessor(conf), new JoinStringsPreprocessor()))
-        .setParsingEventListeners(parsingEventListeners).build();
+      .withLexer(CxxLexer.create(conf, new CxxPreprocessor(conf), new JoinStringsPreprocessor()))
+     .setParsingEventListeners(parsingEventListeners).build();
+  }
+
+  public static Parser<CxxGrammar> create(CxxConfiguration conf, SquidAstVisitorContext context,
+                                          ParsingEventListener... parsingEventListeners) {
+    return Parser.builder((CxxGrammar) new CxxGrammarImpl())
+      .withLexer(CxxLexer.create(conf, new CxxPreprocessor(conf, context), new JoinStringsPreprocessor()))
+      .setParsingEventListeners(parsingEventListeners).build();
   }
 
 }

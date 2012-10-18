@@ -21,32 +21,53 @@ package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Rule;
+import org.sonar.cxx.api.CxxTokenType;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Advanced.anyToken;
+import static com.sonar.sslr.impl.matcher.GrammarFunctions.Predicate.not;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.and;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.o2n;
+import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.one2n;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
+import static org.sonar.cxx.api.CppKeyword.DEFINE;
+import static org.sonar.cxx.api.CppKeyword.INCLUDE;
 
 /**
- * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives" 
+ * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
  */
 public class CppGrammar extends Grammar {
+  public Rule preprocessor_line;
   public Rule define_line;
+  public Rule include_line;
   public Rule replacement_list;
   public Rule identifier_list;
   public Rule pp_token;
-  
+
   public CppGrammar() {
+    preprocessor_line.is(
+      or(
+        include_line,
+        define_line
+        )
+      );
+
     define_line.is(
-        or(
-            and(pp_token, "(", opt(identifier_list), ")", replacement_list),
-            and(pp_token, "(", "...", ")", replacement_list),
-            and(pp_token, "(", identifier_list, ",", "...", ")", replacement_list),
-            and(pp_token, replacement_list)
+      or(
+        and(DEFINE, pp_token, "(", opt(identifier_list), ")", replacement_list),
+        and(DEFINE, pp_token, "(", "...", ")", replacement_list),
+        and(DEFINE, pp_token, "(", identifier_list, ",", "...", ")", replacement_list),
+        and(DEFINE, pp_token, replacement_list)
         )
         );
+
+    include_line.is(INCLUDE,
+                    or(
+                      and("<", one2n(not(">"), pp_token), ">"),
+                      CxxTokenType.STRING
+                      )
+      );
 
     replacement_list.is(
         o2n(
@@ -64,6 +85,6 @@ public class CppGrammar extends Grammar {
 
   @Override
   public Rule getRootRule() {
-    return define_line;
+    return preprocessor_line;
   }
 }

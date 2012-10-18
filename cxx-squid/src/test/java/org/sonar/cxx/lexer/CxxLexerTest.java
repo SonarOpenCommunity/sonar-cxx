@@ -20,24 +20,18 @@
 package org.sonar.cxx.lexer;
 
 import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
-import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
-
-import java.util.List;
-import java.util.Arrays;
 
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
 public class CxxLexerTest {
