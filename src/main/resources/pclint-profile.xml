@@ -2890,7 +2890,108 @@
 			<priority>MAJOR</priority>
 		</rule>
 
+<!-- added from RATS 2.3 rats-c.xml -->
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_ftprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
 
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_stscanf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>swprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_stprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_tprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>wprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_cprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_cscanf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_ftscanf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>_vsnwprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>fwprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>fwscanf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>getwd</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>vfwprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>vswprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>vwprintf</key>
+			<priority>MAJOR</priority>
+		</rule>
+
+		<rule>
+			<repositoryKey>rats</repositoryKey>
+			<key>wscanf</key>
+			<priority>MAJOR</priority>
+		</rule>
 
 		<!-- ##################################################  -->
 		<!-- ################# valgrind rules #################  -->

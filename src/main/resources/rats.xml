@@ -2714,19 +2714,6 @@
 	</rule>
 
 	<rule>
-		<key>memcpy</key>
-		<name>memcpy</name>
-		<description>
-      Double check that your buffer is as big as you specify. When
-      using functions that accept a number n of bytes to copy, such as
-      strncpy, be aware that if the destination buffer size = n it may not
-      NULL-terminate the string.
-		</description>
-		<priority>MAJOR</priority>
-		<configKey>config/memcpy</configKey>
-	</rule>
-
-	<rule>
 		<key>snprintf</key>
 		<name>snprintf</name>
 		<description>
@@ -3735,5 +3722,210 @@
 		<priority>MAJOR</priority>
 		<configKey>config/vprintf</configKey>
 	</rule>
+	<!-- added from RATS 2.3 rats-c.xml -->
+	<rule>
+		<key>_ftprintf</key>
+		<name>_ftprintf</name>
+		<description>
+      Check to be sure that the non-constant format string passed as argument 2 to
+      this function call does not come from an untrusted source that could have added
+      formatting characters that the code is not prepared to handle.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_ftprintf</configKey>
+	</rule>
+	<rule>
+		<key>_stscanf</key>
+		<name>_stscanf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_stscanf</configKey>
+	</rule>	
+	<rule>
+		<key>swprintf</key>
+		<name>swprintf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/swprintf</configKey>
+	</rule>	
+	<rule>	
+		<key>_stprintf</key>
+		<name>_stprintf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_stprintf</configKey>
+	</rule>	
+	<rule>	
+		<key>_tprintf</key>
+		<name>_tprintf</name>
+		<description>
+       Check to be sure that the non-constant format string passed as argument 1 to
+       this function call does not come from an untrusted source that could have added
+       formatting characters that the code is not prepared to handle.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_tprintf</configKey>
+	</rule>	
+	<rule>	
+		<key>wprintf</key>
+		<name>wprintf</name>
+		<description>
+       Check to be sure that the non-constant format string passed as argument 1 to
+       this function call does not come from an untrusted source that could have added
+       formatting characters that the code is not prepared to handle.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/wprintf</configKey>
+	</rule>	
+
+	<rule>	
+		<key>_cprintf</key>
+		<name>_cprintf</name>
+		<description>
+       Check to be sure that the non-constant format string passed as argument 1 to
+       this function call does not come from an untrusted source that could have added
+       formatting characters that the code is not prepared to handle.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_cprintf</configKey>
+	</rule>
+	<rule>	
+		<key>_cscanf</key>
+		<name>_cscanf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_cscanf</configKey>
+	</rule>	
+	<rule>	
+		<key>_ftscanf</key>
+		<name>_ftscanf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_ftscanf</configKey>
+	</rule>	
+	<rule>	
+		<key>_vsnwprintf</key>
+		<name>_vsnwprintf</name>
+		<description>
+        Double check that your buffer is as big as you specify. When using functions 
+		that accept a number n of bytes to copy, such as strncpy, be aware that if the 
+		dest buffer size = n it may not NULL-terminate the string."
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/_vsnwprintf</configKey>
+	</rule>	
+	<rule>	
+		<key>fwprintf</key>
+		<name>fwprintf</name>
+		<description>
+       Check to be sure that the non-constant format string passed as argument 2 to
+       this function call does not come from an untrusted source that could have added
+       formatting characters that the code is not prepared to handle.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/fwprintf</configKey>
+	</rule>	
+	<rule>
+		<key>fwscanf</key>
+		<name>fwscanf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/fwscanf</configKey>
+	</rule>
+	<rule>
+		<key>getwd</key>
+		<name>getwd</name>
+		<description>
+      Check to be sure that the format string passed as argument 1 to this function
+      call does not come from an untrusted source that could have added formatting
+      characters that the code is not prepared to handle.  Additionally, the format
+      string could contain `%s' without precision that could result in a buffer overflow
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/getwd</configKey>
+	</rule>
+	<rule>
+		<key>vfwprintf</key>
+		<name>vfwprintf</name>
+		<description>
+      Check to be sure that the non-constant format string passed as argument 2
+      to this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to handle.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/vfwprintf</configKey>
+	</rule>	
+	<rule>
+		<key>vswprintf</key>
+		<name>vswprintf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to this function
+      call does not come from an untrusted source that could have added formatting
+      characters that the code is not prepared to handle.  Additionally, the format
+      string could contain `%s' without precision that could result in a buffer overflow
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/vswprintf</configKey>
+	</rule>	
+	<rule>
+		<key>vwprintf</key>
+		<name>vwprintf</name>
+		<description>
+      Check to be sure that the non-constant format string passed as argument 1
+      to this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to handle.
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/vwprintf</configKey>
+	</rule>
+	<rule>
+		<key>wscanf</key>
+		<name>wscanf</name>
+		<description>
+      Check to be sure that the format string passed as argument 2 to this function
+      call does not come from an untrusted source that could have added formatting
+      characters that the code is not prepared to handle.  Additionally, the format
+      string could contain `%s' without precision that could result in a buffer overflow
+		</description>
+		<priority>MAJOR</priority>
+		<configKey>config/wscanf</configKey>
+	</rule>
+	<!-- end of update from RATS 2.3 rats-c.xml -->	
 
 </rules>
