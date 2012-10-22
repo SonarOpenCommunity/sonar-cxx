@@ -220,6 +220,15 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
+  public void using_macro_name_as_macro_identifier(){
+    List<Token> tokens = lexer.lex("#define X(a) a X(a)\n"
+                                   + "X(new)");
+    assertThat(tokens).hasSize(6); // new + X + ( + new + ) + EOF
+    assertThat(tokens, hasToken("new", CxxKeyword.NEW));
+    assertThat(tokens, hasToken("X",  GenericTokenType.IDENTIFIER));
+  }
+  
+  @Test
   public void using_keyword_as_macro_argument(){
     List<Token> tokens = lexer.lex("#define X(a) a\n"
                                    + "X(new)");

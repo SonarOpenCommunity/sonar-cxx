@@ -202,7 +202,7 @@ public class CxxPreprocessor extends Preprocessor {
 
         if (macro.params == null) {
           tokensConsumed = 1;
-          replTokens = stripEOF(CxxLexer.create(this).lex(serialize(macro.body)));
+          replTokens = expandMacro(macro.name, serialize(macro.body));
         }
         else {
           int tokensConsumedMatchingArgs = matchArguments(tokens.subList(1, tokens.size()), arguments);
@@ -212,7 +212,7 @@ public class CxxPreprocessor extends Preprocessor {
 
             LOG.debug("lexing macro body: '{}'", replacement);
 
-            replTokens = stripEOF(CxxLexer.create(this).lex(replacement));
+            replTokens = expandMacro(macro.name,replacement);
           }
         }
 
@@ -233,6 +233,19 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     return PreprocessorAction.NO_OPERATION;
+  }
+  
+  private List<Token> expandMacro(String macroName, String macroExpression) {
+    // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
+    List<Token> tokens = null;
+    Macro macro = macros.remove(macroName);
+    try{
+      tokens = stripEOF(CxxLexer.create(this).lex(macroExpression));
+    }
+    finally{
+      macros.put(macroName, macro);
+    }
+    return tokens;
   }
 
   private List<Token> stripEOF(List<Token> tokens) {
