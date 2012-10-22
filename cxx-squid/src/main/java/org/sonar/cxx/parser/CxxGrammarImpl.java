@@ -124,14 +124,36 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    // TODO: deferred
-    lambda_expression.is("XXXlambda_expression");
-    lambda_introducer.is("XXXlambda_introducer");
-    lambda_capture.is("XXXlambda_capture");
-    capture_default.is("XXXcapture_default");
-    capture_list.is("XXXcapture_list");
-    capture.is("XXXcapture");
-    lambda_declarator.is("XXXlambda_declarator");
+    lambda_expression.is(lambda_introducer, opt(lambda_declarator), compound_statement);
+
+    lambda_introducer.is("[", opt(lambda_capture), "]");
+
+    lambda_capture.is(
+        or(
+            and(capture_default, ",", capture_list),
+            capture_list,
+            capture_default
+        ));
+
+    capture_default.is(
+        or(
+            "&",
+            "="
+        ));
+
+    capture_list.is(and(capture, opt("...")), o2n(",", and(capture, opt("..."))));
+
+    capture.is(
+        or(
+            IDENTIFIER,
+            and("&", IDENTIFIER),
+            "this"
+        ));
+
+    lambda_declarator.is(
+        "(", parameter_declaration_clause, ")", opt("mutable"),
+        opt(exception_specification), opt(attribute_specifier_seq), opt(trailing_return_type)
+        );
 
     postfix_expression.is(
         or(
