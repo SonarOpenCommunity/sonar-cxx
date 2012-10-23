@@ -102,7 +102,7 @@ public class CxxSquidSensorTest {
     
     List<File> sourceDirs = new ArrayList<File>();
     List<File> testDirs = new ArrayList<File>();      
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/SquidTestProject/");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/external_macro");
     sourceDirs.add(baseDir);
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
     
@@ -114,5 +114,26 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0)); //??
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(0.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(1.0));
+  }
+
+  
+  @Test
+  public void testFindingIncludedFiles() {
+    when(config.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[]{"include"});
+    
+    List<File> sourceDirs = new ArrayList<File>();
+    List<File> testDirs = new ArrayList<File>();      
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/include_directories");
+    sourceDirs.add(new File(baseDir, "src"));
+    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
+    
+    sensor.analyse(project, context);
+    
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(13.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(4.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0)); //??
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(4.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
 }

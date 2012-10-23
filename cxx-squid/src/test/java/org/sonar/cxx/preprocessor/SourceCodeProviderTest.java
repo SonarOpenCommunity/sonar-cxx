@@ -36,28 +36,41 @@ public class SourceCodeProviderTest {
   }
 
   @Test
-  public void getting_code_with_relpath_and_cwd() {
-    File file = new File("src/test/resources/codeprovider/source.hh");
-    assertEquals("source code\n", codeProvider.getSourceCode(file.getName(), file.getParentFile().getAbsolutePath()));
+  public void getting_code_with_filename_and_cwd() {
+    File cwd = new File("src/test/resources/codeprovider");
+    assertEquals("source code\n", codeProvider.getSourceCode("source.hh", cwd.getAbsolutePath()));
   }
 
   @Test
-  public void getting_code_with_relpath_and_absolute_code_location() {
-    String cwd = new File("src/test/resources").getAbsolutePath();
-    String file = "source.hh";
-    File includeDir = new File(new File("src/test/resources/codeprovider").getAbsolutePath());
+  public void getting_code_with_relpath_and_cwd() {
+    File cwd = new File("src/test/resources");
+    assertEquals("source code\n", codeProvider.getSourceCode("codeprovider/source.hh", cwd.getAbsolutePath()));
+  }
 
-    codeProvider.setCodeLocations(Arrays.asList(includeDir));
+  @Test
+  public void getting_code_with_relpath_containing_backsteps_and_cwd() {
+    String cwd = new File("src/test/resources/codeprovider/folder").getAbsolutePath();
+    assertEquals("source code\n", codeProvider.getSourceCode("../source.hh", cwd));
+  }
+  
+  @Test
+  public void getting_code_with_filename_and_absolute_code_location() {
+    String cwd = new File("src/test/resources").getAbsolutePath();
+    String baseDir = new File("src/test").getAbsolutePath();
+    String file = "source.hh";
+    String includeRoot = new File("src/test/resources/codeprovider").getAbsolutePath();
+    
+    codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals("source code\n", codeProvider.getSourceCode(file, cwd));
   }
-
+  
   @Test
-  public void getting_code_with_relpath_and_relative_code_location() {
+  public void getting_code_with_filename_and_relative_code_location() {
     String cwd = new File("src/test/resources").getAbsolutePath();
+    String baseDir = new File("src/test").getAbsolutePath();
     String file = "source.hh";
-    File includeDir = new File("codeprovider");
-
-    codeProvider.setCodeLocations(Arrays.asList(includeDir));
+    
+    codeProvider.setIncludeRoots(Arrays.asList("resources/codeprovider"), baseDir);
     assertEquals("source code\n", codeProvider.getSourceCode(file, cwd));
   }
 }

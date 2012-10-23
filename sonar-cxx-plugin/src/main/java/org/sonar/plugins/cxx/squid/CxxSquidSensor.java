@@ -78,7 +78,9 @@ public final class CxxSquidSensor extends CxxReportSensor {
 
   private CxxConfiguration createConfiguration(Project project, Configuration conf) {
     CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
+    cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
     cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
+    cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     return cxxConf;
   }
   

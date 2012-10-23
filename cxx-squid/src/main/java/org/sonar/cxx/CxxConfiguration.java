@@ -31,6 +31,8 @@ public class CxxConfiguration extends SquidConfiguration {
   private boolean ignoreHeaderComments = false;
   private boolean preprocessorChannelEnabled = true;
   private List<String> defines = new ArrayList<String>();
+  private List<String> includeDirectories = new ArrayList<String>();
+  private String baseDir;
 
   public CxxConfiguration() {
   }
@@ -67,5 +69,27 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public List<String> getDefines() {
     return defines;
+  }
+  
+  public void setIncludeDirectories(List<String> includeDirectories) {
+    this.includeDirectories = includeDirectories;
+  }
+  
+  public void setIncludeDirectories(String[] includeDirectories) {
+    if(includeDirectories != null){
+      setIncludeDirectories(Arrays.asList(includeDirectories));
+    }
+  }
+  
+  public List<String> getIncludeDirectories() {
+    return includeDirectories;
+  }
+
+  public void setBaseDir(String baseDir) {
+    this.baseDir = baseDir;
+  }
+  
+  public String getBaseDir() {
+    return baseDir;
   }
 }

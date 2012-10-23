@@ -118,7 +118,8 @@ public class CxxPreprocessor extends Preprocessor {
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
     codeProvider = sourceCodeProvider;
-
+    codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
+    
     Lexer cppLexer = CppLexer.create(conf);
     pplineParser = Parser.builder(grammar).withLexer(cppLexer).build();
 
@@ -157,12 +158,11 @@ public class CxxPreprocessor extends Preprocessor {
 
       String includedFile = parseIncludeLine(token.getValue());
       if(!analysedFiles.contains(includedFile)){
-        analysedFiles.add(includedFile);
-
         File file = context.getFile();
         String dir = file == null ? "" : file.getParent();
         String sourceCode = codeProvider.getSourceCode(includedFile, dir);
         if(sourceCode != null){
+          analysedFiles.add(includedFile);
           LOG.debug("processing include '{}'", includedFile);
           IncludeLexer.create(this).lex(sourceCode);
         }

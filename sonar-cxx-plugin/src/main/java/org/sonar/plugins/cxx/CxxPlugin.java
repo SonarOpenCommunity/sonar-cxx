@@ -45,6 +45,13 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 
 @Properties({
     @Property(
+      key = CxxPlugin.INCLUDE_DIRECTORIES_KEY,
+      defaultValue = "",
+      name = "Directories to search included files in",
+      description = "The include directories may be defined either relative to projects' root or absolute.",
+      global = true,
+      project = true),
+    @Property(
       key = CxxPlugin.DEFINES_KEY,
       defaultValue = "",
       name = "Default macro definitions",
@@ -133,7 +140,8 @@ public final class CxxPlugin implements Plugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   static public final String DEFINES_KEY = "sonar.cxx.defines";
-
+  static public final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
+  
   /**
    * @deprecated this is not used anymore
    */

@@ -24,32 +24,34 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The source code provider is responsible for locating source files
- * and getting their content.  A source file can be specified both as
- * an absolute and as a relative file sytem path.  In the latter case
+ * and getting their content. A source file can be specified both as
+ * an absolute and as a relative file system path. In the latter case
  * the scanner searches a list of directories (known to him) for a
  * file with such a name.
  */
 public class SourceCodeProvider {
-  private List<File> absCodeLocations = new LinkedList<File>();
-  private List<File> relCodeLocations = new LinkedList<File>();
-
-  public void setCodeLocations(List<File> locations) {
-    for (File location : locations) {
-      if (location.isAbsolute()) {
-        if (location.exists()) {
-          // debug
-          absCodeLocations.add(location);
-        }
-        else {
-          // spruch
-        }
+  private List<File> includeRoots = new LinkedList<File>();
+  public static final Logger LOG = LoggerFactory.getLogger("SourceCodeProvider");
+  
+  public void setIncludeRoots(List<String> includeRoots, String baseDir) {
+    for (String tmp : includeRoots) {
+      
+      File includeRoot = new File(tmp);
+      if (!includeRoot.isAbsolute()) {
+        includeRoot = new File(baseDir, tmp);
+      }
+      
+      if (includeRoot.exists()) {
+        LOG.debug("storing include root: '{}'", includeRoot);
+        this.includeRoots.add(includeRoot);
       }
       else {
-        // debug
-        relCodeLocations.add(location);
+        LOG.warn("the include root {} doesnt exist", includeRoot.getAbsolutePath());
       }
     }
   }
@@ -64,20 +66,12 @@ public class SourceCodeProvider {
       // lookup in the current directory
       File abspath = new File(new File(cwd), file.getPath());
       code = getSourceCode(abspath);
-
+      
       if (code == null) {
-
-        // lookup in the relative code locations
-        for (File folder : relCodeLocations) {
-          abspath = FileUtils.getFile(cwd, folder.getPath(), filename);
-          code = getSourceCode(abspath);
-          if (code != null)
-            break;
-        }
-
-        // lookup in the absolute code locations
-        for (File folder : absCodeLocations) {
-          abspath = FileUtils.getFile(folder, filename);
+        // lookup relative to the stored include roots
+        for (File folder : includeRoots) {
+          //abspath = FileUtils.getFile(folder, filename);
+          abspath = new File(folder.getPath(), filename);
           code = getSourceCode(abspath);
           if (code != null)
             break;
@@ -94,11 +88,11 @@ public class SourceCodeProvider {
       try {
         code = FileUtils.readFileToString(file);
       } catch (java.io.IOException e) {
-        // spruch
+        LOG.error("Cannot read contents of the file '{}'", file);
       }
     }
     else {
-      // spruch
+      //LOG.debug("Unsuccessful probing the path '{}'", file);
     }
 
     return code;
