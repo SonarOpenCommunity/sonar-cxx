@@ -98,8 +98,8 @@ public class ClassesTest {
 
     assertThat(p, parse("int foo();"));
     assertThat(p, parse("protected:"));
-    // assertThat(p, parse("Result (*ptr)();"));
-    // assertThat(p, parse("protected: Result (*ptr)();"));
+    assertThat(p, parse("Result (*ptr)();"));
+    assertThat(p, parse("protected: Result (*ptr)();"));
   }
 
   @Test
@@ -143,11 +143,7 @@ public class ClassesTest {
     assertThat(p, parse("int count;"));
     assertThat(p, parse("tnode *left;"));
     assertThat(p, parse("tnode *right;"));
-
-    // FIXME: The problem here is that 'Result' is not consumed as a decl_specifier
-    // because of the predicate recognizing 'Result(' wrongly as a declarator
-    // Seems like the lookahead logic in decl_specifier_seq has to get smarter, somehow...
-    // assertThat(p, parse("Result (*ptr)();"));
+    assertThat(p, parse("Result (*ptr)();"));
   }
 
   @Test

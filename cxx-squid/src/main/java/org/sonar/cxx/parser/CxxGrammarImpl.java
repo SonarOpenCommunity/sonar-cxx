@@ -443,12 +443,19 @@ public class CxxGrammarImpl extends CxxGrammar {
         );
 
     decl_specifier_seq.is(
-        one2n(
-            not(and(declarator, or("=", ";", "{", "(", ":", ","))),
-            decl_specifier
+      // FIXME: this implementation failes for constructs like 'Result
+      // (*ptr)()'. The problem here is that 'Result' is not consumed
+      // as a decl_specifier because of the predicate recognizing
+      // 'Result(' wrongly as a declarator followed by '('. Seems like
+      // the lookahead logic in decl_specifier_seq has to get smarter,
+      // somehow...
+      
+      one2n(
+        not(and(declarator, or("=", ";", "{", "(", ":", ","))),
+        decl_specifier
         ),
-        opt(attribute_specifier_seq)
-        );
+      opt(attribute_specifier_seq)
+      );
 
     storage_class_specifier.is(
         or("register", "static", "thread_local", "extern", "mutable")
@@ -784,6 +791,9 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     member_declaration.is(
         or(
+            //TODO: remote after the decl_specifier_seq has been made smarter.
+            and(opt(attribute_specifier_seq), decl_specifier, opt(member_declarator_list), ";"),
+
             and(opt(attribute_specifier_seq), opt(decl_specifier_seq), opt(member_declarator_list), ";"),
             and(function_definition, opt(";")),
             and(opt("::"), nested_name_specifier, opt("template"), unqualified_id, ";"),
