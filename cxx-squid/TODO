@@ -4,10 +4,4 @@ List of items to do:
   is throwing away all preprocessor directives and including all code. While we probably
   wanna analyse both the #ifdef and the #else versions of code, the meld-together
   version isnt always parseable.
-
-- Implement handling of the #include directives in the following way:
-  Introduce a Scanner which is called for each #included name. This Scanner doesnt actually
-  paste the code in but scans the file for #defines and further #includes. The job is
-  to gather all macros. The Scanner keeps track of all files already included and knows also
-  of all files which are already parsed.
   
