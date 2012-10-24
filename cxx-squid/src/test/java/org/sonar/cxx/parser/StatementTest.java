@@ -80,7 +80,7 @@ public class StatementTest {
     assertThat(p, parse("CDBCheckResultItem(int a=1, CDB::CheckResultKind=0);"));
 
     // the 'template class as friend' problem
-    // assertThat(p, parse("friend class SmartPtr<T>;"));
+    assertThat(p, parse("friend class SmartPtr<T>;"));
   }
 
   @Test

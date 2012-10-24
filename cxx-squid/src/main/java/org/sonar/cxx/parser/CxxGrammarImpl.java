@@ -508,11 +508,12 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     elaborated_type_specifier.is(
         or(
+            and(class_key, opt(nested_name_specifier), opt("template"), simple_template_id),
+            
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "friend class ::A". Figure out if there is another way
             and(class_key, opt(attribute_specifier_seq), opt(or(nested_name_specifier, "::")), IDENTIFIER),
 
-            and(class_key, opt(nested_name_specifier), opt("template"), simple_template_id),
             and("enum", opt(nested_name_specifier), IDENTIFIER)
         )
         );
