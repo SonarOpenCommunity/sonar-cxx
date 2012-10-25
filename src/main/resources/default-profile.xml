@@ -921,8 +921,18 @@
 			<key>publicAllocationError</key>
 			<priority>MAJOR</priority>
 		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>sizeArgumentAsChar</key>
+			<priority>MINOR</priority>
+		</rule>
 
 		<!-- ########### New in cppcheck 1.51 ########### -->
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>bufferNotZeroTerminated</key>
+			<priority>MINOR</priority>
+		</rule>
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
 			<key>initializerList</key>
@@ -947,6 +957,21 @@
 		<!-- ########### New in cppcheck 1.52 ########### -->
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
+			<key>simplePatternError</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>complexPatternError</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>missingPercentCharacter</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>boostForeachError</key>
 			<priority>MAJOR</priority>
 		</rule>
@@ -967,8 +992,18 @@
 		</rule>
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
+			<key>redundantStrcpyInSwitch</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>stringCompare</key>
 			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>stlcstrthrow</key>
+			<priority>MAJOR</priority>
 		</rule>
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
@@ -999,6 +1034,11 @@
 		<!-- ########### New in cppcheck 1.53 ########### -->
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
+			<key>doubleCloseDir</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
 			<key>doubleFree</key>
 			<priority>MAJOR</priority>
 		</rule>
@@ -1026,7 +1066,7 @@
 			<repositoryKey>cppcheck</repositoryKey>
 			<key>invalidPrintfArgType_sint</key>
 			<priority>MINOR</priority>
-		</rule> 
+		</rule>
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
 			<key>invalidPrintfArgType_float</key>
@@ -1128,9 +1168,24 @@
 		<!-- ########### Missing or new in cppcheck 1.55 ########### -->
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
-			<key>useInitializationList</key>
+			<key>CastIntegerToAddressAtReturn</key>
 			<priority>MINOR</priority>
-		</rule>     
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>IOWithoutPositioning</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>bitwiseOnBoolean</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>deallocret</key>
+			<priority>MAJOR</priority>
+		</rule>
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
 			<key>invalidScanfFormatWidth</key>
@@ -1141,7 +1196,112 @@
 			<key>missingScanfFormatWidth</key>
 			<priority>MAJOR</priority>
 		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>moduloAlwaysTrueFalse</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>pointerSize</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>possibleReadlinkBufferOverrun</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>readWriteOnlyFile</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>redundantBitwiseOperationInSwitch</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>suspiciousSemicolon</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>useClosedFile</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>useInitializationList</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>writeReadOnlyFile</key>
+			<priority>MAJOR</priority>
+		</rule>
 		<!-- ########### Missing or new in cppcheck 1.56 ########### -->
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>clarifyStatement</key>
+			<priority>CRITICAL</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>comparisonOfBoolWithInvalidComparator</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>functionStatic</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>incompleteArrayFill</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>invalidPrintfArgType_uint</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>literalWithCharPtrCompare</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>pointerLessThanZero</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>pointerPositive</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>redundantCopyLocalConst</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>redundantOperationInSwitch</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>shiftNegative</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>unknownPattern</key>
+			<priority>MAJOR</priority>
+		</rule>
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
 			<key>uselessCallsEmpty</key>
@@ -1149,9 +1309,9 @@
 		</rule>
 		<rule>
 			<repositoryKey>cppcheck</repositoryKey>
-			<key>clarifyStatement</key>
-			<priority>CRITICAL</priority>
-		</rule>   
+			<key>uselessCallsRemove</key>
+			<priority>MINOR</priority>
+		</rule>
 		<!-- ##############################################  -->
 		<!-- ################# rats rules #################  -->
 		<!-- ##############################################  -->
