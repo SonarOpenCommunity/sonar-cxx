@@ -1623,8 +1623,23 @@
       Possible leak in public function. The pointer is not deallocated before it is allocated.
     </description>
   </rule>
-
+  <rule>
+    <key>sizeArgumentAsChar</key>
+    <configkey>sizeArgumentAsChar</configkey>
+    <name>The size argument is given as a char constant</name>
+    <description>
+      The size argument is given as a char constant.
+    </description>
+  </rule>
   <!-- ########### New in cppcheck 1.51 ########### -->
+   <rule>
+    <key>bufferNotZeroTerminated</key>
+    <configkey>bufferNotZeroTerminated</configkey>
+    <name>Buffer is not zero-terminated</name>
+    <description>
+      A buffer is not zero-terminated after a call to a function.
+    </description>
+  </rule>
   <rule>
     <key>initializerList</key>
     <configkey>initializerList</configkey>
@@ -1660,6 +1675,30 @@
   </rule>
 
   <!-- ########### New in cppcheck 1.52 ########### -->
+   <rule>
+    <key>simplePatternError</key>
+    <configkey>simplePatternError</configkey>
+    <name>Found simple pattern inside call</name>
+    <description>
+      Found simple pattern inside call.
+    </description>
+  </rule>
+  <rule>
+    <key>complexPatternError</key>
+    <configkey>complexPatternError</configkey>
+    <name>Found complex pattern inside call</name>
+    <description>
+      Found complex pattern inside call.
+    </description>
+  </rule>
+  <rule>
+    <key>missingPercentCharacter</key>
+    <configkey>missingPercentCharacter</configkey>
+    <name>Missing percent end character in pattern</name>
+    <description>
+      Missing percent end character in pattern.
+    </description>
+  </rule>  
   <rule>
     <key>boostForeachError</key>
     <configkey>boostForeachError</configkey>
@@ -1694,6 +1733,14 @@
       A boolean comparison with the string literal is always true.
     </description>
   </rule>
+   <rule>
+    <key>redundantStrcpyInSwitch</key>
+    <configkey>redundantStrcpyInSwitch</configkey>
+    <name>Redundant strcpy in switch</name>
+    <description>
+      Switch case fall-through. Redundant strcpy of a variable.
+    </description>
+  </rule>  
   <rule>
     <key>stringCompare</key>
     <configkey>stringCompare</configkey>
@@ -1702,6 +1749,14 @@
       Comparison of identical string variables.
     </description>
   </rule>
+   <rule>
+    <key>stlcstrthrow</key>
+    <configkey>stlcstrthrow</configkey>
+    <name>The returned value by c_str() is invalid after throw call</name>
+    <description>
+      The returned value by c_str() is invalid after throw call.
+    </description>
+  </rule>  
   <rule>
     <key>unreachableCode</key>
     <configkey>unreachableCode</configkey>
@@ -1745,8 +1800,23 @@
       (isalnum|isalpha|isascii|is..) causes undefined behavior.
     </description>
   </rule>
-
   <!-- ########### New in cppcheck 1.53 ########### -->
+   <rule>
+    <key>debug</key>
+    <configkey>debug</configkey>
+    <name>Debug</name>
+    <description>
+      Any kind of debug message
+    </description>
+  </rule>
+  <rule>
+    <key>doubleCloseDir</key>
+    <configkey>doubleCloseDir</configkey>
+    <name>Directory handle is closed twice</name>
+    <description>
+      Directory handle is closed twice.
+    </description>
+  </rule>  
   <rule>
     <key>doubleFree</key>
     <configkey>doubleFree</configkey>
@@ -1941,7 +2011,7 @@
       Passing the result of c_str() to a function that takes std::string as argument 0 is slow and redundant.
     </description>
   </rule>
-  <!-- ########### Missing for cppcheck 1.54 ########### -->
+  <!-- ########### New in cppcheck 1.54 ########### -->
   <rule>
     <key>StlMissingComparison</key>
     <configkey>StlMissingComparison</configkey>
@@ -1961,21 +2031,52 @@
     </description>
   </rule>
    <!-- ########### New in cppcheck 1.55 ########### --> 
-    <rule>
-    <key>useInitializationList</key>
-    <configkey>useInitializationList</configkey>
-    <name>member variable shall be initialized using constructor</name>
+  <rule>
+    <key>CastIntegerToAddressAtReturn</key>
+    <configkey>CastIntegerToAddressAtReturn</configkey>
+    <name>Returning an integer in a function with pointer return type is not portable</name>
     <description>
-      When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don't explicitly write them to the initialization list. 
-      You could avoid assigning 'symbol' a value by passing the value to the constructor in the initialization list.
+      Returning an integer in a function with pointer return type is not portable.
     </description>
   </rule>
+  <rule>
+    <key>IOWithoutPositioning</key>
+    <configkey>IOWithoutPositioning</configkey>
+    <name>Read and write operations without a call to a positioning function</name>
+    <description>
+      Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>bitwiseOnBoolean</key>
+    <configkey>bitwiseOnBoolean</configkey>
+    <name>Boolean variable is used in bitwise operation</name>
+    <description>
+      Boolean variable is used in bitwise operation.
+    </description>
+  </rule>
+  <rule>
+    <key>deallocret</key>
+    <configkey>deallocret</configkey>
+    <name>Returning/dereferencing variable after it is deallocated / released</name>
+    <description>
+      Returning/dereferencing variable after it is deallocated / released.
+    </description>
+  </rule>  
    <rule>
     <key>invalidScanfFormatWidth</key>
     <configkey>invalidScanfFormatWidth</configkey>
     <name>wrong width for scanf parameter</name>
     <description>
       Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
+    </description>
+  </rule> 
+  <rule>
+    <key>leakconfiguration</key>
+    <configkey>leakconfiguration</configkey>
+    <name>Function configuration is needed to establish if there is a leak or not</name>
+    <description>
+      Function configuration is needed to establish if there is a leak or not.
     </description>
   </rule>  
    <rule>
@@ -1986,15 +2087,80 @@
       Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
     </description>
   </rule>
-    <!-- ########### Missing or new in cppcheck 1.56 ########### -->
-    <rule>
-      <key>uselessCallsEmpty</key>
-      <configkey>uselessCallsEmpty</configkey>
-    <name>Useless call of function 'empty()'</name>
+  <rule>
+    <key>moduloAlwaysTrueFalse</key>
+    <configkey>moduloAlwaysTrueFalse</configkey>
+    <name>Comparison of modulo result is predetermined</name>
+     <description>
+      Comparison of modulo result is predetermined.
+     </description>   
+  </rule>
+  <rule>
+    <key>pointerSize</key>
+    <configkey>pointerSize</configkey>
+    <name>Using size of pointer variable instead of size of its data</name>
     <description>
-      Useless call of function 'empty()'. Did you intend to call 'clear()' instead?
+      Using size of pointer variable instead of size of its data.
     </description>
-    </rule>
+  </rule>
+  <rule>
+    <key>possibleReadlinkBufferOverrun</key>
+    <configkey>possibleReadlinkBufferOverrun</configkey>
+    <name>Function might return the full size of variable</name>
+    <description>
+      Function might return the full size of variable.
+    </description>
+  </rule>
+  <rule>
+    <key>readWriteOnlyFile</key>
+    <configkey>readWriteOnlyFile</configkey>
+    <name>Read operation on a file that was opened only for writing</name>
+    <description>
+      Read operation on a file that was opened only for writing.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantBitwiseOperationInSwitch</key>
+    <configkey>redundantBitwiseOperationInSwitch</configkey>
+    <name>Redundant bitwise operation on variable in switch</name>
+    <description>
+      Redundant bitwise operation on variable in switch.
+    </description>
+  </rule>
+  <rule>
+    <key>suspiciousSemicolon</key>
+    <configkey>suspiciousSemicolon</configkey>
+    <name>Suspicious use of ; at the end of 'if/for/while' statement</name>
+    <description>
+      Suspicious use of ; at the end of 'if/for/while' statement.
+    </description>
+  </rule>
+  <rule>
+    <key>useClosedFile</key>
+    <configkey>useClosedFile</configkey>
+    <name>Used file that is not opened</name>
+    <description>
+      Used file that is not opened.
+    </description>
+  </rule>
+  <rule>
+    <key>useInitializationList</key>
+    <configkey>useInitializationList</configkey>
+    <name>member variable shall be initialized using constructor</name>
+    <description>
+      When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don't explicitly write them to the initialization list.
+      You could avoid assigning 'symbol' a value by passing the value to the constructor in the initialization list.
+    </description>
+  </rule>
+  <rule>
+    <key>writeReadOnlyFile</key>
+    <configkey>writeReadOnlyFile</configkey>
+    <name>Write operation on a file that was opened only for reading</name>
+    <description>
+      Write operation on a file that was opened only for reading.
+    </description>
+  </rule>  
+  <!-- ########### New in cppcheck 1.56 ########### -->         
     <rule>
       <key>clarifyStatement</key>
       <configkey>clarifyStatement</configkey>
@@ -2002,5 +2168,109 @@
     <description>
       A statement like '*A++;' might not do what you intended. 'operator*' is executed before postfix 'operator++'. Thus, the dereference is meaningless. Did you intend to write '(*A)++;'?
     </description>
-    </rule>  
+    </rule>
+  <rule>
+    <key>comparisonOfBoolWithInvalidComparator</key>
+    <configkey>comparisonOfBoolWithInvalidComparator</configkey>
+    <name>Comparison of a boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
+    <description>
+      Comparison of a boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+    </description>
+  </rule>
+  <rule>
+    <key>functionStatic</key>
+    <configkey>functionStatic</configkey>
+    <name>The member function 'funcname' can be static</name>
+    <description>
+      The member function 'funcname' can be static.
+    </description>
+  </rule>
+  <rule>
+    <key>incompleteArrayFill</key>
+    <configkey>incompleteArrayFill</configkey>
+    <name>Array 'buffer' is filled incompletely</name>
+    <description>
+      Array 'buffer' is filled incompletely.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidPrintfArgType_uint</key>
+    <configkey>invalidPrintfArgType_uint</configkey>
+    <name>Invalid printf argument type (unsigned integer required)</name>
+    <description>
+      Invalid printf argument type (unsigned integer required)
+    </description>
+  </rule>
+  <rule>
+    <key>literalWithCharPtrCompare</key>
+    <configkey>literalWithCharPtrCompare</configkey>
+    <name>String literal compared with a variable</name>
+    <description>
+      String literal compared with a variable.
+    </description>
+  </rule>
+  <rule>
+    <key>pointerLessThanZero</key>
+    <configkey>pointerLessThanZero</configkey>
+    <name>A pointer can not be negative so it is either pointless or an error to check if it is</name>
+    <description>
+      A pointer can not be negative so it is either pointless or an error to check if it is.
+    </description>
+  </rule>
+  <rule>
+    <key>pointerPositive</key>
+    <configkey>pointerPositive</configkey>
+    <name>A pointer can not be negative so it is either pointless or an error to check if it is not</name>
+    <description>
+      A pointer can not be negative so it is either pointless or an error to check if it is not.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantCopyLocalConst</key>
+    <configkey>redundantCopyLocalConst</configkey>
+    <name>Use const reference for 'varname' to avoid unnecessary data copying</name>
+    <description>
+      Use const reference for 'varname' to avoid unnecessary data copying.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantOperationInSwitch</key>
+    <configkey>redundantOperationInSwitch</configkey>
+    <name>Redundant operation on 'varname' in switch</name>
+    <description>
+      Redundant operation on 'varname' in switch.
+    </description>
+  </rule>
+  <rule>
+    <key>shiftNegative</key>
+    <configkey>shiftNegative</configkey>
+    <name>Shifting by a negative value</name>
+    <description>
+      Shifting by a negative value.
+    </description>
+  </rule>
+  <rule>
+    <key>unknownPattern</key>
+    <configkey>unknownPattern</configkey>
+    <name>Unknown pattern used</name>
+    <description>
+      Unknown pattern used.
+    </description>
+  </rule>
+  <rule>
+    <key>uselessCallsEmpty</key>
+    <configkey>uselessCallsEmpty</configkey>
+    <name>Useless call of function 'empty()'</name>
+    <description>
+      Useless call of function 'empty()'. Did you intend to call 'clear()' instead?
+    </description>
+  </rule>
+  <rule>
+    <key>uselessCallsRemove</key>
+    <configkey>uselessCallsRemove</configkey>
+    <name>Return value of std::remove() ignored</name>
+    <description>
+      Return value of std::remove() ignored.
+    </description>
+  </rule>      
 </rules>
