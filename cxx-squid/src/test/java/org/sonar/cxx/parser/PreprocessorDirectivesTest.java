@@ -46,4 +46,15 @@ public class PreprocessorDirectivesTest {
       + "  falsestatement;\\\n"
       + "}"));
   }
+
+  // @Test
+  // public void conditional_compilation() {
+  //   assertThat(p, parse("#ifdef LALA\n"
+  //                       +"void foo(){\n"
+  //                       +"#else\n"
+  //                       +"void bar(){\n"
+  //                       +"#endif\n"
+  //                       +"}"));
+  // }
+  
 }

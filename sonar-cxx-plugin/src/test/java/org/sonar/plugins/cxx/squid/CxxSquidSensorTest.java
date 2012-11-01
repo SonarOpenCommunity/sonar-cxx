@@ -130,10 +130,10 @@ public class CxxSquidSensorTest {
     sensor.analyse(project, context);
     
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(13.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(4.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(16.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(5.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0)); //??
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(4.0));
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(5.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
 }

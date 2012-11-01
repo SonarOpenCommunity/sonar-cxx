@@ -41,6 +41,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -239,7 +240,8 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void includes_are_working(){
     SourceCodeProvider scp = mock(SourceCodeProvider.class);
-    when(scp.getSourceCode(eq("file"), anyString())).thenReturn("#define A B\n");
+    when(scp.getSourceCodeFile(anyString(), anyString())).thenReturn(new File(""));
+    when(scp.getSourceCode(any(File.class))).thenReturn("#define A B\n");
 
     SquidAstVisitorContext ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));

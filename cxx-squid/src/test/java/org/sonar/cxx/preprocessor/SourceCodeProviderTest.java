@@ -28,29 +28,30 @@ import static org.junit.Assert.assertEquals;
 
 public class SourceCodeProviderTest {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
-
+  private File expected = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
+  
   @Test
   public void getting_code_with_abspath() {
-    String abspath = new File("src/test/resources/codeprovider/source.hh").getAbsolutePath();
-    assertEquals("source code\n", codeProvider.getSourceCode(abspath, null));
+    String abspath = expected.getAbsolutePath();
+    assertEquals(expected, codeProvider.getSourceCodeFile(abspath, null));
   }
 
   @Test
   public void getting_code_with_filename_and_cwd() {
     File cwd = new File("src/test/resources/codeprovider");
-    assertEquals("source code\n", codeProvider.getSourceCode("source.hh", cwd.getAbsolutePath()));
+    assertEquals(expected, codeProvider.getSourceCodeFile("source.hh", cwd.getAbsolutePath()));
   }
 
   @Test
   public void getting_code_with_relpath_and_cwd() {
     File cwd = new File("src/test/resources");
-    assertEquals("source code\n", codeProvider.getSourceCode("codeprovider/source.hh", cwd.getAbsolutePath()));
+    assertEquals(expected, codeProvider.getSourceCodeFile("codeprovider/source.hh", cwd.getAbsolutePath()));
   }
 
   @Test
   public void getting_code_with_relpath_containing_backsteps_and_cwd() {
     String cwd = new File("src/test/resources/codeprovider/folder").getAbsolutePath();
-    assertEquals("source code\n", codeProvider.getSourceCode("../source.hh", cwd));
+    assertEquals(expected, codeProvider.getSourceCodeFile("../source.hh", cwd));
   }
   
   @Test
@@ -61,7 +62,7 @@ public class SourceCodeProviderTest {
     String includeRoot = new File("src/test/resources/codeprovider").getAbsolutePath();
     
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
-    assertEquals("source code\n", codeProvider.getSourceCode(file, cwd));
+    assertEquals(expected, codeProvider.getSourceCodeFile(file, cwd));
   }
   
   @Test
@@ -71,6 +72,11 @@ public class SourceCodeProviderTest {
     String file = "source.hh";
     
     codeProvider.setIncludeRoots(Arrays.asList("resources/codeprovider"), baseDir);
-    assertEquals("source code\n", codeProvider.getSourceCode(file, cwd));
+    assertEquals(expected, codeProvider.getSourceCodeFile(file, cwd));
+  }
+
+  @Test
+  public void getting_source_code() {
+    assertEquals("source code\n", codeProvider.getSourceCode(expected));
   }
 }

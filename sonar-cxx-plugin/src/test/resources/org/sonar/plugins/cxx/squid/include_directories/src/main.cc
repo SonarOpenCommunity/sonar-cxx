@@ -6,7 +6,10 @@
 #include <include3.hh>
 // 4. include via a path relative to the include root
 #include "subfolder/include4.hh"
+// 5. indirect include of ../include_trd/something 
+#include "../include_snd/include_snd_1.hh"
 INCLUDE1
 INCLUDE2
 INCLUDE3
 INCLUDE4
+INCLUDE_SND_SUBFOLDER_1

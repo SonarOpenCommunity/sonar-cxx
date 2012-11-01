@@ -46,6 +46,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static org.sonar.cxx.api.CppPunctuator.LT;
@@ -93,7 +94,7 @@ public class CxxPreprocessor extends Preprocessor {
   private Set<String> analysedFiles = new HashSet<String>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext context;
-
+  private Stack<File> headersUnderAnalysis = new Stack<File>();
 
   public CxxPreprocessor() {
     this(new CxxConfiguration(),
@@ -138,6 +139,8 @@ public class CxxPreprocessor extends Preprocessor {
   public PreprocessorAction process(List<Token> tokens) {
     Token token = tokens.get(0);
     TokenType ttype = token.getType();
+    File file = getFileUnderAnalysis();
+    String filePath = file == null? token.getURI().toString() : file.getAbsolutePath();
 
     if (ttype == PREPROCESSOR) {
 
@@ -158,20 +161,25 @@ public class CxxPreprocessor extends Preprocessor {
 
       String includedFile = parseIncludeLine(token.getValue());
       if(!analysedFiles.contains(includedFile)){
-        File file = context.getFile();
         String dir = file == null ? "" : file.getParent();
-        String sourceCode = codeProvider.getSourceCode(includedFile, dir);
-        if(sourceCode != null){
-          analysedFiles.add(includedFile);
-          LOG.debug("processing include '{}'", includedFile);
-          IncludeLexer.create(this).lex(sourceCode);
+        File sourceFile = codeProvider.getSourceCodeFile(includedFile, dir);
+        if(sourceFile != null){
+          analysedFiles.add(sourceFile.getAbsolutePath());
+          LOG.debug("[{}]: processing include '{}', resolved to file '{}'",
+                    new Object[]{filePath, includedFile, sourceFile.getAbsolutePath()});
+          headersUnderAnalysis.push(sourceFile);
+          try{
+            IncludeLexer.create(this).lex(codeProvider.getSourceCode(sourceFile));
+          } finally {
+            headersUnderAnalysis.pop();
+          }
         }
         else{
-          LOG.debug("cannot find the sources for '{}'", includedFile);
-        }
+          LOG.warn("[{}]: cannot find the sources for '{}'", filePath, includedFile);
+        } 
       }
       else{
-        LOG.debug("skipping already included file '{}'", includedFile);
+        LOG.debug("[{}]: skipping already included file '{}'", filePath, includedFile);
       }
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -181,7 +189,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       Macro macro = parseMacroDefinition(token.getValue());
       if (macro != null) {
-        LOG.debug("storing macro: " + macro);
+        LOG.debug("[{}]: storing macro: {}", filePath, macro);
         macros.put(macro.name, macro);
       }
 
@@ -210,19 +218,20 @@ public class CxxPreprocessor extends Preprocessor {
             tokensConsumed = tokensConsumedMatchingArgs + 1;
             String replacement = replaceParams(macro.body, macro.params, arguments);
 
-            LOG.debug("lexing macro body: '{}'", replacement);
+            LOG.debug("[{}]: lexing macro body: '{}'", filePath, replacement);
 
-            replTokens = expandMacro(macro.name,replacement);
+            replTokens = expandMacro(macro.name, replacement);
           }
         }
 
         if (tokensConsumed > 0) {
           replTokens = reallocate(replTokens, token);
 
-          LOG.debug("replacing '" + token.getValue()
-            + (arguments.size() == 0
-                ? ""
-                : "(" + serialize(arguments) + ")") + "' --> '" + serialize(replTokens) + "'");
+          LOG.debug("[{}]: replacing {}'" + token.getValue()
+                    + (arguments.size() == 0
+                       ? ""
+                       : "(" + serialize(arguments) + ")") + "' --> '" + serialize(replTokens) + "'",
+                    filePath);
 
           return new PreprocessorAction(
               tokensConsumed,
@@ -453,5 +462,13 @@ public class CxxPreprocessor extends Preprocessor {
 
   String stripQuotes(String str){
     return str.substring(1, str.length()-1);
+  }
+
+  private File getFileUnderAnalysis(){
+    if(headersUnderAnalysis.isEmpty()){
+      return context.getFile();
+    } else {
+      return headersUnderAnalysis.peek();
+    }
   }
 }

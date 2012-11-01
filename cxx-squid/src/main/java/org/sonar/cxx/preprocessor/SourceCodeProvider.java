@@ -56,33 +56,44 @@ public class SourceCodeProvider {
     }
   }
 
-  public String getSourceCode(String filename, String cwd) {
-    String code = null;
+  public File getSourceCodeFile(String filename, String cwd) {
+    File result = null;
     File file = new File(filename);
-    if (file.isAbsolute()) {
-      code = getSourceCode(file);
+    if (file.isAbsolute()){
+      if (file.exists()) {
+        result = file;
+      }
     }
     else {
       // lookup in the current directory
       File abspath = new File(new File(cwd), file.getPath());
-      code = getSourceCode(abspath);
-      
-      if (code == null) {
+      if(abspath.exists()){
+        result = abspath;
+      }
+      else {
         // lookup relative to the stored include roots
         for (File folder : includeRoots) {
-          //abspath = FileUtils.getFile(folder, filename);
           abspath = new File(folder.getPath(), filename);
-          code = getSourceCode(abspath);
-          if (code != null)
+          if (abspath.exists()){
+            result = abspath;
             break;
+          }
         }
       }
     }
-
-    return code;
+    
+    if(result != null){
+      try{
+        result = result.getCanonicalFile();
+      } catch(java.io.IOException io) {
+        LOG.error("cannot get canonical form of: '{}'", result);
+      }
+    }
+    
+    return result;
   }
-
-  private String getSourceCode(File file) {
+    
+  public String getSourceCode(File file) {
     String code = null;
     if (file.exists()) {
       try {
@@ -97,5 +108,4 @@ public class SourceCodeProvider {
 
     return code;
   }
-
 }
