@@ -4055,14 +4055,43 @@ Alignment can vary with the compiler and the machine. If binary data is to be sh
 		<name>Violates MISRA Year Required Rule Name, String</name>
 		<description>MISRA is the "Guidelines for the use of the C Language in Vehicle Based Software". [10] The first version of the MISRA Standard was released in 1998 and the second in 2004. Lint references the rules from each version of the Standard using integers for 1998 and in decimal form for 2004, as per the Standard numbering style.
 The list of required checks made for both MISRA 1998 and 2004 are:
-(Rule 19/7.1) Octal constant used. (Rule 32/9.3) Should initialize either all enum members or only the first. (Rule 33/12.4) Side effects on right hand side of logical operator. (Rule 42/12.10) Comma operator used outside of 'for' expression. (Rule 54/14.3) Null statement not in line by itself. (Rule 57/14.5) continue statement should not be used. (Rules 59/14.8 &amp; 14.9) Left brace expected for if, else, for, do, and while. (Rule 65/13.4) Floating point variable used as loop counter. (Rule 68/8.6) Function not declared at file scope. (Rule 69/16.1) Function has variable number of arguments. (Rule 73/16.3) Either all parameters or no parameters should have identifiers. (Rule 91/19.5) '#define/#undef' used within a block. (Rule 98/19.12) Multiple use of '#' and/or '##' operators in macro definition. (Rule 100/19.14) Non-standard use of 'defined' preprocessor operator.
+(Rule 19/7.1) Octal constant used. (Rule 32/9.3) Should initialize either all enum members or only the first.
+(Rule 33/12.4) Side effects on right hand side of logical operator.
+(Rule 42/12.10) Comma operator used outside of 'for' expression.
+(Rule 54/14.3) Null statement not in line by itself.
+(Rule 57/14.5) continue statement should not be used.
+(Rules 59/14.8 &amp; 14.9) Left brace expected for if, else, for, do, and while.
+(Rule 65/13.4) Floating point variable used as loop counter.
+(Rule 68/8.6) Function not declared at file scope.
+(Rule 69/16.1) Function has variable number of arguments.
+(Rule 73/16.3) Either all parameters or no parameters should have identifiers.
+(Rule 91/19.5) '#define/#undef' used within a block.
+(Rule 98/19.12) Multiple use of '#' and/or '##' operators in macro definition.
+(Rule 100/19.14) Non-standard use of 'defined' preprocessor operator.
+
 Required checks made exclusively for MISRA 1998 are:
-(Rule 58) break used outside of a switch. (Rule 88) Header file name contains non-standard character. (Rule 110) Bitfields inside union.
+(Rule 58) break used outside of a switch.
+(Rule 88) Header file name contains non-standard character.
+(Rule 110) Bitfields inside union.
+
 Required checks made exclusively for MISRA 2004 are:
-(Rule 8.5) No definitions of objects or function in header files. (Rules 10.1 &amp; 10.2) Prohibited implicit conversion. (Rules 10.3 &amp; 10.4) Prohibited cast of complex expressions. (Rule 10.5) Recasting required for operators '~' and '&lt;&lt;'. (Rule 12.3) 'sizeof' used on expressions with side effect (Rule 12.7) Bitwise operator applied to signed underlying type. (Rule 12.9) Prohibited operator applied to unsigned underlying type. (Rule 14.6) More than one 'break' terminates loop. (Rule 14.10) No 'else' at end of 'if ... else if' chain. (Rule 15.4) Boolean value in switch expression (Rule 18.4) Unions shall not be used. (Rule 19.6) Use of '#undef' prohibited 
+(Rule 8.5) No definitions of objects or function in header files.
+(Rules 10.1 &amp; 10.2) Prohibited implicit conversion.
+(Rules 10.3 &amp; 10.4) Prohibited cast of complex expressions.
+(Rule 10.5) Recasting required for operators '~' and '&lt;&lt;'.
+(Rule 12.3) 'sizeof' used on expressions with side effect 
+(Rule 12.7) Bitwise operator applied to signed underlying type.
+(Rule 12.9) Prohibited operator applied to unsigned underlying type.
+(Rule 14.6) More than one 'break' terminates loop.
+(Rule 14.10) No 'else' at end of 'if ... else if' chain.
+(Rule 15.4) Boolean value in switch expression
+(Rule 18.4) Unions shall not be used.
+(Rule 19.6) Use of '#undef' prohibited
+
 MISRA 1998 checking is achieved using the -misra(1) option. For MISRA 2004 checks, use -misra(2).
+
 You may disable individual rules to your taste by using the Rule number in an esym option. For example:
--esym( 960, 75, 8? ) 
+-esym( 960, 75, 8? )
 will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.</description>
 	</rule>
 	<rule>
