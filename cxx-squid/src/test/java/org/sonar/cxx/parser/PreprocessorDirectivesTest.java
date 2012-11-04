@@ -35,26 +35,5 @@ public class PreprocessorDirectivesTest {
   public void preprocessor_directives() {
     assertThat(p, parse("#define IDX 10\n"
       + "array[IDX];"));
-
-    assertThat(p, parse("#define CHECKCODE(candidate,arrayofvalues,truestatement,falsestatement)\\\n"
-      + "{\\\n"
-      + "  const char **p;\\\n"
-      + "  if ((candidate))\\\n"
-      + "    for (p=(arrayofvalues);*p;p++)\\\n"
-      + "      if (!strcasecmp((candidate), *p))\\\n"
-      + "	truestatement;\\\n"
-      + "  falsestatement;\\\n"
-      + "}"));
   }
-
-  // @Test
-  // public void conditional_compilation() {
-  //   assertThat(p, parse("#ifdef LALA\n"
-  //                       +"void foo(){\n"
-  //                       +"#else\n"
-  //                       +"void bar(){\n"
-  //                       +"#endif\n"
-  //                       +"}"));
-  // }
-  
 }

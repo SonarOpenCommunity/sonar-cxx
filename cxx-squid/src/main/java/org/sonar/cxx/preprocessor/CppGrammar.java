@@ -33,6 +33,10 @@ import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
 import static org.sonar.cxx.api.CppKeyword.DEFINE;
 import static org.sonar.cxx.api.CppKeyword.INCLUDE;
+import static org.sonar.cxx.api.CppKeyword.IFDEF;
+import static org.sonar.cxx.api.CppKeyword.IFNDEF;
+import static org.sonar.cxx.api.CppKeyword.ELSE;
+import static org.sonar.cxx.api.CppKeyword.ENDIF;
 
 /**
  * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
@@ -41,6 +45,8 @@ public class CppGrammar extends Grammar {
   public Rule preprocessor_line;
   public Rule define_line;
   public Rule include_line;
+  public Rule ifdef_line;
+  public Rule ifndef_line;
   public Rule replacement_list;
   public Rule identifier_list;
   public Rule pp_token;
@@ -49,7 +55,9 @@ public class CppGrammar extends Grammar {
     preprocessor_line.is(
       or(
         include_line,
-        define_line
+        define_line,
+        ifdef_line,
+        ifndef_line
         )
       );
 
@@ -68,7 +76,11 @@ public class CppGrammar extends Grammar {
                       CxxTokenType.STRING
                       )
       );
-
+    
+    ifdef_line.is(IFDEF, IDENTIFIER);
+    
+    ifndef_line.is(IFNDEF, IDENTIFIER);
+    
     replacement_list.is(
         o2n(
         or(

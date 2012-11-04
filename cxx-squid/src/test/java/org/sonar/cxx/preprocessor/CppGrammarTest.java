@@ -37,6 +37,19 @@ public class CppGrammarTest {
   }
 
   @Test
+  public void preprocessor_line() {
+    g.define_line.mock();
+    g.include_line.mock();
+    g.ifdef_line.mock();
+    g.ifndef_line.mock();
+    
+    assertThat(p, parse("define_line"));
+    assertThat(p, parse("include_line"));
+    assertThat(p, parse("ifdef_line"));
+    assertThat(p, parse("ifndef_line"));
+  }
+  
+  @Test
   public void define_line() {
     p.setRootRule(g.define_line);
 
@@ -90,6 +103,18 @@ public class CppGrammarTest {
     assert (define.findFirstChild(g.identifier_list) != null);
   }
 
+  @Test
+  public void ifdef_line() {
+    p.setRootRule(g.ifdef_line);
+    assertThat(p, parse("#ifdef foo"));
+  }
+
+  @Test
+  public void ifndef_line() {
+    p.setRootRule(g.ifndef_line);
+    assertThat(p, parse("#ifndef foo"));
+  }
+  
   @Test
   public void replacement_list() {
     p.setRootRule(g.replacement_list);

@@ -29,7 +29,7 @@ public class CxxTokenTypeTest {
 
   @Test
   public void test() {
-    assertThat(CxxTokenType.values()).hasSize(6);
+    assertThat(CxxTokenType.values()).hasSize(10);
 
     AstNode astNode = mock(AstNode.class);
     for (CxxTokenType tokenType : CxxTokenType.values()) {

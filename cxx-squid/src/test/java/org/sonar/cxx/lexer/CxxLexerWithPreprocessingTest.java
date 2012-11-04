@@ -254,4 +254,73 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // B + EOF
     assertThat(tokens, hasToken("B", GenericTokenType.IDENTIFIER));
   }
+
+  @Test
+  public void conditional_compilation_ifdef_undefined() {
+    List<Token> tokens = lexer.lex("#ifdef LALA\n"
+                                   + "111\n"
+                                   + "#else\n"
+                                   + "222\n"
+                                   + "#endif\n");
+    
+    assertThat(tokens, not(hasToken("111", CxxTokenType.NUMBER)));
+    assertThat(tokens, hasToken("222", CxxTokenType.NUMBER));
+  }
+  
+  @Test
+  public void conditional_compilation_ifdef_defined() {
+    List<Token> tokens = lexer.lex("#define LALA\n"
+                                   + "#ifdef LALA\n"
+                                   + "  111\n"
+                                   + "#else\n"
+                                   + "  222\n"
+                                   + "#endif\n");
+    
+    assertThat(tokens, hasToken("111", CxxTokenType.NUMBER));
+    assertThat(tokens, not(hasToken("222", CxxTokenType.NUMBER)));
+  }
+
+  @Test
+  public void conditional_compilation_ifndef_undefined() {
+    List<Token> tokens = lexer.lex("#ifndef LALA\n"
+                                   + "111\n"
+                                   + "#else\n"
+                                   + "222\n"
+                                   + "#endif\n");
+    
+    assertThat(tokens, hasToken("111", CxxTokenType.NUMBER));
+    assertThat(tokens).hasSize(2); // 111 + EOF
+  }
+  
+  @Test
+  public void conditional_compilation_ifndef_defined() {
+    List<Token> tokens = lexer.lex("#define X\n"
+                                   + "#ifndef X\n"
+                                   + "  111\n"
+                                   + "#else\n"
+                                   + "  222\n"
+                                   + "#endif\n");
+    
+    assertThat(tokens, hasToken("222", CxxTokenType.NUMBER));
+    assertThat(tokens).hasSize(2); // 222 + EOF
+  }
+  
+  @Test
+  public void conditional_compilation_ifdef_nested() {
+    List<Token> tokens = lexer.lex("#define B\n"
+                                   + "#ifdef A\n"
+                                   + "  a\n"
+                                   + "  #ifdef B\n"
+                                   + "    b\n"
+                                   + "  #else\n"
+                                   + "    notb\n"
+                                   + "  #endif\n"
+                                   + "  a1\n"
+                                   + "#else\n"
+                                   + "  nota\n"
+                                   + "#endif\n");
+    
+    assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // nota + EOF
+  }
 }

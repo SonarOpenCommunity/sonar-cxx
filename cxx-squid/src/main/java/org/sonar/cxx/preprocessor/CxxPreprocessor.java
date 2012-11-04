@@ -54,6 +54,10 @@ import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_DEFINE;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_INCLUDE;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_IFDEF;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_IFNDEF;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_ELSE;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_ENDIF;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 
 public class CxxPreprocessor extends Preprocessor {
@@ -95,7 +99,9 @@ public class CxxPreprocessor extends Preprocessor {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext context;
   private Stack<File> headersUnderAnalysis = new Stack<File>();
-
+  boolean skipping = false;
+  int nestedIfdefs = 0;
+  
   public CxxPreprocessor() {
     this(new CxxConfiguration(),
          new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project")),
@@ -141,15 +147,60 @@ public class CxxPreprocessor extends Preprocessor {
     TokenType ttype = token.getType();
     File file = getFileUnderAnalysis();
     String filePath = file == null? token.getURI().toString() : file.getAbsolutePath();
-
+    
+    if (ttype == PREPROCESSOR_IFDEF || ttype == PREPROCESSOR_IFNDEF) {
+      if(skipping){
+        nestedIfdefs++;
+      }
+      else{
+        Macro macro = macros.get(getMacro(token));
+        if (ttype == PREPROCESSOR_IFDEF && macro == null) {
+          LOG.debug("[{}]: '#ifdef {}' evaluated to false, skipping tokens that follow", filePath, macro);
+          skipping = true;
+        }
+        if (ttype == PREPROCESSOR_IFNDEF && macro != null) {
+          LOG.debug("[{}]: '#ifndef {}' evaluated to false, skipping tokens that follow", filePath, macro);
+          skipping = true;
+        }
+      }
+      
+      return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+    } else if (ttype == PREPROCESSOR_ELSE) {
+      if(nestedIfdefs == 0){
+        if(skipping){
+          LOG.debug("[{}]: returning to non-skipping mode", filePath);
+        }
+        else{
+          LOG.debug("[{}]: 'skipping tokens insede the #else", filePath);
+        }
+        
+        skipping = !skipping;
+      }
+      return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+    } else if (ttype == PREPROCESSOR_ENDIF) {
+      if(nestedIfdefs > 0){
+        nestedIfdefs--;
+      }
+      else{
+        if(skipping){
+          LOG.debug("[{}]: returning to non-skipping mode", filePath);
+        }
+        skipping = false;
+      }
+      return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+    }
+    
+    if(inSkippingMode()){
+      return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+    }
+    
     if (ttype == PREPROCESSOR) {
-
+      
       // For now, we just ignore all preprocessor directives except the defines
       // and strip them from the stream
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
-    }
-    else if (ttype == PREPROCESSOR_INCLUDE) {
+    } else if (ttype == PREPROCESSOR_INCLUDE) {
 
       //
       // Included files have to be scanned with the (only) goal of gathering macros.
@@ -460,6 +511,11 @@ public class CxxPreprocessor extends Preprocessor {
     return result;
   }
 
+  String getMacro(Token ifdefLine){
+    AstNode ast = pplineParser.parse(ifdefLine.getValue());
+    return ast.findFirstChild(IDENTIFIER).getTokenValue();
+  }
+
   String stripQuotes(String str){
     return str.substring(1, str.length()-1);
   }
@@ -471,4 +527,9 @@ public class CxxPreprocessor extends Preprocessor {
       return headersUnderAnalysis.peek();
     }
   }
+  
+  private boolean inSkippingMode(){
+    return skipping;
+  }
 }
+  

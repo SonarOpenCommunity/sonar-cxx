@@ -39,7 +39,7 @@ public class IncludeLexerTest {
   public void proper_preprocessor_directives_are_created() {
     assertThat(lexer.lex("#include <iostream>"), hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR_INCLUDE));
     assertThat(lexer.lex("#define lala"), hasToken("#define lala", CxxTokenType.PREPROCESSOR_DEFINE));
-    assertThat(lexer.lex("#ifdef lala"), hasToken("#ifdef lala", CxxTokenType.PREPROCESSOR));
+    assertThat(lexer.lex("#ifdef lala"), hasToken("#ifdef lala", CxxTokenType.PREPROCESSOR_IFDEF));
   }
 
   @Test
