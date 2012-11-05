@@ -203,6 +203,21 @@ public class ClassesTest {
   }
 
   @Test
+  public void virt_specifier_seq_reallife() {
+    p.setRootRule(g.virt_specifier_seq);
+
+    assertThat(p, parse("override"));
+  }
+
+  @Test
+  public void virt_specifier() {
+    p.setRootRule(g.virt_specifier);
+    
+    assertThat(p, parse("override"));
+    assertThat(p, parse("final"));
+  }
+
+  @Test
   public void base_specifier_list() {
     p.setRootRule(g.base_specifier_list);
 

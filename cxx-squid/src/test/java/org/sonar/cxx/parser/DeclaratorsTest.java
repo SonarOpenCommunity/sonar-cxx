@@ -392,6 +392,7 @@ public class DeclaratorsTest {
     assertThat(p, parse("void operator() (T& elem) const {elem += theValue;}"));
     assertThat(p, parse("int main(){}"));
     assertThat(p, parse("virtual const char* what() const throw() { return \"read empty stack\"; }"));
+    assertThat(p, parse("void foo() override {}"));
   }
 
   @Test
