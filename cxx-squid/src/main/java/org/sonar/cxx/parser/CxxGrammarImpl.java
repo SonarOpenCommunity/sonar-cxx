@@ -53,6 +53,14 @@ public class CxxGrammarImpl extends CxxGrammar {
     exception_handling();
 
     misc();
+
+    test.is(
+      // opt(attribute_specifier_seq),
+      // opt(decl_specifier_seq),
+      // declarator,
+      opt(virt_specifier_seq),
+      function_body
+      );
     
     GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
   }
