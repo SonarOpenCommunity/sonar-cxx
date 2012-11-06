@@ -1309,6 +1309,72 @@
 			<key>uselessCallsRemove</key>
 			<priority>MINOR</priority>
 		</rule>
+		<!-- ########### Missing or new in cppcheck 1.57 ########### -->
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>CastAddressToIntegerAtReturn</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>comparisonOfBoolWithBoolError</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>comparisonOfFuncReturningBoolError</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>comparisonOfTwoFuncsReturningBoolError</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>copyCtorPointerCopying</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>invalidFree</key>
+			<priority>MAJOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>invalidLengthModifierError</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>noCopyConstructor</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>oppositeInnerCondition</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>redundantAssignment</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>redundantCopyInSwitch</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>redundantNextPrevious</key>
+			<priority>MINOR</priority>
+		</rule>
+		<rule>
+			<repositoryKey>cppcheck</repositoryKey>
+			<key>unsafeClassCanLeak</key>
+			<priority>MINOR</priority>
+		</rule>
 		<!-- ##############################################  -->
 		<!-- ################# rats rules #################  -->
 		<!-- ##############################################  -->
