@@ -92,13 +92,13 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     unqualified_id.is(
         or(
-            IDENTIFIER,
             operator_function_id,
             conversion_function_id,
             literal_operator_id,
             and("~", class_name),
             and("~", decltype_specifier),
-            template_id
+            template_id,
+            IDENTIFIER
         )
         );
 
