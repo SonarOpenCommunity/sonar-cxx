@@ -115,6 +115,12 @@ public class TemplatesTest {
   }
 
   @Test
+  public void template_id_reallife() {
+    p.setRootRule(g.template_id);
+    assertThat(p, parse("foo<int>"));
+  }
+
+  @Test
   public void template_argument_list() {
     p.setRootRule(g.template_argument_list);
 

@@ -59,6 +59,7 @@ public class ExpressionTest {
     p.setRootRule(g.id_expression);
 
     assertThat(p, parse("numeric_limits<char>::is_signed"));
+    assertThat(p, parse("foo<int>"));
   }
 
   @Test
@@ -81,6 +82,12 @@ public class ExpressionTest {
     assertThat(p, parse("template_id"));
   }
 
+  @Test
+  public void unqualified_id_reallife() {
+    p.setRootRule(g.unqualified_id);
+    assertThat(p, parse("foo<int>"));
+  }
+  
   @Test
   public void qualified_id() {
     p.setRootRule(g.qualified_id);
@@ -172,6 +179,7 @@ public class ExpressionTest {
     assertThat(p, parse("foo()->i"));
     assertThat(p, parse("dynamic_cast<Type*>(myop)->op()"));
     assertThat(p, parse("::foo()"));
+    assertThat(p, parse("obj.foo<int>()"));
   }
 
   @Test
