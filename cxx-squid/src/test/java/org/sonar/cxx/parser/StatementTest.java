@@ -81,9 +81,6 @@ public class StatementTest {
 
     // the 'template class as friend' problem
     assertThat(p, parse("friend class SmartPtr<T>;"));
-
-    // the override problem
-    assertThat(p, parse("void foo() override {};"));
   }
 
   @Test

@@ -54,13 +54,7 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     misc();
 
-    test.is(
-      // opt(attribute_specifier_seq),
-      // opt(decl_specifier_seq),
-      // declarator,
-      opt(virt_specifier_seq),
-      function_body
-      );
+    test.is("debugging asset");
     
     GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
   }
@@ -459,7 +453,7 @@ public class CxxGrammarImpl extends CxxGrammar {
       // somehow...
       
       one2n(
-        not(and(declarator, or("=", ";", "{", "(", ":", ","))),
+        not(and(declarator, or("=", ";", "{", "(", ":", ",", virt_specifier))),
         decl_specifier
         ),
       opt(attribute_specifier_seq)
