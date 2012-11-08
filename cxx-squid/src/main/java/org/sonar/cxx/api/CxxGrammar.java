@@ -25,6 +25,7 @@ import com.sonar.sslr.api.Rule;
 public class CxxGrammar extends Grammar {
   public Rule test;
 
+  public Rule bool;
   public Rule literal;
 
   // Top-level components

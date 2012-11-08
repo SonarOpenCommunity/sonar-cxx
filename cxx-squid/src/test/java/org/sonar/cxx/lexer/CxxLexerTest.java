@@ -298,8 +298,8 @@ public class CxxLexerTest {
    */
   @Test
   public void boolean_literals() {
-    assertThat(lexer.lex("true"), hasToken("true", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("false"), hasToken("false", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("true"), hasToken("true", CxxKeyword.TRUE));
+    assertThat(lexer.lex("false"), hasToken("false", CxxKeyword.FALSE));
   }
 
   /**
@@ -380,6 +380,8 @@ public class CxxLexerTest {
     assertThat(lexer.lex("a1"), hasToken("a1", GenericTokenType.IDENTIFIER));
     assertThat(lexer.lex("A1"), hasToken("A1", GenericTokenType.IDENTIFIER));
     assertThat(lexer.lex("A_a_A_1"), hasToken("A_a_A_1", GenericTokenType.IDENTIFIER));
+    
+    assertThat("identifier: containing boolean constant", lexer.lex("truetype"), hasToken("truetype", GenericTokenType.IDENTIFIER));
   }
 
   @Test

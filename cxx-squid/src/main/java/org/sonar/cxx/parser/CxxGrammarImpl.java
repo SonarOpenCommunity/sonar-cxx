@@ -21,6 +21,7 @@ package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.matcher.GrammarFunctions;
 import org.sonar.cxx.api.CxxGrammar;
+import org.sonar.cxx.api.CxxKeyword;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
@@ -60,11 +61,21 @@ public class CxxGrammarImpl extends CxxGrammar {
   }
 
   private void misc() {
+    // C++ Standard, Section 2.14.6 "Boolean literals"
+    bool.is(
+      or(
+        CxxKeyword.TRUE,
+        CxxKeyword.FALSE
+        )
+      );
+    
     literal.is(
         or(
             CHARACTER,
             STRING,
-            NUMBER)
+            NUMBER,
+            bool
+          )
         );
   }
 
