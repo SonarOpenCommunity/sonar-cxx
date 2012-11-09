@@ -604,17 +604,49 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     linkage_specification.is("extern", STRING, or(and("{", opt(declaration_seq), "}"), declaration));
 
-    // TODO: deferred
-    attribute_specifier_seq.is("XXXattribute_specifier_seq");
-    attribute_specifier.is("XXXattribute_specifier");
-    attribute_list.is("XXXattribute_list");
-    attribute.is("XXXattribute");
-    attribute_token.is("XXXattribute_token");
-    attribute_scoped_token.is("XXXattribute_scoped_token");
-    attribute_namespace.is("XXXattribute_namespace");
-    attribute_argument_clause.is("XXXattribute_argument_clause");
-    balanced_token_seq.is("XXXbalanced_token_seq");
-    balanced_token.is("XXXbalanced_token");
+    attribute_specifier_seq.is(one2n(attribute_specifier));
+    
+    attribute_specifier.is(
+            or(
+                and("[","[", attribute_list, "]", "]"),
+                alignment_specifier               
+            ));
+
+    alignment_specifier.is(
+            or(
+                and("alignas", "(", type_id, opt("..."), ")"),
+                and("alignas", "(", assignment_expression, opt("..."), ")")
+            ));
+       
+    attribute_list.is(
+            or(
+                and(attribute, "...", o2n(",", attribute, "...")),            
+                and(opt(attribute), o2n(",", opt(attribute)))                  
+            ));
+    
+    attribute.is(attribute_token, opt(attribute_argument_clause));
+
+    attribute_token.is(
+            or(
+                attribute_scoped_token,
+                IDENTIFIER            
+            ));
+    
+    attribute_scoped_token.is(attribute_namespace, "::", IDENTIFIER);
+    
+    attribute_namespace.is(IDENTIFIER);
+    
+    attribute_argument_clause.is("(", balanced_token_seq ,")");
+        
+    balanced_token_seq.is(o2n(balanced_token));
+    
+    balanced_token.is(
+            or(
+                IDENTIFIER,
+                and("(", balanced_token_seq, ")"),            
+                and("{", balanced_token_seq, "}"),
+                and("[", balanced_token_seq, "]")                     
+            ));
   }
 
   private void declarators() {

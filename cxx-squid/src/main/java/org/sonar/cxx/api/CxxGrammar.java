@@ -138,6 +138,7 @@ public class CxxGrammar extends Grammar {
   public Rule linkage_specification;
   public Rule attribute_specifier_seq;
   public Rule attribute_specifier;
+  public Rule alignment_specifier;  
   public Rule attribute_list;
   public Rule attribute;
   public Rule attribute_token;
