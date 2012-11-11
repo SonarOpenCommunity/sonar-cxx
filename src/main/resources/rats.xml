@@ -333,30 +333,6 @@
 	</rule>
 
 	<rule>
-		<key>strcpy</key>
-		<name>strcpy</name>
-		<description>
-      Check to be sure that argument 2 passed to this function call
-      will not copy more data than can be handled, resulting in a buffer
-      overflow.
-		</description>
-		<priority>MAJOR</priority>
-		<configKey>config/strcpy</configKey>
-	</rule>
-
-	<rule>
-		<key>strcat</key>
-		<name>strcat</name>
-		<description>
-      Check to be sure that argument 2 passed to this function call
-      will not copy more data than can be handled, resulting in a buffer
-      overflow.
-		</description>
-		<priority>MAJOR</priority>
-		<configKey>config/strcat</configKey>
-	</rule>
-
-	<rule>
 		<key>printf</key>
 		<name>printf</name>
 		<description>
@@ -2136,18 +2112,6 @@
 	</rule>
 
 	<rule>
-		<key>_tspawnle</key>
-		<name>_tspawnle</name>
-		<description>
-      While this _exec variant does not search the path for a program
-      (good!), it will run .com files before .exe files and the like. Make
-      sure to specify a file extension.
-		</description>
-		<priority>MAJOR</priority>
-		<configKey>config/_tspawnle</configKey>
-	</rule>
-
-	<rule>
 		<key>_spawnle</key>
 		<name>_spawnle</name>
 		<description>
@@ -2753,20 +2717,6 @@
 	</rule>
 
 	<rule>
-		<key>strncpy</key>
-		<name>strncpy</name>
-		<description>
-      Double check that your buffer is as big as you specify. When
-      using functions that accept a number n of bytes to copy, such as
-      strncpy, be aware that if the destination buffer size = n it may not
-      NULL-terminate the string.Also, consider using strlcpy() instead, if
-      it is available to you.
-		</description>
-		<priority>MINOR</priority>
-		<configKey>config/strncpy</configKey>
-	</rule>
-
-	<rule>
 		<key>_vsnprintf</key>
 		<name>_vsnprintf</name>
 		<description>
@@ -3239,16 +3189,6 @@
 		</description>
 		<priority>CRITICAL</priority>
 		<configKey>config/gettext</configKey>
-	</rule>
-
-	<rule>
-		<key>strncat</key>
-		<name>strncat</name>
-		<description>
-      Consider using strlcat() instead.
-		</description>
-		<priority>CRITICAL</priority>
-		<configKey>config/strncat</configKey>
 	</rule>
 
 	<rule>
