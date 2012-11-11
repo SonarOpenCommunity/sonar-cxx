@@ -2272,5 +2272,111 @@
     <description>
       Return value of std::remove() ignored.
     </description>
-  </rule>      
+  </rule>
+
+  <!-- ########### New in cppcheck 1.57 ########### -->
+  <rule>
+    <key>CastAddressToIntegerAtReturn</key>
+    <configkey>CastAddressToIntegerAtReturn</configkey>
+    <name>Returning an address value in a function with integer return type is not portable</name>
+    <description>
+      Returning an address value in a function with integer return type is not portable.
+    </description>
+  </rule>
+  <rule>
+    <key>comparisonOfBoolWithBoolError</key>
+    <configkey>comparisonOfBoolWithBoolError</configkey>
+    <name>Comparison of a variable having boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
+    <description>
+      Comparison of a variable having boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+    </description>
+  </rule>
+  <rule>
+    <key>comparisonOfFuncReturningBoolError</key>
+    <configkey>comparisonOfFuncReturningBoolError</configkey>
+    <name>Comparison of a function returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
+    <description>
+      Comparison of a function returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+    </description>
+  </rule>
+  <rule>
+    <key>comparisonOfTwoFuncsReturningBoolError</key>
+    <configkey>comparisonOfTwoFuncsReturningBoolError</configkey>
+    <name>Comparison of two functions returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
+    <description>
+      Comparison of two functions returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+    </description>
+  </rule>
+  <rule>
+    <key>copyCtorPointerCopying</key>
+    <configkey>copyCtorPointerCopying</configkey>
+    <name>Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory</name>
+    <description>
+      Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidFree</key>
+    <configkey>invalidFree</configkey>
+    <name>Invalid memory address freed</name>
+    <description>
+      Invalid memory address freed.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidLengthModifierError</key>
+    <configkey>invalidLengthModifierError</configkey>
+    <name>'modifier' in format string is a length modifier and cannot be used without a conversion specifier</name>
+    <description>
+      'modifier' in format string is a length modifier and cannot be used without a conversion specifier.
+    </description>
+  </rule>
+  <rule>
+    <key>noCopyConstructor</key>
+    <configkey>noCopyConstructor</configkey>
+    <name>'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory</name>
+    <description>
+      'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
+    </description>
+  </rule>
+  <rule>
+    <key>oppositeInnerCondition</key>
+    <configkey>oppositeInnerCondition</configkey>
+    <name>Opposite conditions in nested 'if' blocks lead to a dead code block</name>
+    <description>
+      Opposite conditions in nested 'if' blocks lead to a dead code block.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantAssignment</key>
+    <configkey>redundantAssignment</configkey>
+    <name>Variable 'var' is reassigned a value before the old one has been used</name>
+    <description>
+      Variable 'var' is reassigned a value before the old one has been used.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantCopyInSwitch</key>
+    <configkey>redundantCopyInSwitch</configkey>
+    <name>Buffer 'var' is being written before its old content has been used</name>
+    <description>
+      Buffer 'var' is being written before its old content has been used. 'break;' missing?
+    </description>
+  </rule>
+  <rule>
+    <key>redundantNextPrevious</key>
+    <configkey>redundantNextPrevious</configkey>
+    <name>Call to 'Token::func1()' followed by 'Token::func2()' can be simplified</name>
+    <description>
+      Call to 'Token::func1()' followed by 'Token::func2()' can be simplified.
+    </description>
+  </rule>
+  <rule>
+    <key>unsafeClassCanLeak</key>
+    <configkey>unsafeClassCanLeak</configkey>
+    <name>Class 'classname' is unsafe, 'varname' can leak by wrong usage</name>
+    <description>
+      Class 'classname' is unsafe, 'varname' can leak by wrong usage.
+    </description>
+  </rule>
 </rules>
