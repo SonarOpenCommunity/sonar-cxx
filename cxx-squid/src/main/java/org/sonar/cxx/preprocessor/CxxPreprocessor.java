@@ -148,7 +148,7 @@ public class CxxPreprocessor extends Preprocessor {
     File file = getFileUnderAnalysis();
     String filePath = file == null? token.getURI().toString() : file.getAbsolutePath();
     
-    if (ttype == PREPROCESSOR_IFDEF || ttype == PREPROCESSOR_IFNDEF) {
+    if (ttype == PREPROCESSOR_IFDEF || ttype == PREPROCESSOR_IFNDEF || ttype == PREPROCESSOR_IF) {
       if(skipping){
         nestedIfdefs++;
       }
@@ -158,8 +158,12 @@ public class CxxPreprocessor extends Preprocessor {
           LOG.debug("[{}]: '#ifdef {}' evaluated to false, skipping tokens that follow", filePath, macro);
           skipping = true;
         }
-        if (ttype == PREPROCESSOR_IFNDEF && macro != null) {
+        else if (ttype == PREPROCESSOR_IFNDEF && macro != null) {
           LOG.debug("[{}]: '#ifndef {}' evaluated to false, skipping tokens that follow", filePath, macro);
+          skipping = true;
+        }
+        else if (ttype == PREPROCESSOR_IF) {
+          LOG.debug("[{}]: '#if' evaluated to false, skipping tokens that follow", filePath);
           skipping = true;
         }
       }
