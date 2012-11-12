@@ -56,6 +56,7 @@ import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_DEFINE;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_INCLUDE;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_IFDEF;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_IFNDEF;
+import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_IF;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_ELSE;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_ENDIF;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
@@ -148,7 +149,7 @@ public class CxxPreprocessor extends Preprocessor {
     File file = getFileUnderAnalysis();
     String filePath = file == null? token.getURI().toString() : file.getAbsolutePath();
     
-    if (ttype == PREPROCESSOR_IFDEF || ttype == PREPROCESSOR_IFNDEF || ttype == PREPROCESSOR_IF) {
+    if (ttype == PREPROCESSOR_IFDEF || ttype == PREPROCESSOR_IFNDEF) {
       if(skipping){
         nestedIfdefs++;
       }
@@ -162,13 +163,23 @@ public class CxxPreprocessor extends Preprocessor {
           LOG.debug("[{}]: '#ifndef {}' evaluated to false, skipping tokens that follow", filePath, macro);
           skipping = true;
         }
-        else if (ttype == PREPROCESSOR_IF) {
-          LOG.debug("[{}]: '#if' evaluated to false, skipping tokens that follow", filePath);
-          skipping = true;
-        }
       }
       
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+
+    } else if (ttype == PREPROCESSOR_IF) {
+      if(skipping){
+        nestedIfdefs++;
+      }
+      else{
+        // TODO: hardcoded to 'false' right now; implement the parsing and evaluating
+        // of the expression
+        LOG.debug("[{}]: '#if' evaluated to false, skipping tokens that follow", filePath);
+        skipping = true;
+      }
+      
+      return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+      
     } else if (ttype == PREPROCESSOR_ELSE) {
       if(nestedIfdefs == 0){
         if(skipping){
