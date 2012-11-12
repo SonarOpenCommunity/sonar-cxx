@@ -135,7 +135,7 @@ public class CxxPreprocessor extends Preprocessor {
       LOG.debug("parsing external macro: '{}'", define);
       Macro macro = parseMacroDefinition("#define " + define);
       if (macro != null) {
-        LOG.info("storing external macro: " + macro);
+        LOG.info("storing external macro: '{}'", macro);
         macros.put(macro.name, macro);
       }
     }
@@ -240,7 +240,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       Macro macro = parseMacroDefinition(token.getValue());
       if (macro != null) {
-        LOG.debug("[{}]: storing macro: {}", filePath, macro);
+        LOG.debug("[{}]: storing macro: '{}'", filePath, macro);
         macros.put(macro.name, macro);
       }
 
@@ -278,7 +278,7 @@ public class CxxPreprocessor extends Preprocessor {
         if (tokensConsumed > 0) {
           replTokens = reallocate(replTokens, token);
 
-          LOG.debug("[{}]: replacing {}'" + token.getValue()
+          LOG.debug("[{}]: replacing '" + token.getValue()
                     + (arguments.size() == 0
                        ? ""
                        : "(" + serialize(arguments) + ")") + "' --> '" + serialize(replTokens) + "'",
