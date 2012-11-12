@@ -99,7 +99,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
         type = CxxTokenType.PREPROCESSOR_INCLUDE;
       } else if(prefix.equals("ifd")){
         type = CxxTokenType.PREPROCESSOR_IFDEF;
-      } else if(prefix.equals("if ")){
+      } else if(prefix.equals("if ") || prefix.equals("if(")){
         type = CxxTokenType.PREPROCESSOR_IF;
       } else if(prefix.equals("ifn")){
         type = CxxTokenType.PREPROCESSOR_IFNDEF;

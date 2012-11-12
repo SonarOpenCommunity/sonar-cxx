@@ -155,12 +155,11 @@ public class CxxPreprocessor extends Preprocessor {
       }
       else{
         Macro macro = macros.get(getMacro(token));
-        if (ttype == PREPROCESSOR_IFDEF && macro == null) {
-          LOG.debug("[{}]: '#ifdef {}' evaluated to false, skipping tokens that follow", filePath, macro);
-          skipping = true;
-        }
-        else if (ttype == PREPROCESSOR_IFNDEF && macro != null) {
-          LOG.debug("[{}]: '#ifndef {}' evaluated to false, skipping tokens that follow", filePath, macro);
+        if (ttype == PREPROCESSOR_IFDEF && macro == null
+            ||
+            ttype == PREPROCESSOR_IFNDEF && macro != null) {
+          LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+                    new Object[]{filePath, token.getLine(), token.getValue()});
           skipping = true;
         }
       }
@@ -174,7 +173,8 @@ public class CxxPreprocessor extends Preprocessor {
       else{
         // TODO: hardcoded to 'false' right now; implement the parsing and evaluating
         // of the expression
-        LOG.debug("[{}]: '#if' evaluated to false, skipping tokens that follow", filePath);
+        LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+                  new Object[]{filePath, token.getLine(), token.getValue()});
         skipping = true;
       }
       
@@ -183,10 +183,10 @@ public class CxxPreprocessor extends Preprocessor {
     } else if (ttype == PREPROCESSOR_ELSE) {
       if(nestedIfdefs == 0){
         if(skipping){
-          LOG.debug("[{}]: returning to non-skipping mode", filePath);
+          LOG.debug("[{}:{}]: #else, returning to non-skipping mode", filePath, token.getLine());
         }
         else{
-          LOG.debug("[{}]: 'skipping tokens insede the #else", filePath);
+          LOG.debug("[{}:{}]: skipping tokens inside the #else", filePath, token.getLine());
         }
         
         skipping = !skipping;
@@ -198,7 +198,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
       else{
         if(skipping){
-          LOG.debug("[{}]: returning to non-skipping mode", filePath);
+          LOG.debug("[{}:{}]: #endif, returning to non-skipping mode", filePath,token.getLine());
         }
         skipping = false;
       }
@@ -226,13 +226,14 @@ public class CxxPreprocessor extends Preprocessor {
       //    preprossor directives (currently: include's and define's)
 
       String includedFile = parseIncludeLine(token.getValue());
-      if(!analysedFiles.contains(includedFile)){
-        String dir = file == null ? "" : file.getParent();
-        File sourceFile = codeProvider.getSourceCodeFile(includedFile, dir);
-        if(sourceFile != null){
+      String dir = file == null ? "" : file.getParent();
+      File sourceFile = codeProvider.getSourceCodeFile(includedFile, dir);
+      
+      if(sourceFile != null){
+        if(!analysedFiles.contains(sourceFile.getAbsolutePath())){
           analysedFiles.add(sourceFile.getAbsolutePath());
-          LOG.debug("[{}]: processing include '{}', resolved to file '{}'",
-                    new Object[]{filePath, includedFile, sourceFile.getAbsolutePath()});
+          LOG.debug("[{}:{}]: processing include '{}', resolved to file '{}'",
+                    new Object[]{filePath, token.getLine(), includedFile, sourceFile.getAbsolutePath()});
           headersUnderAnalysis.push(sourceFile);
           try{
             IncludeLexer.create(this).lex(codeProvider.getSourceCode(sourceFile));
@@ -241,11 +242,13 @@ public class CxxPreprocessor extends Preprocessor {
           }
         }
         else{
-          LOG.warn("[{}]: cannot find the sources for '{}'", filePath, includedFile);
+          LOG.debug("[{}:{}]: skipping already included file '{}'",
+                    new Object[]{filePath, token.getLine(), includedFile});
         } 
       }
       else{
-        LOG.debug("[{}]: skipping already included file '{}'", filePath, includedFile);
+        LOG.warn("[{}:{}]: cannot find the sources for '{}'",
+                 new Object[]{filePath, token.getLine(), includedFile});
       }
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -255,7 +258,8 @@ public class CxxPreprocessor extends Preprocessor {
 
       Macro macro = parseMacroDefinition(token.getValue());
       if (macro != null) {
-        LOG.debug("[{}]: storing macro: '{}'", filePath, macro);
+        LOG.debug("[{}:{}]: storing macro: '{}'",
+                  new Object[]{filePath, token.getLine(), macro});
         macros.put(macro.name, macro);
       }
 
@@ -284,7 +288,8 @@ public class CxxPreprocessor extends Preprocessor {
             tokensConsumed = tokensConsumedMatchingArgs + 1;
             String replacement = replaceParams(macro.body, macro.params, arguments);
 
-            LOG.debug("[{}]: lexing macro body: '{}'", filePath, replacement);
+            LOG.debug("[{}:{}]: lexing macro body: '{}'",
+                      new Object[]{filePath, token.getLine(), replacement});
 
             replTokens = expandMacro(macro.name, replacement);
           }
@@ -293,11 +298,11 @@ public class CxxPreprocessor extends Preprocessor {
         if (tokensConsumed > 0) {
           replTokens = reallocate(replTokens, token);
 
-          LOG.debug("[{}]: replacing '" + token.getValue()
+          LOG.debug("[{}:{}]: replacing '" + token.getValue()
                     + (arguments.size() == 0
                        ? ""
                        : "(" + serialize(arguments) + ")") + "' --> '" + serialize(replTokens) + "'",
-                    filePath);
+                    filePath, token.getLine());
 
           return new PreprocessorAction(
               tokensConsumed,

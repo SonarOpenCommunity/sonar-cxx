@@ -325,8 +325,8 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void conditional_compilation_if_undefined() {
-    List<Token> tokens = lexer.lex("#if A\n"
+  public void conditional_compilation_if_false() {
+    List<Token> tokens = lexer.lex("#if 0\n"
                                    + "  a\n"
                                    + "#else\n"
                                    + "  nota\n"
@@ -337,12 +337,11 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void conditional_compilation_if_defined() {
+  public void conditional_compilation_if_true() {
     //TODO: this test passes because the evaluation of the
     // if-expressions is hardcoded to 'false' right now.
     // Adjust this test as soon as this changes.
-    List<Token> tokens = lexer.lex("#define A\n"
-                                   + "#if A\n"
+    List<Token> tokens = lexer.lex("#if(1)\n"
                                    + "  a\n"
                                    + "#else\n"
                                    + "  nota\n"
