@@ -91,19 +91,21 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private CxxTokenType classify(String tokenValue){
     CxxTokenType type = CxxTokenType.PREPROCESSOR;
-    if(tokenValue.length() >= 5){
-      String prefix = tokenValue.substring(1, 5);
-      if(prefix.equals("defi")){
+    if(tokenValue.length() >= 4){
+      String prefix = tokenValue.substring(1, 4);
+      if(prefix.equals("def")){
         type = CxxTokenType.PREPROCESSOR_DEFINE;
-      } else if(prefix.equals("incl")){
+      } else if(prefix.equals("inc")){
         type = CxxTokenType.PREPROCESSOR_INCLUDE;
-      } else if(prefix.equals("ifde")){
+      } else if(prefix.equals("ifd")){
         type = CxxTokenType.PREPROCESSOR_IFDEF;
-      } else if(prefix.equals("ifnd")){
+      } else if(prefix.equals("if ")){
+        type = CxxTokenType.PREPROCESSOR_IF;
+      } else if(prefix.equals("ifn")){
         type = CxxTokenType.PREPROCESSOR_IFNDEF;
-      } else if(prefix.equals("else")){
+      } else if(prefix.equals("els")){
         type = CxxTokenType.PREPROCESSOR_ELSE;
-      } else if(prefix.equals("endi")){
+      } else if(prefix.equals("end")){
         type = CxxTokenType.PREPROCESSOR_ENDIF;
       }
     }

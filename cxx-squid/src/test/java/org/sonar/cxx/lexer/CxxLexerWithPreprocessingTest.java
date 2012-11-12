@@ -319,7 +319,35 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#else\n"
                                    + "  nota\n"
                                    + "#endif\n");
-    
+
+    assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // nota + EOF
+  }
+
+  @Test
+  public void conditional_compilation_if_undefined() {
+    List<Token> tokens = lexer.lex("#if A\n"
+                                   + "  a\n"
+                                   + "#else\n"
+                                   + "  nota\n"
+                                   + "#endif\n");
+
+    assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // nota + EOF
+  }
+
+  @Test
+  public void conditional_compilation_if_defined() {
+    //TODO: this test passes because the evaluation of the
+    // if-expressions is hardcoded to 'false' right now.
+    // Adjust this test as soon as this changes.
+    List<Token> tokens = lexer.lex("#define A\n"
+                                   + "#if A\n"
+                                   + "  a\n"
+                                   + "#else\n"
+                                   + "  nota\n"
+                                   + "#endif\n");
+
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
   }
