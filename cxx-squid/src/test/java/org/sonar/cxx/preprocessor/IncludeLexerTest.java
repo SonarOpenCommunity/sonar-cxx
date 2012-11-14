@@ -48,6 +48,13 @@ public class IncludeLexerTest {
     assertThat(tokens, hasToken("#define name", CxxTokenType.PREPROCESSOR_DEFINE));
     assertThat(tokens).hasSize(2);
   }
+  
+  @Test
+  public void multiline_comment_with_Include_is_swallowed() {
+    List<Token> tokens = lexer.lex("/* This is a multiline comment\n   #include should be swallowed\n */");
+    assertThat(tokens).hasSize(1);
+    assertThat(tokens, hasToken("EOF", EOF));
+  }
 
   @Test
   public void all_but_preprocessor_stuff_is_swallowed() {

@@ -25,6 +25,9 @@ import com.sonar.sslr.impl.channel.BlackHoleChannel;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.channels.PreprocessorChannel;
 
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
+
 public final class IncludeLexer {
 
   private IncludeLexer() {
@@ -40,6 +43,7 @@ public final class IncludeLexer {
         .withFailIfNoChannelToConsumeOneCharacter(true)
         .withChannel(new BlackHoleChannel("\\s"))
         .withChannel(new PreprocessorChannel())
+        .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))              
         .withChannel(new BlackHoleChannel(".*"));
 
     for (Preprocessor preprocessor : preprocessors) {
