@@ -360,6 +360,7 @@ public class DeclaratorsTest {
     assertThat(p, parse("const paramtype<T> param"));
     assertThat(p, parse("const auto_ptr<T>& p"));
     assertThat(p, parse("string"));
+    assertThat(p, parse("::P& c"));
   }
 
   @Test
@@ -393,6 +394,7 @@ public class DeclaratorsTest {
     assertThat(p, parse("int main(){}"));
     assertThat(p, parse("virtual const char* what() const throw() { return \"read empty stack\"; }"));
     assertThat(p, parse("void foo() override {}"));
+    assertThat(p, parse("void foo(::P& c) {}"));
   }
 
   @Test

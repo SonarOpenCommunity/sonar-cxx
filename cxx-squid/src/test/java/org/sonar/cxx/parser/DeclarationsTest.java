@@ -155,6 +155,7 @@ public class DeclarationsTest {
     assertThat(p, parse("foo<bar>"));
     assertThat(p, parse("paramtype<T>"));
     assertThat(p, parse("carray<int,10>"));
+    assertThat(p, parse("::P"));
   }
 
   @Test
@@ -266,6 +267,12 @@ public class DeclarationsTest {
     assertThat(p, parse("decltype_specifier"));
   }
 
+  @Test
+  public void simple_type_specifier_real() {
+    p.setRootRule(g.simple_type_specifier);
+    assertThat(p, parse("::P"));
+  }
+  
   @Test
   public void type_name() {
     p.setRootRule(g.type_name);

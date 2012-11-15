@@ -144,6 +144,8 @@ public class ClassesTest {
     assertThat(p, parse("tnode *left;"));
     assertThat(p, parse("tnode *right;"));
     assertThat(p, parse("Result (*ptr)();"));
+    assertThat(p, parse("A(const ::P& c) : m_value(c){};"));
+    assertThat(p, parse("void foo(::P& c) {};"));
   }
 
   @Test

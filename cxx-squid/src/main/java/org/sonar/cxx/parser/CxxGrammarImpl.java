@@ -505,7 +505,10 @@ public class CxxGrammarImpl extends CxxGrammar {
             "char", "char16_t", "char32_t", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void", "auto",
             decltype_specifier,
             and(nested_name_specifier, "template", simple_template_id),
-            and(opt(nested_name_specifier), type_name)
+
+            // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
+            // stuff like "void foo(::A a);". Figure out if there is another way
+            and(opt(or(nested_name_specifier, "::")), type_name)
         )
         );
 
@@ -837,7 +840,7 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     member_declaration.is(
         or(
-            //TODO: remote after the decl_specifier_seq has been made smarter.
+            //TODO: remove after the decl_specifier_seq has been made smarter.
             and(opt(attribute_specifier_seq), decl_specifier, opt(member_declarator_list), ";"),
 
             and(opt(attribute_specifier_seq), opt(decl_specifier_seq), opt(member_declarator_list), ";"),
