@@ -57,6 +57,13 @@ public class IncludeLexerTest {
   }
 
   @Test
+  public void singleline_comment_with_Include_is_swallowed() {
+    List<Token> tokens = lexer.lex("// #include should be swallowed\n");
+    assertThat(tokens).hasSize(1);
+    assertThat(tokens, hasToken("EOF", EOF));
+  }
+
+  @Test
   public void all_but_preprocessor_stuff_is_swallowed() {
     // all the other stuff should be consumed by the lexer without
     // generating any tokens
