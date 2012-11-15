@@ -344,6 +344,11 @@ public class CxxPreprocessor extends Preprocessor {
     List<Token> rest = tokens;
     try{
       rest = match(rest, "(");
+    } catch(MismatchException me){
+      return 0;
+    }
+
+    try{
       do{
         rest = matchArgument(rest, arguments);
         try{
