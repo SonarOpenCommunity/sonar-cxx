@@ -329,6 +329,7 @@ public class ExpressionTest {
     assertThat(p, parse("usedColors[(Color)c]"));
     assertThat(p, parse("(Color)c"));
     assertThat(p, parse("foo()->i"));
+    assertThat(p, parse("which ^= 1u"));
   }
 
   @Test
@@ -351,6 +352,7 @@ public class ExpressionTest {
 
     assertThat(p, parse("i=0"));
     assertThat(p, parse("(istream_iterator<string>(cin))"));
+    assertThat(p, parse("which ^= 1u"));
   }
 
   @Test

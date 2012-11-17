@@ -54,7 +54,7 @@ public enum CxxPunctuator implements TokenType {
   BW_NOT("~"),
   BW_AND("&"),
   BW_OR("|"),
-  BW_XOR("ˆ"),
+  BW_XOR("^"),
   BW_LSHIFT("<<"),
   BW_RSHIFT(">>"),
 
@@ -66,7 +66,7 @@ public enum CxxPunctuator implements TokenType {
   MODULO_ASSIGN("%="),
   BW_AND_ASSIGN("&="),
   BW_OR_ASSIGN("|="),
-  BW_XOR_ASSIGN("ˆ="),
+  BW_XOR_ASSIGN("^="),
   BW_LSHIFT_ASSIGN("<<="),
   BW_RSHIFT_ASSIGN(">>="),
 
