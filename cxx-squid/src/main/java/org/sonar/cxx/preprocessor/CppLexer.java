@@ -74,7 +74,7 @@ public final class CppLexer {
       .withChannel(regexp(CxxTokenType.NUMBER, "0[xX][0-9a-fA-F]++" + opt(INTEGER_SUFFIX))) // Hex Literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(INTEGER_SUFFIX))) // Decimal zero
       
-      .withChannel(new KeywordChannel(and("#[a-z]", o2n("\\w")), CppKeyword.values()))
+      .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), CppKeyword.values()))
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
       .withChannel(new PunctuatorChannel(CppPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());

@@ -18,6 +18,14 @@ A bar(){
     9weird \
     stuff
 
+  #define other \
+    9weird \
+    stuff
+
+  # define more \
+    9weird \
+    stuff
+
 int main(int argc, char** argv)
 {
     int i = 0;

@@ -57,11 +57,15 @@ public class KeywordChannel extends Channel<Lexer> {
       String word = tmpBuilder.toString();
       tmpBuilder.delete(0, tmpBuilder.length());
 
-      TokenType keywordType = keywordsMap.get(word);
+      // do this work to strip potential whitespace between the hash and the directive
+      String identifier = word.substring(1, word.length()).trim();
+      String potentialKeyword = HASH.getValue() + identifier;
+      
+      TokenType keywordType = keywordsMap.get(potentialKeyword);
       if (keywordType != null) {
         Token token = tokenBuilder
             .setType(keywordType)
-            .setValueAndOriginalValue(word)
+            .setValueAndOriginalValue(potentialKeyword)
             .setURI(lexer.getURI())
             .setLine(code.getPreviousCursor().getLine())
             .setColumn(code.getPreviousCursor().getColumn())
@@ -73,14 +77,14 @@ public class KeywordChannel extends Channel<Lexer> {
         // if its not a keyword, then it is a sequence of a hash followed by an identifier
         lexer.addToken(tokenBuilder
             .setType(HASH)
-            .setValueAndOriginalValue(word.substring(0, 1))
+            .setValueAndOriginalValue(HASH.getValue())
             .setURI(lexer.getURI())
             .setLine(code.getPreviousCursor().getLine())
             .setColumn(code.getPreviousCursor().getColumn())
             .build());
         lexer.addToken(tokenBuilder
             .setType(IDENTIFIER)
-            .setValueAndOriginalValue(word.substring(1, word.length()))
+            .setValueAndOriginalValue(identifier)
             .setURI(lexer.getURI())
             .setLine(code.getPreviousCursor().getLine())
             .setColumn(code.getPreviousCursor().getColumn())
