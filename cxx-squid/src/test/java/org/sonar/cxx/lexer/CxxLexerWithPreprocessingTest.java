@@ -240,7 +240,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void includes_are_working(){
     SourceCodeProvider scp = mock(SourceCodeProvider.class);
-    when(scp.getSourceCodeFile(anyString(), anyString())).thenReturn(new File(""));
+    when(scp.getSourceCodeFile(anyString(), anyString(), eq(false))).thenReturn(new File(""));
     when(scp.getSourceCode(any(File.class))).thenReturn("#define A B\n");
 
     SquidAstVisitorContext ctx = mock(SquidAstVisitorContext.class);

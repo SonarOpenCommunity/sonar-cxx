@@ -96,7 +96,7 @@ public class CxxPreprocessor extends Preprocessor {
   private CppGrammar grammar = new CppGrammar();
   private Parser<CppGrammar> pplineParser = null;
   private Map<String, Macro> macros = new HashMap<String, Macro>();
-  private Set<String> analysedFiles = new HashSet<String>();
+  private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext context;
   private Stack<File> headersUnderAnalysis = new Stack<File>();
@@ -223,33 +223,26 @@ public class CxxPreprocessor extends Preprocessor {
       // a) parse the preprocessor line using the preprocessor line parser
       // b) if not done yet, try to find the according source code
       // c) if found, feed it into a special lexer, which calls back only if it finds relevant
-      //    preprossor directives (currently: include's and define's)
-
-      String includedFile = parseIncludeLine(token.getValue());
-      String dir = file == null ? "" : file.getParent();
-      File sourceFile = codeProvider.getSourceCodeFile(includedFile, dir);
+      //    preprocessor directives (currently: include's and define's)
       
-      if(sourceFile != null){
-        if(!analysedFiles.contains(sourceFile.getAbsolutePath())){
-          analysedFiles.add(sourceFile.getAbsolutePath());
-          LOG.debug("[{}:{}]: processing include '{}', resolved to file '{}'",
-                    new Object[]{filePath, token.getLine(), includedFile, sourceFile.getAbsolutePath()});
-          headersUnderAnalysis.push(sourceFile);
-          try{
-            IncludeLexer.create(this).lex(codeProvider.getSourceCode(sourceFile));
-          } finally {
-            headersUnderAnalysis.pop();
-          }
-        }
-        else{
-          LOG.debug("[{}:{}]: skipping already included file '{}'",
-                    new Object[]{filePath, token.getLine(), includedFile});
-        } 
+      File includedFile = findIncludedFile(token.getValue());
+      if(includedFile == null){
+        LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[]{filePath, token.getLine(), token.getValue()});
+      }
+      else if(!analysedFiles.contains(includedFile)) {
+        analysedFiles.add(includedFile.getAbsoluteFile());
+        LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
+            new Object[]{filePath, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+        headersUnderAnalysis.push(includedFile);
+        try{
+          IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
+        } finally {
+          headersUnderAnalysis.pop();
+         }
       }
       else{
-        LOG.warn("[{}:{}]: cannot find the sources for '{}'",
-                 new Object[]{filePath, token.getLine(), includedFile});
-      }
+        LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[]{filePath, token.getLine(), includedFile});
+      }      
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
     } else if (ttype == PREPROCESSOR_DEFINE) {
@@ -511,13 +504,16 @@ public class CxxPreprocessor extends Preprocessor {
     return params;
   }
 
-  String parseIncludeLine(String includeLine){
-    String result = null;
-
+  File findIncludedFile(String includeLine){
+    String fileName = null;
+    File includedFile = null;
+    boolean quoted = false;
+    
     AstNode ast = pplineParser.parse(includeLine);
-    AstNode includedFile = ast.findFirstChild(STRING);
-    if(includedFile != null){
-      result = stripQuotes(includedFile.getTokenValue());
+    AstNode includedString = ast.findFirstChild(STRING);
+    if(includedString != null){
+      fileName = stripQuotes(includedString.getTokenValue());
+      quoted = true;
     }
     else {
       AstNode node = ast.findFirstChild(LT).nextSibling();
@@ -530,10 +526,16 @@ public class CxxPreprocessor extends Preprocessor {
         node = node.nextSibling();
       }
 
-      result = sb.toString();
+      fileName = sb.toString();
     }
 
-    return result;
+    if(fileName != null){
+      File file = getFileUnderAnalysis();
+      String dir = file == null ? "" : file.getParent();
+      includedFile = codeProvider.getSourceCodeFile(fileName, dir,quoted);
+    }
+    
+    return includedFile;
   }
 
   String getMacro(Token ifdefLine){

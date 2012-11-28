@@ -56,7 +56,7 @@ public class SourceCodeProvider {
     }
   }
 
-  public File getSourceCodeFile(String filename, String cwd) {
+  public File getSourceCodeFile(String filename, String cwd, boolean quoted) {
     File result = null;
     File file = new File(filename);
     if (file.isAbsolute()){
@@ -65,15 +65,22 @@ public class SourceCodeProvider {
       }
     }
     else {
-      // lookup in the current directory
-      File abspath = new File(new File(cwd), file.getPath());
-      if(abspath.exists()){
-        result = abspath;
+      // This seems to be an established convention:
+      // The special behavior in the quoted case is to look up relative to the
+      // current directory.
+      if(quoted){
+        File abspath = new File(new File(cwd), file.getPath());
+        if(abspath.exists()){
+          result = abspath;
+        }
       }
-      else {
-        // lookup relative to the stored include roots
+      
+      // The standard behavior: lookup relative to to the include roots.
+      // The quoted case falls back to this, if its special handling wasnt
+      // successul (as forced by the Standard).
+      if(result == null){
         for (File folder : includeRoots) {
-          abspath = new File(folder.getPath(), filename);
+          File abspath = new File(folder.getPath(), filename);
           if (abspath.exists()){
             result = abspath;
             break;
