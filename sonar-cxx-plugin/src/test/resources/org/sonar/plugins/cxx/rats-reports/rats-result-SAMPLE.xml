@@ -1,0 +1,44 @@
+<?xml version="1.0"?><rats_output>
+<stats>
+<dbcount lang="perl">33</dbcount>
+<dbcount lang="ruby">46</dbcount>
+<dbcount lang="python">62</dbcount>
+<dbcount lang="c">334</dbcount>
+<dbcount lang="php">55</dbcount>
+</stats>
+<analyzed>sources//tests/SAMPLE-test.cpp</analyzed>
+<analyzed>sources//tests/main.cpp</analyzed>
+<analyzed>sources//application/main.cpp</analyzed>
+<analyzed>sources//utils/code_chunks.cpp</analyzed>
+<analyzed>sources//utils/utils.cpp</analyzed>
+<vulnerability>
+  <severity>High</severity>
+  <type>fixed size global buffer</type>
+  <message>
+    Extra care should be taken to ensure that character arrays that are
+    allocated on the stack are used safely.  They are prime targets for
+    buffer overflow attacks.
+  </message>
+  <file>
+    <name>sources//utils/code_chunks.cpp</name>
+    <line>19</line>
+  </file>
+</vulnerability>
+<vulnerability>
+  <severity>High</severity>
+  <type>gets</type>
+  <message>
+    Gets is unsafe!! No bounds checking is performed, buffer
+      is easily overflowable by user. Use fgets(buf, size, stdin) instead.
+  </message>
+  <file>
+    <name>sources//utils/code_chunks.cpp</name>
+    <line>20</line>
+  </file>
+</vulnerability>
+<timing>
+<total_lines>125</total_lines>
+<total_time>0.009917</total_time>
+<lines_per_second>12604</lines_per_second>
+</timing>
+</rats_output>

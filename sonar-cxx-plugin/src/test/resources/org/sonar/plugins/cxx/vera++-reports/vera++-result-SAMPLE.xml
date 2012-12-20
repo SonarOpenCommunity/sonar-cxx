@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+	<file name="sources/application/main.cpp">
+		<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+	</file>
+	<file name="sources/tests/SAMPLE-test.cpp">
+		<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+	</file>
+	<file name="sources/tests/SAMPLE-test.h">
+		<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+	</file>
+	<file name="sources/tests/main.cpp">
+		<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+	</file>
+	<file name="sources/utils/code_chunks.cpp">
+		<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+		<error line="38" severity="warning" message="keyword 'if' not followed by a single space" source="T008"/>
+		<error line="58" severity="warning" message="closing curly bracket not in the same line or column" source="T011"/>
+		<error line="83" severity="warning" message="trailing empty line(s)" source="L003"/>
+	</file>
+	<file name="sources/utils/utils.cpp">
+		<error line="1" severity="warning" message="leading empty line(s)" source="L003"/>
+		<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+	</file>
+</checkstyle>
