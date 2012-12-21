@@ -92,7 +92,7 @@ public class CxxGrammarImpl extends CxxGrammar {
             id_expression,
             lambda_expression
         )
-        );
+        ).skipIfOneChild();
 
     id_expression.is(
         or(
@@ -211,7 +211,7 @@ public class CxxGrammarImpl extends CxxGrammar {
             "--"
         )
         )
-        );
+        ).skipIfOneChild();
 
     expression_list.is(initializer_list);
 
@@ -238,7 +238,7 @@ public class CxxGrammarImpl extends CxxGrammar {
             new_expression,
             delete_expression
         )
-        );
+        ).skipIfOneChild();
 
     unary_operator.is(
         or("*", "&", "+", "-", "!", "~")
@@ -281,36 +281,36 @@ public class CxxGrammarImpl extends CxxGrammar {
             and(next("(", type_id, ")"), "(", type_id, ")", cast_expression),
             unary_expression
         )
-        );
+        ).skipIfOneChild();
 
-    pm_expression.is(cast_expression, o2n(or(".*", "->*"), cast_expression));
+    pm_expression.is(cast_expression, o2n(or(".*", "->*"), cast_expression)).skipIfOneChild();
 
-    multiplicative_expression.is(pm_expression, o2n(or("*", "/", "%"), pm_expression));
+    multiplicative_expression.is(pm_expression, o2n(or("*", "/", "%"), pm_expression)).skipIfOneChild();
 
-    additive_expression.is(multiplicative_expression, o2n(or("+", "-"), multiplicative_expression));
+    additive_expression.is(multiplicative_expression, o2n(or("+", "-"), multiplicative_expression)).skipIfOneChild();
 
-    shift_expression.is(additive_expression, o2n(or("<<", ">>"), additive_expression));
+    shift_expression.is(additive_expression, o2n(or("<<", ">>"), additive_expression)).skipIfOneChild();
 
-    relational_expression.is(shift_expression, o2n(or("<", ">", "<=", ">="), shift_expression));
+    relational_expression.is(shift_expression, o2n(or("<", ">", "<=", ">="), shift_expression)).skipIfOneChild();
 
-    equality_expression.is(relational_expression, o2n(or("==", "!="), relational_expression));
+    equality_expression.is(relational_expression, o2n(or("==", "!="), relational_expression)).skipIfOneChild();
 
-    and_expression.is(equality_expression, o2n("&", equality_expression));
+    and_expression.is(equality_expression, o2n("&", equality_expression)).skipIfOneChild();
 
-    exclusive_or_expression.is(and_expression, o2n("^", and_expression));
+    exclusive_or_expression.is(and_expression, o2n("^", and_expression)).skipIfOneChild();
 
-    inclusive_or_expression.is(exclusive_or_expression, o2n("|", exclusive_or_expression));
+    inclusive_or_expression.is(exclusive_or_expression, o2n("|", exclusive_or_expression)).skipIfOneChild();
 
-    logical_and_expression.is(inclusive_or_expression, o2n("&&", inclusive_or_expression));
+    logical_and_expression.is(inclusive_or_expression, o2n("&&", inclusive_or_expression)).skipIfOneChild();
 
-    logical_or_expression.is(logical_and_expression, o2n("||", logical_and_expression));
+    logical_or_expression.is(logical_and_expression, o2n("||", logical_and_expression)).skipIfOneChild();
 
     conditional_expression.is(
         or(
             and(logical_or_expression, "?", expression, ":", assignment_expression),
             logical_or_expression
         )
-        );
+        ).skipIfOneChild();
 
     assignment_expression.is(
         or(
@@ -318,7 +318,7 @@ public class CxxGrammarImpl extends CxxGrammar {
             conditional_expression,
             throw_expression
         )
-        );
+        ).skipIfOneChild();
 
     assignment_operator.is(or("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", "^=", "|="));
 
