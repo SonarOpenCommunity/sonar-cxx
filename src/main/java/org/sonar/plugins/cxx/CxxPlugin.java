@@ -26,7 +26,7 @@ import org.sonar.api.Extension;
 import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
-import org.sonar.plugins.cxx.cohesion.CxxCohesionSensor;
+// import org.sonar.plugins.cxx.cohesion.CxxCohesionSensor;
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
@@ -35,7 +35,7 @@ import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
 import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
-import org.sonar.plugins.cxx.rfc.CxxRfcSensor;
+// import org.sonar.plugins.cxx.rfc.CxxRfcSensor;
 import org.sonar.plugins.cxx.squid.CxxSquidSensor;
 import org.sonar.plugins.cxx.valgrind.CxxValgrindRuleRepository;
 import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
@@ -157,8 +157,6 @@ public final class CxxPlugin implements Plugin {
     List<Class<? extends Extension>> l = new ArrayList<Class<? extends Extension>>();
     l.add(CxxLanguage.class);
     l.add(CxxSourceImporter.class);
-    l.add(CxxCohesionSensor.class);
-    l.add(CxxRfcSensor.class);
     l.add(CxxColorizer.class);
     l.add(CxxSquidSensor.class);
     l.add(CxxCpdMapping.class);
@@ -177,6 +175,10 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxValgrindSensor.class);
     l.add(CxxDefaultProfile.class);
     l.add(CxxWithPCLintProfile.class);
+    
+    //l.add(CxxCohesionSensor.class);
+    //l.add(CxxRfcSensor.class);
+
     return l;
   }
 
