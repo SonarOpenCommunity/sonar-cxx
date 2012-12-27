@@ -358,8 +358,8 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     condition.is(
         or(
-            expression,
-            and(opt(attribute_specifier_seq), decl_specifier_seq, declarator, or(and("=", initializer_clause), braced_init_list))
+            and(opt(attribute_specifier_seq), decl_specifier_seq, declarator, or(and("=", initializer_clause), braced_init_list)),
+            expression
         )
         );
 

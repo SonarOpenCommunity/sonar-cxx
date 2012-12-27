@@ -149,6 +149,8 @@ public class StatementTest {
     p.setRootRule(g.condition);
 
     assertThat(p, parse("usedColors[(Color)c]"));
+    assertThat(p, parse("error_code ec = 1"));
+    assertThat(p, parse("a"));
   }
 
   @Test
