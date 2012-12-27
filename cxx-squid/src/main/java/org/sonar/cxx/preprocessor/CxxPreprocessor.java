@@ -302,7 +302,7 @@ public class CxxPreprocessor extends Preprocessor {
           LOG.debug("[{}:{}]: replacing '" + token.getValue()
                     + (arguments.size() == 0
                        ? ""
-                       : "(" + serialize(arguments) + ")") + "' --> '" + serialize(replTokens) + "'",
+                       : "(" + serialize(arguments) + ")") + "' -> '" + serialize(replTokens) + "'",
                     filePath, token.getLine());
 
           return new PreprocessorAction(
