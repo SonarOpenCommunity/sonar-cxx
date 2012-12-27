@@ -83,7 +83,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     public String toString(){
       return name
-        + (params == null ? "" : "(" + serialize(params) + ")")
+        + (params == null ? "" : "(" + serialize(params, ", ") + ")")
         + " -> '" + serialize(body) + "'";
     }
 
@@ -353,13 +353,17 @@ public class CxxPreprocessor extends Preprocessor {
   private List<Token> stripEOF(List<Token> tokens) {
     return tokens.subList(0, tokens.size() - 1);
   }
-
+  
   private String serialize(List<Token> tokens) {
+    return serialize(tokens, " ");
+  }
+  
+  private String serialize(List<Token> tokens, String spacer) {
     List<String> values = new LinkedList<String>();
     for (Token t : tokens) {
       values.add(t.getValue());
     }
-    return StringUtils.join(values, " ");
+    return StringUtils.join(values, spacer);
   }
 
   private int matchArguments(List<Token> tokens, List<Token> arguments) {
