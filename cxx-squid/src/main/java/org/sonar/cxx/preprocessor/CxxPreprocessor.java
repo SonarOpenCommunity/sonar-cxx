@@ -96,6 +96,7 @@ public class CxxPreprocessor extends Preprocessor {
   private CppGrammar grammar = new CppGrammar();
   private Parser<CppGrammar> pplineParser = null;
   private Map<String, Macro> macros = new HashMap<String, Macro>();
+  private Map<String, List<String>> file2macros = new HashMap<String, List<String>>();
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext context;
@@ -254,6 +255,13 @@ public class CxxPreprocessor extends Preprocessor {
         LOG.debug("[{}:{}]: storing macro: '{}'",
                   new Object[]{filePath, token.getLine(), macro});
         macros.put(macro.name, macro);
+        
+        List<String> macronames = file2macros.get(filePath);
+        if(macronames == null){
+          macronames = new LinkedList<String>();
+          file2macros.put(filePath, macronames);
+        }
+        macronames.add(macro.name);
       }
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -306,6 +314,27 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     return PreprocessorAction.NO_OPERATION;
+  }
+  
+  public void beginPreprocessing(File file){
+    // The following solves a problem with preprocessor guards
+    // (like #IFNDEF FILE_HH
+    //       #DEFINE FILE_HH
+    //       ...
+    //       #ENDIF)
+    // We dont wanna have them work on files which we want to analyse.
+    // So, just remove all macros known to be from that file
+    // (if have already have collected any)
+    
+    if(file != null){
+      List<String> macrosToDelete = file2macros.get(file.getAbsolutePath());
+      if(macrosToDelete != null){
+        for(String macroname: macrosToDelete){
+          macros.remove(macroname);
+        }
+        file2macros.remove(file.getAbsolutePath());
+      }
+    }
   }
   
   private List<Token> expandMacro(String macroName, String macroExpression) {
