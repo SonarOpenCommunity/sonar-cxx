@@ -212,7 +212,7 @@ public class CxxPreprocessor extends Preprocessor {
     
     if (ttype == PREPROCESSOR) {
       
-      // For now, we just ignore all preprocessor directives except the defines
+      // Ignore all other preprocessor directives (which are not handled explicitly) 
       // and strip them from the stream
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -324,7 +324,7 @@ public class CxxPreprocessor extends Preprocessor {
     //       #ENDIF)
     // We dont wanna have them work on files which we want to analyse.
     // So, just remove all macros known to be from that file
-    // (if have already have collected any)
+    // (if already have collected any)
     
     if(file != null){
       List<String> macrosToDelete = file2macros.get(file.getAbsolutePath());
