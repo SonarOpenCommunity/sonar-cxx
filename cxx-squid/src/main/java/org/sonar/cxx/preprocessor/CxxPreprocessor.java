@@ -50,6 +50,7 @@ import java.util.Stack;
 import java.util.Iterator;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
@@ -261,7 +262,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
-    } else if(ttype != STRING && ttype != NUMBER){
+    } else if(ttype != STRING && ttype != NUMBER && ttype != EOF){
 
       //
       // Every identifier and every keyword can be a macro instance.
