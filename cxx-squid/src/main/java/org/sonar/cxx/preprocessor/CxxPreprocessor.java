@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Iterator;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static org.sonar.cxx.api.CppPunctuator.LT;
@@ -281,14 +282,16 @@ public class CxxPreprocessor extends Preprocessor {
 
         if (macro.params == null) {
           tokensConsumed = 1;
-          replTokens = expandMacro(macro.name, serialize(macro.body));
+          replTokens = expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body)));
         }
         else {
           int tokensConsumedMatchingArgs = matchArguments(tokens.subList(1, tokens.size()), arguments);
           if (tokensConsumedMatchingArgs > 0 && macro.params.size() == arguments.size()) {
             tokensConsumed = tokensConsumedMatchingArgs + 1;
-            String replacement = replaceParams(macro.body, macro.params, arguments);
+            replTokens = replaceParams(macro.body, macro.params, arguments);
+            replTokens = evaluateHashhashOperators(replTokens);
 
+            String replacement = serialize(replTokens);
             LOG.debug("[{}:{}]: lexing macro body: '{}'",
                       new Object[]{filePath, token.getLine(), replacement});
 
@@ -443,46 +446,85 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  String replaceParams(List<Token> body, List<Token>  parameters, List<Token> arguments) {
+  List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
     // Replace all parameters by according arguments
     // "Stringify" the argument if the according parameter is preceded by an #
 
-    if (body.size() == 0) {
-      return "";
-    }
-
-    List<String> defParamValues = new ArrayList<String>();
-    for (Token t : parameters) {
-      defParamValues.add(t.getValue());
-    }
-
     List<Token> newTokens = new ArrayList<Token>();
-
-    for (int i = 0; i < body.size(); ++i) {
-      Token curr = body.get(i);
-      int index = defParamValues.indexOf(curr.getValue());
-      if (index != -1) {
-        Token replacement = arguments.get(index);
-        String newValue = replacement.getValue();
-        if (i > 0 && body.get(i - 1).getValue().equals("#")) {
-          newTokens.remove(newTokens.size() - 1);
-          newValue = encloseWithQuotes(quote(newValue));
-        }
-        newTokens.add(Token.builder()
-            .setLine(replacement.getLine())
-            .setColumn(replacement.getColumn())
-            .setURI(replacement.getURI())
-            .setValueAndOriginalValue(newValue)
-            .setType(replacement.getType())
-            .setGeneratedCode(true)
-            .build());
+    if (body.size() != 0) {
+      List<String> defParamValues = new ArrayList<String>();
+      for (Token t : parameters) {
+        defParamValues.add(t.getValue());
       }
-      else {
+      
+      for (int i = 0; i < body.size(); ++i) {
+        Token curr = body.get(i);
+        int index = defParamValues.indexOf(curr.getValue());
+        if (index != -1) {
+          Token replacement = arguments.get(index);
+          
+          // TODO: maybe we should pipe the argument through the whole expansion
+          // engine before doing the replacement
+          // String newValue = serialize(expandMacro("", replacement.getValue()));
+          
+          String newValue = replacement.getValue();
+          
+          if (i > 0 && body.get(i - 1).getValue().equals("#")) {
+            newTokens.remove(newTokens.size() - 1);
+            newValue = encloseWithQuotes(quote(newValue));
+          }
+          newTokens.add(Token.builder()
+                        .setLine(replacement.getLine())
+                        .setColumn(replacement.getColumn())
+                        .setURI(replacement.getURI())
+                        .setValueAndOriginalValue(newValue)
+                        .setType(replacement.getType())
+                        .setGeneratedCode(true)
+                        .build());
+        }
+        else {
+          newTokens.add(curr);
+        }
+      }
+    }
+    
+    return newTokens;
+  }
+  
+  List<Token> evaluateHashhashOperators(List<Token> tokens){
+    List newTokens = new ArrayList<Token>();
+
+    Iterator<Token> it = tokens.iterator();
+    while(it.hasNext()){
+      Token curr = it.next();
+      if(curr.getValue().equals("##")){
+        Token pred = (Token)newTokens.remove(newTokens.size()-1);
+        Token succ = succConcatToken(it);
+        newTokens.add(Token.builder()
+                      .setLine(pred.getLine())
+                      .setColumn(pred.getColumn())
+                      .setURI(pred.getURI())
+                      .setValueAndOriginalValue(pred.getValue()+succ.getValue())
+                      .setType(pred.getType())
+                      .setGeneratedCode(true)
+                      .build());
+      } else {
         newTokens.add(curr);
       }
+    } 
+    
+    return newTokens;
+  }
+  
+  Token succConcatToken(Iterator<Token> it){
+    Token succ = null;
+    while(it.hasNext()){
+      succ = it.next();
+      if(!succ.getValue().equals("##")){
+        break;
+      }
     }
-
-    return serialize(newTokens);
+    return succ;
   }
 
   private String quote(String str) {

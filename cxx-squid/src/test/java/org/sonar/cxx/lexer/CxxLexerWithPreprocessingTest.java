@@ -107,6 +107,51 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
+  public void expanding_hashhash_operator() {
+    List<Token> tokens = lexer.lex("#define concat(a,b) a ## b\n concat(x,y)");
+    assertThat(tokens).hasSize(2); //xy + EOF
+    assertThat(tokens, hasToken("xy", GenericTokenType.IDENTIFIER));
+  }
+
+  @Test
+  public void expanding_hashhash_operator_withoutparams() {
+    List<Token> tokens = lexer.lex("#define hashhash c ## c\n hashhash");
+    System.out.println(tokens);
+    
+    assertThat(tokens).hasSize(2); //cc + EOF
+    assertThat(tokens, hasToken("cc", GenericTokenType.IDENTIFIER));
+  }
+  
+  @Test
+  public void expanding_sequenceof_hashhash_operators() {
+    List<Token> tokens = lexer.lex("#define concat(a,b) a ## ## ## b\n concat(x,y)");
+    assertThat(tokens).hasSize(2); //xy + EOF
+    assertThat(tokens, hasToken("xy", GenericTokenType.IDENTIFIER));
+  }
+
+  @Test
+  public void expanding_many_hashhash_operators() {
+    List<Token> tokens = lexer.lex("#define concat(a,b) c ## c ## c ## c\n concat(x,y)");
+    assertThat(tokens).hasSize(2); //cccc + EOF
+    assertThat(tokens, hasToken("cccc", GenericTokenType.IDENTIFIER));
+  }
+  
+  @Test
+  public void expanding_hashhash_operator_sampleFromCPPStandard() {
+    // TODO: think about implementing this behavior. This is a sample from the standard, which is
+    // not working yet. Because the current implementatin throws away all 'irrelevant'
+    // preprocessor directives too early, I quess.
+    
+    // List<Token> tokens = lexer.lex("#define hash_hash(x) # ## #\n"
+    //                                + "#define mkstr(a) # a\n"
+    //                                + "#define in_between(a) mkstr(a)\n"
+    //                                + "#define join(c, d) in_between(c hash_hash(x) d)\n"
+    //                                + "join(x,y)");
+    // assertThat(tokens).hasSize(2); //"x ## y" + EOF
+    // assertThat(tokens, hasToken("\"x ## y\"", GenericTokenType.STRING));
+  }
+  
+  @Test
   public void expanding_hashoperator_quoting1() {
     List<Token> tokens = lexer.lex("#define str(a) # a\n str(\"x\")");
     assertThat(tokens).hasSize(2);
