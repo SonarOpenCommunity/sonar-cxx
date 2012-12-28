@@ -163,7 +163,7 @@ public class CxxPreprocessor extends Preprocessor {
         if (ttype == PREPROCESSOR_IFDEF && macro == null
             ||
             ttype == PREPROCESSOR_IFNDEF && macro != null) {
-          LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+          LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
                     new Object[]{filePath, token.getLine(), token.getValue()});
           skipping = true;
         }
@@ -178,7 +178,7 @@ public class CxxPreprocessor extends Preprocessor {
       else{
         // TODO: hardcoded to 'false' right now; implement the parsing and evaluating
         // of the expression
-        LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+        LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
                   new Object[]{filePath, token.getLine(), token.getValue()});
         skipping = true;
       }
@@ -188,10 +188,10 @@ public class CxxPreprocessor extends Preprocessor {
     } else if (ttype == PREPROCESSOR_ELSE) {
       if(nestedIfdefs == 0){
         if(skipping){
-          LOG.debug("[{}:{}]: #else, returning to non-skipping mode", filePath, token.getLine());
+          LOG.trace("[{}:{}]: #else, returning to non-skipping mode", filePath, token.getLine());
         }
         else{
-          LOG.debug("[{}:{}]: skipping tokens inside the #else", filePath, token.getLine());
+          LOG.trace("[{}:{}]: skipping tokens inside the #else", filePath, token.getLine());
         }
         
         skipping = !skipping;
@@ -203,7 +203,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
       else{
         if(skipping){
-          LOG.debug("[{}:{}]: #endif, returning to non-skipping mode", filePath,token.getLine());
+          LOG.trace("[{}:{}]: #endif, returning to non-skipping mode", filePath,token.getLine());
         }
         skipping = false;
       }
@@ -236,7 +236,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
       else if(!analysedFiles.contains(includedFile)) {
         analysedFiles.add(includedFile.getAbsoluteFile());
-        LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
+        LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
             new Object[]{filePath, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
         headersUnderAnalysis.push(includedFile);
         try{
@@ -246,7 +246,7 @@ public class CxxPreprocessor extends Preprocessor {
          }
       }
       else{
-        LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[]{filePath, token.getLine(), includedFile});
+        LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[]{filePath, token.getLine(), includedFile});
       }      
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -256,7 +256,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       Macro macro = parseMacroDefinition(token.getValue());
       if (macro != null) {
-        LOG.debug("[{}:{}]: storing macro: '{}'",
+        LOG.trace("[{}:{}]: storing macro: '{}'",
                   new Object[]{filePath, token.getLine(), macro});
         macros.put(macro.name, macro);
       }
@@ -288,7 +288,7 @@ public class CxxPreprocessor extends Preprocessor {
             replTokens = evaluateHashhashOperators(replTokens);
 
             String replacement = serialize(replTokens);
-            LOG.debug("[{}:{}]: lexing macro body: '{}'",
+            LOG.trace("[{}:{}]: lexing macro body: '{}'",
                       new Object[]{filePath, token.getLine(), replacement});
 
             replTokens = expandMacro(macro.name, replacement);
@@ -298,7 +298,7 @@ public class CxxPreprocessor extends Preprocessor {
         if (tokensConsumed > 0) {
           replTokens = reallocate(replTokens, token);
 
-          LOG.debug("[{}:{}]: replacing '" + token.getValue()
+          LOG.trace("[{}:{}]: replacing '" + token.getValue()
                     + (arguments.size() == 0
                        ? ""
                        : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
