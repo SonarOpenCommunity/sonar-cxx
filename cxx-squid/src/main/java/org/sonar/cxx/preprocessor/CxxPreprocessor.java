@@ -321,6 +321,9 @@ public class CxxPreprocessor extends Preprocessor {
     //   a corresponding #undef directive is encoun- tered or (if none
     //   is encountered) until the end of the translation unit.
     
+    LOG.debug("beginning preprocessing '{}'", file);
+    
+    analysedFiles.clear();
     macros.clear();
     macros.putAll(externalMacros);
   }
