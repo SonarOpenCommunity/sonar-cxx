@@ -46,6 +46,12 @@ public class SourceCodeProvider {
         includeRoot = new File(baseDir, tmp);
       }
       
+      try{
+        includeRoot = includeRoot.getCanonicalFile();
+      } catch(java.io.IOException io) {
+        LOG.error("cannot get canonical form of: '{}'", includeRoot);
+      }
+      
       if (includeRoot.exists()) {
         LOG.debug("storing include root: '{}'", includeRoot);
         this.includeRoots.add(includeRoot);
