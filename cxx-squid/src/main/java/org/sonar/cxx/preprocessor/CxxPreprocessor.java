@@ -105,6 +105,8 @@ public class CxxPreprocessor extends Preprocessor {
   private Stack<File> headersUnderAnalysis = new Stack<File>();
   boolean skipping = false;
   int nestedIfdefs = 0;
+  private CxxConfiguration conf;
+  private ConstantExpressionEvaluator ifExprEvaluator;
   
   public CxxPreprocessor() {
     this(new CxxConfiguration(),
@@ -128,6 +130,9 @@ public class CxxPreprocessor extends Preprocessor {
                          SquidAstVisitorContext context,
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
+    this.conf = conf;
+    this.ifExprEvaluator = new ConstantExpressionEvaluator(conf, this);
+
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
     
@@ -176,11 +181,19 @@ public class CxxPreprocessor extends Preprocessor {
         nestedIfdefs++;
       }
       else{
-        // TODO: hardcoded to 'false' right now; implement the parsing and evaluating
-        // of the expression
-        LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-                  new Object[]{filePath, token.getLine(), token.getValue()});
-        skipping = true;
+        try{
+          skipping = ! ifExprEvaluator.eval(getIfExpression(token.getValue()));
+        }
+        catch(EvaluationException e){
+          LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
+                    new Object[]{filePath, token.getLine(), token.getValue()});
+          LOG.error(e.toString());
+          skipping = false;
+        }
+        if(skipping){
+          LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+                    new Object[]{filePath, token.getLine(), token.getValue()});
+        }
       }
       
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -326,6 +339,19 @@ public class CxxPreprocessor extends Preprocessor {
     analysedFiles.clear();
     macros.clear();
     macros.putAll(externalMacros);
+  }
+
+  public String valueOf(String macroname){
+    String result = null;
+    Macro macro = macros.get(macroname);
+    if(macro != null){
+      result = serialize(macro.body);
+    }
+    return result;
+  }
+  
+  private String getIfExpression(String tokenValue){
+    return tokenValue.substring(tokenValue.indexOf("if") + 2);
   }
   
   private List<Token> expandMacro(String macroName, String macroExpression) {

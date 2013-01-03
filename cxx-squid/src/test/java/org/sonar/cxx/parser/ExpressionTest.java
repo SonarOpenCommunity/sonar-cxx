@@ -384,6 +384,22 @@ public class ExpressionTest {
   }
 
   @Test
+  public void constant_expression() {
+    p.setRootRule(g.constant_expression);
+    
+    g.conditional_expression.mock();
+
+    assertThat(p, parse("conditional_expression"));
+  }
+
+  @Test
+  public void constant_expression_reallife() {
+    p.setRootRule(g.constant_expression);
+
+    assertThat(p, parse("__cplusplus"));
+  }
+  
+  @Test
   public void logical_and_expression() {
     p.setRootRule(g.logical_and_expression);
     g.inclusive_or_expression.mock();

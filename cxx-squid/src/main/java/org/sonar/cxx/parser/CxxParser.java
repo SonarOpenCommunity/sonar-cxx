@@ -62,5 +62,13 @@ public final class CxxParser {
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
       .setParsingEventListeners(parseEventPropagator).build();
   }
-
+  
+  public static Parser<CxxGrammar> createConstantExpressionParser(CxxConfiguration conf) {
+    CxxGrammar grammar = new CxxGrammarImpl();
+    Parser<CxxGrammar> parser = Parser.builder(grammar)
+      .withLexer(CxxLexer.create(conf))
+      .build();
+    parser.setRootRule(grammar.constant_expression);
+    return parser;
+  }
 }
