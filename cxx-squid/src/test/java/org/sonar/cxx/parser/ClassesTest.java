@@ -192,6 +192,7 @@ public class ClassesTest {
     p.setRootRule(g.member_declarator);
 
     assertThat(p, parse("tword[20]"));
+    assertThat(p, parse("ThisAllocated : 1"));
   }
 
   @Test

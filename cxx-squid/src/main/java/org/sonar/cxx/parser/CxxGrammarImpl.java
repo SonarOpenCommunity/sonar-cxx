@@ -859,8 +859,8 @@ public class CxxGrammarImpl extends CxxGrammar {
         or(
             and(declarator, brace_or_equal_initializer),
             and(declarator, virt_specifier_seq, opt(pure_specifier)),
-            declarator,
-            and(opt(IDENTIFIER), opt(attribute_specifier_seq), ":", constant_expression)
+            and(opt(IDENTIFIER), opt(attribute_specifier_seq), ":", constant_expression),
+            declarator
         )
         );
 
