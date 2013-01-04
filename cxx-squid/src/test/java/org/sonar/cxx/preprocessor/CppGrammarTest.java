@@ -142,4 +142,13 @@ public class CppGrammarTest {
     assertThat(p, parse(")"));
     assertThat(p, parse("*"));
   }
+
+  @Test
+  public void if_line() {
+    p.setRootRule(g.if_line);
+
+    g.constant_expression.mock();
+
+    assertThat(p, parse("#if constant_expression"));
+  }
 }

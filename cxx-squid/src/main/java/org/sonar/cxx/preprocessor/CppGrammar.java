@@ -37,6 +37,7 @@ import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppKeyword.ELSE;
 import static org.sonar.cxx.api.CppKeyword.ENDIF;
+import static org.sonar.cxx.api.CppKeyword.IF;
 
 /**
  * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
@@ -50,7 +51,29 @@ public class CppGrammar extends Grammar {
   public Rule replacement_list;
   public Rule identifier_list;
   public Rule pp_token;
+  public Rule if_line;
+  public Rule constant_expression;
 
+public Rule primary_expression;
+public Rule unary_expression;
+public Rule unary_operator;
+public Rule multiplicative_expression;
+public Rule additive_expression;
+public Rule shift_expression;
+public Rule relational_expression;
+public Rule equality_expression;
+public Rule and_expression;
+public Rule exclusive_or_expression;
+public Rule inclusive_or_expression;
+public Rule logical_and_expression;
+public Rule logical_or_expression;
+public Rule conditional_expression;
+//public Rule assignment_expression;
+public Rule expression;
+public Rule bool;
+public Rule literal;
+
+  
   public CppGrammar() {
     preprocessor_line.is(
       or(
@@ -80,7 +103,7 @@ public class CppGrammar extends Grammar {
     ifdef_line.is(IFDEF, IDENTIFIER);
     
     ifndef_line.is(IFNDEF, IDENTIFIER);
-    
+
     replacement_list.is(
         o2n(
         or(
@@ -93,8 +116,81 @@ public class CppGrammar extends Grammar {
 
     identifier_list.is(IDENTIFIER, o2n(",", IDENTIFIER));
     pp_token.is(anyToken());
-  }
 
+    if_expressions();
+
+    bool.is(
+      or(
+        "true",
+        "false"
+        )
+      );
+    
+    literal.is(
+      or(
+        CxxTokenType.CHARACTER,
+        CxxTokenType.STRING,
+        CxxTokenType.NUMBER,
+        bool
+        )
+      );
+    
+  }
+  
+  void if_expressions(){
+    if_line.is(IF, constant_expression);
+    
+    primary_expression.is(
+      or(
+        literal,
+        and("(", expression, ")"),
+        IDENTIFIER
+        )
+      ).skipIfOneChild();
+    
+    unary_expression.is(
+      or(
+        and(unary_operator, multiplicative_expression),
+        primary_expression
+        )
+      ).skipIfOneChild();
+    
+    unary_operator.is(
+      or("+", "-", "!", "~")
+      );
+
+    multiplicative_expression.is(unary_expression, o2n(or("*", "/", "%"), unary_expression)).skipIfOneChild();
+
+    additive_expression.is(multiplicative_expression, o2n(or("+", "-"), multiplicative_expression)).skipIfOneChild();
+
+    shift_expression.is(additive_expression, o2n(or("<<", ">>"), additive_expression)).skipIfOneChild();
+
+    relational_expression.is(shift_expression, o2n(or("<", ">", "<=", ">="), shift_expression)).skipIfOneChild();
+
+    equality_expression.is(relational_expression, o2n(or("==", "!="), relational_expression)).skipIfOneChild();
+
+    and_expression.is(equality_expression, o2n("&", equality_expression)).skipIfOneChild();
+
+    exclusive_or_expression.is(and_expression, o2n("^", and_expression)).skipIfOneChild();
+
+    inclusive_or_expression.is(exclusive_or_expression, o2n("|", exclusive_or_expression)).skipIfOneChild();
+
+    logical_and_expression.is(inclusive_or_expression, o2n("&&", inclusive_or_expression)).skipIfOneChild();
+
+    logical_or_expression.is(logical_and_expression, o2n("||", logical_and_expression)).skipIfOneChild();
+
+    conditional_expression.is(
+      or(
+        and(logical_or_expression, "?", expression, ":", conditional_expression),
+        logical_or_expression
+        )
+      ).skipIfOneChild();
+    
+    expression.is(conditional_expression, o2n(",", conditional_expression));
+
+    constant_expression.is(conditional_expression);
+  }
+  
   @Override
   public Rule getRootRule() {
     return preprocessor_line;
