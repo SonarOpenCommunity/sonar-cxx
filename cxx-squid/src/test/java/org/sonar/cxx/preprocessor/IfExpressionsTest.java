@@ -39,9 +39,11 @@ public class IfExpressionsTest {
 
     g.literal.mock();
     g.expression.mock();
+    g.defined_expression.mock();
     
     assertThat(p, parse("literal"));
     assertThat(p, parse("( expression )"));
+    assertThat(p, parse("defined_expression"));
     assertThat(p, parse("foo"));
   }
 
@@ -103,6 +105,7 @@ public class IfExpressionsTest {
     
     assertThat(p, parse("(1 || 0) && (0 && 1)"));
     assertThat(p, parse("(1)"));
+    assertThat(p, parse("__has_feature(cxx_rvalue_references)"));
   }
   
   @Test
@@ -201,5 +204,30 @@ public class IfExpressionsTest {
     assertThat(p, parse("unary_expression * unary_expression"));
     assertThat(p, parse("unary_expression / unary_expression"));
     assertThat(p, parse("unary_expression % unary_expression"));
+  }
+
+  @Test
+  public void defined_expression() {
+    p.setRootRule(g.defined_expression);
+    
+    assertThat(p, parse("defined LALA"));
+    assertThat(p, parse("defined (LALA)"));
+  }
+
+  @Test
+  public void functionlike_macro() {
+    p.setRootRule(g.functionlike_macro);
+
+    g.argument_list.mock();
+    
+    assertThat(p, parse("__has_feature(argument_list)"));
+  }
+
+  @Test
+  public void functionlike_macro_reallife() {
+    p.setRootRule(g.functionlike_macro);
+    
+    assertThat(p, parse("__has_feature(cxx_rvalue)"));
+    assertThat(p, parse("__has_feature(cxx_rvalue, bla)"));
   }
 }

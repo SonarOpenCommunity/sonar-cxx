@@ -49,30 +49,30 @@ public class CppGrammar extends Grammar {
   public Rule ifdef_line;
   public Rule ifndef_line;
   public Rule replacement_list;
-  public Rule identifier_list;
+  public Rule argument_list;
   public Rule pp_token;
   public Rule if_line;
   public Rule constant_expression;
 
-public Rule primary_expression;
-public Rule unary_expression;
-public Rule unary_operator;
-public Rule multiplicative_expression;
-public Rule additive_expression;
-public Rule shift_expression;
-public Rule relational_expression;
-public Rule equality_expression;
-public Rule and_expression;
-public Rule exclusive_or_expression;
-public Rule inclusive_or_expression;
-public Rule logical_and_expression;
-public Rule logical_or_expression;
-public Rule conditional_expression;
-//public Rule assignment_expression;
-public Rule expression;
-public Rule bool;
-public Rule literal;
-
+  public Rule primary_expression;
+  public Rule unary_expression;
+  public Rule unary_operator;
+  public Rule multiplicative_expression;
+  public Rule additive_expression;
+  public Rule shift_expression;
+  public Rule relational_expression;
+  public Rule equality_expression;
+  public Rule and_expression;
+  public Rule exclusive_or_expression;
+  public Rule inclusive_or_expression;
+  public Rule logical_and_expression;
+  public Rule logical_or_expression;
+  public Rule conditional_expression;
+  public Rule expression;
+  public Rule bool;
+  public Rule literal;
+  public Rule defined_expression;
+  public Rule functionlike_macro;
   
   public CppGrammar() {
     preprocessor_line.is(
@@ -86,9 +86,9 @@ public Rule literal;
 
     define_line.is(
       or(
-        and(DEFINE, pp_token, "(", opt(identifier_list), ")", replacement_list),
+        and(DEFINE, pp_token, "(", opt(argument_list), ")", replacement_list),
         and(DEFINE, pp_token, "(", "...", ")", replacement_list),
-        and(DEFINE, pp_token, "(", identifier_list, ",", "...", ")", replacement_list),
+        and(DEFINE, pp_token, "(", argument_list, ",", "...", ")", replacement_list),
         and(DEFINE, pp_token, replacement_list)
         )
         );
@@ -114,7 +114,7 @@ public Rule literal;
         )
         );
 
-    identifier_list.is(IDENTIFIER, o2n(",", IDENTIFIER));
+    argument_list.is(IDENTIFIER, o2n(",", IDENTIFIER));
     pp_token.is(anyToken());
 
     if_expressions();
@@ -144,6 +144,8 @@ public Rule literal;
       or(
         literal,
         and("(", expression, ")"),
+        defined_expression,
+        functionlike_macro,
         IDENTIFIER
         )
       ).skipIfOneChild();
@@ -189,6 +191,16 @@ public Rule literal;
     expression.is(conditional_expression, o2n(",", conditional_expression));
 
     constant_expression.is(conditional_expression);
+
+    defined_expression.is(
+      "defined",
+      or(
+        and("(", IDENTIFIER, ")"),
+        IDENTIFIER
+        )
+      );
+    
+    functionlike_macro.is(IDENTIFIER, "(", argument_list, ")");
   }
   
   @Override

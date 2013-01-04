@@ -20,9 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxGrammar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,11 +29,12 @@ import com.sonar.sslr.api.AstNode;
 public final class ConstantExpressionEvaluator {
   public static final Logger LOG = LoggerFactory.getLogger("ConstantExpressionEvaluator");
   
-  private Parser<CxxGrammar> parser;
+  private Parser<CppGrammar> parser;
   private CxxPreprocessor preprocessor;
   
   public ConstantExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor){
-    parser = CxxParser.createConstantExpressionParser(conf);
+    parser = CppParser.createConstantExpressionParser(conf);
+    
     this.preprocessor = preprocessor;
   }
   
@@ -104,6 +103,10 @@ public final class ConstantExpressionEvaluator {
         return evalMultiplicativeExpression(exprAst);
       } else if("primary_expression".equals(nodeType)){
         return evalPrimaryExpression(exprAst);
+      } else if("defined_expression".equals(nodeType)){
+        return evalDefinedExpression(exprAst);
+      } else if("functionlike_macro".equals(nodeType)){
+        return evalFunctionlikeMacro(exprAst);
       } else {
         throw new EvaluationException("Unknown expression type '" + nodeType + "'");
       }
@@ -118,7 +121,8 @@ public final class ConstantExpressionEvaluator {
   
   int evalNumber(String intValue){
     // the if expressions arent allowed to contain floats
-    return Integer.decode(intValue).intValue();
+    
+    return Integer.decode(stripSuffix(intValue)).intValue();
   }
 
   int evalCharacter(String charValue){
@@ -251,15 +255,34 @@ public final class ConstantExpressionEvaluator {
     }
   }
 
-  int evalConditionalExpression(AstNode condExprAst){
-    AstNode decisionOperand = condExprAst.getChild(0);
-    AstNode trueCaseOperand = condExprAst.getChild(2);
-    AstNode falseCaseOperand = condExprAst.getChild(4);
+  int evalConditionalExpression(AstNode exprAst){
+    AstNode decisionOperand = exprAst.getChild(0);
+    AstNode trueCaseOperand = exprAst.getChild(2);
+    AstNode falseCaseOperand = exprAst.getChild(4);
     return eval(decisionOperand) != 0 ? eval(trueCaseOperand) : eval(falseCaseOperand);
   }
   
   int evalPrimaryExpression(AstNode exprAst){
     // case "( expression )"
     return eval(exprAst.getChild(1));
+  }
+
+  int evalDefinedExpression(AstNode exprAst){
+    int posOfMacroName = exprAst.getNumberOfChildren() == 2 ? 1 : 2;
+    String macroName = exprAst.getChild(posOfMacroName).getTokenValue();
+    String value = preprocessor.valueOf(macroName);
+    return value == null ? 0 : 1;
+  }
+  
+  int evalFunctionlikeMacro(AstNode exprAst){
+    // Probably we should use (made public) preprocessor.expandMacro functionality here...
+    // Use valueOf for now.
+    String macroName = exprAst.getChild(0).getTokenValue();
+    String value = preprocessor.valueOf(macroName);
+    return value == null ? 0: _eval(value);
+  }
+
+  String stripSuffix(String number){
+    return number.replaceAll("[LlUu]", "");
   }
 }

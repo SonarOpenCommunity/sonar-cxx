@@ -54,14 +54,14 @@ public class CppGrammarTest {
     p.setRootRule(g.define_line);
 
     g.replacement_list.mock();
-    g.identifier_list.mock();
+    g.argument_list.mock();
     g.pp_token.mock();
 
     assertThat(p, parse("#define pp_token replacement_list"));
     assertThat(p, parse("#define pp_token ( ) replacement_list"));
-    assertThat(p, parse("#define pp_token ( identifier_list ) replacement_list"));
+    assertThat(p, parse("#define pp_token ( argument_list ) replacement_list"));
     assertThat(p, parse("#define pp_token ( ... ) replacement_list"));
-    assertThat(p, parse("#define pp_token ( identifier_list, ... ) replacement_list"));
+    assertThat(p, parse("#define pp_token ( argument_list, ... ) replacement_list"));
   }
 
   @Test
@@ -98,9 +98,9 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void define_containing_identifier_list() {
+  public void define_containing_argument_list() {
     AstNode define = p.parse("#define lala(a, b) a b");
-    assert (define.findFirstChild(g.identifier_list) != null);
+    assert (define.findFirstChild(g.argument_list) != null);
   }
 
   @Test
@@ -126,8 +126,8 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void identifier_list() {
-    p.setRootRule(g.identifier_list);
+  public void argument_list() {
+    p.setRootRule(g.argument_list);
 
     assertThat(p, parse("foo"));
     assertThat(p, parse("foo, bar"));

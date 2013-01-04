@@ -26,18 +26,11 @@ public final class CppParser {
   private CppParser() {
   }
   
-  // public static Parser<CppGrammar> create() {
-  //   return create(new CxxConfiguration(),
-  //                 new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("")));
-  // }
-
-  // public static Parser<CxxGrammar> create(CxxConfiguration conf, SquidAstVisitorContext context) {
-  //   CxxPreprocessor cxxpp = new CxxPreprocessor(conf, context);
-  //   parseEventPropagator = new CxxParseEventPropagator(cxxpp, context);
-  //   return Parser.builder((CxxGrammar) new CxxGrammarImpl())
-  //     .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
-  //     .setParsingEventListeners(parseEventPropagator).build();
-  // }
+  public static Parser<CppGrammar> create(CxxConfiguration conf) {
+    return Parser.builder(new CppGrammar())
+      .withLexer(CppLexer.create(conf))
+      .build();
+  }
   
   public static Parser<CppGrammar> createConstantExpressionParser(CxxConfiguration conf) {
     CppGrammar grammar = new CppGrammar();
