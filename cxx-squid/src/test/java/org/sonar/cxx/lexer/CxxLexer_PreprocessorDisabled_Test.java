@@ -40,7 +40,11 @@ public class CxxLexer_PreprocessorDisabled_Test {
   @Test
   public void preprocessor_directives() {
     assertThat(lexer.lex("#include <iostream>"), hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR_INCLUDE));
+    assertThat(lexer.lex("# include <iostream>"), hasToken("# include <iostream>", CxxTokenType.PREPROCESSOR_INCLUDE));
+    assertThat(lexer.lex(" # include <iostream>"), hasToken("# include <iostream>", CxxTokenType.PREPROCESSOR_INCLUDE));
     assertThat(lexer.lex("#define lala"), hasToken("#define lala", CxxTokenType.PREPROCESSOR_DEFINE));
+    assertThat(lexer.lex("# define lala"), hasToken("# define lala", CxxTokenType.PREPROCESSOR_DEFINE));
+    assertThat(lexer.lex(" # define lala"), hasToken("# define lala", CxxTokenType.PREPROCESSOR_DEFINE));
 
     assertThat(lexer.lex("#include <iostream>")).hasSize(2);
     assertThat(lexer.lex("#define\\\ncontinued line")).hasSize(2);
