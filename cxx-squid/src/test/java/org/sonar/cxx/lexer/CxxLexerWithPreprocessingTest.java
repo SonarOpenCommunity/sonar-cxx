@@ -81,6 +81,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void expanding_functionlike_macros() {
     List<Token> tokens = lexer.lex("#define plus(a, b) a + b\n plus(1, 2)");
+    System.out.println(tokens);
     assertThat(tokens).hasSize(4);
     assertThat(tokens, hasToken("1", CxxTokenType.NUMBER));
   }
@@ -378,6 +379,7 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#endif\n");
 
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
+    System.out.println(tokens);
     assertThat(tokens).hasSize(2); // nota + EOF
   }
 
@@ -418,4 +420,17 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // nota + EOF
   }
 
+  // Proper separation of parametrized macros and macros expand to a string enclosed
+  // in parantheses
+  @Test
+  public void macro_expanding_to_parantheses() {
+    // a macro is identified as 'functionlike' if and only if the parantheses
+    // arent separated from the identifier by whitespace. Otherwise, the parantheses
+    // belong to the replacement string
+    List<Token> tokens = lexer.lex("#define macro ()\n"
+                                   + "macro\n");
+    System.out.println(tokens);
+    assertThat(tokens, hasToken("(", CxxPunctuator.BR_LEFT));
+  }
+  
 }

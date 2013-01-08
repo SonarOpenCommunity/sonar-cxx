@@ -170,6 +170,7 @@ public class ConstantExpressionEvaluatorTest {
     assertTrue(evaluator.eval("(1)"));
     
     assertFalse(evaluator.eval("(0)"));
+    assertFalse(evaluator.eval("( 0 )"));
     assertFalse(evaluator.eval("(1 || 0) && 0"));
   }
 

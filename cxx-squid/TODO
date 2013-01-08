@@ -1,7 +1,7 @@
 List of items to do:
 
-- Implement #ifdef #else #endif handling in the preprocessor. The current handling
-  is throwing away all preprocessor directives and including all code. While we probably
-  wanna analyse both the #ifdef and the #else versions of code, the meld-together
-  version isnt always parseable.
-  
+- Implement standard macros like __FILE__, __LINE__ etc.
+- Fix the known parse issues (like the typedef one)
+- Look at the statement count issue
+- Deal with usage of depricated API's
+- cleanup the sources using sonar

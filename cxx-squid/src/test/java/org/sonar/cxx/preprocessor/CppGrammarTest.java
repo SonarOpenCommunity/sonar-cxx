@@ -42,30 +42,24 @@ public class CppGrammarTest {
     g.include_line.mock();
     g.ifdef_line.mock();
     g.ifndef_line.mock();
+    g.if_line.mock();
     
     assertThat(p, parse("define_line"));
     assertThat(p, parse("include_line"));
     assertThat(p, parse("ifdef_line"));
     assertThat(p, parse("ifndef_line"));
+    assertThat(p, parse("if_line"));
+  }
+
+  @Test
+  public void preprocessor_line_reallife() {
+    assertThat(p, parse("#include      <ace/config-all.h>"));
   }
   
   @Test
-  public void define_line() {
-    p.setRootRule(g.define_line);
-
-    g.replacement_list.mock();
-    g.argument_list.mock();
-    g.pp_token.mock();
-
-    assertThat(p, parse("#define pp_token replacement_list"));
-    assertThat(p, parse("#define pp_token ( ) replacement_list"));
-    assertThat(p, parse("#define pp_token ( argument_list ) replacement_list"));
-    assertThat(p, parse("#define pp_token ( ... ) replacement_list"));
-    assertThat(p, parse("#define pp_token ( argument_list, ... ) replacement_list"));
-  }
-
-  @Test
   public void define_line_reallife() {
+    p.setRootRule(g.define_line);
+    
     assertThat(p, parse("#define ALGOSTUFF_HPPEOF"));
     assertThat(p, parse("#define lala(a, b) a b"));
     assertThat(p, parse("#define new dew_debug"));
@@ -80,8 +74,8 @@ public class CppGrammarTest {
 
     g.pp_token.mock();
 
-    assertThat(p, parse("#include < pp_token >"));
-    assertThat(p, parse("#include < pp_token pp_token >"));
+    assertThat(p, parse("#include <pp_token>"));
+    assertThat(p, parse("#include <pp_token pp_token>"));
     assertThat(p, parse("#include \"jabadu\""));
   }
 
@@ -151,4 +145,51 @@ public class CppGrammarTest {
 
     assertThat(p, parse("#if constant_expression"));
   }
+  
+  @Test
+  public void functionlike_macro_definition() {
+    p.setRootRule(g.functionlike_macro_definition);
+    
+    g.replacement_list.mock();
+    g.argument_list.mock();
+    g.pp_token.mock();
+    
+    assertThat(p, parse("#define pp_token( argument_list ) replacement_list"));
+    assertThat(p, parse("#define pp_token(argument_list) replacement_list"));
+    assertThat(p, parse("#define pp_token( ... ) replacement_list"));
+    assertThat(p, parse("#define pp_token(...) replacement_list"));
+    assertThat(p, parse("#define pp_token( argument_list, ... ) replacement_list"));
+    assertThat(p, parse("#define pp_token(argument_list, ...) replacement_list"));
+  }
+
+  @Test
+  public void functionlike_macro_definition_reallife() {
+    p.setRootRule(g.functionlike_macro_definition);
+    
+    assertThat(p, parse("#define foo() bar"));
+    assertThat(p, parse("#define foo() ()"));
+    assertThat(p, parse("#define foo(a) bar"));
+    assertThat(p, parse("#define foo(a,b) ab"));
+  }
+  
+  @Test
+  public void objectlike_macro_definition() {
+    p.setRootRule(g.objectlike_macro_definition);
+    
+    g.replacement_list.mock();
+    g.pp_token.mock();
+    
+    assertThat(p, parse("#define pp_token replacement_list"));
+  }
+
+  @Test
+  public void objectlike_macro_definition_reallife() {
+    p.setRootRule(g.objectlike_macro_definition);
+    
+    assertThat(p, parse("#define foo"));
+    assertThat(p, parse("#define foo bar"));
+    assertThat(p, parse("#define foo ()"));
+    assertThat(p, parse("#define new new_debug"));
+  }
+
 }

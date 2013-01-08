@@ -33,7 +33,8 @@ public enum CxxTokenType implements TokenType {
   PREPROCESSOR_IFNDEF,
   PREPROCESSOR_IF,
   PREPROCESSOR_ELSE,
-  PREPROCESSOR_ENDIF;
+  PREPROCESSOR_ENDIF,
+  WS; //whitespace
 
   public String getName() {
     return name();
@@ -44,7 +45,7 @@ public enum CxxTokenType implements TokenType {
   }
 
   public boolean hasToBeSkippedFromAst(AstNode node) {
-    return false;
+    return this == WS;
   }
 
 }

@@ -57,7 +57,7 @@ public final class CppLexer {
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
-      .withChannel(new BlackHoleChannel("\\s"))
+      .withChannel(regexp(CxxTokenType.WS, "\\s+"))
       .withChannel(commentRegexp("//[^\\n\\r]*+"))
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       .withChannel(new CharacterLiteralsChannel())

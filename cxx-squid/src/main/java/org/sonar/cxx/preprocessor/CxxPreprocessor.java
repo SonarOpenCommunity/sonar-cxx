@@ -62,6 +62,7 @@ import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_IF;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_ELSE;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR_ENDIF;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
+import static org.sonar.cxx.api.CxxTokenType.WS;
 
 public class CxxPreprocessor extends Preprocessor {
   static class MismatchException extends Exception {
@@ -305,6 +306,7 @@ public class CxxPreprocessor extends Preprocessor {
           if (tokensConsumedMatchingArgs > 0 && macro.params.size() == arguments.size()) {
             tokensConsumed = tokensConsumedMatchingArgs + 1;
             replTokens = replaceParams(macro.body, macro.params, arguments);
+            System.out.println(replTokens);
             replTokens = evaluateHashhashOperators(replTokens);
 
             String replacement = serialize(replTokens);
@@ -358,9 +360,9 @@ public class CxxPreprocessor extends Preprocessor {
   }
   
   private String getIfExpression(String tokenValue){
-    return tokenValue.substring(tokenValue.indexOf("if") + 2);
+    return tokenValue.substring(tokenValue.indexOf("if") + 2).trim();
   }
-  
+
   private List<Token> expandMacro(String macroName, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;
@@ -519,7 +521,7 @@ public class CxxPreprocessor extends Preprocessor {
     while(it.hasNext()){
       Token curr = it.next();
       if(curr.getValue().equals("##")){
-        Token pred = (Token)newTokens.remove(newTokens.size()-1);
+        Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
         newTokens.add(Token.builder()
                       .setLine(pred.getLine())
@@ -536,14 +538,23 @@ public class CxxPreprocessor extends Preprocessor {
     
     return newTokens;
   }
+
+  Token predConcatToken(List<Token> tokens){
+    while(!tokens.isEmpty()){
+      Token last = tokens.remove(tokens.size()-1);
+      if(last.getType() != WS){
+        return last;
+      }
+    }
+    return null;
+  }
   
   Token succConcatToken(Iterator<Token> it){
     Token succ = null;
     while(it.hasNext()){
       succ = it.next();
-      if(!succ.getValue().equals("##")){
+      if(!succ.getValue().equals("##") && succ.getType() != WS)
         break;
-      }
     }
     return succ;
   }
@@ -574,21 +585,43 @@ public class CxxPreprocessor extends Preprocessor {
 
   private Macro parseMacroDefinition(String macroDef){
     AstNode ast = pplineParser.parse(macroDef);
+    AstNode macroAst = ast.findFirstChild(pplineParser.getGrammar().define_line).getChild(0);
+    Macro macro = null;
+    if("functionlike_macro_definition".equals(macroAst.getName())){
+      macro = parseFunctionlikeMacroDefinition(macroAst);
+    } else {
+      macro = parseObjectlikeMacroDefinition(macroAst);
+    }
+
+    return macro;
+  }
+
+  private Macro parseObjectlikeMacroDefinition(AstNode ast){
+    AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().pp_token);
+    String macroName = nameNode.getTokenValue();
+    
+    AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
+    List<Token> macroBody = replList == null
+      ? new LinkedList<Token>()
+      : replList.getTokens().subList(0, replList.getTokens().size() - 1);
+    
+    return new Macro(macroName, null, macroBody);
+  }
+
+  private Macro parseFunctionlikeMacroDefinition(AstNode ast){
     AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().pp_token);
     String macroName = nameNode.getTokenValue();
     AstNode afterName = nameNode.nextSibling();
 
-    List<Token> macroParams = null;
-    if(afterName.getTokenValue().equals("(")){
-      macroParams = getParams(ast.findFirstChild(pplineParser.getGrammar().argument_list));
-    }
+    List<Token> macroParams =
+      getParams(ast.findFirstChild(pplineParser.getGrammar().argument_list));
     
     AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
     List<Token> macroBody = replList.getTokens().subList(0, replList.getTokens().size() - 1);
     
     return new Macro(macroName, macroParams, macroBody);
   }
-
+  
   List<Token> getParams(AstNode identListAst) {
     List<Token> params = new ArrayList<Token>();
     if (identListAst != null) {

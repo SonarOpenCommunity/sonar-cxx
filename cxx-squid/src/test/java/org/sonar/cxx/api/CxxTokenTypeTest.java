@@ -29,13 +29,12 @@ public class CxxTokenTypeTest {
 
   @Test
   public void test() {
-    assertThat(CxxTokenType.values()).hasSize(11);
+    assertThat(CxxTokenType.values()).hasSize(12);
 
     AstNode astNode = mock(AstNode.class);
     for (CxxTokenType tokenType : CxxTokenType.values()) {
       assertThat(tokenType.getName()).isEqualTo(tokenType.name());
       assertThat(tokenType.getValue()).isEqualTo(tokenType.name());
-      assertThat(tokenType.hasToBeSkippedFromAst(astNode)).isFalse();
     }
   }
 
