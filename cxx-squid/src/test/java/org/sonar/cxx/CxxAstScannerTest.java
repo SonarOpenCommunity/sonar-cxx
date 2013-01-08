@@ -55,13 +55,13 @@ public class CxxAstScannerTest {
   @Test
   public void lines() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
-    assertThat(file.getInt(CxxMetric.LINES)).isEqualTo(6);
+    assertThat(file.getInt(CxxMetric.LINES)).isEqualTo(7);
   }
 
   @Test
   public void lines_of_code() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
-    assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(4);
+    assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(5);
   }
 
   @Test
@@ -79,7 +79,7 @@ public class CxxAstScannerTest {
   @Test
   public void classes() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
-    assertThat(file.getInt(CxxMetric.CLASSES)).isEqualTo(1);
+    assertThat(file.getInt(CxxMetric.CLASSES)).isEqualTo(2);
   }
 
   @Test

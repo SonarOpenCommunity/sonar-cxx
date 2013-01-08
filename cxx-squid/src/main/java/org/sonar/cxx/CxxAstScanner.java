@@ -124,7 +124,8 @@ public final class CxxAstScanner {
     /* Classes */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<CxxGrammar>(new SourceCodeBuilderCallback() {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
-        String className = astNode.findFirstChild(parser.getGrammar().class_name).getChild(0).getTokenValue();
+        AstNode classNameAst = astNode.findFirstChild(parser.getGrammar().class_name);
+        String className = classNameAst == null ? "" : classNameAst.getChild(0).getTokenValue();
         SourceClass cls = new SourceClass(className + ":" + astNode.getToken().getLine());
         cls.setStartAtLine(astNode.getTokenLine());
         return cls;
