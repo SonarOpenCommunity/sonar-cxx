@@ -19,12 +19,11 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.CxxConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sonar.sslr.api.AstNode;
+import org.sonar.cxx.CxxConfiguration;
 
 public final class ConstantExpressionEvaluator {
   public static final Logger LOG = LoggerFactory.getLogger("ConstantExpressionEvaluator");

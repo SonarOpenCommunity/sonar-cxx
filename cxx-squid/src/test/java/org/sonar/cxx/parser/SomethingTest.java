@@ -20,9 +20,10 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+
 import static org.mockito.Mockito.mock;
 
 public class SomethingTest {

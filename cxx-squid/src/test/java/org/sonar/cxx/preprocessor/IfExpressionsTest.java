@@ -22,10 +22,10 @@ package org.sonar.cxx.preprocessor;
 import com.sonar.sslr.impl.Parser;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
-import static org.mockito.Mockito.mock;
 
 import static com.sonar.sslr.test.parser.ParserMatchers.parse;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class IfExpressionsTest {
 

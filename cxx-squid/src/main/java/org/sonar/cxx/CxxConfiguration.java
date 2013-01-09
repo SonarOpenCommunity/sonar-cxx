@@ -22,9 +22,9 @@ package org.sonar.cxx;
 import org.sonar.squid.api.SquidConfiguration;
 
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CxxConfiguration extends SquidConfiguration {
 

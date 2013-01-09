@@ -22,14 +22,14 @@ package org.sonar.cxx.preprocessor;
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
-import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
+import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.channels.StringLiteralsChannel;
-import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.api.CppKeyword;
 import org.sonar.cxx.api.CppPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.channels.CharacterLiteralsChannel;
+import org.sonar.cxx.channels.StringLiteralsChannel;
 
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
 import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.and;

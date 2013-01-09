@@ -38,7 +38,6 @@ public class StringLiteralsChannel extends Channel<Lexer> {
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
-    rawMode = false;
     int line = code.getLinePosition();
     int column = code.getColumnPosition();
     index = 0;
@@ -91,7 +90,6 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       ch = code.charAt(index);
     }
     if (ch == 'R') {
-      rawMode = true;
       index++;
       ch = code.charAt(index);
     }

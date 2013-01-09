@@ -32,10 +32,10 @@ import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.one2n;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
 import static org.sonar.cxx.api.CppKeyword.DEFINE;
-import static org.sonar.cxx.api.CppKeyword.INCLUDE;
+import static org.sonar.cxx.api.CppKeyword.IF;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
-import static org.sonar.cxx.api.CppKeyword.IF;
+import static org.sonar.cxx.api.CppKeyword.INCLUDE;
 import static org.sonar.cxx.api.CxxTokenType.WS;
 
 /**

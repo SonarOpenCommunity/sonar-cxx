@@ -20,12 +20,12 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
 
 import static com.sonar.sslr.test.parser.ParserMatchers.parse;
 import static org.junit.Assert.assertThat;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
 import static org.mockito.Mockito.mock;
 
 public class SpecialMemberFunctionsTest {
