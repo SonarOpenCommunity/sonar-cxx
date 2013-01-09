@@ -71,7 +71,7 @@ public final class CxxAstScanner {
 
   public static AstScanner<CxxGrammar> create(CxxConfiguration conf, SquidAstVisitor<CxxGrammar>... visitors) {
     final SquidAstVisitorContextImpl<CxxGrammar> context = new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project"));
-    final Parser<CxxGrammar> parser = CxxParser.create(conf, context);
+    final Parser<CxxGrammar> parser = CxxParser.create(context, conf);
 
     AstScanner.Builder<CxxGrammar> builder = AstScanner.<CxxGrammar> builder(context).setBaseParser(parser);
 

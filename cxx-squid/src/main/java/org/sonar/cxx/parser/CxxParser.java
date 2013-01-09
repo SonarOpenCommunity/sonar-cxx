@@ -27,8 +27,6 @@ import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
-import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
-import org.sonar.squid.api.SourceProject;
 
 public final class CxxParser {
   private static class CxxParseEventPropagator extends ParsingEventListener{
@@ -50,25 +48,15 @@ public final class CxxParser {
   private CxxParser() {
   }
   
-  public static Parser<CxxGrammar> create() {
-    return create(new CxxConfiguration(),
-                  new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("")));
+  public static Parser<CxxGrammar> create(SquidAstVisitorContext context) {
+    return create(context, new CxxConfiguration());
   }
-
-  public static Parser<CxxGrammar> create(CxxConfiguration conf, SquidAstVisitorContext context) {
-    CxxPreprocessor cxxpp = new CxxPreprocessor(conf, context);
+  
+  public static Parser<CxxGrammar> create(SquidAstVisitorContext context, CxxConfiguration conf) {
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
     parseEventPropagator = new CxxParseEventPropagator(cxxpp, context);
     return Parser.builder((CxxGrammar) new CxxGrammarImpl())
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
       .setParsingEventListeners(parseEventPropagator).build();
-  }
-  
-  public static Parser<CxxGrammar> createConstantExpressionParser(CxxConfiguration conf) {
-    CxxGrammar grammar = new CxxGrammarImpl();
-    Parser<CxxGrammar> parser = Parser.builder(grammar)
-      .withLexer(CxxLexer.create(conf))
-      .build();
-    parser.setRootRule(grammar.constant_expression);
-    return parser;
   }
 }

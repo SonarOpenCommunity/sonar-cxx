@@ -26,10 +26,12 @@ import org.sonar.cxx.api.CxxGrammar;
 
 import java.io.File;
 import java.util.Collection;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
+import static org.mockito.Mockito.mock;
 
 public class CxxParserTest {
 
-  private final Parser<CxxGrammar> parser = CxxParser.create();
+  private Parser<CxxGrammar> parser = CxxParser.create(mock(SquidAstVisitorContext.class));
 
   @Test
   public void test() {

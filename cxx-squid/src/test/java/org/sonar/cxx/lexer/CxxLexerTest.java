@@ -27,12 +27,16 @@ import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
+import org.sonar.cxx.preprocessor.SourceCodeProvider;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
+import org.sonar.cxx.CxxConfiguration;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class CxxLexerTest {
 
@@ -40,7 +44,8 @@ public class CxxLexerTest {
 
   @BeforeClass
   public static void init() {
-    lexer = CxxLexer.create(new CxxPreprocessor(), new JoinStringsPreprocessor());
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
+    lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
   /**

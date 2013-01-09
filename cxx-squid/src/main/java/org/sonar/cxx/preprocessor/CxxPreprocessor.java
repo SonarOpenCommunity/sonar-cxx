@@ -28,7 +28,6 @@ import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
-import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,26 +105,16 @@ public class CxxPreprocessor extends Preprocessor {
   int nestedIfdefs = 0;
   private ConstantExpressionEvaluator ifExprEvaluator;
 
-  public CxxPreprocessor() {
-    this(new CxxConfiguration(),
-         new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project")),
-         new SourceCodeProvider()
-      );
+  public CxxPreprocessor(SquidAstVisitorContext context) {
+    this(context, new CxxConfiguration());
   }
 
-  public CxxPreprocessor(CxxConfiguration conf) {
-    this(conf,
-         new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project")),
-         new SourceCodeProvider()
-      );
+  public CxxPreprocessor(SquidAstVisitorContext context, CxxConfiguration conf) {
+    this(context, conf, new SourceCodeProvider());
   }
-
-  public CxxPreprocessor(CxxConfiguration conf, SquidAstVisitorContext context) {
-    this(conf, context, new SourceCodeProvider());
-  }
-
-  public CxxPreprocessor(CxxConfiguration conf,
-                         SquidAstVisitorContext context,
+  
+  public CxxPreprocessor(SquidAstVisitorContext context,
+                         CxxConfiguration conf,
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
     this.ifExprEvaluator = new ConstantExpressionEvaluator(conf, this);

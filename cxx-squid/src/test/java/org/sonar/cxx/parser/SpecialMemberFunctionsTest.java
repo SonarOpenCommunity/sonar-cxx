@@ -25,10 +25,12 @@ import org.sonar.cxx.api.CxxGrammar;
 
 import static com.sonar.sslr.test.parser.ParserMatchers.parse;
 import static org.junit.Assert.assertThat;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
+import static org.mockito.Mockito.mock;
 
 public class SpecialMemberFunctionsTest {
 
-  Parser<CxxGrammar> p = CxxParser.create();
+  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
   CxxGrammar g = p.getGrammar();
 
   @Test

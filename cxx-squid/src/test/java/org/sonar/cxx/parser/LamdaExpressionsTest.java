@@ -25,13 +25,15 @@ import org.sonar.cxx.api.CxxGrammar;
 
 import static com.sonar.sslr.test.parser.ParserMatchers.parse;
 import static org.junit.Assert.assertThat;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
+import static org.mockito.Mockito.mock;
 
 /**
  * @author jmecosta
  */
 public class LamdaExpressionsTest {
   
-  Parser<CxxGrammar> p = CxxParser.create();
+  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
   CxxGrammar g = p.getGrammar();
   
   @Test

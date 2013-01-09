@@ -52,7 +52,8 @@ public class CxxLexerWithPreprocessingTest {
   private static Lexer lexer;
 
   public CxxLexerWithPreprocessingTest(){
-    lexer = CxxLexer.create(new CxxPreprocessor(), new JoinStringsPreprocessor());
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
+    lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
 
   @Test
@@ -231,7 +232,8 @@ public class CxxLexerWithPreprocessingTest {
   public void external_define(){
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(Arrays.asList("M body"));
-    lexer = CxxLexer.create(conf, new CxxPreprocessor(conf), new JoinStringsPreprocessor());
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
+    lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("M");
     assertThat(tokens).hasSize(2);
@@ -242,7 +244,8 @@ public class CxxLexerWithPreprocessingTest {
   public void external_defines_with_params(){
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(Arrays.asList("minus(a, b) a - b"));
-    lexer = CxxLexer.create(conf, new CxxPreprocessor(conf), new JoinStringsPreprocessor());
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
+    lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("minus(1, 2)");
     assertThat(tokens).hasSize(4);
@@ -291,7 +294,7 @@ public class CxxLexerWithPreprocessingTest {
     SquidAstVisitorContext<CxxGrammar> ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
 
-    CxxPreprocessor pp = new CxxPreprocessor(new CxxConfiguration(), ctx, scp);
+    CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(), scp);
     lexer = CxxLexer.create(pp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("#include <file>\n"

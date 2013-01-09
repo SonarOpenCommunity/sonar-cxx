@@ -22,10 +22,12 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.Parser;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
+import static org.mockito.Mockito.mock;
 
 public class SomethingTest {
 
-  Parser<CxxGrammar> p = CxxParser.create();
+  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
   CxxGrammar g = p.getGrammar();
 
   @Test
