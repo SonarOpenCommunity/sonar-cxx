@@ -35,7 +35,6 @@ public class StringLiteralsChannel extends Channel<Lexer> {
 
   private int index;
   private char ch;
-  private boolean rawMode = false;
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {

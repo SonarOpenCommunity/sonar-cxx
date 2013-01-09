@@ -31,9 +31,9 @@ import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 public final class CxxParser {
   private static class CxxParseEventPropagator extends ParsingEventListener{
     private CxxPreprocessor cxxpp;
-    private SquidAstVisitorContext astVisitorContext;
-    
-    CxxParseEventPropagator(CxxPreprocessor cxxpp, SquidAstVisitorContext astVisitorContext){
+    private SquidAstVisitorContext<CxxGrammar> astVisitorContext;
+
+    CxxParseEventPropagator(CxxPreprocessor cxxpp, SquidAstVisitorContext<CxxGrammar> astVisitorContext){
       this.cxxpp = cxxpp;
       this.astVisitorContext = astVisitorContext;
     }
@@ -42,17 +42,17 @@ public final class CxxParser {
       this.cxxpp.beginPreprocessing(astVisitorContext.getFile());
     };
   }
-  
+
   private static CxxParseEventPropagator parseEventPropagator;
-  
+
   private CxxParser() {
   }
-  
-  public static Parser<CxxGrammar> create(SquidAstVisitorContext context) {
+
+  public static Parser<CxxGrammar> create(SquidAstVisitorContext<CxxGrammar> context) {
     return create(context, new CxxConfiguration());
   }
-  
-  public static Parser<CxxGrammar> create(SquidAstVisitorContext context, CxxConfiguration conf) {
+
+  public static Parser<CxxGrammar> create(SquidAstVisitorContext<CxxGrammar> context, CxxConfiguration conf) {
     CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
     parseEventPropagator = new CxxParseEventPropagator(cxxpp, context);
     return Parser.builder((CxxGrammar) new CxxGrammarImpl())

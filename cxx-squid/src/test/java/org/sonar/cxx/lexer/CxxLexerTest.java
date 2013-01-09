@@ -27,9 +27,7 @@ import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
-import org.sonar.cxx.preprocessor.SourceCodeProvider;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
-import org.sonar.cxx.CxxConfiguration;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
@@ -385,7 +383,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("a1"), hasToken("a1", GenericTokenType.IDENTIFIER));
     assertThat(lexer.lex("A1"), hasToken("A1", GenericTokenType.IDENTIFIER));
     assertThat(lexer.lex("A_a_A_1"), hasToken("A_a_A_1", GenericTokenType.IDENTIFIER));
-    
+
     assertThat("identifier: containing boolean constant", lexer.lex("truetype"), hasToken("truetype", GenericTokenType.IDENTIFIER));
   }
 

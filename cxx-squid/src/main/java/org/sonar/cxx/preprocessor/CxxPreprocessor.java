@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.lexer.CxxLexer;
-import org.sonar.squid.api.SourceProject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -99,21 +98,21 @@ public class CxxPreprocessor extends Preprocessor {
   private Map<String, Macro> macros = new HashMap<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
-  private SquidAstVisitorContext context;
+  private SquidAstVisitorContext<CxxGrammar> context;
   private Stack<File> headersUnderAnalysis = new Stack<File>();
   boolean skipping = false;
   int nestedIfdefs = 0;
   private ConstantExpressionEvaluator ifExprEvaluator;
 
-  public CxxPreprocessor(SquidAstVisitorContext context) {
+  public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context) {
     this(context, new CxxConfiguration());
   }
 
-  public CxxPreprocessor(SquidAstVisitorContext context, CxxConfiguration conf) {
+  public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context, CxxConfiguration conf) {
     this(context, conf, new SourceCodeProvider());
   }
-  
-  public CxxPreprocessor(SquidAstVisitorContext context,
+
+  public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context,
                          CxxConfiguration conf,
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
