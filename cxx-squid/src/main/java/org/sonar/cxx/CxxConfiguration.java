@@ -49,14 +49,6 @@ public class CxxConfiguration extends SquidConfiguration {
     return ignoreHeaderComments;
   }
 
-  public void setPreprocessorChannelEnabled(boolean preprocessorChannelEnabled) {
-    this.preprocessorChannelEnabled = preprocessorChannelEnabled;
-  }
-
-  public boolean getPreprocessorChannelEnabled() {
-    return preprocessorChannelEnabled;
-  }
-
   public void setDefines(List<String> defines) {
     this.defines = defines;
   }

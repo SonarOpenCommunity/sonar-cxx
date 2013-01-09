@@ -75,6 +75,14 @@ public class CppGrammar extends Grammar {
   public Rule objectlike_macro_definition;
 
   public CppGrammar() {
+    toplevel();
+    define_lines();
+    include_lines();
+    ifdef_lines();
+    if_lines();
+  }
+
+  private void toplevel(){
     preprocessor_line.is(
       or(
         define_line,
@@ -84,7 +92,9 @@ public class CppGrammar extends Grammar {
         if_line
         )
       );
-
+  }
+  
+  private void define_lines(){
     define_line.is(
       or(
         functionlike_macro_definition,
@@ -118,7 +128,9 @@ public class CppGrammar extends Grammar {
 
     argument_list.is(IDENTIFIER, o2n(opt(WS), ",", opt(WS), IDENTIFIER));
     pp_token.is(anyToken());
-
+  }
+  
+  private void include_lines(){
     include_line.is(
       INCLUDE, WS,
       or(
@@ -126,15 +138,16 @@ public class CppGrammar extends Grammar {
         CxxTokenType.STRING
         )
       );
-
+  }
+  
+  private void ifdef_lines(){
     ifdef_line.is(IFDEF, WS, IDENTIFIER);
     ifndef_line.is(IFNDEF, WS, IDENTIFIER);
-
-    if_line.is(IF, WS, constant_expression);
-    if_expressions();
   }
 
-  void if_expressions(){
+  private void if_lines(){
+    if_line.is(IF, WS, constant_expression);
+    
     constant_expression.is(conditional_expression);
 
     conditional_expression.is(

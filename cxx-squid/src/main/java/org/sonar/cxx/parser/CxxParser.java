@@ -42,7 +42,7 @@ public final class CxxParser {
 
     public void beginLex() {
       this.cxxpp.beginPreprocessing(astVisitorContext.getFile());
-    };
+    }
   }
 
   private static CxxParseEventPropagator parseEventPropagator;

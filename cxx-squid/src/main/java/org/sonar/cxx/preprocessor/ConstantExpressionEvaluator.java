@@ -38,83 +38,95 @@ public final class ConstantExpressionEvaluator {
   }
 
   public boolean eval(String constExpr){
-    return _eval(constExpr) != 0;
+    return evalToInt(constExpr) != 0;
   }
 
-  public int _eval(String constExpr){
+  public int evalToInt(String constExpr){
     AstNode constExprAst = parser.parse(constExpr);
     return eval(constExprAst);
   }
 
   private int eval(AstNode exprAst) {
-    String nodeType = exprAst.getName();
-    int noChildren = exprAst.getNumberOfChildren();
-
     LOG.debug("Evaluating expression: {}", exprAst);
 
+    int noChildren = exprAst.getNumberOfChildren();
     if(noChildren == 0){
-      // Evaluation of leafs
-      //
-      if("NUMBER".equals(nodeType)){
-        return evalNumber(exprAst.getTokenValue());
-      } else if("CHARACTER".equals(nodeType)){
-        return evalCharacter(exprAst.getTokenValue());
-      } else if("IDENTIFIER".equals(nodeType)){
-        String value = preprocessor.valueOf(exprAst.getTokenValue());
-        return value == null ? 0 : _eval(value);
-      } else {
-        throw new EvaluationException("Unknown expression type '" + nodeType + "'");
-      }
+      return evalLeaf(exprAst);
     } else if (noChildren == 1){
-      // Evaluation of booleans and 'pass-through's
-      //
-      if("bool".equals(nodeType)){
-        return evalBool(exprAst.getTokenValue());
-      }
-      return eval(exprAst.getChild(0));
+      return evalOneChildAst(exprAst);
+    }
+    
+    return evalComplexAst(exprAst);
+  }
+
+  private int evalLeaf(AstNode exprAst){
+    // Evaluation of leafs
+    //
+    String nodeType = exprAst.getName();
+    if("NUMBER".equals(nodeType)){
+      return evalNumber(exprAst.getTokenValue());
+    } else if("CHARACTER".equals(nodeType)){
+      return evalCharacter(exprAst.getTokenValue());
+    } else if("IDENTIFIER".equals(nodeType)){
+      String value = preprocessor.valueOf(exprAst.getTokenValue());
+      return value == null ? 0 : evalToInt(value);
     } else {
-      // More complex expressions with more than one child
-      //
-      if("unary_expression".equals(nodeType)){
-        return evalUnaryExpression(exprAst);
-      } else if("conditional_expression".equals(nodeType)){
-        return evalConditionalExpression(exprAst);
-      } else if("logical_or_expression".equals(nodeType)){
-        return evalLogicalOrExpression(exprAst);
-      } else if("logical_and_expression".equals(nodeType)){
-        return evalLogicalAndExpression(exprAst);
-      } else if("inclusive_or_expression".equals(nodeType)){
-        return evalInclusiveOrExpression(exprAst);
-      } else if("exclusive_or_expression".equals(nodeType)){
-        return evalExclusiveOrExpression(exprAst);
-      } else if("and_expression".equals(nodeType)){
-        return evalAndExpression(exprAst);
-      } else if("equality_expression".equals(nodeType)){
-        return evalEqualityExpression(exprAst);
-      } else if("relational_expression".equals(nodeType)){
-        return evalRelationalExpression(exprAst);
-      } else if("shift_expression".equals(nodeType)){
-        return evalShiftExpression(exprAst);
-      } else if("additive_expression".equals(nodeType)){
-        return evalAdditiveExpression(exprAst);
-      } else if("multiplicative_expression".equals(nodeType)){
-        return evalMultiplicativeExpression(exprAst);
-      } else if("primary_expression".equals(nodeType)){
-        return evalPrimaryExpression(exprAst);
-      } else if("defined_expression".equals(nodeType)){
-        return evalDefinedExpression(exprAst);
-      } else if("functionlike_macro".equals(nodeType)){
-        return evalFunctionlikeMacro(exprAst);
-      } else {
-        throw new EvaluationException("Unknown expression type '" + nodeType + "'");
-      }
+      throw new EvaluationException("Unknown expression type '" + nodeType + "'");
     }
   }
 
+  private int evalOneChildAst(AstNode exprAst){
+    // Evaluation of booleans and 'pass-through's
+    //
+    String nodeType = exprAst.getName();
+    if("bool".equals(nodeType)){
+      return evalBool(exprAst.getTokenValue());
+    }
+    return eval(exprAst.getChild(0));
+  }
 
+  private int evalComplexAst(AstNode exprAst){
+    // More complex expressions with more than one child
+    //
+    String nodeType = exprAst.getName();
+    if("unary_expression".equals(nodeType)){
+      return evalUnaryExpression(exprAst);
+    } else if("conditional_expression".equals(nodeType)){
+      return evalConditionalExpression(exprAst);
+    } else if("logical_or_expression".equals(nodeType)){
+      return evalLogicalOrExpression(exprAst);
+    } else if("logical_and_expression".equals(nodeType)){
+      return evalLogicalAndExpression(exprAst);
+    } else if("inclusive_or_expression".equals(nodeType)){
+      return evalInclusiveOrExpression(exprAst);
+    } else if("exclusive_or_expression".equals(nodeType)){
+      return evalExclusiveOrExpression(exprAst);
+    } else if("and_expression".equals(nodeType)){
+      return evalAndExpression(exprAst);
+    } else if("equality_expression".equals(nodeType)){
+      return evalEqualityExpression(exprAst);
+    } else if("relational_expression".equals(nodeType)){
+      return evalRelationalExpression(exprAst);
+    } else if("shift_expression".equals(nodeType)){
+      return evalShiftExpression(exprAst);
+    } else if("additive_expression".equals(nodeType)){
+      return evalAdditiveExpression(exprAst);
+    } else if("multiplicative_expression".equals(nodeType)){
+      return evalMultiplicativeExpression(exprAst);
+    } else if("primary_expression".equals(nodeType)){
+      return evalPrimaryExpression(exprAst);
+    } else if("defined_expression".equals(nodeType)){
+      return evalDefinedExpression(exprAst);
+    } else if("functionlike_macro".equals(nodeType)){
+      return evalFunctionlikeMacro(exprAst);
+    } else {
+      throw new EvaluationException("Unknown expression type '" + nodeType + "'");
+    }
+  }
+  
   /////////////////// Primitives //////////////////////
   int evalBool(String boolValue){
-    return boolValue.toLowerCase().equals("true") ? 1 : 0;
+    return boolValue.equalsIgnoreCase("true") ? 1 : 0;
   }
 
   int evalNumber(String intValue){
@@ -198,7 +210,7 @@ public final class ConstantExpressionEvaluator {
     String operator = exprAst.getChild(0).getTokenValue();
     AstNode operand = exprAst.getChild(1);
     if(operator.equals("+")){
-      return +eval(operand);
+      return eval(operand);
     } else if(operator.equals("-")){
       return -eval(operand);
     } else if(operator.equals("!")){
@@ -277,7 +289,7 @@ public final class ConstantExpressionEvaluator {
     // Use valueOf for now.
     String macroName = exprAst.getChild(0).getTokenValue();
     String value = preprocessor.valueOf(macroName);
-    return value == null ? 0: _eval(value);
+    return value == null ? 0: evalToInt(value);
   }
 
   String stripSuffix(String number){

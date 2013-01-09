@@ -420,7 +420,23 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
   }
+  
+  @Test
+  public void nested_ifs() {
+    List<Token> tokens = lexer.lex("#if 0\n"
+                                   + "  #if 1\n"
+                                   + "    b\n"
+                                   + "  #else\n"
+                                   + "    notb\n"
+                                   + "  #endif\n"
+                                   + "#else\n"
+                                   + "  nota\n"
+                                   + "#endif\n");
 
+    assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // nota + EOF
+  }
+  
   // Proper separation of parametrized macros and macros expand to a string enclosed
   // in parentheses
   @Test
@@ -433,4 +449,20 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("(", CxxPunctuator.BR_LEFT));
   }
 
+  @Test
+  public void assume_true_if_cannot_evaluate_if_expression() {
+    List<Token> tokens = lexer.lex("#if (\"\")\n"
+                                   + "  a\n"
+                                   + "#else\n"
+                                   + "  nota\n"
+                                   + "#endif\n");
+    assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // a + EOF
+  }
+
+  @Test
+  public void ignore_irrelevant_preprocessor_directives() {
+    List<Token> tokens = lexer.lex("#pragma lala\n");
+    assertThat(tokens).hasSize(1); // EOF
+  }
 }

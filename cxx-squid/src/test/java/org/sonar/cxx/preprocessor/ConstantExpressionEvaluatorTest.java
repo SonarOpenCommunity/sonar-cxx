@@ -75,6 +75,8 @@ public class ConstantExpressionEvaluatorTest {
   @Test
   public void logical_or() {
     assertTrue(evaluator.eval("1 || 0"));
+    assertTrue(evaluator.eval("0 || 1"));
+    assertTrue(evaluator.eval("1 || 1"));
 
     assertFalse(evaluator.eval("0 || 0"));
   }
@@ -83,13 +85,17 @@ public class ConstantExpressionEvaluatorTest {
   public void logical_and() {
     assertTrue(evaluator.eval("1 && 1"));
 
+    assertFalse(evaluator.eval("1 && 0"));
     assertFalse(evaluator.eval("0 && 1"));
+    assertFalse(evaluator.eval("0 && 0"));
   }
 
   @Test
   public void inclusive_or() {
     assertTrue(evaluator.eval("1 | 0"));
-
+    assertTrue(evaluator.eval("0 | 1"));
+    assertTrue(evaluator.eval("1 | 1"));
+    
     assertFalse(evaluator.eval("0 | 0"));
   }
 
@@ -264,5 +270,10 @@ public class ConstantExpressionEvaluatorTest {
     assertEquals(evaluator.stripSuffix("1l"), "1");
     assertEquals(evaluator.stripSuffix("1U"), "1");
     assertEquals(evaluator.stripSuffix("1u"), "1");
+  }
+
+  @Test(expected=EvaluationException.class)
+  public void throw_on_invalid_expressions() {
+    evaluator.eval("\"\"");
   }
 }

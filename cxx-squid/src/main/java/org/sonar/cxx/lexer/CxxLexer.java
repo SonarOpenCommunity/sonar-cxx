@@ -65,15 +65,13 @@ public final class CxxLexer {
         .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
 
         // backslash at the end of the line: just throw away
-        .withChannel(new BackslashChannel());
+        .withChannel(new BackslashChannel())
 
-    if (conf.getPreprocessorChannelEnabled()) {
-      // Preprocessor directives
-      builder.withChannel(new PreprocessorChannel());
-    }
+        // Preprocessor directives
+        .withChannel(new PreprocessorChannel())
 
-    // C++ Standard, Section 2.14.3 "Character literals"
-    builder.withChannel(new CharacterLiteralsChannel())
+        // C++ Standard, Section 2.14.3 "Character literals"
+        .withChannel(new CharacterLiteralsChannel())
 
         // C++ Standard, Section 2.14.5 "String literals"
         .withChannel(new StringLiteralsChannel())

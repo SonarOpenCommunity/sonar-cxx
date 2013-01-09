@@ -92,10 +92,10 @@ public class PreprocessorChannel extends Channel<Lexer> {
   private CxxTokenType classify(String tokenValue){
     CxxTokenType type = CxxTokenType.PREPROCESSOR;
 
-    tokenValue = normalizeToken(tokenValue);
+    String tValue = normalizeToken(tokenValue);
       
-    if(tokenValue.length() >= 4){
-      String prefix = tokenValue.substring(1, 4);
+    if(tValue.length() >= 4){
+      String prefix = tValue.substring(1, 4);
       if(prefix.equals("def")){
         type = CxxTokenType.PREPROCESSOR_DEFINE;
       } else if(prefix.equals("inc")){

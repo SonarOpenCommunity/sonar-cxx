@@ -92,7 +92,7 @@ public class CxxPreprocessor extends Preprocessor {
     public List<Token> body;
   }
 
-  public static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
+  private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
   private Parser<CppGrammar> pplineParser = null;
   private Map<String, Macro> externalMacros = new HashMap<String, Macro>();
   private Map<String, Macro> macros = new HashMap<String, Macro>();
@@ -100,8 +100,8 @@ public class CxxPreprocessor extends Preprocessor {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<CxxGrammar> context;
   private Stack<File> headersUnderAnalysis = new Stack<File>();
-  boolean skipping = false;
-  int nestedIfdefs = 0;
+  private boolean skipping = false;
+  private int nestedIfdefs = 0;
   private ConstantExpressionEvaluator ifExprEvaluator;
 
   public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context) {
@@ -176,13 +176,7 @@ public class CxxPreprocessor extends Preprocessor {
           LOG.error(e.toString());
           skipping = false;
         }
-        catch(Exception e){
-          LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-                    new Object[]{filePath, token.getLine(), token.getValue()});
-          LOG.error(e.toString());
-          skipping = false;
-          //throw e;
-        }
+        
         if(skipping){
           LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
                     new Object[]{filePath, token.getLine(), token.getValue()});
@@ -403,8 +397,8 @@ public class CxxPreprocessor extends Preprocessor {
 
     return tokens.size() - rest.size();
   }
-
-  List<Token> match(List<Token> tokens, String str) throws MismatchException {
+  
+  private List<Token> match(List<Token> tokens, String str) throws MismatchException {
     if(!tokens.get(0).getValue().equals(str)){
       throw new MismatchException("Mismatch: expected '" + str + "' got: '"
                                   + tokens.get(0).getValue() + "'");
@@ -412,7 +406,7 @@ public class CxxPreprocessor extends Preprocessor {
     return tokens.subList(1, tokens.size());
   }
 
-  List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
+  private List<Token> matchArgument(List<Token> tokens, List<Token> arguments) throws MismatchException {
     int nestingLevel = 0;
     int tokensConsumed = 0;
     int noTokens = tokens.size();
@@ -437,8 +431,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       if (curr.equals("(")) {
         nestingLevel++;
-      }
-      if (curr.equals(")")) {
+      } else if (curr.equals(")")) {
         nestingLevel--;
       }
 
@@ -453,7 +446,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
+  private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
     // Replace all parameters by according arguments
     // "Stringify" the argument if the according parameter is preceded by an #
 
@@ -498,7 +491,7 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  List<Token> evaluateHashhashOperators(List<Token> tokens){
+  private List<Token> evaluateHashhashOperators(List<Token> tokens){
     List<Token> newTokens = new ArrayList<Token>();
 
     Iterator<Token> it = tokens.iterator();
@@ -523,7 +516,7 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  Token predConcatToken(List<Token> tokens){
+  private Token predConcatToken(List<Token> tokens){
     while(!tokens.isEmpty()){
       Token last = tokens.remove(tokens.size()-1);
       if(last.getType() != WS){
@@ -533,12 +526,13 @@ public class CxxPreprocessor extends Preprocessor {
     return null;
   }
 
-  Token succConcatToken(Iterator<Token> it){
+  private Token succConcatToken(Iterator<Token> it){
     Token succ = null;
     while(it.hasNext()){
       succ = it.next();
-      if(!succ.getValue().equals("##") && succ.getType() != WS)
+      if(!succ.getValue().equals("##") && succ.getType() != WS){
         break;
+      }
     }
     return succ;
   }
@@ -605,7 +599,7 @@ public class CxxPreprocessor extends Preprocessor {
     return new Macro(macroName, macroParams, macroBody);
   }
 
-  List<Token> getParams(AstNode identListAst) {
+  private List<Token> getParams(AstNode identListAst) {
     List<Token> params = new ArrayList<Token>();
     if (identListAst != null) {
       for (AstNode node : identListAst.findDirectChildren(IDENTIFIER)) {
@@ -616,7 +610,7 @@ public class CxxPreprocessor extends Preprocessor {
     return params;
   }
 
-  File findIncludedFile(String includeLine){
+  private File findIncludedFile(String includeLine){
     String fileName = null;
     File includedFile = null;
     boolean quoted = false;
@@ -632,8 +626,9 @@ public class CxxPreprocessor extends Preprocessor {
       StringBuilder sb = new StringBuilder();
       while(true){
         String value = node.getTokenValue();
-        if(value.equals(">"))
+        if(value.equals(">")){
           break;
+        }
         sb.append(value);
         node = node.nextSibling();
       }
@@ -650,12 +645,12 @@ public class CxxPreprocessor extends Preprocessor {
     return includedFile;
   }
 
-  String getMacro(Token ifdefLine){
+  private String getMacro(Token ifdefLine){
     AstNode ast = pplineParser.parse(ifdefLine.getValue());
     return ast.findFirstChild(IDENTIFIER).getTokenValue();
   }
 
-  String stripQuotes(String str){
+  private String stripQuotes(String str){
     return str.substring(1, str.length()-1);
   }
 

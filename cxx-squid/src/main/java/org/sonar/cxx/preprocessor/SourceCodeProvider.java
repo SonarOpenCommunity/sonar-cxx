@@ -115,9 +115,6 @@ public class SourceCodeProvider {
         LOG.error("Cannot read contents of the file '{}'", file);
       }
     }
-    else {
-      //LOG.debug("Unsuccessful probing the path '{}'", file);
-    }
 
     return code;
   }
