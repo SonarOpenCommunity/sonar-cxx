@@ -23,9 +23,6 @@ import com.sonar.sslr.impl.Parser;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
 
-import static com.sonar.sslr.test.parser.ParserMatchers.parse;
-import static org.junit.Assert.assertThat;
-
 public class SomethingTest {
 
   Parser<CxxGrammar> p = CxxParser.create();

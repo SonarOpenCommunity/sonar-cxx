@@ -21,12 +21,10 @@ package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
-import com.sonar.sslr.impl.channel.BlackHoleChannel;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.api.CppKeyword;
@@ -45,7 +43,7 @@ public final class CppLexer {
   private static final String INTEGER_SUFFIX = "(((U|u)(LL|ll|L|l)?)|((LL|ll|L|l)(u|U)?))";
   private static final String EXP = "([Ee][+-]?+[0-9_]++)";
   private static final String FLOAT_SUFFIX = "(f|l|F|L)";
-  
+
   private CppLexer() {
   }
 
@@ -67,18 +65,18 @@ public final class CppLexer {
       .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]++\\.[0-9]*+" + opt(EXP) + opt(FLOAT_SUFFIX)))
       .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]++" + opt(EXP) + opt(FLOAT_SUFFIX)))
       .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]++" + EXP + opt(FLOAT_SUFFIX)))
-      
+
       // C++ Standard, Section 2.14.2 "Integer literals"
       .withChannel(regexp(CxxTokenType.NUMBER, "[1-9][0-9]*+" + opt(INTEGER_SUFFIX))) // Decimal literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0[0-7]++" + opt(INTEGER_SUFFIX))) // Octal Literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0[xX][0-9a-fA-F]++" + opt(INTEGER_SUFFIX))) // Hex Literals
       .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(INTEGER_SUFFIX))) // Decimal zero
-      
+
       .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), CppKeyword.values()))
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
       .withChannel(new PunctuatorChannel(CppPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());
-    
+
     for (Preprocessor preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);
     }

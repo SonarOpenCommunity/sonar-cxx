@@ -28,16 +28,16 @@ import com.sonar.sslr.api.AstNode;
 
 public final class ConstantExpressionEvaluator {
   public static final Logger LOG = LoggerFactory.getLogger("ConstantExpressionEvaluator");
-  
+
   private Parser<CppGrammar> parser;
   private CxxPreprocessor preprocessor;
-  
+
   public ConstantExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor){
     parser = CppParser.createConstantExpressionParser(conf);
-    
+
     this.preprocessor = preprocessor;
   }
-  
+
   public boolean eval(String constExpr){
     return _eval(constExpr) != 0;
   }
@@ -50,9 +50,9 @@ public final class ConstantExpressionEvaluator {
   private int eval(AstNode exprAst) {
     String nodeType = exprAst.getName();
     int noChildren = exprAst.getNumberOfChildren();
-    
+
     LOG.debug("Evaluating expression: {}", exprAst);
-    
+
     if(noChildren == 0){
       // Evaluation of leafs
       //
@@ -67,13 +67,12 @@ public final class ConstantExpressionEvaluator {
         throw new EvaluationException("Unknown expression type '" + nodeType + "'");
       }
     } else if (noChildren == 1){
-      // Evaluation of bools and 'pass-through's
+      // Evaluation of booleans and 'pass-through's
       //
       if("bool".equals(nodeType)){
         return evalBool(exprAst.getTokenValue());
-      } else {
-        return eval(exprAst.getChild(0));
       }
+      return eval(exprAst.getChild(0));
     } else {
       // More complex expressions with more than one child
       //
@@ -111,22 +110,22 @@ public final class ConstantExpressionEvaluator {
         throw new EvaluationException("Unknown expression type '" + nodeType + "'");
       }
     }
-  }    
+  }
 
 
   /////////////////// Primitives //////////////////////
   int evalBool(String boolValue){
     return boolValue.toLowerCase().equals("true") ? 1 : 0;
   }
-  
+
   int evalNumber(String intValue){
     // the if expressions arent allowed to contain floats
-    
+
     return Integer.decode(stripSuffix(intValue)).intValue();
   }
 
   int evalCharacter(String charValue){
-    // TODO: replace this simplication by something more sane
+    // TODO: replace this simplification by something more sane
     return charValue.equals("'\0'") ? 0 : 1;
   }
 
@@ -136,7 +135,7 @@ public final class ConstantExpressionEvaluator {
     boolean result = (eval(exprAst.getChild(0)) != 0) || (eval(exprAst.getChild(2)) != 0);
     return result ? 1 : 0;
   }
-  
+
   int evalLogicalAndExpression(AstNode exprAst){
     boolean result = (eval(exprAst.getChild(0)) != 0) && (eval(exprAst.getChild(2)) != 0);
     return result ? 1 : 0;
@@ -154,10 +153,10 @@ public final class ConstantExpressionEvaluator {
     } else {
       throw new EvaluationException("Unknown equality operator '" + operator + "'");
     }
-    
+
     return result ? 1 : 0;
   }
-  
+
   int evalRelationalExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
@@ -174,29 +173,29 @@ public final class ConstantExpressionEvaluator {
     } else {
       throw new EvaluationException("Unknown relational operator '" + operator + "'");
     }
-    
+
     return result ? 1 : 0;
   }
 
-  
+
   /////////////////// bitwise expressions ///////////////////////
   int evalAndExpression(AstNode exprAst){
     return eval(exprAst.getChild(0)) & eval(exprAst.getChild(2));
   }
-  
+
   int evalInclusiveOrExpression(AstNode exprAst){
     return eval(exprAst.getChild(0)) | eval(exprAst.getChild(2));
   }
-  
+
   int evalExclusiveOrExpression(AstNode exprAst){
     return eval(exprAst.getChild(0)) ^ eval(exprAst.getChild(2));
   }
 
-  
+
   /////////////////// other ... ///////////////////
   int evalUnaryExpression(AstNode exprAst){
     // only 'unary-operator cast-expression' production is allowed in #if-context
-    
+
     String operator = exprAst.getChild(0).getTokenValue();
     AstNode operand = exprAst.getChild(1);
     if(operator.equals("+")){
@@ -226,7 +225,7 @@ public final class ConstantExpressionEvaluator {
       throw new EvaluationException("Unknown shift operator '" + operator + "'");
     }
   }
-  
+
   int evalAdditiveExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
@@ -239,7 +238,7 @@ public final class ConstantExpressionEvaluator {
       throw new EvaluationException("Unknown additive operator '" + operator + "'");
     }
   }
-  
+
   int evalMultiplicativeExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
@@ -261,7 +260,7 @@ public final class ConstantExpressionEvaluator {
     AstNode falseCaseOperand = exprAst.getChild(4);
     return eval(decisionOperand) != 0 ? eval(trueCaseOperand) : eval(falseCaseOperand);
   }
-  
+
   int evalPrimaryExpression(AstNode exprAst){
     // case "( expression )"
     return eval(exprAst.getChild(1));
@@ -273,7 +272,7 @@ public final class ConstantExpressionEvaluator {
     String value = preprocessor.valueOf(macroName);
     return value == null ? 0 : 1;
   }
-  
+
   int evalFunctionlikeMacro(AstNode exprAst){
     // Probably we should use (made public) preprocessor.expandMacro functionality here...
     // Use valueOf for now.

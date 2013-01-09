@@ -26,7 +26,6 @@ import com.sonar.sslr.api.PreprocessorAction;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
-import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
@@ -105,9 +104,8 @@ public class CxxPreprocessor extends Preprocessor {
   private Stack<File> headersUnderAnalysis = new Stack<File>();
   boolean skipping = false;
   int nestedIfdefs = 0;
-  private CxxConfiguration conf;
   private ConstantExpressionEvaluator ifExprEvaluator;
-  
+
   public CxxPreprocessor() {
     this(new CxxConfiguration(),
          new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project")),
@@ -130,12 +128,11 @@ public class CxxPreprocessor extends Preprocessor {
                          SquidAstVisitorContext context,
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
-    this.conf = conf;
     this.ifExprEvaluator = new ConstantExpressionEvaluator(conf, this);
 
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
-    
+
     pplineParser = CppParser.create(conf);
 
     // parse the configured defines and store into the macro library
@@ -149,7 +146,7 @@ public class CxxPreprocessor extends Preprocessor {
           }
         }
     }
-    
+
     macros.putAll(externalMacros);
   }
 
@@ -159,7 +156,7 @@ public class CxxPreprocessor extends Preprocessor {
     TokenType ttype = token.getType();
     File file = getFileUnderAnalysis();
     String filePath = file == null? token.getURI().toString() : file.getAbsolutePath();
-    
+
     if (ttype == PREPROCESSOR_IFDEF || ttype == PREPROCESSOR_IFNDEF) {
       if(skipping){
         nestedIfdefs++;
@@ -174,7 +171,7 @@ public class CxxPreprocessor extends Preprocessor {
           skipping = true;
         }
       }
-      
+
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
 
     } else if (ttype == PREPROCESSOR_IF) {
@@ -203,9 +200,9 @@ public class CxxPreprocessor extends Preprocessor {
                     new Object[]{filePath, token.getLine(), token.getValue()});
         }
       }
-      
+
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
-      
+
     } else if (ttype == PREPROCESSOR_ELSE) {
       if(nestedIfdefs == 0){
         if(skipping){
@@ -214,7 +211,7 @@ public class CxxPreprocessor extends Preprocessor {
         else{
           LOG.debug("[{}:{}]: skipping tokens inside the #else", filePath, token.getLine());
         }
-        
+
         skipping = !skipping;
       }
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -230,14 +227,14 @@ public class CxxPreprocessor extends Preprocessor {
       }
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
     }
-    
+
     if(inSkippingMode()){
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
     }
-    
+
     if (ttype == PREPROCESSOR) {
-      
-      // Ignore all other preprocessor directives (which are not handled explicitly) 
+
+      // Ignore all other preprocessor directives (which are not handled explicitly)
       // and strip them from the stream
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -250,7 +247,7 @@ public class CxxPreprocessor extends Preprocessor {
       // b) if not done yet, try to find the according source code
       // c) if found, feed it into a special lexer, which calls back only if it finds relevant
       //    preprocessor directives (currently: include's and define's)
-      
+
       File includedFile = findIncludedFile(token.getValue());
       if(includedFile == null){
         LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[]{filePath, token.getLine(), token.getValue()});
@@ -268,7 +265,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
       else{
         LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[]{filePath, token.getLine(), includedFile});
-      }      
+      }
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
     } else if (ttype == PREPROCESSOR_DEFINE) {
@@ -306,7 +303,6 @@ public class CxxPreprocessor extends Preprocessor {
           if (tokensConsumedMatchingArgs > 0 && macro.params.size() == arguments.size()) {
             tokensConsumed = tokensConsumedMatchingArgs + 1;
             replTokens = replaceParams(macro.body, macro.params, arguments);
-            System.out.println(replTokens);
             replTokens = evaluateHashhashOperators(replTokens);
 
             String replacement = serialize(replTokens);
@@ -336,15 +332,15 @@ public class CxxPreprocessor extends Preprocessor {
 
     return PreprocessorAction.NO_OPERATION;
   }
-  
+
   public void beginPreprocessing(File file){
     // From 16.3.5 "Scope of macro definitions":
     //   A macro definition lasts (independent of block structure) until
     //   a corresponding #undef directive is encoun- tered or (if none
     //   is encountered) until the end of the translation unit.
-    
+
     LOG.debug("beginning preprocessing '{}'", file);
-    
+
     analysedFiles.clear();
     macros.clear();
     macros.putAll(externalMacros);
@@ -358,7 +354,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
     return result;
   }
-  
+
   private String getIfExpression(String tokenValue){
     return tokenValue.substring(tokenValue.indexOf("if") + 2).trim();
   }
@@ -379,11 +375,11 @@ public class CxxPreprocessor extends Preprocessor {
   private List<Token> stripEOF(List<Token> tokens) {
     return tokens.subList(0, tokens.size() - 1);
   }
-  
+
   private String serialize(List<Token> tokens) {
     return serialize(tokens, " ");
   }
-  
+
   private String serialize(List<Token> tokens, String spacer) {
     List<String> values = new LinkedList<String>();
     for (Token t : tokens) {
@@ -479,19 +475,19 @@ public class CxxPreprocessor extends Preprocessor {
       for (Token t : parameters) {
         defParamValues.add(t.getValue());
       }
-      
+
       for (int i = 0; i < body.size(); ++i) {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index != -1) {
           Token replacement = arguments.get(index);
-          
+
           // TODO: maybe we should pipe the argument through the whole expansion
           // engine before doing the replacement
           // String newValue = serialize(expandMacro("", replacement.getValue()));
-          
+
           String newValue = replacement.getValue();
-          
+
           if (i > 0 && body.get(i - 1).getValue().equals("#")) {
             newTokens.remove(newTokens.size() - 1);
             newValue = encloseWithQuotes(quote(newValue));
@@ -510,12 +506,12 @@ public class CxxPreprocessor extends Preprocessor {
         }
       }
     }
-    
+
     return newTokens;
   }
-  
+
   List<Token> evaluateHashhashOperators(List<Token> tokens){
-    List newTokens = new ArrayList<Token>();
+    List<Token> newTokens = new ArrayList<Token>();
 
     Iterator<Token> it = tokens.iterator();
     while(it.hasNext()){
@@ -534,8 +530,8 @@ public class CxxPreprocessor extends Preprocessor {
       } else {
         newTokens.add(curr);
       }
-    } 
-    
+    }
+
     return newTokens;
   }
 
@@ -548,7 +544,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
     return null;
   }
-  
+
   Token succConcatToken(Iterator<Token> it){
     Token succ = null;
     while(it.hasNext()){
@@ -599,29 +595,28 @@ public class CxxPreprocessor extends Preprocessor {
   private Macro parseObjectlikeMacroDefinition(AstNode ast){
     AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().pp_token);
     String macroName = nameNode.getTokenValue();
-    
+
     AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
     List<Token> macroBody = replList == null
       ? new LinkedList<Token>()
       : replList.getTokens().subList(0, replList.getTokens().size() - 1);
-    
+
     return new Macro(macroName, null, macroBody);
   }
 
   private Macro parseFunctionlikeMacroDefinition(AstNode ast){
     AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().pp_token);
     String macroName = nameNode.getTokenValue();
-    AstNode afterName = nameNode.nextSibling();
 
     List<Token> macroParams =
       getParams(ast.findFirstChild(pplineParser.getGrammar().argument_list));
-    
+
     AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
     List<Token> macroBody = replList.getTokens().subList(0, replList.getTokens().size() - 1);
-    
+
     return new Macro(macroName, macroParams, macroBody);
   }
-  
+
   List<Token> getParams(AstNode identListAst) {
     List<Token> params = new ArrayList<Token>();
     if (identListAst != null) {
@@ -629,7 +624,7 @@ public class CxxPreprocessor extends Preprocessor {
         params.add(node.getToken());
       }
     }
-    
+
     return params;
   }
 
@@ -637,7 +632,7 @@ public class CxxPreprocessor extends Preprocessor {
     String fileName = null;
     File includedFile = null;
     boolean quoted = false;
-    
+
     AstNode ast = pplineParser.parse(includeLine);
     AstNode includedString = ast.findFirstChild(STRING);
     if(includedString != null){
@@ -663,7 +658,7 @@ public class CxxPreprocessor extends Preprocessor {
       String dir = file == null ? "" : file.getParent();
       includedFile = codeProvider.getSourceCodeFile(fileName, dir,quoted);
     }
-    
+
     return includedFile;
   }
 
@@ -679,13 +674,12 @@ public class CxxPreprocessor extends Preprocessor {
   private File getFileUnderAnalysis(){
     if(headersUnderAnalysis.isEmpty()){
       return context.getFile();
-    } else {
-      return headersUnderAnalysis.peek();
     }
+    return headersUnderAnalysis.peek();
   }
-  
+
   private boolean inSkippingMode(){
     return skipping;
   }
 }
-  
+

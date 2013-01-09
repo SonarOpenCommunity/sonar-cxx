@@ -64,9 +64,8 @@ public class JoinStringsPreprocessor extends Preprocessor {
       }
 
       return PreprocessorAction.NO_OPERATION;
-    } else {
-      return PreprocessorAction.NO_OPERATION;
     }
+    return PreprocessorAction.NO_OPERATION;
   }
 
   private String stripQuotes(String str) {

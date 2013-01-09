@@ -28,6 +28,7 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.cxx.preprocessor.SourceCodeProvider;
@@ -81,7 +82,6 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void expanding_functionlike_macros() {
     List<Token> tokens = lexer.lex("#define plus(a, b) a + b\n plus(1, 2)");
-    System.out.println(tokens);
     assertThat(tokens).hasSize(4);
     assertThat(tokens, hasToken("1", CxxTokenType.NUMBER));
   }
@@ -92,7 +92,7 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2);
     assertThat(tokens, hasToken("0", CxxTokenType.NUMBER));
   }
-  
+
   @Test
   public void expanding_functionlike_macros_withextraparantheses() {
     List<Token> tokens = lexer.lex("#define neg(a) -a\n neg((1))");
@@ -117,12 +117,11 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void expanding_hashhash_operator_withoutparams() {
     List<Token> tokens = lexer.lex("#define hashhash c ## c\n hashhash");
-    System.out.println(tokens);
-    
+
     assertThat(tokens).hasSize(2); //cc + EOF
     assertThat(tokens, hasToken("cc", GenericTokenType.IDENTIFIER));
   }
-  
+
   @Test
   public void expanding_sequenceof_hashhash_operators() {
     List<Token> tokens = lexer.lex("#define concat(a,b) a ## ## ## b\n concat(x,y)");
@@ -136,13 +135,13 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); //cccc + EOF
     assertThat(tokens, hasToken("cccc", GenericTokenType.IDENTIFIER));
   }
-  
+
   @Test
   public void expanding_hashhash_operator_sampleFromCPPStandard() {
     // TODO: think about implementing this behavior. This is a sample from the standard, which is
-    // not working yet. Because the current implementatin throws away all 'irrelevant'
-    // preprocessor directives too early, I quess.
-    
+    // not working yet. Because the current implementation throws away all 'irrelevant'
+    // preprocessor directives too early, I guess.
+
     // List<Token> tokens = lexer.lex("#define hash_hash(x) # ## #\n"
     //                                + "#define mkstr(a) # a\n"
     //                                + "#define in_between(a) mkstr(a)\n"
@@ -151,7 +150,7 @@ public class CxxLexerWithPreprocessingTest {
     // assertThat(tokens).hasSize(2); //"x ## y" + EOF
     // assertThat(tokens, hasToken("\"x ## y\"", GenericTokenType.STRING));
   }
-  
+
   @Test
   public void expanding_hashoperator_quoting1() {
     List<Token> tokens = lexer.lex("#define str(a) # a\n str(\"x\")");
@@ -274,7 +273,7 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("new", CxxKeyword.NEW));
     assertThat(tokens, hasToken("X",  GenericTokenType.IDENTIFIER));
   }
-  
+
   @Test
   public void using_keyword_as_macro_argument(){
     List<Token> tokens = lexer.lex("#define X(a) a\n"
@@ -289,7 +288,7 @@ public class CxxLexerWithPreprocessingTest {
     when(scp.getSourceCodeFile(anyString(), anyString(), eq(false))).thenReturn(new File(""));
     when(scp.getSourceCode(any(File.class))).thenReturn("#define A B\n");
 
-    SquidAstVisitorContext ctx = mock(SquidAstVisitorContext.class);
+    SquidAstVisitorContext<CxxGrammar> ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
 
     CxxPreprocessor pp = new CxxPreprocessor(new CxxConfiguration(), ctx, scp);
@@ -308,11 +307,11 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#else\n"
                                    + "222\n"
                                    + "#endif\n");
-    
+
     assertThat(tokens, not(hasToken("111", CxxTokenType.NUMBER)));
     assertThat(tokens, hasToken("222", CxxTokenType.NUMBER));
   }
-  
+
   @Test
   public void conditional_compilation_ifdef_defined() {
     List<Token> tokens = lexer.lex("#define LALA\n"
@@ -321,7 +320,7 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#else\n"
                                    + "  222\n"
                                    + "#endif\n");
-    
+
     assertThat(tokens, hasToken("111", CxxTokenType.NUMBER));
     assertThat(tokens, not(hasToken("222", CxxTokenType.NUMBER)));
   }
@@ -333,11 +332,11 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#else\n"
                                    + "222\n"
                                    + "#endif\n");
-    
+
     assertThat(tokens, hasToken("111", CxxTokenType.NUMBER));
     assertThat(tokens).hasSize(2); // 111 + EOF
   }
-  
+
   @Test
   public void conditional_compilation_ifndef_defined() {
     List<Token> tokens = lexer.lex("#define X\n"
@@ -346,11 +345,11 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#else\n"
                                    + "  222\n"
                                    + "#endif\n");
-    
+
     assertThat(tokens, hasToken("222", CxxTokenType.NUMBER));
     assertThat(tokens).hasSize(2); // 222 + EOF
   }
-  
+
   @Test
   public void conditional_compilation_ifdef_nested() {
     List<Token> tokens = lexer.lex("#define B\n"
@@ -379,7 +378,6 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#endif\n");
 
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
-    System.out.println(tokens);
     assertThat(tokens).hasSize(2); // nota + EOF
   }
 
@@ -407,7 +405,7 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // a + EOF
   }
-  
+
   @Test
   public void conditional_compilation_if_identifier_false() {
     List<Token> tokens = lexer.lex("#if LALA\n"
@@ -415,22 +413,21 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#else\n"
                                    + "  nota\n"
                                    + "#endif\n");
-    
+
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
   }
 
   // Proper separation of parametrized macros and macros expand to a string enclosed
-  // in parantheses
+  // in parentheses
   @Test
   public void macro_expanding_to_parantheses() {
-    // a macro is identified as 'functionlike' if and only if the parantheses
-    // arent separated from the identifier by whitespace. Otherwise, the parantheses
+    // a macro is identified as 'functionlike' if and only if the parentheses
+    // arent separated from the identifier by whitespace. Otherwise, the parentheses
     // belong to the replacement string
     List<Token> tokens = lexer.lex("#define macro ()\n"
                                    + "macro\n");
-    System.out.println(tokens);
     assertThat(tokens, hasToken("(", CxxPunctuator.BR_LEFT));
   }
-  
+
 }
