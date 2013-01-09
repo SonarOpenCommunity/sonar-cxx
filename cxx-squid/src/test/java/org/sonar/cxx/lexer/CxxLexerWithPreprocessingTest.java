@@ -465,4 +465,18 @@ public class CxxLexerWithPreprocessingTest {
     List<Token> tokens = lexer.lex("#pragma lala\n");
     assertThat(tokens).hasSize(1); // EOF
   }
+
+  @Test
+  public void externalMacrosCannotBeOverriden() {
+    CxxConfiguration conf = mock(CxxConfiguration.class);
+    when(conf.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
+    lexer = CxxLexer.create(conf, cxxpp);
+    
+    List<Token> tokens = lexer.lex("#define name badvalue\n"
+                                   + "name");
+    
+    assertThat(tokens, hasToken("goodvalue", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // goodvalue + EOF
+  }
 }

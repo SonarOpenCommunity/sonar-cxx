@@ -94,8 +94,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
   private Parser<CppGrammar> pplineParser = null;
-  private Map<String, Macro> externalMacros = new HashMap<String, Macro>();
-  private Map<String, Macro> macros = new HashMap<String, Macro>();
+  private MapChain<String, Macro> macros = new MapChain<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<CxxGrammar> context;
@@ -127,15 +126,13 @@ public class CxxPreprocessor extends Preprocessor {
     for(String define: conf.getDefines()){
       LOG.debug("parsing external macro: '{}'", define);
       if(!define.equals("")){
-          Macro macro = parseMacroDefinition("#define " + define);
-          if (macro != null) {
-            LOG.info("storing external macro: '{}'", macro);
-            externalMacros.put(macro.name, macro);
-          }
+        Macro macro = parseMacroDefinition("#define " + define);
+        if (macro != null) {
+          LOG.info("storing external macro: '{}'", macro);
+          macros.putHighPrio(macro.name, macro);
         }
+      }
     }
-
-    macros.putAll(externalMacros);
   }
 
   @Override
@@ -258,7 +255,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (macro != null) {
         LOG.debug("[{}:{}]: storing macro: '{}'",
                   new Object[]{filePath, token.getLine(), macro});
-        macros.put(macro.name, macro);
+        macros.putLowPrio(macro.name, macro);
       }
 
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -324,8 +321,7 @@ public class CxxPreprocessor extends Preprocessor {
     LOG.debug("beginning preprocessing '{}'", file);
 
     analysedFiles.clear();
-    macros.clear();
-    macros.putAll(externalMacros);
+    macros.clearLowPrio();
   }
 
   public String valueOf(String macroname){
@@ -344,12 +340,12 @@ public class CxxPreprocessor extends Preprocessor {
   private List<Token> expandMacro(String macroName, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;
-    Macro macro = macros.remove(macroName);
+    macros.disable(macroName);
     try{
       tokens = stripEOF(CxxLexer.create(this).lex(macroExpression));
     }
     finally{
-      macros.put(macroName, macro);
+      macros.enable(macroName);
     }
     return tokens;
   }
