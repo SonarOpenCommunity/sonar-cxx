@@ -37,7 +37,11 @@ public enum CppKeyword implements TokenType {
   UNDEF("#undef"),
   LINE("#line"),
   ERROR("#error"),
-  PRAGMA("#pragma");
+  PRAGMA("#pragma"),
+
+  //extensions
+  WARNING("#warning"),
+  INCLUDE_NEXT("#include_next");
 
   private final String value;
 

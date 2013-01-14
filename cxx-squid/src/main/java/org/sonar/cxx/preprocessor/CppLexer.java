@@ -47,11 +47,11 @@ public final class CppLexer {
   private CppLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) {
-    return create(new CxxConfiguration(), preprocessors);
+  public static Lexer create() {
+    return create(new CxxConfiguration());
   }
 
-  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
+  public static Lexer create(CxxConfiguration conf) {
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
@@ -76,10 +76,6 @@ public final class CppLexer {
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
       .withChannel(new PunctuatorChannel(CppPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());
-
-    for (Preprocessor preprocessor : preprocessors) {
-      builder.withPreprocessor(preprocessor);
-    }
 
     return builder.build();
   }

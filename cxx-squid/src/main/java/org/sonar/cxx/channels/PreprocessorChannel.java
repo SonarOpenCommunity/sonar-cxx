@@ -39,14 +39,12 @@ public class PreprocessorChannel extends Channel<Lexer> {
     }
 
     String tokenValue = read(code);
-    CxxTokenType tokenType = classify(tokenValue);
-
     output.addToken(Token.builder()
         .setLine(line)
         .setColumn(column)
         .setURI(output.getURI())
         .setValueAndOriginalValue(tokenValue)
-        .setType(tokenType)
+        .setType(CxxTokenType.PREPROCESSOR)
         .build());
     
     return true;
@@ -73,7 +71,6 @@ public class PreprocessorChannel extends Channel<Lexer> {
     return sb.toString();
   }
 
-
   private static void consumeNewline(CodeReader code) {
     if ((code.charAt(0) == '\r') && (code.charAt(1) == '\n')) {
       // \r\n
@@ -87,36 +84,5 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private static boolean isNewline(char ch) {
     return (ch == '\n') || (ch == '\r');
-  }
-
-  private CxxTokenType classify(String tokenValue){
-    CxxTokenType type = CxxTokenType.PREPROCESSOR;
-
-    String tValue = normalizeToken(tokenValue);
-      
-    if(tValue.length() >= 4){
-      String prefix = tValue.substring(1, 4);
-      if(prefix.equals("def")){
-        type = CxxTokenType.PREPROCESSOR_DEFINE;
-      } else if(prefix.equals("inc")){
-        type = CxxTokenType.PREPROCESSOR_INCLUDE;
-      } else if(prefix.equals("ifd")){
-        type = CxxTokenType.PREPROCESSOR_IFDEF;
-      } else if(prefix.equals("if ") || prefix.equals("if(")){
-        type = CxxTokenType.PREPROCESSOR_IF;
-      } else if(prefix.equals("ifn")){
-        type = CxxTokenType.PREPROCESSOR_IFNDEF;
-      } else if(prefix.equals("els")){
-        type = CxxTokenType.PREPROCESSOR_ELSE;
-      } else if(prefix.equals("end")){
-        type = CxxTokenType.PREPROCESSOR_ENDIF;
-      }
-    }
-    
-    return type;
-  }
-
-  String normalizeToken(String tokenValue){
-    return "#" + tokenValue.substring(1, tokenValue.length()).trim();
   }
 }

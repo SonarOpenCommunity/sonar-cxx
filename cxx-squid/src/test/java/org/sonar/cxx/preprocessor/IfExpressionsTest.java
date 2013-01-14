@@ -33,6 +33,24 @@ public class IfExpressionsTest {
   CppGrammar g = p.getGrammar();
 
   @Test
+  public void if_line() {
+    p.setRootRule(g.if_line);
+
+    g.constant_expression.mock();
+
+    assertThat(p, parse("#if constant_expression"));
+    assertThat(p, parse("#elif constant_expression"));
+  }
+
+  @Test
+  public void if_line_reallive() {
+    p.setRootRule(g.if_line);
+    
+    assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
+    assertThat(p, parse("#if 0   // TODO: Re-enable once PR13021 is fixed."));
+  }
+
+  @Test
   public void constant_expression() {
     p.setRootRule(g.constant_expression);
 
@@ -228,5 +246,6 @@ public class IfExpressionsTest {
 
     assertThat(p, parse("__has_feature(cxx_rvalue)"));
     assertThat(p, parse("__has_feature(cxx_rvalue, bla)"));
+    assertThat(p, parse("__GNUC_PREREQ (4, 1)"));
   }
 }

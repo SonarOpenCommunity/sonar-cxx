@@ -59,8 +59,8 @@
 
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     
-    <sonar.version>2.9</sonar.version>
-    <sslr.version>1.15</sslr.version>
+    <sonar.version>3.1</sonar.version>
+    <sslr.version>1.17</sslr.version>
     
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.pluginName>C++ (Community)</sonar.pluginName>

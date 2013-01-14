@@ -27,7 +27,7 @@ public class CppKeywordTest {
 
   @Test
   public void test() {
-    assertThat(CppKeyword.values()).hasSize(12);
+    assertThat(CppKeyword.values()).hasSize(14);
     assertThat(CppKeyword.keywordValues()).hasSize(CppKeyword.values().length);
   }
 

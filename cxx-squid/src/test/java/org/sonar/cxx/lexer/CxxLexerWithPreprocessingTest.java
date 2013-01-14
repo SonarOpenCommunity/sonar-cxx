@@ -479,4 +479,9 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("goodvalue", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // goodvalue + EOF
   }
+
+  @Test
+  public void varios_lines() {
+    lexer.lex("#include <algorithm>");
+  }
 }

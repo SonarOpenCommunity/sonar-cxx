@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
 
 public final class ConstantExpressionEvaluator {
-  public static final Logger LOG = LoggerFactory.getLogger("ConstantExpressionEvaluator");
+  public static final Logger LOG = LoggerFactory.getLogger("Evaluator");
 
   private Parser<CppGrammar> parser;
   private CxxPreprocessor preprocessor;
@@ -41,12 +41,16 @@ public final class ConstantExpressionEvaluator {
     return evalToInt(constExpr) != 0;
   }
 
-  public int evalToInt(String constExpr){
-    AstNode constExprAst = parser.parse(constExpr);
-    return eval(constExprAst);
+  public boolean eval(AstNode constExpr){
+    return evalToInt(constExpr) != 0;
   }
 
-  private int eval(AstNode exprAst) {
+  private int evalToInt(String constExpr){
+    AstNode constExprAst = parser.parse(constExpr);
+    return evalToInt(constExprAst);
+  }
+  
+  private int evalToInt(AstNode exprAst) {
     LOG.debug("Evaluating expression: {}", exprAst);
 
     int noChildren = exprAst.getNumberOfChildren();
@@ -82,7 +86,7 @@ public final class ConstantExpressionEvaluator {
     if("bool".equals(nodeType)){
       return evalBool(exprAst.getTokenValue());
     }
-    return eval(exprAst.getChild(0));
+    return evalToInt(exprAst.getChild(0));
   }
 
   private int evalComplexAst(AstNode exprAst){
@@ -143,12 +147,12 @@ public final class ConstantExpressionEvaluator {
 
   //////////////// logical expressions ///////////////////////////
   int evalLogicalOrExpression(AstNode exprAst){
-    boolean result = (eval(exprAst.getChild(0)) != 0) || (eval(exprAst.getChild(2)) != 0);
+    boolean result = eval(exprAst.getChild(0)) || eval(exprAst.getChild(2));
     return result ? 1 : 0;
   }
 
   int evalLogicalAndExpression(AstNode exprAst){
-    boolean result = (eval(exprAst.getChild(0)) != 0) && (eval(exprAst.getChild(2)) != 0);
+    boolean result = eval(exprAst.getChild(0)) && eval(exprAst.getChild(2));
     return result ? 1 : 0;
   }
 
@@ -174,13 +178,13 @@ public final class ConstantExpressionEvaluator {
     AstNode rhs = exprAst.getChild(2);
     boolean result;
     if(operator.equals("<")){
-      result = eval(lhs) < eval(rhs);
+      result = evalToInt(lhs) < evalToInt(rhs);
     } else if(operator.equals(">")) {
-      result = eval(lhs) > eval(rhs);
+      result = evalToInt(lhs) > evalToInt(rhs);
     } else if(operator.equals("<=")) {
-      result = eval(lhs) <= eval(rhs);
+      result = evalToInt(lhs) <= evalToInt(rhs);
     } else if(operator.equals(">=")) {
-      result = eval(lhs) >= eval(rhs);
+      result = evalToInt(lhs) >= evalToInt(rhs);
     } else {
       throw new EvaluationException("Unknown relational operator '" + operator + "'");
     }
@@ -191,15 +195,15 @@ public final class ConstantExpressionEvaluator {
 
   /////////////////// bitwise expressions ///////////////////////
   int evalAndExpression(AstNode exprAst){
-    return eval(exprAst.getChild(0)) & eval(exprAst.getChild(2));
+    return evalToInt(exprAst.getChild(0)) & evalToInt(exprAst.getChild(2));
   }
 
   int evalInclusiveOrExpression(AstNode exprAst){
-    return eval(exprAst.getChild(0)) | eval(exprAst.getChild(2));
+    return evalToInt(exprAst.getChild(0)) | evalToInt(exprAst.getChild(2));
   }
 
   int evalExclusiveOrExpression(AstNode exprAst){
-    return eval(exprAst.getChild(0)) ^ eval(exprAst.getChild(2));
+    return evalToInt(exprAst.getChild(0)) ^ evalToInt(exprAst.getChild(2));
   }
 
 
@@ -210,14 +214,14 @@ public final class ConstantExpressionEvaluator {
     String operator = exprAst.getChild(0).getTokenValue();
     AstNode operand = exprAst.getChild(1);
     if(operator.equals("+")){
-      return eval(operand);
+      return evalToInt(operand);
     } else if(operator.equals("-")){
-      return -eval(operand);
+      return -evalToInt(operand);
     } else if(operator.equals("!")){
-      boolean result = !(eval(operand) != 0);
+      boolean result = !eval(operand);
       return result ? 1 : 0;
     } else if(operator.equals("~")){
-      return ~eval(operand);
+      return ~evalToInt(operand);
     }
     else{
       throw new EvaluationException("Unknown unary operator  '" + operator + "'");
@@ -229,9 +233,9 @@ public final class ConstantExpressionEvaluator {
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
     if(operator.equals("<<")){
-      return eval(lhs) << eval(rhs);
+      return evalToInt(lhs) << evalToInt(rhs);
     } else if(operator.equals(">>")){
-      return eval(lhs) >> eval(rhs);
+      return evalToInt(lhs) >> evalToInt(rhs);
     } else {
       throw new EvaluationException("Unknown shift operator '" + operator + "'");
     }
@@ -242,9 +246,9 @@ public final class ConstantExpressionEvaluator {
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
     if(operator.equals("+")){
-      return eval(lhs) + eval(rhs);
+      return evalToInt(lhs) + evalToInt(rhs);
     } else if(operator.equals("-")){
-      return eval(lhs) - eval(rhs);
+      return evalToInt(lhs) - evalToInt(rhs);
     } else {
       throw new EvaluationException("Unknown additive operator '" + operator + "'");
     }
@@ -255,11 +259,11 @@ public final class ConstantExpressionEvaluator {
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
     if(operator.equals("*")){
-      return eval(lhs) * eval(rhs);
+      return evalToInt(lhs) * evalToInt(rhs);
     } else if(operator.equals("/")){
-      return eval(lhs) / eval(rhs);
+      return evalToInt(lhs) / evalToInt(rhs);
     } else if(operator.equals("%")){
-      return eval(lhs) % eval(rhs);
+      return evalToInt(lhs) % evalToInt(rhs);
     } else {
       throw new EvaluationException("Unknown multiplicative operator '" + operator + "'");
     }
@@ -269,12 +273,12 @@ public final class ConstantExpressionEvaluator {
     AstNode decisionOperand = exprAst.getChild(0);
     AstNode trueCaseOperand = exprAst.getChild(2);
     AstNode falseCaseOperand = exprAst.getChild(4);
-    return eval(decisionOperand) != 0 ? eval(trueCaseOperand) : eval(falseCaseOperand);
+    return eval(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
   }
 
   int evalPrimaryExpression(AstNode exprAst){
     // case "( expression )"
-    return eval(exprAst.getChild(1));
+    return evalToInt(exprAst.getChild(1));
   }
 
   int evalDefinedExpression(AstNode exprAst){

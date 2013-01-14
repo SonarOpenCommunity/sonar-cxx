@@ -37,15 +37,15 @@ public class IncludeLexerTest {
 
   @Test
   public void proper_preprocessor_directives_are_created() {
-    assertThat(lexer.lex("#include <iostream>"), hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR_INCLUDE));
-    assertThat(lexer.lex("#define lala"), hasToken("#define lala", CxxTokenType.PREPROCESSOR_DEFINE));
-    assertThat(lexer.lex("#ifdef lala"), hasToken("#ifdef lala", CxxTokenType.PREPROCESSOR_IFDEF));
+    assertThat(lexer.lex("#include <iostream>"), hasToken("#include <iostream>", CxxTokenType.PREPROCESSOR));
+    assertThat(lexer.lex("#define lala"), hasToken("#define lala", CxxTokenType.PREPROCESSOR));
+    assertThat(lexer.lex("#ifdef lala"), hasToken("#ifdef lala", CxxTokenType.PREPROCESSOR));
   }
 
   @Test
   public void continued_lines_are_handled_correctly() {
     List<Token> tokens = lexer.lex("#define\\\nname");
-    assertThat(tokens, hasToken("#define name", CxxTokenType.PREPROCESSOR_DEFINE));
+    assertThat(tokens, hasToken("#define name", CxxTokenType.PREPROCESSOR));
     assertThat(tokens).hasSize(2);
   }
   

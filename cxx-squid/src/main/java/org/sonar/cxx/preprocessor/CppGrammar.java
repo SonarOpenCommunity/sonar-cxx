@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.sslr.impl.matcher.GrammarFunctions;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Rule;
 import org.sonar.cxx.api.CxxTokenType;
@@ -33,9 +34,18 @@ import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
 import static org.sonar.cxx.api.CppKeyword.DEFINE;
 import static org.sonar.cxx.api.CppKeyword.IF;
+import static org.sonar.cxx.api.CppKeyword.ELIF;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppKeyword.INCLUDE;
+import static org.sonar.cxx.api.CppKeyword.INCLUDE_NEXT;
+import static org.sonar.cxx.api.CppKeyword.ELSE;
+import static org.sonar.cxx.api.CppKeyword.ENDIF;
+import static org.sonar.cxx.api.CppKeyword.UNDEF;
+import static org.sonar.cxx.api.CppKeyword.LINE;
+import static org.sonar.cxx.api.CppKeyword.ERROR;
+import static org.sonar.cxx.api.CppKeyword.PRAGMA;
+import static org.sonar.cxx.api.CppKeyword.WARNING;
 import static org.sonar.cxx.api.CxxTokenType.WS;
 
 /**
@@ -45,10 +55,11 @@ public class CppGrammar extends Grammar {
   public Rule preprocessor_line;
   public Rule define_line;
   public Rule include_line;
+  public Rule include_next_line;
   public Rule ifdef_line;
-  public Rule ifndef_line;
   public Rule replacement_list;
   public Rule argument_list;
+  public Rule parameter_list;
   public Rule pp_token;
   public Rule if_line;
   public Rule constant_expression;
@@ -73,13 +84,29 @@ public class CppGrammar extends Grammar {
   public Rule functionlike_macro;
   public Rule functionlike_macro_definition;
   public Rule objectlike_macro_definition;
+  public Rule else_line;
+  public Rule endif_line;
+  public Rule undef_line;
+  public Rule line_line;
+  public Rule error_line;
+  public Rule pragma_line;
+  public Rule warning_line;
 
   public CppGrammar() {
     toplevel();
-    define_lines();
-    include_lines();
-    ifdef_lines();
-    if_lines();
+    define_line();
+    include_line();
+    ifdef_line();
+    if_line();
+    else_line();
+    endif_line();
+    undef_line();
+    line_line();
+    error_line();
+    pragma_line();
+    warning_line();
+
+    GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
   }
 
   private void toplevel(){
@@ -88,13 +115,19 @@ public class CppGrammar extends Grammar {
         define_line,
         include_line,
         ifdef_line,
-        ifndef_line,
-        if_line
+        if_line,
+        else_line,
+        endif_line,
+        undef_line,
+        line_line,
+        error_line,
+        pragma_line,
+        warning_line
         )
       );
   }
   
-  private void define_lines(){
+  private void define_line(){
     define_line.is(
       or(
         functionlike_macro_definition,
@@ -104,9 +137,9 @@ public class CppGrammar extends Grammar {
 
     functionlike_macro_definition.is(
       or(
-        and(DEFINE, WS, pp_token, "(", opt(WS), opt(argument_list), opt(WS), ")", WS, replacement_list),
-        and(DEFINE, WS, pp_token, "(", opt(WS), "...", opt(WS), ")", WS, replacement_list),
-        and(DEFINE, WS, pp_token, "(", opt(WS), argument_list, opt(WS), ",", opt(WS), "...", opt(WS), ")", WS, replacement_list)
+        and(DEFINE, WS, pp_token, "(", opt(WS), opt(parameter_list), opt(WS), ")", opt(and(WS, replacement_list))),
+        and(DEFINE, WS, pp_token, "(", opt(WS), "...", opt(WS), ")", opt(and(WS, replacement_list))),
+        and(DEFINE, WS, pp_token, "(", opt(WS), parameter_list, opt(WS), ",", opt(WS), "...", opt(WS), ")", opt(and(WS, replacement_list)))
         )
       );
 
@@ -117,7 +150,7 @@ public class CppGrammar extends Grammar {
       );
 
     replacement_list.is(
-      o2n(
+      one2n(
         or(
           "##",
           "#",
@@ -126,27 +159,29 @@ public class CppGrammar extends Grammar {
         )
       );
 
-    argument_list.is(IDENTIFIER, o2n(opt(WS), ",", opt(WS), IDENTIFIER));
+    parameter_list.is(IDENTIFIER, o2n(opt(WS), ",", opt(WS), IDENTIFIER));
+    argument_list.is(pp_token, o2n(opt(WS), ",", opt(WS), pp_token));
     pp_token.is(anyToken());
   }
   
-  private void include_lines(){
+  private void include_line(){
     include_line.is(
-      INCLUDE, WS,
+      or(INCLUDE, INCLUDE_NEXT), 
+      WS,
       or(
         and("<", one2n(not(">"), opt(WS), pp_token), ">"),
         CxxTokenType.STRING
-        )
+        ),
+      opt(WS)
       );
   }
   
-  private void ifdef_lines(){
-    ifdef_line.is(IFDEF, WS, IDENTIFIER);
-    ifndef_line.is(IFNDEF, WS, IDENTIFIER);
+  private void ifdef_line(){
+    ifdef_line.is(or(IFDEF, IFNDEF), WS, IDENTIFIER, opt(WS));
   }
 
-  private void if_lines(){
-    if_line.is(IF, WS, constant_expression);
+  private void if_line(){
+    if_line.is(or(IF, ELIF), opt(WS), constant_expression, opt(WS));
     
     constant_expression.is(conditional_expression);
 
@@ -226,7 +261,35 @@ public class CppGrammar extends Grammar {
 
     functionlike_macro.is(IDENTIFIER, opt(WS), "(", opt(WS), argument_list, opt(WS), ")");
   }
+  
+  void else_line(){
+    else_line.is(ELSE, opt(WS));
+  }
 
+  void endif_line(){
+    endif_line.is(ENDIF, opt(WS));
+  }
+
+  void undef_line(){
+    undef_line.is(UNDEF, WS, IDENTIFIER);
+  }
+
+  void line_line(){
+    line_line.is(LINE, WS, one2n(pp_token));
+  }
+
+  void error_line(){
+    error_line.is(ERROR, opt(WS), o2n(pp_token));
+  }
+
+  void pragma_line(){
+    pragma_line.is(PRAGMA, opt(WS), o2n(pp_token));
+  }
+
+  void warning_line(){
+    warning_line.is(WARNING, opt(WS), o2n(pp_token));
+  }
+  
   @Override
   public Rule getRootRule() {
     return preprocessor_line;
