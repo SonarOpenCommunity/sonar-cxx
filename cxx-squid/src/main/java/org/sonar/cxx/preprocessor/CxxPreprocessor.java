@@ -156,7 +156,6 @@ public class CxxPreprocessor extends Preprocessor {
 
     if (ttype == PREPROCESSOR) {
 
-      LOG.debug("parsing '{}'", token.getValue());
       AstNode lineAst = pplineParser.parse(token.getValue()).getChild(0);
       String lineKind = lineAst.getName();
 
@@ -168,6 +167,8 @@ public class CxxPreprocessor extends Preprocessor {
         return handleEndifLine(lineAst, token, filePath);
       } else if("if_line".equals(lineKind)){
         return handleIfLine(lineAst, token, filePath);
+      } else if("elif_line".equals(lineKind)){
+        return handleElIfLine(lineAst, token, filePath);
       }
 
       if(inSkippingMode()){
@@ -266,7 +267,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
-
+  
   PreprocessorAction handleIfLine(AstNode ast, Token token, String filename){
     if(state.skipping){
       state.nestedIfdefs++;
@@ -291,6 +292,30 @@ public class CxxPreprocessor extends Preprocessor {
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
+  PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename){
+    // Handling of an elif line is similar to handling of an if line but
+    // doesnt increase the nesting level
+    if(state.nestedIfdefs == 0){
+      try{
+        state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constant_expression));
+      }
+      catch(EvaluationException e){
+        LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
+                  new Object[]{filename, token.getLine(), token.getValue()});
+        LOG.error(e.toString());
+        state.skipping = false;
+      }
+
+      if(state.skipping){
+        LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+                  new Object[]{filename, token.getLine(), token.getValue()});
+      }
+    }
+
+    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+  }
+
+  
   PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename){
     // Here we have a define directive. Parse it and store the result in a dictionary.
 

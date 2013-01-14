@@ -39,6 +39,14 @@ public class IfExpressionsTest {
     g.constant_expression.mock();
 
     assertThat(p, parse("#if constant_expression"));
+  }
+
+  @Test
+  public void elif_line() {
+    p.setRootRule(g.elif_line);
+    
+    g.constant_expression.mock();
+    
     assertThat(p, parse("#elif constant_expression"));
   }
 

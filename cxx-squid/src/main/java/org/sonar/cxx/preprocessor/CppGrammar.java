@@ -62,6 +62,7 @@ public class CppGrammar extends Grammar {
   public Rule parameter_list;
   public Rule pp_token;
   public Rule if_line;
+  public Rule elif_line;
   public Rule constant_expression;
   public Rule primary_expression;
   public Rule unary_expression;
@@ -116,6 +117,7 @@ public class CppGrammar extends Grammar {
         include_line,
         ifdef_line,
         if_line,
+        elif_line,
         else_line,
         endif_line,
         undef_line,
@@ -181,7 +183,8 @@ public class CppGrammar extends Grammar {
   }
 
   private void if_line(){
-    if_line.is(or(IF, ELIF), opt(WS), constant_expression, opt(WS));
+    if_line.is(IF, opt(WS), constant_expression, opt(WS));
+    elif_line.is(ELIF, opt(WS), constant_expression, opt(WS));
     
     constant_expression.is(conditional_expression);
 

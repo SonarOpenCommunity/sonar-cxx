@@ -49,6 +49,7 @@ public class CppGrammarTest {
     g.include_line.mock();
     g.ifdef_line.mock();
     g.if_line.mock();
+    g.elif_line.mock();
     g.else_line.mock();
     g.endif_line.mock();
     g.undef_line.mock();
@@ -61,6 +62,7 @@ public class CppGrammarTest {
     assertThat(p, parse("include_line"));
     assertThat(p, parse("ifdef_line"));
     assertThat(p, parse("if_line"));
+    assertThat(p, parse("elif_line"));
     assertThat(p, parse("else_line"));
     assertThat(p, parse("endif_line"));
     assertThat(p, parse("undef_line"));

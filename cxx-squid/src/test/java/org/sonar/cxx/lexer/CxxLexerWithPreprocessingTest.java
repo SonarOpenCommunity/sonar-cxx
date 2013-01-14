@@ -420,6 +420,8 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
   }
+
+
   
   @Test
   public void nested_ifs() {
@@ -484,4 +486,17 @@ public class CxxLexerWithPreprocessingTest {
   public void varios_lines() {
     lexer.lex("#include <algorithm>");
   }
+  
+  @Test
+  public void elif_expression() {
+    List<Token> tokens = lexer.lex("#if 0\n"
+                                   + "  if\n"
+                                   + "#elif 1\n"
+                                   + "  elif\n"
+                                   + "#endif\n");
+
+    assertThat(tokens, hasToken("elif", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // elif + EOF
+  }
+
 }
