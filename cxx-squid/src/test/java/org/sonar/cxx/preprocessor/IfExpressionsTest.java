@@ -73,7 +73,9 @@ public class IfExpressionsTest {
 
     assertThat(p, parse("(1 || 0) && (0 && 1)"));
     assertThat(p, parse("(1)"));
+    assertThat(p, parse("( /**/ 1 /**/ )"));
     assertThat(p, parse("__has_feature(cxx_rvalue_references)"));
+    assertThat(p, parse("__has_feature(/**/ cxx_rvalue_references /**/ )"));
   }
 
   @Test
