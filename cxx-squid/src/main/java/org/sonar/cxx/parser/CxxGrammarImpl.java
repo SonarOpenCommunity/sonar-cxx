@@ -675,8 +675,8 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     ptr_declarator.is(
         or(
-            noptr_declarator,
-            and(ptr_operator, ptr_declarator)
+            and(ptr_operator, ptr_declarator),
+            noptr_declarator
         )
         );
 

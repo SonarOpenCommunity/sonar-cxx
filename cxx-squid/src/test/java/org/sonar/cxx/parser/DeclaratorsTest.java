@@ -147,8 +147,16 @@ public class DeclaratorsTest {
     assertThat(p, parse("noptr_declarator"));
     assertThat(p, parse("ptr_operator noptr_declarator"));
     assertThat(p, parse("ptr_operator ptr_operator noptr_declarator"));
+    
   }
 
+  @Test
+  public void ptr_declarator_reallife() {
+    p.setRootRule(g.ptr_declarator);
+
+    assertThat(p, parse("A::*foo"));
+  }
+  
   @Test
   public void ptr_operator() {
     p.setRootRule(g.ptr_operator);
@@ -169,6 +177,13 @@ public class DeclaratorsTest {
     assertThat(p, parse("nested_name_specifier * attribute_specifier_seq cv_qualifier_seq"));
   }
 
+  @Test
+  public void ptr_operator_reallife() {
+    p.setRootRule(g.ptr_operator);
+    
+    assertThat(p, parse("A::*"));
+  }
+  
   @Test
   public void cv_qualifier_seq() {
     p.setRootRule(g.cv_qualifier_seq);
