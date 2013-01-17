@@ -768,22 +768,18 @@ public class CxxGrammarImpl extends CxxGrammar {
     parameter_declaration.is(
         or(
             and(opt(attribute_specifier_seq), parameter_decl_specifier_seq, declarator, opt("=", initializer_clause)),
-            and(opt(attribute_specifier_seq), parameter_decl_specifier_seq, opt(abstract_declarator), opt("=", initializer_clause)),
-
-            // FIXME: this case should actually be covered by the previous rule.
-            // But it doesnt match because of the decl_specifier_seq being to greedy
-            and(type_specifier, opt("=", initializer_clause))
+            and(opt(attribute_specifier_seq), parameter_decl_specifier_seq, opt(abstract_declarator), opt("=", initializer_clause))
         )
         );
 
     parameter_decl_specifier_seq.is(
-      one2n(
-        not(and(declarator, or("=", ")", ","))),
+      o2n(
+        not(and(opt(declarator), or("=", ")", ","))),
         decl_specifier
         ),
       opt(attribute_specifier_seq)
       );
-
+    
     function_definition.is(opt(attribute_specifier_seq), opt(function_decl_specifier_seq), declarator, opt(virt_specifier_seq), function_body);
     
     function_decl_specifier_seq.is(
