@@ -101,8 +101,6 @@ public class CppGrammarTest {
 
     assertThat(p, parse("#include <pp_token>"));
     assertThat(p, parse("#include_next <pp_token>"));
-    assertThat(p, parse("#include <pp_token pp_token>"));
-    assertThat(p, parse("#include_next <pp_token pp_token>"));
     assertThat(p, parse("#include \"jabadu\""));
   }
 
@@ -117,6 +115,8 @@ public class CppGrammarTest {
     assertThat(p, parse("#include \"file.h\""));
     assertThat(p, parse("#include \"fi_le.h\""));
     assertThat(p, parse("#include <bits/typesizes.h>	/* Defines __*_T_TYPE macros.  */"));
+    assertThat(p, parse("#include /**/ <ace/config-all.h>"));
+    assertThat(p, parse("#include <math.h> /**/ /**/"));
   }
 
   @Test
@@ -132,6 +132,7 @@ public class CppGrammarTest {
     assertThat(p, parse("#ifdef foo"));
     assertThat(p, parse("#ifndef foo"));
     assertThat(p, parse("#ifdef __GNUC__ // aka CONST but following LLVM Conventions."));
+    assertThat(p, parse("#ifdef /**/ lala /**/ "));
   }
 
   @Test
