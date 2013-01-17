@@ -100,7 +100,14 @@ public class CxxGrammar extends Grammar {
   public Rule empty_declaration;
   public Rule attribute_declaration;
   public Rule decl_specifier;
-  public Rule decl_specifier_seq;
+  
+  public Rule condition_decl_specifier_seq;
+  public Rule forrange_decl_specifier_seq;
+  public Rule parameter_decl_specifier_seq;
+  public Rule function_decl_specifier_seq;
+  public Rule simple_decl_specifier_seq;
+  public Rule member_decl_specifier_seq;
+
   public Rule storage_class_specifier;
   public Rule function_specifier;
   public Rule typedef_name;

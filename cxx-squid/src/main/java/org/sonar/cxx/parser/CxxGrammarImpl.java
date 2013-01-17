@@ -171,7 +171,7 @@ public class CxxGrammarImpl extends CxxGrammar {
     postfix_expression.is(
         or(
             and(simple_type_specifier, "(", opt(expression_list), ")",
-                // TODO: thats a clumsy trial to disabmiguate that rule from a fuction call.
+                // TODO: thats a clumsy trial to disabmiguate that rule from a function call.
                 // make it smarter.
                 not(or(".", "->"))),
             and(simple_type_specifier, braced_init_list),
@@ -358,11 +358,19 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     condition.is(
         or(
-            and(opt(attribute_specifier_seq), decl_specifier_seq, declarator, or(and("=", initializer_clause), braced_init_list)),
+            and(opt(attribute_specifier_seq), condition_decl_specifier_seq, declarator, or(and("=", initializer_clause), braced_init_list)),
             expression
-        )
-        );
-
+          )
+      );
+    
+    condition_decl_specifier_seq.is(
+      one2n(
+        not(and(declarator, or("=", "{"))),
+        decl_specifier
+        ),
+      opt(attribute_specifier_seq)
+      );
+     
     iteration_statement.is(
         or(
             and("while", "(", condition, ")", statement),
@@ -379,8 +387,16 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    for_range_declaration.is(opt(attribute_specifier_seq), decl_specifier_seq, declarator);
+    for_range_declaration.is(opt(attribute_specifier_seq), forrange_decl_specifier_seq, declarator);
 
+    forrange_decl_specifier_seq.is(
+      one2n(
+        not( declarator ),
+        decl_specifier
+        ),
+      opt(attribute_specifier_seq)
+      );
+    
     for_range_initializer.is(
         or(
             expression,
@@ -435,11 +451,19 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     simple_declaration.is(
       or(
-            and(opt(decl_specifier_seq), opt(init_declarator_list), ";"),
-            and(attribute_specifier_seq, opt(decl_specifier_seq), init_declarator_list, ";")
+        and(opt(simple_decl_specifier_seq), opt(init_declarator_list), ";"),
+        and(attribute_specifier_seq, opt(simple_decl_specifier_seq), init_declarator_list, ";")
         )
-        );
+      );
 
+    simple_decl_specifier_seq.is(
+      one2n(
+        not(and( opt(init_declarator_list), ";" )),
+        decl_specifier
+        ),
+      opt(attribute_specifier_seq)
+      );
+    
     static_assert_declaration.is("static_assert", "(", constant_expression, ",", STRING, ")", ";");
 
     empty_declaration.is(";");
@@ -454,21 +478,6 @@ public class CxxGrammarImpl extends CxxGrammar {
             type_specifier
         )
         );
-
-    decl_specifier_seq.is(
-      // FIXME: this implementation failes for constructs like 'Result
-      // (*ptr)()'. The problem here is that 'Result' is not consumed
-      // as a decl_specifier because of the predicate recognizing
-      // 'Result(' wrongly as a declarator followed by '('. Seems like
-      // the lookahead logic in decl_specifier_seq has to get smarter,
-      // somehow...
-      
-      one2n(
-        not(and(declarator, or("=", ";", "{", "(", ":", ",", virt_specifier))),
-        decl_specifier
-        ),
-      opt(attribute_specifier_seq)
-      );
 
     storage_class_specifier.is(
         or("register", "static", "thread_local", "extern", "mutable")
@@ -758,8 +767,8 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     parameter_declaration.is(
         or(
-            and(opt(attribute_specifier_seq), decl_specifier_seq, declarator, opt("=", initializer_clause)),
-            and(opt(attribute_specifier_seq), decl_specifier_seq, opt(abstract_declarator), opt("=", initializer_clause)),
+            and(opt(attribute_specifier_seq), parameter_decl_specifier_seq, declarator, opt("=", initializer_clause)),
+            and(opt(attribute_specifier_seq), parameter_decl_specifier_seq, opt(abstract_declarator), opt("=", initializer_clause)),
 
             // FIXME: this case should actually be covered by the previous rule.
             // But it doesnt match because of the decl_specifier_seq being to greedy
@@ -767,8 +776,24 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    function_definition.is(opt(attribute_specifier_seq), opt(decl_specifier_seq), declarator, opt(virt_specifier_seq), function_body);
+    parameter_decl_specifier_seq.is(
+      one2n(
+        not(and(declarator, or("=", ")", ","))),
+        decl_specifier
+        ),
+      opt(attribute_specifier_seq)
+      );
 
+    function_definition.is(opt(attribute_specifier_seq), opt(function_decl_specifier_seq), declarator, opt(virt_specifier_seq), function_body);
+    
+    function_decl_specifier_seq.is(
+      one2n(
+        not(and(declarator, opt(virt_specifier_seq), function_body)),
+        decl_specifier
+        ),
+      opt(attribute_specifier_seq)
+      );
+    
     function_body.is(
         or(
             and(opt(ctor_initializer), compound_statement),
@@ -840,10 +865,7 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     member_declaration.is(
         or(
-            //TODO: remove after the decl_specifier_seq has been made smarter.
-            and(opt(attribute_specifier_seq), decl_specifier, opt(member_declarator_list), ";"),
-
-            and(opt(attribute_specifier_seq), opt(decl_specifier_seq), opt(member_declarator_list), ";"),
+            and(opt(attribute_specifier_seq), opt(member_decl_specifier_seq), opt(member_declarator_list), ";"),
             and(function_definition, opt(";")),
             and(opt("::"), nested_name_specifier, opt("template"), unqualified_id, ";"),
             using_declaration,
@@ -853,6 +875,14 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
+    member_decl_specifier_seq.is(
+      one2n(
+        not(and( opt(member_declarator_list), ";" )),
+        decl_specifier
+        ),
+      opt(attribute_specifier_seq)
+      );
+    
     member_declarator_list.is(member_declarator, o2n(",", member_declarator));
 
     member_declarator.is(

@@ -333,24 +333,24 @@ public class DeclaratorsTest {
     p.setRootRule(g.parameter_declaration);
 
     g.attribute_specifier_seq.mock();
-    g.decl_specifier_seq.mock();
+    g.parameter_decl_specifier_seq.mock();
     g.declarator.mock();
     g.initializer_clause.mock();
     g.abstract_declarator.mock();
 
-    assertThat(p, parse("decl_specifier_seq declarator"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq declarator"));
+    assertThat(p, parse("parameter_decl_specifier_seq declarator"));
+    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq declarator"));
 
-    assertThat(p, parse("decl_specifier_seq declarator = initializer_clause"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq declarator = initializer_clause"));
+    assertThat(p, parse("parameter_decl_specifier_seq declarator = initializer_clause"));
+    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq declarator = initializer_clause"));
 
-    assertThat(p, parse("decl_specifier_seq"));
-    assertThat(p, parse("decl_specifier_seq abstract_declarator"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq abstract_declarator"));
+    assertThat(p, parse("parameter_decl_specifier_seq"));
+    assertThat(p, parse("parameter_decl_specifier_seq abstract_declarator"));
+    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq abstract_declarator"));
 
-    assertThat(p, parse("decl_specifier_seq = initializer_clause"));
-    assertThat(p, parse("decl_specifier_seq abstract_declarator = initializer_clause"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq abstract_declarator = initializer_clause"));
+    assertThat(p, parse("parameter_decl_specifier_seq = initializer_clause"));
+    assertThat(p, parse("parameter_decl_specifier_seq abstract_declarator = initializer_clause"));
+    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq abstract_declarator = initializer_clause"));
   }
 
   @Test
@@ -370,15 +370,15 @@ public class DeclaratorsTest {
     p.setRootRule(g.function_definition);
 
     g.attribute_specifier_seq.mock();
-    g.decl_specifier_seq.mock();
+    g.function_decl_specifier_seq.mock();
     g.declarator.mock();
     g.virt_specifier_seq.mock();
     g.function_body.mock();
 
     assertThat(p, parse("declarator function_body"));
     assertThat(p, parse("attribute_specifier_seq declarator function_body"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq declarator function_body"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq declarator virt_specifier_seq function_body"));
+    assertThat(p, parse("attribute_specifier_seq function_decl_specifier_seq declarator function_body"));
+    assertThat(p, parse("attribute_specifier_seq function_decl_specifier_seq declarator virt_specifier_seq function_body"));
   }
 
   @Test

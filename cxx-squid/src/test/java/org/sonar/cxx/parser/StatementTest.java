@@ -135,15 +135,15 @@ public class StatementTest {
     g.attribute_specifier_seq.mock();
     g.expression.mock();
     g.declarator.mock();
-    g.decl_specifier_seq.mock();
+    g.condition_decl_specifier_seq.mock();
     g.initializer_clause.mock();
     g.braced_init_list.mock();
 
     assertThat(p, parse("expression"));
-    assertThat(p, parse("decl_specifier_seq declarator = initializer_clause"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq declarator = initializer_clause"));
-    assertThat(p, parse("decl_specifier_seq declarator braced_init_list"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq declarator braced_init_list"));
+    assertThat(p, parse("condition_decl_specifier_seq declarator = initializer_clause"));
+    assertThat(p, parse("attribute_specifier_seq condition_decl_specifier_seq declarator = initializer_clause"));
+    assertThat(p, parse("condition_decl_specifier_seq declarator braced_init_list"));
+    assertThat(p, parse("attribute_specifier_seq condition_decl_specifier_seq declarator braced_init_list"));
   }
 
   @Test
@@ -191,12 +191,12 @@ public class StatementTest {
   public void for_range_declaration() {
     p.setRootRule(g.for_range_declaration);
 
-    g.decl_specifier_seq.mock();
+    g.forrange_decl_specifier_seq.mock();
     g.declarator.mock();
     g.attribute_specifier_seq.mock();
 
-    assertThat(p, parse("decl_specifier_seq declarator"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq declarator"));
+    assertThat(p, parse("forrange_decl_specifier_seq declarator"));
+    assertThat(p, parse("attribute_specifier_seq forrange_decl_specifier_seq declarator"));
   }
 
   @Test

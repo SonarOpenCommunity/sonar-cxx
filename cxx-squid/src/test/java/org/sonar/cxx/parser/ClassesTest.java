@@ -109,7 +109,7 @@ public class ClassesTest {
     p.setRootRule(g.member_declaration);
 
     g.attribute_specifier_seq.mock();
-    g.decl_specifier_seq.mock();
+    g.member_decl_specifier_seq.mock();
     g.member_declarator_list.mock();
     g.function_definition.mock();
     g.nested_name_specifier.mock();
@@ -120,7 +120,7 @@ public class ClassesTest {
     g.alias_declaration.mock();
 
     assertThat(p, parse(";"));
-    assertThat(p, parse("attribute_specifier_seq decl_specifier_seq member_declarator_list ;"));
+    assertThat(p, parse("attribute_specifier_seq member_decl_specifier_seq member_declarator_list ;"));
 
     assertThat(p, parse("function_definition"));
     assertThat(p, parse("function_definition ;"));
