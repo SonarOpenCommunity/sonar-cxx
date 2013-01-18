@@ -52,7 +52,7 @@ public class SourceCodeProvider {
         LOG.error("cannot get canonical form of: '{}'", includeRoot);
       }
       
-      if (includeRoot.exists()) {
+      if (includeRoot.isDirectory()) {
         LOG.debug("storing include root: '{}'", includeRoot);
         this.includeRoots.add(includeRoot);
       }
@@ -66,7 +66,7 @@ public class SourceCodeProvider {
     File result = null;
     File file = new File(filename);
     if (file.isAbsolute()){
-      if (file.exists()) {
+      if (file.isFile()) {
         result = file;
       }
     }
@@ -76,7 +76,7 @@ public class SourceCodeProvider {
       // current directory.
       if(quoted){
         File abspath = new File(new File(cwd), file.getPath());
-        if(abspath.exists()){
+        if(abspath.isFile()){
           result = abspath;
         }
       }
@@ -87,7 +87,7 @@ public class SourceCodeProvider {
       if(result == null){
         for (File folder : includeRoots) {
           File abspath = new File(folder.getPath(), filename);
-          if (abspath.exists()){
+          if (abspath.isFile()){
             result = abspath;
             break;
           }
@@ -108,7 +108,7 @@ public class SourceCodeProvider {
     
   public String getSourceCode(File file) {
     String code = null;
-    if (file.exists()) {
+    if (file.isFile()) {
       try {
         code = FileUtils.readFileToString(file);
       } catch (java.io.IOException e) {
