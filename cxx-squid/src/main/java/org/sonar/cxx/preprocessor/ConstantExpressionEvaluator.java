@@ -51,7 +51,7 @@ public final class ConstantExpressionEvaluator {
   }
   
   private int evalToInt(AstNode exprAst) {
-    LOG.debug("Evaluating expression: {}", exprAst);
+    LOG.trace("Evaluating expression: {}", exprAst);
 
     int noChildren = exprAst.getNumberOfChildren();
     if(noChildren == 0){
