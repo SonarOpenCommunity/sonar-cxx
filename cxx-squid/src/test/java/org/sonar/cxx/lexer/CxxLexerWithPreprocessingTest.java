@@ -483,11 +483,6 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void varios_lines() {
-    lexer.lex("#include <algorithm>");
-  }
-  
-  @Test
   public void elif_expression() {
     List<Token> tokens = lexer.lex("#if 0\n"
                                    + "  if\n"
@@ -499,4 +494,14 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // elif + EOF
   }
 
+  @Test
+  public void continued_preprocessor_directive() {
+    //continuations mask only one succeeding newline
+    List<Token> tokens = lexer.lex("#define M macrobody\\\n"
+                                   + "\n"
+                                   + "external");
+    assertThat(tokens, hasToken("external", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // external + EOF
+  }
+  
 }

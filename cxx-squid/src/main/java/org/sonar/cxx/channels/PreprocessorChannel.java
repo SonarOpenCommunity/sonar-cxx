@@ -64,9 +64,10 @@ public class PreprocessorChannel extends Channel<Lexer> {
         // consume both the backslash and the newline, insert a space instead
         consumeNewline(code);
         sb.append(' ');
-        ch = (char) code.pop();
       }
-      sb.append(ch);
+      else{
+        sb.append(ch);
+      }
     }
     return sb.toString();
   }
