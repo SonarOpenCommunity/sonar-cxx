@@ -406,7 +406,7 @@ public class CxxPreprocessor extends Preprocessor {
 
         ppaction = new PreprocessorAction(
           tokensConsumed,
-          Lists.newArrayList(Trivia.createSkippedText(curr)), // TODO: should we put all replaced tokens herein?
+          Lists.newArrayList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
           replTokens);
       }
     }
