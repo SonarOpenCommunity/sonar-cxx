@@ -153,11 +153,8 @@ public final class CxxAstScanner {
         .build());
 
     AstNodeType[] complexityAstNodeType = new AstNodeType[] {
-      // TODO: why this??
       // Entry points
       parser.getGrammar().function_definition,
-
-      // TODO: what about return and throw statements?
 
       CxxKeyword.IF,
       CxxKeyword.FOR,

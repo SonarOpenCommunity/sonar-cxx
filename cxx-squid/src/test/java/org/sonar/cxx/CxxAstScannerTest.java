@@ -48,8 +48,7 @@ public class CxxAstScannerTest {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/comments.cc"));
     assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(4);
     assertThat(file.getInt(CxxMetric.COMMENT_BLANK_LINES)).isEqualTo(3);
-    // TODO: doesn't work yet... probably needs a checker implementation or something
-    // assertThat(file.getNoSonarTagLines()).contains(3).hasSize(3);
+    assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
   }
 
   @Test

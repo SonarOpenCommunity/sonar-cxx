@@ -1,7 +1,6 @@
 List of items to do:
 
 - Implement standard macros like __FILE__, __LINE__ etc.
-- Fix the known parse issues (like the typedef one)
 - Look at the statement count issue
 - Deal with usage of depricated API's
 - cleanup the sources using sonar

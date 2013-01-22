@@ -170,10 +170,7 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     postfix_expression.is(
         or(
-            and(simple_type_specifier, "(", opt(expression_list), ")",
-                // TODO: thats a clumsy trial to disabmiguate that rule from a function call.
-                // make it smarter.
-                not(or(".", "->"))),
+            and(simple_type_specifier, "(", opt(expression_list), ")"),
             and(simple_type_specifier, braced_init_list),
             and(typename_specifier, "(", opt(expression_list), ")"),
             and(typename_specifier, braced_init_list),

@@ -5,4 +5,5 @@
 /* c-style multi-line comment
  */
 /**/
+//NOSONAR
 main(){}

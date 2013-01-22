@@ -55,7 +55,7 @@ public class IfExpressionsTest {
     p.setRootRule(g.if_line);
     
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
-    assertThat(p, parse("#if 0   // TODO: Re-enable once PR13021 is fixed."));
+    assertThat(p, parse("#if 0   // Re-enable once PR13021 is fixed."));
   }
 
   @Test
