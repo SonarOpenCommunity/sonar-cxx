@@ -112,7 +112,7 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(2.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0)); //??
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(0.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(1.0));
   }
@@ -133,7 +133,7 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(16.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(5.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0)); //??
+    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(5.0));
     verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
