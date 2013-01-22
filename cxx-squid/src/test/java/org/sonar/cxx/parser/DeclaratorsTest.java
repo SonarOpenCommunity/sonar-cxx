@@ -378,6 +378,7 @@ public class DeclaratorsTest {
     assertThat(p, parse("const auto_ptr<T>& p"));
     assertThat(p, parse("string"));
     assertThat(p, parse("::P& c"));
+    assertThat(p, parse("bool (A::*bar)(void)"));
   }
 
   @Test

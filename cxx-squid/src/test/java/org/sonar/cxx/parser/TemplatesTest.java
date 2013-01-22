@@ -53,6 +53,7 @@ public class TemplatesTest {
     assertThat(p, parse("template <class T> ostream& operator<< (ostream& strm);"));
     assertThat(p, parse("template <class T> ostream& operator<< (const auto_ptr<T>& p);"));
     assertThat(p, parse("template <class T> ostream& operator<< (ostream& strm, const auto_ptr<T>& p);"));
+    assertThat(p, parse("template<bool (A::*bar)(void)> void foo();"));
   }
 
   @Test
