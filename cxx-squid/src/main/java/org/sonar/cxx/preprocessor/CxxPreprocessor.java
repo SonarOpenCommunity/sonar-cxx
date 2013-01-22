@@ -155,8 +155,15 @@ public class CxxPreprocessor extends Preprocessor {
     String filePath = file == null? token.getURI().toString() : file.getAbsolutePath();
 
     if (ttype == PREPROCESSOR) {
-
-      AstNode lineAst = pplineParser.parse(token.getValue()).getChild(0);
+      
+      AstNode lineAst = null;
+      try{
+        lineAst = pplineParser.parse(token.getValue()).getChild(0);
+      } catch(com.sonar.sslr.api.RecognitionException re){
+        LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
+        return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+      }
+      
       String lineKind = lineAst.getName();
 
       if("ifdef_line".equals(lineKind)){

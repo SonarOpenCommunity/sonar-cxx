@@ -45,13 +45,20 @@ public final class ConstantExpressionEvaluator {
     return evalToInt(constExpr) != 0;
   }
 
-  private int evalToInt(String constExpr){
-    AstNode constExprAst = parser.parse(constExpr);
+  private long evalToInt(String constExpr){
+    AstNode constExprAst = null;
+    try{
+      constExprAst = parser.parse(constExpr);
+    } catch(com.sonar.sslr.api.RecognitionException re){
+      LOG.warn("Error parsing expresison '{}', assuming 0", constExpr);
+      return 0;
+    }
+    
     return evalToInt(constExprAst);
   }
   
-  private int evalToInt(AstNode exprAst) {
-    LOG.debug("Evaluating expression: {}", exprAst);
+  private long evalToInt(AstNode exprAst) {
+    LOG.trace("Evaluating expression: {}", exprAst);
 
     int noChildren = exprAst.getNumberOfChildren();
     if(noChildren == 0){
@@ -63,7 +70,7 @@ public final class ConstantExpressionEvaluator {
     return evalComplexAst(exprAst);
   }
 
-  private int evalLeaf(AstNode exprAst){
+  private long evalLeaf(AstNode exprAst){
     // Evaluation of leafs
     //
     String nodeType = exprAst.getName();
@@ -79,7 +86,7 @@ public final class ConstantExpressionEvaluator {
     }
   }
 
-  private int evalOneChildAst(AstNode exprAst){
+  private long evalOneChildAst(AstNode exprAst){
     // Evaluation of booleans and 'pass-through's
     //
     String nodeType = exprAst.getName();
@@ -89,7 +96,7 @@ public final class ConstantExpressionEvaluator {
     return evalToInt(exprAst.getChild(0));
   }
 
-  private int evalComplexAst(AstNode exprAst){
+  private long evalComplexAst(AstNode exprAst){
     // More complex expressions with more than one child
     //
     String nodeType = exprAst.getName();
@@ -129,34 +136,41 @@ public final class ConstantExpressionEvaluator {
   }
   
   /////////////////// Primitives //////////////////////
-  int evalBool(String boolValue){
+  long evalBool(String boolValue){
     return boolValue.equalsIgnoreCase("true") ? 1 : 0;
   }
 
-  int evalNumber(String intValue){
+  long evalNumber(String intValue){
     // the if expressions arent allowed to contain floats
-
-    return Integer.decode(stripSuffix(intValue)).intValue();
+    long number = 0;
+    try{
+      number = Long.decode(stripSuffix(intValue)).longValue();
+    } catch(java.lang.NumberFormatException nfe) {
+      number = Long.MAX_VALUE;
+      LOG.warn("Cannot decode the number '{}' falling back to max long ({}) instead", number);
+    }
+    
+    return number;
   }
 
-  int evalCharacter(String charValue){
+  long evalCharacter(String charValue){
     // TODO: replace this simplification by something more sane
     return charValue.equals("'\0'") ? 0 : 1;
   }
 
 
   //////////////// logical expressions ///////////////////////////
-  int evalLogicalOrExpression(AstNode exprAst){
+  long evalLogicalOrExpression(AstNode exprAst){
     boolean result = eval(exprAst.getChild(0)) || eval(exprAst.getChild(2));
     return result ? 1 : 0;
   }
 
-  int evalLogicalAndExpression(AstNode exprAst){
+  long evalLogicalAndExpression(AstNode exprAst){
     boolean result = eval(exprAst.getChild(0)) && eval(exprAst.getChild(2));
     return result ? 1 : 0;
   }
 
-  int evalEqualityExpression(AstNode exprAst){
+  long evalEqualityExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
@@ -172,7 +186,7 @@ public final class ConstantExpressionEvaluator {
     return result ? 1 : 0;
   }
 
-  int evalRelationalExpression(AstNode exprAst){
+  long evalRelationalExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
@@ -194,21 +208,21 @@ public final class ConstantExpressionEvaluator {
 
 
   /////////////////// bitwise expressions ///////////////////////
-  int evalAndExpression(AstNode exprAst){
+  long evalAndExpression(AstNode exprAst){
     return evalToInt(exprAst.getChild(0)) & evalToInt(exprAst.getChild(2));
   }
 
-  int evalInclusiveOrExpression(AstNode exprAst){
+  long evalInclusiveOrExpression(AstNode exprAst){
     return evalToInt(exprAst.getChild(0)) | evalToInt(exprAst.getChild(2));
   }
 
-  int evalExclusiveOrExpression(AstNode exprAst){
+  long evalExclusiveOrExpression(AstNode exprAst){
     return evalToInt(exprAst.getChild(0)) ^ evalToInt(exprAst.getChild(2));
   }
 
 
   /////////////////// other ... ///////////////////
-  int evalUnaryExpression(AstNode exprAst){
+  long evalUnaryExpression(AstNode exprAst){
     // only 'unary-operator cast-expression' production is allowed in #if-context
 
     String operator = exprAst.getChild(0).getTokenValue();
@@ -228,7 +242,7 @@ public final class ConstantExpressionEvaluator {
     }
   }
 
-  int evalShiftExpression(AstNode exprAst){
+  long evalShiftExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
@@ -241,7 +255,7 @@ public final class ConstantExpressionEvaluator {
     }
   }
 
-  int evalAdditiveExpression(AstNode exprAst){
+  long evalAdditiveExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
@@ -254,7 +268,7 @@ public final class ConstantExpressionEvaluator {
     }
   }
 
-  int evalMultiplicativeExpression(AstNode exprAst){
+  long evalMultiplicativeExpression(AstNode exprAst){
     String operator = exprAst.getChild(1).getTokenValue();
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
@@ -269,26 +283,26 @@ public final class ConstantExpressionEvaluator {
     }
   }
 
-  int evalConditionalExpression(AstNode exprAst){
+  long evalConditionalExpression(AstNode exprAst){
     AstNode decisionOperand = exprAst.getChild(0);
     AstNode trueCaseOperand = exprAst.getChild(2);
     AstNode falseCaseOperand = exprAst.getChild(4);
     return eval(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
   }
 
-  int evalPrimaryExpression(AstNode exprAst){
+  long evalPrimaryExpression(AstNode exprAst){
     // case "( expression )"
     return evalToInt(exprAst.getChild(1));
   }
 
-  int evalDefinedExpression(AstNode exprAst){
+  long evalDefinedExpression(AstNode exprAst){
     int posOfMacroName = exprAst.getNumberOfChildren() == 2 ? 1 : 2;
     String macroName = exprAst.getChild(posOfMacroName).getTokenValue();
     String value = preprocessor.valueOf(macroName);
     return value == null ? 0 : 1;
   }
 
-  int evalFunctionlikeMacro(AstNode exprAst){
+  long evalFunctionlikeMacro(AstNode exprAst){
     // Probably we should use (made public) preprocessor.expandMacro functionality here...
     // Use valueOf for now.
     String macroName = exprAst.getChild(0).getTokenValue();
