@@ -77,6 +77,8 @@ public class DeclarationsTest {
     assertThat(p, parse("sometype& somefunc();"));
     assertThat(p, parse("sometype foo();"));
     assertThat(p, parse("sometype (*foo)(void);"));
+    assertThat(p, parse("aligned_storage<sizeof(result_type)> cache;"));
+    assertThat(p, parse("template<typename Args> void result(Args const &(2) ) const {}"));
   }
 
   @Test

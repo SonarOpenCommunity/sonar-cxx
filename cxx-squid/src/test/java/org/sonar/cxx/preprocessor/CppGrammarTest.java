@@ -78,6 +78,7 @@ public class CppGrammarTest {
     assertThat(p, parse("#endif  // LLVM_DEBUGINFO_DWARFDEBUGRANGELIST_H"));
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
     assertThat(p, parse("#include <algorithm>"));
+    assertThat(p, parse("# /* See http://www.boost.org for most recent version. */"));
   }
   
   @Test
@@ -260,6 +261,15 @@ public class CppGrammarTest {
     p.setRootRule(g.warning_line);
     
     assertThat(p, parse("#warning foo"));
+  }
+
+  @Test
+  public void misc_line() {
+    p.setRootRule(g.misc_line);
+    
+    assertThat(p, parse("#"));
+    assertThat(p, parse("# lala"));
+    assertThat(p, parse("#lala"));
   }
   
   @Test

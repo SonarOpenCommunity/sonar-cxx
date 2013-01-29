@@ -47,6 +47,7 @@ import static org.sonar.cxx.api.CppKeyword.ERROR;
 import static org.sonar.cxx.api.CppKeyword.PRAGMA;
 import static org.sonar.cxx.api.CppKeyword.WARNING;
 import static org.sonar.cxx.api.CxxTokenType.WS;
+import static org.sonar.cxx.api.CppPunctuator.HASH;
 
 /**
  * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
@@ -92,6 +93,7 @@ public class CppGrammar extends Grammar {
   public Rule error_line;
   public Rule pragma_line;
   public Rule warning_line;
+  public Rule misc_line;
 
   public CppGrammar() {
     toplevel();
@@ -106,6 +108,7 @@ public class CppGrammar extends Grammar {
     error_line();
     pragma_line();
     warning_line();
+    misc_line();
 
     GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
   }
@@ -124,7 +127,8 @@ public class CppGrammar extends Grammar {
         line_line,
         error_line,
         pragma_line,
-        warning_line
+        warning_line,
+        misc_line
         )
       );
   }
@@ -292,7 +296,11 @@ public class CppGrammar extends Grammar {
   void warning_line(){
     warning_line.is(WARNING, o2n(WS), o2n(pp_token));
   }
-  
+
+  void misc_line(){
+    misc_line.is(HASH, o2n(pp_token));
+  }
+
   @Override
   public Rule getRootRule() {
     return preprocessor_line;

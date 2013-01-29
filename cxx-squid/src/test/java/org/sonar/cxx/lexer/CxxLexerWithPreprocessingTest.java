@@ -504,4 +504,14 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // external + EOF
   }
   
+  @Test
+  public void misc_preprocessor_lines() {
+    //a line which begins with a hash is a preprocessor line
+    //it doesnt have any meaning in our context and should be just ignored
+    
+    assertThat(lexer.lex("#")).hasSize(1); // EOF
+    assertThat(lexer.lex("#lala")).hasSize(1); // EOF
+    assertThat(lexer.lex("# lala")).hasSize(1); // EOF
+  }
+
 }

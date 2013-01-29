@@ -1006,14 +1006,14 @@ public class CxxGrammarImpl extends CxxGrammar {
 
             // FIXME: workaround to parse stuff like "carray<int, 10>"
             // actually, it should be covered by the next rule (constant_expression)
-            // but it doesnt work. 
-            literal,
-            
+            // but it doesnt work because of ambiguity template syntax <--> relational_expression
+            shift_expression,
             constant_expression,
+            
             id_expression
-        )
+          )
         );
-
+    
     typename_specifier.is(
         "typename", nested_name_specifier,
         or(and(opt("template"), simple_template_id), IDENTIFIER));
