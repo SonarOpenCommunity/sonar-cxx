@@ -41,6 +41,13 @@ public class MapChainTest {
     mc.putLowPrio("k", "v");
     assertEquals(mc.get("k"), "v");
   }
+  
+  @Test
+  public void removeLowPrioMapping() {
+    mc.putLowPrio("k", "v");
+    mc.removeLowPrio("k");
+    assertEquals(mc.get("k"), null);
+  }
 
   @Test
   public void gettingNotExistingMapping() {

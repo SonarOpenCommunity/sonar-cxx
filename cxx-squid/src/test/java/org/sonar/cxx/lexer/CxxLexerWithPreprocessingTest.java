@@ -513,5 +513,13 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(lexer.lex("#lala")).hasSize(1); // EOF
     assertThat(lexer.lex("# lala")).hasSize(1); // EOF
   }
-
+  
+  @Test
+  public void undef_works() {
+    List<Token> tokens = lexer.lex("#define a b\n"
+                                   + "#undef a\n"
+                                   + "a\n");
+    assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // a + EOF
+  }
 }

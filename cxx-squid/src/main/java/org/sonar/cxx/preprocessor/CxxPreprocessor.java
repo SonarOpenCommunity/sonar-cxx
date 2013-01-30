@@ -186,6 +186,8 @@ public class CxxPreprocessor extends Preprocessor {
         return handleDefineLine(lineAst, token, filePath);
       } else if("include_line".equals(lineKind)){
         return handleIncludeLine(lineAst, token, filePath);
+      } else if("undef_line".equals(lineKind)){
+        return handleUndefLine(lineAst, token, filePath);
       }
 
       // Ignore all other preprocessor directives (which are not handled explicitly)
@@ -366,6 +368,12 @@ public class CxxPreprocessor extends Preprocessor {
       LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[]{filename, token.getLine(), includedFile});
     }
 
+    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
+  }
+  
+  PreprocessorAction handleUndefLine(AstNode ast, Token token, String filename){
+    String macroName = ast.findFirstChild(IDENTIFIER).getTokenValue();
+    macros.removeLowPrio(macroName);
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
