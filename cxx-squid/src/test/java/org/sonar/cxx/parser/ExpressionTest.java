@@ -491,6 +491,13 @@ public class ExpressionTest {
   }
 
   @Test
+  public void multiplicative_expression_reallive() {
+    p.setRootRule(g.multiplicative_expression);
+    
+    assertThat(p, parse("N / 1"));
+  }
+  
+  @Test
   public void pm_expression() {
     p.setRootRule(g.pm_expression);
     g.cast_expression.mock();

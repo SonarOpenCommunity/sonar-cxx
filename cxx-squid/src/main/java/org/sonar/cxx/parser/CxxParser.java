@@ -20,6 +20,7 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.impl.events.ExtendedStackTrace;
 import com.sonar.sslr.impl.events.ParsingEventListener;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
@@ -66,4 +67,17 @@ public final class CxxParser {
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
       .setParsingEventListeners(parseEventPropagator).build();
   }
+
+  public static Parser<CxxGrammar> createDebugParser(SquidAstVisitorContext<CxxGrammar> context,
+                                                     ExtendedStackTrace stackTrace) {
+    CxxConfiguration conf = new CxxConfiguration();
+    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
+    parseEventPropagator = new CxxParseEventPropagator(cxxpp, context);
+    return Parser.builder((CxxGrammar) new CxxGrammarImpl())
+      .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
+      .setParsingEventListeners(parseEventPropagator)
+      .setExtendedStackTrace(stackTrace)
+      .build();
+  }
+
 }

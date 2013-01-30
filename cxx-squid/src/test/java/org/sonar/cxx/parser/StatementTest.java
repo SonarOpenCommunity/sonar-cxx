@@ -20,6 +20,8 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.impl.events.ExtendedStackTrace;
+import com.sonar.sslr.impl.events.ExtendedStackTraceStream;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
@@ -30,7 +32,8 @@ import static org.mockito.Mockito.mock;
 
 public class StatementTest {
 
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  ExtendedStackTrace stackTrace = new ExtendedStackTrace();
+  Parser<CxxGrammar> p = CxxParser.createDebugParser(mock(SquidAstVisitorContext.class), stackTrace);
   CxxGrammar g = p.getGrammar();
 
   @Test

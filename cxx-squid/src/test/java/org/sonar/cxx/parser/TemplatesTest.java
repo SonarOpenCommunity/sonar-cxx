@@ -20,6 +20,8 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.impl.events.ExtendedStackTrace;
+import com.sonar.sslr.impl.events.ExtendedStackTraceStream;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
@@ -30,7 +32,8 @@ import static org.mockito.Mockito.mock;
 
 public class TemplatesTest {
 
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  ExtendedStackTrace stackTrace = new ExtendedStackTrace();
+  Parser<CxxGrammar> p = CxxParser.createDebugParser(mock(SquidAstVisitorContext.class), stackTrace);
   CxxGrammar g = p.getGrammar();
 
   @Test
@@ -99,6 +102,12 @@ public class TemplatesTest {
     p.setRootRule(g.simple_template_id);
 
     assertThat(p, parse("sometype<int>"));
+    assertThat(p, parse("vector<Person*>"));
+    //assertThat(p, parse("sometype<N/2>"));
+    // try{
+    //   p.parse("vector<Person*>");
+    // } catch(Exception e){}
+    // ExtendedStackTraceStream.print(stackTrace, System.out);
   }
 
   @Test
