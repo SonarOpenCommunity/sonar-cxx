@@ -271,14 +271,4 @@ public class CppGrammarTest {
     assertThat(p, parse("# lala"));
     assertThat(p, parse("#lala"));
   }
-  
-  @Test
-  public void stress_test() {
-    try{
-    List<String> lines = FileUtils.readLines(new File("/home/wen/pptokens"));
-    for(String line: lines)
-      assertThat(p, parse(line));
-
-    } catch(Exception e) {}
-  }    
 }

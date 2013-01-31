@@ -20,6 +20,7 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.api.AstNode;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
 
@@ -56,6 +57,10 @@ public class IfExpressionsTest {
     
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
     assertThat(p, parse("#if 0   // Re-enable once PR13021 is fixed."));
+    
+    assert(p.parse("#if A (4, 1)").findFirstChild(g.functionlike_macro) != null);
+    assert(p.parse("#if A ()").findFirstChild(g.functionlike_macro) != null);
+    assert(p.parse("#if A()").findFirstChild(g.functionlike_macro) != null);
   }
 
   @Test
@@ -257,5 +262,7 @@ public class IfExpressionsTest {
     assertThat(p, parse("__has_feature(cxx_rvalue)"));
     assertThat(p, parse("__has_feature(cxx_rvalue, bla)"));
     assertThat(p, parse("__GNUC_PREREQ (4, 1)"));
+    assertThat(p, parse("A ()"));
+    assertThat(p, parse("A()"));
   }
 }

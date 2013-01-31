@@ -266,7 +266,7 @@ public class CppGrammar extends Grammar {
         )
       );
 
-    functionlike_macro.is(IDENTIFIER, o2n(WS), "(", o2n(WS), argument_list, o2n(WS), ")");
+    functionlike_macro.is(IDENTIFIER, o2n(WS), "(", o2n(WS), opt(not(")"), argument_list), o2n(WS), ")");
   }
   
   void else_line(){
