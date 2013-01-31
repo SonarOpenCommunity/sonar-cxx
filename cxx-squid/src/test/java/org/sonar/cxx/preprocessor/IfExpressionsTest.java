@@ -61,6 +61,10 @@ public class IfExpressionsTest {
     assert(p.parse("#if A (4, 1)").findFirstChild(g.functionlike_macro) != null);
     assert(p.parse("#if A ()").findFirstChild(g.functionlike_macro) != null);
     assert(p.parse("#if A()").findFirstChild(g.functionlike_macro) != null);
+    
+    assert(p.parse("#if defined(A)").findFirstChild(g.defined_expression) != null);
+    assert(p.parse("#if defined (A)").findFirstChild(g.defined_expression) != null);
+    assert(p.parse("#if defined A").findFirstChild(g.defined_expression) != null);
   }
 
   @Test
