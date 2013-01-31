@@ -259,10 +259,10 @@ public class CppGrammar extends Grammar {
     expression.is(conditional_expression, o2n(o2n(WS), ",", o2n(WS), conditional_expression));
 
     defined_expression.is(
-      "defined", one2n(WS),
+      "defined", 
       or(
-        and("(", o2n(WS), IDENTIFIER, o2n(WS), ")"),
-        IDENTIFIER
+        and(o2n(WS), "(", o2n(WS), IDENTIFIER, o2n(WS), ")"),
+        and(one2n(WS), IDENTIFIER)
         )
       );
 

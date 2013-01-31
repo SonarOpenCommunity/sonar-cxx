@@ -244,6 +244,7 @@ public class IfExpressionsTest {
 
     assertThat(p, parse("defined LALA"));
     assertThat(p, parse("defined (LALA)"));
+    assertThat(p, parse("defined(LALA)"));
   }
 
   @Test
