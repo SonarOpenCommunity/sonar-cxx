@@ -271,5 +271,6 @@ public class IfExpressionsTest {
     assertThat(p, parse("A()"));
     assertThat(p, parse("BOOST_WORKAROUND(BOOST_MSVC, < 1300)"));
     assertThat(p, parse("BOOST_WORKAROUND(< 1300)"));
+    assertThat(p, parse("BOOST_WORKAROUND(a, call())"));
   }
 }

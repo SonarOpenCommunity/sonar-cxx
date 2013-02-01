@@ -95,6 +95,11 @@ public class CppGrammar extends Grammar {
   public Rule warning_line;
   public Rule misc_line;
   public Rule argument;
+  public Rule somethingContainingParantheses;
+  public Rule somethingWithoutParantheses;
+  public Rule allButLeftParan;
+  public Rule allButRightParan;
+  public Rule allButComma;
 
   public CppGrammar() {
     toplevel();
@@ -168,7 +173,29 @@ public class CppGrammar extends Grammar {
 
     parameter_list.is(IDENTIFIER, o2n(o2n(WS), ",", o2n(WS), IDENTIFIER));
     argument_list.is(argument, o2n(o2n(WS), ",", o2n(WS), argument));
-    argument.is(one2n(not(or(",", ")")), anyToken()));
+    
+    argument.is(
+      or(
+        somethingContainingParantheses,
+        somethingWithoutParantheses
+        )
+      );
+    
+    somethingContainingParantheses.is(
+      o2n(allButLeftParan),
+      "(",
+      or(
+        somethingContainingParantheses,
+        o2n(allButRightParan), ")"
+        ),
+      allButComma
+      );
+    
+    somethingWithoutParantheses.is(one2n(not(or(",", ")")), anyToken()));
+    
+    allButLeftParan.is(not("("), anyToken());
+    allButRightParan.is(not(")"), anyToken());
+    allButComma.is(not(","), anyToken());
     
     pp_token.is(anyToken());
   }
