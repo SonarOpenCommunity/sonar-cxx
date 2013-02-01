@@ -213,6 +213,7 @@ public class DeclaratorsTest {
     p.setRootRule(g.declarator_id);
 
     assertThat(p, parse("lala<int>"));
+    assertThat(p, parse("operator==<B>"));
   }
 
   @Test

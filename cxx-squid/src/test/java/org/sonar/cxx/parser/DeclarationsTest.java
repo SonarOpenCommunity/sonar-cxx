@@ -81,8 +81,13 @@ public class DeclarationsTest {
     assertThat(p, parse("sometype foo();"));
     assertThat(p, parse("sometype (*foo)(void);"));
     assertThat(p, parse("aligned_storage<sizeof(result_type)> cache;"));
-    //assertThat(p, parse("template<typename Args> void result(Args const &(2) ) const {}"));
+    
+    //We cannot parse this, unfortunately. The reasons is an ambiguity between
+    // relational exressions and template parameter list syntax, which cannot be
+    // resolved without name lookup, at least according to the standard. Bad c++...
     //assertThat(p, parse("mpl<N/M>();"));
+    
+    assertThat(p, parse("bool operator==<B>(A const&, A const&);"));
   }
 
   @Test
@@ -125,6 +130,7 @@ public class DeclarationsTest {
     assertThat(p, parse("void foo(string, bool);"));
     assertThat(p, parse("friend class ::SMLCGroupHierarchyImpl;"));
     assertThat(p, parse("void foo(int, type[]);"));
+    assertThat(p, parse("bool operator==<B>(A const&, A const&);"));
   }
 
   @Test

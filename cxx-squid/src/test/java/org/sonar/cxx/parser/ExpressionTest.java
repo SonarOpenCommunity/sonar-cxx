@@ -62,6 +62,7 @@ public class ExpressionTest {
 
     assertThat(p, parse("numeric_limits<char>::is_signed"));
     assertThat(p, parse("foo<int>"));
+    assertThat(p, parse("operator==<B>"));
   }
 
   @Test
@@ -88,6 +89,7 @@ public class ExpressionTest {
   public void unqualified_id_reallife() {
     p.setRootRule(g.unqualified_id);
     assertThat(p, parse("foo<int>"));
+    assertThat(p, parse("operator==<B>"));
   }
   
   @Test

@@ -130,6 +130,7 @@ public class TemplatesTest {
   public void template_id_reallife() {
     p.setRootRule(g.template_id);
     assertThat(p, parse("foo<int>"));
+    assertThat(p, parse("operator==<B>"));
   }
 
   @Test
