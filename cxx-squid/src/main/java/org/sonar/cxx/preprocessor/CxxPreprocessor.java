@@ -387,7 +387,7 @@ public class CxxPreprocessor extends Preprocessor {
     PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION;
     Macro macro = macros.get(curr.getValue());
     if (macro != null) {
-      List<Token> replTokens = null;
+      List<Token> replTokens = new LinkedList<Token>();
       int tokensConsumed = 0;
       List<Token> arguments = new ArrayList<Token>();
 
@@ -396,17 +396,11 @@ public class CxxPreprocessor extends Preprocessor {
         replTokens = expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body)));
       }
       else {
-        int tokensConsumedMatchingArgs = matchArguments(tokens.subList(1, tokens.size()), arguments);
-        if (tokensConsumedMatchingArgs > 0 && macro.params.size() == arguments.size()) {
-          tokensConsumed = tokensConsumedMatchingArgs + 1;
-          replTokens = replaceParams(macro.body, macro.params, arguments);
-          replTokens = evaluateHashhashOperators(replTokens);
-
-          String replacement = serialize(replTokens);
-          LOG.trace("[{}:{}]: lexing macro body: '{}'",
-                    new Object[]{filename, curr.getLine(), replacement});
-
-          replTokens = expandMacro(macro.name, replacement);
+        int tokensConsumedMatchingArgs = expandFunctionLikeMacro(macro.name,
+                                                                 tokens.subList(1, tokens.size()),
+                                                                 replTokens);
+        if (tokensConsumedMatchingArgs > 0){
+          tokensConsumed = 1 + tokensConsumedMatchingArgs;
         }
       }
 
@@ -428,7 +422,35 @@ public class CxxPreprocessor extends Preprocessor {
 
     return ppaction;
   }
+  
+  public String expandFunctionLikeMacro(String macroName, List<Token> restTokens){
+    List<Token> expansion = new LinkedList<Token>();
+    expandFunctionLikeMacro(macroName, restTokens, expansion);
+    String result = serialize(expansion);
+    
+    LOG.debug("expanded {} to {}", macroName, result);
+    return result;
+  }
+  
+  private int expandFunctionLikeMacro(String macroName, List<Token> restTokens, List<Token> expansion){
+    List<Token> replTokens = null;
+    List<Token> arguments = new ArrayList<Token>();
+    int tokensConsumedMatchingArgs = matchArguments(restTokens, arguments);
 
+    Macro macro = macros.get(macroName);
+    if (macro != null) {
+      if (macro.params.size() == arguments.size()) {
+        replTokens = replaceParams(macro.body, macro.params, arguments);
+        replTokens = evaluateHashhashOperators(replTokens);
+        
+        String replacement = serialize(replTokens);
+        expansion.addAll(expandMacro(macro.name, serialize(replTokens)));
+      }
+    }
+    
+    return tokensConsumedMatchingArgs;
+  }
+  
   private List<Token> expandMacro(String macroName, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;

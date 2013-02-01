@@ -535,4 +535,17 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("falsecase", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // falsecase + EOF
   }
+
+  @Test
+  public void proper_expansion_of_function_like_macros_in_if_expressions() {
+    List<Token> tokens = lexer.lex("#define A() 0 ## 1\n"
+                                   + "#if A()\n"
+                                   + "truecase\n"
+                                   + "#else\n"
+                                   + "falsecase\n"
+                                   + "#endif");
+    assertThat(tokens, hasToken("truecase", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // falsecase + EOF
+  }
+
 }

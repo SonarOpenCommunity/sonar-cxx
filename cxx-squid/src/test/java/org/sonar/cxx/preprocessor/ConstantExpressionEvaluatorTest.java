@@ -26,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -209,7 +210,7 @@ public class ConstantExpressionEvaluatorTest {
   @Test
   public void functionlike_macro_defined_true() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
-    when(pp.valueOf(anyString())).thenReturn("1");
+    when(pp.expandFunctionLikeMacro(anyString(), anyList())).thenReturn("1");
     ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertTrue(evaluator.eval("has_feature(URG)"));
   }
@@ -254,6 +255,7 @@ public class ConstantExpressionEvaluatorTest {
     when(pp.valueOf(macro)).thenReturn("1");
     ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertTrue(evaluator.eval("defined (" + macro + ")"));
+    assertTrue(evaluator.eval("defined(" + macro + ")"));
   }
 
   @Test
@@ -262,6 +264,7 @@ public class ConstantExpressionEvaluatorTest {
       new ConstantExpressionEvaluator(mock(CxxConfiguration.class),
                                       mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("defined (LALA)"));
+    assertFalse(evaluator.eval("defined(LALA)"));
   }
 
   @Test

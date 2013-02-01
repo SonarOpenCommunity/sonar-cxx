@@ -19,7 +19,10 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import java.util.List;
+
 import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +53,7 @@ public final class ConstantExpressionEvaluator {
     try{
       constExprAst = parser.parse(constExpr);
     } catch(com.sonar.sslr.api.RecognitionException re){
-      LOG.warn("Error evaluating expressison '{}', assuming 0", constExpr);
+      LOG.warn("Error evaluating expression '{}', assuming 0", constExpr);
       return 0;
     }
     
@@ -303,10 +306,10 @@ public final class ConstantExpressionEvaluator {
   }
 
   long evalFunctionlikeMacro(AstNode exprAst){
-    // Probably we should use (made public) preprocessor.expandMacro functionality here...
-    // Use valueOf for now.
     String macroName = exprAst.getChild(0).getTokenValue();
-    String value = preprocessor.valueOf(macroName);
+    List<Token> tokens = exprAst.getTokens();
+    List<Token> restTokens = tokens.subList(1, tokens.size());
+    String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
     return value == null ? 0: evalToInt(value);
   }
 
