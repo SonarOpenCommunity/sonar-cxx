@@ -269,5 +269,7 @@ public class IfExpressionsTest {
     assertThat(p, parse("__GNUC_PREREQ (4, 1)"));
     assertThat(p, parse("A ()"));
     assertThat(p, parse("A()"));
+    assertThat(p, parse("BOOST_WORKAROUND(BOOST_MSVC, < 1300)"));
+    assertThat(p, parse("BOOST_WORKAROUND(< 1300)"));
   }
 }

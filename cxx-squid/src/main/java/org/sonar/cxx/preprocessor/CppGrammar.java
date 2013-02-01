@@ -94,6 +94,7 @@ public class CppGrammar extends Grammar {
   public Rule pragma_line;
   public Rule warning_line;
   public Rule misc_line;
+  public Rule argument;
 
   public CppGrammar() {
     toplevel();
@@ -166,7 +167,9 @@ public class CppGrammar extends Grammar {
       );
 
     parameter_list.is(IDENTIFIER, o2n(o2n(WS), ",", o2n(WS), IDENTIFIER));
-    argument_list.is(pp_token, o2n(o2n(WS), ",", o2n(WS), pp_token));
+    argument_list.is(argument, o2n(o2n(WS), ",", o2n(WS), argument));
+    argument.is(one2n(not(or(",", ")")), anyToken()));
+    
     pp_token.is(anyToken());
   }
   

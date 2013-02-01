@@ -302,6 +302,9 @@ public final class ConstantExpressionEvaluator {
     int posOfMacroName = exprAst.getNumberOfChildren() == 2 ? 1 : 2;
     String macroName = exprAst.getChild(posOfMacroName).getTokenValue();
     String value = preprocessor.valueOf(macroName);
+
+    LOG.trace("expanding '{}' to '{}'", macroName, value);
+
     return value == null ? 0 : 1;
   }
 
@@ -310,6 +313,9 @@ public final class ConstantExpressionEvaluator {
     List<Token> tokens = exprAst.getTokens();
     List<Token> restTokens = tokens.subList(1, tokens.size());
     String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
+
+    LOG.trace("expanding '{}' to '{}'", macroName, value);
+    
     return value == null ? 0: evalToInt(value);
   }
 

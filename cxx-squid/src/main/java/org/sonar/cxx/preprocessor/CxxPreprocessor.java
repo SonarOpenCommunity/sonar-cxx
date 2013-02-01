@@ -282,6 +282,8 @@ public class CxxPreprocessor extends Preprocessor {
       state.nestedIfdefs++;
     }
     else{
+      LOG.trace("[{}:{}]: handling #if line '{}'",
+                new Object[]{filename, token.getLine(), token.getValue()});
       try{
         state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constant_expression));
       }
@@ -303,7 +305,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename){
     // Handling of an elif line is similar to handling of an if line but
-    // doesnt increase the nesting level
+    // doesn't increase the nesting level
     if(state.nestedIfdefs == 0){
       try{
         state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constant_expression));
@@ -426,10 +428,7 @@ public class CxxPreprocessor extends Preprocessor {
   public String expandFunctionLikeMacro(String macroName, List<Token> restTokens){
     List<Token> expansion = new LinkedList<Token>();
     expandFunctionLikeMacro(macroName, restTokens, expansion);
-    String result = serialize(expansion);
-    
-    LOG.debug("expanded {} to {}", macroName, result);
-    return result;
+    return serialize(expansion);
   }
   
   private int expandFunctionLikeMacro(String macroName, List<Token> restTokens, List<Token> expansion){
