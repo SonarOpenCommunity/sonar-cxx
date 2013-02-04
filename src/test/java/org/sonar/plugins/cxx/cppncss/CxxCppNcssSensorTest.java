@@ -20,19 +20,18 @@
 
 package org.sonar.plugins.cxx.cppncss;
 
+import org.junit.Before;
+import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.anyDouble;
-import static org.mockito.Mockito.any;
-
-import org.apache.commons.configuration.Configuration;
-import org.junit.Before;
-import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
@@ -47,7 +46,7 @@ public class CxxCppNcssSensorTest {
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    sensor = new CxxCppNcssSensor(mock(Configuration.class));
+    sensor = new CxxCppNcssSensor(new Settings());
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

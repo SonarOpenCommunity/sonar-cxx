@@ -20,8 +20,7 @@
 package org.sonar.plugins.cxx.valgrind;
 
 import java.io.File;
-
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Represents a stack frame. Overwrites equality. Has a string serialization that

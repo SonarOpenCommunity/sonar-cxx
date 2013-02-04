@@ -19,7 +19,7 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Represents an error found by valgrind. It always has an id,

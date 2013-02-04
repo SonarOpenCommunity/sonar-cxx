@@ -29,6 +29,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.configuration.Configuration;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
 import org.sonar.api.measures.Measure;
@@ -46,15 +47,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private static final String DEFAULT_REPORT_PATH = "coverage-reports/coverage-*.xml";
   private static final String IT_DEFAULT_REPORT_PATH = "coverage-reports/it-coverage-*.xml";
   
-  private Configuration conf = null;
-
+  private final Settings settings;
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
   
   /**
    * {@inheritDoc}
    */
-  public CxxCoverageSensor(Configuration conf) {
-    this.conf = conf;
+  public CxxCoverageSensor(Settings settings) {
+    this.settings = settings;
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());    
   }
@@ -62,15 +62,16 @@ public class CxxCoverageSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void analyse(Project project, SensorContext context) {
-    List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+    List<File> reports = getReports(settings, project.getFileSystem().getBasedir().getPath(),
                                     REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     CxxUtils.LOG.debug("Parsing coverage reports");
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
     saveMeasures(project, context, coverageMeasures, false);
     
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
-    List<File> itReports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+    List<File> itReports = getReports(settings, project.getFileSystem().getBasedir().getPath(),
                                       IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
     coverageMeasures = parseReports(itReports);
     saveMeasures(project, context, coverageMeasures, true);

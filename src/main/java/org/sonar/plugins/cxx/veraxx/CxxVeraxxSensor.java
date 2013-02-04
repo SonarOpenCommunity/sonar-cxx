@@ -20,13 +20,12 @@
 package org.sonar.plugins.cxx.veraxx;
 
 import java.io.File;
-
-import org.apache.commons.configuration.Configuration;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -42,7 +41,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxSensor(RuleFinder ruleFinder, Configuration conf, RulesProfile profile) {
+  public CxxVeraxxSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
     super(ruleFinder, conf);
     this.profile = profile;
   }
@@ -50,19 +49,23 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxVeraxxRuleRepository.KEY).isEmpty();
   }
   
+  @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
   
+  @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
   
+  @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException
   {

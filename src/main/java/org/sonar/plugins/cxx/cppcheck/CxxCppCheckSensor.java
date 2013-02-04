@@ -20,21 +20,21 @@
  */
 package org.sonar.plugins.cxx.cppcheck;
 
-import java.io.File;
-
-import javax.xml.stream.XMLStreamException;
-
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+
+import javax.xml.stream.XMLStreamException;
+
+import java.io.File;
 
 /**
  * Sensor for CppCheck external tool.
@@ -54,8 +54,8 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckSensor(RuleFinder ruleFinder, Configuration conf,
-                           RulesProfile profile) {
+  public CxxCppCheckSensor(RuleFinder ruleFinder, Settings conf,
+          RulesProfile profile) {
     super(ruleFinder, conf);
     this.profile = profile;
   }
@@ -63,19 +63,23 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxCppCheckRuleRepository.KEY).isEmpty();
   }
   
+  @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
   
+  @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
   
+  @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException
   {

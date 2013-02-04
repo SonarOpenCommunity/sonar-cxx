@@ -22,11 +22,10 @@ package org.sonar.plugins.cxx.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.tools.ant.DirectoryScanner;
-import org.apache.commons.configuration.Configuration;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
@@ -40,21 +39,21 @@ import org.sonar.plugins.cxx.CxxLanguage;
  */
 public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
-  private Configuration conf = null;
+  private Settings conf = null;
 
   public CxxReportSensor() {}
   
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(Configuration conf) {
+  public CxxReportSensor(Settings conf) {
     this.conf = conf;
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(RuleFinder ruleFinder, Configuration conf) {
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
   }
@@ -96,11 +95,11 @@ public abstract class CxxReportSensor implements Sensor {
     return getClass().getSimpleName();
   }
 
-  protected List<File> getReports(Configuration conf,
+  protected List<File> getReports(Settings conf,
                                   String baseDirPath,
                                   String reportPathPropertyKey,
                                   String defaultReportPath) {
-    String reportPath = conf.getString(reportPathPropertyKey, null);
+    String reportPath = conf.getString(reportPathPropertyKey);
     if(reportPath == null){
       reportPath = defaultReportPath;
     }

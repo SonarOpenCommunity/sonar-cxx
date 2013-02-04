@@ -20,25 +20,23 @@
 
 package org.sonar.plugins.cxx.veraxx;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyObject;
-
 import java.io.File;
 import java.util.List;
-
-import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxVeraxxSensorTest {
@@ -50,7 +48,7 @@ public class CxxVeraxxSensorTest {
   public void setUp() {
     project = mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxVeraxxSensor(ruleFinder, mock(Configuration.class), mock(RulesProfile.class));
+    sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), mock(RulesProfile.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

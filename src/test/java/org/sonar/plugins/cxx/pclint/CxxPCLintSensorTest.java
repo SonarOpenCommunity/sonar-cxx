@@ -20,22 +20,21 @@
 
 package org.sonar.plugins.cxx.pclint;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.any;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.commons.configuration.Configuration;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxPCLintSensorTest {
@@ -45,11 +44,10 @@ public class CxxPCLintSensorTest {
 
   @Before
   public void setUp() {
-    Configuration config = mock(Configuration.class);
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
     RulesProfile profile = mock(RulesProfile.class);
-    sensor = new CxxPCLintSensor(ruleFinder, config, profile);
+    sensor = new CxxPCLintSensor(ruleFinder, new Settings(), profile);
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

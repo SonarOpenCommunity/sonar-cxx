@@ -21,14 +21,12 @@
 package org.sonar.plugins.cxx.pclint;
 
 import java.io.File;
-
 import javax.xml.stream.XMLStreamException;
-
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
@@ -53,7 +51,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(RuleFinder ruleFinder, Configuration conf,
+  public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf,
                            RulesProfile profile) {
     super(ruleFinder, conf);
     this.profile = profile;
@@ -62,19 +60,23 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxPCLintRuleRepository.KEY).isEmpty();
   }
   
+  @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
   
+  @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
   
+  @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException
   {

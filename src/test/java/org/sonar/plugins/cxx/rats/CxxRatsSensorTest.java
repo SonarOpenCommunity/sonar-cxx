@@ -20,22 +20,21 @@
 
 package org.sonar.plugins.cxx.rats;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyObject;
-
-import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxRatsSensorTest {
@@ -47,7 +46,7 @@ public class CxxRatsSensorTest {
   public void setUp() {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxRatsSensor(ruleFinder, mock(Configuration.class), mock(RulesProfile.class));
+    sensor = new CxxRatsSensor(ruleFinder, new Settings(), mock(RulesProfile.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

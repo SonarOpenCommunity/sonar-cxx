@@ -21,11 +21,10 @@ package org.sonar.plugins.cxx.rats;
 
 import java.io.File;
 import java.util.List;
-
-import org.apache.commons.configuration.Configuration;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
@@ -44,7 +43,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxRatsSensor(RuleFinder ruleFinder, Configuration conf, RulesProfile profile) {
+  public CxxRatsSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
     super(ruleFinder, conf);
     this.profile = profile;
   }
@@ -52,19 +51,23 @@ public final class CxxRatsSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxRatsRuleRepository.KEY).isEmpty();
   }
   
+  @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
   
+  @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
   
+  @Override
   protected void processReport(Project project, SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException
   { 
