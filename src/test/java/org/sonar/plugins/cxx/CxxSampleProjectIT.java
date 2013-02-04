@@ -34,9 +34,9 @@ import org.sonar.wsclient.services.ResourceQuery;
 public class CxxSampleProjectIT {
 
   private static Sonar sonar;
-  private static final String PROJECT_SAMPLE = "NETICOA:SAMPLE";
-  private static final String DIR_UTILS = "NETICOA:SAMPLE:utils";
-  private static final String FILE_CODECHUNKS = "NETICOA:SAMPLE:utils/code_chunks.cpp";
+  private static final String PROJECT_SAMPLE = "CxxPlugin:Sample";
+  private static final String DIR_UTILS = "CxxPlugin:Sample:lib";
+  private static final String FILE_CODECHUNKS = "CxxPlugin:Sample:lib/component1.cc";
 
   @BeforeClass
   public static void buildServer() {
@@ -45,10 +45,10 @@ public class CxxSampleProjectIT {
 
   @Test
   public void cxxSampleIsAnalyzed() {
-    assertThat(sonar.find(new ResourceQuery(PROJECT_SAMPLE)).getName(), is("SAMPLE"));
-    assertThat(sonar.find(new ResourceQuery(PROJECT_SAMPLE)).getVersion(), is("0.0.1-SNAPSHOT"));
-    assertThat(sonar.find(new ResourceQuery(DIR_UTILS)).getName(), is("utils"));
-    assertThat(sonar.find(new ResourceQuery(FILE_CODECHUNKS)).getName(), is("code_chunks.cpp"));
+    assertThat(sonar.find(new ResourceQuery(PROJECT_SAMPLE)).getName(), is("Sample"));
+    assertThat(sonar.find(new ResourceQuery(PROJECT_SAMPLE)).getVersion(), is("0.0.1"));
+    assertThat(sonar.find(new ResourceQuery(DIR_UTILS)).getName(), is("lib"));
+    assertThat(sonar.find(new ResourceQuery(FILE_CODECHUNKS)).getName(), is("component1.cc"));
   }
 
   @Test
@@ -58,7 +58,9 @@ public class CxxSampleProjectIT {
        "files", "directories", "functions",
        "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines",
        "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
-       "complexity", "function_complexity", "violations", "violations_density"
+       "complexity", "function_complexity", "violations", "violations_density",
+       "coverage", "line_coverage", "branch_coverage",
+       "test_success_density", "test_failures", "test_errors", "tests", "test_execution_time"
       };
 
     double[] values = new double[metricNames.length];
@@ -66,10 +68,16 @@ public class CxxSampleProjectIT {
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {89.0, 145.0, 6.0, 3.0, 6.0, 12.7, 13.0, 2.0, 21.0, 26.2, 38.0, 2.0, 1.0, 7.0, 1.2, 14.0, 73.0};
+    double[] expectedValues = {59.0, 94.0,
+                               3.0, 3.0, 5.0,
+                               16.9, 12.0, 5.0, 0.0,
+                               21.3, 20.0, 2.0, 2.0,
+                               6.0, 1.2, 39.0, 0.0,
+                               44.0, 42.9, 50.0,
+                               60.0, 2.0, 0.0, 5.0, 114.0};
+    
     assertThat(values, is(expectedValues));
-
-    assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=5;2=1;4=0;6=0;8=0;10=0;12=0"));
+    assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=4;2=1;4=0;6=0;8=0;10=0;12=0"));
   }
 
   @Test
@@ -80,7 +88,8 @@ public class CxxSampleProjectIT {
        "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines",
        "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
        "complexity", "function_complexity",
-       "violations", "violations_density"
+       "violations", "violations_density",
+       "coverage", "line_coverage", "branch_coverage"
       };
 
     double[] values = new double[metricNames.length];
@@ -88,10 +97,16 @@ public class CxxSampleProjectIT {
       values[i] = getPackageMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {52.0, 94.0, 2.0, 1.0, 2.0, 16.1, 10.0, 2.0, 21.0, 40.4, 38.0, 2.0, 1.0, 3.0, 1.5, 9.0, 67.3};
+    double[] expectedValues = {41.0, 73.0,
+                               2.0, 1.0, 3.0,
+                               22.6, 12.0, 5.0, 0.0,
+                               13.7, 10.0, 1.0, 1.0,
+                               4.0, 1.3,
+                               27.0, 0.0,
+                               61.1, 64.3, 50.0};
+    
     assertThat(values, is(expectedValues));
-
-    assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=1;2=1;4=0;6=0;8=0;10=0;12=0"));
+    assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=2;2=1;4=0;6=0;8=0;10=0;12=0"));
   }
 
   @Test
@@ -99,18 +114,26 @@ public class CxxSampleProjectIT {
     String[] metricNames =
       {"ncloc", "lines",
        "files", "functions",
-       "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines",
+       "comment_lines_density", "comment_lines", "comment_blank_lines",
        "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
        "complexity", "function_complexity",
-       "violations", "violations_density"
+       "violations", "violations_density",
+       "coverage", "line_coverage", "branch_coverage"
       };
 
     double[] values = new double[metricNames.length];
     for(int i = 0; i < metricNames.length; ++i){
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
-
-    double[] expectedValues = {48.0, 88.0, 1.0, 1.0, 17.2, 10.0, 2.0, 21.0, 43.2, 38.0, 2.0, 1.0, 2.0, 2.0, 7.0, 68.8};
+    
+    double[] expectedValues = {33.0, 63.0,
+                               1.0, 3.0,
+                               26.7, 12.0, 5.0,
+                               15.9, 10.0, 1.0, 1.0,
+                               4.0, 1.3,
+                               25.0, 0.0,
+                               61.1, 64.3, 50.0};
+    
     assertThat(values, is(expectedValues));
   }
 
