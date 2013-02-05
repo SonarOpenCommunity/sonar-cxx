@@ -19,8 +19,8 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.StringUtils;
+import org.sonar.api.config.Settings;
 import org.sonar.api.resources.AbstractLanguage;
 
 /**
@@ -30,6 +30,7 @@ public final class CxxLanguage extends AbstractLanguage {
   public static final String DEFAULT_SOURCE_SUFFIXES = "cxx,cpp,cc,c";
   public static final String DEFAULT_HEADER_SUFFIXES = "hxx,hpp,hh,h";
   public static final String KEY = "c++";
+  public static final CxxLanguage INSTANCE = new CxxLanguage();
   
   private String[] sourceSuffixes;
   private String[] headerSuffixes;
@@ -38,7 +39,7 @@ public final class CxxLanguage extends AbstractLanguage {
   /**
    * {@inheritDoc}
    */
-  public CxxLanguage(Configuration config) {
+  public CxxLanguage(Settings config) {
     super(KEY, "c++");
     sourceSuffixes = createStringArray(config.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES); 
     headerSuffixes = createStringArray(config.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);

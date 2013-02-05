@@ -20,59 +20,49 @@
 
 package org.sonar.plugins.cxx;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Test;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.util.List;
-
-import org.apache.commons.configuration.Configuration;
-import org.junit.Test;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.PropertyDefinitions;
+import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import static junit.framework.Assert.assertTrue;
 
 public class CxxSourceImporterTest {
   @Test
   public void testSourceImporter() {
-    SensorContext context = mock(SensorContext.class);
+    SensorContext context = mock(SensorContext.class);           
     Project project = mockProject();
-    CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage());
-
+    Settings config = new Settings(new PropertyDefinitions(CxxPlugin.class));
+    config.setProperty(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY, true);    
+    CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage(), project, config);
+    assertTrue(importer.shouldExecuteOnProject(project));    
     importer.analyse(project, context);
 
     verify(context).saveSource((Resource) anyObject(), eq("<c++ source>\n"));
   }
 
-  private Project mockProject() {
-    Project project = TestUtils.mockProject();
-
-    File sourceFile;
+  private Project mockProject() {    
     File sourceDir;
     try{
-      sourceFile = new File(getClass().getResource("/org/sonar/plugins/cxx/source.cc").toURI());
       sourceDir = new File(getClass().getResource("/org/sonar/plugins/cxx").toURI());
     } catch (java.net.URISyntaxException e) {
       System.out.println("Error while mocking project: " + e);
       return null;
     }
-
-    List<File> sourceFiles = project.getFileSystem().getSourceFiles(TestUtils.mockCxxLanguage());
-    sourceFiles.clear();
-    sourceFiles.add(sourceFile);
-    List<File> sourceDirs = project.getFileSystem().getSourceDirs();
-    sourceDirs.clear();
-    sourceDirs.add(sourceDir);
-
-    Configuration config = mock(Configuration.class);
-    when(config.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
-                           CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
-    when(project.getConfiguration()).thenReturn(config);
-
+    
+    List<File> srcDirs = new ArrayList<File>(); 
+    srcDirs.add(sourceDir);            
+    Project project = TestUtils.mockProject(sourceDir, srcDirs, new ArrayList<File>());
+          
     return project;
   }
 }

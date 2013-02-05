@@ -20,19 +20,23 @@
 package org.sonar.plugins.cxx;
 
 import org.sonar.api.batch.AbstractSourceImporter;
+import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Project;
 
 /**
  * {@inheritDoc}
  */
 public final class CxxSourceImporter extends AbstractSourceImporter {
-  
-  /**
-   * {@inheritDoc}
-   */
-  public CxxSourceImporter(CxxLanguage lang) {
-    super(lang);
-  }
 
+  private final Project project;
+  private final Settings settings;
+
+  public CxxSourceImporter(CxxLanguage cxx, Project project, Settings settings) {
+    super(cxx);
+    this.project = project;
+    this.settings = settings;
+  }
+  
   @Override
   public String toString() {
     return getClass().getSimpleName();

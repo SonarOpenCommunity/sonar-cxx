@@ -20,27 +20,25 @@
 
 package org.sonar.plugins.cxx;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.configuration.Configuration;
 import org.apache.tools.ant.DirectoryScanner;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import org.sonar.api.CoreProperties;
+import org.sonar.api.config.Settings;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class TestUtils{
   public static RuleFinder mockRuleFinder(){
@@ -109,6 +107,11 @@ public class TestUtils{
     CxxLanguage lang = mockCxxLanguage();
     when(project.getLanguage()).thenReturn(lang);
     when(project.getLanguageKey()).thenReturn(lang.getKey());
+    // only for testing, Configuration is deprecated
+    Configuration configuration = mock(Configuration.class);
+    when(configuration.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
+        CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
+    when(project.getConfiguration()).thenReturn(configuration);
     
     return project;
   }
@@ -124,7 +127,7 @@ public class TestUtils{
   }
 
   public static CxxLanguage mockCxxLanguage(){
-    return new CxxLanguage(mock(Configuration.class));
+    return new CxxLanguage(new Settings());
   }
   
   private static List<File> scanForSourceFiles(List<File> sourceDirs) {
