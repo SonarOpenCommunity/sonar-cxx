@@ -164,6 +164,12 @@
       <artifactId>runtime</artifactId>
       <version>3.1.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar.common-rules</groupId>
+      <artifactId>sonar-common-rules</artifactId>
+      <version>1.0.1</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
   
   <repositories>
