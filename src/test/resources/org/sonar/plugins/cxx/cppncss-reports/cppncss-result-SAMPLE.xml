@@ -9,7 +9,7 @@
     <item name="foo() at sources/utils/code_chunks.cpp:16">
       <value>1</value>
       <value>40</value>
-      <value>2</value>
+      <value>20</value>
     </item>
     <item name="main( int, char*[] ) at sources/tests/main.cpp:4">
       <value>2</value>
