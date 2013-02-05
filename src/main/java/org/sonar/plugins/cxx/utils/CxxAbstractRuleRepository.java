@@ -19,9 +19,11 @@
  */
 package org.sonar.plugins.cxx.utils;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
-
+import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.XMLRuleParser;
@@ -32,21 +34,34 @@ import org.sonar.plugins.cxx.CxxLanguage;
  */
 public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
-  protected abstract String fileName();
+  private final ServerFileSystem fileSystem;
+  private final XMLRuleParser xmlRuleParser;
+  public final String repositoryKey;
 
   /**
    * {@inheritDoc}
    */
-  public CxxAbstractRuleRepository(String key) {
+  public CxxAbstractRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, String key) {
     super(key, CxxLanguage.KEY);
+    this.fileSystem = fileSystem;
+    this.xmlRuleParser = xmlRuleParser;
+    this.repositoryKey = key;
   }
 
   @Override
   public List<Rule> createRules() {
+    List<Rule> rules = new ArrayList<Rule>();
+
     final XMLRuleParser xmlParser = new XMLRuleParser();
     final InputStream xmlStream = getClass().getResourceAsStream(fileName());
-    return xmlParser.parse(xmlStream);
+    rules.addAll(xmlParser.parse(xmlStream));
 
+    for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) {
+      rules.addAll(xmlRuleParser.parse(userExtensionXml));
+    }
+
+    return rules;
   }
-
+  
+  protected abstract String fileName();
 }

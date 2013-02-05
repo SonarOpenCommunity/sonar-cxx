@@ -20,13 +20,15 @@
 package org.sonar.plugins.cxx.valgrind;
 
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.rules.XMLRuleParser;
 
 public class CxxValgrindRuleRepositoryTest {
   @Test
   public void shouldContainProperNumberOfRules() {
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository();
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new XMLRuleParser());
     assertEquals(repo.createRules().size(), 15);
   }
 }

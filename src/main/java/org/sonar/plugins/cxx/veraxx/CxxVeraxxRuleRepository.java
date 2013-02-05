@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.veraxx;
 
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 /**
@@ -30,8 +32,8 @@ public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxRuleRepository() {
-    super(KEY);
+  public CxxVeraxxRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
+    super(fileSystem, xmlRuleParser, KEY);
     setName(KEY);
   }
 
