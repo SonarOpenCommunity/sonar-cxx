@@ -29,18 +29,54 @@ import java.util.List;
 import org.apache.commons.configuration.Configuration;
 import org.apache.tools.ant.DirectoryScanner;
 import static org.mockito.Matchers.anyObject;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.config.Settings;
+import org.sonar.api.profiles.AnnotationProfileParser;
+import org.sonar.api.profiles.ProfileDefinition;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
+import org.sonar.api.utils.ValidationMessages;
+import static org.junit.Assert.assertEquals;
 
 public class TestUtils{
+  static RuleFinder ruleFinder() {
+    return when(mock(RuleFinder.class).findByKey(Mockito.anyString(), Mockito.anyString())).thenAnswer(new Answer<Rule>() {
+      public Rule answer(InvocationOnMock invocation) {
+        Object[] arguments = invocation.getArguments();
+        return Rule.create((String) arguments[0], (String) arguments[1], (String) arguments[1]).setDescription("Mocked description");
+      }
+    }).getMock();
+  }
+  
+  static org.sonar.plugins.cxx.checks.CxxDefaultProfile getProfileDefinition() {
+    RuleFinder ruleFinder = ruleFinder();
+    return new org.sonar.plugins.cxx.checks.CxxDefaultProfile(new AnnotationProfileParser(ruleFinder));
+  }
+  
+  /**
+   * create standard rules profile
+   */
+  public static RulesProfile createStandardRulesProfile() {
+    ProfileDefinition profileDefinition = getProfileDefinition();
+
+    ValidationMessages messages = ValidationMessages.create();
+    RulesProfile profile = profileDefinition.createProfile(messages);
+    assertEquals(0, messages.getErrors().size());
+    assertEquals(0, messages.getWarnings().size());
+    assertEquals(0, messages.getInfos().size());
+    return profile;
+  }
+  
   public static RuleFinder mockRuleFinder(){
     Rule ruleMock = Rule.create("", "", "");
     RuleFinder ruleFinder = mock(RuleFinder.class);
@@ -150,5 +186,5 @@ public class TestUtils{
     }
     
     return result;
-  }
+  } 
 }
