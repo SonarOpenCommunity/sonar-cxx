@@ -21,19 +21,17 @@ package org.sonar.plugins.cxx;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-
-import org.apache.commons.configuration.BaseConfiguration;
-import org.apache.commons.configuration.Configuration;
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.config.Settings;
 
 public class CxxLanguageTest {
   
-  private Configuration config;
+  private Settings config;
   
   @Before
   public void setup() {
-    config = new BaseConfiguration();
+    config = new Settings();
   }
   
   @Test

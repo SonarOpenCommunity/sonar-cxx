@@ -21,13 +21,10 @@ package org.sonar.plugins.cxx.coverage;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-
 import javax.xml.stream.XMLStreamException;
-
-import org.apache.commons.configuration.Configuration;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
