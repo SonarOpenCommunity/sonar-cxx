@@ -164,6 +164,30 @@
       <artifactId>runtime</artifactId>
       <version>3.1.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>common</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.ibm.icu</groupId>
+      <artifactId>icu4j</artifactId>
+      <version>3.6.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.sonar.common-rules</groupId>
+      <artifactId>sonar-common-rules</artifactId>
+      <version>1.0.1</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.1</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
   
   <repositories>
@@ -189,7 +213,7 @@
         <configuration>
           <header>src/license-header.txt</header>
         </configuration>
-      </plugin>
+      </plugin>      
     </plugins>
   </build>
 </project>

@@ -25,6 +25,7 @@ import org.eclipse.cdt.core.dom.ast.IASTName;
 import org.sonar.plugins.cxx.ast.cpp.CxxClass;
 import org.sonar.plugins.cxx.ast.cpp.impl.CppClassMember;
 import org.sonar.plugins.cxx.ast.visitors.internal.ClassVisitor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * Visits class members nodes
@@ -47,7 +48,14 @@ public class CxxCppClassMemberVisitor extends ClassVisitor {
   } 
   
   public int leave(IASTName node) {
-    getVisitingClass().addMember( new CppClassMember(memberName, memberType) );
+      try{
+        getVisitingClass().addMember( new CppClassMember(memberName, memberType) );
+      }catch (IllegalArgumentException e) {
+          CxxUtils.LOG.error("Member Visitor Exception, Ignore Member: " + e.getMessage());
+          CxxUtils.LOG.error("File Name: " + node.getContainingFilename()
+                  + " MemberName: \"" + memberName + "\""
+                  + " MemberType: \"" + memberType + "\"");
+      }     
     return ASTVisitor.PROCESS_ABORT;
   }
   

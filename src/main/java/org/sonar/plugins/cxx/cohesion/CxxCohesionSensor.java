@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
@@ -53,6 +52,8 @@ public class CxxCohesionSensor extends CxxFileSensor {
   @Override
   protected void parseFile(InputFile file, Project project, SensorContext context) {
     try {
+        
+      CxxUtils.LOG.warn("Resource under analysis: " + file);
       CxxCppParsedFile parsedFile = parser.parseFile(file);
       
       double lcom4 = analyzeFileCohesion(parsedFile.getClasses());

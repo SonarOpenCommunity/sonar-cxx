@@ -30,15 +30,16 @@ import org.eclipse.cdt.internal.core.dom.parser.cpp.CPPASTFunctionDeclarator;
 import org.sonar.plugins.cxx.ast.cpp.CxxClass;
 import org.sonar.plugins.cxx.ast.cpp.CxxTranslationUnit;
 import org.sonar.plugins.cxx.ast.cpp.impl.CppClass;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * Visits class nodes
+ *
  * @author Przemyslaw Kociolek
  */
 public class CxxCppClassVisitor extends ASTVisitor {
 
   private static final String[] CLASS_TOKENS = {"struct", "class"};
-
   private CxxClass producedClass = null;
   private CxxTranslationUnit translationUnit = null;
 
@@ -56,9 +57,9 @@ public class CxxCppClassVisitor extends ASTVisitor {
 
   public int visit(IASTDeclSpecifier node) {
     String token = getNodeToken(node);
-    if(isClassToken(token)) {
+    if (isClassToken(token)) {
       return ASTVisitor.PROCESS_CONTINUE;
-    }    
+    }
     return ASTVisitor.PROCESS_ABORT;
   }
 
@@ -69,25 +70,40 @@ public class CxxCppClassVisitor extends ASTVisitor {
   }
 
   public int visit(IASTName node) {  //visit class name
-    producedClass = new CppClass( getNodeToken(node) );
+    try {
+      producedClass = new CppClass(getNodeToken(node));
+    } catch (IllegalArgumentException e) {
+      CxxUtils.LOG.error("Class Name Visitor Exception, Ignore Member: " + e.getMessage());
+      CxxUtils.LOG.error("File Name: " + node.getContainingFilename() + " Class " + producedClass);
+    } catch (UnsupportedOperationException e) {
+      CxxUtils.LOG.error("EX: Class Name Visitor Exception, Ignore Member: " + e.toString());
+      CxxUtils.LOG.error("File Name: " + node.getContainingFilename() + " Class " + producedClass);
+    }
     return ASTVisitor.PROCESS_CONTINUE;
   }
 
   public int visit(IASTDeclaration node) {  //visit class members / methods
-    if(isMethodDeclarationNode(node)) {
-      CxxCppClassMethodVisitor memberVisitor = new CxxCppClassMethodVisitor(producedClass);
-      node.accept(memberVisitor);
-    } 
-    else if(isMemberDeclarationNode(node)) {
-      CxxCppClassMemberVisitor memberVisitor = new CxxCppClassMemberVisitor(producedClass);
-      node.accept(memberVisitor);
-    }  
+    try {
+      if (isMethodDeclarationNode(node)) {
+        CxxCppClassMethodVisitor memberVisitor = new CxxCppClassMethodVisitor(producedClass);
+        node.accept(memberVisitor);
+      } else if (isMemberDeclarationNode(node)) {
+        CxxCppClassMemberVisitor memberVisitor = new CxxCppClassMemberVisitor(producedClass);
+        node.accept(memberVisitor);
+      }
+    } catch (IllegalArgumentException e) {
+      CxxUtils.LOG.error("Class Members Visitor Exception, Ignore Member: " + e.getMessage());
+      CxxUtils.LOG.error("File Name: " + node.getContainingFilename() + " Class " + producedClass);
+    } catch (UnsupportedOperationException e) {
+      CxxUtils.LOG.error("EX: Class Members Visitor Exception, Ignore Member: " + e.toString());
+      CxxUtils.LOG.error("File Name: " + node.getContainingFilename() + " Class " + producedClass);
+    }
     return ASTVisitor.PROCESS_SKIP;
   }
 
   private boolean isMethodDeclarationNode(IASTDeclaration node) {
-    for(IASTNode child : node.getChildren()) {
-      if(child instanceof CPPASTFunctionDeclarator) {
+    for (IASTNode child : node.getChildren()) {
+      if (child instanceof CPPASTFunctionDeclarator) {
         return true;
       }
     }
@@ -99,8 +115,8 @@ public class CxxCppClassVisitor extends ASTVisitor {
   }
 
   private boolean isClassToken(String nodeToken) {
-    for(String token : CLASS_TOKENS) {
-      if(token.equals(nodeToken)) { 
+    for (String token : CLASS_TOKENS) {
+      if (token.equals(nodeToken)) {
         return true;
       }
     }
@@ -113,8 +129,7 @@ public class CxxCppClassVisitor extends ASTVisitor {
     } catch (ExpansionOverlapsBoundaryException e) {
       return "";
     } catch (NullPointerException e) {
-      return "";      
+      return "";
     }
   }
-
 }
