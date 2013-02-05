@@ -75,7 +75,7 @@ public class CxxSampleProjectIT {
                                6.0, 1.2, 39.0, 0.0,
                                44.0, 42.9, 50.0,
                                60.0, 2.0, 0.0, 5.0};
-    
+
     assertThat(values, is(expectedValues));
     assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=4;2=1;4=0;6=0;8=0;10=0;12=0"));
   }

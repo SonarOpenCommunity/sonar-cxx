@@ -39,10 +39,17 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CxxCoverageSensor extends CxxReportSensor {
+
+  private static final int UNIT_TEST_COVERAGE = 0;
+  public static final int IT_TEST_COVERAGE = 1;
+  public static final int OVERALL_TEST_COVERAGE = 2;
+  
   public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
   public static final String IT_REPORT_PATH_KEY = "sonar.cxx.it-coverage.reportPath";
+  public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.overall-coverage.reportPath";
   private static final String DEFAULT_REPORT_PATH = "coverage-reports/coverage-*.xml";
   private static final String IT_DEFAULT_REPORT_PATH = "coverage-reports/it-coverage-*.xml";
+  private static final String OVERALL_DEFAULT_REPORT_PATH = "coverage-reports/overall-coverage-*.xml";
   
   private final Settings settings;
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
@@ -65,13 +72,19 @@ public class CxxCoverageSensor extends CxxReportSensor {
                                     REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     CxxUtils.LOG.debug("Parsing coverage reports");
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
-    saveMeasures(project, context, coverageMeasures, false);
-    
+    saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
+
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReports(settings, project.getFileSystem().getBasedir().getPath(),
-                                      IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
-    coverageMeasures = parseReports(itReports);
-    saveMeasures(project, context, coverageMeasures, true);
+            IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
+    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
+    saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
+
+    CxxUtils.LOG.debug("Parsing overall test coverage reports");
+    List<File> overallReports = getReports(settings, project.getFileSystem().getBasedir().getPath(),
+            OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
+    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
+    saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
   }
   
   private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
@@ -103,17 +116,28 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   private void saveMeasures(Project project,
-                            SensorContext context,
-                            Map<String, CoverageMeasuresBuilder> coverageMeasures,
-                            boolean itTest) {
-    for(Map.Entry<String, CoverageMeasuresBuilder> entry: coverageMeasures.entrySet()) {
+          SensorContext context,
+          Map<String, CoverageMeasuresBuilder> coverageMeasures,
+          int coveragetype) {
+    for (Map.Entry<String, CoverageMeasuresBuilder> entry : coverageMeasures.entrySet()) {
       String filePath = entry.getKey();
       org.sonar.api.resources.File cxxfile =
         org.sonar.api.resources.File.fromIOFile(new File(filePath), project);
       if (fileExist(context, cxxfile)) {
         CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : entry.getValue().createMeasures()) {
-          measure = itTest ? convertToItMeasure(measure) : measure;
+          switch (coveragetype) {
+            case UNIT_TEST_COVERAGE:
+              break;
+            case IT_TEST_COVERAGE:
+              measure = convertToItMeasure(measure);
+              break;
+            case OVERALL_TEST_COVERAGE:
+              measure = convertForOverall(measure);
+              break;
+            default:
+              break;
+          }
           context.saveMeasure(cxxfile, measure);
         }
       } else {
@@ -142,7 +166,29 @@ public class CxxCoverageSensor extends CxxReportSensor {
     } else if (CoreMetrics.CONDITIONS_BY_LINE.equals(metric)) {
       itMeasure = new Measure(CoreMetrics.IT_CONDITIONS_BY_LINE, measure.getData());
     }
-    
+
+    return itMeasure;
+  }
+
+  private Measure convertForOverall(Measure measure) {
+    Measure itMeasure = null;
+
+    if (CoreMetrics.LINES_TO_COVER.equals(measure.getMetric())) {
+      itMeasure = new Measure(CoreMetrics.OVERALL_LINES_TO_COVER, measure.getValue());
+    } else if (CoreMetrics.UNCOVERED_LINES.equals(measure.getMetric())) {
+      itMeasure = new Measure(CoreMetrics.OVERALL_UNCOVERED_LINES, measure.getValue());
+    } else if (CoreMetrics.COVERAGE_LINE_HITS_DATA.equals(measure.getMetric())) {
+      itMeasure = new Measure(CoreMetrics.OVERALL_COVERAGE_LINE_HITS_DATA, measure.getData());
+    } else if (CoreMetrics.CONDITIONS_TO_COVER.equals(measure.getMetric())) {
+      itMeasure = new Measure(CoreMetrics.OVERALL_CONDITIONS_TO_COVER, measure.getValue());
+    } else if (CoreMetrics.UNCOVERED_CONDITIONS.equals(measure.getMetric())) {
+      itMeasure = new Measure(CoreMetrics.OVERALL_UNCOVERED_CONDITIONS, measure.getValue());
+    } else if (CoreMetrics.COVERED_CONDITIONS_BY_LINE.equals(measure.getMetric())) {
+      itMeasure = new Measure(CoreMetrics.OVERALL_COVERED_CONDITIONS_BY_LINE, measure.getData());
+    } else if (CoreMetrics.CONDITIONS_BY_LINE.equals(measure.getMetric())) {
+      itMeasure = new Measure(CoreMetrics.OVERALL_CONDITIONS_BY_LINE, measure.getData());
+    }
+
     return itMeasure;
   }
   
