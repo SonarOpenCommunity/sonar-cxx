@@ -67,7 +67,7 @@
   </ciManagement>
 
   <properties>
-    <sonar.version>3.0</sonar.version>
+    <sonar.version>3.3</sonar.version>
     <sonar.pluginKey>cxx</sonar.pluginKey>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
