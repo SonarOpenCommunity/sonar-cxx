@@ -109,6 +109,13 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
       global = false,
       project = true),
     @Property(
+      key = CxxPlugin.TEST_DIRECTORY_PATTERN,
+      name = "Source directory",
+      description = "Directories to be considered as test directories, will override source dirs",
+      defaultValue = "",
+      global = false,
+      project = true),  
+  @Property(        
       key = CxxXunitSensor.REPORT_PATH_KEY,
       defaultValue = "",
       name = "Path to unit test execution report(s)",
@@ -126,6 +133,7 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
+  static final String TEST_DIRECTORY_PATTERN = "sonar.cxx.testdir";
 
   /**
    * {@inheritDoc}

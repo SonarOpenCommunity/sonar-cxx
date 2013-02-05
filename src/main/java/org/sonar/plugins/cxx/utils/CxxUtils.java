@@ -20,19 +20,20 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
-
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
+import org.sonar.api.utils.WildcardPattern;
 
 /**
  * Utility class holding various, well, utilities
  */
 public final class CxxUtils {
-  
+
   private CxxUtils() {
     // only static methods
   }
-
   /**
    * Default logger.
    */
@@ -43,9 +44,38 @@ public final class CxxUtils {
    * @return Returns file path of provided file, or "null" if file == null
    */
   public static String fileToAbsolutePath(File file) {
-    if(file == null) {
+    if (file == null) {
       return "null";
     }
     return file.getAbsolutePath();
-  }  
+  }
+
+  /**
+   * @param file
+   * @return Returns file path of provided file, or "null" if file == null
+   */
+  public static boolean isATestFile(String data, String file) {
+    boolean isTest = false;
+    String[] patterns = CxxUtils.createStringArray(data, "");
+    for (int i = 0; i < patterns.length; i++) {
+      if (WildcardPattern.create(patterns[i]).match(file.replace("\\", "/"))) {
+        isTest = true;
+        break;
+      }
+    }
+    return isTest;
+  }
+
+  /**
+   * @param values
+   * @param defaultValues
+   * @return creates a array of strings, from string delimited by semi-colon
+   */
+  public static String[] createStringArray(String values, String defaultValues) {
+    String[] data = new String[0];
+    if (values != null && !values.equals("")) {
+      data = StringUtils.split(values, ",");
+    }
+    return data;
+  }
 }

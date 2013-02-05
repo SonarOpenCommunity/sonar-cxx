@@ -30,6 +30,7 @@ public final class CxxLanguage extends AbstractLanguage {
   public static final String DEFAULT_SOURCE_SUFFIXES = "cxx,cpp,cc,c";
   public static final String DEFAULT_HEADER_SUFFIXES = "hxx,hpp,hh,h";
   public static final String KEY = "c++";
+  public static final CxxLanguage INSTANCE = new CxxLanguage();
   
   private String[] sourceSuffixes;
   private String[] headerSuffixes;
