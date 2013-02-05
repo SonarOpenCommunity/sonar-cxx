@@ -39,12 +39,12 @@ import static junit.framework.Assert.assertTrue;
 public class CxxSourceImporterTest {
   @Test
   public void testSourceImporter() {
-    SensorContext context = mock(SensorContext.class);
+    SensorContext context = mock(SensorContext.class);           
     Project project = mockProject();
     Settings config = new Settings(new PropertyDefinitions(CxxPlugin.class));
     config.setProperty(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY, true);    
-    CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage());
-
+    CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage(), project, config);
+    assertTrue(importer.shouldExecuteOnProject(project));    
     importer.analyse(project, context);
 
     verify(context).saveSource((Resource) anyObject(), eq("<c++ source>\n"));
