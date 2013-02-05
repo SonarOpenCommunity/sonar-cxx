@@ -31,7 +31,7 @@ import org.sonar.plugins.cxx.CxxSourceCode;
 
 /**
  *
- * @author jocs
+ * @author Jorge Costa
  */
 public class CxxMaximumComplexityTest {
         
@@ -42,6 +42,7 @@ public class CxxMaximumComplexityTest {
         CxxSourceCode cxxSourceCode = new CxxSourceCode(resource, testFileLongName);
       
         CxxMaximumComplexity checkComplexity = new CxxMaximumComplexity();
+        checkComplexity.setLine(8);
         checkComplexity.setFunctionComplexity(100);
         checkComplexity.setFunctionName("testCase1");       
         checkComplexity.validate(CxxMaximumComplexity.getMyself(), cxxSourceCode);
@@ -50,22 +51,7 @@ public class CxxMaximumComplexityTest {
         assertEquals(1, violations.size());                  
         assertEquals(Integer.valueOf(8), violations.get(0).getLineId());        
     }
-    
-    @Test
-    public void shouldReportInvalidCharSequence() throws URISyntaxException {      
-        Resource resource = mock(Resource.class);
-        File testFileLongName = new File(getClass().getResource("/org/sonar/plugins/cxx/SampleProject/sources/tests/SAMPLE-test.cpp").toURI());
-        CxxSourceCode cxxSourceCode = new CxxSourceCode(resource, testFileLongName);
-      
-        CxxMaximumComplexity checkComplexity = new CxxMaximumComplexity();
-        checkComplexity.setFunctionComplexity(100);
-        checkComplexity.setFunctionName("testCase1&)");       
-        checkComplexity.validate(CxxMaximumComplexity.getMyself(), cxxSourceCode);                
-        List<Violation> violations = cxxSourceCode.getViolations();
-        assertEquals(1, violations.size());                  
-        assertEquals(null, violations.get(0).getLineId());        
-    }    
-    
+          
     @Test
     public void shouldReportNoViolationOnMoreThanSuite() throws URISyntaxException {      
         Resource resource = mock(Resource.class);

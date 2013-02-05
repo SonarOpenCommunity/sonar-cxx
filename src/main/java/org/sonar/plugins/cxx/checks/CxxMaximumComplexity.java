@@ -21,14 +21,11 @@ package org.sonar.plugins.cxx.checks;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.sonar.api.rules.AnnotationRuleParser;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.plugins.cxx.CxxSourceCode;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 @Rule(
   key = "MaximumMethodComplexity",
@@ -50,41 +47,21 @@ public class CxxMaximumComplexity extends CxxAbstractCheck {
   @RuleProperty(description = "Maximum complexity.", defaultValue = "" + DEFAULT_MAX_COMPLEXTIY)
   private int maximumMethodComplextity = DEFAULT_MAX_COMPLEXTIY;
   private int complexity;
+  private int line;
   private String funcName = null;
 
-  private void createNewViolation(org.sonar.api.rules.Rule rule, CxxSourceCode cxxSourceCode, int complexity, String functionName) {
+  private void createNewViolation(org.sonar.api.rules.Rule rule, CxxSourceCode cxxSourceCode, int complexity, String functionName, int lineId) {
 
     int timeToReachThreshold = complexity - maximumMethodComplextity;
     String message = functionName + " took " + Integer.toString(complexity)
             + " maximum threshold of: "
             + Integer.toString(maximumMethodComplextity);
-    int lineId = getLineForFile(functionName, cxxSourceCode);
 
     createViolation(rule, cxxSourceCode, lineId, message, (double) timeToReachThreshold);
   }
 
   public void setMaximumMethodComplextity(int threshold) {
     this.maximumMethodComplextity = threshold;
-  }
-
-  private int getLineForFile(String functionName, CxxSourceCode cxxSourceCode) {
-    List<String> lines = cxxSourceCode.getCode();
-    int linei = 0;
-    String patternString = ".*\\b(::" + functionName + ")\\b.*";
-    try{
-      Pattern pattern = Pattern.compile(patternString);
-      for (String line : lines) {
-        linei += 1;
-        Matcher matcher = pattern.matcher(line);
-        if (matcher.find()) {
-          return linei;
-        }
-      }      
-    } catch(java.util.regex.PatternSyntaxException ex){
-      CxxUtils.LOG.debug("Error: Pattern compiled: '{}'", functionName);
-    }
-
-    return 0;
   }
 
   @Override
@@ -94,7 +71,8 @@ public class CxxMaximumComplexity extends CxxAbstractCheck {
           createNewViolation(rule,
                   cxxSourceCode,
                   complexity,
-                  funcName);
+                  funcName,
+                  line);
     }
   }  
 
@@ -105,4 +83,8 @@ public class CxxMaximumComplexity extends CxxAbstractCheck {
   public void setFunctionName(String funcName) {
     this.funcName = funcName;    
   }
+  
+  public void setLine(int line) {
+    this.line = line;    
+  }  
 }

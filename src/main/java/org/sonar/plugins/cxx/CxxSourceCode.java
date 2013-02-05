@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -103,5 +104,11 @@ public class CxxSourceCode {
       CxxUtils.LOG.debug("Cannot Access File: '{}'  : ", file.getName(), ex.getMessage());      
     }
     return codeinit;
-  }  
+  }
+
+  public void saveViolations(SensorContext sensorContext) {
+    for (Violation violation : getViolations()) {
+      sensorContext.saveViolation(violation);
+    }
+  }
 }

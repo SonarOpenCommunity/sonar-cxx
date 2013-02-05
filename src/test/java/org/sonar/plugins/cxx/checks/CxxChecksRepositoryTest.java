@@ -26,7 +26,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.plugins.cxx.TestUtils;
 /**
  *
- * @author jocs
+ * @author Jorge Costa
  */
 public class CxxChecksRepositoryTest {
 
@@ -44,7 +44,7 @@ public class CxxChecksRepositoryTest {
   
   @Test
   public void getCheckNoActiveRules() {
-    AnnotationCheckFactory annotationCheckFactory = AnnotationCheckFactory.create(TestUtils.createStandardRulesProfile(), CxxChecksRepository.REPOSITORY_KEY, CxxChecksRepository.getChecks());
+    AnnotationCheckFactory annotationCheckFactory = AnnotationCheckFactory.create(TestUtils.createStandardEmptyRulesProfile(), CxxChecksRepository.REPOSITORY_KEY, CxxChecksRepository.getChecks());
     assertEquals(null, CxxChecksRepository.getCheck(annotationCheckFactory, CxxMaximumComplexity.getMyself()));
   }     
   

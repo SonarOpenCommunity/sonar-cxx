@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.configuration.Configuration;
 import org.apache.tools.ant.DirectoryScanner;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyObject;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
@@ -46,7 +47,6 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.utils.ValidationMessages;
-import static org.junit.Assert.assertEquals;
 
 public class TestUtils{
   static RuleFinder ruleFinder() {
@@ -58,7 +58,7 @@ public class TestUtils{
     }).getMock();
   }
   
-  static org.sonar.plugins.cxx.checks.CxxDefaultProfile getProfileDefinition() {
+  public static org.sonar.plugins.cxx.checks.CxxDefaultProfile getProfileDefinition() {
     RuleFinder ruleFinder = ruleFinder();
     return new org.sonar.plugins.cxx.checks.CxxDefaultProfile(new AnnotationProfileParser(ruleFinder));
   }
@@ -66,11 +66,12 @@ public class TestUtils{
   /**
    * create standard rules profile
    */
-  public static RulesProfile createStandardRulesProfile() {
+  public static RulesProfile createStandardEmptyRulesProfile() {
     ProfileDefinition profileDefinition = getProfileDefinition();
 
     ValidationMessages messages = ValidationMessages.create();
     RulesProfile profile = profileDefinition.createProfile(messages);
+    
     assertEquals(0, messages.getErrors().size());
     assertEquals(0, messages.getWarnings().size());
     assertEquals(0, messages.getInfos().size());

@@ -34,19 +34,43 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
+import org.sonar.api.profiles.ProfileDefinition;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.rules.RulePriority;
+import org.sonar.api.rules.Violation;
+import org.sonar.api.utils.ValidationMessages;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.plugins.cxx.checks.CxxMaximumComplexity;
+import static org.junit.Assert.assertEquals;
 
 public class CxxCppNcssSensorTest {
   private CxxCppNcssSensor sensor;
   private SensorContext context;
   private Project project;
+  private RulesProfile rulesProfile;  
 
+
+  public RulesProfile createStandardRulesProfile() {
+    ProfileDefinition profileDefinition = TestUtils.getProfileDefinition();
+
+    ValidationMessages messages = ValidationMessages.create();
+    RulesProfile profile = profileDefinition.createProfile(messages);
+    profile.activateRule(CxxMaximumComplexity.getMyself(), RulePriority.INFO);
+    
+    assertEquals(0, messages.getErrors().size());
+    assertEquals(0, messages.getWarnings().size());
+    assertEquals(0, messages.getInfos().size());
+    return profile;
+  }
+  
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    sensor = new CxxCppNcssSensor(new Settings());
+    rulesProfile = createStandardRulesProfile();
+    sensor = new CxxCppNcssSensor(new Settings(), rulesProfile);
+    
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
@@ -61,5 +85,7 @@ public class CxxCppNcssSensorTest {
     verify(context, times(5)).saveMeasure((Resource) anyObject(),
                                           eq(CoreMetrics.COMPLEXITY), anyDouble());
     verify(context, times(15)).saveMeasure((Resource) anyObject(), any(Measure.class));
+    
+    verify(context, times(1)).saveViolation(any(Violation.class));
   }
 }
