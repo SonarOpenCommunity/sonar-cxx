@@ -155,6 +155,8 @@ public final class CxxPlugin extends SonarPlugin {
     
     //l.add(CxxCohesionSensor.class);
     //l.add(CxxRfcSensor.class);
+    
+    l.add(CxxCommonRulesEngineProvider.class);
 
     return l;
   }
