@@ -20,23 +20,18 @@
 
 package org.sonar.plugins.cxx.xunit;
 
+import java.io.File;
+import org.junit.Before;
+import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.anyDouble;
-import static org.mockito.Mockito.any;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.configuration.Configuration;
-import org.junit.Before;
-import org.junit.Test;
+import static org.mockito.Mockito.verify;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
@@ -50,9 +45,8 @@ public class CxxXunitSensorTest {
 
   @Before
   public void setUp() {
-    Configuration config = mock(Configuration.class);
     project = TestUtils.mockProject();
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(new Settings(), TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
   }
 
@@ -75,8 +69,9 @@ public class CxxXunitSensorTest {
 
   @Test
   public void shouldReportZeroTestWhenNoReportFound() {
-    Configuration config = mock(Configuration.class);
-    when(config.getString(CxxXunitSensor.REPORT_PATH_KEY, null)).thenReturn("notexistingpath");
+    Settings config = new Settings();
+    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
+    
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     
     sensor.analyse(project, context);
@@ -86,9 +81,8 @@ public class CxxXunitSensorTest {
 
   @Test(expected=org.sonar.api.utils.SonarException.class)
   public void shouldThrowWhenGivenInvalidTime() {
-    Configuration config = mock(Configuration.class);
-    when(config.getString(CxxXunitSensor.REPORT_PATH_KEY, null))
-      .thenReturn("xunit-reports/invalid-time-xunit-report.xml");
+    Settings config = new Settings();
+    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");    
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     
     sensor.analyse(project, context);
@@ -98,8 +92,9 @@ public class CxxXunitSensorTest {
   public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
     throws java.io.IOException, javax.xml.transform.TransformerException 
   {
-    Configuration config = mock(Configuration.class);
-    when(config.getString(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("whatever");
+    Settings config = new Settings();
+    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");  
+
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     
     sensor.transformReport(cppunitReport());
@@ -109,8 +104,9 @@ public class CxxXunitSensorTest {
   public void transformReport_shouldTransformCppunitReport()
     throws java.io.IOException, javax.xml.transform.TransformerException 
   {
-    Configuration config = mock(Configuration.class);
-    when(config.getString(CxxXunitSensor.XSLT_URL_KEY)).thenReturn("cppunit-1.x-to-junit-1.0.xsl");
+    Settings config = new Settings();
+    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");  
+    
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     File reportBefore = cppunitReport();
     

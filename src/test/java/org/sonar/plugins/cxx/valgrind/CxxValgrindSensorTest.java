@@ -20,25 +20,23 @@
 
 package org.sonar.plugins.cxx.valgrind;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-
-import java.util.Set;
 import java.util.HashSet;
-
-import org.apache.commons.configuration.Configuration;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxValgrindSensorTest {
@@ -50,7 +48,7 @@ public class CxxValgrindSensorTest {
   public void setUp() {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxValgrindSensor(ruleFinder, mock(Configuration.class), mock(RulesProfile.class));
+    sensor = new CxxValgrindSensor(ruleFinder, new Settings(), mock(RulesProfile.class));
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource(any(Resource.class))).thenReturn(resourceMock);

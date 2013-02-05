@@ -20,18 +20,16 @@
 
 package org.sonar.plugins.cxx.coverage;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.any;
-
-import org.apache.commons.configuration.Configuration;
-import org.junit.Ignore;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
@@ -45,7 +43,7 @@ public class CxxCoverageSensorTest {
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    sensor = new CxxCoverageSensor(mock(Configuration.class));
+    sensor = new CxxCoverageSensor(new Settings());
     context = mock(SensorContext.class);
     Resource resourceMock = mock(Resource.class);
     when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);

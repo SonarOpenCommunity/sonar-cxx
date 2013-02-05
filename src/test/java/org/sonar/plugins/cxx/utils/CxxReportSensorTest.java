@@ -20,19 +20,14 @@
 
 package org.sonar.plugins.cxx.utils;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.io.File;
 import java.util.List;
-
-import org.apache.commons.configuration.Configuration;
-import org.sonar.api.resources.Project;
-import org.sonar.api.batch.SensorContext;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
+import static org.mockito.Mockito.when;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -42,6 +37,7 @@ public class CxxReportSensorTest {
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private class CxxSensorImpl extends CxxReportSensor {
+    @Override
     public void analyse(Project p, SensorContext sc){}
   };
 
@@ -56,7 +52,6 @@ public class CxxReportSensorTest {
     }
     catch(java.net.URISyntaxException e){
       System.out.println(e);
-      return;
     }
   }
 
@@ -68,23 +63,23 @@ public class CxxReportSensorTest {
   @Test
   public void shouldExecuteOnlyWhenNecessary() {
     // which means: only on cxx projects
-    CxxReportSensor sensor = new CxxSensorImpl();
+    CxxReportSensor cxxsensor = new CxxSensorImpl();
     Project cxxProject = mockProjectWithLanguageKey(CxxLanguage.KEY);
     Project foreignProject = mockProjectWithLanguageKey("whatever");
-    assert(sensor.shouldExecuteOnProject(cxxProject));
-    assert(!sensor.shouldExecuteOnProject(foreignProject));
+    assert(cxxsensor.shouldExecuteOnProject(cxxProject));
+    assert(!cxxsensor.shouldExecuteOnProject(foreignProject));
   }
 
   @Test
   public void getReports_shouldFindSomethingIfThere(){
-    List<File> reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
+    List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
                                            "", VALID_REPORT_PATH);
     assertFound(reports);
   }
 
   @Test
   public void getReports_shouldFindNothingIfNotThere(){
-    List<File> reports = sensor.getReports(mock(Configuration.class), baseDir.getPath(),
+    List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
                                            "", INVALID_REPORT_PATH);
     assertNotFound(reports);
   }
@@ -94,19 +89,17 @@ public class CxxReportSensorTest {
     // we'll detect this condition by passing something not existing as config property
     // and something existing as default. The result is 'found nothing' because the
     // config has been used
-
-    Configuration config = mock(Configuration.class);
-    when(config.getString(REPORT_PATH_PROPERTY_KEY)).thenReturn(INVALID_REPORT_PATH);
-    
+    Settings config = new Settings();
+    config.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
+        
     List<File> reports = sensor.getReports(config, baseDir.getPath(),
                                            REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
-    assertFound(reports);
+    assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFallbackToDefaultIfNothingConfigured(){
-    Configuration config = mock(Configuration.class);
-    List<File> reports = sensor.getReports(config, baseDir.getPath(),
+    List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
                                            REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertFound(reports);
   }

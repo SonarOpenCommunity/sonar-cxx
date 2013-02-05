@@ -67,7 +67,7 @@
   </ciManagement>
 
   <properties>
-    <sonar.version>2.12</sonar.version>
+    <sonar.version>3.0</sonar.version>
     <sonar.pluginKey>cxx</sonar.pluginKey>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
@@ -146,13 +146,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.1</version>
-    </dependency>
-    
+   
     <dependency>
       <groupId>org.eclipse.cdt</groupId>
       <artifactId>core</artifactId>

@@ -22,7 +22,6 @@ package org.sonar.plugins.cxx.xunit;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
-
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -31,20 +30,19 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import org.apache.commons.configuration.Configuration;
-import org.sonar.api.batch.AbstractCoverageExtension;
+import org.sonar.api.batch.CoverageExtension;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}
@@ -59,7 +57,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Configuration conf, CxxLanguage cxxLang) {
+  public CxxXunitSensor(Settings conf, CxxLanguage cxxLang) {
     super(conf);
     this.lang = cxxLang;
     xsltURL = conf.getString(XSLT_URL_KEY);
@@ -70,17 +68,20 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @DependsUpon
   public Class<?> dependsUponCoverageSensors() {
-    return AbstractCoverageExtension.class;
+    return CoverageExtension.class;
   }
 
+  @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
   
+  @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
   
+  @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws
     java.io.IOException,
@@ -90,6 +91,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     parseReport(project, context, transformReport(report));
   }
 
+  @Override
   protected void handleNoReportsCase(SensorContext context) {
     context.saveMeasure(CoreMetrics.TESTS, 0.0);
   }

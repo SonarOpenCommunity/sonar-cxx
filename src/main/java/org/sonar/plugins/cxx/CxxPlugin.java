@@ -26,6 +26,7 @@ import org.sonar.api.Extension;
 import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.SonarPlugin;
 // import org.sonar.plugins.cxx.cohesion.CxxCohesionSensor;
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
@@ -122,33 +123,9 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
       global = false,
       project = true)
       })
-public final class CxxPlugin implements Plugin {
+public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
-
-  /**
-   * @deprecated this is not used anymore
-   */
-  @Deprecated
-  public String getKey() {
-    return "C++ plugin";
-  }
-
-  /**
-   * @deprecated this is not used anymore
-   */
-  @Deprecated
-  public String getName() {
-    return "C++ plugin";
-  }
-
-  /**
-   * @deprecated this is not used anymore
-   */
-  @Deprecated
-  public String getDescription() {
-    return "Add support for C++ language.";
-  }
 
   /**
    * {@inheritDoc}
