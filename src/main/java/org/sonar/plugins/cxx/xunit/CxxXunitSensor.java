@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.xunit;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import javax.xml.transform.OutputKeys;
@@ -30,12 +31,12 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import org.sonar.api.batch.CoverageExtension;
-import org.sonar.api.batch.DependsUpon;
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.ParsingUtils;
@@ -48,46 +49,37 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CxxXunitSensor extends CxxReportSensor {
+
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
-  private String xsltURL = null;
-  private CxxLanguage lang = null;
-  
+  private final Settings settings;
+  private int globalDuplicationCounter = 0;
+
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, CxxLanguage cxxLang) {
-    super(conf);
-    this.lang = cxxLang;
-    xsltURL = conf.getString(XSLT_URL_KEY);
-  }
-  
-  /**
-   * {@inheritDoc}
-   */
-  @DependsUpon
-  public Class<?> dependsUponCoverageSensors() {
-    return CoverageExtension.class;
+  public CxxXunitSensor(Settings settings) {
+    super(settings);
+    this.settings = settings;
   }
 
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
-  
+
   @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
-  
+
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-    throws
-    java.io.IOException,
-    javax.xml.transform.TransformerException,
-    javax.xml.stream.XMLStreamException
-  {
+          throws
+          java.io.IOException,
+          javax.xml.transform.TransformerException,
+          javax.xml.stream.XMLStreamException {
     parseReport(project, context, transformReport(report));
   }
 
@@ -95,25 +87,24 @@ public class CxxXunitSensor extends CxxReportSensor {
   protected void handleNoReportsCase(SensorContext context) {
     context.saveMeasure(CoreMetrics.TESTS, 0.0);
   }
-  
+
   File transformReport(File report)
-    throws java.io.IOException, javax.xml.transform.TransformerException
-  {
+          throws java.io.IOException, javax.xml.transform.TransformerException {
     File transformed = report;
-    if (xsltURL != null) {
-      CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
-      InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
+    if (settings.getString(XSLT_URL_KEY) != null) {
+      CxxUtils.LOG.debug("Transforming the report using xslt '{}'", settings.getString(XSLT_URL_KEY));
+      InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + settings.getString(XSLT_URL_KEY));
       if (inputStream == null) {
-        URL url = new URL(xsltURL);
+        URL url = new URL(settings.getString(XSLT_URL_KEY));
         inputStream = url.openStream();
       }
-      
+
       Source xsl = new StreamSource(inputStream);
       TransformerFactory factory = TransformerFactory.newInstance();
       Templates template = factory.newTemplates(xsl);
       Transformer xformer = template.newTransformer();
       xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      
+
       Source source = new StreamSource(report);
       transformed = new File(report.getAbsolutePath() + ".after_xslt");
       Result result = new StreamResult(transformed);
@@ -121,53 +112,64 @@ public class CxxXunitSensor extends CxxReportSensor {
     } else {
       CxxUtils.LOG.debug("Transformation skipped: no xslt given");
     }
-    
+
     return transformed;
   }
-  
+
   private void parseReport(Project project, SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException
-  {
+          throws javax.xml.stream.XMLStreamException, IOException {
     CxxUtils.LOG.info("Parsing report '{}'", report);
-    
+
     TestSuiteParser parserHandler = new TestSuiteParser();
     StaxParser parser = new StaxParser(parserHandler, false);
     parser.parse(report);
-    
+
     for (TestSuite fileReport : parserHandler.getParsedReports()) {
-      String fileKey = fileReport.getKey();
+      String fileKey = fileReport.getTestFileName();
+      org.sonar.api.resources.File resource = getTestFileFile(project, context, fileKey);
+      double testsCount = fileReport.getTests() - fileReport.getSkipped();            
       
-      org.sonar.api.resources.File unitTest =
-        org.sonar.api.resources.File.fromIOFile(new File(fileKey), project);
-      if (unitTest == null) {
-        unitTest = createVirtualFile(context, fileKey);
-      }
-      
-      CxxUtils.LOG.debug("Saving test execution measures for file '{}' under resource '{}'",
-                         fileKey, unitTest);
-      
-      double testsCount = fileReport.getTests() - fileReport.getSkipped();
-      context.saveMeasure(unitTest, CoreMetrics.SKIPPED_TESTS, (double)fileReport.getSkipped());
-      context.saveMeasure(unitTest, CoreMetrics.TESTS, testsCount);
-      context.saveMeasure(unitTest, CoreMetrics.TEST_ERRORS, (double)fileReport.getErrors());
-      context.saveMeasure(unitTest, CoreMetrics.TEST_FAILURES, (double)fileReport.getFailures());
-      context.saveMeasure(unitTest, CoreMetrics.TEST_EXECUTION_TIME, (double)fileReport.getTime());
-      double passedTests = testsCount - fileReport.getErrors() - fileReport.getFailures();
-      if (testsCount > 0) {
-        double percentage = passedTests * 100d / testsCount;
-        context.saveMeasure(unitTest, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(percentage));
-      }
-      
-      context.saveMeasure(unitTest, new Measure(CoreMetrics.TEST_DATA, fileReport.getDetails()));
+      try {
+        saveTestMetrics(context, resource, fileReport, testsCount);
+      } catch (org.sonar.api.utils.SonarException ex) {                
+        String dupFileKey = StringUtils.substringBeforeLast(fileKey, ".")
+                + "_dup_" + Integer.toString(globalDuplicationCounter)
+                + "." + StringUtils.substringAfterLast(fileKey, ".");
+
+        org.sonar.api.resources.File unitTest = getTestFileFile(project, context, dupFileKey);
+        globalDuplicationCounter += 1;
+        saveTestMetrics(context, unitTest, fileReport, testsCount);
+        
+      }      
     }
   }
 
-  private org.sonar.api.resources.File createVirtualFile(SensorContext context,
-                                                         String filename) {
-    org.sonar.api.resources.File virtualFile =
-      new org.sonar.api.resources.File(this.lang, filename);
-    virtualFile.setQualifier(Qualifiers.UNIT_TEST_FILE);
-    context.saveSource(virtualFile, "<source code could not be found>");
-    return virtualFile;
+  private void saveTestMetrics(SensorContext context, org.sonar.api.resources.File resource, TestSuite fileReport, double testsCount) {
+    context.saveMeasure(resource, CoreMetrics.SKIPPED_TESTS, (double) fileReport.getSkipped());
+    context.saveMeasure(resource, CoreMetrics.TESTS, testsCount);
+    context.saveMeasure(resource, CoreMetrics.TEST_ERRORS, (double) fileReport.getErrors());
+    context.saveMeasure(resource, CoreMetrics.TEST_FAILURES, (double) fileReport.getFailures());
+    context.saveMeasure(resource, CoreMetrics.TEST_EXECUTION_TIME, (double) fileReport.getTime());
+    final double passedTests = testsCount - fileReport.getErrors() - fileReport.getFailures();
+    if (testsCount > 0) {
+      double percentage = passedTests * 100d / testsCount;
+      context.saveMeasure(resource, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(percentage));
+    }
+    context.saveMeasure(resource, new Measure(CoreMetrics.TEST_DATA, fileReport.getDetails()));     
   }
+
+  private org.sonar.api.resources.File getTestFileFile(Project project, SensorContext context, String fileKey) {
+
+    org.sonar.api.resources.File resource =
+            org.sonar.api.resources.File.fromIOFile(new File(fileKey), project);
+
+    if (context.getResource(resource) == null) {
+      resource = new org.sonar.api.resources.File(fileKey);
+      resource.setLanguage(CxxLanguage.INSTANCE);
+      resource.setQualifier(Qualifiers.UNIT_TEST_FILE);
+      context.saveSource(resource, "<This is a virtual file or duplicated file due to multiple test classes in file>");
+    }
+
+    return resource;
+  }  
 }

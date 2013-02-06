@@ -34,6 +34,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.plugins.cxx.TestUtils;
@@ -42,16 +43,17 @@ public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
   private SensorContext context;
   private Project project;
-
+      
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    sensor = new CxxXunitSensor(new Settings(), TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
+
+    sensor = new CxxXunitSensor(new Settings());
     sensor.analyse(project, context);
 
     verify(context, times(3)).saveMeasure((Resource) anyObject(),
@@ -71,8 +73,8 @@ public class CxxXunitSensorTest {
   public void shouldReportZeroTestWhenNoReportFound() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
-    
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+        
+    sensor = new CxxXunitSensor(config);
     
     sensor.analyse(project, context);
     
@@ -83,8 +85,8 @@ public class CxxXunitSensorTest {
   public void shouldThrowWhenGivenInvalidTime() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");    
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
-    
+
+    sensor = new CxxXunitSensor(config);   
     sensor.analyse(project, context);
   }
   
@@ -93,9 +95,8 @@ public class CxxXunitSensorTest {
     throws java.io.IOException, javax.xml.transform.TransformerException 
   {
     Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");  
-
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");      
+    sensor = new CxxXunitSensor(config);
     
     sensor.transformReport(cppunitReport());
   }
@@ -105,9 +106,9 @@ public class CxxXunitSensorTest {
     throws java.io.IOException, javax.xml.transform.TransformerException 
   {
     Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");  
-    
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");      
+      
+    sensor = new CxxXunitSensor(config);
     File reportBefore = cppunitReport();
     
     File reportAfter = sensor.transformReport(reportBefore);

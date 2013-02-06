@@ -22,86 +22,91 @@ package org.sonar.plugins.cxx.xunit;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
- * Represents a unit test case. Has a couple of data items like name,
- * status, time etc. associated. Reports testcase details in sonar-conform XML
+ * Represents a unit test case. Has a couple of data items like name, status,
+ * time etc. associated. Reports testcase details in sonar-conform XML
  */
 public class TestCase {
+
   private static final String STATUS_OK = "ok";
   private static final String STATUS_ERROR = "error";
   private static final String STATUS_FAILURE = "failure";
   private static final String STATUS_SKIPPED = "skipped";
-  
-  private String name;
-  private String status = STATUS_OK;
-  private String stackTrace;
-  private String errorMessage;
+  private final String name;
+  private final String status;
+  private final String stackTrace;
+  private final String errorMessage;
   private int time = 0;
-  
+
   /**
    * Constructs a testcase instance out of following parameters
+   *
    * @params name The name of this testcase
    * @params time The execution time in milliseconds
    * @params status The execution status of the testcase
    * @params stack The stack trace occurred while executing of this testcase;
-   *               pass "" if the testcase passed/skipped.
-   * @params msg The error message accosiated with this testcase of the execution
-   *             was errouneous; pass "" if not.
+   * pass "" if the testcase passed/skipped.
+   * @params msg The error message accosiated with this testcase of the
+   * execution was errouneous; pass "" if not.
    */
-  public TestCase(String name, int time, String status, String stack, String msg){
+  public TestCase(String name, int time, String status, String stack, String msg) {
     this.name = name;
     this.time = time;
     this.stackTrace = stack;
     this.errorMessage = msg;
     this.status = status;
   }
-  
+
   /**
    * Returns true if this testcase is an error, false otherwise
    */
-  public boolean isError(){
+  public boolean isError() {
     return STATUS_ERROR.equals(status);
   }
-  
+
   /**
    * Returns true if this testcase is a failure, false otherwise
    */
-  public boolean isFailure(){
+  public boolean isFailure() {
     return STATUS_FAILURE.equals(status);
   }
 
   /**
    * Returns true if this testcase has been skipped, failure, false otherwise
    */
-  public boolean isSkipped(){
+  public boolean isSkipped() {
     return STATUS_SKIPPED.equals(status);
   }
 
   public int getTime() {
     return time;
   }
-  
+
+  public String getName() {
+    return name;
+  }
+
   /**
    * Returns execution details as sonar-conform XML
    */
-  public String getDetails(){
+  public String getDetails() {
     StringBuilder details = new StringBuilder();
     details.append("<testcase status=\"")
-      .append(status)
-      .append("\" time=\"")
-      .append(time)
-      .append("\" name=\"")
-      .append(name)
-      .append("\"");
+            .append(status)
+            .append("\" time=\"")
+            .append(time)
+            .append("\" name=\"")
+            .append(name)
+            .append("\"");
     if (isError() || isFailure()) {
       details.append(">")
-        .append(isError() ? "<error message=\"" : "<failure message=\"")
-        .append(StringEscapeUtils.escapeXml(errorMessage))
-        .append("\">")
-        .append("<![CDATA[")
-        .append(StringEscapeUtils.escapeXml(stackTrace))
-        .append("]]>")
-        .append(isError() ? "</error>" : "</failure>")
-        .append("</testcase>");
+              .append(isError() ? "<error message=\"" : "<failure message=\"")
+              .append(StringEscapeUtils.escapeXml(errorMessage))
+              .append("\">")
+              .append("<![CDATA[")
+              .append(StringEscapeUtils.escapeXml(stackTrace))
+              .append("]]>")
+              .append(isError() ? "</error>" : "</failure>")
+              .append("</testcase>");
     } else {
       details.append("/>");
     }

@@ -20,12 +20,11 @@
 
 package org.sonar.plugins.cxx.xunit;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestSuiteTest {
   TestSuite suite;
@@ -34,9 +33,9 @@ public class TestSuiteTest {
   
   @Before
   public void setUp() {
-    suite = new TestSuite("key");
-    equalSuite = new TestSuite("key");
-    otherSuite = new TestSuite("otherkey");
+    suite = new TestSuite("key","");
+    equalSuite = new TestSuite("key","");
+    otherSuite = new TestSuite("otherkey","");
   }
 
   @Test
