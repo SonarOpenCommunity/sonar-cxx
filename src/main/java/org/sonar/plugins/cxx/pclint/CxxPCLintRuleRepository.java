@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 /**
@@ -30,8 +32,8 @@ public final class CxxPCLintRuleRepository extends CxxAbstractRuleRepository {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintRuleRepository() {
-    super(KEY);
+  public CxxPCLintRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
+    super(fileSystem, xmlRuleParser, KEY);
     setName(KEY);
   }
 

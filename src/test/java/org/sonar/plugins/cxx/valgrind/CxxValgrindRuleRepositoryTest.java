@@ -19,14 +19,70 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
+import java.io.File;
+import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxValgrindRuleRepositoryTest {
   @Test
   public void shouldContainProperNumberOfRules() {
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository();
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new XMLRuleParser());
     assertEquals(repo.createRules().size(), 15);
   }
+  
+  @Test
+  public void containsValidFormatInExtensionRulesOldFormat() {
+    ServerFileSystem filesystem = mock(ServerFileSystem.class);
+    ArrayList<File> extensionFile = new ArrayList<File>();
+    extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesOldFormat.xml"));
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    assertEquals(repo.createRules().size(), 130);
+  }
+  
+  @Test
+  public void containsValidFormatInExtensionRulesNewFormat() {
+    ServerFileSystem filesystem = mock(ServerFileSystem.class);
+    ArrayList<File> extensionFile = new ArrayList<File>();
+    extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesNewFormat.xml"));
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    assertEquals(repo.createRules().size(), 16);
+  }
+  
+  @Test(expected=org.sonar.api.utils.SonarException.class)
+  public void containsInvalidFormatInExtensionRulesOldFormat() {
+    ServerFileSystem filesystem = mock(ServerFileSystem.class);
+    ArrayList<File> extensionFile = new ArrayList<File>();
+    extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesInvalidOldFormat.xml"));
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    repo.createRules();
+  }  
+
+  @Test(expected=org.sonar.api.utils.SonarException.class)
+  public void containsInvalidFormatInExtensionRulesNewFormat() {
+    ServerFileSystem filesystem = mock(ServerFileSystem.class);
+    ArrayList<File> extensionFile = new ArrayList<File>();
+    extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesInvalidFormatNewFormat.xml"));
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    repo.createRules();
+  } 
+  
+  @Test(expected=org.sonar.api.utils.SonarException.class)
+  public void containsEmptyExtensionRulesFile() {
+    ServerFileSystem filesystem = mock(ServerFileSystem.class);
+    ArrayList<File> extensionFile = new ArrayList<File>();
+    extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesEmptyFile.xml"));
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    repo.createRules();
+  }   
 }
