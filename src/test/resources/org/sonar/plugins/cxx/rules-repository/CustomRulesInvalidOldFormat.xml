@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+	<rules>
+		<rule>
+			<configkey>cpplint.architecture-0</configkey>
+			<name> SONAR_ARCHITECTURAL_VIOLATION:    + error_msg</name>
+			<description> SONAR_ARCHITECTURAL_VIOLATION:    + error_msg</description>
+		</rule>
+	</rules>

@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="ASCII"?>
+	<rules>
+		<rule>
+			<key>cpplint.architecture-0</key>
+			<configkey>cpplint.architecture-0</configkey>
+			<name> SONAR_ARCHITECTURAL_VIOLATION:    + error_msg</name>
+			<description> SONAR_ARCHITECTURAL_VIOLATION:    + error_msg</description>
+		</rule>
+		<rule>
+			<key>cpplint.architecture-1</key>
+			<configkey>cpplint.architecture-1</configkey>
+			<name> SONAR_ARCHITECTURAL_VIOLATION BLOCK:    + error_msg</name>
+			<description> SONAR_ARCHITECTURAL_VIOLATION BLOCK:    + error_msg</description>
+		</rule>	
+		<rule>
+			<key>cpplint.encoding-1</key>
+			<configkey>cpplint.encoding-1</configkey>
+			<name> Encoding Problems: Invalid character Used (TT #82382): %s  % error_msg</name>
+			<description> Encoding Problems: Invalid character Used (TT #82382): %s  % error_msg</description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/references-0</key>
+			<configkey>cpplint.runtime/references-0</configkey>
+			<name> Is this a non-const reference?   If so, make const or use a pointer. </name>
+			<description> Is this a non-const reference?   If so, make const or use a pointer. </description>
+		</rule>
+		<rule>
+			<key>cpplint.sizeoffiles-0</key>
+			<configkey>cpplint.sizeoffiles-0</configkey>
+			<name> Source files are restricted to a maximum of 1500 lines of code </name>
+			<description> Source files are restricted to a maximum of 1500 lines of code </description>
+		</rule>
+		<rule>
+			<key>cpplint.sizeoffiles-1</key>
+			<configkey>cpplint.sizeoffiles-1</configkey>
+			<name> Header files are restricted to a maximum of 300 lines of code </name>
+			<description> Header files are restricted to a maximum of 300 lines of code </description>
+		</rule>	
+		<rule>
+			<key>cpplint.unnamed-0</key>
+			<configkey>cpplint.unnamed-0</configkey>
+			<name> usage_of unnamed struct::Usage of unnamed struct. Structs should always have a name by Tekla coding guidelines </name>
+			<description> usage_of unnamed struct::Usage of unnamed struct. Structs should always have a name by Tekla coding guidelines </description>
+		</rule>	
+		<rule>
+			<key>cpplint.readability/nolint-0</key>
+			<configkey>cpplint.readability/nolint-0</configkey>
+			<name> Unknown NOLINT error category: %s  % category</name>
+			<description> Unknown NOLINT error category: %s  % category</description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/fn_size-0</key>
+			<configkey>cpplint.readability/fn_size-0</configkey>
+			<name> Small and focused functions are preferred:   %s has %d non-comment lines   (error triggered by exceeding %d lines).   % (self.current_function, self.lines_in_function, trigger)</name>
+			<description> Small and focused functions are preferred:   %s has %d non-comment lines   (error triggered by exceeding %d lines).   % (self.current_function, self.lines_in_function, trigger)</description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/multiline_comment-0</key>
+			<configkey>cpplint.readability/multiline_comment-0</configkey>
+			<name> Could not find end of multi-line comment </name>
+			<description> Could not find end of multi-line comment </description>
+		</rule>
+		<rule>
+			<key>cpplint.legal/copyright-0</key>
+			<configkey>cpplint.legal/copyright-0</configkey>
+			<name> No copyright message found.    You should have a line: "Copyright [year] &lt;Copyright Owner&gt;" </name>
+			<description> No copyright message found.    You should have a line: "Copyright [year] &lt;Copyright Owner&gt;" </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/header_guard-0</key>
+			<configkey>cpplint.build/header_guard-0</configkey>
+			<name> No #ifndef header guard found, suggested CPP variable is: %s  %cppvar</name>
+			<description> No #ifndef header guard found, suggested CPP variable is: %s  %cppvar</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/header_guard-1</key>
+			<configkey>cpplint.build/header_guard-1</configkey>
+			<name> No #define header guard found, suggested CPP variable is: %s  %cppvar</name>
+			<description> No #define header guard found, suggested CPP variable is: %s  %cppvar</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/header_guard-2</key>
+			<configkey>cpplint.build/header_guard-2</configkey>
+			<name> #ifndef header guard has wrong style, please use: %s  % cppvar</name>
+			<description> #ifndef header guard has wrong style, please use: %s  % cppvar</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/header_guard-3</key>
+			<configkey>cpplint.build/header_guard-3</configkey>
+			<name> #ifndef and #define don\ t match, suggested CPP variable is: %s  %cppvar</name>
+			<description> #ifndef and #define don\ t match, suggested CPP variable is: %s  %cppvar</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/header_guard-4</key>
+			<configkey>cpplint.build/header_guard-4</configkey>
+			<name> #endif line should be "#endif  // %s"  % cppvar</name>
+			<description> #endif line should be "#endif  // %s"  % cppvar</description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/utf8-0</key>
+			<configkey>cpplint.readability/utf8-0</configkey>
+			<name> Line contains invalid UTF-8 (or Unicode replacement character). </name>
+			<description> Line contains invalid UTF-8 (or Unicode replacement character). </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/ending_newline-0</key>
+			<configkey>cpplint.whitespace/ending_newline-0</configkey>
+			<name> Could not find a newline character at the end of the file. </name>
+			<description> Could not find a newline character at the end of the file. </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/multiline_comment-1</key>
+			<configkey>cpplint.readability/multiline_comment-1</configkey>
+			<name> Complex multi-line /*...*/-style comment found.   Lint may give bogus warnings.    Consider replacing these with //-style comments,   with #if 0...#endif,   or with more clearly structured multi-line</name>
+			<description> Complex multi-line /*...*/-style comment found.   Lint may give bogus warnings.    Consider replacing these with //-style comments,   with #if 0...#endif,   or with more clearly structured multi-line comments. </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/multiline_string-0</key>
+			<configkey>cpplint.readability/multiline_string-0</configkey>
+			<name> Multi-line string ("...") found.  This lint script doesn\ t   do well with such strings, and may give bogus warnings.  They\ re   ugly and unnecessary, and you should use concatenation instead". </name>
+			<description> Multi-line string ("...") found.  This lint script doesn\ t   do well with such strings, and may give bogus warnings.  They\ re   ugly and unnecessary, and you should use concatenation instead". </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/threadsafe_fn-0</key>
+			<configkey>cpplint.runtime/threadsafe_fn-0</configkey>
+			<name> Consider using   + multithread_safe_function + ...) instead of   + single_thread_function + ...) for improved thread safety. </name>
+			<description> Consider using   + multithread_safe_function + ...) instead of   + single_thread_function + ...) for improved thread safety. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/invalid_increment-0</key>
+			<configkey>cpplint.runtime/invalid_increment-0</configkey>
+			<name> Changing pointer instead of value (or unused value of operator*). </name>
+			<description> Changing pointer instead of value (or unused value of operator*). </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/class-0</key>
+			<configkey>cpplint.build/class-0</configkey>
+			<name> Failed to find complete declaration of class %s  %self.classinfo_stack[0].name</name>
+			<description> Failed to find complete declaration of class %s  %self.classinfo_stack[0].name</description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/printf_format-0</key>
+			<configkey>cpplint.runtime/printf_format-0</configkey>
+			<name> %q in format strings is deprecated.  Use %ll instead. </name>
+			<description> %q in format strings is deprecated.  Use %ll instead. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/printf_format-1</key>
+			<configkey>cpplint.runtime/printf_format-1</configkey>
+			<name> %N$ formats are unconventional.  Try rewriting to avoid them. </name>
+			<description> %N$ formats are unconventional.  Try rewriting to avoid them. </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/printf_format-0</key>
+			<configkey>cpplint.build/printf_format-0</configkey>
+			<name> %, [, (, and { are undefined character escapes.  Unescape them. </name>
+			<description> %, [, (, and { are undefined character escapes.  Unescape them. </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/storage_class-0</key>
+			<configkey>cpplint.build/storage_class-0</configkey>
+			<name> Storage class (static, extern, typedef, etc) should be first. </name>
+			<description> Storage class (static, extern, typedef, etc) should be first. </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/endif_comment-0</key>
+			<configkey>cpplint.build/endif_comment-0</configkey>
+			<name> Uncommented text after #endif is non-standard.  Use a comment. </name>
+			<description> Uncommented text after #endif is non-standard.  Use a comment. </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/forward_decl-0</key>
+			<configkey>cpplint.build/forward_decl-0</configkey>
+			<name> Inner-style forward declarations are invalid.  Remove this line. </name>
+			<description> Inner-style forward declarations are invalid.  Remove this line. </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/deprecated-0</key>
+			<configkey>cpplint.build/deprecated-0</configkey>
+			<name> &gt;? and &lt;? (max and min) operators are non-standard and deprecated. </name>
+			<description> &gt;? and &lt;? (max and min) operators are non-standard and deprecated. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/member_string_references-0</key>
+			<configkey>cpplint.runtime/member_string_references-0</configkey>
+			<name> const string&amp; members are dangerous. It is much better to use   alternatives, such as pointers or simple constants. </name>
+			<description> const string&amp; members are dangerous. It is much better to use   alternatives, such as pointers or simple constants. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/explicit-0</key>
+			<configkey>cpplint.runtime/explicit-0</configkey>
+			<name> Single-argument constructors should be marked explicit. </name>
+			<description> Single-argument constructors should be marked explicit. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/virtual-0</key>
+			<configkey>cpplint.runtime/virtual-0</configkey>
+			<name> The class %s probably needs a virtual destructor due to   having virtual method(s), one declared at line %d. % (classinfo.name, classinfo.virtual_method_linenumber)</name>
+			<description> The class %s probably needs a virtual destructor due to   having virtual method(s), one declared at line %d. % (classinfo.name, classinfo.virtual_method_linenumber)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-0</key>
+			<configkey>cpplint.whitespace/parens-0</configkey>
+			<name> Extra space after ( in function call </name>
+			<description> Extra space after ( in function call </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-1</key>
+			<configkey>cpplint.whitespace/parens-1</configkey>
+			<name> Extra space after ( </name>
+			<description> Extra space after ( </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-2</key>
+			<configkey>cpplint.whitespace/parens-2</configkey>
+			<name> Extra space before ( in function call </name>
+			<description> Extra space before ( in function call </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-3</key>
+			<configkey>cpplint.whitespace/parens-3</configkey>
+			<name> Closing ) should be moved to the previous line </name>
+			<description> Closing ) should be moved to the previous line </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-4</key>
+			<configkey>cpplint.whitespace/parens-4</configkey>
+			<name> Extra space before ) </name>
+			<description> Extra space before ) </description>
+		</rule>
+		<rule>
+			<key>cpplint.naming_tests-0</key>
+			<configkey>cpplint.naming_tests-0</configkey>
+			<name> Disabled Tests should include Test Track Reference in Name, Ex: DISABLED_TT50923_TestName </name>
+			<description> Disabled Tests should include Test Track Reference in Name, Ex: DISABLED_TT50923_TestName </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/fn_size-1</key>
+			<configkey>cpplint.readability/fn_size-1</configkey>
+			<name> Lint failed to find start of function body. </name>
+			<description> Lint failed to find start of function body. </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/todo-0</key>
+			<configkey>cpplint.whitespace/todo-0</configkey>
+			<name> Too many spaces before TODO </name>
+			<description> Too many spaces before TODO </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/todo-0</key>
+			<configkey>cpplint.readability/todo-0</configkey>
+			<name> Missing username in TODO; it should look like   "// TODO(my_username): Stuff." </name>
+			<description> Missing username in TODO; it should look like   "// TODO(my_username): Stuff." </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/todo-1</key>
+			<configkey>cpplint.whitespace/todo-1</configkey>
+			<name> TODO(my_username) should be followed by a space </name>
+			<description> TODO(my_username) should be followed by a space </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/blank_line-0</key>
+			<configkey>cpplint.whitespace/blank_line-0</configkey>
+			<name> Blank line at the start of a code block.  Is this needed? </name>
+			<description> Blank line at the start of a code block.  Is this needed? </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/blank_line-1</key>
+			<configkey>cpplint.whitespace/blank_line-1</configkey>
+			<name> Blank line at the end of a code block.  Is this needed? </name>
+			<description> Blank line at the end of a code block.  Is this needed? </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/blank_line-2</key>
+			<configkey>cpplint.whitespace/blank_line-2</configkey>
+			<name> Do not leave a blank line after "%s:"  % matched.group(1)</name>
+			<description> Do not leave a blank line after "%s:"  % matched.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/comments-0</key>
+			<configkey>cpplint.whitespace/comments-0</configkey>
+			<name> At least two spaces is best between code and comments </name>
+			<description> At least two spaces is best between code and comments </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/comments-1</key>
+			<configkey>cpplint.whitespace/comments-1</configkey>
+			<name> Should have a space between // and comment </name>
+			<description> Should have a space between // and comment </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/operators-0</key>
+			<configkey>cpplint.whitespace/operators-0</configkey>
+			<name> Missing spaces around = </name>
+			<description> Missing spaces around = </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/operators-1</key>
+			<configkey>cpplint.whitespace/operators-1</configkey>
+			<name> Missing spaces around %s  % match.group(1)</name>
+			<description> Missing spaces around %s  % match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/operators-2</key>
+			<configkey>cpplint.whitespace/operators-2</configkey>
+			<name> Missing spaces around %s  % match.group(1)</name>
+			<description> Missing spaces around %s  % match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/operators-3</key>
+			<configkey>cpplint.whitespace/operators-3</configkey>
+			<name> Extra space for operator %s  % match.group(1)</name>
+			<description> Extra space for operator %s  % match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-5</key>
+			<configkey>cpplint.whitespace/parens-5</configkey>
+			<name> Missing space before ( in %s  % match.group(1)</name>
+			<description> Missing space before ( in %s  % match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-6</key>
+			<configkey>cpplint.whitespace/parens-6</configkey>
+			<name> Mismatching spaces inside () in %s  % match.group(1)</name>
+			<description> Mismatching spaces inside () in %s  % match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/parens-7</key>
+			<configkey>cpplint.whitespace/parens-7</configkey>
+			<name> Should have zero or one spaces inside ( and ) in %s  %match.group(1)</name>
+			<description> Should have zero or one spaces inside ( and ) in %s  %match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/comma-0</key>
+			<configkey>cpplint.whitespace/comma-0</configkey>
+			<name> Missing space after , </name>
+			<description> Missing space after , </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/semicolon-0</key>
+			<configkey>cpplint.whitespace/semicolon-0</configkey>
+			<name> Missing space after ; </name>
+			<description> Missing space after ; </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/braces-0</key>
+			<configkey>cpplint.whitespace/braces-0</configkey>
+			<name> Missing space before { </name>
+			<description> Missing space before { </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/braces-1</key>
+			<configkey>cpplint.whitespace/braces-1</configkey>
+			<name> Missing space before else </name>
+			<description> Missing space before else </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/braces-2</key>
+			<configkey>cpplint.whitespace/braces-2</configkey>
+			<name> Extra space before [ </name>
+			<description> Extra space before [ </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/semicolon-1</key>
+			<configkey>cpplint.whitespace/semicolon-1</configkey>
+			<name> Semicolon defining empty statement. Use { } instead. </name>
+			<description> Semicolon defining empty statement. Use { } instead. </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/semicolon-2</key>
+			<configkey>cpplint.whitespace/semicolon-2</configkey>
+			<name> Line contains only semicolon. If this should be an empty statement,   use { } instead. </name>
+			<description> Line contains only semicolon. If this should be an empty statement,   use { } instead. </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/semicolon-3</key>
+			<configkey>cpplint.whitespace/semicolon-3</configkey>
+			<name> Extra space before last semicolon. If this should be an empty   statement, use { } instead. </name>
+			<description> Extra space before last semicolon. If this should be an empty   statement, use { } instead. </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/blank_line-3</key>
+			<configkey>cpplint.whitespace/blank_line-3</configkey>
+			<name> "%s:" should be preceded by a blank line  % matched.group(1)</name>
+			<description> "%s:" should be preceded by a blank line  % matched.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/braces-3</key>
+			<configkey>cpplint.whitespace/braces-3</configkey>
+			<name> { should almost always be at the end of the previous line </name>
+			<description> { should almost always be at the end of the previous line </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/newline-0</key>
+			<configkey>cpplint.whitespace/newline-0</configkey>
+			<name> An else should appear on the same line as the preceding } </name>
+			<description> An else should appear on the same line as the preceding } </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/braces-0</key>
+			<configkey>cpplint.readability/braces-0</configkey>
+			<name> If an else has a brace on one side, it should have it on both </name>
+			<description> If an else has a brace on one side, it should have it on both </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/braces-1</key>
+			<configkey>cpplint.readability/braces-1</configkey>
+			<name> If an else has a brace on one side, it should have it on both </name>
+			<description> If an else has a brace on one side, it should have it on both </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/newline-1</key>
+			<configkey>cpplint.whitespace/newline-1</configkey>
+			<name> Else clause should never be on same line as else (use 2 lines) </name>
+			<description> Else clause should never be on same line as else (use 2 lines) </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/newline-2</key>
+			<configkey>cpplint.whitespace/newline-2</configkey>
+			<name> do/while clauses should not be on a single line </name>
+			<description> do/while clauses should not be on a single line </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/braces-2</key>
+			<configkey>cpplint.readability/braces-2</configkey>
+			<name>"You don t need a ; after a }"</name>
+			<description>"You don t need a ; after a }"</description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/check-0</key>
+			<configkey>cpplint.readability/check-0</configkey>
+			<name> Consider using %s instead of %s(a %s b)  % (_CHECK_REPLACEMENT[current_macro][operator],current_macro, operator)</name>
+			<description> Consider using %s instead of %s(a %s b)  % (_CHECK_REPLACEMENT[current_macro][operator],current_macro, operator)</description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/tab-0</key>
+			<configkey>cpplint.whitespace/tab-0</configkey>
+			<name> Tab found; better to use spaces </name>
+			<description> Tab found; better to use spaces </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/end_of_line-0</key>
+			<configkey>cpplint.whitespace/end_of_line-0</configkey>
+			<name> Line ends in whitespace.  Consider deleting these extra spaces. </name>
+			<description> Line ends in whitespace.  Consider deleting these extra spaces. </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/indent-0</key>
+			<configkey>cpplint.whitespace/indent-0</configkey>
+			<name> Weird number of spaces at line-start.    Are you using a 2-space indent? </name>
+			<description> Weird number of spaces at line-start.    Are you using a 2-space indent? </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/labels-0</key>
+			<configkey>cpplint.whitespace/labels-0</configkey>
+			<name> Labels should always be indented at least one space.    If this is a member-initializer list in a constructor or   the base class list in a class definition, the colon should   be on the following li</name>
+			<description> Labels should always be indented at least one space.    If this is a member-initializer list in a constructor or   the base class list in a class definition, the colon should   be on the following line. </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/line_length-0</key>
+			<configkey>cpplint.whitespace/line_length-0</configkey>
+			<name> Lines should very rarely be longer than 140 characters </name>
+			<description> Lines should very rarely be longer than 140 characters </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/line_length-1</key>
+			<configkey>cpplint.whitespace/line_length-1</configkey>
+			<name> Lines should be &lt;= 120 characters long </name>
+			<description> Lines should be &lt;= 120 characters long </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/newline-3</key>
+			<configkey>cpplint.whitespace/newline-3</configkey>
+			<name> More than one command on the same line </name>
+			<description> More than one command on the same line </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/include-0</key>
+			<configkey>cpplint.build/include-0</configkey>
+			<name> Include the directory when naming .h files </name>
+			<description> Include the directory when naming .h files </description>
+		</rule>
+		<rule>
+			<key>cpplint.include_files-0</key>
+			<configkey>cpplint.include_files-0</configkey>
+			<name> Relative paths to parent directories in includes are not allowed - paths should be set in project files </name>
+			<description> Relative paths to parent directories in includes are not allowed - paths should be set in project files </description>
+		</rule>
+		<rule>
+			<key>cpplint.include_files-1</key>
+			<configkey>cpplint.include_files-1</configkey>
+			<name> IllegalIncludeDirectories: Include File is illegal in this Project:   + invalidinclude</name>
+			<description> IllegalIncludeDirectories: Include File is illegal in this Project:   + invalidinclude</description>
+		</rule>		
+		<rule>
+			<key>cpplint.build/include-1</key>
+			<configkey>cpplint.build/include-1</configkey>
+			<name> "%s" already included at %s:%s  %(include, filename, include_state[include])</name>
+			<description> "%s" already included at %s:%s  %(include, filename, include_state[include])</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/include_order-0</key>
+			<configkey>cpplint.build/include_order-0</configkey>
+			<name> %s. Should be: %s.h, c system, c++ system, other.  %(error_message, fileinfo.BaseName())</name>
+			<description> %s. Should be: %s.h, c system, c++ system, other.  %(error_message, fileinfo.BaseName())</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/include_alpha-0</key>
+			<configkey>cpplint.build/include_alpha-0</configkey>
+			<name> Include "%s" not in alphabetical order  % include</name>
+			<description> Include "%s" not in alphabetical order  % include</description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/streams-0</key>
+			<configkey>cpplint.readability/streams-0</configkey>
+			<name> Streams are highly discouraged. </name>
+			<description> Streams are highly discouraged. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/references-0</key>
+			<configkey>cpplint.runtime/references-0</configkey>
+			<name> Is this a non-const reference?   If so, make const or use a pointer. </name>
+			<description> Is this a non-const reference?   If so, make const or use a pointer. </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/casting-0</key>
+			<configkey>cpplint.readability/casting-0</configkey>
+			<name> Using deprecated casting style.    Use static_cast&lt;%s&gt;(...) instead  %match.group(2)</name>
+			<description> Using deprecated casting style.    Use static_cast&lt;%s&gt;(...) instead  %match.group(2)</description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/casting-0</key>
+			<configkey>cpplint.runtime/casting-0</configkey>
+			<name>( Are you taking an address of a cast?    This is dangerous: could be a temp var.    Take the address before doing the cast, rather than after )</name>
+			<description>( Are you taking an address of a cast?    This is dangerous: could be a temp var.    Take the address before doing the cast, rather than after )</description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/string-0</key>
+			<configkey>cpplint.runtime/string-0</configkey>
+			<name> For a static/global string constant, use a C style string instead:   "%schar %s[]".  %(match.group(1), match.group(2))</name>
+			<description> For a static/global string constant, use a C style string instead:   "%schar %s[]".  %(match.group(1), match.group(2))</description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/rtti-0</key>
+			<configkey>cpplint.runtime/rtti-0</configkey>
+			<name> Do not use dynamic_cast&lt;&gt;.  If you need to cast within a class  "hierarchy, use static_cast&lt;&gt; to upcast.  Google doesn t support " RTTI. </name>
+			<description> Do not use dynamic_cast&lt;&gt;.  If you need to cast within a class  "hierarchy, use static_cast&lt;&gt; to upcast.  Google doesn t support " RTTI. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/init-0</key>
+			<configkey>cpplint.runtime/init-0</configkey>
+			<name> You seem to be initializing a member variable with itself. </name>
+			<description> You seem to be initializing a member variable with itself. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/int-0</key>
+			<configkey>cpplint.runtime/int-0</configkey>
+			<name> Use "unsigned short" for ports, not "short" </name>
+			<description> Use "unsigned short" for ports, not "short" </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/int-1</key>
+			<configkey>cpplint.runtime/int-1</configkey>
+			<name> Use int16/int64/etc, rather than the C type %s  % match.group(1)</name>
+			<description> Use int16/int64/etc, rather than the C type %s  % match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/printf-2</key>
+			<configkey>cpplint.runtime/printf-2</configkey>
+			<name> If you can, use sizeof(%s) instead of %s as the 2nd arg   to snprintf.  % (match.group(1), match.group(2))</name>
+			<description> If you can, use sizeof(%s) instead of %s as the 2nd arg   to snprintf.  % (match.group(1), match.group(2))</description>
+		</rule>
+		<rule>
+			<key>cpplint.deprecated_functions-0</key>
+			<configkey>cpplint.deprecated_functions-0</configkey>
+			<name> sprintf from conversion namespace should not be used, windows sprintf_s should be use instead or Cxx11 snprintf when available </name>
+			<description> sprintf from conversion namespace should not be used, windows sprintf_s should be use instead or Cxx11 snprintf when available </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/printf-3</key>
+			<configkey>cpplint.runtime/printf-3</configkey>
+			<name> Never use sprintf.  Windows sprintf_s should be use instead, or cxx11 snprintf when available </name>
+			<description> Never use sprintf.  Windows sprintf_s should be use instead, or cxx11 snprintf when available </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/printf-4</key>
+			<configkey>cpplint.runtime/printf-4</configkey>
+			<name> Almost always, snprintf is better than %s  % match.group(1)</name>
+			<description> Almost always, snprintf is better than %s  % match.group(1)</description>
+		</rule>
+		<rule>
+			<key>cpplint.deprecated_functions-1</key>
+			<configkey>cpplint.deprecated_functions-1</configkey>
+			<name> sscanf from namespace conversion is deprecated, please find a suitable replacement </name>
+			<description> sscanf from namespace conversion is deprecated, please find a suitable replacement </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/printf-5</key>
+			<configkey>cpplint.runtime/printf-5</configkey>
+			<name> sscanf can be ok, but is slow and can overflow buffers. </name>
+			<description> sscanf can be ok, but is slow and can overflow buffers. </description>
+		</rule>
+		<rule>
+			<key>cpplint.deprecated_functions-2</key>
+			<configkey>cpplint.deprecated_functions-2</configkey>
+			<name> Function has been marked as deprecated, please find a suitable replacement. ( +deprecated_Function+ ) - Tekla Custom </name>
+			<description> Function has been marked as deprecated, please find a suitable replacement. ( +deprecated_Function+ ) - Tekla Custom </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/operator-0</key>
+			<configkey>cpplint.runtime/operator-0</configkey>
+			<name> Unary operator&amp; is dangerous.  Do not use it. </name>
+			<description> Unary operator&amp; is dangerous.  Do not use it. </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/braces-3</key>
+			<configkey>cpplint.readability/braces-3</configkey>
+			<name> Did you mean "else if"? If not, start a new line for "if". </name>
+			<description> Did you mean "else if"? If not, start a new line for "if". </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/printf-6</key>
+			<configkey>cpplint.runtime/printf-6</configkey>
+			<name> Potential format string bug. Do %s("%%s", %s) instead. % (function_name, match.group(1))</name>
+			<description> Potential format string bug. Do %s("%%s", %s) instead. % (function_name, match.group(1))</description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/memset-0</key>
+			<configkey>cpplint.runtime/memset-0</configkey>
+			<name> Did you mean "memset(%s, 0, %s)"? % (match.group(1), match.group(2))</name>
+			<description> Did you mean "memset(%s, 0, %s)"? % (match.group(1), match.group(2))</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/namespaces-0</key>
+			<configkey>cpplint.build/namespaces-0</configkey>
+			<name> Do not use namespace using-directives.    Use using-declarations instead. </name>
+			<description> Do not use namespace using-directives.    Use using-declarations instead. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/arrays-0</key>
+			<configkey>cpplint.runtime/arrays-0</configkey>
+			<name> Do not use variable-length arrays.  Use an appropriately named  "( k  followed by CamelCase) compile-time constant for the size."</name>
+			<description> Do not use variable-length arrays.  Use an appropriately named  "( k  followed by CamelCase) compile-time constant for the size."</description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/constructors-0</key>
+			<configkey>cpplint.readability/constructors-0</configkey>
+			<name>match.group(1) +   should be the last thing in the class </name>
+			<description>match.group(1) +   should be the last thing in the class </description>
+		</rule>
+		<rule>
+			<key>cpplint.build/namespaces-1</key>
+			<configkey>cpplint.build/namespaces-1</configkey>
+			<name> Do not use unnamed namespaces in header files.  See   http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#Namespaces   for more information. </name>
+			<description> Do not use unnamed namespaces in header files.  See   http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#Namespaces   for more information. </description>
+		</rule>
+		<rule>
+			<key>cpplint.runtime/sizeof-0</key>
+			<configkey>cpplint.runtime/sizeof-0</configkey>
+			<name> Using sizeof(type).  Use sizeof(varname) instead if possible </name>
+			<description> Using sizeof(type).  Use sizeof(varname) instead if possible </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/function-0</key>
+			<configkey>cpplint.readability/function-0</configkey>
+			<name> All parameters should be named in a function </name>
+			<description> All parameters should be named in a function </description>
+		</rule>
+		<rule>
+			<key>cpplint.readability/casting-1</key>
+			<configkey>cpplint.readability/casting-1</configkey>
+			<name> Using C-style cast.  Use %s&lt;%s&gt;(...) instead  %(cast_type, match.group(1))</name>
+			<description> Using C-style cast.  Use %s&lt;%s&gt;(...) instead  %(cast_type, match.group(1))</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/include_what_you_use-0</key>
+			<configkey>cpplint.build/include_what_you_use-0</configkey>
+			<name> Add #include   + required_header_unstripped +   for   + template</name>
+			<description> Add #include   + required_header_unstripped +   for   + template</description>
+		</rule>
+		<rule>
+			<key>cpplint.build/explicit_make_pair-0</key>
+			<configkey>cpplint.build/explicit_make_pair-0</configkey>
+			<name> Omit template arguments from make_pair OR use pair directly OR   if appropriate, construct a pair directly </name>
+			<description> Omit template arguments from make_pair OR use pair directly OR   if appropriate, construct a pair directly </description>
+		</rule>
+		<rule>
+			<key>cpplint.whitespace/newline-4</key>
+			<configkey>cpplint.whitespace/newline-4</configkey>
+			<name> One or more unexpected \\r (^M) found;   better to use only a \\n </name>
+			<description> One or more unexpected \\r (^M) found;   better to use only a \\n </description>
+		</rule>
+	</rules>
