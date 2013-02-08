@@ -39,11 +39,11 @@ class ValgrindFrame{
    * are empty or dont carry meaningfull information.
    */
   public ValgrindFrame(String ip, String obj, String fn, String dir, String file, int line){
-    if (ip != null)   this.ip = ip;
-    if (obj != null)  this.obj = obj;
-    if (fn != null)   this.fn = fn;
-    if (dir != null)  this.dir = dir;
-    if (file != null) this.file = file;
+    if (ip != null)   { this.ip = ip; }
+    if (obj != null)  { this.obj = obj; }
+    if (fn != null)   { this.fn = fn; }
+    if (dir != null)  { this.dir = dir; }
+    if (file != null) { this.file = file; }
     this.line = line;
   }
     

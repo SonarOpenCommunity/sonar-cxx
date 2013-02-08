@@ -36,7 +36,7 @@ public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
   private final ServerFileSystem fileSystem;
   private final XMLRuleParser xmlRuleParser;
-  public final String repositoryKey;
+  protected final String repositoryKey;
 
   /**
    * {@inheritDoc}
