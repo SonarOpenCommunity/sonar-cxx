@@ -126,8 +126,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
         CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : entry.getValue().createMeasures()) {
           switch (coveragetype) {
-            case UNIT_TEST_COVERAGE:
-              break;
             case IT_TEST_COVERAGE:
               measure = convertToItMeasure(measure);
               break;
