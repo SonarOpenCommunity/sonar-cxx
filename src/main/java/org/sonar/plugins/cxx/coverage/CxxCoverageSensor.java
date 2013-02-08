@@ -45,8 +45,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final int OVERALL_TEST_COVERAGE = 2;
   
   public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
-  public static final String IT_REPORT_PATH_KEY = "sonar.cxx.it-coverage.reportPath";
-  public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.overall-coverage.reportPath";
+  public static final String IT_REPORT_PATH_KEY = "sonar.cxx.coverage.itReportPath";
+  public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
   private static final String DEFAULT_REPORT_PATH = "coverage-reports/coverage-*.xml";
   private static final String IT_DEFAULT_REPORT_PATH = "coverage-reports/it-coverage-*.xml";
   private static final String OVERALL_DEFAULT_REPORT_PATH = "coverage-reports/overall-coverage-*.xml";
