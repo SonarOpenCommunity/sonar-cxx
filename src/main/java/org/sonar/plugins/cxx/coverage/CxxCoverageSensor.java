@@ -88,17 +88,19 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
   
   private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
-    Map<String, CoverageMeasuresBuilder>  coverageMeasures = new HashMap<String, CoverageMeasuresBuilder>();
+    Map<String, CoverageMeasuresBuilder>  measuresTotal = new HashMap<String, CoverageMeasuresBuilder>();
+    Map<String, CoverageMeasuresBuilder>  measuresForReport = new HashMap<String, CoverageMeasuresBuilder>();
     
     for (File report : reports) {
       boolean parsed = false;
       for (CoverageParser parser: parsers){
         try{
-          coverageMeasures.clear();
-          parser.parseReport(report, coverageMeasures);
+          measuresForReport.clear();
+          parser.parseReport(report, measuresForReport);
           
-          if (!coverageMeasures.isEmpty()) {
+          if (!measuresForReport.isEmpty()) {
             parsed = true;
+            measuresTotal.putAll(measuresForReport);
             CxxUtils.LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
             break;            
           }
@@ -111,8 +113,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
         CxxUtils.LOG.error("Report {} cannot be parsed", report);
       }
     }
-
-    return coverageMeasures;
+    
+    return measuresTotal;
   }
 
   private void saveMeasures(Project project,
