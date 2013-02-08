@@ -74,7 +74,7 @@ public class CxxSampleProjectIT {
                                28.9, 24.0, 10.0, 0.0,
                                67.8, 82.0, 2.0, 2.0,
                                7.0, 1.4,
-                               27.0, 3.4,
+                               33.0, 0.0,
                                72.4, 81.0, 50.0,
                                60.0, 2.0, 0.0, 5.0};
 
@@ -104,7 +104,7 @@ public class CxxSampleProjectIT {
                                31.6, 24.0, 10.0, 0.0,
                                73.2, 82.0, 2.0, 2.0,
                                6.0, 1.5,
-                               26.0, 0.0,
+                               30.0, 0.0,
                                84.0, 100.0, 50.0};
     
     assertThat(values, is(expectedValues));
@@ -130,9 +130,8 @@ public class CxxSampleProjectIT {
     double[] expectedValues = {22.0, 51.0,
                                1.0, 2.0,
                                35.3, 12.0, 5.0,
-                               //15.9, 10.0, 1.0, 1.0,
                                3.0, 1.5,
-                               15.0, 0.0,
+                               17.0, 0.0,
                                84.0, 100.0, 50.0};
     
     assertThat(values, is(expectedValues));
