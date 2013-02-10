@@ -58,7 +58,8 @@ public class CxxSampleProjectIT {
        "files", "directories", "functions",
        "comment_lines_density", "comment_lines", "comment_blank_lines", "commented_out_code_lines",
        "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
-       "complexity", "function_complexity", "violations", "violations_density",
+       "complexity", "function_complexity",
+       "violations", "violations_density",
        "coverage", "line_coverage", "branch_coverage",
        "test_success_density", "test_failures", "test_errors", "tests"
       };
@@ -68,16 +69,17 @@ public class CxxSampleProjectIT {
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {59.0, 94.0,
-                               3.0, 3.0, 5.0,
-                               16.9, 12.0, 5.0, 0.0,
-                               21.3, 20.0, 2.0, 2.0,
-                               6.0, 1.2, 39.0, 0.0,
-                               44.0, 42.9, 50.0,
+    double[] expectedValues = {59.0, 121.0,
+                               4.0, 3.0, 5.0,
+                               28.9, 24.0, 10.0, 0.0,
+                               67.8, 82.0, 2.0, 2.0,
+                               7.0, 1.4,
+                               33.0, 0.0,
+                               72.4, 81.0, 50.0,
                                60.0, 2.0, 0.0, 5.0};
-    
+
     assertThat(values, is(expectedValues));
-    assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=4;2=1;4=0;6=0;8=0;10=0;12=0"));
+    assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=3;2=2;4=0;6=0;8=0;10=0;12=0"));
   }
 
   @Test
@@ -97,16 +99,16 @@ public class CxxSampleProjectIT {
       values[i] = getPackageMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {41.0, 73.0,
-                               2.0, 1.0, 3.0,
-                               22.6, 12.0, 5.0, 0.0,
-                               13.7, 10.0, 1.0, 1.0,
-                               4.0, 1.3,
-                               27.0, 0.0,
-                               61.1, 64.3, 50.0};
+    double[] expectedValues = {52.0, 112.0,
+                               3.0, 1.0, 4.0,
+                               31.6, 24.0, 10.0, 0.0,
+                               73.2, 82.0, 2.0, 2.0,
+                               6.0, 1.5,
+                               30.0, 0.0,
+                               84.0, 100.0, 50.0};
     
     assertThat(values, is(expectedValues));
-    assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=2;2=1;4=0;6=0;8=0;10=0;12=0"));
+    assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=2;2=2;4=0;6=0;8=0;10=0;12=0"));
   }
 
   @Test
@@ -115,24 +117,22 @@ public class CxxSampleProjectIT {
       {"ncloc", "lines",
        "files", "functions",
        "comment_lines_density", "comment_lines", "comment_blank_lines",
-       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
        "complexity", "function_complexity",
        "violations", "violations_density",
        "coverage", "line_coverage", "branch_coverage"
       };
-
+    
     double[] values = new double[metricNames.length];
     for(int i = 0; i < metricNames.length; ++i){
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
     
-    double[] expectedValues = {33.0, 63.0,
-                               1.0, 3.0,
-                               26.7, 12.0, 5.0,
-                               15.9, 10.0, 1.0, 1.0,
-                               4.0, 1.3,
-                               25.0, 0.0,
-                               61.1, 64.3, 50.0};
+    double[] expectedValues = {22.0, 51.0,
+                               1.0, 2.0,
+                               35.3, 12.0, 5.0,
+                               3.0, 1.5,
+                               17.0, 0.0,
+                               84.0, 100.0, 50.0};
     
     assertThat(values, is(expectedValues));
   }

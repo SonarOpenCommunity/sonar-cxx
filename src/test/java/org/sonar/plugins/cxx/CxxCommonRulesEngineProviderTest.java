@@ -17,28 +17,27 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.rats;
+package org.sonar.plugins.cxx;
 
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
-import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
+import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import org.sonar.commonrules.api.CommonRulesEngine;
 
 /**
- * {@inheritDoc}
+ *
+ * @author Jorge Costa
  */
-public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
-  static final String KEY = "rats";
-
-  /**
-   * {@inheritDoc}
-   */
-  public CxxRatsRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
-    super(fileSystem, xmlRuleParser, KEY);
-    setName(KEY);
-  }
-
-  @Override
-  protected String fileName() {
-    return "/rats.xml";
+public class CxxCommonRulesEngineProviderTest {
+  @Test
+  public void testCxxCommonRulesEngineProvider() {
+    CxxCommonRulesEngineProvider engineProvider = new CxxCommonRulesEngineProvider(TestUtils.mockProject());
+    CommonRulesEngine engine = mock(CommonRulesEngine.class);
+    engineProvider.doActivation(engine);
+    verify(engine, times(1)).activateRule("InsufficientBranchCoverage");
+    verify(engine, times(1)).activateRule("InsufficientCommentDensity");
+    verify(engine, times(1)).activateRule("DuplicatedBlocks");
+    verify(engine, times(1)).activateRule("InsufficientLineCoverage");
   }
 }

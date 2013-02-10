@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rules>
+  <rule key="Rule1">
+    <name><![CDATA[Rule1]]></name>
+    <configKey>
+      <![CDATA[Rule1@$(SomeDir)\Rules\Rules.dll]]>
+    </configKey>
+    <category name="Maintainability" />
+    <description>
+      <![CDATA[Data context must not be set in XAML. This way it's made sure that a view always has 1:1 relationship with the respective viewmodel. Resolution: Remove data contexts attributes. Application engine takes care of matching views and view models automatically, based on a naming convention.]]>
+    </description>
+  </rule>
+</rules>
+
+

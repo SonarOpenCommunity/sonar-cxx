@@ -1,5 +1,5 @@
 WiKi:
-http://docs.codehaus.org/display/SONAR/CXX+Plugin
+http://docs.codehaus.org/pages/viewpage.action?pageId=185073817
 
 Continuous integration:
 https://sonarplugins.ci.cloudbees.com/job/cxx/

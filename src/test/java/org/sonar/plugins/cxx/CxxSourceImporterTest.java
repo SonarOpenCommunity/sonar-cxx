@@ -44,6 +44,8 @@ public class CxxSourceImporterTest {
     Settings config = new Settings(new PropertyDefinitions(CxxPlugin.class));
     config.setProperty(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY, true);    
     CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage());
+    importer.shouldExecuteOnProject(project); // thats necessary: it gets the importer 
+                                              // into desidered shape. Bad.
 
     importer.analyse(project, context);
 

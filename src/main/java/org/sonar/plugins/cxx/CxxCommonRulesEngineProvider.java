@@ -17,28 +17,34 @@
  * License along with Sonar Cxx Plugin; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.rats;
+package org.sonar.plugins.cxx;
 
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
-import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
+import org.sonar.api.resources.Project;
+import org.sonar.commonrules.api.CommonRulesEngine;
+import org.sonar.commonrules.api.CommonRulesEngineProvider;
 
-/**
- * {@inheritDoc}
- */
-public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
-  static final String KEY = "rats";
+public class CxxCommonRulesEngineProvider extends CommonRulesEngineProvider {
 
-  /**
-   * {@inheritDoc}
-   */
-  public CxxRatsRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
-    super(fileSystem, xmlRuleParser, KEY);
-    setName(KEY);
+  public CxxCommonRulesEngineProvider() {
+    super();
+  }
+
+  public CxxCommonRulesEngineProvider(Project project) {
+    super(project);
+  }
+
+  
+  @Override
+  protected void doActivation(CommonRulesEngine engine) {
+    engine.activateRule("InsufficientBranchCoverage");
+    engine.activateRule("InsufficientCommentDensity");
+    engine.activateRule("DuplicatedBlocks");
+    engine.activateRule("InsufficientLineCoverage");        
   }
 
   @Override
-  protected String fileName() {
-    return "/rats.xml";
+  protected String getLanguageKey() {
+    return CxxLanguage.KEY;
   }
+
 }
