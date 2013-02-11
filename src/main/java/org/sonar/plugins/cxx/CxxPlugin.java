@@ -30,6 +30,8 @@ import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
 import org.sonar.plugins.cxx.cppncss.CxxCppNcssSensor;
+import org.sonar.plugins.cxx.externalrules.CxxExternalRulesRuleRepository;
+import org.sonar.plugins.cxx.externalrules.CxxExternalRulesSensor;
 import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
 import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
@@ -148,8 +150,9 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxValgrindRuleRepository.class);
     l.add(CxxValgrindSensor.class);
     l.add(CxxDefaultProfile.class);
-    //l.add(CxxWithPCLintProfile.class);
     l.add(CxxCommonRulesEngineProvider.class);
+    l.add(CxxExternalRulesSensor.class);
+    l.add(CxxExternalRulesRuleRepository.class);    
 
     return l;
   }
