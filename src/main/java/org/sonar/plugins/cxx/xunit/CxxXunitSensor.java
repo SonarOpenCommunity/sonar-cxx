@@ -138,7 +138,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       String fileKey = fileReport.getKey();
       
       org.sonar.api.resources.File unitTest =
-        org.sonar.api.resources.File.fromIOFile(new File(fileKey), project);
+        org.sonar.api.resources.File.fromIOFile(new File(fileKey), project.getFileSystem().getTestDirs());
       if (unitTest == null) {
         unitTest = createVirtualFile(context, fileKey);
       }
