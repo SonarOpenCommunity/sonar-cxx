@@ -10,7 +10,7 @@
 
   <artifactId>sonar-cxx-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
   <name>Sonar C++ Community Plugin</name>
   <description>C++ Plugin for Sonar (Community Edition)</description>
   <url>http://docs.codehaus.org/pages/viewpage.action?pageId=185073817</url>
