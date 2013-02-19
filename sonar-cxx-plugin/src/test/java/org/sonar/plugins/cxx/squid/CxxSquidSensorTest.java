@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -46,12 +47,12 @@ import static org.mockito.Mockito.times;
 public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
   private SensorContext context;
-  private Settings config;
+  private Settings settings;
   
   @Before
   public void setUp() {
-    config = new Settings();
-    sensor = new CxxSquidSensor(config);
+    settings = Settings.createForComponent(new CxxPlugin());
+    sensor = new CxxSquidSensor(settings);
     context = mock(SensorContext.class);
   }
 
@@ -99,7 +100,7 @@ public class CxxSquidSensorTest {
   
   @Test
   public void testReplacingOfExtenalMacros() {
-    when(config.getStringArray(CxxPlugin.DEFINES_KEY)).thenReturn(new String[]{"MACRO class A{};"});
+    settings.appendProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
     
     List<File> sourceDirs = new ArrayList<File>();
     List<File> testDirs = new ArrayList<File>();      
@@ -120,7 +121,7 @@ public class CxxSquidSensorTest {
   
   @Test
   public void testFindingIncludedFiles() {
-    when(config.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[]{"include"});
+    settings.appendProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
     
     List<File> sourceDirs = new ArrayList<File>();
     List<File> testDirs = new ArrayList<File>();      
