@@ -23,11 +23,10 @@ clean:
 
 ############################ Sonar-related rules ###############################
 
-sonar: sonar_cppcheck sonar_vera sonar_rats sonar_cppncss sonar_runtests sonar_coverage sonar_sonar
+sonar: sonar_cppcheck sonar_vera sonar_rats sonar_runtests sonar_coverage sonar_sonar
 
 CPPCHECK_INCLUDES = -Isrc
 SOURCES_TO_ANALYSE = src
-CPPNCSS_MACROS =
 
 # Run cppcheck, a general purpose static code checker
 sonar_cppcheck:
@@ -40,10 +39,6 @@ sonar_vera:
 # Run rats: static code checker focusing on (potential) security problems
 sonar_rats:
 	rats -w 3 --xml $(SOURCES_TO_ANALYSE) > $(BUILD_DIR)/rats-report.xml
-
-# Run cppncss: another analyzer providing McCabe complexity data
-sonar_cppncss:
-	cppncss -r -v -x -k -f=$(BUILD_DIR)/cppncss-report.xml $(CPPNCSS_MACROS) $(SOURCES_TO_ANALYSE)
 
 # Run some tests. This run provides:
 # 1) test execution report

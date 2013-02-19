@@ -21,7 +21,6 @@ It assumes following software to be installed:
 - make
 - java, sonar-runner
 - cppcheck
-- cppncss
 - valgrind
 - Python, gcovr.py
 - vera++, perl, vera++Report2checkstyleReport.perl

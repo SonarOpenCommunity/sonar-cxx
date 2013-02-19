@@ -46,27 +46,10 @@
 		</exec>
 		<echo message="done" level="info"/>
 		
-		<!-- CPPNCSS ANALYSIS -->
-		<property name="sonar.cxx.cppncss.execPath"		value="C:/SonarCXXTools/cppncss-1.0.3/bin/cppncss.bat" />		<!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
-		<property name="sonar.cxx.cppncss.reportDir"	value="reports/cppncss" />										<!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
-		<property name="sonar.cxx.cppncss.reportPath"	value="${sonar.cxx.cppncss.reportDir}/cppncss-result-*.xml" />			
-		<property name="sonar.cxx.cppncss.outputFile"	value="/cppncss-result-1.xml" />
-		
-		<echo message="Running CppNcss analysis..." 	level="info"/>
-		<mkdir dir="${sonar.cxx.cppncss.reportDir}" />		
-		<exec executable="${sonar.cxx.cppncss.execPath}" output="${sonar.cxx.cppncss.reportDir}${sonar.cxx.cppncss.outputFile}" errorproperty="cppncssErrors">
-			<arg value="-v" />
-			<arg value="-k" />
-			<arg value="-r" />
-			<arg value="-x" />
-			<arg value="${sonar.sources}" />
-		</exec>
-		<echo message="done" level="info"/>
-		
 		<!-- VERA++ ANALYSIS -->
 		<property name="sonar.cxx.vera.execPath"			value="C:/SonarCXXTools/vera++/vera++.exe" />		<!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
 		<property name="sonar.cxx.vera.reportDir"			value="reports/veraxx" />							<!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
-		<property name="sonar.cxx.vera.reportPath"			value="${sonar.cxx.cppncss.reportDir}/veraxx-result-*.xml" />				
+		<property name="sonar.cxx.vera.reportPath"			value="${sonar.cxx.vera.reportDir}/veraxx-result-*.xml" />				
 		<property name="sonar.cxx.vera.outputFile"			value="/veraxx-result-1.xml" />
 		<property name="sonar.cxx.vera.checkstyleScript"	value="C:/SonarCXXTools/scripts/vera2checkstyle.pl" />	<!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
 		
