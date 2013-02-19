@@ -13,7 +13,8 @@ int Bar::foo(){
     /*
      * multi-line comment
      */
-    int x; //unused variable
+    int \
+        x; //unused variable
 
     return 111;
 }

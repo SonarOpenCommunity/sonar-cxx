@@ -23,12 +23,18 @@ package org.sonar.plugins.cxx;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.sonar.api.resources.ProjectFileSystem;
+
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class CxxCpdMappingTest {
   @Test
   public void testMapping() {
-    CxxCpdMapping mapping = new CxxCpdMapping(TestUtils.mockCxxLanguage());
-    assertEquals(CxxLanguage.class, mapping.getLanguage().getClass());
-    assert(mapping.getTokenizer().getClass() != null);
+    CxxLanguage language = mock(CxxLanguage.class);
+    ProjectFileSystem fs = mock(ProjectFileSystem.class);
+    CxxCpdMapping mapping = new CxxCpdMapping(language, fs);
+    assertThat(mapping.getLanguage()).isSameAs(language);
+    assertThat(mapping.getTokenizer()).isInstanceOf(CxxTokenizer.class);
   }
 }

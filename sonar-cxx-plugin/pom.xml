@@ -55,23 +55,9 @@
     </dependency>
     
     <dependency>
-      <groupId>pmd</groupId>
-      <artifactId>pmd</artifactId>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
       <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>jaxen</groupId>
-          <artifactId>jaxen</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>asm</groupId>
-          <artifactId>asm</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>

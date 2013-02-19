@@ -132,11 +132,11 @@
       </dependency>
 
       <dependency>
-        <groupId>pmd</groupId>
-        <artifactId>pmd</artifactId>
-        <version>4.2.5</version>
+        <groupId>ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.6</version>
       </dependency>
-
+      
       <dependency>
         <groupId>jdom</groupId>
         <artifactId>jdom</artifactId>

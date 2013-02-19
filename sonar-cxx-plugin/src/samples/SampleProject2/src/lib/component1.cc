@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "component1.hh"
+#include \
+    "component1.hh" 
 
 /**
  * Does something
@@ -13,7 +14,8 @@ int Bar::foo(){
     /*
      * multi-line comment
      */
-    int x; //unused variable
+    int \
+        x; //unused variable
 
     return 111;
 }
