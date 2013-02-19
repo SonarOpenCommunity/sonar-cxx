@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
   </parent>
 
   <artifactId>sslr-cxx-toolkit</artifactId>
@@ -20,14 +20,11 @@
     <dependency>
       <groupId>org.codehaus.sonar.sslr</groupId>
       <artifactId>sslr-toolkit</artifactId>
+      <version>${sslr.version}</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId>
-      <artifactId>sslr-squid-bridge</artifactId>
     </dependency>
   </dependencies>
 

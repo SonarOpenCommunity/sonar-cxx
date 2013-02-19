@@ -12,15 +12,11 @@
   <artifactId>sonar-cxx-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
   
-  <!-- <version>0.2-SNAPSHOT</version> -->
-  <name>Cxx ::  Sonar Plugin</name>
+  <name>Cxx :: Sonar Plugin</name>
   <description>Enable analysis and reporting on c++ projects.</description>
   <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
 
   <properties>
-    <!-- <sonar.version>2.12</sonar.version> -->
-    <!-- <sonar.pluginKey>cxx</sonar.pluginKey> -->
-    <!-- <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass> -->
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
   </properties>
 
@@ -28,37 +24,39 @@
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <version>${sonar.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar.plugins</groupId>
-      <artifactId>sonar-cobertura-plugin</artifactId>
-      <type>sonar-plugin</type>
-      <version>${sonar.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-project</artifactId>
-      <version>2.0.9</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-testing-harness</artifactId>
-      <version>${sonar.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-ws-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar.common-rules</groupId>
+      <artifactId>sonar-common-rules</artifactId>
+      <type>jar</type>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0.9</version>
+      <scope>provided</scope>
+    </dependency>
+    
     <dependency>
       <groupId>pmd</groupId>
       <artifactId>pmd</artifactId>
-      <version>4.2.5</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -79,36 +77,9 @@
     <dependency>
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>
-      <version>1.0</version>
       <scope>compile</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-ws-client</artifactId>
-      <version>${sonar.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <version>3.1</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.1</version>
-    </dependency>
-    
     <dependency>
       <groupId>org.eclipse.cdt</groupId>
       <artifactId>core</artifactId>
@@ -126,14 +97,7 @@
       <artifactId>runtime</artifactId>
       <version>3.1.0</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.codehaus.sonar.common-rules</groupId>
-      <artifactId>sonar-common-rules</artifactId>
-      <version>1.0.1</version>
-      <type>jar</type>
-    </dependency>
-
+    
   </dependencies>
   
   <repositories>
