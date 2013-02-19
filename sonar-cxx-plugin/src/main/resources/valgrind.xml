@@ -1,0 +1,167 @@
+<rules>
+  <rule>
+    <key>InvalidFree</key>
+    <name>Invalid free</name>
+    <configKey>InvalidFree</configKey>
+    <description>
+      Calling free with the given address is illegal. This usually means
+      that the block is already freed or that the block has never been
+      allocated on the heap.
+    </description>
+  </rule>
+  <rule>
+    <key>MismatchedFree</key>
+    <name>Mismatched free() / delete / delete []</name>
+    <configKey>MismatchedFree</configKey>
+    <description>
+      Wrong deallocation function used to deallocate an allocated
+      block. C++ rules are:
+      - deallocate with 'free' when allocated with 'malloc', 'calloc',
+      'realloc', 'valloc' or 'memalign'
+      - deallocate with 'delete' when allocated with 'new'
+      - deallocate with 'delete []' when allocated with 'new []'
+    </description>
+  </rule>
+  
+  <rule>
+    <key>InvalidRead</key>
+    <name>Invalid read</name>
+    <configKey>InvalidRead</configKey>
+    <description>
+      This happens when your program reads memory at a place which
+      Memcheck reckons it shouldn't. The reasons include reading memory which
+      isn't mapped, reading already freed memory etc.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>InvalidWrite</key>
+    <name>Invalid write</name>
+    <configKey>InvalidWrite</configKey>
+    <description>
+      This happens when your program writes memory at a place which
+      Memcheck reckons it shouldn't. The reasons include writing to memory
+      which isn't mapped, writing to already freed memory, writing to
+      read-only memory etc.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>InvalidJump</key>
+    <name>Invalid jump or move</name>
+    <configKey>InvalidJump</configKey>
+    <description>
+      The program tried to jump or move to an invalid address.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>Overlap</key>
+    <name>Overlap of source and destination memory blocks</name>
+    <configKey>Overlap</configKey>
+    <description>
+      The following C library functions copy some data from one memory
+      block to another (or something similar): memcpy, strcpy, strncpy,
+      strcat, strncat. The blocks pointed to by their 'src' and 'dst' pointers
+      aren't allowed to overlap.
+    </description>
+  </rule>
+
+  <rule>
+    <key>InvalidMemPool</key>
+    <name>Invalid memory pool</name>
+    <configKey>InvalidMemPool</configKey>
+    <description>
+      Invalid memory pool specified in client request.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>UninitCondition</key>
+    <name>Condition depends on undefined value</name>
+    <configKey>UninitCondition</configKey>
+    <description>
+      Programs behavior relies on a variable whose value is not initialized,
+      i.e. the program has undefined behavior.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>UninitValue</key>
+    <name>Use of undefined value</name>
+    <configKey>UninitValue</configKey>
+    <description>
+      Other uses of undefined values (primarily memory addresses).
+    </description>
+  </rule>
+  
+  <rule>
+    <key>SyscallParam</key>
+    <name>Invalid system call parameter</name>
+    <configKey>SyscallParam</configKey>
+    <description>
+      A system call has been passed an 'out' or 'in' buffer which
+      either isn't fully addressable or hasn't been properly initialized.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>ClientCheck</key>
+    <name>Error in client request</name>
+    <configKey>ClientCheck</configKey>
+    <description>
+      "Error" resulting from a client check request.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>Leak_DefinitelyLost</key>
+    <name>Memory leak (definitely lost)</name>
+    <configKey>Leak_DefinitelyLost</configKey>
+    <description>
+      Memory block which was unfreed at programs exit and for which
+      no pointer pointing at it could be found.  Such blocks are
+      classified as "lost", because the programmer could not possibly have
+      freed it at program exit, since no pointer to it exists. This is
+      likely a symptom of having lost the pointer at some earlier point in
+      the program. Such cases should be fixed by the programmer.
+    </description>
+  </rule>
+
+  <rule>
+    <key>Leak_IndirectlyLost</key>
+    <name>Memory leak (indirectly lost)</name>
+    <configKey>Leak_IndirectlyLost</configKey>
+    <description>
+      This means that the block is lost, not because there are no
+      pointers to it, but rather because all the blocks that point to it are
+      themselves lost. For example, if you have a binary tree and the root
+      node is lost, all its children nodes will be indirectly lost.
+    </description>
+  </rule>
+
+  <rule>
+    <key>Leak_PossiblyLost</key>
+    <name>Memory leak (possibly lost)</name>
+    <configKey>Leak_PossiblyLost</configKey>
+    <description>
+      This means that a chain of one or more pointers to a block
+      has been found, but at least one of the pointers is an
+      interior-pointer. This could just be a random value in memory that
+      happens to point into a block, and so you shouldn't consider this OK
+      unless you know you have interior-pointers.
+    </description>
+  </rule>
+
+  <rule>
+    <key>Leak_StillReachable</key>
+    <name>Memory leak (still reachable)</name>
+    <configKey>Leak_StillReachable</configKey>
+    <description>
+      Blocks of memory which weren't lost (pointers pointing to them existed)
+      but also weren't freed at process' exit. Since the block are pointed at,
+      the programmer could, at least in principle, have freed it before
+      the exit.
+    </description>
+  </rule>
+</rules>

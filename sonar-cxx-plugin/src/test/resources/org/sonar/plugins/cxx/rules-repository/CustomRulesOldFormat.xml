@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<rules>
+  <rule>
+    <key>cpplint.architecture-0</key>
+    <configkey>cpplint.architecture-0</configkey>
+    <name> SONAR_ARCHITECTURAL_VIOLATION:    + error_msg</name>
+    <description> SONAR_ARCHITECTURAL_VIOLATION:    + error_msg</description>
+  </rule>
+  <rule>
+    <key>cpplint.architecture-1</key>
+    <configkey>cpplint.architecture-1</configkey>
+    <name> SONAR_ARCHITECTURAL_VIOLATION BLOCK:    + error_msg</name>
+    <description> SONAR_ARCHITECTURAL_VIOLATION BLOCK:    + error_msg</description>
+  </rule>
+</rules>

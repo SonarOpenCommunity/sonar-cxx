@@ -1,0 +1,316 @@
+<rules>
+  <rule>
+    <key>F001</key>
+    <configKey>F001</configKey>
+    <name>(CR) detected in isolation</name>
+    <description>
+      As a commonly accepted practice, line breaks are denoted by a
+      single '\n' (LF) character or by two characters "\r\n" (CRLF).
+      A single appearance of '\r' (CR) is discouraged.
+    </description>
+  </rule>
+  <rule>
+    <key>F002</key>
+    <configKey>F002</configKey>
+    <name>File names should be well formed</name>
+    <description>
+      The source file names should be well-formed in the sense of
+      their allowed maximum length and directory depth. Directory and
+      file names should start with alphabetic character or
+      underscore. In addition, directory names should not contain dots
+      and file names can have only one dot.
+    </description>
+  </rule>
+  <rule>
+    <key>L001</key>
+    <configKey>L001</configKey>
+    <name>Avoid trailing whitespace</name>
+    <description>
+      Trailing whitespace is any whitespace character (space or tab)
+      that is placed at the end of the source line, after other
+      characters or alone. The presence of trailing whitespace
+      artificially influences some source code metrics and is
+      therefore discouraged. As a special case, the trailing
+      whitespace in the otherwise empty lines is allowed provided that
+      the amount of whitespace is identical to the indent in the
+      previous line.
+    </description>
+  </rule>
+  <rule>
+    <key>L002</key>
+    <configKey>L002</configKey>
+    <name>Don't use tab characters</name>
+    <description>
+      Horizontal tabs are not consistently handled by editors and
+      tools. Avoiding them ensures that the intended formatting of the
+      code is preserved.
+    </description>
+  </rule>
+  <rule>
+    <key>L003</key>
+    <configKey>L003</configKey>
+    <name>No leading and no trailing empty lines</name>
+    <description>
+      Leading and trailing empty lines confuse users of various tools
+      (like head and tail) and artificially influence some source code
+      metrics.
+    </description>
+  </rule>
+  <rule>
+    <key>L004</key>
+    <configKey>L004</configKey>
+    <name>Line too long</name>
+    <description>
+      The source code line should not exceed some reasonable length.
+    </description>
+  </rule>
+  <rule>
+    <key>L005</key>
+    <configKey>L005</configKey>
+    <name>Too many consecutive empty lines</name>
+    <description>
+      The empty lines (if any) help to introduce more "light" in the
+      source code, but they should not be overdosed in the sense that
+      too many consecutive empty lines make the code harder to follow.
+      Lines containing only whitespace are considered to be empty in
+      this context.
+    </description>
+  </rule>
+  <rule>
+    <key>L006</key>
+    <configKey>L006</configKey>
+    <name>Source file is too long</name>
+    <description>
+      The source file should not exceed a reasonable length.
+      Long source files can indicate an opportunity for refactoring.
+    </description>
+  </rule>
+  <rule>
+    <key>T001</key>
+    <configKey>T001</configKey>
+    <name>One-line comments should not have forced continuation</name>
+    <description>
+      The one-line comment is a comment that starts with //.
+
+      The usual intent is to let the comment continue till the end of
+      the line, but the preprocessing rules of the language allow to
+      actually continue the comment in the next line if line-splicing
+      is forced with the backslash at the end of the line.
+
+      But the line-splicing works only if the backslash is really the
+      last character in the line - which is error prone because any
+      white characters that might appear after the backslash will
+      change the meaning of the program without being visible in the
+      code.
+    </description>
+  </rule>
+  <rule>
+    <key>T002</key>
+    <configKey>T002</configKey>
+    <name>Reserved name used for macro</name>
+    <description>
+      The C++ Standard reserves some forms of names for language
+      implementations. One of the most frequent violations is a
+      definition of preprocessor macro that begins with underscore
+      followed by a capital letter or containing two consecutive
+      underscores.
+
+      Even though the majority of known compilers use more obscure
+      names for internal purposes and the above code is not likely to
+      cause any significant problems, all such names are formally
+      reserved and therefore should not be used.
+
+      Apart from the use of underscore in macro names, preprocessor
+      macros should not be used to redefine language keywords.
+    </description>
+  </rule>
+  <rule>
+    <key>T003</key>
+    <configKey>T003</configKey>
+    <name>Keyword not followed by a single space</name>
+    <description>
+      The keywords "case", "class", "delete", "enum", "explicit",
+      "extern", "goto", "new", "struct", "union" and "using"
+      should be followed by a single space for better readability.
+    </description>
+  </rule>
+  <rule>
+    <key>T004</key>
+    <configKey>T004</configKey>
+    <name>Keyword not immediately followed by a colon</name>
+    <description>
+      The keywords "default", "private", "protected" and "public"
+      should be immediately followed by a colon, unless used in the
+      list of base classes.
+    </description>
+  </rule>
+  <rule>
+    <key>T005</key>
+    <configKey>T005</configKey>
+    <name>Keyword not immediately followed by a semicolon</name>
+    <description>
+      The break and continue keywords should be immediately followed
+      by a semicolon, with no other tokens in between.
+    </description>
+  </rule>
+  <rule>
+    <key>T006</key>
+    <configKey>T006</configKey>
+    <name>Keyword not immediately followed by a semicolon or a single space</name>
+    <description>
+      The return and throw keywords should be immediately followed by
+      a semicolon or a single space. An exception to this rule is
+      allowed for exception specifications.
+    </description>
+  </rule>
+  <rule>
+    <key>T007</key>
+    <configKey>T007</configKey>
+    <name>Semicolon is isolated from other tokens</name>
+    <description>
+      The semicolon should not stand isolated by whitespace or
+      comments from the rest of the code. As an exception from this
+      rule, semicolons surrounded by spaces are allowed in for loops:
+    </description>
+  </rule>
+  <rule>
+    <key>T008</key>
+    <configKey>T008</configKey>
+    <name>Keyword not followed by a single space</name>
+    <description>
+      Keywords catch, for, if, switch and while should be followed by
+      a single space and then an opening left parenthesis.
+    </description>
+  </rule>
+  <rule>
+    <key>T009</key>
+    <configKey>T009</configKey>
+    <name>Wrong spacing around comma</name>
+    <description>
+      A comma, whether used as operator or in various lists, should
+      not be preceded by whitespace on its left side, but should be
+      followed by whitespace on its right side:
+    </description>
+  </rule>
+  <rule>
+    <key>T010</key>
+    <configKey>T010</configKey>
+    <name>Identifiers should not be composed of only 'l' and 'O'</name>
+    <description>
+      The characters 'l' (which is lowercase 'L') and 'O' (which is
+      uppercase 'o') should not be the only characters used in the
+      identifier, because this would make them visually similar to
+      numeric literals.
+    </description>
+  </rule>
+  <rule>
+    <key>T011</key>
+    <configKey>T011</configKey>
+    <name>Opening/closing curly bracket mistake</name>
+    <description>
+      Corresponding curly brackets should be either in the same line
+      or in the same column. This promotes clarity by emphasizing
+      scopes, but allows concise style of one-line definitions and
+      empty blocks.
+    </description>
+  </rule>
+  <rule>
+    <key>T012</key>
+    <configKey>T012</configKey>
+    <name>Negation operator used in its short form</name>
+    <description>
+      The negation operator (exclamation mark) reduces readability of
+      the code due to its terseness. Prefer explicit logical
+      comparisons or alternative tokens for increased readability:
+    </description>
+  </rule>
+  <rule>
+    <key>T013</key>
+    <configKey>T013</configKey>
+    <name>No copyright notice found</name>
+    <description>
+      The copyright notice is required by man coding standards and
+      guidelines. In some countries every written artwork has some
+      copyright, even if implicit. Prefer explicit notice to avoid any
+      later confusion.
+      This rule verifies that at least one comment in the source file
+      contains the "copyright" word.
+    </description>
+  </rule>
+  <rule>
+    <key>T014</key>
+    <configKey>T014</configKey>
+    <name>No reference to the Boost Software License found</name>
+    <description>
+      The Boost Software License should be referenced in the source
+      code. This rule verifies that at least one comment in the
+      source file contains the "Boost Software License" phrase. Note
+      that this rule is very specific to the Boost libraries and those
+      project that choose to use the Boost license. It is therefore
+      not part of the default profile.
+    </description>
+  </rule>
+  <rule>
+    <key>T015</key>
+    <configKey>T015</configKey>
+    <name>Incorrect HTML links</name>
+    <description>
+      The links embedded in comments and string literals should have
+      correct form and should reference existing files.
+    </description>
+  </rule>
+  <rule>
+    <key>T016</key>
+    <configKey>T016</configKey>
+    <name>Min/max potential macro substitution problem</name>
+    <description>
+      The calls to min and max functions should be protected against accidental macro substitution.
+    </description>
+  </rule>
+  <rule>
+    <key>T017</key>
+    <configKey>T017</configKey>
+    <name>Unnamed namespace not allowed in header file</name>
+    <description>
+      Unnamed namespaces are not allowed in header files.
+      The typical use of unnamed namespace is to hide module-internal
+      names from the outside world. Header files are physically
+      concatenated in a single translation unit, which logically
+      merges all namespaces with the same name. Unnamed namespaces are
+      also merged in this process, which effectively undermines their
+      initial purpose.
+      Use named namespaces in header files. Unnamed namespaces are
+      allowed in implementation files only.
+    </description>
+  </rule>
+  <rule>
+    <key>T018</key>
+    <configKey>T018</configKey>
+    <name>Using namespace not allowed in header file</name>
+    <description>
+      Using namespace directives are not allowed in header files.
+
+      The using namespace directive imports names from the given
+      namespace and when used in a header file influences the global
+      namespace of all the files that directly or indirectly include
+      this header file.
+
+      It is imaginable to use the using namespace directive in a
+      limited scope in a header file (for example in a template or
+      inline function definition), but for the sake of consistency
+      this is also discouraged.
+    </description>
+  </rule>
+  <rule>
+    <key>T019</key>
+    <configKey>T019</configKey>
+    <name>Full block {} expected in the control structure</name>
+    <description>
+      Control structures managed by 'for', 'if' and 'while' constructs can
+      be associated with a single instruction or with a complex block
+      of code. Standardizing on the curly-braced blocks in all cases
+      allows to avoid common pitfalls and makes the code visually more
+      uniform.
+    </description>
+  </rule>
+</rules>

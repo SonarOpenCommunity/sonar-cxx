@@ -1,0 +1,3870 @@
+<rules>
+  <rule>
+    <key>drand48</key>
+    <name>drand48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/drand48</configKey>
+  </rule>
+
+  <rule>
+    <key>erand48</key>
+    <name>erand48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/erand48</configKey>
+  </rule>
+
+  <rule>
+    <key>initstate</key>
+    <name>initstate</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/initstate</configKey>
+  </rule>
+
+  <rule>
+    <key>jrand48</key>
+    <name>jrand48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/jrand48</configKey>
+  </rule>
+
+  <rule>
+    <key>lcong48</key>
+    <name>lcong48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/lcong48</configKey>
+  </rule>
+
+  <rule>
+    <key>lrand48</key>
+    <name>lrand48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/lrand48</configKey>
+  </rule>
+
+  <rule>
+    <key>mrand48</key>
+    <name>mrand48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/mrand48</configKey>
+  </rule>
+
+  <rule>
+    <key>nrand48</key>
+    <name>nrand48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/nrand48</configKey>
+  </rule>
+
+  <rule>
+    <key>random</key>
+    <name>random</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/random</configKey>
+  </rule>
+
+  <rule>
+    <key>seed48</key>
+    <name>seed48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/seed48</configKey>
+  </rule>
+
+  <rule>
+    <key>setstate</key>
+    <name>setstate</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/setstate</configKey>
+  </rule>
+
+  <rule>
+    <key>srand</key>
+    <name>srand</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/srand</configKey>
+  </rule>
+
+  <rule>
+    <key>srand48</key>
+    <name>srand48</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/srand48</configKey>
+  </rule>
+
+  <rule>
+    <key>strfry</key>
+    <name>strfry</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/strfry</configKey>
+  </rule>
+
+  <rule>
+    <key>memfrob</key>
+    <name>memfrob</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/memfrob</configKey>
+  </rule>
+
+  <rule>
+    <key>crypt</key>
+    <name>crypt</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/crypt</configKey>
+  </rule>
+
+  <rule>
+    <key>srandom</key>
+    <name>srandom</name>
+    <description>
+      Standard random number generators should not be used to generate
+      randomness used for security reasons. For security sensitive
+      randomness a cryptographic randomness generator that provides
+      sufficient entropy should be used.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/srandom</configKey>
+  </rule>
+
+  <rule>
+    <key>memcpy</key>
+    <name>memcpy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/memcpy</configKey>
+  </rule>
+
+  <rule>
+    <key>fixed size global buffer</key>
+    <name>fixed size global buffer</name>
+    <description>
+      Extra care should be taken to ensure that character arrays that
+      are allocated on the stack are used safely. They are prime targets
+      for buffer overflow attacks.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/fixed size global buffer</configKey>
+  </rule>
+
+  <rule>
+    <key>fixed size local buffer</key>
+    <name>fixed size local buffer</name>
+    <description>
+      A potential race condition vulnerability exists here. Normally
+      a call to this function is vulnerable only when a match check precedes
+      it. No check was detected, however one could still exist that could
+      not be detected.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/fixed size local buffer</configKey>
+  </rule>
+
+  <rule>
+    <key>strncpy</key>
+    <name>strncpy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string. Also, consider using strlcpy() instead, if
+      it is available to you.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/strncpy</configKey>
+  </rule>
+
+  <rule>
+    <key>chroot</key>
+    <name>chroot</name>
+    <description>
+      Do not forget to chdir() to an appropriate directory before
+      calling chroot()!
+    </description>
+    <priority>INFO</priority>
+    <configKey>config/chroot</configKey>
+  </rule>
+
+  <rule>
+    <key>gets</key>
+    <name>gets</name>
+    <description>
+      Gets is unsafe!! No bounds checking is performed, buffer is
+      easily overflowable by user. Use fgets(buf, size, stdin) instead.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/gets</configKey>
+  </rule>
+
+  <rule>
+    <key>system</key>
+    <name>system</name>
+    <description>
+      Argument 1 to this function call should be checked to ensure
+      that it does not come from an untrusted source without first verifying
+      that it contains nothing dangerous.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/system</configKey>
+  </rule>
+
+  <rule>
+    <key>popen</key>
+    <name>popen</name>
+    <description>
+      Argument 1 to this function call should be checked to ensure
+      that it does not come from an untrusted source without first verifying
+      that it contains nothing dangerous.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/popen</configKey>
+  </rule>
+
+  <rule>
+    <key>getenv</key>
+    <name>getenv</name>
+    <description>
+      Environment variables are highly untrustable input. They may be
+      of any length, and contain any data. Do not make any assumptions
+      regarding content or length. If at all possible avoid using them, and
+      if it is necessary, sanitize them and truncate them to a reasonable
+      length.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getenv</configKey>
+  </rule>
+
+  <rule>
+    <key>printf</key>
+    <name>printf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as
+      argument 1 to this function call does not come from an untrusted
+      source that could have added formatting characters that the code is
+      not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/printf</configKey>
+  </rule>
+
+  <rule>
+    <key>sprintf</key>
+    <name>sprintf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/sprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>wsprintf</key>
+    <name>wsprintf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wsprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>wsprintfA</key>
+    <name>wsprintfA</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wsprintfA</configKey>
+  </rule>
+
+  <rule>
+    <key>wsprintfW</key>
+    <name>wsprintfW</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wsprintfW</configKey>
+  </rule>
+
+  <rule>
+    <key>_snprintf</key>
+    <name>_snprintf</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_snprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>_snwprintf</key>
+    <name>_snwprintf</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/_snwprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>lstrcpy</key>
+    <name>lstrcpy</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/lstrcpy</configKey>
+  </rule>
+
+  <rule>
+    <key>lstrcpyA</key>
+    <name>lstrcpyA</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/lstrcpyA</configKey>
+  </rule>
+
+  <rule>
+    <key>lstrcpyW</key>
+    <name>lstrcpyW</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/lstrcpyW</configKey>
+  </rule>
+
+  <rule>
+    <key>wcscpy</key>
+    <name>wcscpy</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wcscpy</configKey>
+  </rule>
+
+  <rule>
+    <key>_mbscpy</key>
+    <name>_mbscpy</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_mbscpy</configKey>
+  </rule>
+
+  <rule>
+    <key>_tcscpy</key>
+    <name>_tcscpy</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tcscpy</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCpy</key>
+    <name>StrCpy</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCpy</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCpyA</key>
+    <name>StrCpyA</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCpyA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCpyW</key>
+    <name>StrCpyW</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCpyW</configKey>
+  </rule>
+
+  <rule>
+    <key>lstrcat</key>
+    <name>lstrcat</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/lstrcat</configKey>
+  </rule>
+
+  <rule>
+    <key>wcscat</key>
+    <name>wcscat</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wcscat</configKey>
+  </rule>
+
+  <rule>
+    <key>_mbscat</key>
+    <name>_mbscat</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_mbscat</configKey>
+  </rule>
+
+  <rule>
+    <key>_tcscat</key>
+    <name>_tcscat</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tcscat</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCat</key>
+    <name>StrCat</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCat</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatA</key>
+    <name>StrCatA</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatW</key>
+    <name>StrCatW</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatW</configKey>
+  </rule>
+
+  <rule>
+    <key>strxfrm</key>
+    <name>strxfrm</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/strxfrm</configKey>
+  </rule>
+
+  <rule>
+    <key>wcsxfrm</key>
+    <name>wcsxfrm</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wcsxfrm</configKey>
+  </rule>
+
+  <rule>
+    <key>_tcsxfrm</key>
+    <name>_tcsxfrm</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tcsxfrm</configKey>
+  </rule>
+
+  <rule>
+    <key>lstrcpyn</key>
+    <name>lstrcpyn</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/lstrcpyn</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCpyN</key>
+    <name>StrCpyN</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCpyN</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCpyNA</key>
+    <name>StrCpyNA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCpyNA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCpyNW</key>
+    <name>StrCpyNW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCpyNW</configKey>
+  </rule>
+
+  <rule>
+    <key>lstrcpynW</key>
+    <name>lstrcpynW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/lstrcpynW</configKey>
+  </rule>
+
+  <rule>
+    <key>wcsncpy</key>
+    <name>wcsncpy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wcsncpy</configKey>
+  </rule>
+
+  <rule>
+    <key>_mbsncpy</key>
+    <name>_mbsncpy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_mbsncpy</configKey>
+  </rule>
+
+  <rule>
+    <key>_tcsncpy</key>
+    <name>_tcsncpy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tcsncpy</configKey>
+  </rule>
+
+  <rule>
+    <key>_mbsnbcat</key>
+    <name>_mbsnbcat</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_mbsnbcat</configKey>
+  </rule>
+
+  <rule>
+    <key>wcsncat</key>
+    <name>wcsncat</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wcsncat</configKey>
+  </rule>
+
+  <rule>
+    <key>_tcsncat</key>
+    <name>_tcnscat</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tcnscat</configKey>
+  </rule>
+
+  <rule>
+    <key>MultiByteToWideChar</key>
+    <name>MultiByteToWideChar</name>
+    <description>
+      The last argument is the number of wide chars, not the number of
+      bytes. Getting this wrong can cause a buffer overflow since you will
+      indicate that the buffer is twice the size it actually is. Don't
+      forget about NULL termination.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/MultiByteToWideChar</configKey>
+  </rule>
+
+  <rule>
+    <key>WideCharToMultiByte</key>
+    <name>WideCharToMultiByte</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/WideCharToMultiByte</configKey>
+  </rule>
+
+  <rule>
+    <key>StrNCat</key>
+    <name>StrNCat</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrNCat</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatBuff</key>
+    <name>StrCatBuff</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatBuff</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatBuffA</key>
+    <name>StrCatBuffA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatBuffA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatBuffW</key>
+    <name>StrCatBuffW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatBuffW</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatN</key>
+    <name>StrCatN</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatN</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatNA</key>
+    <name>StrCatNA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatNA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrCatNW</key>
+    <name>StrCatNW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrCatNW</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatByteSize</key>
+    <name>StrFormatByteSize</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatByteSize</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatByteSizeA</key>
+    <name>StrFormatByteSizeA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatByteSizeA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatByteSizeW</key>
+    <name>StrFormatByteSizeW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatByteSizeW</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatByteSize64</key>
+    <name>StrFormatByteSize64</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatByteSize64</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatByteSize64A</key>
+    <name>StrFormatByteSize64A</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatByteSize64A</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatByteSize64W</key>
+    <name>StrFormatByteSize64W</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatByteSize64W</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatKBSize</key>
+    <name>StrFormatKBSize</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatKBSize</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatKBSizeA</key>
+    <name>StrFormatKBSizeA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatKBSizeA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFormatKBSizeW</key>
+    <name>StrFormatKBSizeW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFormatKBSizeW</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFromTimeInterval</key>
+    <name>StrFromTimeInterval</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFromTimeInterval</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFromTimeIntervalA</key>
+    <name>StrFromTimeIntervalA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFromTimeIntervalA</configKey>
+  </rule>
+
+  <rule>
+    <key>StrFromTimeIntervalW</key>
+    <name>StrFromTimeIntervalW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/StrFromTimeIntervalW</configKey>
+  </rule>
+
+  <rule>
+    <key>wvnsprintf</key>
+    <name>wvnsprintf</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wvnsprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>wvnsprintfA</key>
+    <name>wvnsprintfA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wvnsprintfA</configKey>
+  </rule>
+
+  <rule>
+    <key>wvnsprintfW</key>
+    <name>wvnsprintfW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wvnsprintfW</configKey>
+  </rule>
+
+  <rule>
+    <key>wnsprintf</key>
+    <name>wnsprintf</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wnsprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>wnsprintfA</key>
+    <name>wnsprintfA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wnsprintfA</configKey>
+  </rule>
+
+  <rule>
+    <key>wnsprintfW</key>
+    <name>wnsprintfW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wnsprintfW</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAddExtension</key>
+    <name>PathAddExtension</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAddExtension</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAddExtensionA</key>
+    <name>PathAddExtensionA</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAddExtensionA</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAddExtensionW</key>
+    <name>PathAddExtensionW</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAddExtensionW</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAddBackslash</key>
+    <name>PathAddBackslash</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAddBackslash</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAddBackslashA</key>
+    <name>PathAddBackslashA</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAddBackslashA</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAddBackslashW</key>
+    <name>PathAddBackslashW</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAddBackslashW</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAppend</key>
+    <name>PathAppend</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAppend</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAppendA</key>
+    <name>PathAppendA</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAppendA</configKey>
+  </rule>
+
+  <rule>
+    <key>PathAppendW</key>
+    <name>PathAppendW</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathAppendW</configKey>
+  </rule>
+
+  <rule>
+    <key>PathCanonicalize</key>
+    <name>PathCanonicalize</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathCanonicalize</configKey>
+  </rule>
+
+  <rule>
+    <key>PathCanonicalizeA</key>
+    <name>PathCanonicalizeA</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathCanonicalizeA</configKey>
+  </rule>
+
+  <rule>
+    <key>PathCanonicalizeW</key>
+    <name>PathCanonicalizeW</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathCanonicalizeW</configKey>
+  </rule>
+
+  <rule>
+    <key>PathCombine</key>
+    <name>PathCombine</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathCombine</configKey>
+  </rule>
+
+  <rule>
+    <key>PathCombineA</key>
+    <name>PathCombineA</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathCombineA</configKey>
+  </rule>
+
+  <rule>
+    <key>PathCombineW</key>
+    <name>PathCombineW</name>
+    <description>
+      Buffer size must be _MAX_PATH+1 or larger for this function to
+      be safe.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/PathCombineW</configKey>
+  </rule>
+
+  <rule>
+    <key>LoadLibrary</key>
+    <name>LoadLibrary</name>
+    <description>
+      LoadLibrary will search several places for a library if no path
+      is specified, allowing trojan DLL's to be inserted elsewhere even if
+      the intended DLL is correctly protected from overwriting. Make sure to
+      specify the full path.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/LoadLibrary</configKey>
+  </rule>
+
+  <rule>
+    <key>LoadLibraryA</key>
+    <name>LoadLibraryA</name>
+    <description>
+      LoadLibrary will search several places for a library if no path
+      is specified, allowing trojan DLL's to be inserted elsewhere even if
+      the intended DLL is correctly protected from overwriting. Make sure to
+      specify the full path.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/LoadLibraryA</configKey>
+  </rule>
+
+  <rule>
+    <key>LoadLibraryW</key>
+    <name>LoadLibraryW</name>
+    <description>
+      LoadLibrary will search several places for a library if no path
+      is specified, allowing trojan DLL's to be inserted elsewhere even if
+      the intended DLL is correctly protected from overwriting. Make sure to
+      specify the full path.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/LoadLibraryW</configKey>
+  </rule>
+
+  <rule>
+    <key>GetExtensionVersion</key>
+    <name>GetExtensionVersion</name>
+    <description>
+      GetExtensionVersion() is called by IIS in the system's security
+      context. Be very careful what you do here, as you are basically suid
+      root for the machine. If you are calling the function rather than
+      implementing it, how about *not* calling it in the system's security
+      context if possible?
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/GetExtensionVersion</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToChar</key>
+    <name>OemToChar</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToChar</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToCharA</key>
+    <name>OemToCharA</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToCharA</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToCharW</key>
+    <name>OemToCharW</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToCharW</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToCharBuff</key>
+    <name>OemToCharBuff</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToCharBuff</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToCharBuffA</key>
+    <name>OemToCharBuffA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToCharBuffA</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToCharBuffW</key>
+    <name>OemToCharBuffW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToCharBuffW</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToAnsi</key>
+    <name>OemToAnsi</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToAnsi</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToAnsiA</key>
+    <name>OemToAnsiA</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToAnsiA</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToAnsiW</key>
+    <name>OemToAnsiW</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToAnsiW</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToAnsiBuff</key>
+    <name>OemToAnsiBuff</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToAnsiBuff</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToAnsiBuffA</key>
+    <name>OemToAnsiBuffA</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToAnsiBuffA</configKey>
+  </rule>
+
+  <rule>
+    <key>OemToAnsiBuffW</key>
+    <name>OemToAnsiBuffW</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/OemToAnsiBuffW</configKey>
+  </rule>
+
+  <rule>
+    <key>GetTempPath</key>
+    <name>GetTempPath</name>
+    <description>
+      GetTempPath() may return the current directory or the windows
+      directory. Be careful what you place in these locations. Important
+      files may be overwritten, and trojan DLL's may be dropped in these
+      locations. Never use a user-input file name when writing to a location
+      given by GetTempPath().
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/GetTempPath</configKey>
+  </rule>
+
+  <rule>
+    <key>GetTempPathA</key>
+    <name>GetTempPathA</name>
+    <description>
+      GetTempPath() may return the current directory or the windows
+      directory. Be careful what you place in these locations. Important
+      files may be overwritten, and trojan DLL's may be dropped in these
+      locations. Never use a user-input file name when writing to a location
+      given by GetTempPath().
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/GetTempPathA</configKey>
+  </rule>
+
+  <rule>
+    <key>GetTempPathW</key>
+    <name>GetTempPathW</name>
+    <description>
+      GetTempPath() may return the current directory or the windows
+      directory. Be careful what you place in these locations. Important
+      files may be overwritten, and trojan DLL's may be dropped in these
+      locations. Never use a user-input file name when writing to a location
+      given by GetTempPath().
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/GetTempPathW</configKey>
+  </rule>
+
+  <rule>
+    <key>GetTempFileName</key>
+    <name>GetTempFileName</name>
+    <description>
+      Many calls for generating temporary file names are insecure
+      (susceptible to race conditions). Use a securely generated file name,
+      for example, by pulling 64 bits of randomness from /dev/random, base
+      64 encoding it and using that as a file suffix.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/GetTempFileName</configKey>
+  </rule>
+
+  <rule>
+    <key>GetTempFileNameA</key>
+    <name>GetTempFileNameA</name>
+    <description>
+      Many calls for generating temporary file names are insecure
+      (susceptible to race conditions). Use a securely generated file name,
+      for example, by pulling 64 bits of randomness from /dev/random, base
+      64 encoding it and using that as a file suffix.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/GetTempFileNameA</configKey>
+  </rule>
+
+  <rule>
+    <key>GetTempFileNameW</key>
+    <name>GetTempFileNameW</name>
+    <description>
+      Many calls for generating temporary file names are insecure
+      (susceptible to race conditions). Use a securely generated file name,
+      for example, by pulling 64 bits of randomness from /dev/random, base
+      64 encoding it and using that as a file suffix.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/GetTempFileNameW</configKey>
+  </rule>
+
+  <rule>
+    <key>ShellExecute</key>
+    <name>ShellExecute</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ShellExecute</configKey>
+  </rule>
+
+  <rule>
+    <key>ShellExecuteA</key>
+    <name>ShellExecuteA</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ShellExecuteA</configKey>
+  </rule>
+
+  <rule>
+    <key>ShellExecuteW</key>
+    <name>ShellExecuteW</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ShellExecuteW</configKey>
+  </rule>
+
+  <rule>
+    <key>ShellExecuteEx</key>
+    <name>ShellExecuteEx</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ShellExecuteEx</configKey>
+  </rule>
+
+  <rule>
+    <key>ShellExecuteExA</key>
+    <name>ShellExecuteExA</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ShellExecuteExA</configKey>
+  </rule>
+
+  <rule>
+    <key>ShellExecuteExW</key>
+    <name>ShellExecuteExW</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ShellExecuteExW</configKey>
+  </rule>
+
+  <rule>
+    <key>_wsystem</key>
+    <name>_wsystem</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wsystem</configKey>
+  </rule>
+
+  <rule>
+    <key>_texecl</key>
+    <name>_texecl</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texecl</configKey>
+  </rule>
+
+  <rule>
+    <key>_execl</key>
+    <name>_execl</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execl</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexecl</key>
+    <name>_wexecl</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexecl</configKey>
+  </rule>
+
+  <rule>
+    <key>_texecle</key>
+    <name>_texecle</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texecle</configKey>
+  </rule>
+
+  <rule>
+    <key>_execle</key>
+    <name>_execle</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execle</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexecle</key>
+    <name>_wexecle</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexecle</configKey>
+  </rule>
+
+  <rule>
+    <key>_texeclp</key>
+    <name>_texeclp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texeclp</configKey>
+  </rule>
+
+  <rule>
+    <key>_execlp</key>
+    <name>_execlp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execlp</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexeclp</key>
+    <name>_wexeclp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexeclp</configKey>
+  </rule>
+
+  <rule>
+    <key>_texeclpe</key>
+    <name>_texeclpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texeclpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_execlpe</key>
+    <name>_execlpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execlpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexeclpe</key>
+    <name>_wexeclpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexeclpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_texecv</key>
+    <name>_texecv</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texecv</configKey>
+  </rule>
+
+  <rule>
+    <key>_execv</key>
+    <name>_execv</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execv</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexecv</key>
+    <name>_wexecv</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexecv</configKey>
+  </rule>
+
+  <rule>
+    <key>_texecve</key>
+    <name>_texecve</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texecve</configKey>
+  </rule>
+
+  <rule>
+    <key>_execve</key>
+    <name>_execve</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execve</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexecve</key>
+    <name>_wexecve</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexecve</configKey>
+  </rule>
+
+  <rule>
+    <key>_texecvp</key>
+    <name>_texecvp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texecvp</configKey>
+  </rule>
+
+  <rule>
+    <key>_execvp</key>
+    <name>_execvp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execvp</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexecvp</key>
+    <name>_wexecvp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexecvp</configKey>
+  </rule>
+
+
+  <rule>
+    <key>_texecvpe</key>
+    <name>_texecvpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_texecvpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_execvpe</key>
+    <name>_execvpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_execvpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_wexecvpe</key>
+    <name>_wexecvpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wexecvpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnl</key>
+    <name>_tspawnl</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnl</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnl</key>
+    <name>_spawnl</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnl</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnl</key>
+    <name>_wspawnl</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnl</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnle</key>
+    <name>_spawnle</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnle</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnle</key>
+    <name>_wspawnle</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnle</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnlp</key>
+    <name>_tspawnlp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnlp</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnlp</key>
+    <name>_spawnlp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnlp</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnlp</key>
+    <name>_wspawnlp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnlp</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnlpe</key>
+    <name>_tspawnlpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnlpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnlpe</key>
+    <name>_spawnlpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnlpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnlpe</key>
+    <name>_wspawnlpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnlpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnv</key>
+    <name>_tspawnv</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnv</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnv</key>
+    <name>_spawnv</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnv</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnv</key>
+    <name>_wspawnv</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnv</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnve</key>
+    <name>_tspawnve</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnve</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnve</key>
+    <name>_spawnve</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnve</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnve</key>
+    <name>_wspawnve</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnve</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnle</key>
+    <name>_tspawnle</name>
+    <description>
+      While this _exec variant does not search the path for a program
+      (good!), it will run .com files before .exe files and the like. Make
+      sure to specify a file extension.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnle</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnvp</key>
+    <name>_tspawnvp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnvp</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnvp</key>
+    <name>_spawnvp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnvp</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnvp</key>
+    <name>_wspawnvp</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnvp</configKey>
+  </rule>
+
+  <rule>
+    <key>_tspawnvpe</key>
+    <name>_tspawnvpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tspawnvpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_spawnvpe</key>
+    <name>_spawnvpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_spawnvpe</configKey>
+  </rule>
+
+  <rule>
+    <key>_wspawnvpe</key>
+    <name>_wspawnvpe</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_wspawnvpe</configKey>
+  </rule>
+
+  <rule>
+    <key>scanf</key>
+    <name>scanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 1 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/scanf</configKey>
+  </rule>
+
+  <rule>
+    <key>sscanf</key>
+    <name>sscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/sscanf</configKey>
+  </rule>
+
+  <rule>
+    <key>fscanf</key>
+    <name>fscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/fscanf</configKey>
+  </rule>
+
+  <rule>
+    <key>vfscanf</key>
+    <name>vfscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vfscanf</configKey>
+  </rule>
+
+  <rule>
+    <key>vsprintf</key>
+    <name>vsprintf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vsprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>vscanf</key>
+    <name>vscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 1 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vscanf</configKey>
+  </rule>
+
+  <rule>
+    <key>vsscanf</key>
+    <name>vsscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vsscanf</configKey>
+  </rule>
+
+  <rule>
+    <key>streadd</key>
+    <name>streadd</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/streadd</configKey>
+  </rule>
+
+  <rule>
+    <key>strecpy</key>
+    <name>strecpy</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/strecpy</configKey>
+  </rule>
+
+  <rule>
+    <key>strtrns</key>
+    <name>strtrns</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/strtrns</configKey>
+  </rule>
+
+  <rule>
+    <key>realpath</key>
+    <name>realpath</name>
+    <description>
+      Be sure the destination buffer is at least MAXPATHLEN big. This
+      function may still internally overflow a static buffer, try to avoid
+      using it. If you must, check the size the path your pass in is no
+      longer than MAXPATHLEN.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/realpath</configKey>
+  </rule>
+
+  <rule>
+    <key>syslog</key>
+    <name>syslog</name>
+    <description>
+      Truncate all input strings to a reasonable length before passing
+      them to this function.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/syslog</configKey>
+  </rule>
+
+  <rule>
+    <key>getopt</key>
+    <name>getopt</name>
+    <description>
+      Truncate all input strings to a reasonable length before passing
+      them to this function.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getopt</configKey>
+  </rule>
+
+  <rule>
+    <key>getopt_long</key>
+    <name>getopt_long</name>
+    <description>
+      Truncate all input strings to a reasonable length before passing
+      them to this function.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getopt_long</configKey>
+  </rule>
+
+  <rule>
+    <key>getpass</key>
+    <name>getpass</name>
+    <description>
+      Truncate all input strings to a reasonable length before passing
+      them to this function.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getpass</configKey>
+  </rule>
+
+  <rule>
+    <key>getchar</key>
+    <name>getchar</name>
+    <description>
+      Check buffer boundaries if calling this function in a loop and
+      make sure you are not in danger of writing past the allocated space.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getchar</configKey>
+  </rule>
+
+  <rule>
+    <key>fgetc</key>
+    <name>fgetc</name>
+    <description>
+      Check buffer boundaries if calling this function in a loop and
+      make sure you are not in danger of writing past the allocated space.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/fgetc</configKey>
+  </rule>
+
+  <rule>
+    <key>getc</key>
+    <name>getc</name>
+    <description>
+      Check buffer boundaries if calling this function in a loop and
+      make sure you are not in danger of writing past the allocated space.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getc</configKey>
+  </rule>
+
+  <rule>
+    <key>read</key>
+    <name>read</name>
+    <description>
+      Check buffer boundaries if calling this function in a loop and
+      make sure you are not in danger of writing past the allocated space.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/read</configKey>
+  </rule>
+
+  <rule>
+    <key>bcopy</key>
+    <name>bcopy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/bcopy</configKey>
+  </rule>
+
+  <rule>
+    <key>fgets</key>
+    <name>fgets</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/fgets</configKey>
+  </rule>
+
+  <rule>
+    <key>cin</key>
+    <name>cin</name>
+    <description>
+      cin is unsafe. No bounds checking is performed. Buffer is
+      easily overflowable by user.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/cin</configKey>
+  </rule>
+
+  <rule>
+    <key>snprintf</key>
+    <name>snprintf</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/snprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>strccpy</key>
+    <name>strccpy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/strccpy</configKey>
+  </rule>
+
+  <rule>
+    <key>strcadd</key>
+    <name>strcadd</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/strcadd</configKey>
+  </rule>
+
+  <rule>
+    <key>_vsnprintf</key>
+    <name>_vsnprintf</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/_vsnprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>tmpfile</key>
+    <name>tmpfile</name>
+    <description>
+      Many calls for generating temporary file names are insecure
+      (susceptible to race conditions). Use a securely generated file name,
+      for example, by pulling 64 bits of randomness from /dev/random, base
+      64 encoding it and using that as a file suffix.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/tmpfile</configKey>
+  </rule>
+
+  <rule>
+    <key>tmpnam</key>
+    <name>tmpnam</name>
+    <description>
+      Many calls for generating temporary file names are insecure
+      (susceptible to race conditions). Use a securely generated file name,
+      for example, by pulling 64 bits of randomness from /dev/random, base
+      64 encoding it and using that as a file suffix.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/tmpnam</configKey>
+  </rule>
+
+  <rule>
+    <key>tempnam</key>
+    <name>tempnam</name>
+    <description>
+      Many calls for generating temporary file names are insecure
+      (susceptible to race conditions). Use a securely generated file name,
+      for example, by pulling 64 bits of randomness from /dev/random, base
+      64 encoding it and using that as a file suffix.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/tempnam</configKey>
+  </rule>
+
+  <rule>
+    <key>getlogin</key>
+    <name>getlogin</name>
+    <description>
+      The results of this call are easy to forge.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getlogin</configKey>
+  </rule>
+
+  <rule>
+    <key>cuserid</key>
+    <name>cuserid</name>
+    <description>
+      This may be forgable. Whether it is or not, even the man page
+      recommends against using this.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/cuserid</configKey>
+  </rule>
+
+  <rule>
+    <key>ttyname</key>
+    <name>ttyname</name>
+    <description>
+      The results are easy for an attacker to forge, and not reliable.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ttyname</configKey>
+  </rule>
+
+  <rule>
+    <key>signal</key>
+    <name>signal</name>
+    <description>
+      When setting signal handlers, do not use the same function to
+      handle multiple signals. There exists the possibility a race condition
+      will result if 2 or more different signals are sent to the process at
+      nearly the same time. Also, when writing signal handlers, it is best
+      to do as little as possible in them. The best strategy is to use the
+      signal handler to set a flag, that another part of the program tests
+      and performs the appropriate action(s) when it is set.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/signal</configKey>
+  </rule>
+
+  <rule>
+    <key>gethostbyname</key>
+    <name>gethostbyname</name>
+    <description>
+      WDNS results can easily be forged by an attacker (or arbitrarily
+      set to large values, etc), and should not be trusted.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/gethostbyname</configKey>
+  </rule>
+
+  <rule>
+    <key>gethostbyaddr</key>
+    <name>gethostbyaddr</name>
+    <description>
+      WDNS results can easily be forged by an attacker (or arbitrarily
+      set to large values, etc), and should not be trusted.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/gethostbyaddr</configKey>
+  </rule>
+
+  <rule>
+    <key>realloc</key>
+    <name>realloc</name>
+    <description>
+      Don't use on memory intended to be secure, because the old
+      structure will not be zeroed out.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/realloc</configKey>
+  </rule>
+
+  <rule>
+    <key>fork</key>
+    <name>fork</name>
+    <description>
+      Remember that sensitive data get copied on fork. For example, a
+      random number generator's internal state will get duplicated, and the
+      child may start outputting identical number streams.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/fork</configKey>
+  </rule>
+
+  <rule>
+    <key>vfork</key>
+    <name>vfork</name>
+    <description>
+      Some implementations may be broken. Additionally, Remember that
+      sensitive data get copied on fork. For example, a random number
+      generator's internal state will get duplicated, and the child may
+      start outputting identical number streams. Use fork() instead.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vfork</configKey>
+  </rule>
+
+  <rule>
+    <key>_mbsnbcpy</key>
+    <name>_mbsnbcpy</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/_mbsnbcpy</configKey>
+  </rule>
+
+  <rule>
+    <key>CopyMemory</key>
+    <name>CopyMemory</name>
+    <description>
+      Double check that your buffer is as big as you specify. When
+      using functions that accept a number n of bytes to copy, such as
+      strncpy, be aware that if the destination buffer size = n it may not
+      NULL-terminate the string.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/CopyMemory</configKey>
+  </rule>
+
+  <rule>
+    <key>strlen</key>
+    <name>strlen</name>
+    <description>
+      This function does not properly handle non-NULL terminated
+      strings. This does not result in exploitable code, but can lead to
+      access violations.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/strlen</configKey>
+  </rule>
+
+  <rule>
+    <key>_tcslen</key>
+    <name>_tcslen</name>
+    <description>
+      This function does not properly handle non-NULL terminated
+      strings. This does not result in exploitable code, but can lead to
+      access violations.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/_tcslen</configKey>
+  </rule>
+
+  <rule>
+    <key>_mbslen</key>
+    <name>_mbslen</name>
+    <description>
+      This function does not properly handle non-NULL terminated
+      strings. This does not result in exploitable code, but can lead to
+      access violations.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/_mbslen</configKey>
+  </rule>
+
+  <rule>
+    <key>wcslen</key>
+    <name>wcslen</name>
+    <description>
+      This function does not properly handle non-NULL terminated
+      strings. This does not result in exploitable code, but can lead to
+      access violations.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/wcslen</configKey>
+  </rule>
+
+  <rule>
+    <key>CreateProcess</key>
+    <name>CreateProcess</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/CreateProcess</configKey>
+  </rule>
+
+  <rule>
+    <key>CreateProcessAsUser</key>
+    <name>CreateProcessAsUser</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/CreateProcessAsUser</configKey>
+  </rule>
+
+  <rule>
+    <key>CreateProcessWithLogon</key>
+    <name>CreateProcessWithLogon</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/CreateProcessWithLogon</configKey>
+  </rule>
+
+  <rule>
+    <key>WinExec</key>
+    <name>WinExec</name>
+    <description>
+      Many program execution commands under Windows will search the
+      path for a program if you do not explicitly specify a full path to the
+      file. This can allow trojans to be executed instead. Also, be sure to
+      specify a file extension, since otherwise multiple extensions will be
+      tried by the operating system, providing another opportunity for
+      trojans.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/WinExec</configKey>
+  </rule>
+
+  <rule>
+    <key>RpcImpersonateClient</key>
+    <name>RpcImpersonateClient</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/RpcImpersonateClient</configKey>
+  </rule>
+
+  <rule>
+    <key>ImpersonateLoggedOnUser</key>
+    <name>ImpersonateLoggedOnUser</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ImpersonateLoggedOnUser</configKey>
+  </rule>
+
+  <rule>
+    <key>CoImpersonateClient</key>
+    <name>CoImpersonateClient</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/CoImpersonateClient</configKey>
+  </rule>
+
+  <rule>
+    <key>ImpersonateNamedPipeClient</key>
+    <name>ImpersonateNamedPipeClient</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ImpersonateNamedPipeClient</configKey>
+  </rule>
+
+  <rule>
+    <key>ImpersonateDdeClientWindow</key>
+    <name>ImpersonateDdeClientWindow</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ImpersonateDdeClientWindow</configKey>
+  </rule>
+
+  <rule>
+    <key>ImpersonateSecurityContext</key>
+    <name>ImpersonateSecurityContext</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/ImpersonateSecurityContext</configKey>
+  </rule>
+
+  <rule>
+    <key>QuerySecurityContextToken</key>
+    <name>QuerySecurityContextToken</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/QuerySecurityContextToken</configKey>
+  </rule>
+
+  <rule>
+    <key>SetThreadToken</key>
+    <name>SetThreadToken</name>
+    <description>
+      Impersonation functions return error codes when they fail.
+      These error codes must be checked otherwise code could be run with
+      extra privileges when an impersonation has failed.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/SetThreadToken</configKey>
+  </rule>
+
+  <rule>
+    <key>SetSecurityDescriptorDacl</key>
+    <name>SetSecurityDescriptorDacl</name>
+    <description>
+      If the third argument, pDacl, is NULL there is no protection
+      from attack. As an example, an attacker could set a Deny All to
+      Everyone ACE on such an object.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/SetSecurityDescriptorDacl</configKey>
+  </rule>
+
+  <rule>
+    <key>AfxLoadLibrary</key>
+    <name>AfxLoadLibrary</name>
+    <description>
+      LoadLibrary will search several places for a library if no path
+      is specified, allowing trojan DLL's to be inserted elsewhere even if
+      the intended DLL is correctly protected from overwriting. Make sure to
+      specify the full path.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/AfxLoadLibrary</configKey>
+  </rule>
+
+  <rule>
+    <key>LoadLibraryEx</key>
+    <name>LoadLibraryEx</name>
+    <description>
+      LoadLibrary will search several places for a library if no path
+      is specified, allowing trojan DLL's to be inserted elsewhere even if
+      the intended DLL is correctly protected from overwriting. Make sure to
+      specify the full path.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/LoadLibraryEx</configKey>
+  </rule>
+
+  <rule>
+    <key>InitializeCriticalSection</key>
+    <name>InitializeCriticalSection</name>
+    <description>
+      This function can throw exceptions in low memory conditions. Use
+      InitialCriticalSectionAndSpinCount instead.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/InitializeCriticalSection</configKey>
+  </rule>
+
+  <rule>
+    <key>EnterCriticalSection</key>
+    <name>EnterCriticalSection</name>
+    <description>
+      This function can throw exceptions in low memory conditions. Use
+      InitialCriticalSectionAndSpinCount instead.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/EnterCriticalSection</configKey>
+  </rule>
+
+  <rule>
+    <key>catgets</key>
+    <name>catgets</name>
+    <description>
+      Environment variables are highly untrustable input. They may be
+      of any length, and contain any data. Do not make any assumptions
+      regarding content or length. If at all possible avoid using them, and
+      if it is necessary, sanitize them and truncate them to a reasonable
+      length. catgets() can utilize the NLSPATH environment variable.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/catgets</configKey>
+  </rule>
+
+  <rule>
+    <key>gettext</key>
+    <name>gettext</name>
+    <description>
+      Environment variables are highly untrustable input. They may be
+      of any length, and contain any data. Do not make any assumptions
+      regarding content or length. If at all possible avoid using them, and
+      if it is necessary, sanitize them and truncate them to a reasonable
+      length. catgets() can utilize the NLSPATH environment variable.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/gettext</configKey>
+  </rule>
+
+  <rule>
+    <key>umask</key>
+    <name>umask</name>
+    <description>
+      umask() can easily be used to create files with unsafe
+      privileges. It should be set to restrictive values.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/umask</configKey>
+  </rule>
+
+  <rule>
+    <key>AddAccessAllowedAce</key>
+    <name>AddAccessAllowedAce</name>
+    <description>
+      This function does not set the inheritance bits in the Access
+      Control Entry, making it vulnerable.
+    </description>
+    <priority>CRITICAL</priority>
+    <configKey>config/AddAccessAllowedAce</configKey>
+  </rule>
+
+  <rule>
+    <key>access</key>
+    <name>access</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The check should not be used to condition a
+      file system call (such as fopen) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/access</configKey>
+  </rule>
+
+  <rule>
+    <key>lstat</key>
+    <name>lstat</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The check should not be used to condition a
+      file system call (such as open) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/lstat</configKey>
+  </rule>
+
+  <rule>
+    <key>stat</key>
+    <name>stat</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The check should not be used to condition a
+      file system call (such as open) on the same resource.
+      Prefer fstat() when possible
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/stat</configKey>
+  </rule>
+
+  <rule>
+    <key>creat</key>
+    <name>creat</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource. An
+      application-specific sanity check should probably occur after the call
+      if it needs to be secured.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/creat</configKey>
+  </rule>
+
+  <rule>
+    <key>mknod</key>
+    <name>mknod</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource. An
+      application-specific sanity check should probably occur after the call
+      if it needs to be secured.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/mknod</configKey>
+  </rule>
+
+  <rule>
+    <key>mkfifo</key>
+    <name>mkfifo</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource. An
+      application-specific sanity check should probably occur after the call
+      if it needs to be secured.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/mkfifo</configKey>
+  </rule>
+
+  <rule>
+    <key>pathconf</key>
+    <name>pathconf</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource. An
+      application-specific sanity check should probably occur after the call
+      if it needs to be secured.
+      Prefer the use of fpathconf() when possible.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/pathconf</configKey>
+  </rule>
+
+  <rule>
+    <key>opendir</key>
+    <name>opendir</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource. An
+      application-specific sanity check should probably occur after the call
+      if it needs to be secured.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/opendir</configKey>
+  </rule>
+
+  <rule>
+    <key>dirname</key>
+    <name>dirname</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource. An
+      application-specific sanity check should probably occur after the call
+      if it needs to be secured.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/dirname</configKey>
+  </rule>
+
+  <rule>
+    <key>basename</key>
+    <name>basename</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource. An
+      application-specific sanity check should probably occur after the call
+      if it needs to be secured.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/basename</configKey>
+  </rule>
+
+  <rule>
+    <key>scandir</key>
+    <name>scandir</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/scandir</configKey>
+  </rule>
+
+  <rule>
+    <key>fopen</key>
+    <name>fopen</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/fopen</configKey>
+  </rule>
+
+  <rule>
+    <key>open</key>
+    <name>open</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/open</configKey>
+  </rule>
+
+  <rule>
+    <key>chmod</key>
+    <name>chmod</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+      Prefer the use of fchmod() when possible.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/chmod</configKey>
+  </rule>
+
+  <rule>
+    <key>chown</key>
+    <name>chown</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+      Prefer the use of fchown() when possible.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/chown</configKey>
+  </rule>
+
+  <rule>
+    <key>chgrp</key>
+    <name>chgrp</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/chgrp</configKey>
+  </rule>
+
+  <rule>
+    <key>rename</key>
+    <name>rename</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/rename</configKey>
+  </rule>
+
+  <rule>
+    <key>mkdir</key>
+    <name>mkdir</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/mkdir</configKey>
+  </rule>
+
+  <rule>
+    <key>mkdirp</key>
+    <name>mkdirp</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/mkdirp</configKey>
+  </rule>
+
+  <rule>
+    <key>rmdirp</key>
+    <name>rmdirp</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/rmdirp</configKey>
+  </rule>
+
+  <rule>
+    <key>rmdir</key>
+    <name>rmdir</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/rmdir</configKey>
+  </rule>
+
+  <rule>
+    <key>remove</key>
+    <name>remove</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/remove</configKey>
+  </rule>
+
+  <rule>
+    <key>unlink</key>
+    <name>unlink</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/unlink</configKey>
+  </rule>
+
+  <rule>
+    <key>link</key>
+    <name>link</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/link</configKey>
+  </rule>
+
+  <rule>
+    <key>lchown</key>
+    <name>lchown</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/lchown</configKey>
+  </rule>
+
+  <rule>
+    <key>execve</key>
+    <name>execve</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/execve</configKey>
+  </rule>
+
+  <rule>
+    <key>execl</key>
+    <name>execl</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/execl</configKey>
+  </rule>
+
+  <rule>
+    <key>execlp</key>
+    <name>execlp</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/execlp</configKey>
+  </rule>
+
+  <rule>
+    <key>execle</key>
+    <name>execle</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/execle</configKey>
+  </rule>
+
+  <rule>
+    <key>execv</key>
+    <name>execv</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/execv</configKey>
+  </rule>
+
+  <rule>
+    <key>execvp</key>
+    <name>execvp</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/execvp</configKey>
+  </rule>
+
+  <rule>
+    <key>freopen</key>
+    <name>freopen</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/freopen</configKey>
+  </rule>
+
+  <rule>
+    <key>mktemp</key>
+    <name>mktemp</name>
+    <description>
+      The function can be part of a TOCTOU (Time of check to time of use)
+      race condition. The call should not be conditional to a preceding
+      file system check (such as stat) on the same resource.
+    </description>
+    <priority>MINOR</priority>
+    <configKey>config/mktemp</configKey>
+  </rule>
+
+  <rule>
+    <key>fprintf</key>
+    <name>fprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 2
+      to this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/fprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>vfprintf</key>
+    <name>vfprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 2
+      to this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vfprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>vprintf</key>
+    <name>vprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 1
+      to this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vprintf</configKey>
+  </rule>
+  <!-- added from RATS 2.3 rats-c.xml -->
+  <rule>
+    <key>_ftprintf</key>
+    <name>_ftprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 2 to
+      this function call does not come from an untrusted source that could have added
+      formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_ftprintf</configKey>
+  </rule>
+  <rule>
+    <key>_stscanf</key>
+    <name>_stscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_stscanf</configKey>
+  </rule>
+  <rule>
+    <key>swprintf</key>
+    <name>swprintf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/swprintf</configKey>
+  </rule>
+  <rule>
+    <key>_stprintf</key>
+    <name>_stprintf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_stprintf</configKey>
+  </rule>
+  <rule>
+    <key>_tprintf</key>
+    <name>_tprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 1 to
+      this function call does not come from an untrusted source that could have added
+      formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_tprintf</configKey>
+  </rule>
+  <rule>
+    <key>wprintf</key>
+    <name>wprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 1 to
+      this function call does not come from an untrusted source that could have added
+      formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wprintf</configKey>
+  </rule>
+
+  <rule>
+    <key>_cprintf</key>
+    <name>_cprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 1 to
+      this function call does not come from an untrusted source that could have added
+      formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_cprintf</configKey>
+  </rule>
+  <rule>
+    <key>_cscanf</key>
+    <name>_cscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_cscanf</configKey>
+  </rule>
+  <rule>
+    <key>_ftscanf</key>
+    <name>_ftscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_ftscanf</configKey>
+  </rule>
+  <rule>
+    <key>_vsnwprintf</key>
+    <name>_vsnwprintf</name>
+    <description>
+      Double check that your buffer is as big as you specify. When using functions
+      that accept a number n of bytes to copy, such as strncpy, be aware that if the
+      dest buffer size = n it may not NULL-terminate the string."
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/_vsnwprintf</configKey>
+  </rule>
+  <rule>
+    <key>fwprintf</key>
+    <name>fwprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 2 to
+      this function call does not come from an untrusted source that could have added
+      formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/fwprintf</configKey>
+  </rule>
+  <rule>
+    <key>fwscanf</key>
+    <name>fwscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to
+      this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to
+      handle. Additionally, the format string could contain `%s' without
+      precision that could result in a buffer overflow.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/fwscanf</configKey>
+  </rule>
+  <rule>
+    <key>getwd</key>
+    <name>getwd</name>
+    <description>
+      Check to be sure that the format string passed as argument 1 to this function
+      call does not come from an untrusted source that could have added formatting
+      characters that the code is not prepared to handle.  Additionally, the format
+      string could contain `%s' without precision that could result in a buffer overflow
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/getwd</configKey>
+  </rule>
+  <rule>
+    <key>vfwprintf</key>
+    <name>vfwprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 2
+      to this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vfwprintf</configKey>
+  </rule>
+  <rule>
+    <key>vswprintf</key>
+    <name>vswprintf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to this function
+      call does not come from an untrusted source that could have added formatting
+      characters that the code is not prepared to handle.  Additionally, the format
+      string could contain `%s' without precision that could result in a buffer overflow
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vswprintf</configKey>
+  </rule>
+  <rule>
+    <key>vwprintf</key>
+    <name>vwprintf</name>
+    <description>
+      Check to be sure that the non-constant format string passed as argument 1
+      to this function call does not come from an untrusted source that could
+      have added formatting characters that the code is not prepared to handle.
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/vwprintf</configKey>
+  </rule>
+  <rule>
+    <key>wscanf</key>
+    <name>wscanf</name>
+    <description>
+      Check to be sure that the format string passed as argument 2 to this function
+      call does not come from an untrusted source that could have added formatting
+      characters that the code is not prepared to handle.  Additionally, the format
+      string could contain `%s' without precision that could result in a buffer overflow
+    </description>
+    <priority>MAJOR</priority>
+    <configKey>config/wscanf</configKey>
+  </rule>
+  <!-- end of update from RATS 2.3 rats-c.xml -->
+</rules>

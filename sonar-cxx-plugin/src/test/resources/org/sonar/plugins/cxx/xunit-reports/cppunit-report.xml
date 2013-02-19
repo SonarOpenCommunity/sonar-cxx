@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding='ISO-8859-1' standalone='yes' ?>
+<TestRun>
+  <FailedTests>
+    <FailedTest id="2">
+      <Name>SampleFixture::failingTest</Name>
+      <FailureType>Assertion</FailureType>
+      <Location>
+        <File>main.cc</File>
+        <Line>62</Line>
+      </Location>
+      <Message>assertion failed
+- Expression: false
+</Message>
+    </FailedTest>
+    <FailedTest id="3">
+      <Name>SampleFixture::throwingTest</Name>
+      <FailureType>Error</FailureType>
+      <Message>uncaught exception of unknown type
+</Message>
+    </FailedTest>
+  </FailedTests>
+  <SuccessfulTests>
+    <Test id="1">
+      <Name>SampleFixture::succeedingTest</Name>
+    </Test>
+    <Test id="4">
+      <Name>SampleFixture::expectedlyThrowingTest</Name>
+    </Test>
+    <Test id="5">
+      <Name>SampleFixture::crashingTest</Name>
+    </Test>
+  </SuccessfulTests>
+  <Statistics>
+    <Tests>5</Tests>
+    <FailuresTotal>2</FailuresTotal>
+    <Errors>1</Errors>
+    <Failures>1</Failures>
+  </Statistics>
+</TestRun>
