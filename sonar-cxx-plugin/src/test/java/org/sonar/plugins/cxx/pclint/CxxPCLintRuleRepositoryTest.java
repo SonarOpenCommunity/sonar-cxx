@@ -17,16 +17,25 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
-
-import static org.junit.Assert.assertEquals;
+package org.sonar.plugins.cxx.pclint;
 
 import org.junit.Test;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.api.platform.ServerFileSystem;
+import static org.mockito.Mockito.mock;
 
-public class CxxPluginTest {
+import java.util.List;
+
+import static org.fest.assertions.Assertions.assertThat;
+
+public class CxxPCLintRuleRepositoryTest {
+  
   @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(21, plugin.getExtensions().size());
+  public void createRulesTest() {
+    CxxPCLintRuleRepository rulerep = new CxxPCLintRuleRepository(
+      mock(ServerFileSystem.class),
+      new XMLRuleParser());
+    assertThat(rulerep.createRules()).hasSize(948);
   }
 }

@@ -19,14 +19,29 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.junit.Assert.assertEquals;
-
+import net.sourceforge.pmd.cpd.SourceCode;
+import net.sourceforge.pmd.cpd.TokenEntry;
+import net.sourceforge.pmd.cpd.Tokens;
 import org.junit.Test;
 
-public class CxxPluginTest {
+import java.io.File;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.util.List;
+
+import static org.fest.assertions.Assertions.assertThat;
+
+public class CxxTokenizerTest {
+
   @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(21, plugin.getExtensions().size());
+  public void shouldWorkOnValidInput() throws URISyntaxException {
+    File file = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
+    SourceCode source = new SourceCode(new SourceCode.FileCodeLoader(file, "key"));
+    Tokens cpdTokens = new Tokens();
+    CxxTokenizer tokenizer = new CxxTokenizer(Charset.forName("UTF-8"));
+    tokenizer.tokenize(source, cpdTokens);
+    List<TokenEntry> list = cpdTokens.getTokens();
+    assertThat(list.size()).isEqualTo(371);
   }
+
 }
