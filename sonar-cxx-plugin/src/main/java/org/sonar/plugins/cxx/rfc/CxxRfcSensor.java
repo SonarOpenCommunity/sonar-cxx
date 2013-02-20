@@ -19,9 +19,6 @@
  */
 package org.sonar.plugins.cxx.rfc;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;

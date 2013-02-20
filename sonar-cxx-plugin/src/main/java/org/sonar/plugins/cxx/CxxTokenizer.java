@@ -26,7 +26,6 @@ import net.sourceforge.pmd.cpd.TokenEntry;
 import net.sourceforge.pmd.cpd.Tokenizer;
 import net.sourceforge.pmd.cpd.Tokens;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.lexer.CxxLexer;
 
 import java.io.File;

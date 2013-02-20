@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-//import org.apache.commons.configuration.Configuration;
 import org.sonar.api.config.Settings;
 import com.sonar.sslr.squid.AstScanner;
 import org.sonar.api.batch.SensorContext;
@@ -43,8 +42,6 @@ import org.sonar.plugins.cxx.CxxPlugin;
 
 import java.io.File;
 import java.util.Collection;
-
-//import org.sonar.cxx.metrics.FileLinesVisitor;
 
 /**
  * {@inheritDoc}
@@ -77,7 +74,6 @@ public final class CxxSquidSensor extends CxxReportSensor {
     save(squidSourceFiles);
   }
 
-  //private CxxConfiguration createConfiguration(Project project, Configuration conf) {
   private CxxConfiguration createConfiguration(Project project, Settings conf) {
     CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
     cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());

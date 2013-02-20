@@ -146,8 +146,8 @@ import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
-  static public final String DEFINES_KEY = "sonar.cxx.defines";
-  static public final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
+  public static final String DEFINES_KEY = "sonar.cxx.defines";
+  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
   
   /**
    * {@inheritDoc}
