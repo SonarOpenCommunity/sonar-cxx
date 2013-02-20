@@ -37,11 +37,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar.common-rules</groupId>
-      <artifactId>sonar-common-rules</artifactId>
-      <type>jar</type>
-    </dependency>
-    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
       <version>${project.version}</version>
@@ -82,6 +77,26 @@
       <groupId>org.eclipse.core</groupId>
       <artifactId>runtime</artifactId>
       <version>3.1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.sonar.common-rules</groupId>
+      <artifactId>sonar-common-rules</artifactId>
+      <version>1.0.1</version>
+      <type>jar</type>
     </dependency>
     
   </dependencies>

@@ -69,17 +69,17 @@ public class CxxSampleProjectIT {
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {50.0, 121.0,
+    double[] expectedValues = {52.0, 124.0,
                                4.0, 3.0, 5.0,
-                               32.4, 24.0, 10.0,
-                               67.8, 82.0, 2.0, 2.0,
+                               31.6, 24.0, 10.0,
+                               69.4, 86.0, 2.0, 2.0,
                                7.0, 1.4,
-                               33.0, 0.0,
+                               34.0, 0.0,
                                72.4, 81.0, 50.0,
                                60.0, 2.0, 0.0, 5.0};
 
     assertThat(values, is(expectedValues));
-    assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=2;2=1;4=0;6=0;8=0;10=0;12=0;20=0;30=0"));
+    assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=3;2=2;4=0;6=0;8=0;10=0;12=0;20=0;30=0"));
   }
 
   @Test
@@ -99,16 +99,16 @@ public class CxxSampleProjectIT {
       values[i] = getPackageMeasure(metricNames[i]).getValue();
     }
 
-    double[] expectedValues = {45.0, 112.0,
+    double[] expectedValues = {47.0, 115.0,
                                3.0, 1.0, 4.0,
-                               34.8, 24.0, 10.0,
-                               73.2, 82.0, 2.0, 2.0,
+                               33.8, 24.0, 10.0,
+                               74.8, 86.0, 2.0, 2.0,
                                6.0, 1.5,
-                               30.0, 0.0,
+                               31.0, 0.0,
                                84.0, 100.0, 50.0};
 
     assertThat(values, is(expectedValues));
-    assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=1;2=1;4=0;6=0;8=0;10=0;12=0;20=0;30=0"));
+    assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=2;2=2;4=0;6=0;8=0;10=0;12=0;20=0;30=0"));
   }
 
   @Test
@@ -127,13 +127,13 @@ public class CxxSampleProjectIT {
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
     
-    double[] expectedValues = {20.0, 51.0,
+    double[] expectedValues = {21.0, 53.0,
                                1.0, 2.0,
-                               37.5, 12.0, 5.0,
+                               36.4, 12.0, 5.0,
                                3.0, 1.5,
-                               17.0, 0.0,
+                               18.0, 0.0,
                                84.0, 100.0, 50.0};
-
+    
     assertThat(values, is(expectedValues));
   }
 
