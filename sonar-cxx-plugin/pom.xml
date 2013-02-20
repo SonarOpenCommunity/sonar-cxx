@@ -13,10 +13,12 @@
   <packaging>sonar-plugin</packaging>
   
   <name>Cxx :: Sonar Plugin</name>
+  <inceptionYear>2010</inceptionYear>
   <description>Enable analysis and reporting on c++ projects.</description>
   <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
 
   <properties>
+    <license.owner>Neticoa SAS France</license.owner>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
   </properties>
 
@@ -75,16 +77,4 @@
       <type>jar</type>
     </dependency>
   </dependencies>
-  
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-        <configuration>
-          <header>src/license-header.txt</header>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
