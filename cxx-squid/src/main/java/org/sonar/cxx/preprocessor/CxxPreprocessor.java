@@ -66,7 +66,7 @@ public class CxxPreprocessor extends Preprocessor {
       this.includeUnderAnalysis = includeUnderAnalysis;
     }
       
-    public void reset(){
+    public final void reset(){
       skipping = false;
       nestedIfdefs = 0;
       includeUnderAnalysis = null;
@@ -166,15 +166,15 @@ public class CxxPreprocessor extends Preprocessor {
       
       String lineKind = lineAst.getName();
 
-      if("ifdef_line".equals(lineKind)){
+      if("ifdefLine".equals(lineKind)){
         return handleIfdefLine(lineAst, token, filePath);
-      } else if("else_line".equals(lineKind)){
+      } else if("elseLine".equals(lineKind)){
         return handleElseLine(lineAst, token, filePath);
-      } else if("endif_line".equals(lineKind)){
+      } else if("endifLine".equals(lineKind)){
         return handleEndifLine(lineAst, token, filePath);
-      } else if("if_line".equals(lineKind)){
+      } else if("ifLine".equals(lineKind)){
         return handleIfLine(lineAst, token, filePath);
-      } else if("elif_line".equals(lineKind)){
+      } else if("elifLine".equals(lineKind)){
         return handleElIfLine(lineAst, token, filePath);
       }
 
@@ -182,11 +182,11 @@ public class CxxPreprocessor extends Preprocessor {
         return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
       }
 
-      if("define_line".equals(lineKind)){
+      if("defineLine".equals(lineKind)){
         return handleDefineLine(lineAst, token, filePath);
-      } else if("include_line".equals(lineKind)){
+      } else if("includeLine".equals(lineKind)){
         return handleIncludeLine(lineAst, token, filePath);
-      } else if("undef_line".equals(lineKind)){
+      } else if("undefLine".equals(lineKind)){
         return handleUndefLine(lineAst, token, filePath);
       }
 
@@ -285,7 +285,7 @@ public class CxxPreprocessor extends Preprocessor {
       LOG.trace("[{}:{}]: handling #if line '{}'",
                 new Object[]{filename, token.getLine(), token.getValue()});
       try{
-        state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constant_expression));
+        state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
       }
       catch(EvaluationException e){
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
@@ -308,7 +308,7 @@ public class CxxPreprocessor extends Preprocessor {
     // doesn't increase the nesting level
     if(state.nestedIfdefs == 0){
       try{
-        state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constant_expression));
+        state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
       }
       catch(EvaluationException e){
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
@@ -437,14 +437,10 @@ public class CxxPreprocessor extends Preprocessor {
     int tokensConsumedMatchingArgs = matchArguments(restTokens, arguments);
 
     Macro macro = macros.get(macroName);
-    if (macro != null) {
-      if (macro.params.size() == arguments.size()) {
-        replTokens = replaceParams(macro.body, macro.params, arguments);
-        replTokens = evaluateHashhashOperators(replTokens);
-        
-        String replacement = serialize(replTokens);
-        expansion.addAll(expandMacro(macro.name, serialize(replTokens)));
-      }
+    if (macro != null && macro.params.size() == arguments.size()) {
+      replTokens = replaceParams(macro.body, macro.params, arguments);
+      replTokens = evaluateHashhashOperators(replTokens);
+      expansion.addAll(expandMacro(macro.name, serialize(replTokens)));
     }
     
     return tokensConsumedMatchingArgs;
@@ -672,20 +668,20 @@ public class CxxPreprocessor extends Preprocessor {
 
   private Macro parseMacroDefinition(String macroDef){
     return parseMacroDefinition(pplineParser.parse(macroDef)
-                                .findFirstChild(pplineParser.getGrammar().define_line));
+                                .findFirstChild(pplineParser.getGrammar().defineLine));
   }
 
   private Macro parseMacroDefinition(AstNode defineLineAst){
     AstNode ast = defineLineAst.getChild(0);
-    AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().pp_token);
+    AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().ppToken);
     String macroName = nameNode.getTokenValue();
     
-    AstNode paramList = ast.findFirstChild(pplineParser.getGrammar().parameter_list);
+    AstNode paramList = ast.findFirstChild(pplineParser.getGrammar().parameterList);
     List<Token> macroParams = paramList == null
-      ? ast.getName().equals("objectlike_macro_definition") ? null : new LinkedList<Token>()
-      : getParams(ast.findFirstChild(pplineParser.getGrammar().parameter_list));
+      ? ast.getName().equals("objectlikeMacroDefinition") ? null : new LinkedList<Token>()
+      : getParams(paramList);
     
-    AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacement_list);
+    AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacementList);
     List<Token> macroBody = replList == null
       ? new LinkedList<Token>()
       : replList.getTokens().subList(0, replList.getTokens().size() - 1);

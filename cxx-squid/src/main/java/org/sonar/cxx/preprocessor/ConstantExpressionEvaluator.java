@@ -103,35 +103,35 @@ public final class ConstantExpressionEvaluator {
     // More complex expressions with more than one child
     //
     String nodeType = exprAst.getName();
-    if("unary_expression".equals(nodeType)){
+    if("unaryExpression".equals(nodeType)){
       return evalUnaryExpression(exprAst);
-    } else if("conditional_expression".equals(nodeType)){
+    } else if("conditionalExpression".equals(nodeType)){
       return evalConditionalExpression(exprAst);
-    } else if("logical_or_expression".equals(nodeType)){
+    } else if("logicalOrExpression".equals(nodeType)){
       return evalLogicalOrExpression(exprAst);
-    } else if("logical_and_expression".equals(nodeType)){
+    } else if("logicalAndExpression".equals(nodeType)){
       return evalLogicalAndExpression(exprAst);
-    } else if("inclusive_or_expression".equals(nodeType)){
+    } else if("inclusiveOrExpression".equals(nodeType)){
       return evalInclusiveOrExpression(exprAst);
-    } else if("exclusive_or_expression".equals(nodeType)){
+    } else if("exclusiveOrExpression".equals(nodeType)){
       return evalExclusiveOrExpression(exprAst);
-    } else if("and_expression".equals(nodeType)){
+    } else if("andExpression".equals(nodeType)){
       return evalAndExpression(exprAst);
-    } else if("equality_expression".equals(nodeType)){
+    } else if("equalityExpression".equals(nodeType)){
       return evalEqualityExpression(exprAst);
-    } else if("relational_expression".equals(nodeType)){
+    } else if("relationalExpression".equals(nodeType)){
       return evalRelationalExpression(exprAst);
-    } else if("shift_expression".equals(nodeType)){
+    } else if("shiftExpression".equals(nodeType)){
       return evalShiftExpression(exprAst);
-    } else if("additive_expression".equals(nodeType)){
+    } else if("additiveExpression".equals(nodeType)){
       return evalAdditiveExpression(exprAst);
-    } else if("multiplicative_expression".equals(nodeType)){
+    } else if("multiplicativeExpression".equals(nodeType)){
       return evalMultiplicativeExpression(exprAst);
-    } else if("primary_expression".equals(nodeType)){
+    } else if("primaryExpression".equals(nodeType)){
       return evalPrimaryExpression(exprAst);
-    } else if("defined_expression".equals(nodeType)){
+    } else if("definedExpression".equals(nodeType)){
       return evalDefinedExpression(exprAst);
-    } else if("functionlike_macro".equals(nodeType)){
+    } else if("functionlikeMacro".equals(nodeType)){
       return evalFunctionlikeMacro(exprAst);
     } else {
       throw new EvaluationException("Unknown expression type '" + nodeType + "'");

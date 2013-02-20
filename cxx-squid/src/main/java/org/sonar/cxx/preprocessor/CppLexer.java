@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;

@@ -44,36 +44,36 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void preprocessor_line() {
-    g.define_line.mock();
-    g.include_line.mock();
-    g.ifdef_line.mock();
-    g.if_line.mock();
-    g.elif_line.mock();
-    g.else_line.mock();
-    g.endif_line.mock();
-    g.undef_line.mock();
-    g.line_line.mock();
-    g.error_line.mock();
-    g.pragma_line.mock();
-    g.warning_line.mock();
+  public void preprocessorLine() {
+    g.defineLine.mock();
+    g.includeLine.mock();
+    g.ifdefLine.mock();
+    g.ifLine.mock();
+    g.elifLine.mock();
+    g.elseLine.mock();
+    g.endifLine.mock();
+    g.undefLine.mock();
+    g.lineLine.mock();
+    g.errorLine.mock();
+    g.pragmaLine.mock();
+    g.warningLine.mock();
 
-    assertThat(p, parse("define_line"));
-    assertThat(p, parse("include_line"));
-    assertThat(p, parse("ifdef_line"));
-    assertThat(p, parse("if_line"));
-    assertThat(p, parse("elif_line"));
-    assertThat(p, parse("else_line"));
-    assertThat(p, parse("endif_line"));
-    assertThat(p, parse("undef_line"));
-    assertThat(p, parse("line_line"));
-    assertThat(p, parse("error_line"));
-    assertThat(p, parse("pragma_line"));
-    assertThat(p, parse("warning_line"));
+    assertThat(p, parse("defineLine"));
+    assertThat(p, parse("includeLine"));
+    assertThat(p, parse("ifdefLine"));
+    assertThat(p, parse("ifLine"));
+    assertThat(p, parse("elifLine"));
+    assertThat(p, parse("elseLine"));
+    assertThat(p, parse("endifLine"));
+    assertThat(p, parse("undefLine"));
+    assertThat(p, parse("lineLine"));
+    assertThat(p, parse("errorLine"));
+    assertThat(p, parse("pragmaLine"));
+    assertThat(p, parse("warningLine"));
   }
 
   @Test
-  public void preprocessor_line_reallife() {
+  public void preprocessorLine_reallife() {
     assertThat(p, parse("#include      <ace/config-all.h>"));
     assertThat(p, parse("#endif  // LLVM_DEBUGINFO_DWARFDEBUGRANGELIST_H"));
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
@@ -82,8 +82,8 @@ public class CppGrammarTest {
   }
   
   @Test
-  public void define_line_reallife() {
-    p.setRootRule(g.define_line);
+  public void defineLine_reallife() {
+    p.setRootRule(g.defineLine);
     
     assertThat(p, parse("#define ALGOSTUFF_HPPEOF"));
     assertThat(p, parse("#define lala(a, b) a b"));
@@ -95,19 +95,19 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void include_line() {
-    p.setRootRule(g.include_line);
+  public void includeLine() {
+    p.setRootRule(g.includeLine);
 
-    g.pp_token.mock();
+    g.ppToken.mock();
 
-    assertThat(p, parse("#include <pp_token>"));
-    assertThat(p, parse("#include_next <pp_token>"));
+    assertThat(p, parse("#include <ppToken>"));
+    assertThat(p, parse("#include_next <ppToken>"));
     assertThat(p, parse("#include \"jabadu\""));
   }
 
   @Test
-  public void include_line_reallife() {
-    p.setRootRule(g.include_line);
+  public void includeLine_reallife() {
+    p.setRootRule(g.includeLine);
 
     assertThat(p, parse("#include <file>"));
     assertThat(p, parse("#include <file.h>"));
@@ -121,14 +121,14 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void define_containing_argument_list() {
+  public void define_containing_argumentList() {
     AstNode define = p.parse("#define lala(a, b) a b");
-    assert (define.findFirstChild(g.parameter_list) != null);
+    assert (define.findFirstChild(g.parameterList) != null);
   }
 
   @Test
-  public void ifdef_line() {
-    p.setRootRule(g.ifdef_line);
+  public void ifdefLine() {
+    p.setRootRule(g.ifdefLine);
     
     assertThat(p, parse("#ifdef foo"));
     assertThat(p, parse("#ifndef foo"));
@@ -137,18 +137,18 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void replacement_list() {
-    p.setRootRule(g.replacement_list);
+  public void replacementList() {
+    p.setRootRule(g.replacementList);
 
     assertThat(p, parse(""));
-    assertThat(p, parse("pp_token"));
-    assertThat(p, parse("#pp_token"));
-    assertThat(p, parse("pp_token ## pp_token"));
+    assertThat(p, parse("ppToken"));
+    assertThat(p, parse("#ppToken"));
+    assertThat(p, parse("ppToken ## ppToken"));
   }
 
   @Test
-  public void argument_list() {
-    p.setRootRule(g.argument_list);
+  public void argumentList() {
+    p.setRootRule(g.argumentList);
 
     assertThat(p, parse("foo"));
     assertThat(p, parse("foo, bar"));
@@ -156,8 +156,8 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void pp_token() {
-    p.setRootRule(g.pp_token);
+  public void ppToken() {
+    p.setRootRule(g.ppToken);
 
     assertThat(p, parse("foo"));
     assertThat(p, parse("("));
@@ -166,24 +166,24 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void functionlike_macro_definition() {
-    p.setRootRule(g.functionlike_macro_definition);
+  public void functionlikeMacroDefinition() {
+    p.setRootRule(g.functionlikeMacroDefinition);
     
-    g.replacement_list.mock();
-    g.argument_list.mock();
-    g.pp_token.mock();
+    g.replacementList.mock();
+    g.argumentList.mock();
+    g.ppToken.mock();
     
-    assertThat(p, parse("#define pp_token( argument_list ) replacement_list"));
-    assertThat(p, parse("#define pp_token(argument_list) replacement_list"));
-    assertThat(p, parse("#define pp_token( ... ) replacement_list"));
-    assertThat(p, parse("#define pp_token(...) replacement_list"));
-    assertThat(p, parse("#define pp_token( argument_list, ... ) replacement_list"));
-    assertThat(p, parse("#define pp_token(argument_list, ...) replacement_list"));
+    assertThat(p, parse("#define ppToken( argumentList ) replacementList"));
+    assertThat(p, parse("#define ppToken(argumentList) replacementList"));
+    assertThat(p, parse("#define ppToken( ... ) replacementList"));
+    assertThat(p, parse("#define ppToken(...) replacementList"));
+    assertThat(p, parse("#define ppToken( argumentList, ... ) replacementList"));
+    assertThat(p, parse("#define ppToken(argumentList, ...) replacementList"));
   }
 
   @Test
-  public void functionlike_macro_definition_reallife() {
-    p.setRootRule(g.functionlike_macro_definition);
+  public void functionlikeMacroDefinition_reallife() {
+    p.setRootRule(g.functionlikeMacroDefinition);
     
     assertThat(p, parse("#define foo() bar"));
     assertThat(p, parse("#define foo() ()"));
@@ -192,18 +192,18 @@ public class CppGrammarTest {
   }
   
   @Test
-  public void objectlike_macro_definition() {
-    p.setRootRule(g.objectlike_macro_definition);
+  public void objectlikeMacroDefinition() {
+    p.setRootRule(g.objectlikeMacroDefinition);
     
-    g.replacement_list.mock();
-    g.pp_token.mock();
+    g.replacementList.mock();
+    g.ppToken.mock();
     
-    assertThat(p, parse("#define pp_token replacement_list"));
+    assertThat(p, parse("#define ppToken replacementList"));
   }
 
   @Test
-  public void objectlike_macro_definition_reallife() {
-    p.setRootRule(g.objectlike_macro_definition);
+  public void objectlikeMacroDefinition_reallife() {
+    p.setRootRule(g.objectlikeMacroDefinition);
     
     assertThat(p, parse("#define foo"));
     assertThat(p, parse("#define foo bar"));
@@ -212,60 +212,60 @@ public class CppGrammarTest {
   }
 
   @Test
-  public void else_line() {
-    p.setRootRule(g.else_line);
+  public void elseLine() {
+    p.setRootRule(g.elseLine);
     
     assertThat(p, parse("#else"));
     assertThat(p, parse("#else  // if lala"));
   }    
 
   @Test
-  public void endif_line() {
-    p.setRootRule(g.endif_line);
+  public void endifLine() {
+    p.setRootRule(g.endifLine);
     
     assertThat(p, parse("#endif"));
     assertThat(p, parse("#endif  // LLVM_DEBUGINFO_DWARFDEBUGRANGELIST_H"));
   }    
 
   @Test
-  public void undef_line() {
-    p.setRootRule(g.undef_line);
+  public void undefLine() {
+    p.setRootRule(g.undefLine);
     
     assertThat(p, parse("#undef foo"));
   }    
 
   @Test
-  public void line_line() {
-    p.setRootRule(g.line_line);
+  public void lineLine() {
+    p.setRootRule(g.lineLine);
     
     assertThat(p, parse("#line foo bar"));
   }    
 
   @Test
-  public void error_line() {
-    p.setRootRule(g.error_line);
+  public void errorLine() {
+    p.setRootRule(g.errorLine);
     
     assertThat(p, parse("#error foo"));
     assertThat(p, parse("#error"));
   }    
 
   @Test
-  public void pragma_line() {
-    p.setRootRule(g.pragma_line);
+  public void pragmaLine() {
+    p.setRootRule(g.pragmaLine);
     
     assertThat(p, parse("#pragma foo"));
   }    
   
   @Test
-  public void warning_line() {
-    p.setRootRule(g.warning_line);
+  public void warningLine() {
+    p.setRootRule(g.warningLine);
     
     assertThat(p, parse("#warning foo"));
   }
 
   @Test
-  public void misc_line() {
-    p.setRootRule(g.misc_line);
+  public void miscLine() {
+    p.setRootRule(g.miscLine);
     
     assertThat(p, parse("#"));
     assertThat(p, parse("# lala"));

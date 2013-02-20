@@ -29,7 +29,6 @@ import java.util.List;
 public class CxxConfiguration extends SquidConfiguration {
 
   private boolean ignoreHeaderComments = false;
-  private boolean preprocessorChannelEnabled = true;
   private List<String> defines = new ArrayList<String>();
   private List<String> includeDirectories = new ArrayList<String>();
   private String baseDir;

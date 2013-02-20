@@ -37,7 +37,7 @@ public final class CppParser {
     Parser<CppGrammar> parser = Parser.builder(grammar)
       .withLexer(CppLexer.create(conf))
       .build();
-    parser.setRootRule(grammar.constant_expression);
+    parser.setRootRule(grammar.constantExpression);
     return parser;
   }
 }

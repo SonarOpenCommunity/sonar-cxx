@@ -34,51 +34,51 @@ public class IfExpressionsTest {
   CppGrammar g = p.getGrammar();
 
   @Test
-  public void if_line() {
-    p.setRootRule(g.if_line);
+  public void ifLine() {
+    p.setRootRule(g.ifLine);
 
-    g.constant_expression.mock();
+    g.constantExpression.mock();
 
-    assertThat(p, parse("#if constant_expression"));
+    assertThat(p, parse("#if constantExpression"));
   }
 
   @Test
-  public void elif_line() {
-    p.setRootRule(g.elif_line);
+  public void elifLine() {
+    p.setRootRule(g.elifLine);
     
-    g.constant_expression.mock();
+    g.constantExpression.mock();
     
-    assertThat(p, parse("#elif constant_expression"));
+    assertThat(p, parse("#elif constantExpression"));
   }
 
   @Test
-  public void if_line_reallive() {
-    p.setRootRule(g.if_line);
+  public void ifLine_reallive() {
+    p.setRootRule(g.ifLine);
     
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
     assertThat(p, parse("#if 0   // Re-enable once PR13021 is fixed."));
     
-    assert(p.parse("#if A (4, 1)").findFirstChild(g.functionlike_macro) != null);
-    assert(p.parse("#if A ()").findFirstChild(g.functionlike_macro) != null);
-    assert(p.parse("#if A()").findFirstChild(g.functionlike_macro) != null);
+    assert(p.parse("#if A (4, 1)").findFirstChild(g.functionlikeMacro) != null);
+    assert(p.parse("#if A ()").findFirstChild(g.functionlikeMacro) != null);
+    assert(p.parse("#if A()").findFirstChild(g.functionlikeMacro) != null);
     
-    assert(p.parse("#if defined(A)").findFirstChild(g.defined_expression) != null);
-    assert(p.parse("#if defined (A)").findFirstChild(g.defined_expression) != null);
-    assert(p.parse("#if defined A").findFirstChild(g.defined_expression) != null);
+    assert(p.parse("#if defined(A)").findFirstChild(g.definedExpression) != null);
+    assert(p.parse("#if defined (A)").findFirstChild(g.definedExpression) != null);
+    assert(p.parse("#if defined A").findFirstChild(g.definedExpression) != null);
   }
 
   @Test
-  public void constant_expression() {
-    p.setRootRule(g.constant_expression);
+  public void constantExpression() {
+    p.setRootRule(g.constantExpression);
 
-    g.conditional_expression.mock();
+    g.conditionalExpression.mock();
 
-    assertThat(p, parse("conditional_expression"));
+    assertThat(p, parse("conditionalExpression"));
   }
 
   @Test
-  public void constant_expression_reallive() {
-    p.setRootRule(g.constant_expression);
+  public void constantExpression_reallive() {
+    p.setRootRule(g.constantExpression);
 
     assertThat(p, parse("(1 || 0) && (0 && 1)"));
     assertThat(p, parse("(1)"));
@@ -88,147 +88,147 @@ public class IfExpressionsTest {
   }
 
   @Test
-  public void conditional_expression() {
-    p.setRootRule(g.conditional_expression);
+  public void conditionalExpression() {
+    p.setRootRule(g.conditionalExpression);
 
-    g.logical_or_expression.mock();
+    g.logicalOrExpression.mock();
     g.expression.mock();
 
-    assertThat(p, parse("logical_or_expression"));
-    assertThat(p, parse("logical_or_expression ? expression : logical_or_expression"));
+    assertThat(p, parse("logicalOrExpression"));
+    assertThat(p, parse("logicalOrExpression ? expression : logicalOrExpression"));
   }
 
   @Test
-  public void logical_or_expression() {
-    p.setRootRule(g.logical_or_expression);
+  public void logicalOrExpression() {
+    p.setRootRule(g.logicalOrExpression);
 
-    g.logical_and_expression.mock();
+    g.logicalAndExpression.mock();
 
-    assertThat(p, parse("logical_and_expression"));
-    assertThat(p, parse("logical_and_expression || logical_and_expression"));
+    assertThat(p, parse("logicalAndExpression"));
+    assertThat(p, parse("logicalAndExpression || logicalAndExpression"));
   }
 
   @Test
-  public void logical_and_expression() {
-    p.setRootRule(g.logical_and_expression);
+  public void logicalAndExpression() {
+    p.setRootRule(g.logicalAndExpression);
 
-    g.inclusive_or_expression.mock();
+    g.inclusiveOrExpression.mock();
 
-    assertThat(p, parse("inclusive_or_expression"));
-    assertThat(p, parse("inclusive_or_expression && inclusive_or_expression"));
+    assertThat(p, parse("inclusiveOrExpression"));
+    assertThat(p, parse("inclusiveOrExpression && inclusiveOrExpression"));
   }
 
   @Test
-  public void inclusive_or_expression() {
-    p.setRootRule(g.inclusive_or_expression);
+  public void inclusiveOrExpression() {
+    p.setRootRule(g.inclusiveOrExpression);
 
-    g.exclusive_or_expression.mock();
+    g.exclusiveOrExpression.mock();
 
-    assertThat(p, parse("exclusive_or_expression"));
-    assertThat(p, parse("exclusive_or_expression | exclusive_or_expression"));
+    assertThat(p, parse("exclusiveOrExpression"));
+    assertThat(p, parse("exclusiveOrExpression | exclusiveOrExpression"));
   }
 
   @Test
-  public void exclusive_or_expression() {
-    p.setRootRule(g.exclusive_or_expression);
+  public void exclusiveOrExpression() {
+    p.setRootRule(g.exclusiveOrExpression);
 
-    g.and_expression.mock();
+    g.andExpression.mock();
 
-    assertThat(p, parse("and_expression"));
-    assertThat(p, parse("and_expression ^ and_expression"));
+    assertThat(p, parse("andExpression"));
+    assertThat(p, parse("andExpression ^ andExpression"));
   }
 
   @Test
-  public void and_expression() {
-    p.setRootRule(g.and_expression);
+  public void andExpression() {
+    p.setRootRule(g.andExpression);
 
-    g.equality_expression.mock();
+    g.equalityExpression.mock();
 
-    assertThat(p, parse("equality_expression"));
-    assertThat(p, parse("equality_expression & equality_expression"));
+    assertThat(p, parse("equalityExpression"));
+    assertThat(p, parse("equalityExpression & equalityExpression"));
   }
 
   @Test
-  public void equality_expression() {
-    p.setRootRule(g.equality_expression);
+  public void equalityExpression() {
+    p.setRootRule(g.equalityExpression);
 
-    g.relational_expression.mock();
+    g.relationalExpression.mock();
 
-    assertThat(p, parse("relational_expression"));
-    assertThat(p, parse("relational_expression == relational_expression"));
-    assertThat(p, parse("relational_expression != relational_expression"));
+    assertThat(p, parse("relationalExpression"));
+    assertThat(p, parse("relationalExpression == relationalExpression"));
+    assertThat(p, parse("relationalExpression != relationalExpression"));
   }
 
   @Test
-  public void relational_expression() {
-    p.setRootRule(g.relational_expression);
+  public void relationalExpression() {
+    p.setRootRule(g.relationalExpression);
 
-    g.shift_expression.mock();
+    g.shiftExpression.mock();
 
-    assertThat(p, parse("shift_expression"));
-    assertThat(p, parse("shift_expression < shift_expression"));
-    assertThat(p, parse("shift_expression > shift_expression"));
-    assertThat(p, parse("shift_expression <= shift_expression"));
-    assertThat(p, parse("shift_expression >= shift_expression"));
+    assertThat(p, parse("shiftExpression"));
+    assertThat(p, parse("shiftExpression < shiftExpression"));
+    assertThat(p, parse("shiftExpression > shiftExpression"));
+    assertThat(p, parse("shiftExpression <= shiftExpression"));
+    assertThat(p, parse("shiftExpression >= shiftExpression"));
   }
 
   @Test
-  public void shift_expression() {
-    p.setRootRule(g.shift_expression);
+  public void shiftExpression() {
+    p.setRootRule(g.shiftExpression);
 
-    g.additive_expression.mock();
+    g.additiveExpression.mock();
 
-    assertThat(p, parse("additive_expression"));
-    assertThat(p, parse("additive_expression << additive_expression"));
-    assertThat(p, parse("additive_expression >> additive_expression"));
+    assertThat(p, parse("additiveExpression"));
+    assertThat(p, parse("additiveExpression << additiveExpression"));
+    assertThat(p, parse("additiveExpression >> additiveExpression"));
   }
 
   @Test
-  public void additive_expression() {
-    p.setRootRule(g.additive_expression);
+  public void additiveExpression() {
+    p.setRootRule(g.additiveExpression);
 
-    g.multiplicative_expression.mock();
+    g.multiplicativeExpression.mock();
 
-    assertThat(p, parse("multiplicative_expression"));
-    assertThat(p, parse("multiplicative_expression + multiplicative_expression"));
-    assertThat(p, parse("multiplicative_expression - multiplicative_expression"));
+    assertThat(p, parse("multiplicativeExpression"));
+    assertThat(p, parse("multiplicativeExpression + multiplicativeExpression"));
+    assertThat(p, parse("multiplicativeExpression - multiplicativeExpression"));
   }
 
   @Test
-  public void multiplicative_expression() {
-    p.setRootRule(g.multiplicative_expression);
+  public void multiplicativeExpression() {
+    p.setRootRule(g.multiplicativeExpression);
 
-    g.unary_expression.mock();
+    g.unaryExpression.mock();
 
-    assertThat(p, parse("unary_expression"));
-    assertThat(p, parse("unary_expression * unary_expression"));
-    assertThat(p, parse("unary_expression / unary_expression"));
-    assertThat(p, parse("unary_expression % unary_expression"));
+    assertThat(p, parse("unaryExpression"));
+    assertThat(p, parse("unaryExpression * unaryExpression"));
+    assertThat(p, parse("unaryExpression / unaryExpression"));
+    assertThat(p, parse("unaryExpression % unaryExpression"));
   }
 
   @Test
-  public void unary_expression() {
-    p.setRootRule(g.unary_expression);
+  public void unaryExpression() {
+    p.setRootRule(g.unaryExpression);
 
-    g.multiplicative_expression.mock();
-    g.primary_expression.mock();
-    g.unary_operator.mock();
+    g.multiplicativeExpression.mock();
+    g.primaryExpression.mock();
+    g.unaryOperator.mock();
 
-    assertThat(p, parse("unary_operator multiplicative_expression"));
-    assertThat(p, parse("primary_expression"));
+    assertThat(p, parse("unaryOperator multiplicativeExpression"));
+    assertThat(p, parse("primaryExpression"));
   }
 
   @Test
-  public void primary_expression() {
-    p.setRootRule(g.primary_expression);
+  public void primaryExpression() {
+    p.setRootRule(g.primaryExpression);
 
     g.literal.mock();
     g.expression.mock();
-    g.defined_expression.mock();
+    g.definedExpression.mock();
 
     assertThat(p, parse("literal"));
     assertThat(p, parse("( expression )"));
-    assertThat(p, parse("defined_expression"));
+    assertThat(p, parse("definedExpression"));
     assertThat(p, parse("foo"));
   }
 
@@ -236,15 +236,15 @@ public class IfExpressionsTest {
   public void expression() {
     p.setRootRule(g.expression);
 
-    g.conditional_expression.mock();
+    g.conditionalExpression.mock();
 
-    assertThat(p, parse("conditional_expression"));
-    assertThat(p, parse("conditional_expression, conditional_expression"));
+    assertThat(p, parse("conditionalExpression"));
+    assertThat(p, parse("conditionalExpression, conditionalExpression"));
   }
 
   @Test
-  public void defined_expression() {
-    p.setRootRule(g.defined_expression);
+  public void definedExpression() {
+    p.setRootRule(g.definedExpression);
 
     assertThat(p, parse("defined LALA"));
     assertThat(p, parse("defined (LALA)"));
@@ -252,17 +252,17 @@ public class IfExpressionsTest {
   }
 
   @Test
-  public void functionlike_macro() {
-    p.setRootRule(g.functionlike_macro);
+  public void functionlikeMacro() {
+    p.setRootRule(g.functionlikeMacro);
 
-    g.argument_list.mock();
+    g.argumentList.mock();
 
-    assertThat(p, parse("__has_feature(argument_list)"));
+    assertThat(p, parse("__has_feature(argumentList)"));
   }
 
   @Test
-  public void functionlike_macro_reallife() {
-    p.setRootRule(g.functionlike_macro);
+  public void functionlikeMacro_reallife() {
+    p.setRootRule(g.functionlikeMacro);
 
     assertThat(p, parse("__has_feature(cxx_rvalue)"));
     assertThat(p, parse("__has_feature(cxx_rvalue, bla)"));
