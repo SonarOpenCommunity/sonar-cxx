@@ -27,7 +27,7 @@ public class CxxKeywordTest {
 
   @Test
   public void test() {
-    assertThat(CxxKeyword.values()).hasSize(83);
+    assertThat(CxxKeyword.values()).hasSize(86);
     assertThat(CxxKeyword.keywordValues()).hasSize(CxxKeyword.values().length);
   }
 

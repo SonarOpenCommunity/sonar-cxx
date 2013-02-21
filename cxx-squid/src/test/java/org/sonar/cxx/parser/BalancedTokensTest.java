@@ -38,51 +38,51 @@ public class BalancedTokensTest {
   CxxGrammar g = p.getGrammar();
       
   @Test
-  public void attribute_specifier_seq() {
-      p.setRootRule(g.attribute_specifier_seq);
-      g.attribute_specifier.mock();
+  public void attributeSpecifierSeq() {
+      p.setRootRule(g.attributeSpecifierSeq);
+      g.attributeSpecifier.mock();
       
-      assertThat(p, parse("attribute_specifier"));      
-      assertThat(p, parse("attribute_specifier attribute_specifier"));
+      assertThat(p, parse("attributeSpecifier"));      
+      assertThat(p, parse("attributeSpecifier attributeSpecifier"));
   }
 
   @Test
-  public void attribute_specifier_seq_real() {
-      p.setRootRule(g.attribute_specifier_seq);
+  public void attributeSpecifierSeqXXXX() {
+      p.setRootRule(g.attributeSpecifierSeq);
           
       assertThat(p, parse("[ [ foo :: bar ( { foo }  [ bar ] ) ] ] [ [ foo :: bar ( { foo }  [ bar ] ) ] ]"));
   }  
   
   @Test
-  public void attribute_specifier() {
-      p.setRootRule(g.attribute_specifier);
-      g.attribute_list.mock();
+  public void attributeSpecifier() {
+      p.setRootRule(g.attributeSpecifier);
+      g.attributeList.mock();
       
-      assertThat(p, parse("[ [ attribute_list ] ]"));      
+      assertThat(p, parse("[ [ attributeList ] ]"));      
   }
 
   @Test
-  public void attribute_specifier_real() {
-      p.setRootRule(g.attribute_specifier);
+  public void attributeSpecifierXXXX() {
+      p.setRootRule(g.attributeSpecifier);
       
       assertThat(p, parse("[ [ foo :: bar ( { foo }  [ bar ] ) ] ]"));      
   }
   
   @Test
-  public void alignment_specifier() {
-    p.setRootRule(g.alignment_specifier);
-    g.type_id.mock();
-    g.assignment_expression.mock();
+  public void alignmentSpecifier() {
+    p.setRootRule(g.alignmentSpecifier);
+    g.typeId.mock();
+    g.assignmentExpression.mock();
     
-    assertThat(p, parse("alignas ( type_id )"));
-    assertThat(p, parse("alignas ( type_id ... )"));
-    assertThat(p, parse("alignas ( assignment_expression )"));
-    assertThat(p, parse("alignas ( assignment_expression ... )"));
+    assertThat(p, parse("alignas ( typeId )"));
+    assertThat(p, parse("alignas ( typeId ... )"));
+    assertThat(p, parse("alignas ( assignmentExpression )"));
+    assertThat(p, parse("alignas ( assignmentExpression ... )"));
   } 
   
   @Test
-  public void attribute_list() {
-    p.setRootRule(g.attribute_list);
+  public void attributeList() {
+    p.setRootRule(g.attributeList);
     g.attribute.mock();  
         
     assertThat(p, parse(""));
@@ -95,8 +95,8 @@ public class BalancedTokensTest {
   } 
   
   @Test
-  public void attribute_list_real() {
-    p.setRootRule(g.attribute_list);
+  public void attributeListXXXX() {
+    p.setRootRule(g.attributeList);
         
     assertThat(p, parse("foo :: bar ( { foo }  [ bar ] )"));
     assertThat(p, parse("foo :: bar ( { foo }  [ bar ] ) , foo :: bar ( { foo }  [ bar ] )"));    
@@ -108,104 +108,104 @@ public class BalancedTokensTest {
   @Test
   public void attribute() {
     p.setRootRule(g.attribute);
-    g.attribute_token.mock();  
-    g.attribute_argument_clause.mock();
+    g.attributeToken.mock();  
+    g.attributeArgumentClause.mock();
         
-    assertThat(p, parse("attribute_token attribute_argument_clause"));
-    assertThat(p, parse("attribute_token"));
+    assertThat(p, parse("attributeToken attributeArgumentClause"));
+    assertThat(p, parse("attributeToken"));
   }
       
   @Test
-  public void attribute_real() {
+  public void attributeXXXX() {
     p.setRootRule(g.attribute);
         
     assertThat(p, parse("foo :: bar ( { foo }  [ bar ] )"));
   }  
   
   @Test
-  public void attribute_token() {
-    p.setRootRule(g.attribute_token);
-    g.attribute_scoped_token.mock();  
+  public void attributeToken() {
+    p.setRootRule(g.attributeToken);
+    g.attributeScopedToken.mock();  
 
     assertThat(p, parse("foo"));
-    assertThat(p, parse("attribute_scoped_token"));
+    assertThat(p, parse("attributeScopedToken"));
   }
 
   @Test
-  public void attribute_token_real() {
-    p.setRootRule(g.attribute_token);
+  public void attributeTokenXXXX() {
+    p.setRootRule(g.attributeToken);
 
     assertThat(p, parse("foo"));
     assertThat(p, parse("foo :: bar"));
   }  
   
   @Test
-  public void attribute_scoped_token() {
-    p.setRootRule(g.attribute_scoped_token);
-    g.attribute_namespace.mock();  
+  public void attributeScopedToken() {
+    p.setRootRule(g.attributeScopedToken);
+    g.attributeNamespace.mock();  
         
-    assertThat(p, parse("attribute_namespace :: foo"));
+    assertThat(p, parse("attributeNamespace :: foo"));
   }
 
   @Test
-  public void attribute_scoped_token_real() {
-    p.setRootRule(g.attribute_scoped_token);
+  public void attributeScopedTokenXXXX() {
+    p.setRootRule(g.attributeScopedToken);
         
     assertThat(p, parse("foo :: bar"));
   }  
   
   @Test
-  public void attribute_namespace() {
-    p.setRootRule(g.attribute_namespace);
+  public void attributeNamespace() {
+    p.setRootRule(g.attributeNamespace);
     
     assertThat(p, parse("foo"));
   }
   
   @Test
-  public void attribute_argument_clause() {
-    p.setRootRule(g.attribute_argument_clause);
-    g.balanced_token_seq.mock();  
+  public void attributeArgumentClause() {
+    p.setRootRule(g.attributeArgumentClause);
+    g.balancedTokenSeq.mock();  
     
-    assertThat(p, parse("( balanced_token_seq )"));
+    assertThat(p, parse("( balancedTokenSeq )"));
   }
 
-  public void attribute_argument_clause_real() {
-    p.setRootRule(g.attribute_argument_clause);
+  public void attributeArgumentClauseXXXX() {
+    p.setRootRule(g.attributeArgumentClause);
     
     assertThat(p, parse("( foo )"));
   }
 
   @Test
-  public void balanced_token_seq() {
-    p.setRootRule(g.balanced_token_seq);
-    g.balanced_token.mock();  
+  public void balancedTokenSeq() {
+    p.setRootRule(g.balancedTokenSeq);
+    g.balancedToken.mock();  
     
-    assertThat(p, parse("balanced_token"));        
-    assertThat(p, parse("balanced_token balanced_token"));        
-    assertThat(p, parse("balanced_token balanced_token balanced_token"));
+    assertThat(p, parse("balancedToken"));        
+    assertThat(p, parse("balancedToken balancedToken"));        
+    assertThat(p, parse("balancedToken balancedToken balancedToken"));
   }
 
   @Test
-  public void balanced_token_seq_real() {
-    p.setRootRule(g.balanced_token_seq);
+  public void balancedTokenSeqXXXX() {
+    p.setRootRule(g.balancedTokenSeq);
     
     assertThat(p, parse("[ ( foo ) { } ( bar ) ]"));        
   }
   
   @Test
-  public void balanced_token() {
-    p.setRootRule(g.balanced_token);
-    g.balanced_token_seq.mock();    
+  public void balancedToken() {
+    p.setRootRule(g.balancedToken);
+    g.balancedTokenSeq.mock();    
     
     assertThat(p, parse("foo"));        
-    assertThat(p, parse("( balanced_token_seq )"));        
-    assertThat(p, parse("[ balanced_token_seq ]"));        
-    assertThat(p, parse("{ balanced_token_seq }"));
+    assertThat(p, parse("( balancedTokenSeq )"));        
+    assertThat(p, parse("[ balancedTokenSeq ]"));        
+    assertThat(p, parse("{ balancedTokenSeq }"));
   }  
   
   @Test
-  public void balanced_token_real() {
-    p.setRootRule(g.balanced_token);    
+  public void balancedTokenXXXX() {
+    p.setRootRule(g.balancedToken);    
     
     assertThat(p, parse("[ foo ]"));        
     assertThat(p, parse("{ foo }"));

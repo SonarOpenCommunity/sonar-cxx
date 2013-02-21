@@ -106,7 +106,7 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<CxxGrammar>(new SourceCodeBuilderCallback() {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
         StringBuilder sb = new StringBuilder();
-        for (Token token : astNode.findFirstChild(parser.getGrammar().declarator_id).getTokens()) {
+        for (Token token : astNode.findFirstChild(parser.getGrammar().declaratorId).getTokens()) {
           sb.append(token.getValue());
         }
         String functionName = sb.toString();
@@ -114,27 +114,27 @@ public final class CxxAstScanner {
         function.setStartAtLine(astNode.getTokenLine());
         return function;
       }
-    }, parser.getGrammar().function_definition));
+    }, parser.getGrammar().functionDefinition));
 
     builder.withSquidAstVisitor(CounterVisitor.<CxxGrammar> builder()
         .setMetricDef(CxxMetric.FUNCTIONS)
-        .subscribeTo(parser.getGrammar().function_definition)
+        .subscribeTo(parser.getGrammar().functionDefinition)
         .build());
 
     /* Classes */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<CxxGrammar>(new SourceCodeBuilderCallback() {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
-        AstNode classNameAst = astNode.findFirstChild(parser.getGrammar().class_name);
+        AstNode classNameAst = astNode.findFirstChild(parser.getGrammar().className);
         String className = classNameAst == null ? "" : classNameAst.getChild(0).getTokenValue();
         SourceClass cls = new SourceClass(className + ":" + astNode.getToken().getLine());
         cls.setStartAtLine(astNode.getTokenLine());
         return cls;
       }
-    }, parser.getGrammar().class_specifier));
+    }, parser.getGrammar().classSpecifier));
 
     builder.withSquidAstVisitor(CounterVisitor.<CxxGrammar> builder()
         .setMetricDef(CxxMetric.CLASSES)
-        .subscribeTo(parser.getGrammar().class_specifier)
+        .subscribeTo(parser.getGrammar().classSpecifier)
         .build());
 
     /* Metrics */
@@ -154,7 +154,7 @@ public final class CxxAstScanner {
 
     AstNodeType[] complexityAstNodeType = new AstNodeType[] {
       // Entry points
-      parser.getGrammar().function_definition,
+      parser.getGrammar().functionDefinition,
 
       CxxKeyword.IF,
       CxxKeyword.FOR,

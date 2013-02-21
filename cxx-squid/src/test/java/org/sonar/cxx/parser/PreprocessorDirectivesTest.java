@@ -34,7 +34,7 @@ public class PreprocessorDirectivesTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void preprocessor_directives() {
+  public void preprocessorDirectives() {
     assertThat(p, parse("#define IDX 10\n"
       + "array[IDX];"));
   }

@@ -34,15 +34,15 @@ public class ClassesTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void class_name_realLife() {
-    p.setRootRule(g.class_name);
+  public void className_reallife() {
+    p.setRootRule(g.className);
 
     assertThat(p, parse("lala<int>"));
   }
 
   @Test
-  public void class_specifier_realLife() {
-    p.setRootRule(g.class_specifier);
+  public void classSpecifier_reallife() {
+    p.setRootRule(g.classSpecifier);
 
     assertThat(p, parse("class foo final : bar { }"));
     assertThat(p, parse("class foo final : bar { ; }"));
@@ -50,53 +50,53 @@ public class ClassesTest {
   }
 
   @Test
-  public void class_head() {
-    p.setRootRule(g.class_head);
+  public void classHead() {
+    p.setRootRule(g.classHead);
 
-    g.class_key.mock();
-    g.class_head_name.mock();
-    g.attribute_specifier_seq.mock();
-    g.base_clause.mock();
-    g.class_virt_specifier.mock();
+    g.classKey.mock();
+    g.classHeadName.mock();
+    g.attributeSpecifierSeq.mock();
+    g.baseClause.mock();
+    g.classVirtSpecifier.mock();
 
-    assertThat(p, parse("class_key class_head_name"));
-    assertThat(p, parse("class_key attribute_specifier_seq class_head_name"));
-    assertThat(p, parse("class_key attribute_specifier_seq class_head_name class_virt_specifier"));
-    assertThat(p, parse("class_key attribute_specifier_seq class_head_name class_virt_specifier base_clause"));
+    assertThat(p, parse("classKey classHeadName"));
+    assertThat(p, parse("classKey attributeSpecifierSeq classHeadName"));
+    assertThat(p, parse("classKey attributeSpecifierSeq classHeadName classVirtSpecifier"));
+    assertThat(p, parse("classKey attributeSpecifierSeq classHeadName classVirtSpecifier baseClause"));
 
-    assertThat(p, parse("class_key"));
-    assertThat(p, parse("class_key attribute_specifier_seq"));
-    assertThat(p, parse("class_key attribute_specifier_seq base_clause"));
+    assertThat(p, parse("classKey"));
+    assertThat(p, parse("classKey attributeSpecifierSeq"));
+    assertThat(p, parse("classKey attributeSpecifierSeq baseClause"));
   }
 
   @Test
-  public void class_head_name() {
-    p.setRootRule(g.class_head_name);
+  public void classHeadName() {
+    p.setRootRule(g.classHeadName);
 
-    g.nested_name_specifier.mock();
-    g.class_name.mock();
+    g.nestedNameSpecifier.mock();
+    g.className.mock();
 
-    assertThat(p, parse("class_name"));
-    assertThat(p, parse("nested_name_specifier class_name"));
+    assertThat(p, parse("className"));
+    assertThat(p, parse("nestedNameSpecifier className"));
   }
 
   @Test
-  public void member_specification() {
-    p.setRootRule(g.member_specification);
+  public void memberSpecification() {
+    p.setRootRule(g.memberSpecification);
 
-    g.member_declaration.mock();
-    g.access_specifier.mock();
+    g.memberDeclaration.mock();
+    g.accessSpecifier.mock();
 
-    assertThat(p, parse("member_declaration"));
-    assertThat(p, parse("member_declaration access_specifier :"));
+    assertThat(p, parse("memberDeclaration"));
+    assertThat(p, parse("memberDeclaration accessSpecifier :"));
 
-    assertThat(p, parse("access_specifier :"));
-    assertThat(p, parse("access_specifier : member_declaration"));
+    assertThat(p, parse("accessSpecifier :"));
+    assertThat(p, parse("accessSpecifier : memberDeclaration"));
   }
 
   @Test
-  public void member_specification_realLife() {
-    p.setRootRule(g.member_specification);
+  public void memberSpecification_reallife() {
+    p.setRootRule(g.memberSpecification);
 
     assertThat(p, parse("int foo();"));
     assertThat(p, parse("protected:"));
@@ -105,38 +105,38 @@ public class ClassesTest {
   }
 
   @Test
-  public void member_declaration() {
-    p.setRootRule(g.member_declaration);
+  public void memberDeclaration() {
+    p.setRootRule(g.memberDeclaration);
 
-    g.attribute_specifier_seq.mock();
-    g.member_decl_specifier_seq.mock();
-    g.member_declarator_list.mock();
-    g.function_definition.mock();
-    g.nested_name_specifier.mock();
-    g.unqualified_id.mock();
-    g.using_declaration.mock();
-    g.static_assert_declaration.mock();
-    g.template_declaration.mock();
-    g.alias_declaration.mock();
+    g.attributeSpecifierSeq.mock();
+    g.memberDeclSpecifierSeq.mock();
+    g.memberDeclaratorList.mock();
+    g.functionDefinition.mock();
+    g.nestedNameSpecifier.mock();
+    g.unqualifiedId.mock();
+    g.usingDeclaration.mock();
+    g.staticAssertDeclaration.mock();
+    g.templateDeclaration.mock();
+    g.aliasDeclaration.mock();
 
     assertThat(p, parse(";"));
-    assertThat(p, parse("attribute_specifier_seq member_decl_specifier_seq member_declarator_list ;"));
+    assertThat(p, parse("attributeSpecifierSeq memberDeclSpecifierSeq memberDeclaratorList ;"));
 
-    assertThat(p, parse("function_definition"));
-    assertThat(p, parse("function_definition ;"));
+    assertThat(p, parse("functionDefinition"));
+    assertThat(p, parse("functionDefinition ;"));
 
-    assertThat(p, parse("nested_name_specifier unqualified_id ;"));
-    assertThat(p, parse(":: nested_name_specifier template unqualified_id ;"));
+    assertThat(p, parse("nestedNameSpecifier unqualifiedId ;"));
+    assertThat(p, parse(":: nestedNameSpecifier template unqualifiedId ;"));
 
-    assertThat(p, parse("using_declaration"));
-    assertThat(p, parse("static_assert_declaration"));
-    assertThat(p, parse("template_declaration"));
-    assertThat(p, parse("alias_declaration"));
+    assertThat(p, parse("usingDeclaration"));
+    assertThat(p, parse("staticAssertDeclaration"));
+    assertThat(p, parse("templateDeclaration"));
+    assertThat(p, parse("aliasDeclaration"));
   }
 
   @Test
-  public void member_declaration_realLife() {
-    p.setRootRule(g.member_declaration);
+  public void memberDeclaration_reallife() {
+    p.setRootRule(g.memberDeclaration);
 
     assertThat(p, parse("int foo();"));
     assertThat(p, parse("int foo(){}"));
@@ -151,119 +151,119 @@ public class ClassesTest {
   }
 
   @Test
-  public void member_declarator_list() {
-    p.setRootRule(g.member_declarator_list);
+  public void memberDeclaratorList() {
+    p.setRootRule(g.memberDeclaratorList);
 
-    g.member_declarator.mock();
+    g.memberDeclarator.mock();
 
-    assertThat(p, parse("member_declarator"));
-    assertThat(p, parse("member_declarator , member_declarator"));
+    assertThat(p, parse("memberDeclarator"));
+    assertThat(p, parse("memberDeclarator , memberDeclarator"));
   }
 
   @Test
-  public void member_declarator_list_realLife() {
-    p.setRootRule(g.member_declarator_list);
+  public void memberDeclaratorList_reallife() {
+    p.setRootRule(g.memberDeclaratorList);
 
     assertThat(p, parse("tword[20]"));
   }
 
   @Test
-  public void member_declarator() {
-    p.setRootRule(g.member_declarator);
+  public void memberDeclarator() {
+    p.setRootRule(g.memberDeclarator);
 
     g.declarator.mock();
-    g.pure_specifier.mock();
-    g.brace_or_equal_initializer.mock();
-    g.constant_expression.mock();
-    g.attribute_specifier_seq.mock();
-    g.virt_specifier_seq.mock();
+    g.pureSpecifier.mock();
+    g.braceOrEqualInitializer.mock();
+    g.constantExpression.mock();
+    g.attributeSpecifierSeq.mock();
+    g.virtSpecifierSeq.mock();
 
     assertThat(p, parse("declarator"));
-    assertThat(p, parse("declarator virt_specifier_seq"));
-    assertThat(p, parse("declarator virt_specifier_seq pure_specifier"));
+    assertThat(p, parse("declarator virtSpecifierSeq"));
+    assertThat(p, parse("declarator virtSpecifierSeq pureSpecifier"));
 
-    assertThat(p, parse("declarator brace_or_equal_initializer"));
+    assertThat(p, parse("declarator braceOrEqualInitializer"));
 
-    assertThat(p, parse(": constant_expression"));
-    assertThat(p, parse("foo : constant_expression"));
-    assertThat(p, parse("foo attribute_specifier_seq : constant_expression"));
+    assertThat(p, parse(": constantExpression"));
+    assertThat(p, parse("foo : constantExpression"));
+    assertThat(p, parse("foo attributeSpecifierSeq : constantExpression"));
   }
 
   @Test
-  public void member_declarator_realLife() {
-    p.setRootRule(g.member_declarator);
+  public void memberDeclarator_reallife() {
+    p.setRootRule(g.memberDeclarator);
 
     assertThat(p, parse("tword[20]"));
     assertThat(p, parse("ThisAllocated : 1"));
   }
 
   @Test
-  public void virt_specifier_seq() {
-    p.setRootRule(g.virt_specifier_seq);
+  public void virtSpecifierSeq() {
+    p.setRootRule(g.virtSpecifierSeq);
 
-    g.virt_specifier.mock();
+    g.virtSpecifier.mock();
 
-    assertThat(p, parse("virt_specifier"));
-    assertThat(p, parse("virt_specifier virt_specifier"));
+    assertThat(p, parse("virtSpecifier"));
+    assertThat(p, parse("virtSpecifier virtSpecifier"));
   }
 
   @Test
-  public void virt_specifier_seq_reallife() {
-    p.setRootRule(g.virt_specifier_seq);
+  public void virtSpecifierSeq_reallife() {
+    p.setRootRule(g.virtSpecifierSeq);
 
     assertThat(p, parse("override"));
   }
 
   @Test
-  public void virt_specifier() {
-    p.setRootRule(g.virt_specifier);
+  public void virtSpecifier() {
+    p.setRootRule(g.virtSpecifier);
     
     assertThat(p, parse("override"));
     assertThat(p, parse("final"));
   }
 
   @Test
-  public void base_specifier_list() {
-    p.setRootRule(g.base_specifier_list);
+  public void baseSpecifierList() {
+    p.setRootRule(g.baseSpecifierList);
 
-    g.base_specifier.mock();
+    g.baseSpecifier.mock();
 
-    assertThat(p, parse("base_specifier"));
-    assertThat(p, parse("base_specifier ..."));
+    assertThat(p, parse("baseSpecifier"));
+    assertThat(p, parse("baseSpecifier ..."));
 
-    assertThat(p, parse("base_specifier , base_specifier"));
-    assertThat(p, parse("base_specifier , base_specifier ..."));
-    assertThat(p, parse("base_specifier ..., base_specifier ..."));
+    assertThat(p, parse("baseSpecifier , baseSpecifier"));
+    assertThat(p, parse("baseSpecifier , baseSpecifier ..."));
+    assertThat(p, parse("baseSpecifier ..., baseSpecifier ..."));
   }
 
   @Test
-  public void base_specifier() {
-    p.setRootRule(g.base_specifier);
+  public void baseSpecifier() {
+    p.setRootRule(g.baseSpecifier);
 
-    g.base_type_specifier.mock();
-    g.attribute_specifier_seq.mock();
-    g.access_specifier.mock();
+    g.baseTypeSpecifier.mock();
+    g.attributeSpecifierSeq.mock();
+    g.accessSpecifier.mock();
 
-    assertThat(p, parse("base_type_specifier"));
-    assertThat(p, parse("attribute_specifier_seq base_type_specifier"));
+    assertThat(p, parse("baseTypeSpecifier"));
+    assertThat(p, parse("attributeSpecifierSeq baseTypeSpecifier"));
 
-    assertThat(p, parse("virtual base_type_specifier"));
-    assertThat(p, parse("attribute_specifier_seq virtual access_specifier base_type_specifier"));
+    assertThat(p, parse("virtual baseTypeSpecifier"));
+    assertThat(p, parse("attributeSpecifierSeq virtual accessSpecifier baseTypeSpecifier"));
 
-    assertThat(p, parse("access_specifier base_type_specifier"));
-    assertThat(p, parse("attribute_specifier_seq access_specifier virtual base_type_specifier"));
+    assertThat(p, parse("accessSpecifier baseTypeSpecifier"));
+    assertThat(p, parse("attributeSpecifierSeq accessSpecifier virtual baseTypeSpecifier"));
   }
 
   @Test
-  public void class_or_decltype() {
-    p.setRootRule(g.class_or_decltype);
+  public void classOrDecltype() {
+    p.setRootRule(g.classOrDecltype);
 
-    g.class_name.mock();
-    g.nested_name_specifier.mock();
-    g.decltype_specifier.mock();
+    g.className.mock();
+    g.nestedNameSpecifier.mock();
+    g.decltypeSpecifier.mock();
 
-    assertThat(p, parse("class_name"));
-    assertThat(p, parse("nested_name_specifier class_name"));
-    assertThat(p, parse("decltype_specifier"));
+    assertThat(p, parse("className"));
+    assertThat(p, parse("nestedNameSpecifier className"));
+    assertThat(p, parse("decltypeSpecifier"));
   }
 }

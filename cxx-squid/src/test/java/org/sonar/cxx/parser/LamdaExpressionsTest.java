@@ -37,58 +37,51 @@ public class LamdaExpressionsTest {
   CxxGrammar g = p.getGrammar();
   
   @Test
-  public void lambda_expression() {
-    p.setRootRule(g.lambda_expression);
+  public void lambdaExpression() {
+    p.setRootRule(g.lambdaExpression);
     
-    g.lambda_introducer.mock(); 
-    g.lambda_declarator.mock();
-    g.compound_statement.mock();
+    g.lambdaIntroducer.mock(); 
+    g.lambdaDeclarator.mock();
+    g.compoundStatement.mock();
     
-    assertThat(p, parse("lambda_introducer compound_statement"));
-    assertThat(p, parse("lambda_introducer lambda_declarator compound_statement"));
+    assertThat(p, parse("lambdaIntroducer compoundStatement"));
+    assertThat(p, parse("lambdaIntroducer lambdaDeclarator compoundStatement"));
   }
   
   @Test
-  public void lambda_expression_real() {
-    p.setRootRule(g.lambda_expression);
+  public void lambdaExpression_reallife() {
+    p.setRootRule(g.lambdaExpression);
 
-    g.statement_seq.mock();
+    //g.statementSeq.mock();
     
     assertThat(p, parse("[] ( ) { }"));
     assertThat(p, parse("[] (int n) { }"));
-    assertThat(p, parse("[] (int n) { statement_seq }"));
     assertThat(p, parse("[&] ( ) { }"));
-    assertThat(p, parse("[&foo] (int n) { statement_seq }"));    
-    assertThat(p, parse("[=] (int n) { statement_seq }"));    
-    assertThat(p, parse("[=,&foo] (int n) { statement_seq }"));   
-    assertThat(p, parse("[&foo1,&foo2,&foo3] (int n, int y, int z) { statement_seq }"));    
-    assertThat(p, parse("[] () throw () { statement_seq }"));
-  }
-  
-  @Test
-  public void lambda_expression_more_real() {
-    p.setRootRule(g.lambda_expression);
-    
-    // examples taken from http://www.cprogramming.com/c++11/c++11-lambda-closures.html
+    assertThat(p, parse("[&foo] (int n) { }"));    
+    assertThat(p, parse("[=] (int n) { }"));    
+    assertThat(p, parse("[=,&foo] (int n) { }"));   
+    assertThat(p, parse("[&foo1,&foo2,&foo3] (int n, int y, int z) { }"));    
+    assertThat(p, parse("[] () throw () { }"));
     assertThat(p, parse("[] () -> int { return 1; }"));     
     assertThat(p, parse("[] (const string& addr) { return addr.find( \".org\" ) != string::npos; }"));   
     assertThat(p, parse("[this] () { cout << _x; }"));
     // function pointers c++11, todo: make this work
     // assertThat(p, parse("[] () -> { return 2; }"));
-  }          
+
+  }
   
   @Test
-  public void lambda_introducer() {
-    p.setRootRule(g.lambda_introducer);
-    g.lambda_capture.mock();
+  public void lambdaIntroducer() {
+    p.setRootRule(g.lambdaIntroducer);
+    g.lambdaCapture.mock();
     
     assertThat(p, parse("[]"));        
-    assertThat(p, parse("[lambda_capture]"));    
+    assertThat(p, parse("[lambdaCapture]"));    
   }    
 
   @Test
-  public void lambda_introducer_reallife() {
-    p.setRootRule(g.lambda_introducer);
+  public void lambdaIntroducer_reallife() {
+    p.setRootRule(g.lambdaIntroducer);
     
     assertThat(p, parse("[&]"));
     assertThat(p, parse("[=]"));
@@ -99,19 +92,19 @@ public class LamdaExpressionsTest {
   }      
     
   @Test
-  public void lambda_capture() {
-    p.setRootRule(g.lambda_capture);
-    g.capture_default.mock();
-    g.capture_list.mock();    
+  public void lambdaCapture() {
+    p.setRootRule(g.lambdaCapture);
+    g.captureDefault.mock();
+    g.captureList.mock();    
     
-    assertThat(p, parse("capture_default"));
-    assertThat(p, parse("capture_list"));
-    assertThat(p, parse("capture_default , capture_list"));
+    assertThat(p, parse("captureDefault"));
+    assertThat(p, parse("captureList"));
+    assertThat(p, parse("captureDefault , captureList"));
   }    
 
   @Test
-  public void capture_default() {
-    p.setRootRule(g.capture_default);
+  public void captureDefault() {
+    p.setRootRule(g.captureDefault);
     
     assertThat(p, parse("&"));
     assertThat(p, parse("="));
@@ -127,8 +120,8 @@ public class LamdaExpressionsTest {
   }      
 
   @Test
-  public void capture_list() {
-    p.setRootRule(g.capture_list);
+  public void captureList() {
+    p.setRootRule(g.captureList);
     g.capture.mock();
     
     assertThat(p, parse("capture")); // or 1, optional out        
@@ -138,23 +131,23 @@ public class LamdaExpressionsTest {
   }      
 
   @Test
-  public void lambda_declarator() {
-    p.setRootRule(g.lambda_declarator);
-    g.parameter_declaration_clause.mock();
-    g.exception_specification.mock();
-    g.attribute_specifier_seq.mock();
-    g.trailing_return_type.mock();
+  public void lambdaDeclarator() {
+    p.setRootRule(g.lambdaDeclarator);
+    g.parameterDeclarationClause.mock();
+    g.exceptionSpecification.mock();
+    g.attributeSpecifierSeq.mock();
+    g.trailingReturnType.mock();
     
-    assertThat(p, parse("( parameter_declaration_clause ) ")); // all opt out
-    assertThat(p, parse("( parameter_declaration_clause ) mutable")); // mutable in
-    assertThat(p, parse("( parameter_declaration_clause ) exception_specification")); // exception_specification in
-    assertThat(p, parse("( parameter_declaration_clause ) attribute_specifier_seq")); // attribute_specifier_seq in
-    assertThat(p, parse("( parameter_declaration_clause ) trailing_return_type")); // trailing_return_type in
-    assertThat(p, parse("( parameter_declaration_clause ) mutable exception_specification")); // complex 1    
-    assertThat(p, parse("( parameter_declaration_clause ) mutable exception_specification attribute_specifier_seq")); // complex 2
-    assertThat(p, parse("( parameter_declaration_clause ) mutable exception_specification attribute_specifier_seq trailing_return_type")); // complex 3   
-    assertThat(p, parse("( parameter_declaration_clause ) exception_specification attribute_specifier_seq")); // complex 4
-    assertThat(p, parse("( parameter_declaration_clause ) exception_specification attribute_specifier_seq trailing_return_type")); // complex 5
-    assertThat(p, parse("( parameter_declaration_clause ) attribute_specifier_seq trailing_return_type")); // complex 6
+    assertThat(p, parse("( parameterDeclarationClause ) ")); // all opt out
+    assertThat(p, parse("( parameterDeclarationClause ) mutable")); // mutable in
+    assertThat(p, parse("( parameterDeclarationClause ) exceptionSpecification")); // exceptionSpecification in
+    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq")); // attributeSpecifierSeq in
+    assertThat(p, parse("( parameterDeclarationClause ) trailingReturnType")); // trailingReturnType in
+    assertThat(p, parse("( parameterDeclarationClause ) mutable exceptionSpecification")); // complex 1    
+    assertThat(p, parse("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq")); // complex 2
+    assertThat(p, parse("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq trailingReturnType")); // complex 3   
+    assertThat(p, parse("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq")); // complex 4
+    assertThat(p, parse("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq trailingReturnType")); // complex 5
+    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq trailingReturnType")); // complex 6
   }
 }

@@ -34,31 +34,31 @@ public class ExpressionTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void primary_expression() {
-    p.setRootRule(g.primary_expression);
+  public void primaryExpression() {
+    p.setRootRule(g.primaryExpression);
 
     g.literal.mock();
     g.expression.mock();
-    g.id_expression.mock();
-    g.lambda_expression.mock();
+    g.idExpression.mock();
+    g.lambdaExpression.mock();
 
     assertThat(p, parse("literal"));
     assertThat(p, parse("this"));
     assertThat(p, parse("( expression )"));
-    assertThat(p, parse("id_expression"));
-    assertThat(p, parse("lambda_expression"));
+    assertThat(p, parse("idExpression"));
+    assertThat(p, parse("lambdaExpression"));
   }
 
   @Test
-  public void primary_expression_reallife() {
-    p.setRootRule(g.primary_expression);
+  public void primaryExpression_reallife() {
+    p.setRootRule(g.primaryExpression);
 
     assertThat(p, parse("(istream_iterator<string>(cin))"));
   }
 
   @Test
-  public void id_expression_reallife() {
-    p.setRootRule(g.id_expression);
+  public void idExpression_reallife() {
+    p.setRootRule(g.idExpression);
 
     assertThat(p, parse("numeric_limits<char>::is_signed"));
     assertThat(p, parse("foo<int>"));
@@ -66,118 +66,118 @@ public class ExpressionTest {
   }
 
   @Test
-  public void unqualified_id() {
-    p.setRootRule(g.unqualified_id);
+  public void unqualifiedId() {
+    p.setRootRule(g.unqualifiedId);
 
-    g.operator_function_id.mock();
-    g.conversion_function_id.mock();
-    g.literal_operator_id.mock();
-    g.class_name.mock();
-    g.decltype_specifier.mock();
-    g.template_id.mock();
+    g.operatorFunctionId.mock();
+    g.conversionFunctionId.mock();
+    g.literalOperatorId.mock();
+    g.className.mock();
+    g.decltypeSpecifier.mock();
+    g.templateId.mock();
 
     assertThat(p, parse("foo"));
-    assertThat(p, parse("operator_function_id"));
-    assertThat(p, parse("conversion_function_id"));
-    assertThat(p, parse("literal_operator_id"));
-    assertThat(p, parse("~ class_name"));
-    assertThat(p, parse("~ decltype_specifier"));
-    assertThat(p, parse("template_id"));
+    assertThat(p, parse("operatorFunctionId"));
+    assertThat(p, parse("conversionFunctionId"));
+    assertThat(p, parse("literalOperatorId"));
+    assertThat(p, parse("~ className"));
+    assertThat(p, parse("~ decltypeSpecifier"));
+    assertThat(p, parse("templateId"));
   }
 
   @Test
-  public void unqualified_id_reallife() {
-    p.setRootRule(g.unqualified_id);
+  public void unqualifiedId_reallife() {
+    p.setRootRule(g.unqualifiedId);
     assertThat(p, parse("foo<int>"));
     assertThat(p, parse("operator==<B>"));
   }
   
   @Test
-  public void qualified_id() {
-    p.setRootRule(g.qualified_id);
+  public void qualifiedId() {
+    p.setRootRule(g.qualifiedId);
 
     g.literal.mock();
-    g.nested_name_specifier.mock();
-    g.unqualified_id.mock();
-    g.operator_function_id.mock();
-    g.literal_operator_id.mock();
-    g.template_id.mock();
+    g.nestedNameSpecifier.mock();
+    g.unqualifiedId.mock();
+    g.operatorFunctionId.mock();
+    g.literalOperatorId.mock();
+    g.templateId.mock();
 
-    assertThat(p, parse("nested_name_specifier unqualified_id"));
-    assertThat(p, parse("nested_name_specifier template unqualified_id"));
+    assertThat(p, parse("nestedNameSpecifier unqualifiedId"));
+    assertThat(p, parse("nestedNameSpecifier template unqualifiedId"));
     assertThat(p, parse(":: foo"));
-    assertThat(p, parse(":: operator_function_id"));
-    assertThat(p, parse(":: literal_operator_id"));
-    assertThat(p, parse(":: template_id"));
+    assertThat(p, parse(":: operatorFunctionId"));
+    assertThat(p, parse(":: literalOperatorId"));
+    assertThat(p, parse(":: templateId"));
   }
 
   @Test
-  public void qualified_id_reallife() {
-    p.setRootRule(g.qualified_id);
+  public void qualifiedId_reallife() {
+    p.setRootRule(g.qualifiedId);
 
     assertThat(p, parse("numeric_limits<char>::is_signed"));
   }
 
   @Test
-  public void nested_name_specifier() {
-    p.setRootRule(g.nested_name_specifier);
+  public void nestedNameSpecifier() {
+    p.setRootRule(g.nestedNameSpecifier);
 
-    g.type_name.mock();
-    g.namespace_name.mock();
-    g.decltype_specifier.mock();
-    g.simple_template_id.mock();
+    g.typeName.mock();
+    g.namespaceName.mock();
+    g.decltypeSpecifier.mock();
+    g.simpleTemplateId.mock();
 
-    assertThat(p, parse(":: type_name ::"));
-    assertThat(p, parse("type_name ::"));
-    assertThat(p, parse(":: namespace_name ::"));
-    assertThat(p, parse("namespace_name ::"));
-    assertThat(p, parse("decltype_specifier ::"));
-    assertThat(p, parse("type_name :: foo ::"));
-    assertThat(p, parse("namespace_name :: simple_template_id ::"));
+    assertThat(p, parse(":: typeName ::"));
+    assertThat(p, parse("typeName ::"));
+    assertThat(p, parse(":: namespaceName ::"));
+    assertThat(p, parse("namespaceName ::"));
+    assertThat(p, parse("decltypeSpecifier ::"));
+    assertThat(p, parse("typeName :: foo ::"));
+    assertThat(p, parse("namespaceName :: simpleTemplateId ::"));
   }
 
   @Test
-  public void postfix_expression() {
-    p.setRootRule(g.postfix_expression);
+  public void postfixExpression() {
+    p.setRootRule(g.postfixExpression);
 
-    g.primary_expression.mock();
-    g.simple_type_specifier.mock();
-    g.expression_list.mock();
-    g.typename_specifier.mock();
-    g.braced_init_list.mock();
-    g.primary_expression.mock();
+    g.primaryExpression.mock();
+    g.simpleTypeSpecifier.mock();
+    g.expressionList.mock();
+    g.typenameSpecifier.mock();
+    g.bracedInitList.mock();
+    g.primaryExpression.mock();
     g.expression.mock();
-    g.id_expression.mock();
-    g.type_id.mock();
-    g.delete_expression.mock();
-    g.pseudo_destructor_name.mock();
+    g.idExpression.mock();
+    g.typeId.mock();
+    g.deleteExpression.mock();
+    g.pseudoDestructorName.mock();
 
-    assertThat(p, parse("primary_expression"));
-    assertThat(p, parse("primary_expression [ expression ]"));
-    assertThat(p, parse("primary_expression ( expression_list )"));
-    assertThat(p, parse("simple_type_specifier ( expression_list )"));
-    assertThat(p, parse("typename_specifier ( expression_list )"));
-    assertThat(p, parse("simple_type_specifier braced_init_list"));
-    assertThat(p, parse("typename_specifier braced_init_list"));
-    assertThat(p, parse("primary_expression . template id_expression"));
-    assertThat(p, parse("primary_expression -> template id_expression"));
+    assertThat(p, parse("primaryExpression"));
+    assertThat(p, parse("primaryExpression [ expression ]"));
+    assertThat(p, parse("primaryExpression ( expressionList )"));
+    assertThat(p, parse("simpleTypeSpecifier ( expressionList )"));
+    assertThat(p, parse("typenameSpecifier ( expressionList )"));
+    assertThat(p, parse("simpleTypeSpecifier bracedInitList"));
+    assertThat(p, parse("typenameSpecifier bracedInitList"));
+    assertThat(p, parse("primaryExpression . template idExpression"));
+    assertThat(p, parse("primaryExpression -> template idExpression"));
 
-    assertThat(p, parse("primary_expression . pseudo_destructor_name"));
-    assertThat(p, parse("primary_expression -> pseudo_destructor_name"));
+    assertThat(p, parse("primaryExpression . pseudoDestructorName"));
+    assertThat(p, parse("primaryExpression -> pseudoDestructorName"));
 
-    assertThat(p, parse("primary_expression ++"));
-    assertThat(p, parse("primary_expression --"));
-    assertThat(p, parse("dynamic_cast < type_id > ( expression )"));
-    assertThat(p, parse("static_cast < type_id > ( expression )"));
-    assertThat(p, parse("reinterpret_cast < type_id > ( expression )"));
-    assertThat(p, parse("const_cast < type_id > ( expression )"));
+    assertThat(p, parse("primaryExpression ++"));
+    assertThat(p, parse("primaryExpression --"));
+    assertThat(p, parse("dynamic_cast < typeId > ( expression )"));
+    assertThat(p, parse("static_cast < typeId > ( expression )"));
+    assertThat(p, parse("reinterpret_cast < typeId > ( expression )"));
+    assertThat(p, parse("const_cast < typeId > ( expression )"));
     assertThat(p, parse("typeid ( expression )"));
-    assertThat(p, parse("typeid ( type_id )"));
+    assertThat(p, parse("typeid ( typeId )"));
   }
 
   @Test
-  public void postfix_expression_reallife() {
-    p.setRootRule(g.postfix_expression);
+  public void postfixExpression_reallife() {
+    p.setRootRule(g.postfixExpression);
 
     assertThat(p, parse("usedColors[(Color)c]"));
     assertThat(p, parse("foo()->i"));
@@ -187,69 +187,69 @@ public class ExpressionTest {
   }
 
   @Test
-  public void expression_list_reallife() {
-    p.setRootRule(g.expression_list);
+  public void expressionList_reallife() {
+    p.setRootRule(g.expressionList);
 
     assertThat(p, parse("(istream_iterator<string>(cin)), istream_iterator<string>()"));
   }
 
   @Test
-  public void pseudo_destructor_name() {
-    p.setRootRule(g.pseudo_destructor_name);
+  public void pseudoDestructorName() {
+    p.setRootRule(g.pseudoDestructorName);
 
-    g.type_name.mock();
-    g.nested_name_specifier.mock();
-    g.simple_template_id.mock();
-    g.decltype_specifier.mock();
+    g.typeName.mock();
+    g.nestedNameSpecifier.mock();
+    g.simpleTemplateId.mock();
+    g.decltypeSpecifier.mock();
 
-    assertThat(p, parse("type_name :: ~ type_name"));
-    assertThat(p, parse("nested_name_specifier type_name :: ~ type_name"));
-    assertThat(p, parse("nested_name_specifier template simple_template_id :: ~ type_name"));
-    assertThat(p, parse("~ type_name"));
-    assertThat(p, parse("nested_name_specifier ~ type_name"));
-    assertThat(p, parse("~ decltype_specifier"));
+    assertThat(p, parse("typeName :: ~ typeName"));
+    assertThat(p, parse("nestedNameSpecifier typeName :: ~ typeName"));
+    assertThat(p, parse("nestedNameSpecifier template simpleTemplateId :: ~ typeName"));
+    assertThat(p, parse("~ typeName"));
+    assertThat(p, parse("nestedNameSpecifier ~ typeName"));
+    assertThat(p, parse("~ decltypeSpecifier"));
   }
 
   @Test
-  public void unary_expression() {
-    p.setRootRule(g.unary_expression);
+  public void unaryExpression() {
+    p.setRootRule(g.unaryExpression);
 
-    g.postfix_expression.mock();
-    g.cast_expression.mock();
-    g.unary_operator.mock();
-    g.type_id.mock();
-    g.noexcept_expression.mock();
-    g.new_expression.mock();
-    g.delete_expression.mock();
+    g.postfixExpression.mock();
+    g.castExpression.mock();
+    g.unaryOperator.mock();
+    g.typeId.mock();
+    g.noexceptExpression.mock();
+    g.newExpression.mock();
+    g.deleteExpression.mock();
 
-    assertThat(p, parse("postfix_expression"));
-    assertThat(p, parse("sizeof postfix_expression"));
+    assertThat(p, parse("postfixExpression"));
+    assertThat(p, parse("sizeof postfixExpression"));
   }
 
   @Test
-  public void unary_expression_reallife() {
-    p.setRootRule(g.unary_expression);
+  public void unaryExpression_reallife() {
+    p.setRootRule(g.unaryExpression);
 
     assertThat(p, parse("(istream_iterator<string>(cin))"));
     assertThat(p, parse("~CDB::mask"));
   }
 
   @Test
-  public void new_expression() {
-    p.setRootRule(g.new_expression);
+  public void newExpression() {
+    p.setRootRule(g.newExpression);
 
-    g.new_placement.mock();
-    g.new_type_id.mock();
-    g.new_initializer.mock();
-    g.type_id.mock();
+    g.newPlacement.mock();
+    g.newTypeId.mock();
+    g.newInitializer.mock();
+    g.typeId.mock();
 
-    assertThat(p, parse(":: new new_placement new_type_id new_initializer"));
-    assertThat(p, parse(":: new new_placement ( type_id ) new_initializer"));
+    assertThat(p, parse(":: new newPlacement newTypeId newInitializer"));
+    assertThat(p, parse(":: new newPlacement ( typeId ) newInitializer"));
   }
 
   @Test
-  public void new_expression_reallife() {
-    p.setRootRule(g.new_expression);
+  public void newExpression_reallife() {
+    p.setRootRule(g.newExpression);
     
     assertThat(p, parse("new Table()"));
     assertThat(p, parse("new Table"));
@@ -257,67 +257,67 @@ public class ExpressionTest {
   }
   
   @Test
-  public void new_declarator() {
-    p.setRootRule(g.new_declarator);
+  public void newDeclarator() {
+    p.setRootRule(g.newDeclarator);
 
-    g.ptr_operator.mock();
-    g.noptr_new_declarator.mock();
+    g.ptrOperator.mock();
+    g.noptrNewDeclarator.mock();
 
-    assertThat(p, parse("ptr_operator ptr_operator noptr_new_declarator"));
-    assertThat(p, parse("ptr_operator ptr_operator"));
-    assertThat(p, parse("ptr_operator"));
-    assertThat(p, parse("ptr_operator noptr_new_declarator"));
-    assertThat(p, parse("noptr_new_declarator"));
+    assertThat(p, parse("ptrOperator ptrOperator noptrNewDeclarator"));
+    assertThat(p, parse("ptrOperator ptrOperator"));
+    assertThat(p, parse("ptrOperator"));
+    assertThat(p, parse("ptrOperator noptrNewDeclarator"));
+    assertThat(p, parse("noptrNewDeclarator"));
   }
 
   @Test
-  public void noptr_new_declarator() {
-    p.setRootRule(g.noptr_new_declarator);
+  public void noptrNewDeclarator() {
+    p.setRootRule(g.noptrNewDeclarator);
 
     g.expression.mock();
-    g.attribute_specifier_seq.mock();
-    g.constant_expression.mock();
+    g.attributeSpecifierSeq.mock();
+    g.constantExpression.mock();
 
     assertThat(p, parse("[ expression ]"));
-    assertThat(p, parse("[ expression ] attribute_specifier_seq"));
-    assertThat(p, parse("[ expression ] attribute_specifier_seq [ constant_expression ]"));
-    assertThat(p, parse("[ expression ] attribute_specifier_seq [ constant_expression ] attribute_specifier_seq"));
+    assertThat(p, parse("[ expression ] attributeSpecifierSeq"));
+    assertThat(p, parse("[ expression ] attributeSpecifierSeq [ constantExpression ]"));
+    assertThat(p, parse("[ expression ] attributeSpecifierSeq [ constantExpression ] attributeSpecifierSeq"));
   }
 
   @Test
-  public void new_initializer() {
-    p.setRootRule(g.new_initializer);
+  public void newInitializer() {
+    p.setRootRule(g.newInitializer);
 
-    g.expression_list.mock();
-    g.braced_init_list.mock();
+    g.expressionList.mock();
+    g.bracedInitList.mock();
 
     assertThat(p, parse("(  )"));
-    assertThat(p, parse("( expression_list )"));
-    assertThat(p, parse("braced_init_list"));
+    assertThat(p, parse("( expressionList )"));
+    assertThat(p, parse("bracedInitList"));
   }
 
   @Test
-  public void delete_expression() {
-    p.setRootRule(g.delete_expression);
+  public void deleteExpression() {
+    p.setRootRule(g.deleteExpression);
 
-    g.cast_expression.mock();
+    g.castExpression.mock();
 
-    assertThat(p, parse(":: delete cast_expression"));
-    assertThat(p, parse(":: delete [ ] cast_expression"));
+    assertThat(p, parse(":: delete castExpression"));
+    assertThat(p, parse(":: delete [ ] castExpression"));
   }
 
   @Test
   public void expression() {
     p.setRootRule(g.expression);
-    g.assignment_expression.mock();
+    g.assignmentExpression.mock();
 
-    assertThat(p, parse("assignment_expression"));
-    assertThat(p, parse("assignment_expression, assignment_expression"));
-    assertThat(p, parse("assignment_expression, assignment_expression, assignment_expression"));
+    assertThat(p, parse("assignmentExpression"));
+    assertThat(p, parse("assignmentExpression, assignmentExpression"));
+    assertThat(p, parse("assignmentExpression, assignmentExpression, assignmentExpression"));
   }
 
   @Test
-  public void expression_realLife() {
+  public void expression_reallife() {
     p.setRootRule(g.expression);
 
     assertThat(p, parse("1 + 1"));
@@ -337,22 +337,22 @@ public class ExpressionTest {
   }
 
   @Test
-  public void assignment_expression() {
-    p.setRootRule(g.assignment_expression);
-    g.conditional_expression.mock();
-    g.logical_or_expression.mock();
-    g.assignment_operator.mock();
-    g.initializer_clause.mock();
-    g.throw_expression.mock();
+  public void assignmentExpression() {
+    p.setRootRule(g.assignmentExpression);
+    g.conditionalExpression.mock();
+    g.logicalOrExpression.mock();
+    g.assignmentOperator.mock();
+    g.initializerClause.mock();
+    g.throwExpression.mock();
 
-    assertThat(p, parse("conditional_expression"));
-    assertThat(p, parse("logical_or_expression assignment_operator initializer_clause"));
-    assertThat(p, parse("throw_expression"));
+    assertThat(p, parse("conditionalExpression"));
+    assertThat(p, parse("logicalOrExpression assignmentOperator initializerClause"));
+    assertThat(p, parse("throwExpression"));
   }
 
   @Test
-  public void assignment_expression_realLife() {
-    p.setRootRule(g.assignment_expression);
+  public void assignmentExpression_reallife() {
+    p.setRootRule(g.assignmentExpression);
 
     assertThat(p, parse("i=0"));
     assertThat(p, parse("(istream_iterator<string>(cin))"));
@@ -360,169 +360,169 @@ public class ExpressionTest {
   }
 
   @Test
-  public void logical_or_expression() {
-    p.setRootRule(g.logical_or_expression);
-    g.logical_and_expression.mock();
+  public void logicalOrExpression() {
+    p.setRootRule(g.logicalOrExpression);
+    g.logicalAndExpression.mock();
 
-    assertThat(p, parse("logical_and_expression"));
-    assertThat(p, parse("logical_and_expression || logical_and_expression"));
+    assertThat(p, parse("logicalAndExpression"));
+    assertThat(p, parse("logicalAndExpression || logicalAndExpression"));
   }
 
   @Test
-  public void logical_or_expression_reallife() {
-    p.setRootRule(g.logical_or_expression);
+  public void logicalOrExpression_reallife() {
+    p.setRootRule(g.logicalOrExpression);
 
     assertThat(p, parse("(istream_iterator<string>(cin))"));
   }
 
   @Test
-  public void conditional_expression() {
-    p.setRootRule(g.conditional_expression);
+  public void conditionalExpression() {
+    p.setRootRule(g.conditionalExpression);
 
-    g.logical_or_expression.mock();
+    g.logicalOrExpression.mock();
     g.expression.mock();
-    g.assignment_expression.mock();
+    g.assignmentExpression.mock();
 
-    assertThat(p, parse("logical_or_expression"));
-    assertThat(p, parse("logical_or_expression ? expression : assignment_expression"));
+    assertThat(p, parse("logicalOrExpression"));
+    assertThat(p, parse("logicalOrExpression ? expression : assignmentExpression"));
   }
 
   @Test
-  public void constant_expression() {
-    p.setRootRule(g.constant_expression);
+  public void constantExpression() {
+    p.setRootRule(g.constantExpression);
     
-    g.conditional_expression.mock();
+    g.conditionalExpression.mock();
 
-    assertThat(p, parse("conditional_expression"));
+    assertThat(p, parse("conditionalExpression"));
   }
 
   @Test
-  public void constant_expression_reallife() {
-    p.setRootRule(g.constant_expression);
+  public void constantExpression_reallife() {
+    p.setRootRule(g.constantExpression);
 
     assertThat(p, parse("__cplusplus"));
   }
   
   @Test
-  public void logical_and_expression() {
-    p.setRootRule(g.logical_and_expression);
-    g.inclusive_or_expression.mock();
+  public void logicalAndExpression() {
+    p.setRootRule(g.logicalAndExpression);
+    g.inclusiveOrExpression.mock();
 
-    assertThat(p, parse("inclusive_or_expression"));
-    assertThat(p, parse("inclusive_or_expression && inclusive_or_expression"));
+    assertThat(p, parse("inclusiveOrExpression"));
+    assertThat(p, parse("inclusiveOrExpression && inclusiveOrExpression"));
   }
 
   @Test
-  public void inclusive_or_expression() {
-    p.setRootRule(g.inclusive_or_expression);
-    g.exclusive_or_expression.mock();
+  public void inclusiveOrExpression() {
+    p.setRootRule(g.inclusiveOrExpression);
+    g.exclusiveOrExpression.mock();
 
-    assertThat(p, parse("exclusive_or_expression"));
-    assertThat(p, parse("exclusive_or_expression | exclusive_or_expression"));
+    assertThat(p, parse("exclusiveOrExpression"));
+    assertThat(p, parse("exclusiveOrExpression | exclusiveOrExpression"));
   }
 
   @Test
-  public void exclusive_or_expression() {
-    p.setRootRule(g.exclusive_or_expression);
-    g.and_expression.mock();
+  public void exclusiveOrExpression() {
+    p.setRootRule(g.exclusiveOrExpression);
+    g.andExpression.mock();
 
-    assertThat(p, parse("and_expression"));
-    assertThat(p, parse("and_expression ^ and_expression"));
+    assertThat(p, parse("andExpression"));
+    assertThat(p, parse("andExpression ^ andExpression"));
   }
 
   @Test
-  public void and_expression() {
-    p.setRootRule(g.and_expression);
-    g.equality_expression.mock();
+  public void andExpression() {
+    p.setRootRule(g.andExpression);
+    g.equalityExpression.mock();
 
-    assertThat(p, parse("equality_expression"));
-    assertThat(p, parse("equality_expression & equality_expression"));
+    assertThat(p, parse("equalityExpression"));
+    assertThat(p, parse("equalityExpression & equalityExpression"));
   }
 
   @Test
-  public void equality_expression() {
-    p.setRootRule(g.equality_expression);
-    g.relational_expression.mock();
+  public void equalityExpression() {
+    p.setRootRule(g.equalityExpression);
+    g.relationalExpression.mock();
 
-    assertThat(p, parse("relational_expression"));
-    assertThat(p, parse("relational_expression == relational_expression"));
-    assertThat(p, parse("relational_expression != relational_expression"));
+    assertThat(p, parse("relationalExpression"));
+    assertThat(p, parse("relationalExpression == relationalExpression"));
+    assertThat(p, parse("relationalExpression != relationalExpression"));
   }
 
   @Test
-  public void relational_expression() {
-    p.setRootRule(g.relational_expression);
-    g.shift_expression.mock();
+  public void relationalExpression() {
+    p.setRootRule(g.relationalExpression);
+    g.shiftExpression.mock();
 
-    assertThat(p, parse("shift_expression"));
-    assertThat(p, parse("shift_expression < shift_expression"));
-    assertThat(p, parse("shift_expression > shift_expression"));
-    assertThat(p, parse("shift_expression <= shift_expression"));
-    assertThat(p, parse("shift_expression >= shift_expression"));
+    assertThat(p, parse("shiftExpression"));
+    assertThat(p, parse("shiftExpression < shiftExpression"));
+    assertThat(p, parse("shiftExpression > shiftExpression"));
+    assertThat(p, parse("shiftExpression <= shiftExpression"));
+    assertThat(p, parse("shiftExpression >= shiftExpression"));
   }
 
   @Test
-  public void shift_expression() {
-    p.setRootRule(g.shift_expression);
-    g.additive_expression.mock();
+  public void shiftExpression() {
+    p.setRootRule(g.shiftExpression);
+    g.additiveExpression.mock();
 
-    assertThat(p, parse("additive_expression"));
-    assertThat(p, parse("additive_expression << additive_expression"));
-    assertThat(p, parse("additive_expression >> additive_expression"));
+    assertThat(p, parse("additiveExpression"));
+    assertThat(p, parse("additiveExpression << additiveExpression"));
+    assertThat(p, parse("additiveExpression >> additiveExpression"));
   }
 
   @Test
-  public void additive_expression() {
-    p.setRootRule(g.additive_expression);
-    g.multiplicative_expression.mock();
+  public void additiveExpression() {
+    p.setRootRule(g.additiveExpression);
+    g.multiplicativeExpression.mock();
 
-    assertThat(p, parse("multiplicative_expression"));
-    assertThat(p, parse("multiplicative_expression + multiplicative_expression"));
-    assertThat(p, parse("multiplicative_expression - multiplicative_expression"));
+    assertThat(p, parse("multiplicativeExpression"));
+    assertThat(p, parse("multiplicativeExpression + multiplicativeExpression"));
+    assertThat(p, parse("multiplicativeExpression - multiplicativeExpression"));
   }
 
   @Test
-  public void multiplicative_expression() {
-    p.setRootRule(g.multiplicative_expression);
-    g.pm_expression.mock();
+  public void multiplicativeExpression() {
+    p.setRootRule(g.multiplicativeExpression);
+    g.pmExpression.mock();
 
-    assertThat(p, parse("pm_expression"));
-    assertThat(p, parse("pm_expression * pm_expression"));
-    assertThat(p, parse("pm_expression / pm_expression"));
-    assertThat(p, parse("pm_expression % pm_expression"));
+    assertThat(p, parse("pmExpression"));
+    assertThat(p, parse("pmExpression * pmExpression"));
+    assertThat(p, parse("pmExpression / pmExpression"));
+    assertThat(p, parse("pmExpression % pmExpression"));
   }
 
   @Test
-  public void multiplicative_expression_reallive() {
-    p.setRootRule(g.multiplicative_expression);
+  public void multiplicativeExpression_reallive() {
+    p.setRootRule(g.multiplicativeExpression);
     
     assertThat(p, parse("N / 1"));
   }
   
   @Test
-  public void pm_expression() {
-    p.setRootRule(g.pm_expression);
-    g.cast_expression.mock();
+  public void pmExpression() {
+    p.setRootRule(g.pmExpression);
+    g.castExpression.mock();
 
-    assertThat(p, parse("cast_expression"));
-    assertThat(p, parse("cast_expression .* cast_expression"));
-    assertThat(p, parse("cast_expression ->* cast_expression"));
+    assertThat(p, parse("castExpression"));
+    assertThat(p, parse("castExpression .* castExpression"));
+    assertThat(p, parse("castExpression ->* castExpression"));
   }
 
   @Test
-  public void cast_expression() {
-    p.setRootRule(g.pm_expression);
-    g.unary_expression.mock();
-    g.type_id.mock();
+  public void castExpression() {
+    p.setRootRule(g.pmExpression);
+    g.unaryExpression.mock();
+    g.typeId.mock();
 
-    assertThat(p, parse("unary_expression"));
-    assertThat(p, parse("(type_id) unary_expression"));
-    assertThat(p, parse("(type_id)(type_id) unary_expression"));
+    assertThat(p, parse("unaryExpression"));
+    assertThat(p, parse("(typeId) unaryExpression"));
+    assertThat(p, parse("(typeId)(typeId) unaryExpression"));
   }
 
   @Test
-  public void cast_expression_reallife() {
-    p.setRootRule(g.cast_expression);
+  public void castExpression_reallife() {
+    p.setRootRule(g.castExpression);
 
     assertThat(p, parse("(istream_iterator<string>(cin))"));
     assertThat(p, parse("(Color)c"));

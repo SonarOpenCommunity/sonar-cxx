@@ -25,8 +25,8 @@ import java.util.Map;
 public class MapChain<K,V>{
   private Map<K,V> highPrioMap = new HashMap<K,V>();
   private Map<K,V> lowPrioMap = new HashMap<K,V>();
-  private Map<K,V> highPrio_disabled = new HashMap<K,V>();
-  private Map<K,V> lowPrio_disabled = new HashMap<K,V>();
+  private Map<K,V> highPrioDisabled = new HashMap<K,V>();
+  private Map<K,V> lowPrioDisabled = new HashMap<K,V>();
 
   public V get(Object key){
     V value = highPrioMap.get(key);
@@ -50,13 +50,13 @@ public class MapChain<K,V>{
   }
 
   public void disable(K key){
-    move(key, lowPrioMap, lowPrio_disabled);
-    move(key, highPrioMap, highPrio_disabled);
+    move(key, lowPrioMap, lowPrioDisabled);
+    move(key, highPrioMap, highPrioDisabled);
   }
 
   public void enable(K key){
-    move(key, lowPrio_disabled, lowPrioMap);
-    move(key, highPrio_disabled, highPrioMap);
+    move(key, lowPrioDisabled, lowPrioMap);
+    move(key, highPrioDisabled, highPrioMap);
   }
 
   private void move(K key, Map<K,V> from, Map<K,V> to){

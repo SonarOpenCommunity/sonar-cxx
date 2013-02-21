@@ -34,8 +34,8 @@ public class FileInputTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void translation_unit() {
-    p.setRootRule(g.translation_unit);
+  public void translationUnit() {
+    p.setRootRule(g.translationUnit);
 
     g.declaration.mock();
 

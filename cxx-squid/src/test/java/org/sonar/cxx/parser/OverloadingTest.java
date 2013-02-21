@@ -34,8 +34,8 @@ public class OverloadingTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void operator_function_id_reallife() {
-    p.setRootRule(g.operator_function_id);
+  public void operatorFunctionId_reallife() {
+    p.setRootRule(g.operatorFunctionId);
 
     assertThat(p, parse("operator()"));
   }

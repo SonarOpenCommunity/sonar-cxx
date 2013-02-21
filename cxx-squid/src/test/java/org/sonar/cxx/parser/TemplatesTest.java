@@ -37,18 +37,18 @@ public class TemplatesTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void template_declaration() {
-    p.setRootRule(g.template_declaration);
+  public void templateDeclaration() {
+    p.setRootRule(g.templateDeclaration);
 
-    g.template_parameter_list.mock();
+    g.templateParameterList.mock();
     g.declaration.mock();
 
-    assertThat(p, parse("template < template_parameter_list > declaration"));
+    assertThat(p, parse("template < templateParameterList > declaration"));
   }
 
   @Test
-  public void template_declaration_realLife() {
-    p.setRootRule(g.template_declaration);
+  public void templateDeclaration_reallife() {
+    p.setRootRule(g.templateDeclaration);
 
     assertThat(p, parse("template <class T> ostream& operator<<();"));
     assertThat(p, parse("template <class T> ostream& operator<<(ostream& strm, const int& i);"));
@@ -60,46 +60,46 @@ public class TemplatesTest {
   }
 
   @Test
-  public void template_parameter_list() {
-    p.setRootRule(g.template_parameter_list);
+  public void templateParameterList() {
+    p.setRootRule(g.templateParameterList);
 
-    g.template_parameter.mock();
+    g.templateParameter.mock();
 
-    assertThat(p, parse("template_parameter"));
-    assertThat(p, parse("template_parameter , template_parameter"));
+    assertThat(p, parse("templateParameter"));
+    assertThat(p, parse("templateParameter , templateParameter"));
   }
 
   @Test
-  public void type_parameter() {
-    p.setRootRule(g.type_parameter);
+  public void typeParameter() {
+    p.setRootRule(g.typeParameter);
 
-    g.type_id.mock();
-    g.template_parameter_list.mock();
-    g.id_expression.mock();
+    g.typeId.mock();
+    g.templateParameterList.mock();
+    g.idExpression.mock();
 
     assertThat(p, parse("class"));
     assertThat(p, parse("class T"));
     assertThat(p, parse("class ... foo"));
 
-    assertThat(p, parse("class = type_id"));
-    assertThat(p, parse("class foo = type_id"));
+    assertThat(p, parse("class = typeId"));
+    assertThat(p, parse("class foo = typeId"));
 
     assertThat(p, parse("typename"));
     assertThat(p, parse("typename ... foo"));
 
-    assertThat(p, parse("typename = type_id"));
-    assertThat(p, parse("typename foo = type_id"));
+    assertThat(p, parse("typename = typeId"));
+    assertThat(p, parse("typename foo = typeId"));
 
-    assertThat(p, parse("template < template_parameter_list > class"));
-    assertThat(p, parse("template < template_parameter_list > class ... foo"));
+    assertThat(p, parse("template < templateParameterList > class"));
+    assertThat(p, parse("template < templateParameterList > class ... foo"));
 
-    assertThat(p, parse("template < template_parameter_list > class = id_expression"));
-    assertThat(p, parse("template < template_parameter_list > class foo = id_expression"));
+    assertThat(p, parse("template < templateParameterList > class = idExpression"));
+    assertThat(p, parse("template < templateParameterList > class foo = idExpression"));
   }
 
   @Test
-  public void simple_template_id_reallife() {
-    p.setRootRule(g.simple_template_id);
+  public void simpleTemplateId_reallife() {
+    p.setRootRule(g.simpleTemplateId);
 
     assertThat(p, parse("sometype<int>"));
     assertThat(p, parse("vector<Person*>"));
@@ -111,50 +111,50 @@ public class TemplatesTest {
   }
 
   @Test
-  public void template_id() {
-    p.setRootRule(g.template_id);
+  public void templateId() {
+    p.setRootRule(g.templateId);
 
-    g.simple_template_id.mock();
-    g.operator_function_id.mock();
-    g.template_argument_list.mock();
-    g.literal_operator_id.mock();
+    g.simpleTemplateId.mock();
+    g.operatorFunctionId.mock();
+    g.templateArgumentList.mock();
+    g.literalOperatorId.mock();
 
-    assertThat(p, parse("simple_template_id"));
-    assertThat(p, parse("operator_function_id < >"));
-    assertThat(p, parse("operator_function_id < template_argument_list >"));
-    assertThat(p, parse("literal_operator_id < >"));
-    assertThat(p, parse("literal_operator_id < template_argument_list >"));
+    assertThat(p, parse("simpleTemplateId"));
+    assertThat(p, parse("operatorFunctionId < >"));
+    assertThat(p, parse("operatorFunctionId < templateArgumentList >"));
+    assertThat(p, parse("literalOperatorId < >"));
+    assertThat(p, parse("literalOperatorId < templateArgumentList >"));
   }
 
   @Test
-  public void template_id_reallife() {
-    p.setRootRule(g.template_id);
+  public void templateId_reallife() {
+    p.setRootRule(g.templateId);
     assertThat(p, parse("foo<int>"));
     assertThat(p, parse("operator==<B>"));
   }
 
   @Test
-  public void template_argument_list() {
-    p.setRootRule(g.template_argument_list);
+  public void templateArgumentList() {
+    p.setRootRule(g.templateArgumentList);
 
-    g.template_argument.mock();
+    g.templateArgument.mock();
 
-    assertThat(p, parse("template_argument"));
-    assertThat(p, parse("template_argument ..."));
-    assertThat(p, parse("template_argument , template_argument"));
-    assertThat(p, parse("template_argument , template_argument ..."));
+    assertThat(p, parse("templateArgument"));
+    assertThat(p, parse("templateArgument ..."));
+    assertThat(p, parse("templateArgument , templateArgument"));
+    assertThat(p, parse("templateArgument , templateArgument ..."));
   }
 
   @Test
-  public void typename_specifier() {
-    p.setRootRule(g.typename_specifier);
+  public void typenameSpecifier() {
+    p.setRootRule(g.typenameSpecifier);
 
-    g.nested_name_specifier.mock();
-    g.simple_template_id.mock();
+    g.nestedNameSpecifier.mock();
+    g.simpleTemplateId.mock();
 
-    assertThat(p, parse("typename nested_name_specifier foo"));
+    assertThat(p, parse("typename nestedNameSpecifier foo"));
 
-    assertThat(p, parse("typename nested_name_specifier simple_template_id"));
-    assertThat(p, parse("typename nested_name_specifier template simple_template_id"));
+    assertThat(p, parse("typename nestedNameSpecifier simpleTemplateId"));
+    assertThat(p, parse("typename nestedNameSpecifier template simpleTemplateId"));
   }
 }

@@ -34,47 +34,47 @@ public class SpecialMemberFunctionsTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void ctor_initializer_reallife() {
-    p.setRootRule(g.ctor_initializer);
+  public void ctorInitializer_reallife() {
+    p.setRootRule(g.ctorInitializer);
 
     assertThat(p, parse(": theValue(v)"));
   }
 
   @Test
-  public void mem_initializer_list() {
-    p.setRootRule(g.mem_initializer_list);
+  public void memInitializerList() {
+    p.setRootRule(g.memInitializerList);
 
-    g.mem_initializer.mock();
+    g.memInitializer.mock();
 
-    assertThat(p, parse("mem_initializer"));
-    assertThat(p, parse("mem_initializer ..."));
-    assertThat(p, parse("mem_initializer , mem_initializer"));
-    assertThat(p, parse("mem_initializer , mem_initializer ..."));
+    assertThat(p, parse("memInitializer"));
+    assertThat(p, parse("memInitializer ..."));
+    assertThat(p, parse("memInitializer , memInitializer"));
+    assertThat(p, parse("memInitializer , memInitializer ..."));
   }
 
   @Test
-  public void mem_initializer() {
-    p.setRootRule(g.mem_initializer);
+  public void memInitializer() {
+    p.setRootRule(g.memInitializer);
 
-    g.mem_initializer_id.mock();
-    g.expression_list.mock();
-    g.braced_init_list.mock();
+    g.memInitializerId.mock();
+    g.expressionList.mock();
+    g.bracedInitList.mock();
 
-    assertThat(p, parse("mem_initializer_id ( )"));
-    assertThat(p, parse("mem_initializer_id ( expression_list )"));
-    assertThat(p, parse("mem_initializer_id braced_init_list"));
+    assertThat(p, parse("memInitializerId ( )"));
+    assertThat(p, parse("memInitializerId ( expressionList )"));
+    assertThat(p, parse("memInitializerId bracedInitList"));
   }
 
   @Test
-  public void mem_initializer_reallife() {
-    p.setRootRule(g.mem_initializer);
+  public void memInitializer_reallife() {
+    p.setRootRule(g.memInitializer);
 
     assertThat(p, parse("theValue(v)"));
   }
 
   @Test
-  public void mem_initializer_id_reallife() {
-    p.setRootRule(g.mem_initializer_id);
+  public void memInitializerId_reallife() {
+    p.setRootRule(g.memInitializerId);
 
     assertThat(p, parse("theValue"));
   }

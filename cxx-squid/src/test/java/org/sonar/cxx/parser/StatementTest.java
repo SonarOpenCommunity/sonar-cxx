@@ -40,25 +40,25 @@ public class StatementTest {
   public void statement() {
     p.setRootRule(g.statement);
 
-    g.labeled_statement.mock();
-    g.expression_statement.mock();
-    g.compound_statement.mock();
-    g.selection_statement.mock();
-    g.iteration_statement.mock();
-    g.jump_statement.mock();
-    g.declaration_statement.mock();
-    g.attribute_specifier_seq.mock();
-    g.try_block.mock();
+    g.labeledStatement.mock();
+    g.expressionStatement.mock();
+    g.compoundStatement.mock();
+    g.selectionStatement.mock();
+    g.iterationStatement.mock();
+    g.jumpStatement.mock();
+    g.declarationStatement.mock();
+    g.attributeSpecifierSeq.mock();
+    g.tryBlock.mock();
 
-    assertThat(p, parse("labeled_statement"));
-    assertThat(p, parse("expression_statement"));
-    assertThat(p, parse("attribute_specifier_seq expression_statement"));
-    assertThat(p, parse("attribute_specifier_seq compound_statement"));
-    assertThat(p, parse("attribute_specifier_seq selection_statement"));
-    assertThat(p, parse("attribute_specifier_seq iteration_statement"));
-    assertThat(p, parse("attribute_specifier_seq jump_statement"));
-    assertThat(p, parse("declaration_statement"));
-    assertThat(p, parse("attribute_specifier_seq try_block"));
+    assertThat(p, parse("labeledStatement"));
+    assertThat(p, parse("expressionStatement"));
+    assertThat(p, parse("attributeSpecifierSeq expressionStatement"));
+    assertThat(p, parse("attributeSpecifierSeq compoundStatement"));
+    assertThat(p, parse("attributeSpecifierSeq selectionStatement"));
+    assertThat(p, parse("attributeSpecifierSeq iterationStatement"));
+    assertThat(p, parse("attributeSpecifierSeq jumpStatement"));
+    assertThat(p, parse("declarationStatement"));
+    assertThat(p, parse("attributeSpecifierSeq tryBlock"));
   }
 
   @Test
@@ -89,22 +89,22 @@ public class StatementTest {
   }
 
   @Test
-  public void labeled_statement() {
-    p.setRootRule(g.labeled_statement);
+  public void labeledStatement() {
+    p.setRootRule(g.labeledStatement);
 
-    g.attribute_specifier_seq.mock();
+    g.attributeSpecifierSeq.mock();
     g.statement.mock();
-    g.constant_expression.mock();
+    g.constantExpression.mock();
 
     assertThat(p, parse("foo : statement"));
-    assertThat(p, parse("attribute_specifier_seq foo : statement"));
-    assertThat(p, parse("attribute_specifier_seq case constant_expression : statement"));
-    assertThat(p, parse("attribute_specifier_seq default : statement"));
+    assertThat(p, parse("attributeSpecifierSeq foo : statement"));
+    assertThat(p, parse("attributeSpecifierSeq case constantExpression : statement"));
+    assertThat(p, parse("attributeSpecifierSeq default : statement"));
   }
 
   @Test
-  public void statement_seq() {
-    p.setRootRule(g.statement_seq);
+  public void statementSeq() {
+    p.setRootRule(g.statementSeq);
 
     g.statement.mock();
 
@@ -113,8 +113,8 @@ public class StatementTest {
   }
 
   @Test
-  public void selection_statement() {
-    p.setRootRule(g.selection_statement);
+  public void selectionStatement() {
+    p.setRootRule(g.selectionStatement);
 
     g.statement.mock();
     g.condition.mock();
@@ -125,8 +125,8 @@ public class StatementTest {
   }
 
   @Test
-  public void selection_statement_reallife() {
-    p.setRootRule(g.selection_statement);
+  public void selectionStatement_reallife() {
+    p.setRootRule(g.selectionStatement);
 
     assertThat(p, parse("if (usedColors[(Color)c]) {}"));
   }
@@ -135,18 +135,18 @@ public class StatementTest {
   public void condition() {
     p.setRootRule(g.condition);
 
-    g.attribute_specifier_seq.mock();
+    g.attributeSpecifierSeq.mock();
     g.expression.mock();
     g.declarator.mock();
-    g.condition_decl_specifier_seq.mock();
-    g.initializer_clause.mock();
-    g.braced_init_list.mock();
+    g.conditionDeclSpecifierSeq.mock();
+    g.initializerClause.mock();
+    g.bracedInitList.mock();
 
     assertThat(p, parse("expression"));
-    assertThat(p, parse("condition_decl_specifier_seq declarator = initializer_clause"));
-    assertThat(p, parse("attribute_specifier_seq condition_decl_specifier_seq declarator = initializer_clause"));
-    assertThat(p, parse("condition_decl_specifier_seq declarator braced_init_list"));
-    assertThat(p, parse("attribute_specifier_seq condition_decl_specifier_seq declarator braced_init_list"));
+    assertThat(p, parse("conditionDeclSpecifierSeq declarator = initializerClause"));
+    assertThat(p, parse("attributeSpecifierSeq conditionDeclSpecifierSeq declarator = initializerClause"));
+    assertThat(p, parse("conditionDeclSpecifierSeq declarator bracedInitList"));
+    assertThat(p, parse("attributeSpecifierSeq conditionDeclSpecifierSeq declarator bracedInitList"));
   }
 
   @Test
@@ -159,77 +159,77 @@ public class StatementTest {
   }
 
   @Test
-  public void iteration_statement() {
-    p.setRootRule(g.iteration_statement);
+  public void iterationStatement() {
+    p.setRootRule(g.iterationStatement);
 
     g.condition.mock();
     g.statement.mock();
     g.expression.mock();
-    g.for_init_statement.mock();
-    g.for_range_declaration.mock();
-    g.for_range_initializer.mock();
+    g.forInitStatement.mock();
+    g.forRangeDeclaration.mock();
+    g.forRangeInitializer.mock();
 
     assertThat(p, parse("while ( condition ) statement"));
     assertThat(p, parse("do statement while ( expression ) ;"));
-    assertThat(p, parse("for ( for_init_statement ; ) statement"));
-    assertThat(p, parse("for ( for_init_statement condition ; ) statement"));
-    assertThat(p, parse("for ( for_init_statement condition ; expression ) statement"));
-    assertThat(p, parse("for ( for_range_declaration : for_range_initializer ) statement"));
+    assertThat(p, parse("for ( forInitStatement ; ) statement"));
+    assertThat(p, parse("for ( forInitStatement condition ; ) statement"));
+    assertThat(p, parse("for ( forInitStatement condition ; expression ) statement"));
+    assertThat(p, parse("for ( forRangeDeclaration : forRangeInitializer ) statement"));
   }
 
   @Test
-  public void iteration_statement_reallife() {
-    p.setRootRule(g.iteration_statement);
+  public void iterationStatement_reallife() {
+    p.setRootRule(g.iterationStatement);
 
     assertThat(p, parse("for (int i=1; i<=9; ++i) { coll.push_back(i); }"));
   }
 
   @Test
-  public void for_init_statement_reallife() {
-    p.setRootRule(g.for_init_statement);
+  public void forInitStatement_reallife() {
+    p.setRootRule(g.forInitStatement);
     assertThat(p, parse("int i=1;"));
   }
 
   @Test
-  public void for_range_declaration() {
-    p.setRootRule(g.for_range_declaration);
+  public void forRangeDeclaration() {
+    p.setRootRule(g.forRangeDeclaration);
 
-    g.forrange_decl_specifier_seq.mock();
+    g.forrangeDeclSpecifierSeq.mock();
     g.declarator.mock();
-    g.attribute_specifier_seq.mock();
+    g.attributeSpecifierSeq.mock();
 
-    assertThat(p, parse("forrange_decl_specifier_seq declarator"));
-    assertThat(p, parse("attribute_specifier_seq forrange_decl_specifier_seq declarator"));
+    assertThat(p, parse("forrangeDeclSpecifierSeq declarator"));
+    assertThat(p, parse("attributeSpecifierSeq forrangeDeclSpecifierSeq declarator"));
   }
 
   @Test
-  public void for_range_initializer() {
-    p.setRootRule(g.for_range_initializer);
+  public void forRangeInitializer() {
+    p.setRootRule(g.forRangeInitializer);
 
     g.expression.mock();
-    g.braced_init_list.mock();
+    g.bracedInitList.mock();
 
     assertThat(p, parse("expression"));
-    assertThat(p, parse("braced_init_list"));
+    assertThat(p, parse("bracedInitList"));
   }
 
   @Test
-  public void jump_statement() {
-    p.setRootRule(g.jump_statement);
+  public void jumpStatement() {
+    p.setRootRule(g.jumpStatement);
 
     g.expression.mock();
-    g.braced_init_list.mock();
+    g.bracedInitList.mock();
 
     assertThat(p, parse("break ;"));
     assertThat(p, parse("continue ;"));
     assertThat(p, parse("return expression ;"));
-    assertThat(p, parse("return braced_init_list ;"));
+    assertThat(p, parse("return bracedInitList ;"));
     assertThat(p, parse("goto foo ;"));
   }
 
   @Test
-  public void jump_statement_reallife() {
-    p.setRootRule(g.jump_statement);
+  public void jumpStatement_reallife() {
+    p.setRootRule(g.jumpStatement);
 
     assertThat(p, parse("return foo()->i;"));
   }

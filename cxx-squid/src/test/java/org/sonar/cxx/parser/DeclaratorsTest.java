@@ -34,26 +34,26 @@ public class DeclaratorsTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void init_declarator_list() {
-    p.setRootRule(g.init_declarator_list);
+  public void initDeclaratorList() {
+    p.setRootRule(g.initDeclaratorList);
 
-    g.init_declarator.mock();
+    g.initDeclarator.mock();
 
-    assertThat(p, parse("init_declarator"));
-    assertThat(p, parse("init_declarator , init_declarator"));
+    assertThat(p, parse("initDeclarator"));
+    assertThat(p, parse("initDeclarator , initDeclarator"));
   }
 
   @Test
-  public void init_declarator_list_reallife() {
-    p.setRootRule(g.init_declarator_list);
+  public void initDeclaratorList_reallife() {
+    p.setRootRule(g.initDeclaratorList);
 
     assertThat(p, parse("a"));
     assertThat(p, parse("foo(string, bool)"));
   }
 
   @Test
-  public void init_declarator_reallife() {
-    p.setRootRule(g.init_declarator);
+  public void initDeclarator_reallife() {
+    p.setRootRule(g.initDeclarator);
 
     assertThat(p, parse("coll((istream_iterator<string>(cin)), istream_iterator<string>())"));
     assertThat(p, parse("a"));
@@ -63,17 +63,17 @@ public class DeclaratorsTest {
   public void declarator() {
     p.setRootRule(g.declarator);
 
-    g.ptr_declarator.mock();
-    g.noptr_declarator.mock();
-    g.parameters_and_qualifiers.mock();
-    g.trailing_return_type.mock();
+    g.ptrDeclarator.mock();
+    g.noptrDeclarator.mock();
+    g.parametersAndQualifiers.mock();
+    g.trailingReturnType.mock();
 
-    assertThat(p, parse("ptr_declarator"));
-    assertThat(p, parse("noptr_declarator parameters_and_qualifiers trailing_return_type"));
+    assertThat(p, parse("ptrDeclarator"));
+    assertThat(p, parse("noptrDeclarator parametersAndQualifiers trailingReturnType"));
   }
 
   @Test
-  public void declarator_realLife() {
+  public void declarator_reallife() {
     p.setRootRule(g.declarator);
 
     assertThat(p, parse("a"));
@@ -85,140 +85,140 @@ public class DeclaratorsTest {
   }
 
   @Test
-  public void noptr_declarator() {
-    p.setRootRule(g.noptr_declarator);
+  public void noptrDeclarator() {
+    p.setRootRule(g.noptrDeclarator);
 
-    g.declarator_id.mock();
-    g.attribute_specifier_seq.mock();
-    g.parameters_and_qualifiers.mock();
-    g.constant_expression.mock();
-    g.ptr_declarator.mock();
+    g.declaratorId.mock();
+    g.attributeSpecifierSeq.mock();
+    g.parametersAndQualifiers.mock();
+    g.constantExpression.mock();
+    g.ptrDeclarator.mock();
 
-    assertThat(p, parse("declarator_id"));
-    assertThat(p, parse("declarator_id attribute_specifier_seq"));
-    assertThat(p, parse("declarator_id parameters_and_qualifiers"));
-    assertThat(p, parse("declarator_id [ ]"));
-    assertThat(p, parse("declarator_id [ constant_expression ]"));
-    assertThat(p, parse("declarator_id [ ] attribute_specifier_seq"));
-    assertThat(p, parse("declarator_id [ constant_expression ] attribute_specifier_seq"));
-    assertThat(p, parse("declarator_id [ ] attribute_specifier_seq"));
-    assertThat(p, parse("( ptr_declarator )"));
+    assertThat(p, parse("declaratorId"));
+    assertThat(p, parse("declaratorId attributeSpecifierSeq"));
+    assertThat(p, parse("declaratorId parametersAndQualifiers"));
+    assertThat(p, parse("declaratorId [ ]"));
+    assertThat(p, parse("declaratorId [ constantExpression ]"));
+    assertThat(p, parse("declaratorId [ ] attributeSpecifierSeq"));
+    assertThat(p, parse("declaratorId [ constantExpression ] attributeSpecifierSeq"));
+    assertThat(p, parse("declaratorId [ ] attributeSpecifierSeq"));
+    assertThat(p, parse("( ptrDeclarator )"));
   }
 
   @Test
-  public void noptr_declarator_reallife() {
-    p.setRootRule(g.noptr_declarator);
+  public void noptrDeclarator_reallife() {
+    p.setRootRule(g.noptrDeclarator);
 
     assertThat(p, parse("coll"));
   }
 
   @Test
-  public void parameters_and_qualifiers() {
-    p.setRootRule(g.parameters_and_qualifiers);
+  public void parametersAndQualifiers() {
+    p.setRootRule(g.parametersAndQualifiers);
 
-    g.parameter_declaration_clause.mock();
-    g.attribute_specifier_seq.mock();
-    g.cv_qualifier_seq.mock();
-    g.ref_qualifier.mock();
-    g.exception_specification.mock();
+    g.parameterDeclarationClause.mock();
+    g.attributeSpecifierSeq.mock();
+    g.cvQualifierSeq.mock();
+    g.refQualifier.mock();
+    g.exceptionSpecification.mock();
 
-    assertThat(p, parse("( parameter_declaration_clause )"));
-    assertThat(p, parse("( parameter_declaration_clause ) attribute_specifier_seq"));
-    assertThat(p, parse("( parameter_declaration_clause ) attribute_specifier_seq cv_qualifier_seq"));
-    assertThat(p, parse("( parameter_declaration_clause ) attribute_specifier_seq cv_qualifier_seq ref_qualifier"));
-    assertThat(p, parse("( parameter_declaration_clause ) attribute_specifier_seq cv_qualifier_seq ref_qualifier exception_specification"));
+    assertThat(p, parse("( parameterDeclarationClause )"));
+    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq"));
+    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq"));
+    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier"));
+    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq cvQualifierSeq refQualifier exceptionSpecification"));
   }
 
   @Test
-  public void parameters_and_qualifiers_realLife() {
-    p.setRootRule(g.parameters_and_qualifiers);
+  public void parametersAndQualifiers_reallife() {
+    p.setRootRule(g.parametersAndQualifiers);
 
     assertThat(p, parse("(ostream& strm, const int& i)"));
     assertThat(p, parse("(string, bool)"));
   }
 
   @Test
-  public void ptr_declarator() {
-    p.setRootRule(g.ptr_declarator);
+  public void ptrDeclarator() {
+    p.setRootRule(g.ptrDeclarator);
 
-    g.noptr_declarator.mock();
-    g.ptr_operator.mock();
+    g.noptrDeclarator.mock();
+    g.ptrOperator.mock();
 
-    assertThat(p, parse("noptr_declarator"));
-    assertThat(p, parse("ptr_operator noptr_declarator"));
-    assertThat(p, parse("ptr_operator ptr_operator noptr_declarator"));
+    assertThat(p, parse("noptrDeclarator"));
+    assertThat(p, parse("ptrOperator noptrDeclarator"));
+    assertThat(p, parse("ptrOperator ptrOperator noptrDeclarator"));
     
   }
 
   @Test
-  public void ptr_declarator_reallife() {
-    p.setRootRule(g.ptr_declarator);
+  public void ptrDeclarator_reallife() {
+    p.setRootRule(g.ptrDeclarator);
 
     assertThat(p, parse("A::*foo"));
   }
   
   @Test
-  public void ptr_operator() {
-    p.setRootRule(g.ptr_operator);
+  public void ptrOperator() {
+    p.setRootRule(g.ptrOperator);
 
-    g.attribute_specifier_seq.mock();
-    g.cv_qualifier_seq.mock();
-    g.nested_name_specifier.mock();
+    g.attributeSpecifierSeq.mock();
+    g.cvQualifierSeq.mock();
+    g.nestedNameSpecifier.mock();
 
     assertThat(p, parse("*"));
-    assertThat(p, parse("* attribute_specifier_seq"));
-    assertThat(p, parse("* attribute_specifier_seq cv_qualifier_seq"));
+    assertThat(p, parse("* attributeSpecifierSeq"));
+    assertThat(p, parse("* attributeSpecifierSeq cvQualifierSeq"));
     assertThat(p, parse("&"));
-    assertThat(p, parse("& attribute_specifier_seq"));
+    assertThat(p, parse("& attributeSpecifierSeq"));
     assertThat(p, parse("&&"));
-    assertThat(p, parse("&& attribute_specifier_seq"));
-    assertThat(p, parse("nested_name_specifier *"));
-    assertThat(p, parse("nested_name_specifier * cv_qualifier_seq"));
-    assertThat(p, parse("nested_name_specifier * attribute_specifier_seq cv_qualifier_seq"));
+    assertThat(p, parse("&& attributeSpecifierSeq"));
+    assertThat(p, parse("nestedNameSpecifier *"));
+    assertThat(p, parse("nestedNameSpecifier * cvQualifierSeq"));
+    assertThat(p, parse("nestedNameSpecifier * attributeSpecifierSeq cvQualifierSeq"));
   }
 
   @Test
-  public void ptr_operator_reallife() {
-    p.setRootRule(g.ptr_operator);
+  public void ptrOperator_reallife() {
+    p.setRootRule(g.ptrOperator);
     
     assertThat(p, parse("A::*"));
   }
   
   @Test
-  public void cv_qualifier_seq() {
-    p.setRootRule(g.cv_qualifier_seq);
+  public void cvQualifierSeq() {
+    p.setRootRule(g.cvQualifierSeq);
 
-    g.cv_qualifier.mock();
+    g.cvQualifier.mock();
 
-    assertThat(p, parse("cv_qualifier"));
-    assertThat(p, parse("cv_qualifier cv_qualifier"));
+    assertThat(p, parse("cvQualifier"));
+    assertThat(p, parse("cvQualifier cvQualifier"));
   }
 
   @Test
-  public void declarator_id() {
-    p.setRootRule(g.declarator_id);
+  public void declaratorId() {
+    p.setRootRule(g.declaratorId);
 
-    g.id_expression.mock();
-    g.nested_name_specifier.mock();
-    g.class_name.mock();
+    g.idExpression.mock();
+    g.nestedNameSpecifier.mock();
+    g.className.mock();
 
-    assertThat(p, parse("id_expression"));
-    assertThat(p, parse("... id_expression"));
-    assertThat(p, parse("class_name"));
-    assertThat(p, parse("nested_name_specifier class_name"));
+    assertThat(p, parse("idExpression"));
+    assertThat(p, parse("... idExpression"));
+    assertThat(p, parse("className"));
+    assertThat(p, parse("nestedNameSpecifier className"));
   }
 
   @Test
-  public void declarator_id_reallife() {
-    p.setRootRule(g.declarator_id);
+  public void declaratorId_reallife() {
+    p.setRootRule(g.declaratorId);
 
     assertThat(p, parse("lala<int>"));
     assertThat(p, parse("operator==<B>"));
   }
 
   @Test
-  public void type_id() {
-    p.setRootRule(g.type_id);
+  public void typeId() {
+    p.setRootRule(g.typeId);
 
     assertThat(p, parse("int"));
     assertThat(p, parse("int *"));
@@ -229,149 +229,149 @@ public class DeclaratorsTest {
   }
 
   @Test
-  public void abstract_declarator() {
-    p.setRootRule(g.abstract_declarator);
+  public void abstractDeclarator() {
+    p.setRootRule(g.abstractDeclarator);
 
-    g.ptr_abstract_declarator.mock();
-    g.noptr_abstract_declarator.mock();
-    g.parameters_and_qualifiers.mock();
-    g.trailing_return_type.mock();
-    g.abstract_pack_declarator.mock();
+    g.ptrAbstractDeclarator.mock();
+    g.noptrAbstractDeclarator.mock();
+    g.parametersAndQualifiers.mock();
+    g.trailingReturnType.mock();
+    g.abstractPackDeclarator.mock();
 
-    assertThat(p, parse("ptr_abstract_declarator"));
-    assertThat(p, parse("parameters_and_qualifiers trailing_return_type"));
-    assertThat(p, parse("noptr_abstract_declarator parameters_and_qualifiers trailing_return_type"));
-    assertThat(p, parse("abstract_pack_declarator"));
+    assertThat(p, parse("ptrAbstractDeclarator"));
+    assertThat(p, parse("parametersAndQualifiers trailingReturnType"));
+    assertThat(p, parse("noptrAbstractDeclarator parametersAndQualifiers trailingReturnType"));
+    assertThat(p, parse("abstractPackDeclarator"));
   }
 
   @Test
-  public void ptr_abstract_declarator() {
-    p.setRootRule(g.ptr_abstract_declarator);
+  public void ptrAbstractDeclarator() {
+    p.setRootRule(g.ptrAbstractDeclarator);
 
-    g.noptr_abstract_declarator.mock();
-    g.ptr_operator.mock();
+    g.noptrAbstractDeclarator.mock();
+    g.ptrOperator.mock();
 
-    assertThat(p, parse("ptr_operator"));
-    assertThat(p, parse("ptr_operator ptr_operator"));
-    assertThat(p, parse("ptr_operator noptr_abstract_declarator"));
-    assertThat(p, parse("ptr_operator ptr_operator noptr_abstract_declarator"));
-    assertThat(p, parse("noptr_abstract_declarator"));
+    assertThat(p, parse("ptrOperator"));
+    assertThat(p, parse("ptrOperator ptrOperator"));
+    assertThat(p, parse("ptrOperator noptrAbstractDeclarator"));
+    assertThat(p, parse("ptrOperator ptrOperator noptrAbstractDeclarator"));
+    assertThat(p, parse("noptrAbstractDeclarator"));
   }
 
   @Test
-  public void noptr_abstract_declarator() {
-    p.setRootRule(g.noptr_abstract_declarator);
+  public void noptrAbstractDeclarator() {
+    p.setRootRule(g.noptrAbstractDeclarator);
 
-    g.parameters_and_qualifiers.mock();
-    g.constant_expression.mock();
-    g.attribute_specifier_seq.mock();
-    g.ptr_abstract_declarator.mock();
+    g.parametersAndQualifiers.mock();
+    g.constantExpression.mock();
+    g.attributeSpecifierSeq.mock();
+    g.ptrAbstractDeclarator.mock();
 
-    assertThat(p, parse("parameters_and_qualifiers"));
-    assertThat(p, parse("( ptr_abstract_declarator ) parameters_and_qualifiers"));
+    assertThat(p, parse("parametersAndQualifiers"));
+    assertThat(p, parse("( ptrAbstractDeclarator ) parametersAndQualifiers"));
 
     assertThat(p, parse("[ ]"));
-    assertThat(p, parse("[ constant_expression ]"));
-    assertThat(p, parse("[ constant_expression ] attribute_specifier_seq"));
-    assertThat(p, parse("( ptr_abstract_declarator ) [ constant_expression ] attribute_specifier_seq"));
+    assertThat(p, parse("[ constantExpression ]"));
+    assertThat(p, parse("[ constantExpression ] attributeSpecifierSeq"));
+    assertThat(p, parse("( ptrAbstractDeclarator ) [ constantExpression ] attributeSpecifierSeq"));
 
-    assertThat(p, parse("( ptr_abstract_declarator )"));
+    assertThat(p, parse("( ptrAbstractDeclarator )"));
   }
 
   @Test
-  public void abstract_pack_declarator() {
-    p.setRootRule(g.abstract_pack_declarator);
+  public void abstractPackDeclarator() {
+    p.setRootRule(g.abstractPackDeclarator);
 
-    g.noptr_abstract_pack_declarator.mock();
-    g.ptr_operator.mock();
+    g.noptrAbstractPackDeclarator.mock();
+    g.ptrOperator.mock();
 
-    assertThat(p, parse("noptr_abstract_pack_declarator"));
-    assertThat(p, parse("ptr_operator noptr_abstract_pack_declarator"));
-    assertThat(p, parse("ptr_operator ptr_operator noptr_abstract_pack_declarator"));
+    assertThat(p, parse("noptrAbstractPackDeclarator"));
+    assertThat(p, parse("ptrOperator noptrAbstractPackDeclarator"));
+    assertThat(p, parse("ptrOperator ptrOperator noptrAbstractPackDeclarator"));
   }
 
   @Test
-  public void noptr_abstract_pack_declarator() {
-    p.setRootRule(g.noptr_abstract_pack_declarator);
+  public void noptrAbstractPackDeclarator() {
+    p.setRootRule(g.noptrAbstractPackDeclarator);
 
-    g.parameters_and_qualifiers.mock();
-    g.constant_expression.mock();
-    g.attribute_specifier_seq.mock();
+    g.parametersAndQualifiers.mock();
+    g.constantExpression.mock();
+    g.attributeSpecifierSeq.mock();
 
     assertThat(p, parse("..."));
-    assertThat(p, parse("... parameters_and_qualifiers"));
+    assertThat(p, parse("... parametersAndQualifiers"));
     assertThat(p, parse("... [ ] "));
-    assertThat(p, parse("... [ constant_expression ] "));
-    assertThat(p, parse("... [ constant_expression ] attribute_specifier_seq"));
+    assertThat(p, parse("... [ constantExpression ] "));
+    assertThat(p, parse("... [ constantExpression ] attributeSpecifierSeq"));
   }
 
   @Test
-  public void parameter_declaration_list() {
-    p.setRootRule(g.parameter_declaration_list);
+  public void parameterDeclarationList() {
+    p.setRootRule(g.parameterDeclarationList);
 
-    g.parameter_declaration.mock();
+    g.parameterDeclaration.mock();
 
-    assertThat(p, parse("parameter_declaration"));
-    assertThat(p, parse("parameter_declaration , parameter_declaration"));
+    assertThat(p, parse("parameterDeclaration"));
+    assertThat(p, parse("parameterDeclaration , parameterDeclaration"));
   }
 
   @Test
-  public void parameter_declaration_list_realLife() {
-    p.setRootRule(g.parameter_declaration_list);
+  public void parameterDeclarationList_reallife() {
+    p.setRootRule(g.parameterDeclarationList);
 
     assertThat(p, parse("ostream& strm, const int& i"));
     assertThat(p, parse("string, bool"));
   }
 
   @Test
-  public void parameter_declaration_clause() {
-    p.setRootRule(g.parameter_declaration_clause);
+  public void parameterDeclarationClause() {
+    p.setRootRule(g.parameterDeclarationClause);
 
-    g.parameter_declaration_list.mock();
+    g.parameterDeclarationList.mock();
 
     assertThat(p, parse(""));
-    assertThat(p, parse("parameter_declaration_list"));
+    assertThat(p, parse("parameterDeclarationList"));
     assertThat(p, parse("..."));
-    assertThat(p, parse("parameter_declaration_list ..."));
-    assertThat(p, parse("parameter_declaration_list , ..."));
+    assertThat(p, parse("parameterDeclarationList ..."));
+    assertThat(p, parse("parameterDeclarationList , ..."));
   }
 
   @Test
-  public void parameter_declaration_clause_realLife() {
-    p.setRootRule(g.parameter_declaration_clause);
+  public void parameterDeclarationClause_reallife() {
+    p.setRootRule(g.parameterDeclarationClause);
 
     assertThat(p, parse("ostream& strm, const int& i"));
     assertThat(p, parse("string, bool"));
   }
 
   @Test
-  public void parameter_declaration() {
-    p.setRootRule(g.parameter_declaration);
+  public void parameterDeclaration() {
+    p.setRootRule(g.parameterDeclaration);
 
-    g.attribute_specifier_seq.mock();
-    g.parameter_decl_specifier_seq.mock();
+    g.attributeSpecifierSeq.mock();
+    g.parameterDeclSpecifierSeq.mock();
     g.declarator.mock();
-    g.initializer_clause.mock();
-    g.abstract_declarator.mock();
+    g.initializerClause.mock();
+    g.abstractDeclarator.mock();
 
-    assertThat(p, parse("parameter_decl_specifier_seq declarator"));
-    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq declarator"));
+    assertThat(p, parse("parameterDeclSpecifierSeq declarator"));
+    assertThat(p, parse("attributeSpecifierSeq parameterDeclSpecifierSeq declarator"));
 
-    assertThat(p, parse("parameter_decl_specifier_seq declarator = initializer_clause"));
-    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq declarator = initializer_clause"));
+    assertThat(p, parse("parameterDeclSpecifierSeq declarator = initializerClause"));
+    assertThat(p, parse("attributeSpecifierSeq parameterDeclSpecifierSeq declarator = initializerClause"));
 
-    assertThat(p, parse("parameter_decl_specifier_seq"));
-    assertThat(p, parse("parameter_decl_specifier_seq abstract_declarator"));
-    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq abstract_declarator"));
+    assertThat(p, parse("parameterDeclSpecifierSeq"));
+    assertThat(p, parse("parameterDeclSpecifierSeq abstractDeclarator"));
+    assertThat(p, parse("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator"));
 
-    assertThat(p, parse("parameter_decl_specifier_seq = initializer_clause"));
-    assertThat(p, parse("parameter_decl_specifier_seq abstract_declarator = initializer_clause"));
-    assertThat(p, parse("attribute_specifier_seq parameter_decl_specifier_seq abstract_declarator = initializer_clause"));
+    assertThat(p, parse("parameterDeclSpecifierSeq = initializerClause"));
+    assertThat(p, parse("parameterDeclSpecifierSeq abstractDeclarator = initializerClause"));
+    assertThat(p, parse("attributeSpecifierSeq parameterDeclSpecifierSeq abstractDeclarator = initializerClause"));
   }
 
   @Test
-  public void parameter_declaration_realLife() {
-    p.setRootRule(g.parameter_declaration);
+  public void parameterDeclaration_reallife() {
+    p.setRootRule(g.parameterDeclaration);
 
     assertThat(p, parse("ostream& strm"));
     assertThat(p, parse("const int& i"));
@@ -383,24 +383,24 @@ public class DeclaratorsTest {
   }
 
   @Test
-  public void function_definition() {
-    p.setRootRule(g.function_definition);
+  public void functionDefinition() {
+    p.setRootRule(g.functionDefinition);
 
-    g.attribute_specifier_seq.mock();
-    g.function_decl_specifier_seq.mock();
+    g.attributeSpecifierSeq.mock();
+    g.functionDeclSpecifierSeq.mock();
     g.declarator.mock();
-    g.virt_specifier_seq.mock();
-    g.function_body.mock();
+    g.virtSpecifierSeq.mock();
+    g.functionBody.mock();
 
-    assertThat(p, parse("declarator function_body"));
-    assertThat(p, parse("attribute_specifier_seq declarator function_body"));
-    assertThat(p, parse("attribute_specifier_seq function_decl_specifier_seq declarator function_body"));
-    assertThat(p, parse("attribute_specifier_seq function_decl_specifier_seq declarator virt_specifier_seq function_body"));
+    assertThat(p, parse("declarator functionBody"));
+    assertThat(p, parse("attributeSpecifierSeq declarator functionBody"));
+    assertThat(p, parse("attributeSpecifierSeq functionDeclSpecifierSeq declarator functionBody"));
+    assertThat(p, parse("attributeSpecifierSeq functionDeclSpecifierSeq declarator virtSpecifierSeq functionBody"));
   }
 
   @Test
-  public void function_definition_realLife() {
-    p.setRootRule(g.function_definition);
+  public void functionDefinition_reallife() {
+    p.setRootRule(g.functionDefinition);
 
     assertThat(p, parse("int foo(){}"));
     assertThat(p, parse("int A::foo(){}"));
@@ -417,24 +417,24 @@ public class DeclaratorsTest {
   }
 
   @Test
-  public void function_body() {
-    p.setRootRule(g.function_body);
+  public void functionBody() {
+    p.setRootRule(g.functionBody);
 
-    g.compound_statement.mock();
-    g.ctor_initializer.mock();
-    g.function_try_block.mock();
+    g.compoundStatement.mock();
+    g.ctorInitializer.mock();
+    g.functionTryBlock.mock();
 
-    assertThat(p, parse("compound_statement"));
-    assertThat(p, parse("ctor_initializer compound_statement"));
+    assertThat(p, parse("compoundStatement"));
+    assertThat(p, parse("ctorInitializer compoundStatement"));
 
-    assertThat(p, parse("function_try_block"));
+    assertThat(p, parse("functionTryBlock"));
     assertThat(p, parse("= default ;"));
     assertThat(p, parse("= delete ;"));
   }
 
   @Test
-  public void function_body_realLife() {
-    p.setRootRule(g.function_body);
+  public void functionBody_reallife() {
+    p.setRootRule(g.functionBody);
 
     assertThat(p, parse("{ /* ... */ }"));
     assertThat(p, parse(": lala(0) {}"));
@@ -442,7 +442,7 @@ public class DeclaratorsTest {
   }
 
   @Test
-  public void initializer_realLife() {
+  public void initializer_reallife() {
     p.setRootRule(g.initializer);
 
     assertThat(p, parse("(new int(42))"));
@@ -450,40 +450,40 @@ public class DeclaratorsTest {
   }
 
   @Test
-  public void initializer_clause_reallife() {
-    p.setRootRule(g.initializer_clause);
+  public void initializerClause_reallife() {
+    p.setRootRule(g.initializerClause);
 
     assertThat(p, parse("(istream_iterator<string>(cin))"));
     assertThat(p, parse("istream_iterator<string>()"));
   }
 
   @Test
-  public void initializer_list() {
-    p.setRootRule(g.initializer_list);
+  public void initializerList() {
+    p.setRootRule(g.initializerList);
 
-    g.initializer_clause.mock();
+    g.initializerClause.mock();
 
-    assertThat(p, parse("initializer_clause"));
-    assertThat(p, parse("initializer_clause ..."));
-    assertThat(p, parse("initializer_clause , initializer_clause"));
-    assertThat(p, parse("initializer_clause , initializer_clause ..."));
+    assertThat(p, parse("initializerClause"));
+    assertThat(p, parse("initializerClause ..."));
+    assertThat(p, parse("initializerClause , initializerClause"));
+    assertThat(p, parse("initializerClause , initializerClause ..."));
   }
 
   @Test
-  public void initializer_list_reallife() {
-    p.setRootRule(g.initializer_list);
+  public void initializerList_reallife() {
+    p.setRootRule(g.initializerList);
 
     assertThat(p, parse("(istream_iterator<string>(cin)), istream_iterator<string>()"));
   }
 
   @Test
-  public void braced_init_list() {
-    p.setRootRule(g.braced_init_list);
+  public void bracedInitList() {
+    p.setRootRule(g.bracedInitList);
 
-    g.initializer_list.mock();
+    g.initializerList.mock();
 
     assertThat(p, parse("{}"));
-    assertThat(p, parse("{ initializer_list }"));
-    assertThat(p, parse("{ initializer_list , }"));
+    assertThat(p, parse("{ initializerList }"));
+    assertThat(p, parse("{ initializerList , }"));
   }
 }

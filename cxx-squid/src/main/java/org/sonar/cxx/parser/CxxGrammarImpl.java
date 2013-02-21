@@ -47,11 +47,11 @@ public class CxxGrammarImpl extends CxxGrammar {
     declarations();
     declarators();
     classes();
-    derived_classes();
-    special_member_functions();
+    derivedClasses();
+    specialMemberFunctions();
     overloading();
     templates();
-    exception_handling();
+    exceptionHandling();
 
     misc();
 
@@ -80,877 +80,877 @@ public class CxxGrammarImpl extends CxxGrammar {
   }
 
   private void toplevel() {
-    translation_unit.is(o2n(declaration), EOF);
+    translationUnit.is(o2n(declaration), EOF);
   }
 
   private void expressions() {
-    primary_expression.is(
+    primaryExpression.is(
         or(
             literal,
-            "this",
+            CxxKeyword.THIS,
             and("(", expression, ")"),
-            id_expression,
-            lambda_expression
+            idExpression,
+            lambdaExpression
         )
         ).skipIfOneChild();
 
-    id_expression.is(
+    idExpression.is(
         or(
-            qualified_id,
-            unqualified_id
+            qualifiedId,
+            unqualifiedId
         )
         );
 
-    unqualified_id.is(
+    unqualifiedId.is(
         or(
-            template_id,
-            operator_function_id,
-            conversion_function_id,
-            literal_operator_id,
-            and("~", class_name),
-            and("~", decltype_specifier),
+            templateId,
+            operatorFunctionId,
+            conversionFunctionId,
+            literalOperatorId,
+            and("~", className),
+            and("~", decltypeSpecifier),
             IDENTIFIER
         )
         );
 
-    qualified_id.is(
+    qualifiedId.is(
         or(
-            and(nested_name_specifier, opt("template"), unqualified_id),
+            and(nestedNameSpecifier, opt(CxxKeyword.TEMPLATE), unqualifiedId),
             and("::", IDENTIFIER),
-            and("::", operator_function_id),
-            and("::", literal_operator_id),
-            and("::", template_id)
+            and("::", operatorFunctionId),
+            and("::", literalOperatorId),
+            and("::", templateId)
         )
         );
 
-    nested_name_specifier.is(
+    nestedNameSpecifier.is(
         or(
-            and(opt("::"), type_name, "::"),
-            and(opt("::"), namespace_name, "::"),
-            and(decltype_specifier, "::")
+            and(opt("::"), typeName, "::"),
+            and(opt("::"), namespaceName, "::"),
+            and(decltypeSpecifier, "::")
         ),
         o2n(
         or(
             and(IDENTIFIER, "::"),
-            and(opt("template"), simple_template_id, "::")
+            and(opt(CxxKeyword.TEMPLATE), simpleTemplateId, "::")
         )
         )
         );
 
-    lambda_expression.is(lambda_introducer, opt(lambda_declarator), compound_statement);
+    lambdaExpression.is(lambdaIntroducer, opt(lambdaDeclarator), compoundStatement);
 
-    lambda_introducer.is("[", opt(lambda_capture), "]");
+    lambdaIntroducer.is("[", opt(lambdaCapture), "]");
 
-    lambda_capture.is(
+    lambdaCapture.is(
         or(
-            and(capture_default, ",", capture_list),
-            capture_list,
-            capture_default
+            and(captureDefault, ",", captureList),
+            captureList,
+            captureDefault
         ));
 
-    capture_default.is(
+    captureDefault.is(
         or(
             "&",
             "="
         ));
 
-    capture_list.is(and(capture, opt("...")), o2n(",", and(capture, opt("..."))));
+    captureList.is(and(capture, opt("...")), o2n(",", and(capture, opt("..."))));
 
     capture.is(
         or(
             IDENTIFIER,
             and("&", IDENTIFIER),
-            "this"
+            CxxKeyword.THIS
         ));
 
-    lambda_declarator.is(
-        "(", parameter_declaration_clause, ")", opt("mutable"),
-        opt(exception_specification), opt(attribute_specifier_seq), opt(trailing_return_type)
+    lambdaDeclarator.is(
+        "(", parameterDeclarationClause, ")", opt(CxxKeyword.MUTABLE),
+        opt(exceptionSpecification), opt(attributeSpecifierSeq), opt(trailingReturnType)
         );
 
-    postfix_expression.is(
+    postfixExpression.is(
         or(
-            and(simple_type_specifier, "(", opt(expression_list), ")"),
-            and(simple_type_specifier, braced_init_list),
-            and(typename_specifier, "(", opt(expression_list), ")"),
-            and(typename_specifier, braced_init_list),
+            and(simpleTypeSpecifier, "(", opt(expressionList), ")"),
+            and(simpleTypeSpecifier, bracedInitList),
+            and(typenameSpecifier, "(", opt(expressionList), ")"),
+            and(typenameSpecifier, bracedInitList),
 
-            primary_expression,
+            primaryExpression,
 
-            and("dynamic_cast", "<", type_id, ">", "(", expression, ")"),
-            and("static_cast", "<", type_id, ">", "(", expression, ")"),
-            and("reinterpret_cast", "<", type_id, ">", "(", expression, ")"),
-            and("const_cast", "<", type_id, ">", "(", expression, ")"),
-            and("typeid", "(", expression, ")"),
-            and("typeid", "(", type_id, ")")
+            and(CxxKeyword.DYNAMIC_CAST, "<", typeId, ">", "(", expression, ")"),
+            and(CxxKeyword.STATIC_CAST, "<", typeId, ">", "(", expression, ")"),
+            and(CxxKeyword.REINTERPRET_CAST, "<", typeId, ">", "(", expression, ")"),
+            and(CxxKeyword.CONST_CAST, "<", typeId, ">", "(", expression, ")"),
+            and(CxxKeyword.TYPEID, "(", expression, ")"),
+            and(CxxKeyword.TYPEID, "(", typeId, ")")
         ),
 
-        // postfix_expression [ expression ]
-        // postfix_expression [ braced_init_list ]
-        // postfix_expression ( expression_listopt )
-        // postfix_expression . templateopt id_expression
-        // postfix_expression -> templateopt id_expression
-        // postfix_expression . pseudo_destructor_name
-        // postfix_expression -> pseudo_destructor_name
-        // postfix_expression ++
-        // postfix_expression --
+        // postfixExpression [ expression ]
+        // postfixExpression [ bracedInitList ]
+        // postfixExpression ( expressionListopt )
+        // postfixExpression . templateopt idExpression
+        // postfixExpression -> templateopt idExpression
+        // postfixExpression . pseudoDestructorName
+        // postfixExpression -> pseudoDestructorName
+        // postfixExpression ++
+        // postfixExpression --
 
         // should replace the left recursive stuff above
 
         o2n(
         or(
             and("[", expression, "]"),
-            and("(", opt(expression_list), ")"),
+            and("(", opt(expressionList), ")"),
             and(or(".", "->"),
-                or(and(opt("template"), id_expression),
-                    pseudo_destructor_name)),
+                or(and(opt(CxxKeyword.TEMPLATE), idExpression),
+                    pseudoDestructorName)),
             "++",
             "--"
         )
         )
         ).skipIfOneChild();
 
-    expression_list.is(initializer_list);
+    expressionList.is(initializerList);
 
-    pseudo_destructor_name.is(
+    pseudoDestructorName.is(
         or(
-            and(opt(nested_name_specifier), type_name, "::", "~", type_name),
-            and(nested_name_specifier, "template", simple_template_id, "::", "~", type_name),
-            and(opt(nested_name_specifier), "~", type_name),
-            and("~", decltype_specifier)
+            and(opt(nestedNameSpecifier), typeName, "::", "~", typeName),
+            and(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId, "::", "~", typeName),
+            and(opt(nestedNameSpecifier), "~", typeName),
+            and("~", decltypeSpecifier)
         )
         );
 
-    unary_expression.is(
+    unaryExpression.is(
         or(
-            and(unary_operator, cast_expression),
-            postfix_expression,
-            and("++", cast_expression),
-            and("--", cast_expression),
-            and("sizeof", unary_expression),
-            and("sizeof", "(", type_id, ")"),
-            and("sizeof", "...", "(", IDENTIFIER, ")"),
-            and("alignof", "(", type_id, ")"),
-            noexcept_expression,
-            new_expression,
-            delete_expression
+            and(unaryOperator, castExpression),
+            postfixExpression,
+            and("++", castExpression),
+            and("--", castExpression),
+            and(CxxKeyword.SIZEOF, unaryExpression),
+            and(CxxKeyword.SIZEOF, "(", typeId, ")"),
+            and(CxxKeyword.SIZEOF, "...", "(", IDENTIFIER, ")"),
+            and(CxxKeyword.ALIGNOF, "(", typeId, ")"),
+            noexceptExpression,
+            newExpression,
+            deleteExpression
         )
         ).skipIfOneChild();
 
-    unary_operator.is(
+    unaryOperator.is(
         or("*", "&", "+", "-", "!", "~")
         );
 
-    new_expression.is(
+    newExpression.is(
         or(
-            and(opt("::"), "new", opt(new_placement), new_type_id, opt(new_initializer)),
-            and(opt("::"), "new", new_placement, "(", type_id, ")", opt(new_initializer)),
-            and(opt("::"), "new", "(", type_id, ")", opt(new_initializer))
+            and(opt("::"), CxxKeyword.NEW, opt(newPlacement), newTypeId, opt(newInitializer)),
+            and(opt("::"), CxxKeyword.NEW, newPlacement, "(", typeId, ")", opt(newInitializer)),
+            and(opt("::"), CxxKeyword.NEW, "(", typeId, ")", opt(newInitializer))
         )
         );
 
-    new_placement.is("(", expression_list, ")");
+    newPlacement.is("(", expressionList, ")");
 
-    new_type_id.is(type_specifier_seq, opt(new_declarator));
+    newTypeId.is(typeSpecifierSeq, opt(newDeclarator));
 
-    new_declarator.is(
+    newDeclarator.is(
         or(
-            noptr_new_declarator,
-            and(ptr_operator, opt(new_declarator))
+            noptrNewDeclarator,
+            and(ptrOperator, opt(newDeclarator))
         )
         );
 
-    noptr_new_declarator.is("[", expression, "]", opt(attribute_specifier_seq), o2n("[", constant_expression, "]", opt(attribute_specifier_seq)));
+    noptrNewDeclarator.is("[", expression, "]", opt(attributeSpecifierSeq), o2n("[", constantExpression, "]", opt(attributeSpecifierSeq)));
 
-    new_initializer.is(
+    newInitializer.is(
         or(
-            and("(", opt(expression_list), ")"),
-            braced_init_list
+            and("(", opt(expressionList), ")"),
+            bracedInitList
         )
         );
 
-    delete_expression.is(opt("::"), "delete", opt("[", "]"), cast_expression);
+    deleteExpression.is(opt("::"), CxxKeyword.DELETE, opt("[", "]"), castExpression);
 
-    noexcept_expression.is("noexcept", "(", expression, ")");
+    noexceptExpression.is(CxxKeyword.NOEXCEPT, "(", expression, ")");
 
-    cast_expression.is(
+    castExpression.is(
         or(
-            and(next("(", type_id, ")"), "(", type_id, ")", cast_expression),
-            unary_expression
+            and(next("(", typeId, ")"), "(", typeId, ")", castExpression),
+            unaryExpression
         )
         ).skipIfOneChild();
 
-    pm_expression.is(cast_expression, o2n(or(".*", "->*"), cast_expression)).skipIfOneChild();
+    pmExpression.is(castExpression, o2n(or(".*", "->*"), castExpression)).skipIfOneChild();
 
-    multiplicative_expression.is(pm_expression, o2n(or("*", "/", "%"), pm_expression)).skipIfOneChild();
+    multiplicativeExpression.is(pmExpression, o2n(or("*", "/", "%"), pmExpression)).skipIfOneChild();
 
-    additive_expression.is(multiplicative_expression, o2n(or("+", "-"), multiplicative_expression)).skipIfOneChild();
+    additiveExpression.is(multiplicativeExpression, o2n(or("+", "-"), multiplicativeExpression)).skipIfOneChild();
 
-    shift_expression.is(additive_expression, o2n(or("<<", ">>"), additive_expression)).skipIfOneChild();
+    shiftExpression.is(additiveExpression, o2n(or("<<", ">>"), additiveExpression)).skipIfOneChild();
 
-    relational_expression.is(shift_expression, o2n(or("<", ">", "<=", ">="), shift_expression)).skipIfOneChild();
+    relationalExpression.is(shiftExpression, o2n(or("<", ">", "<=", ">="), shiftExpression)).skipIfOneChild();
 
-    equality_expression.is(relational_expression, o2n(or("==", "!="), relational_expression)).skipIfOneChild();
+    equalityExpression.is(relationalExpression, o2n(or("==", "!="), relationalExpression)).skipIfOneChild();
 
-    and_expression.is(equality_expression, o2n("&", equality_expression)).skipIfOneChild();
+    andExpression.is(equalityExpression, o2n("&", equalityExpression)).skipIfOneChild();
 
-    exclusive_or_expression.is(and_expression, o2n("^", and_expression)).skipIfOneChild();
+    exclusiveOrExpression.is(andExpression, o2n("^", andExpression)).skipIfOneChild();
 
-    inclusive_or_expression.is(exclusive_or_expression, o2n("|", exclusive_or_expression)).skipIfOneChild();
+    inclusiveOrExpression.is(exclusiveOrExpression, o2n("|", exclusiveOrExpression)).skipIfOneChild();
 
-    logical_and_expression.is(inclusive_or_expression, o2n("&&", inclusive_or_expression)).skipIfOneChild();
+    logicalAndExpression.is(inclusiveOrExpression, o2n("&&", inclusiveOrExpression)).skipIfOneChild();
 
-    logical_or_expression.is(logical_and_expression, o2n("||", logical_and_expression)).skipIfOneChild();
+    logicalOrExpression.is(logicalAndExpression, o2n("||", logicalAndExpression)).skipIfOneChild();
 
-    conditional_expression.is(
+    conditionalExpression.is(
         or(
-            and(logical_or_expression, "?", expression, ":", assignment_expression),
-            logical_or_expression
+            and(logicalOrExpression, "?", expression, ":", assignmentExpression),
+            logicalOrExpression
         )
         ).skipIfOneChild();
 
-    assignment_expression.is(
+    assignmentExpression.is(
         or(
-            and(logical_or_expression, assignment_operator, initializer_clause),
-            conditional_expression,
-            throw_expression
+            and(logicalOrExpression, assignmentOperator, initializerClause),
+            conditionalExpression,
+            throwExpression
         )
         ).skipIfOneChild();
 
-    assignment_operator.is(or("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", "^=", "|="));
+    assignmentOperator.is(or("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", "^=", "|="));
 
-    expression.is(assignment_expression, o2n(",", assignment_expression));
+    expression.is(assignmentExpression, o2n(",", assignmentExpression));
 
-    constant_expression.is(conditional_expression);
+    constantExpression.is(conditionalExpression);
   }
 
   private void statements() {
     statement.is(
         or(
-            labeled_statement,
-            and(opt(attribute_specifier_seq), expression_statement),
-            and(opt(attribute_specifier_seq), compound_statement),
-            and(opt(attribute_specifier_seq), selection_statement),
-            and(opt(attribute_specifier_seq), iteration_statement),
-            and(opt(attribute_specifier_seq), jump_statement),
-            declaration_statement,
-            and(opt(attribute_specifier_seq), try_block)
+            labeledStatement,
+            and(opt(attributeSpecifierSeq), expressionStatement),
+            and(opt(attributeSpecifierSeq), compoundStatement),
+            and(opt(attributeSpecifierSeq), selectionStatement),
+            and(opt(attributeSpecifierSeq), iterationStatement),
+            and(opt(attributeSpecifierSeq), jumpStatement),
+            declarationStatement,
+            and(opt(attributeSpecifierSeq), tryBlock)
         )
         );
 
-    labeled_statement.is(opt(attribute_specifier_seq), or(IDENTIFIER, and("case", constant_expression), "default"), ":", statement);
+    labeledStatement.is(opt(attributeSpecifierSeq), or(IDENTIFIER, and(CxxKeyword.CASE, constantExpression), CxxKeyword.DEFAULT), ":", statement);
 
-    expression_statement.is(opt(expression), ";");
+    expressionStatement.is(opt(expression), ";");
 
-    compound_statement.is("{", opt(statement_seq), "}");
+    compoundStatement.is("{", opt(statementSeq), "}");
 
-    statement_seq.is(one2n(statement));
+    statementSeq.is(one2n(statement));
 
-    selection_statement.is(
+    selectionStatement.is(
         or(
-            and("if", "(", condition, ")", statement, opt("else", statement)),
-            and("switch", "(", condition, ")", statement)
+            and(CxxKeyword.IF, "(", condition, ")", statement, opt(CxxKeyword.ELSE, statement)),
+            and(CxxKeyword.SWITCH, "(", condition, ")", statement)
         )
         );
 
     condition.is(
         or(
-            and(opt(attribute_specifier_seq), condition_decl_specifier_seq, declarator, or(and("=", initializer_clause), braced_init_list)),
+            and(opt(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, or(and("=", initializerClause), bracedInitList)),
             expression
           )
       );
     
-    condition_decl_specifier_seq.is(
+    conditionDeclSpecifierSeq.is(
       one2n(
         not(and(declarator, or("=", "{"))),
-        decl_specifier
+        declSpecifier
         ),
-      opt(attribute_specifier_seq)
+      opt(attributeSpecifierSeq)
       );
      
-    iteration_statement.is(
+    iterationStatement.is(
         or(
-            and("while", "(", condition, ")", statement),
-            and("do", statement, "while", "(", expression, ")", ";"),
-            and("for", "(", for_init_statement, opt(condition), ";", opt(expression), ")", statement),
-            and("for", "(", for_range_declaration, ":", for_range_initializer, ")", statement)
+            and(CxxKeyword.WHILE, "(", condition, ")", statement),
+            and(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"),
+            and(CxxKeyword.FOR, "(", forInitStatement, opt(condition), ";", opt(expression), ")", statement),
+            and(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement)
         )
         );
 
-    for_init_statement.is(
+    forInitStatement.is(
         or(
-            expression_statement,
-            simple_declaration
+            expressionStatement,
+            simpleDeclaration
         )
         );
 
-    for_range_declaration.is(opt(attribute_specifier_seq), forrange_decl_specifier_seq, declarator);
+    forRangeDeclaration.is(opt(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
 
-    forrange_decl_specifier_seq.is(
+    forrangeDeclSpecifierSeq.is(
       one2n(
         not( declarator ),
-        decl_specifier
+        declSpecifier
         ),
-      opt(attribute_specifier_seq)
+      opt(attributeSpecifierSeq)
       );
     
-    for_range_initializer.is(
+    forRangeInitializer.is(
         or(
             expression,
-            braced_init_list
+            bracedInitList
         )
         );
 
-    jump_statement.is(
+    jumpStatement.is(
         or(
-            and("break", ";"),
-            and("continue", ";"),
-            and("return", opt(expression), ";"),
-            and("return", braced_init_list, ";"),
-            and("goto", IDENTIFIER, ";")
+            and(CxxKeyword.BREAK, ";"),
+            and(CxxKeyword.CONTINUE, ";"),
+            and(CxxKeyword.RETURN, opt(expression), ";"),
+            and(CxxKeyword.RETURN, bracedInitList, ";"),
+            and(CxxKeyword.GOTO, IDENTIFIER, ";")
         )
         );
 
-    declaration_statement.is(block_declaration);
+    declarationStatement.is(blockDeclaration);
   }
 
   private void declarations() {
-    declaration_seq.is(one2n(declaration));
+    declarationSeq.is(one2n(declaration));
 
     declaration.is(
         or(
-            function_definition,
-            block_declaration,
-            template_declaration,
-            explicit_instantiation,
-            explicit_specialization,
-            linkage_specification,
-            namespace_definition,
-            empty_declaration,
-            attribute_declaration
+            functionDefinition,
+            blockDeclaration,
+            templateDeclaration,
+            explicitInstantiation,
+            explicitSpecialization,
+            linkageSpecification,
+            namespaceDefinition,
+            emptyDeclaration,
+            attributeDeclaration
         )
         );
 
-    block_declaration.is(
+    blockDeclaration.is(
         or(
-            simple_declaration,
-            asm_definition,
-            namespace_alias_definition,
-            using_declaration,
-            using_directive,
-            static_assert_declaration,
-            alias_declaration,
-            opaque_enum_declaration
+            simpleDeclaration,
+            asmDefinition,
+            namespaceAliasDefinition,
+            usingDeclaration,
+            usingDirective,
+            staticAssertDeclaration,
+            aliasDeclaration,
+            opaqueEnumDeclaration
         )
         );
 
-    alias_declaration.is("using", IDENTIFIER, opt(attribute_specifier_seq), "=", type_id);
+    aliasDeclaration.is(CxxKeyword.USING, IDENTIFIER, opt(attributeSpecifierSeq), "=", typeId);
 
-    simple_declaration.is(
+    simpleDeclaration.is(
       or(
-        and(opt(simple_decl_specifier_seq), opt(init_declarator_list), ";"),
-        and(attribute_specifier_seq, opt(simple_decl_specifier_seq), init_declarator_list, ";")
+        and(opt(simpleDeclSpecifierSeq), opt(initDeclaratorList), ";"),
+        and(attributeSpecifierSeq, opt(simpleDeclSpecifierSeq), initDeclaratorList, ";")
         )
       );
 
-    simple_decl_specifier_seq.is(
+    simpleDeclSpecifierSeq.is(
       one2n(
-        not(and( opt(init_declarator_list), ";" )),
-        decl_specifier
+        not(and( opt(initDeclaratorList), ";" )),
+        declSpecifier
         ),
-      opt(attribute_specifier_seq)
+      opt(attributeSpecifierSeq)
       );
     
-    static_assert_declaration.is("static_assert", "(", constant_expression, ",", STRING, ")", ";");
+    staticAssertDeclaration.is(CxxKeyword.STATIC_ASSERT, "(", constantExpression, ",", STRING, ")", ";");
 
-    empty_declaration.is(";");
+    emptyDeclaration.is(";");
 
-    attribute_declaration.is(attribute_specifier_seq, ";");
+    attributeDeclaration.is(attributeSpecifierSeq, ";");
 
-    decl_specifier.is(
+    declSpecifier.is(
         or(
-            "friend", "typedef", "constexpr",
-            storage_class_specifier,
-            function_specifier,
-            type_specifier
+            CxxKeyword.FRIEND, CxxKeyword.TYPEDEF, CxxKeyword.CONSTEXPR,
+            storageClassSpecifier,
+            functionSpecifier,
+            typeSpecifier
         )
         );
 
-    storage_class_specifier.is(
-        or("register", "static", "thread_local", "extern", "mutable")
+    storageClassSpecifier.is(
+        or(CxxKeyword.REGISTER, CxxKeyword.STATIC, CxxKeyword.THREAD_LOCAL, CxxKeyword.EXTERN, CxxKeyword.MUTABLE)
         );
 
-    function_specifier.is(
-        or("inline", "virtual", "explicit")
+    functionSpecifier.is(
+        or(CxxKeyword.INLINE, CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
         );
 
-    typedef_name.is(IDENTIFIER);
+    typedefName.is(IDENTIFIER);
 
-    type_specifier.is(
+    typeSpecifier.is(
         or(
-            class_specifier,
-            enum_specifier,
-            trailing_type_specifier
+            classSpecifier,
+            enumSpecifier,
+            trailingTypeSpecifier
         )
         );
 
-    trailing_type_specifier.is(
+    trailingTypeSpecifier.is(
         or(
-            simple_type_specifier,
-            elaborated_type_specifier,
-            typename_specifier,
-            cv_qualifier)
+            simpleTypeSpecifier,
+            elaboratedTypeSpecifier,
+            typenameSpecifier,
+            cvQualifier)
         );
 
-    type_specifier_seq.is(one2n(type_specifier), opt(attribute_specifier_seq));
+    typeSpecifierSeq.is(one2n(typeSpecifier), opt(attributeSpecifierSeq));
 
-    trailing_type_specifier_seq.is(one2n(trailing_type_specifier), opt(attribute_specifier_seq));
+    trailingTypeSpecifierSeq.is(one2n(trailingTypeSpecifier), opt(attributeSpecifierSeq));
 
-    simple_type_specifier.is(
+    simpleTypeSpecifier.is(
         or(
             "char", "char16_t", "char32_t", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void", "auto",
-            decltype_specifier,
-            and(nested_name_specifier, "template", simple_template_id),
+            decltypeSpecifier,
+            and(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId),
 
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "void foo(::A a);". Figure out if there is another way
-            and(opt(or(nested_name_specifier, "::")), type_name)
+            and(opt(or(nestedNameSpecifier, "::")), typeName)
         )
         );
 
-    type_name.is(
+    typeName.is(
         or(
-            simple_template_id,
-            class_name,
-            enum_name,
-            typedef_name)
+            simpleTemplateId,
+            className,
+            enumName,
+            typedefName)
         );
 
-    decltype_specifier.is("decltype", "(", expression, ")");
+    decltypeSpecifier.is(CxxKeyword.DECLTYPE, "(", expression, ")");
 
-    elaborated_type_specifier.is(
+    elaboratedTypeSpecifier.is(
         or(
-            and(class_key, opt(nested_name_specifier), opt("template"), simple_template_id),
+            and(classKey, opt(nestedNameSpecifier), opt(CxxKeyword.TEMPLATE), simpleTemplateId),
             
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "friend class ::A". Figure out if there is another way
-            and(class_key, opt(attribute_specifier_seq), opt(or(nested_name_specifier, "::")), IDENTIFIER),
+            and(classKey, opt(attributeSpecifierSeq), opt(or(nestedNameSpecifier, "::")), IDENTIFIER),
 
-            and("enum", opt(nested_name_specifier), IDENTIFIER)
+            and(CxxKeyword.ENUM, opt(nestedNameSpecifier), IDENTIFIER)
         )
         );
 
-    enum_name.is(IDENTIFIER);
+    enumName.is(IDENTIFIER);
 
-    enum_specifier.is(
+    enumSpecifier.is(
         or(
-            and(enum_head, "{", opt(enumerator_list), "}"),
-            and(enum_head, "{", enumerator_list, ",", "}")
+            and(enumHead, "{", opt(enumeratorList), "}"),
+            and(enumHead, "{", enumeratorList, ",", "}")
         )
         );
 
-    enum_head.is(enum_key, opt(attribute_specifier_seq), or(and(nested_name_specifier, IDENTIFIER), opt(IDENTIFIER)), opt(enum_base));
+    enumHead.is(enumKey, opt(attributeSpecifierSeq), or(and(nestedNameSpecifier, IDENTIFIER), opt(IDENTIFIER)), opt(enumBase));
 
-    opaque_enum_declaration.is(enum_key, opt(attribute_specifier_seq), IDENTIFIER, opt(enum_base), ";");
+    opaqueEnumDeclaration.is(enumKey, opt(attributeSpecifierSeq), IDENTIFIER, opt(enumBase), ";");
 
-    enum_key.is("enum", opt("class", "struct"));
+    enumKey.is(CxxKeyword.ENUM, opt(CxxKeyword.CLASS, CxxKeyword.STRUCT));
 
-    enum_base.is(":", type_specifier_seq);
+    enumBase.is(":", typeSpecifierSeq);
 
-    enumerator_list.is(enumerator_definition, o2n(",", enumerator_definition));
+    enumeratorList.is(enumeratorDefinition, o2n(",", enumeratorDefinition));
 
-    enumerator_definition.is(enumerator, opt("=", constant_expression));
+    enumeratorDefinition.is(enumerator, opt("=", constantExpression));
 
     enumerator.is(IDENTIFIER);
 
-    namespace_name.is(
+    namespaceName.is(
         or(
-            original_namespace_name,
-            namespace_alias
+            originalNamespaceName,
+            namespaceAlias
         )
         );
 
-    original_namespace_name.is(IDENTIFIER);
+    originalNamespaceName.is(IDENTIFIER);
 
-    namespace_definition.is(
+    namespaceDefinition.is(
         or(
-            named_namespace_definition,
-            unnamed_namespace_definition
+            namedNamespaceDefinition,
+            unnamedNamespaceDefinition
         )
         );
 
-    named_namespace_definition.is(
+    namedNamespaceDefinition.is(
         or(
-            original_namespace_definition,
-            extension_namespace_definition
+            originalNamespaceDefinition,
+            extensionNamespaceDefinition
         )
         );
 
-    original_namespace_definition.is(opt("inline"), "namespace", IDENTIFIER, "{", namespace_body, "}");
+    originalNamespaceDefinition.is(opt(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, "{", namespaceBody, "}");
 
-    extension_namespace_definition.is(opt("inline"), "namespace", original_namespace_name, "{", namespace_body, "}");
+    extensionNamespaceDefinition.is(opt(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, "{", namespaceBody, "}");
 
-    unnamed_namespace_definition.is(opt("inline"), "namespace", "{", namespace_body, "}");
+    unnamedNamespaceDefinition.is(opt(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, "{", namespaceBody, "}");
 
-    namespace_body.is(opt(declaration_seq));
+    namespaceBody.is(opt(declarationSeq));
 
-    namespace_alias.is(IDENTIFIER);
+    namespaceAlias.is(IDENTIFIER);
 
-    namespace_alias_definition.is("namespace", IDENTIFIER, "=", qualified_namespace_specifier, ";");
+    namespaceAliasDefinition.is(CxxKeyword.NAMESPACE, IDENTIFIER, "=", qualifiedNamespaceSpecifier, ";");
 
-    qualified_namespace_specifier.is(opt(nested_name_specifier), namespace_name);
+    qualifiedNamespaceSpecifier.is(opt(nestedNameSpecifier), namespaceName);
 
-    using_declaration.is(
+    usingDeclaration.is(
         or(
-            and("using", opt("typename"), nested_name_specifier, unqualified_id, ";"),
-            and("using", "::", unqualified_id, ";")
+            and(CxxKeyword.USING, opt(CxxKeyword.TYPENAME), nestedNameSpecifier, unqualifiedId, ";"),
+            and(CxxKeyword.USING, "::", unqualifiedId, ";")
         )
         );
 
-    using_directive.is(opt(attribute_specifier), "using", "namespace", opt("::"), opt(nested_name_specifier), namespace_name, ";");
+    usingDirective.is(opt(attributeSpecifier), CxxKeyword.USING, CxxKeyword.NAMESPACE, opt("::"), opt(nestedNameSpecifier), namespaceName, ";");
 
-    asm_definition.is("asm", "(", STRING, ")", ";");
+    asmDefinition.is(CxxKeyword.ASM, "(", STRING, ")", ";");
 
-    linkage_specification.is("extern", STRING, or(and("{", opt(declaration_seq), "}"), declaration));
+    linkageSpecification.is(CxxKeyword.EXTERN, STRING, or(and("{", opt(declarationSeq), "}"), declaration));
 
-    attribute_specifier_seq.is(one2n(attribute_specifier));
+    attributeSpecifierSeq.is(one2n(attributeSpecifier));
     
-    attribute_specifier.is(
+    attributeSpecifier.is(
             or(
-                and("[","[", attribute_list, "]", "]"),
-                alignment_specifier               
+                and("[","[", attributeList, "]", "]"),
+                alignmentSpecifier               
             ));
 
-    alignment_specifier.is(
+    alignmentSpecifier.is(
             or(
-                and("alignas", "(", type_id, opt("..."), ")"),
-                and("alignas", "(", assignment_expression, opt("..."), ")")
+                and(CxxKeyword.ALIGNAS, "(", typeId, opt("..."), ")"),
+                and(CxxKeyword.ALIGNAS, "(", assignmentExpression, opt("..."), ")")
             ));
        
-    attribute_list.is(
+    attributeList.is(
             or(
                 and(attribute, "...", o2n(",", attribute, "...")),            
                 and(opt(attribute), o2n(",", opt(attribute)))                  
             ));
     
-    attribute.is(attribute_token, opt(attribute_argument_clause));
+    attribute.is(attributeToken, opt(attributeArgumentClause));
 
-    attribute_token.is(
+    attributeToken.is(
             or(
-                attribute_scoped_token,
+                attributeScopedToken,
                 IDENTIFIER            
             ));
     
-    attribute_scoped_token.is(attribute_namespace, "::", IDENTIFIER);
+    attributeScopedToken.is(attributeNamespace, "::", IDENTIFIER);
     
-    attribute_namespace.is(IDENTIFIER);
+    attributeNamespace.is(IDENTIFIER);
     
-    attribute_argument_clause.is("(", balanced_token_seq ,")");
+    attributeArgumentClause.is("(", balancedTokenSeq ,")");
         
-    balanced_token_seq.is(o2n(balanced_token));
+    balancedTokenSeq.is(o2n(balancedToken));
     
-    balanced_token.is(
+    balancedToken.is(
             or(
                 IDENTIFIER,
-                and("(", balanced_token_seq, ")"),            
-                and("{", balanced_token_seq, "}"),
-                and("[", balanced_token_seq, "]")                     
+                and("(", balancedTokenSeq, ")"),            
+                and("{", balancedTokenSeq, "}"),
+                and("[", balancedTokenSeq, "]")                     
             ));
   }
 
   private void declarators() {
-    init_declarator_list.is(init_declarator, o2n(",", init_declarator));
+    initDeclaratorList.is(initDeclarator, o2n(",", initDeclarator));
 
-    init_declarator.is(declarator, opt(initializer));
+    initDeclarator.is(declarator, opt(initializer));
 
     declarator.is(
         or(
-            ptr_declarator,
-            and(noptr_declarator, parameters_and_qualifiers, trailing_return_type)
+            ptrDeclarator,
+            and(noptrDeclarator, parametersAndQualifiers, trailingReturnType)
         )
         );
 
-    ptr_declarator.is(
+    ptrDeclarator.is(
         or(
-            and(ptr_operator, ptr_declarator),
-            noptr_declarator
+            and(ptrOperator, ptrDeclarator),
+            noptrDeclarator
         )
         );
 
-    noptr_declarator.is(
+    noptrDeclarator.is(
         or(
-            and(declarator_id, opt(attribute_specifier_seq)),
-            and("(", ptr_declarator, ")")
+            and(declaratorId, opt(attributeSpecifierSeq)),
+            and("(", ptrDeclarator, ")")
         ),
         o2n(
         or(
-            parameters_and_qualifiers,
-            and("[", opt(constant_expression), "]", opt(attribute_specifier_seq))
+            parametersAndQualifiers,
+            and("[", opt(constantExpression), "]", opt(attributeSpecifierSeq))
         )
         )
         );
 
-    parameters_and_qualifiers.is("(", parameter_declaration_clause, ")", opt(attribute_specifier_seq), opt(cv_qualifier_seq), opt(ref_qualifier), opt(exception_specification));
+    parametersAndQualifiers.is("(", parameterDeclarationClause, ")", opt(attributeSpecifierSeq), opt(cvQualifierSeq), opt(refQualifier), opt(exceptionSpecification));
 
-    trailing_return_type.is("->", trailing_type_specifier_seq, opt(abstract_declarator));
+    trailingReturnType.is("->", trailingTypeSpecifierSeq, opt(abstractDeclarator));
 
-    ptr_operator.is(
+    ptrOperator.is(
         or(
-            and("*", opt(attribute_specifier_seq), opt(cv_qualifier_seq)),
-            and("&", opt(attribute_specifier_seq)),
-            and("&&", opt(attribute_specifier_seq)),
-            and(nested_name_specifier, "*", opt(attribute_specifier_seq), opt(cv_qualifier_seq))
+            and("*", opt(attributeSpecifierSeq), opt(cvQualifierSeq)),
+            and("&", opt(attributeSpecifierSeq)),
+            and("&&", opt(attributeSpecifierSeq)),
+            and(nestedNameSpecifier, "*", opt(attributeSpecifierSeq), opt(cvQualifierSeq))
         )
         );
 
-    cv_qualifier_seq.is(one2n(cv_qualifier));
+    cvQualifierSeq.is(one2n(cvQualifier));
 
-    cv_qualifier.is(
-        or("const", "volatile")
+    cvQualifier.is(
+        or(CxxKeyword.CONST, CxxKeyword.VOLATILE)
         );
 
-    ref_qualifier.is(
+    refQualifier.is(
         or("&", "&&")
         );
 
-    declarator_id.is(
+    declaratorId.is(
         or(
-            and(opt(nested_name_specifier), class_name),
-            and(opt("..."), id_expression)
+            and(opt(nestedNameSpecifier), className),
+            and(opt("..."), idExpression)
         )
         );
 
-    type_id.is(type_specifier_seq, opt(abstract_declarator));
+    typeId.is(typeSpecifierSeq, opt(abstractDeclarator));
 
-    abstract_declarator.is(
+    abstractDeclarator.is(
         or(
-            ptr_abstract_declarator,
-            and(opt(noptr_abstract_declarator), parameters_and_qualifiers, trailing_return_type),
-            abstract_pack_declarator
+            ptrAbstractDeclarator,
+            and(opt(noptrAbstractDeclarator), parametersAndQualifiers, trailingReturnType),
+            abstractPackDeclarator
         )
         );
 
-    ptr_abstract_declarator.is(o2n(ptr_operator), opt(noptr_abstract_declarator));
+    ptrAbstractDeclarator.is(o2n(ptrOperator), opt(noptrAbstractDeclarator));
 
-    noptr_abstract_declarator.is(
-        opt("(", ptr_abstract_declarator, ")"),
+    noptrAbstractDeclarator.is(
+        opt("(", ptrAbstractDeclarator, ")"),
         o2n(
         or(
-            parameters_and_qualifiers,
-            and("[", opt(constant_expression), "]", opt(attribute_specifier_seq))
+            parametersAndQualifiers,
+            and("[", opt(constantExpression), "]", opt(attributeSpecifierSeq))
         )
         )
         );
 
-    abstract_pack_declarator.is(o2n(ptr_operator), noptr_abstract_pack_declarator);
+    abstractPackDeclarator.is(o2n(ptrOperator), noptrAbstractPackDeclarator);
 
-    noptr_abstract_pack_declarator.is(
+    noptrAbstractPackDeclarator.is(
         "...",
-        o2n(or(parameters_and_qualifiers,
-            and("[", opt(constant_expression), "]", opt(attribute_specifier_seq))
+        o2n(or(parametersAndQualifiers,
+            and("[", opt(constantExpression), "]", opt(attributeSpecifierSeq))
         )
         )
         );
 
-    parameter_declaration_clause.is(
+    parameterDeclarationClause.is(
         or(
-            and(parameter_declaration_list, ",", "..."),
-            and(opt(parameter_declaration_list), opt("...")),
+            and(parameterDeclarationList, ",", "..."),
+            and(opt(parameterDeclarationList), opt("...")),
             "..."
         )
         );
 
-    parameter_declaration_list.is(parameter_declaration, o2n(",", parameter_declaration));
+    parameterDeclarationList.is(parameterDeclaration, o2n(",", parameterDeclaration));
 
-    parameter_declaration.is(
+    parameterDeclaration.is(
         or(
-            and(opt(attribute_specifier_seq), parameter_decl_specifier_seq, declarator, opt("=", initializer_clause)),
-            and(opt(attribute_specifier_seq), parameter_decl_specifier_seq, opt(abstract_declarator), opt("=", initializer_clause))
+            and(opt(attributeSpecifierSeq), parameterDeclSpecifierSeq, declarator, opt("=", initializerClause)),
+            and(opt(attributeSpecifierSeq), parameterDeclSpecifierSeq, opt(abstractDeclarator), opt("=", initializerClause))
         )
         );
 
-    parameter_decl_specifier_seq.is(
+    parameterDeclSpecifierSeq.is(
       o2n(
         not(and(opt(declarator), or("=", ")", ","))),
-        decl_specifier
+        declSpecifier
         ),
-      opt(attribute_specifier_seq)
+      opt(attributeSpecifierSeq)
       );
     
-    function_definition.is(opt(attribute_specifier_seq), opt(function_decl_specifier_seq), declarator, opt(virt_specifier_seq), function_body);
+    functionDefinition.is(opt(attributeSpecifierSeq), opt(functionDeclSpecifierSeq), declarator, opt(virtSpecifierSeq), functionBody);
     
-    function_decl_specifier_seq.is(
+    functionDeclSpecifierSeq.is(
       one2n(
-        not(and(declarator, opt(virt_specifier_seq), function_body)),
-        decl_specifier
+        not(and(declarator, opt(virtSpecifierSeq), functionBody)),
+        declSpecifier
         ),
-      opt(attribute_specifier_seq)
+      opt(attributeSpecifierSeq)
       );
     
-    function_body.is(
+    functionBody.is(
         or(
-            and(opt(ctor_initializer), compound_statement),
-            function_try_block,
-            and("=", "delete", ";"),
-            and("=", "default", ";")
+            and(opt(ctorInitializer), compoundStatement),
+            functionTryBlock,
+            and("=", CxxKeyword.DELETE, ";"),
+            and("=", CxxKeyword.DEFAULT, ";")
         )
         );
 
     initializer.is(
         or(
-            and("(", expression_list, ")"),
-            brace_or_equal_initializer
+            and("(", expressionList, ")"),
+            braceOrEqualInitializer
         )
         );
 
-    brace_or_equal_initializer.is(
+    braceOrEqualInitializer.is(
         or(
-            and("=", initializer_clause),
-            braced_init_list
+            and("=", initializerClause),
+            bracedInitList
         )
         );
 
-    initializer_clause.is(
+    initializerClause.is(
         or(
-            assignment_expression,
-            braced_init_list
+            assignmentExpression,
+            bracedInitList
         )
         );
 
-    initializer_list.is(initializer_clause, opt("..."), o2n(",", initializer_clause, opt("...")));
+    initializerList.is(initializerClause, opt("..."), o2n(",", initializerClause, opt("...")));
 
-    braced_init_list.is("{", opt(initializer_list), opt(","), "}");
+    bracedInitList.is("{", opt(initializerList), opt(","), "}");
   }
 
   private void classes() {
-    class_name.is(
+    className.is(
         or(
-            simple_template_id,
+            simpleTemplateId,
             IDENTIFIER
         )
         );
 
-    class_specifier.is(class_head, "{", opt(member_specification), "}");
+    classSpecifier.is(classHead, "{", opt(memberSpecification), "}");
 
-    class_head.is(
+    classHead.is(
         or(
-            and(class_key, opt(attribute_specifier_seq), class_head_name, opt(class_virt_specifier), opt(base_clause)),
-            and(class_key, opt(attribute_specifier_seq), opt(base_clause))
+            and(classKey, opt(attributeSpecifierSeq), classHeadName, opt(classVirtSpecifier), opt(baseClause)),
+            and(classKey, opt(attributeSpecifierSeq), opt(baseClause))
         )
         );
 
-    class_head_name.is(opt(nested_name_specifier), class_name);
+    classHeadName.is(opt(nestedNameSpecifier), className);
 
-    class_virt_specifier.is("final");
+    classVirtSpecifier.is(CxxKeyword.FINAL);
 
-    class_key.is(
-        or("class", "struct", "union")
+    classKey.is(
+        or(CxxKeyword.CLASS, CxxKeyword.STRUCT, CxxKeyword.UNION)
         );
 
-    member_specification.is(
+    memberSpecification.is(
         one2n(
         or(
-            member_declaration,
-            and(access_specifier, ":")
+            memberDeclaration,
+            and(accessSpecifier, ":")
         )
         )
         );
 
-    member_declaration.is(
+    memberDeclaration.is(
         or(
-            and(opt(attribute_specifier_seq), opt(member_decl_specifier_seq), opt(member_declarator_list), ";"),
-            and(function_definition, opt(";")),
-            and(opt("::"), nested_name_specifier, opt("template"), unqualified_id, ";"),
-            using_declaration,
-            static_assert_declaration,
-            template_declaration,
-            alias_declaration
+            and(opt(attributeSpecifierSeq), opt(memberDeclSpecifierSeq), opt(memberDeclaratorList), ";"),
+            and(functionDefinition, opt(";")),
+            and(opt("::"), nestedNameSpecifier, opt(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
+            usingDeclaration,
+            staticAssertDeclaration,
+            templateDeclaration,
+            aliasDeclaration
         )
         );
 
-    member_decl_specifier_seq.is(
+    memberDeclSpecifierSeq.is(
       one2n(
-        not(and( opt(member_declarator_list), ";" )),
-        decl_specifier
+        not(and( opt(memberDeclaratorList), ";" )),
+        declSpecifier
         ),
-      opt(attribute_specifier_seq)
+      opt(attributeSpecifierSeq)
       );
     
-    member_declarator_list.is(member_declarator, o2n(",", member_declarator));
+    memberDeclaratorList.is(memberDeclarator, o2n(",", memberDeclarator));
 
-    member_declarator.is(
+    memberDeclarator.is(
         or(
-            and(declarator, brace_or_equal_initializer),
-            and(declarator, virt_specifier_seq, opt(pure_specifier)),
-            and(opt(IDENTIFIER), opt(attribute_specifier_seq), ":", constant_expression),
+            and(declarator, braceOrEqualInitializer),
+            and(declarator, virtSpecifierSeq, opt(pureSpecifier)),
+            and(opt(IDENTIFIER), opt(attributeSpecifierSeq), ":", constantExpression),
             declarator
         )
         );
 
-    virt_specifier_seq.is(one2n(virt_specifier));
+    virtSpecifierSeq.is(one2n(virtSpecifier));
 
-    virt_specifier.is(
-        or("override", "final")
+    virtSpecifier.is(
+        or(CxxKeyword.OVERRIDE, CxxKeyword.FINAL)
         );
 
-    pure_specifier.is("=", "0");
+    pureSpecifier.is("=", "0");
   }
 
-  private void derived_classes() {
-    base_clause.is(":", base_specifier_list);
+  private void derivedClasses() {
+    baseClause.is(":", baseSpecifierList);
 
-    base_specifier_list.is(base_specifier, opt("..."), o2n(",", base_specifier, opt("...")));
+    baseSpecifierList.is(baseSpecifier, opt("..."), o2n(",", baseSpecifier, opt("...")));
 
-    base_specifier.is(
+    baseSpecifier.is(
         or(
-            and(opt(attribute_specifier_seq), base_type_specifier),
-            and(opt(attribute_specifier_seq), "virtual", opt(access_specifier), base_type_specifier),
-            and(opt(attribute_specifier_seq), access_specifier, opt("virtual"), base_type_specifier)
+            and(opt(attributeSpecifierSeq), baseTypeSpecifier),
+            and(opt(attributeSpecifierSeq), CxxKeyword.VIRTUAL, opt(accessSpecifier), baseTypeSpecifier),
+            and(opt(attributeSpecifierSeq), accessSpecifier, opt(CxxKeyword.VIRTUAL), baseTypeSpecifier)
         )
         );
 
-    class_or_decltype.is(
+    classOrDecltype.is(
         or(
-            and(opt(nested_name_specifier), class_name),
-            decltype_specifier)
+            and(opt(nestedNameSpecifier), className),
+            decltypeSpecifier)
         );
 
-    base_type_specifier.is(class_or_decltype);
+    baseTypeSpecifier.is(classOrDecltype);
 
-    access_specifier.is(
-        or("private", "protected", "public")
+    accessSpecifier.is(
+        or(CxxKeyword.PRIVATE, CxxKeyword.PROTECTED, CxxKeyword.PUBLIC)
         );
   }
 
-  private void special_member_functions() {
-    conversion_function_id.is("operator", conversion_type_id);
+  private void specialMemberFunctions() {
+    conversionFunctionId.is(CxxKeyword.OPERATOR, conversionTypeId);
 
-    conversion_type_id.is(type_specifier_seq, opt(conversion_declarator));
+    conversionTypeId.is(typeSpecifierSeq, opt(conversionDeclarator));
 
-    conversion_declarator.is(one2n(ptr_operator));
+    conversionDeclarator.is(one2n(ptrOperator));
 
-    ctor_initializer.is(":", mem_initializer_list);
+    ctorInitializer.is(":", memInitializerList);
 
-    mem_initializer_list.is(mem_initializer, opt("..."), o2n(",", mem_initializer, opt("...")));
+    memInitializerList.is(memInitializer, opt("..."), o2n(",", memInitializer, opt("...")));
 
-    mem_initializer.is(mem_initializer_id, or(and("(", opt(expression_list), ")"), braced_init_list));
+    memInitializer.is(memInitializerId, or(and("(", opt(expressionList), ")"), bracedInitList));
 
-    mem_initializer_id.is(
+    memInitializerId.is(
         or(
-            class_or_decltype,
+            classOrDecltype,
             IDENTIFIER
         )
         );
   }
 
   private void overloading() {
-    operator_function_id.is("operator", operator);
+    operatorFunctionId.is(CxxKeyword.OPERATOR, operator);
 
     operator.is(
         or(
-            and("new", "[", "]"),
-            and("delete", "[", "]"),
-            "new", "delete",
+            and(CxxKeyword.NEW, "[", "]"),
+            and(CxxKeyword.DELETE, "[", "]"),
+            CxxKeyword.NEW, CxxKeyword.DELETE,
             "+", "-", "!", "=", "^=", "&=", "<=", ">=",
             and("(", ")"),
             and("[", "]"),
@@ -960,98 +960,98 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    literal_operator_id.is("operator", "\"\"", IDENTIFIER);
+    literalOperatorId.is(CxxKeyword.OPERATOR, "\"\"", IDENTIFIER);
   }
 
   private void templates() {
-    template_declaration.is("template", "<", template_parameter_list, ">", declaration);
+    templateDeclaration.is(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", declaration);
 
-    template_parameter_list.is(template_parameter, o2n(",", template_parameter));
+    templateParameterList.is(templateParameter, o2n(",", templateParameter));
 
-    template_parameter.is(
+    templateParameter.is(
         or(
-            type_parameter,
-            parameter_declaration
+            typeParameter,
+            parameterDeclaration
         )
         );
 
-    type_parameter.is(
+    typeParameter.is(
         or(
-            and("class", opt(IDENTIFIER), "=", type_id),
-            and("class", opt("..."), opt(IDENTIFIER)),
-            and("typename", opt(IDENTIFIER), "=", type_id),
-            and("typename", opt("..."), opt(IDENTIFIER)),
-            and("template", "<", template_parameter_list, ">", "class", opt(IDENTIFIER), "=", id_expression),
-            and("template", "<", template_parameter_list, ">", "class", opt("..."), opt(IDENTIFIER))
+            and(CxxKeyword.CLASS, opt(IDENTIFIER), "=", typeId),
+            and(CxxKeyword.CLASS, opt("..."), opt(IDENTIFIER)),
+            and(CxxKeyword.TYPENAME, opt(IDENTIFIER), "=", typeId),
+            and(CxxKeyword.TYPENAME, opt("..."), opt(IDENTIFIER)),
+            and(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", CxxKeyword.CLASS, opt(IDENTIFIER), "=", idExpression),
+            and(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", CxxKeyword.CLASS, opt("..."), opt(IDENTIFIER))
         )
         );
 
-    simple_template_id.is(template_name, "<", opt(template_argument_list), ">");
+    simpleTemplateId.is(templateName, "<", opt(templateArgumentList), ">");
 
-    template_id.is(
+    templateId.is(
         or(
-            simple_template_id,
-            and(operator_function_id, "<", opt(template_argument_list), ">"),
-            and(literal_operator_id, "<", opt(template_argument_list), ">")
+            simpleTemplateId,
+            and(operatorFunctionId, "<", opt(templateArgumentList), ">"),
+            and(literalOperatorId, "<", opt(templateArgumentList), ">")
         )
         );
 
-    template_name.is(IDENTIFIER);
+    templateName.is(IDENTIFIER);
 
-    template_argument_list.is(template_argument, opt("..."), o2n(",", template_argument, opt("...")));
+    templateArgumentList.is(templateArgument, opt("..."), o2n(",", templateArgument, opt("...")));
 
-    template_argument.is(
+    templateArgument.is(
         or(
-            type_id,
+            typeId,
 
             // FIXME: workaround to parse stuff like "carray<int, 10>"
-            // actually, it should be covered by the next rule (constant_expression)
-            // but it doesnt work because of ambiguity template syntax <--> relational_expression
-            shift_expression,
-            constant_expression,
+            // actually, it should be covered by the next rule (constantExpression)
+            // but it doesnt work because of ambiguity template syntax <--> relationalExpression
+            shiftExpression,
+            constantExpression,
             
-            id_expression
+            idExpression
           )
         );
     
-    typename_specifier.is(
-        "typename", nested_name_specifier,
-        or(and(opt("template"), simple_template_id), IDENTIFIER));
+    typenameSpecifier.is(
+        CxxKeyword.TYPENAME, nestedNameSpecifier,
+        or(and(opt(CxxKeyword.TEMPLATE), simpleTemplateId), IDENTIFIER));
 
-    explicit_instantiation.is(opt("extern"), "template", declaration);
+    explicitInstantiation.is(opt(CxxKeyword.EXTERN), CxxKeyword.TEMPLATE, declaration);
 
-    explicit_specialization.is("template", "<", ">", declaration);
+    explicitSpecialization.is(CxxKeyword.TEMPLATE, "<", ">", declaration);
   }
 
-  private void exception_handling() {
-    try_block.is("try", compound_statement, handler_seq);
+  private void exceptionHandling() {
+    tryBlock.is(CxxKeyword.TRY, compoundStatement, handlerSeq);
 
-    function_try_block.is("try", opt(ctor_initializer), compound_statement, handler_seq);
+    functionTryBlock.is(CxxKeyword.TRY, opt(ctorInitializer), compoundStatement, handlerSeq);
 
-    handler_seq.is(one2n(handler));
+    handlerSeq.is(one2n(handler));
 
-    handler.is("catch", "(", exception_declaration, ")", compound_statement);
+    handler.is(CxxKeyword.CATCH, "(", exceptionDeclaration, ")", compoundStatement);
 
-    exception_declaration.is(
+    exceptionDeclaration.is(
         or(
-            and(opt(attribute_specifier_seq), type_specifier_seq, or(declarator, opt(abstract_declarator))),
+            and(opt(attributeSpecifierSeq), typeSpecifierSeq, or(declarator, opt(abstractDeclarator))),
             "..."
         )
         );
 
-    throw_expression.is("throw", opt(assignment_expression));
+    throwExpression.is(CxxKeyword.THROW, opt(assignmentExpression));
 
-    exception_specification.is(
+    exceptionSpecification.is(
         or(
-            dynamic_exception_specification,
-            noexcept_specification
+            dynamicExceptionSpecification,
+            noexceptSpecification
         )
         );
 
-    dynamic_exception_specification.is("throw", "(", opt(type_id_list), ")");
+    dynamicExceptionSpecification.is(CxxKeyword.THROW, "(", opt(typeIdList), ")");
 
-    type_id_list.is(type_id, opt("..."), o2n(",", type_id, opt("...")));
+    typeIdList.is(typeId, opt("..."), o2n(",", typeId, opt("...")));
 
-    noexcept_specification.is("noexcept", opt("(", constant_expression, ")"));
+    noexceptSpecification.is(CxxKeyword.NOEXCEPT, opt("(", constantExpression, ")"));
   }
 }

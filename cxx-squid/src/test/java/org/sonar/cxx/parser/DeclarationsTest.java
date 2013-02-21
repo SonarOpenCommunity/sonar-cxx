@@ -37,8 +37,8 @@ public class DeclarationsTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void declaration_seq() {
-    p.setRootRule(g.declaration_seq);
+  public void declarationSeq() {
+    p.setRootRule(g.declarationSeq);
 
     g.declaration.mock();
 
@@ -50,29 +50,29 @@ public class DeclarationsTest {
   public void declaration() {
     p.setRootRule(g.declaration);
 
-    g.block_declaration.mock();
-    g.function_definition.mock();
-    g.template_declaration.mock();
-    g.explicit_instantiation.mock();
-    g.explicit_specialization.mock();
-    g.linkage_specification.mock();
-    g.namespace_definition.mock();
-    g.empty_declaration.mock();
-    g.attribute_declaration.mock();
+    g.blockDeclaration.mock();
+    g.functionDefinition.mock();
+    g.templateDeclaration.mock();
+    g.explicitInstantiation.mock();
+    g.explicitSpecialization.mock();
+    g.linkageSpecification.mock();
+    g.namespaceDefinition.mock();
+    g.emptyDeclaration.mock();
+    g.attributeDeclaration.mock();
 
-    assertThat(p, parse("block_declaration"));
-    assertThat(p, parse("function_definition"));
-    assertThat(p, parse("template_declaration"));
-    assertThat(p, parse("explicit_instantiation"));
-    assertThat(p, parse("explicit_specialization"));
-    assertThat(p, parse("linkage_specification"));
-    assertThat(p, parse("namespace_definition"));
-    assertThat(p, parse("empty_declaration"));
-    assertThat(p, parse("attribute_declaration"));
+    assertThat(p, parse("blockDeclaration"));
+    assertThat(p, parse("functionDefinition"));
+    assertThat(p, parse("templateDeclaration"));
+    assertThat(p, parse("explicitInstantiation"));
+    assertThat(p, parse("explicitSpecialization"));
+    assertThat(p, parse("linkageSpecification"));
+    assertThat(p, parse("namespaceDefinition"));
+    assertThat(p, parse("emptyDeclaration"));
+    assertThat(p, parse("attributeDeclaration"));
   }
 
   @Test
-  public void declaration_realLife() {
+  public void declaration_reallife() {
     p.setRootRule(g.declaration);
 
     assertThat(p, parse("t* pt;"));
@@ -91,36 +91,36 @@ public class DeclarationsTest {
   }
 
   @Test
-  public void alias_declaration() {
-    p.setRootRule(g.alias_declaration);
+  public void aliasDeclaration() {
+    p.setRootRule(g.aliasDeclaration);
 
-    g.attribute_specifier_seq.mock();
-    g.type_id.mock();
+    g.attributeSpecifierSeq.mock();
+    g.typeId.mock();
 
-    assertThat(p, parse("using foo = type_id"));
-    assertThat(p, parse("using foo attribute_specifier_seq = type_id"));
+    assertThat(p, parse("using foo = typeId"));
+    assertThat(p, parse("using foo attributeSpecifierSeq = typeId"));
   }
 
   @Test
-  public void simple_declaration() {
-    p.setRootRule(g.simple_declaration);
+  public void simpleDeclaration() {
+    p.setRootRule(g.simpleDeclaration);
 
-    g.attribute_specifier_seq.mock();
-    g.simple_decl_specifier_seq.mock();
-    g.init_declarator_list.mock();
+    g.attributeSpecifierSeq.mock();
+    g.simpleDeclSpecifierSeq.mock();
+    g.initDeclaratorList.mock();
 
     assertThat(p, parse(";"));
-    assertThat(p, parse("init_declarator_list ;"));
-    assertThat(p, parse("simple_decl_specifier_seq ;"));
-    assertThat(p, parse("simple_decl_specifier_seq init_declarator_list ;"));
+    assertThat(p, parse("initDeclaratorList ;"));
+    assertThat(p, parse("simpleDeclSpecifierSeq ;"));
+    assertThat(p, parse("simpleDeclSpecifierSeq initDeclaratorList ;"));
 
-    assertThat(p, parse("attribute_specifier_seq init_declarator_list ;"));
-    assertThat(p, parse("attribute_specifier_seq simple_decl_specifier_seq init_declarator_list ;"));
+    assertThat(p, parse("attributeSpecifierSeq initDeclaratorList ;"));
+    assertThat(p, parse("attributeSpecifierSeq simpleDeclSpecifierSeq initDeclaratorList ;"));
   }
 
   @Test
-  public void simple_declaration_reallife() {
-    p.setRootRule(g.simple_declaration);
+  public void simpleDeclaration_reallife() {
+    p.setRootRule(g.simpleDeclaration);
 
     assertThat(p, parse("sometype foo();"));
     assertThat(p, parse("const auto_ptr<int> p(new int(42));"));
@@ -134,24 +134,24 @@ public class DeclarationsTest {
   }
 
   @Test
-  public void static_assert_declaration() {
-    p.setRootRule(g.static_assert_declaration);
+  public void staticAssertDeclaration() {
+    p.setRootRule(g.staticAssertDeclaration);
 
-    g.constant_expression.mock();
+    g.constantExpression.mock();
 
-    assertThat(p, parse("static_assert ( constant_expression , \"foo\" ) ;"));
+    assertThat(p, parse("static_assert ( constantExpression , \"foo\" ) ;"));
   }
 
   @Test
-  public void decl_specifier_realLife() {
-    p.setRootRule(g.decl_specifier);
+  public void declSpecifier_reallife() {
+    p.setRootRule(g.declSpecifier);
 
     assertThat(p, parse("register")); // a storage class
     assertThat(p, parse("inline")); // a function specifier
     assertThat(p, parse("friend")); // a function specifier
     assertThat(p, parse("void")); // a builtin type
 
-    // decl_specifier
+    // declSpecifier
     assertThat(p, parse("friend"));
     assertThat(p, parse("typedef"));
     assertThat(p, parse("constexpr"));
@@ -164,10 +164,10 @@ public class DeclarationsTest {
     assertThat(p, parse("class foo final : bar { int foo(); }"));
 
     // type names
-    assertThat(p, parse("class_foo")); // class_name->identifier
-    assertThat(p, parse("class_foo<bar>")); // class_name->simple_template_id
-    assertThat(p, parse("enum_foo")); // enum_name->identifier
-    assertThat(p, parse("typedef_foo")); // typedef_name->identifier
+    assertThat(p, parse("class_foo")); // className->identifier
+    assertThat(p, parse("class_foo<bar>")); // className->simpleTemplateId
+    assertThat(p, parse("enum_foo")); // enumName->identifier
+    assertThat(p, parse("typedef_foo")); // typedefName->identifier
     assertThat(p, parse("foo<bar>"));
     assertThat(p, parse("paramtype<T>"));
     assertThat(p, parse("carray<int,10>"));
@@ -175,60 +175,60 @@ public class DeclarationsTest {
   }
 
   @Test
-  public void type_specifier_realLife() {
-    p.setRootRule(g.type_specifier);
+  public void typeSpecifier_reallife() {
+    p.setRootRule(g.typeSpecifier);
     
     assertThat(p, parse("enum foo { MONDAY=1 }"));
     assertThat(p, parse("carray<int,10>"));
   }
 
   @Test
-  public void type_specifier_seq() {
-    p.setRootRule(g.type_specifier_seq);
+  public void typeSpecifierSeq() {
+    p.setRootRule(g.typeSpecifierSeq);
 
-    g.type_specifier.mock();
-    g.attribute_specifier_seq.mock();
+    g.typeSpecifier.mock();
+    g.attributeSpecifierSeq.mock();
 
-    assertThat(p, parse("type_specifier"));
-    assertThat(p, parse("type_specifier attribute_specifier_seq"));
-    assertThat(p, parse("type_specifier type_specifier"));
-    assertThat(p, parse("type_specifier type_specifier attribute_specifier_seq"));
+    assertThat(p, parse("typeSpecifier"));
+    assertThat(p, parse("typeSpecifier attributeSpecifierSeq"));
+    assertThat(p, parse("typeSpecifier typeSpecifier"));
+    assertThat(p, parse("typeSpecifier typeSpecifier attributeSpecifierSeq"));
   }
 
   @Test
-  public void type_specifier_seq_realLife() {
-    p.setRootRule(g.type_specifier_seq);
+  public void typeSpecifierSeq_reallife() {
+    p.setRootRule(g.typeSpecifierSeq);
 
     assertThat(p, parse("templatetype<T>"));
     assertThat(p, parse("templatetype<T> int"));
   }
 
   @Test
-  public void trailing_type_specifier_seq() {
-    p.setRootRule(g.trailing_type_specifier_seq);
+  public void trailingTypeSpecifierSeq() {
+    p.setRootRule(g.trailingTypeSpecifierSeq);
 
-    g.trailing_type_specifier.mock();
-    g.attribute_specifier_seq.mock();
+    g.trailingTypeSpecifier.mock();
+    g.attributeSpecifierSeq.mock();
 
-    assertThat(p, parse("trailing_type_specifier"));
-    assertThat(p, parse("trailing_type_specifier attribute_specifier_seq"));
-    assertThat(p, parse("trailing_type_specifier trailing_type_specifier"));
-    assertThat(p, parse("trailing_type_specifier trailing_type_specifier attribute_specifier_seq"));
+    assertThat(p, parse("trailingTypeSpecifier"));
+    assertThat(p, parse("trailingTypeSpecifier attributeSpecifierSeq"));
+    assertThat(p, parse("trailingTypeSpecifier trailingTypeSpecifier"));
+    assertThat(p, parse("trailingTypeSpecifier trailingTypeSpecifier attributeSpecifierSeq"));
   }
 
   @Test
-  public void simple_type_specifier() {
-    p.setRootRule(g.simple_type_specifier);
+  public void simpleTypeSpecifier() {
+    p.setRootRule(g.simpleTypeSpecifier);
 
-    g.nested_name_specifier.mock();
-    g.type_name.mock();
-    g.simple_template_id.mock();
-    g.decltype_specifier.mock();
+    g.nestedNameSpecifier.mock();
+    g.typeName.mock();
+    g.simpleTemplateId.mock();
+    g.decltypeSpecifier.mock();
 
-    assertThat(p, parse("type_name"));
-    assertThat(p, parse("nested_name_specifier type_name"));
+    assertThat(p, parse("typeName"));
+    assertThat(p, parse("nestedNameSpecifier typeName"));
 
-    assertThat(p, parse("nested_name_specifier template simple_template_id"));
+    assertThat(p, parse("nestedNameSpecifier template simpleTemplateId"));
 
     assertThat(p, parse("char"));
     assertThat(p, parse("char16_t"));
@@ -244,159 +244,159 @@ public class DeclarationsTest {
     assertThat(p, parse("double"));
     assertThat(p, parse("void"));
     assertThat(p, parse("auto"));
-    assertThat(p, parse("decltype_specifier"));
+    assertThat(p, parse("decltypeSpecifier"));
   }
 
   @Test
-  public void simple_type_specifier_real() {
-    p.setRootRule(g.simple_type_specifier);
+  public void simpleTypeSpecifier_reallife() {
+    p.setRootRule(g.simpleTypeSpecifier);
     assertThat(p, parse("::P"));
   }
   
   @Test
-  public void type_name() {
-    p.setRootRule(g.type_name);
+  public void typeName() {
+    p.setRootRule(g.typeName);
 
-    g.class_name.mock();
-    g.enum_name.mock();
-    g.typedef_name.mock();
-    g.simple_template_id.mock();
+    g.className.mock();
+    g.enumName.mock();
+    g.typedefName.mock();
+    g.simpleTemplateId.mock();
 
-    assertThat(p, parse("class_name"));
-    assertThat(p, parse("enum_name"));
-    assertThat(p, parse("typedef_name"));
-    assertThat(p, parse("simple_template_id"));
+    assertThat(p, parse("className"));
+    assertThat(p, parse("enumName"));
+    assertThat(p, parse("typedefName"));
+    assertThat(p, parse("simpleTemplateId"));
   }
 
   @Test
-  public void type_name_reallife() {
-    p.setRootRule(g.type_name);
+  public void typeName_reallife() {
+    p.setRootRule(g.typeName);
 
     assertThat(p, parse("sometype<int>"));
   }
 
   @Test
-  public void elaborated_type_specifier() {
-    p.setRootRule(g.elaborated_type_specifier);
+  public void elaboratedTypeSpecifier() {
+    p.setRootRule(g.elaboratedTypeSpecifier);
 
-    g.class_key.mock();
-    g.attribute_specifier_seq.mock();
-    g.nested_name_specifier.mock();
-    g.simple_template_id.mock();
+    g.classKey.mock();
+    g.attributeSpecifierSeq.mock();
+    g.nestedNameSpecifier.mock();
+    g.simpleTemplateId.mock();
 
-    assertThat(p, parse("class_key foo"));
-    assertThat(p, parse("class_key attribute_specifier_seq foo"));
-    assertThat(p, parse("class_key nested_name_specifier foo"));
-    assertThat(p, parse("class_key attribute_specifier_seq nested_name_specifier foo"));
+    assertThat(p, parse("classKey foo"));
+    assertThat(p, parse("classKey attributeSpecifierSeq foo"));
+    assertThat(p, parse("classKey nestedNameSpecifier foo"));
+    assertThat(p, parse("classKey attributeSpecifierSeq nestedNameSpecifier foo"));
 
-    assertThat(p, parse("class_key simple_template_id"));
-    assertThat(p, parse("class_key nested_name_specifier simple_template_id"));
-    assertThat(p, parse("class_key nested_name_specifier template simple_template_id"));
+    assertThat(p, parse("classKey simpleTemplateId"));
+    assertThat(p, parse("classKey nestedNameSpecifier simpleTemplateId"));
+    assertThat(p, parse("classKey nestedNameSpecifier template simpleTemplateId"));
 
     assertThat(p, parse("enum foo"));
-    assertThat(p, parse("enum nested_name_specifier foo"));
+    assertThat(p, parse("enum nestedNameSpecifier foo"));
   }
 
   @Test
-  public void elaborated_type_specifier_reallife() {
-    p.setRootRule(g.elaborated_type_specifier);
+  public void elaboratedTypeSpecifier_reallife() {
+    p.setRootRule(g.elaboratedTypeSpecifier);
 
     assertThat(p, parse("class ::A"));
   }
 
   @Test
-  public void enum_specifier() {
-    p.setRootRule(g.enum_specifier);
+  public void enumSpecifier() {
+    p.setRootRule(g.enumSpecifier);
 
-    g.enum_head.mock();
-    g.enumerator_list.mock();
+    g.enumHead.mock();
+    g.enumeratorList.mock();
 
-    assertThat(p, parse("enum_head { }"));
-    assertThat(p, parse("enum_head { enumerator_list }"));
-    assertThat(p, parse("enum_head { enumerator_list , }"));
+    assertThat(p, parse("enumHead { }"));
+    assertThat(p, parse("enumHead { enumeratorList }"));
+    assertThat(p, parse("enumHead { enumeratorList , }"));
   }
 
   @Test
-  public void enum_specifier_realLife() {
-    p.setRootRule(g.enum_specifier);
+  public void enumSpecifier_reallife() {
+    p.setRootRule(g.enumSpecifier);
 
     assertThat(p, parse("enum foo { MONDAY=1 }"));
   }
 
   @Test
-  public void enum_head() {
-    p.setRootRule(g.enum_head);
+  public void enumHead() {
+    p.setRootRule(g.enumHead);
 
-    g.enum_key.mock();
-    g.attribute_specifier_seq.mock();
-    g.enum_base.mock();
-    g.nested_name_specifier.mock();
+    g.enumKey.mock();
+    g.attributeSpecifierSeq.mock();
+    g.enumBase.mock();
+    g.nestedNameSpecifier.mock();
 
-    assertThat(p, parse("enum_key"));
-    assertThat(p, parse("enum_key attribute_specifier_seq"));
-    assertThat(p, parse("enum_key attribute_specifier_seq foo"));
-    assertThat(p, parse("enum_key attribute_specifier_seq foo enum_base"));
+    assertThat(p, parse("enumKey"));
+    assertThat(p, parse("enumKey attributeSpecifierSeq"));
+    assertThat(p, parse("enumKey attributeSpecifierSeq foo"));
+    assertThat(p, parse("enumKey attributeSpecifierSeq foo enumBase"));
 
-    assertThat(p, parse("enum_key nested_name_specifier foo"));
-    assertThat(p, parse("enum_key attribute_specifier_seq nested_name_specifier foo"));
-    assertThat(p, parse("enum_key attribute_specifier_seq nested_name_specifier foo enum_base"));
+    assertThat(p, parse("enumKey nestedNameSpecifier foo"));
+    assertThat(p, parse("enumKey attributeSpecifierSeq nestedNameSpecifier foo"));
+    assertThat(p, parse("enumKey attributeSpecifierSeq nestedNameSpecifier foo enumBase"));
   }
 
   @Test
-  public void enumerator_list() {
-    p.setRootRule(g.enumerator_list);
+  public void enumeratorList() {
+    p.setRootRule(g.enumeratorList);
 
-    g.enumerator_definition.mock();
+    g.enumeratorDefinition.mock();
 
-    assertThat(p, parse("enumerator_definition"));
-    assertThat(p, parse("enumerator_definition , enumerator_definition"));
+    assertThat(p, parse("enumeratorDefinition"));
+    assertThat(p, parse("enumeratorDefinition , enumeratorDefinition"));
   }
 
   @Test
-  public void enumerator_definition() {
-    p.setRootRule(g.enumerator_definition);
+  public void enumeratorDefinition() {
+    p.setRootRule(g.enumeratorDefinition);
 
     g.enumerator.mock();
-    g.constant_expression.mock();
+    g.constantExpression.mock();
 
     assertThat(p, parse("enumerator"));
-    assertThat(p, parse("enumerator = constant_expression"));
+    assertThat(p, parse("enumerator = constantExpression"));
   }
 
   @Test
-  public void namespace_definition_reallife() {
-    p.setRootRule(g.namespace_definition);
+  public void namespaceDefinition_reallife() {
+    p.setRootRule(g.namespaceDefinition);
 
     assertThat(p, parse("namespace MyLib { double readAndProcessSum (std::istream&); }"));
   }
 
   @Test
-  public void using_declaration() {
-    p.setRootRule(g.using_declaration);
+  public void usingDeclaration() {
+    p.setRootRule(g.usingDeclaration);
 
-    g.nested_name_specifier.mock();
-    g.unqualified_id.mock();
+    g.nestedNameSpecifier.mock();
+    g.unqualifiedId.mock();
 
-    assertThat(p, parse("using nested_name_specifier unqualified_id ;"));
-    assertThat(p, parse("using typename nested_name_specifier unqualified_id ;"));
-    assertThat(p, parse("using :: unqualified_id ;"));
+    assertThat(p, parse("using nestedNameSpecifier unqualifiedId ;"));
+    assertThat(p, parse("using typename nestedNameSpecifier unqualifiedId ;"));
+    assertThat(p, parse("using :: unqualifiedId ;"));
   }
 
   @Test
-  public void using_directive() {
-    p.setRootRule(g.using_directive);
+  public void usingDirective() {
+    p.setRootRule(g.usingDirective);
 
     assertThat(p, parse("using namespace std;"));
   }
 
   @Test
-  public void linkage_specification() {
-    p.setRootRule(g.linkage_specification);
+  public void linkageSpecification() {
+    p.setRootRule(g.linkageSpecification);
 
     g.declaration.mock();
-    g.declaration_seq.mock();
+    g.declarationSeq.mock();
 
-    assertThat(p, parse("extern \"foo\" { declaration_seq }"));
+    assertThat(p, parse("extern \"foo\" { declarationSeq }"));
     assertThat(p, parse("extern \"foo\" declaration"));
   }
 }

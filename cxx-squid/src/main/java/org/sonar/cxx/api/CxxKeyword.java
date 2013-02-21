@@ -26,6 +26,7 @@ import com.sonar.sslr.api.TokenType;
  * C++ Standard, Section 2.12 "Keywords"
  */
 public enum CxxKeyword implements TokenType {
+  ALIGNAS("alignas"),
   ALIGNOF("alignof"),
   ASM("asm"),
   AUTO("auto"),
@@ -56,6 +57,7 @@ public enum CxxKeyword implements TokenType {
   FLOAT("float"),
   FOR("for"),
   FRIEND("friend"),
+  FINAL("final"),
   GOTO("goto"),
   IF("if"),
   INLINE("inline"),
@@ -67,6 +69,7 @@ public enum CxxKeyword implements TokenType {
   NOEXCEPT("noexcept"),
   NULLPTR("nullptr"),
   OPERATOR("operator"),
+  OVERRIDE("override"),
   PRIVATE("private"),
   PROTECTED("protected"),
   PUBLIC("public"),

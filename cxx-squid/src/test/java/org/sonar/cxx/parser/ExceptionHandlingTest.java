@@ -34,49 +34,49 @@ public class ExceptionHandlingTest {
   CxxGrammar g = p.getGrammar();
 
   @Test
-  public void exception_declaration() {
-    p.setRootRule(g.exception_declaration);
+  public void exceptionDeclaration() {
+    p.setRootRule(g.exceptionDeclaration);
 
-    g.type_specifier_seq.mock();
+    g.typeSpecifierSeq.mock();
     g.declarator.mock();
-    g.attribute_specifier_seq.mock();
-    g.abstract_declarator.mock();
+    g.attributeSpecifierSeq.mock();
+    g.abstractDeclarator.mock();
 
     assertThat(p, parse("..."));
 
-    assertThat(p, parse("type_specifier_seq declarator"));
-    assertThat(p, parse("attribute_specifier_seq type_specifier_seq declarator"));
+    assertThat(p, parse("typeSpecifierSeq declarator"));
+    assertThat(p, parse("attributeSpecifierSeq typeSpecifierSeq declarator"));
 
-    assertThat(p, parse("type_specifier_seq"));
-    assertThat(p, parse("attribute_specifier_seq type_specifier_seq abstract_declarator"));
+    assertThat(p, parse("typeSpecifierSeq"));
+    assertThat(p, parse("attributeSpecifierSeq typeSpecifierSeq abstractDeclarator"));
   }
 
   @Test
-  public void exception_specification_reallife() {
-    p.setRootRule(g.exception_specification);
+  public void exceptionSpecification_reallife() {
+    p.setRootRule(g.exceptionSpecification);
 
     assertThat(p, parse("throw()"));
   }
 
   @Test
-  public void type_id_list() {
-    p.setRootRule(g.type_id_list);
+  public void typeIdList() {
+    p.setRootRule(g.typeIdList);
 
-    g.type_id.mock();
+    g.typeId.mock();
 
-    assertThat(p, parse("type_id"));
-    assertThat(p, parse("type_id ..."));
-    assertThat(p, parse("type_id , type_id"));
-    assertThat(p, parse("type_id , type_id ..."));
+    assertThat(p, parse("typeId"));
+    assertThat(p, parse("typeId ..."));
+    assertThat(p, parse("typeId , typeId"));
+    assertThat(p, parse("typeId , typeId ..."));
   }
 
   @Test
-  public void noexcept_specification() {
-    p.setRootRule(g.noexcept_specification);
+  public void noexceptSpecification() {
+    p.setRootRule(g.noexceptSpecification);
 
-    g.constant_expression.mock();
+    g.constantExpression.mock();
 
     assertThat(p, parse("noexcept"));
-    assertThat(p, parse("noexcept ( constant_expression )"));
+    assertThat(p, parse("noexcept ( constantExpression )"));
   }
 }
