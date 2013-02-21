@@ -31,7 +31,7 @@ import org.sonar.api.rules.XMLRuleParser;
 /**
  * Loads the external rules configuration file.
  */
-public class CxxExternalRulesRuleRepository extends RuleRepository {
+public class CxxExternalRuleRepository extends RuleRepository {
 
   public static final String REPOSITORY_KEY = "cxxexternal";
 
@@ -39,7 +39,7 @@ public class CxxExternalRulesRuleRepository extends RuleRepository {
   private final ServerFileSystem fileSystem;
   private final XMLRuleParser xmlRuleParser;
 
-  public CxxExternalRulesRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
+  public CxxExternalRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
     super(REPOSITORY_KEY, "c++");
     setName(REPOSITORY_KEY);
     this.fileSystem = fileSystem;

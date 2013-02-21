@@ -164,6 +164,12 @@
         <version>2.2</version>
       </dependency>
       <dependency>
+        <groupId>org.codehaus.sonar.common-rules</groupId>
+        <artifactId>sonar-common-rules</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.10</version>
@@ -182,6 +188,11 @@
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
         <version>0.9.15</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-httpclient</groupId>
+        <artifactId>commons-httpclient</artifactId>
+        <version>3.1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

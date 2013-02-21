@@ -21,7 +21,6 @@ package org.sonar.plugins.cxx.valgrind;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 

@@ -42,7 +42,6 @@ public class CxxDefaultProfile extends ProfileDefinition {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
                                                           "default-profile.xml", messages);
     profile.setDefaultProfile(true);
-    profile.setProvided(true);
     return profile;
   }
 }

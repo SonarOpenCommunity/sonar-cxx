@@ -121,19 +121,19 @@ public class CxxSampleProjectIT {
        "violations", "violations_density",
        "coverage", "line_coverage", "branch_coverage"
       };
-    
+
     double[] values = new double[metricNames.length];
     for(int i = 0; i < metricNames.length; ++i){
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
-    
+
     double[] expectedValues = {21.0, 53.0,
                                1.0, 2.0,
                                36.4, 12.0, 5.0,
                                3.0, 1.5,
                                18.0, 0.0,
                                84.0, 100.0, 50.0};
-    
+
     assertThat(values, is(expectedValues));
   }
 

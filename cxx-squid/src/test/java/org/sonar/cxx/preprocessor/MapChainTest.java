@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

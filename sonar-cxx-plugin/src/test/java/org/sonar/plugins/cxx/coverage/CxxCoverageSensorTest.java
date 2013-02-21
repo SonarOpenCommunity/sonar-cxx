@@ -31,7 +31,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
+import org.sonar.api.resources.File;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCoverageSensorTest {
@@ -44,20 +44,20 @@ public class CxxCoverageSensorTest {
     project = TestUtils.mockProject();
     sensor = new CxxCoverageSensor(new Settings());
     context = mock(SensorContext.class);
-    Resource resourceMock = mock(Resource.class);
-    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
+    File resourceMock = mock(File.class);
+    when(context.getResource((File)anyObject())).thenReturn(resourceMock);
   }
 
   @Test
   public void shouldReportCorrectCoverage() {
     sensor.analyse(project, context);
-    verify(context, times(189)).saveMeasure((Resource) anyObject(), any(Measure.class));
+    verify(context, times(189)).saveMeasure((File) anyObject(), any(Measure.class));
   }
 
   @Test
   public void shouldReportNoCoverageSaved() {
-    when(context.getResource((Resource)anyObject())).thenReturn(null);
+    when(context.getResource((File)anyObject())).thenReturn(null);
     sensor.analyse(project, context);
-    verify(context, times(0)).saveMeasure((Resource) anyObject(), any(Measure.class));
-  }  
+    verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
+  }
 }

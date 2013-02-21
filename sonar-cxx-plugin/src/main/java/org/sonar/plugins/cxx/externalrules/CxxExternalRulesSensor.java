@@ -58,7 +58,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
-        && !profile.getActiveRulesByRepository(CxxExternalRulesRuleRepository.REPOSITORY_KEY).isEmpty();
+        && !profile.getActiveRulesByRepository(CxxExternalRuleRepository.REPOSITORY_KEY).isEmpty();
   }
 
   @Override
@@ -88,7 +88,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("id");
           String msg = errorCursor.getAttrValue("msg");
 
-          saveViolation(project, context, CxxExternalRulesRuleRepository.REPOSITORY_KEY, file, Integer.parseInt(line), id, msg);
+          saveViolation(project, context, CxxExternalRuleRepository.REPOSITORY_KEY, file, Integer.parseInt(line), id, msg);
         }
       }
     });

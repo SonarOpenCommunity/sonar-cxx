@@ -28,13 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
 
-public final class ConstantExpressionEvaluator {
+public final class ExpressionEvaluator {
   public static final Logger LOG = LoggerFactory.getLogger("Evaluator");
 
   private Parser<CppGrammar> parser;
   private CxxPreprocessor preprocessor;
 
-  public ConstantExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor){
+  public ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor){
     parser = CppParser.createConstantExpressionParser(conf);
 
     this.preprocessor = preprocessor;

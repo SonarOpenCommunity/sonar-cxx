@@ -109,7 +109,7 @@ public class CxxPreprocessor extends Preprocessor {
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<CxxGrammar> context;
-  private ConstantExpressionEvaluator ifExprEvaluator;
+  private ExpressionEvaluator ifExprEvaluator;
 
   // state which is not shared between files
   private State state = new State(null);
@@ -127,7 +127,7 @@ public class CxxPreprocessor extends Preprocessor {
                          CxxConfiguration conf,
                          SourceCodeProvider sourceCodeProvider) {
     this.context = context;
-    this.ifExprEvaluator = new ConstantExpressionEvaluator(conf, this);
+    this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
 
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());

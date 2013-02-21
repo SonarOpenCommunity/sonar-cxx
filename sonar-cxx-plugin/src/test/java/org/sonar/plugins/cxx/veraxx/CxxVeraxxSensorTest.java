@@ -33,7 +33,6 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
@@ -49,8 +48,8 @@ public class CxxVeraxxSensorTest {
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
     sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), mock(RulesProfile.class));
     context = mock(SensorContext.class);
-    Resource resourceMock = mock(Resource.class);
-    when(context.getResource((Resource)anyObject())).thenReturn(resourceMock);
+    org.sonar.api.resources.File resourceMock = mock(org.sonar.api.resources.File.class);
+    when(context.getResource((org.sonar.api.resources.File)anyObject())).thenReturn(resourceMock);
   }
 
   @Test

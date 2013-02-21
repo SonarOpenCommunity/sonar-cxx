@@ -33,7 +33,7 @@ import org.sonar.api.config.PropertyDefinitions;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import static junit.framework.Assert.assertTrue;
+
 
 public class CxxSourceImporterTest {
   @Test
@@ -43,12 +43,12 @@ public class CxxSourceImporterTest {
     Settings config = new Settings(new PropertyDefinitions(CxxPlugin.class));
     config.setProperty(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY, true);    
     CxxSourceImporter importer = new CxxSourceImporter(TestUtils.mockCxxLanguage());
-    importer.shouldExecuteOnProject(project); // thats necessary: it gets the importer 
-                                              // into desidered shape. Bad.
+    importer.shouldExecuteOnProject(project); // thats necessary: it gets the importer
+                                              // into desired shape. Bad.
 
     importer.analyse(project, context);
 
-    verify(context).saveSource((Resource) anyObject(), eq("<c++ source>\n"));
+    verify(context).saveSource((Resource<?>) anyObject(), eq("<c++ source>\n"));
   }
 
   private Project mockProject() {    

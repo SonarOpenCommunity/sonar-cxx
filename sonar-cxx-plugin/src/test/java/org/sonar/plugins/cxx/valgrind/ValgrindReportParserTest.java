@@ -47,20 +47,20 @@ public class ValgrindReportParserTest {
   public void shouldThrowWhenGivenAnIncompleteReport_1() throws javax.xml.stream.XMLStreamException {
     // error contains no kind-tag
     File report = TestUtils.loadResource("valgrind-reports/incorrect-valgrind-result_1.xml");
-    Set<ValgrindError> valgrindErrors = parser.parseReport(report);
+    parser.parseReport(report);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_2() throws javax.xml.stream.XMLStreamException {
     // error contains no what- or xwhat-tag
     File report = TestUtils.loadResource("valgrind-reports/incorrect-valgrind-result_2.xml");
-    Set<ValgrindError> valgrindErrors = parser.parseReport(report);
+    parser.parseReport(report);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_3() throws javax.xml.stream.XMLStreamException {
     // error contains no stack-tag
     File report = TestUtils.loadResource("valgrind-reports/incorrect-valgrind-result_3.xml");
-    Set<ValgrindError> valgrindErrors = parser.parseReport(report);
+    parser.parseReport(report);
   }
 }

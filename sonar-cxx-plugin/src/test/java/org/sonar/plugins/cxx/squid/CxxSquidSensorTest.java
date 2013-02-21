@@ -26,7 +26,6 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.plugins.cxx.CxxPlugin;
@@ -36,7 +35,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -60,16 +58,16 @@ public class CxxSquidSensorTest {
     Project project = mockProject();
     sensor.analyse(project, context);
 
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(92.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(54.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(50.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(7.0));
-    
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(19.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMMENT_BLANK_LINES), eq(7.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.COMMENT_LINES), eq(15.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.LINES), eq(92.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(54.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(50.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(7.0));
+
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(19.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.COMMENT_BLANK_LINES), eq(7.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.COMMENT_LINES), eq(15.0));
   }
 
   private Project mockProject() {
@@ -102,19 +100,19 @@ public class CxxSquidSensorTest {
     settings.appendProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
     
     List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();      
+    List<File> testDirs = new ArrayList<File>();
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/external_macro");
     sourceDirs.add(baseDir);
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
     
     sensor.analyse(project, context);
-    
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(2.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(0.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(1.0));
+
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.LINES), eq(2.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(0.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(1.0));
   }
 
   
@@ -129,13 +127,13 @@ public class CxxSquidSensorTest {
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
     
     sensor.analyse(project, context);
-    
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.LINES), eq(16.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(5.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(5.0));
-    verify(context).saveMeasure((Resource) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.LINES), eq(16.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(5.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(5.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
   
   @Test
@@ -151,8 +149,8 @@ public class CxxSquidSensorTest {
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
     
     sensor.analyse(project, context);
-    
-    verify(context, times(2)).saveMeasure((Resource) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+
+    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
   }
 
 }

@@ -52,8 +52,6 @@ public class LamdaExpressionsTest {
   public void lambdaExpression_reallife() {
     p.setRootRule(g.lambdaExpression);
 
-    //g.statementSeq.mock();
-    
     assertThat(p, parse("[] ( ) { }"));
     assertThat(p, parse("[] (int n) { }"));
     assertThat(p, parse("[&] ( ) { }"));
@@ -65,9 +63,8 @@ public class LamdaExpressionsTest {
     assertThat(p, parse("[] () -> int { return 1; }"));     
     assertThat(p, parse("[] (const string& addr) { return addr.find( \".org\" ) != string::npos; }"));   
     assertThat(p, parse("[this] () { cout << _x; }"));
-    // function pointers c++11, todo: make this work
+    // function pointers c++11, TODO: make this work
     // assertThat(p, parse("[] () -> { return 2; }"));
-
   }
   
   @Test

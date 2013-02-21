@@ -31,10 +31,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class ConstantExpressionEvaluatorTest {
+public class ExpressionEvaluatorTest {
 
-  private ConstantExpressionEvaluator evaluator =
-    new ConstantExpressionEvaluator(mock(CxxConfiguration.class),
+  private ExpressionEvaluator evaluator =
+    new ExpressionEvaluator(mock(CxxConfiguration.class),
                                     mock(CxxPreprocessor.class));
 
   @Test
@@ -195,14 +195,14 @@ public class ConstantExpressionEvaluatorTest {
   public void identifier_defined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("1");
-    ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
+    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertTrue(evaluator.eval("LALA"));
   }
 
   @Test
   public void identifier_undefined() {
-    ConstantExpressionEvaluator evaluator =
-      new ConstantExpressionEvaluator(mock(CxxConfiguration.class),
+    ExpressionEvaluator evaluator =
+      new ExpressionEvaluator(mock(CxxConfiguration.class),
                                       mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("LALA"));
   }
@@ -211,7 +211,7 @@ public class ConstantExpressionEvaluatorTest {
   public void functionlike_macro_defined_true() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.expandFunctionLikeMacro(anyString(), anyList())).thenReturn("1");
-    ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
+    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertTrue(evaluator.eval("has_feature(URG)"));
   }
 
@@ -219,7 +219,7 @@ public class ConstantExpressionEvaluatorTest {
   public void functionlike_macro_defined_false() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn("0");
-    ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
+    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertFalse(evaluator.eval("has_feature(URG)"));
   }
 
@@ -227,7 +227,7 @@ public class ConstantExpressionEvaluatorTest {
   public void functionlike_macro_undefined() {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     when(pp.valueOf(anyString())).thenReturn(null);
-    ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
+    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertFalse(evaluator.eval("has_feature(URG)"));
   }
 
@@ -236,14 +236,14 @@ public class ConstantExpressionEvaluatorTest {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     String macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
-    ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
+    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertTrue(evaluator.eval("defined " + macro));
   }
 
   @Test
   public void defined_false_without_parantheses() {
-    ConstantExpressionEvaluator evaluator =
-      new ConstantExpressionEvaluator(mock(CxxConfiguration.class),
+    ExpressionEvaluator evaluator =
+      new ExpressionEvaluator(mock(CxxConfiguration.class),
                                       mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("defined LALA"));
   }
@@ -253,15 +253,15 @@ public class ConstantExpressionEvaluatorTest {
     CxxPreprocessor pp = mock(CxxPreprocessor.class);
     String macro = "LALA";
     when(pp.valueOf(macro)).thenReturn("1");
-    ConstantExpressionEvaluator evaluator = new ConstantExpressionEvaluator(mock(CxxConfiguration.class), pp);
+    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
     assertTrue(evaluator.eval("defined (" + macro + ")"));
     assertTrue(evaluator.eval("defined(" + macro + ")"));
   }
 
   @Test
   public void defined_false_with_parantheses() {
-    ConstantExpressionEvaluator evaluator =
-      new ConstantExpressionEvaluator(mock(CxxConfiguration.class),
+    ExpressionEvaluator evaluator =
+      new ExpressionEvaluator(mock(CxxConfiguration.class),
                                       mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("defined (LALA)"));
     assertFalse(evaluator.eval("defined(LALA)"));

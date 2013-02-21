@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 import org.sonar.api.resources.ProjectFileSystem;
 

@@ -203,6 +203,18 @@ public class CppGrammar extends Grammar {
       );
   }
   
+  private void allTheOtherLinesGrammar(){
+    ifdefLine.is(or(IFDEF, IFNDEF), one2n(WS), IDENTIFIER, o2n(WS));
+    elseLine.is(ELSE, o2n(WS));
+    endifLine.is(ENDIF, o2n(WS));
+    undefLine.is(UNDEF, one2n(WS), IDENTIFIER);
+    lineLine.is(LINE, one2n(WS), one2n(ppToken));
+    errorLine.is(ERROR, o2n(WS), o2n(ppToken));
+    pragmaLine.is(PRAGMA, o2n(WS), o2n(ppToken));
+    warningLine.is(WARNING, o2n(WS), o2n(ppToken));
+    miscLine.is(HASH, o2n(ppToken));
+  }
+  
   private void ifLineGrammar(){
     ifLine.is(IF, o2n(WS), constantExpression, o2n(WS));
     elifLine.is(ELIF, o2n(WS), constantExpression, o2n(WS));
@@ -286,18 +298,6 @@ public class CppGrammar extends Grammar {
     functionlikeMacro.is(IDENTIFIER, o2n(WS), "(", o2n(WS), opt(not(")"), argumentList), o2n(WS), ")");
   }
   
-  private void allTheOtherLinesGrammar(){
-    ifdefLine.is(or(IFDEF, IFNDEF), one2n(WS), IDENTIFIER, o2n(WS));
-    elseLine.is(ELSE, o2n(WS));
-    endifLine.is(ENDIF, o2n(WS));
-    undefLine.is(UNDEF, one2n(WS), IDENTIFIER);
-    lineLine.is(LINE, one2n(WS), one2n(ppToken));
-    errorLine.is(ERROR, o2n(WS), o2n(ppToken));
-    pragmaLine.is(PRAGMA, o2n(WS), o2n(ppToken));
-    warningLine.is(WARNING, o2n(WS), o2n(ppToken));
-    miscLine.is(HASH, o2n(ppToken));
-  }
-
   @Override
   public Rule getRootRule() {
     return preprocessorLine;

@@ -32,7 +32,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
+import org.sonar.api.resources.File;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
@@ -54,8 +54,8 @@ public class CxxExternalRulesSensorTest {
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
     settings = new Settings();
-    Resource resourceMock = mock(Resource.class);
-    when(context.getResource((Resource) anyObject())).thenReturn(resourceMock);
+    File resourceMock = mock(File.class);
+    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test

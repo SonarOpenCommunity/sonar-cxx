@@ -20,12 +20,10 @@
 package org.sonar.plugins.cxx.rats;
 
 import org.junit.Test;
-import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.api.platform.ServerFileSystem;
 import static org.mockito.Mockito.mock;
 
-import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 
