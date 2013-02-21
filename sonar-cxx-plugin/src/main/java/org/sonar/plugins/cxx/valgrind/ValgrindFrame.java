@@ -19,14 +19,15 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import java.io.File;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import java.io.File;
 
 /**
  * Represents a stack frame. Overwrites equality. Has a string serialization that
  * resembles the valgrind output in textual mode.
  */
-class ValgrindFrame{
+class ValgrindFrame {
   private String ip = "???";
   private String obj = "";
   private String fn = "???";
@@ -38,24 +39,34 @@ class ValgrindFrame{
    * Constucts a stack frame with given attributes. Its perfectly valid if some of them
    * are empty or dont carry meaningfull information.
    */
-  public ValgrindFrame(String ip, String obj, String fn, String dir, String file, int line){
-    if (ip != null)   { this.ip = ip; }
-    if (obj != null)  { this.obj = obj; }
-    if (fn != null)   { this.fn = fn; }
-    if (dir != null)  { this.dir = dir; }
-    if (file != null) { this.file = file; }
+  public ValgrindFrame(String ip, String obj, String fn, String dir, String file, int line) {
+    if (ip != null) {
+      this.ip = ip;
+    }
+    if (obj != null) {
+      this.obj = obj;
+    }
+    if (fn != null) {
+      this.fn = fn;
+    }
+    if (dir != null) {
+      this.dir = dir;
+    }
+    if (file != null) {
+      this.file = file;
+    }
     this.line = line;
   }
-    
+
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
-    if(isLocationKnown()){
+    if (isLocationKnown()) {
       builder.append(" (")
-        .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))
-        .append(")");
+          .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))
+          .append(")");
     }
-      
+
     return builder.toString();
   }
 
@@ -74,21 +85,31 @@ class ValgrindFrame{
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-      .append(obj)
-      .append(fn)
-      .append(dir)
-      .append(file)
-      .append(line)
-      .toHashCode();
+        .append(obj)
+        .append(fn)
+        .append(dir)
+        .append(file)
+        .append(line)
+        .toHashCode();
   }
-    
-  String getPath() { return new File(dir, file).getPath(); }
 
-  String getDir() { return dir; }
+  String getPath() {
+    return new File(dir, file).getPath();
+  }
 
-  int getLine() { return line; }
-  
-  private boolean isLocationKnown() { return !("".equals(file) && "".equals(obj)); }
-  
-  private String getLineStr() { return line == -1 ? "" : ":"+Integer.toString(line); }
+  String getDir() {
+    return dir;
+  }
+
+  int getLine() {
+    return line;
+  }
+
+  private boolean isLocationKnown() {
+    return !("".equals(file) && "".equals(obj));
+  }
+
+  private String getLineStr() {
+    return line == -1 ? "" : ":" + Integer.toString(line);
+  }
 }

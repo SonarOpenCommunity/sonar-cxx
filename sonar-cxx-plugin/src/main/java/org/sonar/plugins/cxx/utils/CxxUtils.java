@@ -19,16 +19,16 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import java.io.File;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 /**
  * Utility class holding various, well, utilities
  */
 public final class CxxUtils {
-  
+
   private CxxUtils() {
     // only static methods
   }
@@ -43,9 +43,9 @@ public final class CxxUtils {
    * @return Returns file path of provided file, or "null" if file == null
    */
   public static String fileToAbsolutePath(File file) {
-    if(file == null) {
+    if (file == null) {
       return "null";
     }
     return file.getAbsolutePath();
-  }  
+  }
 }

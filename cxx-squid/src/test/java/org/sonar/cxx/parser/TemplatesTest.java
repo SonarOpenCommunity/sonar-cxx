@@ -21,7 +21,6 @@ package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.impl.events.ExtendedStackTrace;
-import com.sonar.sslr.impl.events.ExtendedStackTraceStream;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
@@ -103,9 +102,9 @@ public class TemplatesTest {
 
     assertThat(p, parse("sometype<int>"));
     assertThat(p, parse("vector<Person*>"));
-    //assertThat(p, parse("sometype<N/2>"));
+    // assertThat(p, parse("sometype<N/2>"));
     // try{
-    //   p.parse("vector<Person*>");
+    // p.parse("vector<Person*>");
     // } catch(Exception e){}
     // ExtendedStackTraceStream.print(stackTrace, System.out);
   }

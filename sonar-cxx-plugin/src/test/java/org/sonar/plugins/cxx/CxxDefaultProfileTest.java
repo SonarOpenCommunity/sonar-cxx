@@ -22,8 +22,8 @@ package org.sonar.plugins.cxx;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.ValidationMessages;
@@ -38,7 +38,7 @@ public class CxxDefaultProfileTest {
   @Test
   public void shouldCreateDefaultProfile() {
     ValidationMessages validation = ValidationMessages.create();
-    
+
     RuleFinder ruleFinder = ruleFinder();
     CxxDefaultProfile definition = new CxxDefaultProfile(new XMLProfileParser(ruleFinder));
     RulesProfile profile = definition.createProfile(validation);

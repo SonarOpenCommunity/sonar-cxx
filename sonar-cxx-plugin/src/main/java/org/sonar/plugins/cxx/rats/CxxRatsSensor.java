@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.cxx.rats;
 
-import java.io.File;
-import java.util.List;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.SensorContext;
@@ -30,6 +28,9 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * {@inheritDoc}
@@ -56,52 +57,52 @@ public final class CxxRatsSensor extends CxxReportSensor {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxRatsRuleRepository.KEY).isEmpty();
   }
-  
+
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
-  
+
   @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
-  
+
   @Override
   protected void processReport(Project project, SensorContext context, File report)
-    throws org.jdom.JDOMException, java.io.IOException
-  { 
-	try
-	{
-    SAXBuilder builder = new SAXBuilder(false);
-    Element root = builder.build(report).getRootElement();
+      throws org.jdom.JDOMException, java.io.IOException
+  {
+    try
+    {
+      SAXBuilder builder = new SAXBuilder(false);
+      Element root = builder.build(report).getRootElement();
 
-    List<Element> vulnerabilities = root.getChildren("vulnerability");
-    for (Element vulnerability : vulnerabilities) {
-      String type = getVulnerabilityType(vulnerability.getChild("type"));
-      String message = vulnerability.getChild("message").getTextTrim();
+      List<Element> vulnerabilities = root.getChildren("vulnerability");
+      for (Element vulnerability : vulnerabilities) {
+        String type = getVulnerabilityType(vulnerability.getChild("type"));
+        String message = vulnerability.getChild("message").getTextTrim();
 
-      List<Element> files = vulnerability.getChildren("file");
+        List<Element> files = vulnerability.getChildren("file");
 
-      for (Element file : files) {
-        String fileName = file.getChild("name").getTextTrim();
+        for (Element file : files) {
+          String fileName = file.getChild("name").getTextTrim();
 
-        List<Element> lines = file.getChildren("line");
-        for (Element lineElem : lines) {
-          int line = Integer.parseInt(lineElem.getTextTrim());
-          saveViolation(project, context, CxxRatsRuleRepository.KEY,
-                        fileName, line, type, message);
-       }
+          List<Element> lines = file.getChildren("line");
+          for (Element lineElem : lines) {
+            int line = Integer.parseInt(lineElem.getTextTrim());
+            saveViolation(project, context, CxxRatsRuleRepository.KEY,
+                fileName, line, type, message);
+          }
+        }
       }
-     }
-    } catch (org.jdom.input.JDOMParseException e){
-    	// when RATS fails the XML file might be incomplete
-    	CxxUtils.LOG.error("Ignore incomplete XML output from RATS '{}'",e.toString());  
-      }
+    } catch (org.jdom.input.JDOMParseException e) {
+      // when RATS fails the XML file might be incomplete
+      CxxUtils.LOG.error("Ignore incomplete XML output from RATS '{}'", e.toString());
+    }
   }
 
   private String getVulnerabilityType(Element child) {
-    if(child != null) {
+    if (child != null) {
       return child.getTextTrim();
     }
     return MISSING_RATS_TYPE;

@@ -19,33 +19,33 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.sonar.api.config.Settings;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.TestUtils;
 
 import java.io.File;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
 
 public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
   private SensorContext context;
   private Settings settings;
-  
+
   @Before
   public void setUp() {
     settings = Settings.createForComponent(new CxxPlugin());
@@ -75,12 +75,12 @@ public class CxxSquidSensorTest {
 
     File sourceDir;
     InputFile inputFile = null;
-    try{
+    try {
       sourceDir = new File(getClass().getResource("/").toURI());
       inputFile = mock(InputFile.class);
       when(inputFile.getFile())
-        .thenReturn(new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI()));
-    } catch(java.net.URISyntaxException e) {
+          .thenReturn(new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI()));
+    } catch (java.net.URISyntaxException e) {
       System.out.println("Got an exception while mocking project: " + e);
       return null;
     }
@@ -94,17 +94,17 @@ public class CxxSquidSensorTest {
 
     return project;
   }
-  
+
   @Test
   public void testReplacingOfExtenalMacros() {
     settings.appendProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
-    
+
     List<File> sourceDirs = new ArrayList<File>();
     List<File> testDirs = new ArrayList<File>();
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/external_macro");
     sourceDirs.add(baseDir);
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    
+
     sensor.analyse(project, context);
 
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
@@ -115,17 +115,16 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(1.0));
   }
 
-  
   @Test
   public void testFindingIncludedFiles() {
     settings.appendProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
-    
+
     List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();      
+    List<File> testDirs = new ArrayList<File>();
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/include_directories");
     sourceDirs.add(new File(baseDir, "src"));
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    
+
     sensor.analyse(project, context);
 
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
@@ -135,19 +134,19 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(5.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
-  
+
   @Test
   public void testBehaviourOnCircularIncludes() {
     // especially: when two files, both belonging to the set of
-    // files to analyse, include each other, the preprocessor guards have to be disabled 
+    // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
-    
+
     List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();      
+    List<File> testDirs = new ArrayList<File>();
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/circular_includes");
     sourceDirs.add(baseDir);
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    
+
     sensor.analyse(project, context);
 
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));

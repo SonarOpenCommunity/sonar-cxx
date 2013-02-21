@@ -28,7 +28,7 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  */
 public final class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "cppcheck";
-  
+
   /**
    * {@inheritDoc}
    */

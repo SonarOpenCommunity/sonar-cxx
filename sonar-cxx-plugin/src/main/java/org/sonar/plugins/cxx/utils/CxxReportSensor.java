@@ -19,9 +19,6 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -34,6 +31,10 @@ import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * {@inheritDoc}
  */
@@ -41,8 +42,9 @@ public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   protected Settings conf = null;
 
-  public CxxReportSensor() {}
-  
+  public CxxReportSensor() {
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -71,21 +73,21 @@ public abstract class CxxReportSensor implements Sensor {
   public void analyse(Project project, SensorContext context) {
     try {
       List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
-                                      reportPathKey(), defaultReportPath());
+          reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);
         processReport(project, context, report);
       }
-      
+
       if (reports.isEmpty()) {
         handleNoReportsCase(context);
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
-        .append("Cannot feed the data into sonar, details: '")
-        .append(e)
-        .append("'")
-        .toString();
+          .append("Cannot feed the data into sonar, details: '")
+          .append(e)
+          .append("'")
+          .toString();
       throw new SonarException(msg, e);
     }
   }
@@ -96,14 +98,14 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   protected List<File> getReports(Settings conf,
-                                  String baseDirPath,
-                                  String reportPathPropertyKey,
-                                  String defaultReportPath) {
+      String baseDirPath,
+      String reportPathPropertyKey,
+      String defaultReportPath) {
     String reportPath = conf.getString(reportPathPropertyKey);
-    if(reportPath == null){
+    if (reportPath == null) {
       reportPath = defaultReportPath;
     }
-    
+
     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
     DirectoryScanner scanner = new DirectoryScanner();
@@ -118,19 +120,19 @@ public abstract class CxxReportSensor implements Sensor {
     for (String relPath : relPaths) {
       reports.add(new File(baseDirPath, relPath));
     }
-    
+
     return reports;
   }
 
   protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,
-                               String file, int line, String ruleId, String msg) {
+      String file, int line, String ruleId, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()
-      .withRepositoryKey(ruleRepoKey)
-      .withKey(ruleId);
+        .withRepositoryKey(ruleRepoKey)
+        .withKey(ruleId);
     Rule rule = ruleFinder.find(ruleQuery);
     if (rule != null) {
       org.sonar.api.resources.File resource =
-        org.sonar.api.resources.File.fromIOFile(new File(file), project);
+          org.sonar.api.resources.File.fromIOFile(new File(file), project);
       if (context.getResource(resource) != null) {
         Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
         context.saveViolation(violation);
@@ -141,14 +143,20 @@ public abstract class CxxReportSensor implements Sensor {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
   }
-  
-  protected void processReport(Project project, SensorContext context, File report)
-    throws Exception
-  {}
 
-  protected void handleNoReportsCase(SensorContext context) {}
-  
-  protected String reportPathKey() { return ""; };
-  
-  protected String defaultReportPath() { return ""; };
+  protected void processReport(Project project, SensorContext context, File report)
+      throws Exception
+  {
+  }
+
+  protected void handleNoReportsCase(SensorContext context) {
+  }
+
+  protected String reportPathKey() {
+    return "";
+  };
+
+  protected String defaultReportPath() {
+    return "";
+  };
 }

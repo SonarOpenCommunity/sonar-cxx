@@ -37,21 +37,21 @@ import java.util.List;
 public class SourceCodeProvider {
   private List<File> includeRoots = new LinkedList<File>();
   public static final Logger LOG = LoggerFactory.getLogger("SourceCodeProvider");
-  
+
   public void setIncludeRoots(List<String> includeRoots, String baseDir) {
     for (String tmp : includeRoots) {
-      
+
       File includeRoot = new File(tmp);
       if (!includeRoot.isAbsolute()) {
         includeRoot = new File(baseDir, tmp);
       }
-      
-      try{
+
+      try {
         includeRoot = includeRoot.getCanonicalFile();
-      } catch(java.io.IOException io) {
+      } catch (java.io.IOException io) {
         LOG.error("cannot get canonical form of: '{}'", includeRoot);
       }
-      
+
       if (includeRoot.isDirectory()) {
         LOG.debug("storing include root: '{}'", includeRoot);
         this.includeRoots.add(includeRoot);
@@ -65,7 +65,7 @@ public class SourceCodeProvider {
   public File getSourceCodeFile(String filename, String cwd, boolean quoted) {
     File result = null;
     File file = new File(filename);
-    if (file.isAbsolute()){
+    if (file.isAbsolute()) {
       if (file.isFile()) {
         result = file;
       }
@@ -74,38 +74,38 @@ public class SourceCodeProvider {
       // This seems to be an established convention:
       // The special behavior in the quoted case is to look up relative to the
       // current directory.
-      if(quoted){
+      if (quoted) {
         File abspath = new File(new File(cwd), file.getPath());
-        if(abspath.isFile()){
+        if (abspath.isFile()) {
           result = abspath;
         }
       }
-      
+
       // The standard behavior: lookup relative to to the include roots.
       // The quoted case falls back to this, if its special handling wasnt
       // successul (as forced by the Standard).
-      if(result == null){
+      if (result == null) {
         for (File folder : includeRoots) {
           File abspath = new File(folder.getPath(), filename);
-          if (abspath.isFile()){
+          if (abspath.isFile()) {
             result = abspath;
             break;
           }
         }
       }
     }
-    
-    if(result != null){
-      try{
+
+    if (result != null) {
+      try {
         result = result.getCanonicalFile();
-      } catch(java.io.IOException io) {
+      } catch (java.io.IOException io) {
         LOG.error("cannot get canonical form of: '{}'", result);
       }
     }
-    
+
     return result;
   }
-    
+
   public String getSourceCode(File file) {
     String code = null;
     if (file.isFile()) {

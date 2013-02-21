@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class ValgrindStackTest {
   ValgrindStack stack;
@@ -54,45 +54,45 @@ public class ValgrindStackTest {
 
   @Test
   public void stackDoesntEqualsNull() {
-    assert(!stack.equals(null));
+    assert (!stack.equals(null));
   }
 
   @Test
   public void stackDoesntEqualsMiscObject() {
-    assert(!stack.equals("string"));
+    assert (!stack.equals("string"));
   }
 
   @Test
   public void stackEqualityIsReflexive() {
-    assert(stack.equals(stack));
-    assert(otherStack.equals(otherStack));
-    assert(equalStack.equals(equalStack));
+    assert (stack.equals(stack));
+    assert (otherStack.equals(otherStack));
+    assert (equalStack.equals(equalStack));
   }
 
   @Test
   public void stackEqualityWorksAsExpected() {
-    assert(stack.equals(equalStack));
-    assert(!stack.equals(otherStack));
+    assert (stack.equals(equalStack));
+    assert (!stack.equals(otherStack));
   }
 
   @Test
   public void stackHashWorksAsExpected() {
-    assert(stack.hashCode() == equalStack.hashCode());
-    assert(stack.hashCode() != otherStack.hashCode());
+    assert (stack.hashCode() == equalStack.hashCode());
+    assert (stack.hashCode() != otherStack.hashCode());
   }
 
   @Test
   public void stringRepresentationShouldResembleValgrindsStandard() {
     Map<String, ValgrindStack> ioMap = new HashMap<String, ValgrindStack>();
 
-    ValgrindFrame frame = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null,  "main.cc", 1);
+    ValgrindFrame frame = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", 1);
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(frame);
 
     ioMap.put("", new ValgrindStack());
-    ioMap.put(frame.toString()+"\n", stack);
+    ioMap.put(frame.toString() + "\n", stack);
 
-    for(Map.Entry<String, ValgrindStack> entry: ioMap.entrySet()) {
+    for (Map.Entry<String, ValgrindStack> entry : ioMap.entrySet()) {
       assertEquals(entry.getKey(), entry.getValue().toString());
     }
   }
@@ -116,8 +116,8 @@ public class ValgrindStackTest {
     File BASE_DIR = new File("our", "path");
     File OWN_PATH = new File(BASE_DIR, "subdir");
 
-    ValgrindFrame otherFrame = new ValgrindFrame(null, null, null, "someotherpath",  null, 1);
-    ValgrindFrame ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(),  null, 1);
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, null, "someotherpath", null, 1);
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(), null, 1);
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(otherFrame);
     stack.addFrame(ownFrame);

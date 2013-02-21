@@ -19,17 +19,8 @@
  */
 package org.sonar.plugins.cxx;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.configuration.Configuration;
 import org.apache.tools.ant.DirectoryScanner;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.InputFile;
@@ -39,8 +30,19 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
 
-public class TestUtils{
-  public static RuleFinder mockRuleFinder(){
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class TestUtils {
+  public static RuleFinder mockRuleFinder() {
     Rule ruleMock = Rule.create("", "", "");
     RuleFinder ruleFinder = mock(RuleFinder.class);
     when(ruleFinder.findByKey((String) anyObject(),
@@ -52,12 +54,12 @@ public class TestUtils{
   public static File loadResource(String resourceName) {
     URL resource = TestUtils.class.getResource(resourceName);
     File resourceAsFile = null;
-    try{
+    try {
       resourceAsFile = new File(resource.toURI());
     } catch (URISyntaxException e) {
       System.out.println("Cannot load resource: " + resourceName);
     }
-    
+
     return resourceAsFile;
   }
 
@@ -66,18 +68,18 @@ public class TestUtils{
    */
   public static Project mockProject() {
     File baseDir;
-    baseDir = loadResource("/org/sonar/plugins/cxx/");  //we skip "SampleProject" dir because report dirs as here
-    
+    baseDir = loadResource("/org/sonar/plugins/cxx/"); // we skip "SampleProject" dir because report dirs as here
+
     List<File> sourceDirs = new ArrayList<File>();
-    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/application/") );
-    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/utils/")); 
-    
-    List<File> testDirs = new ArrayList<File>();      
+    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/application/"));
+    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/utils/"));
+
+    List<File> testDirs = new ArrayList<File>();
     testDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/tests/"));
-    
+
     return mockProject(baseDir, sourceDirs, testDirs);
   }
-  
+
   /**
    * Mock project
    * @param baseDir project base dir
@@ -87,10 +89,10 @@ public class TestUtils{
   public static Project mockProject(File baseDir, List<File> sourceDirs, List<File> testDirs) {
     List<File> mainSourceFiles = scanForSourceFiles(sourceDirs);
     List<File> testSourceFiles = scanForSourceFiles(testDirs);
-    
+
     List<InputFile> mainFiles = fromSourceFiles(mainSourceFiles);
     List<InputFile> testFiles = fromSourceFiles(testSourceFiles);
-    
+
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
     when(fileSystem.getBasedir()).thenReturn(baseDir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
@@ -111,13 +113,13 @@ public class TestUtils{
     when(configuration.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
         CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
     when(project.getConfiguration()).thenReturn(configuration);
-    
+
     return project;
   }
 
-  private static List<InputFile> fromSourceFiles(List<File> sourceFiles){
+  private static List<InputFile> fromSourceFiles(List<File> sourceFiles) {
     List<InputFile> result = new ArrayList<InputFile>();
-    for(File file: sourceFiles) {
+    for (File file : sourceFiles) {
       InputFile inputFile = mock(InputFile.class);
       when(inputFile.getFile()).thenReturn(new File(file, ""));
       result.add(inputFile);
@@ -125,29 +127,29 @@ public class TestUtils{
     return result;
   }
 
-  public static CxxLanguage mockCxxLanguage(){
+  public static CxxLanguage mockCxxLanguage() {
     return new CxxLanguage(new Settings());
   }
-  
+
   private static List<File> scanForSourceFiles(List<File> sourceDirs) {
     List<File> result = new ArrayList<File>();
     String[] suffixes = mockCxxLanguage().getFileSuffixes();
-    String[] includes = new String[ suffixes.length ];
-    for(int i = 0; i < includes.length; ++i) {
+    String[] includes = new String[suffixes.length];
+    for (int i = 0; i < includes.length; ++i) {
       includes[i] = "**/*." + suffixes[i];
     }
-    
+
     DirectoryScanner scanner = new DirectoryScanner();
-    for(File baseDir : sourceDirs) {
+    for (File baseDir : sourceDirs) {
       scanner.setBasedir(baseDir);
-      scanner.setIncludes(includes);  
+      scanner.setIncludes(includes);
       scanner.scan();
       for (String relPath : scanner.getIncludedFiles()) {
         File f = new File(baseDir, relPath);
         result.add(f);
-      }  
+      }
     }
-    
+
     return result;
   }
 }

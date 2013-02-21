@@ -46,14 +46,14 @@ public class PreprocessorChannel extends Channel<Lexer> {
         .setValueAndOriginalValue(tokenValue)
         .setType(CxxTokenType.PREPROCESSOR)
         .build());
-    
+
     return true;
   }
 
   private String read(CodeReader code) {
     StringBuilder sb = new StringBuilder();
     char ch;
-    
+
     while (true) {
       ch = (char) code.pop();
       if (isNewline(ch) || ch == EOF) {
@@ -65,7 +65,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
         consumeNewline(code);
         sb.append(' ');
       }
-      else{
+      else {
         sb.append(ch);
       }
     }

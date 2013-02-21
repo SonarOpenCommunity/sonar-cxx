@@ -19,14 +19,10 @@
  */
 package org.sonar.plugins.cxx;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sonar.api.Extension;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;
-          
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
@@ -43,112 +39,115 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Properties({
-    @Property(
-      key = CxxPlugin.INCLUDE_DIRECTORIES_KEY,
-      defaultValue = "",
-      name = "Directories to search included files in",
-      description = "The include directories may be defined either relative to projects' root or absolute.",
-      global = true,
-      project = true),
-    @Property(
-      key = CxxPlugin.DEFINES_KEY,
-      defaultValue = "",
-      name = "Default macro definitions",
-      description = "Macro definition to use while analysing the source. Use to provide macros which cannot be resolved by other means.",
-      global = true,
-      project = true),
-    @Property(
-      key = CxxPlugin.SOURCE_FILE_SUFFIXES_KEY,
-      defaultValue = CxxLanguage.DEFAULT_SOURCE_SUFFIXES,
-      name = "Source files suffixes",
-      description = "Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.",
-      global = true,
-      project = true),
-    @Property(
-        key = CxxPlugin.HEADER_FILE_SUFFIXES_KEY,
-        defaultValue = CxxLanguage.DEFAULT_HEADER_SUFFIXES,
-        name = "Header files suffixes",
-        description = "Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.",
-        global = true,
-        project = true),
-    @Property(
-      key = CxxCppCheckSensor.REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to cppcheck report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxPCLintSensor.REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to pclint report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxCoverageSensor.REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to unit test coverage report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxCoverageSensor.IT_REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to integration test coverage report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxCoverageSensor.OVERALL_REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to overall test coverage report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxRatsSensor.REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to rats report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxValgrindSensor.REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to valgrind report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxVeraxxSensor.REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to vera++ report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxXunitSensor.REPORT_PATH_KEY,
-      defaultValue = "",
-      name = "Path to unit test execution report(s)",
-      description = "Relative to projects' root. Ant patterns are accepted",
-      global = false,
-      project = true),
-    @Property(
-      key = CxxXunitSensor.XSLT_URL_KEY,
-      defaultValue = "",
-      name = "URL of the xslt transformer",
-      description = "TODO",
-      global = false,
-      project = true)
-      })
+  @Property(
+    key = CxxPlugin.INCLUDE_DIRECTORIES_KEY,
+    defaultValue = "",
+    name = "Directories to search included files in",
+    description = "The include directories may be defined either relative to projects' root or absolute.",
+    global = true,
+    project = true),
+  @Property(
+    key = CxxPlugin.DEFINES_KEY,
+    defaultValue = "",
+    name = "Default macro definitions",
+    description = "Macro definition to use while analysing the source. Use to provide macros which cannot be resolved by other means.",
+    global = true,
+    project = true),
+  @Property(
+    key = CxxPlugin.SOURCE_FILE_SUFFIXES_KEY,
+    defaultValue = CxxLanguage.DEFAULT_SOURCE_SUFFIXES,
+    name = "Source files suffixes",
+    description = "Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.",
+    global = true,
+    project = true),
+  @Property(
+    key = CxxPlugin.HEADER_FILE_SUFFIXES_KEY,
+    defaultValue = CxxLanguage.DEFAULT_HEADER_SUFFIXES,
+    name = "Header files suffixes",
+    description = "Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.",
+    global = true,
+    project = true),
+  @Property(
+    key = CxxCppCheckSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to cppcheck report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxPCLintSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to pclint report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxCoverageSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to unit test coverage report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxCoverageSensor.IT_REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to integration test coverage report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxCoverageSensor.OVERALL_REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to overall test coverage report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxRatsSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to rats report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxValgrindSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to valgrind report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxVeraxxSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to vera++ report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxXunitSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to unit test execution report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxXunitSensor.XSLT_URL_KEY,
+    defaultValue = "",
+    name = "URL of the xslt transformer",
+    description = "TODO",
+    global = false,
+    project = true)
+})
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
-  
+
   /**
    * {@inheritDoc}
    */
@@ -174,7 +173,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxDefaultProfile.class);
     l.add(CxxCommonRulesEngineProvider.class);
     l.add(CxxExternalRulesSensor.class);
-    l.add(CxxExternalRuleRepository.class);    
+    l.add(CxxExternalRuleRepository.class);
 
     return l;
   }

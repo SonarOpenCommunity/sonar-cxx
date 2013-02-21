@@ -21,7 +21,6 @@ package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.impl.events.ExtendedStackTrace;
-import com.sonar.sslr.impl.events.ExtendedStackTraceStream;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;
@@ -81,12 +80,12 @@ public class DeclarationsTest {
     assertThat(p, parse("sometype foo();"));
     assertThat(p, parse("sometype (*foo)(void);"));
     assertThat(p, parse("aligned_storage<sizeof(result_type)> cache;"));
-    
-    //We cannot parse this, unfortunately. The reasons is an ambiguity between
+
+    // We cannot parse this, unfortunately. The reasons is an ambiguity between
     // relational exressions and template parameter list syntax, which cannot be
     // resolved without name lookup, at least according to the standard. Bad c++...
-    //assertThat(p, parse("mpl<N/M>();"));
-    
+    // assertThat(p, parse("mpl<N/M>();"));
+
     assertThat(p, parse("bool operator==<B>(A const&, A const&);"));
   }
 
@@ -177,7 +176,7 @@ public class DeclarationsTest {
   @Test
   public void typeSpecifier_reallife() {
     p.setRootRule(g.typeSpecifier);
-    
+
     assertThat(p, parse("enum foo { MONDAY=1 }"));
     assertThat(p, parse("carray<int,10>"));
   }
@@ -252,7 +251,7 @@ public class DeclarationsTest {
     p.setRootRule(g.simpleTypeSpecifier);
     assertThat(p, parse("::P"));
   }
-  
+
   @Test
   public void typeName() {
     p.setRootRule(g.typeName);

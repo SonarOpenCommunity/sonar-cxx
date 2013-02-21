@@ -21,11 +21,11 @@ package org.sonar.cxx.preprocessor;
 
 public class EvaluationException extends RuntimeException {
   private String why;
-  
+
   public EvaluationException(String why) {
     this.why = why;
   }
-  
+
   public String toString() {
     return why;
   }

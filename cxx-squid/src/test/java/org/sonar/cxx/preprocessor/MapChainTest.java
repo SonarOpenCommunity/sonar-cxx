@@ -19,16 +19,17 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class MapChainTest {
-  MapChain<String,String> mc;
-  
+  MapChain<String, String> mc;
+
   public MapChainTest() {
-    mc = new MapChain<String,String>();
+    mc = new MapChain<String, String>();
   }
-  
+
   @Test
   public void gettingHighPrioMapping() {
     mc.putHighPrio("k", "v");
@@ -40,7 +41,7 @@ public class MapChainTest {
     mc.putLowPrio("k", "v");
     assertEquals(mc.get("k"), "v");
   }
-  
+
   @Test
   public void removeLowPrioMapping() {
     mc.putLowPrio("k", "v");
@@ -81,11 +82,11 @@ public class MapChainTest {
 
     mc.disable("khigh");
     mc.disable("klow");
-    
+
     assertEquals(mc.get("khigh"), null);
     assertEquals(mc.get("klow"), null);
   }
-  
+
   @Test
   public void enable() {
     mc.putHighPrio("khigh", "vhigh");
@@ -95,7 +96,7 @@ public class MapChainTest {
 
     mc.enable("khigh");
     mc.enable("klow");
-    
+
     assertEquals(mc.get("khigh"), "vhigh");
     assertEquals(mc.get("klow"), "vlow");
   }

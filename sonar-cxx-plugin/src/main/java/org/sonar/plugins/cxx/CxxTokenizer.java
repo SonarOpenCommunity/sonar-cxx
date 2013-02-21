@@ -50,7 +50,7 @@ public class CxxTokenizer implements Tokenizer {
     }
     cpdTokens.add(TokenEntry.getEOF());
   }
-  
+
   private String getTokenImage(Token token) {
     return token.getValue();
   }

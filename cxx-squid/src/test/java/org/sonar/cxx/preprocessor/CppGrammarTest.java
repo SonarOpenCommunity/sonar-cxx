@@ -26,7 +26,6 @@ import org.junit.Test;
 import static com.sonar.sslr.test.parser.ParserMatchers.parse;
 import static org.junit.Assert.assertThat;
 
-
 public class CppGrammarTest {
 
   private Parser<CppGrammar> p = null;
@@ -74,11 +73,11 @@ public class CppGrammarTest {
     assertThat(p, parse("#include <algorithm>"));
     assertThat(p, parse("# /* See http://www.boost.org for most recent version. */"));
   }
-  
+
   @Test
   public void defineLine_reallife() {
     p.setRootRule(g.defineLine);
-    
+
     assertThat(p, parse("#define ALGOSTUFF_HPPEOF"));
     assertThat(p, parse("#define lala(a, b) a b"));
     assertThat(p, parse("#define new dew_debug"));
@@ -97,11 +96,11 @@ public class CppGrammarTest {
   @Test
   public void functionlikeMacroDefinition() {
     p.setRootRule(g.functionlikeMacroDefinition);
-    
+
     g.replacementList.mock();
     g.argumentList.mock();
     g.ppToken.mock();
-    
+
     assertThat(p, parse("#define ppToken( argumentList ) replacementList"));
     assertThat(p, parse("#define ppToken(argumentList) replacementList"));
     assertThat(p, parse("#define ppToken( ... ) replacementList"));
@@ -113,27 +112,27 @@ public class CppGrammarTest {
   @Test
   public void functionlikeMacroDefinition_reallife() {
     p.setRootRule(g.functionlikeMacroDefinition);
-    
+
     assertThat(p, parse("#define foo() bar"));
     assertThat(p, parse("#define foo() ()"));
     assertThat(p, parse("#define foo(a) bar"));
     assertThat(p, parse("#define foo(a,b) ab"));
   }
-  
+
   @Test
   public void objectlikeMacroDefinition() {
     p.setRootRule(g.objectlikeMacroDefinition);
-    
+
     g.replacementList.mock();
     g.ppToken.mock();
-    
+
     assertThat(p, parse("#define ppToken replacementList"));
   }
 
   @Test
   public void objectlikeMacroDefinition_reallife() {
     p.setRootRule(g.objectlikeMacroDefinition);
-    
+
     assertThat(p, parse("#define foo"));
     assertThat(p, parse("#define foo bar"));
     assertThat(p, parse("#define foo ()"));
@@ -198,7 +197,7 @@ public class CppGrammarTest {
   @Test
   public void ifdefLine() {
     p.setRootRule(g.ifdefLine);
-    
+
     assertThat(p, parse("#ifdef foo"));
     assertThat(p, parse("#ifndef foo"));
     assertThat(p, parse("#ifdef __GNUC__ // aka CONST but following LLVM Conventions."));
@@ -208,64 +207,64 @@ public class CppGrammarTest {
   @Test
   public void elseLine() {
     p.setRootRule(g.elseLine);
-    
+
     assertThat(p, parse("#else"));
     assertThat(p, parse("#else  // if lala"));
-  }    
+  }
 
   @Test
   public void endifLine() {
     p.setRootRule(g.endifLine);
-    
+
     assertThat(p, parse("#endif"));
     assertThat(p, parse("#endif  // LLVM_DEBUGINFO_DWARFDEBUGRANGELIST_H"));
-  }    
+  }
 
   @Test
   public void undefLine() {
     p.setRootRule(g.undefLine);
-    
+
     assertThat(p, parse("#undef foo"));
-  }    
+  }
 
   @Test
   public void lineLine() {
     p.setRootRule(g.lineLine);
-    
+
     assertThat(p, parse("#line foo bar"));
-  }    
+  }
 
   @Test
   public void errorLine() {
     p.setRootRule(g.errorLine);
-    
+
     assertThat(p, parse("#error foo"));
     assertThat(p, parse("#error"));
-  }    
+  }
 
   @Test
   public void pragmaLine() {
     p.setRootRule(g.pragmaLine);
-    
+
     assertThat(p, parse("#pragma foo"));
-  }    
-  
+  }
+
   @Test
   public void warningLine() {
     p.setRootRule(g.warningLine);
-    
+
     assertThat(p, parse("#warning foo"));
   }
 
   @Test
   public void miscLine() {
     p.setRootRule(g.miscLine);
-    
+
     assertThat(p, parse("#"));
     assertThat(p, parse("# lala"));
     assertThat(p, parse("#lala"));
   }
-  
+
   @Test
   public void ifLine() {
     p.setRootRule(g.ifLine);
@@ -275,29 +274,29 @@ public class CppGrammarTest {
     assertThat(p, parse("#if constantExpression"));
   }
 
-    @Test
+  @Test
   public void elifLine() {
     p.setRootRule(g.elifLine);
-    
+
     g.constantExpression.mock();
-    
+
     assertThat(p, parse("#elif constantExpression"));
   }
 
   @Test
   public void ifLine_reallive() {
     p.setRootRule(g.ifLine);
-    
+
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
     assertThat(p, parse("#if 0   // Re-enable once PR13021 is fixed."));
-    
-    assert(p.parse("#if A (4, 1)").findFirstChild(g.functionlikeMacro) != null);
-    assert(p.parse("#if A ()").findFirstChild(g.functionlikeMacro) != null);
-    assert(p.parse("#if A()").findFirstChild(g.functionlikeMacro) != null);
-    
-    assert(p.parse("#if defined(A)").findFirstChild(g.definedExpression) != null);
-    assert(p.parse("#if defined (A)").findFirstChild(g.definedExpression) != null);
-    assert(p.parse("#if defined A").findFirstChild(g.definedExpression) != null);
+
+    assert (p.parse("#if A (4, 1)").findFirstChild(g.functionlikeMacro) != null);
+    assert (p.parse("#if A ()").findFirstChild(g.functionlikeMacro) != null);
+    assert (p.parse("#if A()").findFirstChild(g.functionlikeMacro) != null);
+
+    assert (p.parse("#if defined(A)").findFirstChild(g.definedExpression) != null);
+    assert (p.parse("#if defined (A)").findFirstChild(g.definedExpression) != null);
+    assert (p.parse("#if defined A").findFirstChild(g.definedExpression) != null);
   }
 
   @Test
@@ -507,4 +506,3 @@ public class CppGrammarTest {
     assertThat(p, parse("BOOST_WORKAROUND(a, call())"));
   }
 }
-

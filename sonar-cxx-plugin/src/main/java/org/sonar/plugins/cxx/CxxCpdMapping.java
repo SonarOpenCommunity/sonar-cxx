@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.plugins.cxx.CxxLanguage;
-
 import net.sourceforge.pmd.cpd.Tokenizer;
 import org.sonar.api.batch.AbstractCpdMapping;
 import org.sonar.api.resources.Language;

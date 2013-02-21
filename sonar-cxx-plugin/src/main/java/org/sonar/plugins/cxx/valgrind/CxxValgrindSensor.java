@@ -19,14 +19,15 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import java.io.File;
-import java.util.Set;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+
+import java.io.File;
+import java.util.Set;
 
 /**
  * {@inheritDoc}
@@ -35,7 +36,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
   private static final String DEFAULT_REPORT_PATH = "valgrind-reports/valgrind-result-*.xml";
   private RulesProfile profile;
-  
+
   /**
    * {@inheritDoc}
    */
@@ -43,7 +44,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
     super(ruleFinder, conf);
     this.profile = profile;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -52,12 +53,12 @@ public class CxxValgrindSensor extends CxxReportSensor {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxValgrindRuleRepository.KEY).isEmpty();
   }
-  
+
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
-  
+
   @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
@@ -65,18 +66,18 @@ public class CxxValgrindSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException
+      throws javax.xml.stream.XMLStreamException
   {
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(project, context, parser.parseReport(report));
   }
 
   void saveErrors(Project project, SensorContext context, Set<ValgrindError> valgrindErrors) {
-    for (ValgrindError error: valgrindErrors) {
+    for (ValgrindError error : valgrindErrors) {
       ValgrindFrame frame = error.getLastOwnFrame(project.getFileSystem().getBasedir().getPath());
-      if(frame != null) {
+      if (frame != null) {
         saveViolation(project, context, CxxValgrindRuleRepository.KEY,
-                      frame.getPath(), frame.getLine(), error.getKind(), error.toString());
+            frame.getPath(), frame.getLine(), error.getKind(), error.toString());
       }
     }
   }

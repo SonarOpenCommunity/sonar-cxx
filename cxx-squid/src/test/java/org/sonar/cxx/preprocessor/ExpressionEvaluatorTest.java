@@ -25,17 +25,16 @@ import org.sonar.cxx.CxxConfiguration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 
 public class ExpressionEvaluatorTest {
 
   private ExpressionEvaluator evaluator =
-    new ExpressionEvaluator(mock(CxxConfiguration.class),
-                                    mock(CxxPreprocessor.class));
+      new ExpressionEvaluator(mock(CxxConfiguration.class),
+          mock(CxxPreprocessor.class));
 
   @Test
   public void bools() {
@@ -96,7 +95,7 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("1 | 0"));
     assertTrue(evaluator.eval("0 | 1"));
     assertTrue(evaluator.eval("1 | 1"));
-    
+
     assertFalse(evaluator.eval("0 | 0"));
   }
 
@@ -188,7 +187,7 @@ public class ExpressionEvaluatorTest {
     assertFalse(evaluator.eval("+0"));
     assertFalse(evaluator.eval("-0"));
     assertFalse(evaluator.eval("!1"));
-    //assertFalse(evaluator.eval("~OxFFFFFFFFFFFFFFFF"));
+    // assertFalse(evaluator.eval("~OxFFFFFFFFFFFFFFFF"));
   }
 
   @Test
@@ -202,8 +201,8 @@ public class ExpressionEvaluatorTest {
   @Test
   public void identifier_undefined() {
     ExpressionEvaluator evaluator =
-      new ExpressionEvaluator(mock(CxxConfiguration.class),
-                                      mock(CxxPreprocessor.class));
+        new ExpressionEvaluator(mock(CxxConfiguration.class),
+            mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("LALA"));
   }
 
@@ -243,8 +242,8 @@ public class ExpressionEvaluatorTest {
   @Test
   public void defined_false_without_parantheses() {
     ExpressionEvaluator evaluator =
-      new ExpressionEvaluator(mock(CxxConfiguration.class),
-                                      mock(CxxPreprocessor.class));
+        new ExpressionEvaluator(mock(CxxConfiguration.class),
+            mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("defined LALA"));
   }
 
@@ -261,8 +260,8 @@ public class ExpressionEvaluatorTest {
   @Test
   public void defined_false_with_parantheses() {
     ExpressionEvaluator evaluator =
-      new ExpressionEvaluator(mock(CxxConfiguration.class),
-                                      mock(CxxPreprocessor.class));
+        new ExpressionEvaluator(mock(CxxConfiguration.class),
+            mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("defined (LALA)"));
     assertFalse(evaluator.eval("defined(LALA)"));
   }
@@ -275,7 +274,7 @@ public class ExpressionEvaluatorTest {
     assertEquals(evaluator.stripSuffix("1u"), "1");
   }
 
-  @Test(expected=EvaluationException.class)
+  @Test(expected = EvaluationException.class)
   public void throw_on_invalid_expressions() {
     evaluator.eval("\"\"");
   }

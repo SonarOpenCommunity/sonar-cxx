@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import java.io.File;
-import java.util.List;
-
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.CxxLanguage;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Common sensor class that works with files
@@ -35,30 +35,30 @@ import org.sonar.plugins.cxx.CxxLanguage;
 public abstract class CxxFileSensor implements Sensor {
 
   private CxxLanguage language = new CxxLanguage();
-  
+
   public boolean shouldExecuteOnProject(Project project) {
     return CxxLanguage.KEY.equals(project.getLanguageKey());
   }
-  
+
   public void analyse(Project project, SensorContext context) {
     List<InputFile> sourceFiles = project.getFileSystem().mainFiles(CxxLanguage.KEY);
 
-    for(InputFile inputFile : sourceFiles) {      
-      if(shouldParseFile(inputFile.getFile())) {  
+    for (InputFile inputFile : sourceFiles) {
+      if (shouldParseFile(inputFile.getFile())) {
         parseFile(inputFile, project, context);
       }
-    } 
+    }
   }
-  
+
   protected boolean shouldParseFile(File file) {
-    for(String suffix : language.getSourceFileSuffixes()) {
-      if(file.getAbsolutePath().endsWith("."+suffix)) {
+    for (String suffix : language.getSourceFileSuffixes()) {
+      if (file.getAbsolutePath().endsWith("." + suffix)) {
         return true;
       }
     }
     return false;
   }
-  
+
   protected abstract void parseFile(InputFile file, Project project, SensorContext context);
-  
+
 }

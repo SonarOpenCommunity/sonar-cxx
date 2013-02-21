@@ -19,12 +19,6 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
@@ -32,46 +26,50 @@ import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 class CxxFileSensorImpl extends CxxFileSensor
 {
 
   List<InputFile> files = new ArrayList<InputFile>();
-  
+
   @Override
   protected void parseFile(InputFile file, Project project, SensorContext context) {
     files.add(file);
   }
-  
+
   public List<InputFile> getParsedFilesList() {
     return files;
   }
-  
 
 }
 
 public class CxxFileSensorTest {
 
   private static final int PARSED_FILE_COUNT = 3;
-  
+
   private CxxFileSensorImpl sensor;
   private Project project;
-  
+
   @Before
   public void setup() {
     sensor = new CxxFileSensorImpl();
     project = TestUtils.mockProject();
   }
-  
+
   @Test
   public void shouldExecuteOnProjectTest() {
     assertTrue(sensor.shouldExecuteOnProject(project));
   }
-  
+
   @Test
   public void analyseTest() {
     sensor.analyse(project, null);
     assertEquals(PARSED_FILE_COUNT, sensor.getParsedFilesList().size());
   }
-  
-  
+
 }

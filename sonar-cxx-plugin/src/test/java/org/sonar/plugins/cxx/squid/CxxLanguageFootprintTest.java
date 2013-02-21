@@ -28,7 +28,7 @@ public class CxxLanguageFootprintTest {
   @Test
   public void shouldProvideTokenizers() {
     Set<Detector> detectors = (new CxxLanguageFootprint()).getDetectors();
-    assert(detectors != null);
-    assert(detectors.size() == 5);
+    assert (detectors != null);
+    assert (detectors.size() == 5);
   }
 }

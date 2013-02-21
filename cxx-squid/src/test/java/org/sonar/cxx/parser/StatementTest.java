@@ -21,7 +21,6 @@ package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.impl.events.ExtendedStackTrace;
-import com.sonar.sslr.impl.events.ExtendedStackTraceStream;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxGrammar;

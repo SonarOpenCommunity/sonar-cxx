@@ -100,7 +100,7 @@ public class CxxGrammar extends Grammar {
   public Rule emptyDeclaration;
   public Rule attributeDeclaration;
   public Rule declSpecifier;
-  
+
   public Rule conditionDeclSpecifierSeq;
   public Rule forrangeDeclSpecifierSeq;
   public Rule parameterDeclSpecifierSeq;
@@ -145,7 +145,7 @@ public class CxxGrammar extends Grammar {
   public Rule linkageSpecification;
   public Rule attributeSpecifierSeq;
   public Rule attributeSpecifier;
-  public Rule alignmentSpecifier;  
+  public Rule alignmentSpecifier;
   public Rule attributeList;
   public Rule attribute;
   public Rule attributeToken;

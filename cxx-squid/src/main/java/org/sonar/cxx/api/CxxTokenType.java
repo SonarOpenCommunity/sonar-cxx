@@ -34,7 +34,7 @@ public enum CxxTokenType implements TokenType {
   PREPROCESSOR_IF,
   PREPROCESSOR_ELSE,
   PREPROCESSOR_ENDIF,
-  WS; //whitespace
+  WS; // whitespace
 
   public String getName() {
     return name();

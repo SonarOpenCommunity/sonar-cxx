@@ -56,26 +56,26 @@ public class CxxGrammarImpl extends CxxGrammar {
     misc();
 
     test.is("debugging asset");
-    
+
     GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
   }
 
   private void misc() {
     // C++ Standard, Section 2.14.6 "Boolean literals"
     bool.is(
-      or(
-        CxxKeyword.TRUE,
-        CxxKeyword.FALSE
+        or(
+            CxxKeyword.TRUE,
+            CxxKeyword.FALSE
         )
-      );
-    
+        );
+
     literal.is(
         or(
             CHARACTER,
             STRING,
             NUMBER,
             bool
-          )
+        )
         );
   }
 
@@ -357,17 +357,17 @@ public class CxxGrammarImpl extends CxxGrammar {
         or(
             and(opt(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, or(and("=", initializerClause), bracedInitList)),
             expression
-          )
-      );
-    
+        )
+        );
+
     conditionDeclSpecifierSeq.is(
-      one2n(
-        not(and(declarator, or("=", "{"))),
-        declSpecifier
+        one2n(
+            not(and(declarator, or("=", "{"))),
+            declSpecifier
         ),
-      opt(attributeSpecifierSeq)
-      );
-     
+        opt(attributeSpecifierSeq)
+        );
+
     iterationStatement.is(
         or(
             and(CxxKeyword.WHILE, "(", condition, ")", statement),
@@ -387,13 +387,13 @@ public class CxxGrammarImpl extends CxxGrammar {
     forRangeDeclaration.is(opt(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
 
     forrangeDeclSpecifierSeq.is(
-      one2n(
-        not( declarator ),
-        declSpecifier
+        one2n(
+            not(declarator),
+            declSpecifier
         ),
-      opt(attributeSpecifierSeq)
-      );
-    
+        opt(attributeSpecifierSeq)
+        );
+
     forRangeInitializer.is(
         or(
             expression,
@@ -447,20 +447,20 @@ public class CxxGrammarImpl extends CxxGrammar {
     aliasDeclaration.is(CxxKeyword.USING, IDENTIFIER, opt(attributeSpecifierSeq), "=", typeId);
 
     simpleDeclaration.is(
-      or(
-        and(opt(simpleDeclSpecifierSeq), opt(initDeclaratorList), ";"),
-        and(attributeSpecifierSeq, opt(simpleDeclSpecifierSeq), initDeclaratorList, ";")
+        or(
+            and(opt(simpleDeclSpecifierSeq), opt(initDeclaratorList), ";"),
+            and(attributeSpecifierSeq, opt(simpleDeclSpecifierSeq), initDeclaratorList, ";")
         )
-      );
+        );
 
     simpleDeclSpecifierSeq.is(
-      one2n(
-        not(and( opt(initDeclaratorList), ";" )),
-        declSpecifier
+        one2n(
+            not(and(opt(initDeclaratorList), ";")),
+            declSpecifier
         ),
-      opt(attributeSpecifierSeq)
-      );
-    
+        opt(attributeSpecifierSeq)
+        );
+
     staticAssertDeclaration.is(CxxKeyword.STATIC_ASSERT, "(", constantExpression, ",", STRING, ")", ";");
 
     emptyDeclaration.is(";");
@@ -531,7 +531,7 @@ public class CxxGrammarImpl extends CxxGrammar {
     elaboratedTypeSpecifier.is(
         or(
             and(classKey, opt(nestedNameSpecifier), opt(CxxKeyword.TEMPLATE), simpleTemplateId),
-            
+
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "friend class ::A". Figure out if there is another way
             and(classKey, opt(attributeSpecifierSeq), opt(or(nestedNameSpecifier, "::")), IDENTIFIER),
@@ -614,48 +614,48 @@ public class CxxGrammarImpl extends CxxGrammar {
     linkageSpecification.is(CxxKeyword.EXTERN, STRING, or(and("{", opt(declarationSeq), "}"), declaration));
 
     attributeSpecifierSeq.is(one2n(attributeSpecifier));
-    
+
     attributeSpecifier.is(
-            or(
-                and("[","[", attributeList, "]", "]"),
-                alignmentSpecifier               
-            ));
+        or(
+            and("[", "[", attributeList, "]", "]"),
+            alignmentSpecifier
+        ));
 
     alignmentSpecifier.is(
-            or(
-                and(CxxKeyword.ALIGNAS, "(", typeId, opt("..."), ")"),
-                and(CxxKeyword.ALIGNAS, "(", assignmentExpression, opt("..."), ")")
-            ));
-       
+        or(
+            and(CxxKeyword.ALIGNAS, "(", typeId, opt("..."), ")"),
+            and(CxxKeyword.ALIGNAS, "(", assignmentExpression, opt("..."), ")")
+        ));
+
     attributeList.is(
-            or(
-                and(attribute, "...", o2n(",", attribute, "...")),            
-                and(opt(attribute), o2n(",", opt(attribute)))                  
-            ));
-    
+        or(
+            and(attribute, "...", o2n(",", attribute, "...")),
+            and(opt(attribute), o2n(",", opt(attribute)))
+        ));
+
     attribute.is(attributeToken, opt(attributeArgumentClause));
 
     attributeToken.is(
-            or(
-                attributeScopedToken,
-                IDENTIFIER            
-            ));
-    
+        or(
+            attributeScopedToken,
+            IDENTIFIER
+        ));
+
     attributeScopedToken.is(attributeNamespace, "::", IDENTIFIER);
-    
+
     attributeNamespace.is(IDENTIFIER);
-    
-    attributeArgumentClause.is("(", balancedTokenSeq ,")");
-        
+
+    attributeArgumentClause.is("(", balancedTokenSeq, ")");
+
     balancedTokenSeq.is(o2n(balancedToken));
-    
+
     balancedToken.is(
-            or(
-                IDENTIFIER,
-                and("(", balancedTokenSeq, ")"),            
-                and("{", balancedTokenSeq, "}"),
-                and("[", balancedTokenSeq, "]")                     
-            ));
+        or(
+            IDENTIFIER,
+            and("(", balancedTokenSeq, ")"),
+            and("{", balancedTokenSeq, "}"),
+            and("[", balancedTokenSeq, "]")
+        ));
   }
 
   private void declarators() {
@@ -770,23 +770,23 @@ public class CxxGrammarImpl extends CxxGrammar {
         );
 
     parameterDeclSpecifierSeq.is(
-      o2n(
-        not(and(opt(declarator), or("=", ")", ","))),
-        declSpecifier
+        o2n(
+            not(and(opt(declarator), or("=", ")", ","))),
+            declSpecifier
         ),
-      opt(attributeSpecifierSeq)
-      );
-    
+        opt(attributeSpecifierSeq)
+        );
+
     functionDefinition.is(opt(attributeSpecifierSeq), opt(functionDeclSpecifierSeq), declarator, opt(virtSpecifierSeq), functionBody);
-    
+
     functionDeclSpecifierSeq.is(
-      one2n(
-        not(and(declarator, opt(virtSpecifierSeq), functionBody)),
-        declSpecifier
+        one2n(
+            not(and(declarator, opt(virtSpecifierSeq), functionBody)),
+            declSpecifier
         ),
-      opt(attributeSpecifierSeq)
-      );
-    
+        opt(attributeSpecifierSeq)
+        );
+
     functionBody.is(
         or(
             and(opt(ctorInitializer), compoundStatement),
@@ -869,13 +869,13 @@ public class CxxGrammarImpl extends CxxGrammar {
         );
 
     memberDeclSpecifierSeq.is(
-      one2n(
-        not(and( opt(memberDeclaratorList), ";" )),
-        declSpecifier
+        one2n(
+            not(and(opt(memberDeclaratorList), ";")),
+            declSpecifier
         ),
-      opt(attributeSpecifierSeq)
-      );
-    
+        opt(attributeSpecifierSeq)
+        );
+
     memberDeclaratorList.is(memberDeclarator, o2n(",", memberDeclarator));
 
     memberDeclarator.is(
@@ -1009,11 +1009,11 @@ public class CxxGrammarImpl extends CxxGrammar {
             // but it doesnt work because of ambiguity template syntax <--> relationalExpression
             shiftExpression,
             constantExpression,
-            
+
             idExpression
-          )
+        )
         );
-    
+
     typenameSpecifier.is(
         CxxKeyword.TYPENAME, nestedNameSpecifier,
         or(and(opt(CxxKeyword.TEMPLATE), simpleTemplateId), IDENTIFIER));

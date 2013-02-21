@@ -19,16 +19,15 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sonar.wsclient.Sonar;
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
 import org.sonar.wsclient.services.ResourceQuery;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 //@Ignore
 public class CxxSampleProjectIT {
@@ -54,29 +53,29 @@ public class CxxSampleProjectIT {
   @Test
   public void projectsMetrics() {
     String[] metricNames =
-      {"ncloc", "lines",
-       "files", "directories", "functions",
-       "comment_lines_density", "comment_lines", "comment_blank_lines",
-       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
-       "complexity", "function_complexity",
-       "violations", "violations_density",
-       "coverage", "line_coverage", "branch_coverage",
-       "test_success_density", "test_failures", "test_errors", "tests"
-      };
+    {"ncloc", "lines",
+      "files", "directories", "functions",
+      "comment_lines_density", "comment_lines", "comment_blank_lines",
+      "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
+      "complexity", "function_complexity",
+      "violations", "violations_density",
+      "coverage", "line_coverage", "branch_coverage",
+      "test_success_density", "test_failures", "test_errors", "tests"
+    };
 
     double[] values = new double[metricNames.length];
-    for(int i = 0; i < metricNames.length; ++i){
+    for (int i = 0; i < metricNames.length; ++i) {
       values[i] = getProjectMeasure(metricNames[i]).getValue();
     }
 
     double[] expectedValues = {52.0, 124.0,
-                               4.0, 3.0, 5.0,
-                               31.6, 24.0, 10.0,
-                               69.4, 86.0, 2.0, 2.0,
-                               7.0, 1.4,
-                               34.0, 0.0,
-                               72.4, 81.0, 50.0,
-                               60.0, 2.0, 0.0, 5.0};
+      4.0, 3.0, 5.0,
+      31.6, 24.0, 10.0,
+      69.4, 86.0, 2.0, 2.0,
+      7.0, 1.4,
+      34.0, 0.0,
+      72.4, 81.0, 50.0,
+      60.0, 2.0, 0.0, 5.0};
 
     assertThat(values, is(expectedValues));
     assertThat(getProjectMeasure("function_complexity_distribution").getData(), is("1=3;2=2;4=0;6=0;8=0;10=0;12=0;20=0;30=0"));
@@ -85,27 +84,27 @@ public class CxxSampleProjectIT {
   @Test
   public void directoryMetrics() {
     String[] metricNames =
-      {"ncloc", "lines",
-       "files", "directories", "functions",
-       "comment_lines_density", "comment_lines", "comment_blank_lines",
-       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
-       "complexity", "function_complexity",
-       "violations", "violations_density",
-       "coverage", "line_coverage", "branch_coverage"
-      };
+    {"ncloc", "lines",
+      "files", "directories", "functions",
+      "comment_lines_density", "comment_lines", "comment_blank_lines",
+      "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
+      "complexity", "function_complexity",
+      "violations", "violations_density",
+      "coverage", "line_coverage", "branch_coverage"
+    };
 
     double[] values = new double[metricNames.length];
-    for(int i = 0; i < metricNames.length; ++i){
+    for (int i = 0; i < metricNames.length; ++i) {
       values[i] = getPackageMeasure(metricNames[i]).getValue();
     }
 
     double[] expectedValues = {47.0, 115.0,
-                               3.0, 1.0, 4.0,
-                               33.8, 24.0, 10.0,
-                               74.8, 86.0, 2.0, 2.0,
-                               6.0, 1.5,
-                               31.0, 0.0,
-                               84.0, 100.0, 50.0};
+      3.0, 1.0, 4.0,
+      33.8, 24.0, 10.0,
+      74.8, 86.0, 2.0, 2.0,
+      6.0, 1.5,
+      31.0, 0.0,
+      84.0, 100.0, 50.0};
 
     assertThat(values, is(expectedValues));
     assertThat(getPackageMeasure("function_complexity_distribution").getData(), is("1=2;2=2;4=0;6=0;8=0;10=0;12=0;20=0;30=0"));
@@ -114,41 +113,41 @@ public class CxxSampleProjectIT {
   @Test
   public void filesMetrics() {
     String[] metricNames =
-      {"ncloc", "lines",
-       "files", "functions",
-       "comment_lines_density", "comment_lines", "comment_blank_lines",
-       "complexity", "function_complexity",
-       "violations", "violations_density",
-       "coverage", "line_coverage", "branch_coverage"
-      };
+    {"ncloc", "lines",
+      "files", "functions",
+      "comment_lines_density", "comment_lines", "comment_blank_lines",
+      "complexity", "function_complexity",
+      "violations", "violations_density",
+      "coverage", "line_coverage", "branch_coverage"
+    };
 
     double[] values = new double[metricNames.length];
-    for(int i = 0; i < metricNames.length; ++i){
+    for (int i = 0; i < metricNames.length; ++i) {
       values[i] = getFileMeasure(metricNames[i]).getValue();
     }
 
     double[] expectedValues = {21.0, 53.0,
-                               1.0, 2.0,
-                               36.4, 12.0, 5.0,
-                               3.0, 1.5,
-                               18.0, 0.0,
-                               84.0, 100.0, 50.0};
+      1.0, 2.0,
+      36.4, 12.0, 5.0,
+      3.0, 1.5,
+      18.0, 0.0,
+      84.0, 100.0, 50.0};
 
     assertThat(values, is(expectedValues));
   }
 
   private Measure getProjectMeasure(String metricKey) {
     Resource resource = sonar.find(ResourceQuery.createForMetrics(PROJECT_SAMPLE, metricKey));
-    return resource!=null ? resource.getMeasure(metricKey) : null;
+    return resource != null ? resource.getMeasure(metricKey) : null;
   }
 
   private Measure getPackageMeasure(String metricKey) {
     Resource resource = sonar.find(ResourceQuery.createForMetrics(DIR_UTILS, metricKey));
-    return resource!=null ? resource.getMeasure(metricKey) : null;
+    return resource != null ? resource.getMeasure(metricKey) : null;
   }
 
   private Measure getFileMeasure(String metricKey) {
     Resource resource = sonar.find(ResourceQuery.createForMetrics(FILE_CODECHUNKS, metricKey));
-    return resource!=null ? resource.getMeasure(metricKey) : null;
+    return resource != null ? resource.getMeasure(metricKey) : null;
   }
 }

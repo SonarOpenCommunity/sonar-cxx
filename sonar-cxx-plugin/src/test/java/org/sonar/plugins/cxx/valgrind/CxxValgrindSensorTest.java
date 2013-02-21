@@ -19,24 +19,26 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import java.util.HashSet;
-import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
+import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.resources.File;
+import org.sonar.api.resources.Project;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
+import org.sonar.plugins.cxx.TestUtils;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.File;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
-import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
@@ -74,14 +76,14 @@ public class CxxValgrindSensorTest {
     verify(context, times(0)).saveViolation(any(Violation.class));
   }
 
-  private ValgrindError mockValgrindError(boolean inside){
+  private ValgrindError mockValgrindError(boolean inside) {
     ValgrindError error = mock(ValgrindError.class);
     ValgrindFrame frame = inside == true ? generateValgrindFrame() : null;
     when(error.getLastOwnFrame((anyString()))).thenReturn(frame);
     return error;
   }
 
-  private ValgrindFrame generateValgrindFrame(){
+  private ValgrindFrame generateValgrindFrame() {
     return new ValgrindFrame("ip", "obj", "fn", "dir", "file", 1);
   }
 }

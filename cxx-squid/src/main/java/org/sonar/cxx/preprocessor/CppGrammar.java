@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.impl.matcher.GrammarFunctions;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Rule;
+import com.sonar.sslr.impl.matcher.GrammarFunctions;
 import org.sonar.cxx.api.CxxTokenType;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
@@ -33,21 +33,21 @@ import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.one2n;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
 import static org.sonar.cxx.api.CppKeyword.DEFINE;
-import static org.sonar.cxx.api.CppKeyword.IF;
 import static org.sonar.cxx.api.CppKeyword.ELIF;
+import static org.sonar.cxx.api.CppKeyword.ELSE;
+import static org.sonar.cxx.api.CppKeyword.ENDIF;
+import static org.sonar.cxx.api.CppKeyword.ERROR;
+import static org.sonar.cxx.api.CppKeyword.IF;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppKeyword.INCLUDE;
 import static org.sonar.cxx.api.CppKeyword.INCLUDE_NEXT;
-import static org.sonar.cxx.api.CppKeyword.ELSE;
-import static org.sonar.cxx.api.CppKeyword.ENDIF;
-import static org.sonar.cxx.api.CppKeyword.UNDEF;
 import static org.sonar.cxx.api.CppKeyword.LINE;
-import static org.sonar.cxx.api.CppKeyword.ERROR;
 import static org.sonar.cxx.api.CppKeyword.PRAGMA;
+import static org.sonar.cxx.api.CppKeyword.UNDEF;
 import static org.sonar.cxx.api.CppKeyword.WARNING;
-import static org.sonar.cxx.api.CxxTokenType.WS;
 import static org.sonar.cxx.api.CppPunctuator.HASH;
+import static org.sonar.cxx.api.CxxTokenType.WS;
 
 /**
  * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
@@ -106,104 +106,104 @@ public class CppGrammar extends Grammar {
     includeLineGrammar();
     ifLineGrammar();
     allTheOtherLinesGrammar();
-    
+
     GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
   }
-  
-  private void toplevelDefinitionGrammar(){
+
+  private void toplevelDefinitionGrammar() {
     preprocessorLine.is(
-      or(
-        defineLine,
-        includeLine,
-        ifdefLine,
-        ifLine,
-        elifLine,
-        elseLine,
-        endifLine,
-        undefLine,
-        lineLine,
-        errorLine,
-        pragmaLine,
-        warningLine,
-        miscLine
+        or(
+            defineLine,
+            includeLine,
+            ifdefLine,
+            ifLine,
+            elifLine,
+            elseLine,
+            endifLine,
+            undefLine,
+            lineLine,
+            errorLine,
+            pragmaLine,
+            warningLine,
+            miscLine
         )
-      );
+        );
   }
-  
-  private void defineLineGrammar(){
+
+  private void defineLineGrammar() {
     defineLine.is(
-      or(
-        functionlikeMacroDefinition,
-        objectlikeMacroDefinition
+        or(
+            functionlikeMacroDefinition,
+            objectlikeMacroDefinition
         )
-      );
+        );
 
     functionlikeMacroDefinition.is(
-      or(
-        and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), opt(parameterList), o2n(WS), ")", opt(and(WS, replacementList))),
-        and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), "...", o2n(WS), ")", opt(and(WS, replacementList))),
-        and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), parameterList, o2n(WS), ",", o2n(WS), "...", o2n(WS), ")", opt(and(WS, replacementList)))
+        or(
+            and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), opt(parameterList), o2n(WS), ")", opt(and(WS, replacementList))),
+            and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), "...", o2n(WS), ")", opt(and(WS, replacementList))),
+            and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), parameterList, o2n(WS), ",", o2n(WS), "...", o2n(WS), ")", opt(and(WS, replacementList)))
         )
-      );
+        );
 
     objectlikeMacroDefinition.is(
-      or(
+        or(
         and(DEFINE, one2n(WS), ppToken, opt(and(one2n(WS), replacementList)))
         )
-      );
+        );
 
     replacementList.is(
-      one2n(
+        one2n(
         or(
-          "##",
-          "#",
+            "##",
+            "#",
             ppToken
-          )
         )
-      );
+        )
+        );
 
     parameterList.is(IDENTIFIER, o2n(o2n(WS), ",", o2n(WS), IDENTIFIER));
     argumentList.is(argument, o2n(o2n(WS), ",", o2n(WS), argument));
-    
+
     argument.is(
-      or(
-        somethingContainingParantheses,
-        somethingWithoutParantheses
+        or(
+            somethingContainingParantheses,
+            somethingWithoutParantheses
         )
-      );
-    
+        );
+
     somethingContainingParantheses.is(
-      o2n(allButLeftParan),
-      "(",
-      or(
-        somethingContainingParantheses,
-        o2n(allButRightParan), ")"
+        o2n(allButLeftParan),
+        "(",
+        or(
+            somethingContainingParantheses,
+            o2n(allButRightParan), ")"
         ),
-      allButComma
-      );
-    
+        allButComma
+        );
+
     somethingWithoutParantheses.is(one2n(not(or(",", ")")), anyToken()));
-    
+
     allButLeftParan.is(not("("), anyToken());
     allButRightParan.is(not(")"), anyToken());
     allButComma.is(not(","), anyToken());
-    
+
     ppToken.is(anyToken());
   }
-  
-  private void includeLineGrammar(){
+
+  private void includeLineGrammar() {
     includeLine.is(
-      or(INCLUDE, INCLUDE_NEXT), 
-      o2n(WS),
-      or(
-        and("<", one2n(not(">"), ppToken), ">"),
-        CxxTokenType.STRING
+        or(INCLUDE, INCLUDE_NEXT),
+        o2n(WS),
+        or(
+            and("<", one2n(not(">"), ppToken), ">"),
+            CxxTokenType.STRING
         ),
-      o2n(WS)
-      );
+        o2n(WS)
+        );
   }
-  
-  private void allTheOtherLinesGrammar(){
+
+  private void allTheOtherLinesGrammar() {
     ifdefLine.is(or(IFDEF, IFNDEF), one2n(WS), IDENTIFIER, o2n(WS));
     elseLine.is(ELSE, o2n(WS));
     endifLine.is(ENDIF, o2n(WS));
@@ -214,19 +214,19 @@ public class CppGrammar extends Grammar {
     warningLine.is(WARNING, o2n(WS), o2n(ppToken));
     miscLine.is(HASH, o2n(ppToken));
   }
-  
-  private void ifLineGrammar(){
+
+  private void ifLineGrammar() {
     ifLine.is(IF, o2n(WS), constantExpression, o2n(WS));
     elifLine.is(ELIF, o2n(WS), constantExpression, o2n(WS));
-    
+
     constantExpression.is(conditionalExpression);
 
     conditionalExpression.is(
-      or(
-        and(logicalOrExpression, o2n(WS), "?", o2n(WS), expression, o2n(WS), ":", o2n(WS), conditionalExpression),
-        logicalOrExpression
+        or(
+            and(logicalOrExpression, o2n(WS), "?", o2n(WS), expression, o2n(WS), ":", o2n(WS), conditionalExpression),
+            logicalOrExpression
         )
-      ).skipIfOneChild();
+        ).skipIfOneChild();
 
     logicalOrExpression.is(logicalAndExpression, o2n(o2n(WS), "||", o2n(WS), logicalAndExpression)).skipIfOneChild();
 
@@ -249,55 +249,55 @@ public class CppGrammar extends Grammar {
     multiplicativeExpression.is(unaryExpression, o2n(o2n(WS), or("*", "/", "%"), o2n(WS), unaryExpression)).skipIfOneChild();
 
     unaryExpression.is(
-      or(
-        and(unaryOperator, o2n(WS), multiplicativeExpression),
-        primaryExpression
+        or(
+            and(unaryOperator, o2n(WS), multiplicativeExpression),
+            primaryExpression
         )
-      ).skipIfOneChild();
+        ).skipIfOneChild();
 
     unaryOperator.is(
-      or("+", "-", "!", "~")
-      );
+        or("+", "-", "!", "~")
+        );
 
     primaryExpression.is(
-      or(
-        literal,
-        and("(", o2n(WS), expression, o2n(WS), ")"),
-        definedExpression,
-        functionlikeMacro,
-        IDENTIFIER
+        or(
+            literal,
+            and("(", o2n(WS), expression, o2n(WS), ")"),
+            definedExpression,
+            functionlikeMacro,
+            IDENTIFIER
         )
-      ).skipIfOneChild();
+        ).skipIfOneChild();
 
     literal.is(
-      or(
-        CxxTokenType.CHARACTER,
-        CxxTokenType.STRING,
-        CxxTokenType.NUMBER,
-        bool
+        or(
+            CxxTokenType.CHARACTER,
+            CxxTokenType.STRING,
+            CxxTokenType.NUMBER,
+            bool
         )
-      );
+        );
 
     bool.is(
-      or(
-        "true",
-        "false"
+        or(
+            "true",
+            "false"
         )
-      );
+        );
 
     expression.is(conditionalExpression, o2n(o2n(WS), ",", o2n(WS), conditionalExpression));
 
     definedExpression.is(
-      "defined", 
-      or(
-        and(o2n(WS), "(", o2n(WS), IDENTIFIER, o2n(WS), ")"),
-        and(one2n(WS), IDENTIFIER)
+        "defined",
+        or(
+            and(o2n(WS), "(", o2n(WS), IDENTIFIER, o2n(WS), ")"),
+            and(one2n(WS), IDENTIFIER)
         )
-      );
+        );
 
     functionlikeMacro.is(IDENTIFIER, o2n(WS), "(", o2n(WS), opt(not(")"), argumentList), o2n(WS), ")");
   }
-  
+
   @Override
   public Rule getRootRule() {
     return preprocessorLine;

@@ -19,18 +19,18 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TestSuiteTest {
   TestSuite suite;
   TestSuite equalSuite;
   TestSuite otherSuite;
-  
+
   @Before
   public void setUp() {
     suite = new TestSuite("key");
@@ -40,31 +40,31 @@ public class TestSuiteTest {
 
   @Test
   public void suiteDoesntEqualsNull() {
-    assert(!suite.equals(null));
+    assert (!suite.equals(null));
   }
 
   @Test
   public void suiteDoesntEqualsMiscObject() {
-    assert(!suite.equals("string"));
+    assert (!suite.equals("string"));
   }
 
   @Test
   public void suiteEqualityIsReflexive() {
-    assert(suite.equals(suite));
-    assert(otherSuite.equals(otherSuite));
-    assert(equalSuite.equals(equalSuite));
+    assert (suite.equals(suite));
+    assert (otherSuite.equals(otherSuite));
+    assert (equalSuite.equals(equalSuite));
   }
 
   @Test
   public void suiteEqualityWorksAsExpected() {
-    assert(suite.equals(equalSuite));
-    assert(!suite.equals(otherSuite));
+    assert (suite.equals(equalSuite));
+    assert (!suite.equals(otherSuite));
   }
 
   @Test
   public void suiteHashWorksAsExpected() {
-    assert(suite.hashCode() == equalSuite.hashCode());
-    assert(suite.hashCode() != otherSuite.hashCode());
+    assert (suite.hashCode() == equalSuite.hashCode());
+    assert (suite.hashCode() != otherSuite.hashCode());
   }
 
   @Test
@@ -84,7 +84,7 @@ public class TestSuiteTest {
 
     final int EXEC_TIME = 10;
     suite.addTestCase(new TestCase("name", EXEC_TIME, "status", "stack", "msg"));
-    
+
     assertEquals(suite.getTests(), testBefore + 1);
     assertEquals(suite.getTime(), timeBefore + EXEC_TIME);
   }
@@ -94,9 +94,9 @@ public class TestSuiteTest {
     int errorsBefore = suite.getErrors();
     TestCase error = mock(TestCase.class);
     when(error.isError()).thenReturn(true);
-    
+
     suite.addTestCase(error);
-    
+
     assertEquals(suite.getErrors(), errorsBefore + 1);
   }
 
@@ -105,20 +105,20 @@ public class TestSuiteTest {
     int failedBefore = suite.getFailures();
     TestCase failedTC = mock(TestCase.class);
     when(failedTC.isFailure()).thenReturn(true);
-    
+
     suite.addTestCase(failedTC);
-    
+
     assertEquals(suite.getFailures(), failedBefore + 1);
   }
-  
+
   @Test
   public void addingASkippedTestCaseShouldIncrementSkippedStatistic() {
     int skippedBefore = suite.getSkipped();
     TestCase skippedTC = mock(TestCase.class);
     when(skippedTC.isSkipped()).thenReturn(true);
-    
+
     suite.addTestCase(skippedTC);
-    
+
     assertEquals(suite.getSkipped(), skippedBefore + 1);
   }
 }

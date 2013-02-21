@@ -25,7 +25,7 @@ import org.sonar.api.batch.AbstractSourceImporter;
  * {@inheritDoc}
  */
 public final class CxxSourceImporter extends AbstractSourceImporter {
-  
+
   /**
    * {@inheritDoc}
    */

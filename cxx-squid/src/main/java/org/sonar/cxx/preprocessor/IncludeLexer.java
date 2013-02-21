@@ -43,7 +43,7 @@ public final class IncludeLexer {
         .withFailIfNoChannelToConsumeOneCharacter(true)
         .withChannel(new BlackHoleChannel("\\s"))
         .withChannel(new PreprocessorChannel())
-        .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))              
+        .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
         .withChannel(new BlackHoleChannel(".*"));
 
     for (Preprocessor preprocessor : preprocessors) {

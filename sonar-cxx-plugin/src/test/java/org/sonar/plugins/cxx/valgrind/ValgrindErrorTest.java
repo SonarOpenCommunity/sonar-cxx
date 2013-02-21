@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Map;
-import java.util.HashMap;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class ValgrindErrorTest {
   ValgrindError error;
@@ -41,31 +41,31 @@ public class ValgrindErrorTest {
 
   @Test
   public void errorDoesntEqualsNull() {
-    assert(!error.equals(null));
+    assert (!error.equals(null));
   }
 
   @Test
   public void errorDoesntEqualsMiscObject() {
-    assert(!error.equals("string"));
+    assert (!error.equals("string"));
   }
 
   @Test
   public void errorEqualityIsReflexive() {
-    assert(error.equals(error));
-    assert(otherError.equals(otherError));
-    assert(equalError.equals(equalError));
+    assert (error.equals(error));
+    assert (otherError.equals(otherError));
+    assert (equalError.equals(equalError));
   }
 
   @Test
   public void errorEqualityWorksAsExpected() {
-    assert(error.equals(equalError));
-    assert(!error.equals(otherError));
+    assert (error.equals(equalError));
+    assert (!error.equals(otherError));
   }
 
   @Test
   public void errorHashWorksAsExpected() {
-    assert(error.hashCode() == equalError.hashCode());
-    assert(error.hashCode() != otherError.hashCode());
+    assert (error.hashCode() == equalError.hashCode());
+    assert (error.hashCode() != otherError.hashCode());
   }
 
   @Test
@@ -75,7 +75,7 @@ public class ValgrindErrorTest {
     ioMap.put("\n\n", new ValgrindError("", "", new ValgrindStack()));
     ioMap.put("description\n\n", new ValgrindError("kind", "description", new ValgrindStack()));
 
-    for(Map.Entry<String, ValgrindError> entry: ioMap.entrySet()) {
+    for (Map.Entry<String, ValgrindError> entry : ioMap.entrySet()) {
       assertEquals(entry.getKey(), entry.getValue().toString());
     }
   }

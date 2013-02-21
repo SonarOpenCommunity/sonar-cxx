@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Map;
-import java.util.HashMap;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class ValgrindFrameTest {
   ValgrindFrame frame;
@@ -41,31 +41,31 @@ public class ValgrindFrameTest {
 
   @Test
   public void frameDoesntEqualsNull() {
-    assert(!frame.equals(null));
+    assert (!frame.equals(null));
   }
 
   @Test
   public void frameDoesntEqualsMiscObject() {
-    assert(!frame.equals("string"));
+    assert (!frame.equals("string"));
   }
 
   @Test
   public void frameEqualityIsReflexive() {
-    assert(frame.equals(frame));
-    assert(otherFrame.equals(otherFrame));
-    assert(equalFrame.equals(equalFrame));
+    assert (frame.equals(frame));
+    assert (otherFrame.equals(otherFrame));
+    assert (equalFrame.equals(equalFrame));
   }
 
   @Test
   public void frameEqualityWorksAsExpected() {
-    assert(frame.equals(equalFrame));
-    assert(!frame.equals(otherFrame));
+    assert (frame.equals(equalFrame));
+    assert (!frame.equals(otherFrame));
   }
 
   @Test
   public void frameHashWorksAsExpected() {
-    assert(frame.hashCode() == equalFrame.hashCode());
-    assert(frame.hashCode() != otherFrame.hashCode());
+    assert (frame.hashCode() == equalFrame.hashCode());
+    assert (frame.hashCode() != otherFrame.hashCode());
   }
 
   @Test
@@ -73,21 +73,21 @@ public class ValgrindFrameTest {
     Map<String, ValgrindFrame> ioMap = new HashMap<String, ValgrindFrame>();
 
     ioMap.put("0xDEADBEAF: main() (main.cc:1)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", "src", "main.cc", 1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", "src", "main.cc", 1));
     ioMap.put("0xDEADBEAF: main() (main.cc:1)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null,  "main.cc", 1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", 1));
     ioMap.put("0xDEADBEAF: main() (main.cc)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null,  "main.cc", -1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", -1));
     ioMap.put("0xDEADBEAF: ??? (main.cc:1)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", null,     "src", "main.cc", 1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", "main.cc", 1));
     ioMap.put("0xDEADBEAF: ??? (in libX.so)",
-              new ValgrindFrame("0xDEADBEAF", "libX.so", null,     "src", null,      1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", null, 1));
     ioMap.put("0xDEADBEAF: ???",
-              new ValgrindFrame("0xDEADBEAF", null,      null,     null,  null,      -1));
+        new ValgrindFrame("0xDEADBEAF", null, null, null, null, -1));
     ioMap.put("???: ???",
-              new ValgrindFrame(null,         null,      null,     null,  null,      -1));
+        new ValgrindFrame(null, null, null, null, null, -1));
 
-    for(Map.Entry<String, ValgrindFrame> entry: ioMap.entrySet()) {
+    for (Map.Entry<String, ValgrindFrame> entry : ioMap.entrySet()) {
       assertEquals(entry.getKey(), entry.getValue().toString());
     }
   }

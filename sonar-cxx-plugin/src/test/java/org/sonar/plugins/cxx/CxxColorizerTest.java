@@ -28,7 +28,7 @@ public class CxxColorizerTest {
   @Test
   public void shouldProvideTokenizers() {
     List<Tokenizer> tokenizers = (new CxxColorizer()).getTokenizers();
-    assert(tokenizers != null);
-    assert(tokenizers.size() == 4);
+    assert (tokenizers != null);
+    assert (tokenizers.size() == 4);
   }
 }

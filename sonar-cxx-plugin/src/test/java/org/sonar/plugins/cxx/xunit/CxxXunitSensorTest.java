@@ -19,9 +19,17 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Measure;
+import org.sonar.api.resources.Project;
+import org.sonar.plugins.cxx.TestUtils;
+
+import java.io.File;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyObject;
@@ -29,12 +37,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Project;
-import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
@@ -53,15 +55,15 @@ public class CxxXunitSensorTest {
     sensor.analyse(project, context);
 
     verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-                                          eq(CoreMetrics.TESTS), anyDouble());
+        eq(CoreMetrics.TESTS), anyDouble());
     verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-                                          eq(CoreMetrics.SKIPPED_TESTS), anyDouble());
+        eq(CoreMetrics.SKIPPED_TESTS), anyDouble());
     verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-                                          eq(CoreMetrics.TEST_ERRORS), anyDouble());
+        eq(CoreMetrics.TEST_ERRORS), anyDouble());
     verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-                                          eq(CoreMetrics.TEST_FAILURES), anyDouble());
+        eq(CoreMetrics.TEST_FAILURES), anyDouble());
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-                                          eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
+        eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
     verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
   }
 
@@ -69,52 +71,52 @@ public class CxxXunitSensorTest {
   public void shouldReportZeroTestWhenNoReportFound() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
-    
+
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
-    
+
     sensor.analyse(project, context);
-    
+
     verify(context, times(1)).saveMeasure(eq(CoreMetrics.TESTS), eq(0.0));
   }
 
-  @Test(expected=org.sonar.api.utils.SonarException.class)
+  @Test(expected = org.sonar.api.utils.SonarException.class)
   public void shouldThrowWhenGivenInvalidTime() {
     Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");    
+    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
-    
+
     sensor.analyse(project, context);
   }
-  
-  @Test(expected=java.net.MalformedURLException.class)
+
+  @Test(expected = java.net.MalformedURLException.class)
   public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
-    throws java.io.IOException, javax.xml.transform.TransformerException 
+      throws java.io.IOException, javax.xml.transform.TransformerException
   {
     Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");  
+    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
 
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
-    
+
     sensor.transformReport(cppunitReport());
   }
-  
+
   @Test
   public void transformReport_shouldTransformCppunitReport()
-    throws java.io.IOException, javax.xml.transform.TransformerException 
+      throws java.io.IOException, javax.xml.transform.TransformerException
   {
     Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");  
-    
+    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
+
     sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     File reportBefore = cppunitReport();
-    
+
     File reportAfter = sensor.transformReport(reportBefore);
-    
-    assert(reportAfter != reportBefore);
+
+    assert (reportAfter != reportBefore);
   }
-  
+
   File cppunitReport() {
     return new File(new File(project.getFileSystem().getBasedir().getPath(), "xunit-reports"),
-                    "cppunit-report.xml");
+        "cppunit-report.xml");
   }
 }

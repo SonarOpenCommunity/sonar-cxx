@@ -30,7 +30,7 @@ public class CxxLanguage extends AbstractLanguage {
   public static final String DEFAULT_SOURCE_SUFFIXES = "cxx,cpp,cc,c";
   public static final String DEFAULT_HEADER_SUFFIXES = "hxx,hpp,hh,h";
   public static final String KEY = "c++";
-  
+
   private String[] sourceSuffixes;
   private String[] headerSuffixes;
   private String[] fileSuffixes;
@@ -40,18 +40,18 @@ public class CxxLanguage extends AbstractLanguage {
    */
   public CxxLanguage(Settings config) {
     super(KEY, "c++");
-    sourceSuffixes = createStringArray(config.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES); 
+    sourceSuffixes = createStringArray(config.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
     headerSuffixes = createStringArray(config.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
-  
+
   public CxxLanguage() {
     super(KEY, "c++");
-    sourceSuffixes = createStringArray(null, DEFAULT_SOURCE_SUFFIXES); 
+    sourceSuffixes = createStringArray(null, DEFAULT_SOURCE_SUFFIXES);
     headerSuffixes = createStringArray(null, DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
-  
+
   public final String[] mergeArrays(String[] array1, String[] array2) {
     String[] result = new String[array1.length + array2.length];
     System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
@@ -77,14 +77,14 @@ public class CxxLanguage extends AbstractLanguage {
    * @return  suffixes for c++ header files
    */
   public String[] getHeaderFileSuffixes() {
-    return headerSuffixes; 
+    return headerSuffixes;
   }
 
   private String[] createStringArray(String[] values, String defaultValues) {
-    if(values == null || values.length == 0) {
+    if (values == null || values.length == 0) {
       return StringUtils.split(defaultValues, ",");
     }
     return values;
   }
-  
+
 }

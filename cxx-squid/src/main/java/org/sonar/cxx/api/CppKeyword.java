@@ -39,7 +39,7 @@ public enum CppKeyword implements TokenType {
   ERROR("#error"),
   PRAGMA("#pragma"),
 
-  //extensions
+  // extensions
   WARNING("#warning"),
   INCLUDE_NEXT("#include_next");
 

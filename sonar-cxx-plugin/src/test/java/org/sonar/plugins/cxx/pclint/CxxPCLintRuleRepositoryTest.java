@@ -20,20 +20,19 @@
 package org.sonar.plugins.cxx.pclint;
 
 import org.junit.Test;
-import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.api.platform.ServerFileSystem;
-import static org.mockito.Mockito.mock;
-
+import org.sonar.api.rules.XMLRuleParser;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class CxxPCLintRuleRepositoryTest {
-  
+
   @Test
   public void createRulesTest() {
     CxxPCLintRuleRepository rulerep = new CxxPCLintRuleRepository(
-      mock(ServerFileSystem.class),
-      new XMLRuleParser());
+        mock(ServerFileSystem.class),
+        new XMLRuleParser());
     assertThat(rulerep.createRules()).hasSize(948);
   }
 }

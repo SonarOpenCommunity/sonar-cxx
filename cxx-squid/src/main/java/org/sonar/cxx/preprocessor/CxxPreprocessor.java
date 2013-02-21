@@ -46,33 +46,32 @@ import java.util.Stack;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import static org.sonar.cxx.api.CppKeyword.IFDEF;
+import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 import static org.sonar.cxx.api.CxxTokenType.WS;
 
-import static org.sonar.cxx.api.CppKeyword.IFDEF;
-import static org.sonar.cxx.api.CppKeyword.IFNDEF;
-
 public class CxxPreprocessor extends Preprocessor {
-  private class State{
+  private class State {
     public boolean skipping;
     public int nestedIfdefs;
     public File includeUnderAnalysis;
-    
-    public State(File includeUnderAnalysis){
+
+    public State(File includeUnderAnalysis) {
       reset();
       this.includeUnderAnalysis = includeUnderAnalysis;
     }
-      
-    public final void reset(){
+
+    public final void reset() {
       skipping = false;
       nestedIfdefs = 0;
       includeUnderAnalysis = null;
     }
   }
-  
+
   static class MismatchException extends Exception {
     private String why;
 
@@ -92,7 +91,7 @@ public class CxxPreprocessor extends Preprocessor {
       this.body = body;
     }
 
-    public String toString(){
+    public String toString() {
       return name
         + (params == null ? "" : "(" + serialize(params, ", ") + ")")
         + " -> '" + serialize(body) + "'";
@@ -124,8 +123,8 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context,
-                         CxxConfiguration conf,
-                         SourceCodeProvider sourceCodeProvider) {
+      CxxConfiguration conf,
+      SourceCodeProvider sourceCodeProvider) {
     this.context = context;
     this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
 
@@ -135,9 +134,9 @@ public class CxxPreprocessor extends Preprocessor {
     pplineParser = CppParser.create(conf);
 
     // parse the configured defines and store into the macro library
-    for(String define: conf.getDefines()){
+    for (String define : conf.getDefines()) {
       LOG.debug("parsing external macro: '{}'", define);
-      if(!define.equals("")){
+      if (!define.equals("")) {
         Macro macro = parseMacroDefinition("#define " + define);
         if (macro != null) {
           LOG.info("storing external macro: '{}'", macro);
@@ -152,41 +151,41 @@ public class CxxPreprocessor extends Preprocessor {
     Token token = tokens.get(0);
     TokenType ttype = token.getType();
     File file = getFileUnderAnalysis();
-    String filePath = file == null? token.getURI().toString() : file.getAbsolutePath();
+    String filePath = file == null ? token.getURI().toString() : file.getAbsolutePath();
 
     if (ttype == PREPROCESSOR) {
-      
+
       AstNode lineAst = null;
-      try{
+      try {
         lineAst = pplineParser.parse(token.getValue()).getChild(0);
-      } catch(com.sonar.sslr.api.RecognitionException re){
+      } catch (com.sonar.sslr.api.RecognitionException re) {
         LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
         return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
       }
-      
+
       String lineKind = lineAst.getName();
 
-      if("ifdefLine".equals(lineKind)){
+      if ("ifdefLine".equals(lineKind)) {
         return handleIfdefLine(lineAst, token, filePath);
-      } else if("elseLine".equals(lineKind)){
+      } else if ("elseLine".equals(lineKind)) {
         return handleElseLine(lineAst, token, filePath);
-      } else if("endifLine".equals(lineKind)){
+      } else if ("endifLine".equals(lineKind)) {
         return handleEndifLine(lineAst, token, filePath);
-      } else if("ifLine".equals(lineKind)){
+      } else if ("ifLine".equals(lineKind)) {
         return handleIfLine(lineAst, token, filePath);
-      } else if("elifLine".equals(lineKind)){
+      } else if ("elifLine".equals(lineKind)) {
         return handleElIfLine(lineAst, token, filePath);
       }
 
-      if(inSkippingMode()){
+      if (inSkippingMode()) {
         return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
       }
 
-      if("defineLine".equals(lineKind)){
+      if ("defineLine".equals(lineKind)) {
         return handleDefineLine(lineAst, token, filePath);
-      } else if("includeLine".equals(lineKind)){
+      } else if ("includeLine".equals(lineKind)) {
         return handleIncludeLine(lineAst, token, filePath);
-      } else if("undefLine".equals(lineKind)){
+      } else if ("undefLine".equals(lineKind)) {
         return handleUndefLine(lineAst, token, filePath);
       }
 
@@ -196,51 +195,51 @@ public class CxxPreprocessor extends Preprocessor {
       return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
     }
 
-    if(ttype != EOF){
-      if(inSkippingMode()){
+    if (ttype != EOF) {
+      if (inSkippingMode()) {
         return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
       }
-      
-      if(ttype != STRING && ttype != NUMBER){
+
+      if (ttype != STRING && ttype != NUMBER) {
         return handleIdentifiersAndKeywords(tokens, token, filePath);
       }
     }
-      
+
     return PreprocessorAction.NO_OPERATION;
   }
 
-  public void beginPreprocessing(File file){
+  public void beginPreprocessing(File file) {
     // From 16.3.5 "Scope of macro definitions":
-    //   A macro definition lasts (independent of block structure) until
-    //   a corresponding #undef directive is encoun- tered or (if none
-    //   is encountered) until the end of the translation unit.
+    // A macro definition lasts (independent of block structure) until
+    // a corresponding #undef directive is encoun- tered or (if none
+    // is encountered) until the end of the translation unit.
 
     LOG.debug("beginning preprocessing '{}'", file);
-    
+
     analysedFiles.clear();
     macros.clearLowPrio();
     state.reset();
   }
 
-  public String valueOf(String macroname){
+  public String valueOf(String macroname) {
     String result = null;
     Macro macro = macros.get(macroname);
-    if(macro != null){
+    if (macro != null) {
       result = serialize(macro.body);
     }
     return result;
   }
 
-  private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename){
-    if(state.skipping){
+  private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) {
+    if (state.skipping) {
       state.nestedIfdefs++;
     }
-    else{
+    else {
       Macro macro = macros.get(getMacroName(ast));
       TokenType tokType = ast.getToken().getType();
       if ((tokType == IFDEF && macro == null) || (tokType == IFNDEF && macro != null)) {
         LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-                  new Object[]{filename, token.getLine(), token.getValue()});
+            new Object[] {filename, token.getLine(), token.getValue()});
         state.skipping = true;
       }
     }
@@ -248,138 +247,135 @@ public class CxxPreprocessor extends Preprocessor {
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
-  PreprocessorAction handleElseLine(AstNode ast, Token token, String filename){
-    if(state.nestedIfdefs == 0){
-      if(state.skipping){
+  PreprocessorAction handleElseLine(AstNode ast, Token token, String filename) {
+    if (state.nestedIfdefs == 0) {
+      if (state.skipping) {
         LOG.trace("[{}:{}]: #else, returning to non-skipping mode", filename, token.getLine());
       }
-      else{
+      else {
         LOG.trace("[{}:{}]: skipping tokens inside the #else", filename, token.getLine());
       }
-      
+
       state.skipping = !state.skipping;
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
-  PreprocessorAction handleEndifLine(AstNode ast, Token token, String filename){
-    if(state.nestedIfdefs > 0){
+  PreprocessorAction handleEndifLine(AstNode ast, Token token, String filename) {
+    if (state.nestedIfdefs > 0) {
       state.nestedIfdefs--;
     }
-    else{
-      if(state.skipping){
-        LOG.trace("[{}:{}]: #endif, returning to non-skipping mode", filename,token.getLine());
+    else {
+      if (state.skipping) {
+        LOG.trace("[{}:{}]: #endif, returning to non-skipping mode", filename, token.getLine());
       }
       state.skipping = false;
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
-  
-  PreprocessorAction handleIfLine(AstNode ast, Token token, String filename){
-    if(state.skipping){
+
+  PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) {
+    if (state.skipping) {
       state.nestedIfdefs++;
     }
-    else{
+    else {
       LOG.trace("[{}:{}]: handling #if line '{}'",
-                new Object[]{filename, token.getLine(), token.getValue()});
-      try{
-        state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
-      }
-      catch(EvaluationException e){
+          new Object[] {filename, token.getLine(), token.getValue()});
+      try {
+        state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
+      } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-                  new Object[]{filename, token.getLine(), token.getValue()});
+            new Object[] {filename, token.getLine(), token.getValue()});
         LOG.error(e.toString());
         state.skipping = false;
       }
 
-      if(state.skipping){
+      if (state.skipping) {
         LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-                  new Object[]{filename, token.getLine(), token.getValue()});
+            new Object[] {filename, token.getLine(), token.getValue()});
       }
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
-  PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename){
+  PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) {
     // Handling of an elif line is similar to handling of an if line but
     // doesn't increase the nesting level
-    if(state.nestedIfdefs == 0){
-      try{
-        state.skipping = ! ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
-      }
-      catch(EvaluationException e){
+    if (state.nestedIfdefs == 0) {
+      try {
+        state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
+      } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-                  new Object[]{filename, token.getLine(), token.getValue()});
+            new Object[] {filename, token.getLine(), token.getValue()});
         LOG.error(e.toString());
         state.skipping = false;
       }
 
-      if(state.skipping){
+      if (state.skipping) {
         LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-                  new Object[]{filename, token.getLine(), token.getValue()});
+            new Object[] {filename, token.getLine(), token.getValue()});
       }
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
-  
-  PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename){
+  PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename) {
     // Here we have a define directive. Parse it and store the result in a dictionary.
 
     Macro macro = parseMacroDefinition(ast);
     if (macro != null) {
-      LOG.trace("[{}:{}]: storing macro: '{}'", new Object[]{filename, token.getLine(), macro});
+      LOG.trace("[{}:{}]: storing macro: '{}'", new Object[] {filename, token.getLine(), macro});
       macros.putLowPrio(macro.name, macro);
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
-  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename){
+  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename) {
     //
     // Included files have to be scanned with the (only) goal of gathering macros.
     // This is done as follows:
     // a) parse the preprocessor line using the preprocessor line parser
     // b) if not done yet, try to find the according source code
     // c) if found, feed it into a special lexer, which calls back only if it finds relevant
-    //    preprocessor directives (currently: include's and define's)
+    // preprocessor directives (currently: include's and define's)
 
     File includedFile = findIncludedFile(ast);
-    if(includedFile == null){
-      LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[]{filename, token.getLine(), token.getValue()});
+    if (includedFile == null) {
+      LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
     }
-    else if(!analysedFiles.contains(includedFile)) {
+    else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());
       LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
-                new Object[]{filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
-      
+          new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+
       stateStack.push(state);
       state = new State(includedFile);
-        
-      try{
+
+      try {
         IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
       } finally {
         state = stateStack.pop();
       }
     }
-    else{
-      LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[]{filename, token.getLine(), includedFile});
+    else {
+      LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
-  
-  PreprocessorAction handleUndefLine(AstNode ast, Token token, String filename){
+
+  PreprocessorAction handleUndefLine(AstNode ast, Token token, String filename) {
     String macroName = ast.findFirstChild(IDENTIFIER).getTokenValue();
     macros.removeLowPrio(macroName);
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
-  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename){
+  PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) {
     //
     // Every identifier and every keyword can be a macro instance.
     // Pipe the resulting string through a lexer to create proper Tokens
@@ -399,9 +395,9 @@ public class CxxPreprocessor extends Preprocessor {
       }
       else {
         int tokensConsumedMatchingArgs = expandFunctionLikeMacro(macro.name,
-                                                                 tokens.subList(1, tokens.size()),
-                                                                 replTokens);
-        if (tokensConsumedMatchingArgs > 0){
+            tokens.subList(1, tokens.size()),
+            replTokens);
+        if (tokensConsumedMatchingArgs > 0) {
           tokensConsumed = 1 + tokensConsumedMatchingArgs;
         }
       }
@@ -410,28 +406,28 @@ public class CxxPreprocessor extends Preprocessor {
         replTokens = reallocate(replTokens, curr);
 
         LOG.trace("[{}:{}]: replacing '" + curr.getValue()
-                  + (arguments.size() == 0
-                     ? ""
-                     : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
-                  filename, curr.getLine());
+          + (arguments.size() == 0
+              ? ""
+              : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
+            filename, curr.getLine());
 
         ppaction = new PreprocessorAction(
-          tokensConsumed,
-          Lists.newArrayList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
-          replTokens);
+            tokensConsumed,
+            Lists.newArrayList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
+            replTokens);
       }
     }
 
     return ppaction;
   }
-  
-  public String expandFunctionLikeMacro(String macroName, List<Token> restTokens){
+
+  public String expandFunctionLikeMacro(String macroName, List<Token> restTokens) {
     List<Token> expansion = new LinkedList<Token>();
     expandFunctionLikeMacro(macroName, restTokens, expansion);
     return serialize(expansion);
   }
-  
-  private int expandFunctionLikeMacro(String macroName, List<Token> restTokens, List<Token> expansion){
+
+  private int expandFunctionLikeMacro(String macroName, List<Token> restTokens, List<Token> expansion) {
     List<Token> replTokens = null;
     List<Token> arguments = new ArrayList<Token>();
     int tokensConsumedMatchingArgs = matchArguments(restTokens, arguments);
@@ -442,18 +438,17 @@ public class CxxPreprocessor extends Preprocessor {
       replTokens = evaluateHashhashOperators(replTokens);
       expansion.addAll(expandMacro(macro.name, serialize(replTokens)));
     }
-    
+
     return tokensConsumedMatchingArgs;
   }
-  
+
   private List<Token> expandMacro(String macroName, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;
     macros.disable(macroName);
-    try{
+    try {
       tokens = stripEOF(CxxLexer.create(this).lex(macroExpression));
-    }
-    finally{
+    } finally {
       macros.enable(macroName);
     }
     return tokens;
@@ -477,36 +472,35 @@ public class CxxPreprocessor extends Preprocessor {
 
   private int matchArguments(List<Token> tokens, List<Token> arguments) {
     List<Token> rest = tokens;
-    try{
+    try {
       rest = match(rest, "(");
-    } catch(MismatchException me){
+    } catch (MismatchException me) {
       return 0;
     }
 
-    try{
-      do{
+    try {
+      do {
         rest = matchArgument(rest, arguments);
-        try{
+        try {
           rest = match(rest, ",");
         } catch (MismatchException me) {
           break;
         }
-      }
-      while(true);
+      } while (true);
 
       rest = match(rest, ")");
-    } catch(MismatchException me){
+    } catch (MismatchException me) {
       LOG.error(me.toString());
       return 0;
     }
 
     return tokens.size() - rest.size();
   }
-  
+
   private List<Token> match(List<Token> tokens, String str) throws MismatchException {
-    if(!tokens.get(0).getValue().equals(str)){
+    if (!tokens.get(0).getValue().equals(str)) {
       throw new MismatchException("Mismatch: expected '" + str + "' got: '"
-                                  + tokens.get(0).getValue() + "'");
+        + tokens.get(0).getValue() + "'");
     }
     return tokens.subList(1, tokens.size());
   }
@@ -520,16 +514,16 @@ public class CxxPreprocessor extends Preprocessor {
     String curr = currToken.getValue();
     List<Token> matchedTokens = new LinkedList<Token>();
 
-    while (true){
-      if(nestingLevel == 0 && (",".equals(curr) || ")".equals(curr))){
-        if(tokensConsumed > 0){
+    while (true) {
+      if (nestingLevel == 0 && (",".equals(curr) || ")".equals(curr))) {
+        if (tokensConsumed > 0) {
           arguments.add(Token.builder()
-                       .setLine(firstToken.getLine())
-                       .setColumn(firstToken.getColumn())
-                       .setURI(firstToken.getURI())
-                       .setValueAndOriginalValue(serialize(matchedTokens))
-                       .setType(STRING)
-                       .build());
+              .setLine(firstToken.getLine())
+              .setColumn(firstToken.getColumn())
+              .setURI(firstToken.getURI())
+              .setValueAndOriginalValue(serialize(matchedTokens))
+              .setType(STRING)
+              .build());
         }
         return tokens.subList(tokensConsumed, noTokens);
       }
@@ -541,7 +535,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       tokensConsumed++;
-      if(tokensConsumed == noTokens){
+      if (tokensConsumed == noTokens) {
         throw new MismatchException("reached the end of the stream while matching a macro argument");
       }
 
@@ -579,13 +573,13 @@ public class CxxPreprocessor extends Preprocessor {
             newValue = encloseWithQuotes(quote(newValue));
           }
           newTokens.add(Token.builder()
-                        .setLine(replacement.getLine())
-                        .setColumn(replacement.getColumn())
-                        .setURI(replacement.getURI())
-                        .setValueAndOriginalValue(newValue)
-                        .setType(replacement.getType())
-                        .setGeneratedCode(true)
-                        .build());
+              .setLine(replacement.getLine())
+              .setColumn(replacement.getColumn())
+              .setURI(replacement.getURI())
+              .setValueAndOriginalValue(newValue)
+              .setType(replacement.getType())
+              .setGeneratedCode(true)
+              .build());
         }
         else {
           newTokens.add(curr);
@@ -596,23 +590,23 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  private List<Token> evaluateHashhashOperators(List<Token> tokens){
+  private List<Token> evaluateHashhashOperators(List<Token> tokens) {
     List<Token> newTokens = new ArrayList<Token>();
 
     Iterator<Token> it = tokens.iterator();
-    while(it.hasNext()){
+    while (it.hasNext()) {
       Token curr = it.next();
-      if(curr.getValue().equals("##")){
+      if (curr.getValue().equals("##")) {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
         newTokens.add(Token.builder()
-                      .setLine(pred.getLine())
-                      .setColumn(pred.getColumn())
-                      .setURI(pred.getURI())
-                      .setValueAndOriginalValue(pred.getValue()+succ.getValue())
-                      .setType(pred.getType())
-                      .setGeneratedCode(true)
-                      .build());
+            .setLine(pred.getLine())
+            .setColumn(pred.getColumn())
+            .setURI(pred.getURI())
+            .setValueAndOriginalValue(pred.getValue() + succ.getValue())
+            .setType(pred.getType())
+            .setGeneratedCode(true)
+            .build());
       } else {
         newTokens.add(curr);
       }
@@ -621,21 +615,21 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-  private Token predConcatToken(List<Token> tokens){
-    while(!tokens.isEmpty()){
-      Token last = tokens.remove(tokens.size()-1);
-      if(last.getType() != WS){
+  private Token predConcatToken(List<Token> tokens) {
+    while (!tokens.isEmpty()) {
+      Token last = tokens.remove(tokens.size() - 1);
+      if (last.getType() != WS) {
         return last;
       }
     }
     return null;
   }
 
-  private Token succConcatToken(Iterator<Token> it){
+  private Token succConcatToken(Iterator<Token> it) {
     Token succ = null;
-    while(it.hasNext()){
+    while (it.hasNext()) {
       succ = it.next();
-      if(!succ.getValue().equals("##") && succ.getType() != WS){
+      if (!succ.getValue().equals("##") && succ.getType() != WS) {
         break;
       }
     }
@@ -666,29 +660,29 @@ public class CxxPreprocessor extends Preprocessor {
     return reallocated;
   }
 
-  private Macro parseMacroDefinition(String macroDef){
+  private Macro parseMacroDefinition(String macroDef) {
     return parseMacroDefinition(pplineParser.parse(macroDef)
-                                .findFirstChild(pplineParser.getGrammar().defineLine));
+        .findFirstChild(pplineParser.getGrammar().defineLine));
   }
 
-  private Macro parseMacroDefinition(AstNode defineLineAst){
+  private Macro parseMacroDefinition(AstNode defineLineAst) {
     AstNode ast = defineLineAst.getChild(0);
     AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().ppToken);
     String macroName = nameNode.getTokenValue();
-    
+
     AstNode paramList = ast.findFirstChild(pplineParser.getGrammar().parameterList);
     List<Token> macroParams = paramList == null
-      ? ast.getName().equals("objectlikeMacroDefinition") ? null : new LinkedList<Token>()
-      : getParams(paramList);
-    
+        ? ast.getName().equals("objectlikeMacroDefinition") ? null : new LinkedList<Token>()
+        : getParams(paramList);
+
     AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacementList);
     List<Token> macroBody = replList == null
-      ? new LinkedList<Token>()
-      : replList.getTokens().subList(0, replList.getTokens().size() - 1);
+        ? new LinkedList<Token>()
+        : replList.getTokens().subList(0, replList.getTokens().size() - 1);
 
     return new Macro(macroName, macroParams, macroBody);
   }
-  
+
   private List<Token> getParams(AstNode identListAst) {
     List<Token> params = new ArrayList<Token>();
     if (identListAst != null) {
@@ -700,22 +694,22 @@ public class CxxPreprocessor extends Preprocessor {
     return params;
   }
 
-  private File findIncludedFile(AstNode ast){
+  private File findIncludedFile(AstNode ast) {
     String fileName = null;
     File includedFile = null;
     boolean quoted = false;
 
     AstNode includedString = ast.findFirstChild(STRING);
-    if(includedString != null){
+    if (includedString != null) {
       fileName = stripQuotes(includedString.getTokenValue());
       quoted = true;
     }
     else {
       AstNode node = ast.findFirstChild(LT).nextSibling();
       StringBuilder sb = new StringBuilder();
-      while(true){
+      while (true) {
         String value = node.getTokenValue();
-        if(value.equals(">")){
+        if (value.equals(">")) {
           break;
         }
         sb.append(value);
@@ -725,31 +719,31 @@ public class CxxPreprocessor extends Preprocessor {
       fileName = sb.toString();
     }
 
-    if(fileName != null){
+    if (fileName != null) {
       File file = getFileUnderAnalysis();
       String dir = file == null ? "" : file.getParent();
-      includedFile = codeProvider.getSourceCodeFile(fileName, dir,quoted);
+      includedFile = codeProvider.getSourceCodeFile(fileName, dir, quoted);
     }
 
     return includedFile;
   }
 
-  private String getMacroName(AstNode ast){
+  private String getMacroName(AstNode ast) {
     return ast.findFirstChild(IDENTIFIER).getTokenValue();
   }
 
-  private String stripQuotes(String str){
-    return str.substring(1, str.length()-1);
+  private String stripQuotes(String str) {
+    return str.substring(1, str.length() - 1);
   }
 
-  private File getFileUnderAnalysis(){
-    if(state.includeUnderAnalysis == null){
+  private File getFileUnderAnalysis() {
+    if (state.includeUnderAnalysis == null) {
       return context.getFile();
     }
     return state.includeUnderAnalysis;
   }
 
-  private boolean inSkippingMode(){
+  private boolean inSkippingMode() {
     return state.skipping;
   }
 }

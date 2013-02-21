@@ -29,7 +29,7 @@ class ValgrindError {
   private String kind;
   private String text;
   private ValgrindStack stack;
-  
+
   /**
    * Constructs a ValgrindError out of the given attributes
    * @param kind The kind of error, plays the role of an id
@@ -43,8 +43,10 @@ class ValgrindError {
   }
 
   @Override
-  public String toString() { return text + "\n\n" + stack; }
-    
+  public String toString() {
+    return text + "\n\n" + stack;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -60,12 +62,14 @@ class ValgrindError {
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-      .append(kind)
-      .append(stack)
-      .toHashCode();
+        .append(kind)
+        .append(stack)
+        .toHashCode();
   }
 
-  String getKind() { return this.kind; }
+  String getKind() {
+    return this.kind;
+  }
 
   /**
    * @see ValgrindStack#getLastFrame
@@ -74,4 +78,3 @@ class ValgrindError {
     return stack.getLastOwnFrame(basedir);
   }
 }
-  

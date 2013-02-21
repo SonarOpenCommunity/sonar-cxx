@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.veraxx;
 
-import java.io.File;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
@@ -30,6 +29,9 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+
+import java.io.File;
+
 /**
  * {@inheritDoc}
  */
@@ -37,7 +39,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
   private static final String DEFAULT_REPORT_PATH = "vera++-reports/vera++-result-*.xml";
   private RulesProfile profile;
-  
+
   /**
    * {@inheritDoc}
    */
@@ -45,7 +47,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
     super(ruleFinder, conf);
     this.profile = profile;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -54,55 +56,55 @@ public class CxxVeraxxSensor extends CxxReportSensor {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxVeraxxRuleRepository.KEY).isEmpty();
   }
-  
+
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
-  
+
   @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
-  
+
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException
+      throws javax.xml.stream.XMLStreamException
   {
-    try {  
-	    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-	      /**
-	       * {@inheritDoc}
-	       */
-	      public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-	        rootCursor.advance();
-	
-	        SMInputCursor fileCursor = rootCursor.childElementCursor("file");
-	        while (fileCursor.getNext() != null) {
-	          String name = fileCursor.getAttrValue("name");
-	
-	          SMInputCursor errorCursor = fileCursor.childElementCursor("error");
-	          while (errorCursor.getNext() != null) {
-	        	  if (!name.equals("error")) {
-		            int line = Integer.parseInt(errorCursor.getAttrValue("line"));
-		            String message = errorCursor.getAttrValue("message");
-		            String source = errorCursor.getAttrValue("source");
-		
-		            saveViolation(project, context, CxxVeraxxRuleRepository.KEY,
-		                          name, line, source, message);
-	        	  } else {
-	                CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
-	                        errorCursor.getAttrValue("line"),
-	                        errorCursor.getAttrValue("message"));
-	        	  }
-	          }
-	        }
-	      }
-	    });
-	
-	    parser.parse(report);
-		} catch (com.ctc.wstx.exc.WstxUnexpectedCharException e){
-			CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'",e.toString());
-		}
+    try {
+      StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+        /**
+         * {@inheritDoc}
+         */
+        public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
+          rootCursor.advance();
+
+          SMInputCursor fileCursor = rootCursor.childElementCursor("file");
+          while (fileCursor.getNext() != null) {
+            String name = fileCursor.getAttrValue("name");
+
+            SMInputCursor errorCursor = fileCursor.childElementCursor("error");
+            while (errorCursor.getNext() != null) {
+              if (!name.equals("error")) {
+                int line = Integer.parseInt(errorCursor.getAttrValue("line"));
+                String message = errorCursor.getAttrValue("message");
+                String source = errorCursor.getAttrValue("source");
+
+                saveViolation(project, context, CxxVeraxxRuleRepository.KEY,
+                    name, line, source, message);
+              } else {
+                CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
+                    errorCursor.getAttrValue("line"),
+                    errorCursor.getAttrValue("message"));
+              }
+            }
+          }
+        }
+      });
+
+      parser.parse(report);
+    } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
+      CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", e.toString());
+    }
   }
 }

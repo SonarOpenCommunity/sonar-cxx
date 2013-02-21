@@ -19,9 +19,9 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class CxxPluginTest {
   @Test

@@ -19,24 +19,27 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /** Represents a call stack, consists basically of a list of frames */
 class ValgrindStack {
   private List<ValgrindFrame> frames = new ArrayList<ValgrindFrame>();
-  
+
   /**
    * Adds a stack frame to this call stack
    * @param frame The frame to add
    */
-  public void addFrame(ValgrindFrame frame) { frames.add(frame); }
-    
+  public void addFrame(ValgrindFrame frame) {
+    frames.add(frame);
+  }
+
   @Override
   public String toString() {
     StringBuilder res = new StringBuilder();
-    for (ValgrindFrame frame: frames) {
+    for (ValgrindFrame frame : frames) {
       res.append(frame);
       res.append("\n");
     }
@@ -46,12 +49,12 @@ class ValgrindStack {
   @Override
   public int hashCode() {
     HashCodeBuilder builder = new HashCodeBuilder();
-    for(ValgrindFrame frame: frames) {
+    for (ValgrindFrame frame : frames) {
       builder.append(frame);
     }
     return builder.toHashCode();
   }
-    
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -63,22 +66,21 @@ class ValgrindStack {
     ValgrindStack other = (ValgrindStack) o;
     return hashCode() == other.hashCode();
   }
-  
+
   /**
    * Returns the last frame (counted from the bottom of the stack) of
    * a function which is in 'our' code
    */
   public ValgrindFrame getLastOwnFrame(String basedir) {
-    for(ValgrindFrame frame: frames){
-      if (isInside(frame.getDir(), basedir)){
+    for (ValgrindFrame frame : frames) {
+      if (isInside(frame.getDir(), basedir)) {
         return frame;
       }
     }
     return null;
   }
-  
+
   private boolean isInside(String path, String folder) {
     return "".equals(path) ? false : path.startsWith(folder);
   }
 }
-  

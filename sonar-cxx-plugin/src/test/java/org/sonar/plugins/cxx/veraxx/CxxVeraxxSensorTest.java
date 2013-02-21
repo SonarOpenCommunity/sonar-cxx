@@ -19,16 +19,8 @@
  */
 package org.sonar.plugins.cxx.veraxx;
 
-import java.io.File;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
@@ -36,6 +28,16 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
+
+import java.io.File;
+import java.util.List;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CxxVeraxxSensorTest {
   private CxxVeraxxSensor sensor;
@@ -49,7 +51,7 @@ public class CxxVeraxxSensorTest {
     sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), mock(RulesProfile.class));
     context = mock(SensorContext.class);
     org.sonar.api.resources.File resourceMock = mock(org.sonar.api.resources.File.class);
-    when(context.getResource((org.sonar.api.resources.File)anyObject())).thenReturn(resourceMock);
+    when(context.getResource((org.sonar.api.resources.File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test

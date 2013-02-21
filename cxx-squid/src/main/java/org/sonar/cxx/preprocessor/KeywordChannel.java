@@ -60,7 +60,7 @@ public class KeywordChannel extends Channel<Lexer> {
       // do this work to strip potential whitespace between the hash and the directive
       String identifier = word.substring(1, word.length()).trim();
       String potentialKeyword = HASH.getValue() + identifier;
-      
+
       TokenType keywordType = keywordsMap.get(potentialKeyword);
       if (keywordType != null) {
         Token token = tokenBuilder

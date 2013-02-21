@@ -40,7 +40,7 @@ public class CxxDefaultProfile extends ProfileDefinition {
   @Override
   public RulesProfile createProfile(ValidationMessages messages) {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
-                                                          "default-profile.xml", messages);
+        "default-profile.xml", messages);
     profile.setDefaultProfile(true);
     return profile;
   }

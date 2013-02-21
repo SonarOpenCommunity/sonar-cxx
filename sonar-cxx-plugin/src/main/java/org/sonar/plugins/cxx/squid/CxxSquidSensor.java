@@ -19,9 +19,9 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.sonar.api.config.Settings;
 import com.sonar.sslr.squid.AstScanner;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
@@ -32,13 +32,13 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
 import org.sonar.squid.indexer.QueryByParent;
 import org.sonar.squid.indexer.QueryByType;
-import org.sonar.plugins.cxx.CxxPlugin;
 
 import java.io.File;
 import java.util.Collection;
@@ -60,14 +60,14 @@ public final class CxxSquidSensor extends CxxReportSensor {
   public CxxSquidSensor(Settings conf) {
     super(conf);
   }
-  
+
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     this.project = project;
     this.context = context;
-    
+
     this.scanner = CxxAstScanner.create(createConfiguration(project, conf));
     scanner.scanFiles(InputFileUtils.toFiles(project.getFileSystem().mainFiles(CxxLanguage.KEY)));
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
@@ -81,7 +81,7 @@ public final class CxxSquidSensor extends CxxReportSensor {
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     return cxxConf;
   }
-  
+
   private void save(Collection<SourceCode> squidSourceFiles) {
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;

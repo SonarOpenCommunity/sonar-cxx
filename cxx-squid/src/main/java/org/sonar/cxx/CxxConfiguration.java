@@ -53,7 +53,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setDefines(String[] defines) {
-    if(defines != null){
+    if (defines != null) {
       setDefines(Arrays.asList(defines));
     }
   }
@@ -61,17 +61,17 @@ public class CxxConfiguration extends SquidConfiguration {
   public List<String> getDefines() {
     return defines;
   }
-  
+
   public void setIncludeDirectories(List<String> includeDirectories) {
     this.includeDirectories = includeDirectories;
   }
-  
+
   public void setIncludeDirectories(String[] includeDirectories) {
-    if(includeDirectories != null){
+    if (includeDirectories != null) {
       setIncludeDirectories(Arrays.asList(includeDirectories));
     }
   }
-  
+
   public List<String> getIncludeDirectories() {
     return includeDirectories;
   }
@@ -79,7 +79,7 @@ public class CxxConfiguration extends SquidConfiguration {
   public void setBaseDir(String baseDir) {
     this.baseDir = baseDir;
   }
-  
+
   public String getBaseDir() {
     return baseDir;
   }

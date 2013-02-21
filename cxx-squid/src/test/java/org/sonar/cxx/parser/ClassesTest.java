@@ -217,7 +217,7 @@ public class ClassesTest {
   @Test
   public void virtSpecifier() {
     p.setRootRule(g.virtSpecifier);
-    
+
     assertThat(p, parse("override"));
     assertThat(p, parse("final"));
   }

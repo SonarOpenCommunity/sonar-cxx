@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.XMLRuleParser;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Loads the external rules configuration file.

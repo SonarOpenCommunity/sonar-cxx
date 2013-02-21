@@ -19,16 +19,18 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import java.io.File;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.when;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
+
+import java.io.File;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 public class CxxReportSensorTest {
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
@@ -37,7 +39,8 @@ public class CxxReportSensorTest {
 
   private class CxxSensorImpl extends CxxReportSensor {
     @Override
-    public void analyse(Project p, SensorContext sc){}
+    public void analyse(Project p, SensorContext sc) {
+    }
   };
 
   private CxxReportSensor sensor;
@@ -46,10 +49,9 @@ public class CxxReportSensorTest {
   @Before
   public void init() {
     sensor = new CxxSensorImpl();
-    try{
+    try {
       baseDir = new File(getClass().getResource("/org/sonar/plugins/cxx/").toURI());
-    }
-    catch(java.net.URISyntaxException e){
+    } catch (java.net.URISyntaxException e) {
       System.out.println(e);
     }
   }
@@ -65,56 +67,56 @@ public class CxxReportSensorTest {
     CxxReportSensor sensor = new CxxSensorImpl();
     Project cxxProject = mockProjectWithLanguageKey(CxxLanguage.KEY);
     Project foreignProject = mockProjectWithLanguageKey("whatever");
-    assert(sensor.shouldExecuteOnProject(cxxProject));
-    assert(!sensor.shouldExecuteOnProject(foreignProject));
+    assert (sensor.shouldExecuteOnProject(cxxProject));
+    assert (!sensor.shouldExecuteOnProject(foreignProject));
   }
 
   @Test
-  public void getReports_shouldFindSomethingIfThere(){
+  public void getReports_shouldFindSomethingIfThere() {
     List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
-                                           "", VALID_REPORT_PATH);
+        "", VALID_REPORT_PATH);
     assertFound(reports);
   }
 
   @Test
-  public void getReports_shouldFindNothingIfNotThere(){
+  public void getReports_shouldFindNothingIfNotThere() {
     List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
-                                           "", INVALID_REPORT_PATH);
+        "", INVALID_REPORT_PATH);
     assertNotFound(reports);
   }
 
   @Test
-  public void getReports_shouldUseConfigurationWithHigherPriority(){
+  public void getReports_shouldUseConfigurationWithHigherPriority() {
     // we'll detect this condition by passing something not existing as config property
     // and something existing as default. The result is 'found nothing' because the
     // config has been used
     Settings config = new Settings();
     config.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
-        
+
     List<File> reports = sensor.getReports(config, baseDir.getPath(),
-                                           REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
+        REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertNotFound(reports);
   }
 
   @Test
-  public void getReports_shouldFallbackToDefaultIfNothingConfigured(){
+  public void getReports_shouldFallbackToDefaultIfNothingConfigured() {
     List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
-                                           REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
+        REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertFound(reports);
   }
 
-  private void assertFound(List<File> reports){
-    assert(reports != null);
-    assert(reports.size() == 1);
-    assert(reports.get(0).exists());
-    assert(reports.get(0).isAbsolute());
-  }
-  
-  private void assertNotFound(List<File> reports){
-    assert(reports != null);
+  private void assertFound(List<File> reports) {
+    assert (reports != null);
+    assert (reports.size() == 1);
+    assert (reports.get(0).exists());
+    assert (reports.get(0).isAbsolute());
   }
 
-  private static Project mockProjectWithLanguageKey(String languageKey){
+  private void assertNotFound(List<File> reports) {
+    assert (reports != null);
+  }
+
+  private static Project mockProjectWithLanguageKey(String languageKey) {
     Project project = TestUtils.mockProject();
     when(project.getLanguageKey()).thenReturn(languageKey);
     return project;

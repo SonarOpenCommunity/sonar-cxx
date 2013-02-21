@@ -25,18 +25,18 @@ import org.sonar.cxx.CxxConfiguration;
 public final class CppParser {
   private CppParser() {
   }
-  
+
   public static Parser<CppGrammar> create(CxxConfiguration conf) {
     return Parser.builder(new CppGrammar())
-      .withLexer(CppLexer.create(conf))
-      .build();
+        .withLexer(CppLexer.create(conf))
+        .build();
   }
-  
+
   public static Parser<CppGrammar> createConstantExpressionParser(CxxConfiguration conf) {
     CppGrammar grammar = new CppGrammar();
     Parser<CppGrammar> parser = Parser.builder(grammar)
-      .withLexer(CppLexer.create(conf))
-      .build();
+        .withLexer(CppLexer.create(conf))
+        .build();
     parser.setRootRule(grammar.constantExpression);
     return parser;
   }

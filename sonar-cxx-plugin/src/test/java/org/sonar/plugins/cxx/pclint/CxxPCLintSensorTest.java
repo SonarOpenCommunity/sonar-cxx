@@ -21,20 +21,21 @@ package org.sonar.plugins.cxx.pclint;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
+import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.resources.File;
+import org.sonar.api.resources.Project;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
+import org.sonar.plugins.cxx.TestUtils;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.File;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
-import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxPCLintSensorTest {
   private CxxPCLintSensor sensor;
@@ -49,7 +50,7 @@ public class CxxPCLintSensorTest {
     sensor = new CxxPCLintSensor(ruleFinder, new Settings(), profile);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
-    when(context.getResource((File)anyObject())).thenReturn(resourceMock);
+    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test

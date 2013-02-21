@@ -21,18 +21,19 @@ package org.sonar.plugins.cxx.coverage;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
+import org.sonar.api.measures.Measure;
+import org.sonar.api.resources.File;
+import org.sonar.api.resources.Project;
+import org.sonar.plugins.cxx.TestUtils;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.File;
-import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCoverageSensorTest {
   private CxxCoverageSensor sensor;
@@ -45,7 +46,7 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(new Settings());
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
-    when(context.getResource((File)anyObject())).thenReturn(resourceMock);
+    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test
@@ -56,7 +57,7 @@ public class CxxCoverageSensorTest {
 
   @Test
   public void shouldReportNoCoverageSaved() {
-    when(context.getResource((File)anyObject())).thenReturn(null);
+    when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
   }

@@ -91,7 +91,7 @@ public class ExpressionTest {
     assertThat(p, parse("foo<int>"));
     assertThat(p, parse("operator==<B>"));
   }
-  
+
   @Test
   public void qualifiedId() {
     p.setRootRule(g.qualifiedId);
@@ -250,12 +250,12 @@ public class ExpressionTest {
   @Test
   public void newExpression_reallife() {
     p.setRootRule(g.newExpression);
-    
+
     assertThat(p, parse("new Table()"));
     assertThat(p, parse("new Table"));
     assertThat(p, parse("new(Table)"));
   }
-  
+
   @Test
   public void newDeclarator() {
     p.setRootRule(g.newDeclarator);
@@ -390,7 +390,7 @@ public class ExpressionTest {
   @Test
   public void constantExpression() {
     p.setRootRule(g.constantExpression);
-    
+
     g.conditionalExpression.mock();
 
     assertThat(p, parse("conditionalExpression"));
@@ -402,7 +402,7 @@ public class ExpressionTest {
 
     assertThat(p, parse("__cplusplus"));
   }
-  
+
   @Test
   public void logicalAndExpression() {
     p.setRootRule(g.logicalAndExpression);
@@ -495,10 +495,10 @@ public class ExpressionTest {
   @Test
   public void multiplicativeExpression_reallive() {
     p.setRootRule(g.multiplicativeExpression);
-    
+
     assertThat(p, parse("N / 1"));
   }
-  
+
   @Test
   public void pmExpression() {
     p.setRootRule(g.pmExpression);

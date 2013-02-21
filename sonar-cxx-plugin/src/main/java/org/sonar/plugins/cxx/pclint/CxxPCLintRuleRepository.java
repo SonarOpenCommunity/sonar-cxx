@@ -28,7 +28,7 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  */
 public final class CxxPCLintRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "pclint";
-  
+
   /**
    * {@inheritDoc}
    */

@@ -19,10 +19,6 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
-import java.io.File;
-
-import javax.xml.stream.XMLStreamException;
-
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
@@ -32,6 +28,10 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+
+import javax.xml.stream.XMLStreamException;
+
+import java.io.File;
 
 /**
  * Custom Rule Import, all static analysis are supported.
@@ -58,7 +58,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
-        && !profile.getActiveRulesByRepository(CxxExternalRuleRepository.REPOSITORY_KEY).isEmpty();
+      && !profile.getActiveRulesByRepository(CxxExternalRuleRepository.REPOSITORY_KEY).isEmpty();
   }
 
   @Override

@@ -40,7 +40,7 @@ public class CppLexerTest {
     assertThat(lexer.lex("#define"), hasToken("#define", CppKeyword.DEFINE));
     assertThat(lexer.lex("#include"), hasToken("#include", CppKeyword.INCLUDE));
   }
-  
+
   @Test
   public void cpp_keywords_with_whitespaces() {
     assertThat(lexer.lex("#  define"), hasToken("#define", CppKeyword.DEFINE));

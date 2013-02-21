@@ -19,15 +19,16 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.CxxLanguage;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@inheritDoc}
@@ -62,6 +63,6 @@ public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
     return rules;
   }
-  
+
   protected abstract String fileName();
 }

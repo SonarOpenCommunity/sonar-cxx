@@ -147,7 +147,7 @@ public class DeclaratorsTest {
     assertThat(p, parse("noptrDeclarator"));
     assertThat(p, parse("ptrOperator noptrDeclarator"));
     assertThat(p, parse("ptrOperator ptrOperator noptrDeclarator"));
-    
+
   }
 
   @Test
@@ -156,7 +156,7 @@ public class DeclaratorsTest {
 
     assertThat(p, parse("A::*foo"));
   }
-  
+
   @Test
   public void ptrOperator() {
     p.setRootRule(g.ptrOperator);
@@ -180,10 +180,10 @@ public class DeclaratorsTest {
   @Test
   public void ptrOperator_reallife() {
     p.setRootRule(g.ptrOperator);
-    
+
     assertThat(p, parse("A::*"));
   }
-  
+
   @Test
   public void cvQualifierSeq() {
     p.setRootRule(g.cvQualifierSeq);

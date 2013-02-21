@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
-import java.io.File;
-import javax.xml.stream.XMLStreamException;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -33,6 +31,10 @@ import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
+import javax.xml.stream.XMLStreamException;
+
+import java.io.File;
+
 /**
  * PCLint is an equivalent to pmd but for C++
  *
@@ -42,7 +44,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
   private RulesProfile profile;
-  
+
   /**
    * {@inheritDoc}
    */
@@ -59,20 +61,20 @@ public class CxxPCLintSensor extends CxxReportSensor {
     return super.shouldExecuteOnProject(project)
       && !profile.getActiveRulesByRepository(CxxPCLintRuleRepository.KEY).isEmpty();
   }
-  
+
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
-  
+
   @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
   }
-  
+
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException
+      throws javax.xml.stream.XMLStreamException
   {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -80,9 +82,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
        */
 
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance(); //results
+        rootCursor.advance(); // results
 
-        SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); //error
+        SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
 
         while (errorCursor.getNext() != null) {
 
@@ -90,14 +92,14 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String line = errorCursor.getAttrValue("line");
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
-          try {     
-            if(isInputValid(file, line, id, msg)) {
+          try {
+            if (isInputValid(file, line, id, msg)) {
               saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                            file, Integer.parseInt(line), id, msg);
+                  file, Integer.parseInt(line), id, msg);
             } else {
-              CxxUtils.LOG.warn("PCLint warning: {}", msg );
+              CxxUtils.LOG.warn("PCLint warning: {}", msg);
             }
-          } catch (java.lang.NullPointerException e){
+          } catch (java.lang.NullPointerException e) {
             // avoid crash of the pclint plug-in e.g. mixed-up file name - the output shows some details
             CxxUtils.LOG.error("processReport Exception: " + errorCursor.getQName() + " - not processed by StaxParser '{}'", e.toString());
             CxxUtils.LOG.error("last known values: file=" + file + " line=" + line + " number=" + id + " Desc=" + msg);
@@ -106,7 +108,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line) 
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
           && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
     });

@@ -50,11 +50,11 @@ public class CxxLexer_PreprocessorDisabled_Test {
     assertThat(lexer.lex("#define\\\ncontinued line")).hasSize(2);
     assertThat(lexer.lex("#include <iostream>\n1"), hasToken("1", CxxTokenType.NUMBER));
   }
-  
+
   @Test
   public void preprocessor_continued_define() {
     assertThat(lexer.lex("#define M\\\n"
-                         +"0"),
-               hasToken("#define M 0", CxxTokenType.PREPROCESSOR));
+      + "0"),
+        hasToken("#define M 0", CxxTokenType.PREPROCESSOR));
   }
 }

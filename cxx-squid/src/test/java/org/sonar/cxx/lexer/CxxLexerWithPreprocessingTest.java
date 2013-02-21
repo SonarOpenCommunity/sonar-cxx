@@ -51,7 +51,7 @@ public class CxxLexerWithPreprocessingTest {
 
   private static Lexer lexer;
 
-  public CxxLexerWithPreprocessingTest(){
+  public CxxLexerWithPreprocessingTest() {
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
     lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
   }
@@ -111,7 +111,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void expanding_hashhash_operator() {
     List<Token> tokens = lexer.lex("#define concat(a,b) a ## b\n concat(x,y)");
-    assertThat(tokens).hasSize(2); //xy + EOF
+    assertThat(tokens).hasSize(2); // xy + EOF
     assertThat(tokens, hasToken("xy", GenericTokenType.IDENTIFIER));
   }
 
@@ -119,21 +119,21 @@ public class CxxLexerWithPreprocessingTest {
   public void expanding_hashhash_operator_withoutparams() {
     List<Token> tokens = lexer.lex("#define hashhash c ## c\n hashhash");
 
-    assertThat(tokens).hasSize(2); //cc + EOF
+    assertThat(tokens).hasSize(2); // cc + EOF
     assertThat(tokens, hasToken("cc", GenericTokenType.IDENTIFIER));
   }
 
   @Test
   public void expanding_sequenceof_hashhash_operators() {
     List<Token> tokens = lexer.lex("#define concat(a,b) a ## ## ## b\n concat(x,y)");
-    assertThat(tokens).hasSize(2); //xy + EOF
+    assertThat(tokens).hasSize(2); // xy + EOF
     assertThat(tokens, hasToken("xy", GenericTokenType.IDENTIFIER));
   }
 
   @Test
   public void expanding_many_hashhash_operators() {
     List<Token> tokens = lexer.lex("#define concat(a,b) c ## c ## c ## c\n concat(x,y)");
-    assertThat(tokens).hasSize(2); //cccc + EOF
+    assertThat(tokens).hasSize(2); // cccc + EOF
     assertThat(tokens, hasToken("cccc", GenericTokenType.IDENTIFIER));
   }
 
@@ -144,10 +144,10 @@ public class CxxLexerWithPreprocessingTest {
     // preprocessor directives too early, I guess.
 
     // List<Token> tokens = lexer.lex("#define hash_hash(x) # ## #\n"
-    //                                + "#define mkstr(a) # a\n"
-    //                                + "#define in_between(a) mkstr(a)\n"
-    //                                + "#define join(c, d) in_between(c hash_hash(x) d)\n"
-    //                                + "join(x,y)");
+    // + "#define mkstr(a) # a\n"
+    // + "#define in_between(a) mkstr(a)\n"
+    // + "#define join(c, d) in_between(c hash_hash(x) d)\n"
+    // + "join(x,y)");
     // assertThat(tokens).hasSize(2); //"x ## y" + EOF
     // assertThat(tokens, hasToken("\"x ## y\"", GenericTokenType.STRING));
   }
@@ -229,7 +229,7 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void external_define(){
+  public void external_define() {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(Arrays.asList("M body"));
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
@@ -241,7 +241,7 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void external_defines_with_params(){
+  public void external_defines_with_params() {
     CxxConfiguration conf = new CxxConfiguration();
     conf.setDefines(Arrays.asList("minus(a, b) a - b"));
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
@@ -253,40 +253,40 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void using_keyword_as_macro_name(){
+  public void using_keyword_as_macro_name() {
     List<Token> tokens = lexer.lex("#define new new_debug\n"
-                                   + "new");
+      + "new");
     assertThat(tokens).hasSize(2); // identifier + EOF
     assertThat(tokens, hasToken("new_debug", GenericTokenType.IDENTIFIER));
   }
 
   @Test
-  public void using_keyword_as_macro_parameter(){
+  public void using_keyword_as_macro_parameter() {
     List<Token> tokens = lexer.lex("#define macro(new) new\n"
-                                   + "macro(a)");
+      + "macro(a)");
     assertThat(tokens).hasSize(2); // identifier + EOF
     assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
   }
 
   @Test
-  public void using_macro_name_as_macro_identifier(){
+  public void using_macro_name_as_macro_identifier() {
     List<Token> tokens = lexer.lex("#define X(a) a X(a)\n"
-                                   + "X(new)");
+      + "X(new)");
     assertThat(tokens).hasSize(6); // new + X + ( + new + ) + EOF
     assertThat(tokens, hasToken("new", CxxKeyword.NEW));
-    assertThat(tokens, hasToken("X",  GenericTokenType.IDENTIFIER));
+    assertThat(tokens, hasToken("X", GenericTokenType.IDENTIFIER));
   }
 
   @Test
-  public void using_keyword_as_macro_argument(){
+  public void using_keyword_as_macro_argument() {
     List<Token> tokens = lexer.lex("#define X(a) a\n"
-                                   + "X(new)");
+      + "X(new)");
     assertThat(tokens).hasSize(2); // kw + EOF
     assertThat(tokens, hasToken("new", CxxKeyword.NEW));
   }
 
   @Test
-  public void includes_are_working(){
+  public void includes_are_working() {
     SourceCodeProvider scp = mock(SourceCodeProvider.class);
     when(scp.getSourceCodeFile(anyString(), anyString(), eq(false))).thenReturn(new File(""));
     when(scp.getSourceCode(any(File.class))).thenReturn("#define A B\n");
@@ -298,7 +298,7 @@ public class CxxLexerWithPreprocessingTest {
     lexer = CxxLexer.create(pp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("#include <file>\n"
-                                   + "A");
+      + "A");
     assertThat(tokens).hasSize(2); // B + EOF
     assertThat(tokens, hasToken("B", GenericTokenType.IDENTIFIER));
   }
@@ -306,10 +306,10 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_ifdef_undefined() {
     List<Token> tokens = lexer.lex("#ifdef LALA\n"
-                                   + "111\n"
-                                   + "#else\n"
-                                   + "222\n"
-                                   + "#endif\n");
+      + "111\n"
+      + "#else\n"
+      + "222\n"
+      + "#endif\n");
 
     assertThat(tokens, not(hasToken("111", CxxTokenType.NUMBER)));
     assertThat(tokens, hasToken("222", CxxTokenType.NUMBER));
@@ -318,11 +318,11 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_ifdef_defined() {
     List<Token> tokens = lexer.lex("#define LALA\n"
-                                   + "#ifdef LALA\n"
-                                   + "  111\n"
-                                   + "#else\n"
-                                   + "  222\n"
-                                   + "#endif\n");
+      + "#ifdef LALA\n"
+      + "  111\n"
+      + "#else\n"
+      + "  222\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("111", CxxTokenType.NUMBER));
     assertThat(tokens, not(hasToken("222", CxxTokenType.NUMBER)));
@@ -331,10 +331,10 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_ifndef_undefined() {
     List<Token> tokens = lexer.lex("#ifndef LALA\n"
-                                   + "111\n"
-                                   + "#else\n"
-                                   + "222\n"
-                                   + "#endif\n");
+      + "111\n"
+      + "#else\n"
+      + "222\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("111", CxxTokenType.NUMBER));
     assertThat(tokens).hasSize(2); // 111 + EOF
@@ -343,11 +343,11 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_ifndef_defined() {
     List<Token> tokens = lexer.lex("#define X\n"
-                                   + "#ifndef X\n"
-                                   + "  111\n"
-                                   + "#else\n"
-                                   + "  222\n"
-                                   + "#endif\n");
+      + "#ifndef X\n"
+      + "  111\n"
+      + "#else\n"
+      + "  222\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("222", CxxTokenType.NUMBER));
     assertThat(tokens).hasSize(2); // 222 + EOF
@@ -356,17 +356,17 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_ifdef_nested() {
     List<Token> tokens = lexer.lex("#define B\n"
-                                   + "#ifdef A\n"
-                                   + "  a\n"
-                                   + "  #ifdef B\n"
-                                   + "    b\n"
-                                   + "  #else\n"
-                                   + "    notb\n"
-                                   + "  #endif\n"
-                                   + "  a1\n"
-                                   + "#else\n"
-                                   + "  nota\n"
-                                   + "#endif\n");
+      + "#ifdef A\n"
+      + "  a\n"
+      + "  #ifdef B\n"
+      + "    b\n"
+      + "  #else\n"
+      + "    notb\n"
+      + "  #endif\n"
+      + "  a1\n"
+      + "#else\n"
+      + "  nota\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
@@ -375,10 +375,10 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_if_false() {
     List<Token> tokens = lexer.lex("#if 0\n"
-                                   + "  a\n"
-                                   + "#else\n"
-                                   + "  nota\n"
-                                   + "#endif\n");
+      + "  a\n"
+      + "#else\n"
+      + "  nota\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
@@ -387,10 +387,10 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_if_true() {
     List<Token> tokens = lexer.lex("#if 1\n"
-                                   + "  a\n"
-                                   + "#else\n"
-                                   + "  nota\n"
-                                   + "#endif\n");
+      + "  a\n"
+      + "#else\n"
+      + "  nota\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // a + EOF
@@ -399,11 +399,11 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_if_identifier_true() {
     List<Token> tokens = lexer.lex("#define LALA 1\n"
-                                   + "#if LALA\n"
-                                   + "  a\n"
-                                   + "#else\n"
-                                   + "  nota\n"
-                                   + "#endif\n");
+      + "#if LALA\n"
+      + "  a\n"
+      + "#else\n"
+      + "  nota\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // a + EOF
@@ -412,33 +412,31 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void conditional_compilation_if_identifier_false() {
     List<Token> tokens = lexer.lex("#if LALA\n"
-                                   + "  a\n"
-                                   + "#else\n"
-                                   + "  nota\n"
-                                   + "#endif\n");
+      + "  a\n"
+      + "#else\n"
+      + "  nota\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
   }
 
-
-  
   @Test
   public void nested_ifs() {
     List<Token> tokens = lexer.lex("#if 0\n"
-                                   + "  #if 1\n"
-                                   + "    b\n"
-                                   + "  #else\n"
-                                   + "    notb\n"
-                                   + "  #endif\n"
-                                   + "#else\n"
-                                   + "  nota\n"
-                                   + "#endif\n");
+      + "  #if 1\n"
+      + "    b\n"
+      + "  #else\n"
+      + "    notb\n"
+      + "  #endif\n"
+      + "#else\n"
+      + "  nota\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("nota", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // nota + EOF
   }
-  
+
   // Proper separation of parametrized macros and macros expand to a string enclosed
   // in parentheses
   @Test
@@ -447,17 +445,17 @@ public class CxxLexerWithPreprocessingTest {
     // arent separated from the identifier by whitespace. Otherwise, the parentheses
     // belong to the replacement string
     List<Token> tokens = lexer.lex("#define macro ()\n"
-                                   + "macro\n");
+      + "macro\n");
     assertThat(tokens, hasToken("(", CxxPunctuator.BR_LEFT));
   }
 
   @Test
   public void assume_true_if_cannot_evaluate_if_expression() {
     List<Token> tokens = lexer.lex("#if (\"\")\n"
-                                   + "  a\n"
-                                   + "#else\n"
-                                   + "  nota\n"
-                                   + "#endif\n");
+      + "  a\n"
+      + "#else\n"
+      + "  nota\n"
+      + "#endif\n");
     assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // a + EOF
   }
@@ -474,10 +472,10 @@ public class CxxLexerWithPreprocessingTest {
     when(conf.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
     CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
     lexer = CxxLexer.create(conf, cxxpp);
-    
+
     List<Token> tokens = lexer.lex("#define name badvalue\n"
-                                   + "name");
-    
+      + "name");
+
     assertThat(tokens, hasToken("goodvalue", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // goodvalue + EOF
   }
@@ -485,10 +483,10 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void elif_expression() {
     List<Token> tokens = lexer.lex("#if 0\n"
-                                   + "  if\n"
-                                   + "#elif 1\n"
-                                   + "  elif\n"
-                                   + "#endif\n");
+      + "  if\n"
+      + "#elif 1\n"
+      + "  elif\n"
+      + "#endif\n");
 
     assertThat(tokens, hasToken("elif", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // elif + EOF
@@ -496,29 +494,29 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void continued_preprocessor_directive() {
-    //continuations mask only one succeeding newline
+    // continuations mask only one succeeding newline
     List<Token> tokens = lexer.lex("#define M macrobody\\\n"
-                                   + "\n"
-                                   + "external");
+      + "\n"
+      + "external");
     assertThat(tokens, hasToken("external", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // external + EOF
   }
-  
+
   @Test
   public void misc_preprocessor_lines() {
-    //a line which begins with a hash is a preprocessor line
-    //it doesnt have any meaning in our context and should be just ignored
-    
+    // a line which begins with a hash is a preprocessor line
+    // it doesnt have any meaning in our context and should be just ignored
+
     assertThat(lexer.lex("#")).hasSize(1); // EOF
     assertThat(lexer.lex("#lala")).hasSize(1); // EOF
     assertThat(lexer.lex("# lala")).hasSize(1); // EOF
   }
-  
+
   @Test
   public void undef_works() {
     List<Token> tokens = lexer.lex("#define a b\n"
-                                   + "#undef a\n"
-                                   + "a\n");
+      + "#undef a\n"
+      + "a\n");
     assertThat(tokens, hasToken("a", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // a + EOF
   }
@@ -526,12 +524,12 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void function_like_macros_in_if_expressions() {
     List<Token> tokens = lexer.lex("#define A() 0\n"
-                                   + "#define B() 0\n"
-                                   + "#if A() & B()\n"
-                                   + "truecase\n"
-                                   + "#else\n"
-                                   + "falsecase\n"
-                                   + "#endif");
+      + "#define B() 0\n"
+      + "#if A() & B()\n"
+      + "truecase\n"
+      + "#else\n"
+      + "falsecase\n"
+      + "#endif");
     assertThat(tokens, hasToken("falsecase", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // falsecase + EOF
   }
@@ -539,11 +537,11 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void proper_expansion_of_function_like_macros_in_if_expressions() {
     List<Token> tokens = lexer.lex("#define A() 0 ## 1\n"
-                                   + "#if A()\n"
-                                   + "truecase\n"
-                                   + "#else\n"
-                                   + "falsecase\n"
-                                   + "#endif");
+      + "#if A()\n"
+      + "truecase\n"
+      + "#else\n"
+      + "falsecase\n"
+      + "#endif");
     assertThat(tokens, hasToken("truecase", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // falsecase + EOF
   }

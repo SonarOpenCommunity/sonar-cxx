@@ -30,8 +30,7 @@ public class SourceCodeProviderTest {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private File expected = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
 
-  
-  //////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////
   // Behaviour in the absolute path case
 
   @Test
@@ -39,81 +38,78 @@ public class SourceCodeProviderTest {
     // lookup with absolute pathes should ignore the value of current
     // working directory and should work the same in the quouted and
     // unquoted case
-    
+
     String path = expected.getAbsolutePath();
     String dummycwd = new File("src/test/resources/codeprovider").getAbsolutePath();
-    
+
     assertEquals(expected, codeProvider.getSourceCodeFile(path, null, true));
     assertEquals(expected, codeProvider.getSourceCodeFile(path, null, false));
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
 
-
-  //////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////
   // Relpathes, standard behaviour: equal for quoted and angle cases
-  
-  // We have following cases here:
-  // Include string form |  Include root form  |
-  //                     | absolute | relative |    
-  // simple              |    1     |    2     |
-  // -------------------------------------------
-  // rel. path           |    3     |    4     |
 
-  
+  // We have following cases here:
+  // Include string form | Include root form |
+  // | absolute | relative |
+  // simple | 1 | 2 |
+  // -------------------------------------------
+  // rel. path | 3 | 4 |
+
   @Test
   public void getting_file_relpath_case1() {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source.hh";
     String includeRoot = new File("src/test/resources/codeprovider").getAbsolutePath();
-    
+
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
-  
+
   @Test
   public void getting_file_relpath_case2() {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "source.hh";
     String includeRoot = "resources/codeprovider";
-    
+
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
-  
+
   @Test
   public void getting_file_relpath_case3() {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source.hh";
     String includeRoot = new File("src/test/resources").getAbsolutePath();
-    
+
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
-  
+
   @Test
   public void getting_file_relpath_case4() {
     String baseDir = new File("src/test").getAbsolutePath();
     String dummycwd = "/";
     String path = "codeprovider/source.hh";
     String includeRoot = "resources";
-    
+
     codeProvider.setIncludeRoots(Arrays.asList(includeRoot), baseDir);
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, true));
     assertEquals(expected, codeProvider.getSourceCodeFile(path, dummycwd, false));
   }
 
-  
-  //////////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////////
   // Special behaviour in the quoted case
   // Lookup in the current directory. Has to fail for the angle case
-  
+
   @Test
   public void getting_file_with_filename_and_cwd() {
     String cwd = new File("src/test/resources/codeprovider").getAbsolutePath();
@@ -121,7 +117,7 @@ public class SourceCodeProviderTest {
     assertEquals(expected, codeProvider.getSourceCodeFile(path, cwd, true));
     assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
   }
-  
+
   @Test
   public void getting_file_with_relpath_and_cwd() {
     String cwd = new File("src/test/resources").getAbsolutePath();
@@ -129,7 +125,7 @@ public class SourceCodeProviderTest {
     assertEquals(expected, codeProvider.getSourceCodeFile(path, cwd, true));
     assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
   }
-  
+
   @Test
   public void getting_file_with_relpath_containing_backsteps_and_cwd() {
     String cwd = new File("src/test/resources/codeprovider/folder").getAbsolutePath();
@@ -138,7 +134,6 @@ public class SourceCodeProviderTest {
     assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
   }
 
-  
   @Test
   public void getting_source_code() {
     assertEquals("source code\n", codeProvider.getSourceCode(expected));

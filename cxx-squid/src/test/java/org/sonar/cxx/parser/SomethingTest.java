@@ -35,6 +35,6 @@ public class SomethingTest {
   public void test() {
     p.setRootRule(g.test);
 
-    //assertThat(p, parse("void foo() override {};"));
+    // assertThat(p, parse("void foo() override {};"));
   }
 }

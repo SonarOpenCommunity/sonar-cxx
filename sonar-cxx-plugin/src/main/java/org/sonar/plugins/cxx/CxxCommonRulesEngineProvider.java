@@ -33,13 +33,12 @@ public class CxxCommonRulesEngineProvider extends CommonRulesEngineProvider {
     super(project);
   }
 
-  
   @Override
   protected void doActivation(CommonRulesEngine engine) {
     engine.activateRule("InsufficientBranchCoverage");
     engine.activateRule("InsufficientCommentDensity");
     engine.activateRule("DuplicatedBlocks");
-    engine.activateRule("InsufficientLineCoverage");        
+    engine.activateRule("InsufficientLineCoverage");
   }
 
   @Override
