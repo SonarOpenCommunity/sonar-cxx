@@ -1,5 +1,0 @@
-List of items to do:
-
-- Implement standard macros like __FILE__, __LINE__ etc.
-- Deal with usage of depricated API's
-- cleanup the sources using sonar
