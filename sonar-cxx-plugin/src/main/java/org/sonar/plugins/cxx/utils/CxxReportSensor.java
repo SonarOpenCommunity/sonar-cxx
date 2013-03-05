@@ -40,7 +40,7 @@ import java.util.List;
  */
 public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
-  protected Settings conf = null;
+  private Settings conf = null;
 
   public CxxReportSensor() {
   }
