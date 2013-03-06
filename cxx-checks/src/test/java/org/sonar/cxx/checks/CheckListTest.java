@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
+ * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -17,16 +17,16 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.checks;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.fest.assertions.Assertions.assertThat;
 
-public class CxxPluginTest {
+public class CheckListTest {
+
   @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(22, plugin.getExtensions().size());
+  public void count() {
+    assertThat(CheckList.getChecks().size()).isEqualTo(2);
   }
 }

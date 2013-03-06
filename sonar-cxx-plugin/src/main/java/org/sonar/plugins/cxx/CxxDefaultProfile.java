@@ -19,28 +19,40 @@
  */
 package org.sonar.plugins.cxx;
 
+import org.sonar.api.profiles.AnnotationProfileParser;
 import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
+import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.utils.ValidationMessages;
+import org.sonar.cxx.checks.CheckList;
 
 /**
  * {@inheritDoc}
  */
 public class CxxDefaultProfile extends ProfileDefinition {
   private XMLProfileParser xmlProfileParser;
+  private AnnotationProfileParser annotationProfileParser;
+  private static final String NAME = "Sonar way";
 
   /**
    * {@inheritDoc}
    */
-  public CxxDefaultProfile(XMLProfileParser xmlProfileParser) {
+  public CxxDefaultProfile(XMLProfileParser xmlProfileParser, AnnotationProfileParser annotationProfileParser) {
+    this.annotationProfileParser = annotationProfileParser;
     this.xmlProfileParser = xmlProfileParser;
   }
 
   @Override
   public RulesProfile createProfile(ValidationMessages messages) {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
-        "default-profile.xml", messages);
+                                                          "default-profile.xml", messages);
+    RulesProfile sonarRules = annotationProfileParser.parse(CheckList.REPOSITORY_KEY, NAME,
+                                                            CxxLanguage.KEY, CheckList.getChecks(), messages);
+    for (ActiveRule activeRule: sonarRules.getActiveRules()) {
+      profile.addActiveRule(activeRule);
+    }
+
     profile.setDefaultProfile(true);
     return profile;
   }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <profile>
-  <name>Default C++ Profile</name>
+  <name>Sonar way</name>
   <language>c++</language>
   <rules>
     <!-- ##################################################  -->

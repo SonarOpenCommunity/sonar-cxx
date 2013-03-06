@@ -80,6 +80,7 @@
   
   <modules>
     <module>cxx-squid</module>
+    <module>cxx-checks</module>
     <module>sonar-cxx-plugin</module>
     <module>sslr-cxx-toolkit</module>
   </modules>

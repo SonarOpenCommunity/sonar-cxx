@@ -19,21 +19,28 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import com.google.common.collect.Lists;
 import com.sonar.sslr.squid.AstScanner;
+import com.sonar.sslr.squid.SquidAstVisitor;
+import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.checks.AnnotationCheckFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.InputFileUtils;
 import org.sonar.api.resources.Project;
+import org.sonar.api.rules.Violation;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.checks.CheckList;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
-import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.squid.api.CheckMessage;
 import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
@@ -42,33 +49,46 @@ import org.sonar.squid.indexer.QueryByType;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * {@inheritDoc}
  */
-public final class CxxSquidSensor extends CxxReportSensor {
+public final class CxxSquidSensor implements Sensor {
   private static final Number[] FUNCTIONS_DISTRIB_BOTTOM_LIMITS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
+  private final AnnotationCheckFactory annotationCheckFactory;
+  
   private Project project;
   private SensorContext context;
   private AstScanner<CxxGrammar> scanner;
-
+  private Settings conf;
+  
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(Settings conf) {
-    super(conf);
+  public CxxSquidSensor(RulesProfile profile, Settings conf) {
+    this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
+    this.conf = conf;
   }
 
+  public boolean shouldExecuteOnProject(Project project) {
+    return CxxLanguage.KEY.equals(project.getLanguageKey());
+  }
+  
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     this.project = project;
     this.context = context;
-
-    this.scanner = CxxAstScanner.create(createConfiguration(project, conf));
+    
+    Collection<SquidAstVisitor<CxxGrammar>> squidChecks = annotationCheckFactory.getChecks();
+    List<SquidAstVisitor<CxxGrammar>> visitors = Lists.newArrayList(squidChecks);
+    this.scanner = CxxAstScanner.create(createConfiguration(project, conf),
+                                        visitors.toArray(new SquidAstVisitor[visitors.size()]));
     scanner.scanFiles(InputFileUtils.toFiles(project.getFileSystem().mainFiles(CxxLanguage.KEY)));
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
@@ -91,6 +111,7 @@ public final class CxxSquidSensor extends CxxReportSensor {
       saveMeasures(sonarFile, squidFile);
       saveFilesComplexityDistribution(sonarFile, squidFile);
       saveFunctionsComplexityDistribution(sonarFile, squidFile);
+      saveViolations(sonarFile, squidFile);
     }
   }
 
@@ -121,6 +142,18 @@ public final class CxxSquidSensor extends CxxReportSensor {
     context.saveMeasure(sonarFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
   }
 
+  private void saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
+    Collection<CheckMessage> messages = squidFile.getCheckMessages();
+    if (messages != null) {
+      for (CheckMessage message : messages) {
+        Violation violation = Violation.create(annotationCheckFactory.getActiveRule(message.getCheck()), sonarFile)
+            .setLineId(message.getLine())
+            .setMessage(message.getText(Locale.ENGLISH));
+        context.saveViolation(violation);
+      }
+    }
+  }
+ 
   @Override
   public String toString() {
     return getClass().getSimpleName();

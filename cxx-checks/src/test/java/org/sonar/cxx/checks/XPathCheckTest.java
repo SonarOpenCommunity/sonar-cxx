@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
+ * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -17,16 +17,27 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.checks;
 
+import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
 import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squid.api.SourceFile;
 
-import static org.junit.Assert.assertEquals;
+import java.io.File;
 
-public class CxxPluginTest {
+public class XPathCheckTest {
+
   @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(22, plugin.getExtensions().size());
+  public void check() {
+    XPathCheck check = new XPathCheck();
+    check.xpathQuery = "//declaration";
+    check.message = "Avoid declarations!! ";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/xpath.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+        .next().atLine(1).withMessage(check.message)
+        .noMore();
   }
+
 }

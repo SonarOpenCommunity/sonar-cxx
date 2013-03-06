@@ -19,14 +19,28 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.junit.Test;
+import org.sonar.api.rules.AnnotationRuleParser;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RuleRepository;
+import org.sonar.cxx.checks.CheckList;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
 
-public class CxxPluginTest {
-  @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(22, plugin.getExtensions().size());
+public class CxxRuleRepository extends RuleRepository {
+
+  private static final String REPOSITORY_NAME = "Sonar";
+
+  private final AnnotationRuleParser annotationRuleParser;
+
+  public CxxRuleRepository(AnnotationRuleParser annotationRuleParser) {
+    super(CheckList.REPOSITORY_KEY, CxxLanguage.KEY);
+    setName(REPOSITORY_NAME);
+    this.annotationRuleParser = annotationRuleParser;
   }
+
+  @Override
+  public List<Rule> createRules() {
+    return annotationRuleParser.parse(CheckList.REPOSITORY_KEY, CheckList.getChecks());
+  }
+
 }

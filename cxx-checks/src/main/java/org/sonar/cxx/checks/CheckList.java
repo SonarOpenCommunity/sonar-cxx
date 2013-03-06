@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
+ * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -17,16 +17,25 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx.checks;
 
-import org.junit.Test;
+import com.google.common.collect.ImmutableList;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
 
-public class CxxPluginTest {
-  @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(22, plugin.getExtensions().size());
+public final class CheckList {
+
+  public static final String REPOSITORY_KEY = "cxx";
+
+  public static final String DEFAULT_PROFILE = "Sonar way";
+
+  private CheckList() {
   }
+
+  public static List<Class> getChecks() {
+    return ImmutableList.<Class> of(
+        ParsingErrorCheck.class,
+        XPathCheck.class);
+  }
+
 }

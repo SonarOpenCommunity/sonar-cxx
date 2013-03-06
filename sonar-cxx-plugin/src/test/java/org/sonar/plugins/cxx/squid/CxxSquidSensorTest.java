@@ -26,6 +26,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
@@ -49,7 +50,7 @@ public class CxxSquidSensorTest {
   @Before
   public void setUp() {
     settings = Settings.createForComponent(new CxxPlugin());
-    sensor = new CxxSquidSensor(settings);
+    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings);
     context = mock(SensorContext.class);
   }
 

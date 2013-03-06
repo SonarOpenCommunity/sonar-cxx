@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.sonar.api.profiles.AnnotationProfileParser;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.rules.Rule;
@@ -40,7 +41,7 @@ public class CxxDefaultProfileTest {
     ValidationMessages validation = ValidationMessages.create();
 
     RuleFinder ruleFinder = ruleFinder();
-    CxxDefaultProfile definition = new CxxDefaultProfile(new XMLProfileParser(ruleFinder));
+    CxxDefaultProfile definition = new CxxDefaultProfile(new XMLProfileParser(ruleFinder), new AnnotationProfileParser(ruleFinder));
     RulesProfile profile = definition.createProfile(validation);
 
     assertThat(profile.getLanguage()).isEqualTo(CxxLanguage.KEY);
