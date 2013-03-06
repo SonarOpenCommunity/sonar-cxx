@@ -43,6 +43,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
@@ -143,6 +144,24 @@ public class CxxPreprocessor extends Preprocessor {
           macros.putHighPrio(macro.name, macro);
         }
       }
+    }
+
+    // set standard macros
+    for (Map.Entry<String, String> entry: StandardDefinitions.macros().entrySet()) {
+      Token bodyToken;
+      try{
+        bodyToken = Token.builder()
+          .setLine(1)
+          .setColumn(0)
+          .setURI(new java.net.URI(""))
+          .setValueAndOriginalValue(entry.getValue())
+          .setType(STRING)
+          .build();
+      } catch (java.net.URISyntaxException e) {
+        throw new RuntimeException(e);
+      }
+      
+      macros.putHighPrio(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken)));
     }
   }
 

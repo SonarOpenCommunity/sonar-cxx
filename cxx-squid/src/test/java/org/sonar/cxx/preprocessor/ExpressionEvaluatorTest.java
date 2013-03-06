@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
 
@@ -278,4 +279,16 @@ public class ExpressionEvaluatorTest {
   public void throw_on_invalid_expressions() {
     evaluator.eval("\"\"");
   }
+
+  @Test
+  public void std_macro_evaluated_as_expected() {
+    CxxPreprocessor pp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
+    ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
+    
+    assertTrue(evaluator.eval("__LINE__"));
+    assertTrue(evaluator.eval("__STDC__"));
+    assertTrue(evaluator.eval("__STDC_HOSTED__"));
+    assertTrue(evaluator.eval("__cplusplus"));
+  }
+  
 }
