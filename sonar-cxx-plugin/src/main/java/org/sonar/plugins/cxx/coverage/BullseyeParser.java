@@ -24,6 +24,7 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.apache.commons.lang.StringUtils;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -58,7 +59,7 @@ public class BullseyeParser implements CoverageParser {
        */
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance();
-        collectCoverage2(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("folder"), coverageData);
+        collectCoverage2(rootCursor.getAttrValue("dir") + "/", rootCursor.childElementCursor("folder"), coverageData);
       }
     });
     parser.parse(xmlFile);
@@ -113,8 +114,12 @@ public class BullseyeParser implements CoverageParser {
         String fileName = "";
         Iterator<String> iterator = path.iterator();
         while (iterator.hasNext()) {
-          fileName += "/" + iterator.next();
+          fileName += iterator.next() + "/";
         }
+        fileName = StringUtils.chomp(fileName);
+        if ((new File(fileName)).isAbsolute()) {
+          refPath = "";
+        }     
         CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
         fileWalk(child, fileMeasuresBuilderIn);
         coverageData.put(refPath + fileName, fileMeasuresBuilderIn);
