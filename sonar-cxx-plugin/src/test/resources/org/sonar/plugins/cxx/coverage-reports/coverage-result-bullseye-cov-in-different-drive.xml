@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BullseyeCoverage 8.7.47 Windows License 2656 -->
+<BullseyeCoverage name="coverage.cov" dir="c:/Users/user/" buildId="4c01d04e, 2013-03-07 23:10:15" version="4" xmlns="http://www.bullseye.com/covxml">
+<folder name="e:" fn_cov="1" fn_total="1" cd_cov="1" cd_total="10" d_cov="1" d_total="2">
+<folder name="jenkins-builder" fn_cov="1" fn_total="1" cd_cov="1" cd_total="10" d_cov="1" d_total="2">
+<folder name="workspace" fn_cov="1" fn_total="1" cd_cov="1" cd_total="10" d_cov="1" d_total="2">
+<folder name="AnalyseBinaryTree" fn_cov="1" fn_total="1" cd_cov="1" cd_total="10" d_cov="1" d_total="2">
+<folder name="dummy" fn_cov="1" fn_total="1" cd_cov="1" cd_total="10" d_cov="1" d_total="2">
+<folder name="dummy" fn_cov="1" fn_total="1" cd_cov="1" cd_total="10" d_cov="1" d_total="2">
+<src name="dummy.c" mtime="1362690563" fn_cov="1" fn_total="1" cd_cov="5" cd_total="10" d_cov="1" d_total="2">
+<fn name="dummy(bintree_t*,int(*)(void**,void**,void*),int(*)(void*,void*),int(*)(void**))" fn_cov="1" fn_total="1" cd_cov="5" cd_total="10" d_cov="1" d_total="2">
+<probe line="14" column="6" kind="function" event="full"/>
+<probe line="20" kind="decision" event="true"/>
+<probe line="20" column="3" kind="condition" event="true"/>
+<probe line="20" column="16" kind="condition" event="true"/>
+<probe line="20" column="29" kind="condition" event="true"/>
+<probe line="20" column="45" kind="condition" event="true"/>
+</fn>
+</src>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</BullseyeCoverage>
