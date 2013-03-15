@@ -81,6 +81,22 @@ public class TestUtils {
   }
 
   /**
+   * @return  default mock project
+   */
+  public static Project mockVsProject() {
+    File baseDir;
+    baseDir = loadResource("/org/sonar/plugins/cxx/"); // we skip "SampleProject" dir because report dirs as here
+
+    List<File> sourceDirs = new ArrayList<File>();
+    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProjectWindows/sample/"));
+
+    List<File> testDirs = new ArrayList<File>();
+    testDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProjectWindows/sample.test/"));
+
+    return mockProject(baseDir, sourceDirs, testDirs);
+  }
+    
+  /**
    * Mock project
    * @param baseDir project base dir
    * @param sourceFiles project source files
