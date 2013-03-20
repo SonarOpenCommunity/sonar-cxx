@@ -52,7 +52,7 @@ public class CxxCoverageSensorTest {
   @Test
   public void shouldReportCorrectCoverage() {
     sensor.analyse(project, context);
-    verify(context, times(223)).saveMeasure((File) anyObject(), any(Measure.class));
+    verify(context, times(126)).saveMeasure((File) anyObject(), any(Measure.class));
   }
 
   @Test
