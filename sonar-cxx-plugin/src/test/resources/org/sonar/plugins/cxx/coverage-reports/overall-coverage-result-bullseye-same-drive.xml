@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BullseyeCoverage 8.7.48 Windows License 2656 -->
+<BullseyeCoverage name="covfile.cov" dir="E:/" buildId="9b18c829, 2013-03-14 21:49:54" version="4" xmlns="http://www.bullseye.com/covxml">
+<folder name="Development" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="sonar-cxx" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="sonar-cxx" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="sonar-cxx-plugin" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="target" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="test-classes" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="org" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="sonar" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="plugins" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="cxx" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="SampleProjectWindows" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<folder name="sample.test" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<src name="SampleTest.cpp" mtime="1363288130" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<fn name="main()" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<probe line="6" column="4" kind="function" event="full"/>
+</fn>
+</src>
+</folder>
+<folder name="sample" fn_cov="2" fn_total="4" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<src name="sampleclass.cpp" mtime="1363286548" fn_cov="2" fn_total="3" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<fn name="SampleClass::SampleClass(string,int)" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<probe line="3" kind="function" event="full"/>
+</fn>
+<fn name="SampleClass::GetAge()" fn_cov="0" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<probe line="7" column="3" kind="function" event="none"/>
+</fn>
+<fn name="SampleClass::GetName()" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<probe line="12" column="6" kind="function" event="full"/>
+</fn>
+</src>
+<src name="sampleclass.h" mtime="1363286562" fn_cov="0" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<fn name="SampleClass::SampleClass()" fn_cov="0" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<probe line="15" kind="function" event="none"/>
+</fn>
+</src>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</folder>
+</BullseyeCoverage>

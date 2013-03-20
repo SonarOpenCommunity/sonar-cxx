@@ -79,7 +79,7 @@ public class TestUtils {
 
     return mockProject(baseDir, sourceDirs, testDirs);
   }
-
+   
   /**
    * Mock project
    * @param baseDir project base dir
