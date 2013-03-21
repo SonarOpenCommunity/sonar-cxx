@@ -69,6 +69,23 @@ public final class CxxAstScanner {
     return (SourceFile) sources.iterator().next();
   }
 
+/**
+   * Helper method for testing checks without having to deploy them on a Sonar instance using a CxxConfiguration
+   */
+  public static SourceFile scanSingleFileConfig(File file, CxxConfiguration cxxConfig) {
+    if (!file.isFile()) {
+      throw new IllegalArgumentException("File '" + file + "' not found.");
+    }
+    AstScanner<CxxGrammar> scanner = create(cxxConfig);
+    scanner.scanFile(file);
+    Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
+    if (sources.size() != 1) {
+      throw new IllegalStateException("Only one SourceFile was expected whereas " + sources.size() + " has been returned.");
+    }
+    return (SourceFile) sources.iterator().next();
+  }
+
+  
   public static AstScanner<CxxGrammar> create(CxxConfiguration conf, SquidAstVisitor<CxxGrammar>... visitors) {
     final SquidAstVisitorContextImpl<CxxGrammar> context = new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project"));
     final Parser<CxxGrammar> parser = CxxParser.create(context, conf);
