@@ -29,6 +29,8 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyDouble;
@@ -37,6 +39,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertEquals;
 
 public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
@@ -67,6 +70,53 @@ public class CxxXunitSensorTest {
     verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
   }
 
+  @Test
+  public void shouldFindTheSourcesOfTheTestfiles() {
+    Settings config = new Settings();
+    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
+    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    
+    List<File> sourceDirs = new ArrayList<File>();
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/xunit/project_finding_sources");
+    sourceDirs.add(baseDir);
+    
+    List<File> testDirs = new ArrayList<File>();
+    testDirs.add(new File(baseDir, "tests1"));
+    testDirs.add(new File(baseDir, "tests2"));
+    
+    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
+    sensor.lookupTestFiles(project);
+    
+    // case 1:
+    // the testcase file resides: directly under the test directory
+    // the testcase file contains: only one class
+    // the report mentions: the class name
+    assertEquals(sensor.getFilePath("TestClass1"), new File(baseDir, "tests1/Test1.cc").getPath());
+    
+    // case 2:
+    // the testcase file resides: in a subdirectory
+    // the testcase file contains: a couple of classes
+    // the report mentions: the class name
+    assertEquals(sensor.getFilePath("TestClass2"), new File(baseDir, "tests1/subdir/Test2.cc").getPath());
+
+    // case 3:
+    // the testcase file resides: in second directory
+    // the testcase file contains: the class in a namespace
+    // the report mentions: the class name
+    assertEquals(sensor.getFilePath("TestClass3"), new File(baseDir, "tests2/Test3.cc").getPath());
+    
+    // case 4:
+    // the testcase file resides: somewhere
+    // the testcase file contains: the class is implemented via a header and impl. file
+    // the report mentions: the class name
+
+    // TODO: the case if the implementation of the mentioned tests is scattered
+    //       across many files is inherently difficult to handle. The "class declarated in
+    //       header and implemented in *.cc-file" is just a special case of it.
+    
+    assertEquals(sensor.getFilePath("TestClass4"), new File(baseDir, "tests2/Test4.hh").getPath());
+  }
+  
   @Test
   public void shouldReportZeroTestWhenNoReportFound() {
     Settings config = new Settings();
