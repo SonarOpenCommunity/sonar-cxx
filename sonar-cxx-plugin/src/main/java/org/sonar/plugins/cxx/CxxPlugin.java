@@ -30,6 +30,8 @@ import org.sonar.plugins.cxx.externalrules.CxxExternalRuleRepository;
 import org.sonar.plugins.cxx.externalrules.CxxExternalRulesSensor;
 import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
 import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
+import org.sonar.plugins.cxx.vc.CxxVCRuleRepository;
+import org.sonar.plugins.cxx.vc.CxxVCSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.squid.CxxSquidSensor;
@@ -85,6 +87,13 @@ import java.util.List;
     description = "Relative to projects' root. Ant patterns are accepted",
     global = false,
     project = true),
+  @Property(
+    key = CxxVCSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to VC BuildLog.htm report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),  
   @Property(
     key = CxxCoverageSensor.REPORT_PATH_KEY,
     defaultValue = "",
@@ -166,6 +175,8 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxCppCheckSensor.class);
     l.add(CxxPCLintRuleRepository.class);
     l.add(CxxPCLintSensor.class);
+    l.add(CxxVCRuleRepository.class);
+    l.add(CxxVCSensor.class);
     l.add(CxxVeraxxRuleRepository.class);
     l.add(CxxVeraxxSensor.class);
     l.add(CxxValgrindRuleRepository.class);
