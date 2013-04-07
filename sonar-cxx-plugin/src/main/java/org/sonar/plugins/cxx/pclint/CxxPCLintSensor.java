@@ -92,23 +92,17 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String line = errorCursor.getAttrValue("line");
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
-          try {
             if (isInputValid(file, line, id, msg)) {
               saveViolation(project, context, CxxPCLintRuleRepository.KEY,
                   file, Integer.parseInt(line), id, msg);
             } else {
-              CxxUtils.LOG.warn("PCLint warning: {}", msg);
+              CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
             }
-          } catch (java.lang.NullPointerException e) {
-            // avoid crash of the pclint plug-in e.g. mixed-up file name - the output shows some details
-            CxxUtils.LOG.error("processReport Exception: " + errorCursor.getQName() + " - not processed by StaxParser '{}'", e.toString());
-            CxxUtils.LOG.error("last known values: file=" + file + " line=" + line + " number=" + id + " Desc=" + msg);
-          }
         }
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line) 
           && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
     });
