@@ -61,8 +61,9 @@ public final class ExpressionEvaluator {
   }
 
   private long evalToInt(AstNode exprAst) {
-    LOG.trace("Evaluating expression: {}", exprAst);
-
+    //LOG.debug("Evaluating expression: {}", exprAst);
+    LOG.debug("Evaluating expression: {}, {}", exprAst, exprAst.getTokens());
+    
     int noChildren = exprAst.getNumberOfChildren();
     if (noChildren == 0) {
       return evalLeaf(exprAst);
@@ -163,12 +164,30 @@ public final class ExpressionEvaluator {
 
   // ////////////// logical expressions ///////////////////////////
   long evalLogicalOrExpression(AstNode exprAst) {
-    boolean result = eval(exprAst.getChild(0)) || eval(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    boolean result = false;
+    for(int i = 0; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result = result || eval(operand);
+      if(result == true){
+        break;
+      }
+    }
+    
     return result ? 1 : 0;
   }
 
   long evalLogicalAndExpression(AstNode exprAst) {
-    boolean result = eval(exprAst.getChild(0)) && eval(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    boolean result = true;
+    for(int i = 0; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result = result && eval(operand);
+      if(result == false){
+        break;
+      }
+    }
+
     return result ? 1 : 0;
   }
 
@@ -210,15 +229,36 @@ public final class ExpressionEvaluator {
 
   // ///////////////// bitwise expressions ///////////////////////
   long evalAndExpression(AstNode exprAst) {
-    return evalToInt(exprAst.getChild(0)) & evalToInt(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    long result = evalToInt(exprAst.getChild(0));
+    for(int i = 2; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result &= evalToInt(operand);
+    }
+    
+    return result;
   }
 
   long evalInclusiveOrExpression(AstNode exprAst) {
-    return evalToInt(exprAst.getChild(0)) | evalToInt(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    long result = evalToInt(exprAst.getChild(0));
+    for(int i = 2; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result |= evalToInt(operand);
+    }
+    
+    return result;
   }
 
   long evalExclusiveOrExpression(AstNode exprAst) {
-    return evalToInt(exprAst.getChild(0)) ^ evalToInt(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    long result = evalToInt(exprAst.getChild(0));
+    for(int i = 2; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result = result ^ evalToInt(operand);
+    }
+    
+    return result;
   }
 
   // ///////////////// other ... ///////////////////
@@ -300,7 +340,7 @@ public final class ExpressionEvaluator {
     String macroName = exprAst.getChild(posOfMacroName).getTokenValue();
     String value = preprocessor.valueOf(macroName);
 
-    LOG.trace("expanding '{}' to '{}'", macroName, value);
+    LOG.debug("expanding '{}' to '{}'", macroName, value);
 
     return value == null ? 0 : 1;
   }
