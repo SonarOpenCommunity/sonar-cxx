@@ -40,6 +40,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.junit.Assert.assertEquals;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.AnyOf.anyOf;
+import static org.junit.Assert.assertThat;
+
 
 public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
@@ -85,36 +89,47 @@ public class CxxXunitSensorTest {
     testDirs.add(new File(baseDir, "tests2"));
     
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    sensor.lookupTestFiles(project);
+    sensor.buildLookupTables(project);
     
     // case 1:
     // the testcase file resides: directly under the test directory
     // the testcase file contains: only one class
     // the report mentions: the class name
-    assertEquals(sensor.getFilePath("TestClass1"), new File(baseDir, "tests1/Test1.cc").getPath());
+    assertEquals(sensor.lookupFilePath("TestClass1"), new File(baseDir, "tests1/Test1.cc").getPath());
     
     // case 2:
     // the testcase file resides: in a subdirectory
     // the testcase file contains: a couple of classes
     // the report mentions: the class name
-    assertEquals(sensor.getFilePath("TestClass2"), new File(baseDir, "tests1/subdir/Test2.cc").getPath());
+    assertEquals(sensor.lookupFilePath("TestClass2"), new File(baseDir, "tests1/subdir/Test2.cc").getPath());
 
     // case 3:
     // the testcase file resides: in second directory
     // the testcase file contains: the class in a namespace
     // the report mentions: the class name
-    assertEquals(sensor.getFilePath("TestClass3"), new File(baseDir, "tests2/Test3.cc").getPath());
+    assertEquals(sensor.lookupFilePath("TestClass3"), new File(baseDir, "tests2/Test3.cc").getPath());
     
     // case 4:
     // the testcase file resides: somewhere
     // the testcase file contains: the class is implemented via a header and impl. file
     // the report mentions: the class name
-
-    // TODO: the case if the implementation of the mentioned tests is scattered
-    //       across many files is inherently difficult to handle. The "class declarated in
-    //       header and implemented in *.cc-file" is just a special case of it.
+    assertEquals(new File(baseDir, "tests2/Test4.cc").getPath(), sensor.lookupFilePath("TestClass4"));
     
-    assertEquals(sensor.getFilePath("TestClass4"), new File(baseDir, "tests2/Test4.hh").getPath());
+    // case 5:
+    // the testcase file resides: somewhere
+    // the testcase file contains: class A and class B
+    // the report mentions: the class A
+    assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_A"));
+    assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_B"));
+    
+    // case 6:
+    // the testcase file resides: somewhere
+    // the testcase file contains: a class A, distributed accross a
+    //                             a header (definition) and two *.cc files
+    // the report mentions: the class name
+    assertThat(sensor.lookupFilePath("TestClass6"),
+               anyOf(is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
+                     is(new File(baseDir, "tests1/Test6_B.cc").getPath())));
   }
   
   @Test

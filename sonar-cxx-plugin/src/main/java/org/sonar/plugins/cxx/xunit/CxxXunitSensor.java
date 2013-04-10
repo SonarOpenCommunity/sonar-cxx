@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.resources.InputFile;
@@ -60,6 +61,10 @@ import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 /**
  * {@inheritDoc}
  */
@@ -69,9 +74,10 @@ public class CxxXunitSensor extends CxxReportSensor {
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
   private String xsltURL = null; 
   private CxxLanguage lang = null;
-  private Map<String,String> testFileLookupTable;
-
-
+  private Map<String, String> classDeclTable = new TreeMap<String, String>();
+  private Map<String, String> classImplTable = new TreeMap<String, String>();
+  static Pattern classNameMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
+  
   /**
    * {@inheritDoc}
    */
@@ -104,7 +110,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    lookupTestFiles(project);
+    buildLookupTables(project);
     super.analyse(project, context);
   }
 
@@ -188,7 +194,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
   
   private org.sonar.api.resources.File getTestFile(Project project, SensorContext context, String fileKey) {
-    String filePath = getFilePath(fileKey);
+    String filePath = lookupFilePath(fileKey);
     org.sonar.api.resources.File resource =
       org.sonar.api.resources.File.fromIOFile(new File(filePath), project.getFileSystem().getTestDirs());
     if (context.getResource(resource) == null) {
@@ -205,12 +211,16 @@ public class CxxXunitSensor extends CxxReportSensor {
     return file;
   }
   
-  String getFilePath(String key) {
-    String path = testFileLookupTable.get(key);
+  String lookupFilePath(String key) {
+    String path = classImplTable.get(key);
+    if(path == null){
+      path = classDeclTable.get(key);
+    }
+    
     return path != null ? path : key;
   }
   
-  void lookupTestFiles(Project project) {
+  void buildLookupTables(Project project) {
     List<InputFile> files = project.getFileSystem().testFiles(CxxLanguage.KEY);
 
     CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
@@ -218,17 +228,36 @@ public class CxxXunitSensor extends CxxReportSensor {
     cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     
-    testFileLookupTable = new TreeMap<String, String>();
-    
     for (InputFile file : files) {
       SourceFile source = CxxAstScanner.scanSingleFileConfig(file.getFile(), cxxConf);
       if(source.hasChildren()) {
         for (SourceCode child : source.getChildren()) {
           if (child instanceof SourceClass) {
-            testFileLookupTable.put(child.getName(), file.getFile().getPath());
+            classDeclTable.put(child.getName(), file.getFile().getPath());
+          }
+          else if(child instanceof SourceFunction){
+            String clsName = matchClassName(child.getKey());
+            if(clsName != null){
+              classImplTable.put(clsName, file.getFile().getPath());
+            }
           }
         }
       }
     }
+
+    filterMapUsingKeyList(classImplTable, classDeclTable.keySet());
+  }
+  
+  private Map<String, String> filterMapUsingKeyList(Map<String, String> map, Collection keys){
+    return map;
+  }
+  
+  String matchClassName(String fullQualFunctionName){
+    Matcher matcher = classNameMatchingPattern.matcher(fullQualFunctionName);
+    String clsname = null;
+    if(matcher.matches()){
+      clsname = matcher.group(1);
+    }
+    return clsname;
   }
 }

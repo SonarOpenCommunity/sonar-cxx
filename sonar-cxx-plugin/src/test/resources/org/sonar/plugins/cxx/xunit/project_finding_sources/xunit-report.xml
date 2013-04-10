@@ -5,5 +5,7 @@
     <testcase name="testcase2" status="run" time="0.1" classname="TestClass2" />
     <testcase name="testcase3" status="run" time="0.1" classname="TestClass3" />
     <testcase name="testcase4" status="run" time="0.1" classname="TestClass4" />
+    <testcase name="testcase4" status="run" time="0.1" classname="TestClass5" />
+    <testcase name="testcase4" status="run" time="0.1" classname="TestClass6" />
   </testsuite>
 </testsuites>
