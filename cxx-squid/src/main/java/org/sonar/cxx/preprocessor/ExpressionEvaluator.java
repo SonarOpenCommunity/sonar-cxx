@@ -61,8 +61,8 @@ public final class ExpressionEvaluator {
   }
 
   private long evalToInt(AstNode exprAst) {
-    LOG.trace("Evaluating expression: {}", exprAst);
-
+    LOG.debug("Evaluating expression: {}", exprAst);
+    
     int noChildren = exprAst.getNumberOfChildren();
     if (noChildren == 0) {
       return evalLeaf(exprAst);
@@ -163,12 +163,24 @@ public final class ExpressionEvaluator {
 
   // ////////////// logical expressions ///////////////////////////
   long evalLogicalOrExpression(AstNode exprAst) {
-    boolean result = eval(exprAst.getChild(0)) || eval(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    boolean result = eval(exprAst.getChild(0));
+    for(int i = 2; i < noChildren && result != true; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result = result || eval(operand);
+    }
+    
     return result ? 1 : 0;
   }
 
   long evalLogicalAndExpression(AstNode exprAst) {
-    boolean result = eval(exprAst.getChild(0)) && eval(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    boolean result = eval(exprAst.getChild(0));
+    for(int i = 2; i < noChildren && result != false; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result = result && eval(operand);
+    }
+
     return result ? 1 : 0;
   }
 
@@ -178,13 +190,26 @@ public final class ExpressionEvaluator {
     AstNode rhs = exprAst.getChild(2);
     boolean result;
     if (operator.equals("==")) {
-      result = eval(lhs) == eval(rhs);
+      result = evalToInt(lhs) == evalToInt(rhs);
     } else if (operator.equals("!=")) {
-      result = eval(lhs) != eval(rhs);
+      result = evalToInt(lhs) != evalToInt(rhs);
     } else {
       throw new EvaluationException("Unknown equality operator '" + operator + "'");
     }
-
+    
+    int noChildren = exprAst.getNumberOfChildren();
+    for(int i = 4; i < noChildren; i+=2){
+      operator = exprAst.getChild(i-1).getTokenValue();
+      rhs = exprAst.getChild(i);
+      if (operator.equals("==")) {
+        result = result == eval(rhs);
+      } else if (operator.equals("!=")) {
+        result = result != eval(rhs);
+      } else {
+        throw new EvaluationException("Unknown equality operator '" + operator + "'");
+      }
+    }
+    
     return result ? 1 : 0;
   }
 
@@ -205,20 +230,61 @@ public final class ExpressionEvaluator {
       throw new EvaluationException("Unknown relational operator '" + operator + "'");
     }
 
+    int resultAsInt;
+    int noChildren = exprAst.getNumberOfChildren();
+    for(int i = 4; i < noChildren; i+=2){
+      operator = exprAst.getChild(i-1).getTokenValue();
+      rhs = exprAst.getChild(i);
+      
+      resultAsInt = result ? 1 : 0;
+      if (operator.equals("<")) {
+        result = resultAsInt < evalToInt(rhs);
+      } else if (operator.equals(">")) {
+        result = resultAsInt > evalToInt(rhs);
+      } else if (operator.equals("<=")) {
+        result = resultAsInt <= evalToInt(rhs);
+      } else if (operator.equals(">=")) {
+        result = resultAsInt >= evalToInt(rhs);
+      } else {
+        throw new EvaluationException("Unknown relational operator '" + operator + "'");
+      }
+    }
+    
     return result ? 1 : 0;
   }
 
   // ///////////////// bitwise expressions ///////////////////////
   long evalAndExpression(AstNode exprAst) {
-    return evalToInt(exprAst.getChild(0)) & evalToInt(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    long result = evalToInt(exprAst.getChild(0));
+    for(int i = 2; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result &= evalToInt(operand);
+    }
+    
+    return result;
   }
 
   long evalInclusiveOrExpression(AstNode exprAst) {
-    return evalToInt(exprAst.getChild(0)) | evalToInt(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    long result = evalToInt(exprAst.getChild(0));
+    for(int i = 2; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result |= evalToInt(operand);
+    }
+    
+    return result;
   }
 
   long evalExclusiveOrExpression(AstNode exprAst) {
-    return evalToInt(exprAst.getChild(0)) ^ evalToInt(exprAst.getChild(2));
+    int noChildren = exprAst.getNumberOfChildren();
+    long result = evalToInt(exprAst.getChild(0));
+    for(int i = 2; i < noChildren; i+=2){
+      AstNode operand = exprAst.getChild(i);
+      result ^= evalToInt(operand);
+    }
+    
+    return result;
   }
 
   // ///////////////// other ... ///////////////////
@@ -243,44 +309,71 @@ public final class ExpressionEvaluator {
   }
 
   long evalShiftExpression(AstNode exprAst) {
-    String operator = exprAst.getChild(1).getTokenValue();
-    AstNode lhs = exprAst.getChild(0);
-    AstNode rhs = exprAst.getChild(2);
-    if (operator.equals("<<")) {
-      return evalToInt(lhs) << evalToInt(rhs);
-    } else if (operator.equals(">>")) {
-      return evalToInt(lhs) >> evalToInt(rhs);
-    } else {
-      throw new EvaluationException("Unknown shift operator '" + operator + "'");
+    String operator;
+    AstNode rhs;
+    long result = evalToInt(exprAst.getChild(0));
+    int noChildren = exprAst.getNumberOfChildren();
+    
+    for(int i = 2; i < noChildren; i+=2){
+      operator = exprAst.getChild(i-1).getTokenValue();
+      rhs = exprAst.getChild(i);
+      
+      if (operator.equals("<<")) {
+        result = result << evalToInt(rhs);
+      } else if (operator.equals(">>")) {
+        result = result >> evalToInt(rhs);
+      } else {
+        throw new EvaluationException("Unknown shift operator '" + operator + "'");
+      }
     }
+
+    return result;
   }
 
   long evalAdditiveExpression(AstNode exprAst) {
-    String operator = exprAst.getChild(1).getTokenValue();
-    AstNode lhs = exprAst.getChild(0);
-    AstNode rhs = exprAst.getChild(2);
-    if (operator.equals("+")) {
-      return evalToInt(lhs) + evalToInt(rhs);
-    } else if (operator.equals("-")) {
-      return evalToInt(lhs) - evalToInt(rhs);
-    } else {
-      throw new EvaluationException("Unknown additive operator '" + operator + "'");
+    String operator;
+    AstNode rhs;
+    long result = evalToInt(exprAst.getChild(0));
+    int noChildren = exprAst.getNumberOfChildren();
+    
+    for(int i = 2; i < noChildren; i+=2){
+      operator = exprAst.getChild(i-1).getTokenValue();
+      rhs = exprAst.getChild(i);
+      
+      if (operator.equals("+")) {
+        result += evalToInt(rhs);
+      } else if (operator.equals("-")) {
+        result -= evalToInt(rhs);
+      } else {
+        throw new EvaluationException("Unknown additive operator '" + operator + "'");
+      }
     }
+    
+    return result;
   }
 
   long evalMultiplicativeExpression(AstNode exprAst) {
-    String operator = exprAst.getChild(1).getTokenValue();
-    AstNode lhs = exprAst.getChild(0);
-    AstNode rhs = exprAst.getChild(2);
-    if (operator.equals("*")) {
-      return evalToInt(lhs) * evalToInt(rhs);
-    } else if (operator.equals("/")) {
-      return evalToInt(lhs) / evalToInt(rhs);
-    } else if (operator.equals("%")) {
-      return evalToInt(lhs) % evalToInt(rhs);
-    } else {
-      throw new EvaluationException("Unknown multiplicative operator '" + operator + "'");
+    String operator;
+    AstNode rhs;
+    long result = evalToInt(exprAst.getChild(0));
+    int noChildren = exprAst.getNumberOfChildren();
+    
+    for(int i = 2; i < noChildren; i+=2){
+      operator = exprAst.getChild(i-1).getTokenValue();
+      rhs = exprAst.getChild(i);
+      
+      if (operator.equals("*")) {
+        result *= evalToInt(rhs);
+      } else if (operator.equals("/")) {
+        result /= evalToInt(rhs);
+      } else if (operator.equals("%")) {
+        result %= evalToInt(rhs);
+      } else {
+        throw new EvaluationException("Unknown multiplicative operator '" + operator + "'");
+      }
     }
+    
+    return result;
   }
 
   long evalConditionalExpression(AstNode exprAst) {
@@ -300,7 +393,7 @@ public final class ExpressionEvaluator {
     String macroName = exprAst.getChild(posOfMacroName).getTokenValue();
     String value = preprocessor.valueOf(macroName);
 
-    LOG.trace("expanding '{}' to '{}'", macroName, value);
+    LOG.debug("expanding '{}' to '{}'", macroName, value);
 
     return value == null ? 0 : 1;
   }

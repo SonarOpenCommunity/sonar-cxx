@@ -546,4 +546,15 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // falsecase + EOF
   }
 
+  @Test
+  public void problem_with_chained_defined_expressions() {
+    List<Token> tokens = lexer.lex("#define _C_\n"
+                                   + "#if !defined(_A_) && !defined(_B_) && !defined(_C_)\n"
+                                   + "truecase\n"
+                                   + "#else\n"
+                                   + "falsecase\n"
+                                   + "#endif");
+    assertThat(tokens, hasToken("falsecase", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // falsecase + EOF
+  }
 }

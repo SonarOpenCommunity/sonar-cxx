@@ -78,17 +78,21 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("1 || 0"));
     assertTrue(evaluator.eval("0 || 1"));
     assertTrue(evaluator.eval("1 || 1"));
-
+    assertTrue(evaluator.eval("0 || 0 || 1"));
+    
     assertFalse(evaluator.eval("0 || 0"));
+    assertFalse(evaluator.eval("0 || 0 || 0"));
   }
 
   @Test
   public void logical_and() {
     assertTrue(evaluator.eval("1 && 1"));
-
+    assertTrue(evaluator.eval("1 && 1 && 1"));
+    
     assertFalse(evaluator.eval("1 && 0"));
     assertFalse(evaluator.eval("0 && 1"));
     assertFalse(evaluator.eval("0 && 0"));
+    assertFalse(evaluator.eval("1 && 1 && 0"));
   }
 
   @Test
@@ -96,35 +100,50 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("1 | 0"));
     assertTrue(evaluator.eval("0 | 1"));
     assertTrue(evaluator.eval("1 | 1"));
-
-    assertFalse(evaluator.eval("0 | 0"));
+    assertTrue(evaluator.eval("0 | 0 | 1"));
+    
+    assertFalse(evaluator.eval("0 | 0 | 0"));
   }
 
   @Test
   public void exclusive_or() {
     assertTrue(evaluator.eval("1 ^ 0"));
     assertTrue(evaluator.eval("0 ^ 1"));
+    assertTrue(evaluator.eval("0 ^ 1 ^ 0"));
 
     assertFalse(evaluator.eval("0 ^ 0"));
-    assertFalse(evaluator.eval("1 ^ 1"));
+    assertFalse(evaluator.eval("0 ^ 1 ^ 1"));
   }
 
   @Test
   public void and_expr() {
     assertTrue(evaluator.eval("1 & 1"));
+    assertTrue(evaluator.eval("2 & 2 & 2"));
 
     assertFalse(evaluator.eval("0 & 1"));
     assertFalse(evaluator.eval("1 & 0"));
     assertFalse(evaluator.eval("0 & 0"));
+    assertFalse(evaluator.eval("2 & 4"));
+    assertFalse(evaluator.eval("1 & 1 & 4"));
   }
 
   @Test
   public void equality_expr() {
     assertTrue(evaluator.eval("1 == 1"));
-    assertTrue(evaluator.eval("0 != 1"));
-
+    assertTrue(evaluator.eval("1 == true"));
+    assertTrue(evaluator.eval("true == true"));
+    assertTrue(evaluator.eval("true == 1"));
+    assertTrue(evaluator.eval("false == 0"));
+    assertTrue(evaluator.eval("0 == false"));
+    
+    assertTrue(evaluator.eval("true != 2"));
+    assertTrue(evaluator.eval("false != 1"));
+    assertTrue(evaluator.eval("1 != 2"));
+    
     assertFalse(evaluator.eval("1 == 0"));
-    assertFalse(evaluator.eval("0 != 0"));
+    assertFalse(evaluator.eval("3 != 3"));
+    assertFalse(evaluator.eval("2 != 3 != 4"));
+    assertFalse(evaluator.eval("0 != 1 != true"));
   }
 
   @Test
@@ -133,11 +152,13 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("0 <= 1"));
     assertTrue(evaluator.eval("1 > 0"));
     assertTrue(evaluator.eval("1 >= 0"));
-
-    assertFalse(evaluator.eval("1 < 0"));
-    assertFalse(evaluator.eval("1 <= 0"));
+    assertTrue(evaluator.eval("0 < 0 < 2"));
+    
+    assertFalse(evaluator.eval("3 < 2"));
+    assertFalse(evaluator.eval("3 <= 2"));
     assertFalse(evaluator.eval("0 > 1"));
     assertFalse(evaluator.eval("0 >= 1"));
+    assertFalse(evaluator.eval("0 < 1 < 1"));
   }
 
   @Test
@@ -147,26 +168,30 @@ public class ExpressionEvaluatorTest {
 
     assertFalse(evaluator.eval("0 << 1"));
     assertFalse(evaluator.eval("0 >> 1"));
+    assertFalse(evaluator.eval("10 >> 1 >> 10"));
   }
 
   @Test
   public void additive_expr() {
     assertTrue(evaluator.eval("1 + 1"));
     assertTrue(evaluator.eval("2 - 1"));
+    assertTrue(evaluator.eval("3 - 3 + 2"));
 
     assertFalse(evaluator.eval("0 + 0"));
     assertFalse(evaluator.eval("1 - 1"));
+    assertFalse(evaluator.eval("3 - 2 - 1"));
   }
 
   @Test
   public void multiplicative_expr() {
-    assertTrue(evaluator.eval("1 * 1"));
+    assertTrue(evaluator.eval("1 * 2"));
     assertTrue(evaluator.eval("1 / 1"));
     assertTrue(evaluator.eval("1 % 2"));
 
     assertFalse(evaluator.eval("0 * 1"));
     assertFalse(evaluator.eval("0 / 1"));
     assertFalse(evaluator.eval("1 % 1"));
+    assertFalse(evaluator.eval("1 * 1 * 0"));
   }
 
   @Test
@@ -290,5 +315,4 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("__STDC_HOSTED__"));
     assertTrue(evaluator.eval("__cplusplus"));
   }
-  
 }
