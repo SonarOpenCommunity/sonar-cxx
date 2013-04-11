@@ -98,6 +98,7 @@ public class CppGrammar extends Grammar {
   public Rule somethingWithoutParantheses;
   public Rule allButLeftParan;
   public Rule allButRightParan;
+  public Rule allButParan;
   public Rule allButComma;
 
   public CppGrammar() {
@@ -173,7 +174,7 @@ public class CppGrammar extends Grammar {
         );
 
     somethingContainingParantheses.is(
-        o2n(allButLeftParan),
+        o2n(allButParan),
         "(",
         or(
             somethingContainingParantheses,
@@ -182,10 +183,11 @@ public class CppGrammar extends Grammar {
         allButComma
         );
 
-    somethingWithoutParantheses.is(one2n(not(or(",", ")")), anyToken()));
+    somethingWithoutParantheses.is(one2n(not(or(",", ")", "(")), anyToken()));
 
     allButLeftParan.is(not("("), anyToken());
     allButRightParan.is(not(")"), anyToken());
+    allButParan.is(not(or("(", ")")), anyToken());
     allButComma.is(not(","), anyToken());
 
     ppToken.is(anyToken());
