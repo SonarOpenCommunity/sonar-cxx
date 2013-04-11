@@ -19,6 +19,8 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.sonar.sslr.impl.events.ExtendedStackTrace;
+import com.sonar.sslr.impl.events.ExtendedStackTraceStream;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.impl.Parser;
 import org.junit.Test;
@@ -27,14 +29,12 @@ import static com.sonar.sslr.test.parser.ParserMatchers.parse;
 import static org.junit.Assert.assertThat;
 
 public class CppGrammarTest {
-
-  private Parser<CppGrammar> p = null;
-  private CppGrammar g = null;
-
-  public CppGrammarTest() {
-    p = Parser.builder(new CppGrammar()).withLexer(CppLexer.create()).build();
-    g = p.getGrammar();
-  }
+  ExtendedStackTrace stackTrace = new ExtendedStackTrace();
+  private Parser<CppGrammar> p = Parser.builder(new CppGrammar())
+    .withLexer(CppLexer.create())
+    .setExtendedStackTrace(stackTrace)
+    .build();
+  private CppGrammar g = p.getGrammar();
 
   @Test
   public void preprocessorLine() {
@@ -156,6 +156,30 @@ public class CppGrammarTest {
     assertThat(p, parse("foo"));
     assertThat(p, parse("foo, bar"));
     assertThat(p, parse("4, 1"));
+    assertThat(p, parse("4, call()"));
+  }
+  
+  @Test
+  public void argument() {
+    p.setRootRule(g.argument);
+    
+    assertThat(p, parse("a"));
+    assertThat(p, parse("call()"));
+  }
+
+  @Test
+  public void somethingContainingParantheses() {
+    p.setRootRule(g.somethingContainingParantheses);
+    
+    assertThat(p, parse("call()"));
+    assertThat(p, parse("()"));
+  }
+
+  @Test
+  public void somethingWithoutParantheses() {
+    p.setRootRule(g.somethingWithoutParantheses);
+    
+    assertThat(p, parse("abc"));
   }
 
   @Test
@@ -289,7 +313,8 @@ public class CppGrammarTest {
 
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
     assertThat(p, parse("#if 0   // Re-enable once PR13021 is fixed."));
-
+    assertThat(p, parse("#if ((OSVER(NTDDI_VERSION) == NTDDI_WIN2K) && (1))"));
+    
     assert (p.parse("#if A (4, 1)").findFirstChild(g.functionlikeMacro) != null);
     assert (p.parse("#if A ()").findFirstChild(g.functionlikeMacro) != null);
     assert (p.parse("#if A()").findFirstChild(g.functionlikeMacro) != null);
