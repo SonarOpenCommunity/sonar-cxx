@@ -61,7 +61,7 @@ public final class ExpressionEvaluator {
   }
 
   private long evalToInt(AstNode exprAst) {
-    LOG.debug("Evaluating expression: {}", exprAst);
+    LOG.trace("Evaluating expression: {}", exprAst);
     
     int noChildren = exprAst.getNumberOfChildren();
     if (noChildren == 0) {
@@ -393,7 +393,7 @@ public final class ExpressionEvaluator {
     String macroName = exprAst.getChild(posOfMacroName).getTokenValue();
     String value = preprocessor.valueOf(macroName);
 
-    LOG.debug("expanding '{}' to '{}'", macroName, value);
+    LOG.trace("expanding '{}' to '{}'", macroName, value);
 
     return value == null ? 0 : 1;
   }
