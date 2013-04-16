@@ -1,5 +1,6 @@
 /target/
 /cxx-squid/target
+/cxx-checks/target
 /sonar-cxx-plugin/target
 /sslr-cxx-toolkit/target
 .project
