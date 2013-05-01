@@ -96,6 +96,13 @@ public abstract class CxxReportSensor implements Sensor {
   public String toString() {
     return getClass().getSimpleName();
   }
+  
+  public String getStringProperty(String name, String def) {
+      String value = conf.getString(name);
+      if (value == null)
+          value = def;
+      return value;
+  }
 
   protected List<File> getReports(Settings conf,
       String baseDirPath,
