@@ -45,11 +45,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String REPORT_REGEX_DEF = "sonar.cxx.compiler.regex";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
   public static final String DEFAULT_REGEX_DEF = "^.*[\\\\,/](.*)\\(([0-9]+)\\)\\x20:\\x20warning\\x20(C\\d\\d\\d\\d):(.*)$";
-<<<<<<< HEAD
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
-=======
-  // ToDo: discuss java 7 and support of named groups for regular expression
->>>>>>> 90a0b924c826452a946fe8fc4b17f2b85abb8f9c
   // sample regex: "^.*[\\\\,/](?<filename>.*)\\((?<line>[0-9]+)\\)\\x20:\\x20warning\\x20(?<id>C\\d\\d\\d\\d):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.compiler.charset";
@@ -90,11 +86,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
         String reportRegEx = getStringProperty(REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
         // Iterate through the lines of the input file
         try {
-<<<<<<< HEAD
             CxxUtils.LOG.debug("Scanner initialized with report '{}'"+ ", CharSet= '"+ reportCharset + "'" , report);
-=======
-            CxxUtils.LOG.debug("Scanner initialized with report '{}'"+ "CharSet= '"+ reportCharset + "'" , report);
->>>>>>> 90a0b924c826452a946fe8fc4b17f2b85abb8f9c
             Scanner scanner = new Scanner(report, reportCharset);
             Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
             CxxUtils.LOG.debug("Using pattern : '" + p.toString() +"'");
@@ -104,11 +96,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
                 String line = scanner.match().group(2);
                 String id = scanner.match().group(3);
                 String msg = scanner.match().group(4);
-<<<<<<< HEAD
                 // get filename from file system - e.g. VC writes case insensitive file name to html
-=======
-                // get current filename - e.g. VC writes case insensitive file name to html
->>>>>>> 90a0b924c826452a946fe8fc4b17f2b85abb8f9c
                 filename = getCaseSensitiveFileName(filename, project.getFileSystem().getSourceDirs());
                 CxxUtils.LOG.debug("Scanner-matches file='" +filename+"' line='"+line+"' id='"+id+"' msg="+msg);
                 if (isInputValid(filename, line, id, msg)) {
@@ -119,11 +107,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
                 }
             }
         scanner.close();
-<<<<<<< HEAD
         CxxUtils.LOG.info("C-Compiler warnings processed = " + countViolations);
-=======
-        CxxUtils.LOG.info("C-Compiler  warnings processed = " + countViolations);
->>>>>>> 90a0b924c826452a946fe8fc4b17f2b85abb8f9c
         } catch (java.io.FileNotFoundException e){
             CxxUtils.LOG.error("processReport Exception: " + "report.getName" + " - not processed '{}'", e.toString());
         } catch (java.lang.IllegalArgumentException e1) {
