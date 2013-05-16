@@ -42,15 +42,19 @@ import java.io.File;
  */
 public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
+  public static final String MISRA_UNIQUE_ID_KEY = "false";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
+  
   private RulesProfile profile;
+  private Settings conf = null;
 
   /**
    * {@inheritDoc}
    */
   public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
     super(ruleFinder, conf);
-    this.profile = profile;
+    this.profile = profile;    
+    this.conf = conf;
   }
 
   /**
@@ -75,38 +79,90 @@ public class CxxPCLintSensor extends CxxReportSensor {
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
       throws javax.xml.stream.XMLStreamException
-  {
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-      /**
-       * {@inheritDoc}
-       */
+    {
+        StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
+          /**
+          * {@inheritDoc}
+          */
 
-      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance(); // results
+            public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
+            rootCursor.advance(); // results
 
-        SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
+                SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
 
-        while (errorCursor.getNext() != null) {
+                String remapMisra = conf.getString(MISRA_UNIQUE_ID_KEY); 
+                while (errorCursor.getNext() != null) {
 
-          String file = errorCursor.getAttrValue("file");
-          String line = errorCursor.getAttrValue("line");
-          String id = errorCursor.getAttrValue("number");
-          String msg = errorCursor.getAttrValue("desc");
-            if (isInputValid(file, line, id, msg)) {
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                  file, Integer.parseInt(line), id, msg);
-            } else {
-              CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
+                    String file = errorCursor.getAttrValue("file");
+                    String line = errorCursor.getAttrValue("line");
+                    String id = errorCursor.getAttrValue("number");
+                    String msg = errorCursor.getAttrValue("desc");
+
+                    if (isInputValid(file, line, id, msg)) {
+                        if(remapMisra.equals("true")) {
+                            if(id.equals("960") || id.equals("961")) { //remap only MISRA 2004 IDs
+                                String newId = MapMisraRulesToUniqueSonarRules(msg);
+
+                                String debugText="File: "+file+", Line: "+line+", ID: "+newId+", msg: " +msg;
+                                CxxUtils.LOG.debug(debugText);
+
+                                saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                                file, Integer.parseInt(line), newId, msg);
+                            } else {
+                                saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                                file, Integer.parseInt(line), id, msg);
+                            }
+                        } else {
+                            saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                            file, Integer.parseInt(line), id, msg);
+                        }
+                    } else {
+                        CxxUtils.LOG.warn("PC-Lint warning ignored: {}", msg);
+                        
+                        String debugText="File: "+file+", Line: "+line+", ID: "+id+", msg: " +msg;
+                        CxxUtils.LOG.debug(debugText);
+                    }
+                }
             }
-        }
-      }
 
-      private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line) 
-          && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
-      }
-    });
+            private boolean isInputValid(String file, String line, String id, String msg) {
+            return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line) 
+             && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+            }
 
-    parser.parse(report);
-  }
+            private String MapMisraRulesToUniqueSonarRules(String msg)
+            {    
+                return CalculateNewRuleId(msg); 
+            }      
+
+            /**
+            Removes the dot in the rule number and adds a big offset
+            to make sure the key ID is not already used by other Pc-lint rules.
+            **/
+            private String CalculateNewRuleId(String msg) {      
+                String rule = ExtractMisraRuleNumberFromDescription(msg);
+
+                String ruleWithOutDot = rule.replace(".", "");   
+                int key = Integer.parseInt(ruleWithOutDot) + 10000;
+                String newKey = String.valueOf(key);
+
+                String infoText="Remap MISRA rule "+rule+" to key " +newKey;
+                CxxUtils.LOG.info(infoText);
+
+                return newKey;
+            }
+
+            /**
+            Get the MISRA rule number from the PC-lint message
+            **/
+            private String ExtractMisraRuleNumberFromDescription(String msg) {
+                String[] splitDescription = msg.split(",", 2)[0].split(" ");
+                String rule = splitDescription[splitDescription.length-1];
+                return rule;
+            }        
+
+        });
+
+        parser.parse(report);
+    }
 }

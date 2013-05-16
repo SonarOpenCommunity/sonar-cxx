@@ -86,6 +86,14 @@ import java.util.List;
     global = false,
     project = true),
   @Property(
+    key = CxxPCLintSensor.MISRA_UNIQUE_ID_KEY,
+    defaultValue = "false",
+    name = "Remap MISRA 2004 rules to unique rules in Sonar",
+    description = "Pc-Lint merges all MISRA 2004 rules into just two IDs (960,961). "
+        + "If this property is set to true all MISRA 2004 rules will be listed as own rules in Sonar",
+    global = false,
+    project = true),
+  @Property(
     key = CxxCoverageSensor.REPORT_PATH_KEY,
     defaultValue = "",
     name = "Path to unit test coverage report(s)",
