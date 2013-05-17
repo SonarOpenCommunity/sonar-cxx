@@ -12,6 +12,15 @@
 			C++, C files containing single-line comments do not produce C4001
 			when compiling with Microsoft extensions (/Ze).</description>
 	</rule>
+    <rule>
+        <key>C4002</key>
+        <configkey>C4002</configkey>
+        <priority>CRITICAL</priority>
+        <name>warning C4002: too many actual parameters for macro 'identifier'</name>
+        <description>The number of actual parameters in the macro exceeds the number of formal parameters in the macro definition.
+            The preprocessor collects the extra parameters but ignores them during macro expansion.</description>
+        
+    </rule>	
 	<rule>
 		<key>C4003</key>
 		<configkey>C4003</configkey>
@@ -3715,7 +3724,7 @@
 	<key>C6273</key>
 	<configkey>C6273</configkey> 
 	<priority>CRITICAL</priority>
-	<name>Warning 6273 - non-integer passed as parameter &lt;number&gt; when integer is required in call to &lt;function&gt;: if a pointer value is being passed, %p should be used</name> 
+	<name>warning C6273 - non-integer passed as parameter &lt;number&gt; when integer is required in call to &lt;function&gt;: if a pointer value is being passed, %p should be used</name> 
 	<description>This warning indicates that the format string specifies an integer, for example, a %d, length or precedence specification for printf but a non-integer such as a float, string, or struct is being passed as a parameter. This defect is likely to result in incorrect output.</description> 
 </rule>
 <rule>
@@ -3777,7 +3786,7 @@
 	<key>C6281</key>
 	<configkey>C6281</configkey>
 	<priority>CRITICAL</priority>
-	<name>Warning 6281 - incorrect order of operations: relational operators have higher precedence than bitwise operators</name>
+	<name>warning C6281 - incorrect order of operations: relational operators have higher precedence than bitwise operators</name>
 	<description>This warning indicates a possible error in the operator precedence. This might produce incorrect results. You should check the precedence and use parentheses to clarify the intent. Relational operators (&lt;, &gt;, &lt;=, &gt;=, ==, != ) have higher precedence than bitwise operators (&amp; | ^). </description>
 </rule>
 
@@ -4469,7 +4478,7 @@
 	<key>C6530</key>
 	<configkey>C6530</configkey>
 	<priority>CRITICAL</priority>
-	<name>warning 6530: unrecognized format string style &lt;name&gt;</name>
+	<name>warning C6530: unrecognized format string style &lt;name&gt;</name>
 	<description>This warning indicates that the FormatString property is using a value other than scanf or printf. To correct this warning, review your code and use a valid value for the Style property.</description>
 </rule>
 <rule>
@@ -4981,7 +4990,7 @@
 	<key>C28210</key>
 	<configkey>C28210</configkey>
 	<priority>CRITICAL</priority>
-	<name>warning 28210: Annotations for the _On_failure_ context must not be in explicit pre context</name>
+	<name>warning C28210: Annotations for the _On_failure_ context must not be in explicit pre context</name>
 	<description>Annotations _On_failure_ must be explicitly or implicitly indicated in __post context, that is, to be applied after the function returns. Use _drv_out to ensure this.</description>
 </rule>
 <rule>
@@ -5065,7 +5074,7 @@
 	<key>C28222</key>
 	<configkey>C28222</configkey>
 	<priority>CRITICAL</priority>
-	<name>warning 28222: _Yes_, _No_, or _Maybe_ expected for annotation</name>
+	<name>warning C28222: _Yes_, _No_, or _Maybe_ expected for annotation</name>
 	<description>This warning indicates that a parameter to an annotation is expected to be one of the symbols _Yes_, _No_, or _Maybe_, and some other symbol was encountered. This usually indicates an incorrectly coded annotation macro.</description>
 </rule>
 <rule>
@@ -5464,21 +5473,21 @@
 	<key>C28306</key>
 	<configkey>C28306</configkey>
 	<priority>CRITICAL</priority>
-	<name>warning 28306: The annotation on parameter is obsolescent</name>
+	<name>warning C28306: The annotation on parameter is obsolescent</name>
 	<description>Use _String_length_ with the appropriate SAL2 annotation instead.</description>
 </rule>
 <rule>
 	<key>C28307</key>
 	<configkey>C28307</configkey>
 	<priority>CRITICAL</priority>
-	<name>warning 28307: The annotation on parameter is obsolescent</name>
+	<name>warning C28307: The annotation on parameter is obsolescent</name>
 	<description>Use _String_length_ with the appropriate SAL2 annotation instead.</description>
 </rule>
 <rule>
 	<key>C28308</key>
 	<configkey>C28308</configkey>
 	<priority>CRITICAL</priority>
-	<name>warning 28308: The format list argument position specified by the annotation is incorrect. </name>
+	<name>warning C28308: The format list argument position specified by the annotation is incorrect. </name>
 	<description>The format list argument position must be either a parameter name, or an integer offset that's in the parameter list, or zero.
 	The second parameter to IsFormatString2 (where) can be in one of two forms:
 	- A parameter name, which is taken as the first argument to the format string.
@@ -5489,8 +5498,8 @@
 	<key>C28309</key>
 	<configkey>C28309</configkey>
 	<priority>CRITICAL</priority>
-	<name>warning 28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Floats are approximated as integers. Types: &lt;typelist&gt;.</name>
-	<description>warning 28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Void operands and C++ overloaded operators are not supported. Floats are approximated as integers. Types: &lt;typelist&gt;.
+	<name>warning C28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Floats are approximated as integers. Types: &lt;typelist&gt;.</name>
+	<description>warning C28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Void operands and C++ overloaded operators are not supported. Floats are approximated as integers. Types: &lt;typelist&gt;.
 	You’ve tried to use a void or a function in an annotation expression, and Code Analysis can't handle it.  This error typically occurs when an operator== that's implemented as a function is used, but other cases may also occur. Examine the types in &lt;typelist&gt; for clues about what’s wrong.</description>
 </rule>
 <rule>
