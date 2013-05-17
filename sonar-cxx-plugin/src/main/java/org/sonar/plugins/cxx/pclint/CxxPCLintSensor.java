@@ -42,19 +42,15 @@ import java.io.File;
  */
 public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
-  public static final String MISRA_UNIQUE_ID_KEY = "false";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
-  
   private RulesProfile profile;
-  private Settings conf = null;
 
   /**
    * {@inheritDoc}
    */
   public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
     super(ruleFinder, conf);
-    this.profile = profile;    
-    this.conf = conf;
+    this.profile = profile;       
   }
 
   /**
@@ -89,8 +85,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
             rootCursor.advance(); // results
 
                 SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
-
-                String remapMisra = conf.getString(MISRA_UNIQUE_ID_KEY); 
+                
                 while (errorCursor.getNext() != null) {
 
                     String file = errorCursor.getAttrValue("file");
@@ -99,30 +94,25 @@ public class CxxPCLintSensor extends CxxReportSensor {
                     String msg = errorCursor.getAttrValue("desc");
 
                     if (isInputValid(file, line, id, msg)) {
-                        if(remapMisra.equals("true")) {
-                            if(id.equals("960") || id.equals("961")) { //remap only MISRA 2004 IDs
-                                String newId = MapMisraRulesToUniqueSonarRules(msg);
+                        if(id.equals("960") || id.equals("961")) { //remap MISRA 2004 IDs
+                            String newId = MapMisraRulesToUniqueSonarRules(msg);
 
-                                String debugText="File: "+file+", Line: "+line+", ID: "+newId+", msg: " +msg;
-                                CxxUtils.LOG.debug(debugText);
+                            String debugText="File: "+file+", Line: "+line+", ID: "+newId+", msg: " +msg;
+                            CxxUtils.LOG.debug(debugText);
 
-                                saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                                file, Integer.parseInt(line), newId, msg);
-                            } else {
-                                saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                                file, Integer.parseInt(line), id, msg);
-                            }
+                            saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                            file, Integer.parseInt(line), newId, msg);
                         } else {
                             saveViolation(project, context, CxxPCLintRuleRepository.KEY,
                             file, Integer.parseInt(line), id, msg);
                         }
                     } else {
                         CxxUtils.LOG.warn("PC-Lint warning ignored: {}", msg);
-                        
+
                         String debugText="File: "+file+", Line: "+line+", ID: "+id+", msg: " +msg;
                         CxxUtils.LOG.debug(debugText);
-                    }
-                }
+                    }                                    
+                }                
             }
 
             private boolean isInputValid(String file, String line, String id, String msg) {
@@ -146,8 +136,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 int key = Integer.parseInt(ruleWithOutDot) + 10000;
                 String newKey = String.valueOf(key);
 
-                String infoText="Remap MISRA rule "+rule+" to key " +newKey;
-                CxxUtils.LOG.info(infoText);
+                String debugText="Remap MISRA rule "+rule+" to key " +newKey;
+                CxxUtils.LOG.debug(debugText);
 
                 return newKey;
             }
