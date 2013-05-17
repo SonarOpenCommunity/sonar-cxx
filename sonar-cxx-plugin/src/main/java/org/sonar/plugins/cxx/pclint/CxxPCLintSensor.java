@@ -130,10 +130,11 @@ public class CxxPCLintSensor extends CxxReportSensor {
             to make sure the key ID is not already used by other Pc-lint rules.
             **/
             private String CalculateNewRuleId(String msg) {      
+                final int KEYOFFSET = 10000;
                 String rule = ExtractMisraRuleNumberFromDescription(msg);
 
                 String ruleWithOutDot = rule.replace(".", "");   
-                int key = Integer.parseInt(ruleWithOutDot) + 10000;
+                int key = Integer.parseInt(ruleWithOutDot) + KEYOFFSET;
                 String newKey = String.valueOf(key);
 
                 String debugText="Remap MISRA rule "+rule+" to key " +newKey;
