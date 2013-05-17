@@ -95,7 +95,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
                     if (isInputValid(file, line, id, msg)) {
                         if(id.equals("960") || id.equals("961")) { //remap MISRA 2004 IDs
-                            String newId = MapMisraRulesToUniqueSonarRules(msg);
+                            String newId = mapMisraRulesToUniqueSonarRules(msg);
 
                             String debugText = "File: " + file + ", Line: " + line +
                                 ", ID: " + newId + ", msg: " + msg;
@@ -122,33 +122,28 @@ public class CxxPCLintSensor extends CxxReportSensor {
              && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
             }
 
-            private String MapMisraRulesToUniqueSonarRules(String msg)
-            {
-                return CalculateNewRuleId(msg);
-            }
-
             /**
             Removes the dot in the rule number and adds a big offset
-            to make sure the key ID is not already used by other Pc-lint rules.
+            to make sure the key ID is not already used by other PC-lint rules.
             **/
-            private String CalculateNewRuleId(String msg) {
-                final int KEYOFFSET = 10000;
-                String rule = ExtractMisraRuleNumberFromDescription(msg);
+            private String mapMisraRulesToUniqueSonarRules(String msg){
+              final int KEYOFFSET = 10000;
+              String rule = extractMisraRuleNumberFromDescription(msg);
 
-                String ruleWithOutDot = rule.replace(".", "");
-                int key = Integer.parseInt(ruleWithOutDot) + KEYOFFSET;
-                String newKey = String.valueOf(key);
+              String ruleWithOutDot = rule.replace(".", "");
+              int key = Integer.parseInt(ruleWithOutDot) + KEYOFFSET;
+              String newKey = String.valueOf(key);
 
-                String debugText = "Remap MISRA rule " + rule + " to key " + newKey;
-                CxxUtils.LOG.debug(debugText);
+              String debugText = "Remap MISRA rule " + rule + " to key " + newKey;
+              CxxUtils.LOG.debug(debugText);
 
-                return newKey;
+              return newKey;
             }
 
             /**
             Get the MISRA rule number from the PC-lint message
             **/
-            private String ExtractMisraRuleNumberFromDescription(String msg) {
+            private String extractMisraRuleNumberFromDescription(String msg) {
                 String[] splitDescription = msg.split(",", 2)[0].split(" ");
                 String rule = splitDescription[splitDescription.length-1];
                 return rule;
