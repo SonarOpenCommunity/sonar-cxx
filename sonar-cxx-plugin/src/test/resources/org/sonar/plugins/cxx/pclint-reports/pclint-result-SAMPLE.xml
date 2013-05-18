@@ -10,4 +10,23 @@
 <issue file =".\ZipManager.cpp" line = "40" number = "888" desc = "case constant '0' used previously in this switch"/>
 <issue file =".\FileZip.cpp" line = "64" number = "765" desc = "external 'theApp' (line 64, file .\FileZip.cpp) could be made static"/>
 <issue file =".\FileZip.cpp" line = "66" number = "1268" desc = "Internal Error; contact Gimpel Software."/>
+<issue file =".\test.c" line = "28" number = "960" desc = "Violates MISRA 2004 Required Rule 8.1, no prototype for function 'do_report_status' "/>
+<issue file =".\test.c" line = "12" number = "960" desc = "Violates MISRA 2004 Required Rule 8.7, could define variable at block scope: 'slot_gpios' at location location unknown"/>
+<issue file =".\test.c" line = "11" number = "960" desc = "Violates MISRA 2004 Required Rule 5.1, Identifier exceeds 31 characters"/>
+<issue file =".\test.c" line = "23" number = "960" desc = "Violates MISRA 2004 Required Rule 7.1, Octal constant used"/>
+<issue file =".\test.c" line = "180" number = "960" desc = "Violates MISRA 2004 Required Rule 9.3, '=' should initialize either all enum members or only the first; enumerator: 'pad_strength::PAD_CLEAR' "/>
+<issue file =".\test.c" line = "296" number = "960" desc = "Violates MISRA 2004 Required Rule 10.1, Implicit conversion changes signedness"/>
+<issue file =".\test.c" line = "54" number = "960" desc = "Violates MISRA 2004 Required Rule 10.5, Operators '~' and '&lt;&lt;' require recasting to underlying type for sub-integers"/>
+<issue file =".\test.c" line = "175" number = "961" desc = "Violates MISRA 2004 Advisory Rule 12.1, dependence placed on C's operator precedence; operators: '==' and '||'"/>
+<issue file =".\test.c" line = "298" number = "960" desc = "Violates MISRA 2004 Required Rule 12.4, side effects on right hand of logical operator: '&amp;&amp;'"/>
+<issue file =".\test.c" line = "175" number = "960" desc = "Violates MISRA 2004 Required Rule 12.5, non-primary expression used with logical operator"/>
+<issue file =".\test.c" line = "391" number = "961" desc = "Violates MISRA 2004 Advisory Rule 12.6, boolean expression required for operator: '!'; the -strong(B,...) option can help provide Boolean-by-enforcement"/>
+<issue file =".\test.c" line = "70" number = "960" desc = "Violates MISRA 2004 Required Rule 12.7, Bitwise operator applied to signed underlying type: &lt;&lt;"/>
+<issue file =".\test.c" line = "60" number = "960" desc = "Violates MISRA 2004 Required Rule 12.8, out of bounds value for right hand side of shift operator"/>
+<issue file =".\test.c" line = "101" number = "960" desc = "Violates MISRA 2004 Required Rule 14.5, continue statement detected"/>
+<issue file =".\test.c" line = "34" number = "960" desc = "Violates MISRA 2004 Required Rule 14.9, left brace expected for if and else"/>
+<issue file =".\test.c" line = "365" number = "960" desc = "Violates MISRA 2004 Required Rule 14.10, no 'else' at end of 'if ... else if' chain"/>
+<issue file =".\test.c" line = "98" number = "960" desc = "Violates MISRA 2004 Required Rule 17.4, pointer arithmetic other than array indexing used"/>
+<issue file =".\test.c" line = "64" number = "960" desc = "Violates MISRA 2004 Required Rule 18.4, declaration of union type or object of union type: 'cfg_if_union'"/>
+<issue file =".\test.c" line = "9" number = "961" desc = "Violates MISRA 2004 Advisory Rule 19.7, Function-like macro defined: 'ARRAY_SIZE' "/>
 </doc>

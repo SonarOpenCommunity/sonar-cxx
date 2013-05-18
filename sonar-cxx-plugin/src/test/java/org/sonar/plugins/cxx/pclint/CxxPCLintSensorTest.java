@@ -56,6 +56,6 @@ public class CxxPCLintSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(10)).saveViolation(any(Violation.class));
+    verify(context, times(29)).saveViolation(any(Violation.class));
   }
 }
