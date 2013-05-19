@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
+import org.sonar.api.utils.SonarException;
+
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -93,18 +95,73 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
             if (isInputValid(file, line, id, msg)) {
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                  file, Integer.parseInt(line), id, msg);
+              if(msg.contains("MISRA 2004")) { //remap MISRA 2004 IDs
+                String newId = null;
+                try{
+                  newId = mapMisraRulesToUniqueSonarRules(msg);
+                }catch(Exception ex) {
+                  String errorText = "Could not set new key on Violation: \n File: " + file +
+                      ", Line: " + line + ", ID: " + id + ", msg: " + msg;
+                  CxxUtils.LOG.error(errorText);
+                  continue;
+                }
+                  String debugText = "File: " + file + ", Line: " + line +
+                      ", ID: " + newId + ", msg: " + msg;
+                  CxxUtils.LOG.debug(debugText);
+
+                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                      file, Integer.parseInt(line), newId, msg);
+              } else {
+                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                      file, Integer.parseInt(line), id, msg);
+              }
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
+
+              String debugText = "File: " + file + ", Line: " + line +
+                  ", ID: " + id + ", msg: " + msg;
+              CxxUtils.LOG.debug(debugText);
             }
         }
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line) 
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
           && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
+
+            /**
+            Removes the dot in the rule number and adds a big offset
+            to make sure the key ID is not already used by other PC-lint rules.
+            **/
+            private String mapMisraRulesToUniqueSonarRules(String msg){
+              final int KEYOFFSET = 10000;
+              String rule = extractMisraRuleNumberFromDescription(msg);
+
+              String ruleWithOutDot = rule.replace(".", "");
+              int key = Integer.parseInt(ruleWithOutDot) + KEYOFFSET;
+              String newKey = String.valueOf(key);
+
+              String debugText = "Remap MISRA rule " + rule + " to key " + newKey;
+              CxxUtils.LOG.debug(debugText);
+
+              return newKey;
+            }
+
+            /**
+            Get the MISRA rule number from the PC-lint message
+            **/
+            private String extractMisraRuleNumberFromDescription(String msg) {
+              final String splitString = "Rule";
+
+              if ( !msg.contains(splitString)) {
+                throw new SonarException(splitString + " could not be found in violation description");
+              }
+                String[] splitDescription = msg.split(splitString,2)[1].trim().split(",");
+                String rule = splitDescription[0];
+                return rule;
+            }
+
     });
 
     parser.parse(report);
