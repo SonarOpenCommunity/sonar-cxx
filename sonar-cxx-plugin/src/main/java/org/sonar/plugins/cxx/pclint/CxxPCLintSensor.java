@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
+import org.sonar.api.utils.SonarException;
+
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -94,9 +96,16 @@ public class CxxPCLintSensor extends CxxReportSensor {
                     String msg = errorCursor.getAttrValue("desc");
 
                     if (isInputValid(file, line, id, msg)) {
-                        if(id.equals("960") || id.equals("961")) { //remap MISRA 2004 IDs
-                            String newId = mapMisraRulesToUniqueSonarRules(msg);
-
+                        if(msg.contains("MISRA 2004")) { //remap MISRA 2004 IDs
+                          String newId = null;
+                          try{
+                            newId = mapMisraRulesToUniqueSonarRules(msg);
+                          }catch(Exception ex) {
+                            String errorText = "Could not set new key on Violation: \n File: " + file +
+                                ", Line: " + line + ", ID: " + id + ", msg: " + msg;
+                            CxxUtils.LOG.error(errorText);
+                            continue;
+                          }
                             String debugText = "File: " + file + ", Line: " + line +
                                 ", ID: " + newId + ", msg: " + msg;
                             CxxUtils.LOG.debug(debugText);
@@ -144,8 +153,13 @@ public class CxxPCLintSensor extends CxxReportSensor {
             Get the MISRA rule number from the PC-lint message
             **/
             private String extractMisraRuleNumberFromDescription(String msg) {
-                String[] splitDescription = msg.split(",", 2)[0].split(" ");
-                String rule = splitDescription[splitDescription.length-1];
+              final String splitString = "Rule";
+
+              if ( !msg.contains(splitString)) {
+                throw new SonarException(splitString + " could not be found in violation description");
+              }
+                String[] splitDescription = msg.split(splitString,2)[1].trim().split(",");
+                String rule = splitDescription[0];
                 return rule;
             }
 

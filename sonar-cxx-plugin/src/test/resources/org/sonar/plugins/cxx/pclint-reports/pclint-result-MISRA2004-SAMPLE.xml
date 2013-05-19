@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result>
+<issue file =".\test.c" line = "297" number = "931" desc = "Both sides have side effects [MISRA 2004 Rule 1.2, required]"/>
+<issue file =".\test.c" line = "86" number = "970" desc = "Use of modifier or type 'int' outside of a typedef [MISRA 2004 Rule 6.3, advisory]"/>
+<issue file =".\test.c" line = "28" number = "960" desc = "Violates MISRA 2004 Required Rule 8.1, no prototype for function 'do_report_status' "/>
+<issue file =".\test.c" line = "12" number = "960" desc = "Violates MISRA 2004 Required Rule 8.7, could define variable at block scope: 'slot_gpios' at location location unknown"/>
+<issue file =".\test.c" line = "11" number = "960" desc = "Violates MISRA 2004 Required Rule 5.1, Identifier exceeds 31 characters"/>
+<issue file =".\test.c" line = "23" number = "960" desc = "Violates MISRA 2004 Required Rule 7.1, Octal constant used"/>
+<issue file =".\test.c" line = "71" number = "18" desc = "Symbol 'timeval::tv_sec' redeclared (strong)  [Encompasses MISRA 2004 Rule 8.3, required]"/>
+<issue file =".\test.c" line = "192" number = "644" desc = "Variable 'dev_type' (line 158) may not have been initialized [MISRA 2004 Rule 9.1, required]"/>
+<issue file =".\test.c" line = "180" number = "960" desc = "Violates MISRA 2004 Required Rule 9.3, '=' should initialize either all enum members or only the first; enumerator: 'pad_strength::PAD_CLEAR' "/>
+<issue file =".\test.c" line = "296" number = "960" desc = "Violates MISRA 2004 Required Rule 10.1, Implicit conversion changes signedness"/>
+<issue file =".\test.c" line = "54" number = "960" desc = "Violates MISRA 2004 Required Rule 10.5, Operators '~' and '&lt;&lt;' require recasting to underlying type for sub-integers"/>
+<issue file =".\test.c" line = "175" number = "961" desc = "Violates MISRA 2004 Advisory Rule 12.1, dependence placed on C's operator precedence; operators: '==' and '||'"/>
+<issue file =".\test.c" line = "298" number = "960" desc = "Violates MISRA 2004 Required Rule 12.4, side effects on right hand of logical operator: '&amp;&amp;'"/>
+<issue file =".\test.c" line = "175" number = "960" desc = "Violates MISRA 2004 Required Rule 12.5, non-primary expression used with logical operator"/>
+<issue file =".\test.c" line = "391" number = "961" desc = "Violates MISRA 2004 Advisory Rule 12.6, boolean expression required for operator: '!'; the -strong(B,...) option can help provide Boolean-by-enforcement"/>
+<issue file =".\test.c" line = "60" number = "960" desc = "Violates MISRA 2004 Required Rule 12.8, out of bounds value for right hand side of shift operator"/>
+<issue file =".\test.c" line = "38" number = "845" desc = "The right argument to operator '|' is certain to be 0 [Reference: file pinconfig.c: line 38] [MISRA 2004 Rule 13.7, required]"/>
+<issue file =".\test.c" line = "75" number = "801" desc = "Use of goto is deprecated [MISRA 2004 Rule 14.4, required]"/>
+<issue file =".\test.c" line = "101" number = "960" desc = "Violates MISRA 2004 Required Rule 14.5, continue statement detected"/>
+<issue file =".\test.c" line = "34" number = "960" desc = "Violates MISRA 2004 Required Rule 14.9, left brace expected for if and else"/>
+<issue file =".\test.c" line = "365" number = "960" desc = "Violates MISRA 2004 Required Rule 14.10, no 'else' at end of 'if ... else if' chain"/>
+<issue file =".\test.c" line = "637" number = "818" desc = "Pointer parameter 'argv' (line 532) could be declared as pointing to const [MISRA 2004 Rule 16.7, advisory]"/>
+<issue file =".\test.c" line = "73" number = "534" desc = "Ignoring return value of function 'dbg_print(const char *, ...)' (compare with line 132, file ./test.c, module bit.c) [Encompasses MISRA 2004 Rule 16.10, required]"/>
+<issue file =".\test.c" line = "98" number = "960" desc = "Violates MISRA 2004 Required Rule 17.4, pointer arithmetic other than array indexing used"/>
+<issue file =".\test.c" line = "273" number = "43" desc = "Vacuous type for variable 'cmsghdr::__cmsg_data' [MISRA 2004 Rule 18.1, required]"/>
+<issue file =".\test.c" line = "64" number = "960" desc = "Violates MISRA 2004 Required Rule 18.4, declaration of union type or object of union type: 'cfg_if_union'"/>
+<issue file =".\test.c" line = "9" number = "961" desc = "Violates MISRA 2004 Advisory Rule 19.7, Function-like macro defined: 'ARRAY_SIZE' "/>
+<issue file =".\test.c" line = "5" number = "829" desc = "A +headerwarn option was previously issued for header 'stdio.h' [MISRA 2004 Rule 20.9, required]"/>
+<issue file =".\test.c" line = "479" number = "586" desc = "function 'system' is deprecated. [MISRA 2004 Rule 20.11, required]"/>
+</result>
