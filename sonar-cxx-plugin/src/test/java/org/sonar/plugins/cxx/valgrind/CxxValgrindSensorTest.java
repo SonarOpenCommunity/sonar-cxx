@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
@@ -31,10 +32,13 @@ import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -79,7 +83,13 @@ public class CxxValgrindSensorTest {
   private ValgrindError mockValgrindError(boolean inside) {
     ValgrindError error = mock(ValgrindError.class);
     ValgrindFrame frame = inside == true ? generateValgrindFrame() : null;
-    when(error.getLastOwnFrame((anyString()))).thenReturn(frame);
+    List<ValgrindFrame> frames = new ArrayList<ValgrindFrame>();
+    if(frame != null)
+    {
+      frames.add(frame);
+    }
+    
+    when(error.getLastOwnFrame((java.io.File) any(), anyMap())).thenReturn(frames);
     return error;
   }
 

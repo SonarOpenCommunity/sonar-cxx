@@ -27,7 +27,21 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import org.sonar.api.resources.InputFile;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.squid.api.SourceClass;
+import org.sonar.squid.api.SourceCode;
+import org.sonar.squid.api.SourceFile;
+import org.sonar.squid.api.SourceFunction;
 
 /**
  * {@inheritDoc}
@@ -36,6 +50,8 @@ public class CxxValgrindSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
   private static final String DEFAULT_REPORT_PATH = "valgrind-reports/valgrind-result-*.xml";
   private RulesProfile profile;
+  private final Settings conf;
+  private Map<String,List<String>> functionLookupTable = new TreeMap<String, List<String>>();;
 
   /**
    * {@inheritDoc}
@@ -43,8 +59,18 @@ public class CxxValgrindSensor extends CxxReportSensor {
   public CxxValgrindSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
     super(ruleFinder, conf);
     this.profile = profile;
+    this.conf = conf;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void analyse(Project project, SensorContext context) {
+    lookupFiles(project);
+    super.analyse(project, context);
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -74,11 +100,57 @@ public class CxxValgrindSensor extends CxxReportSensor {
 
   void saveErrors(Project project, SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
-      ValgrindFrame frame = error.getLastOwnFrame(project.getFileSystem().getBasedir().getPath());
-      if (frame != null) {
+      List<ValgrindFrame> frames = error.getLastOwnFrame(project.getFileSystem().getBasedir(), functionLookupTable);
+      for(ValgrindFrame frame : frames)
+      {
+        CxxUtils.LOG.debug("File '{}' '{}'", frame.getPath(), frame.getLine());
         saveViolation(project, context, CxxValgrindRuleRepository.KEY,
-            frame.getPath(), frame.getLine(), error.getKind(), error.toString());
+            frame.getPath(), frame.getLine(), error.getKind(), error.toString());        
       }
     }
   }
+  
+  void recursiveFunctionSearch(InputFile file, SourceCode childParent)
+  {
+    for (SourceCode child : childParent.getChildren()) {
+      CxxUtils.LOG.debug("child class '{}'", child.getKey());
+      CxxUtils.LOG.debug("child Name '{}'", child.getName());
+      
+      if (child instanceof  SourceFunction) {
+          String[] childelems = child.getKey().split("::");
+          String functionName = childelems.length == 2 ? 
+          childelems[1].split(":")[0] : childelems[0].split(":")[0];
+
+          if(functionLookupTable.containsKey(functionName)) {
+            List<String> elems = functionLookupTable.get(functionName);
+            elems.add(file.getFile().getPath());
+            functionLookupTable.put(functionName, elems);
+          }else {
+            List<String> newElems = new ArrayList<String>();
+            newElems.add(file.getFile().getPath());
+            functionLookupTable.put(functionName, newElems);
+          }
+      } else {
+        recursiveFunctionSearch(file, child);
+      }
+    }    
+  }
+  
+  void lookupFiles(Project project) {
+    List<InputFile> files = project.getFileSystem().testFiles(CxxLanguage.KEY);
+    files.addAll(project.getFileSystem().mainFiles(CxxLanguage.KEY));
+
+    CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
+    cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
+    cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
+    cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+    
+    for (InputFile file : files) {
+      CxxUtils.LOG.debug("File '{}'", file.getFile().getPath());
+      SourceFile source = CxxAstScanner.scanSingleFileConfig(file.getFile(), cxxConf);
+      if(source.hasChildren()) {
+        recursiveFunctionSearch(file, source);
+      }
+    }    
+  }  
 }
