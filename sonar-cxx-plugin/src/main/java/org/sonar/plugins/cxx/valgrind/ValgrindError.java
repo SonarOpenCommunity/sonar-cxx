@@ -19,6 +19,9 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
@@ -74,7 +77,7 @@ class ValgrindError {
   /**
    * @see ValgrindStack#getLastFrame
    */
-  public ValgrindFrame getLastOwnFrame(String basedir) {
-    return stack.getLastOwnFrame(basedir);
+  public List<ValgrindFrame> getLastOwnFrame(File baseDir, Map<String,List<String>> functionLookupTable) {
+    return stack.getLastOwnFrame(baseDir, functionLookupTable);
   }
 }

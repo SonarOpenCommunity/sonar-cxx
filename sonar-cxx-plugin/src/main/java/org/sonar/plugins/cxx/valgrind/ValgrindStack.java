@@ -19,10 +19,13 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
+import java.io.File;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /** Represents a call stack, consists basically of a list of frames */
 class ValgrindStack {
@@ -71,16 +74,37 @@ class ValgrindStack {
    * Returns the last frame (counted from the bottom of the stack) of
    * a function which is in 'our' code
    */
-  public ValgrindFrame getLastOwnFrame(String basedir) {
+  public List<ValgrindFrame> getLastOwnFrame(File baseDir, Map<String,List<String>> functionLookupTable) {
+    
+    List<ValgrindFrame> framesOut  = new ArrayList<ValgrindFrame>();
     for (ValgrindFrame frame : frames) {
-      if (isInside(frame.getDir(), basedir)) {
-        return frame;
+      String[] functionSignatureElems = frame.getFunction().split("\\(")[0].split("::");
+      String functionSignature = functionSignatureElems.length == 2 ?
+          functionSignatureElems[1] : functionSignatureElems[0];
+      
+      List<String> paths = functionLookupTable.get(functionSignature);
+      
+      CxxUtils.LOG.debug("SETS KEYs '{}'", functionLookupTable.keySet());
+      CxxUtils.LOG.debug("frame '{}'", functionSignature);
+      if(paths != null) {
+                
+        for (String path : paths) {
+          File fileInSonar = new File(path);
+          File filePathInSystem = new File(frame.getDir(), frame.getFile());
+          
+          if (filePathInSystem.getPath().contains(fileInSonar.getPath().replace(baseDir.getPath() + File.separator, ""))) {
+            String dirInSonar = path.replace(frame.getFile(), "");
+            dirInSonar = dirInSonar.substring(0, dirInSonar.length()-1);
+            framesOut.add(new ValgrindFrame(frame.getIp(), 
+                frame.getObj(),
+                frame.getFunction(),
+                dirInSonar,
+                frame.getFile(),
+                frame.getLine()));
+          }
+        }               
       }
     }
-    return null;
-  }
-
-  private boolean isInside(String path, String folder) {
-    return "".equals(path) ? false : path.startsWith(folder);
+    return framesOut;
   }
 }

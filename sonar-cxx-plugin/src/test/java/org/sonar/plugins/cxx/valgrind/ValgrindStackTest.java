@@ -23,8 +23,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -99,7 +102,7 @@ public class ValgrindStackTest {
 
   @Test
   public void getLastOwnFrame_returnsNullOnEmptyStack() {
-    assertEquals(new ValgrindStack().getLastOwnFrame("somepath"), null);
+    assertEquals(new ValgrindStack().getLastOwnFrame(new File("/asdf"), null).size(), 0);
   }
 
   @Test
@@ -108,20 +111,103 @@ public class ValgrindStackTest {
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(frame);
 
-    assertEquals(new ValgrindStack().getLastOwnFrame("somepath"), null);
+    assertEquals(new ValgrindStack().getLastOwnFrame(new File("/asdf"), null).size(), 0);
   }
 
   @Test
   public void getLastOwnFrame_returnsTheOwnFrame() {
-    File BASE_DIR = new File("our", "path");
-    File OWN_PATH = new File(BASE_DIR, "subdir");
-
-    ValgrindFrame otherFrame = new ValgrindFrame(null, null, null, "someotherpath", null, 1);
-    ValgrindFrame ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(), null, 1);
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, "function2", "someotherpath", "file2", 1);
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, "function1", "somepath", "file1", 1);
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(otherFrame);
     stack.addFrame(ownFrame);
+    
+    Map<String, List<String>> lookupTable = new TreeMap<String, List<String>>();
+    List<String> fileLocations = new ArrayList<String>();
+    fileLocations.add("somepath/file1");
+    lookupTable.put("function1", fileLocations);
 
-    assertEquals(stack.getLastOwnFrame(BASE_DIR.getPath()), ownFrame);
+    List<ValgrindFrame> frames = stack.getLastOwnFrame(new File("/asdf"), lookupTable);
+    assertEquals(1, frames.size());
+    assertEquals("somepath", frames.get(0).getDir());
+    assertEquals("file1", frames.get(0).getFile());
+    assertEquals("function1", frames.get(0).getFunction());
   }
+  
+  @Test
+  public void getLastOwnFrame_returnsCorrectFrameWithDuplicatedFunctionsInFrame() {
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, "function2", "/abc/fdg", "file.cpp", 1);
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, "function2", "/src/dir1", "file1.cpp", 1);
+    ValgrindStack stack = new ValgrindStack();
+    stack.addFrame(otherFrame);
+    stack.addFrame(ownFrame);
+    
+    Map<String, List<String>> lookupTable = new TreeMap<String, List<String>>();
+    List<String> fileLocations = new ArrayList<String>();
+    fileLocations.add("dir1/file1.cpp");
+    lookupTable.put("function2", fileLocations);
+
+    List<ValgrindFrame> frames = stack.getLastOwnFrame(new File("/asdf"), lookupTable);
+    assertEquals(1, frames.size());
+    assertEquals("dir1", frames.get(0).getDir());
+    assertEquals("file1.cpp", frames.get(0).getFile());
+    assertEquals("function2", frames.get(0).getFunction());   
+  }
+  
+  @Test
+  public void getLastOwnFrame_returnsCorrectFrameWithDuplicatedFunctionsInLookupTable() {
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, "function2", "/abc/fdg", "file2", 1);
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, "function1", "/src/dir1", "file1", 1);
+    ValgrindStack stack = new ValgrindStack();
+    stack.addFrame(otherFrame);
+    stack.addFrame(ownFrame);
+    
+    Map<String, List<String>> lookupTable = new TreeMap<String, List<String>>();
+    List<String> fileLocations = new ArrayList<String>();
+    fileLocations.add("dir1/file1");
+    fileLocations.add("dir2/file2");
+    lookupTable.put("function1", fileLocations);
+
+    List<ValgrindFrame> frames = stack.getLastOwnFrame(new File("/asdf"), lookupTable);
+    assertEquals(frames.get(0).getDir(), "dir1");
+    assertEquals(frames.get(0).getFile(), "file1"); 
+  }  
+  
+  @Test
+  public void getLastOwnFrame_returnsCorrectFrameWithAbsoluteWindowsPathsInFrames() {
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, "function2", "e:\\abc\\fdg", "file2", 1);
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, "function1", "e:\\src\\dir1", "file1", 1);
+    ValgrindStack stack = new ValgrindStack();
+    stack.addFrame(otherFrame);
+    stack.addFrame(ownFrame);
+    
+    Map<String, List<String>> lookupTable = new TreeMap<String, List<String>>();
+    List<String> fileLocations = new ArrayList<String>();
+    fileLocations.add("dir1/file1");
+    fileLocations.add("dir2/file2");
+    lookupTable.put("function1", fileLocations);
+
+    List<ValgrindFrame> frames = stack.getLastOwnFrame(new File("/asdf"), lookupTable);
+    assertEquals(frames.get(0).getDir(), "dir1");
+    assertEquals(frames.get(0).getFile(), "file1"); 
+  }
+  
+  @Test
+  public void getLastOwnFrame_returnsCorrectFrameWithRelativeWindowsPathsInFrames() {
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, "function2", "abc\\fdg", "file2", 1);
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, "function1", "src\\dir1", "file1", 1);
+    ValgrindStack stack = new ValgrindStack();
+    stack.addFrame(otherFrame);
+    stack.addFrame(ownFrame);
+    
+    Map<String, List<String>> lookupTable = new TreeMap<String, List<String>>();
+    List<String> fileLocations = new ArrayList<String>();
+    fileLocations.add("dir1\\file1");
+    fileLocations.add("dir2\\file2");
+    lookupTable.put("function1", fileLocations);
+
+    List<ValgrindFrame> frames = stack.getLastOwnFrame(new File("/asdf"), lookupTable);
+    assertEquals(frames.get(0).getDir(), "dir1");
+    assertEquals(frames.get(0).getFile(), "file1"); 
+  }    
 }
