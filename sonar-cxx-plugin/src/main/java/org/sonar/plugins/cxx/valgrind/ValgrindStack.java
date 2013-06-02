@@ -84,8 +84,6 @@ class ValgrindStack {
       
       List<String> paths = functionLookupTable.get(functionSignature);
       
-      CxxUtils.LOG.debug("SETS KEYs '{}'", functionLookupTable.keySet());
-      CxxUtils.LOG.debug("frame '{}'", functionSignature);
       if(paths != null) {
                 
         for (String path : paths) {
