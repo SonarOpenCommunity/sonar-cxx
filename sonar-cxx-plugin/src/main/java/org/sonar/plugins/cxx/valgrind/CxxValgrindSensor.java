@@ -103,7 +103,6 @@ public class CxxValgrindSensor extends CxxReportSensor {
       List<ValgrindFrame> frames = error.getLastOwnFrame(project.getFileSystem().getBasedir(), functionLookupTable);
       for(ValgrindFrame frame : frames)
       {
-        CxxUtils.LOG.debug("File '{}' '{}'", frame.getPath(), frame.getLine());
         saveViolation(project, context, CxxValgrindRuleRepository.KEY,
             frame.getPath(), frame.getLine(), error.getKind(), error.toString());        
       }
@@ -113,8 +112,6 @@ public class CxxValgrindSensor extends CxxReportSensor {
   void recursiveFunctionSearch(InputFile file, SourceCode childParent)
   {
     for (SourceCode child : childParent.getChildren()) {
-      CxxUtils.LOG.debug("child class '{}'", child.getKey());
-      CxxUtils.LOG.debug("child Name '{}'", child.getName());
       
       if (child instanceof  SourceFunction) {
           String[] childelems = child.getKey().split("::");
@@ -146,7 +143,6 @@ public class CxxValgrindSensor extends CxxReportSensor {
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     
     for (InputFile file : files) {
-      CxxUtils.LOG.debug("File '{}'", file.getFile().getPath());
       SourceFile source = CxxAstScanner.scanSingleFileConfig(file.getFile(), cxxConf);
       if(source.hasChildren()) {
         recursiveFunctionSearch(file, source);
