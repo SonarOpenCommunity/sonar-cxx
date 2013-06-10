@@ -35,6 +35,8 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * PCLint is an equivalent to pmd but for C++
@@ -99,15 +101,44 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
             if (isInputValid(file, line, id, msg)) {
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
+              //remap MISRA IDs. Only Unique rules for MISRA 2004 and 2008 has been created in the rule repository
+              if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
+                  String newId = mapMisraRulesToUniqueSonarRules(msg);
+
+                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                      file, Integer.parseInt(line), newId, msg);
+              } else {
+                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                      file, Integer.parseInt(line), id, msg);
+              }
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
+
+              String debugText = "File: " + file + ", Line: " + line +
+                  ", ID: " + id + ", msg: " + msg;
+              CxxUtils.LOG.debug(debugText);
             }
         }
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
         return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+      }
+
+      /**
+      Concatenate M with the MISRA rule
+      number to get the new rule id to save the violation to.
+      **/
+      private String mapMisraRulesToUniqueSonarRules(String msg){
+        Pattern pattern = Pattern.compile("Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2}),");
+        Matcher matcher = pattern.matcher(msg);
+        matcher.find();
+        String misraRule = matcher.group(1);
+        String newKey = "M" + misraRule;
+
+        String debugText = "Remap MISRA rule " + misraRule + " to key " + newKey;
+        CxxUtils.LOG.debug(debugText);
+        return newKey;
       }
     });
 
