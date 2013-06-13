@@ -7559,8 +7559,8 @@
     omitted braces within an initializer</description>
   </rule>
   <rule>
-    <key>M93</key>
-    <configkey>M93</configkey>
+    <key>M9.3</key>
+    <configkey>M9.3</configkey>
     <priority>INFO</priority>
     <name>Should initialize either all enum members or only the first, MISRA Rule 9.3</name>
     <description>
@@ -7835,8 +7835,8 @@
     non-null statement has no effect</description>
   </rule>
   <rule>
-    <key>M143</key>
-    <configkey>M143</configkey>
+    <key>M14.3</key>
+    <configkey>M14.3</configkey>
     <priority>INFO</priority>
     <name>Null statement not in line by itself, MISRA Rule 14.3</name>
     <description>
