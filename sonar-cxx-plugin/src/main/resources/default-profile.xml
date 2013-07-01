@@ -1233,6 +1233,7 @@
       <key>writeReadOnlyFile</key>
       <priority>MAJOR</priority>
     </rule>
+
     <!-- ########### Missing or new in cppcheck 1.56 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
@@ -1304,6 +1305,7 @@
       <key>uselessCallsRemove</key>
       <priority>MINOR</priority>
     </rule>
+
     <!-- ########### Missing or new in cppcheck 1.57 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
@@ -1370,6 +1372,8 @@
       <key>unsafeClassCanLeak</key>
       <priority>MINOR</priority>
     </rule>
+
+
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->
@@ -3174,6 +3178,8 @@
       <key>wscanf</key>
       <priority>MAJOR</priority>
     </rule>
+
+
     <!-- ##################################################  -->
     <!-- ################# valgrind rules #################  -->
     <!-- ##################################################  -->
