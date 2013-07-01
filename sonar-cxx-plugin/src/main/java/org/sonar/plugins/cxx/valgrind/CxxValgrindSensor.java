@@ -25,6 +25,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import java.io.File;
 import java.util.Set;
@@ -71,13 +72,16 @@ public class CxxValgrindSensor extends CxxReportSensor {
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(project, context, parser.parseReport(report));
   }
-
+  
   void saveErrors(Project project, SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
       ValgrindFrame frame = error.getLastOwnFrame(project.getFileSystem().getBasedir().getPath());
       if (frame != null) {
         saveViolation(project, context, CxxValgrindRuleRepository.KEY,
-            frame.getPath(), frame.getLine(), error.getKind(), error.toString());
+                      frame.getPath(), frame.getLine(), error.getKind(), error.toString());
+      }
+      else{
+        CxxUtils.LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
       }
     }
   }
