@@ -2383,4 +2383,161 @@
       Class 'classname' is unsafe, 'varname' can leak by wrong usage.
     </description>
   </rule>
+  
+  <!-- ########### New in cppcheck 1.58 ########### -->
+  <rule>
+    <key>argumentSize</key>
+    <configkey>argumentSize</configkey>
+    <name>
+      Passing too small array as argument.
+    </name>
+    <description>
+      The array is too small, the function expects a bigger array.
+    </description>
+  </rule>
+
+  <!-- ########### New in cppcheck 1.59 ########### -->
+  <rule>
+    <key>checkCastIntToCharAndBack</key>
+    <configkey>checkCastIntToCharAndBack</configkey>
+    <name>
+      Storing func_name() return value in char variable and then comparing with EOF.
+    </name>
+    <description>
+      Storing func_name() return value in char variable and then comparing with EOF.
+    </description>
+  </rule>
+
+  <rule>
+    <key>mallocOnClassError</key>
+    <configkey>mallocOnClassError</configkey>
+    <name>
+      Bad memory allocation for class containing std::string.
+    </name>
+    <description>
+      Memory for class instance allocated with malloc(), but class contains a std::string.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>mallocOnClassWarning</key>
+    <configkey>mallocOnClassWarning</configkey>
+    <name>
+      Memory for class instance allocated with malloc(), but class provides constructors.
+    </name>
+    <description>
+      Memory for class instance allocated with malloc(), but class provides constructors.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>mismatchingBitAnd</key>
+    <configkey>mismatchingBitAnd</configkey>
+    <name>
+      Mismatching bitmasks.
+    </name>
+    <description>
+      Mismatching bitmasks. Result is always 0 (X = Y &amp; 0xf0; Z = X &amp; 0x1; =&gt; Z=0).
+    </description>
+  </rule>
+  
+  <rule>
+    <key>missingIncludeSystem</key>
+    <configkey>missingIncludeSystem</configkey>
+    <name>
+      Included file not found.
+    </name>
+    <description>
+      Cannot find an included file, the code analysis may be inaccurate.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>stlBoundaries</key>
+    <configkey>stlBoundaries</configkey>
+    <name>
+      Dangerous iterator comparison using operator &lt;.
+    </name>
+    <description>
+      Dangerous iterator comparison using operator&lt; on a STL container.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>tooBigSleepTime</key>
+    <configkey>tooBigSleepTime</configkey>
+    <name>
+      Invalid argument for usleep
+    </name>
+    <description>
+      The argument of usleep must be less than 1000000.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>uninitStructMember</key>
+    <configkey>uninitStructMember</configkey>
+    <name>
+      Uninitialized struct member
+    </name>
+    <description>
+      Missing initialization for a struct member.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>uselessAssignmentPtrArg</key>
+    <configkey>uselessAssignmentPtrArg</configkey>
+    <name>
+      Effectless function parameter assignment.
+    </name>
+    <description>
+      Assignment of function parameter has no effect outside the function.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>varFuncNullUB</key>
+    <configkey>varFuncNullUB</configkey>
+    <name>
+      Passing NULL after the last typed argument to a variadic function leads to undefined behaviour.
+    </name>
+    <description>
+      Passing NULL after the last typed argument to a variadic function leads to undefined behaviour.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>writeOutsideBufferSize</key>
+    <configkey>writeOutsideBufferSize</configkey>
+    <name>
+      Writing '1' bytes outside buffer size.
+    </name>
+    <description>
+      Writing '1' bytes outside buffer size.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>wrongPipeParameterSize</key>
+    <configkey>wrongPipeParameterSize</configkey>
+    <name>
+      A buffer must have size of 2 integers if used as parameter of pipe().
+    </name>
+    <description>
+      A buffer must have size of 2 integers if used as parameter of pipe().
+    </description>
+  </rule>
+
+  <!-- ########### New in cppcheck 1.60 ########### -->
+  <rule>
+    <key>derefInvalidIterator</key>
+    <configkey>derefInvalidIterator</configkey>
+    <name>
+      Possible dereference of an invalid iterator
+    </name>
+    <description>
+      Possible dereference of an invalid iterator
+    </description>
+  </rule>
 </rules>

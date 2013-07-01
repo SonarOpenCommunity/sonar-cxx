@@ -1372,8 +1372,83 @@
       <key>unsafeClassCanLeak</key>
       <priority>MINOR</priority>
     </rule>
-
-
+    
+    <!-- ########### Missing or new in cppcheck 1.58 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>argumentSize</key>
+      <priority>MINOR</priority>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.59 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>checkCastIntToCharAndBack</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>mallocOnClassError</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>mallocOnClassWarning</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>mismatchingBitAnd</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>missingIncludeSystem</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stlBoundaries</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>tooBigSleepTime</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uninitStructMember</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>uselessAssignmentPtrArg</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>varFuncNullUB</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>writeOutsideBufferSize</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>wrongPipeParameterSize</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.60 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>derefInvalidIterator</key>
+      <priority>MINOR</priority>
+    </rule>
+    
+    
+>>>>>>> Stashed changes
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->
