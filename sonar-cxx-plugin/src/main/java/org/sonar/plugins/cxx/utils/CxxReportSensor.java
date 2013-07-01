@@ -40,11 +40,11 @@ import java.util.List;
  */
 public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
-  private Settings conf = null;
-
+  protected Settings conf = null;
+  
   public CxxReportSensor() {
   }
-
+  
   /**
    * {@inheritDoc}
    */
