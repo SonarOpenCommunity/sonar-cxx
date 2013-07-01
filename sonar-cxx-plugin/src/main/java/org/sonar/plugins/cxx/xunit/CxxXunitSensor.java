@@ -43,8 +43,22 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import org.apache.commons.lang.StringUtils;
+import org.sonar.api.resources.InputFile;
+import org.sonar.api.utils.SonarException;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.squid.api.SourceClass;
+import org.sonar.squid.api.SourceCode;
+import org.sonar.squid.api.SourceFile;
+import org.sonar.squid.api.SourceFunction;
 
 /**
  * {@inheritDoc}
@@ -53,8 +67,10 @@ public class CxxXunitSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
-  private String xsltURL = null;
+  private String xsltURL = null; 
   private CxxLanguage lang = null;
+  private Map<String,String> testFileLookupTable;
+
 
   /**
    * {@inheritDoc}
@@ -81,6 +97,15 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   protected String defaultReportPath() {
     return DEFAULT_REPORT_PATH;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void analyse(Project project, SensorContext context) {
+    lookupTestFiles(project);
+    super.analyse(project, context);
   }
 
   @Override
@@ -128,8 +153,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
 
   private void parseReport(Project project, SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
+      throws javax.xml.stream.XMLStreamException, IOException {
     CxxUtils.LOG.info("Parsing report '{}'", report);
 
     TestSuiteParser parserHandler = new TestSuiteParser();
@@ -138,38 +162,73 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     for (TestSuite fileReport : parserHandler.getParsedReports()) {
       String fileKey = fileReport.getKey();
-
-      org.sonar.api.resources.File unitTest =
-          org.sonar.api.resources.File.fromIOFile(new File(fileKey), project.getFileSystem().getTestDirs());
-      if (unitTest == null) {
-        unitTest = createVirtualFile(context, fileKey);
-      }
-
-      CxxUtils.LOG.debug("Saving test execution measures for file '{}' under resource '{}'",
-          fileKey, unitTest);
-
       double testsCount = fileReport.getTests() - fileReport.getSkipped();
-      context.saveMeasure(unitTest, CoreMetrics.SKIPPED_TESTS, (double) fileReport.getSkipped());
-      context.saveMeasure(unitTest, CoreMetrics.TESTS, testsCount);
-      context.saveMeasure(unitTest, CoreMetrics.TEST_ERRORS, (double) fileReport.getErrors());
-      context.saveMeasure(unitTest, CoreMetrics.TEST_FAILURES, (double) fileReport.getFailures());
-      context.saveMeasure(unitTest, CoreMetrics.TEST_EXECUTION_TIME, (double) fileReport.getTime());
-      double passedTests = testsCount - fileReport.getErrors() - fileReport.getFailures();
-      if (testsCount > 0) {
-        double percentage = passedTests * 100d / testsCount;
-        context.saveMeasure(unitTest, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(percentage));
+      
+      try {
+        org.sonar.api.resources.File resource = getTestFile(project, context, fileKey);
+        saveTestMetrics(context, resource, fileReport, testsCount);
+      } catch (org.sonar.api.utils.SonarException ex) {
+        CxxUtils.LOG.warn("Cannot save test metrics for '{}', details: {}", fileKey, ex);
       }
-
-      context.saveMeasure(unitTest, new Measure(CoreMetrics.TEST_DATA, fileReport.getDetails()));
     }
   }
 
-  private org.sonar.api.resources.File createVirtualFile(SensorContext context,
-      String filename) {
-    org.sonar.api.resources.File virtualFile =
-        new org.sonar.api.resources.File(this.lang, filename);
-    virtualFile.setQualifier(Qualifiers.UNIT_TEST_FILE);
-    context.saveSource(virtualFile, "<source code could not be found>");
-    return virtualFile;
+  private void saveTestMetrics(SensorContext context, org.sonar.api.resources.File resource, TestSuite fileReport, double testsCount) {
+    context.saveMeasure(resource, CoreMetrics.SKIPPED_TESTS, (double) fileReport.getSkipped());
+    context.saveMeasure(resource, CoreMetrics.TESTS, testsCount);
+    context.saveMeasure(resource, CoreMetrics.TEST_ERRORS, (double) fileReport.getErrors());
+    context.saveMeasure(resource, CoreMetrics.TEST_FAILURES, (double) fileReport.getFailures());
+    context.saveMeasure(resource, CoreMetrics.TEST_EXECUTION_TIME, (double) fileReport.getTime());
+    final double passedTests = testsCount - fileReport.getErrors() - fileReport.getFailures();
+    if (testsCount > 0) {
+      double percentage = passedTests * 100d / testsCount;
+      context.saveMeasure(resource, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(percentage));
+    }
+    context.saveMeasure(resource, new Measure(CoreMetrics.TEST_DATA, fileReport.getDetails()));
+  }
+  
+  private org.sonar.api.resources.File getTestFile(Project project, SensorContext context, String fileKey) {
+    String filePath = getFilePath(fileKey);
+    org.sonar.api.resources.File resource =
+      org.sonar.api.resources.File.fromIOFile(new File(filePath), project.getFileSystem().getTestDirs());
+    if (context.getResource(resource) == null) {
+      resource = createVirtualFile(context, fileKey);        
+    }
+    return resource;
+  }
+
+  private org.sonar.api.resources.File createVirtualFile(SensorContext context, String fileKey) {
+    org.sonar.api.resources.File file = new org.sonar.api.resources.File(fileKey);
+    file.setLanguage(this.lang);
+    file.setQualifier(Qualifiers.UNIT_TEST_FILE);
+    context.saveSource(file, "<The sources could not be found. Consult the log file for details>");
+    return file;
+  }
+  
+  String getFilePath(String key) {
+    String path = testFileLookupTable.get(key);
+    return path != null ? path : key;
+  }
+  
+  void lookupTestFiles(Project project) {
+    List<InputFile> files = project.getFileSystem().testFiles(CxxLanguage.KEY);
+
+    CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
+    cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
+    cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
+    cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+    
+    testFileLookupTable = new TreeMap<String, String>();
+    
+    for (InputFile file : files) {
+      SourceFile source = CxxAstScanner.scanSingleFileConfig(file.getFile(), cxxConf);
+      if(source.hasChildren()) {
+        for (SourceCode child : source.getChildren()) {
+          if (child instanceof SourceClass) {
+            testFileLookupTable.put(child.getName(), file.getFile().getPath());
+          }
+        }
+      }
+    }
   }
 }

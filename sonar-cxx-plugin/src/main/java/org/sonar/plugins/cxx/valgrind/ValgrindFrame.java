@@ -104,7 +104,23 @@ class ValgrindFrame {
   int getLine() {
     return line;
   }
-
+  
+  String getFunction() {
+    return fn;
+  }
+  
+  String getIp() {
+    return ip;
+  }
+  
+  String getObj() {
+    return obj;
+  }
+  
+  String getFile() {
+    return file;
+  }
+  
   private boolean isLocationKnown() {
     return !("".equals(file) && "".equals(obj));
   }
