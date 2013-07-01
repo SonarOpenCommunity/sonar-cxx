@@ -25,7 +25,7 @@ import com.sonar.sslr.squid.SquidAstVisitor;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.AnnotationCheckFactory;
-import org.sonar.api.config.Settings;
+import org.apache.commons.configuration.Configuration;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
@@ -64,12 +64,12 @@ public final class CxxSquidSensor implements Sensor {
   private Project project;
   private SensorContext context;
   private AstScanner<CxxGrammar> scanner;
-  private Settings conf;
+  private Configuration conf;
   
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(RulesProfile profile, Settings conf) {
+  public CxxSquidSensor(RulesProfile profile, Configuration conf) {
     this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
     this.conf = conf;
   }
@@ -94,7 +94,7 @@ public final class CxxSquidSensor implements Sensor {
     save(squidSourceFiles);
   }
 
-  private CxxConfiguration createConfiguration(Project project, Settings conf) {
+  private CxxConfiguration createConfiguration(Project project, Configuration conf) {
     CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
     cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
     cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
