@@ -40,5 +40,7 @@ public class CxxCommonRulesEngineProviderTest {
     verify(engine, times(1)).activateRule("InsufficientCommentDensity");
     verify(engine, times(1)).activateRule("DuplicatedBlocks");
     verify(engine, times(1)).activateRule("InsufficientLineCoverage");
+    verify(engine, times(1)).activateRule("SkippedUnitTests");
+    verify(engine, times(1)).activateRule("FailedUnitTests");
   }
 }
