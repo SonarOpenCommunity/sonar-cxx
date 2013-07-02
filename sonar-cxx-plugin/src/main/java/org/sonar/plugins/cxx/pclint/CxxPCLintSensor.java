@@ -99,8 +99,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
             if (isInputValid(file, line, id, msg)) {
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                  file, Integer.parseInt(line), id, msg);
+              saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
             }
@@ -108,8 +107,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line) 
-          && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
     });
 

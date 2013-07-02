@@ -34,9 +34,9 @@ public class ValgrindFrameTest {
 
   @Before
   public void setUp() {
-    frame = new ValgrindFrame("", "", "lala", "", "lala", 111);
-    equalFrame = new ValgrindFrame("", "", "lala", "", "lala", 111);
-    otherFrame = new ValgrindFrame("", "", "haha", "", "haha", 111);
+    frame = new ValgrindFrame("", "", "lala", "", "lala", "111");
+    equalFrame = new ValgrindFrame("", "", "lala", "", "lala", "111");
+    otherFrame = new ValgrindFrame("", "", "haha", "", "haha", "111");
   }
 
   @Test
@@ -73,19 +73,19 @@ public class ValgrindFrameTest {
     Map<String, ValgrindFrame> ioMap = new HashMap<String, ValgrindFrame>();
 
     ioMap.put("0xDEADBEAF: main() (main.cc:1)",
-        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", "src", "main.cc", 1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", "src", "main.cc", "1"));
     ioMap.put("0xDEADBEAF: main() (main.cc:1)",
-        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", 1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1"));
     ioMap.put("0xDEADBEAF: main() (main.cc)",
-        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", -1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", ""));
     ioMap.put("0xDEADBEAF: ??? (main.cc:1)",
-        new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", "main.cc", 1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", "main.cc", "1"));
     ioMap.put("0xDEADBEAF: ??? (in libX.so)",
-        new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", null, 1));
+        new ValgrindFrame("0xDEADBEAF", "libX.so", null, "src", null, "1"));
     ioMap.put("0xDEADBEAF: ???",
-        new ValgrindFrame("0xDEADBEAF", null, null, null, null, -1));
+        new ValgrindFrame("0xDEADBEAF", null, null, null, null, ""));
     ioMap.put("???: ???",
-        new ValgrindFrame(null, null, null, null, null, -1));
+        new ValgrindFrame(null, null, null, null, null, ""));
 
     for (Map.Entry<String, ValgrindFrame> entry : ioMap.entrySet()) {
       assertEquals(entry.getKey(), entry.getValue().toString());

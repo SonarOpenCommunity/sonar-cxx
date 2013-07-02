@@ -89,7 +89,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
 
           List<Element> lines = file.getChildren("line");
           for (Element lineElem : lines) {
-            int line = Integer.parseInt(lineElem.getTextTrim());
+            String line = lineElem.getTextTrim();
             saveViolation(project, context, CxxRatsRuleRepository.KEY,
                 fileName, line, type, message);
           }

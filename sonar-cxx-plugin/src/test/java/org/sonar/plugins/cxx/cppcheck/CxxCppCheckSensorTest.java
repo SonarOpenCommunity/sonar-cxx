@@ -56,6 +56,6 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(2)).saveViolation(any(Violation.class));
+    verify(context, times(6)).saveViolation(any(Violation.class));
   }
 }

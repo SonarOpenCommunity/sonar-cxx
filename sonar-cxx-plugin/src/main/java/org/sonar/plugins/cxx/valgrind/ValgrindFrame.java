@@ -33,13 +33,13 @@ class ValgrindFrame {
   private String fn = "???";
   private String dir = "";
   private String file = "";
-  private int line = -1;
+  private String line = "";
 
   /**
    * Constucts a stack frame with given attributes. Its perfectly valid if some of them
    * are empty or dont carry meaningfull information.
    */
-  public ValgrindFrame(String ip, String obj, String fn, String dir, String file, int line) {
+  public ValgrindFrame(String ip, String obj, String fn, String dir, String file, String line) {
     if (ip != null) {
       this.ip = ip;
     }
@@ -55,7 +55,9 @@ class ValgrindFrame {
     if (file != null) {
       this.file = file;
     }
-    this.line = line;
+    if (line != null) {
+      this.line = line;
+    }
   }
 
   @Override
@@ -101,7 +103,7 @@ class ValgrindFrame {
     return dir;
   }
 
-  int getLine() {
+  String getLine() {
     return line;
   }
 
@@ -110,6 +112,6 @@ class ValgrindFrame {
   }
 
   private String getLineStr() {
-    return line == -1 ? "" : ":" + Integer.toString(line);
+    return line == "" ? "" : ":" + line;
   }
 }

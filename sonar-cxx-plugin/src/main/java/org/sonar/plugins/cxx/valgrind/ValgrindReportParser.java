@@ -108,7 +108,7 @@ class ValgrindReportParser {
       String fn = null;
       String dir = null;
       String file = null;
-      int line = -1;
+      String line = null;
 
       while (frameChild.getNext() != null) {
         String tagName = frameChild.getLocalName();
@@ -124,7 +124,7 @@ class ValgrindReportParser {
         } else if ("file".equalsIgnoreCase(tagName)) {
           file = frameChild.getElemStringValue();
         } else if ("line".equalsIgnoreCase(tagName)) {
-          line = Integer.parseInt(frameChild.getElemStringValue());
+          line = frameChild.getElemStringValue();
         }
       }
       stack.addFrame((new ValgrindFrame(ip, obj, fn, dir, file, line)));

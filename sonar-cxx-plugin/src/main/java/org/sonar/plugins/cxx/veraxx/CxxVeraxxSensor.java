@@ -92,7 +92,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!name.equals("error")) {
-                int line = Integer.parseInt(errorCursor.getAttrValue("line"));
+                String line = errorCursor.getAttrValue("line");
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
 

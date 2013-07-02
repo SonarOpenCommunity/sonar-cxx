@@ -99,17 +99,15 @@ public class CxxCppCheckSensor extends CxxReportSensor {
           String msg = errorCursor.getAttrValue("msg");
 
           if (isInputValid(file, line, id, msg)) {
-            saveViolation(project, context, CxxCppCheckRuleRepository.KEY,
-                file, Integer.parseInt(line), id, msg);
+            saveViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
           } else {
-            CxxUtils.LOG.warn("CppCheck warning: {}", msg);
+            CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
           }
         }
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
-          && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
     });
 
