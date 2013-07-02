@@ -106,10 +106,10 @@ public class CxxPCLintSensor extends CxxReportSensor {
                   String newId = mapMisraRulesToUniqueSonarRules(msg);
 
                   saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                      file, Integer.parseInt(line), newId, msg);
+                      file, line, newId, msg);
               } else {
                   saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                      file, Integer.parseInt(line), id, msg);
+                      file, line, id, msg);
               }
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
