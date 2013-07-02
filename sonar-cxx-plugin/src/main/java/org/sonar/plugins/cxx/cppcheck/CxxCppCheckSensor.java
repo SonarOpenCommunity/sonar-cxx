@@ -30,6 +30,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -83,7 +84,12 @@ public class CxxCppCheckSensor extends CxxReportSensor {
        * {@inheritDoc}
        */
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance(); // results
+        try{
+          rootCursor.advance(); // results
+        }
+        catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+          throw new EmptyReportException();
+        }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("error"); // error
         while (errorCursor.getNext() != null) {
@@ -93,17 +99,15 @@ public class CxxCppCheckSensor extends CxxReportSensor {
           String msg = errorCursor.getAttrValue("msg");
 
           if (isInputValid(file, line, id, msg)) {
-            saveViolation(project, context, CxxCppCheckRuleRepository.KEY,
-                file, Integer.parseInt(line), id, msg);
+            saveViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
           } else {
-            CxxUtils.LOG.warn("CppCheck warning: {}", msg);
+            CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
           }
         }
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
-          && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
     });
 

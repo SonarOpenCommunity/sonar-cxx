@@ -84,6 +84,6 @@ public class CxxValgrindSensorTest {
   }
 
   private ValgrindFrame generateValgrindFrame() {
-    return new ValgrindFrame("ip", "obj", "fn", "dir", "file", 1);
+    return new ValgrindFrame("ip", "obj", "fn", "dir", "file", "1");
   }
 }

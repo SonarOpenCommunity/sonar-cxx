@@ -25,6 +25,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser.XmlStreamHandler;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -46,9 +47,16 @@ public class TestSuiteParser implements XmlStreamHandler {
    */
   public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
     SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
-    while (testSuiteCursor.getNext() != null) {
+    try{
+      testSuiteCursor.getNext();
+    }
+    catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+      throw new EmptyReportException();
+    }
+    
+    do{
       String testSuiteClassName = testSuiteCursor.getAttrValue("name");
-
+      
       SMInputCursor testCaseCursor = testSuiteCursor.childElementCursor("testcase");
       while (testCaseCursor.getNext() != null) {
         String testClassName = getClassname(testCaseCursor, testSuiteClassName);
@@ -59,7 +67,7 @@ public class TestSuiteParser implements XmlStreamHandler {
         }
         report.addTestCase(parseTestCaseTag(testCaseCursor));
       }
-    }
+    }while (testSuiteCursor.getNext() != null);
   }
 
   /**

@@ -107,7 +107,6 @@ public class CxxReportSensorTest {
 
   private void assertFound(List<File> reports) {
     assert (reports != null);
-    assert (reports.size() == 1);
     assert (reports.get(0).exists());
     assert (reports.get(0).isAbsolute());
   }

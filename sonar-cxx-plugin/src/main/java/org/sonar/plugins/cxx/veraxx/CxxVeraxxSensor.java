@@ -29,6 +29,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import java.io.File;
 
@@ -77,7 +78,12 @@ public class CxxVeraxxSensor extends CxxReportSensor {
          * {@inheritDoc}
          */
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-          rootCursor.advance();
+          try{
+            rootCursor.advance();
+          }
+          catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+            throw new EmptyReportException();
+          }
 
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");
           while (fileCursor.getNext() != null) {
@@ -86,7 +92,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!name.equals("error")) {
-                int line = Integer.parseInt(errorCursor.getAttrValue("line"));
+                String line = errorCursor.getAttrValue("line");
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
 

@@ -30,6 +30,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -82,8 +83,13 @@ public class CxxPCLintSensor extends CxxReportSensor {
        */
 
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance(); // results
-
+        try{
+          rootCursor.advance(); // results
+        }
+        catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+          throw new EmptyReportException();
+        }
+        
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
 
         while (errorCursor.getNext() != null) {
@@ -93,8 +99,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
             if (isInputValid(file, line, id, msg)) {
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                  file, Integer.parseInt(line), id, msg);
+              saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
             }
@@ -102,8 +107,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line) 
-          && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
     });
 

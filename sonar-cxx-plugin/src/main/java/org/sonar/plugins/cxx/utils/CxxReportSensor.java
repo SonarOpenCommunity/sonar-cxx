@@ -76,7 +76,12 @@ public abstract class CxxReportSensor implements Sensor {
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);
-        processReport(project, context, report);
+        try{
+          processReport(project, context, report);
+        }
+        catch(EmptyReportException e){
+          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+        }
       }
 
       if (reports.isEmpty()) {
@@ -125,7 +130,7 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,
-      String file, int line, String ruleId, String msg) {
+      String file, String line, String ruleId, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()
         .withRepositoryKey(ruleRepoKey)
         .withKey(ruleId);
@@ -134,7 +139,15 @@ public abstract class CxxReportSensor implements Sensor {
       org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
       if (context.getResource(resource) != null) {
-        Violation violation = Violation.create(rule, resource).setLineId(line).setMessage(msg);
+        Violation violation = Violation.create(rule, resource).setMessage(msg);
+        if (line != null){
+          try{
+            int linenr = Integer.parseInt(line);
+            violation.setLineId(linenr);
+          }catch(java.lang.NumberFormatException nfe){
+            CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+          }
+        }
         context.saveViolation(violation);
       } else {
         CxxUtils.LOG.debug("Cannot find the file '{}', skipping violation '{}'", file, msg);
@@ -143,7 +156,7 @@ public abstract class CxxReportSensor implements Sensor {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
   }
-
+  
   protected void processReport(Project project, SensorContext context, File report)
       throws Exception
   {

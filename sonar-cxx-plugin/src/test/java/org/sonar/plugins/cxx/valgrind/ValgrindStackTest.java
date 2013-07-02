@@ -35,9 +35,9 @@ public class ValgrindStackTest {
 
   @Before
   public void setUp() {
-    ValgrindFrame frame = new ValgrindFrame("", "", "lala", "", "lala", 111);
-    ValgrindFrame equalFrame = new ValgrindFrame("", "", "lala", "", "lala", 111);
-    ValgrindFrame otherFrame = new ValgrindFrame("", "", "haha", "", "haha", 111);
+    ValgrindFrame frame = new ValgrindFrame("", "", "lala", "", "lala", "111");
+    ValgrindFrame equalFrame = new ValgrindFrame("", "", "lala", "", "lala", "111");
+    ValgrindFrame otherFrame = new ValgrindFrame("", "", "haha", "", "haha", "111");
 
     stack = new ValgrindStack();
     stack.addFrame(frame);
@@ -85,7 +85,7 @@ public class ValgrindStackTest {
   public void stringRepresentationShouldResembleValgrindsStandard() {
     Map<String, ValgrindStack> ioMap = new HashMap<String, ValgrindStack>();
 
-    ValgrindFrame frame = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", 1);
+    ValgrindFrame frame = new ValgrindFrame("0xDEADBEAF", "libX.so", "main()", null, "main.cc", "1");
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(frame);
 
@@ -104,7 +104,7 @@ public class ValgrindStackTest {
 
   @Test
   public void getLastOwnFrame_returnsNullIfNoOwnFrameThere() {
-    ValgrindFrame frame = new ValgrindFrame(null, null, null, null, null, 1);
+    ValgrindFrame frame = new ValgrindFrame(null, null, null, null, null, "1");
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(frame);
 
@@ -116,8 +116,8 @@ public class ValgrindStackTest {
     File BASE_DIR = new File("our", "path");
     File OWN_PATH = new File(BASE_DIR, "subdir");
 
-    ValgrindFrame otherFrame = new ValgrindFrame(null, null, null, "someotherpath", null, 1);
-    ValgrindFrame ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(), null, 1);
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, null, "someotherpath", null, "1");
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(), null, "1");
     ValgrindStack stack = new ValgrindStack();
     stack.addFrame(otherFrame);
     stack.addFrame(ownFrame);

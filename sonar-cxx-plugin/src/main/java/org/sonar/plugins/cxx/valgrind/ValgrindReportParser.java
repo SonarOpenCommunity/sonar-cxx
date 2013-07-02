@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.valgrind;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import java.io.File;
 import java.util.HashSet;
@@ -49,7 +50,13 @@ class ValgrindReportParser {
      * {@inheritDoc}
      */
     public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-      rootCursor.advance();
+      try{
+        rootCursor.advance();
+      }
+      catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+        throw new EmptyReportException();
+      }
+      
       SMInputCursor errorCursor = rootCursor.childElementCursor("error");
 
       while (errorCursor.getNext() != null) {
@@ -101,7 +108,7 @@ class ValgrindReportParser {
       String fn = null;
       String dir = null;
       String file = null;
-      int line = -1;
+      String line = null;
 
       while (frameChild.getNext() != null) {
         String tagName = frameChild.getLocalName();
@@ -117,7 +124,7 @@ class ValgrindReportParser {
         } else if ("file".equalsIgnoreCase(tagName)) {
           file = frameChild.getElemStringValue();
         } else if ("line".equalsIgnoreCase(tagName)) {
-          line = Integer.parseInt(frameChild.getElemStringValue());
+          line = frameChild.getElemStringValue();
         }
       }
       stack.addFrame((new ValgrindFrame(ip, obj, fn, dir, file, line)));
