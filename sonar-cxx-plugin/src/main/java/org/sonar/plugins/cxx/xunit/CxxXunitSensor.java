@@ -188,12 +188,17 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
   
   private org.sonar.api.resources.File getTestFile(Project project, SensorContext context, String fileKey) {
-    String filePath = getFilePath(fileKey);
     org.sonar.api.resources.File resource =
-      org.sonar.api.resources.File.fromIOFile(new File(filePath), project.getFileSystem().getTestDirs());
-    if (context.getResource(resource) == null) {
-      resource = createVirtualFile(context, fileKey);        
+      org.sonar.api.resources.File.fromIOFile(new File(fileKey), project.getFileSystem().getTestDirs());
+    
+    if (context.getResource(resource) == null) {    
+      String filePath = getFilePath(fileKey);
+      resource = org.sonar.api.resources.File.fromIOFile(new File(filePath), project.getFileSystem().getTestDirs());
+      if (context.getResource(resource) == null) {
+        resource = createVirtualFile(context, fileKey);        
+      }
     }
+    
     return resource;
   }
 

@@ -57,17 +57,17 @@ public class CxxXunitSensorTest {
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
 
-    verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TESTS), anyDouble());
-    verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.SKIPPED_TESTS), anyDouble());
-    verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TEST_ERRORS), anyDouble());
-    verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TEST_FAILURES), anyDouble());
-    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
-    verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
+    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
   }
 
   @Test
