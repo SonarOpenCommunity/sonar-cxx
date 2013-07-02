@@ -194,14 +194,17 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
   
   private org.sonar.api.resources.File getTestFile(Project project, SensorContext context, String fileKey) {
-    String filePath = lookupFilePath(fileKey);
+
     org.sonar.api.resources.File resource =
-      org.sonar.api.resources.File.fromIOFile(new File(filePath), project.getFileSystem().getTestDirs());
+      org.sonar.api.resources.File.fromIOFile(new File(fileKey), project.getFileSystem().getTestDirs());
     if (context.getResource(resource) == null) {
-      CxxUtils.LOG.debug("Cannot find the source file for test '{}', creating a dummy one", fileKey);
-      resource = createVirtualFile(context, fileKey);
-    }
-    else{
+      String filePath = lookupFilePath(fileKey);
+      resource = org.sonar.api.resources.File.fromIOFile(new File(filePath), project.getFileSystem().getTestDirs());
+      if (context.getResource(resource) == null) {
+        CxxUtils.LOG.debug("Cannot find the source file for test '{}', creating a dummy one", fileKey);
+        resource = createVirtualFile(context, fileKey);        
+      }
+    } else {
       CxxUtils.LOG.debug("Assigning the test '{}' to resource '{}'", fileKey, resource.getKey());
     }
     
