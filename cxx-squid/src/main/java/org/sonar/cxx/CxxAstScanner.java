@@ -57,10 +57,17 @@ public final class CxxAstScanner {
    * Helper method for testing checks without having to deploy them on a Sonar instance.
    */
   public static SourceFile scanSingleFile(File file, SquidAstVisitor<CxxGrammar>... visitors) {
+    return scanSingleFileConfig(file, new CxxConfiguration(), visitors);
+  }
+
+  /**
+   * Helper method for scanning a single file
+   */
+  public static SourceFile scanSingleFileConfig(File file, CxxConfiguration cxxConfig, SquidAstVisitor<CxxGrammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
-    AstScanner<CxxGrammar> scanner = create(new CxxConfiguration(), visitors);
+    AstScanner<CxxGrammar> scanner = create(cxxConfig, visitors);
     scanner.scanFile(file);
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
@@ -68,7 +75,7 @@ public final class CxxAstScanner {
     }
     return (SourceFile) sources.iterator().next();
   }
-
+  
   public static AstScanner<CxxGrammar> create(CxxConfiguration conf, SquidAstVisitor<CxxGrammar>... visitors) {
     final SquidAstVisitorContextImpl<CxxGrammar> context = new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project"));
     final Parser<CxxGrammar> parser = CxxParser.create(context, conf);
@@ -126,7 +133,7 @@ public final class CxxAstScanner {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
         AstNode classNameAst = astNode.findFirstChild(parser.getGrammar().className);
         String className = classNameAst == null ? "" : classNameAst.getChild(0).getTokenValue();
-        SourceClass cls = new SourceClass(className + ":" + astNode.getToken().getLine());
+        SourceClass cls = new SourceClass(className + ":" + astNode.getToken().getLine(), className);
         cls.setStartAtLine(astNode.getTokenLine());
         return cls;
       }
@@ -147,6 +154,7 @@ public final class CxxAstScanner {
         .withIgnoreHeaderComment(conf.getIgnoreHeaderComments())
         .build());
 
+    /* Statements */
     builder.withSquidAstVisitor(CounterVisitor.<CxxGrammar> builder()
         .setMetricDef(CxxMetric.STATEMENTS)
         .subscribeTo(parser.getGrammar().statement)

@@ -257,7 +257,7 @@ public class CxxPreprocessor extends Preprocessor {
       Macro macro = macros.get(getMacroName(ast));
       TokenType tokType = ast.getToken().getType();
       if ((tokType == IFDEF && macro == null) || (tokType == IFNDEF && macro != null)) {
-        LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+        LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
             new Object[] {filename, token.getLine(), token.getValue()});
         state.skipping = true;
       }
@@ -269,10 +269,10 @@ public class CxxPreprocessor extends Preprocessor {
   PreprocessorAction handleElseLine(AstNode ast, Token token, String filename) {
     if (state.nestedIfdefs == 0) {
       if (state.skipping) {
-        LOG.trace("[{}:{}]: #else, returning to non-skipping mode", filename, token.getLine());
+        LOG.debug("[{}:{}]: #else, returning to non-skipping mode", filename, token.getLine());
       }
       else {
-        LOG.trace("[{}:{}]: skipping tokens inside the #else", filename, token.getLine());
+        LOG.debug("[{}:{}]: skipping tokens inside the #else", filename, token.getLine());
       }
 
       state.skipping = !state.skipping;
@@ -287,7 +287,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
     else {
       if (state.skipping) {
-        LOG.trace("[{}:{}]: #endif, returning to non-skipping mode", filename, token.getLine());
+        LOG.debug("[{}:{}]: #endif, returning to non-skipping mode", filename, token.getLine());
       }
       state.skipping = false;
     }
@@ -300,7 +300,7 @@ public class CxxPreprocessor extends Preprocessor {
       state.nestedIfdefs++;
     }
     else {
-      LOG.trace("[{}:{}]: handling #if line '{}'",
+      LOG.debug("[{}:{}]: handling #if line '{}'",
           new Object[] {filename, token.getLine(), token.getValue()});
       try {
         state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
@@ -312,7 +312,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       if (state.skipping) {
-        LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+        LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
             new Object[] {filename, token.getLine(), token.getValue()});
       }
     }
@@ -334,7 +334,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       if (state.skipping) {
-        LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+        LOG.debug("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
             new Object[] {filename, token.getLine(), token.getValue()});
       }
     }
@@ -347,7 +347,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     Macro macro = parseMacroDefinition(ast);
     if (macro != null) {
-      LOG.trace("[{}:{}]: storing macro: '{}'", new Object[] {filename, token.getLine(), macro});
+      LOG.debug("[{}:{}]: storing macro: '{}'", new Object[] {filename, token.getLine(), macro});
       macros.putLowPrio(macro.name, macro);
     }
 
@@ -369,7 +369,7 @@ public class CxxPreprocessor extends Preprocessor {
     }
     else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());
-      LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
+      LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
           new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
 
       stateStack.push(state);
@@ -382,7 +382,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
     else {
-      LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
+      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -424,7 +424,7 @@ public class CxxPreprocessor extends Preprocessor {
       if (tokensConsumed > 0) {
         replTokens = reallocate(replTokens, curr);
 
-        LOG.trace("[{}:{}]: replacing '" + curr.getValue()
+        LOG.debug("[{}:{}]: replacing '" + curr.getValue()
           + (arguments.size() == 0
               ? ""
               : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",

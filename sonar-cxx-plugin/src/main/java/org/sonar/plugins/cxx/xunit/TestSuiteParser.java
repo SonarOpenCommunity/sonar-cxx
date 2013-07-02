@@ -56,13 +56,14 @@ public class TestSuiteParser implements XmlStreamHandler {
     
     do{
       String testSuiteClassName = testSuiteCursor.getAttrValue("name");
+      String testFileName = testSuiteCursor.getAttrValue("filename");
       
       SMInputCursor testCaseCursor = testSuiteCursor.childElementCursor("testcase");
       while (testCaseCursor.getNext() != null) {
         String testClassName = getClassname(testCaseCursor, testSuiteClassName);
         TestSuite report = testSuites.get(testClassName);
         if (report == null) {
-          report = new TestSuite(testClassName);
+          report = new TestSuite(testClassName, testFileName);
           testSuites.put(testClassName, report);
         }
         report.addTestCase(parseTestCaseTag(testCaseCursor));
