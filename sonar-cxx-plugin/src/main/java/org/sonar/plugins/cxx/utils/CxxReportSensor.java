@@ -76,7 +76,12 @@ public abstract class CxxReportSensor implements Sensor {
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);
-        processReport(project, context, report);
+        try{
+          processReport(project, context, report);
+        }
+        catch(EmptyReportException e){
+          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+        }
       }
 
       if (reports.isEmpty()) {

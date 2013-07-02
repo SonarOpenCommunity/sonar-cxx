@@ -30,6 +30,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -82,8 +83,13 @@ public class CxxPCLintSensor extends CxxReportSensor {
        */
 
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        rootCursor.advance(); // results
-
+        try{
+          rootCursor.advance(); // results
+        }
+        catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+          throw new EmptyReportException();
+        }
+        
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
 
         while (errorCursor.getNext() != null) {

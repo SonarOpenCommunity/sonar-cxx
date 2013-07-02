@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.valgrind;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import java.io.File;
 import java.util.HashSet;
@@ -49,7 +50,13 @@ class ValgrindReportParser {
      * {@inheritDoc}
      */
     public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-      rootCursor.advance();
+      try{
+        rootCursor.advance();
+      }
+      catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+        throw new EmptyReportException();
+      }
+      
       SMInputCursor errorCursor = rootCursor.childElementCursor("error");
 
       while (errorCursor.getNext() != null) {
