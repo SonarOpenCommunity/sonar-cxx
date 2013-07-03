@@ -112,25 +112,26 @@ public class CxxValgrindSensor extends CxxReportSensor {
   void recursiveFunctionSearch(InputFile file, SourceCode childParent)
   {
     for (SourceCode child : childParent.getChildren()) {
-      
       if (child instanceof  SourceFunction) {
-          String[] childelems = child.getKey().split("::");
-          String functionName = childelems.length == 2 ? 
-          childelems[1].split(":")[0] : childelems[0].split(":")[0];
+        String[] childelems = child.getKey().split("::");
+        String functionName = childelems.length == 2 ? 
+        childelems[1].split(":")[0] : childelems[0].split(":")[0];
 
-          if(functionLookupTable.containsKey(functionName)) {
-            List<String> elems = functionLookupTable.get(functionName);
-            elems.add(file.getFile().getPath());
-            functionLookupTable.put(functionName, elems);
-          }else {
-            List<String> newElems = new ArrayList<String>();
-            newElems.add(file.getFile().getPath());
-            functionLookupTable.put(functionName, newElems);
-          }
+        if(functionLookupTable.containsKey(functionName)) {
+          List<String> elems = functionLookupTable.get(functionName);
+          elems.add(file.getFile().getPath());
+          functionLookupTable.put(functionName, elems);
+        } else {
+          List<String> newElems = new ArrayList<String>();
+          newElems.add(file.getFile().getPath());
+          functionLookupTable.put(functionName, newElems);
+        }
       } else {
-        recursiveFunctionSearch(file, child);
+        if(child.hasChildren()) {
+          recursiveFunctionSearch(file, child);
+        }
       }
-    }    
+    }
   }
   
   void lookupFiles(Project project) {
