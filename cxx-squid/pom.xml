@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+    <artifactId>cxx</artifactId>
+    <version>0.3-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>cxx-squid</artifactId>
+
+  <name>Cxx :: Squid</name>
+
+  <properties>
+    <license.owner>Waleri Enns and CONTACT Software GmbH</license.owner>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.sonar.sslr</groupId>
+      <artifactId>sslr-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId>
+      <artifactId>sslr-squid-bridge</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar.sslr</groupId>
+      <artifactId>sslr-testing-harness</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>

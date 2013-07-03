@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+    <artifactId>cxx</artifactId>
+    <version>0.3-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>sonar-cxx-plugin</artifactId>
+  <packaging>sonar-plugin</packaging>
+  
+  <name>Cxx :: Sonar Plugin</name>
+  <inceptionYear>2010</inceptionYear>
+  <description>Enable analysis and reporting on c++ projects.</description>
+  <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
+
+  <properties>
+    <license.owner>Neticoa SAS France</license.owner>
+    <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-testing-harness</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-ws-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-squid</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-checks</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0.9</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.sonar.common-rules</groupId>
+      <artifactId>sonar-common-rules</artifactId>
+    </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<project name = "MY PROJECT NAME" basedir = ".">									<!-- CHANGE YOUR PROJECT NAME HERE, REQUIRED -->
+							
+	<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+		<classpath path="C:\Ant1.8.2\lib\sonar-ant-task-1.1.jar" />					<!-- CHANGE THE PATH TO YOUR ANT TASK, REQUIRED -->
+	</taskdef>
+	
+	<target name="sonar">						
+		<property name="sonar.sources" 			value="sources/application" />		<!-- ADD YOUR SOURCE DIRECTORIES, REQUIRED -->
+		<property name="sonar.tests" 			value="sources/tests" />			<!-- ADD YOUR SOURCE DIRECTORIES, REQUIRED -->
+		<property name="sonar.projectName" 		value="Sample C++ Project" />		<!-- PUT IN YOUR PROJECT NAME TO OVERRIDE, OPTIONAL -->
+		<property name="sonar.language" 		value="c++" />							
+		<property name="sonar.dynamicAnalysis" 	value="reuseReports" />		 
+				
+		<!-- RATS ANALYSIS -->
+		<property name="sonar.cxx.rats.execPath"		value="C:/SonarCXXTools/rats-2.3/rats.exe" />				<!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
+		<property name="sonar.cxx.rats.reportDir"		value="reports/rats" />										<!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
+		<property name="sonar.cxx.rats.reportPath"		value="${sonar.cxx.rats.reportDir}/rats-result-*.xml" />	<!-- CHANGE THE RATS REPORT DIRECTORY PATTERN, REQUIRED -->
+		<property name="sonar.cxx.rats.warningLevel"	value="3" />												<!-- BEST TO HAVE MAXIMUM ERROR LEVEL REPORTING = 3 -->
+		<property name="sonar.cxx.rats.outputFile"		value="/rats-result-1.xml" />
+		
+		<echo message="Running R.A.T.S analysis..." level="info"/>
+		<mkdir dir="${sonar.cxx.rats.reportDir}" />		
+		<exec executable="${sonar.cxx.rats.execPath}" output="${sonar.cxx.rats.reportDir}${sonar.cxx.rats.outputFile}">
+			<arg value="-w ${sonar.cxx.rats.warningLevel}" />
+			<arg value="--xml" />
+			<arg value="${sonar.sources}" />
+		</exec>
+		<echo message="done" level="info"/>
+		
+		<!-- CPPCHECK ANALYSIS -->
+		<property name="sonar.cxx.cppcheck.execPath"	value="C:/SonarCXXTools/cppcheck/cppcheck.exe" />				<!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
+		<property name="sonar.cxx.cppcheck.reportDir"	value="reports/cppcheck" />										<!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
+		<property name="sonar.cxx.cppcheck.reportPath"	value="${sonar.cxx.cppcheck.reportDir}/cppcheck-result-*.xml" />
+		<property name="sonar.cxx.cppcheck.outputFile"	value="/cppcheck-result-1.xml" />
+		<property name="sonar.cxx.cppcheck.checks"		value="all" />													<!-- BEST TO HAVE MAXIMUM ERROR LEVEL REPORTING = 3 -->
+		
+		<echo message="Running CppCheck analysis..." 	level="info"/>
+		<mkdir dir="${sonar.cxx.cppcheck.reportDir}" />		
+		<exec executable="${sonar.cxx.cppcheck.execPath}" error="${sonar.cxx.cppcheck.reportDir}${sonar.cxx.cppcheck.outputFile}">
+			<arg value="--enable=${sonar.cxx.cppcheck.checks}" />
+			<arg value="--xml" />
+			<arg value="--verbose" />
+			<arg value="--quiet" />
+			<arg value="${sonar.sources}" />
+		</exec>
+		<echo message="done" level="info"/>
+		
+		<!-- VERA++ ANALYSIS -->
+		<property name="sonar.cxx.vera.execPath"			value="C:/SonarCXXTools/vera++/vera++.exe" />		<!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
+		<property name="sonar.cxx.vera.reportDir"			value="reports/veraxx" />							<!-- CHANGE THE RATS REPORT DIRECTORY, OPTIONAL -->
+		<property name="sonar.cxx.vera.reportPath"			value="${sonar.cxx.vera.reportDir}/veraxx-result-*.xml" />				
+		<property name="sonar.cxx.vera.outputFile"			value="/veraxx-result-1.xml" />
+		<property name="sonar.cxx.vera.checkstyleScript"	value="C:/SonarCXXTools/scripts/vera2checkstyle.pl" />	<!-- CHANGE TO MATCH YOUR INSTALATION, REQUIRED -->
+		
+		<echo message="Running Vera++ analysis..." 	level="info"/>
+		<mkdir dir="${sonar.cxx.vera.reportDir}" />		
+		
+		<!-- First, we need to list all files for Vera++ -->
+		<fileset id="VeraFileSet" dir="${sonar.sources}" casesensitive="no">
+			<include name="**/*.cpp" />
+			<include name="**/*.h" />
+			<include name="**/*.c" />
+			<include name="**/*.hpp" />
+		</fileset>
+		<pathconvert pathsep=" " property="veraFileList" refid="VeraFileSet" />
+		
+		<!-- Then, we execute Vera++ and feed it with the file list -->
+		<exec executable="cmd" output="${sonar.cxx.vera.reportDir}/veraOutput.txt">
+			<arg value="/c" />
+			<arg value="${sonar.cxx.vera.execPath} -nofail -nodup ${veraFileList}" />
+		</exec>
+		<!-- At the end, we need to convert generated Vera++ report into XML format -->		
+		<exec executable="perl" output="${sonar.cxx.vera.reportDir}${sonar.cxx.vera.outputFile}" input="${sonar.cxx.vera.reportDir}/veraOutput.txt">
+			<arg value="${sonar.cxx.vera.checkstyleScript}" />
+		</exec>
+		<!-- We clean up -->
+		<delete file="${sonar.cxx.vera.reportDir}/veraOutput.txt" quiet="true" />		
+		<echo message="done" level="info"/>
+		
+		<!-- UNIT TESTS TRANSFORMATION -->
+		<!-- work in progress -->
+		
+		<!-- RUN SONAR ANALYSIS WHEN ALL DATA HAS BEEN GATHERED-->
+		<sonar:sonar key="my.project.key:project" version="0.1-SNAPSHOT" xmlns:sonar="antlib:org.sonar.ant" />		<!-- CHANGE KEY AND VERSION -->
+	</target>
+		
+</project>
