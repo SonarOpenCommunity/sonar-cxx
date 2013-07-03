@@ -67,8 +67,11 @@ public class CxxValgrindSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    lookupFiles(project);
-    super.analyse(project, context);
+    List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(), reportPathKey(), defaultReportPath());
+    if (reports.size() > 0) {
+      lookupFiles(project);
+      super.analyse(project, context);
+    }
   }
   
   /**
