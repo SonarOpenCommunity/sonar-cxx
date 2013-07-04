@@ -91,7 +91,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
         catch(com.ctc.wstx.exc.WstxEOFException eofExc){
           throw new EmptyReportException();
         }
-        
+
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
 
         while (errorCursor.getNext() != null) {
@@ -103,14 +103,11 @@ public class CxxPCLintSensor extends CxxReportSensor {
             if (isInputValid(file, line, id, msg)) {
               //remap MISRA IDs. Only Unique rules for MISRA 2004 and 2008 has been created in the rule repository
               if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
-                  String newId = mapMisraRulesToUniqueSonarRules(msg);
-
-                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                      file, line, newId, msg);
-              } else {
-                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                      file, line, id, msg);
+                  id = mapMisraRulesToUniqueSonarRules(msg);
               }
+              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                  file, line, id, msg);
+
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
 
