@@ -37,13 +37,13 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredFileSuffixes() {
-    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, "C,c");
-    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, "H,h");
+    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
+    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
     CxxLanguage cxx = new CxxLanguage(config);
 
-    String[] expected = {"C", "c", "H", "h"};
-    String[] expectedSources = {"C", "c"};
-    String[] expectedHeaders = {"H", "h"};
+    String[] expected = {".C", ".c", ".H", ".h"};
+    String[] expectedSources = {".C", ".c"};
+    String[] expectedHeaders = {".H", ".h"};
 
     assertThat(cxx.getFileSuffixes(), is(expected));
     assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
@@ -53,10 +53,10 @@ public class CxxLanguageTest {
   @Test
   public void shouldReturnDefaultFileSuffixes() {
     CxxLanguage cxx = new CxxLanguage(config);
-
-    String[] expectedSources = {"cxx", "cpp", "cc", "c"};
-    String[] expectedHeaders = {"hxx", "hpp", "hh", "h"};
-    String[] expectedAll = {"cxx", "cpp", "cc", "c", "hxx", "hpp", "hh", "h"};
+    
+    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
+    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
+    String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};
 
     assertThat(cxx.getFileSuffixes(), is(expectedAll));
     assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
@@ -65,12 +65,12 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredSourceSuffixes() {
-    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, "C,c");
+    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
     CxxLanguage cxx = new CxxLanguage(config);
 
-    String[] expectedSources = {"C", "c"};
-    String[] expectedHeaders = {"hxx", "hpp", "hh", "h"};
-    String[] expectedAll = {"C", "c", "hxx", "hpp", "hh", "h"};
+    String[] expectedSources = {".C", ".c"};
+    String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
+    String[] expectedAll = {".C", ".c", ".hxx", ".hpp", ".hh", ".h"};
 
     assertThat(cxx.getFileSuffixes(), is(expectedAll));
     assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));
@@ -79,12 +79,12 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredHeaderSuffixes() {
-    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, "H,h");
+    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
     CxxLanguage cxx = new CxxLanguage(config);
 
-    String[] expectedSources = {"cxx", "cpp", "cc", "c"};
-    String[] expectedHeaders = {"H", "h"};
-    String[] expectedAll = {"cxx", "cpp", "cc", "c", "H", "h"};
+    String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
+    String[] expectedHeaders = {".H", ".h"};
+    String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".H", ".h"};
 
     assertThat(cxx.getFileSuffixes(), is(expectedAll));
     assertThat(cxx.getSourceFileSuffixes(), is(expectedSources));

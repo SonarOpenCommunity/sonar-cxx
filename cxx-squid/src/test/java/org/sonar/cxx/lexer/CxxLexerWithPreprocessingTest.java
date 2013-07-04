@@ -557,4 +557,20 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("falsecase", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // falsecase + EOF
   }
+
+  @Test
+  public void problem_evaluating_elif_expressions() {
+    List<Token> tokens = lexer.lex("#define foo(a) 1\n"
+                                   + "#if 0\n"
+                                   + "body\n"
+                                   + "#elif foo(10)\n"
+                                   + "truecase\n"
+                                   + "#else\n"
+                                   + "falsecase\n"
+                                   + "endif\n");
+    System.out.println(tokens);
+    assertThat(tokens, hasToken("truecase", GenericTokenType.IDENTIFIER));
+    assertThat(tokens).hasSize(2); // truecase + EOF
+  }
+
 }

@@ -325,6 +325,9 @@ public class CxxPreprocessor extends Preprocessor {
     // doesn't increase the nesting level
     if (state.nestedIfdefs == 0) {
       try {
+        //*this* preprocessor instance is used for evaluation, too.
+        //It *must not* be in skipping mode while evaluating expressions.
+        state.skipping = false;
         state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",

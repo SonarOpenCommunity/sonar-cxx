@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result>
+<issue file =".\test.c" line = "9" number = "961" desc = "Violates MISRA Rule 10, Function-like macro defined: 'ARRAY_SIZE' "/>
+</result>

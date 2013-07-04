@@ -22,7 +22,7 @@ package org.sonar.plugins.cxx.squid;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
+import org.apache.commons.configuration.Configuration;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
@@ -45,11 +45,11 @@ import static org.mockito.Mockito.when;
 public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
   private SensorContext context;
-  private Settings settings;
+  private Configuration settings;
 
   @Before
   public void setUp() {
-    settings = Settings.createForComponent(new CxxPlugin());
+    settings = mock(Configuration.class);
     sensor = new CxxSquidSensor(mock(RulesProfile.class), settings);
     context = mock(SensorContext.class);
   }
@@ -98,7 +98,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testReplacingOfExtenalMacros() {
-    settings.appendProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
+    when(settings.getStringArray(CxxPlugin.DEFINES_KEY)).thenReturn(new String[]{"MACRO class A{};"});
 
     List<File> sourceDirs = new ArrayList<File>();
     List<File> testDirs = new ArrayList<File>();
@@ -118,7 +118,7 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testFindingIncludedFiles() {
-    settings.appendProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
+    when(settings.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)).thenReturn(new String[]{"include"});
 
     List<File> sourceDirs = new ArrayList<File>();
     List<File> testDirs = new ArrayList<File>();
@@ -152,5 +152,4 @@ public class CxxSquidSensorTest {
 
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
   }
-
 }

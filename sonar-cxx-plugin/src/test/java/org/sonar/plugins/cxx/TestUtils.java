@@ -136,7 +136,7 @@ public class TestUtils {
     String[] suffixes = mockCxxLanguage().getFileSuffixes();
     String[] includes = new String[suffixes.length];
     for (int i = 0; i < includes.length; ++i) {
-      includes[i] = "**/*." + suffixes[i];
+      includes[i] = "**/*" + suffixes[i];
     }
 
     DirectoryScanner scanner = new DirectoryScanner();

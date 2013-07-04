@@ -52,7 +52,7 @@ public abstract class CxxFileSensor implements Sensor {
 
   protected boolean shouldParseFile(File file) {
     for (String suffix : language.getSourceFileSuffixes()) {
-      if (file.getAbsolutePath().endsWith("." + suffix)) {
+      if (file.getAbsolutePath().endsWith(suffix)) {
         return true;
       }
     }
