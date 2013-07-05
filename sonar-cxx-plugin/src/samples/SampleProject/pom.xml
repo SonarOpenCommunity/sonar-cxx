@@ -17,6 +17,8 @@
         </property>
       </activation>
       <build>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        
         <!-- To define the plugin version in your parent POM -->
         <pluginManagement>
           <plugins>
@@ -536,6 +538,9 @@
     <sonar.cxx.rats.reportPath>rats-reports/rats-result-*.xml</sonar.cxx.rats.reportPath>
     <sonar.cxx.vera.reportPath>vera++-reports/vera++-result-*.xml</sonar.cxx.vera.reportPath>
     <sonar.cxx.xunit.reportPath>xunit-reports/xunit-result-*.xml</sonar.cxx.xunit.reportPath>
+
+    <sonar.cxx.defines>Q_OBJECT, Q_SLOTS</sonar.cxx.defines>
+    <sonar.tests>sources/tests</sonar.tests>
     
     <!-- <sonar.cxx.suffixes.sources></sonar.cxx.suffixes.sources> -->
     <!-- <sonar.cxx.suffixes.headers></sonar.cxx.suffixes.headers> -->
