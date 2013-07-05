@@ -40,6 +40,7 @@ import java.util.List;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -573,4 +574,10 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // truecase + EOF
   }
 
+  @Test
+  public void built_in_macros() {
+    List<Token> tokens = lexer.lex("__DATE__");
+    assertThat(tokens).hasSize(2); // date + EOF
+    assertEquals(tokens.get(0).getType(), CxxTokenType.STRING);
+  }
 }
