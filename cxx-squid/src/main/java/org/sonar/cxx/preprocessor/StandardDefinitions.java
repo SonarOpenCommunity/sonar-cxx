@@ -29,10 +29,10 @@ public class StandardDefinitions {
     // http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
     
     return ImmutableMap.<String, String>builder()
-      .put("__FILE__", "file")         // for now
+      .put("__FILE__", "\"file\"")         // for now
       .put("__LINE__", "1")            // that should hopefully suffice
-      .put("__DATE__", "??? ?? ????")  // indicates 'date unknown'. should suffice
-      .put("__TIME__", "??:??:??")     // indicates 'time unknown'. should suffice
+      .put("__DATE__", "\"??? ?? ????\"")  // indicates 'date unknown'. should suffice
+      .put("__TIME__", "\"??:??:??\"")     // indicates 'time unknown'. should suffice
       .put("__STDC__", "1")
       .put("__STDC_HOSTED__", "1")
       .put("__cplusplus", "1")

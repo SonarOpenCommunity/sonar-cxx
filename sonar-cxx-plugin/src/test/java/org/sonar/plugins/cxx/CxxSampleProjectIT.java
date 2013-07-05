@@ -74,7 +74,7 @@ public class CxxSampleProjectIT {
       69.4, 86.0, 2.0, 2.0,
       7.0, 1.4,
       34.0, 0.0,
-      72.4, 81.0, 50.0,
+      84.0, 100.0, 50.0,
       60.0, 2.0, 0.0, 5.0};
 
     assertThat(values, is(expectedValues));
