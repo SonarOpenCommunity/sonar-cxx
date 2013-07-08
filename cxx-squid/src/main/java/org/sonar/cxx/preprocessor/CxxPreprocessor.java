@@ -324,21 +324,31 @@ public class CxxPreprocessor extends Preprocessor {
     // Handling of an elif line is similar to handling of an if line but
     // doesn't increase the nesting level
     if (state.nestedIfdefs == 0) {
-      try {
-        //*this* preprocessor instance is used for evaluation, too.
-        //It *must not* be in skipping mode while evaluating expressions.
-        state.skipping = false;
-        state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
-      } catch (EvaluationException e) {
-        LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
-            new Object[] {filename, token.getLine(), token.getValue()});
-        LOG.error(e.toString());
-        state.skipping = false;
+      if (state.skipping) { //the preceeding clauses had been evaluated to false
+        try {
+          LOG.trace("[{}:{}]: handling #elif line '{}'",
+                    new Object[] {filename, token.getLine(), token.getValue()});
+          
+          // *this* preprocessor instance is used for evaluation, too.
+          // It *must not* be in skipping mode while evaluating expressions.
+          state.skipping = false;
+          
+          state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
+        } catch (EvaluationException e) {
+          LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
+                    new Object[] {filename, token.getLine(), token.getValue()});
+          LOG.error(e.toString());
+          state.skipping = false;
+        }
+        
+        if (state.skipping) {
+          LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
+                    new Object[] {filename, token.getLine(), token.getValue()});
+        }
       }
-
-      if (state.skipping) {
-        LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
-            new Object[] {filename, token.getLine(), token.getValue()});
+      else {
+        state.skipping = !state.skipping;
+        LOG.trace("[{}:{}]: skipping tokens inside the #elif", filename, token.getLine());
       }
     }
 

@@ -580,4 +580,18 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // date + EOF
     assertEquals(tokens.get(0).getType(), CxxTokenType.STRING);
   }
+
+  @Test
+  public void dont_look_at_subsequent_elif_clauses() {
+    // When a if clause has been evaluated to true, dont look at
+    // subsequent elif clauses
+    List<Token> tokens = lexer.lex("#define A 1\n"
+                                   + "#if A\n"
+                                   + "ifbody\n"
+                                   + "#elif A\n"
+                                   + "elifbody\n"
+                                   + "#endif");
+    assertThat(tokens).hasSize(2); // ifbody + EOF
+    assertThat(tokens, hasToken("ifbody", GenericTokenType.IDENTIFIER));
+  }
 }
