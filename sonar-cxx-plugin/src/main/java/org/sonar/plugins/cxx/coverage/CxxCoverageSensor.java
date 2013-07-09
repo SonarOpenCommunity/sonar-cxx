@@ -145,7 +145,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           context.saveMeasure(cxxfile, measure);
         }
       } else {
-        CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+        CxxUtils.LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
       }
     }
   }
