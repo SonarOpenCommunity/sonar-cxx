@@ -38,4 +38,19 @@ public class PreprocessorDirectivesTest {
     assertThat(p, parse("#define IDX 10\n"
       + "array[IDX];"));
   }
+
+  //@Test
+  public void hashhash_related_parsing_problem() {
+    // this reproduces a macros expansion problem where
+    // necessary whitespaces get lost the result being invalid C++ code
+
+    assertThat(p, parse("#define CASES CASE(00)\n"
+                        + "#define CASE(n) case 0x##n:\n"
+                        + "void foo()  {\n"
+                        + "switch (1) {\n"
+                        + "CASES\n"
+                        + "break;\n"
+                        + "}\n"
+                        + "}\n"));
+  }
 }

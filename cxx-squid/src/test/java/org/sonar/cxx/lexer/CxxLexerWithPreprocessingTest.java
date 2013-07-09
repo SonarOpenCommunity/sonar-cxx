@@ -594,4 +594,17 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // ifbody + EOF
     assertThat(tokens, hasToken("ifbody", GenericTokenType.IDENTIFIER));
   }
+  
+  //@Test
+  public void hashhash_operator_problem() {
+    // Corresponds to the Jira Issue SONARPLUGINS-3055.
+    // The problem here is that 0x##n is splitted into
+    // [0, x, ##, n] sequence of tokens by the initial parsing routine.
+    // After this, 0 and the rest of the number get never concatenated again.
+    
+    List<Token> tokens = lexer.lex("#define A B(cf)\n"
+                                   + "#define B(n) 0x##n\n"
+                                   + "A");
+    assertThat(tokens, hasToken("0xcf", CxxKeyword.INT));
+  }
 }
