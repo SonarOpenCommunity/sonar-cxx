@@ -678,15 +678,17 @@ public class CxxPreprocessor extends Preprocessor {
 
   private List<Token> reallocate(List<Token> tokens, Token token) {
     List<Token> reallocated = new LinkedList<Token>();
+    int currColumn = token.getColumn();
     for (Token t : tokens) {
       reallocated.add(Token.builder()
           .setLine(token.getLine())
-          .setColumn(token.getColumn())
+          .setColumn(currColumn)
           .setURI(token.getURI())
           .setValueAndOriginalValue(t.getValue())
           .setType(t.getType())
           .setGeneratedCode(true)
           .build());
+      currColumn += t.getValue().length() + 1;
     }
 
     return reallocated;
