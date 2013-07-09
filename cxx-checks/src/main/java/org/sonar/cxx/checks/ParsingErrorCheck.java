@@ -22,7 +22,6 @@ package org.sonar.cxx.checks;
 import com.sonar.sslr.api.AuditListener;
 import com.sonar.sslr.api.RecognitionException;
 import com.sonar.sslr.squid.checks.SquidCheck;
-import org.sonar.check.BelongsToProfile;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxGrammar;

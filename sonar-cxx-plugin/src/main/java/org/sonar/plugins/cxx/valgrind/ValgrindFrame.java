@@ -112,6 +112,6 @@ class ValgrindFrame {
   }
 
   private String getLineStr() {
-    return line == "" ? "" : ":" + line;
+    return "".equals(line) ? "" : ":" + line;
   }
 }

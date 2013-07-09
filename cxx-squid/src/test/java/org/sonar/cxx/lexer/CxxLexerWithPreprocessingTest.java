@@ -569,7 +569,6 @@ public class CxxLexerWithPreprocessingTest {
                                    + "#else\n"
                                    + "falsecase\n"
                                    + "endif\n");
-    System.out.println(tokens);
     assertThat(tokens, hasToken("truecase", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // truecase + EOF
   }
