@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" tests="3" name="SAMPLEtest" filename="">
+  <testcase result="pass" name="initTestCase"/>
+  <testcase result="pass" name="testCase1"/>
+  <testcase result="pass" name="cleanupTestCase"/>
+  <system-err/>
+</testsuite>
