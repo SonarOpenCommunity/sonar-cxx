@@ -1,7 +1,6 @@
-/target/
-/cxx-squid/target
-/sonar-cxx-plugin/target
-/sslr-cxx-toolkit/target
+target
 .project
 .classpath
 *.prefs
+.sonar
+\#*\#
