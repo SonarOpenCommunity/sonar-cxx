@@ -61,4 +61,14 @@ public class CxxCoverageSensorTest {
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
   }
+
+  @Test
+  public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura-bignumberofhits.xml");
+    sensor = new CxxCoverageSensor(settings);
+    
+    sensor.analyse(project, context);
+  }
+
 }
