@@ -123,11 +123,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
       SensorContext context,
       Map<String, CoverageMeasuresBuilder> coverageMeasures,
       int coveragetype) {
+      
+    int totalmeasures = 0;
     for (Map.Entry<String, CoverageMeasuresBuilder> entry : coverageMeasures.entrySet()) {
       String filePath = entry.getKey();
       org.sonar.api.resources.File cxxfile =
           org.sonar.api.resources.File.fromIOFile(new File(filePath), project);
       if (fileExist(context, cxxfile)) {
+        totalmeasures++;
         CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : entry.getValue().createMeasures()) {
           switch (coveragetype) {
@@ -146,6 +149,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
         }
       } else {
         CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+      }
+    }
+    
+    if(totalmeasures == 0) {
+      switch (coveragetype) {
+      case UNIT_TEST_COVERAGE:
+        context.saveMeasure(CoreMetrics.COVERAGE, 0.0);
+        break;
+      case IT_TEST_COVERAGE:
+        context.saveMeasure(CoreMetrics.IT_COVERAGE, 0.0);
+        break;
+      case OVERALL_TEST_COVERAGE:
+        context.saveMeasure(CoreMetrics.OVERALL_COVERAGE, 0.0);
+        break;
+      default:
+        break;
       }
     }
   }

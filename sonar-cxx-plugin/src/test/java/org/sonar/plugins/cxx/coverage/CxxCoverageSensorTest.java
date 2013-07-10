@@ -34,6 +34,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.sonar.api.measures.CoreMetrics;
 
 public class CxxCoverageSensorTest {
   private CxxCoverageSensor sensor;
@@ -56,9 +57,12 @@ public class CxxCoverageSensorTest {
   }
 
   @Test
-  public void shouldReportNoCoverageSaved() {
+  public void shouldReportOnlyGlobalCoverageToZero() {
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
+    verify(context, times(1)).saveMeasure(CoreMetrics.COVERAGE, 0.0);
+    verify(context, times(1)).saveMeasure(CoreMetrics.IT_COVERAGE, 0.0);
+    verify(context, times(1)).saveMeasure(CoreMetrics.OVERALL_COVERAGE, 0.0);
   }
 }
