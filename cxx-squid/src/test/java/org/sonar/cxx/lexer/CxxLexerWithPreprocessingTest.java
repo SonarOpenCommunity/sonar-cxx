@@ -305,6 +305,13 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
+  public void macro_replacement_in_includes_is_working() {
+    List<Token> tokens = lexer.lex("#define A \"B\"\n"
+                                   + "#include A\n");
+    assertThat(tokens).hasSize(1); // EOF
+  }
+
+  @Test
   public void conditional_compilation_ifdef_undefined() {
     List<Token> tokens = lexer.lex("#ifdef LALA\n"
       + "111\n"

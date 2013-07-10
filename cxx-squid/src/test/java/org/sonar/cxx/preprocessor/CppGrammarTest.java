@@ -200,9 +200,20 @@ public class CppGrammarTest {
 
     assertThat(p, parse("#include <ppToken>"));
     assertThat(p, parse("#include_next <ppToken>"));
+    assertThat(p, parse("#include ppToken"));
     assertThat(p, parse("#include \"jabadu\""));
   }
 
+  @Test
+  public void expandedIncludeBody() {
+    p.setRootRule(g.expandedIncludeBody);
+    
+    g.ppToken.mock();
+    
+    assertThat(p, parse("<ppToken>"));
+    assertThat(p, parse("\"jabadu\""));
+  }
+  
   @Test
   public void includeLine_reallife() {
     p.setRootRule(g.includeLine);
@@ -216,6 +227,7 @@ public class CppGrammarTest {
     assertThat(p, parse("#include <bits/typesizes.h>	/* Defines __*_T_TYPE macros.  */"));
     assertThat(p, parse("#include /**/ <ace/config-all.h>"));
     assertThat(p, parse("#include <math.h> /**/ /**/"));
+    assertThat(p, parse("#include USER_CONFIG"));
   }
 
   @Test

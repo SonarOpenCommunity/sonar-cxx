@@ -49,6 +49,7 @@ import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
+import static org.sonar.cxx.api.CppKeyword.INCLUDE;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
@@ -105,6 +106,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
   private Parser<CppGrammar> pplineParser = null;
+  private Parser<CppGrammar> includeBodyParser = null;
   private MapChain<String, Macro> macros = new MapChain<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
@@ -133,6 +135,8 @@ public class CxxPreprocessor extends Preprocessor {
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
 
     pplineParser = CppParser.create(conf);
+    includeBodyParser = CppParser.create(conf);
+    includeBodyParser.setRootRule(includeBodyParser.getGrammar().expandedIncludeBody);
 
     // parse the configured defines and store into the macro library
     for (String define : conf.getDefines()) {
@@ -371,33 +375,49 @@ public class CxxPreprocessor extends Preprocessor {
     //
     // Included files have to be scanned with the (only) goal of gathering macros.
     // This is done as follows:
-    // a) parse the preprocessor line using the preprocessor line parser
-    // b) if not done yet, try to find the according source code
-    // c) if found, feed it into a special lexer, which calls back only if it finds relevant
-    // preprocessor directives (currently: include's and define's)
-
-    File includedFile = findIncludedFile(ast);
-    if (includedFile == null) {
-      LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
+    //    
+    // a) pipe the body of the include directive through a lexer to properly expand
+    //    all macros which may be in there.
+    // b) extract the filename out of the include body and try to find it
+    // c) if not done yet, process it using a special lexer, which calls back only
+    //    if it finds relevant preprocessor directives (currently: include's and define's)
+    
+    String includeBody = serialize(stripEOF(ast.findFirstChild(INCLUDE).nextSibling().getTokens()), "");
+    String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
+    System.out.println("!!!putting into the parser: " + expandedIncludeBody);
+    
+    AstNode includeBodyAst = null;
+    try{
+      includeBodyAst = includeBodyParser.parse(expandedIncludeBody);
     }
-    else if (!analysedFiles.contains(includedFile)) {
-      analysedFiles.add(includedFile.getAbsoluteFile());
-      LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
-          new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+    catch(com.sonar.sslr.api.RecognitionException re){
+      LOG.warn("[{}:{}]: cannot parse included filename: {}'", new Object[] {filename, token.getLine(), expandedIncludeBody});
+    }
 
-      stateStack.push(state);
-      state = new State(includedFile);
-
-      try {
-        IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
-      } finally {
-        state = stateStack.pop();
+    if(includeBodyAst != null){
+      File includedFile = findIncludedFile(includeBodyAst);
+      if (includedFile == null) {
+        LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
+      }
+      else if (!analysedFiles.contains(includedFile)) {
+        analysedFiles.add(includedFile.getAbsoluteFile());
+        LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
+                  new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+        
+        stateStack.push(state);
+        state = new State(includedFile);
+        
+        try {
+          IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
+        } finally {
+          state = stateStack.pop();
+        }
+      }
+      else {
+        LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
       }
     }
-    else {
-      LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
-    }
-
+    
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
@@ -487,7 +507,12 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private List<Token> stripEOF(List<Token> tokens) {
-    return tokens.subList(0, tokens.size() - 1);
+    if (tokens.get(tokens.size() - 1).getType() == EOF){
+      return tokens.subList(0, tokens.size() - 1);
+    }
+    else{
+      return tokens;
+    }
   }
 
   private String serialize(List<Token> tokens) {
@@ -733,13 +758,13 @@ public class CxxPreprocessor extends Preprocessor {
     File includedFile = null;
     boolean quoted = false;
 
-    AstNode includedString = ast.findFirstChild(STRING);
-    if (includedString != null) {
-      fileName = stripQuotes(includedString.getTokenValue());
+    AstNode node = ast.findFirstChild(STRING);
+    if (node != null) {
+      fileName = stripQuotes(node.getTokenValue());
       quoted = true;
     }
-    else {
-      AstNode node = ast.findFirstChild(LT).nextSibling();
+    else if((node = ast.findFirstChild(LT)) != null) {
+      node = node.nextSibling();
       StringBuilder sb = new StringBuilder();
       while (true) {
         String value = node.getTokenValue();

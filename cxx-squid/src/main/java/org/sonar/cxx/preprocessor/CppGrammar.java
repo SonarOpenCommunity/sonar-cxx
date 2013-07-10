@@ -56,6 +56,8 @@ public class CppGrammar extends Grammar {
   public Rule preprocessorLine;
   public Rule defineLine;
   public Rule includeLine;
+  public Rule includeBody;
+  public Rule expandedIncludeBody;
   public Rule ifdefLine;
   public Rule replacementList;
   public Rule argumentList;
@@ -197,12 +199,21 @@ public class CppGrammar extends Grammar {
     includeLine.is(
         or(INCLUDE, INCLUDE_NEXT),
         o2n(WS),
-        or(
-            and("<", one2n(not(">"), ppToken), ">"),
-            CxxTokenType.STRING
-        ),
+        includeBody,
         o2n(WS)
         );
+    includeBody.is(
+      or(
+        expandedIncludeBody,
+        one2n(ppToken)
+        )
+      );
+    expandedIncludeBody.is(
+      or(
+        and("<", one2n(not(">"), ppToken), ">"),
+        CxxTokenType.STRING
+        )
+      );
   }
 
   private void allTheOtherLinesGrammar() {
