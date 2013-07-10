@@ -72,6 +72,7 @@ public class CppGrammarTest {
     assertThat(p, parse("#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0"));
     assertThat(p, parse("#include <algorithm>"));
     assertThat(p, parse("# /* See http://www.boost.org for most recent version. */"));
+    assertThat(p, parse("#if (C(A() && B()))"));
   }
 
   @Test
@@ -157,6 +158,7 @@ public class CppGrammarTest {
     assertThat(p, parse("foo, bar"));
     assertThat(p, parse("4, 1"));
     assertThat(p, parse("4, call()"));
+    assertThat(p, parse("A() && B()"));
   }
   
   @Test
@@ -165,6 +167,7 @@ public class CppGrammarTest {
     
     assertThat(p, parse("a"));
     assertThat(p, parse("call()"));
+    assertThat(p, parse("A() && B()"));
   }
 
   @Test
@@ -354,6 +357,7 @@ public class CppGrammarTest {
     assertThat(p, parse("( /**/ 1 /**/ )"));
     assertThat(p, parse("__has_feature(cxx_rvalue_references)"));
     assertThat(p, parse("__has_feature(/**/ cxx_rvalue_references /**/ )"));
+    assertThat(p, parse("(C(A() && B()))"));
   }
 
   @Test
@@ -387,6 +391,13 @@ public class CppGrammarTest {
     assertThat(p, parse("inclusiveOrExpression && inclusiveOrExpression"));
   }
 
+  @Test
+  public void logicalAndExpression_reallive() {
+    p.setRootRule(g.logicalAndExpression);
+
+    assertThat(p, parse("A() && B()"));
+  }
+  
   @Test
   public void inclusiveOrExpression() {
     p.setRootRule(g.inclusiveOrExpression);
@@ -502,6 +513,13 @@ public class CppGrammarTest {
   }
 
   @Test
+  public void primaryExpression_reallive() {
+    p.setRootRule(g.primaryExpression);
+    
+    assertThat(p, parse("(C(A() && B()))"));
+  }
+  
+  @Test
   public void expression() {
     p.setRootRule(g.expression);
 
@@ -511,6 +529,13 @@ public class CppGrammarTest {
     assertThat(p, parse("conditionalExpression, conditionalExpression"));
   }
 
+  @Test
+  public void expression_reallive() {
+    p.setRootRule(g.expression);
+
+    assertThat(p, parse("C(A() && B())"));
+  }
+  
   @Test
   public void definedExpression() {
     p.setRootRule(g.definedExpression);
@@ -541,5 +566,6 @@ public class CppGrammarTest {
     assertThat(p, parse("BOOST_WORKAROUND(BOOST_MSVC, < 1300)"));
     assertThat(p, parse("BOOST_WORKAROUND(< 1300)"));
     assertThat(p, parse("BOOST_WORKAROUND(a, call())"));
+    assertThat(p, parse("C(A() && B())"));
   }
 }

@@ -170,7 +170,7 @@ public class CppGrammar extends Grammar {
 
     argument.is(
         or(
-            somethingContainingParantheses,
+            one2n(somethingContainingParantheses),
             somethingWithoutParantheses
         )
         );
