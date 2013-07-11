@@ -382,40 +382,26 @@ public class CxxPreprocessor extends Preprocessor {
     // c) if not done yet, process it using a special lexer, which calls back only
     //    if it finds relevant preprocessor directives (currently: include's and define's)
     
-    String includeBody = serialize(stripEOF(ast.findFirstChild(INCLUDE).nextSibling().getTokens()), "");
-    String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
-    System.out.println("!!!putting into the parser: " + expandedIncludeBody);
-    
-    AstNode includeBodyAst = null;
-    try{
-      includeBodyAst = includeBodyParser.parse(expandedIncludeBody);
+    File includedFile = findIncludedFile(ast, token, filename);
+    if (includedFile == null) {
+      LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
     }
-    catch(com.sonar.sslr.api.RecognitionException re){
-      LOG.warn("[{}:{}]: cannot parse included filename: {}'", new Object[] {filename, token.getLine(), expandedIncludeBody});
+    else if (!analysedFiles.contains(includedFile)) {
+      analysedFiles.add(includedFile.getAbsoluteFile());
+      LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
+                new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+      
+      stateStack.push(state);
+      state = new State(includedFile);
+      
+      try {
+        IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
+      } finally {
+        state = stateStack.pop();
+      }
     }
-
-    if(includeBodyAst != null){
-      File includedFile = findIncludedFile(includeBodyAst);
-      if (includedFile == null) {
-        LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
-      }
-      else if (!analysedFiles.contains(includedFile)) {
-        analysedFiles.add(includedFile.getAbsoluteFile());
-        LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
-                  new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
-        
-        stateStack.push(state);
-        state = new State(includedFile);
-        
-        try {
-          IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
-        } finally {
-          state = stateStack.pop();
-        }
-      }
-      else {
-        LOG.trace("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
-      }
+    else {
+      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
     }
     
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -753,18 +739,17 @@ public class CxxPreprocessor extends Preprocessor {
     return params;
   }
 
-  private File findIncludedFile(AstNode ast) {
-    String fileName = null;
+  private File findIncludedFile(AstNode ast, Token token, String currFileName) {
+    String includedFileName = null;
     File includedFile = null;
     boolean quoted = false;
-
-    AstNode node = ast.findFirstChild(STRING);
-    if (node != null) {
-      fileName = stripQuotes(node.getTokenValue());
+    
+    AstNode node = ast.findFirstChild(pplineParser.getGrammar().includeBodyQuoted);
+    if(node != null){
+      includedFileName = stripQuotes(node.getFirstChild().getTokenValue());
       quoted = true;
-    }
-    else if((node = ast.findFirstChild(LT)) != null) {
-      node = node.nextSibling();
+    } else if((node = ast.findFirstChild(pplineParser.getGrammar().includeBodyBracketed)) != null) {
+      node = node.findFirstChild(LT).nextSibling();
       StringBuilder sb = new StringBuilder();
       while (true) {
         String value = node.getTokenValue();
@@ -774,14 +759,28 @@ public class CxxPreprocessor extends Preprocessor {
         sb.append(value);
         node = node.nextSibling();
       }
-
-      fileName = sb.toString();
+      
+      includedFileName = sb.toString();
+    } else if((node = ast.findFirstChild(pplineParser.getGrammar().includeBodyFreeform)) != null) {
+      // expand and recurse
+      String includeBody = serialize(stripEOF(node.getTokens()), "");
+      String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
+      
+      AstNode includeBodyAst = null;
+      try{
+        includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
+      }
+      catch(com.sonar.sslr.api.RecognitionException re){
+        LOG.warn("[{}:{}]: cannot parse included filename: {}'", new Object[] {currFileName, token.getLine(), expandedIncludeBody});
+      }
+      
+      return includeBodyAst == null ? null : findIncludedFile(includeBodyAst, token, currFileName);
     }
-
-    if (fileName != null) {
+    
+    if (includedFileName != null) {
       File file = getFileUnderAnalysis();
       String dir = file == null ? "" : file.getParent();
-      includedFile = codeProvider.getSourceCodeFile(fileName, dir, quoted);
+      includedFile = codeProvider.getSourceCodeFile(includedFileName, dir, quoted);
     }
 
     return includedFile;

@@ -58,6 +58,9 @@ public class CppGrammar extends Grammar {
   public Rule includeLine;
   public Rule includeBody;
   public Rule expandedIncludeBody;
+  public Rule includeBodyQuoted;
+  public Rule includeBodyBracketed;
+  public Rule includeBodyFreeform;
   public Rule ifdefLine;
   public Rule replacementList;
   public Rule argumentList;
@@ -204,16 +207,20 @@ public class CppGrammar extends Grammar {
         );
     includeBody.is(
       or(
-        expandedIncludeBody,
-        one2n(ppToken)
+        includeBodyQuoted,
+        includeBodyBracketed,
+        includeBodyFreeform
         )
       );
     expandedIncludeBody.is(
       or(
-        and("<", one2n(not(">"), ppToken), ">"),
-        CxxTokenType.STRING
+        includeBodyQuoted,
+        includeBodyBracketed
         )
       );
+    includeBodyQuoted.is(CxxTokenType.STRING);
+    includeBodyBracketed.is("<", one2n(not(">"), ppToken), ">");
+    includeBodyFreeform.is(one2n(ppToken));
   }
 
   private void allTheOtherLinesGrammar() {
