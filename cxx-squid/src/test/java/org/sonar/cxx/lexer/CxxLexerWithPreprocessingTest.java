@@ -137,8 +137,25 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // cccc + EOF
     assertThat(tokens, hasToken("cccc", GenericTokenType.IDENTIFIER));
   }
-
-  @Test
+  
+  //@Test
+  public void hashhash_arguments_with_whitespace_before_comma() {
+    // The blank behind FOO finds its way into the expansion.
+    // This leads to expression evaluation errors. Found in boost.
+    // Problem: cannot find defined behaviour in the C++ Standard for
+    // such cases.
+    // Corresponds to the Jira issue SONARPLUGINS-3060
+    List<Token> tokens = lexer.lex("#define FOOBAR 1\n"
+                                   + "#define CHECK(a, b) (( a ## b + 1 == 2))\n"
+                                   + "#if CHECK(FOO , BAR)\n"  
+                                   + "yes\n"
+                                   + "#endif");
+    
+    assertThat(tokens).hasSize(2); // yes + EOF
+    assertThat(tokens, hasToken("yes", GenericTokenType.IDENTIFIER));
+  }
+  
+  //@Test
   public void expanding_hashhash_operator_sampleFromCPPStandard() {
     // TODO: think about implementing this behavior. This is a sample from the standard, which is
     // not working yet. Because the current implementation throws away all 'irrelevant'
