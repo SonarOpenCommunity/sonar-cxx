@@ -149,8 +149,8 @@ public final class ExpressionEvaluator {
     try {
       number = Long.decode(stripSuffix(intValue)).longValue();
     } catch (java.lang.NumberFormatException nfe) {
+      LOG.warn("Cannot decode the number '{}' falling back to max long ({}) instead", intValue, Long.MAX_VALUE);
       number = Long.MAX_VALUE;
-      LOG.warn("Cannot decode the number '{}' falling back to max long ({}) instead", number);
     }
 
     return number;
@@ -405,7 +405,10 @@ public final class ExpressionEvaluator {
     String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
 
     LOG.trace("expanding '{}' to '{}'", macroName, value);
-
+    if(value == null){
+      LOG.warn("Undefined functionlike macro '{}' assuming 0", macroName);
+    }
+    
     return value == null ? 0 : evalToInt(value);
   }
 
