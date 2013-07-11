@@ -765,16 +765,23 @@ public class CxxPreprocessor extends Preprocessor {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
-      
+
+      boolean parseError = false;
       AstNode includeBodyAst = null;
       try{
         includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
       }
       catch(com.sonar.sslr.api.RecognitionException re){
-        LOG.warn("[{}:{}]: cannot parse included filename: {}'", new Object[] {currFileName, token.getLine(), expandedIncludeBody});
+        parseError = true;
       }
       
-      return includeBodyAst == null ? null : findIncludedFile(includeBodyAst, token, currFileName);
+      if(parseError || includeBodyAst.findFirstChild(pplineParser.getGrammar().includeBodyFreeform) != null){
+        LOG.warn("[{}:{}]: cannot parse included filename: {}'",
+                 new Object[] {currFileName, token.getLine(), expandedIncludeBody});
+        return null;
+      }
+      
+      return findIncludedFile(includeBodyAst, token, currFileName);
     }
     
     if (includedFileName != null) {
