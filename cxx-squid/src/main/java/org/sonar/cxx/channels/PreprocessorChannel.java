@@ -59,7 +59,9 @@ public class PreprocessorChannel extends Channel<Lexer> {
       if (isNewline(ch) || ch == EOF) {
         break;
       }
-      if (ch == '\\' && isNewline((char) code.peek())) {
+      if (ch == '/' && code.charAt(0) == '*') {
+        consumeComment(code);
+      } else if (ch == '\\' && isNewline((char) code.peek())) {
         // the newline is escaped: we have a the multi line preprocessor directive
         // consume both the backslash and the newline, insert a space instead
         consumeNewline(code);
@@ -83,6 +85,22 @@ public class PreprocessorChannel extends Channel<Lexer> {
     }
   }
 
+  private static void consumeComment(CodeReader code) {
+    char ch;
+    
+    code.pop(); // initial '*'
+    while (true) {
+      ch = (char) code.pop();
+      if (ch == EOF) {
+        break;
+      }
+      if (ch == '*' && code.charAt(1) == '/') {
+        code.pop();
+        break;
+      }
+    }
+  }
+  
   private static boolean isNewline(char ch) {
     return (ch == '\n') || (ch == '\r');
   }
