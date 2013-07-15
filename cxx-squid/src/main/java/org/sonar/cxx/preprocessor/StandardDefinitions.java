@@ -22,7 +22,7 @@ package org.sonar.cxx.preprocessor;
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
-public class StandardDefinitions {
+public final class StandardDefinitions {
   private StandardDefinitions(){}
   
   public static Map<String, String> macros(){

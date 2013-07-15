@@ -49,7 +49,6 @@ import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
-import static org.sonar.cxx.api.CppKeyword.INCLUDE;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
@@ -106,7 +105,6 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
   private Parser<CppGrammar> pplineParser = null;
-  private Parser<CppGrammar> includeBodyParser = null;
   private MapChain<String, Macro> macros = new MapChain<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
@@ -135,8 +133,6 @@ public class CxxPreprocessor extends Preprocessor {
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
 
     pplineParser = CppParser.create(conf);
-    includeBodyParser = CppParser.create(conf);
-    includeBodyParser.setRootRule(includeBodyParser.getGrammar().expandedIncludeBody);
 
     // parse the configured defines and store into the macro library
     for (String define : conf.getDefines()) {
