@@ -54,15 +54,19 @@ public class CxxLexer_PreprocessorDisabled_Test {
   @Test
   public void preprocessor_continued_define() {
     assertThat(lexer.lex("#define M\\\n"
-      + "0"),
-        hasToken("#define M 0", CxxTokenType.PREPROCESSOR));
+                         + "0"),
+               hasToken("#define M 0", CxxTokenType.PREPROCESSOR));
   }
 
   @Test
   public void preprocessor_directive_with_multiline_comment() {
-    System.out.println("LALALAL" + lexer.lex("#define A B/*lalalal*/\n"));
-    assertThat(lexer.lex("#define A B/*lalalal*/\n"),
+    assertThat(lexer.lex("#define A B/*CCC*/\n"),
                hasToken("#define A B", CxxTokenType.PREPROCESSOR));
+    assertThat(lexer.lex("#define A B/**/C\n"),
+               hasToken("#define A BC", CxxTokenType.PREPROCESSOR));
+    assertThat(lexer.lex("#define A B/*C\n\n\nC*/\n"),
+               hasToken("#define A B", CxxTokenType.PREPROCESSOR));
+    assertThat(lexer.lex("#define A B*/\n"),
+               hasToken("#define A B*/", CxxTokenType.PREPROCESSOR));
   }
-  
 }

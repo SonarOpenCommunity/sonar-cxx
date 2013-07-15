@@ -90,11 +90,11 @@ public class PreprocessorChannel extends Channel<Lexer> {
     
     code.pop(); // initial '*'
     while (true) {
-      ch = (char) code.pop();
+      ch = (char)code.pop();
       if (ch == EOF) {
         break;
       }
-      if (ch == '*' && code.charAt(1) == '/') {
+      if (ch == '*' && code.charAt(0) == '/') {
         code.pop();
         break;
       }
