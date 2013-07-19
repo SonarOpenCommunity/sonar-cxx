@@ -104,8 +104,8 @@ import java.util.List;
   @Property(
     key = CxxCompilerSensor.REPORT_CHARSET_DEF,
     defaultValue = CxxCompilerSensor.DEFAULT_CHARSET_DEF,
-    name = "RegEx to identify the 4 groups of the compiler warning message",
-    description = "Java regular expression with 4 groups for file, line, message ID, message",
+    name = "Encoding of the compiler report",
+    description = "The encoding to use when reading the compiler report",
     global = false,
     project = true),
   @Property(
