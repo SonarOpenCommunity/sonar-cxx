@@ -2383,7 +2383,30 @@
       Class 'classname' is unsafe, 'varname' can leak by wrong usage.
     </description>
   </rule>
-  
+  <rule>
+    <key>redundantCopy</key>
+    <configkey>redundantCopy</configkey>
+    <name>Buffer 'var' is being written before its old content has been used</name>
+    <description>
+    Buffer 'var' is being written before its old content has been used.
+    </description>
+  </rule>
+  <rule>
+    <key>class_X_Y</key>
+    <configkey>class_X_Y</configkey>
+    <name>The code 'class name' is not handled</name>
+    <description>
+      The code 'class name' is not handled. You can use -I or --include to add handling of this code.
+    </description>
+  </rule>
+  <rule>
+    <key>uninitStructMember</key>
+    <configkey>uninitStructMember</configkey>
+    <name>Uninitialized struct member: 'name'</name>
+    <description>
+      Uninitialized struct member: 'name'.
+    </description>
+  </rule>
   <!-- ########### New in cppcheck 1.58 ########### -->
   <rule>
     <key>argumentSize</key>
