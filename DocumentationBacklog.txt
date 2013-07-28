@@ -1,5 +1,0 @@
-- Fix the documentation of 
-      sonar.cxx.suffixes.sources and sonar.cxx.suffixes.headers:
-  the extensions should be given inclusive dot now.
-
-
