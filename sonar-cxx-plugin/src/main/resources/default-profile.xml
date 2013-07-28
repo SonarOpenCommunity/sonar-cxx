@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <profile>
   <name>Sonar way</name>
-  <language>c++</language>
+ <language>c++</language>
   <rules>
     <!-- ##################################################  -->
     <!-- ################# cppcheck rules #################  -->
@@ -1370,6 +1370,11 @@
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>unsafeClassCanLeak</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>redundantCopy</key>
       <priority>MINOR</priority>
     </rule>
     

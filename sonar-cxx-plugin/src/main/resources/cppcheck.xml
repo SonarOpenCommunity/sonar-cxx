@@ -2383,6 +2383,14 @@
       Class 'classname' is unsafe, 'varname' can leak by wrong usage.
     </description>
   </rule>
+  <rule>
+    <key>redundantCopy</key>
+    <configkey>redundantCopy</configkey>
+    <name>Buffer 'var' is being written before its old content has been used</name>
+    <description>
+    Buffer 'var' is being written before its old content has been used.
+    </description>
+  </rule>
   
   <!-- ########### New in cppcheck 1.58 ########### -->
   <rule>
