@@ -19,25 +19,42 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.collect.ImmutableList;
+import org.sonar.check.Priority;
+import org.sonar.check.Rule;
+import org.sonar.check.RuleProperty;
+import org.sonar.cxx.api.CxxGrammar;
+import org.sonar.cxx.api.CxxMetric;
+import org.sonar.squid.measures.MetricDef;
 
-import java.util.List;
+import com.sonar.sslr.squid.checks.AbstractFileComplexityCheck;
 
-public final class CheckList {
+@Rule(
+    key = "FileCyclomaticComplexity",
+    priority = Priority.MAJOR)
+public class FileComplexityCheck extends AbstractFileComplexityCheck<CxxGrammar>
+{
+  private static final int DEFAULT_MAX = 200;
 
-  public static final String REPOSITORY_KEY = "cxx";
+  @RuleProperty(defaultValue = "" + DEFAULT_MAX)
+  private int max = DEFAULT_MAX;
+  
 
-  public static final String DEFAULT_PROFILE = "Sonar way";
-
-  private CheckList() {
+  public void setMax(int max) {
+    this.max = max;
   }
 
-  public static List<Class> getChecks() {
-    return ImmutableList.<Class> of(
-        ParsingErrorCheck.class,
-        FunctionComplexityCheck.class,
-        FileComplexityCheck.class,
-        XPathCheck.class);
+
+  @Override
+  public int getMaximumFileComplexity()
+  {
+    return this.max;
+  }
+
+
+  @Override
+  public MetricDef getComplexityMetric()
+  {
+    return CxxMetric.COMPLEXITY;
   }
 
 }
