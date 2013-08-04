@@ -10,7 +10,7 @@
   
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.9</version>
   <packaging>pom</packaging>
   
   <name>Cxx</name>
@@ -89,6 +89,7 @@
     <connection>scm:git:git@github.com:SonarCommunity/sonar-cxx.git</connection>
     <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-cxx.git</developerConnection>
     <url>https://github.com/SonarCommunity/sonar-cxx</url>
+    <tag>cxx-0.9</tag>
   </scm>
   <issueManagement>
     <system>JIRA</system>
