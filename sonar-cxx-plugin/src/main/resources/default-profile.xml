@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <profile>
   <name>Sonar way</name>
-  <language>c++</language>
+ <language>c++</language>
   <rules>
     <!-- ##################################################  -->
     <!-- ################# cppcheck rules #################  -->
@@ -1372,6 +1372,11 @@
       <key>unsafeClassCanLeak</key>
       <priority>MINOR</priority>
     </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>redundantCopy</key>
+      <priority>MINOR</priority>
+    </rule>
     
     <!-- ########### Missing or new in cppcheck 1.58 ########### -->
     <rule>
@@ -1446,9 +1451,57 @@
       <key>derefInvalidIterator</key>
       <priority>MINOR</priority>
     </rule>
-    
-    
->>>>>>> Stashed changes
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>class_X_Y</key>
+      <priority>MINOR</priority>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.61 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>arithOperationsOnVoidPointer</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>commaSeparatedReturn</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nanInArithmeticExpression</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofDereferencedVoidPointer</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofVoid</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>wrongPrintfScanfParameterPositionError</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsctime_r</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>ConfigurationNotChecked</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>toomanyconfigs</key>
+      <priority>MINOR</priority>
+    </rule>
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->

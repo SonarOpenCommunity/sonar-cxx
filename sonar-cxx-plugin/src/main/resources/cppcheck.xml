@@ -2383,7 +2383,22 @@
       Class 'classname' is unsafe, 'varname' can leak by wrong usage.
     </description>
   </rule>
-  
+  <rule>
+    <key>redundantCopy</key>
+    <configkey>redundantCopy</configkey>
+    <name>Buffer 'var' is being written before its old content has been used</name>
+    <description>
+    Buffer 'var' is being written before its old content has been used.
+    </description>
+  </rule>
+  <rule>
+    <key>class_X_Y</key>
+    <configkey>class_X_Y</configkey>
+    <name>The code 'class name' is not handled</name>
+    <description>
+      The code 'class name' is not handled. You can use -I or --include to add handling of this code.
+    </description>
+  </rule>
   <!-- ########### New in cppcheck 1.58 ########### -->
   <rule>
     <key>argumentSize</key>
@@ -2540,4 +2555,98 @@
       Possible dereference of an invalid iterator
     </description>
   </rule>
+  <!-- ########### New in cppcheck 1.61 ########### -->
+  <rule>
+    <key>arithOperationsOnVoidPointer</key>
+    <configkey>arithOperationsOnVoidPointer</configkey>
+    <name>
+      'varname' is of type 'vartype' - pointer calculation behaviour is undefined
+    </name>
+    <description>
+      'varname' is of type 'vartype'. When using void pointers in calculations, the behaviour is undefined.
+    </description>
+  </rule>
+  <rule>
+    <key>commaSeparatedReturn</key>
+    <configkey>commaSeparatedReturn</configkey>
+    <name>
+      Comma is used in return statement
+    </name>
+    <description>
+      Comma is used in return statement. The comma can easily be misread as a ';'.
+    </description>
+  </rule>
+  <rule>
+    <key>nanInArithmeticExpression</key>
+    <configkey>nanInArithmeticExpression</configkey>
+    <name>
+      Using NaN/Inf in a computation.
+    </name>
+    <description>
+      Using NaN/Inf in a computation.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeofDereferencedVoidPointer</key>
+    <configkey>sizeofDereferencedVoidPointer</configkey>
+    <name>
+      '*varname' is of type 'void', the behaviour of 'sizeof(void)' is undefined
+    </name>
+    <description>
+      '*varname' is of type 'void', the behaviour of 'sizeof(void)' is not covered by the ISO C standard.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeofVoid</key>
+    <configkey>sizeofVoid</configkey>
+    <name>
+      Behaviour of 'sizeof(void)' is undefined
+    </name>
+    <description>
+      Behaviour of 'sizeof(void)' is not covered by the ISO C standard.
+    </description>
+  </rule>
+  <rule>
+    <key>wrongPrintfScanfParameterPositionError</key>
+    <configkey>wrongPrintfScanfParameterPositionError</configkey>
+    <name>
+      printf: referencing parameter 2 while 1 arguments given.
+    </name>
+    <description>
+      printf: referencing parameter 2 while 1 arguments given.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsctime_r</key>
+    <configkey>obsoleteFunctionsctime_r</configkey>
+    <name>
+      Obsolete function 'ctime_r' called
+    </name>
+    <description>
+      Obsolete function 'ctime_r' called.
+      It is recommended to use the function 'strftime' instead..
+    </description>
+  </rule>
+  <!-- ########### missing but available with command 'errorlist' ########### -->
+  <rule>
+    <key>ConfigurationNotChecked</key>
+    <configkey>ConfigurationNotChecked</configkey>
+    <name>
+      Skipping configuration 'X' since the value of 'X' is unknown
+    </name>
+    <description>
+      Skipping configuration 'X' since the value of 'X' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly.
+    </description>
+  </rule>
+  <rule>
+    <key>toomanyconfigs</key>
+    <configkey>toomanyconfigs</configkey>
+    <name>
+      Too many #ifdef configurations - cppcheck only checks 12 configurations
+    </name>
+    <description>
+      Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
+    </description>
+  </rule>
+
 </rules>
