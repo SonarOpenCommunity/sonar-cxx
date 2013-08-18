@@ -35,6 +35,7 @@ public final class CheckList {
   public static List<Class> getChecks() {
     return ImmutableList.<Class> of(
         ParsingErrorCheck.class,
+        TooManyLinesOfCodeInFileCheck.class,
         XPathCheck.class);
   }
 
