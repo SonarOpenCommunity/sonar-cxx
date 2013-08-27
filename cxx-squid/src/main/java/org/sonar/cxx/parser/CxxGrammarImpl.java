@@ -553,7 +553,7 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     opaqueEnumDeclaration.is(enumKey, opt(attributeSpecifierSeq), IDENTIFIER, opt(enumBase), ";");
 
-    enumKey.is(CxxKeyword.ENUM, opt(CxxKeyword.CLASS, CxxKeyword.STRUCT));
+    enumKey.is(CxxKeyword.ENUM, opt(or(CxxKeyword.CLASS, CxxKeyword.STRUCT)));
 
     enumBase.is(":", typeSpecifierSeq);
 
