@@ -35,6 +35,7 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +48,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
   private RulesProfile profile;
+  private HashSet<String> uniqueIssues = new HashSet<String>();
 
   /**
    * {@inheritDoc}
@@ -105,8 +107,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
               if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
                   id = mapMisraRulesToUniqueSonarRules(msg);
               }
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                  file, line, id, msg);
+              String issue = file + line + id + msg;
+              if (uniqueIssues.add(issue))
+                  saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
 
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
