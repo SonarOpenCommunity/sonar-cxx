@@ -19,25 +19,23 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.collect.ImmutableList;
+import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
+import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squid.api.SourceFile;
 
-import java.util.List;
+import java.io.File;
 
-public final class CheckList {
+public class FunctionComplexityCheckTest {
 
-  public static final String REPOSITORY_KEY = "cxx";
+  @Test
+  public void check() {
+    FunctionComplexityCheck check = new FunctionComplexityCheck();
+    check.setMax(5);
 
-  public static final String DEFAULT_PROFILE = "Sonar way";
-
-  private CheckList() {
-  }
-
-  public static List<Class> getChecks() {
-    return ImmutableList.<Class> of(
-        ParsingErrorCheck.class,
-        FunctionComplexityCheck.class,
-        FileComplexityCheck.class,
-        XPathCheck.class);
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/complexity.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+        .next().atLine(6).noMore();
   }
 
 }

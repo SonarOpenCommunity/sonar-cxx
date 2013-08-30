@@ -30,6 +30,7 @@
     <developer>
       <id>wenns</id>
       <name>Waleri Enns</name>
+      <email>wen@contact.de</email>
     </developer>
     <developer>
       <name>Francois Dorin</name>
@@ -43,11 +44,6 @@
     <developer>
       <name>Vincent Hardion</name>
       <email>vincent.hardion@gmail.com</email>
-    </developer>
-    <developer>
-      <id>wenns</id>
-      <name>Waleri Enns</name>
-      <email>wen@contact.de</email>
     </developer>
   </developers>
 
@@ -75,6 +71,10 @@
     <contributor>
       <name>Bert Kandert</name>
       <email>bert.k@hotmail.com</email>
+    </contributor>
+    <contributor>
+      <name>Wolfgang Buckel</name>
+      <email>wolfgang.buckel@siemens.com</email>
     </contributor>
   </contributors>
   
