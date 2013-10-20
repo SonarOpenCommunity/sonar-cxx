@@ -59,6 +59,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>returnAutocstr</key>
     <configkey>returnAutocstr</configkey>
     <name>Returning pointer to auto variable</name>
@@ -67,6 +68,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>returnTempPointer</key>
     <configkey>returnTempPointer</configkey>
     <name>Returning pointer to temporary</name>
@@ -107,6 +109,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>terminateStrncpy</key>
     <configkey>terminateStrncpy</configkey>
     <name>The buffer may not be zero-terminated after the call to strncpy()</name>
@@ -154,14 +157,6 @@
     <name>Class does not have a constructor</name>
     <description>
       Class does not have a constructor.
-    </description>
-  </rule>
-  <rule>
-    <key>uninitVar</key>
-    <configkey>uninitVar</configkey>
-    <name>Member variable is not initialized in the constructor</name>
-    <description>
-      Member variable is not initialized in the constructor.
     </description>
   </rule>
   <rule>
@@ -341,6 +336,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>nonreentrantFunctionsasctime</key>
     <configkey>nonreentrantFunctionsasctime</configkey>
     <name>Avoid usage of the function 'asctime'</name>
@@ -371,6 +367,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>nonreentrantFunctionsctime</key>
     <configkey>nonreentrantFunctionsctime</configkey>
     <name>Avoid usage of the function 'ctime'</name>
@@ -691,6 +688,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>nonreentrantFunctionsrand</key>
     <configkey>nonreentrantFunctionsrand</configkey>
     <name>Avoid usage of the function 'rand'</name>
@@ -721,6 +719,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>nonreentrantFunctionstempnam</key>
     <configkey>nonreentrantFunctionstempnam</configkey>
     <name>Avoid usage of the function 'tempnam'</name>
@@ -731,9 +730,9 @@
     </description>
   </rule>
   <rule>
-    <key>nonreentrantFunctionstmpnam</key>
-    <configkey>nonreentrantFunctionstmpnam</configkey>
-    <name>Avoid usage of the function 'tmpnam'</name>
+    <key>nonreentrantFunctionstempnam</key>
+    <configkey>nonreentrantFunctionstempnam</configkey>
+    <name>Avoid usage of the function 'tempnam'</name>
     <description>
       The function 'tmpnam' is not reentrant. For threadsafe
       applications it is recommended to use the reentrant replacement
@@ -858,6 +857,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>obsoleteFunctionsgets</key>
     <configkey>obsoleteFunctionsgets</configkey>
     <name>Avoid usage of the function 'gets'</name>
@@ -1041,6 +1041,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>functionConst</key>
     <configkey>functionConst</configkey>
     <name>Member function can be const</name>
@@ -1180,6 +1181,7 @@
     </description>
   </rule>
   <rule>
+  <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>assignmentInAssert</key>
     <configkey>assignmentInAssert</configkey>
     <name>Assert statement modifies variable</name>
@@ -1255,6 +1257,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>conditionAlwaysTrueFalse</key>
     <configkey>conditionAlwaysTrueFalse</configkey>
     <name>Condition is always true/false</name>
@@ -1262,9 +1265,6 @@
       The condition evaluates always to true/false.
     </description>
   </rule>
-
-  <error id="conditionAlwaysTrueFalse" severity="style" msg="Condition is always true/false"/>
-
   <rule>
     <key>duplicateIf</key>
     <configkey>duplicateIf</configkey>
@@ -1356,6 +1356,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>erase</key>
     <configkey>erase</configkey>
     <name>Dangerous iterator usage after erase()-method</name>
@@ -1382,6 +1383,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>stlBoundries</key>
     <configkey>stlBoundries</configkey>
     <name>Dangerous container iterator compare using &lt; operator for container</name>
@@ -1583,6 +1585,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>variableHidingTypedef</key>
     <configkey>variableHidingTypedef</configkey>
     <name>Variable hides typedef with same name</name>
@@ -1624,6 +1627,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->  
     <key>sizeArgumentAsChar</key>
     <configkey>sizeArgumentAsChar</configkey>
     <name>The size argument is given as a char constant</name>
@@ -1633,6 +1637,7 @@
   </rule>
   <!-- ########### New in cppcheck 1.51 ########### -->
    <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->  
     <key>bufferNotZeroTerminated</key>
     <configkey>bufferNotZeroTerminated</configkey>
     <name>Buffer is not zero-terminated</name>
@@ -1641,6 +1646,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>initializerList</key>
     <configkey>initializerList</configkey>
     <name>Member variable is in wrong order in the initializer list</name>
@@ -1666,6 +1672,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>secondAlwaysTrueFalseWhenFirstTrue</key>
     <configkey>secondAlwaysTrueFalseWhenFirstTrue</configkey>
     <name>Redundant condition</name>
@@ -1676,6 +1683,7 @@
 
   <!-- ########### New in cppcheck 1.52 ########### -->
    <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>simplePatternError</key>
     <configkey>simplePatternError</configkey>
     <name>Found simple pattern inside call</name>
@@ -1684,6 +1692,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>complexPatternError</key>
     <configkey>complexPatternError</configkey>
     <name>Found complex pattern inside call</name>
@@ -1692,6 +1701,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->  
     <key>missingPercentCharacter</key>
     <configkey>missingPercentCharacter</configkey>
     <name>Missing percent end character in pattern</name>
@@ -1734,6 +1744,7 @@
     </description>
   </rule>
    <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>redundantStrcpyInSwitch</key>
     <configkey>redundantStrcpyInSwitch</configkey>
     <name>Redundant strcpy in switch</name>
@@ -1750,6 +1761,7 @@
     </description>
   </rule>
    <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>stlcstrthrow</key>
     <configkey>stlcstrthrow</configkey>
     <name>The returned value by c_str() is invalid after throw call</name>
@@ -1803,6 +1815,7 @@
 
   <!-- ########### New in cppcheck 1.53 ########### -->
    <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>debug</key>
     <configkey>debug</configkey>
     <name>Debug</name>
@@ -1811,6 +1824,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>doubleCloseDir</key>
     <configkey>doubleCloseDir</configkey>
     <name>Directory handle is closed twice</name>
@@ -1875,6 +1889,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>invalidScanfArgType</key>
     <configkey>invalidScanfArgType</configkey>
     <name>scanf argument no. 1: requires non-const pointers or arrays as arguments</name>
@@ -1884,6 +1899,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>obsoleteFunctionsasctime</key>
     <configkey>obsoleteFunctionsasctime</configkey>
     <name>Avoid usage of the function 'asctime'</name>
@@ -1902,6 +1918,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>obsoleteFunctionsctime</key>
     <configkey>obsoleteFunctionsctime</configkey>
     <name>Avoid usage of the function 'ctime'</name>
@@ -2024,6 +2041,7 @@
     </description>
   </rule>
     <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>strncatUsage</key>
     <configkey>strncatUsage</configkey>
     <name>Dangerous usage of strncat</name>
@@ -2051,6 +2069,7 @@
     </description>
   </rule>
   <rule>
+  <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>bitwiseOnBoolean</key>
     <configkey>bitwiseOnBoolean</configkey>
     <name>Boolean variable is used in bitwise operation</name>
@@ -2067,6 +2086,7 @@
     </description>
   </rule>
    <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>invalidScanfFormatWidth</key>
     <configkey>invalidScanfFormatWidth</configkey>
     <name>wrong width for scanf parameter</name>
@@ -2076,6 +2096,7 @@
   </rule>
   <rule>
     <key>leakconfiguration</key>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <configkey>leakconfiguration</configkey>
     <name>Function configuration is needed to establish if there is a leak or not</name>
     <description>
@@ -2083,6 +2104,7 @@
     </description>
   </rule>
    <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>missingScanfFormatWidth</key>
     <configkey>missingScanfFormatWidth</configkey>
     <name>wrong width for scanf parameter</name>
@@ -2099,6 +2121,7 @@
      </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>pointerSize</key>
     <configkey>pointerSize</configkey>
     <name>Using size of pointer variable instead of size of its data</name>
@@ -2107,6 +2130,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>possibleReadlinkBufferOverrun</key>
     <configkey>possibleReadlinkBufferOverrun</configkey>
     <name>Function might return the full size of variable</name>
@@ -2123,6 +2147,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>redundantBitwiseOperationInSwitch</key>
     <configkey>redundantBitwiseOperationInSwitch</configkey>
     <name>Redundant bitwise operation on variable in switch</name>
@@ -2131,6 +2156,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>suspiciousSemicolon</key>
     <configkey>suspiciousSemicolon</configkey>
     <name>Suspicious use of ; at the end of 'if/for/while' statement</name>
@@ -2174,6 +2200,7 @@
     </description>
     </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>comparisonOfBoolWithInvalidComparator</key>
     <configkey>comparisonOfBoolWithInvalidComparator</configkey>
     <name>Comparison of a boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
@@ -2182,6 +2209,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>functionStatic</key>
     <configkey>functionStatic</configkey>
     <name>The member function 'funcname' can be static</name>
@@ -2190,6 +2218,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>incompleteArrayFill</key>
     <configkey>incompleteArrayFill</configkey>
     <name>Array 'buffer' is filled incompletely</name>
@@ -2238,6 +2267,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>redundantOperationInSwitch</key>
     <configkey>redundantOperationInSwitch</configkey>
     <name>Redundant operation on 'varname' in switch</name>
@@ -2254,6 +2284,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>unknownPattern</key>
     <configkey>unknownPattern</configkey>
     <name>Unknown pattern used</name>
@@ -2320,6 +2351,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>invalidFree</key>
     <configkey>invalidFree</configkey>
     <name>Invalid memory address freed</name>
@@ -2328,6 +2360,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>invalidLengthModifierError</key>
     <configkey>invalidLengthModifierError</configkey>
     <name>'modifier' in format string is a length modifier and cannot be used without a conversion specifier</name>
@@ -2344,6 +2377,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>oppositeInnerCondition</key>
     <configkey>oppositeInnerCondition</configkey>
     <name>Opposite conditions in nested 'if' blocks lead to a dead code block</name>
@@ -2368,6 +2402,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>redundantNextPrevious</key>
     <configkey>redundantNextPrevious</configkey>
     <name>Call to 'Token::func1()' followed by 'Token::func2()' can be simplified</name>
@@ -2392,6 +2427,7 @@
     </description>
   </rule>
   <rule>
+    <!-- not included in  V1.62 'CppCheck errorlist' output -->
     <key>class_X_Y</key>
     <configkey>class_X_Y</configkey>
     <name>The code 'class name' is not handled</name>
@@ -2648,5 +2684,55 @@
       Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
     </description>
   </rule>
-
+  <!-- ########### New in cppcheck 1.62 ########### -->   
+  <rule>
+    <key>duplInheritedMember</key>
+    <configkey>duplInheritedMember</configkey>
+    <name>
+      The class 'name' defines member variable with name 'symbol' also defined in its parent class 'name'.
+    </name>
+    <description>
+      The class 'name' defines member variable with name 'symbol' also defined in its parent class 'name'.
+    </description>
+  </rule>  
+  <rule>
+    <key>invalidScanfArgType_int</key>
+    <configkey>invalidScanfArgType_int</configkey>
+    <name>%x in format string requires 'unsigned int *' but the argument type is 'DWORD *'</name>
+    <description>
+      %x in format string (no. 1) requires 'unsigned int *' but the argument type is 'DWORD * {aka unsigned long *}'
+    </description>
+  </rule>
+   <rule>
+    <key>invalidScanfArgType_float</key>
+    <configkey>invalidScanfArgType_float</configkey>
+    <name>%f in format string requires 'float *' but the argument type is Unknown.</name>
+    <description>
+      %f in format string (no. 1) requires 'float *' but the argument type is Unknown.
+    </description>
+  </rule>
+   <rule>
+    <key>invalidScanfArgType_s</key>
+    <configkey>invalidScanfArgType_s</configkey>
+    <name>%s in format string requires a 'char *' but the argument type is Unknown.</name>
+    <description>
+      %s in format string (no. 1) requires a 'char *' but the argument type is Unknown.
+    </description>
+  </rule>    
+  <rule>
+    <key>comparisonFunctionIsAlwaysTrueOrFalse</key>
+    <configkey>comparisonFunctionIsAlwaysTrueOrFalse</configkey>
+    <name>Comparison of two identical variables with isless evaluates always to false.</name>
+    <description>
+      Comparison of two identical variables with isless(varName,varName) evaluates always to false.
+    </description>
+  </rule>
+  <rule>
+    <key>zerodivcond</key>
+    <configkey>zerodivcond</configkey>
+    <name>Either the condition '' is useless or there is division by zero at line 0.</name>
+    <description>
+      Either the condition '' is useless or there is division by zero at line 0.
+    </description>
+  </rule>         
 </rules>
