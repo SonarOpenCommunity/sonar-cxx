@@ -5,9 +5,9 @@ adds C++ support to this platform.
 
 
 ## Quickstart
-- Setup a SonarQube instance
-- Install the plugin (see [[Installation]])
-- Run an analysis (see [[Running the analysis]]).
+1. Setup a SonarQube instance
+2. Install the plugin (see [Installation](https://github.com/wenns/sonar-cxx/wiki/Installation))
+3. Run an analysis (see [Running the analysis](https://github.com/wenns/sonar-cxx/wiki/Running-the-analysis))
 
 
 ## Resources
@@ -17,7 +17,7 @@ adds C++ support to this platform.
 
 
 ## Alternatives:
-That's not the only choice when if youre after C++ support in SonarQube: there is also 
+That's not the only choice when if you're after C++ support in SonarQube: there is also 
 the commercial [C++ plugin from SonarSource](http://www.sonarsource.com/products/plugins/languages/cpp/). 
 Choose whatever fits your needs.
 
