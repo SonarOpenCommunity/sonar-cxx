@@ -5,16 +5,15 @@ adds C++ support to this platform.
 
 
 ## Quickstart
-- Setup a Sonarqube instance
-- Install the plugin (see )
-- Run an analysis (see ).
+- Setup a SonarQube instance
+- Install the plugin (see [[Installation]])
+- Run an analysis (see [[Running the analysis]]).
 
 
 ## Resources
-- WiKi
-- Issue Tracker
-- CI 
-- sample project
+- A WiKi and an issue tracker is part of this GitHub project
+- Continuous Integration on [Cloudbees](https://wenns.ci.cloudbees.com/)
+- [Sample project](https://github.com/wenns/sonar-cxx/tree/master/sonar-cxx-plugin/src/samples/SampleProject)
 
 
 ## Alternatives:
