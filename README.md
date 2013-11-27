@@ -11,7 +11,7 @@ adds C++ support to this platform.
 
 
 ## Resources
-- A WiKi and an issue tracker is part of this GitHub project
+- A [WiKi](https://github.com/wenns/sonar-cxx/wiki) and an [issue tracker](https://github.com/wenns/sonar-cxx/issues) is part of this GitHub project
 - Continuous Integration on [Cloudbees](https://wenns.ci.cloudbees.com/)
 - [Sample project](https://github.com/wenns/sonar-cxx/tree/master/sonar-cxx-plugin/src/samples/SampleProject)
 
