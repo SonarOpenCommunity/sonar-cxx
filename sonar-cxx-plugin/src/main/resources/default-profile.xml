@@ -1505,6 +1505,38 @@
        <priority>MINOR</priority>
      </rule>
     
+    <!-- ########### Missing or new in cppcheck 1.62 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>duplInheritedMember</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfArgType_int</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfArgType_s</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfArgType_float</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>comparisonFunctionIsAlwaysTrueOrFalse</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>zerodivcond</key>
+      <priority>MINOR</priority>
+    </rule>
+
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->

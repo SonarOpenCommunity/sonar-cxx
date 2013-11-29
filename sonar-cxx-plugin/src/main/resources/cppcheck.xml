@@ -2649,4 +2649,56 @@
       Obsolete function 'ctime_r' called. It is recommended to use the function 'strftime' instead.
     </description>
   </rule>
+
+  <!-- ########### New in cppcheck 1.62 ########### -->
+  <rule>
+    <key>duplInheritedMember</key>
+    <configkey>duplInheritedMember</configkey>
+    <name>
+      Redefinition of a member variable in a subclass.
+    </name>
+    <description>
+      A subclass defines a member variable which is already defined in its parent class.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidScanfArgType_int</key>
+    <configkey>invalidScanfArgType_int</configkey>
+    <name>Mismatch in string format: 'unsigned int *' vs 'DWORD *'</name>
+    <description>
+      The format string requires 'unsigned int *' but the argument type is 'DWORD * {aka unsigned long *}'
+    </description>
+  </rule>
+  <rule>
+    <key>invalidScanfArgType_float</key>
+    <configkey>invalidScanfArgType_float</configkey>
+    <name>Mistmatch in string format: 'float *' vs Unknown.</name>
+    <description>
+      %f in format string requires 'float *' but the argument type is Unknown.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidScanfArgType_s</key>
+    <configkey>invalidScanfArgType_s</configkey>
+    <name>Mismatch in string format: 'char *' vs Unknown.</name>
+    <description>
+      %s in format string requires a 'char *' but the argument type is Unknown.
+    </description>
+  </rule>
+  <rule>
+    <key>comparisonFunctionIsAlwaysTrueOrFalse</key>
+    <configkey>comparisonFunctionIsAlwaysTrueOrFalse</configkey>
+    <name>Suspicious variable comparison with isless()</name>
+    <description>
+      Comparison of two identical variables with isless(varName,varName) evaluates always to false.
+    </description>
+  </rule>
+  <rule>
+    <key>zerodivcond</key>
+    <configkey>zerodivcond</configkey>
+    <name>Potential division by zero</name>
+    <description>
+      Either the condition is useless or there is division by zero.
+    </description>
+  </rule>
 </rules>
