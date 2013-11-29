@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <profile>
   <name>Sonar way</name>
- <language>c++</language>
+  <language>c++</language>
   <rules>
     <!-- ##################################################  -->
     <!-- ################# cppcheck rules #################  -->
@@ -1315,7 +1315,7 @@
       <key>toomanyconfigs</key>
       <priority>MINOR</priority>
     </rule>
-    
+
     <!-- ########### Missing or new in cppcheck 1.57 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
@@ -1387,7 +1387,7 @@
       <key>redundantCopy</key>
       <priority>MINOR</priority>
     </rule>
-    
+
     <!-- ########### Missing or new in cppcheck 1.58 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
@@ -1460,7 +1460,7 @@
       <key>class_X_Y</key>
       <priority>MINOR</priority>
     </rule>
-    
+
     <!-- ########### Missing or new in cppcheck 1.60 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
@@ -1498,13 +1498,13 @@
       <repositoryKey>cppcheck</repositoryKey>
       <key>wrongPrintfScanfParameterPositionError</key>
       <priority>MAJOR</priority>
-     </rule>
-     <rule>
-       <repositoryKey>cppcheck</repositoryKey>
-       <key>obsoleteFunctionsctime_r</key>
-       <priority>MINOR</priority>
-     </rule>
-    
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsctime_r</key>
+      <priority>MINOR</priority>
+    </rule>
+
     <!-- ########### Missing or new in cppcheck 1.62 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
