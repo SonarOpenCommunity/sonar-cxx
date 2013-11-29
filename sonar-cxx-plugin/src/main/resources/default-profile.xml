@@ -1305,7 +1305,17 @@
       <key>uselessCallsRemove</key>
       <priority>MINOR</priority>
     </rule>
-
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>ConfigurationNotChecked</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>toomanyconfigs</key>
+      <priority>MINOR</priority>
+    </rule>
+    
     <!-- ########### Missing or new in cppcheck 1.57 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
@@ -1445,15 +1455,56 @@
       <key>wrongPipeParameterSize</key>
       <priority>MAJOR</priority>
     </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>class_X_Y</key>
+      <priority>MINOR</priority>
+    </rule>
+    
     <!-- ########### Missing or new in cppcheck 1.60 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>derefInvalidIterator</key>
       <priority>MINOR</priority>
     </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.61 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>arithOperationsOnVoidPointer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>commaSeparatedReturn</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nanInArithmeticExpression</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofDereferencedVoidPointer</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofVoid</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>wrongPrintfScanfParameterPositionError</key>
+      <priority>MAJOR</priority>
+     </rule>
+     <rule>
+       <repositoryKey>cppcheck</repositoryKey>
+       <key>obsoleteFunctionsctime_r</key>
+       <priority>MINOR</priority>
+     </rule>
     
-    
->>>>>>> Stashed changes
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->
