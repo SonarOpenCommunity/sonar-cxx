@@ -60,7 +60,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
     CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
     sensor.analyse(project, context);
-    verify(context, times(10)).saveViolation(any(Violation.class));
+    verify(context, times(13)).saveViolation(any(Violation.class));
   }
 
   @Test

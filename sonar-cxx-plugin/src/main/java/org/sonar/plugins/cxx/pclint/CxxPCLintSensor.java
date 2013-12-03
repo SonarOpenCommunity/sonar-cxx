@@ -35,6 +35,7 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +48,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
   private RulesProfile profile;
+  private HashSet<String> uniqueIssues = new HashSet<String>();
 
   /**
    * {@inheritDoc}
@@ -100,13 +102,23 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String line = errorCursor.getAttrValue("line");
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
+          
             if (isInputValid(file, line, id, msg)) {
               //remap MISRA IDs. Only Unique rules for MISRA 2004 and 2008 has been created in the rule repository
               if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
                   id = mapMisraRulesToUniqueSonarRules(msg);
               }
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                  file, line, id, msg);
+              String issue = file + line + id + msg;
+              if (uniqueIssues.add(issue))
+            	  if (StringUtils.isEmpty(file)) {
+            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, id, msg); 
+            	  }
+            	  else if (Integer.valueOf(line)==0){
+            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, line, id, msg);
+            	  }
+            	  else {
+            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
+            	  }
 
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
@@ -119,6 +131,10 @@ public class CxxPCLintSensor extends CxxReportSensor {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
+    	  if (StringUtils.isEmpty(file) || (Integer.valueOf(line)==0)) {
+    		  // issue for project or file level
+    		  return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+    	  }
         return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
 
