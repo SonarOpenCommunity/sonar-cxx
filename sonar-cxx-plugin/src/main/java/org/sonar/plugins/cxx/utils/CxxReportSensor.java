@@ -42,10 +42,6 @@ public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   protected Settings conf = null;
   
-  private static final String MsgSkipLine = "Skipping invalid line number: {}";
-  private static final String MsgSkipFile = "Cannot find the file '{}', skipping violation '{}'";
-  private static final String MsgSkipViolation ="Cannot find the rule {}, skipping violation";
-  
   public CxxReportSensor() {
   }
   
@@ -184,9 +180,7 @@ public abstract class CxxReportSensor implements Sensor {
           CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
   }
-
  
-  
   protected void processReport(Project project, SensorContext context, File report)
       throws Exception
   {
