@@ -25,7 +25,7 @@ import com.sonar.sslr.squid.SquidAstVisitor;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.AnnotationCheckFactory;
-import org.apache.commons.configuration.Configuration;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
@@ -48,7 +48,9 @@ import org.sonar.squid.indexer.QueryByParent;
 import org.sonar.squid.indexer.QueryByType;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -64,12 +66,12 @@ public final class CxxSquidSensor implements Sensor {
   private Project project;
   private SensorContext context;
   private AstScanner<CxxGrammar> scanner;
-  private Configuration conf;
+  private Settings conf;
   
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(RulesProfile profile, Configuration conf) {
+  public CxxSquidSensor(RulesProfile profile, Settings conf) {
     this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
     this.conf = conf;
   }
@@ -94,10 +96,13 @@ public final class CxxSquidSensor implements Sensor {
     save(squidSourceFiles);
   }
 
-  private CxxConfiguration createConfiguration(Project project, Configuration conf) {
+  private CxxConfiguration createConfiguration(Project project, Settings conf) {
     CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
     cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
-    cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
+    String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
+    if(lines.length > 0){
+      cxxConf.setDefines(Arrays.asList(lines));
+    }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     return cxxConf;
   }

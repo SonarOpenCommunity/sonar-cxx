@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import org.sonar.api.Extension;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
@@ -57,6 +58,7 @@ import java.util.List;
     defaultValue = "",
     name = "Default macro definitions",
     description = "Macro definition to use while analysing the source. Use to provide macros which cannot be resolved by other means.",
+    type = PropertyType.TEXT,
     global = true,
     project = true),
   @Property(

@@ -59,6 +59,7 @@ import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -231,7 +232,10 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
     cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
-    cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
+    String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
+    if(lines.length > 0){
+      cxxConf.setDefines(Arrays.asList(lines));
+    }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     
     for (InputFile file : files) {
