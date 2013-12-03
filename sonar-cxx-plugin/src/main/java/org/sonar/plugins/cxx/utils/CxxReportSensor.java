@@ -42,10 +42,6 @@ public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   protected Settings conf = null;
   
-  private static final String MsgSkipLine = "Skipping invalid line number: {}";
-  private static final String MsgSkipFile = "Cannot find the file '{}', skipping violation '{}'";
-  private static final String MsgSkipViolation ="Cannot find the rule {}, skipping violation";
-  
   public CxxReportSensor() {
   }
   
@@ -184,42 +180,7 @@ public abstract class CxxReportSensor implements Sensor {
           CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
   }
-
  
-  protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,
-	      String file, String ruleId, String msg) {
-	    RuleQuery ruleQuery = RuleQuery.create()
-	        .withRepositoryKey(ruleRepoKey)
-	        .withKey(ruleId);
-	    Rule rule = ruleFinder.find(ruleQuery);
-	    if (rule != null) {
-	      org.sonar.api.resources.File resource =
-	          org.sonar.api.resources.File.fromIOFile(new File(file), project);
-	      if (context.getResource(resource) != null) {
-	        Violation violation = Violation.create(rule, resource).setMessage(msg);
-	        context.saveViolation(violation);
-	      } else {
-	        CxxUtils.LOG.debug(MsgSkipFile, file, msg);
-	      }
-	    } else {
-	      CxxUtils.LOG.warn(MsgSkipViolation, ruleId);
-	    }
-	  }
-  
-  protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,
-	      String ruleId, String msg) {
-	    RuleQuery ruleQuery = RuleQuery.create()
-	        .withRepositoryKey(ruleRepoKey)
-	        .withKey(ruleId);
-	    Rule rule = ruleFinder.find(ruleQuery);
-	    if (rule != null) {
-	        Violation violation = Violation.create(rule, project).setMessage(msg);
-	        context.saveViolation(violation);
-	        } else {
-		    CxxUtils.LOG.warn(MsgSkipViolation, ruleId);
-		    }
-	  }  
-  
   protected void processReport(Project project, SensorContext context, File report)
       throws Exception
   {

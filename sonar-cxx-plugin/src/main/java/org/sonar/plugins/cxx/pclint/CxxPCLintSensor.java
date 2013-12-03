@@ -103,23 +103,14 @@ public class CxxPCLintSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("number");
           String msg = errorCursor.getAttrValue("desc");
           
-            if (isInputValid(file, line, id, msg)) {
-              //remap MISRA IDs. Only Unique rules for MISRA 2004 and 2008 has been created in the rule repository
-              if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
-                  id = mapMisraRulesToUniqueSonarRules(msg);
-              }
-              String issue = file + line + id + msg;
-              if (uniqueIssues.add(issue))
-            	  if (StringUtils.isEmpty(file)) {
-            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, id, msg); 
-            	  }
-            	  else if (Integer.valueOf(line)==0){
-            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, id, msg);
-            	  }
-            	  else {
-            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
-            	  }
-
+          if (isInputValid(file, line, id, msg)) {
+            //remap MISRA IDs. Only Unique rules for MISRA 2004 and 2008 has been created in the rule repository
+            if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
+              id = mapMisraRulesToUniqueSonarRules(msg);
+            }
+            String issue = file + line + id + msg;
+            if (uniqueIssues.add(issue))
+              saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
 
