@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ASCII"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rules>
   <rule>
     <key>AssignmentAddressToInteger</key>
@@ -187,7 +187,7 @@
     <name>Invalid usage of memset|memmove|memcpy on classes</name>
     <description>
       Usage of the functions from the memset-family on classes should
-      be avoided because it leads to undefined behaviour in a number of
+      be avoided because it leads to undefined behavior in a number of
       cases (e.g. when the class contains a virtual method). Use
       constructors or init-routines to initialize your members instead.
     </description>
@@ -244,9 +244,9 @@
   <rule>
     <key>exceptRethrowCopy</key>
     <configkey>exceptRethrowCopy</configkey>
-    <name>Throwing a copy of the caught exception instead of rethrowing the original exception</name>
+    <name>Throwing a copy of the caught exception instead of re-throwing the original exception</name>
     <description>
-      Throwing a copy of the caught exception instead of rethrowing
+      Throwing a copy of the caught exception instead of re-throwing
       the original exception.
     </description>
   </rule>
@@ -334,9 +334,9 @@
   <rule>
     <key>memleakOnRealloc</key>
     <configkey>memleakOnRealloc</configkey>
-    <name>Common realloc mistake: variable nulled but not freed upon failure</name>
+    <name>Common re-alloc mistake: variable nulled but not freed upon failure</name>
     <description>
-      Common realloc mistake: variable nulled but not freed upon
+      Common re-alloc mistake: variable nulled but not freed upon
       failure.
     </description>
   </rule>
@@ -345,7 +345,7 @@
     <configkey>nonreentrantFunctionsasctime</configkey>
     <name>Avoid usage of the function 'asctime'</name>
     <description>
-      The function 'asctime' is not reentrant. For threadsafe
+      The function 'asctime' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'asctime_r'.
     </description>
@@ -355,7 +355,7 @@
     <configkey>nonreentrantFunctionscrypt</configkey>
     <name>Avoid usage of the function 'crypt'</name>
     <description>
-      The function 'crypt' is not reentrant. For threadsafe
+      The function 'crypt' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'crypt_r'.
     </description>
@@ -365,7 +365,7 @@
     <configkey>nonreentrantFunctionsctermid</configkey>
     <name>Avoid usage of the function 'ctermid'</name>
     <description>
-      The function 'ctermid' is not reentrant. For threadsafe
+      The function 'ctermid' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'ctermid_r'.
     </description>
@@ -385,7 +385,7 @@
     <configkey>nonreentrantFunctionsecvt</configkey>
     <name>Avoid usage of the function 'ecvt'</name>
     <description>
-      The function 'ecvt' is not reentrant. For threadsafe
+      The function 'ecvt' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'ecvt_r'.
     </description>
@@ -395,7 +395,7 @@
     <configkey>nonreentrantFunctionsfcvt</configkey>
     <name>Avoid usage of the function 'fcvt'</name>
     <description>
-      The function 'fcvt' is not reentrant. For threadsafe
+      The function 'fcvt' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'fcvt_r'.
     </description>
@@ -405,7 +405,7 @@
     <configkey>nonreentrantFunctionsfgetgrent</configkey>
     <name>Avoid usage of the function 'fgetgrent'</name>
     <description>
-      The function 'fgetgrent' is not reentrant. For threadsafe
+      The function 'fgetgrent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'fgetgrent_r'.
     </description>
@@ -415,7 +415,7 @@
     <configkey>nonreentrantFunctionsfgetpwent</configkey>
     <name>Avoid usage of the function 'fgetpwent'</name>
     <description>
-      The function 'fgetpwent' is not reentrant. For threadsafe
+      The function 'fgetpwent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'fgetpwent_r'.
     </description>
@@ -425,7 +425,7 @@
     <configkey>nonreentrantFunctionsfgetspent</configkey>
     <name>Avoid usage of the function 'fgetspent'</name>
     <description>
-      The function 'fgetspent' is not reentrant. For threadsafe
+      The function 'fgetspent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'fgetspent_r'.
     </description>
@@ -435,7 +435,7 @@
     <configkey>nonreentrantFunctionsgcvt</configkey>
     <name>Avoid usage of the function 'gcvt'</name>
     <description>
-      The function 'gcvt' is not reentrant. For threadsafe
+      The function 'gcvt' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'gcvt_r'.
     </description>
@@ -445,7 +445,7 @@
     <configkey>nonreentrantFunctionsgetgrent</configkey>
     <name>Avoid usage of the function 'getgrent'</name>
     <description>
-      The function 'getgrent' is not reentrant. For threadsafe
+      The function 'getgrent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getgrent_r'.
     </description>
@@ -455,7 +455,7 @@
     <configkey>nonreentrantFunctionsgetgrgid</configkey>
     <name>Avoid usage of the function 'getgrgid'</name>
     <description>
-      The function 'getgrgid' is not reentrant. For threadsafe
+      The function 'getgrgid' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getgrgid_r'.
     </description>
@@ -465,7 +465,7 @@
     <configkey>nonreentrantFunctionsgetgrnam</configkey>
     <name>Avoid usage of the function 'getgrnam'</name>
     <description>
-      The function 'getgrnam' is not reentrant. For threadsafe
+      The function 'getgrnam' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getgrnam_r'.
     </description>
@@ -475,7 +475,7 @@
     <configkey>nonreentrantFunctionsgethostbyaddr</configkey>
     <name>Avoid usage of the function 'gethostbyaddr'</name>
     <description>
-      The function 'gethostbyaddr' is not reentrant. For threadsafe
+      The function 'gethostbyaddr' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'gethostbyaddr_r'.
     </description>
@@ -485,7 +485,7 @@
     <configkey>nonreentrantFunctionsgethostbyname</configkey>
     <name>Avoid usage of the function 'gethostbyname'</name>
     <description>
-      The function 'gethostbyname' is not reentrant. For threadsafe
+      The function 'gethostbyname' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'gethostbyname_r'.
     </description>
@@ -495,7 +495,7 @@
     <configkey>nonreentrantFunctionsgethostbyname2</configkey>
     <name>Avoid usage of the function 'gethostbyname2'</name>
     <description>
-      The function 'gethostbyname2' is not reentrant. For threadsafe
+      The function 'gethostbyname2' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'gethostbyname2_r'.
     </description>
@@ -505,7 +505,7 @@
     <configkey>nonreentrantFunctionsgethostent</configkey>
     <name>Avoid usage of the function 'gethostent'</name>
     <description>
-      The function 'gethostent' is not reentrant. For threadsafe
+      The function 'gethostent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'gethostent_r'.
     </description>
@@ -515,7 +515,7 @@
     <configkey>nonreentrantFunctionsgetlogin</configkey>
     <name>Avoid usage of the function 'getlogin'</name>
     <description>
-      The function 'getlogin' is not reentrant. For threadsafe
+      The function 'getlogin' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getlogin_r'.
     </description>
@@ -525,7 +525,7 @@
     <configkey>nonreentrantFunctionsgetnetbyaddr</configkey>
     <name>Avoid usage of the function 'getnetbyaddr'</name>
     <description>
-      The function 'getnetbyaddr' is not reentrant. For threadsafe
+      The function 'getnetbyaddr' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getnetbyaddr_r'.
     </description>
@@ -545,7 +545,7 @@
     <configkey>nonreentrantFunctionsgetnetgrent</configkey>
     <name>Avoid usage of the function 'getnetgrent'</name>
     <description>
-      The function 'getnetgrent' is not reentrant. For threadsafe
+      The function 'getnetgrent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getnetgrent_r'.
     </description>
@@ -555,7 +555,7 @@
     <configkey>nonreentrantFunctionsgetprotobyname</configkey>
     <name>Avoid usage of the function 'getprotobyname'</name>
     <description>
-      The function 'getprotobyname' is not reentrant. For threadsafe
+      The function 'getprotobyname' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getprotobyname_r'.
     </description>
@@ -565,7 +565,7 @@
     <configkey>nonreentrantFunctionsgetpwent</configkey>
     <name>Avoid usage of the function 'getpwent'</name>
     <description>
-      The function 'getpwent' is not reentrant. For threadsafe
+      The function 'getpwent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getpwent_r'.
     </description>
@@ -575,7 +575,7 @@
     <configkey>nonreentrantFunctionsgetpwnam</configkey>
     <name>Avoid usage of the function 'getpwnam'</name>
     <description>
-      The function 'getpwnam' is not reentrant. For threadsafe
+      The function 'getpwnam' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getpwnam_r'.
     </description>
@@ -585,7 +585,7 @@
     <configkey>nonreentrantFunctionsgetpwuid</configkey>
     <name>Avoid usage of the function 'getpwuid'</name>
     <description>
-      The function 'getpwuid' is not reentrant. For threadsafe
+      The function 'getpwuid' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getpwuid_r'.
     </description>
@@ -595,7 +595,7 @@
     <configkey>nonreentrantFunctionsgetrpcbyname</configkey>
     <name>Avoid usage of the function 'getrpcbyname'</name>
     <description>
-      The function 'getrpcbyname' is not reentrant. For threadsafe
+      The function 'getrpcbyname' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getrpcbyname_r'.
     </description>
@@ -605,7 +605,7 @@
     <configkey>nonreentrantFunctionsgetrpcbynumber</configkey>
     <name>Avoid usage of the function 'getrpcbynumber'</name>
     <description>
-      The function 'getrpcbynumber' is not reentrant. For threadsafe
+      The function 'getrpcbynumber' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getrpcbynumber_r'.
     </description>
@@ -615,7 +615,7 @@
     <configkey>nonreentrantFunctionsgetrpcent</configkey>
     <name>Avoid usage of the function 'getrpcent'</name>
     <description>
-      The function 'getrpcent' is not reentrant. For threadsafe
+      The function 'getrpcent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getrpcent_r'.
     </description>
@@ -625,7 +625,7 @@
     <configkey>nonreentrantFunctionsgetservbyname</configkey>
     <name>Avoid usage of the function 'getservbyname'</name>
     <description>
-      The function 'getservbyname' is not reentrant. For threadsafe
+      The function 'getservbyname' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getservbyname_r'.
     </description>
@@ -635,7 +635,7 @@
     <configkey>nonreentrantFunctionsgetservbyport</configkey>
     <name>Avoid usage of the function 'getservbyport'</name>
     <description>
-      The function 'getservbyport' is not reentrant. For threadsafe
+      The function 'getservbyport' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getservbyport_r'.
     </description>
@@ -645,7 +645,7 @@
     <configkey>nonreentrantFunctionsgetservent</configkey>
     <name>Avoid usage of the function 'getservent'</name>
     <description>
-      The function 'getservent' is not reentrant. For threadsafe
+      The function 'getservent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getservent_r'.
     </description>
@@ -655,7 +655,7 @@
     <configkey>nonreentrantFunctionsgetspent</configkey>
     <name>Avoid usage of the function 'getspent'</name>
     <description>
-      The function 'getspent' is not reentrant. For threadsafe
+      The function 'getspent' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getspent_r'.
     </description>
@@ -665,7 +665,7 @@
     <configkey>nonreentrantFunctionsgetspnam</configkey>
     <name>Avoid usage of the function 'getspnam'</name>
     <description>
-      The function 'getspnam' is not reentrant. For threadsafe
+      The function 'getspnam' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'getspnam_r'.
     </description>
@@ -675,7 +675,7 @@
     <configkey>nonreentrantFunctionsgmtime</configkey>
     <name>Avoid usage of the function 'gmtime'</name>
     <description>
-      The function 'gmtime' is not reentrant. For threadsafe
+      The function 'gmtime' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'gmtime_r'.
     </description>
@@ -685,7 +685,7 @@
     <configkey>nonreentrantFunctionslocaltime</configkey>
     <name>Avoid usage of the function 'localtime'</name>
     <description>
-      The function 'localtime' is not reentrant. For threadsafe
+      The function 'localtime' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'localtime_r'.
     </description>
@@ -695,7 +695,7 @@
     <configkey>nonreentrantFunctionsrand</configkey>
     <name>Avoid usage of the function 'rand'</name>
     <description>
-      The function 'rand' is not reentrant. For threadsafe
+      The function 'rand' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'rand_r'.
     </description>
@@ -705,7 +705,7 @@
     <configkey>nonreentrantFunctionsreaddir</configkey>
     <name>Avoid usage of the function 'readdir'</name>
     <description>
-      The function 'readdir' is not reentrant. For threadsafe
+      The function 'readdir' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'readdir_r'.
     </description>
@@ -715,7 +715,7 @@
     <configkey>nonreentrantFunctionsstrtok</configkey>
     <name>Avoid usage of the function 'strtok'</name>
     <description>
-      The function 'strtok' is not reentrant. For threadsafe
+      The function 'strtok' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'strtok_r'.
     </description>
@@ -725,7 +725,7 @@
     <configkey>nonreentrantFunctionstempnam</configkey>
     <name>Avoid usage of the function 'tempnam'</name>
     <description>
-      The function 'tempnam' is not reentrant. For threadsafe
+      The function 'tempnam' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'tempnam_r'.
     </description>
@@ -735,7 +735,7 @@
     <configkey>nonreentrantFunctionstmpnam</configkey>
     <name>Avoid usage of the function 'tmpnam'</name>
     <description>
-      The function 'tmpnam' is not reentrant. For threadsafe
+      The function 'tmpnam' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'tmpnam_r'.
     </description>
@@ -745,7 +745,7 @@
     <configkey>nonreentrantFunctionsttyname</configkey>
     <name>Avoid usage of the function 'ttyname'</name>
     <description>
-      The function 'ttyname' is not reentrant. For threadsafe
+      The function 'ttyname' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'ttyname_r'.
     </description>
@@ -1034,10 +1034,10 @@
   <rule>
     <key>fflushOnInputStream</key>
     <configkey>fflushOnInputStream</configkey>
-    <name>fflush() called on input stream "stdin" may result in undefined behaviour</name>
+    <name>fflush() called on input stream "stdin" may result in undefined behavior</name>
     <description>
       fflush() called on input stream "stdin" may result in undefined
-      behaviour.
+      behavior.
     </description>
   </rule>
   <rule>
@@ -1462,7 +1462,7 @@
     <description>
       Object pointed by an 'auto_ptr' is destroyed using operator
       'delete'. Calling 'delete' an an pointer obtained with 'new[]' leads
-      to undefined behaviour.
+      to undefined behavior.
     </description>
   </rule>
   <rule>
@@ -1480,14 +1480,6 @@
     <name>Data is allocated but not initialized</name>
     <description>
       Data is allocated but not initialized.
-    </description>
-  </rule>
-  <rule>
-    <key>uninitvar</key>
-    <configkey>uninitvar</configkey>
-    <name>Uninitialized variable</name>
-    <description>
-      Uninitialized variable.
     </description>
   </rule>
   <rule>
@@ -1983,7 +1975,7 @@
   <rule>
     <key>virtualDestructor</key>
     <configkey>virtualDestructor</configkey>
-    <name>Base classes should have virtual destructors</name>
+    <name>Base classes should have virtual destructor's</name>
     <description>
       Class Base which is inherited by class Derived does not have a virtual destructor
     </description>
@@ -2047,7 +2039,7 @@
     <configkey>IOWithoutPositioning</configkey>
     <name>Read and write operations without a call to a positioning function</name>
     <description>
-      Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behaviour.
+      Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behavior.
     </description>
   </rule>
   <rule>
@@ -2517,7 +2509,7 @@
     <key>uselessAssignmentPtrArg</key>
     <configkey>uselessAssignmentPtrArg</configkey>
     <name>
-      Effectless function parameter assignment.
+      Effect-less function parameter assignment.
     </name>
     <description>
       Assignment of function parameter has no effect outside the function.
@@ -2528,10 +2520,10 @@
     <key>varFuncNullUB</key>
     <configkey>varFuncNullUB</configkey>
     <name>
-      Passing NULL after the last typed argument to a variadic function leads to undefined behaviour.
+      Passing NULL after the last typed argument to a variadic function leads to undefined behavior.
     </name>
     <description>
-      Passing NULL after the last typed argument to a variadic function leads to undefined behaviour.
+      Passing NULL after the last typed argument to a variadic function leads to undefined behavior.
     </description>
   </rule>
 
@@ -2560,7 +2552,7 @@
   <rule>
     <key>class_X_Y</key>
     <configkey>class_X_Y</configkey>
-    <name>Unhandles code</name>
+    <name>Unhandled code</name>
     <description>
       This code is not handled. You can use -I or --include to add handling of this code.
     </description>
@@ -2583,10 +2575,10 @@
     <key>arithOperationsOnVoidPointer</key>
     <configkey>arithOperationsOnVoidPointer</configkey>
     <name>
-      Undefined pointer calculation behaviour
+      Undefined pointer calculation behavior
     </name>
     <description>
-      When using void pointers in calculations, the behaviour is undefined.
+      When using void pointers in calculations, the behavior is undefined.
     </description>
   </rule>
   <rule>
@@ -2596,7 +2588,7 @@
       Usage of comma in return statements
     </name>
     <description>
-      Dont use the comma in return statements: it can be easily be misread as a ';'.
+      Do not use the comma in return statements: it can be easily be misread as a ';'.
     </description>
   </rule>
   <rule>
@@ -2616,17 +2608,17 @@
       Usage of 'sizeof' on dereferenced void pointer.
     </name>
     <description>
-      The behaviour of 'sizeof(void)' is not covered by the ISO C standard.
+      The behavior of 'sizeof(void)' is not covered by the ISO C standard.
     </description>
   </rule>
   <rule>
     <key>sizeofVoid</key>
     <configkey>sizeofVoid</configkey>
     <name>
-      Behaviour of 'sizeof(void)' is undefined
+      Behavior of 'sizeof(void)' is undefined
     </name>
     <description>
-      Behaviour of 'sizeof(void)' is not covered by the ISO C standard.
+      Behavior of 'sizeof(void)' is not covered by the ISO C standard.
     </description>
   </rule>
   <rule>
@@ -2672,7 +2664,7 @@
   <rule>
     <key>invalidScanfArgType_float</key>
     <configkey>invalidScanfArgType_float</configkey>
-    <name>Mistmatch in string format: 'float *' vs Unknown.</name>
+    <name>Mismatch in string format: 'float *' vs Unknown.</name>
     <description>
       %f in format string requires 'float *' but the argument type is Unknown.
     </description>
@@ -2701,4 +2693,25 @@
       Either the condition is useless or there is division by zero.
     </description>
   </rule>
+  <!-- ########### New in cppcheck 1.63 ########### -->
+  <rule>
+    <key>redundantNextPrevious</key>
+    <configkey>redundantNextPrevious</configkey>
+    <name>
+      Inefficient sequence of ::previous(), ::next() statement
+    </name>
+    <description>
+      Call to 'Token::previous()' followed by 'Token::next()' can be simplified.
+    </description>  
+   </rule>
+     <rule>
+    <key>simplePatternError</key>
+    <configkey>simplePatternError</configkey>
+    <name>
+      Simple pattern used - should be more specific
+    </name>
+    <description>
+      Found simple pattern inside Token::Match() call: "class {"
+    </description>  
+   </rule>
 </rules>
