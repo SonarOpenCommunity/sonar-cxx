@@ -114,7 +114,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
             		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, id, msg); 
             	  }
             	  else if (Integer.valueOf(line)==0){
-            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, line, id, msg);
+            		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, id, msg);
             	  }
             	  else {
             		  saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
