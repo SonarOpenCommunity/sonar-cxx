@@ -10,4 +10,7 @@
 <issue file =".\ZipManager.cpp" line = "40" number = "888" desc = "case constant '0' used previously in this switch"/>
 <issue file =".\FileZip.cpp" line = "64" number = "765" desc = "external 'theApp' (line 64, file .\FileZip.cpp) could be made static"/>
 <issue file =".\FileZip.cpp" line = "66" number = "1268" desc = "Internal Error; contact Gimpel Software."/>
+<issue file ="" line = "0" number = "1960" desc = "Violates MISRA C++ 2008 Required Rule 0-1-8, Void return type for function without external side-effects: ATL::AtlThrowImpl(long)"/>
+<issue file ="" line = "0" number = "974" desc = "Worst case function for stack usage: 'CreateZipFile' calls a non-deterministic function: 'FileManager::CreateZipFile'. See +stack for a full report."/>
+<issue file =".\ZipManager.cpp" line = "0" number = "9022" desc = "unparenthesized macro parameter in definition of macro '__identifier'"/>
 </doc>

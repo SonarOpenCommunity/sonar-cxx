@@ -1323,6 +1323,13 @@
     It was necessary to make this message a fatal error since attempting to bypass headers that do not follow a consistent header sequence is an act of folly. It is possible to continue on after the 328 in hopes of picking up more inconsistencies in other modules. This can be done using the +fce (Continue-on-Error) flag.</description>
   </rule>
   <rule>
+    <key>330</key>
+    <configkey>330</configkey>
+    <priority>BLOCKER</priority>
+    <name>L0330: Static assertion failure: 'String'</name>
+    <description>Static assertion failure.</description>
+  </rule>
+  <rule>
     <key>333</key>
     <configkey>333</configkey>
     <priority>BLOCKER</priority>
@@ -5250,7 +5257,7 @@
     <key>1046</key>
     <configkey>1046</configkey>
     <priority>CRITICAL</priority>
-    <name>L1044: member 'Symbol', referenced in a static function, requires an object</name>
+    <name>L1046: member 'Symbol', referenced in a static function, requires an object</name>
     <description>The Symbol is a non-static member of a class and hence requires a class instantiation. None is in sight. [10, ?9.4]</description>
   </rule>
   <rule>
