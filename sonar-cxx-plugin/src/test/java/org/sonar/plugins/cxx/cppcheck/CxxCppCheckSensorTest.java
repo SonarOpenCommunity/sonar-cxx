@@ -41,13 +41,17 @@ public class CxxCppCheckSensorTest {
   private CxxCppCheckSensor sensor;
   private SensorContext context;
   private Project project;
+  private RulesProfile profile;
+  private RuleFinder ruleFinder;
+  private Settings settings;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    RulesProfile profile = mock(RulesProfile.class);
-    sensor = new CxxCppCheckSensor(ruleFinder, new Settings(), profile);
+    ruleFinder = TestUtils.mockRuleFinder();
+    profile = mock(RulesProfile.class);
+    settings = new Settings();
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, profile);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -56,6 +60,15 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(6)).saveViolation(any(Violation.class));
+    verify(context, times(5)).saveViolation(any(Violation.class));
+  }
+
+  @Test
+  public void shouldReportProjectLevelViolations() {
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+                         "cppcheck-reports/cppcheck-result-projectlevelviolation.xml");
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, profile);
+    sensor.analyse(project, context);
+    verify(context, times(1)).saveViolation(any(Violation.class));
   }
 }

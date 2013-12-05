@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<results>
+<error id="someid" severity="error" msg="somemessage"/>
+</results>

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<results>
+<error id="cxxexternal-unusedFunction" msg="The function 'foo' is never used"/>
+</results>
