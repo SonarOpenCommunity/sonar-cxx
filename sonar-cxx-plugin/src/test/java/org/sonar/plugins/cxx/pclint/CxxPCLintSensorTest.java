@@ -96,4 +96,13 @@ public class CxxPCLintSensorTest {
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }
+
+  @Test
+  public void shouldReportProjectLevelViolations() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-projectlevelviolation.xml");
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
+    sensor.analyse(project, context);
+    verify(context, times(1)).saveViolation(any(Violation.class));
+  }
 }

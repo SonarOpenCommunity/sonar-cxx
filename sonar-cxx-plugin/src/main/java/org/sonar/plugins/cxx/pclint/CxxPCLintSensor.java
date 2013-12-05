@@ -119,7 +119,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
 
       /**

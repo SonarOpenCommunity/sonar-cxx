@@ -136,29 +136,46 @@ public abstract class CxxReportSensor implements Sensor {
     return reports;
   }
 
+  /**
+   * Saves a code violation which is detected in the given file/line
+   * and has given ruleId and message. Saves it to the given project and context.
+   * Project or file-level violations can be saved by passing null for the according parameters
+   * ('file' = 'line' = null for project level, 'line' = null for file-level)
+   */
   protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,
-      String file, String line, String ruleId, String msg) {
+                               String file, String line, String ruleId, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()
-        .withRepositoryKey(ruleRepoKey)
-        .withKey(ruleId);
+      .withRepositoryKey(ruleRepoKey)
+      .withKey(ruleId);
     Rule rule = ruleFinder.find(ruleQuery);
     if (rule != null) {
-      org.sonar.api.resources.File resource =
+      Violation violation = null;
+      if (file != null){
+        org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
-      if (context.getResource(resource) != null) {
-        Violation violation = Violation.create(rule, resource).setMessage(msg);
-        if (line != null){
-          try{
-            int linenr = Integer.parseInt(line);
-            violation.setLineId(linenr);
-          }catch(java.lang.NumberFormatException nfe){
-            CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+        if (context.getResource(resource) != null) {
+          // file level violation
+          violation = Violation.create(rule, resource);
+
+          // considering the line information for file level violations only
+          if (line != null){
+            try{
+              int linenr = Integer.parseInt(line);
+              violation.setLineId(linenr);
+            } catch(java.lang.NumberFormatException nfe){
+              CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+            }
           }
+        } else {
+          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violation '{}'", file, msg);
         }
-        context.saveViolation(violation);
       } else {
-        CxxUtils.LOG.debug("Cannot find the file '{}', skipping violation '{}'", file, msg);
+        // project level violation
+        violation = Violation.create(rule, project);
       }
+
+      violation.setMessage(msg);
+      context.saveViolation(violation);
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }

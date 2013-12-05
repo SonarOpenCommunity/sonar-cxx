@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<results>
+<error file="sources/utils/code_chunks.cpp" id="cxxexternal-unusedFunction" msg="The function 'foo' is never used"/>
+</results>
