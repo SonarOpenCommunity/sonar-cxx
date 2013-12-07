@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="us-ascii"?>
 <rules>
   <rule>
     <key>AssignmentAddressToInteger</key>
@@ -1975,7 +1975,7 @@
   <rule>
     <key>virtualDestructor</key>
     <configkey>virtualDestructor</configkey>
-    <name>Base classes should have virtual destructor's</name>
+    <name>Base classes should have virtual destructors</name>
     <description>
       Class Base which is inherited by class Derived does not have a virtual destructor
     </description>
@@ -2509,7 +2509,7 @@
     <key>uselessAssignmentPtrArg</key>
     <configkey>uselessAssignmentPtrArg</configkey>
     <name>
-      Effect-less function parameter assignment.
+      Effectless function parameter assignment.
     </name>
     <description>
       Assignment of function parameter has no effect outside the function.
