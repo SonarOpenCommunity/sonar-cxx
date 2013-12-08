@@ -102,6 +102,13 @@ public class StatementTest {
   }
 
   @Test
+  public void compountStatement_errorRecovery() {
+    p.setRootRule(g.compoundStatement);
+
+    assertThat(p, parse("{ <trash> jjj <<<<]]]] }"));
+  }
+ 
+  @Test
   public void statementSeq() {
     p.setRootRule(g.statementSeq);
 
@@ -232,4 +239,11 @@ public class StatementTest {
 
     assertThat(p, parse("return foo()->i;"));
   }
+
+  // @Test
+  // public void jumpStatement_errorRecovery() {
+  //   p.setRootRule(g.jumpStatement);
+
+  //   assertThat(p, parse("return boom bamm boo;"));
+  // }
 }
