@@ -22,6 +22,7 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.matcher.GrammarFunctions;
 import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.CxxConfiguration;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
@@ -42,9 +43,11 @@ import static org.sonar.cxx.api.CxxTokenType.STRING;
  * Based on the C++ Standard, Appendix A
  */
 public class CxxGrammarImpl extends CxxGrammar {
-  private boolean error_recovery = true;
+  private CxxConfiguration conf = null;
   
-  public CxxGrammarImpl() {
+  public CxxGrammarImpl(CxxConfiguration conf) {
+    this.conf = conf;
+    
     toplevel();
     expressions();
     statements();
@@ -346,22 +349,20 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     expressionStatement.is(opt(expression), ";");
 
-    compoundStatement.is("{",
-                         or(
-                           and(
-                             opt(statementSeq),
-                             "}"
-                             ),
-                           errorInCompoundStatement
-                           )
-      );
+    compoundStatement.is("{", or(and(opt(statementSeq), "}"), errorInCompoundStatement));
 
-    if(error_recovery == true){
-      errorInCompoundStatement.is(o2n(not("}"), anyToken()), "}");
+    if(conf.getErrorRecoveryEnabled() == true){
+      errorInCompoundStatement.is(o2n(somethingContainingCompoundStatement), tailOfACompoundStatement);
     }
     else{
       errorInCompoundStatement.is(isFalse());
     }
+
+    somethingContainingCompoundStatement.is(o2n(allButCurlyBracket), "{", opt(statementSeq), "}");
+
+    tailOfACompoundStatement.is(o2n(not("}"), anyToken()), "}");
+    
+    allButCurlyBracket.is(not(or("{", "}")), anyToken());
     
     statementSeq.is(one2n(statement));
 

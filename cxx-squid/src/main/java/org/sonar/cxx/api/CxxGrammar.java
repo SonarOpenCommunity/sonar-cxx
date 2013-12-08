@@ -81,6 +81,10 @@ public class CxxGrammar extends Grammar {
   public Rule expressionStatement;
   public Rule compoundStatement;
   public Rule errorInCompoundStatement;
+  public Rule somethingContainingCompoundStatement;
+  public Rule tailOfACompoundStatement;
+  public Rule allButCurlyBracket;
+
   public Rule statementSeq;
   public Rule selectionStatement;
   public Rule condition;

@@ -4,9 +4,14 @@ int main(){
     {
         [[[[ lalla error bla // should be consumed by the err. recovery of
              // on compound statement level
+        {
+            {aaaaaaaaaaaa}
+        }
     }
     
-    int i = 1;     // on simple declaration level: doesnt work
+    //intc c c c c c i = 1;     // on simple declaration level: doesnt work
+    int i = 1;
+           
     switch(i){
     case 1:
         break;
