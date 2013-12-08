@@ -165,14 +165,23 @@ import java.util.List;
     name = "URL of the xslt transformer",
     description = "TODO",
     global = false,
+    project = true),
+  @Property(
+    key = "sonar.cxx.errorRecoveryEnabled",
+    defaultValue = "true",
+    name = "Parse error recovery control",
+    description = "Enables/disables the parse error recovery. For development purposes.",
+    type = PropertyType.BOOLEAN,
+    global = false,
     project = true)
-})
+    })
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
-
+  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
+  
   /**
    * {@inheritDoc}
    */

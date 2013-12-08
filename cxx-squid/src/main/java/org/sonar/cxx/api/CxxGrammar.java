@@ -80,6 +80,11 @@ public class CxxGrammar extends Grammar {
   public Rule labeledStatement;
   public Rule expressionStatement;
   public Rule compoundStatement;
+  public Rule errorInCompoundStatement;
+  public Rule somethingContainingCompoundStatement;
+  public Rule tailOfACompoundStatement;
+  public Rule allButCurlyBracket;
+
   public Rule statementSeq;
   public Rule selectionStatement;
   public Rule condition;
@@ -88,6 +93,7 @@ public class CxxGrammar extends Grammar {
   public Rule forRangeDeclaration;
   public Rule forRangeInitializer;
   public Rule jumpStatement;
+  public Rule errorInJumpStatement;
   public Rule declarationStatement;
 
   // Declarations
@@ -96,6 +102,7 @@ public class CxxGrammar extends Grammar {
   public Rule blockDeclaration;
   public Rule aliasDeclaration;
   public Rule simpleDeclaration;
+  public Rule errorInSimpleDeclaration;
   public Rule staticAssertDeclaration;
   public Rule emptyDeclaration;
   public Rule attributeDeclaration;
