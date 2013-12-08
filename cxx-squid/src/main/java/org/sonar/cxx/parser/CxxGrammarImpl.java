@@ -32,6 +32,8 @@ import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.o2n;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.one2n;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
 import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
+import static com.sonar.sslr.impl.matcher.GrammarFunctions.Advanced.isFalse;
+import static com.sonar.sslr.impl.matcher.GrammarFunctions.Advanced.anyToken;
 import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
@@ -40,6 +42,8 @@ import static org.sonar.cxx.api.CxxTokenType.STRING;
  * Based on the C++ Standard, Appendix A
  */
 public class CxxGrammarImpl extends CxxGrammar {
+  private boolean error_recovery = true;
+  
   public CxxGrammarImpl() {
     toplevel();
     expressions();
@@ -342,8 +346,23 @@ public class CxxGrammarImpl extends CxxGrammar {
 
     expressionStatement.is(opt(expression), ";");
 
-    compoundStatement.is("{", opt(statementSeq), "}");
+    compoundStatement.is("{",
+                         or(
+                           and(
+                             opt(statementSeq),
+                             "}"
+                             ),
+                           errorInCompoundStatement
+                           )
+      );
 
+    if(error_recovery == true){
+      errorInCompoundStatement.is(o2n(not("}"), anyToken()), "}");
+    }
+    else{
+      errorInCompoundStatement.is(isFalse());
+    }
+    
     statementSeq.is(one2n(statement));
 
     selectionStatement.is(
@@ -407,10 +426,18 @@ public class CxxGrammarImpl extends CxxGrammar {
             and(CxxKeyword.CONTINUE, ";"),
             and(CxxKeyword.RETURN, opt(expression), ";"),
             and(CxxKeyword.RETURN, bracedInitList, ";"),
-            and(CxxKeyword.GOTO, IDENTIFIER, ";")
-        )
+            and(CxxKeyword.GOTO, IDENTIFIER, ";")//,
+            //errorInJumpStatement
+          )
         );
-
+    
+    // if(error_recovery == true){
+    //   errorInJumpStatement.is(o2n(not(";"), anyToken()), ";");
+    // }
+    // else{
+    //   errorInJumpStatement.is(isFalse());
+    // }
+    
     declarationStatement.is(blockDeclaration);
   }
 
@@ -449,10 +476,18 @@ public class CxxGrammarImpl extends CxxGrammar {
     simpleDeclaration.is(
         or(
             and(opt(simpleDeclSpecifierSeq), opt(initDeclaratorList), ";"),
-            and(attributeSpecifierSeq, opt(simpleDeclSpecifierSeq), initDeclaratorList, ";")
-        )
+            and(attributeSpecifierSeq, opt(simpleDeclSpecifierSeq), initDeclaratorList, ";")//,
+            //errorInSimpleDeclaration
+          )
         );
-
+    
+    // if(error_recovery == true){
+    //   errorInSimpleDeclaration.is(o2n(not(";"), anyToken()), ";");
+    // }
+    // else{
+    //   errorInSimpleDeclaration.is(isFalse());
+    // }
+    
     simpleDeclSpecifierSeq.is(
         one2n(
             not(and(opt(initDeclaratorList), ";")),
