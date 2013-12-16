@@ -310,12 +310,12 @@
                 <rule-key>579</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0</val>
-                    <txt>undefined</txt>
+                    <val>1</val>
+                    <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>undefined</txt>
+                    <txt>linear</txt>
                 </prop>
             </chc>
             <chc>
@@ -852,11 +852,11 @@
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
-                    <txt>undefined</txt>
+                    <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>undefined</txt>
+                    <txt>linear</txt>
                 </prop>
             </chc>
             <chc>
@@ -1046,7 +1046,7 @@
                 <rule-key>C4001</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1833,7 +1833,7 @@
                 <rule-key>525</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1846,7 +1846,7 @@
                 <rule-key>539</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1859,7 +1859,7 @@
                 <rule-key>602</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1937,7 +1937,7 @@
                 <rule-key>F001</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1963,7 +1963,7 @@
                 <rule-key>L001</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,01</val>
+                    <val>0.01</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1976,7 +1976,7 @@
                 <rule-key>L002</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,01</val>
+                    <val>0.01</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2041,7 +2041,7 @@
                 <rule-key>T003</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2054,7 +2054,7 @@
                 <rule-key>T004</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2067,7 +2067,7 @@
                 <rule-key>T005</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2080,7 +2080,7 @@
                 <rule-key>T006</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2093,7 +2093,7 @@
                 <rule-key>T007</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2106,7 +2106,7 @@
                 <rule-key>T008</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2119,7 +2119,7 @@
                 <rule-key>T009</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2132,7 +2132,7 @@
                 <rule-key>T011</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2500,7 +2500,7 @@
                 <rule-key>608</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2604,7 +2604,7 @@
                 <rule-key>691</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -7292,7 +7292,7 @@
                 <rule-key>571</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -7331,7 +7331,7 @@
                 <rule-key>583</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -7383,7 +7383,7 @@
                 <rule-key>609</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -7396,7 +7396,7 @@
                 <rule-key>610</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -10541,12 +10541,12 @@
                 <rule-key>601</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0</val>
-                    <txt>undefined</txt>
+                    <val>1</val>
+                    <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>undefined</txt>
+                    <txt>linear</txt>
                 </prop>
             </chc>
             <chc>
@@ -12691,7 +12691,7 @@
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>undefined</txt>
+                    <txt>linear</txt>
                 </prop>
             </chc>
             <chc>
@@ -12829,7 +12829,7 @@
                 <rule-key>C4255</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13259,7 +13259,7 @@
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
-                    <txt>undefined</txt>
+                    <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
@@ -14211,7 +14211,7 @@
                 <rule-key>534</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0,1</val>
+                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
