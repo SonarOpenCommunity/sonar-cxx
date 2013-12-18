@@ -169,6 +169,9 @@ public abstract class CxxReportSensor implements Sensor {
           } else {
             CxxUtils.LOG.warn("Cannot find the file '{}', skipping violation '{}'", file, msg);
           }
+          // file level violation
+          violation.setMessage(msg);
+          context.saveViolation(violation);        
         } else {
           // project level violation
           violation = Violation.create(rule, project);
