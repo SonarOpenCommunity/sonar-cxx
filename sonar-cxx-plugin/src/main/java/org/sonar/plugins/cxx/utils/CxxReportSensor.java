@@ -166,16 +166,18 @@ public abstract class CxxReportSensor implements Sensor {
               CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
             }
           }
+          // file level violation
+          violation.setMessage(msg);
+          context.saveViolation(violation);        
         } else {
           CxxUtils.LOG.warn("Cannot find the file '{}', skipping violation '{}'", file, msg);
         }
       } else {
         // project level violation
         violation = Violation.create(rule, project);
+        violation.setMessage(msg);
+        context.saveViolation(violation);        
       }
-
-      violation.setMessage(msg);
-      context.saveViolation(violation);
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
