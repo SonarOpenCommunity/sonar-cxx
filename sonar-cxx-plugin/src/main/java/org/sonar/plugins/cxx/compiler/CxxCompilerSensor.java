@@ -29,6 +29,7 @@ import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -52,6 +53,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.compiler.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-16";
   private RulesProfile profile;
+  private HashSet<String> uniqueIssues = new HashSet<String>();
 
   /**
    * {@inheritDoc}
@@ -103,8 +105,11 @@ public class CxxCompilerSensor extends CxxReportSensor {
         filename = getCaseSensitiveFileName(filename, project.getFileSystem().getSourceDirs());
         CxxUtils.LOG.debug("Scanner-matches file='" + filename + "' line='" + line + "' id='" + id + "' msg=" + msg);
         if (isInputValid(filename, line, id, msg)) {
-          saveViolation(project, context, CxxCompilerRuleRepository.KEY, filename, line, id, msg);
-          countViolations++;
+            if (uniqueIssues.add(filename + line + id + msg))
+            {
+            saveViolation(project, context, CxxCompilerRuleRepository.KEY, filename, line, id, msg);
+            countViolations++;
+            }
         } else {
           CxxUtils.LOG.warn("C-Compiler warning: {}", msg);
         }
@@ -129,7 +134,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
       File targetfile = new java.io.File(iterator.next().getPath() + "\\" + file);
       if (targetfile.exists()) {
         try {
-          return targetfile.getCanonicalFile().getName();
+          return targetfile.getCanonicalFile().getAbsolutePath();
         } catch (java.io.IOException e) {
           CxxUtils.LOG.error("processReport GetRealFileName getName failed '{}'", e.toString());
         }
