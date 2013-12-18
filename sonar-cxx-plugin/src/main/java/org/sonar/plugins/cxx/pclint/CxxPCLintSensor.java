@@ -35,6 +35,7 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +48,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
   private RulesProfile profile;
+  private HashSet<String> uniqueIssues = new HashSet<String>();
 
   /**
    * {@inheritDoc}
@@ -119,7 +121,11 @@ public class CxxPCLintSensor extends CxxReportSensor {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+    	  if (StringUtils.isEmpty(file) || (Integer.valueOf(line)==0)) {
+    		  // issue for project or file level
+    		  return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+    	  }
+        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
 
       /**
