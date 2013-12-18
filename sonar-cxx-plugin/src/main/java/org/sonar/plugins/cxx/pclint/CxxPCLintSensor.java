@@ -111,6 +111,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
             String issue = file + line + id + msg;
             if (uniqueIssues.add(issue))
               saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
+
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
 
