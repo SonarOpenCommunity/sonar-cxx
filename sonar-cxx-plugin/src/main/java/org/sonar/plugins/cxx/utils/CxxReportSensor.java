@@ -150,7 +150,7 @@ public abstract class CxxReportSensor implements Sensor {
     Rule rule = ruleFinder.find(ruleQuery);
     if (rule != null) {
       Violation violation = null;
-      if (file != null){
+      if ((file != null) && (file.length() > 0)){
         org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (context.getResource(resource) != null) {
