@@ -174,8 +174,10 @@ public abstract class CxxReportSensor implements Sensor {
         violation = Violation.create(rule, project);
       }
 
-      violation.setMessage(msg);
-      context.saveViolation(violation);
+      if (violation != null){
+        violation.setMessage(msg);
+        context.saveViolation(violation);
+      }
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }

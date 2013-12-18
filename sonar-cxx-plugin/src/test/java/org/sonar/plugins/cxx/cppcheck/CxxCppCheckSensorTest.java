@@ -71,4 +71,14 @@ public class CxxCppCheckSensorTest {
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }
+
+  @Test
+  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFound() {
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+                         "cppcheck-reports/cppcheck-result-SAMPLE.xml");
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, profile);
+    when(context.getResource((File) anyObject())).thenReturn(null);
+    sensor.analyse(project, context);
+    verify(context, times(0)).saveViolation(any(Violation.class));
+  }
 }
