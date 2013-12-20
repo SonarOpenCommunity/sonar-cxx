@@ -63,7 +63,7 @@
                 <rule-key>80</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -76,7 +76,7 @@
                 <rule-key>81</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -102,7 +102,7 @@
                 <rule-key>83</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -531,7 +531,7 @@
                 <rule-key>C4355</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -570,7 +570,7 @@
                 <rule-key>C4400</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -617,7 +617,7 @@
                 <rule-key>87</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -643,7 +643,7 @@
                 <rule-key>148</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -656,7 +656,7 @@
                 <rule-key>149</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -952,6 +952,19 @@
             </chc>
             <chc>
                 <rule-repo>pclint</rule-repo>
+                <rule-key>726</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>constant_resource</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
                 <rule-key>1008</rule-key>
                 <prop>
                     <key>remediationFactor</key>
@@ -981,7 +994,7 @@
                 <rule-key>1047</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -994,7 +1007,7 @@
                 <rule-key>1055</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1020,7 +1033,7 @@
                 <rule-key>1065</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1033,7 +1046,7 @@
                 <rule-key>1066</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1046,12 +1059,12 @@
                 <rule-key>C4001</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -1514,7 +1527,7 @@
                 <rule-key>C4234</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1784,10 +1797,36 @@
             </chc>
             <chc>
                 <rule-repo>compiler</rule-repo>
-                <rule-key>C4611</rule-key>
+                <rule-key>C4580</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4581</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4611</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -1799,6 +1838,19 @@
         <chc>
             <key>OS_RELATED_PORTABILITY</key>
             <name>OS related portability</name>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6535</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
         <chc>
             <key>SOFTWARE_RELATED_PORTABILITY</key>
@@ -1833,12 +1885,12 @@
                 <rule-key>525</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -1846,12 +1898,12 @@
                 <rule-key>539</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -1859,12 +1911,12 @@
                 <rule-key>602</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -1933,16 +1985,133 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>vera++</rule-repo>
-                <rule-key>F001</rule-key>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>725</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>constant_resource</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>955</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9008</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9057</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9058</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9059</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9060</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9066</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-3-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>vera++</rule-repo>
+                <rule-key>F001</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -1963,12 +2132,12 @@
                 <rule-key>L001</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.01</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -1976,12 +2145,12 @@
                 <rule-key>L002</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.01</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2041,12 +2210,12 @@
                 <rule-key>T003</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2054,12 +2223,12 @@
                 <rule-key>T004</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2067,12 +2236,12 @@
                 <rule-key>T005</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2080,12 +2249,12 @@
                 <rule-key>T006</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2093,12 +2262,12 @@
                 <rule-key>T007</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2106,12 +2275,12 @@
                 <rule-key>T008</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2119,12 +2288,12 @@
                 <rule-key>T009</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2132,12 +2301,12 @@
                 <rule-key>T011</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>linear</txt>
+                    <txt>constant_resource</txt>
                 </prop>
             </chc>
             <chc>
@@ -2188,7 +2357,7 @@
                 <rule-key>4</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>10</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2201,7 +2370,7 @@
                 <rule-key>5</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>10</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2214,7 +2383,7 @@
                 <rule-key>14</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2227,7 +2396,7 @@
                 <rule-key>15</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2292,7 +2461,7 @@
                 <rule-key>20</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2500,7 +2669,7 @@
                 <rule-key>608</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2604,7 +2773,7 @@
                 <rule-key>691</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2615,6 +2784,123 @@
             <chc>
                 <rule-repo>pclint</rule-repo>
                 <rule-key>697</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>714</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>715</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>721</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>722</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>723</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9011</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9016</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9055</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-18-1</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -2770,10 +3056,166 @@
             </chc>
             <chc>
                 <rule-repo>compiler</rule-repo>
+                <rule-key>C4553</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4554</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4555</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6313</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6314</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6315</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6316</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6317</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6319</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6326</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6336</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cxx</rule-repo>
+                <rule-key>TooManyLinesOfCodeInFile</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>3</val>
+                    <txt>d</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>constant_resource</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>common-c++</rule-repo>
+                <rule-key>InsufficientCommentDensity</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -2807,7 +3249,7 @@
                 <rule-key>586</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>5</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -3888,32 +4330,6 @@
             <chc>
                 <rule-repo>rats</rule-repo>
                 <rule-key>GetExtensionVersion</rule-key>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>1</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>compiler</rule-repo>
-                <rule-key>C4580</rule-key>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>1</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>compiler</rule-repo>
-                <rule-key>C4581</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -5956,10 +6372,36 @@
                     <txt>linear</txt>
                 </prop>
             </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6277</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
         <chc>
             <key>SECURITY_FEATURES</key>
             <name>Security features</name>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>333</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
             <chc>
                 <rule-repo>rats</rule-repo>
                 <rule-key>drand48</rule-key>
@@ -6186,7 +6628,7 @@
                 <rule-key>C6248</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6532,7 +6974,7 @@
                 <rule-key>C6211</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6545,7 +6987,7 @@
                 <rule-key>C6278</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6558,7 +7000,7 @@
                 <rule-key>C6279</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6571,7 +7013,7 @@
                 <rule-key>C6280</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6584,7 +7026,7 @@
                 <rule-key>C6283</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6622,6 +7064,19 @@
                     <txt>linear</txt>
                 </prop>
             </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4800</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
     </chc>
     <chc>
@@ -6630,6 +7085,19 @@
         <chc>
             <key>ARCHITECTURE_CHANGEABILITY</key>
             <name>Architecture related changeability</name>
+            <chc>
+                <rule-repo>common-c++</rule-repo>
+                <rule-key>DuplicatedBlocks</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>3</val>
+                    <txt>d</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>constant_resource</txt>
+                </prop>
+            </chc>
         </chc>
         <chc>
             <key>DATA_CHANGEABILITY</key>
@@ -6638,6 +7106,19 @@
         <chc>
             <key>LOGIC_CHANGEABILITY</key>
             <name>Logic related changeability</name>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9026</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
     </chc>
     <chc>
@@ -6746,7 +7227,7 @@
                 <rule-key>46</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6876,7 +7357,7 @@
                 <rule-key>62</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6889,7 +7370,7 @@
                 <rule-key>63</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6902,7 +7383,7 @@
                 <rule-key>64</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6915,7 +7396,7 @@
                 <rule-key>67</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6928,7 +7409,7 @@
                 <rule-key>68</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6941,7 +7422,7 @@
                 <rule-key>69</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6954,7 +7435,7 @@
                 <rule-key>70</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6967,7 +7448,7 @@
                 <rule-key>71</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -6980,7 +7461,7 @@
                 <rule-key>84</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -7292,7 +7773,7 @@
                 <rule-key>571</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>0.1</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -7783,6 +8264,32 @@
             </chc>
             <chc>
                 <rule-repo>pclint</rule-repo>
+                <rule-key>952</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>953</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
                 <rule-key>1072</rule-key>
                 <prop>
                     <key>remediationFactor</key>
@@ -7812,7 +8319,7 @@
                 <rule-key>1107</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8306,7 +8813,7 @@
                 <rule-key>C4089</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8462,7 +8969,7 @@
                 <rule-key>C4302</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8527,7 +9034,7 @@
                 <rule-key>C4309</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8540,7 +9047,7 @@
                 <rule-key>C4310</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8566,7 +9073,7 @@
                 <rule-key>C4333</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8579,7 +9086,7 @@
                 <rule-key>C4334</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8618,7 +9125,7 @@
                 <rule-key>C4368</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8667,7 +9174,85 @@
             </chc>
             <chc>
                 <rule-repo>compiler</rule-repo>
+                <rule-key>C4539</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4566</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6101</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6385</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6386</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6411</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6412</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -8682,6 +9267,19 @@
         <chc>
             <key>EXCEPTION_HANDLING</key>
             <name>Exception handling</name>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>956</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
             <chc>
                 <rule-repo>pclint</rule-repo>
                 <rule-key>1419</rule-key>
@@ -8800,6 +9398,136 @@
                 </prop>
             </chc>
             <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-1-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-1-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-3-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-3-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-3-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-3-7</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-4-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-5-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-5-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-5-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C4286</rule-key>
                 <prop>
@@ -8817,7 +9545,7 @@
                 <rule-key>C4290</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -8851,6 +9579,58 @@
                     <txt>linear</txt>
                 </prop>
             </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4530</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4986</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6318</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6320</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
         <chc>
             <key>FAULT_TOLERANCE</key>
@@ -8864,7 +9644,7 @@
                 <rule-key>13</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9059,7 +9839,7 @@
                 <rule-key>42</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9072,7 +9852,7 @@
                 <rule-key>44</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9085,7 +9865,7 @@
                 <rule-key>45</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9163,7 +9943,7 @@
                 <rule-key>54</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9176,7 +9956,7 @@
                 <rule-key>65</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9202,7 +9982,7 @@
                 <rule-key>72</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9215,7 +9995,7 @@
                 <rule-key>73</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9228,7 +10008,7 @@
                 <rule-key>74</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9241,7 +10021,7 @@
                 <rule-key>75</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9618,7 +10398,7 @@
                 <rule-key>133</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9657,7 +10437,7 @@
                 <rule-key>138</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>5</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9670,7 +10450,7 @@
                 <rule-key>139</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -9787,7 +10567,7 @@
                 <rule-key>155</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -10450,7 +11230,7 @@
                 <rule-key>552</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>5</val>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -10528,7 +11308,7 @@
                 <rule-key>581</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -10616,10 +11396,101 @@
             </chc>
             <chc>
                 <rule-repo>pclint</rule-repo>
+                <rule-key>638</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>641</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>642</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>643</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>655</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>656</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
                 <rule-key>661</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>663</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -10655,7 +11526,33 @@
             </chc>
             <chc>
                 <rule-repo>pclint</rule-repo>
+                <rule-key>667</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
                 <rule-key>676</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>680</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -10672,6 +11569,19 @@
                 <prop>
                     <key>remediationFactor</key>
                     <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>954</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11191,7 +12101,7 @@
                 <rule-key>1048</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11204,7 +12114,7 @@
                 <rule-key>1049</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11217,7 +12127,7 @@
                 <rule-key>1050</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11230,7 +12140,7 @@
                 <rule-key>1051</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11243,7 +12153,7 @@
                 <rule-key>1052</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11256,7 +12166,7 @@
                 <rule-key>1053</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11269,7 +12179,7 @@
                 <rule-key>1054</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11282,7 +12192,7 @@
                 <rule-key>1057</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11295,7 +12205,7 @@
                 <rule-key>1059</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11334,7 +12244,7 @@
                 <rule-key>1062</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11373,7 +12283,7 @@
                 <rule-key>1067</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11386,7 +12296,7 @@
                 <rule-key>1068</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11399,7 +12309,7 @@
                 <rule-key>1069</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11594,7 +12504,7 @@
                 <rule-key>1085</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11672,7 +12582,7 @@
                 <rule-key>1091</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11750,7 +12660,7 @@
                 <rule-key>1097</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11867,7 +12777,7 @@
                 <rule-key>1110</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -12344,6 +13254,2411 @@
                 </prop>
             </chc>
             <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9004</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9005</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9006</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9007</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9009</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9018</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9019</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9020</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9022</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9051</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>9052</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-10</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-11</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-12</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-8</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M0-1-9</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M1.2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M10.1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M10.3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M10.4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M10-1-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M10-1-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M10-3-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M11.1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M11.2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M11.3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M11.4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M11.5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M11-0-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12.11</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12.12</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12.3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12.4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12-1-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12-1-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12-8-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M12-8-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-5-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-5-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-5-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-6-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-7-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-7-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-8-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M14-8-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-0-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M15-0-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-0-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-0-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-0-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-0-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-0-7</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-0-8</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-1-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-1-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-2-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-2-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-2-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-2-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M16-2-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M17-0-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-0-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-0-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-0-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-0-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-0-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-2-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-4-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M18-7-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2.1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>10</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.10</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.11</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.12</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.7</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.8</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M20.9</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-10-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-10-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-10-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-13-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-13-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-13-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-13-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-13-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-3-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-5-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M27-0-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M2-7-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-1-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-1-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-2-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-2-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-2-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-2-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-3-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-9-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M3-9-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M4-10-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M4-5-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M4-5-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-10</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-11</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-12</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-15</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-16</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-17</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-18</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-19</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-21</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-7</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-8</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-0-9</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-14-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-19-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-10</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-11</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-12</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-7</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-8</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-2-9</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-3-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-3-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-3-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M5-8-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-2-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-2-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-2-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-3-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-4-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-4-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-4-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-4-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-4-7</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-4-8</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-5-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-6-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-6-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-6-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M6-6-5</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-1-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-1-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-3-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-3-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-3-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-3-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-3-6</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-4-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-5-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-5-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-5-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M7-5-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-0-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-3-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-4-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-4-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-4-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-4-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-5-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-5-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M8-5-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9.1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9.2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9-3-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9-3-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9-3-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9-5-1</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9-6-2</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9-6-3</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>pclint</rule-repo>
+                <rule-key>M9-6-4</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C4002</rule-key>
                 <prop>
@@ -12517,7 +15832,7 @@
                 <rule-key>C4034</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -12660,7 +15975,7 @@
                 <rule-key>C4099</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -12764,7 +16079,7 @@
                 <rule-key>C4159</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13011,7 +16326,7 @@
                 <rule-key>C4293</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13024,7 +16339,7 @@
                 <rule-key>C4295</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13089,7 +16404,7 @@
                 <rule-key>C4340</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13102,7 +16417,7 @@
                 <rule-key>C4341</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13128,7 +16443,7 @@
                 <rule-key>C4357</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13141,7 +16456,7 @@
                 <rule-key>C4358</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13388,7 +16703,7 @@
                 <rule-key>C4430</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13466,7 +16781,7 @@
                 <rule-key>C4510</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13479,7 +16794,7 @@
                 <rule-key>C4511</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13492,7 +16807,7 @@
                 <rule-key>C4512</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13505,7 +16820,7 @@
                 <rule-key>C4513</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13518,7 +16833,7 @@
                 <rule-key>C4514</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13531,7 +16846,7 @@
                 <rule-key>C4515</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13570,7 +16885,20 @@
                 <rule-key>C4520</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>10</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4523</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13581,6 +16909,32 @@
             <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C4532</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4538</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4540</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -13596,6 +16950,32 @@
                 <rule-key>C4541</rule-key>
                 <prop>
                     <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4564</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4565</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
                     <val>1</val>
                     <txt>mn</txt>
                 </prop>
@@ -13607,6 +16987,58 @@
             <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C4659</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4700</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4701</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4702</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4703</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -13622,7 +17054,7 @@
                 <rule-key>C4715</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13633,6 +17065,149 @@
             <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C4716</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4742</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4743</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4744</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4746</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4747</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4756</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4772</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4789</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4804</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4805</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4819</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -13648,6 +17223,123 @@
                 <rule-key>C4826</rule-key>
                 <prop>
                     <key>remediationFactor</key>
+                    <val>10</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4867</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4905</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4906</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4927</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4928</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6001</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6011</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6014</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6029</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
                     <val>1</val>
                     <txt>mn</txt>
                 </prop>
@@ -13661,7 +17353,7 @@
                 <rule-key>C6031</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13674,7 +17366,7 @@
                 <rule-key>C6053</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13687,7 +17379,7 @@
                 <rule-key>C6054</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13700,7 +17392,7 @@
                 <rule-key>C6057</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13713,7 +17405,7 @@
                 <rule-key>C6066</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13726,7 +17418,7 @@
                 <rule-key>C6067</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13739,7 +17431,7 @@
                 <rule-key>C6200</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13752,7 +17444,7 @@
                 <rule-key>C6201</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13765,7 +17457,7 @@
                 <rule-key>C6202</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13778,7 +17470,7 @@
                 <rule-key>C6203</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13791,7 +17483,7 @@
                 <rule-key>C6204</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13802,6 +17494,58 @@
             <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C6209</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6214</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6215</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6244</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6246</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -13817,7 +17561,7 @@
                 <rule-key>C6255</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13828,6 +17572,19 @@
             <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C6258</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6259</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -13843,7 +17600,7 @@
                 <rule-key>C6260</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13856,7 +17613,7 @@
                 <rule-key>C6268</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13869,7 +17626,7 @@
                 <rule-key>C6270</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13892,7 +17649,7 @@
             </chc>
             <chc>
                 <rule-repo>compiler</rule-repo>
-                <rule-key>C6276</rule-key>
+                <rule-key>C6273</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -13905,10 +17662,36 @@
             </chc>
             <chc>
                 <rule-repo>compiler</rule-repo>
-                <rule-key>C6281</rule-key>
+                <rule-key>C6274</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6276</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>10</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6281</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13934,7 +17717,7 @@
                 <rule-key>C6284</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -13973,7 +17756,7 @@
                 <rule-key>C6287</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -14009,7 +17792,7 @@
             </chc>
             <chc>
                 <rule-repo>compiler</rule-repo>
-                <rule-key>C6297</rule-key>
+                <rule-key>C6290</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -14022,7 +17805,111 @@
             </chc>
             <chc>
                 <rule-repo>compiler</rule-repo>
+                <rule-key>C6291</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6292</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6293</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6294</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6295</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6296</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6297</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6298</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6299</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -14038,7 +17925,7 @@
                 <rule-key>C6302</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>1</val>
+                    <val>5</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -14049,6 +17936,58 @@
             <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C6303</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6305</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6306</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6308</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6309</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -14064,6 +18003,19 @@
                 <rule-key>C6310</rule-key>
                 <prop>
                     <key>remediationFactor</key>
+                    <val>10</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6312</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
                     <val>1</val>
                     <txt>mn</txt>
                 </prop>
@@ -14075,6 +18027,201 @@
             <chc>
                 <rule-repo>compiler</rule-repo>
                 <rule-key>C6327</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6330</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6335</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6340</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6383</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6384</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6530</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28163</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28164</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28182</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28183</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28193</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28197</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28198</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28199</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C28278</rule-key>
                 <prop>
                     <key>remediationFactor</key>
                     <val>1</val>
@@ -14107,7 +18254,7 @@
                 <rule-key>142</rule-key>
                 <prop>
                     <key>remediationFactor</key>
-                    <val>5</val>
+                    <val>10</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -14199,19 +18346,6 @@
                 <prop>
                     <key>remediationFactor</key>
                     <val>10</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>pclint</rule-repo>
-                <rule-key>534</rule-key>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>0.1</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -14362,6 +18496,71 @@
                     <txt>linear</txt>
                 </prop>
             </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6235</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6236</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6237</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6239</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C6240</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
         <chc>
             <key>SYNCHRONIZATION_RELIABILITY</key>
@@ -14483,10 +18682,62 @@
                     <txt>linear</txt>
                 </prop>
             </chc>
+            <chc>
+                <rule-repo>compiler</rule-repo>
+                <rule-key>C4640</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
         <chc>
             <key>UNIT_TESTS</key>
             <name>Unit tests</name>
+            <chc>
+                <rule-repo>common-c++</rule-repo>
+                <rule-key>FailedUnitTests</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>30</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>common-c++</rule-repo>
+                <rule-key>InsufficientBranchCoverage</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>1</val>
+                    <txt>h</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>common-c++</rule-repo>
+                <rule-key>InsufficientLineCoverage</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>10</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
     </chc>
     <chc>
@@ -14499,6 +18750,45 @@
         <chc>
             <key>UNIT_TESTABILITY</key>
             <name>Unit level testability</name>
+            <chc>
+                <rule-repo>cxx</rule-repo>
+                <rule-key>FunctionCyclomaticComplexity</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>3</val>
+                    <txt>d</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cxx</rule-repo>
+                <rule-key>FileCyclomaticComplexity</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>3</val>
+                    <txt>d</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>common-c++</rule-repo>
+                <rule-key>SkippedUnitTests</rule-key>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+            </chc>
         </chc>
     </chc>
     <chc>
