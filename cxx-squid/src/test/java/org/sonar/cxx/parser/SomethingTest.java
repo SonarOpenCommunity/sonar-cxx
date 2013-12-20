@@ -22,19 +22,20 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
+import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class SomethingTest {
 
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  CxxGrammar g = p.getGrammar();
+  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  Grammar g = p.getGrammar();
 
   @Test
   public void test() {
-    p.setRootRule(g.test);
-
-    // assertThat(p, parse("void foo() override {};"));
+    //p.setRootRule(g.rule(CxxGrammarImpl.TEST));
+    
+    //assertThat(p).parse("void foo() override {};"));
   }
 }

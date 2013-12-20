@@ -22,32 +22,31 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
-import static com.sonar.sslr.test.parser.ParserMatchers.parse;
-import static org.junit.Assert.assertThat;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class OverloadingTest {
 
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  CxxGrammar g = p.getGrammar();
+  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  Grammar g = p.getGrammar();
 
   @Test
   public void operatorFunctionId_reallife() {
-    p.setRootRule(g.operatorFunctionId);
-
-    assertThat(p, parse("operator()"));
+    p.setRootRule(g.rule(CxxGrammarImpl.operatorFunctionId));
+    
+    assertThat(p).matches("operator()");
   }
-
+  
   @Test
   public void operator() {
-    p.setRootRule(g.operator);
+    p.setRootRule(g.rule(CxxGrammarImpl.operator));
 
-    assertThat(p, parse("new"));
-    assertThat(p, parse("new[]"));
-    assertThat(p, parse("delete[]"));
-    assertThat(p, parse("()"));
-    assertThat(p, parse("[]"));
+    assertThat(p).matches("new");
+    assertThat(p).matches("new[]");
+    assertThat(p).matches("delete[]");
+    assertThat(p).matches("()");
+    assertThat(p).matches("[]");
   }
 }

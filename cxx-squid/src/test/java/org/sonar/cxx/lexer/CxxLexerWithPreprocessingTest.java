@@ -25,7 +25,8 @@ import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxGrammar;
+//import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
@@ -309,7 +310,7 @@ public class CxxLexerWithPreprocessingTest {
     when(scp.getSourceCodeFile(anyString(), anyString(), eq(false))).thenReturn(new File(""));
     when(scp.getSourceCode(any(File.class))).thenReturn("#define A B\n");
 
-    SquidAstVisitorContext<CxxGrammar> ctx = mock(SquidAstVisitorContext.class);
+    SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
 
     CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(), scp);

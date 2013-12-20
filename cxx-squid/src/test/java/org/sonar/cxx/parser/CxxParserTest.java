@@ -23,7 +23,7 @@ import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
 import java.io.File;
 import java.util.Collection;
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.mock;
 
 public class CxxParserTest {
 
-  private Parser<CxxGrammar> parser = CxxParser.create(mock(SquidAstVisitorContext.class));
+  private Parser<Grammar> parser = CxxParser.create(mock(SquidAstVisitorContext.class));
 
   @Test
   public void test() {

@@ -22,35 +22,34 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
-import static com.sonar.sslr.test.parser.ParserMatchers.parse;
-import static org.junit.Assert.assertThat;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class PreprocessorDirectivesTest {
 
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  CxxGrammar g = p.getGrammar();
+  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  Grammar g = p.getGrammar();
 
   @Test
   public void preprocessorDirectives() {
-    assertThat(p, parse("#define IDX 10\n"
-      + "array[IDX];"));
+    assertThat(p).matches("#define IDX 10\n"
+                          + "array[IDX];");
   }
 
   //@Test
   public void hashhash_related_parsing_problem() {
     // this reproduces a macros expansion problem where
-    // necessary whitespaces get lost the result being invalid C++ code
+    // necessary whitespaces get lost
 
-    assertThat(p, parse("#define CASES CASE(00)\n"
+    assertThat(p).matches("#define CASES CASE(00)\n"
                         + "#define CASE(n) case 0x##n:\n"
                         + "void foo()  {\n"
                         + "switch (1) {\n"
                         + "CASES\n"
                         + "break;\n"
                         + "}\n"
-                        + "}\n"));
+                        + "}\n");
   }
 }

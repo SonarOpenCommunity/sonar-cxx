@@ -22,16 +22,17 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squid.api.SourceFunction;
+import com.sonar.sslr.api.Grammar;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.squid.checks.ChecksHelper;
 import com.sonar.sslr.squid.checks.SquidCheck;
 
 @Rule(key = "FunctionCyclomaticComplexity", priority = Priority.MAJOR)
-public class FunctionComplexityCheck extends SquidCheck<CxxGrammar>
+public class FunctionComplexityCheck extends SquidCheck<Grammar>
 {
   private static final int DEFAULT_MAX = 10;
 
@@ -40,7 +41,7 @@ public class FunctionComplexityCheck extends SquidCheck<CxxGrammar>
   
   @Override
   public void init() {
-    subscribeTo(getContext().getGrammar().functionDefinition);
+    subscribeTo(CxxGrammarImpl.functionDefinition);
   }
 
   @Override

@@ -22,27 +22,25 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
-import static com.sonar.sslr.test.parser.ParserMatchers.parse;
-import static org.junit.Assert.assertThat;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class FileInputTest {
-
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  CxxGrammar g = p.getGrammar();
-
+  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  Grammar g = p.getGrammar();
+  
   @Test
   public void translationUnit() {
-    p.setRootRule(g.translationUnit);
-
-    g.declaration.mock();
-
-    assertThat(p, parse("declaration"));
-    assertThat(p, parse("declaration declaration"));
-    assertThat(p, parse("\n"));
-    assertThat(p, parse("declaration\ndeclaration"));
+    p.setRootRule(g.rule(CxxGrammarImpl.translationUnit));
+    
+    g.rule(CxxGrammarImpl.declaration).mock();
+    
+    assertThat(p)
+      .matches("declaration")
+      .matches("declaration declaration")
+      .matches("declaration\ndeclaration")
+      .matches("\n");
   }
-
 }

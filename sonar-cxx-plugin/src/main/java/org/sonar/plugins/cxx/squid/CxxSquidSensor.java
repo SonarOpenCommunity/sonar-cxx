@@ -35,7 +35,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Violation;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.plugins.cxx.CxxLanguage;
@@ -46,6 +45,7 @@ import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
 import org.sonar.squid.indexer.QueryByParent;
 import org.sonar.squid.indexer.QueryByType;
+import com.sonar.sslr.api.Grammar;
 
 import java.io.File;
 import java.util.Arrays;
@@ -65,7 +65,7 @@ public final class CxxSquidSensor implements Sensor {
   
   private Project project;
   private SensorContext context;
-  private AstScanner<CxxGrammar> scanner;
+  private AstScanner<Grammar> scanner;
   private Settings conf;
   
   /**
@@ -87,8 +87,8 @@ public final class CxxSquidSensor implements Sensor {
     this.project = project;
     this.context = context;
     
-    Collection<SquidAstVisitor<CxxGrammar>> squidChecks = annotationCheckFactory.getChecks();
-    List<SquidAstVisitor<CxxGrammar>> visitors = Lists.newArrayList(squidChecks);
+    Collection<SquidAstVisitor<Grammar>> squidChecks = annotationCheckFactory.getChecks();
+    List<SquidAstVisitor<Grammar>> visitors = Lists.newArrayList(squidChecks);
     this.scanner = CxxAstScanner.create(createConfiguration(project, conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
     scanner.scanFiles(InputFileUtils.toFiles(project.getFileSystem().mainFiles(CxxLanguage.KEY)));

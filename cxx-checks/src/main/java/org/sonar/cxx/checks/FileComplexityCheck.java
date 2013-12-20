@@ -22,16 +22,16 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squid.measures.MetricDef;
+import com.sonar.sslr.api.Grammar;
 
 import com.sonar.sslr.squid.checks.AbstractFileComplexityCheck;
 
 @Rule(
     key = "FileCyclomaticComplexity",
     priority = Priority.MAJOR)
-public class FileComplexityCheck extends AbstractFileComplexityCheck<CxxGrammar>
+public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar>
 {
   private static final int DEFAULT_MAX = 200;
 

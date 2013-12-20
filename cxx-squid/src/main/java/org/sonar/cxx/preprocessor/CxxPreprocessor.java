@@ -32,7 +32,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxGrammar;
+//import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
+
 import org.sonar.cxx.lexer.CxxLexer;
 
 import java.io.File;
@@ -108,22 +110,22 @@ public class CxxPreprocessor extends Preprocessor {
   private MapChain<String, Macro> macros = new MapChain<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
-  private SquidAstVisitorContext<CxxGrammar> context;
+  private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
 
   // state which is not shared between files
   private State state = new State(null);
   private Stack<State> stateStack = new Stack<State>();
 
-  public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context) {
+  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
     this(context, new CxxConfiguration());
   }
 
-  public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context, CxxConfiguration conf) {
+  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
     this(context, conf, new SourceCodeProvider());
   }
 
-  public CxxPreprocessor(SquidAstVisitorContext<CxxGrammar> context,
+  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context,
       CxxConfiguration conf,
       SourceCodeProvider sourceCodeProvider) {
     this.context = context;

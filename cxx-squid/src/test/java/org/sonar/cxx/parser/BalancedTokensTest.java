@@ -22,10 +22,9 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
-import static com.sonar.sslr.test.parser.ParserMatchers.parse;
-import static org.junit.Assert.assertThat;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -34,184 +33,192 @@ import static org.mockito.Mockito.mock;
  */
 public class BalancedTokensTest {
 
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  CxxGrammar g = p.getGrammar();
+  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  Grammar g = p.getGrammar();
 
   @Test
   public void attributeSpecifierSeq() {
-    p.setRootRule(g.attributeSpecifierSeq);
-    g.attributeSpecifier.mock();
-
-    assertThat(p, parse("attributeSpecifier"));
-    assertThat(p, parse("attributeSpecifier attributeSpecifier"));
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifierSeq));
+    g.rule(CxxGrammarImpl.attributeSpecifier).mock();
+    
+    assertThat(p)
+      .matches("attributeSpecifier")
+      .matches("attributeSpecifier attributeSpecifier");
   }
 
   @Test
   public void attributeSpecifierSeqXXXX() {
-    p.setRootRule(g.attributeSpecifierSeq);
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifierSeq));
 
-    assertThat(p, parse("[ [ foo :: bar ( { foo }  [ bar ] ) ] ] [ [ foo :: bar ( { foo }  [ bar ] ) ] ]"));
+    assertThat(p).matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ] [ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
   }
 
   @Test
   public void attributeSpecifier() {
-    p.setRootRule(g.attributeSpecifier);
-    g.attributeList.mock();
-
-    assertThat(p, parse("[ [ attributeList ] ]"));
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
+    g.rule(CxxGrammarImpl.attributeList).mock();
+    
+    assertThat(p).matches("[ [ attributeList ] ]");
   }
 
   @Test
   public void attributeSpecifierXXXX() {
-    p.setRootRule(g.attributeSpecifier);
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
 
-    assertThat(p, parse("[ [ foo :: bar ( { foo }  [ bar ] ) ] ]"));
+    assertThat(p).matches("[ [ foo :: bar ( { foo }  [ bar ] ) ] ]");
   }
 
   @Test
   public void alignmentSpecifier() {
-    p.setRootRule(g.alignmentSpecifier);
-    g.typeId.mock();
-    g.assignmentExpression.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.alignmentSpecifier));
+    g.rule(CxxGrammarImpl.typeId).mock();
+    g.rule(CxxGrammarImpl.assignmentExpression).mock();
 
-    assertThat(p, parse("alignas ( typeId )"));
-    assertThat(p, parse("alignas ( typeId ... )"));
-    assertThat(p, parse("alignas ( assignmentExpression )"));
-    assertThat(p, parse("alignas ( assignmentExpression ... )"));
+    assertThat(p)
+      .matches("alignas ( typeId )")
+      .matches("alignas ( typeId ... )")
+      .matches("alignas ( assignmentExpression )")
+      .matches("alignas ( assignmentExpression ... )");
   }
 
   @Test
   public void attributeList() {
-    p.setRootRule(g.attributeList);
-    g.attribute.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeList));
+    g.rule(CxxGrammarImpl.attribute).mock();
 
-    assertThat(p, parse(""));
-    assertThat(p, parse("attribute"));
-    assertThat(p, parse("attribute , attribute"));
-    assertThat(p, parse("attribute , "));
-    assertThat(p, parse("attribute , attribute , attribute"));
-    assertThat(p, parse("attribute ..."));
-    assertThat(p, parse("attribute ... , attribute ..."));
+    assertThat(p)
+      .matches("")
+      .matches("attribute")
+      .matches("attribute , attribute")
+      .matches("attribute , ")
+      .matches("attribute , attribute , attribute")
+      .matches("attribute ...")
+      .matches("attribute ... , attribute ...");
   }
 
   @Test
   public void attributeListXXXX() {
-    p.setRootRule(g.attributeList);
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeList));
 
-    assertThat(p, parse("foo :: bar ( { foo }  [ bar ] )"));
-    assertThat(p, parse("foo :: bar ( { foo }  [ bar ] ) , foo :: bar ( { foo }  [ bar ] )"));
-    assertThat(p, parse("foo :: bar ( { foo }  [ bar ] ) , "));
-    assertThat(p, parse("foo :: bar ( { foo }  [ bar ] ) ..."));
-    assertThat(p, parse("foo :: bar ( { foo }  [ bar ] ) ... , foo :: bar ( { foo }  [ bar ] ) ..."));
+    assertThat(p)
+      .matches("foo :: bar ( { foo }  [ bar ] )")
+      .matches("foo :: bar ( { foo }  [ bar ] ) , foo :: bar ( { foo }  [ bar ] )")
+      .matches("foo :: bar ( { foo }  [ bar ] ) , ")
+      .matches("foo :: bar ( { foo }  [ bar ] ) ...")
+      .matches("foo :: bar ( { foo }  [ bar ] ) ... , foo :: bar ( { foo }  [ bar ] ) ...");
   }
 
   @Test
   public void attribute() {
-    p.setRootRule(g.attribute);
-    g.attributeToken.mock();
-    g.attributeArgumentClause.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.attribute));
+    g.rule(CxxGrammarImpl.attributeToken).mock();
+    g.rule(CxxGrammarImpl.attributeArgumentClause).mock();
 
-    assertThat(p, parse("attributeToken attributeArgumentClause"));
-    assertThat(p, parse("attributeToken"));
+    assertThat(p)
+      .matches("attributeToken attributeArgumentClause")
+      .matches("attributeToken");
   }
 
   @Test
   public void attributeXXXX() {
-    p.setRootRule(g.attribute);
+    p.setRootRule(g.rule(CxxGrammarImpl.attribute));
 
-    assertThat(p, parse("foo :: bar ( { foo }  [ bar ] )"));
+    assertThat(p).matches("foo :: bar ( { foo }  [ bar ] )");
   }
 
   @Test
   public void attributeToken() {
-    p.setRootRule(g.attributeToken);
-    g.attributeScopedToken.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeToken));
+    g.rule(CxxGrammarImpl.attributeScopedToken).mock();
 
-    assertThat(p, parse("foo"));
-    assertThat(p, parse("attributeScopedToken"));
+    assertThat(p)
+      .matches("foo")
+      .matches("attributeScopedToken");
   }
 
   @Test
   public void attributeTokenXXXX() {
-    p.setRootRule(g.attributeToken);
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeToken));
 
-    assertThat(p, parse("foo"));
-    assertThat(p, parse("foo :: bar"));
+    assertThat(p)
+      .matches("foo")
+      .matches("foo :: bar");
   }
 
   @Test
   public void attributeScopedToken() {
-    p.setRootRule(g.attributeScopedToken);
-    g.attributeNamespace.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeScopedToken));
+    g.rule(CxxGrammarImpl.attributeNamespace).mock();
 
-    assertThat(p, parse("attributeNamespace :: foo"));
+    assertThat(p).matches("attributeNamespace :: foo");
   }
 
   @Test
   public void attributeScopedTokenXXXX() {
-    p.setRootRule(g.attributeScopedToken);
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeScopedToken));
 
-    assertThat(p, parse("foo :: bar"));
+    assertThat(p).matches("foo :: bar");
   }
 
   @Test
   public void attributeNamespace() {
-    p.setRootRule(g.attributeNamespace);
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeNamespace));
 
-    assertThat(p, parse("foo"));
+    assertThat(p).matches("foo");
   }
 
   @Test
   public void attributeArgumentClause() {
-    p.setRootRule(g.attributeArgumentClause);
-    g.balancedTokenSeq.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
+    g.rule(CxxGrammarImpl.balancedTokenSeq).mock();
 
-    assertThat(p, parse("( balancedTokenSeq )"));
+    assertThat(p).matches("( balancedTokenSeq )");
   }
 
   public void attributeArgumentClauseXXXX() {
-    p.setRootRule(g.attributeArgumentClause);
+    p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
 
-    assertThat(p, parse("( foo )"));
+    assertThat(p).matches("( foo )");
   }
 
   @Test
   public void balancedTokenSeq() {
-    p.setRootRule(g.balancedTokenSeq);
-    g.balancedToken.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.balancedTokenSeq));
+    g.rule(CxxGrammarImpl.balancedToken).mock();
 
-    assertThat(p, parse("balancedToken"));
-    assertThat(p, parse("balancedToken balancedToken"));
-    assertThat(p, parse("balancedToken balancedToken balancedToken"));
+    assertThat(p)
+      .matches("balancedToken")
+      .matches("balancedToken balancedToken")
+      .matches("balancedToken balancedToken balancedToken");
   }
 
   @Test
   public void balancedTokenSeqXXXX() {
-    p.setRootRule(g.balancedTokenSeq);
+    p.setRootRule(g.rule(CxxGrammarImpl.balancedTokenSeq));
 
-    assertThat(p, parse("[ ( foo ) { } ( bar ) ]"));
+    assertThat(p).matches("[ ( foo ) { } ( bar ) ]");
   }
 
   @Test
   public void balancedToken() {
-    p.setRootRule(g.balancedToken);
-    g.balancedTokenSeq.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.balancedToken));
+    g.rule(CxxGrammarImpl.balancedTokenSeq).mock();
 
-    assertThat(p, parse("foo"));
-    assertThat(p, parse("( balancedTokenSeq )"));
-    assertThat(p, parse("[ balancedTokenSeq ]"));
-    assertThat(p, parse("{ balancedTokenSeq }"));
+    assertThat(p).matches("foo")
+      .matches("( balancedTokenSeq )")
+      .matches("[ balancedTokenSeq ]")
+      .matches("{ balancedTokenSeq }");
   }
 
   @Test
   public void balancedTokenXXXX() {
-    p.setRootRule(g.balancedToken);
+    p.setRootRule(g.rule(CxxGrammarImpl.balancedToken));
 
-    assertThat(p, parse("[ foo ]"));
-    assertThat(p, parse("{ foo }"));
-    assertThat(p, parse("( foo )"));
-    assertThat(p, parse("( ( foo ) ( bar ) )"));
-    assertThat(p, parse("[ ( foo ) { } ( bar ) ]"));
+    assertThat(p).matches("[ foo ]")
+      .matches("{ foo }")
+      .matches("( foo )")
+      .matches("( ( foo ) ( bar ) )")
+      .matches("[ ( foo ) { } ( bar ) ]");
   }
 
 }

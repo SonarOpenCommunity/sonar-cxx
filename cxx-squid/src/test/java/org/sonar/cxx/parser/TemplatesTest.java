@@ -23,86 +23,85 @@ import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.impl.events.ExtendedStackTrace;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
-import static com.sonar.sslr.test.parser.ParserMatchers.parse;
-import static org.junit.Assert.assertThat;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class TemplatesTest {
 
   ExtendedStackTrace stackTrace = new ExtendedStackTrace();
-  Parser<CxxGrammar> p = CxxParser.createDebugParser(mock(SquidAstVisitorContext.class), stackTrace);
-  CxxGrammar g = p.getGrammar();
+  Parser<Grammar> p = CxxParser.createDebugParser(mock(SquidAstVisitorContext.class), stackTrace);
+  Grammar g = p.getGrammar();
 
   @Test
   public void templateDeclaration() {
-    p.setRootRule(g.templateDeclaration);
+    p.setRootRule(g.rule(CxxGrammarImpl.templateDeclaration));
 
-    g.templateParameterList.mock();
-    g.declaration.mock();
+    g.rule(CxxGrammarImpl.templateParameterList).mock();
+    g.rule(CxxGrammarImpl.declaration).mock();
 
-    assertThat(p, parse("template < templateParameterList > declaration"));
+    assertThat(p).matches("template < templateParameterList > declaration");
   }
 
   @Test
   public void templateDeclaration_reallife() {
-    p.setRootRule(g.templateDeclaration);
+    p.setRootRule(g.rule(CxxGrammarImpl.templateDeclaration));
 
-    assertThat(p, parse("template <class T> ostream& operator<<();"));
-    assertThat(p, parse("template <class T> ostream& operator<<(ostream& strm, const int& i);"));
+    assertThat(p).matches("template <class T> ostream& operator<<();");
+    assertThat(p).matches("template <class T> ostream& operator<<(ostream& strm, const int& i);");
 
-    assertThat(p, parse("template <class T> ostream& operator<< (ostream& strm);"));
-    assertThat(p, parse("template <class T> ostream& operator<< (const auto_ptr<T>& p);"));
-    assertThat(p, parse("template <class T> ostream& operator<< (ostream& strm, const auto_ptr<T>& p);"));
-    assertThat(p, parse("template<bool (A::*bar)(void)> void foo();"));
+    assertThat(p).matches("template <class T> ostream& operator<< (ostream& strm);");
+    assertThat(p).matches("template <class T> ostream& operator<< (const auto_ptr<T>& p);");
+    assertThat(p).matches("template <class T> ostream& operator<< (ostream& strm, const auto_ptr<T>& p);");
+    assertThat(p).matches("template<bool (A::*bar)(void)> void foo();");
   }
 
   @Test
   public void templateParameterList() {
-    p.setRootRule(g.templateParameterList);
+    p.setRootRule(g.rule(CxxGrammarImpl.templateParameterList));
 
-    g.templateParameter.mock();
+    g.rule(CxxGrammarImpl.templateParameter).mock();
 
-    assertThat(p, parse("templateParameter"));
-    assertThat(p, parse("templateParameter , templateParameter"));
+    assertThat(p).matches("templateParameter");
+    assertThat(p).matches("templateParameter , templateParameter");
   }
 
   @Test
   public void typeParameter() {
-    p.setRootRule(g.typeParameter);
+    p.setRootRule(g.rule(CxxGrammarImpl.typeParameter));
 
-    g.typeId.mock();
-    g.templateParameterList.mock();
-    g.idExpression.mock();
+    g.rule(CxxGrammarImpl.typeId).mock();
+    g.rule(CxxGrammarImpl.templateParameterList).mock();
+    g.rule(CxxGrammarImpl.idExpression).mock();
 
-    assertThat(p, parse("class"));
-    assertThat(p, parse("class T"));
-    assertThat(p, parse("class ... foo"));
+    assertThat(p).matches("class");
+    assertThat(p).matches("class T");
+    assertThat(p).matches("class ... foo");
 
-    assertThat(p, parse("class = typeId"));
-    assertThat(p, parse("class foo = typeId"));
+    assertThat(p).matches("class = typeId");
+    assertThat(p).matches("class foo = typeId");
 
-    assertThat(p, parse("typename"));
-    assertThat(p, parse("typename ... foo"));
+    assertThat(p).matches("typename");
+    assertThat(p).matches("typename ... foo");
 
-    assertThat(p, parse("typename = typeId"));
-    assertThat(p, parse("typename foo = typeId"));
+    assertThat(p).matches("typename = typeId");
+    assertThat(p).matches("typename foo = typeId");
 
-    assertThat(p, parse("template < templateParameterList > class"));
-    assertThat(p, parse("template < templateParameterList > class ... foo"));
+    assertThat(p).matches("template < templateParameterList > class");
+    assertThat(p).matches("template < templateParameterList > class ... foo");
 
-    assertThat(p, parse("template < templateParameterList > class = idExpression"));
-    assertThat(p, parse("template < templateParameterList > class foo = idExpression"));
+    assertThat(p).matches("template < templateParameterList > class = idExpression");
+    assertThat(p).matches("template < templateParameterList > class foo = idExpression");
   }
 
   @Test
   public void simpleTemplateId_reallife() {
-    p.setRootRule(g.simpleTemplateId);
+    p.setRootRule(g.rule(CxxGrammarImpl.simpleTemplateId));
 
-    assertThat(p, parse("sometype<int>"));
-    assertThat(p, parse("vector<Person*>"));
-    // assertThat(p, parse("sometype<N/2>"));
+    assertThat(p).matches("sometype<int>");
+    assertThat(p).matches("vector<Person*>");
+    // assertThat(p).matches("sometype<N/2>");
     // try{
     // p.parse("vector<Person*>");
     // } catch(Exception e){}
@@ -111,49 +110,49 @@ public class TemplatesTest {
 
   @Test
   public void templateId() {
-    p.setRootRule(g.templateId);
+    p.setRootRule(g.rule(CxxGrammarImpl.templateId));
 
-    g.simpleTemplateId.mock();
-    g.operatorFunctionId.mock();
-    g.templateArgumentList.mock();
-    g.literalOperatorId.mock();
+    g.rule(CxxGrammarImpl.simpleTemplateId).mock();
+    g.rule(CxxGrammarImpl.operatorFunctionId).mock();
+    g.rule(CxxGrammarImpl.templateArgumentList).mock();
+    g.rule(CxxGrammarImpl.literalOperatorId).mock();
 
-    assertThat(p, parse("simpleTemplateId"));
-    assertThat(p, parse("operatorFunctionId < >"));
-    assertThat(p, parse("operatorFunctionId < templateArgumentList >"));
-    assertThat(p, parse("literalOperatorId < >"));
-    assertThat(p, parse("literalOperatorId < templateArgumentList >"));
+    assertThat(p).matches("simpleTemplateId");
+    assertThat(p).matches("operatorFunctionId < >");
+    assertThat(p).matches("operatorFunctionId < templateArgumentList >");
+    assertThat(p).matches("literalOperatorId < >");
+    assertThat(p).matches("literalOperatorId < templateArgumentList >");
   }
 
   @Test
   public void templateId_reallife() {
-    p.setRootRule(g.templateId);
-    assertThat(p, parse("foo<int>"));
-    assertThat(p, parse("operator==<B>"));
+    p.setRootRule(g.rule(CxxGrammarImpl.templateId));
+    assertThat(p).matches("foo<int>");
+    assertThat(p).matches("operator==<B>");
   }
 
   @Test
   public void templateArgumentList() {
-    p.setRootRule(g.templateArgumentList);
+    p.setRootRule(g.rule(CxxGrammarImpl.templateArgumentList));
 
-    g.templateArgument.mock();
+    g.rule(CxxGrammarImpl.templateArgument).mock();
 
-    assertThat(p, parse("templateArgument"));
-    assertThat(p, parse("templateArgument ..."));
-    assertThat(p, parse("templateArgument , templateArgument"));
-    assertThat(p, parse("templateArgument , templateArgument ..."));
+    assertThat(p).matches("templateArgument");
+    assertThat(p).matches("templateArgument ...");
+    assertThat(p).matches("templateArgument , templateArgument");
+    assertThat(p).matches("templateArgument , templateArgument ...");
   }
 
   @Test
   public void typenameSpecifier() {
-    p.setRootRule(g.typenameSpecifier);
+    p.setRootRule(g.rule(CxxGrammarImpl.typenameSpecifier));
 
-    g.nestedNameSpecifier.mock();
-    g.simpleTemplateId.mock();
+    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
+    g.rule(CxxGrammarImpl.simpleTemplateId).mock();
 
-    assertThat(p, parse("typename nestedNameSpecifier foo"));
+    assertThat(p).matches("typename nestedNameSpecifier foo");
 
-    assertThat(p, parse("typename nestedNameSpecifier simpleTemplateId"));
-    assertThat(p, parse("typename nestedNameSpecifier template simpleTemplateId"));
+    assertThat(p).matches("typename nestedNameSpecifier simpleTemplateId");
+    assertThat(p).matches("typename nestedNameSpecifier template simpleTemplateId");
   }
 }

@@ -24,6 +24,8 @@ import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.CommentAnalyser;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.api.Grammar;
+
 import com.sonar.sslr.squid.AstScanner;
 import com.sonar.sslr.squid.SourceCodeBuilderCallback;
 import com.sonar.sslr.squid.SourceCodeBuilderVisitor;
@@ -33,11 +35,11 @@ import com.sonar.sslr.squid.metrics.CommentsVisitor;
 import com.sonar.sslr.squid.metrics.ComplexityVisitor;
 import com.sonar.sslr.squid.metrics.CounterVisitor;
 import com.sonar.sslr.squid.metrics.LinesVisitor;
-import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxParser;
+import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squid.api.SourceClass;
 import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
@@ -56,18 +58,18 @@ public final class CxxAstScanner {
   /**
    * Helper method for testing checks without having to deploy them on a Sonar instance.
    */
-  public static SourceFile scanSingleFile(File file, SquidAstVisitor<CxxGrammar>... visitors) {
+  public static SourceFile scanSingleFile(File file, SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(file, new CxxConfiguration(), visitors);
   }
 
   /**
    * Helper method for scanning a single file
    */
-  public static SourceFile scanSingleFileConfig(File file, CxxConfiguration cxxConfig, SquidAstVisitor<CxxGrammar>... visitors) {
+  public static SourceFile scanSingleFileConfig(File file, CxxConfiguration cxxConfig, SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
-    AstScanner<CxxGrammar> scanner = create(cxxConfig, visitors);
+    AstScanner<Grammar> scanner = create(cxxConfig, visitors);
     scanner.scanFile(file);
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
@@ -76,11 +78,11 @@ public final class CxxAstScanner {
     return (SourceFile) sources.iterator().next();
   }
   
-  public static AstScanner<CxxGrammar> create(CxxConfiguration conf, SquidAstVisitor<CxxGrammar>... visitors) {
-    final SquidAstVisitorContextImpl<CxxGrammar> context = new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("Cxx Project"));
-    final Parser<CxxGrammar> parser = CxxParser.create(context, conf);
+  public static AstScanner<Grammar> create(CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
+    final SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<Grammar>(new SourceProject("Cxx Project"));
+    final Parser<Grammar> parser = CxxParser.create(context, conf);
 
-    AstScanner.Builder<CxxGrammar> builder = AstScanner.<CxxGrammar> builder(context).setBaseParser(parser);
+    AstScanner.Builder<Grammar> builder = AstScanner.<Grammar> builder(context).setBaseParser(parser);
 
     /* Metrics */
     builder.withMetrics(CxxMetric.values());
@@ -110,10 +112,10 @@ public final class CxxAstScanner {
         });
 
     /* Functions */
-    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<CxxGrammar>(new SourceCodeBuilderCallback() {
+    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<Grammar>(new SourceCodeBuilderCallback() {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
         StringBuilder sb = new StringBuilder();
-        for (Token token : astNode.findFirstChild(parser.getGrammar().declaratorId).getTokens()) {
+        for (Token token : astNode.findFirstChild(CxxGrammarImpl.declaratorId).getTokens()) {
           sb.append(token.getValue());
         }
         String functionName = sb.toString();
@@ -121,48 +123,47 @@ public final class CxxAstScanner {
         function.setStartAtLine(astNode.getTokenLine());
         return function;
       }
-    }, parser.getGrammar().functionDefinition));
+    }, CxxGrammarImpl.functionDefinition));
 
-    builder.withSquidAstVisitor(CounterVisitor.<CxxGrammar> builder()
+    builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.FUNCTIONS)
-        .subscribeTo(parser.getGrammar().functionDefinition)
+        .subscribeTo(CxxGrammarImpl.functionDefinition)
         .build());
 
     /* Classes */
-    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<CxxGrammar>(new SourceCodeBuilderCallback() {
+    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<Grammar>(new SourceCodeBuilderCallback() {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
-        AstNode classNameAst = astNode.findFirstChild(parser.getGrammar().className);
+        AstNode classNameAst = astNode.findFirstChild(CxxGrammarImpl.className);
         String className = classNameAst == null ? "" : classNameAst.getChild(0).getTokenValue();
         SourceClass cls = new SourceClass(className + ":" + astNode.getToken().getLine(), className);
         cls.setStartAtLine(astNode.getTokenLine());
         return cls;
       }
-    }, parser.getGrammar().classSpecifier));
+    }, CxxGrammarImpl.classSpecifier));
 
-    builder.withSquidAstVisitor(CounterVisitor.<CxxGrammar> builder()
+    builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.CLASSES)
-        .subscribeTo(parser.getGrammar().classSpecifier)
+        .subscribeTo(CxxGrammarImpl.classSpecifier)
         .build());
 
     /* Metrics */
-    builder.withSquidAstVisitor(new LinesVisitor<CxxGrammar>(CxxMetric.LINES));
-    builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<CxxGrammar>(CxxMetric.LINES_OF_CODE));
+    builder.withSquidAstVisitor(new LinesVisitor<Grammar>(CxxMetric.LINES));
+    builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<Grammar>(CxxMetric.LINES_OF_CODE));
 
-    builder.withSquidAstVisitor(CommentsVisitor.<CxxGrammar> builder().withCommentMetric(CxxMetric.COMMENT_LINES)
-        .withBlankCommentMetric(CxxMetric.COMMENT_BLANK_LINES)
+    builder.withSquidAstVisitor(CommentsVisitor.<Grammar> builder().withCommentMetric(CxxMetric.COMMENT_LINES)
         .withNoSonar(true)
         .withIgnoreHeaderComment(conf.getIgnoreHeaderComments())
         .build());
 
     /* Statements */
-    builder.withSquidAstVisitor(CounterVisitor.<CxxGrammar> builder()
+    builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.STATEMENTS)
-        .subscribeTo(parser.getGrammar().statement)
+        .subscribeTo(CxxGrammarImpl.statement)
         .build());
 
     AstNodeType[] complexityAstNodeType = new AstNodeType[] {
       // Entry points
-      parser.getGrammar().functionDefinition,
+      CxxGrammarImpl.functionDefinition,
 
       CxxKeyword.IF,
       CxxKeyword.FOR,
@@ -175,13 +176,16 @@ public final class CxxAstScanner {
       CxxPunctuator.OR,
       CxxPunctuator.QUEST
     };
-    builder.withSquidAstVisitor(ComplexityVisitor.<CxxGrammar> builder()
+    builder.withSquidAstVisitor(ComplexityVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.COMPLEXITY)
         .subscribeTo(complexityAstNodeType)
         .build());
 
+    // to emit a 'new file' event to the internals of the plugin
+    builder.withSquidAstVisitor(CxxParser.getFileVisitNotifier());
+    
     /* External visitors (typically Check ones) */
-    for (SquidAstVisitor<CxxGrammar> visitor : visitors) {
+    for (SquidAstVisitor<Grammar> visitor : visitors) {
       builder.withSquidAstVisitor(visitor);
     }
 
