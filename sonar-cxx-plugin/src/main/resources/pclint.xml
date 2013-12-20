@@ -9027,1387 +9027,1442 @@
     <configkey>M0-1-1</configkey>
     <priority>INFO</priority>
     <name>M0-1-1: Unreachable (MISRA C++)</name>
-    <description>Unreachable</description>
+    <description>(Required) A project shall not contain unreachable code</description>
   </rule>
   <rule>
     <key>M0-1-2</key>
     <configkey>M0-1-2</configkey>
     <priority>INFO</priority>
     <name>M0-1-2: infeasible path (MISRA C++)</name>
-    <description>infeasible path</description>
+    <description>(Required) A project shall not contain infeasible paths.</description>
   </rule>
   <rule>
     <key>M0-1-3</key>
     <configkey>M0-1-3</configkey>
     <priority>INFO</priority>
     <name>M0-1-3: unused variable (MISRA C++)</name>
-    <description>unused variable</description>
+    <description>(Required) A project shall not contain unused variables.</description>
   </rule>
   <rule>
     <key>M0-1-4</key>
     <configkey>M0-1-4</configkey>
     <priority>INFO</priority>
     <name>M0-1-4: symbol not referenced or accessed (MISRA C++)</name>
-    <description>symbol not referenced or accessed</description>
+    <description>(Required) A project shall not contain non-volatile POD variables having only one use.</description>
   </rule>
   <rule>
     <key>M0-1-5</key>
     <configkey>M0-1-5</configkey>
     <priority>INFO</priority>
     <name>M0-1-5: unused type declaration (MISRA C++)</name>
-    <description>unused type declaration</description>
+    <description>(Required) A project shall not contain unused type declarations.</description>
   </rule>
   <rule>
     <key>M0-1-6</key>
     <configkey>M0-1-6</configkey>
     <priority>INFO</priority>
     <name>M0-1-6: last value assigned to variable not used (MISRA C++)</name>
-    <description>last value assigned to variable not used</description>
+    <description>(Required) A project shall not contain instances of non-volatile variables being given values that are never subsequently used.</description>
   </rule>
   <rule>
     <key>M0-1-7</key>
     <configkey>M0-1-7</configkey>
     <priority>INFO</priority>
     <name>M0-1-7: ignoring return value of function (MISRA C++)</name>
-    <description>ignoring return value of function</description>
+    <description>(Required) The value returned by a function having a non-void return type that is not an overloaded operator shall always be used.</description>
   </rule>
   <rule>
     <key>M0-1-8</key>
     <configkey>M0-1-8</configkey>
     <priority>INFO</priority>
     <name>M0-1-8: Void return type for function without external side-effects (MISRA C++)</name>
-    <description>Void return type for function without external side-effects.</description>
+    <description>(Required) All functions with void return type shall have external side effect(s).</description>
   </rule>
   <rule>
     <key>M0-1-9</key>
     <configkey>M0-1-9</configkey>
     <priority>INFO</priority>
     <name>M0-1-9: dead(redundant) code (MISRA C++)</name>
-    <description>dead(redundant) code</description>
+    <description>(Required) There shall be no dead code.</description>
   </rule>
   <rule>
     <key>M0-1-10</key>
     <configkey>M0-1-10</configkey>
     <priority>INFO</priority>
     <name>M0-1-10: unused function (MISRA C++)</name>
-    <description>unused function</description>
+    <description>(Required) Every defined function shall be called at least once.</description>
   </rule>
   <rule>
     <key>M0-1-11</key>
     <configkey>M0-1-11</configkey>
     <priority>INFO</priority>
     <name>M0-1-11: unused function parameter (MISRA C++)</name>
-    <description>unused function parameter</description>
+    <description>(Required) There shall be no unused parameters (named or unnamed) in nonvirtual functions.</description>
   </rule>
   <rule>
     <key>M0-1-12</key>
     <configkey>M0-1-12</configkey>
     <priority>INFO</priority>
     <name>M0-1-12: unused function parameter (MISRA C++)</name>
-    <description>unused function parameter</description>
+    <description>(Required) There shall be no unused parameters (named or unnamed) in the set of parameters for a virtual function and all the functions that override it.</description>
   </rule>
   <rule>
     <key>M0-2-1</key>
     <configkey>M0-2-1</configkey>
     <priority>INFO</priority>
     <name>M0-2-1: unions shall not be used (MISRA C++)</name>
-    <description>unions shall not be used</description>
+    <description>(Required) An object shall not be assigned to an overlapping object.</description>
   </rule>
   <!--
   MISRA C++ Rule 0-3-1 automatically accomplished by using PC-lint/FlexeLint
+  (Document) Minimization of run-time failures shall be ensured by the use of at least one of: (a) static analysis tools/
+  techniques; (b) dynamic analysis tools/techniques; (c) explicit coding of checks to handle run-time faults.
   -->
   <rule>
     <key>M0-3-2</key>
     <configkey>M0-3-2</configkey>
     <priority>INFO</priority>
     <name>M0-3-2: ignoring return value of function (MISRA C++)</name>
-    <description>ignoring return value of function</description>
+    <description>(Required) If a function generates error information, then that error information shall be tested.</description>
   </rule>
   <!--
   MISRA C++ rule 0-4-1 doc, not statically checkable
+    (Document) Use of scaled-integer or fixed-point arithmetic shall be documented.
   MISRA C++ rule 0-4-2 doc, not statically checkable
+    (Document) Use of floating-point arithmetic shall be documented.
   MISRA C++ rule 0-4-3 doc, not statically checkable
+    (Document) Floating-point implementations shall comply with a defined floating-point standard.
   MISRA C++ rule 0-4-4 doc, not statically checkable
-    -->
+  -->
   <rule>
     <key>M1-0-1</key>
     <configkey>M1-0-1</configkey>
     <priority>INFO</priority>
     <name>M1-0-1: strict ANSI / ISO (MISRA C++)</name>
-    <description>strict ANSI / ISO</description>
+    <description>(Required) All code shall conform to ISO/IEC 14882:2003 "The C++ Standard Incorporating Technical Corrigendum 1".</description>
   </rule>
   <!--
   MISRA C++ rule 1-0-2 req, not statically checkable
+    (Document) Multiple compilers shall only be used if they have a common, defined interface.
   MISRA C++ rule 1-0-3 doc, not statically checkable
+    (Document) The implementation of integer division in the chosen compiler shall be determined and documented.
   MISRA C++ rule 2-2-1 doc, not statically checkable
+    (Document) The character set and the corresponding encoding shall be documented.
   -->
   <rule>
     <key>M2-3-1</key>
     <configkey>M2-3-1</configkey>
     <priority>INFO</priority>
     <name>M2-3-1: do not use trigraphs (MISRA C++)</name>
-    <description>do not use trigraphs</description>
-  </rule>
-  <rule>
-    <key>M2-3-1</key>
-    <configkey>M2-3-1</configkey>
-    <priority>INFO</priority>
-    <name>M2-3-1: do not use trigraphs (MISRA C++)</name>
-    <description>do not use trigraphs</description>
+    <description>(Required) Trigraphs shall not be used.</description>
   </rule>
   <rule>
     <key>M2-5-1</key>
     <configkey>M2-5-1</configkey>
     <priority>INFO</priority>
     <name>M2-5-1: possible digraph used (MISRA C++)</name>
-    <description>possible digraph used</description>
+    <description>(Advisory) Digraphs should not be used.</description>
   </rule>
   <rule>
     <key>M2-7-1</key>
     <configkey>M2-7-1</configkey>
     <priority>INFO</priority>
     <name>M2-7-1: do not nest comments (MISRA C++)</name>
-    <description>do not nest comments</description>
+    <description>(Required) The character sequence /* shall not be used within a C-style comment.</description>
   </rule>
   <!--
-  MISRA C++ rule 2-7-2 req n/a not statically checkable
-  MISRA C++ rule 2-7-3 adv n/a not statically checkable
+  MISRA C++ rule 2-7-2 req n/a not statically checkable  
+  <rule>
+    <key>M2-7-2</key>
+    <configkey>M2-7-2</configkey>
+    <priority>INFO</priority>
+    <name>M2-7-2: do not comment out code (MISRA C++)</name>
+    <description>(Required) Sections of code shall not be "commented out" using C-style comments.</description>
+  </rule>
+  MISRA C++ rule 2-7-3 adv n/a not statically checkable  
+  <rule>
+    <key>M2-7-3</key>
+    <configkey>M2-7-3</configkey>
+    <priority>INFO</priority>
+    <name>M2-7-3: do not comment out code (MISRA C++)</name>
+    <description>(Advisory) Sections of code should not be "commented out" using C++ comments.</description>
+  </rule>  
   -->
   <rule>
     <key>M2-10-1</key>
     <configkey>M2-10-1</configkey>
     <priority>INFO</priority>
     <name>M2-10-1: suspicious constant (MISRA C++)</name>
-    <description>suspicious constant. Partially covered</description>
+    <description>(Required) Different identifiers shall be typographically unambiguous.</description>
   </rule>
   <rule>
     <key>M2-10-2</key>
     <configkey>M2-10-2</configkey>
     <priority>INFO</priority>
     <name>M2-10-2: report on name hiding (MISRA C++)</name>
-    <description>report on name hiding</description>
+    <description>(Required) Identifiers declared in an inner scope shall not hide an identifier declared in an outer scope.</description>
   </rule>
   <!--
   MISRA C++ rule 2-10-3 req no not currently supported
+   (Required) A typedef name (including qualification, if any) shall be a unique identifier.
   MISRA C++ rule 2-10-4 req no not currently supported
+   (Required) A class, union or enum name (including qualification, if any) shall be a unique identifier.
   MISRA C++ rule 2-10-5 adv no not currently supported
+   (Advisory) The identifier name of a non-member object or function with static storage duration should not be reused.
   -->
   <rule>
     <key>M2-10-6</key>
     <configkey>M2-10-6</configkey>
     <priority>INFO</priority>
     <name>M2-10-6: symbol redeclared (MISRA C++)</name>
-    <description>symbol redeclared</description>
+    <description>(Required) If an identifier refers to a type, it shall not also refer to an object or a function in the same scope.</description>
   </rule>
   <rule>
     <key>M2-13-1</key>
     <configkey>M2-13-1</configkey>
     <priority>INFO</priority>
     <name>M2-13-1: non-ANSI escape sequence (MISRA C++)</name>
-    <description>non-ANSI escape sequence</description>
+    <description>(Required) Only those escape sequences that are defined in ISO/IEC 14882:2003 shall be used.</description>
   </rule>
   <rule>
     <key>M2-13-2</key>
     <configkey>M2-13-2</configkey>
     <priority>INFO</priority>
     <name>M2-13-2: octal constant or escape sequence used (MISRA C++)</name>
-    <description>octal constant or escape sequence used</description>
+    <description>(Required) Octal constants (other than zero) and octal escape sequences (other than 0) shall not be used.</description>
   </rule>
   <rule>
     <key>M2-13-3</key>
     <configkey>M2-13-3</configkey>
     <priority>INFO</priority>
     <name>M2-13-3: unsigned octal &amp; hexadecimal literals require a ‘U’ suffix (MISRA C++)</name>
-    <description>unsigned octal &amp; hexadecimal literals require a ‘U’ suffix</description>
+    <description>(Required) A "U" suffix shall be applied to all octal or hexadecimal integer literals of unsigned type.</description>
   </rule>
   <rule>
     <key>M2-13-4</key>
     <configkey>M2-13-4</configkey>
     <priority>INFO</priority>
     <name>M2-13-4: Lower case literal suffix (MISRA C++)</name>
-    <description>Lower case literal suffix.</description>
+    <description>(Required) Literal suffixes shall be upper case.</description>
   </rule>
    <rule>
     <key>M2-13-5</key>
     <configkey>M2-13-5</configkey>
     <priority>INFO</priority>
     <name>M2-13-5: mixing narrow and wide string literals in concatenation (MISRA C++)</name>
-    <description>mixing narrow and wide string literals in concatenation</description>
+    <description>(Required) Narrow and wide string literals shall not be concatenated.</description>
   </rule>
   <rule>
     <key>M3-1-1</key>
     <configkey>M3-1-1</configkey>
     <priority>INFO</priority>
     <name>M3-1-1: Object/function definitions in headers (MISRA C++)</name>
-    <description>Object/function definitions in headers.</description>
+    <description>(Required) It shall be possible to include any header file in multiple translation units without violating the One Definition Rule.</description>
   </rule>
   <rule>
     <key>M3-1-2</key>
     <configkey>M3-1-2</configkey>
     <priority>INFO</priority>
     <name>M3-1-2: Function not declared at file scope (MISRA C++)</name>
-    <description>Function not declared at file scope.</description>
+    <description>(Required) Functions shall not be declared at block scope.</description>
   </rule>
   <rule>
     <key>M3-1-3</key>
     <configkey>M3-1-3</configkey>
     <priority>INFO</priority>
     <name>M3-1-3: Array has dimension 0 (MISRA C++)</name>
-    <description>Array has dimension 0.</description>
+    <description>(Required) When an array is declared, its size shall either be stated explicitly or defined implicitly by initialization.</description>
   </rule>
   <rule>
     <key>M3-2-1</key>
     <configkey>M3-2-1</configkey>
     <priority>INFO</priority>
     <name>M3-2-1: Symbol is redeclared or redefined (MISRA C++)</name>
-    <description>Symbol is redeclared or redefined.</description>
+    <description>(Required) All declarations of an object or function shall have compatible types.</description>
   </rule>
   <rule>
     <key>M3-2-2</key>
     <configkey>M3-2-2</configkey>
     <priority>INFO</priority>
     <name>M3-2-2: Symbol is redeclared or redefined (MISRA C++)</name>
-    <description>symbol is redeclared or redefined.</description>
+    <description>(Required) The One Definition Rule shall not be violated.</description>
   </rule>
   <rule>
     <key>M3-2-3</key>
     <configkey>M3-2-3</configkey>
     <priority>INFO</priority>
     <name>M3-2-3: Object/function type previously declared (MISRA C++)</name>
-    <description>Object/function type previously declared.</description>
+    <description>(Required) A type, object or function that is used in multiple translation units shall be declared in one and only one file.</description>
   </rule>
   <rule>
     <key>M3-2-4</key>
     <configkey>M3-2-4</configkey>
     <priority>INFO</priority>
     <name>M3-2-4: Symbol is redeclared or redefined (MISRA C++)</name>
-    <description>Symbol is redeclared or redefined.</description>
+    <description>(Required) An identifier with external linkage shall have exactly one definition.</description>
   </rule>
   <rule>
     <key>M3-3-1</key>
     <configkey>M3-3-1</configkey>
     <priority>INFO</priority>
-    <name>M3-3-1: Header declaration for symbol could be moved from header tomodule
-    / symbol could be made static (MISRA C++)</name>
-    <description>Header declaration for symbol could be moved from header tomodule
-    / symbol could be made static.</description>
+    <name>M3-3-1: Header declaration for symbol could be moved from header to module/symbol could be made static (MISRA C++)</name>
+    <description>(Required) Objects or functions with external linkage shall be declared in a header file.</description>
   </rule>
   <rule>
     <key>M3-3-2</key>
     <configkey>M3-3-2</configkey>
     <priority>INFO</priority>
     <name>M3-3-2: Static symbol not declared static (MISRA C++)</name>
-    <description>Static symbol not declared static.</description>
+    <description>(Required) If a function has internal linkage then all re-declarations shall include the static storage class specifier.</description>
   </rule>
   <!--
   MISRA C++ rule 3-4-1 req no not currently supported
+  (Required) An identifier declared to be an object or type shall be defined in a block that minimizes its visibility.
   MISRA C++ rule 3-9-1 req no not currently supported
+  (Required) The types used for an object, a function return type, or a function parameter shall be token-for-token identical in all declarations and re-declarations.
   -->
   <rule>
     <key>M3-9-2</key>
     <configkey>M3-9-2</configkey>
     <priority>INFO</priority>
     <name>M3-9-2: Type or modifier used outside of typedef (MISRA C++)</name>
-    <description>Type or modifier used outside of typedef.</description>
+    <description>(Advisory) typedefs that indicate size and signedness should be used in place of the basic numerical types.</description>
   </rule>
   <rule>
     <key>M3-9-3</key>
     <configkey>M3-9-3</configkey>
     <priority>INFO</priority>
     <name>M3-9-3: Bit representation of a floating point type used (MISRA C++)</name>
-    <description>Bit representation of a floating point type used.</description>
+    <description>(Required) The underlying bit representations of floating-point values shall not be used.</description>
   </rule>
   <rule>
     <key>M4-5-1</key>
     <configkey>M4-5-1</configkey>
     <priority>INFO</priority>
     <name>M4-5-1: Boolean expression used with non-permitted operator (MISRA C++)</name>
-    <description>Boolean expression used with non-permitted operator.</description>
+    <description>(Required) Expressions with type bool shall not be used as operands to built-in operators other than the assignment operator =, the logical operators
+&amp;&amp;, ||, !, the equality operators == and !=, the unary &amp; operator, and the conditional operator.</description>
   </rule>
   <!--
   MISRA C++ rule 4-5-2 req no not currently supported
+    (Required) Expressions with type enum shall not be used as operands to builtin operators other than the subscript operator [ ], the assignment
+operator =, the equality operators == and !=, the unary & operator, and the relational operators <, <=, >, >=.
   -->
   <rule>
     <key>M4-5-3</key>
     <configkey>M4-5-3</configkey>
     <priority>INFO</priority>
     <name>M4-5-3: Plain char used with prohibited operator (MISRA C++)</name>
-    <description>Plain char used with prohibited operator.</description>
+    <description>(Required) Expressions with type (plain) char and wchar_t shall not be used as operands to built-in operators other than the assignment operator =,
+the equality operators == and !=, and the unary &amp; operator.</description>
   </rule>
   <!--
   MISRA C++ rule 4-10-1 req no not currently supported
+    (Required) NULL shall not be used as an integer value.
   -->
   <rule>
     <key>M4-10-2</key>
     <configkey>M4-10-2</configkey>
     <priority>INFO</priority>
     <name>M4-10-2: Implicit conversion from 0 to pointer (MISRA C++)</name>
-    <description>Implicit conversion from 0 to pointer.</description>
+    <description>(Required) Literal zero (0) shall not be used as the null-pointer-constant.</description>
   </rule>
   <rule>
     <key>M5-0-1</key>
     <configkey>M5-0-1</configkey>
     <priority>INFO</priority>
     <name>M5-0-1: Order of evaluation (MISRA C++)</name>
-    <description>Order of evaluation.</description>
+    <description>(Required) The value of an expression shall be the same under any order of evaluation that the standard permits.</description>
   </rule>
     <rule>
     <key>M5-0-2</key>
     <configkey>M5-0-2</configkey>
     <priority>INFO</priority>
     <name>M5-0-2: Dependence placed on C’s operator precedence (MISRA C++)</name>
-    <description>Dependence placed on C’s operator precedence.</description>
+    <description>(Advisory) Limited dependence should be placed on C++ operator precedence rules in expressions.</description>
   </rule>
   <rule>
     <key>M5-0-3</key>
     <configkey>M5-0-3</configkey>
     <priority>INFO</priority>
     <name>M5-0-3: Implicit conversion of cvalue (MISRA C++)</name>
-    <description>Implicit conversion of cvalue.</description>
+    <description>(Required) A cvalue expression shall not be implicitly converted to a different underlying type.</description>
   </rule>
   <rule>
     <key>M5-0-4</key>
     <configkey>M5-0-4</configkey>
     <priority>INFO</priority>
     <name>M5-0-4: Implicit conversion changes signedness (MISRA C++)</name>
-    <description>Implicit conversion changes signedness.</description>
+    <description>(Required) An implicit integral conversion shall not change the signedness of the underlying type.</description>
   </rule>
   <rule>
     <key>M5-0-5</key>
     <configkey>M5-0-5</configkey>
     <priority>INFO</priority>
     <name>M5-0-5: Implicit conversion between integer and floating point types (MISRA C++)</name>
-    <description>Implicit conversion between integer and floating point types.</description>
+    <description>(Required) There shall be no implicit floating-integral conversions.</description>
   </rule>
   <rule>
     <key>M5-0-6</key>
     <configkey>M5-0-6</configkey>
     <priority>INFO</priority>
     <name>M5-0-6: Implicit conversion to smaller type (MISRA C++)</name>
-    <description>Implicit conversion to smaller type.</description>
+    <description>(Required) An implicit integral or floating-point conversion shall not reduce the size of the underlying type.</description>
   </rule>
   <rule>
     <key>M5-0-7</key>
     <configkey>M5-0-7</configkey>
     <priority>INFO</priority>
     <name>M5-0-7: Cast of cvalue between integer and floating point types (MISRA C++)</name>
-    <description>Cast of cvalue between integer and floating point types.</description>
+    <description>(Required) There shall be no explicit floating-integral conversions of a cvalue expression.</description>
   </rule>
   <rule>
     <key>M5-0-8</key>
     <configkey>M5-0-8</configkey>
     <priority>INFO</priority>
     <name>M5-0-8: Cast of cvalue to larger type (MISRA C++)</name>
-    <description>Cast of cvalue to larger type.</description>
+    <description>(Required) An explicit integral or floating-point conversion shall not increase the size of the underlying type of a cvalue expression.</description>
   </rule>
   <rule>
     <key>M5-0-9</key>
     <configkey>M5-0-9</configkey>
     <priority>INFO</priority>
     <name>M5-0-9: Cast of cvalue changes signedness (MISRA C++)</name>
-    <description>Cast of cvalue changes signedness.</description>
+    <description>(Required) An explicit integral conversion shall not change the signedness of the underlying type of a cvalue expression.</description>
   </rule>
   <rule>
     <key>M5-0-10</key>
     <configkey>M5-0-10</configkey>
     <priority>INFO</priority>
     <name>M5-0-10: Recasting required for operators '~' and '&lt;&lt;' (MISRA C++)</name>
-    <description>Recasting required for operators '~' and '&lt;&lt;'.</description>
+    <description>(Required) If the bitwise operators ~ and &lt;&lt; are applied to an operand with an underlying type of unsigned char or unsigned short, the result shall be
+immediately cast to the underlying type of the operand.</description>
   </rule>
   <rule>
     <key>M5-0-11</key>
     <configkey>M5-0-11</configkey>
     <priority>INFO</priority>
     <name>M5-0-11: Type other than plain char (MISRA C++)</name>
-    <description>Type other than plain char.</description>
+    <description>(Required) The plain char type shall only be used for the storage and use of character values.</description>
   </rule>
   <rule>
     <key>M5-0-12</key>
     <configkey>M5-0-12</configkey>
     <priority>INFO</priority>
     <name>M5-0-12: Disallowed use of non-numeric value (MISRA C++)</name>
-    <description>Disallowed use of non-numeric value.</description>
+    <description>(Required) signed char and unsigned char type shall only be used for the storage and use of numeric values.</description>
   </rule>
   <rule>
     <key>M5-0-13</key>
     <configkey>M5-0-13</configkey>
     <priority>INFO</priority>
     <name>M5-0-13: Implicit conversion (MISRA C++)</name>
-    <description>Implicit conversion.</description>
+    <description>(Required) The condition of an if statement and the condition of an iteration-statement shall have type bool.</description>
   </rule>
   <rule>
     <key>M5-0-14</key>
     <configkey>M5-0-14</configkey>
     <priority>INFO</priority>
     <name>M5-0-14: Implicit conversion (MISRA C++)</name>
-    <description>Implicit conversion.</description>
+    <description>(Required) The first operand of a conditional-operator shall have type bool.</description>
   </rule>
   <rule>
     <key>M5-0-15</key>
     <configkey>M5-0-15</configkey>
     <priority>INFO</priority>
     <name>M5-0-15: pointer arithmetic other than array indexing used (MISRA C++)</name>
-    <description>pointer arithmetic other than array indexing used.</description>
+    <description>(Required) Array indexing shall be the only form of pointer arithmetic.</description>
   </rule>
   <rule>
     <key>M5-0-16</key>
     <configkey>M5-0-16</configkey>
     <priority>INFO</priority>
     <name>M5-0-16: Out-of-bounds pointer (MISRA C++)</name>
-    <description>Out-of-bounds pointer.</description>
+    <description>(Required) A pointer operand and any pointer resulting from pointer arithmetic using that operand shall both address elements of the same array.</description>
   </rule>
   <rule>
     <key>M5-0-17</key>
     <configkey>M5-0-17</configkey>
     <priority>INFO</priority>
     <name>M5-0-17: Subtract operator applied to pointers (MISRA C++)</name>
-    <description>Subtract operator applied to pointers.</description>
+    <description>(Required) Subtraction between pointers shall only be applied to pointers that address elements of the same array.</description>
   </rule>
   <rule>
     <key>M5-0-18</key>
     <configkey>M5-0-18</configkey>
     <priority>INFO</priority>
     <name>M5-0-18: Relational operator applied to pointers (MISRA C++)</name>
-    <description>Relational operator applied to pointers.</description>
+    <description>(Required) &gt;, &gt;=, &lt;, &lt;= shall not be applied to objects of pointer type, except where they point to the same array.</description>
   </rule>
   <rule>
     <key>M5-0-19</key>
     <configkey>M5-0-19</configkey>
     <priority>INFO</priority>
     <name>M5-0-19: More than two pointer indirection levels used (MISRA C++)</name>
-    <description>More than two pointer indirection levels used.</description>
+    <description>(Required) The declaration of objects shall contain no more than two levels of pointer indirection.</description>
   </rule>
   <!--
   MISRA C++ rule 5-0-20 req no not currently supported
+    (Required) Non-constant operands to a binary bitwise operator shall have the same underlying type.
   -->
   <rule>
     <key>M5-0-21</key>
     <configkey>M5-0-21</configkey>
     <priority>INFO</priority>
     <name>M5-0-21: Bitwise operator applied to signed underlying type (MISRA C++)</name>
-    <description>Bitwise operator applied to signed underlying type .</description>
+    <description>(Required) Bitwise operators shall only be applied to operands of unsigned underlying type.</description>
   </rule>
   <rule>
     <key>M5-2-1</key>
     <configkey>M5-2-1</configkey>
     <priority>INFO</priority>
     <name>M5-2-1: non-postfix expression used with logical operator (MISRA C++)</name>
-    <description>non-postfix expression used with logical operator.</description>
+    <description>(Required) Each operand of a logical &amp;&amp; or || shall be a postfix-expression.</description>
   </rule>
   <rule>
     <key>M5-2-2</key>
     <configkey>M5-2-2</configkey>
     <priority>INFO</priority>
     <name>M5-2-2: use dynamic_cast to downcast polymorphic type (MISRA C++)</name>
-    <description>use dynamic_cast to downcast polymorphic type.</description>
+    <description>(Required) A pointer to a virtual base class shall only be cast to a pointer to a derived class by means of dynamic_cast.</description>
   </rule>
   <!--
   MISRA C++ rule 5-2-3 adv no not currently supported
+    (Advisory) Casts from a base class to a derived class should not be performed on polymorphic types.
   -->
   <rule>
     <key>M5-2-4</key>
     <configkey>M5-2-4</configkey>
     <priority>INFO</priority>
     <name>M5-2-4: C-style cast (MISRA C++)</name>
-    <description>C-style cast.</description>
+    <description>(Required) C-style casts (other than void casts) and functional notation casts (other than explicit constructor calls) shall not be used.</description>
   </rule>
   <rule>
     <key>M5-2-5</key>
     <configkey>M5-2-5</configkey>
     <priority>INFO</priority>
     <name>M5-2-5: attempt to cast away const/volatile from a pointer or reference (MISRA C++)</name>
-    <description>attempt to cast away const/volatile from a pointer or reference.</description>
+    <description>(Required) A cast shall not remove any const or volatile qualification from the type of a pointer or reference.</description>
   </rule>
   <rule>
     <key>M5-2-6</key>
     <configkey>M5-2-6</configkey>
     <priority>INFO</priority>
     <name>M5-2-6: Suspicious cast / unusual pointer cast (MISRA C++)</name>
-    <description>Suspicious cast / unusual pointer cast.</description>
+    <description>(Required) A cast shall not convert a pointer to a function to any other pointer type, including a pointer to function type.</description>
   </rule>
   <rule>
     <key>M5-2-7</key>
     <configkey>M5-2-7</configkey>
     <priority>INFO</priority>
     <name>M5-2-7: Pointer conversion to an unrelated type (MISRA C++)</name>
-    <description>Pointer conversion to an unrelated type.</description>
+    <description>(Required) An object with pointer type shall not be converted to an unrelated pointer type, either directly or indirectly.</description>
   </rule>
   <rule>
     <key>M5-2-8</key>
     <configkey>M5-2-8</configkey>
     <priority>INFO</priority>
     <name>M5-2-8: Cast from integer or pointer to void to a pointer to an object (MISRA C++)</name>
-    <description>Cast from integer or pointer to void to a pointer to an object.</description>
+    <description>(Required) An object with integer type or pointer to void type shall not be converted to an object with pointer type.</description>
   </rule>
   <rule>
     <key>M5-2-9</key>
     <configkey>M5-2-9</configkey>
     <priority>INFO</priority>
     <name>M5-2-9: Cast from pointer to integral type (MISRA C++)</name>
-    <description>Cast from pointer to integral type.</description>
+    <description>(Advisory) A cast should not convert a pointer type to an integral type.</description>
   </rule>
   <rule>
     <key>M5-2-10</key>
     <configkey>M5-2-10</configkey>
     <priority>INFO</priority>
     <name>M5-2-10: Increment or decrement combined with another operator (MISRA C++)</name>
-    <description>Increment or decrement combined with another operator.</description>
+    <description>(Advisory) The increment (++) and decrement (–) operators should not be mixed with other operators in an expression.</description>
   </rule>
   <rule>
     <key>M5-2-11</key>
     <configkey>M5-2-11</configkey>
     <priority>INFO</priority>
     <name>M5-2-11: overloading special operators – comma &amp;&amp; || (MISRA C++)</name>
-    <description>overloading special operators – comma &amp;&amp; ||.</description>
+    <description>(Required) The comma operator, &amp;&amp; operator and the || operator shall not be overloaded.</description>
   </rule>
   <rule>
     <key>M5-2-12</key>
     <configkey>M5-2-12</configkey>
     <priority>INFO</priority>
     <name>M5-2-12: Array-pointer decay when passing the array to a function (MISRA C++)</name>
-    <description>Array-pointer decay when passing the array to a function.</description>
+    <description>(Required) An identifier with array type passed as a function argument shall not decay to a pointer.</description>
   </rule>
   <rule>
     <key>M5-3-1</key>
     <configkey>M5-3-1</configkey>
     <priority>INFO</priority>
     <name>M5-3-1: boolean expression required for operator: '||'; the -strong(B,...) option can help provide Boolean-by-enforcement (MISRA C++)</name>
-    <description>boolean expression required for operator: '||'; the -strong(B,...) option can help provide Boolean-by-enforcement.</description>
+    <description>(Required) Each operand of the ! operator, the logical &amp;&amp; or the logical || operators shall have type bool.</description>
   </rule>
     <rule>
     <key>M5-3-2</key>
     <configkey>M5-3-2</configkey>
     <priority>INFO</priority>
     <name>M5-3-2: Prohibited operator applied to unsigned underlying type (MISRA C++)</name>
-    <description>Prohibited operator applied to unsigned underlying type.</description>
+    <description>(Required) The unary minus operator shall not be applied to an expression whose underlying type is unsigned</description>
   </rule>
   <rule>
     <key>M5-3-3</key>
     <configkey>M5-3-3</configkey>
     <priority>INFO</priority>
     <name>M5-3-3: Overloading unary &amp; (MISRA C++)</name>
-    <description>Overloading unary &amp;</description>
+    <description>(Required) The unary &amp; operator shall not be overloaded.</description>
   </rule>
   <rule>
     <key>M5-3-4</key>
     <configkey>M5-3-4</configkey>
     <priority>INFO</priority>
     <name>M5-3-4: 'sizeof' used on expressions with side effect (MISRA C++)</name>
-    <description>'sizeof' used on expressions with side effect.</description>
+    <description>(Required) Evaluation of the operand to the sizeof operator shall not contain side effects.</description>
   </rule>
   <rule>
     <key>M5-8-1</key>
     <configkey>M5-8-1</configkey>
     <priority>INFO</priority>
     <name>M5-8-1: excessive shift value (MISRA C++)</name>
-    <description>excessive shift value</description>
+    <description>(Required) The right hand operand of a shift operator shall lie between zero and one less than the width in bits of the underlying type of the left hand operand</description>
   </rule>
   <rule>
     <key>M5-14-1</key>
     <configkey>M5-14-1</configkey>
     <priority>INFO</priority>
     <name>M5-14-1: Side effects on right hand side of logical operator (MISRA C++)</name>
-    <description>Side effects on right hand side of logical operator.</description>
+    <description>(Required) The right hand operand of a logical &amp;&amp; or || operator shall not contain side effects.</description>
   </rule>
   <!--
   MISRA C++ rule 5-17-1 req no not currently supported
+    (Required) The semantic equivalence between a binary operator and its assignment operator form shall be preserved.
   -->
   <rule>
     <key>M5-18-1</key>
     <configkey>M5-18-1</configkey>
     <priority>INFO</priority>
     <name>M5-18-1: Comma operator used (MISRA C++)</name>
-    <description>Comma operator used.</description>
+    <description>(Required) The comma operator shall not be used.</description>
   </rule>
    <rule>
     <key>M5-19-1</key>
     <configkey>M5-19-1</configkey>
     <priority>INFO</priority>
     <name>M5-19-1: Overflow in computing constant (MISRA C++)</name>
-    <description>Overflow in computing constant.</description>
+    <description>(Advisory) Evaluation of constant unsigned integer expressions should not lead to wrap-around.</description>
   </rule>
   <rule>
     <key>M6-2-1</key>
     <configkey>M6-2-1</configkey>
     <priority>INFO</priority>
     <name>M6-2-1: Assignment operator used in sub-expression (MISRA C++)</name>
-    <description>Assignment operator used in sub-expression.</description>
+    <description>(Required) Assignment operators shall not be used in sub-expressions.</description>
   </rule>
   <rule>
     <key>M6-2-2</key>
     <configkey>M6-2-2</configkey>
     <priority>INFO</priority>
     <name>M6-2-2: Testing floats for equality (MISRA C++)</name>
-    <description>Testing floats for equality.</description>
+    <description>(Required) Floating-point expressions shall not be directly or indirectly tested for equality or inequality</description>
   </rule>
   <rule>
     <key>M6-2-3</key>
     <configkey>M6-2-3</configkey>
     <priority>INFO</priority>
     <name>M6-2-3: Null statement not in line by itself (MISRA C++)</name>
-    <description>Null statement not in line by itself.</description>
+    <description>(Required) Before preprocessing, a null statement shall only occur on a line by itself; it may be followed by a comment, provided that the first character following the null statement</description>
   </rule>
   <rule>
     <key>M6-3-1</key>
     <configkey>M6-3-1</configkey>
     <priority>INFO</priority>
     <name>M6-3-1: Left brace expected for if, else, for, do, switch and while (MISRA C++)</name>
-    <description>Left brace expected for if, else, for, do, switch and while.</description>
+    <description>(Required) The statement forming the body of a switch, while, do ... while or for statement shall be a compound statement.</description>
   </rule>
   <rule>
     <key>M6-4-1</key>
     <configkey>M6-4-1</configkey>
     <priority>INFO</priority>
     <name>M6-4-1: Left brace expected for if, else, for, do, switch and while (MISRA C++)</name>
-    <description>Left brace expected for if, else, for, do, switch and while.</description>
+    <description>(Required) An if ( condition ) construct shall be followed by a compound statement. The else keyword shall be followed by either a compound statement, or another if statement.</description>
   </rule>
   <rule>
     <key>M6-4-2</key>
     <configkey>M6-4-2</configkey>
     <priority>INFO</priority>
     <name>M6-4-2: No 'else' at end of 'if ... else if' chain (MISRA C++)</name>
-    <description>No 'else' at end of 'if ... else if' chain.</description>
+    <description>(Required) All if ... else if constructs shall be terminated with an else clause.</description>
   </rule>
   <!--
   MISRA C++ rule 6-4-3 req no not currently supported
+    (Required) A switch statement shall be a well-formed switch statement.
   MISRA C++ rule 6-4-4 req no not currently supported
+    (Required) A switch-label shall only be used when the most closely-enclosing compound statement is the body of a switch statement.
   -->
   <rule>
     <key>M6-4-5</key>
     <configkey>M6-4-5</configkey>
     <priority>INFO</priority>
     <name>M6-4-5: Control flows into case/default (MISRA C++)</name>
-    <description>Control flows into case/default.</description>
+    <description>(Required) An unconditional throw or break statement shall terminate every non-empty switch-clause.</description>
   </rule>
   <rule>
     <key>M6-4-6</key>
     <configkey>M6-4-6</configkey>
     <priority>INFO</priority>
     <name>M6-4-6: Switch statement has no default or case follows default (MISRA C++)</name>
-    <description>Switch statement has no default or case follows default.</description>
+    <description>(Required) The final clause of a switch statement shall be the default-clause.</description>
   </rule>
   <rule>
     <key>M6-4-7</key>
     <configkey>M6-4-7</configkey>
     <priority>INFO</priority>
     <name>M6-4-7: Boolean value in switch expression (MISRA C++)</name>
-    <description>Boolean value in switch expression.</description>
+    <description>(Required) The condition of a switch statement shall not have bool type.</description>
   </rule>
   <rule>
     <key>M6-4-8</key>
     <configkey>M6-4-8</configkey>
     <priority>INFO</priority>
     <name>M6-4-8: Switch does not have a case (MISRA C++)</name>
-    <description>Switch does not have a case.</description>
+    <description>(Required) Every switch statement shall have at least one case-clause.</description>
   </rule>
   <!--
   MISRA C++ rule 6-5-1 req no not currently supported
+    (Required) A for loop shall contain a single loop-counter which shall not have floating type.
   MISRA C++ rule 6-5-2 req no not currently supported
+    (Required) If loop-counter is not modified by – or ++, then, within condition, the loop-counter shall only be used as an operand to <=, <, > or >=.
   -->
   <rule>
     <key>M6-5-3</key>
     <configkey>M6-5-3</configkey>
     <priority>INFO</priority>
     <name>M6-5-3: Reuse of for loop variable could cause chaos (MISRA C++)</name>
-    <description>Reuse of for loop variable could cause chaos.</description>
+    <description>(Required) The loop-counter shall not be modified within condition or statement.</description>
   </rule>
   <!--
   MISRA C++ rule 6-5-4 req no not currently supported
+    (Required) The loop-counter shall be modified by one of: –, ++, -=n, or +=n; where n remains constant for the duration of the loop.
   MISRA C++ rule 6-5-5 req no not currently supported
+    (Required) A loop-control-variable other than the loop-counter shall not be modified within condition or expression.
   MISRA C++ rule 6-5-6 req no not currently supported
+    (Required) A loop-control-variable other than the loop-counter which is modified in statement shall have type bool.
   MISRA C++ rule 6-6-1 req no not currently supported
+    (Required) Any label referenced by a goto statement shall be declared in the same block, or in a block enclosing the goto statement.
   -->
   <rule>
     <key>M6-6-2</key>
     <configkey>M6-6-2</configkey>
     <priority>INFO</priority>
     <name>M6-6-2: Gotos jumping to an earlier point in the code (MISRA C++)</name>
-    <description>Gotos jumping to an earlier point in the code.</description>
+    <description>(Required) The goto statement shall jump to a label declared later in the same function body.</description>
   </rule>
   <rule>
     <key>M6-6-3</key>
     <configkey>M6-6-3</configkey>
     <priority>INFO</priority>
     <name>M6-6-3: continue statement should not be used (MISRA C++)</name>
-    <description>continue statement should not be used.</description>
+    <description>(Required) The continue statement shall only be used within a well-formed for loop.</description>
   </rule>
   <rule>
     <key>M6-6-4</key>
     <configkey>M6-6-4</configkey>
     <priority>INFO</priority>
     <name>M6-6-4: More than one 'break' terminates loop (MISRA C++)</name>
-    <description>More than one 'break' terminates loop.</description>
+    <description>(Required) For any iteration statement there shall be no more than one break or goto statement used for loop termination.</description>
   </rule>
   <rule>
     <key>M6-6-5</key>
     <configkey>M6-6-5</configkey>
     <priority>INFO</priority>
     <name>M6-6-5: Return before function end (MISRA C++)</name>
-    <description>Return before function end.</description>
+    <description>(Required) A function shall have a single point of exit at the end of the function.</description>
   </rule>
   <rule>
     <key>M7-1-1</key>
     <configkey>M7-1-1</configkey>
     <priority>INFO</priority>
     <name>M7-1-1: Use const on parameters where appropriate (MISRA C++)</name>
-    <description>Use const on parameters where appropriate.</description>
+    <description>(Required) A variable which is not modified shall be const qualified.</description>
   </rule>
   <rule>
     <key>M7-1-2</key>
     <configkey>M7-1-2</configkey>
     <priority>INFO</priority>
     <name>M7-1-2: Use const on parameters where appropriate (MISRA C++)</name>
-    <description>Use const on parameters where appropriate.</description>
+    <description>(Required) A pointer or reference parameter in a function shall be declared as pointer to const or reference to const if the corresponding object is not modified.</description>
   </rule>
   <!--
   MISRA C++ rule 7-2-1 req Yes not currently supported
+    (Required) An expression with enum underlying type shall only have values corresponding to the enumerators of the enumeration.
   -->
   <rule>
     <key>M7-3-1</key>
     <configkey>M7-3-1</configkey>
     <priority>INFO</priority>
     <name>M7-3-1: Global declarations other than main(), namespace declarations, extern &quot;C&quot; declarations and arithmetic typedefs (MISRA C++)</name>
-    <description>Global declarations other than main(), namespace declarations, extern &quot;C&quot; declarations and arithmetic typedefs.</description>
+    <description>(Required) The global namespace shall only contain main, namespace declarations and extern &quot;C&quot; declarations.</description>
   </rule>
   <rule>
     <key>M7-3-2</key>
     <configkey>M7-3-2</configkey>
     <priority>INFO</priority>
     <name>M7-3-2: Using the identifier main for functions other than the global one (MISRA C++)</name>
-    <description>Using the identifier main for functions other than the global one.</description>
+    <description>(Required) The identifier main shall not be used for a function other than the global function main.</description>
   </rule>
   <rule>
     <key>M7-3-3</key>
     <configkey>M7-3-3</configkey>
     <priority>INFO</priority>
     <name>M7-3-3: Unnamed namespaces in headers (MISRA C++)</name>
-    <description>Unnamed namespaces in headers.</description>
+    <description>(Required) There shall be no unnamed namespaces in header files.</description>
   </rule>
   <rule>
     <key>M7-3-4</key>
     <configkey>M7-3-4</configkey>
     <priority>INFO</priority>
     <name>M7-3-4: No using-directives allowed (MISRA C++)</name>
-    <description>No using-directives allowed.</description>
+    <description>(Required) using-directives shall not be used.</description>
   </rule>
   <!--
   MISRA C++ rule 7-3-5 req no not currently supported
+    (Required) Multiple declarations for an identifier in the same namespace shall not straddle a using-declaration for that identifier.
   -->
   <rule>
     <key>M7-3-6</key>
     <configkey>M7-3-6</configkey>
     <priority>INFO</priority>
     <name>M7-3-6: Using-directives or using declarations (except class and/or block scope using declarations) in header files (MISRA C++)</name>
-    <description>Using-directives or using declarations (except class and/or block scope using declarations) in header files.</description>
+    <description>(Required) using-directives and using declarations (excluding class scope or function scope using-declarations) shall not be used in header files.</description>
   </rule>
   <!--
   MISRA C++ rule 7-4-1 doc n/a not statically checkable
+    (Document) All usage of assembler shall be documented.
   -->
   <rule>
     <key>M7-4-2</key>
     <configkey>M7-4-2</configkey>
     <priority>INFO</priority>
     <name>M7-4-2: Only use the asm declaration to introduce assembly code (MISRA C++)</name>
-    <description>Only use the asm declaration to introduce assembly code.</description>
+    <description>(Required) Assembler instructions shall only be introduced using the asm declaration.</description>
   </rule>
   <!--
   MISRA C++ rule 7-4-3 req no not currently supported
+    (Required) Assembly language shall be encapsulated and isolated.
   -->
   <rule>
     <key>M7-5-1</key>
     <configkey>M7-5-1</configkey>
     <priority>INFO</priority>
     <name>M7-5-1: Returning address of auto variable (MISRA C++)</name>
-    <description>Returning address of auto variable.</description>
+    <description>(Required) A function shall not return a reference or a pointer to an automatic variable (including parameters), defined within the function.</description>
   </rule>
   <rule>
     <key>M7-5-2</key>
     <configkey>M7-5-2</configkey>
     <priority>INFO</priority>
     <name>M7-5-2: Assigning address of auto to static (MISRA C++)</name>
-    <description>Assigning address of auto to static.</description>
+    <description>(Required) The address of an object with automatic storage shall not be assigned to another object that may persist after the first object has ceased to exist.</description>
   </rule>
   <rule>
     <key>M7-5-3</key>
     <configkey>M7-5-3</configkey>
     <priority>INFO</priority>
     <name>M7-5-3: Returning address of reference to a const parameter address of reference parameter transferred outside of function (MISRA C++)</name>
-    <description>Returning address of reference to a const parameter address of reference parameter transferred outside of function.</description>
+    <description>(Required) A function shall not return a reference or a pointer to a parameter that is passed by reference or const reference.</description>
   </rule>
   <rule>
     <key>M7-5-4</key>
     <configkey>M7-5-4</configkey>
     <priority>INFO</priority>
     <name>M7-5-4: Worst case function for stack usage (MISRA C++)</name>
-    <description>Worst case function for stack usage.</description>
+    <description>(Advisory) Functions should not call themselves, either directly or indirectly.</description>
   </rule>
   <rule>
     <key>M8-0-1</key>
     <configkey>M8-0-1</configkey>
     <priority>INFO</priority>
     <name>M8-0-1: Multiple declarators in a declaration (MISRA C++)</name>
-    <description>Multiple declarators in a declaration.</description>
+    <description>(Required) An init-declarator-list or a member-declarator-list shall consist of a single init-declarator or member declarator respectively.</description>
   </rule>
   <rule>
     <key>M8-3-1</key>
     <configkey>M8-3-1</configkey>
     <priority>INFO</priority>
     <name>M8-3-1: Virtual function has default parameter (MISRA C++)</name>
-    <description>Virtual function has default parameter.</description>
+    <description>(Required) Parameters in an overriding virtual function shall either use the same default arguments as the function they override, or else shall not specify any default arguments.</description>
   </rule>
   <rule>
     <key>M8-4-1</key>
     <configkey>M8-4-1</configkey>
     <priority>INFO</priority>
     <name>M8-4-1: Function has variable number of arguments (MISRA C++)</name>
-    <description>Function has variable number of arguments.</description>
+    <description>(Required) Functions shall not be defined using the ellipsis notation.</description>
   </rule>
   <rule>
     <key>M8-4-2</key>
     <configkey>M8-4-2</configkey>
     <priority>INFO</priority>
     <name>M8-4-2: Function parameter list differs from prior declaration (MISRA C++)</name>
-    <description>Function parameter list differs from prior declaration.</description>
+    <description>(Required) The identifiers used for the parameters in a re-declaration of a function shall be identical to those in the declaration.</description>
   </rule>
   <rule>
     <key>M8-4-3</key>
     <configkey>M8-4-3</configkey>
     <priority>INFO</priority>
     <name>M8-4-3: Function should return a value (MISRA C++)</name>
-    <description>Function should return a value.</description>
+    <description>(Required) All exit paths from a function with non-void return type shall have an explicit return statement with an expression.</description>
   </rule>
   <rule>
     <key>M8-4-4</key>
     <configkey>M8-4-4</configkey>
     <priority>INFO</priority>
     <name>M8-4-4: Function parameter list differs from prior declaration (MISRA C++)</name>
-    <description>Function parameter list differs from prior declaration.</description>
+    <description>(Required) A function identifier shall either be used to call the function or it shall be preceded by &amp;.</description>
   </rule>
   <rule>
     <key>M8-5-1</key>
     <configkey>M8-5-1</configkey>
     <priority>INFO</priority>
     <name>M8-5-1: Symbol not initialized (MISRA C++)</name>
-    <description>Symbol not initialized.</description>
+    <description>(Required) All variables shall have a defined value before they are used.</description>
   </rule>
   <rule>
     <key>M8-5-2</key>
     <configkey>M8-5-2</configkey>
     <priority>INFO</priority>
     <name>M8-5-2: Omitted braces within an initializer (MISRA C++)</name>
-    <description>Omitted braces within an initializer.</description>
+    <description>(Required) Braces shall be used to indicate and match the structure in the nonzero initialization of arrays and structures.</description>
   </rule>
   <rule>
     <key>M8-5-3</key>
     <configkey>M8-5-3</configkey>
     <priority>INFO</priority>
     <name>M8-5-3: Should initialize either all enum members or only the first (MISRA C++)</name>
-    <description>Should initialize either all enum members or only the first.</description>
+    <description>(Required) In an enumerator list, the = construct shall not be used to explicitly initialize members other than the first, unless all items are explicitly initialized.</description>
   </rule>
   <rule>
     <key>M9-3-1</key>
     <configkey>M9-3-1</configkey>
     <priority>INFO</priority>
     <name>M9-3-1: Const member function anomaly (MISRA C++)</name>
-    <description>Const member function anomaly.</description>
+    <description>(Required) const member functions shall not return non-const pointers or references to class-data.</description>
   </rule>
   <rule>
     <key>M9-3-2</key>
     <configkey>M9-3-2</configkey>
     <priority>INFO</priority>
     <name>M9-3-2: Member function returns non-const address (MISRA C++)</name>
-    <description>Member function returns non-const address.</description>
+    <description>(Required) Member functions shall not return non-const handles to classdata.</description>
   </rule>
   <rule>
     <key>M9-3-3</key>
     <configkey>M9-3-3</configkey>
     <priority>INFO</priority>
     <name>M9-3-3: Member function could be made const (MISRA C++)</name>
-    <description>Member function could be made const.</description>
+    <description>(Required) If a member function can be made static then it shall be made static, otherwise if it can be made const then it shall be made const.</description>
   </rule>
   <rule>
     <key>M9-5-1</key>
     <configkey>M9-5-1</configkey>
     <priority>INFO</priority>
     <name>M9-5-1: Unions shall not be used (MISRA C++)</name>
-    <description>Unions shall not be used.</description>
+    <description>(Required) Unions shall not be used.</description>
   </rule>
   <!--
   MISRA C++ rule 9-6-1 doc n/a not statically checkable
+    (Document) When the absolute positioning of bits representing a bit-field is required, then the behaviour and packing of bit-fields shall be documented.
   -->
   <rule>
     <key>M9-6-2</key>
     <configkey>M9-6-2</configkey>
     <priority>INFO</priority>
     <name>M9-6-2: Bit field type should be int (MISRA C++)</name>
-    <description>Bit field type should be int.</description>
+    <description>(Required) Bit-fields shall be either bool type or an explicitly unsigned or signed integral type.</description>
   </rule>
   <rule>
     <key>M9-6-3</key>
     <configkey>M9-6-3</configkey>
     <priority>INFO</priority>
     <name>M9-6-3: Bit field type should be int (MISRA C++)</name>
-    <description>Bit field type should be int.</description>
+    <description>(Required) Bit-fields shall not have enum type.</description>
   </rule>
   <rule>
     <key>M9-6-4</key>
     <configkey>M9-6-4</configkey>
     <priority>INFO</priority>
     <name>M9-6-4: Small bit field is signed rather than unsigned (MISRA C++)</name>
-    <description>Small bit field is signed rather than unsigned.</description>
+    <description>(Required) Named bit-fields with signed integer type shall have a length of more than one bit.</description>
   </rule>
   <rule>
     <key>M10-1-1</key>
     <configkey>M10-1-1</configkey>
     <priority>INFO</priority>
     <name>M10-1-1: Base class need not be virtual (MISRA C++)</name>
-    <description>Base class need not be virtual.</description>
+    <description>(Advisory) Classes should not be derived from virtual bases.</description>
   </rule>
   <!--
   MISRA C++ rule 10-1-2 req no not currently supported
+    (Required) A base class shall only be declared virtual if it is used in a diamond hierarchy.
   -->
   <rule>
     <key>M10-1-3</key>
     <configkey>M10-1-3</configkey>
     <priority>INFO</priority>
     <name>M10-1-3: Non-virtual base class included twice in class (MISRA C++)</name>
-    <description>Non-virtual base class included twice in class.</description>
+    <description>(Required) An accessible base class shall not be both virtual and nonvirtual in the same hierarchy.</description>
   </rule>
   <!--
   MISRA C++ rule 10-2-1 adv no not currently supported
+    (Advisory) All accessible entity names within a multiple inheritance hierarchy should be unique.
   MISRA C++ rule 10-3-1 req no not currently supported
+    (Required) There shall be no more than one definition of each virtual function on each path through the inheritance hierarchy.
   -->
   <rule>
     <key>M10-3-2</key>
     <configkey>M10-3-2</configkey>
     <priority>INFO</priority>
     <name>M10-3-2: 'virtual' assumed for function (MISRA C++)</name>
-    <description>'virtual' assumed for function.</description>
+    <description>(Required) Each overriding virtual function shall be declared with the virtual keyword.</description>
   </rule>
   <!--
   MISRA C++ rule 10-3-3 req no not currently supported
+    (Required) A virtual function shall only be overridden by a pure virtual function if it is itself declared as pure virtual.
   -->
   <rule>
     <key>M11-0-1</key>
     <configkey>M11-0-1</configkey>
     <priority>INFO</priority>
     <name>M11-0-1: Non-private data member within a non-POD structure (MISRA C++)</name>
-    <description>Non-private data member within a non-POD structure.</description>
+    <description>(Required) Member data in non-POD class types shall be private.</description>
   </rule>
   <rule>
     <key>M12-1-1</key>
     <configkey>M12-1-1</configkey>
     <priority>INFO</priority>
     <name>M12-1-1: Call to virtual function within a constructor or destructor (MISRA C++)</name>
-    <description>Call to virtual function within a constructor or destructor.</description>
+    <description>(Required) An object’s dynamic type shall not be used from the body of its constructor or destructor.</description>
   </rule>
   <rule>
     <key>M12-1-2</key>
     <configkey>M12-1-2</configkey>
     <priority>INFO</priority>
     <name>M12-1-2: Symbol did not appear in constructor initializer list (MISRA C++)</name>
-    <description>Symbol did not appear in constructor initializer list.</description>
+    <description>(Advisory) All constructors of a class should explicitly call a constructor for all of its immediate base classes and all virtual base classes.</description>
   </rule>
   <!--
   MISRA C++ rule 12-1-3 req no not currently supported
+    (Required) All constructors that are callable with a single argument of fundamental type shall be declared explicit.
   -->
   <rule>
     <key>M12-8-1</key>
     <configkey>M12-8-1</configkey>
     <priority>INFO</priority>
     <name>M12-8-1: Constructor access global data (MISRA C++)</name>
-    <description>Constructor access global data.</description>
+    <description>(Required) A copy constructor shall only initialize its base classes and the nonstatic members of the class of which it is a member.</description>
   </rule>
   <rule>
     <key>M12-8-2</key>
     <configkey>M12-8-2</configkey>
     <priority>INFO</priority>
     <name>M12-8-2: Public copy constructor in abstract class (MISRA C++)</name>
-    <description>Public copy constructor in abstract class.</description>
+    <description>(Required) The copy assignment operator shall be declared protected or private in an abstract class.</description>
   </rule>
   <rule>
     <key>M14-5-1</key>
     <configkey>M14-5-1</configkey>
     <priority>INFO</priority>
     <name>M14-5-1: Generic function template associated with type (MISRA C++)</name>
-    <description>Generic function template associated with type.</description>
+    <description>(Required) A non-member generic function shall only be declared in a namespace that is not an associated namespace.</description>
   </rule>
   <rule>
     <key>M14-5-2</key>
     <configkey>M14-5-2</configkey>
     <priority>INFO</priority>
     <name>M14-5-2: Template constructor cannot be a copy constructor (MISRA C++)</name>
-    <description>Template constructor cannot be a copy constructor.</description>
+    <description>(Required) A copy constructor shall be declared when there is a template constructor with a single parameter that is a generic parameter.</description>
   </rule>
   <rule>
     <key>M14-5-3</key>
     <configkey>M14-5-3</configkey>
     <priority>INFO</priority>
     <name>M14-5-3: Operator =() for class is not assignment operator (MISRA C++)</name>
-    <description>Operator =() for class is not assignment operator.</description>
+    <description>(Required) A copy assignment operator shall be declared when there is a template assignment operator with a parameter that is a generic parameter.</description>
   </rule>
   <rule>
     <key>M14-6-1</key>
     <configkey>M14-6-1</configkey>
     <priority>INFO</priority>
     <name>M14-6-1: Unqualified name subject to misinterpretation (MISRA C++)</name>
-    <description>Unqualified name subject to misinterpretation.</description>
+    <description>(Required) In a class template with a dependent base, any name that may be found in that dependent base shall be referred to using a qualified-id or this-&gt;</description>
   </rule>
   <!--
   MISRA C++ rule 14-6-2 req n/a awaiting clarification from MISRA
+  (Required) The function chosen by overload resolution shall resolve to a function declared previously in the translation unit.
   -->
   <rule>
     <key>M14-7-1</key>
     <configkey>M14-7-1</configkey>
     <priority>INFO</priority>
     <name>M14-7-1: Template was defined but not instantiated (MISRA C++)</name>
-    <description>Template was defined but not instantiated.</description>
+    <description>(Required) All class templates, function templates, class template member functions and class template static members shall be instantiated at least once.</description>
   </rule>
   <!--
   MISRA C++ rule 14-7-2 req no not currently supported
+   (Required) For any given template specialization, an explicit instantiation of the template with the template arguments used in the specialization shall not render the program illformed.
   -->
   <rule>
     <key>M14-7-3</key>
     <configkey>M14-7-3</configkey>
     <priority>INFO</priority>
     <name>M14-7-3: Specialization occurs in different file than template (MISRA C++)</name>
-    <description>Specialization occurs in different file than template.</description>
+    <description>(Required) All partial and explicit specializations for a template shall be declared in the same file as the declaration of their primary template.</description>
   </rule>
   <rule>
     <key>M14-8-1</key>
     <configkey>M14-8-1</configkey>
     <priority>INFO</priority>
     <name>M14-8-1: Explicit specialization of overloaded function templates (MISRA C++)</name>
-    <description>Explicit specialization of overloaded function templates.</description>
+    <description>(Required) Overloaded function templates shall not be explicitly specialized.</description>
   </rule>
   <rule>
     <key>M14-8-2</key>
     <configkey>M14-8-2</configkey>
     <priority>INFO</priority>
     <name>M14-8-2: Mixing template and non-template functions in a viable set (MISRA C++)</name>
-    <description>Mixing template and non-template functions in a viable set.</description>
+    <description>(Advisory) The viable function set for a function call should either contain no function specializations, or only contain function specializations.</description>
   </rule>
   <!--
   MISRA C++ rule 15-0-1 doc n/a not statically checkable
+    (Document) Exceptions shall only be used for error handling.
   -->
   <rule>
     <key>M15-0-2</key>
     <configkey>M15-0-2</configkey>
     <priority>INFO</priority>
     <name>M15-0-2: Throwing a pointer expression (MISRA C++)</name>
-    <description>Throwing a pointer expression.</description>
+    <description>(Advisory) An exception object should not have pointer type.</description>
   </rule>
   <rule>
     <key>M15-0-3</key>
     <configkey>M15-0-3</configkey>
     <priority>INFO</priority>
     <name>M15-0-3: Case/default within loop; may have been misplaced (MISRA C++)</name>
-    <description>Case/default within loop; may have been misplaced.</description>
+    <description>(Required) Control shall not be transferred into a try or catch block using a goto or a switch statement.</description>
   </rule>
   <!--
   MISRA C++ rule 15-1-1 req no not currently supported
+    (Required) The assignment expression of a throw statement shall not itself cause an exception to be thrown.
   -->
   <rule>
     <key>M15-1-2</key>
     <configkey>M15-1-2</configkey>
     <priority>INFO</priority>
     <name>M15-1-2: Explicit throw of the NULL macro (MISRA C++)</name>
-    <description>Explicit throw of the NULL macro.</description>
+    <description>(Required) NULL shall not be thrown explicitly.</description>
   </rule>
   <rule>
     <key>M15-1-3</key>
     <configkey>M15-1-3</configkey>
     <priority>INFO</priority>
     <name>M15-1-3: Empty throw outside of a catch block (MISRA C++)</name>
-    <description>Empty throw outside of a catch block.</description>
+    <description>(Required) An empty throw (throw;) shall only be used in the compound statement of a catch handler</description>
   </rule>
   <rule>
     <key>M15-3-1</key>
     <configkey>M15-3-1</configkey>
     <priority>INFO</priority>
     <name>M15-3-1: Exception thrown within destructor (MISRA C++)</name>
-    <description>Exception thrown within destructor.</description>
+    <description>(Required) Exceptions shall be raised only after start-up and before termination of the program.</description>
   </rule>
   <!--
   MISRA C++ rule 15-3-2 adv no not currently supported
+    (Advisory) There should be at least one exception handler to catch all otherwise unhandled exception
   MISRA C++ rule 15-3-3 req no not currently supported
+    (Required) Handlers of a function try-block implementation of a class constructor or destructor shall not reference non-static members from this class or its bases.
   -->
   <rule>
     <key>M15-3-4</key>
     <configkey>M15-3-4</configkey>
     <priority>INFO</priority>
     <name>M15-3-4: Uncaught exception not on throw-list (MISRA C++)</name>
-    <description>Uncaught exception not on throw-list.</description>
+    <description>(Required) Each exception explicitly thrown in the code shall have a handler of a compatible type in all call paths that could lead to that point.</description>
   </rule>
   <rule>
     <key>M15-3-5</key>
     <configkey>M15-3-5</configkey>
     <priority>INFO</priority>
     <name>M15-3-5: Catch parameter is not a reference (MISRA C++)</name>
-    <description>Catch parameter is not a reference.</description>
+    <description>(Required) A class type exception shall always be caught by reference.</description>
   </rule>
   <!--
   MISRA C++ rule 15-3-6 req no not currently supported
+    (Required) Where multiple handlers are provided in a single try-catch statement or function-try-block for a derived class and some or all of its bases, the handlers shall be ordered most-derived to base class.
   -->
   <rule>
     <key>M15-3-7</key>
     <configkey>M15-3-7</configkey>
     <priority>INFO</priority>
     <name>M15-3-7: Catch handler after catch(...) in a try-catch sequence (MISRA C++)</name>
-    <description>Catch handler after catch(...) in a try-catch sequence.</description>
+    <description>(Required) Where multiple handlers are provided in a single try-catch statement or function-try-block, any ellipsis (catch-all) handler shall occur last.</description>
   </rule>
   <rule>
     <key>M15-4-1</key>
     <configkey>M15-4-1</configkey>
     <priority>INFO</priority>
     <name>M15-4-1: Exception specification conflict (MISRA C++)</name>
-    <description>Exception specification conflict.</description>
+    <description>(Required) If a function is declared with an exception-specification, then all declarations of the same function (in other translation units) shall be declared with the same set of type-ids.</description>
   </rule>
   <rule>
     <key>M15-5-1</key>
     <configkey>M15-5-1</configkey>
     <priority>INFO</priority>
     <name>M15-5-1: Exception thrown within destructor (MISRA C++)</name>
-    <description>Exception thrown within destructor.</description>
+    <description>(Required) A class destructor shall not exit with an exception.</description>
   </rule>
   <rule>
     <key>M15-5-2</key>
     <configkey>M15-5-2</configkey>
     <priority>INFO</priority>
     <name>M15-5-2: Exception not in throw-list of function (MISRA C++)</name>
-    <description>Exception not in throw-list of function.</description>
+    <description>(Required) Where a function’s declaration includes an exception specification, the function shall only be capable of throwing exceptions of the indicated type(s).</description>
   </rule>
   <rule>
     <key>M15-5-3</key>
     <configkey>M15-5-3</configkey>
     <priority>INFO</priority>
     <name>M15-5-3: Exception thrown within destructor / uncaught exception not on throw-list (MISRA C++)</name>
-    <description>Exception thrown within destructor / uncaught exception not on throw-list.</description>
+    <description>(Required) The terminate() function shall not be called implicitly.</description>
   </rule>
   <rule>
     <key>M16-0-1</key>
     <configkey>M16-0-1</configkey>
     <priority>INFO</priority>
     <name>M16-0-1: Only preprocessor statements and comments before '#include' (MISRA C++)</name>
-    <description>Only preprocessor statements and comments before '#include'.</description>
+    <description>(Required) #include directives in a file shall only be preceded by other preprocessor directives or comments.</description>
   </rule>
   <rule>
     <key>M16-0-2</key>
     <configkey>M16-0-2</configkey>
     <priority>INFO</priority>
     <name>M16-0-2: '#define/#undef' used within a block (MISRA C++)</name>
-    <description>'#define/#undef' used within a block.</description>
+    <description>(Required) Macros shall only be #define’d or #undef’d in the global namespace.</description>
   </rule>
   <rule>
     <key>M16-0-3</key>
     <configkey>M16-0-3</configkey>
     <priority>INFO</priority>
     <name>M16-0-3: Use of '#undef' is discouraged (MISRA C++)</name>
-    <description>Use of '#undef' is discouraged.</description>
+    <description>(Required) #undef shall not be used.</description>
   </rule>
   <rule>
     <key>M16-0-4</key>
     <configkey>M16-0-4</configkey>
     <priority>INFO</priority>
     <name>M16-0-4: Use of function-like macros is discouraged (MISRA C++)</name>
-    <description>Use of function-like macros is discouraged.</description>
+    <description>(Required) Function-like macros shall not be defined.</description>
   </rule>
   <rule>
     <key>M16-0-5</key>
     <configkey>M16-0-5</configkey>
     <priority>INFO</priority>
     <name>M16-0-5: Apparent preprocessor directive in macro (MISRA C++)</name>
-    <description>apparent preprocessor directive in macro.</description>
+    <description>(Required) Arguments to a function like macro shall not contain tokens that look like preprocessing directives.</description>
   </rule>
   <rule>
     <key>M16-0-6</key>
     <configkey>M16-0-6</configkey>
     <priority>INFO</priority>
     <name>M16-0-6: Unparenthesized parameter in macro is passed an expression (MISRA C++)</name>
-    <description>Unparenthesized parameter in macro is passed an expression.</description>
+    <description>(Required) In the definition of a function-like macro, each instance of a parameter shall be enclosed in parentheses, unless it is used as the operand of # or ##.</description>
   </rule>
   <rule>
     <key>M16-0-7</key>
     <configkey>M16-0-7</configkey>
     <priority>INFO</priority>
     <name>M16-0-7: Undefined preprocessor variable (MISRA C++)</name>
-    <description>Undefined preprocessor variable.</description>
+    <description>(Required) Undefined macro identifiers shall not be used in #if or #elif preprocessor directives, except as operands to the defined operator.</description>
   </rule>
   <rule>
     <key>M16-0-8</key>
     <configkey>M16-0-8</configkey>
     <priority>INFO</priority>
     <name>M16-0-8: Unrecognized name after # / endif or else not followed by EOL (MISRA C++)</name>
-    <description>Unrecognized name after # / endif or else not followed by EOL.</description>
+    <description>(Required) If the # token appears as the first token on a line, then it shall be immediately followed by a preprocessing token.</description>
   </rule>
   <rule>
     <key>M16-1-1</key>
     <configkey>M16-1-1</configkey>
     <priority>INFO</priority>
     <name>M16-1-1: Non-standard use of 'defined' preprocessor operator (MISRA C++)</name>
-    <description>Non-standard use of 'defined' preprocessor operator.</description>
+    <description>(Required) The defined preprocessor operator shall only be used in one of the two standard forms.</description>
   </rule>
   <rule>
     <key>M16-1-2</key>
     <configkey>M16-1-2</configkey>
     <priority>INFO</priority>
     <name>M16-1-2: #if not closed off within file (MISRA C++)</name>
-    <description>#if not closed off within file.</description>
+    <description>(Required) All #else, #elif and #endif preprocessor directives shall reside in the same file as the #if or #ifdef directive to which they are related.</description>
   </rule>
   <!--
   MISRA C++ rule 16-2-1 req no not currently supported
+    (Required) The pre-processor shall only be used for file inclusion and include guards.
   -->
   <rule>
     <key>M16-2-2</key>
     <configkey>M16-2-2</configkey>
     <priority>INFO</priority>
     <name>M16-2-2: Macro could become const variable (MISRA C++)</name>
-    <description>Macro could become const variable.</description>
+    <description>(Required) C++ macros shall only be used for: include guards, type qualifiers, or storage class specifiers.</description>
   </rule>
   <rule>
     <key>M16-2-3</key>
     <configkey>M16-2-3</configkey>
     <priority>INFO</priority>
     <name>M16-2-3: Header file lacks standard include guard (MISRA C++)</name>
-    <description>Header file lacks standard include guard.</description>
+    <description>(Required) Include guards shall be provided.</description>
   </rule>
   <rule>
     <key>M16-2-4</key>
     <configkey>M16-2-4</configkey>
     <priority>INFO</priority>
     <name>M16-2-4: Header file name with non-standard character (MISRA C++)</name>
-    <description>Header file name with non-standard character.</description>
+    <description>(Required) The ’, ", /* or // characters shall not occur in a header file name.</description>
   </rule>
   <rule>
     <key>M16-2-5</key>
     <configkey>M16-2-5</configkey>
     <priority>INFO</priority>
     <name>M16-2-5: header file name with non-standard character (MISRA C++)</name>
-    <description>header file name with non-standard character.</description>
+    <description>(Advisory) The backslash character should not occur in a header file name.</description>
   </rule>
   <rule>
     <key>M16-2-6</key>
     <configkey>M16-2-6</configkey>
     <priority>INFO</priority>
     <name>M16-2-6: need &amp;&lt; or &quot; after #include (MISRA C++)</name>
-    <description>need &amp;&lt; or &quot; after #include.</description>
+    <description>(Required) The #include directive shall be followed by either a &lt;filename&gt; or &quot;filename&quot; sequence.</description>
   </rule>
   <rule>
     <key>M16-3-1</key>
     <configkey>M16-3-1</configkey>
     <priority>INFO</priority>
     <name>M16-3-1: Multiple use of '#' and/or '##' operators in macro definition/FlexeLint (MISRA C++)</name>
-    <description>Multiple use of '#' and/or '##' operators in macro definition.</description>
+    <description>(Required) There shall be at most one occurrence of the # or ## operators in a single macro definition.</description>
   </rule>
   <rule>
     <key>M16-3-2</key>
     <configkey>M16-3-2</configkey>
     <priority>INFO</priority>
     <name>M16-3-2: no use of '#' or '##' (MISRA C++)</name>
-    <description>no use of '#' or '##'.</description>
+    <description>(Advisory) The # and ## operators should not be used.</description>
   </rule>
   <!--
   MISRA C++ rule 16-6-1 doc n/a not statically checkable
+    (Document) All uses of the #pragma directive shall be documented.
   -->
   <rule>
     <key>M17-0-1</key>
     <configkey>M17-0-1</configkey>
     <priority>INFO</priority>
     <name>M17-0-1: complain about #define standard functions (MISRA C++)</name>
-    <description>complain about #define standard functions.</description>
+    <description>(Required) Reserved identifiers, macros and functions in the standard library shall not be defined, redefined or undefined.</description>
   </rule>
   <rule>
     <key>M17-0-2</key>
     <configkey>M17-0-2</configkey>
     <priority>INFO</priority>
     <name>M17-0-2: Re-use of C++ identifier pattern (MISRA C++)</name>
-    <description>Re-use of C++ identifier pattern.</description>
+    <description>(Required) The names of standard library macros and objects shall not be reused.</description>
   </rule>
   <!--
   MISRA C++ rule 17-0-3 req no not currently supported
+    (Required) The names of standard library functions shall not be overridden.
   -->
   <rule>
     <key>M17-0-4</key>
     <configkey>M17-0-4</configkey>
     <priority>INFO</priority>
     <name>M17-0-4: Use of +elib options to lint library code (MISRA C++)</name>
-    <description>Use of +elib options to lint library code.</description>
+    <description>(Advisory) All library code shall conform to MISRA C++.</description>
   </rule>
   <rule>
     <key>M17-0-5</key>
     <configkey>M17-0-5</configkey>
     <priority>INFO</priority>
     <name>M17-0-5: Do not use setjmp and longjmp (MISRA C++)</name>
-    <description>Do not use setjmp and longjmp.</description>
+    <description>(Required) The setjmp macro and the longjmp function shall not be used.</description>
   </rule>
   <rule>
     <key>M18-0-1</key>
     <configkey>M18-0-1</configkey>
     <priority>INFO</priority>
     <name>M18-0-1: Do not use C library (MISRA C++)</name>
-    <description>Do not use C library.</description>
+    <description>(Required) The C library shall not be used.</description>
   </rule>
   <rule>
     <key>M18-0-2</key>
     <configkey>M18-0-2</configkey>
     <priority>INFO</priority>
     <name>M18-0-2: Do not use atof, atoi, atol (MISRA C++)</name>
-    <description>Do not use atof, atoi, atol.</description>
+    <description>(Required) The library functions atof, atoi and atol from library &lt;cstdlib&gt; shall not be used.</description>
   </rule>
   <rule>
     <key>M18-0-3</key>
     <configkey>M18-0-3</configkey>
     <priority>INFO</priority>
     <name>M18-0-3: Do not use abort, exit, getenv, system (MISRA C++)</name>
-    <description>Do not use abort, exit, getenv, system.</description>
+    <description>(Required) The library functions abort, exit, getenv and system from library &lt;cstdlib&gt; shall not be used.</description>
   </rule>
   <rule>
     <key>M18-0-4</key>
     <configkey>M18-0-4</configkey>
     <priority>INFO</priority>
     <name>M18-0-4: Do not use functions in ctime header (MISRA C++)</name>
-    <description>Do not use functions in ctime header.</description>
+    <description>(Required) The time handling functions of library &lt;ctime&gt; shall not be used.</description>
   </rule>
   <rule>
     <key>M18-0-5</key>
     <configkey>M18-0-5</configkey>
     <priority>INFO</priority>
     <name>M18-0-5: Do not use inbounded functions in cstring header (MISRA C++)</name>
-    <description>Do not use inbounded functions in cstring header.</description>
+    <description>(Required) The unbounded functions of library &lt;cstring&gt; shall not be used.</description>
   </rule>
   <rule>
     <key>M18-2-1</key>
     <configkey>M18-2-1</configkey>
     <priority>INFO</priority>
     <name>M18-2-1: Do not use offsetof (MISRA C++)</name>
-    <description>Do not use offsetof.</description>
+    <description>(Required) The macro offsetof shall not be used.</description>
   </rule>
   <rule>
     <key>M18-4-1</key>
     <configkey>M18-4-1</configkey>
     <priority>INFO</priority>
     <name>M18-4-1: Do not use dynamic heap memory allocation functions  (MISRA C++)</name>
-    <description>Do not use dynamic heap memory allocation functions.</description>
+    <description>(Required) Dynamic heap memory allocation shall not be used.</description>
   </rule>
   <rule>
     <key>M18-7-1</key>
     <configkey>M18-7-1</configkey>
     <priority>INFO</priority>
     <name>M18-7-1: Do not use csignal functions (MISRA C++)</name>
-    <description>Do not use csignal functions.</description>
+    <description>(Required) The signal handling facilities of &lt;csignal&gt; shall not be used.</description>
   </rule>
   <rule>
     <key>M19-3-1</key>
     <configkey>M19-3-1</configkey>
     <priority>INFO</priority>
     <name>M19-3-1: Do not use errno (MISRA C++)</name>
-    <description>Do not use errno.</description>
+    <description>(Required) The error indicator errno shall not be used.</description>
   </rule>
   <rule>
     <key>M27-0-1</key>
     <configkey>M27-0-1</configkey>
     <priority>INFO</priority>
     <name>M27-0-1: Do not use cstdio functions (MISRA C++)</name>
-    <description>Do not use cstdio functions.</description>
+    <description>(Required) The stream input/output library &lt;cstdio&gt; shall not be used.</description>
   </rule>
 </rules>
