@@ -108,13 +108,12 @@ public class CxxPCLintSensor extends CxxReportSensor {
             if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
               id = mapMisraRulesToUniqueSonarRules(msg);
             }
-            String issue = file + line + id + msg;
-            if (uniqueIssues.add(issue))
+            
+            if (uniqueIssues.add(file + line + id + msg)) {
               saveViolation(project, context, CxxPCLintRuleRepository.KEY, file, line, id, msg);
-
+            }
             } else {
               CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
-
               String debugText = "File: " + file + ", Line: " + line +
                   ", ID: " + id + ", msg: " + msg;
               CxxUtils.LOG.debug(debugText);
