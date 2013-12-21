@@ -149,40 +149,43 @@ public abstract class CxxReportSensor implements Sensor {
       .withKey(ruleId);
     Rule rule = ruleFinder.find(ruleQuery);
     if (rule != null) {
-      Violation violation = null;
-      if (file != null){
-        org.sonar.api.resources.File resource =
-          org.sonar.api.resources.File.fromIOFile(new File(file), project);
-        if (context.getResource(resource) != null) {
-          // file level violation
-          violation = Violation.create(rule, resource);
+        Violation violation = null;
+        if ((file != null) && (file.length() > 0)){
+          org.sonar.api.resources.File resource =
+            org.sonar.api.resources.File.fromIOFile(new File(file), project);
+          if (context.getResource(resource) != null) {
+            // file level violation
+            violation = Violation.create(rule, resource);
 
-          // considering the line information for file level violations only
-          if (line != null){
-            try{
-              int linenr = Integer.parseInt(line);
-              violation.setLineId(linenr);
-            } catch(java.lang.NumberFormatException nfe){
-              CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+            // considering the line information for file level violations only
+            if (line != null){
+              try{
+                int linenr = Integer.parseInt(line);
+                violation.setLineId(linenr);
+              } catch(java.lang.NumberFormatException nfe){
+                CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+              }
             }
+          } else {
+            CxxUtils.LOG.warn("Cannot find the file '{}', skipping violation '{}'", file, msg);
           }
+          // file level violation
+          violation.setMessage(msg);
+          context.saveViolation(violation);        
         } else {
-          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violation '{}'", file, msg);
+          // project level violation
+          violation = Violation.create(rule, project);
         }
-      } else {
-        // project level violation
-        violation = Violation.create(rule, project);
-      }
 
-      if (violation != null){
+        if (violation != null){
         violation.setMessage(msg);
-        context.saveViolation(violation);
+        context.saveViolation(violation);        
       }
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
   }
-  
+ 
   protected void processReport(Project project, SensorContext context, File report)
       throws Exception
   {

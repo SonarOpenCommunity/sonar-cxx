@@ -32,7 +32,8 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 import java.io.File;
-
+import java.util.List;
+import java.util.Iterator;
 /**
  * {@inheritDoc}
  */
@@ -84,11 +85,13 @@ public class CxxVeraxxSensor extends CxxReportSensor {
           catch(com.ctc.wstx.exc.WstxEOFException eofExc){
             throw new EmptyReportException();
           }
-
+          int countIssues = 0;
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");
           while (fileCursor.getNext() != null) {
             String name = fileCursor.getAttrValue("name");
-
+            // create a full path
+            String filename = getCaseSensitiveFileName(name, project.getFileSystem().getSourceDirs());
+            CxxUtils.LOG.info("Vera++ processes file = " + filename);              
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!name.equals("error")) {
@@ -97,7 +100,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String source = errorCursor.getAttrValue("source");
 
                 saveViolation(project, context, CxxVeraxxRuleRepository.KEY,
-                    name, line, source, message);
+                        filename, line, source, message);
+                countIssues++;
               } else {
                 CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
                     errorCursor.getAttrValue("line"),
@@ -105,6 +109,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
               }
             }
           }
+          CxxUtils.LOG.info("Vera++ issues processed = " + countIssues);    
         }
       });
 
@@ -113,4 +118,18 @@ public class CxxVeraxxSensor extends CxxReportSensor {
       CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", e.toString());
     }
   }
+  private static String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
+	    Iterator<java.io.File> iterator = sourceDirs.iterator();
+	    while (iterator.hasNext()) {
+	      File targetfile = new java.io.File(iterator.next().getPath() + "\\" + file);
+	      if (targetfile.exists()) {
+	        try {
+	          return targetfile.getCanonicalFile().getAbsolutePath();
+	        } catch (java.io.IOException e) {
+	          CxxUtils.LOG.error("processReport GetRealFileName getName failed '{}'", e.toString());
+	        }
+	      }
+	    }
+	    return file;
+	  } 
 }
