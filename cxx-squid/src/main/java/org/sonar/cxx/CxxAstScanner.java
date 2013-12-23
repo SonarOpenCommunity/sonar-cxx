@@ -115,7 +115,7 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<Grammar>(new SourceCodeBuilderCallback() {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
         StringBuilder sb = new StringBuilder();
-        for (Token token : astNode.findFirstChild(CxxGrammarImpl.declaratorId).getTokens()) {
+        for (Token token : astNode.getFirstDescendant(CxxGrammarImpl.declaratorId).getTokens()) {
           sb.append(token.getValue());
         }
         String functionName = sb.toString();
@@ -133,8 +133,8 @@ public final class CxxAstScanner {
     /* Classes */
     builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<Grammar>(new SourceCodeBuilderCallback() {
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
-        AstNode classNameAst = astNode.findFirstChild(CxxGrammarImpl.className);
-        String className = classNameAst == null ? "" : classNameAst.getChild(0).getTokenValue();
+        AstNode classNameAst = astNode.getFirstDescendant(CxxGrammarImpl.className);
+        String className = classNameAst == null ? "" : classNameAst.getFirstChild().getTokenValue();
         SourceClass cls = new SourceClass(className + ":" + astNode.getToken().getLine(), className);
         cls.setStartAtLine(astNode.getTokenLine());
         return cls;

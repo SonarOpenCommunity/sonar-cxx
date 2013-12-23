@@ -77,16 +77,19 @@ public final class CxxRatsSensor extends CxxReportSensor {
       SAXBuilder builder = new SAXBuilder(false);
       Element root = builder.build(report).getRootElement();
 
+      @SuppressWarnings("unchecked")
       List<Element> vulnerabilities = root.getChildren("vulnerability");
       for (Element vulnerability : vulnerabilities) {
         String type = getVulnerabilityType(vulnerability.getChild("type"));
         String message = vulnerability.getChild("message").getTextTrim();
 
+        @SuppressWarnings("unchecked")
         List<Element> files = vulnerability.getChildren("file");
 
         for (Element file : files) {
           String fileName = file.getChild("name").getTextTrim();
 
+          @SuppressWarnings("unchecked")
           List<Element> lines = file.getChildren("line");
           for (Element lineElem : lines) {
             String line = lineElem.getTextTrim();

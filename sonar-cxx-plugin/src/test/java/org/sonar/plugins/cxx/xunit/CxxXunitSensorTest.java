@@ -128,7 +128,7 @@ public class CxxXunitSensorTest {
     
     // case 6:
     // the testcase file resides: somewhere
-    // the testcase file contains: a class A, distributed accross a
+    // the testcase file contains: a class A, distributed across a
     //                             a header (definition) and two *.cc files
     // the report mentions: the class name
     assertThat(sensor.lookupFilePath("TestClass6"),

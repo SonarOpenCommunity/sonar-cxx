@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.impl.matcher.GrammarFunctions;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
@@ -394,8 +393,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         // postfixExpression [ expression ]
         // postfixExpression [ bracedInitList ]
         // postfixExpression ( expressionListopt )
-        // postfixExpression . templateopt idExpression
-        // postfixExpression -> templateopt idExpression
+        // postfixExpression . template opt(idExpression)
+        // postfixExpression -> template opt(idExpression)
         // postfixExpression . pseudoDestructorName
         // postfixExpression -> pseudoDestructorName
         // postfixExpression ++

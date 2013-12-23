@@ -239,6 +239,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     
     for (InputFile file : files) {
+      @SuppressWarnings("unchecked")
       SourceFile source = CxxAstScanner.scanSingleFileConfig(file.getFile(), cxxConf);
       if(source.hasChildren()) {
         for (SourceCode child : source.getChildren()) {

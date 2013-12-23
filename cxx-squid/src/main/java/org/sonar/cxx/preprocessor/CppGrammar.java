@@ -20,7 +20,6 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Rule;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.grammar.LexerfulGrammarBuilder;

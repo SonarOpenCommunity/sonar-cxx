@@ -29,9 +29,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class StatementTest {
-
-  ExtendedStackTrace stackTrace = new ExtendedStackTrace();
-  Parser<Grammar> p = CxxParser.createDebugParser(mock(SquidAstVisitorContext.class), stackTrace);
+  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
   Grammar g = p.getGrammar();
 
   @Test

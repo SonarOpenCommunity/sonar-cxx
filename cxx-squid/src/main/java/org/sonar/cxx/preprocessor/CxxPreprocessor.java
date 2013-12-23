@@ -178,7 +178,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       AstNode lineAst = null;
       try {
-        lineAst = pplineParser.parse(token.getValue()).getChild(0);
+        lineAst = pplineParser.parse(token.getValue()).getFirstChild();
       } catch (com.sonar.sslr.api.RecognitionException re) {
         LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
         return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -305,7 +305,7 @@ public class CxxPreprocessor extends Preprocessor {
       LOG.trace("[{}:{}]: handling #if line '{}'",
           new Object[] {filename, token.getLine(), token.getValue()});
       try {
-        state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(CppGrammar.constantExpression));
+        state.skipping = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
             new Object[] {filename, token.getLine(), token.getValue()});
@@ -334,8 +334,8 @@ public class CxxPreprocessor extends Preprocessor {
           // *this* preprocessor instance is used for evaluation, too.
           // It *must not* be in skipping mode while evaluating expressions.
           state.skipping = false;
-          
-          state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(CppGrammar.constantExpression));
+
+          state.skipping = !ifExprEvaluator.eval(ast.getFirstDescendant(CppGrammar.constantExpression));
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
                     new Object[] {filename, token.getLine(), token.getValue()});
@@ -406,7 +406,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   PreprocessorAction handleUndefLine(AstNode ast, Token token, String filename) {
-    String macroName = ast.findFirstChild(IDENTIFIER).getTokenValue();
+    String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
     macros.removeLowPrio(macroName);
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
@@ -705,20 +705,20 @@ public class CxxPreprocessor extends Preprocessor {
 
   private Macro parseMacroDefinition(String macroDef) {
     return parseMacroDefinition(pplineParser.parse(macroDef)
-        .findFirstChild(CppGrammar.defineLine));
+        .getFirstDescendant(CppGrammar.defineLine));
   }
 
   private Macro parseMacroDefinition(AstNode defineLineAst) {
-    AstNode ast = defineLineAst.getChild(0);
-    AstNode nameNode = ast.findFirstChild(CppGrammar.ppToken);
+    AstNode ast = defineLineAst.getFirstChild();
+    AstNode nameNode = ast.getFirstDescendant(CppGrammar.ppToken);
     String macroName = nameNode.getTokenValue();
 
-    AstNode paramList = ast.findFirstChild(CppGrammar.parameterList);
+    AstNode paramList = ast.getFirstDescendant(CppGrammar.parameterList);
     List<Token> macroParams = paramList == null
         ? ast.getName().equals("objectlikeMacroDefinition") ? null : new LinkedList<Token>()
         : getParams(paramList);
 
-    AstNode replList = ast.findFirstChild(CppGrammar.replacementList);
+    AstNode replList = ast.getFirstDescendant(CppGrammar.replacementList);
     List<Token> macroBody = replList == null
         ? new LinkedList<Token>()
         : replList.getTokens().subList(0, replList.getTokens().size() - 1);
@@ -729,7 +729,7 @@ public class CxxPreprocessor extends Preprocessor {
   private List<Token> getParams(AstNode identListAst) {
     List<Token> params = new ArrayList<Token>();
     if (identListAst != null) {
-      for (AstNode node : identListAst.findDirectChildren(IDENTIFIER)) {
+      for (AstNode node : identListAst.getChildren(IDENTIFIER)) {
         params.add(node.getToken());
       }
     }
@@ -741,13 +741,13 @@ public class CxxPreprocessor extends Preprocessor {
     String includedFileName = null;
     File includedFile = null;
     boolean quoted = false;
-    
-    AstNode node = ast.findFirstChild(CppGrammar.includeBodyQuoted);
+
+    AstNode node = ast.getFirstDescendant(CppGrammar.includeBodyQuoted);
     if(node != null){
       includedFileName = stripQuotes(node.getFirstChild().getTokenValue());
       quoted = true;
-    } else if((node = ast.findFirstChild(CppGrammar.includeBodyBracketed)) != null) {
-      node = node.findFirstChild(LT).nextSibling();
+    } else if((node = ast.getFirstDescendant(CppGrammar.includeBodyBracketed)) != null) {
+      node = node.getFirstDescendant(LT).getNextSibling();
       StringBuilder sb = new StringBuilder();
       while (true) {
         String value = node.getTokenValue();
@@ -755,11 +755,11 @@ public class CxxPreprocessor extends Preprocessor {
           break;
         }
         sb.append(value);
-        node = node.nextSibling();
+        node = node.getNextSibling();
       }
       
       includedFileName = sb.toString();
-    } else if((node = ast.findFirstChild(CppGrammar.includeBodyFreeform)) != null) {
+    } else if((node = ast.getFirstDescendant(CppGrammar.includeBodyFreeform)) != null) {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
@@ -772,8 +772,8 @@ public class CxxPreprocessor extends Preprocessor {
       catch(com.sonar.sslr.api.RecognitionException re){
         parseError = true;
       }
-      
-      if(parseError || includeBodyAst.findFirstChild(CppGrammar.includeBodyFreeform) != null){
+
+      if(parseError || includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null){
         LOG.warn("[{}:{}]: cannot parse included filename: {}'",
                  new Object[] {currFileName, token.getLine(), expandedIncludeBody});
         return null;
@@ -792,7 +792,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private String getMacroName(AstNode ast) {
-    return ast.findFirstChild(IDENTIFIER).getTokenValue();
+    return ast.getFirstDescendant(IDENTIFIER).getTokenValue();
   }
 
   private String stripQuotes(String str) {
