@@ -157,11 +157,11 @@
     </description>
   </rule>
   <rule>
-    <key>uninitVar</key>
-    <configkey>uninitVar</configkey>
-    <name>Member variable is not initialized in the constructor</name>
+    <key>uninitvar</key>
+    <configkey>uninitvar</configkey>
+    <name>Uninitialized variable</name>
     <description>
-      Member variable is not initialized in the constructor.
+      Uninitialized variable.
     </description>
   </rule>
   <rule>
@@ -334,9 +334,9 @@
   <rule>
     <key>memleakOnRealloc</key>
     <configkey>memleakOnRealloc</configkey>
-    <name>Common re-alloc mistake: variable nulled but not freed upon failure</name>
+    <name>Common realloc mistake: variable nulled but not freed upon failure</name>
     <description>
-      Common re-alloc mistake: variable nulled but not freed upon
+      Common realloc mistake: variable nulled but not freed upon
       failure.
     </description>
   </rule>
@@ -2698,13 +2698,13 @@
     <key>redundantNextPrevious</key>
     <configkey>redundantNextPrevious</configkey>
     <name>
-      Inefficient sequence of ::previous(), ::next() statement
+      Inefficient sequence of ::previous(), ::next() statements
     </name>
     <description>
       Call to 'Token::previous()' followed by 'Token::next()' can be simplified.
     </description>  
-   </rule>
-     <rule>
+  </rule>
+  <rule>
     <key>simplePatternError</key>
     <configkey>simplePatternError</configkey>
     <name>
@@ -2713,5 +2713,5 @@
     <description>
       Found simple pattern inside Token::Match() call: "class {"
     </description>  
-   </rule>
+  </rule>
 </rules>
