@@ -1,10 +1,10 @@
 export BUILD_DIR = $(shell "pwd")/build
 
 # Flags passed to the C++ compiler.
-export CXXFLAGS = -g --coverage
+export CXXFLAGS = -g -pthread --coverage
 
 # Flags passed to the linker.
-export LDFLAGS = --coverage
+export LDFLAGS = -pthread --coverage 
 
 export CC = g++
 export LD = g++
