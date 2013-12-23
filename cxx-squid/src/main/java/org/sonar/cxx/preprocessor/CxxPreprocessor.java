@@ -106,7 +106,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
-  private Parser<CppGrammar> pplineParser = null;
+  private Parser<Grammar> pplineParser = null;
   private MapChain<String, Macro> macros = new MapChain<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
@@ -305,7 +305,7 @@ public class CxxPreprocessor extends Preprocessor {
       LOG.trace("[{}:{}]: handling #if line '{}'",
           new Object[] {filename, token.getLine(), token.getValue()});
       try {
-        state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
+        state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(CppGrammar.constantExpression));
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
             new Object[] {filename, token.getLine(), token.getValue()});
@@ -335,7 +335,7 @@ public class CxxPreprocessor extends Preprocessor {
           // It *must not* be in skipping mode while evaluating expressions.
           state.skipping = false;
           
-          state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(pplineParser.getGrammar().constantExpression));
+          state.skipping = !ifExprEvaluator.eval(ast.findFirstChild(CppGrammar.constantExpression));
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
                     new Object[] {filename, token.getLine(), token.getValue()});
@@ -705,20 +705,20 @@ public class CxxPreprocessor extends Preprocessor {
 
   private Macro parseMacroDefinition(String macroDef) {
     return parseMacroDefinition(pplineParser.parse(macroDef)
-        .findFirstChild(pplineParser.getGrammar().defineLine));
+        .findFirstChild(CppGrammar.defineLine));
   }
 
   private Macro parseMacroDefinition(AstNode defineLineAst) {
     AstNode ast = defineLineAst.getChild(0);
-    AstNode nameNode = ast.findFirstChild(pplineParser.getGrammar().ppToken);
+    AstNode nameNode = ast.findFirstChild(CppGrammar.ppToken);
     String macroName = nameNode.getTokenValue();
 
-    AstNode paramList = ast.findFirstChild(pplineParser.getGrammar().parameterList);
+    AstNode paramList = ast.findFirstChild(CppGrammar.parameterList);
     List<Token> macroParams = paramList == null
         ? ast.getName().equals("objectlikeMacroDefinition") ? null : new LinkedList<Token>()
         : getParams(paramList);
 
-    AstNode replList = ast.findFirstChild(pplineParser.getGrammar().replacementList);
+    AstNode replList = ast.findFirstChild(CppGrammar.replacementList);
     List<Token> macroBody = replList == null
         ? new LinkedList<Token>()
         : replList.getTokens().subList(0, replList.getTokens().size() - 1);
@@ -742,11 +742,11 @@ public class CxxPreprocessor extends Preprocessor {
     File includedFile = null;
     boolean quoted = false;
     
-    AstNode node = ast.findFirstChild(pplineParser.getGrammar().includeBodyQuoted);
+    AstNode node = ast.findFirstChild(CppGrammar.includeBodyQuoted);
     if(node != null){
       includedFileName = stripQuotes(node.getFirstChild().getTokenValue());
       quoted = true;
-    } else if((node = ast.findFirstChild(pplineParser.getGrammar().includeBodyBracketed)) != null) {
+    } else if((node = ast.findFirstChild(CppGrammar.includeBodyBracketed)) != null) {
       node = node.findFirstChild(LT).nextSibling();
       StringBuilder sb = new StringBuilder();
       while (true) {
@@ -759,7 +759,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
       
       includedFileName = sb.toString();
-    } else if((node = ast.findFirstChild(pplineParser.getGrammar().includeBodyFreeform)) != null) {
+    } else if((node = ast.findFirstChild(CppGrammar.includeBodyFreeform)) != null) {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
@@ -773,7 +773,7 @@ public class CxxPreprocessor extends Preprocessor {
         parseError = true;
       }
       
-      if(parseError || includeBodyAst.findFirstChild(pplineParser.getGrammar().includeBodyFreeform) != null){
+      if(parseError || includeBodyAst.findFirstChild(CppGrammar.includeBodyFreeform) != null){
         LOG.warn("[{}:{}]: cannot parse included filename: {}'",
                  new Object[] {currFileName, token.getLine(), expandedIncludeBody});
         return null;

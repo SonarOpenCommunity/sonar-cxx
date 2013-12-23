@@ -25,13 +25,14 @@ import com.sonar.sslr.impl.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
+import com.sonar.sslr.api.Grammar;
 
 import java.util.List;
 
 public final class ExpressionEvaluator {
   public static final Logger LOG = LoggerFactory.getLogger("Evaluator");
 
-  private Parser<CppGrammar> parser;
+  private Parser<Grammar> parser;
   private CxxPreprocessor preprocessor;
 
   public ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
