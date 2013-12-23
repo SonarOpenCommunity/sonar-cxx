@@ -232,10 +232,10 @@ public class CxxPreprocessor extends Preprocessor {
   public void beginPreprocessing(File file) {
     // From 16.3.5 "Scope of macro definitions":
     // A macro definition lasts (independent of block structure) until
-    // a corresponding #undef directive is encoun- tered or (if none
+    // a corresponding #undef directive is encountered or (if none
     // is encountered) until the end of the translation unit.
 
-    LOG.debug("beginning preprocessing '{}'", file);
+    LOG.debug("finished preprocessing '{}'", file);
 
     analysedFiles.clear();
     macros.clearLowPrio();
