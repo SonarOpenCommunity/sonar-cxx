@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="sqaleManager">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="rules">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="rule">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="name" type="xs:string" />
+                    <xs:element name="requirement">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:pattern value="COMPILER_RELATED_PORTABILITY|HARDWARE_RELATED_PORTABILITY|LANGUAGE_RELATED_PORTABILITY|OS_RELATED_PORTABILITY|SOFTWARE_RELATED_PORTABILITY|TIME_ZONE_RELATED_PORTABILITY|READABILITY|UNDERSTANDABILITY|API_ABUSE|ERRORS|INPUT_VALIDATION_AND_REPRESENTATION|SECURITY_FEATURES|MEMORY_EFFICIENCY|CPU_EFFICIENCY|ARCHITECTURE_CHANGEABILITY|DATA_CHANGEABILITY|LOGIC_CHANGEABILITY|ARCHITECTURE_RELIABILITY|DATA_RELIABILITY|EXCEPTION_HANDLING|FAULT_TOLERANCE|INSTRUCTION_RELIABILITY|LOGIC_RELIABILITY|SYNCHRONIZATION_RELIABILITY|UNIT_TESTS|INTEGRATION_TESTABILITY|UNIT_TESTABILITY|MODULARITY|TRANSPORTABILITY|undefined"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="remediationFactorVal" type="xs:double" />
+                    <xs:element name="remediationFactorUnit">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:pattern value="d|h|mn|undefined"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="remediationFunction">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:pattern value="linear|linear_offset|constant_resource|undefined"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>                  
+                    <xs:element name="severity">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:pattern value="BLOCKER|CRITICAL|MAJOR|MINOR|INFO|undefined"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="repo" type="xs:string" />
+                    <xs:element name="description" type="xs:string" />
+                  </xs:sequence>
+                  <xs:attribute name="key" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
