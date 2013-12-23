@@ -103,7 +103,7 @@
   <properties>
     <license.title>Sonar C++ Plugin (Community) </license.title>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>3.5</sonar.version>
+    <sonar.version>3.6</sonar.version>
     <sslr.version>1.19.2</sslr.version>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
@@ -203,4 +203,41 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <build>
+  	<pluginManagement>
+  		<plugins>
+  			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+  			<plugin>
+  				<groupId>org.eclipse.m2e</groupId>
+  				<artifactId>lifecycle-mapping</artifactId>
+  				<version>1.0.0</version>
+  				<configuration>
+  					<lifecycleMappingMetadata>
+  						<pluginExecutions>
+  							<pluginExecution>
+  								<pluginExecutionFilter>
+  									<groupId>
+  										com.mycila.maven-license-plugin
+  									</groupId>
+  									<artifactId>
+  										maven-license-plugin
+  									</artifactId>
+  									<versionRange>
+  										[1.9.0,)
+  									</versionRange>
+  									<goals>
+  										<goal>check</goal>
+  									</goals>
+  								</pluginExecutionFilter>
+  								<action>
+  									<ignore></ignore>
+  								</action>
+  							</pluginExecution>
+  						</pluginExecutions>
+  					</lifecycleMappingMetadata>
+  				</configuration>
+  			</plugin>
+  		</plugins>
+  	</pluginManagement>
+  </build>
 </project>
