@@ -19,11 +19,6 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.squid.SquidAstVisitor;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Token;
-
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
@@ -36,41 +31,16 @@ import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squid.api.SourceProject;
 
+import java.io.File;
+
 public final class CxxParser {
-  private static VisitFileNotifier visitFileNotifier = null;
-
-  /**
-   * Visitor that emits the 'new file' event to the preprocessor
-   */
-  static class VisitFileNotifier<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
-    private CxxPreprocessor cxxpp;
-    private SquidAstVisitorContext<Grammar> astVisitorContext;
-
-    VisitFileNotifier(CxxPreprocessor cxxpp, SquidAstVisitorContext<Grammar> astVisitorContext) {
-      this.cxxpp = cxxpp;
-      this.astVisitorContext = astVisitorContext;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void visitFile(AstNode node) {
-      this.cxxpp.beginPreprocessing(astVisitorContext.getFile());
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public void visitToken(Token token) {
-    }
-  }
+  private static CxxPreprocessor cxxpp = null;
 
   private CxxParser() {
   }
 
-  public static SquidAstVisitor<Grammar> getFileVisitNotifier(){
-    return visitFileNotifier;
+  public static void finishedParsing(File path){
+    cxxpp.finishedPreprocessing(path);
   }
   
   public static Parser<Grammar> create() {
@@ -82,9 +52,9 @@ public final class CxxParser {
     return create(context, new CxxConfiguration());
   }
 
-  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
-    visitFileNotifier = new VisitFileNotifier(cxxpp, context);
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context,
+                                       CxxConfiguration conf) {
+    cxxpp = new CxxPreprocessor(context, conf);
     return Parser.builder(CxxGrammarImpl.create())
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
       .build();

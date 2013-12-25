@@ -182,7 +182,7 @@ public final class CxxAstScanner {
         .build());
 
     // to emit a 'new file' event to the internals of the plugin
-    builder.withSquidAstVisitor(CxxParser.getFileVisitNotifier());
+    builder.withSquidAstVisitor(new CxxFileVisitor(context));
     
     /* External visitors (typically Check ones) */
     for (SquidAstVisitor<Grammar> visitor : visitors) {

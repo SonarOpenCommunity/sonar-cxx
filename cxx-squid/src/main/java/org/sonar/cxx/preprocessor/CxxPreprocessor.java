@@ -229,7 +229,7 @@ public class CxxPreprocessor extends Preprocessor {
     return PreprocessorAction.NO_OPERATION;
   }
 
-  public void beginPreprocessing(File file) {
+  public void finishedPreprocessing(File file) {
     // From 16.3.5 "Scope of macro definitions":
     // A macro definition lasts (independent of block structure) until
     // a corresponding #undef directive is encountered or (if none

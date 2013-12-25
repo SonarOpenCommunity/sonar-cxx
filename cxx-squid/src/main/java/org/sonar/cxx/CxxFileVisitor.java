@@ -17,35 +17,40 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.parser;
+package org.sonar.cxx;
 
-import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
-import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import com.sonar.sslr.api.AstAndTokenVisitor;
+import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.squid.SquidAstVisitor;
+import org.sonar.squid.measures.MetricDef;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 
-import java.io.File;
-import java.util.Collection;
+import org.sonar.cxx.parser.CxxParser;
 
-import static org.mockito.Mockito.mock;
+public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
+  implements AstAndTokenVisitor {
 
-public class CxxParserTest {
-
-  private Parser<Grammar> parser = CxxParser.create(mock(SquidAstVisitorContext.class));
-
-  @Test
-  public void test() {
-    Collection<File> files = listFiles();
-    for (File file : files) {
-      parser.parse(file);
-      CxxParser.finishedParsing(file);
-    }
+  private SquidAstVisitorContext context = null;
+  
+  CxxFileVisitor(SquidAstVisitorContext context){
+    this.context = context;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void visitFile(AstNode node) {
+    CxxParser.finishedParsing(context.getFile());
   }
 
-  private static Collection<File> listFiles() {
-    File dir = new File("src/test/resources/parser/");
-    return FileUtils.listFiles(dir, new String[] {"cc", "cpp", "hpp"}, true);
+  /**
+   * {@inheritDoc}
+   */
+  public void visitToken(Token token) {
   }
-
 }
+
+
