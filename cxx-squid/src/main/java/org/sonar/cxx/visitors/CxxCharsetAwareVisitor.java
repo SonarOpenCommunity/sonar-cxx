@@ -17,40 +17,12 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx;
+package org.sonar.cxx.visitors;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.squid.SquidAstVisitor;
-import org.sonar.squid.measures.MetricDef;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import java.nio.charset.Charset;
 
-import org.sonar.cxx.parser.CxxParser;
+public interface CxxCharsetAwareVisitor {
 
-public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
-  implements AstAndTokenVisitor {
+  void setCharset(Charset charset);
 
-  private SquidAstVisitorContext context = null;
-  
-  CxxFileVisitor(SquidAstVisitorContext context){
-    this.context = context;
-  }
-  
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void visitFile(AstNode node) {
-    CxxParser.finishedParsing(context.getFile());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void visitToken(Token token) {
-  }
 }
-
-

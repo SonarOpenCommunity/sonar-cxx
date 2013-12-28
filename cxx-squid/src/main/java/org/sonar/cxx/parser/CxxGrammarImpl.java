@@ -83,17 +83,20 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   conditionalExpression,
   assignmentExpression,
   assignmentOperator,
+  par_expression,
   expression,
   constantExpression,
 
   // Statements
   statement,
+  emptyStatement,
   labeledStatement,
   expressionStatement,
   compoundStatement,
   statementSeq,
   selectionStatement,
   condition,
+  ifStatement,
   iterationStatement,
   forInitStatement,
   forRangeDeclaration,
@@ -302,10 +305,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(primaryExpression).is(
       b.firstOf(LITERAL,
                 CxxKeyword.THIS,
-                b.sequence("(", expression, ")"),
+                par_expression,
                 idExpression,
                 lambdaExpression)
       ).skipIfOneChild();
+    
+    b.rule(par_expression).is(b.sequence("(", expression, ")"));
     
     b.rule(idExpression).is(b.firstOf(qualifiedId, unqualifiedId));
     
@@ -534,6 +539,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(statement).is(
       b.firstOf(
         labeledStatement,
+        emptyStatement,
         b.sequence(b.optional(attributeSpecifierSeq), expressionStatement),
         b.sequence(b.optional(attributeSpecifierSeq), compoundStatement),
         b.sequence(b.optional(attributeSpecifierSeq), selectionStatement),
@@ -543,6 +549,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(b.optional(attributeSpecifierSeq), tryBlock)
         )
       );
+    
+    b.rule(emptyStatement).is(";");
     
     b.rule(labeledStatement).is(b.optional(attributeSpecifierSeq), b.firstOf(IDENTIFIER, b.sequence(CxxKeyword.CASE, constantExpression), CxxKeyword.DEFAULT), ":", statement);
 
@@ -554,11 +562,16 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     
     b.rule(selectionStatement).is(
       b.firstOf(
-        b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement)),
+        ifStatement,
         b.sequence(CxxKeyword.SWITCH, "(", condition, ")", statement)
         )
       );
 
+    b.rule(ifStatement).is(
+              b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement))
+            );
+    
+    
     b.rule(condition).is(
         b.firstOf(
           b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, b.firstOf(b.sequence("=", initializerClause), bracedInitList)),
