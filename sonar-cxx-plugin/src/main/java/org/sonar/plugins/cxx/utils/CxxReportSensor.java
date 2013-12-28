@@ -33,6 +33,7 @@ import org.sonar.plugins.cxx.CxxLanguage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -150,7 +151,9 @@ public abstract class CxxReportSensor implements Sensor {
     Rule rule = ruleFinder.find(ruleQuery);
     if (rule != null) {
       Violation violation = null;
-      if (file != null){
+      // handles file="" situation
+      if ((file != null) && (file.length() > 0)){
+        file = getCaseSensitiveFileName(file, project.getFileSystem().getSourceDirs());
         org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (context.getResource(resource) != null) {
@@ -161,7 +164,13 @@ public abstract class CxxReportSensor implements Sensor {
           if (line != null){
             try{
               int linenr = Integer.parseInt(line);
-              violation.setLineId(linenr);
+              if (linenr>0){
+               violation.setLineId(linenr);
+              } else {
+                 // line number = 0 shall not be used
+                 // message will be displayed on the top of file
+                 violation.setLineId(1);
+              }
             } catch(java.lang.NumberFormatException nfe){
               CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
             }
@@ -181,6 +190,39 @@ public abstract class CxxReportSensor implements Sensor {
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
+  }
+  
+  /**
+   *  Supports full path and relative path in report.xml file.
+   */     
+  private String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
+    // check whether the report file uses absolute path
+    File targetfile = new java.io.File(file);
+    if (targetfile.exists()) {
+      file = getRealFileName(targetfile);
+    } else {
+      Iterator<java.io.File> iterator = sourceDirs.iterator();
+      while (iterator.hasNext()) {              
+           targetfile = new java.io.File(iterator.next().getPath() + "/" + file);
+           if (targetfile.exists()) {
+               file = getRealFileName(targetfile);
+           }
+      }
+    }
+    return file;      
+  }
+     
+  /**
+   * Find the case sensitive file name - tools might use different naming schema
+   * e.g. VC HTML or build log report uses case insensitive file name (lower case on windows)
+   */      
+  private String getRealFileName( File filename){
+     try {
+         return filename.getCanonicalFile().getAbsolutePath();
+     } catch (java.io.IOException e) {
+       CxxUtils.LOG.error("SaveViolation GetRealFileName failed '{}'", e.toString());
+       }
+     return filename.getName();
   }
   
   protected void processReport(Project project, SensorContext context, File report)
