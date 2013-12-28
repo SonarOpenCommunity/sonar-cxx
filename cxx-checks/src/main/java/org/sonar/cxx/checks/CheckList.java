@@ -34,9 +34,22 @@ public final class CheckList {
 
   public static List<Class> getChecks() {
     return ImmutableList.<Class> of(
-        ParsingErrorCheck.class,
-        FunctionComplexityCheck.class,
+        CommentedCodeCheck.class,
+        CommentRegularExpressionCheck.class,
         FileComplexityCheck.class,
+        FileHeaderCheck.class,
+        FixmeTagPresenceCheck.class,
+        FunctionComplexityCheck.class,
+        MagicNumberCheck.class,
+        MissingNewLineAtEndOfFileCheck.class,
+        NoSonarCheck.class,
+        ParsingErrorCheck.class,
+        StringLiteralDuplicatedCheck.class,
+        TabCharacterCheck.class,
+        TodoTagPresenceCheck.class,
+        TooLongLineCheck.class,
+        TooManyLinesOfCodeInFileCheck.class,
+        TooManyStatementsPerLineCheck.class,
         XPathCheck.class);
   }
 
