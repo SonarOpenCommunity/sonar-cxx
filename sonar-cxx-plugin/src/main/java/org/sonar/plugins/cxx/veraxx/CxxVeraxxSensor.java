@@ -85,10 +85,12 @@ public class CxxVeraxxSensor extends CxxReportSensor {
             throw new EmptyReportException();
           }
 
+          int countIssues = 0;
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");
           while (fileCursor.getNext() != null) {
             String name = fileCursor.getAttrValue("name");
 
+            CxxUtils.LOG.info("Vera++ processes file = " + name);              
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!name.equals("error")) {
@@ -98,6 +100,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
                 saveViolation(project, context, CxxVeraxxRuleRepository.KEY,
                     name, line, source, message);
+                countIssues++;
               } else {
                 CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
                     errorCursor.getAttrValue("line"),
@@ -105,6 +108,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
               }
             }
           }
+          CxxUtils.LOG.info("Vera++ issues processed = " + countIssues);    
         }
       });
 
