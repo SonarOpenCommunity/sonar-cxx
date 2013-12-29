@@ -37,8 +37,8 @@ public class CommentedCodeCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/commentedCode.cc"), new CommentedCodeCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(7).withMessage("Remove this commented out code.")
-        .next().atLine(12);
+        .next().atLine(10).withMessage("Remove this commented out code.")
+        .next().atLine(15);
   }
 
 }
