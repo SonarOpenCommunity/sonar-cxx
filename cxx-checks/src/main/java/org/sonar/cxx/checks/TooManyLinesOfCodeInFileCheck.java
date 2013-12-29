@@ -22,7 +22,6 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-//import org.sonar.cxx.api.CxxGrammar;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.api.CxxMetric;
 import com.sonar.sslr.api.AstNode;
@@ -57,3 +56,4 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar>
     }
   }
 }
+

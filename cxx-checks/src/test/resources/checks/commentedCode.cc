@@ -1,5 +1,8 @@
 #include <stdio.h>
-#include <tchar.h>
+#include <string>
+
+#if DEBUG
+#endif
 
 class Program
 {
@@ -9,30 +12,32 @@ class Program
     /*
     The following line is bad
 
-    void Test() { int dirId = this.Id++; }
+    void Test() { int dirId = Id++; }
 
     No violation on the following line, because there is at most one violation per comment
     MyMethod();
     */
 
-    int _tmain(int argc, _TCHAR* argv[])
-    {
-        return 0;
-    }
-
     /// <summary>
-    /// Handles the task exception.
+    /// Create task.
     /// </summary>
     /// <example>
     /// <code>
-    /// Task.Factory.StartNew (() => { throw null; }).IgnoreExceptions();
+    /// Task* TaskFactory::create_task(const std::string& type, map<string, string> vMap){...}
     /// </code>
     /// </example>
     /// <param name="task">The task.</param>
+
     void foo()
     {
     }
 };
 
-#if DEBUG
-#endif
+int main( int argc, char * argv[] )
+{
+    return 0;
+}
+
+
+
+

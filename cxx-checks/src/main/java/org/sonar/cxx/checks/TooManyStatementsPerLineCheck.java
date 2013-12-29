@@ -54,5 +54,4 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
       || statementNode.is(CxxGrammarImpl.labeledStatement)
       || statementNode.is(CxxGrammarImpl.declaration);
  }
-
 }
