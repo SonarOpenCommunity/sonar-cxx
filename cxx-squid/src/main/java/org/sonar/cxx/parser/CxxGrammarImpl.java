@@ -578,7 +578,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     
     b.rule(switchBlockStatementGroups).is(b.zeroOrMore(switchBlockStatementGroup));  
  
-//    b.rule(switchBlockStatementGroup).is(switchLabelStatement,  b.optional(emptyStatement), b.zeroOrMore(statement), b.optional(jumpStatement));  
     b.rule(switchBlockStatementGroup).is(switchLabelStatement, b.optional(emptyStatement), b.zeroOrMore(statement), b.optional(jumpStatement));  
     
     b.rule(switchLabelStatement).is(b.firstOf(
