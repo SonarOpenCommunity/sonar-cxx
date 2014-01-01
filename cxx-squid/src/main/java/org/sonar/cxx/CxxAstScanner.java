@@ -162,6 +162,8 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.STATEMENTS)
         .subscribeTo(CxxGrammarImpl.statement)
+        .subscribeTo(CxxGrammarImpl.switchBlockStatementGroups)
+        .subscribeTo(CxxGrammarImpl.switchBlockStatementGroup)
         .build());
 
     AstNodeType[] complexityAstNodeType = new AstNodeType[] {
