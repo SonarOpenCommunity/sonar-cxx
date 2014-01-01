@@ -34,13 +34,17 @@ public final class CheckList {
 
   public static List<Class> getChecks() {
     return ImmutableList.<Class> of(
+        CollapsibleIfCandidateCheck.class,
         CommentedCodeCheck.class,
         CommentRegularExpressionCheck.class,
         FileComplexityCheck.class,
         FileHeaderCheck.class,
         FixmeTagPresenceCheck.class,
         FunctionComplexityCheck.class,
+        HardcodedIpCheck.class,
+        IndentationCheck.class,
         MagicNumberCheck.class,
+        MissingCurlyBracesCheck.class,
         MissingNewLineAtEndOfFileCheck.class,
         NoSonarCheck.class,
         ParsingErrorCheck.class,
@@ -50,6 +54,9 @@ public final class CheckList {
         TooLongLineCheck.class,
         TooManyLinesOfCodeInFileCheck.class,
         TooManyStatementsPerLineCheck.class,
+        UselessParenthesesCheck.class,
+        UseCorrectTypeCheck.class,
+        SafetyTagCheck.class,
         XPathCheck.class);
   }
 
