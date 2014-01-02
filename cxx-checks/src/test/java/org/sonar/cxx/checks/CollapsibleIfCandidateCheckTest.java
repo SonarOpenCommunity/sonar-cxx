@@ -38,7 +38,8 @@ public class CollapsibleIfCandidateCheckTest {
     checkMessagesVerifier.verify(file.getCheckMessages())
         .next().atLine(16).withMessage("Merge this if statement with the enclosing one.")
         .next().atLine(49)
-        .next().atLine(54);
+        .next().atLine(54)
+        .noMore();
   }
 
 }

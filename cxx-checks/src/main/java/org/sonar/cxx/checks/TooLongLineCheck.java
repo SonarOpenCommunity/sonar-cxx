@@ -33,7 +33,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @Rule(
-  key = "TooLongLineCheck",
+  key = "TooLongLine",
   description = "Very long lines reduces readability. Scrolling shall be avoided",
   priority = Priority.MINOR)
 

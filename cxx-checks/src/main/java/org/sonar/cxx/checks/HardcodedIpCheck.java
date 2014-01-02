@@ -40,7 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Rule(
-  key = "NoHardcodedIpCheck",
+  key = "NoHardcodedIp",
   description = "IP addresses should never be hardcoded into the source code",
   priority = Priority.CRITICAL)
 

@@ -27,7 +27,7 @@ import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 
 @Rule(
-  key = "UselessParenthesesCheck",
+  key = "UselessParentheses",
   description = "Useless parentheses shall be avoided to improve readability",
   priority = Priority.MAJOR)
 

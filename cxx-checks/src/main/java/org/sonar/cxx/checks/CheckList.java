@@ -48,14 +48,17 @@ public final class CheckList {
         MissingNewLineAtEndOfFileCheck.class,
         NoSonarCheck.class,
         ParsingErrorCheck.class,
+        ReservedNamesCheck.class,
         StringLiteralDuplicatedCheck.class,
         TabCharacterCheck.class,
         TodoTagPresenceCheck.class,
         TooLongLineCheck.class,
         TooManyLinesOfCodeInFileCheck.class,
         TooManyStatementsPerLineCheck.class,
+        UnnamedNamespaceInHeaderCheck.class,
         UselessParenthesesCheck.class,
         UseCorrectTypeCheck.class,
+        UsingNamespaceInHeaderCheck.class,
         SafetyTagCheck.class,
         XPathCheck.class);
   }

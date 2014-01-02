@@ -70,5 +70,17 @@ int main(void)
             if (false) { // Compliant
             }
         }
+
+        void x1( )  {
+            if (getSomeValue()) { // Compliant
+            }
+
+        }
+        void x2( )  {
+            bool aValue = true;
+            if (aValue) { // Compliant
+            }
+
+        }
     };
 }
