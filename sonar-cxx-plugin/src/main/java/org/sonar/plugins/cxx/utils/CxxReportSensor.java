@@ -164,13 +164,8 @@ public abstract class CxxReportSensor implements Sensor {
           if (line != null){
             try{
               int linenr = Integer.parseInt(line);
-              if (linenr>0){
-               violation.setLineId(linenr);
-              } else {
-                 // line number = 0 shall not be used
-                 // message will be displayed on the top of file
-                 violation.setLineId(1);
-              }
+              linenr = linenr == 0 ? 1 : linenr;
+              violation.setLineId(linenr);
             } catch(java.lang.NumberFormatException nfe){
               CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
             }
@@ -203,9 +198,10 @@ public abstract class CxxReportSensor implements Sensor {
     } else {
       Iterator<java.io.File> iterator = sourceDirs.iterator();
       while (iterator.hasNext()) {              
-           targetfile = new java.io.File(iterator.next().getPath() + "/" + file);
+           targetfile = new java.io.File(iterator.next().getPath() + java.io.File.pathSeparator + file);
            if (targetfile.exists()) {
                file = getRealFileName(targetfile);
+               break;
            }
       }
     }
