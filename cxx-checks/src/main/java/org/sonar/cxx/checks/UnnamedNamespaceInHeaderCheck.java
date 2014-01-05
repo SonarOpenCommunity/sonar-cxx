@@ -26,11 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-
 import com.sonar.sslr.api.Grammar;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Rule(
   key = "UnnamedNamespaceInHeader",
@@ -40,8 +36,6 @@ import org.slf4j.LoggerFactory;
 //similar Vera++ rule T017
 public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
-  private static final Logger LOG = LoggerFactory.getLogger(UnnamedNamespaceInHeaderCheck.class);
-  
   private static final String DEFAULT_NAME_SUFFIX = ".h,.hh,.hpp,.H";
  
   @Override
@@ -55,8 +49,6 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   
   @Override
   public void visitNode(AstNode node) {
-    LOG.info(node.toString());
-    LOG.info("Name: " + getContext().getFile().getName());
     if (isHeader(getContext().getFile().getName())) {
         getContext().createFileViolation(this, "Unnamed namespaces are not allowed in header files.", node);
       }

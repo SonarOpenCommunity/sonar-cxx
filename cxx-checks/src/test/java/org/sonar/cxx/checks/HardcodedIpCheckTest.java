@@ -41,8 +41,8 @@ public class HardcodedIpCheckTest {
   public void detected() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/HardcodedIpCheck.cc"), check);
      CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(6).withMessage("Make this IP \"0.0.0.0\" address configurable (occurs 1 times).")
-      .next().atLine(7).withMessage("Make this IP \"http://192.168.0.1\" address configurable (occurs 1 times).");
+      .next().atLine(6).withMessage("Make this IP \"0.0.0.0\" address configurable.")
+      .next().atLine(7).withMessage("Make this IP \"http://192.168.0.1\" address configurable.");
   }
 
 }

@@ -25,8 +25,6 @@ import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.squid.checks.SquidCheck;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
-import org.sonar.squid.api.CheckMessage;
-import org.sonar.squid.api.SourceFile;
 import com.sonar.sslr.api.Grammar;
 
 /**
@@ -40,8 +38,6 @@ public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisi
 
   @Override
   public void visitToken(Token token) {
-    SourceFile sourceFile = getSourceFile();
-
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         String[] commentLines = getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()).split("(\r)?\n|\r", -1);
@@ -49,24 +45,11 @@ public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisi
 
         for (String commentLine : commentLines) {
           if (commentLine.contains("NOSONAR")) {
-            CheckMessage checkMessage = new CheckMessage(this, "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?");
-            checkMessage.setBypassExclusion(true);
-            checkMessage.setLine(line);
-            sourceFile.log(checkMessage);
+            getContext().createLineViolation(this, "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?", line);
           }
-
           line++;
         }
       }
     }
   }
-
-  private SourceFile getSourceFile() {
-    if (getContext().peekSourceCode() instanceof SourceFile) {
-      return (SourceFile) getContext().peekSourceCode();
-    } else {
-      return getContext().peekSourceCode().getParent(SourceFile.class);
-    }
-  }
-
 }

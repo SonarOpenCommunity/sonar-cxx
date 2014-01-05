@@ -29,9 +29,6 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 
 import com.sonar.sslr.api.Grammar;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Rule(
   key = "UsingNamespaceInHeader",
   description = "Using namespace directives are not allowed in header files",
@@ -39,22 +36,16 @@ import org.slf4j.LoggerFactory;
 
 //similar Vera++ rule T018
 public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
-
-  private static final Logger LOG = LoggerFactory.getLogger(UsingNamespaceInHeaderCheck.class);
   
   private static final String DEFAULT_NAME_SUFFIX = ".h,.hh,.hpp,.H";
  
   @Override
   public void init() {
    subscribeTo(CxxGrammarImpl.blockDeclaration);
-   // use cxx.suffixes.headers ?? No API
-   //   conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)
   }
 
   @Override
   public void visitNode(AstNode node) {
-    LOG.info(node.toString());
-    LOG.info("Name: " + getContext().getFile().getName());
     if ((node.getTokenValue().equals("using")) && (isHeader(getContext().getFile().getName()))) {
          getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
       }
@@ -69,6 +60,4 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
     }
     return false;
   }
-  
-  
 }

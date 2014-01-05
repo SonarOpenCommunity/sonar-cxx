@@ -22,20 +22,19 @@ package org.sonar.cxx.checks;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+
+
 
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.parser.CxxGrammarImpl;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.squid.checks.SquidCheck;
 
-import org.sonar.cxx.parser.CxxGrammarImpl;
-
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,8 +55,6 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
 //  [^\d.]*?((?:\d{1,3}\.){3}\d{1,3}(?!\d|\.)).*?
 
  
-  private final Map<String, Integer> firstOccurrence = Maps.newHashMap();
-  private final Map<String, Integer> IPOccurrences = Maps.newHashMap();
   private static final String DEFAULT_REGULAR_EXPRESSION = "[^\\d.]*?((?:\\d{1,3}\\.){3}\\d{1,3}(?!\\d|\\.)).*?";
   private static Matcher IP = null;
   
@@ -87,33 +84,13 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
 
   @Override
   public void visitNode(AstNode node) {
-      visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
-  }
-  
-  @Override
-  public void leaveFile(AstNode node) {
-    for (Map.Entry<String, Integer> literalOccurences : IPOccurrences.entrySet()) {
-      Integer occurences = literalOccurences.getValue();
-      String ip = literalOccurences.getKey();
-      getContext().createLineViolation(this, "Make this IP \"" + ip + "\" address configurable (occurs " + occurences + " times).", firstOccurrence.get(ip));
+    if (node.is(CxxGrammarImpl.LITERAL)) {
+      IP.reset(node.getTokenOriginalValue());
+      if (IP.find()) {
+         String ip = IP.group(0).replaceFirst("\"", "");
+         getContext().createLineViolation(this, "Make this IP \"" + ip + "\" address configurable.", node);
+      }
     }
   }
   
-  private void visitOccurence(String literal, int line) {
-       IP.reset(literal);
-       if (IP.find()) {
-          String ip = IP.group(0); 
-          if (literal.startsWith(ip)) {
-            literal = ip.replaceFirst("\"", "");
-        
-            if (!firstOccurrence.containsKey(literal)) {
-              firstOccurrence.put(literal, line);
-              IPOccurrences.put(literal, 1);
-            } else {
-              int occurences = IPOccurrences.get(literal);
-              IPOccurrences.put(literal, occurences + 1);
-            }
-          }
-        }
-      }
 }
