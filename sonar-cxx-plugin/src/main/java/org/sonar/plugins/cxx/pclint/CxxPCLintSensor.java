@@ -99,7 +99,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
         int countViolations = 0;
-        while (errorCursor.getNext() != null) {
+        try {
+        while (errorCursor.getNext() != null){ 
 
           String file = errorCursor.getAttrValue("file");
           String line = errorCursor.getAttrValue("line");
@@ -116,15 +117,18 @@ public class CxxPCLintSensor extends CxxReportSensor {
                   countViolations++;
               }
             } else {
-              CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
+              CxxUtils.LOG.warn("PC-lint warning ignored: {}", msg);
 
               String debugText = "File: " + file + ", Line: " + line +
                   ", ID: " + id + ", msg: " + msg;
               CxxUtils.LOG.debug(debugText);
             }
          }
-        CxxUtils.LOG.info("PC-Lint messages processed = " + countViolations);      
-      }
+        CxxUtils.LOG.info("PC-Lint messages processed = " + countViolations);  
+        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
+          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString()); 
+        }
+      }  
 
       private boolean isInputValid(String file, String line, String id, String msg) {
     	  if (StringUtils.isEmpty(file) || (Integer.valueOf(line)==0)) {
