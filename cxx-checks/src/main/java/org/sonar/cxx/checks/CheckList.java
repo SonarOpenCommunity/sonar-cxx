@@ -41,6 +41,7 @@ public final class CheckList {
         FileHeaderCheck.class,
         FixmeTagPresenceCheck.class,
         FunctionComplexityCheck.class,
+        HardcodedAccountCheck.class,
         HardcodedIpCheck.class,
         IndentationCheck.class,
         MagicNumberCheck.class,

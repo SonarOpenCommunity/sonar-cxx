@@ -19,14 +19,31 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
+import com.sonar.sslr.squid.checks.CheckMessagesVerifierRule;
+//import org.sonar.squid.api.CheckMessage;
+import org.junit.Rule;
 import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+//import org.sonar.java.model.VisitorsBridge;
+import org.sonar.squid.api.SourceFile;
 
-import static org.fest.assertions.Assertions.assertThat;
+import java.io.File;
 
-public class CheckListTest {
+public class HardcodedAccountCheckTest {
+
+  @Rule
+  public final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+
+  private HardcodedAccountCheck check = new HardcodedAccountCheck();
 
   @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(28);
+  public void detected() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/HardcodedAccount.cc"), check);
+     CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(6).withMessage("Do not hard code sensitive data in programs.")
+      .next().atLine(8)
+      .next().atLine(9);
   }
+
 }
