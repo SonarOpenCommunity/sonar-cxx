@@ -138,7 +138,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
     } else {
       Iterator<java.io.File> iterator = sourceDirs.iterator();
       while (iterator.hasNext()) {              
-           targetfile = new java.io.File(iterator.next().getPath() + java.io.File.pathSeparator + file);
+           targetfile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
            if (targetfile.exists()) {
                file = getRealFileName(targetfile);
                break;
