@@ -1,0 +1,3 @@
+<?xml version="1.0" ?>
+<results>
+<issue file ="O:\src\server.cpp" line = "93" number = "956" desc = "Non const, non volatile static or external variable 'Serve

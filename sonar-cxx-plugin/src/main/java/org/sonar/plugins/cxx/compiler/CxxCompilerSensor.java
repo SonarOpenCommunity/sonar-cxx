@@ -29,14 +29,14 @@ import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * compiler for C++ with advanced analysis features (e.g.VC for
- * commercial editions team edition or premium edition)
+ * compiler for C++ with advanced analysis features (e.g. for VC 2008 team edition or 2010/2012/2013 premium edition)
  *
  * @author Bert
  */
@@ -52,6 +52,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.compiler.charset";
   public static final String DEFAULT_CHARSET_DEF = "UTF-16";
   private RulesProfile profile;
+  private HashSet<String> uniqueIssues = new HashSet<String>();
 
   /**
    * {@inheritDoc}
@@ -103,8 +104,11 @@ public class CxxCompilerSensor extends CxxReportSensor {
         filename = getCaseSensitiveFileName(filename, project.getFileSystem().getSourceDirs());
         CxxUtils.LOG.debug("Scanner-matches file='" + filename + "' line='" + line + "' id='" + id + "' msg=" + msg);
         if (isInputValid(filename, line, id, msg)) {
-          saveViolation(project, context, CxxCompilerRuleRepository.KEY, filename, line, id, msg);
-          countViolations++;
+            if (uniqueIssues.add(filename + line + id + msg))
+            {
+            saveViolation(project, context, CxxCompilerRuleRepository.KEY, filename, line, id, msg);
+            countViolations++;
+            }
         } else {
           CxxUtils.LOG.warn("C-Compiler warning: {}", msg);
         }
@@ -123,18 +127,39 @@ public class CxxCompilerSensor extends CxxReportSensor {
       && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
   }
 
-  private static String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
-    Iterator<java.io.File> iterator = sourceDirs.iterator();
-    while (iterator.hasNext()) {
-      File targetfile = new java.io.File(iterator.next().getPath() + "\\" + file);
-      if (targetfile.exists()) {
-        try {
-          return targetfile.getCanonicalFile().getName();
-        } catch (java.io.IOException e) {
-          CxxUtils.LOG.error("processReport GetRealFileName getName failed '{}'", e.toString());
-        }
+  /**
+   *  Supports full path and relative path in report.xml file.
+   */     
+  private String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
+    // check whether the report file uses absolute path
+    File targetfile = new java.io.File(file);
+    if (targetfile.exists()) {
+      file = getRealFileName(targetfile);
+    } else {
+      Iterator<java.io.File> iterator = sourceDirs.iterator();
+      while (iterator.hasNext()) {              
+           targetfile = new java.io.File(iterator.next().getPath() + java.io.File.pathSeparator + file);
+           if (targetfile.exists()) {
+               file = getRealFileName(targetfile);
+               break;
+           }
       }
     }
-    return file;
+    return file;      
   }
+     
+  /**
+   * Find the case sensitive file name - tools might use different naming schema
+   * e.g. VC HTML or build log report uses case insensitive file name (lower case on windows)
+   */      
+  private String getRealFileName( File filename){
+     try {
+         return filename.getCanonicalFile().getAbsolutePath();
+     } catch (java.io.IOException e) {
+       CxxUtils.LOG.error("SaveViolation GetRealFileName failed '{}'", e.toString());
+       }
+     return filename.getName();
+  }
+
+  
 }

@@ -33,6 +33,7 @@ import org.sonar.plugins.cxx.CxxLanguage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -41,6 +42,7 @@ import java.util.List;
 public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   protected Settings conf = null;
+  private HashSet<String> uniqueFileName = new HashSet<String>();
   
   public CxxReportSensor() {
   }
@@ -150,7 +152,8 @@ public abstract class CxxReportSensor implements Sensor {
     Rule rule = ruleFinder.find(ruleQuery);
     if (rule != null) {
       Violation violation = null;
-      if (file != null){
+      // handles file="" situation
+      if ((file != null) && (file.length() > 0)){
         org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (context.getResource(resource) != null) {
@@ -161,13 +164,16 @@ public abstract class CxxReportSensor implements Sensor {
           if (line != null){
             try{
               int linenr = Integer.parseInt(line);
+              linenr = linenr == 0 ? 1 : linenr;
               violation.setLineId(linenr);
             } catch(java.lang.NumberFormatException nfe){
               CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
             }
           }
         } else {
-          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violation '{}'", file, msg);
+          if (uniqueFileName.add(file)) {
+          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", file);
+          }
         }
       } else {
         // project level violation

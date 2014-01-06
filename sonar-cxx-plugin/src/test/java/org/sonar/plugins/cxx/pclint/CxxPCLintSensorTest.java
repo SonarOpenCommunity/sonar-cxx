@@ -60,7 +60,7 @@ public class CxxPCLintSensorTest {
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
     CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
     sensor.analyse(project, context);
-    verify(context, times(13)).saveViolation(any(Violation.class));
+    verify(context, times(15)).saveViolation(any(Violation.class));
   }
 
   @Test
@@ -104,5 +104,13 @@ public class CxxPCLintSensorTest {
     CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
+  }
+  
+  @Test
+  public void shouldThrowExceptionInvalidChar() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-invalid-char.xml");
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
+    sensor.analyse(project, context);
   }
 }
