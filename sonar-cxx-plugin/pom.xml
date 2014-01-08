@@ -77,4 +77,16 @@
       <artifactId>sonar-common-rules</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>com/sonar/sqale/cxx-model-project*</exclude>
+          <exclude>external/*</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
 </project>
