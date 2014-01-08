@@ -59,7 +59,7 @@ public class CxxReportSensorTest {
     fs = TestUtils.mockFileSystem();
     sensor = new CxxReportSensorImpl(settings, fs);
     try {
-      baseDir = new File(getClass().getResource("/org/sonar/plugins/cxx/").toURI());
+      baseDir = new File(getClass().getResource("/org/sonar/plugins/cxx/reports-project/").toURI());
     } catch (java.net.URISyntaxException e) {
       System.out.println(e);
     }

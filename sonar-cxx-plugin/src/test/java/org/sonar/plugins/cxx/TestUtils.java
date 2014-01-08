@@ -70,13 +70,8 @@ public class TestUtils {
    * @return  default mock project
    */
   public static Project mockProject() {
-    File baseDir;
-    baseDir = loadResource("/org/sonar/plugins/cxx/"); // we skip "SampleProject" dir because report dirs as here
-
-    List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();
-
-    return mockProject(baseDir, sourceDirs, testDirs);
+    List<File> empty = new ArrayList<File>();
+    return mockProject(loadResource("/org/sonar/plugins/cxx/reports-project"), empty, empty);
   }
 
   /**
@@ -133,12 +128,9 @@ public class TestUtils {
   }
 
   public static ModuleFileSystem mockFileSystem() {
-    File baseDir = loadResource("/org/sonar/plugins/cxx/"); // we skip "SampleProject" dir
-                                                            // because report dirs are here
-    List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();
-
-    return mockFileSystem(baseDir, sourceDirs, testDirs);
+    File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
+    List<File> empty = new ArrayList<File>();
+    return mockFileSystem(baseDir, empty, empty);
   }
   
   private static List<InputFile> fromSourceFiles(List<File> sourceFiles) {

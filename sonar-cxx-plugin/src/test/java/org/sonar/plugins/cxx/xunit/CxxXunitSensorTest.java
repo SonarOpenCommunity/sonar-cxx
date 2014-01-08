@@ -83,7 +83,7 @@ public class CxxXunitSensorTest {
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
     
     List<File> sourceDirs = new ArrayList<File>();
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/xunit/project_finding_sources");
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
     sourceDirs.add(baseDir);
     
     List<File> testDirs = new ArrayList<File>();

@@ -34,7 +34,7 @@ import org.sonar.plugins.cxx.TestUtils;
 public class TestSuiteParserTest {
   TestSuiteParser parserHandler = new TestSuiteParser();
   StaxParser parser = new StaxParser(parserHandler, false);
-  String REPORTS_PATH = "/org/sonar/plugins/cxx/xunit-reports/";
+  String REPORTS_PATH = "/org/sonar/plugins/cxx/reports-project/xunit-reports/";
   
   @Test
   public void suiteDoesntEqualsNull() throws XMLStreamException {

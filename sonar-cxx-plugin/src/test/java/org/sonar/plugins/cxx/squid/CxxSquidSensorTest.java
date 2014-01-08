@@ -48,24 +48,19 @@ public class CxxSquidSensorTest {
   private SensorContext context;
   private Settings settings;
   private ModuleFileSystem fs;
-  
+  private List<File> emptyList;
+  private Project project;
+
   @Before
   public void setUp() {
+    emptyList = new ArrayList<File>();
     settings = new Settings();
-    fs = TestUtils.mockFileSystem();
-    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
     context = mock(SensorContext.class);
   }
 
   @Test
-  public void testLineCounting() {
-    List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/SampleProject");
-    sourceDirs.add(baseDir);
-    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
-    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
+  public void testCollectingSquidMetrics() {
+    setUpSensor(TestUtils.loadResource("codechunks-project"), null);
 
     sensor.analyse(project, context);
 
@@ -83,15 +78,8 @@ public class CxxSquidSensorTest {
   @Test
   public void testReplacingOfExtenalMacros() {
     settings.setProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
+    setUpSensor(TestUtils.loadResource("external-macro-project"), null);
 
-    List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/external_macro");
-    sourceDirs.add(baseDir);
-    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
-    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
-    
     sensor.analyse(project, context);
 
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
@@ -105,14 +93,7 @@ public class CxxSquidSensorTest {
   @Test
   public void testFindingIncludedFiles() {
     settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
-    
-    List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/include_directories");
-    sourceDirs.add(new File(baseDir, "src"));
-    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
-    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
+    setUpSensor(TestUtils.loadResource("include-directories-project"), "src");
 
     sensor.analyse(project, context);
 
@@ -129,17 +110,17 @@ public class CxxSquidSensorTest {
     // especially: when two files, both belonging to the set of
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
-
-    List<File> sourceDirs = new ArrayList<File>();
-    List<File> testDirs = new ArrayList<File>();
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/squid/circular_includes");
-    sourceDirs.add(baseDir);
-    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
-    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
-
+    setUpSensor(TestUtils.loadResource("circular-includes-project"), null);
     sensor.analyse(project, context);
 
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+  }
+
+  private void setUpSensor(File baseDir, String sourceDir){
+    List<File> sourceDirs = new ArrayList<File>();
+    sourceDirs.add(sourceDir == null ? baseDir : new File(baseDir, sourceDir));
+    project = TestUtils.mockProject(baseDir, sourceDirs, emptyList);
+    fs = TestUtils.mockFileSystem(baseDir, sourceDirs, emptyList);
+    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
   }
 }
