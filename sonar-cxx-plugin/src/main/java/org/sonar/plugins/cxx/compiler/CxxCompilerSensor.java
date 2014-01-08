@@ -27,6 +27,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.HashSet;
@@ -57,8 +58,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
-    super(ruleFinder, conf);
+  public CxxCompilerSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
+    super(ruleFinder, conf, fs);
     this.profile = profile;
   }
 
@@ -101,7 +102,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
         String id = scanner.match().group(3);
         String msg = scanner.match().group(4);
         // get filename from file system - e.g. VC writes case insensitive file name to html
-        filename = getCaseSensitiveFileName(filename, project.getFileSystem().getSourceDirs());
+        filename = getCaseSensitiveFileName(filename, fs.sourceDirs());
         CxxUtils.LOG.debug("Scanner-matches file='" + filename + "' line='" + line + "' id='" + id + "' msg=" + msg);
         if (isInputValid(filename, line, id, msg)) {
             if (uniqueIssues.add(filename + line + id + msg))

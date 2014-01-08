@@ -30,6 +30,7 @@ import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   protected Settings conf = null;
   private HashSet<String> uniqueFileName = new HashSet<String>();
+  protected ModuleFileSystem fs;
   
   public CxxReportSensor() {
   }
@@ -50,16 +52,18 @@ public abstract class CxxReportSensor implements Sensor {
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(Settings conf) {
+  public CxxReportSensor(Settings conf, ModuleFileSystem fs) {
     this.conf = conf;
+    this.fs = fs;
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(RuleFinder ruleFinder, Settings conf) {
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
+    this.fs = fs;
   }
 
   /**
@@ -74,7 +78,7 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+      List<File> reports = getReports(conf, fs.baseDir().getPath(),
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);

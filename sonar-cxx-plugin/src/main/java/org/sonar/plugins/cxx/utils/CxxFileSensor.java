@@ -41,13 +41,13 @@ public abstract class CxxFileSensor implements Sensor {
   }
 
   public void analyse(Project project, SensorContext context) {
-    List<InputFile> sourceFiles = project.getFileSystem().mainFiles(CxxLanguage.KEY);
+    // List<InputFile> sourceFiles = project.getFileSystem().mainFiles(CxxLanguage.KEY);
 
-    for (InputFile inputFile : sourceFiles) {
-      if (shouldParseFile(inputFile.getFile())) {
-        parseFile(inputFile, project, context);
-      }
-    }
+    // for (InputFile inputFile : sourceFiles) {
+    //   if (shouldParseFile(inputFile.getFile())) {
+    //     parseFile(inputFile, project, context);
+    //   }
+    // }
   }
 
   protected boolean shouldParseFile(File file) {

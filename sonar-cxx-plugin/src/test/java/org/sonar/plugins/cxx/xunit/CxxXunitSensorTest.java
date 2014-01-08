@@ -27,6 +27,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,11 +50,13 @@ public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
   private SensorContext context;
   private Project project;
+  private ModuleFileSystem fs;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    sensor = new CxxXunitSensor(new Settings(), TestUtils.mockCxxLanguage());
+    fs = TestUtils.mockFileSystem();
+    sensor = new CxxXunitSensor(new Settings(), fs, TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
   }
 
@@ -78,7 +81,6 @@ public class CxxXunitSensorTest {
   public void shouldFindTheSourcesOfTheTestfiles() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
     
     List<File> sourceDirs = new ArrayList<File>();
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/xunit/project_finding_sources");
@@ -89,6 +91,9 @@ public class CxxXunitSensorTest {
     testDirs.add(new File(baseDir, "tests2"));
     
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
+    fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
+    
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
     sensor.buildLookupTables(project);
     
     // case 1:
@@ -141,7 +146,7 @@ public class CxxXunitSensorTest {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
 
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, TestUtils.mockFileSystem(), TestUtils.mockCxxLanguage());
 
     sensor.analyse(project, context);
 
@@ -152,7 +157,7 @@ public class CxxXunitSensorTest {
   public void shouldThrowWhenGivenInvalidTime() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
 
     sensor.analyse(project, context);
   }
@@ -164,7 +169,7 @@ public class CxxXunitSensorTest {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
 
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
 
     sensor.transformReport(cppunitReport());
   }
@@ -176,7 +181,7 @@ public class CxxXunitSensorTest {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
 
-    sensor = new CxxXunitSensor(config, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
     File reportBefore = cppunitReport();
 
     File reportAfter = sensor.transformReport(reportBefore);
@@ -185,7 +190,6 @@ public class CxxXunitSensorTest {
   }
 
   File cppunitReport() {
-    return new File(new File(project.getFileSystem().getBasedir().getPath(), "xunit-reports"),
-        "cppunit-report.xml");
+    return new File(new File(fs.baseDir(), "xunit-reports"), "cppunit-report.xml");
   }
 }

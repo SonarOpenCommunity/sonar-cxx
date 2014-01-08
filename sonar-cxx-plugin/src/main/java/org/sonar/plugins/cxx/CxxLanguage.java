@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.AbstractLanguage;
+import org.sonar.api.scan.filesystem.FileQuery;
 
 /**
  * {@inheritDoc}
@@ -35,6 +36,9 @@ public class CxxLanguage extends AbstractLanguage {
   private String[] headerSuffixes;
   private String[] fileSuffixes;
 
+  public static FileQuery sourceQuery = FileQuery.onSource().onLanguage(KEY);
+  public static FileQuery testQuery = FileQuery.onTest().onLanguage(KEY);
+  
   /**
    * {@inheritDoc}
    */

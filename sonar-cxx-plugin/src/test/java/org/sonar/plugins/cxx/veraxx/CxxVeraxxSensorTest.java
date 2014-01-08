@@ -28,6 +28,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.List;
@@ -43,12 +44,14 @@ public class CxxVeraxxSensorTest {
   private CxxVeraxxSensor sensor;
   private SensorContext context;
   private Project project;
+  private ModuleFileSystem fs;
 
   @Before
   public void setUp() {
-    project = mockProject();
+    project = TestUtils.mockProject();
+    fs = TestUtils.mockFileSystem();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), mock(RulesProfile.class));
+    sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), fs, mock(RulesProfile.class));
     context = mock(SensorContext.class);
     org.sonar.api.resources.File resourceMock = mock(org.sonar.api.resources.File.class);
     when(context.getResource((org.sonar.api.resources.File) anyObject())).thenReturn(resourceMock);
@@ -58,25 +61,5 @@ public class CxxVeraxxSensorTest {
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
     verify(context, times(10)).saveViolation(any(Violation.class));
-  }
-
-  private Project mockProject() {
-    Project project = TestUtils.mockProject();
-
-    // works only with relative paths... should look at this later
-    List<File> sourceFiles = project.getFileSystem().getSourceFiles();
-    sourceFiles.clear();
-    sourceFiles.add(new File("sources/application/main.cpp"));
-    sourceFiles.add(new File("sources/tests/SAMPLE-test.cpp"));
-    sourceFiles.add(new File("sources/tests/SAMPLE-test.h"));
-    sourceFiles.add(new File("sources/tests/main.cpp"));
-    sourceFiles.add(new File("sources/utils/code_chunks.cpp"));
-    sourceFiles.add(new File("sources/utils/utils.cpp"));
-
-    List<File> sourceDirs = project.getFileSystem().getSourceDirs();
-    sourceDirs.clear();
-    sourceDirs.add(new File("sources"));
-
-    return project;
   }
 }

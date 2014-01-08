@@ -47,7 +47,7 @@ public class CxxCompilerSensorTest {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
     RulesProfile profile = mock(RulesProfile.class);
-    sensor = new CxxCompilerSensor(ruleFinder, new Settings(), profile);
+    sensor = new CxxCompilerSensor(ruleFinder, new Settings(), TestUtils.mockFileSystem(), profile);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);

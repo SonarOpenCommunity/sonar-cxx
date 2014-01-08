@@ -46,6 +46,7 @@ import org.sonar.squid.api.SourceFunction;
 import org.sonar.squid.indexer.QueryByParent;
 import org.sonar.squid.indexer.QueryByType;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.Arrays;
@@ -67,13 +68,15 @@ public final class CxxSquidSensor implements Sensor {
   private SensorContext context;
   private AstScanner<Grammar> scanner;
   private Settings conf;
+  private ModuleFileSystem fs;
   
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(RulesProfile profile, Settings conf) {
+  public CxxSquidSensor(RulesProfile profile, Settings conf, ModuleFileSystem fs) {
     this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
     this.conf = conf;
+    this.fs = fs;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
@@ -91,14 +94,16 @@ public final class CxxSquidSensor implements Sensor {
     List<SquidAstVisitor<Grammar>> visitors = Lists.newArrayList(squidChecks);
     this.scanner = CxxAstScanner.create(createConfiguration(project, conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
-    scanner.scanFiles(InputFileUtils.toFiles(project.getFileSystem().mainFiles(CxxLanguage.KEY)));
+    
+    scanner.scanFiles(fs.files(CxxLanguage.sourceQuery));
+    
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }
 
   private CxxConfiguration createConfiguration(Project project, Settings conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
-    cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
+    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+    cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){
       cxxConf.setDefines(Arrays.asList(lines));
