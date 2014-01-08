@@ -42,19 +42,15 @@ import java.util.List;
  */
 public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
-  protected Settings conf = null;
+  protected Settings conf;
   private HashSet<String> uniqueFileName = new HashSet<String>();
   protected ModuleFileSystem fs;
-  
-  public CxxReportSensor() {
-  }
   
   /**
    * {@inheritDoc}
    */
   public CxxReportSensor(Settings conf, ModuleFileSystem fs) {
-    this.conf = conf;
-    this.fs = fs;
+    this(null, conf, fs);
   }
 
   /**
