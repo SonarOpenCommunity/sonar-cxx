@@ -298,7 +298,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         CHARACTER,
         STRING,
         NUMBER,
-        BOOL));
+        BOOL,
+        NULLPTR));
   }
   
   private static void toplevel(LexerfulGrammarBuilder b) {

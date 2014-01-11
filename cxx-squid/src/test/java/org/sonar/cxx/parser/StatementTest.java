@@ -127,7 +127,6 @@ public class StatementTest {
     g.rule(CxxGrammarImpl.statement).mock();
     g.rule(CxxGrammarImpl.condition).mock();
 
- //   assertThat(p).matches("switch ( condition ) statement");
     assertThat(p).matches("switch ( condition ) { case constantExpression : statement }");
     assertThat(p).matches("switch ( condition ) { case constantExpression : break; }");
     assertThat(p).matches("switch ( condition ) { case constantExpression : continue; }");
