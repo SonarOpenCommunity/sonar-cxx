@@ -51,11 +51,8 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
 //  ([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(\d{1,3}\.){3}\d{1,3}
 // IPv4 with port number
 //  (?:^|\s)([a-z]{3,6}(?=://))?(://)?((?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?))(?::(\d{2,5}))?(?:\s|$)
-// original patter for IPv4:
-//  [^\d.]*?((?:\d{1,3}\.){3}\d{1,3}(?!\d|\.)).*?
 
- 
-  private static final String DEFAULT_REGULAR_EXPRESSION = "[^\\d.]*?((?:\\d{1,3}\\.){3}\\d{1,3}(?!\\d|\\.)).*?";
+  private static final String DEFAULT_REGULAR_EXPRESSION = "^.*((?<![\\d|\\.])(?:\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b\\.){3}\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b(?!\\d|\\.)).*$";
   private static Matcher IP = null;
   
   @RuleProperty(
@@ -87,7 +84,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
     if (node.is(CxxGrammarImpl.LITERAL)) {
       IP.reset(node.getTokenOriginalValue());
       if (IP.find()) {
-         String ip = IP.group(0).replaceFirst("\"", "");
+         String ip = IP.group(0).replaceAll("\"", "");
          getContext().createLineViolation(this, "Make this IP \"" + ip + "\" address configurable.", node);
       }
     }
