@@ -19,5 +19,7 @@
  */
 package org.sonar.plugins.cxx.utils;
 
+
+@SuppressWarnings("serial")
 public class EmptyReportException extends RuntimeException {
 }

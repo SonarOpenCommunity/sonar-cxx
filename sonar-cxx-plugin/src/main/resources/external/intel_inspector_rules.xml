@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ASCII"?>
+<rules>
+  <rule key="intelXe.Error">
+    <name><![CDATA[ Intel Inspector Error ]]></name>
+    <configKey><![CDATA[intelXe.Error@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Intel Inspector Error  ]]></description>
+  </rule>
+  <rule key="intelXe.Warning">
+    <name><![CDATA[ Intel Inspector Warning ]]></name>
+    <configKey><![CDATA[intelXe.Warning@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Intel Inspector Warning  ]]></description>
+  </rule>
+  <rule key="intelXe.CrossThreadStackAccess">
+    <name><![CDATA[ Cross-thread Stack Access ]]></name>
+    <configKey><![CDATA[intelXe.CrossThreadStackAccess@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a thread accesses a different thread's stack. ]]></description>
+  </rule>
+  <rule key="intelXe.DataRace">
+    <name><![CDATA[ Data Race ]]></name>
+    <configKey><![CDATA[intelXe.DataRace@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when multiple threads access the same memory location without proper synchronization and at least one access is a write. ]]></description>
+  </rule>
+  <rule key="intelXe.DeadLock">
+    <name><![CDATA[ Deadlock ]]></name>
+    <configKey><![CDATA[intelXe.DeadLock@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when two or more threads are waiting for each other to release resources (such as mutexes, critical sections, and thread handles) while holding resources the other threads are trying to acquire. If none of the threads release their resources, then none of the threads can proceed. ]]></description>
+  </rule>
+  <rule key="intelXe.GDIResourceLeak">
+    <name><![CDATA[ GDI Resource Leak ]]></name>
+    <configKey><![CDATA[intelXe.GDIResourceLeak@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a GDI object is created but never deleted. ]]></description>
+  </rule>
+  <rule key="intelXe.IncorrectMemcpyCall">
+    <name><![CDATA[ Incorrect memcpy Call ]]></name>
+    <configKey><![CDATA[intelXe.IncorrectMemcpyCall@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when an application calls the memcpy function with two pointers that overlap within the range to be copied. This condition is only checked on Linux* systems. On Windows* systems, this function is safe for overlapping memory. ]]></description>
+  </rule>
+  <rule key="intelXe.InvalidDeallocation">
+    <name><![CDATA[ Invalid Deallocation ]]></name>
+    <configKey><![CDATA[intelXe.InvalidDeallocation@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when an application calls a deallocation function with an address that does not correspond to dynamically allocated memory. ]]></description>
+  </rule>
+  <rule key="intelXe.InvalidMemoryAccess">
+    <name><![CDATA[ Invalid Memory Access ]]></name>
+    <configKey><![CDATA[intelXe.InvalidMemoryAccess@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a read or write instruction references memory that is logically or physically invalid. ]]></description>
+  </rule>
+  <rule key="intelXe.InvalidPartialMemoryAccess">
+    <name><![CDATA[ Invalid Partial Memory Access ]]></name>
+    <configKey><![CDATA[intelXe.InvalidPartialMemoryAccess@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a read or write instruction references a block (2-bytes or more) of memory where part of the block is logically invalid. ]]></description>
+  </rule>
+  <rule key="intelXe.KernelResourceLeak">
+    <name><![CDATA[ Kernel Resource Leak ]]></name>
+    <configKey><![CDATA[intelXe.KernelResourceLeak@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a kernel object handle is created but never closed. ]]></description>
+  </rule>
+  <rule key="intelXe.LockHierarchyViolation">
+    <name><![CDATA[ Lock Hierarchy Violation ]]></name>
+    <configKey><![CDATA[intelXe.LockHierarchyViolation@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when the acquisition order of multiple synchronization objects (such as mutexes, critical sections, and thread handles) in one thread differs from the acquisition order in another thread, and these synchronization objects are owned by the acquiring thread and must be released by the same thread. ]]></description>
+  </rule>
+  <rule key="intelXe.MemoryGrowth">
+    <name><![CDATA[ Memory Growth ]]></name>
+    <configKey><![CDATA[intelXe.MemoryGrowth@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a block of memory is allocated but not deallocated within a specific time segment during application execution. ]]></description>
+  </rule>
+  <rule key="intelXe.MemoryLeak">
+    <name><![CDATA[ Memory Leak ]]></name>
+    <configKey><![CDATA[intelXe.MemoryLeak@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a block of memory is allocated, never deallocated, and not reachable at application exit (there is no pointer available to deallocate the block). ]]></description>
+  </rule>
+  <rule key="intelXe.MemoryNotDeallocated">
+    <name><![CDATA[ Memory Not Deallocated ]]></name>
+    <configKey><![CDATA[intelXe.MemoryNotDeallocated@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a block of memory is allocated, never deallocated, but still reachable at application exit (there is a pointer available to deallocate the block). ]]></description>
+  </rule>
+  <rule key="intelXe.MismatchedAllocation/Deallocation">
+    <name><![CDATA[ Mismatched Allocation/Deallocation ]]></name>
+    <configKey><![CDATA[intelXe.MismatchedAllocation/Deallocation@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a deallocation is attempted with a function that is not the logical reflection of the allocator used.  ]]></description>
+  </rule>
+  <rule key="intelXe.MissingAllocation">
+    <name><![CDATA[ Missing Allocation ]]></name>
+    <configKey><![CDATA[intelXe.MissingAllocation@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when an invalid pointer is passed to a deallocation function. The invalid address may point to a previously released heap block. ]]></description>
+  </rule>
+  <rule key="intelXe.ThreadExitInformation">
+    <name><![CDATA[ Thread Exit Information ]]></name>
+    <configKey><![CDATA[intelXe.ThreadExitInformation@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when the Intel Inspector detects thread termination. This problem is really informational feedback. ]]></description>
+  </rule>
+  <rule key="intelXe.ThreadStartInformation">
+    <name><![CDATA[ Thread Start Information ]]></name>
+    <configKey><![CDATA[intelXe.ThreadStartInformation@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when the Intel Inspector detects the creation of a thread. This problem is really informational feedback useful for confirming the number and location of threads created during application execution and data collection. ]]></description>
+  </rule>
+  <rule key="intelXe.UnhandledApplicationException">
+    <name><![CDATA[ Unhandled Application Exception ]]></name>
+    <configKey><![CDATA[intelXe.UnhandledApplicationException@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when the application undergoing analysis crashes because of an unhandled exception thrown by the application. ]]></description>
+  </rule>
+  <rule key="intelXe.UninitializedMemoryAccess">
+    <name><![CDATA[ Uninitialized Memory Access ]]></name>
+    <configKey><![CDATA[intelXe.UninitializedMemoryAccess@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a read of an uninitialized memory location is reported. ]]></description>
+  </rule>
+  <rule key="intelXe.UninitializedPartialMemoryAccess">
+    <name><![CDATA[ Uninitialized Partial Memory Access ]]></name>
+    <configKey><![CDATA[intelXe.UninitializedPartialMemoryAccess@INTEL]]></configKey>
+    <category name="Memory" />
+    <description><![CDATA[  Occurs when a read instruction references a block (2-bytes or more) of memory where part of the block is uninitialized. ]]></description>
+  </rule>
+</rules>

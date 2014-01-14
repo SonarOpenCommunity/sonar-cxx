@@ -22,10 +22,9 @@ package org.sonar.cxx.parser;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
+import com.sonar.sslr.api.Grammar;
 
-import static com.sonar.sslr.test.parser.ParserMatchers.parse;
-import static org.junit.Assert.assertThat;
+import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -33,119 +32,119 @@ import static org.mockito.Mockito.mock;
  */
 public class LamdaExpressionsTest {
 
-  Parser<CxxGrammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  CxxGrammar g = p.getGrammar();
+  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  Grammar g = p.getGrammar();
 
   @Test
   public void lambdaExpression() {
-    p.setRootRule(g.lambdaExpression);
+    p.setRootRule(g.rule(CxxGrammarImpl.lambdaExpression));
 
-    g.lambdaIntroducer.mock();
-    g.lambdaDeclarator.mock();
-    g.compoundStatement.mock();
+    g.rule(CxxGrammarImpl.lambdaIntroducer).mock();
+    g.rule(CxxGrammarImpl.lambdaDeclarator).mock();
+    g.rule(CxxGrammarImpl.compoundStatement).mock();
 
-    assertThat(p, parse("lambdaIntroducer compoundStatement"));
-    assertThat(p, parse("lambdaIntroducer lambdaDeclarator compoundStatement"));
+    assertThat(p).matches("lambdaIntroducer compoundStatement");
+    assertThat(p).matches("lambdaIntroducer lambdaDeclarator compoundStatement");
   }
 
   @Test
   public void lambdaExpression_reallife() {
-    p.setRootRule(g.lambdaExpression);
+    p.setRootRule(g.rule(CxxGrammarImpl.lambdaExpression));
 
-    assertThat(p, parse("[] ( ) { }"));
-    assertThat(p, parse("[] (int n) { }"));
-    assertThat(p, parse("[&] ( ) { }"));
-    assertThat(p, parse("[&foo] (int n) { }"));
-    assertThat(p, parse("[=] (int n) { }"));
-    assertThat(p, parse("[=,&foo] (int n) { }"));
-    assertThat(p, parse("[&foo1,&foo2,&foo3] (int n, int y, int z) { }"));
-    assertThat(p, parse("[] () throw () { }"));
-    assertThat(p, parse("[] () -> int { return 1; }"));
-    assertThat(p, parse("[] (const string& addr) { return addr.find( \".org\" ) != string::npos; }"));
-    assertThat(p, parse("[this] () { cout << _x; }"));
+    assertThat(p).matches("[] ( ) { }");
+    assertThat(p).matches("[] (int n) { }");
+    assertThat(p).matches("[&] ( ) { }");
+    assertThat(p).matches("[&foo] (int n) { }");
+    assertThat(p).matches("[=] (int n) { }");
+    assertThat(p).matches("[=,&foo] (int n) { }");
+    assertThat(p).matches("[&foo1,&foo2,&foo3] (int n, int y, int z) { }");
+    assertThat(p).matches("[] () throw () { }");
+    assertThat(p).matches("[] () -> int { return 1; }");
+    assertThat(p).matches("[] (const string& addr) { return addr.find( \".org\" ) != string::npos; }");
+    assertThat(p).matches("[this] () { cout << _x; }");
     // function pointers c++11, TODO: make this work
-    // assertThat(p, parse("[] () -> { return 2; }"));
+    // assertThat(p).matches("[] () -> { return 2; }");
   }
 
   @Test
   public void lambdaIntroducer() {
-    p.setRootRule(g.lambdaIntroducer);
-    g.lambdaCapture.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.lambdaIntroducer));
+    g.rule(CxxGrammarImpl.lambdaCapture).mock();
 
-    assertThat(p, parse("[]"));
-    assertThat(p, parse("[lambdaCapture]"));
+    assertThat(p).matches("[]");
+    assertThat(p).matches("[lambdaCapture]");
   }
 
   @Test
   public void lambdaIntroducer_reallife() {
-    p.setRootRule(g.lambdaIntroducer);
+    p.setRootRule(g.rule(CxxGrammarImpl.lambdaIntroducer));
 
-    assertThat(p, parse("[&]"));
-    assertThat(p, parse("[=]"));
-    assertThat(p, parse("[bar]"));
-    assertThat(p, parse("[this]"));
-    assertThat(p, parse("[&foo]"));
-    assertThat(p, parse("[=,&foo]"));
+    assertThat(p).matches("[&]");
+    assertThat(p).matches("[=]");
+    assertThat(p).matches("[bar]");
+    assertThat(p).matches("[this]");
+    assertThat(p).matches("[&foo]");
+    assertThat(p).matches("[=,&foo]");
   }
 
   @Test
   public void lambdaCapture() {
-    p.setRootRule(g.lambdaCapture);
-    g.captureDefault.mock();
-    g.captureList.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.lambdaCapture));
+    g.rule(CxxGrammarImpl.captureDefault).mock();
+    g.rule(CxxGrammarImpl.captureList).mock();
 
-    assertThat(p, parse("captureDefault"));
-    assertThat(p, parse("captureList"));
-    assertThat(p, parse("captureDefault , captureList"));
+    assertThat(p).matches("captureDefault");
+    assertThat(p).matches("captureList");
+    assertThat(p).matches("captureDefault , captureList");
   }
 
   @Test
   public void captureDefault() {
-    p.setRootRule(g.captureDefault);
+    p.setRootRule(g.rule(CxxGrammarImpl.captureDefault));
 
-    assertThat(p, parse("&"));
-    assertThat(p, parse("="));
+    assertThat(p).matches("&");
+    assertThat(p).matches("=");
   }
 
   @Test
   public void capture() {
-    p.setRootRule(g.capture);
+    p.setRootRule(g.rule(CxxGrammarImpl.capture));
 
-    assertThat(p, parse("foo"));
-    assertThat(p, parse("&foo"));
-    assertThat(p, parse("this"));
+    assertThat(p).matches("foo");
+    assertThat(p).matches("&foo");
+    assertThat(p).matches("this");
   }
 
   @Test
   public void captureList() {
-    p.setRootRule(g.captureList);
-    g.capture.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.captureList));
+    g.rule(CxxGrammarImpl.capture).mock();
 
-    assertThat(p, parse("capture")); // or 1, optional out
-    assertThat(p, parse("capture ...")); // or 1, optional in
-    assertThat(p, parse("capture , capture")); // or 1, optional out
-    assertThat(p, parse("capture , capture ...")); // or 1, optional in
+    assertThat(p).matches("capture"); // or 1, optional out
+    assertThat(p).matches("capture ..."); // or 1, optional in
+    assertThat(p).matches("capture , capture"); // or 1, optional out
+    assertThat(p).matches("capture , capture ..."); // or 1, optional in
   }
 
   @Test
   public void lambdaDeclarator() {
-    p.setRootRule(g.lambdaDeclarator);
-    g.parameterDeclarationClause.mock();
-    g.exceptionSpecification.mock();
-    g.attributeSpecifierSeq.mock();
-    g.trailingReturnType.mock();
+    p.setRootRule(g.rule(CxxGrammarImpl.lambdaDeclarator));
+    g.rule(CxxGrammarImpl.parameterDeclarationClause).mock();
+    g.rule(CxxGrammarImpl.exceptionSpecification).mock();
+    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
+    g.rule(CxxGrammarImpl.trailingReturnType).mock();
 
-    assertThat(p, parse("( parameterDeclarationClause ) ")); // all opt out
-    assertThat(p, parse("( parameterDeclarationClause ) mutable")); // mutable in
-    assertThat(p, parse("( parameterDeclarationClause ) exceptionSpecification")); // exceptionSpecification in
-    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq")); // attributeSpecifierSeq in
-    assertThat(p, parse("( parameterDeclarationClause ) trailingReturnType")); // trailingReturnType in
-    assertThat(p, parse("( parameterDeclarationClause ) mutable exceptionSpecification")); // complex 1
-    assertThat(p, parse("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq")); // complex 2
-    assertThat(p, parse("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq trailingReturnType")); // complex
+    assertThat(p).matches("( parameterDeclarationClause ) "); // all opt out
+    assertThat(p).matches("( parameterDeclarationClause ) mutable"); // mutable in
+    assertThat(p).matches("( parameterDeclarationClause ) exceptionSpecification"); // exceptionSpecification in
+    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq"); // attributeSpecifierSeq in
+    assertThat(p).matches("( parameterDeclarationClause ) trailingReturnType"); // trailingReturnType in
+    assertThat(p).matches("( parameterDeclarationClause ) mutable exceptionSpecification"); // complex 1
+    assertThat(p).matches("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq"); // complex 2
+    assertThat(p).matches("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq trailingReturnType"); // complex
                                                                                                                                     // 3
-    assertThat(p, parse("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq")); // complex 4
-    assertThat(p, parse("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq trailingReturnType")); // complex 5
-    assertThat(p, parse("( parameterDeclarationClause ) attributeSpecifierSeq trailingReturnType")); // complex 6
+    assertThat(p).matches("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq"); // complex 4
+    assertThat(p).matches("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq trailingReturnType"); // complex 5
+    assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq trailingReturnType"); // complex 6
   }
 }

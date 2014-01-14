@@ -81,7 +81,13 @@ public class CoberturaParser implements CoverageParser {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
     while (line.getNext() != null) {
       int lineId = Integer.parseInt(line.getAttrValue("number"));
-      builder.setHits(lineId, Integer.parseInt(line.getAttrValue("hits")));
+      long noHits = Long.parseLong(line.getAttrValue("hits"));
+      if(noHits > Integer.MAX_VALUE){
+        CxxUtils.LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
+                          noHits, Integer.MAX_VALUE);
+        noHits = Integer.MAX_VALUE;
+      }
+      builder.setHits(lineId, (int)noHits);
 
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");

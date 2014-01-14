@@ -30,9 +30,11 @@ import org.sonar.api.rules.RuleQuery;
 import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -40,24 +42,24 @@ import java.util.List;
  */
 public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
-  protected Settings conf = null;
-  
-  public CxxReportSensor() {
-  }
+  protected Settings conf;
+  private HashSet<String> uniqueFileName = new HashSet<String>();
+  protected ModuleFileSystem fs;
   
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(Settings conf) {
-    this.conf = conf;
+  public CxxReportSensor(Settings conf, ModuleFileSystem fs) {
+    this(null, conf, fs);
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(RuleFinder ruleFinder, Settings conf) {
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
+    this.fs = fs;
   }
 
   /**
@@ -72,7 +74,7 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, project.getFileSystem().getBasedir().getPath(),
+      List<File> reports = getReports(conf, fs.baseDir().getPath(),
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);
@@ -102,6 +104,13 @@ public abstract class CxxReportSensor implements Sensor {
     return getClass().getSimpleName();
   }
 
+  public String getStringProperty(String name, String def) {
+      String value = conf.getString(name);
+      if (value == null)
+          value = def;
+      return value;
+  }
+
   protected List<File> getReports(Settings conf,
       String baseDirPath,
       String reportPathPropertyKey,
@@ -129,28 +138,51 @@ public abstract class CxxReportSensor implements Sensor {
     return reports;
   }
 
+  /**
+   * Saves a code violation which is detected in the given file/line
+   * and has given ruleId and message. Saves it to the given project and context.
+   * Project or file-level violations can be saved by passing null for the according parameters
+   * ('file' = 'line' = null for project level, 'line' = null for file-level)
+   */
   protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,
-      String file, String line, String ruleId, String msg) {
+                               String file, String line, String ruleId, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()
-        .withRepositoryKey(ruleRepoKey)
-        .withKey(ruleId);
+      .withRepositoryKey(ruleRepoKey)
+      .withKey(ruleId);
     Rule rule = ruleFinder.find(ruleQuery);
     if (rule != null) {
-      org.sonar.api.resources.File resource =
+      Violation violation = null;
+      // handles file="" situation
+      if ((file != null) && (file.length() > 0)){
+        org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
-      if (context.getResource(resource) != null) {
-        Violation violation = Violation.create(rule, resource).setMessage(msg);
-        if (line != null){
-          try{
-            int linenr = Integer.parseInt(line);
-            violation.setLineId(linenr);
-          }catch(java.lang.NumberFormatException nfe){
-            CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+        if (context.getResource(resource) != null) {
+          // file level violation
+          violation = Violation.create(rule, resource);
+
+          // considering the line information for file level violations only
+          if (line != null){
+            try{
+              int linenr = Integer.parseInt(line);
+              linenr = linenr == 0 ? 1 : linenr;
+              violation.setLineId(linenr);
+            } catch(java.lang.NumberFormatException nfe){
+              CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+            }
+          }
+        } else {
+          if (uniqueFileName.add(file)) {
+          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", file);
           }
         }
-        context.saveViolation(violation);
       } else {
-        CxxUtils.LOG.debug("Cannot find the file '{}', skipping violation '{}'", file, msg);
+        // project level violation
+        violation = Violation.create(rule, project);
+      }
+
+      if (violation != null){
+        violation.setMessage(msg);
+        context.saveViolation(violation);
       }
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);

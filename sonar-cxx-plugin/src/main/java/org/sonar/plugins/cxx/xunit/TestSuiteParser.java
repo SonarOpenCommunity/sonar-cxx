@@ -57,20 +57,25 @@ public class TestSuiteParser implements XmlStreamHandler {
     do{
       String testSuiteClassName = testSuiteCursor.getAttrValue("name");
       String testFileName = testSuiteCursor.getAttrValue("filename");
-      
+
       SMInputCursor testCaseCursor = testSuiteCursor.childElementCursor("testcase");
       while (testCaseCursor.getNext() != null) {
         String testClassName = getClassname(testCaseCursor, testSuiteClassName);
-        TestSuite report = testSuites.get(testClassName);
+        String testSuiteKey = isValidKey(testFileName) ? testFileName : testClassName;
+        TestSuite report = testSuites.get(testSuiteKey);
         if (report == null) {
-          report = new TestSuite(testClassName, testFileName);
-          testSuites.put(testClassName, report);
+          report = new TestSuite(testSuiteKey);
+          testSuites.put(testSuiteKey, report);
         }
         report.addTestCase(parseTestCaseTag(testCaseCursor));
       }
     }while (testSuiteCursor.getNext() != null);
   }
 
+  private boolean isValidKey(String key){
+    return key != null && !"".equals(key);
+  }
+  
   /**
    * Returns successfully parsed reports as a collection of TestSuite objects.
    */

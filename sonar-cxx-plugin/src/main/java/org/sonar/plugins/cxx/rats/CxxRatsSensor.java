@@ -28,6 +28,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.List;
@@ -44,8 +45,8 @@ public final class CxxRatsSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxRatsSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
-    super(ruleFinder, conf);
+  public CxxRatsSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
+    super(ruleFinder, conf, fs);
     this.profile = profile;
   }
 
@@ -77,16 +78,19 @@ public final class CxxRatsSensor extends CxxReportSensor {
       SAXBuilder builder = new SAXBuilder(false);
       Element root = builder.build(report).getRootElement();
 
+      @SuppressWarnings("unchecked")
       List<Element> vulnerabilities = root.getChildren("vulnerability");
       for (Element vulnerability : vulnerabilities) {
         String type = getVulnerabilityType(vulnerability.getChild("type"));
         String message = vulnerability.getChild("message").getTextTrim();
 
+        @SuppressWarnings("unchecked")
         List<Element> files = vulnerability.getChildren("file");
 
         for (Element file : files) {
           String fileName = file.getChild("name").getTextTrim();
 
+          @SuppressWarnings("unchecked")
           List<Element> lines = file.getChildren("line");
           for (Element lineElem : lines) {
             String line = lineElem.getTextTrim();

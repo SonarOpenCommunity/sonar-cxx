@@ -26,6 +26,7 @@ import org.sonar.api.measures.CoverageMeasuresBuilder;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -53,14 +54,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private static final String IT_DEFAULT_REPORT_PATH = "coverage-reports/it-coverage-*.xml";
   private static final String OVERALL_DEFAULT_REPORT_PATH = "coverage-reports/overall-coverage-*.xml";
 
-  private final Settings settings;
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
-
+  
   /**
    * {@inheritDoc}
    */
-  public CxxCoverageSensor(Settings settings) {
-    this.settings = settings;
+  public CxxCoverageSensor(Settings settings, ModuleFileSystem fs) {
+    super(settings, fs);
+    
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
   }
@@ -70,21 +71,19 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    List<File> reports = getReports(settings, project.getFileSystem().getBasedir().getPath(),
-        REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    String baseDir = fs.baseDir().getPath();
+    List<File> reports = getReports(conf, baseDir, REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     CxxUtils.LOG.debug("Parsing coverage reports");
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
     saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
-    List<File> itReports = getReports(settings, project.getFileSystem().getBasedir().getPath(),
-        IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
+    List<File> itReports = getReports(conf, baseDir, IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
     saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
-    List<File> overallReports = getReports(settings, project.getFileSystem().getBasedir().getPath(),
-        OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
+    List<File> overallReports = getReports(conf, baseDir, OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
     saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
   }
@@ -145,7 +144,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           context.saveMeasure(cxxfile, measure);
         }
       } else {
-        CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+        CxxUtils.LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
       }
     }
   }

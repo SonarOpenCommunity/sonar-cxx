@@ -30,6 +30,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.utils.SonarException;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
@@ -43,10 +44,12 @@ public class CxxPCLintSensorTest {
   private Project project;
   private RulesProfile profile;
   private RuleFinder ruleFinder;
+  private ModuleFileSystem fs;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
+    fs = TestUtils.mockFileSystem();
     ruleFinder = TestUtils.mockRuleFinder();
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
@@ -58,16 +61,16 @@ public class CxxPCLintSensorTest {
   public void shouldReportCorrectViolations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(10)).saveViolation(any(Violation.class));
+    verify(context, times(15)).saveViolation(any(Violation.class));
   }
 
   @Test
   public void shouldReportCorrectMisra2004Violations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE.xml");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
     verify(context, times(29)).saveViolation(any(Violation.class));
   }
@@ -76,7 +79,7 @@ public class CxxPCLintSensorTest {
   public void shouldThrowExceptionWhenMisra2004DescIsWrong() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
   }
 
@@ -84,7 +87,7 @@ public class CxxPCLintSensorTest {
   public void shouldThrowExceptionWhenMisra2004RuleDoNotExist() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
   }
 
@@ -92,8 +95,25 @@ public class CxxPCLintSensorTest {
   public void shouldNotRemapMisra1998Rules() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, profile);
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
+  }
+
+  @Test
+  public void shouldReportProjectLevelViolations() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-projectlevelviolation.xml");
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(context, times(1)).saveViolation(any(Violation.class));
+  }
+  
+  @Test
+  public void shouldThrowExceptionInvalidChar() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-invalid-char.xml");
+    CxxPCLintSensor sensor = new CxxPCLintSensor(ruleFinder, settings, fs, profile);
+    sensor.analyse(project, context);
   }
 }

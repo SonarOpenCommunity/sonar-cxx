@@ -35,7 +35,7 @@ public class CxxTokenizerTest {
 
   @Test
   public void shouldWorkOnValidInput() throws URISyntaxException {
-    File file = new File(getClass().getResource("/org/sonar/plugins/cxx/code_chunks.cc").toURI());
+    File file = new File(getClass().getResource("codechunks-project/code_chunks.cc").toURI());
     SourceCode source = new SourceCode(new SourceCode.FileCodeLoader(file, "key"));
     Tokens cpdTokens = new Tokens();
     CxxTokenizer tokenizer = new CxxTokenizer(Charset.forName("UTF-8"));

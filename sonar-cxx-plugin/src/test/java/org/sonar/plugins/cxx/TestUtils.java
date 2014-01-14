@@ -29,6 +29,8 @@ import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.scan.filesystem.FileQuery;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -37,6 +39,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -67,17 +70,8 @@ public class TestUtils {
    * @return  default mock project
    */
   public static Project mockProject() {
-    File baseDir;
-    baseDir = loadResource("/org/sonar/plugins/cxx/"); // we skip "SampleProject" dir because report dirs as here
-
-    List<File> sourceDirs = new ArrayList<File>();
-    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/application/"));
-    sourceDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/utils/"));
-
-    List<File> testDirs = new ArrayList<File>();
-    testDirs.add(loadResource("/org/sonar/plugins/cxx/SampleProject/sources/tests/"));
-
-    return mockProject(baseDir, sourceDirs, testDirs);
+    List<File> empty = new ArrayList<File>();
+    return mockProject(loadResource("/org/sonar/plugins/cxx/reports-project"), empty, empty);
   }
 
   /**
@@ -117,6 +111,28 @@ public class TestUtils {
     return project;
   }
 
+  public static ModuleFileSystem mockFileSystem(File baseDir,
+                                                List<File> sourceDirs, List<File> testDirs) {
+    ModuleFileSystem fs = mock(ModuleFileSystem.class);
+    when(fs.sourceCharset()).thenReturn(Charset.forName("UTF-8"));
+    when(fs.baseDir()).thenReturn(baseDir);
+    when(fs.sourceDirs()).thenReturn(sourceDirs);
+    when(fs.testDirs()).thenReturn(testDirs);
+
+    List<File> mainSourceFiles = scanForSourceFiles(sourceDirs);
+    List<File> testSourceFiles = scanForSourceFiles(testDirs);
+
+    when(fs.files(any(FileQuery.class))).thenReturn(mainSourceFiles);
+
+    return fs;
+  }
+
+  public static ModuleFileSystem mockFileSystem() {
+    File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
+    List<File> empty = new ArrayList<File>();
+    return mockFileSystem(baseDir, empty, empty);
+  }
+  
   private static List<InputFile> fromSourceFiles(List<File> sourceFiles) {
     List<InputFile> result = new ArrayList<InputFile>();
     for (File file : sourceFiles) {

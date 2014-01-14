@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<results>
+  <error file="sources/utils/code_chunks.cpp" line="boom" id="unusedFunction" severity="style" msg="The function 'foo' is never used"/>
+  <error file="sources/utils/code_chunks.cpp" line="-1" id="unusedFunction" severity="style" msg="The function 'foo' is never used"/>
+</results>

@@ -21,9 +21,10 @@ package org.sonar.cxx.preprocessor;
 
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
-import java.util.TreeMap;
 
-public class StandardDefinitions {
+public final class StandardDefinitions {
+  private StandardDefinitions(){}
+  
   public static Map<String, String> macros(){
     // This is a collection of standard macros according to 
     // http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html

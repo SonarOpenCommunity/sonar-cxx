@@ -1,0 +1,1 @@
+#define BAR void bar(){}

@@ -29,6 +29,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
@@ -41,13 +42,19 @@ public class CxxCppCheckSensorTest {
   private CxxCppCheckSensor sensor;
   private SensorContext context;
   private Project project;
+  private RulesProfile profile;
+  private RuleFinder ruleFinder;
+  private Settings settings;
+  private ModuleFileSystem fs;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    RulesProfile profile = mock(RulesProfile.class);
-    sensor = new CxxCppCheckSensor(ruleFinder, new Settings(), profile);
+    fs = TestUtils.mockFileSystem();
+    ruleFinder = TestUtils.mockRuleFinder();
+    profile = mock(RulesProfile.class);
+    settings = new Settings();
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -56,6 +63,25 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(6)).saveViolation(any(Violation.class));
+    verify(context, times(5)).saveViolation(any(Violation.class));
+  }
+
+  @Test
+  public void shouldReportProjectLevelViolations() {
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+                         "cppcheck-reports/cppcheck-result-projectlevelviolation.xml");
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(context, times(1)).saveViolation(any(Violation.class));
+  }
+
+  @Test
+  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFound() {
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+                         "cppcheck-reports/cppcheck-result-SAMPLE.xml");
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    when(context.getResource((File) anyObject())).thenReturn(null);
+    sensor.analyse(project, context);
+    verify(context, times(0)).saveViolation(any(Violation.class));
   }
 }

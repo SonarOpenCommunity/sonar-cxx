@@ -49,7 +49,7 @@ public class CxxValgrindSensorTest {
   public void setUp() {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxValgrindSensor(ruleFinder, new Settings(), mock(RulesProfile.class));
+    sensor = new CxxValgrindSensor(ruleFinder, new Settings(), TestUtils.mockFileSystem(), mock(RulesProfile.class));
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource(any(File.class))).thenReturn(resourceMock);

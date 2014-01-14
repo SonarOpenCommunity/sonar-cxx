@@ -20,18 +20,11 @@
 package org.sonar.cxx.preprocessor;
 
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Rule;
-import com.sonar.sslr.impl.matcher.GrammarFunctions;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.sslr.grammar.GrammarRuleKey;
+import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
 
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Advanced.anyToken;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Predicate.not;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.and;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.o2n;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.one2n;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
 import static org.sonar.cxx.api.CppKeyword.DEFINE;
 import static org.sonar.cxx.api.CppKeyword.ELIF;
 import static org.sonar.cxx.api.CppKeyword.ELSE;
@@ -52,68 +45,79 @@ import static org.sonar.cxx.api.CxxTokenType.WS;
 /**
  * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
  */
-public class CppGrammar extends Grammar {
-  public Rule preprocessorLine;
-  public Rule defineLine;
-  public Rule includeLine;
-  public Rule ifdefLine;
-  public Rule replacementList;
-  public Rule argumentList;
-  public Rule parameterList;
-  public Rule ppToken;
-  public Rule ifLine;
-  public Rule elifLine;
-  public Rule constantExpression;
-  public Rule primaryExpression;
-  public Rule unaryExpression;
-  public Rule unaryOperator;
-  public Rule multiplicativeExpression;
-  public Rule additiveExpression;
-  public Rule shiftExpression;
-  public Rule relationalExpression;
-  public Rule equalityExpression;
-  public Rule andExpression;
-  public Rule exclusiveOrExpression;
-  public Rule inclusiveOrExpression;
-  public Rule logicalAndExpression;
-  public Rule logicalOrExpression;
-  public Rule conditionalExpression;
-  public Rule expression;
-  public Rule bool;
-  public Rule literal;
-  public Rule definedExpression;
-  public Rule functionlikeMacro;
-  public Rule functionlikeMacroDefinition;
-  public Rule objectlikeMacroDefinition;
-  public Rule elseLine;
-  public Rule endifLine;
-  public Rule undefLine;
-  public Rule lineLine;
-  public Rule errorLine;
-  public Rule pragmaLine;
-  public Rule warningLine;
-  public Rule miscLine;
-  public Rule argument;
-  public Rule somethingContainingParantheses;
-  public Rule somethingWithoutParantheses;
-  public Rule allButLeftParan;
-  public Rule allButRightParan;
-  public Rule allButParan;
-  public Rule allButComma;
+public enum CppGrammar implements GrammarRuleKey {
+  preprocessorLine,
+  defineLine,
+  includeLine,
+  includeBody,
+  expandedIncludeBody,
+  includeBodyQuoted,
+  includeBodyBracketed,
+  includeBodyFreeform,
+  ifdefLine,
+  replacementList,
+  argumentList,
+  parameterList,
+  ppToken,
+  ifLine,
+  elifLine,
+  constantExpression,
+  primaryExpression,
+  unaryExpression,
+  unaryOperator,
+  multiplicativeExpression,
+  additiveExpression,
+  shiftExpression,
+  relationalExpression,
+  equalityExpression,
+  andExpression,
+  exclusiveOrExpression,
+  inclusiveOrExpression,
+  logicalAndExpression,
+  logicalOrExpression,
+  conditionalExpression,
+  expression,
+  bool,
+  literal,
+  definedExpression,
+  functionlikeMacro,
+  functionlikeMacroDefinition,
+  objectlikeMacroDefinition,
+  elseLine,
+  endifLine,
+  undefLine,
+  lineLine,
+  errorLine,
+  pragmaLine,
+  warningLine,
+  miscLine,
+  argument,
+  somethingContainingParantheses,
+  somethingWithoutParantheses,
+  allButLeftParan,
+  allButRightParan,
+  allButParan,
+  allButComma;
 
-  public CppGrammar() {
-    toplevelDefinitionGrammar();
-    defineLineGrammar();
-    includeLineGrammar();
-    ifLineGrammar();
-    allTheOtherLinesGrammar();
+  public static Grammar create() {
+    LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
 
-    GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
+    toplevelDefinitionGrammar(b);
+    defineLineGrammar(b);
+    includeLineGrammar(b);
+    ifLineGrammar(b);
+    allTheOtherLinesGrammar(b);
+    
+    b.setRootRule(preprocessorLine);
+
+    return b.build();
   }
 
-  private void toplevelDefinitionGrammar() {
-    preprocessorLine.is(
-        or(
+  
+  
+  private static void toplevelDefinitionGrammar(LexerfulGrammarBuilder b) {
+    b.rule(preprocessorLine).is(
+        b.firstOf(
             defineLine,
             includeLine,
             ifdefLine,
@@ -131,31 +135,27 @@ public class CppGrammar extends Grammar {
         );
   }
 
-  private void defineLineGrammar() {
-    defineLine.is(
-        or(
+  private static void defineLineGrammar(LexerfulGrammarBuilder b) {
+    b.rule(defineLine).is(
+        b.firstOf(
             functionlikeMacroDefinition,
             objectlikeMacroDefinition
         )
         );
 
-    functionlikeMacroDefinition.is(
-        or(
-            and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), opt(parameterList), o2n(WS), ")", opt(and(WS, replacementList))),
-            and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), "...", o2n(WS), ")", opt(and(WS, replacementList))),
-            and(DEFINE, one2n(WS), ppToken, "(", o2n(WS), parameterList, o2n(WS), ",", o2n(WS), "...", o2n(WS), ")", opt(and(WS, replacementList)))
+    b.rule(functionlikeMacroDefinition).is(
+        b.firstOf(
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList))),
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), "...", b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList))),
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS), ",", b.zeroOrMore(WS), "...", b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList)))
         )
         );
 
-    objectlikeMacroDefinition.is(
-        or(
-        and(DEFINE, one2n(WS), ppToken, opt(and(one2n(WS), replacementList)))
-        )
-        );
+    b.rule(objectlikeMacroDefinition).is(DEFINE, b.oneOrMore(WS), ppToken, b.optional(b.sequence(b.oneOrMore(WS), replacementList)));
 
-    replacementList.is(
-        one2n(
-        or(
+    b.rule(replacementList).is(
+        b.oneOrMore(
+        b.firstOf(
             "##",
             "#",
             ppToken
@@ -163,116 +163,129 @@ public class CppGrammar extends Grammar {
         )
         );
 
-    parameterList.is(IDENTIFIER, o2n(o2n(WS), ",", o2n(WS), IDENTIFIER));
-    argumentList.is(argument, o2n(o2n(WS), ",", o2n(WS), argument));
+    b.rule(parameterList).is(IDENTIFIER, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), IDENTIFIER));
+    b.rule(argumentList).is(argument, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), argument));
 
-    argument.is(
-        or(
-            somethingContainingParantheses,
+    b.rule(argument).is(
+        b.firstOf(
+            b.oneOrMore(somethingContainingParantheses),
             somethingWithoutParantheses
         )
         );
 
-    somethingContainingParantheses.is(
-        o2n(allButParan),
+    b.rule(somethingContainingParantheses).is(
+        b.zeroOrMore(allButParan),
         "(",
-        or(
+        b.firstOf(
             somethingContainingParantheses,
-            o2n(allButRightParan), ")"
+            b.zeroOrMore(allButRightParan), ")"
         ),
         allButComma
         );
 
-    somethingWithoutParantheses.is(one2n(not(or(",", ")", "(")), anyToken()));
+    b.rule(somethingWithoutParantheses).is(b.oneOrMore(b.nextNot(b.firstOf(",", ")", "(")), b.anyToken()));
 
-    allButLeftParan.is(not("("), anyToken());
-    allButRightParan.is(not(")"), anyToken());
-    allButParan.is(not(or("(", ")")), anyToken());
-    allButComma.is(not(","), anyToken());
+    b.rule(allButLeftParan).is(b.nextNot("("), b.anyToken());
+    b.rule(allButRightParan).is(b.nextNot(")"), b.anyToken());
+    b.rule(allButParan).is(b.nextNot(b.firstOf("(", ")")), b.anyToken());
+    b.rule(allButComma).is(b.nextNot(","), b.anyToken());
 
-    ppToken.is(anyToken());
+    b.rule(ppToken).is(b.anyToken());
   }
 
-  private void includeLineGrammar() {
-    includeLine.is(
-        or(INCLUDE, INCLUDE_NEXT),
-        o2n(WS),
-        or(
-            and("<", one2n(not(">"), ppToken), ">"),
-            CxxTokenType.STRING
-        ),
-        o2n(WS)
+  private static void includeLineGrammar(LexerfulGrammarBuilder b) {
+    b.rule(includeLine).is(
+        b.firstOf(INCLUDE, INCLUDE_NEXT),
+        b.zeroOrMore(WS),
+        includeBody,
+        b.zeroOrMore(WS)
         );
+    b.rule(includeBody).is(
+      b.firstOf(
+        includeBodyQuoted,
+        includeBodyBracketed,
+        includeBodyFreeform
+        )
+      );
+    b.rule(expandedIncludeBody).is(
+      b.firstOf(
+        includeBodyQuoted,
+        includeBodyBracketed
+        )
+      );
+    b.rule(includeBodyQuoted).is(CxxTokenType.STRING);
+    b.rule(includeBodyBracketed).is("<", b.oneOrMore(b.nextNot(">"), ppToken), ">");
+    b.rule(includeBodyFreeform).is(b.oneOrMore(ppToken));
   }
 
-  private void allTheOtherLinesGrammar() {
-    ifdefLine.is(or(IFDEF, IFNDEF), one2n(WS), IDENTIFIER, o2n(WS));
-    elseLine.is(ELSE, o2n(WS));
-    endifLine.is(ENDIF, o2n(WS));
-    undefLine.is(UNDEF, one2n(WS), IDENTIFIER);
-    lineLine.is(LINE, one2n(WS), one2n(ppToken));
-    errorLine.is(ERROR, o2n(WS), o2n(ppToken));
-    pragmaLine.is(PRAGMA, o2n(WS), o2n(ppToken));
-    warningLine.is(WARNING, o2n(WS), o2n(ppToken));
-    miscLine.is(HASH, o2n(ppToken));
+  private static void allTheOtherLinesGrammar(LexerfulGrammarBuilder b) {
+    b.rule(ifdefLine).is(b.firstOf(IFDEF, IFNDEF), b.oneOrMore(WS), IDENTIFIER, b.zeroOrMore(WS));
+    b.rule(elseLine).is(ELSE, b.zeroOrMore(WS));
+    b.rule(endifLine).is(ENDIF, b.zeroOrMore(WS));
+    b.rule(undefLine).is(UNDEF, b.oneOrMore(WS), IDENTIFIER);
+    b.rule(lineLine).is(LINE, b.oneOrMore(WS), b.oneOrMore(ppToken));
+    b.rule(errorLine).is(ERROR, b.zeroOrMore(WS), b.zeroOrMore(ppToken));
+    b.rule(pragmaLine).is(PRAGMA, b.zeroOrMore(WS), b.zeroOrMore(ppToken));
+    b.rule(warningLine).is(WARNING, b.zeroOrMore(WS), b.zeroOrMore(ppToken));
+    b.rule(miscLine).is(HASH, b.zeroOrMore(ppToken));
   }
 
-  private void ifLineGrammar() {
-    ifLine.is(IF, o2n(WS), constantExpression, o2n(WS));
-    elifLine.is(ELIF, o2n(WS), constantExpression, o2n(WS));
+  private static void ifLineGrammar(LexerfulGrammarBuilder b) {
+    b.rule(ifLine).is(IF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS));
+    b.rule(elifLine).is(ELIF, b.zeroOrMore(WS), constantExpression, b.zeroOrMore(WS));
 
-    constantExpression.is(conditionalExpression);
+    b.rule(constantExpression).is(conditionalExpression);
 
-    conditionalExpression.is(
-        or(
-            and(logicalOrExpression, o2n(WS), "?", o2n(WS), expression, o2n(WS), ":", o2n(WS), conditionalExpression),
+    b.rule(conditionalExpression).is(
+        b.firstOf(
+            b.sequence(logicalOrExpression, b.zeroOrMore(WS), "?", b.zeroOrMore(WS), expression, b.zeroOrMore(WS), ":", b.zeroOrMore(WS), conditionalExpression),
             logicalOrExpression
         )
         ).skipIfOneChild();
 
-    logicalOrExpression.is(logicalAndExpression, o2n(o2n(WS), "||", o2n(WS), logicalAndExpression)).skipIfOneChild();
+    b.rule(logicalOrExpression).is(logicalAndExpression, b.zeroOrMore(b.zeroOrMore(WS), "||", b.zeroOrMore(WS), logicalAndExpression)).skipIfOneChild();
 
-    logicalAndExpression.is(inclusiveOrExpression, o2n(o2n(WS), "&&", o2n(WS), inclusiveOrExpression)).skipIfOneChild();
+    b.rule(logicalAndExpression).is(inclusiveOrExpression, b.zeroOrMore(b.zeroOrMore(WS), "&&", b.zeroOrMore(WS), inclusiveOrExpression)).skipIfOneChild();
 
-    inclusiveOrExpression.is(exclusiveOrExpression, o2n(o2n(WS), "|", o2n(WS), exclusiveOrExpression)).skipIfOneChild();
+    b.rule(inclusiveOrExpression).is(exclusiveOrExpression, b.zeroOrMore(b.zeroOrMore(WS), "|", b.zeroOrMore(WS), exclusiveOrExpression)).skipIfOneChild();
 
-    exclusiveOrExpression.is(andExpression, o2n(o2n(WS), "^", o2n(WS), andExpression)).skipIfOneChild();
+    b.rule(exclusiveOrExpression).is(andExpression, b.zeroOrMore(b.zeroOrMore(WS), "^", b.zeroOrMore(WS), andExpression)).skipIfOneChild();
 
-    andExpression.is(equalityExpression, o2n(o2n(WS), "&", o2n(WS), equalityExpression)).skipIfOneChild();
+    b.rule(andExpression).is(equalityExpression, b.zeroOrMore(b.zeroOrMore(WS), "&", b.zeroOrMore(WS), equalityExpression)).skipIfOneChild();
 
-    equalityExpression.is(relationalExpression, o2n(o2n(WS), or("==", "!="), o2n(WS), relationalExpression)).skipIfOneChild();
+    b.rule(equalityExpression).is(relationalExpression, b.zeroOrMore(b.zeroOrMore(WS), b.firstOf("==", "!="), b.zeroOrMore(WS), relationalExpression)).skipIfOneChild();
 
-    relationalExpression.is(shiftExpression, o2n(o2n(WS), or("<", ">", "<=", ">="), o2n(WS), shiftExpression)).skipIfOneChild();
+    b.rule(relationalExpression).is(shiftExpression, b.zeroOrMore(b.zeroOrMore(WS), b.firstOf("<", ">", "<=", ">="), b.zeroOrMore(WS), shiftExpression)).skipIfOneChild();
 
-    shiftExpression.is(additiveExpression, o2n(o2n(WS), or("<<", ">>"), o2n(WS), additiveExpression)).skipIfOneChild();
+    b.rule(shiftExpression).is(additiveExpression, b.zeroOrMore(b.zeroOrMore(WS), b.firstOf("<<", ">>"), b.zeroOrMore(WS), additiveExpression)).skipIfOneChild();
 
-    additiveExpression.is(multiplicativeExpression, o2n(o2n(WS), or("+", "-"), o2n(WS), multiplicativeExpression)).skipIfOneChild();
+    b.rule(additiveExpression).is(multiplicativeExpression, b.zeroOrMore(b.zeroOrMore(WS), b.firstOf("+", "-"), b.zeroOrMore(WS), multiplicativeExpression)).skipIfOneChild();
 
-    multiplicativeExpression.is(unaryExpression, o2n(o2n(WS), or("*", "/", "%"), o2n(WS), unaryExpression)).skipIfOneChild();
+    b.rule(multiplicativeExpression).is(unaryExpression, b.zeroOrMore(b.zeroOrMore(WS), b.firstOf("*", "/", "%"), b.zeroOrMore(WS), unaryExpression)).skipIfOneChild();
 
-    unaryExpression.is(
-        or(
-            and(unaryOperator, o2n(WS), multiplicativeExpression),
+    b.rule(unaryExpression).is(
+        b.firstOf(
+            b.sequence(unaryOperator, b.zeroOrMore(WS), multiplicativeExpression),
             primaryExpression
         )
         ).skipIfOneChild();
 
-    unaryOperator.is(
-        or("+", "-", "!", "~")
+    b.rule(unaryOperator).is(
+        b.firstOf("+", "-", "!", "~")
         );
 
-    primaryExpression.is(
-        or(
+    b.rule(primaryExpression).is(
+        b.firstOf(
             literal,
-            and("(", o2n(WS), expression, o2n(WS), ")"),
+            b.sequence("(", b.zeroOrMore(WS), expression, b.zeroOrMore(WS), ")"),
             definedExpression,
             functionlikeMacro,
             IDENTIFIER
         )
         ).skipIfOneChild();
 
-    literal.is(
-        or(
+    b.rule(literal).is(
+        b.firstOf(
             CxxTokenType.CHARACTER,
             CxxTokenType.STRING,
             CxxTokenType.NUMBER,
@@ -280,28 +293,23 @@ public class CppGrammar extends Grammar {
         )
         );
 
-    bool.is(
-        or(
+    b.rule(bool).is(
+        b.firstOf(
             "true",
             "false"
         )
         );
 
-    expression.is(conditionalExpression, o2n(o2n(WS), ",", o2n(WS), conditionalExpression));
+    b.rule(expression).is(conditionalExpression, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), conditionalExpression));
 
-    definedExpression.is(
+    b.rule(definedExpression).is(
         "defined",
-        or(
-            and(o2n(WS), "(", o2n(WS), IDENTIFIER, o2n(WS), ")"),
-            and(one2n(WS), IDENTIFIER)
+        b.firstOf(
+            b.sequence(b.zeroOrMore(WS), "(", b.zeroOrMore(WS), IDENTIFIER, b.zeroOrMore(WS), ")"),
+            b.sequence(b.oneOrMore(WS), IDENTIFIER)
         )
         );
 
-    functionlikeMacro.is(IDENTIFIER, o2n(WS), "(", o2n(WS), opt(not(")"), argumentList), o2n(WS), ")");
-  }
-
-  @Override
-  public Rule getRootRule() {
-    return preprocessorLine;
+    b.rule(functionlikeMacro).is(IDENTIFIER, b.zeroOrMore(WS), "(", b.zeroOrMore(WS), b.optional(b.nextNot(")"), argumentList), b.zeroOrMore(WS), ")");
   }
 }

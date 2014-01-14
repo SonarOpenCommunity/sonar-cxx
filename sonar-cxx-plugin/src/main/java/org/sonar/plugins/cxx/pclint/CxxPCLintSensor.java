@@ -31,28 +31,34 @@ import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * PCLint is an equivalent to pmd but for C++
- *
+ * PC-lint is an equivalent to pmd but for C++
+ * The first version of the tool was release 1985 and the tool analyzes C/C++ source code from many compiler vendors.
+ * PC-lint is the version for Windows and FlexLint for Unix, VMS, OS-9, etc
+ * See also: http://www.gimpel.com/html/index.htm
+ * 
  * @author Bert
  */
 public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
   private RulesProfile profile;
+  private HashSet<String> uniqueIssues = new HashSet<String>();
 
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf, RulesProfile profile) {
-    super(ruleFinder, conf);
+  public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
+    super(ruleFinder, conf, fs);
     this.profile = profile;
   }
 
@@ -93,8 +99,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
         }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue"); // error
-
-        while (errorCursor.getNext() != null) {
+        int countViolations = 0;
+        try {
+        while (errorCursor.getNext() != null){ 
 
           String file = errorCursor.getAttrValue("file");
           String line = errorCursor.getAttrValue("line");
@@ -105,20 +112,30 @@ public class CxxPCLintSensor extends CxxReportSensor {
               if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
                   id = mapMisraRulesToUniqueSonarRules(msg);
               }
-              saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                  file, line, id, msg);
-
+              if (uniqueIssues.add(file + line + id + msg)) {
+                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
+                      file, line, id, msg);
+                  countViolations++;
+              }
             } else {
-              CxxUtils.LOG.warn("PCLint warning ignored: {}", msg);
+              CxxUtils.LOG.warn("PC-lint warning ignored: {}", msg);
 
               String debugText = "File: " + file + ", Line: " + line +
                   ", ID: " + id + ", msg: " + msg;
               CxxUtils.LOG.debug(debugText);
             }
+         }
+        CxxUtils.LOG.info("PC-Lint messages processed = " + countViolations);  
+        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
+          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString()); 
         }
-      }
+      }  
 
       private boolean isInputValid(String file, String line, String id, String msg) {
+    	  if (StringUtils.isEmpty(file) || (Integer.valueOf(line)==0)) {
+    		  // issue for project or file level
+    		  return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+    	  }
         return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
 

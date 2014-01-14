@@ -31,6 +31,7 @@ import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -50,9 +51,9 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckSensor(RuleFinder ruleFinder, Settings conf,
+  public CxxCppCheckSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs,
       RulesProfile profile) {
-    super(ruleFinder, conf);
+    super(ruleFinder, conf, fs);
     this.profile = profile;
   }
 
@@ -107,7 +108,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
     });
 

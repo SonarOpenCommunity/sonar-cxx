@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+<issue file ="" line = "0" number = "1960" desc = "Violates MISRA C++ 2008 Required Rule 5-0-19, More than two pointer indirection levels used for type: 'struct _wireSAFEARRAY ***"/>
+</doc>

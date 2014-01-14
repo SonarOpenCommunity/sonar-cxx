@@ -25,13 +25,14 @@ import com.sonar.sslr.impl.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
+import com.sonar.sslr.api.Grammar;
 
 import java.util.List;
 
 public final class ExpressionEvaluator {
   public static final Logger LOG = LoggerFactory.getLogger("Evaluator");
 
-  private Parser<CppGrammar> parser;
+  private Parser<Grammar> parser;
   private CxxPreprocessor preprocessor;
 
   public ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
@@ -149,8 +150,8 @@ public final class ExpressionEvaluator {
     try {
       number = Long.decode(stripSuffix(intValue)).longValue();
     } catch (java.lang.NumberFormatException nfe) {
+      LOG.warn("Cannot decode the number '{}' falling back to max long ({}) instead", intValue, Long.MAX_VALUE);
       number = Long.MAX_VALUE;
-      LOG.warn("Cannot decode the number '{}' falling back to max long ({}) instead", number);
     }
 
     return number;
@@ -405,7 +406,10 @@ public final class ExpressionEvaluator {
     String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
 
     LOG.trace("expanding '{}' to '{}'", macroName, value);
-
+    if(value == null){
+      LOG.warn("Undefined functionlike macro '{}' assuming 0", macroName);
+    }
+    
     return value == null ? 0 : evalToInt(value);
   }
 

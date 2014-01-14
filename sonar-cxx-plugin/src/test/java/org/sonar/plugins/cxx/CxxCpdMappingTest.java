@@ -20,7 +20,7 @@
 package org.sonar.plugins.cxx;
 
 import org.junit.Test;
-import org.sonar.api.resources.ProjectFileSystem;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -29,7 +29,7 @@ public class CxxCpdMappingTest {
   @Test
   public void testMapping() {
     CxxLanguage language = mock(CxxLanguage.class);
-    ProjectFileSystem fs = mock(ProjectFileSystem.class);
+    ModuleFileSystem fs = mock(ModuleFileSystem.class);
     CxxCpdMapping mapping = new CxxCpdMapping(language, fs);
     assertThat(mapping.getLanguage()).isSameAs(language);
     assertThat(mapping.getTokenizer()).isInstanceOf(CxxTokenizer.class);

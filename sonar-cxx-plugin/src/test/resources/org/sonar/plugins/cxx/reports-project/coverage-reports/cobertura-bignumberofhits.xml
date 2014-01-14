@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!DOCTYPE coverage
+SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
+<coverage branch-rate="0.5" line-rate="0.27397260274" timestamp="1335184370" version="gcovr 2.5-prerelease (r2774)">
+  <sources>
+    <source>
+      /home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject
+    </source>
+  </sources>
+  <packages>
+    <package branch-rate="0.0" complexity="0.0" line-rate="0.0" name="sources.utils">
+      <classes>
+        <class branch-rate="0.0" complexity="0.0" filename="sources/utils/code_chunks.cpp" line-rate="0.0" name="code_chunks_cpp">
+          <lines>
+            <line branch="false" hits="100000000000" number="17"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

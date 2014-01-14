@@ -29,7 +29,6 @@ import java.util.List;
 public class TestSuite {
 
   private String key;
-  private final String filePath;
   private int errors = 0;
   private int skipped = 0;
   private int tests = 0;
@@ -41,14 +40,13 @@ public class TestSuite {
    * Creates a testsuite instance uniquely identified by the given key
    * @param key The key to construct a testsuite for
    */
-  public TestSuite(String key, String filePath) {
+  public TestSuite(String key) {
     this.key = key;
-    this.filePath = filePath;
     this.testCases = new ArrayList<TestCase>();
   }
 
   public String getKey() {
-    return this.filePath == null || this.filePath.equals("") ? this.key : this.filePath;
+    return key;
   }
 
   public int getErrors() {

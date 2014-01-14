@@ -20,64 +20,43 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.impl.events.ExtendedStackTrace;
-import com.sonar.sslr.impl.events.ParsingEventListener;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxGrammar;
+
+import com.sonar.sslr.api.Grammar;
+
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squid.api.SourceProject;
 
+import java.io.File;
+
 public final class CxxParser {
-  private static class CxxParseEventPropagator extends ParsingEventListener {
-    private CxxPreprocessor cxxpp;
-    private SquidAstVisitorContext<CxxGrammar> astVisitorContext;
-
-    CxxParseEventPropagator(CxxPreprocessor cxxpp, SquidAstVisitorContext<CxxGrammar> astVisitorContext) {
-      this.cxxpp = cxxpp;
-      this.astVisitorContext = astVisitorContext;
-    }
-
-    public void beginLex() {
-      this.cxxpp.beginPreprocessing(astVisitorContext.getFile());
-    }
-  }
-
-  private static CxxParseEventPropagator parseEventPropagator;
+  private static CxxPreprocessor cxxpp = null;
 
   private CxxParser() {
   }
 
-  public static Parser<CxxGrammar> create() {
-    return create(new SquidAstVisitorContextImpl<CxxGrammar>(new SourceProject("")),
-        new CxxConfiguration());
+  public static void finishedParsing(File path){
+    cxxpp.finishedPreprocessing(path);
+  }
+  
+  public static Parser<Grammar> create() {
+    return create(new SquidAstVisitorContextImpl<Grammar>(new SourceProject("")),
+                  new CxxConfiguration());
   }
 
-  public static Parser<CxxGrammar> create(SquidAstVisitorContext<CxxGrammar> context) {
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context) {
     return create(context, new CxxConfiguration());
   }
 
-  public static Parser<CxxGrammar> create(SquidAstVisitorContext<CxxGrammar> context, CxxConfiguration conf) {
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
-    parseEventPropagator = new CxxParseEventPropagator(cxxpp, context);
-    return Parser.builder((CxxGrammar) new CxxGrammarImpl())
-        .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
-        .setParsingEventListeners(parseEventPropagator).build();
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context,
+                                       CxxConfiguration conf) {
+    cxxpp = new CxxPreprocessor(context, conf);
+    return Parser.builder(CxxGrammarImpl.create())
+      .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
+      .build();
   }
-
-  public static Parser<CxxGrammar> createDebugParser(SquidAstVisitorContext<CxxGrammar> context,
-      ExtendedStackTrace stackTrace) {
-    CxxConfiguration conf = new CxxConfiguration();
-    CxxPreprocessor cxxpp = new CxxPreprocessor(context, conf);
-    parseEventPropagator = new CxxParseEventPropagator(cxxpp, context);
-    return Parser.builder((CxxGrammar) new CxxGrammarImpl())
-        .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
-        .setParsingEventListeners(parseEventPropagator)
-        .setExtendedStackTrace(stackTrace)
-        .build();
-  }
-
 }

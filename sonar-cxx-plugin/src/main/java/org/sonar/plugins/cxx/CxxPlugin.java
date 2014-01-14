@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import org.sonar.api.Extension;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
@@ -30,6 +31,8 @@ import org.sonar.plugins.cxx.externalrules.CxxExternalRuleRepository;
 import org.sonar.plugins.cxx.externalrules.CxxExternalRulesSensor;
 import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
 import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
+import org.sonar.plugins.cxx.compiler.CxxCompilerRuleRepository;
+import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.squid.CxxSquidSensor;
@@ -55,6 +58,7 @@ import java.util.List;
     defaultValue = "",
     name = "Default macro definitions",
     description = "Macro definition to use while analysing the source. Use to provide macros which cannot be resolved by other means.",
+    type = PropertyType.TEXT,
     global = true,
     project = true),
   @Property(
@@ -83,6 +87,27 @@ import java.util.List;
     defaultValue = "",
     name = "Path to pclint report(s)",
     description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxCompilerSensor.REPORT_PATH_KEY,
+    defaultValue = "",
+    name = "Path to C++ compiler report(s)",
+    description = "Relative to projects' root. Ant patterns are accepted",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxCompilerSensor.REPORT_REGEX_DEF,
+    defaultValue = CxxCompilerSensor.DEFAULT_REGEX_DEF,
+    name = "RegEx to identify the 4 groups of the compiler warning message",
+    description = "Java regular expression with 4 groups for file, line, message ID, message",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxCompilerSensor.REPORT_CHARSET_DEF,
+    defaultValue = CxxCompilerSensor.DEFAULT_CHARSET_DEF,
+    name = "Encoding of the compiler report",
+    description = "The encoding to use when reading the compiler report",
     global = false,
     project = true),
   @Property(
@@ -166,6 +191,8 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxCppCheckSensor.class);
     l.add(CxxPCLintRuleRepository.class);
     l.add(CxxPCLintSensor.class);
+    l.add(CxxCompilerRuleRepository.class);
+    l.add(CxxCompilerSensor.class);
     l.add(CxxVeraxxRuleRepository.class);
     l.add(CxxVeraxxSensor.class);
     l.add(CxxValgrindRuleRepository.class);

@@ -19,19 +19,14 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.impl.matcher.GrammarFunctions;
-import org.sonar.cxx.api.CxxGrammar;
+import org.sonar.sslr.grammar.GrammarRuleKey;
+import com.sonar.sslr.api.Grammar;
+import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
+
 import org.sonar.cxx.api.CxxKeyword;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Predicate.next;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Predicate.not;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.and;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.o2n;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.one2n;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.opt;
-import static com.sonar.sslr.impl.matcher.GrammarFunctions.Standard.or;
 import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
@@ -39,157 +34,367 @@ import static org.sonar.cxx.api.CxxTokenType.STRING;
 /**
  * Based on the C++ Standard, Appendix A
  */
-public class CxxGrammarImpl extends CxxGrammar {
-  public CxxGrammarImpl() {
-    toplevel();
-    expressions();
-    statements();
-    declarations();
-    declarators();
-    classes();
-    derivedClasses();
-    specialMemberFunctions();
-    overloading();
-    templates();
-    exceptionHandling();
+public enum CxxGrammarImpl implements GrammarRuleKey {
+  // Misc
+  BOOL,
+  LITERAL,
 
-    misc();
+  // Top level components
+  translationUnit,
 
-    test.is("debugging asset");
+  // Expressions
+  primaryExpression,
+  idExpression,
+  unqualifiedId,
+  qualifiedId,
+  nestedNameSpecifier,
+  lambdaExpression,
+  lambdaIntroducer,
+  lambdaCapture,
+  captureDefault,
+  captureList,
+  capture,
+  lambdaDeclarator,
+  postfixExpression,
+  expressionList,
+  pseudoDestructorName,
+  unaryExpression,
+  unaryOperator,
+  newExpression,
+  newPlacement,
+  newTypeId,
+  newDeclarator,
+  noptrNewDeclarator,
+  newInitializer,
+  deleteExpression,
+  noexceptExpression,
+  castExpression,
+  pmExpression,
+  multiplicativeExpression,
+  additiveExpression,
+  shiftExpression,
+  relationalExpression,
+  equalityExpression,
+  andExpression,
+  exclusiveOrExpression,
+  inclusiveOrExpression,
+  logicalAndExpression,
+  logicalOrExpression,
+  conditionalExpression,
+  assignmentExpression,
+  assignmentOperator,
+  expression,
+  constantExpression,
 
-    GrammarFunctions.enableMemoizationOfMatchesForAllRules(this);
+  // Statements
+  statement,
+  labeledStatement,
+  expressionStatement,
+  compoundStatement,
+  statementSeq,
+  selectionStatement,
+  condition,
+  iterationStatement,
+  forInitStatement,
+  forRangeDeclaration,
+  forRangeInitializer,
+  jumpStatement,
+  declarationStatement,
+
+  // Declarations
+  declarationSeq,
+  declaration,
+  blockDeclaration,
+  aliasDeclaration,
+  simpleDeclaration,
+  staticAssertDeclaration,
+  emptyDeclaration,
+  attributeDeclaration,
+  declSpecifier,
+
+  conditionDeclSpecifierSeq,
+  forrangeDeclSpecifierSeq,
+  parameterDeclSpecifierSeq,
+  functionDeclSpecifierSeq,
+  simpleDeclSpecifierSeq,
+  memberDeclSpecifierSeq,
+
+  storageClassSpecifier,
+  functionSpecifier,
+  typedefName,
+  typeSpecifier,
+  trailingTypeSpecifier,
+  typeSpecifierSeq,
+  trailingTypeSpecifierSeq,
+  simpleTypeSpecifier,
+  typeName,
+  decltypeSpecifier,
+  elaboratedTypeSpecifier,
+  enumName,
+  enumSpecifier,
+  enumHead,
+  opaqueEnumDeclaration,
+  enumKey,
+  enumBase,
+  enumeratorList,
+  enumeratorDefinition,
+  enumerator,
+  namespaceName,
+  originalNamespaceName,
+  namespaceDefinition,
+  namedNamespaceDefinition,
+  originalNamespaceDefinition,
+  extensionNamespaceDefinition,
+  unnamedNamespaceDefinition,
+  namespaceBody,
+  namespaceAlias,
+  namespaceAliasDefinition,
+  qualifiedNamespaceSpecifier,
+  usingDeclaration,
+  usingDirective,
+  asmDefinition,
+  linkageSpecification,
+  attributeSpecifierSeq,
+  attributeSpecifier,
+  alignmentSpecifier,
+  attributeList,
+  attribute,
+  attributeToken,
+  attributeScopedToken,
+  attributeNamespace,
+  attributeArgumentClause,
+  balancedTokenSeq,
+  balancedToken,
+
+  // Declarators
+  initDeclaratorList,
+  initDeclarator,
+  declarator,
+  ptrDeclarator,
+  noptrDeclarator,
+  parametersAndQualifiers,
+  trailingReturnType,
+  ptrOperator,
+  cvQualifierSeq,
+  cvQualifier,
+  refQualifier,
+  declaratorId,
+  typeId,
+  abstractDeclarator,
+  ptrAbstractDeclarator,
+  noptrAbstractDeclarator,
+  abstractPackDeclarator,
+  noptrAbstractPackDeclarator,
+  parameterDeclarationClause,
+  parameterDeclarationList,
+  parameterDeclaration,
+  functionDefinition,
+  functionBody,
+  initializer,
+  braceOrEqualInitializer,
+  initializerClause,
+  initializerList,
+  bracedInitList,
+
+  // Classes
+  className,
+  classSpecifier,
+  classHead,
+  classHeadName,
+  classVirtSpecifier,
+  classKey,
+  memberSpecification,
+  memberDeclaration,
+  memberDeclaratorList,
+  memberDeclarator,
+  virtSpecifierSeq,
+  virtSpecifier,
+  pureSpecifier,
+
+  // Derived classes
+  baseClause,
+  baseSpecifierList,
+  baseSpecifier,
+  classOrDecltype,
+  baseTypeSpecifier,
+  accessSpecifier,
+
+  // Special member functions
+  conversionFunctionId,
+  conversionTypeId,
+  conversionDeclarator,
+  ctorInitializer,
+  memInitializerList,
+  memInitializer,
+  memInitializerId,
+
+  // Overloading
+  operatorFunctionId,
+  operator,
+  literalOperatorId,
+
+  // Templates
+  templateDeclaration,
+  templateParameterList,
+  templateParameter,
+  typeParameter,
+  simpleTemplateId,
+  templateId,
+  templateName,
+  templateArgumentList,
+  templateArgument,
+  typenameSpecifier,
+  explicitInstantiation,
+  explicitSpecialization,
+
+  // Exception handling
+  tryBlock,
+  functionTryBlock,
+  handlerSeq,
+  handler,
+  exceptionDeclaration,
+  throwExpression,
+  exceptionSpecification,
+  dynamicExceptionSpecification,
+  typeIdList,
+  noexceptSpecification;
+
+  public static Grammar create() {
+    LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
+
+    toplevel(b);
+    expressions(b);
+    statements(b);
+    declarations(b);
+    declarators(b);
+    classes(b);
+    derivedClasses(b);
+    specialMemberFunctions(b);
+    overloading(b);
+    templates(b);
+    exceptionHandling(b);
+
+    misc(b);
+    
+    b.setRootRule(translationUnit);
+
+    return b.build();
   }
 
-  private void misc() {
+  
+  private static void misc(LexerfulGrammarBuilder b) {
     // C++ Standard, Section 2.14.6 "Boolean literals"
-    bool.is(
-        or(
-            CxxKeyword.TRUE,
-            CxxKeyword.FALSE
-        )
-        );
-
-    literal.is(
-        or(
-            CHARACTER,
-            STRING,
-            NUMBER,
-            bool
-        )
-        );
+    b.rule(BOOL).is(b.firstOf(CxxKeyword.TRUE, CxxKeyword.FALSE));
+    b.rule(LITERAL).is(
+      b.firstOf(
+        CHARACTER,
+        STRING,
+        NUMBER,
+        BOOL));
+  }
+  
+  private static void toplevel(LexerfulGrammarBuilder b) {
+    b.rule(translationUnit).is(b.zeroOrMore(declaration), EOF);
   }
 
-  private void toplevel() {
-    translationUnit.is(o2n(declaration), EOF);
-  }
 
-  private void expressions() {
-    primaryExpression.is(
-        or(
-            literal,
-            CxxKeyword.THIS,
-            and("(", expression, ")"),
-            idExpression,
-            lambdaExpression
+  private static void expressions(LexerfulGrammarBuilder b) {
+    b.rule(primaryExpression).is(
+      b.firstOf(LITERAL,
+                CxxKeyword.THIS,
+                b.sequence("(", expression, ")"),
+                idExpression,
+                lambdaExpression)
+      ).skipIfOneChild();
+    
+    b.rule(idExpression).is(b.firstOf(qualifiedId, unqualifiedId));
+    
+    b.rule(unqualifiedId).is(
+      b.firstOf(
+        templateId,
+        operatorFunctionId,
+        conversionFunctionId,
+        literalOperatorId,
+        b.sequence("~", className),
+        b.sequence("~", decltypeSpecifier),
+        IDENTIFIER
         )
-        ).skipIfOneChild();
-
-    idExpression.is(
-        or(
-            qualifiedId,
-            unqualifiedId
-        )
-        );
-
-    unqualifiedId.is(
-        or(
-            templateId,
-            operatorFunctionId,
-            conversionFunctionId,
-            literalOperatorId,
-            and("~", className),
-            and("~", decltypeSpecifier),
-            IDENTIFIER
-        )
-        );
-
-    qualifiedId.is(
-        or(
-            and(nestedNameSpecifier, opt(CxxKeyword.TEMPLATE), unqualifiedId),
-            and("::", IDENTIFIER),
-            and("::", operatorFunctionId),
-            and("::", literalOperatorId),
-            and("::", templateId)
+      );
+    
+    b.rule(qualifiedId).is(
+      b.firstOf(
+            b.sequence(nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId),
+            b.sequence("::", IDENTIFIER),
+            b.sequence("::", operatorFunctionId),
+            b.sequence("::", literalOperatorId),
+            b.sequence("::", templateId)
         )
         );
 
-    nestedNameSpecifier.is(
-        or(
-            and(opt("::"), typeName, "::"),
-            and(opt("::"), namespaceName, "::"),
-            and(decltypeSpecifier, "::")
+    b.rule(nestedNameSpecifier).is(
+      b.firstOf(
+        b.sequence(b.optional("::"), typeName, "::"),
+        b.sequence(b.optional("::"), namespaceName, "::"),
+        b.sequence(decltypeSpecifier, "::")
         ),
-        o2n(
-        or(
-            and(IDENTIFIER, "::"),
-            and(opt(CxxKeyword.TEMPLATE), simpleTemplateId, "::")
+      b.zeroOrMore(
+        b.firstOf(
+          b.sequence(IDENTIFIER, "::"),
+          b.sequence(b.optional(CxxKeyword.TEMPLATE), simpleTemplateId, "::")
+          )
         )
+      );
+
+    b.rule(lambdaExpression).is(lambdaIntroducer, b.optional(lambdaDeclarator), compoundStatement);
+    
+    b.rule(lambdaIntroducer).is("[", b.optional(lambdaCapture), "]");
+
+    b.rule(lambdaCapture).is(
+      b.firstOf(
+        b.sequence(captureDefault, ",", captureList),
+        captureList,
+        captureDefault
         )
-        );
+      );
 
-    lambdaExpression.is(lambdaIntroducer, opt(lambdaDeclarator), compoundStatement);
-
-    lambdaIntroducer.is("[", opt(lambdaCapture), "]");
-
-    lambdaCapture.is(
-        or(
-            and(captureDefault, ",", captureList),
-            captureList,
-            captureDefault
+    b.rule(captureDefault).is(b.firstOf("&", "="));
+    
+    b.rule(captureList).is(b.sequence(capture, b.optional("...")), b.zeroOrMore(",", b.sequence(capture, b.optional("..."))));
+    
+    b.rule(capture).is(
+      b.firstOf(
+        IDENTIFIER,
+        b.sequence("&", IDENTIFIER),
+        CxxKeyword.THIS
         ));
 
-    captureDefault.is(
-        or(
-            "&",
-            "="
-        ));
-
-    captureList.is(and(capture, opt("...")), o2n(",", and(capture, opt("..."))));
-
-    capture.is(
-        or(
-            IDENTIFIER,
-            and("&", IDENTIFIER),
-            CxxKeyword.THIS
-        ));
-
-    lambdaDeclarator.is(
-        "(", parameterDeclarationClause, ")", opt(CxxKeyword.MUTABLE),
-        opt(exceptionSpecification), opt(attributeSpecifierSeq), opt(trailingReturnType)
-        );
-
-    postfixExpression.is(
-        or(
-            and(simpleTypeSpecifier, "(", opt(expressionList), ")"),
-            and(simpleTypeSpecifier, bracedInitList),
-            and(typenameSpecifier, "(", opt(expressionList), ")"),
-            and(typenameSpecifier, bracedInitList),
+    b.rule(lambdaDeclarator).is(
+      "(", parameterDeclarationClause, ")", b.optional(CxxKeyword.MUTABLE),
+      b.optional(exceptionSpecification), b.optional(attributeSpecifierSeq), b.optional(trailingReturnType)
+      );
+    
+    b.rule(postfixExpression).is(
+      b.firstOf(
+            b.sequence(simpleTypeSpecifier, "(", b.optional(expressionList), ")"),
+            b.sequence(simpleTypeSpecifier, bracedInitList),
+            b.sequence(typenameSpecifier, "(", b.optional(expressionList), ")"),
+            b.sequence(typenameSpecifier, bracedInitList),
 
             primaryExpression,
 
-            and(CxxKeyword.DYNAMIC_CAST, "<", typeId, ">", "(", expression, ")"),
-            and(CxxKeyword.STATIC_CAST, "<", typeId, ">", "(", expression, ")"),
-            and(CxxKeyword.REINTERPRET_CAST, "<", typeId, ">", "(", expression, ")"),
-            and(CxxKeyword.CONST_CAST, "<", typeId, ">", "(", expression, ")"),
-            and(CxxKeyword.TYPEID, "(", expression, ")"),
-            and(CxxKeyword.TYPEID, "(", typeId, ")")
+            b.sequence(CxxKeyword.DYNAMIC_CAST, "<", typeId, ">", "(", expression, ")"),
+            b.sequence(CxxKeyword.STATIC_CAST, "<", typeId, ">", "(", expression, ")"),
+            b.sequence(CxxKeyword.REINTERPRET_CAST, "<", typeId, ">", "(", expression, ")"),
+            b.sequence(CxxKeyword.CONST_CAST, "<", typeId, ">", "(", expression, ")"),
+            b.sequence(CxxKeyword.TYPEID, "(", expression, ")"),
+            b.sequence(CxxKeyword.TYPEID, "(", typeId, ")")
         ),
 
         // postfixExpression [ expression ]
         // postfixExpression [ bracedInitList ]
         // postfixExpression ( expressionListopt )
-        // postfixExpression . templateopt idExpression
-        // postfixExpression -> templateopt idExpression
+        // postfixExpression . template opt(idExpression)
+        // postfixExpression -> template opt(idExpression)
         // postfixExpression . pseudoDestructorName
         // postfixExpression -> pseudoDestructorName
         // postfixExpression ++
@@ -197,12 +402,12 @@ public class CxxGrammarImpl extends CxxGrammar {
 
         // should replace the left recursive stuff above
 
-        o2n(
-        or(
-            and("[", expression, "]"),
-            and("(", opt(expressionList), ")"),
-            and(or(".", "->"),
-                or(and(opt(CxxKeyword.TEMPLATE), idExpression),
+        b.zeroOrMore(
+        b.firstOf(
+            b.sequence("[", expression, "]"),
+            b.sequence("(", b.optional(expressionList), ")"),
+            b.sequence(b.firstOf(".", "->"),
+                b.firstOf(b.sequence(b.optional(CxxKeyword.TEMPLATE), idExpression),
                     pseudoDestructorName)),
             "++",
             "--"
@@ -210,215 +415,216 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         ).skipIfOneChild();
 
-    expressionList.is(initializerList);
+    b.rule(expressionList).is(initializerList);
 
-    pseudoDestructorName.is(
-        or(
-            and(opt(nestedNameSpecifier), typeName, "::", "~", typeName),
-            and(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId, "::", "~", typeName),
-            and(opt(nestedNameSpecifier), "~", typeName),
-            and("~", decltypeSpecifier)
+    b.rule(pseudoDestructorName).is(
+      b.firstOf(
+        b.sequence(b.optional(nestedNameSpecifier), typeName, "::", "~", typeName),
+        b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId, "::", "~", typeName),
+        b.sequence(b.optional(nestedNameSpecifier), "~", typeName),
+        b.sequence("~", decltypeSpecifier)
         )
-        );
+      );
 
-    unaryExpression.is(
-        or(
-            and(unaryOperator, castExpression),
-            postfixExpression,
-            and("++", castExpression),
-            and("--", castExpression),
-            and(CxxKeyword.SIZEOF, unaryExpression),
-            and(CxxKeyword.SIZEOF, "(", typeId, ")"),
-            and(CxxKeyword.SIZEOF, "...", "(", IDENTIFIER, ")"),
-            and(CxxKeyword.ALIGNOF, "(", typeId, ")"),
-            noexceptExpression,
-            newExpression,
-            deleteExpression
+    b.rule(unaryExpression).is(
+      b.firstOf(
+        b.sequence(unaryOperator, castExpression),
+        postfixExpression,
+        b.sequence("++", castExpression),
+        b.sequence("--", castExpression),
+        b.sequence(CxxKeyword.SIZEOF, unaryExpression),
+        b.sequence(CxxKeyword.SIZEOF, "(", typeId, ")"),
+        b.sequence(CxxKeyword.SIZEOF, "...", "(", IDENTIFIER, ")"),
+        b.sequence(CxxKeyword.ALIGNOF, "(", typeId, ")"),
+        noexceptExpression,
+        newExpression,
+        deleteExpression
         )
-        ).skipIfOneChild();
+      ).skipIfOneChild();
 
-    unaryOperator.is(
-        or("*", "&", "+", "-", "!", "~")
-        );
-
-    newExpression.is(
-        or(
-            and(opt("::"), CxxKeyword.NEW, opt(newPlacement), newTypeId, opt(newInitializer)),
-            and(opt("::"), CxxKeyword.NEW, newPlacement, "(", typeId, ")", opt(newInitializer)),
-            and(opt("::"), CxxKeyword.NEW, "(", typeId, ")", opt(newInitializer))
+    b.rule(unaryOperator).is(
+      b.firstOf("*", "&", "+", "-", "!", "~")
+      );
+    
+    b.rule(newExpression).is(
+      b.firstOf(
+        b.sequence(b.optional("::"), CxxKeyword.NEW, b.optional(newPlacement), newTypeId, b.optional(newInitializer)),
+        b.sequence(b.optional("::"), CxxKeyword.NEW, newPlacement, "(", typeId, ")", b.optional(newInitializer)),
+        b.sequence(b.optional("::"), CxxKeyword.NEW, "(", typeId, ")", b.optional(newInitializer))
         )
-        );
+      );
 
-    newPlacement.is("(", expressionList, ")");
-
-    newTypeId.is(typeSpecifierSeq, opt(newDeclarator));
-
-    newDeclarator.is(
-        or(
-            noptrNewDeclarator,
-            and(ptrOperator, opt(newDeclarator))
+    b.rule(newPlacement).is("(", expressionList, ")");
+           
+    b.rule(newTypeId).is(typeSpecifierSeq, b.optional(newDeclarator));
+    
+    b.rule(newDeclarator).is(
+      b.firstOf(
+        noptrNewDeclarator,
+        b.sequence(ptrOperator, b.optional(newDeclarator))
         )
-        );
+      );
 
-    noptrNewDeclarator.is("[", expression, "]", opt(attributeSpecifierSeq), o2n("[", constantExpression, "]", opt(attributeSpecifierSeq)));
-
-    newInitializer.is(
-        or(
-            and("(", opt(expressionList), ")"),
-            bracedInitList
+    b.rule(noptrNewDeclarator).is("[", expression, "]", b.optional(attributeSpecifierSeq), b.zeroOrMore("[", constantExpression, "]", b.optional(attributeSpecifierSeq)));
+    
+    b.rule(newInitializer).is(
+      b.firstOf(
+        b.sequence("(", b.optional(expressionList), ")"),
+        bracedInitList
         )
-        );
+      );
 
-    deleteExpression.is(opt("::"), CxxKeyword.DELETE, opt("[", "]"), castExpression);
+    b.rule(deleteExpression).is(b.optional("::"), CxxKeyword.DELETE, b.optional("[", "]"), castExpression);
 
-    noexceptExpression.is(CxxKeyword.NOEXCEPT, "(", expression, ")");
+    b.rule(noexceptExpression).is(CxxKeyword.NOEXCEPT, "(", expression, ")");
 
-    castExpression.is(
-        or(
-            and(next("(", typeId, ")"), "(", typeId, ")", castExpression),
-            unaryExpression
+    b.rule(castExpression).is(
+      b.firstOf(
+        b.sequence(
+          b.next("(", typeId, ")"), "(", typeId, ")", castExpression),
+        unaryExpression
         )
-        ).skipIfOneChild();
+      ).skipIfOneChild();
 
-    pmExpression.is(castExpression, o2n(or(".*", "->*"), castExpression)).skipIfOneChild();
+    b.rule(pmExpression).is(castExpression, b.zeroOrMore(b.firstOf(".*", "->*"), castExpression)).skipIfOneChild();
 
-    multiplicativeExpression.is(pmExpression, o2n(or("*", "/", "%"), pmExpression)).skipIfOneChild();
+    b.rule(multiplicativeExpression).is(pmExpression, b.zeroOrMore(b.firstOf("*", "/", "%"), pmExpression)).skipIfOneChild();
 
-    additiveExpression.is(multiplicativeExpression, o2n(or("+", "-"), multiplicativeExpression)).skipIfOneChild();
+    b.rule(additiveExpression).is(multiplicativeExpression, b.zeroOrMore(b.firstOf("+", "-"), multiplicativeExpression)).skipIfOneChild();
 
-    shiftExpression.is(additiveExpression, o2n(or("<<", ">>"), additiveExpression)).skipIfOneChild();
+    b.rule(shiftExpression).is(additiveExpression, b.zeroOrMore(b.firstOf("<<", ">>"), additiveExpression)).skipIfOneChild();
 
-    relationalExpression.is(shiftExpression, o2n(or("<", ">", "<=", ">="), shiftExpression)).skipIfOneChild();
+    b.rule(relationalExpression).is(shiftExpression, b.zeroOrMore(b.firstOf("<", ">", "<=", ">="), shiftExpression)).skipIfOneChild();
 
-    equalityExpression.is(relationalExpression, o2n(or("==", "!="), relationalExpression)).skipIfOneChild();
+    b.rule(equalityExpression).is(relationalExpression, b.zeroOrMore(b.firstOf("==", "!="), relationalExpression)).skipIfOneChild();
 
-    andExpression.is(equalityExpression, o2n("&", equalityExpression)).skipIfOneChild();
+    b.rule(andExpression).is(equalityExpression, b.zeroOrMore("&", equalityExpression)).skipIfOneChild();
 
-    exclusiveOrExpression.is(andExpression, o2n("^", andExpression)).skipIfOneChild();
+    b.rule(exclusiveOrExpression).is(andExpression, b.zeroOrMore("^", andExpression)).skipIfOneChild();
 
-    inclusiveOrExpression.is(exclusiveOrExpression, o2n("|", exclusiveOrExpression)).skipIfOneChild();
+    b.rule(inclusiveOrExpression).is(exclusiveOrExpression, b.zeroOrMore("|", exclusiveOrExpression)).skipIfOneChild();
 
-    logicalAndExpression.is(inclusiveOrExpression, o2n("&&", inclusiveOrExpression)).skipIfOneChild();
+    b.rule(logicalAndExpression).is(inclusiveOrExpression, b.zeroOrMore("&&", inclusiveOrExpression)).skipIfOneChild();
 
-    logicalOrExpression.is(logicalAndExpression, o2n("||", logicalAndExpression)).skipIfOneChild();
+    b.rule(logicalOrExpression).is(logicalAndExpression, b.zeroOrMore("||", logicalAndExpression)).skipIfOneChild();
 
-    conditionalExpression.is(
-        or(
-            and(logicalOrExpression, "?", expression, ":", assignmentExpression),
-            logicalOrExpression
+    b.rule(conditionalExpression).is(
+      b.firstOf(
+        b.sequence(logicalOrExpression, "?", expression, ":", assignmentExpression),
+        logicalOrExpression
         )
-        ).skipIfOneChild();
+      ).skipIfOneChild();
 
-    assignmentExpression.is(
-        or(
-            and(logicalOrExpression, assignmentOperator, initializerClause),
+    b.rule(assignmentExpression).is(
+        b.firstOf(
+            b.sequence(logicalOrExpression, assignmentOperator, initializerClause),
             conditionalExpression,
             throwExpression
         )
         ).skipIfOneChild();
 
-    assignmentOperator.is(or("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", "^=", "|="));
+    b.rule(assignmentOperator).is(b.firstOf("=", "*=", "/=", "%=", "+=", "-=", ">>=", "<<=", "&=", "^=", "|="));
 
-    expression.is(assignmentExpression, o2n(",", assignmentExpression));
+    b.rule(expression).is(assignmentExpression, b.zeroOrMore(",", assignmentExpression));
 
-    constantExpression.is(conditionalExpression);
+    b.rule(constantExpression).is(conditionalExpression);
   }
 
-  private void statements() {
-    statement.is(
-        or(
-            labeledStatement,
-            and(opt(attributeSpecifierSeq), expressionStatement),
-            and(opt(attributeSpecifierSeq), compoundStatement),
-            and(opt(attributeSpecifierSeq), selectionStatement),
-            and(opt(attributeSpecifierSeq), iterationStatement),
-            and(opt(attributeSpecifierSeq), jumpStatement),
-            declarationStatement,
-            and(opt(attributeSpecifierSeq), tryBlock)
+  private static void statements(LexerfulGrammarBuilder b) {
+    b.rule(statement).is(
+      b.firstOf(
+        labeledStatement,
+        b.sequence(b.optional(attributeSpecifierSeq), expressionStatement),
+        b.sequence(b.optional(attributeSpecifierSeq), compoundStatement),
+        b.sequence(b.optional(attributeSpecifierSeq), selectionStatement),
+        b.sequence(b.optional(attributeSpecifierSeq), iterationStatement),
+        b.sequence(b.optional(attributeSpecifierSeq), jumpStatement),
+        declarationStatement,
+        b.sequence(b.optional(attributeSpecifierSeq), tryBlock)
         )
-        );
+      );
+    
+    b.rule(labeledStatement).is(b.optional(attributeSpecifierSeq), b.firstOf(IDENTIFIER, b.sequence(CxxKeyword.CASE, constantExpression), CxxKeyword.DEFAULT), ":", statement);
 
-    labeledStatement.is(opt(attributeSpecifierSeq), or(IDENTIFIER, and(CxxKeyword.CASE, constantExpression), CxxKeyword.DEFAULT), ":", statement);
-
-    expressionStatement.is(opt(expression), ";");
-
-    compoundStatement.is("{", opt(statementSeq), "}");
-
-    statementSeq.is(one2n(statement));
-
-    selectionStatement.is(
-        or(
-            and(CxxKeyword.IF, "(", condition, ")", statement, opt(CxxKeyword.ELSE, statement)),
-            and(CxxKeyword.SWITCH, "(", condition, ")", statement)
+    b.rule(expressionStatement).is(b.optional(expression), ";");
+    
+    b.rule(compoundStatement).is("{", b.optional(statementSeq), "}");
+    
+    b.rule(statementSeq).is(b.oneOrMore(statement));
+    
+    b.rule(selectionStatement).is(
+      b.firstOf(
+        b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement)),
+        b.sequence(CxxKeyword.SWITCH, "(", condition, ")", statement)
         )
-        );
+      );
 
-    condition.is(
-        or(
-            and(opt(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, or(and("=", initializerClause), bracedInitList)),
-            expression
-        )
-        );
-
-    conditionDeclSpecifierSeq.is(
-        one2n(
-            not(and(declarator, or("=", "{"))),
-            declSpecifier
+    b.rule(condition).is(
+        b.firstOf(
+          b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, b.firstOf(b.sequence("=", initializerClause), bracedInitList)),
+          expression
+          )
+      );
+    
+    b.rule(conditionDeclSpecifierSeq).is(
+      b.oneOrMore(
+        b.nextNot(b.sequence(declarator, b.firstOf("=", "{"))),
+        declSpecifier
         ),
-        opt(attributeSpecifierSeq)
-        );
+      b.optional(attributeSpecifierSeq)
+      );
 
-    iterationStatement.is(
-        or(
-            and(CxxKeyword.WHILE, "(", condition, ")", statement),
-            and(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"),
-            and(CxxKeyword.FOR, "(", forInitStatement, opt(condition), ";", opt(expression), ")", statement),
-            and(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement)
+    b.rule(iterationStatement).is(
+      b.firstOf(
+        b.sequence(CxxKeyword.WHILE, "(", condition, ")", statement),
+        b.sequence(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"),
+        b.sequence(CxxKeyword.FOR, "(", forInitStatement, b.optional(condition), ";", b.optional(expression), ")", statement),
+        b.sequence(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement)
         )
-        );
-
-    forInitStatement.is(
-        or(
-            expressionStatement,
-            simpleDeclaration
+      );
+    
+    b.rule(forInitStatement).is(
+      b.firstOf(
+        expressionStatement,
+        simpleDeclaration
         )
-        );
+      );
+    
+    b.rule(forRangeDeclaration).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
 
-    forRangeDeclaration.is(opt(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
-
-    forrangeDeclSpecifierSeq.is(
-        one2n(
-            not(declarator),
-            declSpecifier
+    b.rule(forrangeDeclSpecifierSeq).is(
+      b.oneOrMore(
+        b.nextNot(declarator),
+        declSpecifier
         ),
-        opt(attributeSpecifierSeq)
-        );
+        b.optional(attributeSpecifierSeq)
+      );
 
-    forRangeInitializer.is(
-        or(
-            expression,
-            bracedInitList
+    b.rule(forRangeInitializer).is(
+      b.firstOf(
+        expression,
+        bracedInitList
         )
-        );
-
-    jumpStatement.is(
-        or(
-            and(CxxKeyword.BREAK, ";"),
-            and(CxxKeyword.CONTINUE, ";"),
-            and(CxxKeyword.RETURN, opt(expression), ";"),
-            and(CxxKeyword.RETURN, bracedInitList, ";"),
-            and(CxxKeyword.GOTO, IDENTIFIER, ";")
+      );
+    
+    b.rule(jumpStatement).is(
+      b.firstOf(
+        b.sequence(CxxKeyword.BREAK, ";"),
+        b.sequence(CxxKeyword.CONTINUE, ";"),
+        b.sequence(CxxKeyword.RETURN, b.optional(expression), ";"),
+        b.sequence(CxxKeyword.RETURN, bracedInitList, ";"),
+        b.sequence(CxxKeyword.GOTO, IDENTIFIER, ";")
         )
-        );
+      );
 
-    declarationStatement.is(blockDeclaration);
+    b.rule(declarationStatement).is(blockDeclaration);
   }
 
-  private void declarations() {
-    declarationSeq.is(one2n(declaration));
-
-    declaration.is(
-        or(
+  private static void declarations(LexerfulGrammarBuilder b) {
+    b.rule(declarationSeq).is(b.oneOrMore(declaration));
+    
+    b.rule(declaration).is(
+        b.firstOf(
             functionDefinition,
             blockDeclaration,
             templateDeclaration,
@@ -431,8 +637,8 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    blockDeclaration.is(
-        or(
+    b.rule(blockDeclaration).is(
+        b.firstOf(
             simpleDeclaration,
             asmDefinition,
             namespaceAliasDefinition,
@@ -444,423 +650,425 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    aliasDeclaration.is(CxxKeyword.USING, IDENTIFIER, opt(attributeSpecifierSeq), "=", typeId);
+    b.rule(aliasDeclaration).is(CxxKeyword.USING, IDENTIFIER, b.optional(attributeSpecifierSeq), "=", typeId);
 
-    simpleDeclaration.is(
-        or(
-            and(opt(simpleDeclSpecifierSeq), opt(initDeclaratorList), ";"),
-            and(attributeSpecifierSeq, opt(simpleDeclSpecifierSeq), initDeclaratorList, ";")
+    b.rule(simpleDeclaration).is(
+        b.firstOf(
+          b.sequence(b.optional(simpleDeclSpecifierSeq), b.optional(initDeclaratorList), ";"),
+          b.sequence(attributeSpecifierSeq, b.optional(simpleDeclSpecifierSeq), initDeclaratorList, ";")
         )
         );
 
-    simpleDeclSpecifierSeq.is(
-        one2n(
-            not(and(opt(initDeclaratorList), ";")),
-            declSpecifier
+    b.rule(simpleDeclSpecifierSeq).is(
+      b.oneOrMore(
+        b.nextNot(b.sequence(b.optional(initDeclaratorList), ";")),
+        declSpecifier
         ),
-        opt(attributeSpecifierSeq)
-        );
+      b.optional(attributeSpecifierSeq)
+      );
 
-    staticAssertDeclaration.is(CxxKeyword.STATIC_ASSERT, "(", constantExpression, ",", STRING, ")", ";");
+    b.rule(staticAssertDeclaration).is(CxxKeyword.STATIC_ASSERT, "(", constantExpression, ",", STRING, ")", ";");
 
-    emptyDeclaration.is(";");
+    b.rule(emptyDeclaration).is(";");
 
-    attributeDeclaration.is(attributeSpecifierSeq, ";");
+    b.rule(attributeDeclaration).is(attributeSpecifierSeq, ";");
 
-    declSpecifier.is(
-        or(
-            CxxKeyword.FRIEND, CxxKeyword.TYPEDEF, CxxKeyword.CONSTEXPR,
-            storageClassSpecifier,
-            functionSpecifier,
-            typeSpecifier
+    b.rule(declSpecifier).is(
+      b.firstOf(
+        CxxKeyword.FRIEND, CxxKeyword.TYPEDEF, CxxKeyword.CONSTEXPR,
+        storageClassSpecifier,
+        functionSpecifier,
+        typeSpecifier
         )
-        );
+      );
+    
+    b.rule(storageClassSpecifier).is(
+      b.firstOf(CxxKeyword.REGISTER, CxxKeyword.STATIC, CxxKeyword.THREAD_LOCAL, CxxKeyword.EXTERN, CxxKeyword.MUTABLE)
+      );
 
-    storageClassSpecifier.is(
-        or(CxxKeyword.REGISTER, CxxKeyword.STATIC, CxxKeyword.THREAD_LOCAL, CxxKeyword.EXTERN, CxxKeyword.MUTABLE)
-        );
-
-    functionSpecifier.is(
-        or(CxxKeyword.INLINE, CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
-        );
-
-    typedefName.is(IDENTIFIER);
-
-    typeSpecifier.is(
-        or(
-            classSpecifier,
-            enumSpecifier,
-            trailingTypeSpecifier
+    b.rule(functionSpecifier).is(
+      b.firstOf(CxxKeyword.INLINE, CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
+      );
+    
+    b.rule(typedefName).is(IDENTIFIER);
+    
+    b.rule(typeSpecifier).is(
+      b.firstOf(
+        classSpecifier,
+        enumSpecifier,
+        trailingTypeSpecifier
         )
-        );
+      );
+    
+    b.rule(trailingTypeSpecifier).is(
+      b.firstOf(
+        simpleTypeSpecifier,
+        elaboratedTypeSpecifier,
+        typenameSpecifier,
+        cvQualifier
+        )
+      );
+    
+    b.rule(typeSpecifierSeq).is(b.oneOrMore(typeSpecifier), b.optional(attributeSpecifierSeq));
 
-    trailingTypeSpecifier.is(
-        or(
-            simpleTypeSpecifier,
-            elaboratedTypeSpecifier,
-            typenameSpecifier,
-            cvQualifier)
-        );
+    b.rule(trailingTypeSpecifierSeq).is(b.oneOrMore(trailingTypeSpecifier), b.optional(attributeSpecifierSeq));
 
-    typeSpecifierSeq.is(one2n(typeSpecifier), opt(attributeSpecifierSeq));
-
-    trailingTypeSpecifierSeq.is(one2n(trailingTypeSpecifier), opt(attributeSpecifierSeq));
-
-    simpleTypeSpecifier.is(
-        or(
-            "char", "char16_t", "char32_t", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void", "auto",
-            decltypeSpecifier,
-            and(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId),
+    b.rule(simpleTypeSpecifier).is(
+      b.firstOf(
+        "char", "char16_t", "char32_t", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void", "auto",
+        decltypeSpecifier,
+        b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId),
 
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "void foo(::A a);". Figure out if there is another way
-            and(opt(or(nestedNameSpecifier, "::")), typeName)
+        
+            b.sequence(b.optional(b.firstOf(nestedNameSpecifier, "::")), typeName)
         )
         );
 
-    typeName.is(
-        or(
+    b.rule(typeName).is(
+        b.firstOf(
             simpleTemplateId,
             className,
             enumName,
-            typedefName)
+            typedefName
+          )
         );
 
-    decltypeSpecifier.is(CxxKeyword.DECLTYPE, "(", expression, ")");
+    b.rule(decltypeSpecifier).is(CxxKeyword.DECLTYPE, "(", expression, ")");
 
-    elaboratedTypeSpecifier.is(
-        or(
-            and(classKey, opt(nestedNameSpecifier), opt(CxxKeyword.TEMPLATE), simpleTemplateId),
+    b.rule(elaboratedTypeSpecifier).is(
+      b.firstOf(
+        b.sequence(classKey, b.optional(nestedNameSpecifier), b.optional(CxxKeyword.TEMPLATE), simpleTemplateId),
+        
+        // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
+        // stuff like "friend class ::A". Figure out if there is another way
+        b.sequence(classKey, b.optional(attributeSpecifierSeq), b.optional(b.firstOf(nestedNameSpecifier, "::")), IDENTIFIER),
+        
+        b.sequence(CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER)
+        )
+      );
+    
+    b.rule(enumName).is(IDENTIFIER);
 
-            // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
-            // stuff like "friend class ::A". Figure out if there is another way
-            and(classKey, opt(attributeSpecifierSeq), opt(or(nestedNameSpecifier, "::")), IDENTIFIER),
+    b.rule(enumSpecifier).is(
+      b.firstOf(
+        b.sequence(enumHead, "{", b.optional(enumeratorList), "}"),
+        b.sequence(enumHead, "{", enumeratorList, ",", "}")
+        )
+      );
 
-            and(CxxKeyword.ENUM, opt(nestedNameSpecifier), IDENTIFIER)
+    b.rule(enumHead).is(enumKey, b.optional(attributeSpecifierSeq), b.firstOf(b.sequence(nestedNameSpecifier, IDENTIFIER), b.optional(IDENTIFIER)), b.optional(enumBase));
+
+    b.rule(opaqueEnumDeclaration).is(enumKey, b.optional(attributeSpecifierSeq), IDENTIFIER, b.optional(enumBase), ";");
+
+    b.rule(enumKey).is(CxxKeyword.ENUM, b.optional(b.firstOf(CxxKeyword.CLASS, CxxKeyword.STRUCT)));
+
+    b.rule(enumBase).is(":", typeSpecifierSeq);
+
+    b.rule(enumeratorList).is(enumeratorDefinition, b.zeroOrMore(",", enumeratorDefinition));
+
+    b.rule(enumeratorDefinition).is(enumerator, b.optional("=", constantExpression));
+
+    b.rule(enumerator).is(IDENTIFIER);
+    
+    b.rule(namespaceName).is(
+        b.firstOf(
+          originalNamespaceName,
+          namespaceAlias
+          )
+        );
+
+    b.rule(originalNamespaceName).is(IDENTIFIER);
+    
+    b.rule(namespaceDefinition).is(
+      b.firstOf(
+        namedNamespaceDefinition,
+        unnamedNamespaceDefinition
+        )
+      );
+
+    b.rule(namedNamespaceDefinition).is(
+      b.firstOf(
+        originalNamespaceDefinition,
+        extensionNamespaceDefinition
+        )
+      );
+    
+    b.rule(originalNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, "{", namespaceBody, "}");
+           
+    b.rule(extensionNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, "{", namespaceBody, "}");
+
+    b.rule(unnamedNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, "{", namespaceBody, "}");
+
+    b.rule(namespaceBody).is(b.optional(declarationSeq));
+    
+    b.rule(namespaceAlias).is(IDENTIFIER);
+    
+    b.rule(namespaceAliasDefinition).is(CxxKeyword.NAMESPACE, IDENTIFIER, "=", qualifiedNamespaceSpecifier, ";");
+    
+    b.rule(qualifiedNamespaceSpecifier).is(b.optional(nestedNameSpecifier), namespaceName);
+    
+    b.rule(usingDeclaration).is(
+        b.firstOf(
+            b.sequence(CxxKeyword.USING, b.optional(CxxKeyword.TYPENAME), nestedNameSpecifier, unqualifiedId, ";"),
+            b.sequence(CxxKeyword.USING, "::", unqualifiedId, ";")
         )
         );
 
-    enumName.is(IDENTIFIER);
+    b.rule(usingDirective).is(b.optional(attributeSpecifier), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional("::"), b.optional(nestedNameSpecifier), namespaceName, ";");
 
-    enumSpecifier.is(
-        or(
-            and(enumHead, "{", opt(enumeratorList), "}"),
-            and(enumHead, "{", enumeratorList, ",", "}")
-        )
-        );
+    b.rule(asmDefinition).is(CxxKeyword.ASM, "(", STRING, ")", ";");
+    
+    b.rule(linkageSpecification).is(CxxKeyword.EXTERN, STRING, b.firstOf(b.sequence("{", b.optional(declarationSeq), "}"), declaration));
 
-    enumHead.is(enumKey, opt(attributeSpecifierSeq), or(and(nestedNameSpecifier, IDENTIFIER), opt(IDENTIFIER)), opt(enumBase));
+    b.rule(attributeSpecifierSeq).is(b.oneOrMore(attributeSpecifier));
 
-    opaqueEnumDeclaration.is(enumKey, opt(attributeSpecifierSeq), IDENTIFIER, opt(enumBase), ";");
-
-    enumKey.is(CxxKeyword.ENUM, opt(CxxKeyword.CLASS, CxxKeyword.STRUCT));
-
-    enumBase.is(":", typeSpecifierSeq);
-
-    enumeratorList.is(enumeratorDefinition, o2n(",", enumeratorDefinition));
-
-    enumeratorDefinition.is(enumerator, opt("=", constantExpression));
-
-    enumerator.is(IDENTIFIER);
-
-    namespaceName.is(
-        or(
-            originalNamespaceName,
-            namespaceAlias
-        )
-        );
-
-    originalNamespaceName.is(IDENTIFIER);
-
-    namespaceDefinition.is(
-        or(
-            namedNamespaceDefinition,
-            unnamedNamespaceDefinition
-        )
-        );
-
-    namedNamespaceDefinition.is(
-        or(
-            originalNamespaceDefinition,
-            extensionNamespaceDefinition
-        )
-        );
-
-    originalNamespaceDefinition.is(opt(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, "{", namespaceBody, "}");
-
-    extensionNamespaceDefinition.is(opt(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, "{", namespaceBody, "}");
-
-    unnamedNamespaceDefinition.is(opt(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, "{", namespaceBody, "}");
-
-    namespaceBody.is(opt(declarationSeq));
-
-    namespaceAlias.is(IDENTIFIER);
-
-    namespaceAliasDefinition.is(CxxKeyword.NAMESPACE, IDENTIFIER, "=", qualifiedNamespaceSpecifier, ";");
-
-    qualifiedNamespaceSpecifier.is(opt(nestedNameSpecifier), namespaceName);
-
-    usingDeclaration.is(
-        or(
-            and(CxxKeyword.USING, opt(CxxKeyword.TYPENAME), nestedNameSpecifier, unqualifiedId, ";"),
-            and(CxxKeyword.USING, "::", unqualifiedId, ";")
-        )
-        );
-
-    usingDirective.is(opt(attributeSpecifier), CxxKeyword.USING, CxxKeyword.NAMESPACE, opt("::"), opt(nestedNameSpecifier), namespaceName, ";");
-
-    asmDefinition.is(CxxKeyword.ASM, "(", STRING, ")", ";");
-
-    linkageSpecification.is(CxxKeyword.EXTERN, STRING, or(and("{", opt(declarationSeq), "}"), declaration));
-
-    attributeSpecifierSeq.is(one2n(attributeSpecifier));
-
-    attributeSpecifier.is(
-        or(
-            and("[", "[", attributeList, "]", "]"),
+    b.rule(attributeSpecifier).is(
+        b.firstOf(
+            b.sequence("[", "[", attributeList, "]", "]"),
             alignmentSpecifier
         ));
 
-    alignmentSpecifier.is(
-        or(
-            and(CxxKeyword.ALIGNAS, "(", typeId, opt("..."), ")"),
-            and(CxxKeyword.ALIGNAS, "(", assignmentExpression, opt("..."), ")")
+    b.rule(alignmentSpecifier).is(
+        b.firstOf(
+            b.sequence(CxxKeyword.ALIGNAS, "(", typeId, b.optional("..."), ")"),
+            b.sequence(CxxKeyword.ALIGNAS, "(", assignmentExpression, b.optional("..."), ")")
         ));
 
-    attributeList.is(
-        or(
-            and(attribute, "...", o2n(",", attribute, "...")),
-            and(opt(attribute), o2n(",", opt(attribute)))
+    b.rule(attributeList).is(
+        b.firstOf(
+            b.sequence(attribute, "...", b.zeroOrMore(",", attribute, "...")),
+            b.sequence(b.optional(attribute), b.zeroOrMore(",", b.optional(attribute)))
         ));
 
-    attribute.is(attributeToken, opt(attributeArgumentClause));
+    b.rule(attribute).is(attributeToken, b.optional(attributeArgumentClause));
 
-    attributeToken.is(
-        or(
-            attributeScopedToken,
-            IDENTIFIER
-        ));
+  b.rule(attributeToken).is(
+    b.firstOf(
+      attributeScopedToken,
+      IDENTIFIER
+      ));
+  
+  b.rule(attributeScopedToken).is(attributeNamespace, "::", IDENTIFIER);
+  
+  b.rule(attributeNamespace).is(IDENTIFIER);
+  
+  b.rule(attributeArgumentClause).is("(", balancedTokenSeq, ")");
 
-    attributeScopedToken.is(attributeNamespace, "::", IDENTIFIER);
+  b.rule(balancedTokenSeq).is(b.zeroOrMore(balancedToken));
 
-    attributeNamespace.is(IDENTIFIER);
-
-    attributeArgumentClause.is("(", balancedTokenSeq, ")");
-
-    balancedTokenSeq.is(o2n(balancedToken));
-
-    balancedToken.is(
-        or(
-            IDENTIFIER,
-            and("(", balancedTokenSeq, ")"),
-            and("{", balancedTokenSeq, "}"),
-            and("[", balancedTokenSeq, "]")
-        ));
+  b.rule(balancedToken).is(
+    b.firstOf(
+      IDENTIFIER,
+      b.sequence("(", balancedTokenSeq, ")"),
+      b.sequence("{", balancedTokenSeq, "}"),
+      b.sequence("[", balancedTokenSeq, "]")
+      ));
   }
+  
+  private static void declarators(LexerfulGrammarBuilder b) {
+    b.rule(initDeclaratorList).is(initDeclarator, b.zeroOrMore(",", initDeclarator));
 
-  private void declarators() {
-    initDeclaratorList.is(initDeclarator, o2n(",", initDeclarator));
+    b.rule(initDeclarator).is(declarator, b.optional(initializer));
 
-    initDeclarator.is(declarator, opt(initializer));
-
-    declarator.is(
-        or(
+    b.rule(declarator).is(
+        b.firstOf(
             ptrDeclarator,
-            and(noptrDeclarator, parametersAndQualifiers, trailingReturnType)
+            b.sequence(noptrDeclarator, parametersAndQualifiers, trailingReturnType)
         )
         );
 
-    ptrDeclarator.is(
-        or(
-            and(ptrOperator, ptrDeclarator),
+    b.rule(ptrDeclarator).is(
+        b.firstOf(
+            b.sequence(ptrOperator, ptrDeclarator),
             noptrDeclarator
         )
         );
 
-    noptrDeclarator.is(
-        or(
-            and(declaratorId, opt(attributeSpecifierSeq)),
-            and("(", ptrDeclarator, ")")
+    b.rule(noptrDeclarator).is(
+        b.firstOf(
+            b.sequence(declaratorId, b.optional(attributeSpecifierSeq)),
+            b.sequence("(", ptrDeclarator, ")")
         ),
-        o2n(
-        or(
-            parametersAndQualifiers,
-            and("[", opt(constantExpression), "]", opt(attributeSpecifierSeq))
+        b.zeroOrMore(
+        b.firstOf(
+          parametersAndQualifiers,
+            b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
         )
         )
         );
 
-    parametersAndQualifiers.is("(", parameterDeclarationClause, ")", opt(attributeSpecifierSeq), opt(cvQualifierSeq), opt(refQualifier), opt(exceptionSpecification));
+    b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq), b.optional(refQualifier), b.optional(exceptionSpecification));
 
-    trailingReturnType.is("->", trailingTypeSpecifierSeq, opt(abstractDeclarator));
+    b.rule(trailingReturnType).is("->", trailingTypeSpecifierSeq, b.optional(abstractDeclarator));
 
-    ptrOperator.is(
-        or(
-            and("*", opt(attributeSpecifierSeq), opt(cvQualifierSeq)),
-            and("&", opt(attributeSpecifierSeq)),
-            and("&&", opt(attributeSpecifierSeq)),
-            and(nestedNameSpecifier, "*", opt(attributeSpecifierSeq), opt(cvQualifierSeq))
+    b.rule(ptrOperator).is(
+        b.firstOf(
+            b.sequence("*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)),
+            b.sequence("&", b.optional(attributeSpecifierSeq)),
+            b.sequence("&&", b.optional(attributeSpecifierSeq)),
+            b.sequence(nestedNameSpecifier, "*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq))
         )
         );
 
-    cvQualifierSeq.is(one2n(cvQualifier));
+    b.rule(cvQualifierSeq).is(b.oneOrMore(cvQualifier));
 
-    cvQualifier.is(
-        or(CxxKeyword.CONST, CxxKeyword.VOLATILE)
+    b.rule(cvQualifier).is(
+        b.firstOf(CxxKeyword.CONST, CxxKeyword.VOLATILE)
         );
 
-    refQualifier.is(
-        or("&", "&&")
+    b.rule(refQualifier).is(
+        b.firstOf("&", "&&")
         );
 
-    declaratorId.is(
-        or(
-            and(opt(nestedNameSpecifier), className),
-            and(opt("..."), idExpression)
+    b.rule(declaratorId).is(
+        b.firstOf(
+            b.sequence(b.optional(nestedNameSpecifier), className),
+            b.sequence(b.optional("..."), idExpression)
         )
         );
 
-    typeId.is(typeSpecifierSeq, opt(abstractDeclarator));
+    b.rule(typeId).is(typeSpecifierSeq, b.optional(abstractDeclarator));
 
-    abstractDeclarator.is(
-        or(
+    b.rule(abstractDeclarator).is(
+        b.firstOf(
             ptrAbstractDeclarator,
-            and(opt(noptrAbstractDeclarator), parametersAndQualifiers, trailingReturnType),
+            b.sequence(b.optional(noptrAbstractDeclarator), parametersAndQualifiers, trailingReturnType),
             abstractPackDeclarator
         )
         );
 
-    ptrAbstractDeclarator.is(o2n(ptrOperator), opt(noptrAbstractDeclarator));
+    b.rule(ptrAbstractDeclarator).is(b.zeroOrMore(ptrOperator), b.optional(noptrAbstractDeclarator));
 
-    noptrAbstractDeclarator.is(
-        opt("(", ptrAbstractDeclarator, ")"),
-        o2n(
-        or(
+    b.rule(noptrAbstractDeclarator).is(
+        b.optional("(", ptrAbstractDeclarator, ")"),
+        b.zeroOrMore(
+        b.firstOf(
             parametersAndQualifiers,
-            and("[", opt(constantExpression), "]", opt(attributeSpecifierSeq))
+            b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
         )
         )
         );
 
-    abstractPackDeclarator.is(o2n(ptrOperator), noptrAbstractPackDeclarator);
+    b.rule(abstractPackDeclarator).is(b.zeroOrMore(ptrOperator), noptrAbstractPackDeclarator);
 
-    noptrAbstractPackDeclarator.is(
+    b.rule(noptrAbstractPackDeclarator).is(
         "...",
-        o2n(or(parametersAndQualifiers,
-            and("[", opt(constantExpression), "]", opt(attributeSpecifierSeq))
+        b.zeroOrMore(b.firstOf(parametersAndQualifiers,
+            b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
         )
         )
         );
 
-    parameterDeclarationClause.is(
-        or(
-            and(parameterDeclarationList, ",", "..."),
-            and(opt(parameterDeclarationList), opt("...")),
+    b.rule(parameterDeclarationClause).is(
+        b.firstOf(
+            b.sequence(parameterDeclarationList, ",", "..."),
+            b.sequence(b.optional(parameterDeclarationList), b.optional("...")),
             "..."
         )
         );
 
-    parameterDeclarationList.is(parameterDeclaration, o2n(",", parameterDeclaration));
+    b.rule(parameterDeclarationList).is(parameterDeclaration, b.zeroOrMore(",", parameterDeclaration));
 
-    parameterDeclaration.is(
-        or(
-            and(opt(attributeSpecifierSeq), parameterDeclSpecifierSeq, declarator, opt("=", initializerClause)),
-            and(opt(attributeSpecifierSeq), parameterDeclSpecifierSeq, opt(abstractDeclarator), opt("=", initializerClause))
-        )
+    b.rule(parameterDeclaration).is(
+        b.firstOf(
+            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)),
+            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause)))
         );
 
-    parameterDeclSpecifierSeq.is(
-        o2n(
-            not(and(opt(declarator), or("=", ")", ","))),
+    b.rule(parameterDeclSpecifierSeq).is(
+        b.zeroOrMore(
+            b.nextNot(b.sequence(b.optional(declarator), b.firstOf("=", ")", ","))),
             declSpecifier
         ),
-        opt(attributeSpecifierSeq)
+        b.optional(attributeSpecifierSeq)
         );
 
-    functionDefinition.is(opt(attributeSpecifierSeq), opt(functionDeclSpecifierSeq), declarator, opt(virtSpecifierSeq), functionBody);
+    b.rule(functionDefinition).is(b.optional(attributeSpecifierSeq), b.optional(functionDeclSpecifierSeq), declarator, b.optional(virtSpecifierSeq), functionBody);
 
-    functionDeclSpecifierSeq.is(
-        one2n(
-            not(and(declarator, opt(virtSpecifierSeq), functionBody)),
+    b.rule(functionDeclSpecifierSeq).is(
+        b.oneOrMore(
+            b.nextNot(b.sequence(declarator, b.optional(virtSpecifierSeq), functionBody)),
             declSpecifier
         ),
-        opt(attributeSpecifierSeq)
+        b.optional(attributeSpecifierSeq)
         );
 
-    functionBody.is(
-        or(
-            and(opt(ctorInitializer), compoundStatement),
+    b.rule(functionBody).is(
+        b.firstOf(
+            b.sequence(b.optional(ctorInitializer), compoundStatement),
             functionTryBlock,
-            and("=", CxxKeyword.DELETE, ";"),
-            and("=", CxxKeyword.DEFAULT, ";")
+            b.sequence("=", CxxKeyword.DELETE, ";"),
+            b.sequence("=", CxxKeyword.DEFAULT, ";")
         )
         );
 
-    initializer.is(
-        or(
-            and("(", expressionList, ")"),
+    b.rule(initializer).is(
+        b.firstOf(
+            b.sequence("(", expressionList, ")"),
             braceOrEqualInitializer
         )
         );
 
-    braceOrEqualInitializer.is(
-        or(
-            and("=", initializerClause),
+    b.rule(braceOrEqualInitializer).is(
+      b.firstOf(
+            b.sequence("=", initializerClause),
             bracedInitList
         )
-        );
-
-    initializerClause.is(
-        or(
-            assignmentExpression,
-            bracedInitList
+      );
+    
+    b.rule(initializerClause).is(
+      b.firstOf(
+        assignmentExpression,
+        bracedInitList
         )
-        );
-
-    initializerList.is(initializerClause, opt("..."), o2n(",", initializerClause, opt("...")));
-
-    bracedInitList.is("{", opt(initializerList), opt(","), "}");
+      );
+    
+    b.rule(initializerList).is(initializerClause, b.optional("..."), b.zeroOrMore(",", initializerClause, b.optional("...")));
+    
+    b.rule(bracedInitList).is("{", b.optional(initializerList), b.optional(","), "}");
   }
+  
+  private static void classes(LexerfulGrammarBuilder b) {
+    b.rule(className).is(
+      b.firstOf(
+        simpleTemplateId,
+        IDENTIFIER
+        )
+      );
 
-  private void classes() {
-    className.is(
-        or(
-            simpleTemplateId,
-            IDENTIFIER
+    b.rule(classSpecifier).is(classHead, "{", b.optional(memberSpecification), "}");
+
+    b.rule(classHead).is(
+        b.firstOf(
+            b.sequence(classKey, b.optional(attributeSpecifierSeq), classHeadName, b.optional(classVirtSpecifier), b.optional(baseClause)),
+            b.sequence(classKey, b.optional(attributeSpecifierSeq), b.optional(baseClause))
         )
         );
 
-    classSpecifier.is(classHead, "{", opt(memberSpecification), "}");
+    b.rule(classHeadName).is(b.optional(nestedNameSpecifier), className);
 
-    classHead.is(
-        or(
-            and(classKey, opt(attributeSpecifierSeq), classHeadName, opt(classVirtSpecifier), opt(baseClause)),
-            and(classKey, opt(attributeSpecifierSeq), opt(baseClause))
-        )
+    b.rule(classVirtSpecifier).is(CxxKeyword.FINAL);
+
+    b.rule(classKey).is(
+        b.firstOf(CxxKeyword.CLASS, CxxKeyword.STRUCT, CxxKeyword.UNION)
         );
 
-    classHeadName.is(opt(nestedNameSpecifier), className);
-
-    classVirtSpecifier.is(CxxKeyword.FINAL);
-
-    classKey.is(
-        or(CxxKeyword.CLASS, CxxKeyword.STRUCT, CxxKeyword.UNION)
-        );
-
-    memberSpecification.is(
-        one2n(
-        or(
+    b.rule(memberSpecification).is(
+        b.oneOrMore(
+        b.firstOf(
             memberDeclaration,
-            and(accessSpecifier, ":")
+            b.sequence(accessSpecifier, ":")
         )
         )
         );
 
-    memberDeclaration.is(
-        or(
-            and(opt(attributeSpecifierSeq), opt(memberDeclSpecifierSeq), opt(memberDeclaratorList), ";"),
-            and(functionDefinition, opt(";")),
-            and(opt("::"), nestedNameSpecifier, opt(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
+    b.rule(memberDeclaration).is(
+        b.firstOf(
+          b.sequence(b.optional(attributeSpecifierSeq), b.optional(memberDeclSpecifierSeq), b.optional(memberDeclaratorList), ";"),
+            b.sequence(functionDefinition, b.optional(";")),
+            b.sequence(b.optional("::"), nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
             usingDeclaration,
             staticAssertDeclaration,
             templateDeclaration,
@@ -868,140 +1076,140 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    memberDeclSpecifierSeq.is(
-        one2n(
-            not(and(opt(memberDeclaratorList), ";")),
+    b.rule(memberDeclSpecifierSeq).is(
+        b.oneOrMore(
+            b.nextNot(b.sequence(b.optional(memberDeclaratorList), ";")),
             declSpecifier
         ),
-        opt(attributeSpecifierSeq)
+        b.optional(attributeSpecifierSeq)
         );
 
-    memberDeclaratorList.is(memberDeclarator, o2n(",", memberDeclarator));
+    b.rule(memberDeclaratorList).is(memberDeclarator, b.zeroOrMore(",", memberDeclarator));
 
-    memberDeclarator.is(
-        or(
-            and(declarator, braceOrEqualInitializer),
-            and(declarator, virtSpecifierSeq, opt(pureSpecifier)),
-            and(opt(IDENTIFIER), opt(attributeSpecifierSeq), ":", constantExpression),
+    b.rule(memberDeclarator).is(
+        b.firstOf(
+            b.sequence(declarator, braceOrEqualInitializer),
+            b.sequence(declarator, virtSpecifierSeq, b.optional(pureSpecifier)),
+            b.sequence(b.optional(IDENTIFIER), b.optional(attributeSpecifierSeq), ":", constantExpression),
             declarator
         )
         );
 
-    virtSpecifierSeq.is(one2n(virtSpecifier));
+    b.rule(virtSpecifierSeq).is(b.oneOrMore(virtSpecifier));
 
-    virtSpecifier.is(
-        or(CxxKeyword.OVERRIDE, CxxKeyword.FINAL)
+    b.rule(virtSpecifier).is(
+        b.firstOf(CxxKeyword.OVERRIDE, CxxKeyword.FINAL)
         );
 
-    pureSpecifier.is("=", "0");
+    b.rule(pureSpecifier).is("=", "0");
   }
+  
+  private static void derivedClasses(LexerfulGrammarBuilder b) {
+    b.rule(baseClause).is(":", baseSpecifierList);
 
-  private void derivedClasses() {
-    baseClause.is(":", baseSpecifierList);
+    b.rule(baseSpecifierList).is(baseSpecifier, b.optional("..."), b.zeroOrMore(",", baseSpecifier, b.optional("...")));
 
-    baseSpecifierList.is(baseSpecifier, opt("..."), o2n(",", baseSpecifier, opt("...")));
-
-    baseSpecifier.is(
-        or(
-            and(opt(attributeSpecifierSeq), baseTypeSpecifier),
-            and(opt(attributeSpecifierSeq), CxxKeyword.VIRTUAL, opt(accessSpecifier), baseTypeSpecifier),
-            and(opt(attributeSpecifierSeq), accessSpecifier, opt(CxxKeyword.VIRTUAL), baseTypeSpecifier)
+    b.rule(baseSpecifier).is(
+        b.firstOf(
+            b.sequence(b.optional(attributeSpecifierSeq), baseTypeSpecifier),
+            b.sequence(b.optional(attributeSpecifierSeq), CxxKeyword.VIRTUAL, b.optional(accessSpecifier), baseTypeSpecifier),
+            b.sequence(b.optional(attributeSpecifierSeq), accessSpecifier, b.optional(CxxKeyword.VIRTUAL), baseTypeSpecifier)
         )
         );
 
-    classOrDecltype.is(
-        or(
-            and(opt(nestedNameSpecifier), className),
+    b.rule(classOrDecltype).is(
+        b.firstOf(
+            b.sequence(b.optional(nestedNameSpecifier), className),
             decltypeSpecifier)
         );
 
-    baseTypeSpecifier.is(classOrDecltype);
+    b.rule(baseTypeSpecifier).is(classOrDecltype);
 
-    accessSpecifier.is(
-        or(CxxKeyword.PRIVATE, CxxKeyword.PROTECTED, CxxKeyword.PUBLIC)
+    b.rule(accessSpecifier).is(
+        b.firstOf(CxxKeyword.PRIVATE, CxxKeyword.PROTECTED, CxxKeyword.PUBLIC)
         );
   }
+  
+  private static void specialMemberFunctions(LexerfulGrammarBuilder b) {
+    b.rule(conversionFunctionId).is(CxxKeyword.OPERATOR, conversionTypeId);
 
-  private void specialMemberFunctions() {
-    conversionFunctionId.is(CxxKeyword.OPERATOR, conversionTypeId);
+    b.rule(conversionTypeId).is(typeSpecifierSeq, b.optional(conversionDeclarator));
 
-    conversionTypeId.is(typeSpecifierSeq, opt(conversionDeclarator));
+    b.rule(conversionDeclarator).is(b.oneOrMore(ptrOperator));
 
-    conversionDeclarator.is(one2n(ptrOperator));
+    b.rule(ctorInitializer).is(":", memInitializerList);
 
-    ctorInitializer.is(":", memInitializerList);
+    b.rule(memInitializerList).is(memInitializer, b.optional("..."), b.zeroOrMore(",", memInitializer, b.optional("...")));
 
-    memInitializerList.is(memInitializer, opt("..."), o2n(",", memInitializer, opt("...")));
+    b.rule(memInitializer).is(memInitializerId, b.firstOf(b.sequence("(", b.optional(expressionList), ")"), bracedInitList));
 
-    memInitializer.is(memInitializerId, or(and("(", opt(expressionList), ")"), bracedInitList));
-
-    memInitializerId.is(
-        or(
+    b.rule(memInitializerId).is(
+        b.firstOf(
             classOrDecltype,
             IDENTIFIER
         )
         );
   }
+  
+  private static void overloading(LexerfulGrammarBuilder b) {
+    b.rule(operatorFunctionId).is(CxxKeyword.OPERATOR, operator);
 
-  private void overloading() {
-    operatorFunctionId.is(CxxKeyword.OPERATOR, operator);
-
-    operator.is(
-        or(
-            and(CxxKeyword.NEW, "[", "]"),
-            and(CxxKeyword.DELETE, "[", "]"),
+    b.rule(operator).is(
+        b.firstOf(
+            b.sequence(CxxKeyword.NEW, "[", "]"),
+            b.sequence(CxxKeyword.DELETE, "[", "]"),
             CxxKeyword.NEW, CxxKeyword.DELETE,
             "+", "-", "!", "=", "^=", "&=", "<=", ">=",
-            and("(", ")"),
-            and("[", "]"),
+            b.sequence("(", ")"),
+            b.sequence("[", "]"),
             "*", "<", "|=", "&&", "/",
             ">", "<<", "||", "%", "+=", ">>", "++", "^", "-=", ">>=", "--", "&", "*=", "<<=",
             ",", "|", "/=", "==", "->*", "~", "%=", "!=", "->"
         )
         );
 
-    literalOperatorId.is(CxxKeyword.OPERATOR, "\"\"", IDENTIFIER);
+    b.rule(literalOperatorId).is(CxxKeyword.OPERATOR, "\"\"", IDENTIFIER);
   }
 
-  private void templates() {
-    templateDeclaration.is(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", declaration);
+  private static void templates(LexerfulGrammarBuilder b) {
+    b.rule(templateDeclaration).is(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", declaration);
 
-    templateParameterList.is(templateParameter, o2n(",", templateParameter));
+    b.rule(templateParameterList).is(templateParameter, b.zeroOrMore(",", templateParameter));
 
-    templateParameter.is(
-        or(
+    b.rule(templateParameter).is(
+        b.firstOf(
             typeParameter,
             parameterDeclaration
         )
         );
 
-    typeParameter.is(
-        or(
-            and(CxxKeyword.CLASS, opt(IDENTIFIER), "=", typeId),
-            and(CxxKeyword.CLASS, opt("..."), opt(IDENTIFIER)),
-            and(CxxKeyword.TYPENAME, opt(IDENTIFIER), "=", typeId),
-            and(CxxKeyword.TYPENAME, opt("..."), opt(IDENTIFIER)),
-            and(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", CxxKeyword.CLASS, opt(IDENTIFIER), "=", idExpression),
-            and(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", CxxKeyword.CLASS, opt("..."), opt(IDENTIFIER))
+    b.rule(typeParameter).is(
+        b.firstOf(
+            b.sequence(CxxKeyword.CLASS, b.optional(IDENTIFIER), "=", typeId),
+            b.sequence(CxxKeyword.CLASS, b.optional("..."), b.optional(IDENTIFIER)),
+            b.sequence(CxxKeyword.TYPENAME, b.optional(IDENTIFIER), "=", typeId),
+            b.sequence(CxxKeyword.TYPENAME, b.optional("..."), b.optional(IDENTIFIER)),
+            b.sequence(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", CxxKeyword.CLASS, b.optional(IDENTIFIER), "=", idExpression),
+            b.sequence(CxxKeyword.TEMPLATE, "<", templateParameterList, ">", CxxKeyword.CLASS, b.optional("..."), b.optional(IDENTIFIER))
         )
         );
 
-    simpleTemplateId.is(templateName, "<", opt(templateArgumentList), ">");
+    b.rule(simpleTemplateId).is(templateName, "<", b.optional(templateArgumentList), ">");
 
-    templateId.is(
-        or(
+    b.rule(templateId).is(
+        b.firstOf(
             simpleTemplateId,
-            and(operatorFunctionId, "<", opt(templateArgumentList), ">"),
-            and(literalOperatorId, "<", opt(templateArgumentList), ">")
+            b.sequence(operatorFunctionId, "<", b.optional(templateArgumentList), ">"),
+            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList), ">")
         )
         );
 
-    templateName.is(IDENTIFIER);
+    b.rule(templateName).is(IDENTIFIER);
 
-    templateArgumentList.is(templateArgument, opt("..."), o2n(",", templateArgument, opt("...")));
+    b.rule(templateArgumentList).is(templateArgument, b.optional("..."), b.zeroOrMore(",", templateArgument, b.optional("...")));
 
-    templateArgument.is(
-        or(
+    b.rule(templateArgument).is(
+        b.firstOf(
             typeId,
 
             // FIXME: workaround to parse stuff like "carray<int, 10>"
@@ -1014,44 +1222,44 @@ public class CxxGrammarImpl extends CxxGrammar {
         )
         );
 
-    typenameSpecifier.is(
+    b.rule(typenameSpecifier).is(
         CxxKeyword.TYPENAME, nestedNameSpecifier,
-        or(and(opt(CxxKeyword.TEMPLATE), simpleTemplateId), IDENTIFIER));
+        b.firstOf(b.sequence(b.optional(CxxKeyword.TEMPLATE), simpleTemplateId), IDENTIFIER));
 
-    explicitInstantiation.is(opt(CxxKeyword.EXTERN), CxxKeyword.TEMPLATE, declaration);
+    b.rule(explicitInstantiation).is(b.optional(CxxKeyword.EXTERN), CxxKeyword.TEMPLATE, declaration);
 
-    explicitSpecialization.is(CxxKeyword.TEMPLATE, "<", ">", declaration);
+    b.rule(explicitSpecialization).is(CxxKeyword.TEMPLATE, "<", ">", declaration);
   }
 
-  private void exceptionHandling() {
-    tryBlock.is(CxxKeyword.TRY, compoundStatement, handlerSeq);
+  private static void exceptionHandling(LexerfulGrammarBuilder b) {
+    b.rule(tryBlock).is(CxxKeyword.TRY, compoundStatement, handlerSeq);
 
-    functionTryBlock.is(CxxKeyword.TRY, opt(ctorInitializer), compoundStatement, handlerSeq);
+    b.rule(functionTryBlock).is(CxxKeyword.TRY, b.optional(ctorInitializer), compoundStatement, handlerSeq);
 
-    handlerSeq.is(one2n(handler));
+    b.rule(handlerSeq).is(b.oneOrMore(handler));
 
-    handler.is(CxxKeyword.CATCH, "(", exceptionDeclaration, ")", compoundStatement);
+    b.rule(handler).is(CxxKeyword.CATCH, "(", exceptionDeclaration, ")", compoundStatement);
 
-    exceptionDeclaration.is(
-        or(
-            and(opt(attributeSpecifierSeq), typeSpecifierSeq, or(declarator, opt(abstractDeclarator))),
+    b.rule(exceptionDeclaration).is(
+        b.firstOf(
+            b.sequence(b.optional(attributeSpecifierSeq), typeSpecifierSeq, b.firstOf(declarator, b.optional(abstractDeclarator))),
             "..."
         )
         );
 
-    throwExpression.is(CxxKeyword.THROW, opt(assignmentExpression));
+    b.rule(throwExpression).is(CxxKeyword.THROW, b.optional(assignmentExpression));
 
-    exceptionSpecification.is(
-        or(
+    b.rule(exceptionSpecification).is(
+        b.firstOf(
             dynamicExceptionSpecification,
             noexceptSpecification
         )
         );
 
-    dynamicExceptionSpecification.is(CxxKeyword.THROW, "(", opt(typeIdList), ")");
+    b.rule(dynamicExceptionSpecification).is(CxxKeyword.THROW, "(", b.optional(typeIdList), ")");
 
-    typeIdList.is(typeId, opt("..."), o2n(",", typeId, opt("...")));
+    b.rule(typeIdList).is(typeId, b.optional("..."), b.zeroOrMore(",", typeId, b.optional("...")));
 
-    noexceptSpecification.is(CxxKeyword.NOEXCEPT, opt("(", constantExpression, ")"));
+    b.rule(noexceptSpecification).is(CxxKeyword.NOEXCEPT, b.optional("(", constantExpression, ")"));
   }
 }

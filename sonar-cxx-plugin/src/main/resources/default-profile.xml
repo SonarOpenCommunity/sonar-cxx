@@ -1305,6 +1305,16 @@
       <key>uselessCallsRemove</key>
       <priority>MINOR</priority>
     </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>ConfigurationNotChecked</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>toomanyconfigs</key>
+      <priority>MINOR</priority>
+    </rule>
 
     <!-- ########### Missing or new in cppcheck 1.57 ########### -->
     <rule>
@@ -1372,7 +1382,12 @@
       <key>unsafeClassCanLeak</key>
       <priority>MINOR</priority>
     </rule>
-    
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>redundantCopy</key>
+      <priority>MINOR</priority>
+    </rule>
+
     <!-- ########### Missing or new in cppcheck 1.58 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
@@ -1440,15 +1455,99 @@
       <key>wrongPipeParameterSize</key>
       <priority>MAJOR</priority>
     </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>class_X_Y</key>
+      <priority>MINOR</priority>
+    </rule>
+
     <!-- ########### Missing or new in cppcheck 1.60 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>derefInvalidIterator</key>
       <priority>MINOR</priority>
     </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.61 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>arithOperationsOnVoidPointer</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>commaSeparatedReturn</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nanInArithmeticExpression</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofDereferencedVoidPointer</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>sizeofVoid</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>wrongPrintfScanfParameterPositionError</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsctime_r</key>
+      <priority>MINOR</priority>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.62 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>duplInheritedMember</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfArgType_int</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfArgType_s</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidScanfArgType_float</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>comparisonFunctionIsAlwaysTrueOrFalse</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>zerodivcond</key>
+      <priority>MINOR</priority>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.63 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>simplePatternError</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>redundantNextPrevious</key>
+      <priority>MINOR</priority>
+    </rule>    
     
-    
->>>>>>> Stashed changes
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->

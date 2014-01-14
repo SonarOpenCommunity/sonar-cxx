@@ -25,7 +25,7 @@ import com.sonar.sslr.squid.SquidAstVisitor;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.AnnotationCheckFactory;
-import org.apache.commons.configuration.Configuration;
+import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
@@ -35,7 +35,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Violation;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxGrammar;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.plugins.cxx.CxxLanguage;
@@ -46,9 +45,13 @@ import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
 import org.sonar.squid.indexer.QueryByParent;
 import org.sonar.squid.indexer.QueryByType;
+import com.sonar.sslr.api.Grammar;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,15 +66,17 @@ public final class CxxSquidSensor implements Sensor {
   
   private Project project;
   private SensorContext context;
-  private AstScanner<CxxGrammar> scanner;
-  private Configuration conf;
+  private AstScanner<Grammar> scanner;
+  private Settings conf;
+  private ModuleFileSystem fs;
   
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(RulesProfile profile, Configuration conf) {
+  public CxxSquidSensor(RulesProfile profile, Settings conf, ModuleFileSystem fs) {
     this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
     this.conf = conf;
+    this.fs = fs;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
@@ -85,19 +90,24 @@ public final class CxxSquidSensor implements Sensor {
     this.project = project;
     this.context = context;
     
-    Collection<SquidAstVisitor<CxxGrammar>> squidChecks = annotationCheckFactory.getChecks();
-    List<SquidAstVisitor<CxxGrammar>> visitors = Lists.newArrayList(squidChecks);
+    Collection<SquidAstVisitor<Grammar>> squidChecks = annotationCheckFactory.getChecks();
+    List<SquidAstVisitor<Grammar>> visitors = Lists.newArrayList(squidChecks);
     this.scanner = CxxAstScanner.create(createConfiguration(project, conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
-    scanner.scanFiles(InputFileUtils.toFiles(project.getFileSystem().mainFiles(CxxLanguage.KEY)));
+    
+    scanner.scanFiles(fs.files(CxxLanguage.sourceQuery));
+    
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }
 
-  private CxxConfiguration createConfiguration(Project project, Configuration conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
-    cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
-    cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
+  private CxxConfiguration createConfiguration(Project project, Settings conf) {
+    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+    cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
+    String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
+    if(lines.length > 0){
+      cxxConf.setDefines(Arrays.asList(lines));
+    }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     return cxxConf;
   }

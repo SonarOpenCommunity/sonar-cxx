@@ -33,29 +33,11 @@ public class TestSuiteTest {
 
   @Before
   public void setUp() {
-    suite = new TestSuite("key", "file");
-    equalSuite = new TestSuite("key", "file");
-    otherSuite = new TestSuite("otherkey", "file");
-  }
-  
-  @Test
-  public void emptyFileNameShouldReturnKey() {
-    TestSuite suite = new TestSuite("key", "");
-    assert (suite.getKey().equals("key"));
+    suite = new TestSuite("key");
+    equalSuite = new TestSuite("key");
+    otherSuite = new TestSuite("otherkey");
   }
 
-  @Test
-  public void nullFileNameShouldReturnKey() {
-    TestSuite suite = new TestSuite("key", null);
-    assert (suite.getKey().equals("key"));
-  }  
-
-  @Test
-  public void returnsFileNameIfNonNullOrEmpty() {
-    TestSuite suite = new TestSuite("key", "file");
-    assert (suite.getKey().equals("file"));
-  }
-  
   @Test
   public void suiteDoesntEqualsNull() {
     assert (!suite.equals(null));

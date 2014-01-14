@@ -26,6 +26,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.List;
@@ -37,7 +38,11 @@ public class CxxReportSensorTest {
   private final String INVALID_REPORT_PATH = "something";
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
-  private class CxxSensorImpl extends CxxReportSensor {
+  private class CxxReportSensorImpl extends CxxReportSensor {
+    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs){
+      super(settings, fs);
+    }
+    
     @Override
     public void analyse(Project p, SensorContext sc) {
     }
@@ -45,12 +50,16 @@ public class CxxReportSensorTest {
 
   private CxxReportSensor sensor;
   private File baseDir;
+  private Settings settings;
+  private ModuleFileSystem fs;
 
   @Before
   public void init() {
-    sensor = new CxxSensorImpl();
+    settings = new Settings();
+    fs = TestUtils.mockFileSystem();
+    sensor = new CxxReportSensorImpl(settings, fs);
     try {
-      baseDir = new File(getClass().getResource("/org/sonar/plugins/cxx/").toURI());
+      baseDir = new File(getClass().getResource("/org/sonar/plugins/cxx/reports-project/").toURI());
     } catch (java.net.URISyntaxException e) {
       System.out.println(e);
     }
@@ -58,13 +67,13 @@ public class CxxReportSensorTest {
 
   @Test
   public void shouldntThrowWhenInstantiating() {
-    new CxxSensorImpl();
+    new CxxReportSensorImpl(settings, fs);
   }
 
   @Test
   public void shouldExecuteOnlyWhenNecessary() {
     // which means: only on cxx projects
-    CxxReportSensor sensor = new CxxSensorImpl();
+    CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs);
     Project cxxProject = mockProjectWithLanguageKey(CxxLanguage.KEY);
     Project foreignProject = mockProjectWithLanguageKey("whatever");
     assert (sensor.shouldExecuteOnProject(cxxProject));
@@ -73,7 +82,7 @@ public class CxxReportSensorTest {
 
   @Test
   public void getReports_shouldFindSomethingIfThere() {
-    List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
+    List<File> reports = sensor.getReports(settings, baseDir.getPath(),
         "", VALID_REPORT_PATH);
     assertFound(reports);
   }
@@ -90,17 +99,16 @@ public class CxxReportSensorTest {
     // we'll detect this condition by passing something not existing as config property
     // and something existing as default. The result is 'found nothing' because the
     // config has been used
-    Settings config = new Settings();
-    config.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
+    settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
 
-    List<File> reports = sensor.getReports(config, baseDir.getPath(),
+    List<File> reports = sensor.getReports(settings, baseDir.getPath(),
         REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFallbackToDefaultIfNothingConfigured() {
-    List<File> reports = sensor.getReports(new Settings(), baseDir.getPath(),
+    List<File> reports = sensor.getReports(settings, baseDir.getPath(),
         REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     assertFound(reports);
   }

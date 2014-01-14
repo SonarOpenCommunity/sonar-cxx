@@ -32,6 +32,7 @@ import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -50,9 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 import java.util.TreeMap;
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.resources.InputFile;
-import org.sonar.api.utils.SonarException;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.plugins.cxx.CxxPlugin;
@@ -61,6 +60,7 @@ import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,8 +81,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, CxxLanguage cxxLang) {
-    super(conf);
+  public CxxXunitSensor(Settings conf, ModuleFileSystem fs, CxxLanguage cxxLang) {
+    super(conf, fs);
     this.lang = cxxLang;
     xsltURL = conf.getString(XSLT_URL_KEY);
   }
@@ -196,10 +196,10 @@ public class CxxXunitSensor extends CxxReportSensor {
   private org.sonar.api.resources.File getTestFile(Project project, SensorContext context, String fileKey) {
 
     org.sonar.api.resources.File resource =
-      org.sonar.api.resources.File.fromIOFile(new File(fileKey), project.getFileSystem().getTestDirs());
+      org.sonar.api.resources.File.fromIOFile(new File(fileKey), fs.testDirs());
     if (context.getResource(resource) == null) {
       String filePath = lookupFilePath(fileKey);
-      resource = org.sonar.api.resources.File.fromIOFile(new File(filePath), project.getFileSystem().getTestDirs());
+      resource = org.sonar.api.resources.File.fromIOFile(new File(filePath), fs.testDirs());
       if (context.getResource(resource) == null) {
         CxxUtils.LOG.debug("Cannot find the source file for test '{}', creating a dummy one", fileKey);
         resource = createVirtualFile(context, fileKey);        
@@ -229,24 +229,28 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
   
   void buildLookupTables(Project project) {
-    List<InputFile> files = project.getFileSystem().testFiles(CxxLanguage.KEY);
+    List<File> files = fs.files(CxxLanguage.testQuery);
 
-    CxxConfiguration cxxConf = new CxxConfiguration(project.getFileSystem().getSourceCharset());
-    cxxConf.setBaseDir(project.getFileSystem().getBasedir().getAbsolutePath());
-    cxxConf.setDefines(conf.getStringArray(CxxPlugin.DEFINES_KEY));
+    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+    cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
+    String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
+    if(lines.length > 0){
+      cxxConf.setDefines(Arrays.asList(lines));
+    }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     
-    for (InputFile file : files) {
-      SourceFile source = CxxAstScanner.scanSingleFileConfig(file.getFile(), cxxConf);
+    for (File file : files) {
+      @SuppressWarnings("unchecked")
+      SourceFile source = CxxAstScanner.scanSingleFileConfig(file, cxxConf);
       if(source.hasChildren()) {
         for (SourceCode child : source.getChildren()) {
           if (child instanceof SourceClass) {
-            classDeclTable.put(child.getName(), file.getFile().getPath());
+            classDeclTable.put(child.getName(), file.getPath());
           }
           else if(child instanceof SourceFunction){
             String clsName = matchClassName(child.getKey());
             if(clsName != null){
-              classImplTable.put(clsName, file.getFile().getPath());
+              classImplTable.put(clsName, file.getPath());
             }
           }
         }

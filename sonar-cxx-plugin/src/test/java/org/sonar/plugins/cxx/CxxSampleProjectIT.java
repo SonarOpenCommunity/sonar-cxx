@@ -55,7 +55,7 @@ public class CxxSampleProjectIT {
     String[] metricNames =
     {"ncloc", "lines",
       "files", "directories", "functions",
-      "comment_lines_density", "comment_lines", "comment_blank_lines",
+      "comment_lines_density", "comment_lines",
       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
       "complexity", "function_complexity",
       "violations", "violations_density",
@@ -70,7 +70,7 @@ public class CxxSampleProjectIT {
 
     double[] expectedValues = {52.0, 124.0,
       4.0, 3.0, 5.0,
-      31.6, 24.0, 10.0,
+      31.6, 24.0,
       69.4, 86.0, 2.0, 2.0,
       7.0, 1.4,
       34.0, 0.0,
@@ -86,7 +86,7 @@ public class CxxSampleProjectIT {
     String[] metricNames =
     {"ncloc", "lines",
       "files", "directories", "functions",
-      "comment_lines_density", "comment_lines", "comment_blank_lines",
+      "comment_lines_density", "comment_lines",
       "duplicated_lines_density", "duplicated_lines", "duplicated_blocks", "duplicated_files",
       "complexity", "function_complexity",
       "violations", "violations_density",
@@ -100,10 +100,10 @@ public class CxxSampleProjectIT {
 
     double[] expectedValues = {47.0, 115.0,
       3.0, 1.0, 4.0,
-      33.8, 24.0, 10.0,
+      33.8, 24.0,
       74.8, 86.0, 2.0, 2.0,
       6.0, 1.5,
-      31.0, 0.0,
+      32.0, 0.0,
       84.0, 100.0, 50.0};
 
     assertThat(values, is(expectedValues));
@@ -115,7 +115,7 @@ public class CxxSampleProjectIT {
     String[] metricNames =
     {"ncloc", "lines",
       "files", "functions",
-      "comment_lines_density", "comment_lines", "comment_blank_lines",
+      "comment_lines_density", "comment_lines",
       "complexity", "function_complexity",
       "violations", "violations_density",
       "coverage", "line_coverage", "branch_coverage"
@@ -128,9 +128,9 @@ public class CxxSampleProjectIT {
 
     double[] expectedValues = {21.0, 53.0,
       1.0, 2.0,
-      36.4, 12.0, 5.0,
+      36.4, 12.0,
       3.0, 1.5,
-      18.0, 0.0,
+      19.0, 0.0,
       84.0, 100.0, 50.0};
 
     assertThat(values, is(expectedValues));

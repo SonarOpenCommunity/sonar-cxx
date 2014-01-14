@@ -19,7 +19,7 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import com.google.common.collect.Iterables;
+//import com.google.common.collect.Iterables;
 import java.io.File;
 import javax.xml.stream.XMLStreamException;
 import org.junit.Before;
@@ -32,20 +32,26 @@ import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class TestSuiteParserTest {
-
-  @Before
-  public void setUp() {
+  TestSuiteParser parserHandler = new TestSuiteParser();
+  StaxParser parser = new StaxParser(parserHandler, false);
+  String REPORTS_PATH = "/org/sonar/plugins/cxx/reports-project/xunit-reports/";
+  
+  @Test
+  public void suiteDoesntEqualsNull() throws XMLStreamException {
+    File xmlReport = TestUtils.loadResource(REPORTS_PATH + "xunit-result-SAMPLE_with_fileName.xml");
+    parser.parse(xmlReport);
+    
+    TestSuite fileReport = (TestSuite)parserHandler.getParsedReports().toArray()[0];
+    assertEquals(fileReport.getKey(), "test/file.cpp");
+    assertEquals(fileReport.getTests(), 3);        
   }
 
   @Test
-  public void suiteDoesntEqualsNull() throws XMLStreamException {
-    TestSuiteParser parserHandler = new TestSuiteParser();
-    StaxParser parser = new StaxParser(parserHandler, false);
-    File xmlReport = TestUtils.loadResource("/org/sonar/plugins/cxx/xunit-reports/xunit-result-SAMPLE_with_fileName.xml");
+  public void parserDoesntAcceptEmptyFilepaths() throws XMLStreamException {
+    File xmlReport = TestUtils.loadResource(REPORTS_PATH + "xunit-result_with_emptyFileName.xml");
     parser.parse(xmlReport);
     
-    TestSuite fileReport = Iterables.get(parserHandler.getParsedReports(), 0);
-    assertEquals(fileReport.getKey(), "test/file.cpp");
-    assertEquals(fileReport.getTests(), 3);        
+    TestSuite fileReport = (TestSuite)parserHandler.getParsedReports().toArray()[0];
+    assertEquals("SAMPLEtest", fileReport.getKey());
   }
 }
