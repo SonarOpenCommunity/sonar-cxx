@@ -1083,14 +1083,6 @@
     </description>
   </rule>
   <rule>
-    <key>dangerousUsageStrtol</key>
-    <configkey>dangerousUsageStrtol</configkey>
-    <name>Invalid radix in call to strtol or strtoul. Must be 0 or 2-36</name>
-    <description>
-      Invalid radix in call to strtol or strtoul. Must be 0 or 2-36.
-    </description>
-  </rule>
-  <rule>
     <key>passedByValue</key>
     <configkey>passedByValue</configkey>
     <name>Function parameter should be passed by reference</name>
@@ -1254,17 +1246,6 @@
       Comparison of a boolean with an integer that is neither 1 nor 0.
     </description>
   </rule>
-  <rule>
-    <key>conditionAlwaysTrueFalse</key>
-    <configkey>conditionAlwaysTrueFalse</configkey>
-    <name>Condition is always true/false</name>
-    <description>
-      The condition evaluates always to true/false.
-    </description>
-  </rule>
-
-  <error id="conditionAlwaysTrueFalse" severity="style" msg="Condition is always true/false"/>
-
   <rule>
     <key>duplicateIf</key>
     <configkey>duplicateIf</configkey>
@@ -1550,15 +1531,6 @@
     </description>
   </rule>
   <rule>
-    <key>cppcheckError</key>
-    <configkey>cppcheckError</configkey>
-    <name>Internal cppcheck error</name>
-    <description>
-      Analysis failed. If the code is valid then please report this
-      failure.
-    </description>
-  </rule>
-  <rule>
     <key>unnecessaryForwardDeclaration</key>
     <configkey>unnecessaryForwardDeclaration</configkey>
     <name>Redundant forward declaration</name>
@@ -1592,14 +1564,6 @@
     </description>
   </rule>
   <rule>
-    <key>missingInclude</key>
-    <configkey>missingInclude</configkey>
-    <name>Missing include</name>
-    <description>
-      An include file cannot be found.
-    </description>
-  </rule>
-  <rule>
     <key>preprocessorErrorDirective</key>
     <configkey>preprocessorErrorDirective</configkey>
     <name>Preprocessor directive error</name>
@@ -1613,14 +1577,6 @@
     <name>Possible leak in public function</name>
     <description>
       Possible leak in public function. The pointer is not deallocated before it is allocated.
-    </description>
-  </rule>
-  <rule>
-    <key>sizeArgumentAsChar</key>
-    <configkey>sizeArgumentAsChar</configkey>
-    <name>The size argument is given as a char constant</name>
-    <description>
-      The size argument is given as a char constant.
     </description>
   </rule>
   <!-- ########### New in cppcheck 1.51 ########### -->
@@ -1676,22 +1632,6 @@
     </description>
   </rule>
   <rule>
-    <key>complexPatternError</key>
-    <configkey>complexPatternError</configkey>
-    <name>Found complex pattern inside call</name>
-    <description>
-      Found complex pattern inside call.
-    </description>
-  </rule>
-  <rule>
-    <key>missingPercentCharacter</key>
-    <configkey>missingPercentCharacter</configkey>
-    <name>Missing percent end character in pattern</name>
-    <description>
-      Missing percent end character in pattern.
-    </description>
-  </rule>
-  <rule>
     <key>boostForeachError</key>
     <configkey>boostForeachError</configkey>
     <name>Invalid usage of BOOST_FOREACH</name>
@@ -1726,27 +1666,11 @@
     </description>
   </rule>
   <rule>
-    <key>redundantStrcpyInSwitch</key>
-    <configkey>redundantStrcpyInSwitch</configkey>
-    <name>Redundant strcpy in switch</name>
-    <description>
-      Switch case fall-through. Redundant strcpy of a variable.
-    </description>
-  </rule>
-  <rule>
     <key>stringCompare</key>
     <configkey>stringCompare</configkey>
     <name>Comparison of identical string variables</name>
     <description>
       Comparison of identical string variables.
-    </description>
-  </rule>
-  <rule>
-    <key>stlcstrthrow</key>
-    <configkey>stlcstrthrow</configkey>
-    <name>The returned value by c_str() is invalid after throw call</name>
-    <description>
-      The returned value by c_str() is invalid after throw call.
     </description>
   </rule>
   <rule>
@@ -1783,25 +1707,9 @@
       Useless call of function 'substr' because it returns a copy of the object. Use operator= instead.
     </description>
   </rule>
-  <rule>
-    <key>wrongcctypecall</key>
-    <configkey>wrongcctypecall</configkey>
-    <name>Wrong usage of a function from the ctype-family</name>
-    <description>
-      Passing negative values to the functions of the ctype-family
-      (isalnum|isalpha|isascii|is..) causes undefined behavior.
-    </description>
-  </rule>
+
 
   <!-- ########### New in cppcheck 1.53 ########### -->
-  <rule>
-    <key>debug</key>
-    <configkey>debug</configkey>
-    <name>Debug</name>
-    <description>
-      Any kind of debug message
-    </description>
-  </rule>
   <rule>
     <key>doubleCloseDir</key>
     <configkey>doubleCloseDir</configkey>
@@ -2015,15 +1923,6 @@
       The loop might unintentionally skip an element in the container. There is no comparison between these increments to prevent that the iterator is incremented beyond the end.
     </description>
   </rule>
-  <rule>
-    <key>strncatUsage</key>
-    <configkey>strncatUsage</configkey>
-    <name>Dangerous usage of strncat</name>
-    <description>
-      Dangerous usage of strncat - 3rd parameter is the maximum number of characters to append.
-      strncat appends at max its 3rd parameter's amount of characters. The safe way to use strncat is to calculate remaining space in the buffer and use it as 3rd parameter.
-    </description>
-  </rule>
 
   <!-- ########### New in cppcheck 1.55 ########### -->
   <rule>
@@ -2056,30 +1955,6 @@
     <name>Returning/dereferencing variable after it is deallocated / released</name>
     <description>
       Returning/dereferencing variable after it is deallocated / released.
-    </description>
-  </rule>
-  <rule>
-    <key>invalidScanfFormatWidth</key>
-    <configkey>invalidScanfFormatWidth</configkey>
-    <name>wrong width for scanf parameter</name>
-    <description>
-      Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
-    </description>
-  </rule>
-  <rule>
-    <key>leakconfiguration</key>
-    <configkey>leakconfiguration</configkey>
-    <name>Function configuration is needed to establish if there is a leak or not</name>
-    <description>
-      Function configuration is needed to establish if there is a leak or not.
-    </description>
-  </rule>
-  <rule>
-    <key>missingScanfFormatWidth</key>
-    <configkey>missingScanfFormatWidth</configkey>
-    <name>wrong width for scanf parameter</name>
-    <description>
-      Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
     </description>
   </rule>
   <rule>
@@ -2230,27 +2105,11 @@
     </description>
   </rule>
   <rule>
-    <key>redundantOperationInSwitch</key>
-    <configkey>redundantOperationInSwitch</configkey>
-    <name>Redundant operation on 'varname' in switch</name>
-    <description>
-      Redundant operation on 'varname' in switch.
-    </description>
-  </rule>
-  <rule>
     <key>shiftNegative</key>
     <configkey>shiftNegative</configkey>
     <name>Shifting by a negative value</name>
     <description>
       Shifting by a negative value.
-    </description>
-  </rule>
-  <rule>
-    <key>unknownPattern</key>
-    <configkey>unknownPattern</configkey>
-    <name>Unknown pattern used</name>
-    <description>
-      Unknown pattern used.
     </description>
   </rule>
   <rule>
@@ -2267,26 +2126,6 @@
     <name>Return value of std::remove() ignored</name>
     <description>
       Return value of std::remove() ignored.
-    </description>
-  </rule>
-  <rule>
-    <key>ConfigurationNotChecked</key>
-    <configkey>ConfigurationNotChecked</configkey>
-    <name>
-      Skipping configuration 'X' since the value of 'X' is unknown
-    </name>
-    <description>
-      Skipping configuration 'X' since the value of 'X' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly.
-    </description>
-  </rule>
-  <rule>
-    <key>toomanyconfigs</key>
-    <configkey>toomanyconfigs</configkey>
-    <name>
-      Too many #ifdef configurations - cppcheck only checks 12 configurations
-    </name>
-    <description>
-      Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
     </description>
   </rule>
 
@@ -2329,22 +2168,6 @@
     <name>Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory</name>
     <description>
       Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory.
-    </description>
-  </rule>
-  <rule>
-    <key>invalidFree</key>
-    <configkey>invalidFree</configkey>
-    <name>Invalid memory address freed</name>
-    <description>
-      Invalid memory address freed.
-    </description>
-  </rule>
-  <rule>
-    <key>invalidLengthModifierError</key>
-    <configkey>invalidLengthModifierError</configkey>
-    <name>'modifier' in format string is a length modifier and cannot be used without a conversion specifier</name>
-    <description>
-      'modifier' in format string is a length modifier and cannot be used without a conversion specifier.
     </description>
   </rule>
   <rule>
@@ -2462,17 +2285,6 @@
   </rule>
 
   <rule>
-    <key>missingIncludeSystem</key>
-    <configkey>missingIncludeSystem</configkey>
-    <name>
-      Included file not found.
-    </name>
-    <description>
-      Cannot find an included file, the code analysis may be inaccurate.
-    </description>
-  </rule>
-
-  <rule>
     <key>stlBoundaries</key>
     <configkey>stlBoundaries</configkey>
     <name>
@@ -2480,17 +2292,6 @@
     </name>
     <description>
       Dangerous iterator comparison using operator&lt; on a STL container.
-    </description>
-  </rule>
-
-  <rule>
-    <key>tooBigSleepTime</key>
-    <configkey>tooBigSleepTime</configkey>
-    <name>
-      Invalid argument for usleep
-    </name>
-    <description>
-      The argument of usleep must be less than 1000000.
     </description>
   </rule>
 
@@ -2546,15 +2347,6 @@
     </name>
     <description>
       A buffer must have size of 2 integers if used as parameter of pipe().
-    </description>
-  </rule>
-
-  <rule>
-    <key>class_X_Y</key>
-    <configkey>class_X_Y</configkey>
-    <name>Unhandled code</name>
-    <description>
-      This code is not handled. You can use -I or --include to add handling of this code.
     </description>
   </rule>
 
@@ -2704,6 +2496,32 @@
       Call to 'Token::previous()' followed by 'Token::next()' can be simplified.
     </description>  
   </rule>
+  
+  <!-- ########### Deprecated as of 1.63.1 ########### -->
+  <rule>
+    <key>dangerousUsageStrtol</key>
+    <configkey>dangerousUsageStrtol</configkey>
+    <name>Invalid radix in call to strtol or strtoul. Must be 0 or 2-36</name>
+    <description>
+      Invalid radix in call to strtol or strtoul. Must be 0 or 2-36.
+    </description>
+  </rule> 
+  <rule>
+    <key>conditionAlwaysTrueFalse</key>
+    <configkey>conditionAlwaysTrueFalse</configkey>
+    <name>Condition is always true/false</name>
+    <description>
+      The condition evaluates always to true/false.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeArgumentAsChar</key>
+    <configkey>sizeArgumentAsChar</configkey>
+    <name>The size argument is given as a char constant</name>
+    <description>
+      The size argument is given as a char constant.
+    </description>
+  </rule>
   <rule>
     <key>simplePatternError</key>
     <configkey>simplePatternError</configkey>
@@ -2714,4 +2532,185 @@
       Found simple pattern inside Token::Match() call: "class {"
     </description>  
   </rule>
+  <rule>
+    <key>complexPatternError</key>
+    <configkey>complexPatternError</configkey>
+    <name>Found complex pattern inside call</name>
+    <description>
+      Found complex pattern inside call.
+    </description>
+  </rule>
+  <rule>
+    <key>missingPercentCharacter</key>
+    <configkey>missingPercentCharacter</configkey>
+    <name>Missing percent end character in pattern</name>
+    <description>
+      Missing percent end character in pattern.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantStrcpyInSwitch</key>
+    <configkey>redundantStrcpyInSwitch</configkey>
+    <name>Redundant strcpy in switch</name>
+    <description>
+      Switch case fall-through. Redundant strcpy of a variable.
+    </description>
+  </rule>  
+  <rule>
+    <key>stlcstrthrow</key>
+    <configkey>stlcstrthrow</configkey>
+    <name>The returned value by c_str() is invalid after throw call</name>
+    <description>
+      The returned value by c_str() is invalid after throw call.
+    </description>
+  </rule>
+  <rule>
+    <key>wrongcctypecall</key>
+    <configkey>wrongcctypecall</configkey>
+    <name>Wrong usage of a function from the ctype-family</name>
+    <description>
+      Passing negative values to the functions of the ctype-family
+      (isalnum|isalpha|isascii|is..) causes undefined behavior.
+    </description>
+  </rule>
+  <rule>
+    <key>debug</key>
+    <configkey>debug</configkey>
+    <name>Debug</name>
+    <description>
+      Any kind of debug message
+    </description>
+  </rule>
+  <rule>
+    <key>strncatUsage</key>
+    <configkey>strncatUsage</configkey>
+    <name>Dangerous usage of strncat</name>
+    <description>
+      Dangerous usage of strncat - 3rd parameter is the maximum number of characters to append.
+      strncat appends at max its 3rd parameter's amount of characters. The safe way to use strncat is to calculate remaining space in the buffer and use it as 3rd parameter.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidScanfFormatWidth</key>
+    <configkey>invalidScanfFormatWidth</configkey>
+    <name>wrong width for scanf parameter</name>
+    <description>
+      Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
+    </description>
+  </rule>
+  <rule>
+    <key>leakconfiguration</key>
+    <configkey>leakconfiguration</configkey>
+    <name>Function configuration is needed to establish if there is a leak or not</name>
+    <description>
+      Function configuration is needed to establish if there is a leak or not.
+    </description>
+  </rule>
+  <rule>
+    <key>missingScanfFormatWidth</key>
+    <configkey>missingScanfFormatWidth</configkey>
+    <name>wrong width for scanf parameter</name>
+    <description>
+      Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantOperationInSwitch</key>
+    <configkey>redundantOperationInSwitch</configkey>
+    <name>Redundant operation on 'varname' in switch</name>
+    <description>
+      Redundant operation on 'varname' in switch.
+    </description>
+  </rule>
+  <rule>
+    <key>unknownPattern</key>
+    <configkey>unknownPattern</configkey>
+    <name>Unknown pattern used</name>
+    <description>
+      Unknown pattern used.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidFree</key>
+    <configkey>invalidFree</configkey>
+    <name>Invalid memory address freed</name>
+    <description>
+      Invalid memory address freed.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidLengthModifierError</key>
+    <configkey>invalidLengthModifierError</configkey>
+    <name>'modifier' in format string is a length modifier and cannot be used without a conversion specifier</name>
+    <description>
+      'modifier' in format string is a length modifier and cannot be used without a conversion specifier.
+    </description>
+  </rule>
+  <rule>
+    <key>tooBigSleepTime</key>
+    <configkey>tooBigSleepTime</configkey>
+    <name>
+      Invalid argument for usleep
+    </name>
+    <description>
+      The argument of usleep must be less than 1000000.
+    </description>
+  </rule>
+  <rule>
+    <key>class_X_Y</key>
+    <configkey>class_X_Y</configkey>
+    <name>Unhandled code</name>
+    <description>
+      This code is not handled. You can use -I or --include to add handling of this code.
+    </description>
+  </rule>
+  
+  <!-- ########### INFORMATIVE RULES - APPLICABLE ONLY TO CPPCHECK CONFIGURATION ########### -->
+  <rule>
+    <key>cppcheckError</key>
+    <configkey>cppcheckError</configkey>
+    <name>Internal cppcheck error</name>
+    <description>
+      Analysis failed. If the code is valid then please report this
+      failure.
+    </description>
+  </rule>
+  <rule>
+    <key>missingInclude</key>
+    <configkey>missingInclude</configkey>
+    <name>Missing include</name>
+    <description>
+      An include file cannot be found.
+    </description>
+  </rule>  
+  <rule>
+    <key>ConfigurationNotChecked</key>
+    <configkey>ConfigurationNotChecked</configkey>
+    <name>
+      Skipping configuration 'X' since the value of 'X' is unknown
+    </name>
+    <description>
+      Skipping configuration 'X' since the value of 'X' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly.
+    </description>
+  </rule>  
+  <rule>
+    <key>toomanyconfigs</key>
+    <configkey>toomanyconfigs</configkey>
+    <name>
+      Too many #ifdef configurations - cppcheck only checks 12 configurations
+    </name>
+    <description>
+      Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
+    </description>
+  </rule>  
+  <rule>
+    <key>missingIncludeSystem</key>
+    <configkey>missingIncludeSystem</configkey>
+    <name>
+      Included file not found.
+    </name>
+    <description>
+      Cannot find an included file, the code analysis may be inaccurate.
+    </description>
+  </rule>  
 </rules>
