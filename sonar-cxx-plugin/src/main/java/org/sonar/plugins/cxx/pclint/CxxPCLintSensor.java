@@ -127,11 +127,16 @@ public class CxxPCLintSensor extends CxxReportSensor {
          }
         CxxUtils.LOG.info("PC-Lint messages processed = " + countViolations);  
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString()); 
+          CxxUtils.LOG.error("Ignore XML error from PC-lint " + e.toString()); 
         }
       }  
 
       private boolean isInputValid(String file, String line, String id, String msg) {
+        String debugText = "File: " + file + ", Line: " + line +
+            ", ID: " + id + ", msg: " + msg;
+        CxxUtils.LOG.debug(debugText);
+        if (StringUtils.isEmpty(line))
+          return false;
     	  if (StringUtils.isEmpty(file) || (Integer.valueOf(line)==0)) {
     		  // issue for project or file level
     		  return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);

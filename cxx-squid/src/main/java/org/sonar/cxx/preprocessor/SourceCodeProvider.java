@@ -49,15 +49,15 @@ public class SourceCodeProvider {
       try {
         includeRoot = includeRoot.getCanonicalFile();
       } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", includeRoot);
+        LOG.error("cannot get canonical form of: '" + includeRoot + "'");
       }
 
       if (includeRoot.isDirectory()) {
-        LOG.debug("storing include root: '{}'", includeRoot);
+        LOG.debug("storing include root: '"  + includeRoot + "'");
         this.includeRoots.add(includeRoot);
       }
       else {
-        LOG.warn("the include root {} doesnt exist", includeRoot.getAbsolutePath());
+        LOG.warn("the include root " + includeRoot.getAbsolutePath() + " doesnt exist");
       }
     }
   }

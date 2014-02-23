@@ -17,22 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.compiler;
+/*
+ * derived from Sonar .NET Plugin
+ * Authors :: Jose Chillan, Alexandre Victoor and SonarSource
+ */
+package org.sonar.plugins.cxx.api.microsoft;
 
-import org.junit.Test;
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
+/**
+ * Possible types of C++/C Windows artifact.
+ * 
+ * @author Jose CHILLAN Apr 16, 2009
+ */
+public enum ArtifactType {
+  /**
+   * Artifact that corresponds to a .lib.
+   */
+  LIB,
+  /**
+   * Artifact that corresponds to a .dll.
+   */
+  DLL,
+  /**
+   * Artifact that corresponds to a .exe.
+   */
+  EXE,
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
-public class CxxCompilerRuleRepositoryTest {
-
-  @Test
-  public void createRulesTest() {
-    CxxCompilerRuleRepository rulerep = new CxxCompilerRuleRepository(
-        mock(ServerFileSystem.class),
-        new XMLRuleParser());
-    assertThat(rulerep.createRules()).hasSize(691);
-  }
+  /**
+   * Artifact that corresponds to a ActiveX control project.
+   */
+  OCX
 }

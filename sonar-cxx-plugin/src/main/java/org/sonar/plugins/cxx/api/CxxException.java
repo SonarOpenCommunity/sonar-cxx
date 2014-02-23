@@ -17,22 +17,43 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.compiler;
+/*
+ * derived from Sonar .NET Plugin
+ * Authors :: Jose Chillan, Alexandre Victoor and SonarSource
+ */
+/**
+ * 
+ */
+package org.sonar.plugins.cxx.api;
 
-import org.junit.Test;
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
+/**
+ * Generic exception class for the Cxx api
+ * 
+ */
+public class CxxException extends Exception {
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+  private static final long serialVersionUID = -2730236966462112507L;
 
-public class CxxCompilerRuleRepositoryTest {
-
-  @Test
-  public void createRulesTest() {
-    CxxCompilerRuleRepository rulerep = new CxxCompilerRuleRepository(
-        mock(ServerFileSystem.class),
-        new XMLRuleParser());
-    assertThat(rulerep.createRules()).hasSize(691);
+  /**
+   * Creates a {@link CxxException}
+   * 
+   * @param message
+   *          the message
+   * @param cause
+   *          the cause
+   */
+  public CxxException(String message, Throwable cause) {
+    super(message, cause);
   }
+
+  /**
+   * Creates a {@link CxxException}
+   * 
+   * @param cause
+   *          the cause
+   */
+  public CxxException(String cause) {
+    super(cause);
+  }
+
 }

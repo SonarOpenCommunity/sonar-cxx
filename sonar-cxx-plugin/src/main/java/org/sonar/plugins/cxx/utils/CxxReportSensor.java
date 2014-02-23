@@ -35,6 +35,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -77,12 +78,12 @@ public abstract class CxxReportSensor implements Sensor {
       List<File> reports = getReports(conf, fs.baseDir().getPath(),
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
-        CxxUtils.LOG.info("Processing report '{}'", report);
+        CxxUtils.LOG.info("Processing report " + report);
         try{
           processReport(project, context, report);
         }
         catch(EmptyReportException e){
-          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+          CxxUtils.LOG.warn("The report " + report + " seems to be empty, ignoring.");
         }
       }
 
@@ -120,7 +121,7 @@ public abstract class CxxReportSensor implements Sensor {
       reportPath = defaultReportPath;
     }
 
-    CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
+    CxxUtils.LOG.debug("Using pattern "  + reportPath + " to find reports");
 
     DirectoryScanner scanner = new DirectoryScanner();
     String[] includes = new String[1];
@@ -154,6 +155,7 @@ public abstract class CxxReportSensor implements Sensor {
       Violation violation = null;
       // handles file="" situation
       if ((file != null) && (file.length() > 0)){
+        file = getCaseSensitiveFileName(file, project.getFileSystem().getSourceDirs());
         org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (context.getResource(resource) != null) {
@@ -167,12 +169,12 @@ public abstract class CxxReportSensor implements Sensor {
               linenr = linenr == 0 ? 1 : linenr;
               violation.setLineId(linenr);
             } catch(java.lang.NumberFormatException nfe){
-              CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+              CxxUtils.LOG.warn("Skipping invalid line number: " + line);
             }
           }
         } else {
           if (uniqueFileName.add(file)) {
-          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", file);
+          CxxUtils.LOG.warn("Cannot find the file " + file + " skipping violations");
           }
         }
       } else {
@@ -187,6 +189,40 @@ public abstract class CxxReportSensor implements Sensor {
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
+  }
+  
+  /**
+   *  Supports full path and relative path in report.xml file.
+   */     
+  private String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
+    // check whether the report file uses absolute path
+    File targetfile = new java.io.File(file);
+    if (targetfile.exists()) {
+      file = getRealFileName(targetfile);
+    } else {
+      Iterator<java.io.File> iterator = sourceDirs.iterator();
+      while (iterator.hasNext()) {              
+           targetfile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
+           if (targetfile.exists()) {
+               file = getRealFileName(targetfile);
+               break;
+           }
+      }
+    }
+    return file;      
+  }
+     
+  /**
+   * Find the case sensitive file name - tools might use different naming schema
+   * e.g. VC HTML or build log report uses case insensitive file name (lower case on windows)
+   */      
+  private String getRealFileName( File filename){
+     try {
+         return filename.getCanonicalFile().getAbsolutePath();
+     } catch (java.io.IOException e) {
+       CxxUtils.LOG.error("SaveViolation GetRealFileName failed '{}'", e.toString());
+       }
+     return filename.getName();
   }
   
   protected void processReport(Project project, SensorContext context, File report)
