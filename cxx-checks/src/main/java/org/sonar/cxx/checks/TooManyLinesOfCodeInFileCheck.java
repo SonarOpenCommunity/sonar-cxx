@@ -33,9 +33,7 @@ import com.sonar.sslr.squid.checks.SquidCheck;
     priority = Priority.MAJOR)
 
 //similar Vera++ rule L006 "Source file is too long"
-public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar>
-{
-
+public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
         
   private static final int DEFAULT_MAXIMUM = 2000;
 

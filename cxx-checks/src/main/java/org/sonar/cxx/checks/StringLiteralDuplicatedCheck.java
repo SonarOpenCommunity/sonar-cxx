@@ -60,8 +60,9 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-      if (node.is(CxxGrammarImpl.LITERAL))
-        visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
+    if (node.is(CxxGrammarImpl.LITERAL)) {
+      visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
+    }
   }
 
   @Override
@@ -72,7 +73,8 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
       if (occurences > 1) {
         String literal = literalOccurences.getKey();
 
-        getContext().createLineViolation(this, "Define a constant instead of duplicating this literal " + literal + " " + occurences + " times.", firstOccurrence.get(literal));
+        getContext().createLineViolation(this, "Define a constant instead of duplicating this literal " + literal + " " + occurences 
+            + " times.", firstOccurrence.get(literal));
       }
     }
   }

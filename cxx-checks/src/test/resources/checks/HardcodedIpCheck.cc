@@ -14,4 +14,3 @@ class A {
     const std::string  printerUID { "1.2.840.10008.5.1.1.16"}; // Compliant
     };
 
-

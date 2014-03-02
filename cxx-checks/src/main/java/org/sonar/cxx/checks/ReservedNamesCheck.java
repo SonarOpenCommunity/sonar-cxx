@@ -45,7 +45,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
   
   @Override
   public void init() {
-   keywords = CxxKeyword.keywordValues();
+    keywords = CxxKeyword.keywordValues();
   }
 
   @Override
@@ -62,15 +62,15 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
       nr++;
       String[] sub = line.split("^.*#define\\s+", 2);
       if (sub.length>1) {
-         name = sub[1].toLowerCase().split("\\s",2);
-         for (String keyword : keywords) {
-            if (name[0].startsWith("_"+keyword) || (name[0].startsWith("__"+keyword))  ) {
-             getContext().createLineViolation(this, "Reserved name used for macro (incorrect use of underscore)", nr);
-           } else {
-             if (name[0].contains(keyword)) {
-               getContext().createLineViolation(this, "Reserved name used for macro (keyword or alternative token redefined)", nr);
-             }
-           }
+        name = sub[1].toLowerCase().split("\\s",2);
+        for (String keyword : keywords) {
+          if (name[0].startsWith("_"+keyword) || (name[0].startsWith("__"+keyword))  ) {
+            getContext().createLineViolation(this, "Reserved name used for macro (incorrect use of underscore)", nr);
+          } else {
+            if (name[0].contains(keyword)) {
+              getContext().createLineViolation(this, "Reserved name used for macro (keyword or alternative token redefined)", nr);
+            }
+          }
         }
       }
     }
@@ -80,19 +80,4 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
   public void setCharset(Charset charset) {
     this.charset = charset;
   }
-
-// CXX preprocessor does not support visitors   
-//  @Override
-//  public void visitNode(AstNode node) {
-//    String name = node.getTokenOriginalValue();
-//    for (String keyword : keywords) {
-//      if (name.startsWith("_"+keyword.toUpperCase()) || (name.startsWith("__"+keyword.toUpperCase()))  ) {
-//        getContext().createLineViolation(this, "Reserved name used for macro (incorrect use of underscore)", node);
-//      } else {
-//        if (name.contains(keyword.toUpperCase())) {
-//          getContext().createLineViolation(this, "Reserved name used for macro (keyword or alternative token redefined)", node);
-//        }
-//      }
-//    }
-//  }
 }

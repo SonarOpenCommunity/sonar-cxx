@@ -77,12 +77,12 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
   public void init() {
     subscribeTo(CHECKED_TYPES);
     if (!Strings.isNullOrEmpty(regularExpression)) {
-        try {
-          pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
-        } catch (RuntimeException e) {
-          throw new SonarException("Unable to compile regular expression: " + regularExpression, e);
-        }
+      try {
+        pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
+      } catch (RuntimeException e) {
+        throw new SonarException("Unable to compile regular expression: " + regularExpression, e);
       }
+    }
   }
   
 
@@ -94,11 +94,11 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-      if (node.is(CHECKED_TYPES)) {
-        if (pattern.matcher(node.getTokenOriginalValue()).find()) {
-          visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
-        }
+    if (node.is(CHECKED_TYPES)) {
+      if (pattern.matcher(node.getTokenOriginalValue()).find()) {
+        visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
       }
+    }
   }
 
   @Override
@@ -111,13 +111,13 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
   }
 
   private void visitOccurence(String literal, int line) {
-      if (!firstOccurrence.containsKey(literal)) {
-        firstOccurrence.put(literal, line);
-        literalsOccurrences.put(literal, 1);
-      } else {
-        int occurences = literalsOccurrences.get(literal);
-        literalsOccurrences.put(literal, occurences + 1);
-      }
+    if (!firstOccurrence.containsKey(literal)) {
+      firstOccurrence.put(literal, line);
+      literalsOccurrences.put(literal, 1);
+    } else {
+      int occurences = literalsOccurrences.get(literal);
+      literalsOccurrences.put(literal, occurences + 1);
+    }
   }
 
 }

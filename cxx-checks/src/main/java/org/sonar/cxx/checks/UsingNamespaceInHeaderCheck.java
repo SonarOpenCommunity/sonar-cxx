@@ -41,13 +41,13 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
  
   @Override
   public void init() {
-   subscribeTo(CxxGrammarImpl.blockDeclaration);
+    subscribeTo(CxxGrammarImpl.blockDeclaration);
   }
 
   @Override
   public void visitNode(AstNode node) {
     if ((node.getTokenValue().equals("using")) && (isHeader(getContext().getFile().getName()))) {
-         getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
+      getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
       }
     }
   

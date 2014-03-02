@@ -66,14 +66,14 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
   
   @Override
   public void init() {
-    String regularExpression = getRegularExpression();
-    checkNotNull(regularExpression, "getRegularExpression() should not return null");
+    String regEx = getRegularExpression();
+    checkNotNull(regEx, "getRegularExpression() should not return null");
 
-    if (!Strings.isNullOrEmpty(regularExpression)) {
+    if (!Strings.isNullOrEmpty(regEx)) {
       try {    
-       IP = Pattern.compile(getRegularExpression()).matcher("");
+        IP = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regularExpression, e);
+        throw new SonarException("Unable to compile regular expression: " + regEx, e);
       }
     }
     subscribeTo(CxxGrammarImpl.LITERAL);  
@@ -84,8 +84,8 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
     if (node.is(CxxGrammarImpl.LITERAL)) {
       IP.reset(node.getTokenOriginalValue());
       if (IP.find()) {
-         String ip = IP.group(0).replaceAll("\"", "");
-         getContext().createLineViolation(this, "Make this IP \"" + ip + "\" address configurable.", node);
+        String ip = IP.group(0).replaceAll("\"", "");
+        getContext().createLineViolation(this, "Make this IP \"" + ip + "\" address configurable.", node);
       }
     }
   }

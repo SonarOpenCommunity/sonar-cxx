@@ -62,14 +62,14 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    String regularExpression = getRegularExpression();
+    String regEx = getRegularExpression();
     checkNotNull(regularExpression, "getRegularExpression() should not return null");
 
-    if (!Strings.isNullOrEmpty(regularExpression)) {
+    if (!Strings.isNullOrEmpty(regEx)) {
       try {    
-       reg = Pattern.compile(getRegularExpression()).matcher("");
+        reg = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regularExpression, e);
+        throw new SonarException("Unable to compile regular expression: " + regEx, e);
       }
     }
     subscribeTo(CxxGrammarImpl.LITERAL); 
@@ -77,11 +77,11 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-      if (node.is(CxxGrammarImpl.LITERAL)) {
-        reg.reset(node.getTokenOriginalValue().replaceAll("\\s", ""));
-        if (reg.find()) {
-          getContext().createLineViolation(this, "Do not hard code sensitive data in programs.", node);
-        }
+    if (node.is(CxxGrammarImpl.LITERAL)) {
+      reg.reset(node.getTokenOriginalValue().replaceAll("\\s", ""));
+      if (reg.find()) {
+        getContext().createLineViolation(this, "Do not hard code sensitive data in programs.", node);
       }
+    }
   }
 }

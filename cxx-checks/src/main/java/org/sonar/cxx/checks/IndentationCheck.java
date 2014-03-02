@@ -101,8 +101,8 @@ public class IndentationCheck extends SquidCheck<Grammar> {
   }
 
   private boolean isExcluded(AstNode node) {
-      return isBlockAlreadyReported || !isLineFirstStatement(node);
-    }
+    return isBlockAlreadyReported || !isLineFirstStatement(node);
+  }
 
   private boolean isLineFirstStatement(AstNode node) {
     return lastCheckedLine != node.getTokenLine();

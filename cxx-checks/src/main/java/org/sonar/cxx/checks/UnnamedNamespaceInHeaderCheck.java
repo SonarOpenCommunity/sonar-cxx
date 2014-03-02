@@ -40,9 +40,9 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
  
   @Override
   public void init() {
-   subscribeTo(CxxGrammarImpl.unnamedNamespaceDefinition);
-   // use cxx.suffixes.headers ?? No API
-   //   conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)
+    subscribeTo(CxxGrammarImpl.unnamedNamespaceDefinition);
+    // ToDo use cxx.suffixes.headers ?? No API
+    //   conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)
   }
 
 
@@ -50,9 +50,9 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   @Override
   public void visitNode(AstNode node) {
     if (isHeader(getContext().getFile().getName())) {
-        getContext().createFileViolation(this, "Unnamed namespaces are not allowed in header files.", node);
-      }
+      getContext().createFileViolation(this, "Unnamed namespaces are not allowed in header files.", node);
     }
+  }
   
   private boolean isHeader(String name) {
     String[] suffixes = StringUtils.split(DEFAULT_NAME_SUFFIX, ",");
@@ -63,6 +63,4 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
     }
     return false;
   }
-  
-  
 }

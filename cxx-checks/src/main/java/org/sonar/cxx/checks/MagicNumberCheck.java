@@ -54,15 +54,16 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
     exceptionsSet = ImmutableSet.copyOf(Splitter.on(',').omitEmptyStrings().trimResults().split(exceptions));
   }
 
-@Override
-public void visitNode(AstNode node) {
+  @Override
+  public void visitNode(AstNode node) {
     if (!isInDeclaration(node) && !isExcluded(node) && !isInEnum(node)) {
-      getContext().createLineViolation(this, "Extract this magic number '" + node.getTokenOriginalValue() + "' into a constant, variable declaration or an enum.", node);
+      getContext().createLineViolation(this, "Extract this magic number '" + node.getTokenOriginalValue() 
+          + "' into a constant, variable declaration or an enum.", node);
     }
   }
 
   private boolean isInDeclaration(AstNode node) {
-      return node.hasAncestor(CxxGrammarImpl.declarationStatement);  
+    return node.hasAncestor(CxxGrammarImpl.declarationStatement);  
   }
 
   private boolean isExcluded(AstNode node) {

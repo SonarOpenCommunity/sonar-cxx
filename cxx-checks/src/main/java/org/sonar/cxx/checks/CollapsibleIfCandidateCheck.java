@@ -40,7 +40,7 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-   subscribeTo(CxxGrammarImpl.ifStatement);
+    subscribeTo(CxxGrammarImpl.ifStatement);
   }
 
   @Override
