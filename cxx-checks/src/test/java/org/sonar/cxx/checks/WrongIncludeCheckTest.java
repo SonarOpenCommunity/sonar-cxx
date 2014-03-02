@@ -19,14 +19,27 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
 import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squid.api.SourceFile;
 
-import static org.fest.assertions.Assertions.assertThat;
+import java.io.File;
 
-public class CheckListTest {
+public class WrongIncludeCheckTest {
 
   @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(29);
+  public void check() {
+    UseCorrectIncludeCheck check = new UseCorrectIncludeCheck();
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UseCorrectIncludeCheck.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+        .next().atLine(2).withMessage("Do not use relative path for #include directive.")
+        .next().atLine(3)
+        .next().atLine(4)
+        .next().atLine(5)
+        .next().atLine(6)
+        .next().atLine(7)
+        .noMore();
   }
 }

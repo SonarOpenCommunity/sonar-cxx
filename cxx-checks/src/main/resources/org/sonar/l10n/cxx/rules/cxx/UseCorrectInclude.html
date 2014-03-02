@@ -1,0 +1,18 @@
+<p>
+The #include directive shall only refer to predefined folders and therefore relative paths are not allowed.
+</p>
+
+<p>
+The following code snippet illustrates this rule:
+</p>
+
+<pre>
+#include &lt;stdio.h&gt; // Compliant
+#include &lt;../string&gt; // Non-Compliant
+#include &quot;/apath/string&quot; // Non-Compliant
+#include &quot;../apath/string&quot; // Non-Compliant
+#include &quot;./apath/string&quot; // Non-Compliant
+#include &quot;\apath/string&quot; // Non-Compliant
+#include &quot;..\apath/string&quot; // Non-Compliant
+#include &quot;apath/string&quot; // Compliant
+</pre>

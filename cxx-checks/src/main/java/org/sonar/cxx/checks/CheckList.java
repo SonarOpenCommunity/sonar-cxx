@@ -61,6 +61,7 @@ public final class CheckList {
         UseCorrectTypeCheck.class,
         UsingNamespaceInHeaderCheck.class,
         SafetyTagCheck.class,
+        UseCorrectIncludeCheck.class,
         XPathCheck.class);
   }
 
