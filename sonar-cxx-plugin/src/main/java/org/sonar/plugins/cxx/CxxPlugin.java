@@ -113,6 +113,14 @@ import java.util.List;
     description = "The encoding to use when reading the compiler report",
     global = false,
     project = true),
+  @Property(
+      key = CxxPlugin.VS_SOLUTION_ENABLED,
+      defaultValue = "false",
+      name = "Activate Visual Studio Solution support",
+      description = "Enable \".sln\" file analysis.",
+      global = false,
+      project = true,
+      type = PropertyType.BOOLEAN),    
     @Property(
     key = CxxPlugin.VS_TEST_PROJECT_PATTERN_KEY,
     defaultValue = CxxPlugin.VS_TEST_PROJECT_PATTERN_DEFVALUE,
@@ -209,6 +217,8 @@ public final class CxxPlugin extends SonarPlugin {
   
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
+
+  public static final String VS_SOLUTION_ENABLED = "sonar.cxx.visualstudio.enabled";
   
   public static final String VS_TEST_PROJECT_PATTERN_KEY = "sonar.cxx.visualstudio.testProjectPattern";
   public static final String VS_TEST_PROJECT_PATTERN_DEFVALUE = "*.Tests";

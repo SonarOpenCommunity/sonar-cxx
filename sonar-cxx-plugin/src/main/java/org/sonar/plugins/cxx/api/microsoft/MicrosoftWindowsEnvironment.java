@@ -26,22 +26,19 @@ package org.sonar.plugins.cxx.api.microsoft;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.StringUtils;
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.batch.InstantiationStrategy;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
-import org.sonar.cxx.CxxConfiguration;
-import org.sonar.plugins.cxx.compiler.CxxVisualStudioProjectBuilder;
 
-import java.io.File;
 import java.util.Map;
 
 /**
- * Class used to share information, between .NET plugins, about Windows and Visual Studio elements, such as:
+ * Class used to share information, between C++ plugins, about Windows and Visual Studio elements, such as:
  * <ul>
- * <li>the environment settings (.NET SDK directory for instance),</li>
+ * <li>the environment settings,</li>
  * <li>the current Visual Studio solution that is being analyzed.</li>
  * </ul>
  */
@@ -50,13 +47,9 @@ public class MicrosoftWindowsEnvironment implements BatchExtension {
 
   private static final Logger LOG = LoggerFactory.getLogger(MicrosoftWindowsEnvironment.class);
   
-  private CxxConfiguration configuration;
+  private Settings configuration;
   private boolean locked;
   // static configuration elements that are fed at the beginning of an analysis and that do not change afterwards
-//  private String dotnetVersion;
-//  private File WindowsSdkDirectory;
-//  private String silverlightVersion;
-//  private File silverlightDirectory;
   private VisualStudioSolution currentSolution;
   private Map<String, VisualStudioProject> projectsByName;
   private String workDir;
@@ -67,7 +60,7 @@ public class MicrosoftWindowsEnvironment implements BatchExtension {
     this(null);
   }
 
-  public MicrosoftWindowsEnvironment(CxxConfiguration configuration) {
+  public MicrosoftWindowsEnvironment(Settings configuration) {
     this.configuration = configuration;
     projectsByName = Maps.newHashMap();
   }
@@ -111,8 +104,7 @@ public class MicrosoftWindowsEnvironment implements BatchExtension {
       projectsByName.put(vsProject.getName(), vsProject);
     }
     if (configuration != null) {
-//      String sonarBranch = configuration.getString("sonar.branch");
-      String sonarBranch = "";
+      String sonarBranch = configuration.getString("sonar.branch");
       if (!StringUtils.isEmpty(sonarBranch)) {
         // we also reference the projects with the name that Sonar gives when 'sonar.branch' is used
         for (VisualStudioProject vsProject : currentSolution.getProjects()) {

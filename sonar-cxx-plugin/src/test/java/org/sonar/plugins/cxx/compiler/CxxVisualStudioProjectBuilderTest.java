@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.compiler;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
@@ -52,22 +51,12 @@ public class CxxVisualStudioProjectBuilderTest {
   private CxxVisualStudioProjectBuilder projectBuilder;
   private Settings settings;
 
-//  @BeforeClass
-//  public static void initResources() {
-//    fakeSdkDir = new File("target/sonar/SDK");
-//    fakeSdkDir.mkdirs();
-//  }
-
-  @AfterClass
-  public static void removeResources() {
-//    fakeSdkDir.delete();
-  }
-
   @Before
   public void initBuilder() {
     microsoftWindowsEnvironment = new MicrosoftWindowsEnvironment();
     settings = Settings.createForComponent(new CxxPlugin());
     settings.setProperty("sonar.language", "c++");
+    settings.setProperty(CxxPlugin.VS_SOLUTION_ENABLED, "true");
     solutionBaseDir = TestUtils.getResource("/org/sonar/plugins/cxx/solution/Example");
     root = ProjectDefinition.create().setBaseDir(solutionBaseDir).setWorkDir(new File(solutionBaseDir, "WORK-DIR"));
     root.setVersion("1.0");
@@ -114,7 +103,7 @@ public class CxxVisualStudioProjectBuilderTest {
     assertThat(subProject.getSourceDirs().iterator().next(), notNullValue());
     assertTrue(subProject.getTestDirs().isEmpty());
     ProjectDefinition testSubProject = reactor.getRoot().getSubProjects().get(2);
-    assertThat(testSubProject.getName(), is("Example.Core.UnitTest"));
+    assertThat(testSubProject.getName(), is("Example.Core.Tests"));
 //    assertThat(testSubProject.getTestDirs().iterator().next(), notNullValue());
 //    assertTrue(testSubProject.getSourceDirs().isEmpty());
   }
@@ -145,7 +134,7 @@ public class CxxVisualStudioProjectBuilderTest {
     assertThat(subProject.getSourceDirs().iterator().next(), notNullValue());
     assertTrue(subProject.getTestDirs().isEmpty());
     ProjectDefinition testSubProject = reactor.getRoot().getSubProjects().get(2);
-    assertThat(testSubProject.getName(), is("Example.Core.UnitTest"));
+    assertThat(testSubProject.getName(), is("Example.Core.Tests"));
 //    assertThat(testSubProject.getTestDirs().iterator().next(), notNullValue());
 //    assertTrue(testSubProject.getSourceDirs().isEmpty());
   }

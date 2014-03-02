@@ -10,11 +10,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example.Application", "Exam
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example.Core", "Example.Core\Example.Core.vcxproj", "{64BDC246-6E44-4705-BEB9-0D8ADD0FAC0F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example.Core.Tests", "Example.Core.Tests\UnitTests.vcxproj", "{659239C4-5031-4596-B6ED-8985BDA26B54}"
-	ProjectSection(ProjectDependencies) = postProject
-		{64BDC246-6E44-4705-BEB9-0D8ADD0FAC0F} = {64BDC246-6E44-4705-BEB9-0D8ADD0FAC0F}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms

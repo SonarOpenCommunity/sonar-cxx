@@ -54,7 +54,7 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
   
   private static final Logger LOG = LoggerFactory.getLogger(CxxVisualStudioProjectBuilder.class);
 
-  protected Settings configuration;
+  private Settings configuration;
   private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
 
   /**
@@ -77,14 +77,11 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
 
   @Override
   protected void build(ProjectReactor reactor) {
-    if (configuration.getString("sonar.language").equals(CxxLanguage.KEY)) {
+    if ((configuration.getString("sonar.language").equals(CxxLanguage.KEY)) && (configuration.getBoolean("sonar.cxx.visualstudio.enabled"))) {
       LOG.debug("Executing VisualStudioProjectBuilder");
       ProjectDefinition root = reactor.getRoot();
 
-      // First, read all the plugin configuration details related to MS Windows
-      retrieveMicrosoftWindowsEnvironmentConfig();
-
-      // Then create the Visual Studio Solution object from the ".sln" file
+      // Create the Visual Studio Solution object from the ".sln" file
       createVisualStudioSolution(root.getBaseDir());
 
       // And finally create the Sonar projects definition
@@ -94,7 +91,7 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
       microsoftWindowsEnvironment.lock();
     }
   }
-
+  
   private void createMultiProjectStructure(ProjectDefinition root) {
     VisualStudioSolution currentSolution = microsoftWindowsEnvironment.getCurrentSolution();
     root.resetSourceDirs();
@@ -114,7 +111,6 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
       } else {
         projectKey = StringUtils.substringBefore(root.getKey(), ":") + ":" + StringUtils.deleteWhitespace(vsProject.getName());
       }
-//      LOG.debug(" - projectKey = " + projectKey);
 
       if (projectKey.equals(root.getKey())) {
         throw new SonarException("The solution and one of its projects have the same key ('" + projectKey
@@ -122,7 +118,6 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
       }
 
       Properties subprojectProperties = (Properties) root.getProperties().clone();
-//      overrideSonarLanguageProperty(vsProject, subprojectProperties);
 
       ProjectDefinition subProject = ProjectDefinition.create().setProperties(subprojectProperties)
           .setBaseDir(vsProject.getDirectory()).setWorkDir(new File(vsProject.getDirectory(), workDir)).setKey(projectKey)
@@ -143,43 +138,6 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
       LOG.debug("  - Adding Sub Project => " + subProject.getName());
       root.addSubProject(subProject);
     }
-  }
-
-//  protected void overrideSonarLanguageProperty(VisualStudioProject vsProject, Properties subprojectProperties) {
-//    Collection<SourceFile> sourceFiles = vsProject.getSourceFiles();
-//    if (!sourceFiles.isEmpty()) {
-//      for (SourceFile sourceFile : sourceFiles) {
-//        String key = DotNetLanguages.getLanguageKeyFromFileExtension(StringUtils.substringAfterLast(sourceFile.getName(), "."));
-//        if (key != null) {
-//          subprojectProperties.setProperty("sonar.language", key);
-//          return;
-//        }
-//      }
-//    }
-//  }
-
-  private void retrieveMicrosoftWindowsEnvironmentConfig() {
-    // .NET version
-//    String dotnetVersion = configuration.getString(DotNetConstants.DOTNET_VERSION_KEY);
-//    microsoftWindowsEnvironment.setDotnetVersion(dotnetVersion);
-    // .NET SDK folder
-//    File dotnetSdkDirectory = new File(configuration.getString(DotNetConstants.getDotnetSdkDirKey(dotnetVersion)));
-//    if (!dotnetSdkDirectory.isDirectory()) {
-//      LOG.warn("/!\\ The following .NET SDK directory does not exist, please check your plugin configuration: "
-//        + dotnetSdkDirectory.getPath());
-//    }
-//    microsoftWindowsEnvironment.setDotnetSdkDirectory(dotnetSdkDirectory);
-//
-//    // Silverlight version
-//    String silverlightVersion = configuration.getString(DotNetConstants.SILVERLIGHT_VERSION_KEY);
-//    microsoftWindowsEnvironment.setSilverlightVersion(silverlightVersion);
-//    // Silverlight folder
-//    File silverlightDirectory = new File(configuration.getString(DotNetConstants.getSilverlightDirKey(silverlightVersion)));
-//    if (!silverlightDirectory.isDirectory()) {
-//      LOG.warn("/!\\ The following silverlight SDK directory does not exist, please check your plugin configuration: "
-//        + silverlightDirectory.getPath());
-//    }
-//    microsoftWindowsEnvironment.setSilverlightDirectory(silverlightDirectory);
   }
 
   private void createVisualStudioSolution(File baseDir) {

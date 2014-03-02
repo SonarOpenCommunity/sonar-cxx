@@ -28,8 +28,9 @@ import org.apache.commons.lang.StringUtils;
 import java.io.File;
 
 /**
- * A source file included in a CSharp project.
+ * A source file included in a C++ project.
  * 
+ * original authors for C# project
  * @author Fabrice BELLINGARD
  * @author Jose CHILLAN Sep 1, 2009
  */

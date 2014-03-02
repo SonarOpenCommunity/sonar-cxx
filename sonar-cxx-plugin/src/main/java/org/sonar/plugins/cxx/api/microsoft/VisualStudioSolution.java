@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -136,7 +135,7 @@ public class VisualStudioSolution {
   }
 
   /**
-   * Gets the project a cs file belongs to.
+   * Gets the project a c++ file belongs to.
    * 
    * @param file
    * @return the project contains the file, or <code>null</code> if none is matching
@@ -210,21 +209,22 @@ public class VisualStudioSolution {
     return this.solutionDir;
   }
 
-  /**
-   * Gets a project by its assembly name.
-   * 
-   * @param assemblyName
-   *          the name of the assembly
-   * @return the project, or <code>null</code> if not found
-   */
-  public VisualStudioProject getProject(String assemblyName) {
+//  /**
+//   * Gets a project by its assembly name.
+//   * 
+//   * @param assemblyName
+//   *          the name of the assembly
+//   * @return the project, or <code>null</code> if not found
+//   */
+  public VisualStudioProject getProject(String Name) {
     VisualStudioProject result = null;
-//    for (VisualStudioProject project : projects) {
-//      if (assemblyName.equalsIgnoreCase(project.getAssemblyName())) {
-//        result = project;
-//        break;
-//      }
-//    }
+    for (VisualStudioProject project : projects) {
+      LOG.debug("act project: "+ project.getName());
+      if (Name.equalsIgnoreCase(project.getName())) {
+        result = project;
+        break;
+      }
+    }
     return result;
   }
 
@@ -275,20 +275,6 @@ public class VisualStudioSolution {
       }
     }
     return result;
-  }
-
-  /**
-   * Iterate through all the projects of the solution seeking for asp.net applications
-   * 
-   * @return true if an asp.net project is found
-   */
-  public boolean isAspUsed() {
-    final Iterator<VisualStudioProject> projectIterator = projects.iterator();
-    boolean aspFound = false;
-    while (projectIterator.hasNext() && !aspFound) {
-      aspFound = projectIterator.next().isWebProject();
-    }
-    return aspFound;
   }
 
   /**

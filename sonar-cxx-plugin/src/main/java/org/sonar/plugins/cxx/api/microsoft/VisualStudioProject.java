@@ -23,7 +23,6 @@
  */
 package org.sonar.plugins.cxx.api.microsoft;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +36,9 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * A dot net project extracted from a solution
+ * A C++ project extracted from a solution
  *
+ * original authors for C# project
  * @author Fabrice BELLINGARD
  * @author Jose CHILLAN Apr 16, 2009
  */
@@ -49,17 +49,11 @@ public class VisualStudioProject {
   private String name;
   private File projectFile;
   private ArtifactType type;
-//  private String projectName;
-//  private String realProjectName;
-  //private String assemblyVersion;
-  //private String realAssemblyName;
-  //private String rootNamespace;
   private UUID projectGuid;
   /** Output directory specified from maven */
   private String forcedOutputDir;
   private Map<BuildConfiguration, File> buildConfOutputDirMap;
   private File directory;
-  //private boolean silverlightProject;
   private Map<File, SourceFile> sourceFileMap;
 
   private boolean unitTest;
@@ -186,25 +180,6 @@ public class VisualStudioProject {
     File artifactDirectory = getArtifactDirectory(buildConfiguration, buildPlatform);
     return new File(artifactDirectory, getArtifactName());
   }
-
-  /**
-   * Gets the generated assemblies according to the build configurations. There is zero or one single assembly generated except for web
-   * assemblies.
-   *
-   * @param buildConfiguration
-   *          Visual Studio build configuration used to generate the project
-   * @return a Set of the generated assembly files. If no files found, the set will be empty.
-   */
-//  public Set<File> getGeneratedAssemblies(String buildConfiguration, String platform) {
-//    Set<File> result = Sets.newHashSet();
-//    File assembly = getArtifact(buildConfiguration, platform);
-//    if (assembly.exists()) {
-//      result.add(assembly);
-//    } else {
-//      LOG.info("Skipping the non generated assembly of project : {}", name);
-//    }
-//    return result;
-//  }
 
   /**
    * Gets the name of the artifact.
@@ -358,15 +333,7 @@ public class VisualStudioProject {
           LOG.error("Bad file :" + filePath, e);
         }
       }
-
-    } else {
-      // For web projects, we take all the C# & VB files
-      Collection<File> csharpFiles = FileUtils.listFiles(directory, new String[] {"cs", "vb"}, true);
-      for (File file : csharpFiles) {
-        SourceFile sourceFile = new SourceFile(this, file, file.getParent(), file.getName());
-        allFiles.put(file, sourceFile);
-      }
-    }
+    } 
     this.sourceFileMap = allFiles;
   }
 
