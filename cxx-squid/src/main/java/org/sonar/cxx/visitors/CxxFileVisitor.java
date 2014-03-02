@@ -17,50 +17,39 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx;
+package org.sonar.cxx.visitors;
 
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.squid.SquidAstVisitor;
-import org.sonar.squid.measures.MetricDef;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 
-import static com.sonar.sslr.api.GenericTokenType.EOF;
+import org.sonar.cxx.parser.CxxParser;
 
-/**
- * Visitor that computes the number of lines of code of a file.
- */
-public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
+  implements AstAndTokenVisitor {
 
-  private final MetricDef metric;
-  private int lastTokenLine;
-
-  public CxxLinesOfCodeVisitor(MetricDef metric) {
-    this.metric = metric;
+  private SquidAstVisitorContext context = null;
+  
+  public CxxFileVisitor(SquidAstVisitorContext context){
+    this.context = context;
   }
-
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public void visitFile(AstNode node) {
-    lastTokenLine = -1;
+    CxxParser.finishedParsing(context.getFile());
   }
 
   /**
    * {@inheritDoc}
    */
   public void visitToken(Token token) {
-    if (token.getType() != EOF) {
-      /* Handle all the lines of the token */
-      String[] tokenLines = token.getValue().split("\n", -1);
-
-      int firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1 : 0;
-      getContext().peekSourceCode().add(metric, tokenLines.length - firstLineAlreadyCounted);
-
-      lastTokenLine = token.getLine() + tokenLines.length - 1;
-    }
   }
-
 }
+
+
