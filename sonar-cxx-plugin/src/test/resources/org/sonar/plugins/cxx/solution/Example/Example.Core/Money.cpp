@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Money.h"
+#include "MoneyBag.h"
 
 
 Money::Money()
@@ -16,12 +17,9 @@ Money::~Money()
 {
 }
 
-Money Money::AddMoney( Money m )
+MoneyBag Money::AddMoney( Money m )
 {
-    if (m.Currency() == fCurrency)
-        fAmount += m.Amount();
-    return *this;
-
+    return MoneyBag(m);
 }
 
 int Money::Amount() const
@@ -69,4 +67,9 @@ std::string Money::ToString()
     std::string buffer("[" + fAmount + fCurrency + "]");
     // We build the string representation
     return buffer;
+}
+
+MoneyBag Money::AddMoneyBag( MoneyBag s )
+{
+    return s.AddMoney( *this );
 }

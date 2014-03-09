@@ -70,7 +70,7 @@ public final class ModelFactory {
   private static String testProjectNamePattern = "*.Tests";
 
   /**
-   * Pattern used to define if a project is an integ test project or not
+   * Pattern used to define if a project is an integration test project or not
    */
   private static String integTestProjectNamePattern = null;
 
@@ -126,6 +126,7 @@ public final class ModelFactory {
 
   /**
    * @param visualStudioProject
+   * @param testProjectPatterns
    * @param integTestProjectPatterns
    */
   protected static void assessTestProject(VisualStudioProject visualStudioProject, String testProjectPatterns, String integTestProjectPatterns) {
@@ -176,7 +177,7 @@ public final class ModelFactory {
    *          the solution name
    * @return the generated solution
    * @throws IOException
-   * @throws DotNetException
+   * @throws CxxException
    */
   public static VisualStudioSolution getSolution(File baseDirectory, String solutionName) throws IOException, CxxException {
     File solutionFile = new File(baseDirectory, solutionName);
@@ -188,7 +189,7 @@ public final class ModelFactory {
    *          the solution file
    * @return a new visual studio solution
    * @throws IOException
-   * @throws DotNetException
+   * @throws CxxException
    */
   public static VisualStudioSolution getSolution(File solutionFile) throws IOException, CxxException {
 
@@ -232,7 +233,7 @@ public final class ModelFactory {
    *          the text content of the solution file
    * @return a list of projects
    * @throws IOException
-   * @throws DotNetException
+   * @throws CxxException
    */
   private static List<VisualStudioProject> getProjects(File solutionFile, String solutionContent, List<BuildConfiguration> buildConfigurations)
     throws IOException, CxxException {
@@ -281,7 +282,7 @@ public final class ModelFactory {
    * @param projectFile
    *          the project file
    * @return the visual project if possible to define
-   * @throws DotNetException
+   * @throws CxxNetException
    * @throws FileNotFoundException
    */
   public static VisualStudioProject getProject(File projectFile) throws FileNotFoundException, CxxException {
@@ -296,7 +297,7 @@ public final class ModelFactory {
    *          the project file
    * @param projectName
    *          the name of the project
-   * @throws DotNetException
+   * @throws CxxNetException
    * @throws FileNotFoundException
    *           if the file was not found
    */
@@ -324,7 +325,6 @@ public final class ModelFactory {
           String configOutput = extractProjectProperty(configOutputExpression, projectFile);
           buildConfOutputDirMap.put(config, new File(projectDir, configOutput));
         }
-        project.setBuildConfOutputDirMap(buildConfOutputDirMap);
       }
 
       XPathExpression projectTypeExpression = xpath.compile("/vst:Project/vst:PropertyGroup/vst:OutputType");
@@ -428,8 +428,7 @@ public final class ModelFactory {
    * @param expression
    * @param projectFile
    * @return
-   * @throws DotNetException
-   * @throws FileNotFoundException
+   * @throws CxxException
    */
   private static String extractProjectProperty(XPathExpression expression, File projectFile) throws CxxException {
     try {
@@ -494,11 +493,11 @@ public final class ModelFactory {
    *          the file name
    * @return <code>null</code> if the file doesn't exist, the file if it is found
    */
-  public static File checkFileExistence(File basedir, String fileName) {
-    File checkedFile = new File(basedir, fileName);
-    if (checkedFile.exists()) {
-      return checkedFile;
-    }
-    return null;
-  }
+//  public static File checkFileExistence(File basedir, String fileName) {
+//    File checkedFile = new File(basedir, fileName);
+//    if (checkedFile.exists()) {
+//      return checkedFile;
+//    }
+//    return null;
+//  }
 }

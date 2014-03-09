@@ -97,6 +97,7 @@ public class SourceFile {
     builder.append("Source(");
     if (!StringUtils.isEmpty(folder)) {
       builder.append(folder);
+      builder.append("/");
     }
     builder.append(name);
     builder.append(")");

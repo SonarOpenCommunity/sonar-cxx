@@ -26,7 +26,6 @@ import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxPlugin;
-import org.sonar.plugins.cxx.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.cxx.api.microsoft.VisualStudioProject;
 import org.sonar.plugins.cxx.api.microsoft.VisualStudioSolution;
 import org.sonar.test.TestUtils;
@@ -44,7 +43,6 @@ import static org.junit.Assert.assertTrue;
 public class CxxVisualStudioProjectBuilderTest {
 
 //  private static File fakeSdkDir;
-  private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
   private ProjectReactor reactor;
   private ProjectDefinition root;
   private File solutionBaseDir;
@@ -53,7 +51,6 @@ public class CxxVisualStudioProjectBuilderTest {
 
   @Before
   public void initBuilder() {
-    microsoftWindowsEnvironment = new MicrosoftWindowsEnvironment();
     settings = Settings.createForComponent(new CxxPlugin());
     settings.setProperty("sonar.language", "c++");
     settings.setProperty(CxxPlugin.VS_SOLUTION_ENABLED, "true");
@@ -62,7 +59,7 @@ public class CxxVisualStudioProjectBuilderTest {
     root.setVersion("1.0");
     root.setKey("groupId:artifactId");
     reactor = new ProjectReactor(root);
-    projectBuilder = new CxxVisualStudioProjectBuilder(reactor, settings, microsoftWindowsEnvironment);
+    projectBuilder = new CxxVisualStudioProjectBuilder(reactor, settings);
   }
 
   @Test 
@@ -82,19 +79,17 @@ public class CxxVisualStudioProjectBuilderTest {
   public void testCorrectlyConfiguredProject() throws Exception {
     settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "Example.sln");
     projectBuilder.build(reactor);
-    // check that the configuration is OK
-    assertThat(microsoftWindowsEnvironment.getWorkingDirectory(), is("WORK-DIR"));
     // check that the solution is built
-    VisualStudioSolution solution = microsoftWindowsEnvironment.getCurrentSolution();
+    VisualStudioSolution solution = projectBuilder.getCurrentSolution();
     assertNotNull(solution);
     assertThat(solution.getProjects().size(), is(3));
-    assertThat(microsoftWindowsEnvironment.getCurrentProject("Example.Application").getSourceFiles().size(), is(4));
-    assertThat(microsoftWindowsEnvironment.getCurrentProject("Example.Core").getSourceFiles().size(), is(7));
+    assertThat(projectBuilder.getCurrentProject("Example.Application").getSourceFiles().size(), is(4));
+    assertThat(projectBuilder.getCurrentProject("Example.Core").getSourceFiles().size(), is(7));
 //     check the multi-module definition is correct
     assertThat(reactor.getRoot().getSubProjects().size(), is(3));
     assertThat(reactor.getRoot().getSourceFiles().size(), is(0));
     ProjectDefinition subProject = reactor.getRoot().getSubProjects().get(0);
-    VisualStudioProject vsProject = microsoftWindowsEnvironment.getCurrentProject("Example.Application");
+    VisualStudioProject vsProject = projectBuilder.getCurrentProject("Example.Application");
     assertThat(subProject.getName(), is("Example.Application"));
     assertThat(subProject.getKey(), is("groupId:Example.Application"));
     assertThat(subProject.getVersion(), is("1.0"));
@@ -114,18 +109,18 @@ public class CxxVisualStudioProjectBuilderTest {
     settings.setProperty(CxxPlugin.VS_KEY_GENERATION_STRATEGY_KEY, "safe");
     projectBuilder.build(reactor);
     // check that the configuration is OK
-    assertThat(microsoftWindowsEnvironment.getWorkingDirectory(), is("WORK-DIR"));
+//    assertThat(projectBuilder.getWorkingDirectory(), is("WORK-DIR"));
     // check that the solution is built
-    VisualStudioSolution solution = microsoftWindowsEnvironment.getCurrentSolution();
+    VisualStudioSolution solution = projectBuilder.getCurrentSolution();
     assertNotNull(solution);
     assertThat(solution.getProjects().size(), is(3));
-    assertThat(microsoftWindowsEnvironment.getCurrentProject("Example.Application").getSourceFiles().size(), is(4));
-    assertThat(microsoftWindowsEnvironment.getCurrentProject("Example.Core").getSourceFiles().size(), is(7));
+    assertThat(projectBuilder.getCurrentProject("Example.Application").getSourceFiles().size(), is(4));
+    assertThat(projectBuilder.getCurrentProject("Example.Core").getSourceFiles().size(), is(7));
     // check the multi-module definition is correct
     assertThat(reactor.getRoot().getSubProjects().size(), is(3));
     assertThat(reactor.getRoot().getSourceFiles().size(), is(0));
     ProjectDefinition subProject = reactor.getRoot().getSubProjects().get(0);
-    VisualStudioProject vsProject = microsoftWindowsEnvironment.getCurrentProject("Example.Application");
+    VisualStudioProject vsProject = projectBuilder.getCurrentProject("Example.Application");
     assertThat(subProject.getName(), is("Example.Application"));
     assertThat(subProject.getKey(), is("groupId:artifactId:Example.Application"));
     assertThat(subProject.getVersion(), is("1.0"));
@@ -143,7 +138,7 @@ public class CxxVisualStudioProjectBuilderTest {
   public void testNoSpecifiedSlnFileButOneFound() throws Exception {
     settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "");
     projectBuilder.build(reactor);
-    VisualStudioSolution solution = microsoftWindowsEnvironment.getCurrentSolution();
+    VisualStudioSolution solution = projectBuilder.getCurrentSolution();
     assertNotNull(solution);
     assertThat(solution.getProjects().size(), is(3));
   }

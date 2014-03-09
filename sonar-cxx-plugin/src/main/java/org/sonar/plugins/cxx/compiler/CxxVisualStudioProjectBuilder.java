@@ -35,7 +35,6 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.api.CxxException;
-import org.sonar.plugins.cxx.api.microsoft.MicrosoftWindowsEnvironment;
 import org.sonar.plugins.cxx.api.microsoft.ModelFactory;
 import org.sonar.plugins.cxx.api.microsoft.SourceFile;
 import org.sonar.plugins.cxx.api.microsoft.VisualStudioProject;
@@ -44,7 +43,9 @@ import org.sonar.plugins.cxx.api.microsoft.VisualStudioSolution;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Properties;
+import com.google.common.collect.Maps;
 
 /**
  * Project Builder created and executed once per build to override the project definition, based on the Visual Studio files found in the
@@ -55,7 +56,52 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
   private static final Logger LOG = LoggerFactory.getLogger(CxxVisualStudioProjectBuilder.class);
 
   private Settings configuration;
-  private MicrosoftWindowsEnvironment microsoftWindowsEnvironment;
+  // static configuration elements that are fed at the beginning of an analysis and that do not change afterwards
+  private VisualStudioSolution currentSolution;
+  private Map<String, VisualStudioProject> projectsByName;  
+
+  /**
+   * Returns the {@link VisualStudioSolution} that is under analysis
+   * 
+   * @return the current Visual Studio solution
+   */
+  public VisualStudioSolution getCurrentSolution() {
+    return currentSolution;
+  }
+  
+  /**
+   * <b>Must not be used.</b>
+   * 
+   * @param currentSolution
+   *          the currentSolution to set
+   */
+  public void setCurrentSolution(VisualStudioSolution currentSolution) {
+    this.currentSolution = currentSolution;
+    for (VisualStudioProject vsProject : currentSolution.getProjects()) {
+      projectsByName.put(vsProject.getName(), vsProject);
+    }
+    if (configuration != null) {
+      String sonarBranch = configuration.getString("sonar.branch");
+      if (!StringUtils.isEmpty(sonarBranch)) {
+        // we also reference the projects with the name that Sonar gives when 'sonar.branch' is used
+        for (VisualStudioProject vsProject : currentSolution.getProjects()) {
+          projectsByName.put(vsProject.getName() + " " + sonarBranch, vsProject);
+        }
+      }
+    }
+  }
+  
+  /**
+   * Returns the {@link VisualStudioProject} that is under analysis and which name is the given project name.
+   * 
+   * @return the current Visual Studio project
+   */
+  public VisualStudioProject getCurrentProject(String projectName) {
+    LOG.debug("getCurrentProject : "+ projectName);
+    LOG.debug("projectsByName size : {} " + projectsByName.size());
+    LOG.debug("projectsByName " + projectsByName.get(projectName));
+    return projectsByName.get(projectName);
+  }
 
   /**
    * Creates a new {@link VisualStudioProjectBuilder}
@@ -67,12 +113,11 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
    * @param microsoftWindowsEnvironment
    *          the shared Microsoft Windows Environment
    */
-  public CxxVisualStudioProjectBuilder(ProjectReactor reactor, Settings configuration,
-      MicrosoftWindowsEnvironment microsoftWindowsEnvironment) {
+  public CxxVisualStudioProjectBuilder(ProjectReactor reactor, Settings configuration) {  
     super(reactor);
     this.configuration = configuration;
+    this.projectsByName = Maps.newHashMap();
     LOG.info(configuration.toString());
-    this.microsoftWindowsEnvironment = microsoftWindowsEnvironment;
   }
 
   @Override
@@ -86,25 +131,21 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
 
       // And finally create the Sonar projects definition
       createMultiProjectStructure(root);
-
-      // lock the MicrosoftWindowsEnvironment object so that nobody can modify it afterwards
-      microsoftWindowsEnvironment.lock();
     }
   }
   
   private void createMultiProjectStructure(ProjectDefinition root) {
-    VisualStudioSolution currentSolution = microsoftWindowsEnvironment.getCurrentSolution();
+    VisualStudioSolution currentSol = getCurrentSolution();
     root.resetSourceDirs();
     LOG.debug("- Root Project: " + root.getName());
     LOG.debug("- workDir: " + root.getWorkDir());
     LOG.debug("- workDir (absolut path): " + root.getWorkDir().getAbsolutePath());
     LOG.debug("- BaseDir (absolut path): " + root.getBaseDir().getAbsolutePath());    
     String workDir = root.getWorkDir().getAbsolutePath().substring(root.getBaseDir().getAbsolutePath().length() + 1);
-    microsoftWindowsEnvironment.setWorkingDirectory(workDir);
 
     boolean safeMode = "safe".equalsIgnoreCase(configuration.getString(CxxPlugin.VS_KEY_GENERATION_STRATEGY_KEY));
     LOG.debug("- use Safe mode for Multi-Project key generation: " + safeMode);
-    for (VisualStudioProject vsProject : currentSolution.getProjects()) {
+    for (VisualStudioProject vsProject : currentSol.getProjects()) {
       final String projectKey;
       if (safeMode) {
         projectKey = root.getKey() + ":" + StringUtils.deleteWhitespace(vsProject.getName());
@@ -151,7 +192,7 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
       ModelFactory.setTestProjectNamePattern(configuration.getString(CxxPlugin.VS_TEST_PROJECT_PATTERN_KEY));
       ModelFactory.setIntegTestProjectNamePattern(configuration.getString(CxxPlugin.VS_IT_PROJECT_PATTERN_KEY));
       VisualStudioSolution solution = ModelFactory.getSolution(slnFile);
-      microsoftWindowsEnvironment.setCurrentSolution(solution);
+      setCurrentSolution(solution);
     } catch (IOException e) {
       throw new SonarException("Error occured while reading Visual Studio files.", e);
     } catch (CxxException e) {

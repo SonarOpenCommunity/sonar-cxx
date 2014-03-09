@@ -51,8 +51,6 @@ public class VisualStudioProject {
   private ArtifactType type;
   private UUID projectGuid;
   /** Output directory specified from maven */
-  private String forcedOutputDir;
-  private Map<BuildConfiguration, File> buildConfOutputDirMap;
   private File directory;
   private Map<File, SourceFile> sourceFileMap;
 
@@ -130,55 +128,6 @@ public class VisualStudioProject {
 
   public UUID getProjectGuid() {
     return projectGuid;
-  }
-
-  /**
-   * Provides the location of the generated artifact(s) of this project according to the build configuration(s) used.
-   *
-   * @param buildConfiguration
-   *          Visual Studio build configuration used to generate the project
-   * @param buildPlatform
-   *          Platform used to build the project. Typical values are "Any CPU", "x86" and "x64"
-   * @return
-   */
-  public File getArtifactDirectory(String buildConfiguration, String buildPlatform) {
-    File artifactDirectory = null;
-    if (StringUtils.isNotEmpty(forcedOutputDir)) {
-      // first trying to use forcedOutputDir as a relative path
-      File interimDirectory = new File(directory, forcedOutputDir);
-
-      if (!interimDirectory.exists()) {
-        // path specified "forcedOutputDir" should be absolute,
-        // not relative to the project root directory
-        interimDirectory = new File(forcedOutputDir);
-      }
-
-      artifactDirectory = interimDirectory;
-
-    } else {
-      artifactDirectory = buildConfOutputDirMap.get(new BuildConfiguration(buildConfiguration, buildPlatform));
-      if (artifactDirectory == null) {
-        // just take the first one found...
-        artifactDirectory = buildConfOutputDirMap.values().iterator().next();
-        LOG.warn("Configuration(s) {} not found for platform {} in " + projectFile, buildConfiguration, buildPlatform);
-        LOG.warn("Fallback to directory {} for project {}", artifactDirectory, name);
-      } else {
-        LOG.debug("Using directory " + artifactDirectory + " for project " + name + " with buildconfiguration " + buildConfiguration);
-      }
-    }
-    return artifactDirectory;
-  }
-
-  /**
-   * Gets the generated assembly according to the build configurations
-   *
-   * @param buildConfiguration
-   *          Visual Studio build configuration used to generate the project
-   * @return
-   */
-  public File getArtifact(String buildConfiguration, String buildPlatform) {
-    File artifactDirectory = getArtifactDirectory(buildConfiguration, buildPlatform);
-    return new File(artifactDirectory, getArtifactName());
   }
 
   /**
@@ -328,6 +277,7 @@ public class VisualStudioProject {
           String fileName = file.getName();
           String folder = StringUtils.replace(StringUtils.removeEnd(StringUtils.removeEnd(filePath, fileName), "\\"), "\\", "/");
           SourceFile sourceFile = new SourceFile(this, file, folder, fileName);
+          LOG.debug(sourceFile.toString());
           allFiles.put(file, sourceFile);
         } catch (IOException e) {
           LOG.error("Bad file :" + filePath, e);
@@ -342,29 +292,6 @@ public class VisualStudioProject {
       initializeSourceFileMap();
     }
     return sourceFileMap;
-  }
-
-  /**
-   * Gets the source representation of a given file.
-   *
-   * @param file
-   *          the file to retrieve
-   * @return the associated source file, or <code>null</code> if the file is not included in the assembly.
-   */
-  public SourceFile getFile(File file) {
-    File currentFile;
-    try {
-      currentFile = file.getCanonicalFile();
-    } catch (IOException e) {
-      // File not found
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("file not found " + file, e);
-      }
-      return null;
-    }
-    // We ensure the source files are loaded
-    getSourceFiles();
-    return sourceFileMap.get(currentFile);
   }
 
   /**
@@ -399,19 +326,6 @@ public class VisualStudioProject {
     }
 
     return false;
-  }
-
-  public boolean isWebProject() {
-    return projectFile == null;
-  }
-
-
-  void setBuildConfOutputDirMap(Map<BuildConfiguration, File> buildConfOutputDirMap) {
-    this.buildConfOutputDirMap = buildConfOutputDirMap;
-  }
-
-  void setForcedOutputDir(String forcedOutputDir) {
-    this.forcedOutputDir = forcedOutputDir;
   }
 
   @Override

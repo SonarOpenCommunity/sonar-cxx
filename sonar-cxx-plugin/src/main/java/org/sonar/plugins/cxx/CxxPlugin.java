@@ -43,7 +43,6 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 import org.sonar.plugins.cxx.api.microsoft.BuildConfiguration;
-import org.sonar.plugins.cxx.api.microsoft.MicrosoftWindowsEnvironment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,8 +266,6 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxExternalRuleRepository.class);
     l.add(CxxRuleRepository.class);
     l.add(CxxVisualStudioProjectBuilder.class);
-    l.add(MicrosoftWindowsEnvironment.class);
-
     return l;
   }
 

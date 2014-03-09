@@ -53,11 +53,11 @@ public:
     }
     /// <summary>Adds a simple Money to this money. This is a helper method for
     /// implementing double dispatch.</summary>
-    Money AddMoney( Money m );
+    MoneyBag AddMoney( Money m );
 
     /// <summary>Adds a MoneyBag to this money. This is a helper method for
     /// implementing double dispatch.</summary>
-    Money AddMoneyBag( MoneyBag s );
+    MoneyBag AddMoneyBag( MoneyBag s );
 
         /// <summary>Multiplies a money by the given factor.</summary>
     virtual Money Multiply( int factor );

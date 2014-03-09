@@ -24,6 +24,11 @@ MoneyBag::MoneyBag( std::vector<MoneyBag> bag )
     }
 }
 
+MoneyBag::MoneyBag( Money m )
+{
+    AppendMoney( m );
+}
+
 MoneyBag::MoneyBag( Money m1, Money m2 )
 {
     AppendMoney( m1 );
@@ -65,12 +70,11 @@ void MoneyBag::AppendBag( const MoneyBag aBag )
 
 void MoneyBag::AppendMoney( const Money aMoney )
 {
-    std::vector<Money>::iterator m_Iter; 
     bool found = false;
-    for (; m_Iter != fMonies.end(); m_Iter++) {
-        if ((*m_Iter).Currency() == aMoney.Currency())
+    for (Money m : fMonies) {
+        if (m.Currency() == aMoney.Currency())
         {
-            (*m_Iter).AddMoney(aMoney);
+            m.AddMoney(aMoney);
             found = true;
         }
     }
@@ -88,7 +92,7 @@ bool MoneyBag::Contains( const Money aMoney )
 std::vector<Money>::iterator MoneyBag::FindMoney( std::string currency )
 {
     std::vector<Money>::iterator m_Iter;
-    for (; m_Iter != fMonies.end(); m_Iter++) {
+    for (Money m : fMonies) {
         if ((*m_Iter).Currency() == currency )
             return m_Iter;
     }
@@ -96,7 +100,18 @@ std::vector<Money>::iterator MoneyBag::FindMoney( std::string currency )
     return fMonies.begin();
 }
 
-
+MoneyBag MoneyBag::MultiplyBag( int factor )
+{
+    MoneyBag result = MoneyBag();
+    if (factor != 0)
+    {
+        for( Money m : fMonies )
+        {
+            result.AppendMoney( (Money)m.Multiply( factor ) );
+        }
+    }
+    return result;
+}
 
 
 

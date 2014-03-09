@@ -16,6 +16,7 @@ public:
     MoneyBag();
     ~MoneyBag();    
     MoneyBag( std::vector<MoneyBag> bag );
+    MoneyBag( Money m );
     MoneyBag( Money m1, Money m2 );
     MoneyBag( Money m, MoneyBag bag );
     MoneyBag( MoneyBag m1, MoneyBag m2 );
@@ -24,7 +25,7 @@ public:
     Money AddMoneyBag( MoneyBag s );
     void AppendBag( MoneyBag aBag );
     void AppendMoney( Money aMoney );
-    Money MoneyBag::Multiply( int factor ) override;
+    MoneyBag MoneyBag::MultiplyBag( int factor );
 
     std::string MoneyBag::to_string()
     {
