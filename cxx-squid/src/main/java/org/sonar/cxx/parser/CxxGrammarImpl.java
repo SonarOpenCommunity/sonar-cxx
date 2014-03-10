@@ -593,11 +593,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(forRangeDeclaration).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
 
     b.rule(forrangeDeclSpecifierSeq).is(
-      b.oneOrMore(
-        b.nextNot(declarator),
-        declSpecifier
-        ),
-        b.optional(attributeSpecifierSeq)
+      // Keith Marsh 9-Mar-2014 Partial fix for for range.  Don't allow c++0x declSpecifierSeq, only one,
+      // TODO Allow declSpecifierSeq in forrangeDeclSpecifierSeq
+      declSpecifier,
+      b.optional(attributeSpecifierSeq)
       );
 
     b.rule(forRangeInitializer).is(

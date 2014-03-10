@@ -165,11 +165,6 @@
         <artifactId>sslr-squid-bridge</artifactId>
         <version>2.3</version>
       </dependency>
-      <dependency>
-        <groupId>org.codehaus.sonar.common-rules</groupId>
-        <artifactId>sonar-common-rules</artifactId>
-        <version>1.0.1</version>
-      </dependency>
 
       <dependency>
         <groupId>junit</groupId>

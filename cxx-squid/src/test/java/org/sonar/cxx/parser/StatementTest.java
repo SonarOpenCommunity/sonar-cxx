@@ -178,6 +178,8 @@ public class StatementTest {
     p.setRootRule(g.rule(CxxGrammarImpl.iterationStatement));
 
     assertThat(p).matches("for (int i=1; i<=9; ++i) { coll.push_back(i); }");
+    assertThat(p).matches("for (MyClass item : testVector) {;}");
+    // TODO assertThat(p).matches("for (long long item : testVector) {;}");
   }
 
   @Test
@@ -199,6 +201,13 @@ public class StatementTest {
   }
 
   @Test
+  public void forRangeDeclaration_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.forRangeDeclaration));
+    
+    assertThat(p).matches("MyClass item");
+  }
+
+  @Test
   public void forRangeInitializer() {
     p.setRootRule(g.rule(CxxGrammarImpl.forRangeInitializer));
 
@@ -207,6 +216,13 @@ public class StatementTest {
 
     assertThat(p).matches("expression");
     assertThat(p).matches("bracedInitList");
+  }
+
+  @Test
+  public void forRangeInitializer_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.forRangeInitializer));
+
+    assertThat(p).matches("testVector");
   }
 
   @Test
