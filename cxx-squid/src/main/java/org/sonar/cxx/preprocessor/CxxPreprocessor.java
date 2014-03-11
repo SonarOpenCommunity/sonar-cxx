@@ -442,7 +442,7 @@ public class CxxPreprocessor extends Preprocessor {
         replTokens = reallocate(replTokens, curr);
 
         LOG.trace("[{}:{}]: replacing '" + curr.getValue()
-          + (arguments.size() == 0
+          + (arguments.isEmpty()
               ? ""
               : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
             filename, curr.getLine());
@@ -591,7 +591,7 @@ public class CxxPreprocessor extends Preprocessor {
     // "Stringify" the argument if the according parameter is preceded by an #
 
     List<Token> newTokens = new ArrayList<Token>();
-    if (body.size() != 0) {
+    if (!body.isEmpty()) {
       List<String> defParamValues = new ArrayList<String>();
       for (Token t : parameters) {
         defParamValues.add(t.getValue());

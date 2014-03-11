@@ -37,7 +37,7 @@ import java.util.List;
 
 @Rule(
   key = "UseCorrectInclude",
-  priority = Priority.CRITICAL)
+  priority = Priority.BLOCKER)
 
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
     
