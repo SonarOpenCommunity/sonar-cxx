@@ -17,40 +17,31 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx;
+package org.sonar.cxx.checks;
 
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.squid.SquidAstVisitor;
-import org.sonar.squid.measures.MetricDef;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
+import org.junit.Test;
+import org.sonar.squid.api.SourceFile;
+import org.sonar.cxx.CxxAstScanner;
 
-import org.sonar.cxx.parser.CxxParser;
+import java.io.File;
 
-public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
-  implements AstAndTokenVisitor {
+public class MissingCurlyBracesCheckTest {
 
-  private SquidAstVisitorContext context = null;
-  
-  CxxFileVisitor(SquidAstVisitorContext context){
-    this.context = context;
-  }
-  
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void visitFile(AstNode node) {
-    CxxParser.finishedParsing(context.getFile());
+  private MissingCurlyBracesCheck check = new MissingCurlyBracesCheck();
+
+  @Test
+  public void test() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/MissingCurlyBraces.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+        .next().atLine(6).withMessage("Missing curly brace.")
+        .next().atLine(7)
+        .next().atLine(8)
+        .next().atLine(11)
+        .next().atLine(22)
+        .next().atLine(25)
+        .next().atLine(28)
+        .noMore();
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public void visitToken(Token token) {
-  }
 }
-
-

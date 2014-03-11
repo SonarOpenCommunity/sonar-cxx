@@ -40,6 +40,9 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
+import org.sonar.cxx.visitors.CxxFileVisitor;
+import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.squid.api.SourceClass;
 import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
@@ -159,6 +162,8 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.STATEMENTS)
         .subscribeTo(CxxGrammarImpl.statement)
+        .subscribeTo(CxxGrammarImpl.switchBlockStatementGroups)
+        .subscribeTo(CxxGrammarImpl.switchBlockStatementGroup)
         .build());
 
     AstNodeType[] complexityAstNodeType = new AstNodeType[] {
@@ -176,6 +181,7 @@ public final class CxxAstScanner {
       CxxPunctuator.OR,
       CxxPunctuator.QUEST
     };
+    
     builder.withSquidAstVisitor(ComplexityVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.COMPLEXITY)
         .subscribeTo(complexityAstNodeType)
@@ -186,7 +192,10 @@ public final class CxxAstScanner {
     
     /* External visitors (typically Check ones) */
     for (SquidAstVisitor<Grammar> visitor : visitors) {
-      builder.withSquidAstVisitor(visitor);
+        if (visitor instanceof CxxCharsetAwareVisitor) {
+            ((CxxCharsetAwareVisitor) visitor).setCharset(conf.getCharset());
+          }      
+        builder.withSquidAstVisitor(visitor);
     }
 
     return builder.build();
