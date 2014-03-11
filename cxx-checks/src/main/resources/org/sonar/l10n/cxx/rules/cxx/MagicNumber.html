@@ -12,6 +12,6 @@ netSalary = 0.85 * grossSalary;  // Non-Compliant - where does 0.85m come from, 
 <p>should be refactored into:</p>
 
 <pre>
-const double Rate = 0.85;       // Compliant - it's now clear what the 0.85m is
+const double Rate = 0.85;        // Compliant - it's now clear what the 0.85m is
 netSalary = Rate * grossSalary;  // Compliant
 </pre>
