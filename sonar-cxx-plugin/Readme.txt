@@ -1,11 +1,11 @@
 WiKi:
-http://docs.codehaus.org/pages/viewpage.action?pageId=185073817
+https://github.com/wenns/sonar-cxx/wiki
 
 Continuous integration:
-https://sonarplugins.ci.cloudbees.com/job/cxx/
+https://wenns.ci.cloudbees.com/
 
 Issue Management:
-http://jira.codehaus.org/browse/SONARPLUGINS/component/14579
+https://github.com/wenns/sonar-cxx/issues
 
 Continuous inspection:
 http://nemo.sonarsource.org/dashboard/index/98436

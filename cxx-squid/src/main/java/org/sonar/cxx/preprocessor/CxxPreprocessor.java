@@ -138,11 +138,11 @@ public class CxxPreprocessor extends Preprocessor {
 
     // parse the configured defines and store into the macro library
     for (String define : conf.getDefines()) {
-      LOG.debug("parsing external macro: '{}'", define);
+      LOG.debug("parsing external macro: '" + define + "'");
       if (!define.equals("")) {
         Macro macro = parseMacroDefinition("#define " + define);
         if (macro != null) {
-          LOG.info("storing external macro: '{}'", macro);
+          LOG.debug("storing external macro: '" + macro + "'");
           macros.putHighPrio(macro.name, macro);
         }
       }
@@ -235,7 +235,7 @@ public class CxxPreprocessor extends Preprocessor {
     // a corresponding #undef directive is encountered or (if none
     // is encountered) until the end of the translation unit.
 
-    LOG.debug("finished preprocessing '{}'", file);
+    LOG.debug("finished preprocessing '" + file + "'");
 
     analysedFiles.clear();
     macros.clearLowPrio();
@@ -382,12 +382,11 @@ public class CxxPreprocessor extends Preprocessor {
     
     File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
-      LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
+      LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '" + token.getValue() + "'");
     }
     else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());
-      LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
-                new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+      LOG.debug("[" + filename + ":" + token.getLine() + "]: processing '" + token.getValue() + "', resolved to file '" + includedFile.getAbsolutePath() +"'");
       
       stateStack.push(state);
       state = new State(includedFile);
@@ -399,7 +398,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
     else {
-      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
+      LOG.debug("[" + filename + ":" + token.getLine() + "]: skipping already included file '"+ includedFile + "'");
     }
     
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -441,11 +440,10 @@ public class CxxPreprocessor extends Preprocessor {
       if (tokensConsumed > 0) {
         replTokens = reallocate(replTokens, curr);
 
-        LOG.trace("[{}:{}]: replacing '" + curr.getValue()
+        LOG.trace("[" + filename + ":" + curr.getLine() + "]: replacing '" + curr.getValue()
           + (arguments.size() == 0
               ? ""
-              : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
-            filename, curr.getLine());
+              : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'");
 
         ppaction = new PreprocessorAction(
             tokensConsumed,

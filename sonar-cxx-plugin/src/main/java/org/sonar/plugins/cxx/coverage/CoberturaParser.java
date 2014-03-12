@@ -41,7 +41,7 @@ public class CoberturaParser implements CoverageParser {
   public void parseReport(File xmlFile, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException
   {
-    CxxUtils.LOG.info("Parsing report '{}'", xmlFile);
+    CxxUtils.LOG.info("Parsing report '" + xmlFile + "'");
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -83,8 +83,7 @@ public class CoberturaParser implements CoverageParser {
       int lineId = Integer.parseInt(line.getAttrValue("number"));
       long noHits = Long.parseLong(line.getAttrValue("hits"));
       if(noHits > Integer.MAX_VALUE){
-        CxxUtils.LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
-                          noHits, Integer.MAX_VALUE);
+        CxxUtils.LOG.warn("Truncating the actual number of hits (" + noHits + ") to the maximum number supported by Sonar (" + Integer.MAX_VALUE +")");
         noHits = Integer.MAX_VALUE;
       }
       builder.setHits(lineId, (int)noHits);

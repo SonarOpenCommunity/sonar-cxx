@@ -4284,6 +4284,15 @@
     </description>
   </rule>
   <rule>
+    <key>C6102</key>
+    <configkey>C6102</configkey>
+    <priority>CRITICAL</priority>
+    <name>C6102: Using result from failed function call</name>
+    <description>
+      Using 'symbol' from failed function call at line 'linenr'.
+    </description>
+  </rule>  
+  <rule>
     <key>C6200</key>
     <configkey>C6200</configkey>
     <priority>CRITICAL</priority>

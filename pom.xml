@@ -14,6 +14,7 @@
   <packaging>pom</packaging>
   
   <name>Cxx</name>
+  <url>https://github.com/wenns/sonar-cxx</url>
   <inceptionYear>2011</inceptionYear>
   <organization>
     <name>Waleri Enns</name>
@@ -87,17 +88,17 @@
 
   <scm>
     <connection>scm:git:git@github.com:SonarCommunity/sonar-cxx.git</connection>
-    <developerConnection>scm:git:git@github.com:SonarCommunity/sonar-cxx.git</developerConnection>
-    <url>https://github.com/SonarCommunity/sonar-cxx</url>
+    <developerConnection>https://github.com/wenns/sonar-cxx</developerConnection>
+    <url>https://github.com/wenns/sonar-cxx</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/SONARPLUGINS/component/14579</url>
+    <system>Git</system>
+    <url>https://github.com/wenns/sonar-cxx/issues?state=open</url>
   </issueManagement>
   <ciManagement>
     <system>Cloudbees</system>
-    <url>https://sonarplugins.ci.cloudbees.com/job/cxx</url>
+    <url>https://wenns.ci.cloudbees.com/</url>
   </ciManagement>
 
   <properties>

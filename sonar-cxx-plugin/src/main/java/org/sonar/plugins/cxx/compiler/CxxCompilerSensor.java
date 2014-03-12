@@ -91,7 +91,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
     String reportRegEx = getStringProperty(REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
     // Iterate through the lines of the input file
     try {
-      CxxUtils.LOG.debug("Scanner initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
+      CxxUtils.LOG.debug("Scanner initialized with report '" + report + "' CharSet= '" + reportCharset + "'");
       Scanner scanner = new Scanner(report, reportCharset);
       Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
       CxxUtils.LOG.debug("Using pattern : '" + p.toString() + "'");

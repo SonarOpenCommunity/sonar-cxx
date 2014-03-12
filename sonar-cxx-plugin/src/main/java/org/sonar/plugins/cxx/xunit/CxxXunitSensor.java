@@ -134,7 +134,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   {
     File transformed = report;
     if (xsltURL != null) {
-      CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
+      CxxUtils.LOG.debug("Transforming the report using xslt '" + xsltURL + "'");
       InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
       if (inputStream == null) {
         URL url = new URL(xsltURL);
@@ -160,7 +160,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   private void parseReport(Project project, SensorContext context, File report)
       throws javax.xml.stream.XMLStreamException, IOException {
-    CxxUtils.LOG.info("Parsing report '{}'", report);
+    CxxUtils.LOG.info("Parsing report '" + report + "'");
 
     TestSuiteParser parserHandler = new TestSuiteParser();
     StaxParser parser = new StaxParser(parserHandler, false);
@@ -174,7 +174,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         org.sonar.api.resources.File resource = getTestFile(project, context, fileKey);
         saveTestMetrics(context, resource, fileReport, testsCount);
       } catch (org.sonar.api.utils.SonarException ex) {
-        CxxUtils.LOG.warn("Cannot save test metrics for '{}', details: {}", fileKey, ex);
+        CxxUtils.LOG.warn("Cannot save test metrics for '" + fileKey + "', details: " + ex);
       }
     }
   }
@@ -201,7 +201,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       String filePath = lookupFilePath(fileKey);
       resource = org.sonar.api.resources.File.fromIOFile(new File(filePath), fs.testDirs());
       if (context.getResource(resource) == null) {
-        CxxUtils.LOG.debug("Cannot find the source file for test '{}', creating a dummy one", fileKey);
+        CxxUtils.LOG.debug("Cannot find the source file for test '" + fileKey + "', creating a dummy one");
         resource = createVirtualFile(context, fileKey);        
       }
     } else {
