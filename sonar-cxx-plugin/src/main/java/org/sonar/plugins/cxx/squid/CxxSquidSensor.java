@@ -80,7 +80,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return CxxLanguage.KEY.equals(project.getLanguageKey());
+    return CxxPlugin.isEnabled(project);
   }
   
   /**

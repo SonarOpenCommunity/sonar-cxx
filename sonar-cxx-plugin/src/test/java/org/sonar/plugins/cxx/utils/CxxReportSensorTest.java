@@ -23,14 +23,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class CxxReportSensorTest {
@@ -71,13 +74,12 @@ public class CxxReportSensorTest {
   }
 
   @Test
-  public void shouldExecuteOnlyWhenNecessary() {
+  public void shouldAllwaysExecute() {
     // which means: only on cxx projects
     CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs);
-    Project cxxProject = mockProjectWithLanguageKey(CxxLanguage.KEY);
+    Project cxxProject = mockProjectWithSomeFiles(CxxLanguage.KEY);
     Project foreignProject = mockProjectWithLanguageKey("whatever");
     assert (sensor.shouldExecuteOnProject(cxxProject));
-    assert (!sensor.shouldExecuteOnProject(foreignProject));
   }
 
   @Test
@@ -127,5 +129,15 @@ public class CxxReportSensorTest {
     Project project = TestUtils.mockProject();
     when(project.getLanguageKey()).thenReturn(languageKey);
     return project;
+  }
+
+  private static Project mockProjectWithSomeFiles(String languageKey) {
+        Project project = TestUtils.mockProject();
+        List<InputFile> listofFiles = new LinkedList<InputFile>();
+        InputFile inputFile = mock(InputFile.class);
+        listofFiles.add(0, inputFile);
+        when(project.getLanguageKey()).thenReturn(languageKey);
+        when(project.getFileSystem().mainFiles(languageKey)).thenReturn(listofFiles);
+        return project;
   }
 }
