@@ -103,7 +103,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   switchLabelStatement,
   iterationStatement,
   forInitStatement,
-  forRangeDeclaration,
+  forRangeDeclSpecs,
   forRangeInitializer,
   jumpStatement,
   declarationStatement,
@@ -605,7 +605,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.WHILE, "(", condition, ")", statement),
         b.sequence(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"),
         b.sequence(CxxKeyword.FOR, "(", forInitStatement, b.optional(condition), ";", b.optional(expression), ")", statement),
-        b.sequence(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement)
+        // Keith Marsh 15-Mar-2014 Modify tree because forRangeDeclaration consumed declarator in decl specifiers
+        b.sequence(CxxKeyword.FOR, "(", forRangeDeclSpecs, declarator, ":", forRangeInitializer, ")", statement)
         )
       );
     
@@ -615,15 +616,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         simpleDeclaration
         )
       );
-    
-    b.rule(forRangeDeclaration).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
+
+    b.rule(forRangeDeclSpecs).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq);
 
     b.rule(forrangeDeclSpecifierSeq).is(
       b.oneOrMore(
-        b.nextNot(declarator),
+        b.nextNot(declarator, ":"),
         declSpecifier
         ),
-        b.optional(attributeSpecifierSeq)
+      b.optional(attributeSpecifierSeq)
       );
 
     b.rule(forRangeInitializer).is(
@@ -747,7 +748,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "void foo(::A a);". Figure out if there is another way
-        
+
             b.sequence(b.optional(b.firstOf(nestedNameSpecifier, "::")), typeName)
         )
         );

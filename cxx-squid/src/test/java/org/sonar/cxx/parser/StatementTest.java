@@ -20,7 +20,6 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.impl.events.ExtendedStackTrace;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.junit.Test;
 import com.sonar.sslr.api.Grammar;
@@ -179,7 +178,8 @@ public class StatementTest {
     g.rule(CxxGrammarImpl.statement).mock();
     g.rule(CxxGrammarImpl.expression).mock();
     g.rule(CxxGrammarImpl.forInitStatement).mock();
-    g.rule(CxxGrammarImpl.forRangeDeclaration).mock();
+    g.rule(CxxGrammarImpl.forRangeDeclSpecs).mock();
+    g.rule(CxxGrammarImpl.declarator).mock();
     g.rule(CxxGrammarImpl.forRangeInitializer).mock();
 
     assertThat(p).matches("while ( condition ) statement");
@@ -187,7 +187,7 @@ public class StatementTest {
     assertThat(p).matches("for ( forInitStatement ; ) statement");
     assertThat(p).matches("for ( forInitStatement condition ; ) statement");
     assertThat(p).matches("for ( forInitStatement condition ; expression ) statement");
-    assertThat(p).matches("for ( forRangeDeclaration : forRangeInitializer ) statement");
+    assertThat(p).matches("for ( forRangeDeclSpecs declarator : forRangeInitializer ) statement");
   }
 
   @Test
@@ -195,6 +195,9 @@ public class StatementTest {
     p.setRootRule(g.rule(CxxGrammarImpl.iterationStatement));
 
     assertThat(p).matches("for (int i=1; i<=9; ++i) { coll.push_back(i); }");
+    assertThat(p).matches("for (long long item : testVector) {;}");
+    assertThat(p).matches("for (UDrivetrainObject* DrivetrainObject : DrivetrainObjects) {;}");
+    assertThat(p).matches("for (TPair<int32, FDrivetrainObjectConnection> const& Conn : Connections) {;}");
   }
 
   @Test
@@ -204,18 +207,29 @@ public class StatementTest {
   }
 
   @Test
-  public void forRangeDeclaration() {
-    p.setRootRule(g.rule(CxxGrammarImpl.forRangeDeclaration));
+  public void forRangeDeclSpecs() {
+    p.setRootRule(g.rule(CxxGrammarImpl.forRangeDeclSpecs));
 
     g.rule(CxxGrammarImpl.forrangeDeclSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.declarator).mock();
     g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
 
-    assertThat(p).matches("forrangeDeclSpecifierSeq declarator");
-    assertThat(p).matches("attributeSpecifierSeq forrangeDeclSpecifierSeq declarator");
+    assertThat(p).matches("forrangeDeclSpecifierSeq");
+    assertThat(p).matches("attributeSpecifierSeq forrangeDeclSpecifierSeq");
   }
 
   @Test
+  public void forRangeDeclSpecs_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.forRangeDeclSpecs));
+    assertThat(p).matches("long long");
+  }
+
+  @Test
+  public void declarator_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.declarator));
+    assertThat(p).matches("item");
+  }
+
+    @Test
   public void forRangeInitializer() {
     p.setRootRule(g.rule(CxxGrammarImpl.forRangeInitializer));
 
@@ -224,6 +238,12 @@ public class StatementTest {
 
     assertThat(p).matches("expression");
     assertThat(p).matches("bracedInitList");
+  }
+
+  @Test
+  public void forRangeInitializer_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.forRangeInitializer));
+    assertThat(p).matches("testVector");
   }
 
   @Test
