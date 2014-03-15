@@ -951,11 +951,6 @@
     <!-- ########### New in cppcheck 1.52 ########### -->
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>simplePatternError</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>complexPatternError</key>
       <priority>MAJOR</priority>
     </rule>
@@ -1370,11 +1365,6 @@
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>redundantCopyInSwitch</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>redundantNextPrevious</key>
       <priority>MINOR</priority>
     </rule>
     <rule>
