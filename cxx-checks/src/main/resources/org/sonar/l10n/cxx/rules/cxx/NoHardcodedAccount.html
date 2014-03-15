@@ -1,0 +1,13 @@
+<p>Be careful while handling sensitive data, such as passwords, in program code.</p>
+
+<p>Hard coding sensitive data is considered very bad programming practice because it enforces the requirement of the development environment to be secure.</p>
+
+from: <a href="https://www.securecoding.cert.org/confluence/display/seccode/MSC18-C.+Be+careful+while+handling+sensitive+data%2C+such+as+passwords%2C+in+program+code">MSC18-C</a>
+<p>
+Many applications need to handle sensitive data either in memory or on disk. If this sensitive data is not protected properly, it might lead to loss of secrecy or integrity of the data. It is very difficult (or expensive) to completely secure all the sensitive data. Users tend to use the same passwords everywhere. So even if your program is a simple game that stores the user's profile information and requires the user to enter a password, the user might choose the same password he or she uses for an online bank account for your game program. Now the user's bank account is only as secure as your program enables it to be.
+There are simple steps you can take to secure sensitive data in your programs.
+</p><p>
+<b>Prefer the system's authentication dialog (or any other mechanism provided by the OS) for authentication to privileged services.</b>
+</p><p>
+If you are accessing some privileged service already installed on the system, most likely that service will have some mechanism to take a password from the user. Before asking the user for a user name and password from your application, check if the service itself authenticates the user in some way. If so, let the service handle the authentication because doing so would at least not increase the footprint of the sensitive data.
+</p>

@@ -1,0 +1,30 @@
+<p>Hardcoding an IP address into source code is a bad idea for several reasons:</p>
+
+<ul>
+  <li>a recompile is required if the address changes</li>
+  <li>it forces the same address to be used in every environment (dev, sys, qa, prod)</li>
+  <li>it places the responsibility of setting the value to use in production on the shoulders of the developer</li>
+</ul>
+
+<h2>Noncompliant Code Example</h2>
+<pre>
+#include &lt;string&gt;
+#include &lt;winsock.h&gt;
+
+std::string ip = "127.0.0.1";
+SOCKET s; //Socket handle
+
+//Fill out the information needed to initialize a socket
+SOCKADDR_IN target; //Socket address information
+
+target.sin_family = AF_INET; // address family Internet
+target.sin_port = htons (PortNo); //Port to connect on
+target.sin_addr.s_addr = inet_addr (ip); //Target IP
+
+s = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP); //Create socket
+</pre>
+
+<h2>Compliant Solution</h2>
+<pre>
+std::string ip = GetConfigValue.getProperty("myapplication.ip");
+</pre>

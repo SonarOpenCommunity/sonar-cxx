@@ -1,0 +1,43 @@
+<p>Here are the main reasons why commented code is a code smell:</p>
+
+<ul>
+  <li>It always raises more questions than it gives answers</li>
+  <li>Everybody will forget very quickly how relevant the commented code is</li>
+  <li>This is distraction when going down the code as it stops the flow of eyes</li>
+  <li>It is a bad SCM engine : Subversion, CVS and Git are really more trustworthy !</li>
+  <li>The simple fact of understanding why code was commented out in the first place can take a lot of time</li>
+</ul>
+
+<p>
+If some code must be conditionally compiled, then the preprocessor's #if should be used, as in:
+</p>
+
+<pre>
+#if DEBUG
+  Console.WriteLine("Debug mode is activated!");
+#endif
+</pre>
+
+<p>
+The following code snippet illustrates this rule:
+</p>
+
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;string&gt;
+
+class MyProgram
+{
+  // This line is fine, but the following is not
+  //int Id = 0;
+
+  /*
+  The following line is bad
+
+  void Test() { int dirId = this.Id++; }
+
+  No violation on the following line, because there is at most one violation per comment
+  MyMethod();
+  */
+}
+</pre>

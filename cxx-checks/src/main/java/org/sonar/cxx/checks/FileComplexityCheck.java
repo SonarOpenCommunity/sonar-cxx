@@ -31,8 +31,7 @@ import com.sonar.sslr.squid.checks.AbstractFileComplexityCheck;
 @Rule(
     key = "FileCyclomaticComplexity",
     priority = Priority.MAJOR)
-public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar>
-{
+public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar> {
   private static final int DEFAULT_MAX = 200;
 
   @RuleProperty(defaultValue = "" + DEFAULT_MAX)
@@ -45,15 +44,13 @@ public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar>
 
 
   @Override
-  public int getMaximumFileComplexity()
-  {
+  public int getMaximumFileComplexity() {
     return this.max;
   }
 
 
   @Override
-  public MetricDef getComplexityMetric()
-  {
+  public MetricDef getComplexityMetric() {
     return CxxMetric.COMPLEXITY;
   }
 
