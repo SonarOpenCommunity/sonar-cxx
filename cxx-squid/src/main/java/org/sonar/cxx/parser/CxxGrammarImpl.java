@@ -595,7 +595,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(forrangeDeclSpecifierSeq).is(
       b.oneOrMore(
-        b.nextNot(declarator, b.firstOf("@", ":")),
+        b.nextNot(declarator, ":"),
         declSpecifier
         ),
       b.optional(attributeSpecifierSeq)
@@ -884,21 +884,21 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.firstOf(
             b.sequence(ptrOperator, ptrDeclarator),
             noptrDeclarator
-            )
+        )
         );
 
     b.rule(noptrDeclarator).is(
-      b.firstOf(
-        b.sequence(declaratorId, b.optional(attributeSpecifierSeq)),
-        b.sequence("(", ptrDeclarator, ")")
+        b.firstOf(
+            b.sequence(declaratorId, b.optional(attributeSpecifierSeq)),
+            b.sequence("(", ptrDeclarator, ")")
         ),
-      b.zeroOrMore(
+        b.zeroOrMore(
         b.firstOf(
           parametersAndQualifiers,
-          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
-          )
+            b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
         )
-      );
+        )
+        );
 
     b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq), b.optional(refQualifier), b.optional(exceptionSpecification));
 

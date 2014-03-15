@@ -186,8 +186,7 @@ public class StatementTest {
   @Test
   public void forInitStatement_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.forInitStatement));
-    assertThat(p).matches("int i=99;");
-    System.out.println(p.toString());
+    assertThat(p).matches("int i=1;");
   }
 
   @Test
