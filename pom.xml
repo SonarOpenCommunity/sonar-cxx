@@ -103,7 +103,7 @@
   <properties>
     <license.title>Sonar C++ Plugin (Community) </license.title>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>3.6</sonar.version>
+    <sonar.version>3.7</sonar.version>
     <sslr.version>1.19.2</sslr.version>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
