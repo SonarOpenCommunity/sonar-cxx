@@ -203,6 +203,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxExternalRulesSensor.class);
     l.add(CxxExternalRuleRepository.class);
     l.add(CxxRuleRepository.class);
+    l.add(CxxRuleRepositoryProvider.class);
 
     return l;
   }

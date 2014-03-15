@@ -19,12 +19,12 @@
  */
 package org.sonar.plugins.cxx.compiler;
 
+import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.rules.XMLRuleParser;
-
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 public class CxxCompilerRuleRepositoryTest {
 
@@ -32,7 +32,7 @@ public class CxxCompilerRuleRepositoryTest {
   public void createRulesTest() {
     CxxCompilerRuleRepository rulerep = new CxxCompilerRuleRepository(
         mock(ServerFileSystem.class),
-        new XMLRuleParser());
+        new XMLRuleParser(), new Settings());
     assertThat(rulerep.createRules()).hasSize(690);
   }
 }

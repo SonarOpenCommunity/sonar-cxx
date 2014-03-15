@@ -46,7 +46,7 @@ import java.io.File;
 public class CxxCppCheckSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
-  private RulesProfile profile;
+  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
