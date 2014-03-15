@@ -25,6 +25,7 @@ import org.sonar.api.rules.XMLRuleParser;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import org.sonar.api.config.Settings;
 
 public class CxxPCLintRuleRepositoryTest {
 
@@ -32,7 +33,7 @@ public class CxxPCLintRuleRepositoryTest {
   public void createRulesTest() {
     CxxPCLintRuleRepository rulerep = new CxxPCLintRuleRepository(
         mock(ServerFileSystem.class),
-        new XMLRuleParser());
+        new XMLRuleParser(), new Settings());
     assertThat(rulerep.createRules()).hasSize(1333);
   }
 }
