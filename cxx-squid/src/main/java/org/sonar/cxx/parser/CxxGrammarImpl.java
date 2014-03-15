@@ -96,7 +96,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   condition,
   iterationStatement,
   forInitStatement,
-  forRangeDeclaration,
+  forRangeDeclSpecs,
   forRangeInitializer,
   jumpStatement,
   declarationStatement,
@@ -579,7 +579,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.WHILE, "(", condition, ")", statement),
         b.sequence(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"),
         b.sequence(CxxKeyword.FOR, "(", forInitStatement, b.optional(condition), ";", b.optional(expression), ")", statement),
-        b.sequence(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement)
+        // Keith Marsh 15-Mar-2014 Modify tree because forRangeDeclaration consumed declarator in decl specifiers
+        b.sequence(CxxKeyword.FOR, "(", forRangeDeclSpecs, declarator, ":", forRangeInitializer, ")", statement)
         )
       );
     
@@ -589,13 +590,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         simpleDeclaration
         )
       );
-    
-    b.rule(forRangeDeclaration).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
+
+    b.rule(forRangeDeclSpecs).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq);
 
     b.rule(forrangeDeclSpecifierSeq).is(
-      // Keith Marsh 9-Mar-2014 Partial fix for for range.  Don't allow c++0x declSpecifierSeq, only one,
-      // TODO Allow declSpecifierSeq in forrangeDeclSpecifierSeq
-      declSpecifier,
+      b.oneOrMore(
+        b.nextNot(declarator, b.firstOf("@", ":")),
+        declSpecifier
+        ),
       b.optional(attributeSpecifierSeq)
       );
 
@@ -720,7 +722,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "void foo(::A a);". Figure out if there is another way
-        
+
             b.sequence(b.optional(b.firstOf(nestedNameSpecifier, "::")), typeName)
         )
         );
@@ -882,21 +884,21 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.firstOf(
             b.sequence(ptrOperator, ptrDeclarator),
             noptrDeclarator
-        )
+            )
         );
 
     b.rule(noptrDeclarator).is(
-        b.firstOf(
-            b.sequence(declaratorId, b.optional(attributeSpecifierSeq)),
-            b.sequence("(", ptrDeclarator, ")")
+      b.firstOf(
+        b.sequence(declaratorId, b.optional(attributeSpecifierSeq)),
+        b.sequence("(", ptrDeclarator, ")")
         ),
-        b.zeroOrMore(
+      b.zeroOrMore(
         b.firstOf(
           parametersAndQualifiers,
-            b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
+          b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
+          )
         )
-        )
-        );
+      );
 
     b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq), b.optional(refQualifier), b.optional(exceptionSpecification));
 
