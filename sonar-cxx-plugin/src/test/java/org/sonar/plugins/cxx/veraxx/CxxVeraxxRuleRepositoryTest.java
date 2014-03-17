@@ -25,6 +25,7 @@ import org.sonar.api.rules.XMLRuleParser;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import org.sonar.api.config.Settings;
 
 public class CxxVeraxxRuleRepositoryTest {
 
@@ -32,7 +33,7 @@ public class CxxVeraxxRuleRepositoryTest {
   public void createRulesTest() {
     CxxVeraxxRuleRepository rulerep = new CxxVeraxxRuleRepository(
         mock(ServerFileSystem.class),
-        new XMLRuleParser());
+        new XMLRuleParser(), new Settings());
     assertThat(rulerep.createRules()).hasSize(27);
   }
 }

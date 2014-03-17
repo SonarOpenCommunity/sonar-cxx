@@ -43,7 +43,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.externalrules.reportPath";
   private static final String DEFAULT_REPORT_PATH = "externalrules-reports/externalrules-result-*.xml";
-  private RulesProfile profile;
+  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
@@ -59,7 +59,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxExternalRuleRepository.REPOSITORY_KEY).isEmpty();
+      && !profile.getActiveRulesByRepository(CxxExternalRuleRepository.KEY).isEmpty();
   }
 
   @Override
@@ -89,7 +89,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("id");
           String msg = errorCursor.getAttrValue("msg");
 
-          saveViolation(project, context, CxxExternalRuleRepository.REPOSITORY_KEY, file, line, id, msg);
+          saveViolation(project, context, CxxExternalRuleRepository.KEY, file, line, id, msg);
         }
       }
     });

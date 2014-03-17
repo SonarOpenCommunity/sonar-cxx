@@ -27,8 +27,11 @@ import org.sonar.plugins.cxx.CxxLanguage;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.sonar.api.config.Settings;
 
 /**
  * {@inheritDoc}
@@ -36,17 +39,21 @@ import java.util.List;
 public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
   private final ServerFileSystem fileSystem;
+  public final Settings settings;
   private final XMLRuleParser xmlRuleParser;
   protected final String repositoryKey;
+  protected final String customRepositoryKey;
 
   /**
    * {@inheritDoc}
    */
-  public CxxAbstractRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, String key) {
+  public CxxAbstractRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings, String key, String customKey) {
     super(key, CxxLanguage.KEY);
     this.fileSystem = fileSystem;
     this.xmlRuleParser = xmlRuleParser;
     this.repositoryKey = key;
+    this.customRepositoryKey = customKey;
+    this.settings = settings;
   }
 
   @Override
@@ -54,13 +61,20 @@ public abstract class CxxAbstractRuleRepository extends RuleRepository {
     List<Rule> rules = new ArrayList<Rule>();
 
     final XMLRuleParser xmlParser = new XMLRuleParser();
-    final InputStream xmlStream = getClass().getResourceAsStream(fileName());
-    rules.addAll(xmlParser.parse(xmlStream));
+    if(!fileName().equals("")) {
+      final InputStream xmlStream = getClass().getResourceAsStream(fileName());
+      rules.addAll(xmlParser.parse(xmlStream));
 
-    for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) {
-      rules.addAll(xmlRuleParser.parse(userExtensionXml));
+      for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) {
+        rules.addAll(xmlRuleParser.parse(userExtensionXml));
+      }      
     }
-
+    
+    String customRules = settings.getString(this.customRepositoryKey);
+    if (StringUtils.isNotBlank(customRules)) {
+      rules.addAll(xmlRuleParser.parse(new StringReader(customRules)));
+    }    
+       
     return rules;
   }
 

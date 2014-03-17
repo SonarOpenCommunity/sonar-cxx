@@ -25,12 +25,13 @@ import org.sonar.api.rules.XMLRuleParser;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import org.sonar.api.config.Settings;
 
 public class CxxRatsRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxRatsRuleRepository rulerep = new CxxRatsRuleRepository(
-        mock(ServerFileSystem.class), new XMLRuleParser());
+        mock(ServerFileSystem.class), new XMLRuleParser(), new Settings());
     assertThat(rulerep.createRules()).hasSize(300);
   }
 }
