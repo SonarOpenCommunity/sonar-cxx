@@ -51,7 +51,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 import java.util.TreeMap;
-import org.sonar.api.resources.InputFile;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.plugins.cxx.CxxPlugin;

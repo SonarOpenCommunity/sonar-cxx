@@ -37,12 +37,12 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
 
   @RuleProperty(
     key = "xpathQuery",
-    defaultValue = "" + DEFAULT_XPATH_QUERY)
+    defaultValue = DEFAULT_XPATH_QUERY)
   public String xpathQuery = DEFAULT_XPATH_QUERY;
 
   @RuleProperty(
     key = "message",
-    defaultValue = "" + DEFAULT_MESSAGE)
+    defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
 
   @Override

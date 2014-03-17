@@ -53,7 +53,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
 
   @RuleProperty(
       key = "regularExpression",
-      defaultValue = "" + DEFAULT_REGULAR_EXPRESSION)
+      defaultValue = DEFAULT_REGULAR_EXPRESSION)
     public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
   
   public String getRegularExpression() {

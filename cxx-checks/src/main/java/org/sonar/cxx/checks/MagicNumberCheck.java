@@ -43,7 +43,7 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   @RuleProperty(
     key = "exceptions",
-    defaultValue = "" + DEFAULT_EXCEPTIONS)
+    defaultValue = DEFAULT_EXCEPTIONS)
   public String exceptions = DEFAULT_EXCEPTIONS;
 
   private Set<String> exceptionsSet = Collections.emptySet();

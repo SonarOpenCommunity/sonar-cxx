@@ -52,17 +52,17 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
   
   @RuleProperty(
     key = "regularExpression",
-    defaultValue = "" + DEFAULT_REGULAR_EXPRESSION)
+    defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
-    defaultValue = "" + DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'") 
+    defaultValue = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'") 
   public String message = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'";
   
   @RuleProperty(
           key = "suffix",
-          defaultValue = "" + DEFAULT_NAME_SUFFIX)
+          defaultValue = DEFAULT_NAME_SUFFIX)
   public String suffix = DEFAULT_NAME_SUFFIX;
     
   public String getRegularExpression() {
