@@ -238,7 +238,7 @@ public enum CppGrammar implements GrammarRuleKey {
 
     b.rule(conditionalExpression).is(
         b.firstOf(
-            b.sequence(logicalOrExpression, b.zeroOrMore(WS), "?", b.zeroOrMore(WS), expression, b.zeroOrMore(WS), ":", b.zeroOrMore(WS), conditionalExpression),
+            b.sequence(logicalOrExpression, b.zeroOrMore(WS), "?", b.zeroOrMore(WS), b.optional(expression), b.zeroOrMore(WS), ":", b.zeroOrMore(WS), conditionalExpression),
             logicalOrExpression
         )
         ).skipIfOneChild();

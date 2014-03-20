@@ -367,6 +367,7 @@ public class CppGrammarTest {
 
     assertThat(p).matches("logicalOrExpression");
     assertThat(p).matches("logicalOrExpression ? expression : logicalOrExpression");
+    assertThat(p).matches("logicalOrExpression ? : logicalOrExpression");
   }
 
   @Test
