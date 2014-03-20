@@ -1536,17 +1536,6 @@
       <key>zerodivcond</key>
       <priority>MINOR</priority>
     </rule>
-    <!-- ########### Missing or new in cppcheck 1.63 ########### -->
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>simplePatternError</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>redundantNextPrevious</key>
-      <priority>MINOR</priority>
-    </rule>    
     
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->

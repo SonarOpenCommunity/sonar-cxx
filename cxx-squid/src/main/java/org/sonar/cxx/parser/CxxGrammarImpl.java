@@ -37,6 +37,7 @@ import static org.sonar.cxx.api.CxxTokenType.STRING;
 public enum CxxGrammarImpl implements GrammarRuleKey {
   // Misc
   BOOL,
+  NULLPTR,
   LITERAL,
 
   // Top level components
@@ -83,17 +84,23 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   conditionalExpression,
   assignmentExpression,
   assignmentOperator,
+  par_expression,
   expression,
   constantExpression,
 
   // Statements
   statement,
+  emptyStatement,
   labeledStatement,
   expressionStatement,
   compoundStatement,
   statementSeq,
-  selectionStatement,
   condition,
+  ifStatement,
+  switchStatement,
+  switchBlockStatementGroups,
+  switchBlockStatementGroup,
+  switchLabelStatement,
   iterationStatement,
   forInitStatement,
   forRangeDeclaration,
@@ -285,12 +292,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   private static void misc(LexerfulGrammarBuilder b) {
     // C++ Standard, Section 2.14.6 "Boolean literals"
     b.rule(BOOL).is(b.firstOf(CxxKeyword.TRUE, CxxKeyword.FALSE));
+    b.rule(NULLPTR).is(CxxKeyword.NULLPTR);
     b.rule(LITERAL).is(
       b.firstOf(
         CHARACTER,
         STRING,
         NUMBER,
-        BOOL));
+        BOOL,
+        NULLPTR));
   }
   
   private static void toplevel(LexerfulGrammarBuilder b) {
@@ -302,10 +311,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(primaryExpression).is(
       b.firstOf(LITERAL,
                 CxxKeyword.THIS,
-                b.sequence("(", expression, ")"),
+                par_expression,
                 idExpression,
                 lambdaExpression)
       ).skipIfOneChild();
+    
+    b.rule(par_expression).is(b.sequence("(", expression, ")"));
     
     b.rule(idExpression).is(b.firstOf(qualifiedId, unqualifiedId));
     
@@ -529,36 +540,51 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(constantExpression).is(conditionalExpression);
   }
+  
+
 
   private static void statements(LexerfulGrammarBuilder b) {
+ 
     b.rule(statement).is(
       b.firstOf(
+        b.sequence(b.optional(attributeSpecifierSeq), compoundStatement),
         labeledStatement,
         b.sequence(b.optional(attributeSpecifierSeq), expressionStatement),
-        b.sequence(b.optional(attributeSpecifierSeq), compoundStatement),
-        b.sequence(b.optional(attributeSpecifierSeq), selectionStatement),
+        b.sequence(b.optional(attributeSpecifierSeq), ifStatement),
+        b.sequence(b.optional(attributeSpecifierSeq), switchStatement),
         b.sequence(b.optional(attributeSpecifierSeq), iterationStatement),
         b.sequence(b.optional(attributeSpecifierSeq), jumpStatement),
         declarationStatement,
-        b.sequence(b.optional(attributeSpecifierSeq), tryBlock)
+        b.sequence(b.optional(attributeSpecifierSeq), tryBlock),
+        emptyStatement
         )
       );
     
-    b.rule(labeledStatement).is(b.optional(attributeSpecifierSeq), b.firstOf(IDENTIFIER, b.sequence(CxxKeyword.CASE, constantExpression), CxxKeyword.DEFAULT), ":", statement);
+    b.rule(emptyStatement).is(";");
+ 
+    b.rule(labeledStatement).is(b.optional(attributeSpecifierSeq), IDENTIFIER, ":", statement);
 
     b.rule(expressionStatement).is(b.optional(expression), ";");
     
-    b.rule(compoundStatement).is("{", b.optional(statementSeq), "}");
+    b.rule(compoundStatement).is("{", statementSeq, "}");
     
-    b.rule(statementSeq).is(b.oneOrMore(statement));
-    
-    b.rule(selectionStatement).is(
-      b.firstOf(
-        b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement)),
-        b.sequence(CxxKeyword.SWITCH, "(", condition, ")", statement)
-        )
-      );
 
+    b.rule(statementSeq).is(b.zeroOrMore(statement));  
+    
+    b.rule(ifStatement).is(
+      b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement))
+      );
+    
+    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", "{", switchBlockStatementGroups, "}");  
+    
+    b.rule(switchBlockStatementGroups).is(b.zeroOrMore(switchBlockStatementGroup));  
+ 
+    b.rule(switchBlockStatementGroup).is(switchLabelStatement, b.optional(emptyStatement), b.zeroOrMore(statement), b.optional(jumpStatement));  
+    
+    b.rule(switchLabelStatement).is(b.firstOf(
+        b.sequence(CxxKeyword.CASE, constantExpression, ":"), 
+        b.sequence(CxxKeyword.DEFAULT, ":")));
+    
     b.rule(condition).is(
         b.firstOf(
           b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, b.firstOf(b.sequence("=", initializerClause), bracedInitList)),
@@ -758,6 +784,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
       );
 
+//    b.rule(enumSpecifier).is(b.sequence(enumHead, "{", b.optional(enumeratorList), "}"));
+    
     b.rule(enumHead).is(enumKey, b.optional(attributeSpecifierSeq), b.firstOf(b.sequence(nestedNameSpecifier, IDENTIFIER), b.optional(IDENTIFIER)), b.optional(enumBase));
 
     b.rule(opaqueEnumDeclaration).is(enumKey, b.optional(attributeSpecifierSeq), IDENTIFIER, b.optional(enumBase), ";");

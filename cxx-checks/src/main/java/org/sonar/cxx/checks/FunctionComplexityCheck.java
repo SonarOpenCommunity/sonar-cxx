@@ -32,8 +32,7 @@ import com.sonar.sslr.squid.checks.ChecksHelper;
 import com.sonar.sslr.squid.checks.SquidCheck;
 
 @Rule(key = "FunctionCyclomaticComplexity", priority = Priority.MAJOR)
-public class FunctionComplexityCheck extends SquidCheck<Grammar>
-{
+public class FunctionComplexityCheck extends SquidCheck<Grammar> {
   private static final int DEFAULT_MAX = 10;
 
   @RuleProperty(defaultValue = "" + DEFAULT_MAX)

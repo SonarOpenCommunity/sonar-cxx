@@ -80,6 +80,10 @@
       <name>Wolfgang Buckel</name>
       <email>wolfgang.buckel@siemens.com</email>
     </contributor>
+    <contributor>
+      <name>keithmarsh</name>
+      <email>bitbucket@keithmarsh.com</email>
+    </contributor>
   </contributors>
   
   <modules>
@@ -208,40 +212,39 @@
     </dependencies>
   </dependencyManagement>
   <build>
-  	<pluginManagement>
-  		<plugins>
-  			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-  			<plugin>
-  				<groupId>org.eclipse.m2e</groupId>
-  				<artifactId>lifecycle-mapping</artifactId>
-  				<version>1.0.0</version>
-  				<configuration>
-  					<lifecycleMappingMetadata>
-  						<pluginExecutions>
-  							<pluginExecution>
-  								<pluginExecutionFilter>
-  									<groupId>
-  										com.mycila.maven-license-plugin
-  									</groupId>
-  									<artifactId>
-  										maven-license-plugin
-  									</artifactId>
-  									<versionRange>
-  										[1.9.0,)
-  									</versionRange>
-  									<goals>
-  										<goal>check</goal>
-  									</goals>
-  								</pluginExecutionFilter>
-  								<action>
-  									<ignore></ignore>
-  								</action>
-  							</pluginExecution>
-  						</pluginExecutions>
-  					</lifecycleMappingMetadata>
-  				</configuration>
-  			</plugin>
-  		</plugins>
-  	</pluginManagement>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>com.mycila.maven-license-plugin</groupId>
+                    <artifactId>maven-license-plugin</artifactId>
+                    <versionRange>[1.9.0,)</versionRange>
+                    <goals>
+                      <goal>check</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>                        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.16</version>
+        </plugin>                        
+      </plugins>
+    </pluginManagement>
   </build>
 </project>

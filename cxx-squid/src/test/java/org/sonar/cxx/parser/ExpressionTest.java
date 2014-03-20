@@ -334,6 +334,7 @@ public class ExpressionTest {
     assertThat(p).matches("(Color)c");
     assertThat(p).matches("foo()->i");
     assertThat(p).matches("which ^= 1u");
+    assertThat(p).matches("p = nullptr");
   }
 
   @Test
@@ -357,6 +358,7 @@ public class ExpressionTest {
     assertThat(p).matches("i=0");
     assertThat(p).matches("(istream_iterator<string>(cin))");
     assertThat(p).matches("which ^= 1u");
+    assertThat(p).matches("p = nullptr");
   }
 
   @Test

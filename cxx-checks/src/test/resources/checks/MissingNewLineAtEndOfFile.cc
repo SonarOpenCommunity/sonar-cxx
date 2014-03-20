@@ -1,0 +1,7 @@
+
+class MissingNewlineAtEndOfFile {
+};
+
+int main(){
+
+}

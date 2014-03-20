@@ -6,4 +6,9 @@
  */
 /**/
 //NOSONAR
-main(){}
+int main(void){
+
+    // comment
+    // ToDo
+    return 0;
+}

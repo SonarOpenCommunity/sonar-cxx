@@ -71,6 +71,8 @@ public class DeclarationsTest {
     p.setRootRule(g.rule(CxxGrammarImpl.declaration));
 
     assertThat(p).matches("t* pt;");
+    assertThat(p).matches("t* pt = nullptr;");
+    assertThat(p).matches("t* pt {nullptr};");
     assertThat(p).matches("int i = 0;");
     assertThat(p).matches("sometype& somefunc();");
     assertThat(p).matches("sometype foo();");
