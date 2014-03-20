@@ -521,7 +521,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(conditionalExpression).is(
       b.firstOf(
-        b.sequence(logicalOrExpression, "?", expression, ":", assignmentExpression),
+        b.sequence(logicalOrExpression, "?", b.optional(expression), ":", assignmentExpression),
         logicalOrExpression
         )
       ).skipIfOneChild();

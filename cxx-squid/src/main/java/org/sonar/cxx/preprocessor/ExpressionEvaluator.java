@@ -378,10 +378,18 @@ public final class ExpressionEvaluator {
   }
 
   long evalConditionalExpression(AstNode exprAst) {
-    AstNode decisionOperand = exprAst.getChild(0);
-    AstNode trueCaseOperand = exprAst.getChild(2);
-    AstNode falseCaseOperand = exprAst.getChild(4);
-    return eval(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
+    if (exprAst.getNumberOfChildren() == 5) {
+        AstNode decisionOperand = exprAst.getChild(0);
+        AstNode trueCaseOperand = exprAst.getChild(2);
+        AstNode falseCaseOperand = exprAst.getChild(4);
+        return eval(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
+    }
+    else {
+        AstNode decisionOperand = exprAst.getChild(0);
+        AstNode falseCaseOperand = exprAst.getChild(3);
+        long decision = evalToInt(decisionOperand);
+        return decision != 0 ? decision : evalToInt(falseCaseOperand);
+    }
   }
 
   long evalPrimaryExpression(AstNode exprAst) {

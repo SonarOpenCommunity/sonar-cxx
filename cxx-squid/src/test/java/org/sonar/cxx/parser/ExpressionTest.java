@@ -326,6 +326,7 @@ public class ExpressionTest {
     assertThat(p).matches("( y > 4)");
     assertThat(p).matches("( x== 8) && (c=='U')");
     assertThat(p).matches("(a > b) ? a : b");
+    assertThat(p).matches("a ? : b");
     assertThat(p).matches("m = 1");
     assertThat(p).matches("cout << endl");
     assertThat(p).matches("numeric_limits<char>::is_signed");
