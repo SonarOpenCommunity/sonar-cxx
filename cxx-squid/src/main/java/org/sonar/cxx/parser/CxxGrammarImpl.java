@@ -118,6 +118,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   emptyDeclaration,
   attributeDeclaration,
   declSpecifier,
+  recoveredDeclaration,
 
   conditionDeclSpecifierSeq,
   forrangeDeclSpecifierSeq,
@@ -303,7 +304,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   }
   
   private static void toplevel(LexerfulGrammarBuilder b) {
-    b.rule(translationUnit).is(b.zeroOrMore(declaration), EOF);
+    b.rule(translationUnit).is(b.zeroOrMore(b.firstOf(declaration, recoveredDeclaration)), EOF);
+    b.rule(recoveredDeclaration).is(b.oneOrMore(b.nextNot(b.firstOf(declaration, EOF)), b.anyToken()));
   }
 
 
