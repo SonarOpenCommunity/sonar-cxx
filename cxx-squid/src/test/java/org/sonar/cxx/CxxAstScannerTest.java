@@ -87,4 +87,9 @@ public class CxxAstScannerTest {
   //   assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   // }
 
+   @Test
+   public void error_recovery_declaration() {
+     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/parser/own/error_recovery_declaration.cc"));
+     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
+   }
 }
