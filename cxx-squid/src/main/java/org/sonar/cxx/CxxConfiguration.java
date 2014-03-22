@@ -32,6 +32,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private List<String> defines = new ArrayList<String>();
   private List<String> includeDirectories = new ArrayList<String>();
   private String baseDir;
+  private boolean errorRecoveryEnabled = true;
 
   public CxxConfiguration() {
   }
@@ -82,5 +83,13 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public String getBaseDir() {
     return baseDir;
+  }
+
+  public void setErrorRecoveryEnabled(boolean errorRecoveryEnabled){
+    this.errorRecoveryEnabled = errorRecoveryEnabled;
+  }
+
+  public boolean getErrorRecoveryEnabled(){
+    return this.errorRecoveryEnabled;
   }
 }
