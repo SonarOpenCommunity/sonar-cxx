@@ -28,6 +28,8 @@ import org.sonar.cxx.CxxConfiguration;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
@@ -268,6 +270,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   typeIdList,
   noexceptSpecification;
    
+  public static final Logger LOG = LoggerFactory.getLogger("CxxGrammarImpl");
+  
   public static Grammar create(CxxConfiguration conf) {
     LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
     
