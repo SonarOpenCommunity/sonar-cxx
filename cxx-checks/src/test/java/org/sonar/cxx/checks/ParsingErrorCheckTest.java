@@ -23,6 +23,7 @@ import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squid.api.SourceFile;
+import org.sonar.cxx.CxxConfiguration;
 
 import java.io.File;
 
@@ -30,20 +31,24 @@ import static org.hamcrest.Matchers.containsString;
 
 public class ParsingErrorCheckTest {
 
-//  @Test
-//  public void test_syntax_error_recognition() {
-//    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/parsingError1.cc"), new ParsingErrorCheck());
-//    CheckMessagesVerifier.verify(file.getCheckMessages())
-//      .next().atLine(4).withMessageThat(containsString("Parse error"))
-//      .noMore();
-//  }
+  @Test
+  public void test_syntax_error_recognition() {
+    CxxConfiguration config = new CxxConfiguration();
+    config.setErrorRecoveryEnabled(false);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/parsingError1.cc"), config, new ParsingErrorCheck());
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(4).withMessageThat(containsString("Parse error"))
+      .noMore();
+  }
 
-//  @Test
-//  public void test_syntax_error_pperror() {
-//    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/parsingError2.cc"), new ParsingErrorCheck());
-//    CheckMessagesVerifier.verify(file.getCheckMessages())
-//      .next().atLine(2).withMessageThat(containsString("Parse error"))
-//      .noMore();
-//  }
+  @Test
+  public void test_syntax_error_pperror() {
+    CxxConfiguration config = new CxxConfiguration();  
+    config.setErrorRecoveryEnabled(false);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/parsingError2.cc"), config, new ParsingErrorCheck());
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(2).withMessageThat(containsString("Parse error"))
+      .noMore();
+  }
 
 }
