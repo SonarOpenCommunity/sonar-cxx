@@ -90,6 +90,30 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
+  public void expanding_functionlike_macros_withvarargs() {
+    List<Token> tokens = lexer.lex("#define wrapper(...) __VA_ARGS__\n wrapper(1, 2)");
+    assertThat(tokens).hasSize(4);
+    assertThat(tokens, hasToken("1", CxxTokenType.NUMBER));
+    assertThat(tokens, hasToken("2", CxxTokenType.NUMBER));
+  }
+
+  @Test
+  public void expanding_functionlike_macros_withnamedvarargs() {
+    List<Token> tokens = lexer.lex("#define wrapper(args...) args\n wrapper(1, 2)");
+    assertThat(tokens).hasSize(4);
+    assertThat(tokens, hasToken("1", CxxTokenType.NUMBER));
+    assertThat(tokens, hasToken("2", CxxTokenType.NUMBER));
+  }
+
+  @Test
+  public void expanding_functionlike_macros_withemptyvarargs() {
+    List<Token> tokens = lexer.lex("#define wrapper(...) (__VA_ARGS__)\n wrapper()");
+    assertThat(tokens).hasSize(3);
+    assertThat(tokens, hasToken("(", CxxPunctuator.BR_LEFT));
+    assertThat(tokens, hasToken(")", CxxPunctuator.BR_RIGHT));
+  }
+
+  @Test
   public void expanding_macro_with_empty_parameterlist() {
     List<Token> tokens = lexer.lex("#define M() 0\n M()");
     assertThat(tokens).hasSize(2);
