@@ -24,9 +24,12 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
 
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.cxx.CxxConfiguration;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
@@ -118,6 +121,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   emptyDeclaration,
   attributeDeclaration,
   declSpecifier,
+  recoveredDeclaration,
 
   conditionDeclSpecifierSeq,
   forrangeDeclSpecifierSeq,
@@ -265,11 +269,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   dynamicExceptionSpecification,
   typeIdList,
   noexceptSpecification;
-
-  public static Grammar create() {
+   
+  public static final Logger LOG = LoggerFactory.getLogger("CxxGrammarImpl");
+  
+  public static Grammar create(CxxConfiguration conf) {
     LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
-
-    toplevel(b);
+    
+    toplevel(b, conf);
     expressions(b);
     statements(b);
     declarations(b);
@@ -302,8 +308,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         NULLPTR));
   }
   
-  private static void toplevel(LexerfulGrammarBuilder b) {
-    b.rule(translationUnit).is(b.zeroOrMore(declaration), EOF);
+  private static void toplevel(LexerfulGrammarBuilder b, CxxConfiguration conf) {
+    if (conf.getErrorRecoveryEnabled() == true) {
+      b.rule(translationUnit).is(b.zeroOrMore(b.firstOf(declaration, recoveredDeclaration)), EOF);
+      b.rule(recoveredDeclaration).is(b.oneOrMore(b.nextNot(b.firstOf(declaration, EOF)), b.anyToken()));
+    } else {
+      b.rule(translationUnit).is(b.zeroOrMore(declaration), EOF);
+    }
   }
 
 
