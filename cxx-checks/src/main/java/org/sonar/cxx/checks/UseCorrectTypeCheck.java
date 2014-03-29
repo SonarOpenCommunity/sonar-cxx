@@ -53,12 +53,12 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
   
   @RuleProperty(
     key = "regularExpression",
-    defaultValue = "" + DEFAULT_REGULAR_EXPRESSION)
+    defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
-    defaultValue = "" + DEFAULT_MESSAGE)
+    defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
     
   public String getRegularExpression() {

@@ -521,7 +521,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(conditionalExpression).is(
       b.firstOf(
-        b.sequence(logicalOrExpression, "?", expression, ":", assignmentExpression),
+        // EXTENSION: gcc's conditional with omitted operands: the expression is optional
+        b.sequence(logicalOrExpression, "?", b.optional(expression), ":", assignmentExpression),
         logicalOrExpression
         )
       ).skipIfOneChild();

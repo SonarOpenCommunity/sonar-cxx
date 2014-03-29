@@ -71,6 +71,9 @@ public class ExpressionEvaluatorTest {
 
     assertFalse(evaluator.eval("1 ? 0 : 1"));
     assertFalse(evaluator.eval("0 ? 1 : 0"));
+
+    assertTrue(evaluator.eval("1 ? : 0"));
+    assertTrue(evaluator.eval("0 ? : 1"));
   }
 
   @Test

@@ -2485,17 +2485,6 @@
       Either the condition is useless or there is division by zero.
     </description>
   </rule>
-  <!-- ########### New in cppcheck 1.63 ########### -->
-  <rule>
-    <key>redundantNextPrevious</key>
-    <configkey>redundantNextPrevious</configkey>
-    <name>
-      Inefficient sequence of ::previous(), ::next() statements
-    </name>
-    <description>
-      Call to 'Token::previous()' followed by 'Token::next()' can be simplified.
-    </description>  
-  </rule>
   
   <!-- ########### Deprecated as of 1.63.1 ########### -->
   <rule>
@@ -2521,16 +2510,6 @@
     <description>
       The size argument is given as a char constant.
     </description>
-  </rule>
-  <rule>
-    <key>simplePatternError</key>
-    <configkey>simplePatternError</configkey>
-    <name>
-      Simple pattern used - should be more specific
-    </name>
-    <description>
-      Found simple pattern inside Token::Match() call: "class {"
-    </description>  
   </rule>
   <rule>
     <key>complexPatternError</key>

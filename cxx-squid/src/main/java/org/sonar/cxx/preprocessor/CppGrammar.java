@@ -58,6 +58,7 @@ public enum CppGrammar implements GrammarRuleKey {
   replacementList,
   argumentList,
   parameterList,
+  variadicparameter,
   ppToken,
   ifLine,
   elifLine,
@@ -146,10 +147,12 @@ public enum CppGrammar implements GrammarRuleKey {
     b.rule(functionlikeMacroDefinition).is(
         b.firstOf(
             b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList))),
-            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), "...", b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList))),
-            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS), ",", b.zeroOrMore(WS), "...", b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList)))
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList))),
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS), ",", b.zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(WS, replacementList)))
         )
         );
+
+    b.rule(variadicparameter).is(b.optional(IDENTIFIER), b.zeroOrMore(WS), "...");
 
     b.rule(objectlikeMacroDefinition).is(DEFINE, b.oneOrMore(WS), ppToken, b.optional(b.sequence(b.oneOrMore(WS), replacementList)));
 
@@ -238,7 +241,7 @@ public enum CppGrammar implements GrammarRuleKey {
 
     b.rule(conditionalExpression).is(
         b.firstOf(
-            b.sequence(logicalOrExpression, b.zeroOrMore(WS), "?", b.zeroOrMore(WS), expression, b.zeroOrMore(WS), ":", b.zeroOrMore(WS), conditionalExpression),
+            b.sequence(logicalOrExpression, b.zeroOrMore(WS), "?", b.zeroOrMore(WS), b.optional(expression), b.zeroOrMore(WS), ":", b.zeroOrMore(WS), conditionalExpression),
             logicalOrExpression
         )
         ).skipIfOneChild();

@@ -127,7 +127,7 @@ class ValgrindReportParser {
           line = frameChild.getElemStringValue();
         }
       }
-      stack.addFrame((new ValgrindFrame(ip, obj, fn, dir, file, line)));
+      stack.addFrame(new ValgrindFrame(ip, obj, fn, dir, file, line));
     }
 
     return stack;

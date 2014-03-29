@@ -88,10 +88,11 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   class Macro {
-    public Macro(String name, List<Token> params, List<Token> body) {
+    public Macro(String name, List<Token> params, List<Token> body, boolean variadic) {
       this.name = name;
       this.params = params;
       this.body = body;
+      this.isVariadic = variadic;
     }
 
     public String toString() {
@@ -100,9 +101,16 @@ public class CxxPreprocessor extends Preprocessor {
         + " -> '" + serialize(body) + "'";
     }
 
+    public boolean checkArgumentsCount(int count) {
+      return isVariadic == true
+        ? count >= params.size() - 1
+        : count == params.size();
+    }
+
     public String name;
     public List<Token> params;
     public List<Token> body;
+    public boolean isVariadic;
   }
 
   private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
@@ -163,7 +171,7 @@ public class CxxPreprocessor extends Preprocessor {
         throw new RuntimeException(e);
       }
       
-      macros.putHighPrio(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken)));
+      macros.putHighPrio(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken), false));
     }
   }
 
@@ -442,7 +450,7 @@ public class CxxPreprocessor extends Preprocessor {
         replTokens = reallocate(replTokens, curr);
 
         LOG.trace("[{}:{}]: replacing '" + curr.getValue()
-          + (arguments.size() == 0
+          + (arguments.isEmpty()
               ? ""
               : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
             filename, curr.getLine());
@@ -469,7 +477,20 @@ public class CxxPreprocessor extends Preprocessor {
     int tokensConsumedMatchingArgs = matchArguments(restTokens, arguments);
 
     Macro macro = macros.get(macroName);
-    if (macro != null && macro.params.size() == arguments.size()) {
+    if (macro != null && macro.checkArgumentsCount(arguments.size())) {
+      if (arguments.size() > macro.params.size()) {
+        //Group all arguments into the last one
+        List<Token> vaargs = arguments.subList(macro.params.size() - 1, arguments.size());
+        Token firstToken = vaargs.get(0);
+        arguments = arguments.subList(0, macro.params.size() - 1);
+        arguments.add(Token.builder()
+            .setLine(firstToken.getLine())
+            .setColumn(firstToken.getColumn())
+            .setURI(firstToken.getURI())
+            .setValueAndOriginalValue(serialize(vaargs, ","))
+            .setType(STRING)
+            .build());
+      }
       replTokens = replaceParams(macro.body, macro.params, arguments);
       replTokens = evaluateHashhashOperators(replTokens);
       expansion.addAll(expandMacro(macro.name, serialize(replTokens)));
@@ -591,7 +612,7 @@ public class CxxPreprocessor extends Preprocessor {
     // "Stringify" the argument if the according parameter is preceded by an #
 
     List<Token> newTokens = new ArrayList<Token>();
-    if (body.size() != 0) {
+    if (!body.isEmpty()) {
       List<String> defParamValues = new ArrayList<String>();
       for (Token t : parameters) {
         defParamValues.add(t.getValue());
@@ -600,7 +621,10 @@ public class CxxPreprocessor extends Preprocessor {
       for (int i = 0; i < body.size(); ++i) {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
-        if (index != -1) {
+        if (index == -1) {
+          newTokens.add(curr);
+        }
+        else if (index < arguments.size()) {
           Token replacement = arguments.get(index);
 
           // TODO: maybe we should pipe the argument through the whole expansion
@@ -621,9 +645,6 @@ public class CxxPreprocessor extends Preprocessor {
               .setType(replacement.getType())
               .setGeneratedCode(true)
               .build());
-        }
-        else {
-          newTokens.add(curr);
         }
       }
     }
@@ -718,12 +739,27 @@ public class CxxPreprocessor extends Preprocessor {
         ? ast.getName().equals("objectlikeMacroDefinition") ? null : new LinkedList<Token>()
         : getParams(paramList);
 
+    AstNode vaargs = ast.getFirstDescendant(CppGrammar.variadicparameter);
+    if (vaargs != null) {
+        AstNode identifier = vaargs.getFirstChild(IDENTIFIER);
+        macroParams.add(identifier == null
+            ? Token.builder()
+                .setLine(vaargs.getToken().getLine())
+                .setColumn(vaargs.getToken().getColumn())
+                .setURI(vaargs.getToken().getURI())
+                .setValueAndOriginalValue("__VA_ARGS__")
+                .setType(IDENTIFIER)
+                .setGeneratedCode(true)
+                .build()
+            : identifier.getToken());
+    }
+
     AstNode replList = ast.getFirstDescendant(CppGrammar.replacementList);
     List<Token> macroBody = replList == null
         ? new LinkedList<Token>()
         : replList.getTokens().subList(0, replList.getTokens().size() - 1);
 
-    return new Macro(macroName, macroParams, macroBody);
+    return new Macro(macroName, macroParams, macroBody, vaargs != null);
   }
 
   private List<Token> getParams(AstNode identListAst) {
