@@ -78,7 +78,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return CxxPlugin.isEnabled(project);
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
   
   /**

@@ -67,7 +67,7 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public boolean shouldExecuteOnProject(Project project) {
-    return CxxPlugin.isEnabled(project);
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
 
   /**
