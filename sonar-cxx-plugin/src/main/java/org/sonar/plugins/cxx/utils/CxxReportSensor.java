@@ -31,6 +31,7 @@ import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public boolean shouldExecuteOnProject(Project project) {
-    return CxxLanguage.KEY.equals(project.getLanguageKey());
+    return CxxPlugin.isEnabled(project);
   }
 
   /**
