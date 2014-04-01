@@ -173,6 +173,14 @@ public class CxxPreprocessor extends Preprocessor {
       
       macros.putHighPrio(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken), false));
     }
+    
+    // parse the configured force includes and store into the macro library
+    for (String include : conf.getForceIncludeFiles()) {
+      LOG.debug("parsing force include: '{}'", include);
+      if (!include.equals("")) {
+        parseIncludeLine("#include <" + include + ">");
+      }
+    }    
   }
 
   @Override
@@ -377,6 +385,11 @@ public class CxxPreprocessor extends Preprocessor {
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
+  private void parseIncludeLine(String includeLine) {
+    AstNode includeAst = pplineParser.parse(includeLine);
+    handleIncludeLine(includeAst, includeAst.getToken(), "");
+  }
+    
   PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename) {
     //
     // Included files have to be scanned with the (only) goal of gathering macros.

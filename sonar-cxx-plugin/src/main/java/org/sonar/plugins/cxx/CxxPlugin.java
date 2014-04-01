@@ -185,7 +185,15 @@ import java.util.List;
     description = "Enables/disables the parse error recovery. For development purposes.",
     type = PropertyType.BOOLEAN,
     global = false,
-    project = true)
+    project = true),
+ @Property(
+    key = CxxPlugin.FORCE_INCLUDE_FILES_KEY,
+    defaultValue = "",
+    name = "Force inclusion definitions",
+    description = "Causes one or more filenames to be implicitly included at the beginning of each file",
+    type = PropertyType.TEXT,
+    global = true,
+    project = true)        
     })
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
@@ -193,7 +201,9 @@ public final class CxxPlugin extends SonarPlugin {
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
+  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.force_includes";
   
+
   /**
    * {@inheritDoc}
    */

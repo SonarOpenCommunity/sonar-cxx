@@ -105,6 +105,22 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
 
+@Test
+  public void testForceIncludedFiles() {
+    settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include"); // todo: not sure if it should work without this (=> using baseDir)?
+    settings.setProperty(CxxPlugin.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder\\force2.hh");
+    setUpSensor(TestUtils.loadResource("force-include-project"), "src");
+
+    sensor.analyse(project, context);
+
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.LINES), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(2.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+  }
+  
   @Test
   public void testBehaviourOnCircularIncludes() {
     // especially: when two files, both belonging to the set of
