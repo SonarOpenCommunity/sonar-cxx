@@ -38,9 +38,13 @@ public class ReservedNamesCheckTest {
     checkMessagesVerifier.verify(file.getCheckMessages())
         .next().atLine(3).withMessage("Reserved name used for macro (keyword or alternative token redefined)")
         .next().atLine(4)
-        .next().atLine(12).withMessage("Reserved name used for macro (incorrect use of underscore)")
-        .next().atLine(13)
+        .next().atLine(5)
+        .next().atLine(6)
+        .next().atLine(14).withMessage("Reserved name used for macro (begins with underscore followed by a capital letter)")
+        .next().atLine(15)
         .next().atLine(16)
-        .next().atLine(17);
+        .next().atLine(18).withMessage("Reserved name used for macro (contains two consecutive underscores)")
+        .next().atLine(19)
+        .next().atLine(20);
   }
 }
