@@ -111,4 +111,13 @@ public class CxxExternalRulesSensorTest {
     sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
   }
+  
+  @Test
+  public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
+    settings = new Settings();
+    settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(context, times(1)).saveViolation(any(Violation.class));
+  }
 }

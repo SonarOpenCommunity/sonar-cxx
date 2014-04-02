@@ -89,7 +89,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("id");
           String msg = errorCursor.getAttrValue("msg");
 
-          saveViolation(project, context, CxxExternalRuleRepository.KEY, file, line, id, msg);
+          saveUniqueViolation(project, context, CxxExternalRuleRepository.KEY, file, line, id, msg);
         }
       }
     });
