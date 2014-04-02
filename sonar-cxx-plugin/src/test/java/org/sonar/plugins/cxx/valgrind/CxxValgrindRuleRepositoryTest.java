@@ -30,11 +30,12 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.sonar.api.config.Settings;
 
 public class CxxValgrindRuleRepositoryTest {
   @Test
   public void shouldContainProperNumberOfRules() {
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new XMLRuleParser());
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new XMLRuleParser(), new Settings());
     assertEquals(repo.createRules().size(), 15);
   }
 
@@ -44,7 +45,7 @@ public class CxxValgrindRuleRepositoryTest {
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesOldFormat.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
     assertEquals(repo.createRules().size(), 17);
   }
 
@@ -54,7 +55,7 @@ public class CxxValgrindRuleRepositoryTest {
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesNewFormat.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
     assertEquals(repo.createRules().size(), 16);
   }
 
@@ -64,7 +65,7 @@ public class CxxValgrindRuleRepositoryTest {
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesInvalid.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
     repo.createRules();
   }
 
@@ -74,7 +75,7 @@ public class CxxValgrindRuleRepositoryTest {
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesEmptyFile.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser());
+    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
     repo.createRules();
   }
 }

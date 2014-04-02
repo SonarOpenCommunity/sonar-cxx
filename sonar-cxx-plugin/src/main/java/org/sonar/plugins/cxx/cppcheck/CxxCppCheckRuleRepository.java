@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.cppcheck;
 
+import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
@@ -27,13 +28,14 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  * {@inheritDoc}
  */
 public final class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
-  static final String KEY = "cppcheck";
-
+  public static final String KEY = "cppcheck";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.cppcheck";
+  
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
-    super(fileSystem, xmlRuleParser, KEY);
+  public CxxCppCheckRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
+    super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
     setName(KEY);
   }
 

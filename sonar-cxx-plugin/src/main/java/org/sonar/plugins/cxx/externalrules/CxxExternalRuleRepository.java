@@ -20,38 +20,25 @@
 package org.sonar.plugins.cxx.externalrules;
 
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleRepository;
 import org.sonar.api.rules.XMLRuleParser;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import org.sonar.api.config.Settings;
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
 /**
  * Loads the external rules configuration file.
  */
-public class CxxExternalRuleRepository extends RuleRepository {
+public class CxxExternalRuleRepository extends CxxAbstractRuleRepository {
 
-  public static final String REPOSITORY_KEY = "cxxexternal";
+  public static final String KEY = "cxxexternal";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.cxxexternal";
 
-  // for user extensions
-  private final ServerFileSystem fileSystem;
-  private final XMLRuleParser xmlRuleParser;
-
-  public CxxExternalRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser) {
-    super(REPOSITORY_KEY, "c++");
-    setName(REPOSITORY_KEY);
-    this.fileSystem = fileSystem;
-    this.xmlRuleParser = xmlRuleParser;
+  public CxxExternalRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
+    super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
+    setName(KEY);
   }
 
   @Override
-  public List<Rule> createRules() {
-    List<Rule> rules = new ArrayList<Rule>();
-    for (File userExtensionXml : fileSystem.getExtensions(REPOSITORY_KEY, "xml")) {
-      rules.addAll(xmlRuleParser.parse(userExtensionXml));
-    }
-    return rules;
+  protected String fileName() {
+    return "";
   }
 }
