@@ -27,20 +27,20 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 /**
  * {@inheritDoc}
  */
-public final class CxxCompilerRuleRepository extends CxxAbstractRuleRepository {
-  public static final String KEY = "compiler";
-  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.compiler";
-    
+public final class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
+  static final String KEY = "compiler-gcc";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.compiler-gcc";
+
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
+  public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
     super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
     setName(KEY);
   }
 
   @Override
   protected String fileName() {
-    return "/compiler.xml";
+    return "/compiler-gcc.xml";
   }
 }

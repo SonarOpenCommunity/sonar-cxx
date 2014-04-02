@@ -42,8 +42,12 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
  * Creates FXCop rule repositories for every language supported by FxCop.
  */
 @Properties({
-  @Property(key = CxxCompilerRuleRepository.CUSTOM_RULES_KEY,
-    defaultValue = "", name = "Compiler custom rules",
+  @Property(key = CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY,
+    defaultValue = "", name = "Compiler custom rules for Visual C++",
+    description = "XML description of Compiler custom rules", type = PropertyType.TEXT,
+    global = true, project = false),
+  @Property(key = CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY,
+    defaultValue = "", name = "Compiler custom rules for GCC",
     description = "XML description of Compiler custom rules", type = PropertyType.TEXT,
     global = true, project = false),
   @Property(key = CxxCppCheckRuleRepository.CUSTOM_RULES_KEY,
@@ -86,7 +90,8 @@ public class CxxRuleRepositoryProvider extends ExtensionProvider implements Serv
   public Object provide() {
     List<CxxAbstractRuleRepository> extensions = new ArrayList<CxxAbstractRuleRepository>();
     
-    extensions.add(new CxxCompilerRuleRepository(this.fileSystem, this.xmlRuleParser, this.settings));
+    extensions.add(new CxxCompilerVcRuleRepository(this.fileSystem, this.xmlRuleParser, this.settings));
+    extensions.add(new CxxCompilerGccRuleRepository(this.fileSystem, this.xmlRuleParser, this.settings));
     extensions.add(new CxxCppCheckRuleRepository(this.fileSystem, this.xmlRuleParser, this.settings));
     extensions.add(new CxxPCLintRuleRepository(this.fileSystem, this.xmlRuleParser, this.settings));
     extensions.add(new CxxRatsRuleRepository(this.fileSystem, this.xmlRuleParser, this.settings));

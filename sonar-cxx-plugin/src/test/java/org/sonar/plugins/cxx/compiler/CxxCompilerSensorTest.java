@@ -38,24 +38,39 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class CxxCompilerSensorTest {
-  private CxxCompilerSensor sensor;
   private SensorContext context;
   private Project project;
+  private RuleFinder ruleFinder;
+  private RulesProfile profile;
+
+  private CxxCompilerSensor createSensor(String parser)
+  {
+      Settings settings = new Settings();
+      settings.setProperty("sonar.cxx.compiler.parser", parser);
+      return new CxxCompilerSensor(ruleFinder, settings, TestUtils.mockFileSystem(), profile);
+  }
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    RulesProfile profile = mock(RulesProfile.class);
-    sensor = new CxxCompilerSensor(ruleFinder, new Settings(), TestUtils.mockFileSystem(), profile);
+    ruleFinder = TestUtils.mockRuleFinder();
+    profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test
-  public void shouldReportCorrectViolations() {
+  public void shouldReportCorrectVcViolations() {
+    CxxCompilerSensor sensor = createSensor("vc");
     sensor.analyse(project, context);
     verify(context, times(9)).saveViolation(any(Violation.class));
+  }
+
+  @Test
+  public void shouldReportCorrectGccViolations() {
+    CxxCompilerSensor sensor = createSensor("gcc");
+    sensor.analyse(project, context);
+    verify(context, times(4)).saveViolation(any(Violation.class));
   }
 }
