@@ -25,4 +25,9 @@ public:
         execute(ACTION_1);
         release(ACTION_1);
     }
+    
+    void ptrnull() {
+        char *ptr  = nullptr;
+        char *ptr2 = nullptr;
+    }
 };

@@ -38,6 +38,7 @@ import java.util.Map;
 public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
 
   private static final int MINIMAL_LITERAL_LENGTH = 7;
+  private static String[] allowedliteralnames = {"nullptr"};
 
   private final Map<String, Integer> firstOccurrence = Maps.newHashMap();
   private final Map<String, Integer> literalsOccurrences = Maps.newHashMap();
@@ -82,8 +83,17 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
   private void visitOccurence(String literal, int line) {
     if (literal.length() >= minimalLiteralLength) {
       if (!firstOccurrence.containsKey(literal)) {
-        firstOccurrence.put(literal, line);
-        literalsOccurrences.put(literal, 1);
+        boolean isAllowed = false;
+        for(String allowedLiteral : allowedliteralnames) {
+          if (allowedLiteral.equals(literal)) {
+            isAllowed = true;
+          }   
+        }
+        
+        if (!isAllowed) {
+          firstOccurrence.put(literal, line);
+          literalsOccurrences.put(literal, 1);          
+        }
       } else {
         int occurences = literalsOccurrences.get(literal);
         literalsOccurrences.put(literal, occurences + 1);
