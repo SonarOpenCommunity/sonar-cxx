@@ -43,6 +43,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.cxx.visitors.CxxFileVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
+import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
 import org.sonar.squid.api.SourceClass;
 import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
@@ -189,6 +190,9 @@ public final class CxxAstScanner {
 
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor(context));
+    
+    // log syntax errors
+    builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor(context));
     
     /* External visitors (typically Check ones) */
     for (SquidAstVisitor<Grammar> visitor : visitors) {
