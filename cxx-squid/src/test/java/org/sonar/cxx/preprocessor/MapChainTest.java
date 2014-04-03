@@ -32,27 +32,32 @@ public class MapChainTest {
 
   @Test
   public void gettingHighPrioMapping() {
-    mc.putHighPrio("k", "v");
+    mc.setHighPrio(true);
+    mc.put("k", "v");
     assertEquals(mc.get("k"), "v");
   }
 
   @Test
   public void gettingLowPrioMapping() {
-    mc.putLowPrio("k", "v");
+    mc.setHighPrio(false);
+    mc.put("k", "v");
     assertEquals(mc.get("k"), "v");
   }
 
   @Test
   public void removeLowPrioMapping() {
-    mc.putLowPrio("k", "v");
+    mc.setHighPrio(false);
+    mc.put("k", "v");
     mc.removeLowPrio("k");
     assertEquals(mc.get("k"), null);
   }
 
   @Test
   public void gettingNotExistingMapping() {
-    mc.putLowPrio("k", "vlow");
-    mc.putHighPrio("k", "vhigh");
+    mc.setHighPrio(false);
+    mc.put("k", "vlow");
+    mc.setHighPrio(true);
+    mc.put("k", "vhigh");
     assertEquals(mc.get("k"), "vhigh");
   }
 
@@ -63,22 +68,26 @@ public class MapChainTest {
 
   @Test
   public void clearingLowPrioDeletesLowPrioMappings() {
-    mc.putLowPrio("k", "v");
+    mc.setHighPrio(false);
+    mc.put("k", "v");
     mc.clearLowPrio();
     assertEquals(mc.get("k"), null);
   }
 
   @Test
   public void clearingLowPrioDoesntAffectHighPrioMappings() {
-    mc.putHighPrio("k", "v");
+    mc.setHighPrio(true);
+    mc.put("k", "v");
     mc.clearLowPrio();
     assertEquals(mc.get("k"), "v");
   }
 
   @Test
   public void disable() {
-    mc.putHighPrio("khigh", "vhigh");
-    mc.putLowPrio("klow", "vlow");
+    mc.setHighPrio(true);
+    mc.put("khigh", "vhigh");
+    mc.setHighPrio(false);
+    mc.put("klow", "vlow");
 
     mc.disable("khigh");
     mc.disable("klow");
@@ -89,8 +98,10 @@ public class MapChainTest {
 
   @Test
   public void enable() {
-    mc.putHighPrio("khigh", "vhigh");
-    mc.putLowPrio("klow", "vlow");
+    mc.setHighPrio(true);
+    mc.put("khigh", "vhigh");
+    mc.setHighPrio(false);
+    mc.put("klow", "vlow");
     mc.disable("khigh");
     mc.disable("klow");
 

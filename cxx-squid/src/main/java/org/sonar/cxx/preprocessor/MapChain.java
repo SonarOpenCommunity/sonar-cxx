@@ -27,18 +27,23 @@ public class MapChain<K, V> {
   private Map<K, V> lowPrioMap = new HashMap<K, V>();
   private Map<K, V> highPrioDisabled = new HashMap<K, V>();
   private Map<K, V> lowPrioDisabled = new HashMap<K, V>();
+  private boolean isHighPrioEnabled = false;
 
   public V get(Object key) {
     V value = highPrioMap.get(key);
     return value != null ? value : lowPrioMap.get(key);
   }
 
-  public V putHighPrio(K key, V value) {
-    return highPrioMap.put(key, value);
+  public void setHighPrio(boolean value) {
+    isHighPrioEnabled = value;
   }
-
-  public V putLowPrio(K key, V value) {
-    return lowPrioMap.put(key, value);
+  
+  public V put(K key, V value) {
+    if (isHighPrioEnabled) {
+      return highPrioMap.put(key, value);
+    } else {
+      return lowPrioMap.put(key, value);
+    }
   }
 
   public V removeLowPrio(K key) {
