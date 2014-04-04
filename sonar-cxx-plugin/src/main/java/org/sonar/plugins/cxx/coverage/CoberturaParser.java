@@ -30,11 +30,18 @@ import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
 import java.util.Map;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 /**
  * {@inheritDoc}
  */
 public class CoberturaParser implements CoverageParser {
+  private ModuleFileSystem fs;
+    
+  public CoberturaParser(ModuleFileSystem fs) {
+    this.fs = fs;
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -68,6 +75,7 @@ public class CoberturaParser implements CoverageParser {
   {
     while (clazz.getNext() != null) {
       String fileName = clazz.getAttrValue("filename");
+      fileName = CxxUtils.getCaseSensitiveFileName(fileName, fs.sourceDirs());
       CoverageMeasuresBuilder builder = coverageData.get(fileName);
       if (builder == null) {
         builder = CoverageMeasuresBuilder.create();

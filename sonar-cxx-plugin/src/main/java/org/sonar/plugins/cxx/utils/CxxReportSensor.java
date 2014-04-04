@@ -31,7 +31,6 @@ import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.plugins.cxx.CxxPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -171,6 +170,7 @@ public abstract class CxxReportSensor implements Sensor {
       Violation violation = null;
       // handles file="" situation
       if ((file != null) && (file.length() > 0)){
+        file = CxxUtils.getCaseSensitiveFileName(file, fs.sourceDirs());
         org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (context.getResource(resource) != null) {
