@@ -20,6 +20,7 @@ if (0) {                   // Compliant - already reported
   printf("\n");            // Non-Compliant
   if (0) {                 // Compliant - already reported
         printf("\n");      // Compliant
+	printf("\n");          // Compliant - with the default tab width of 8 characters
     printf("\n");          // Non-Compliant
   }
       ; printf("\n");      // Compliant
