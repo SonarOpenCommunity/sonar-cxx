@@ -19,23 +19,18 @@
  */
 package org.sonar.plugins.cxx.cppcheck;
 
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
-import org.codehaus.staxmate.in.SMInputCursor;
+import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
+import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.utils.StaxParser;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.sonar.plugins.cxx.utils.EmptyReportException;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import javax.xml.stream.XMLStreamException;
-
-import java.io.File;
 
 /**
  * Sensor for cppcheck (static code analyzer).
@@ -46,8 +41,10 @@ import java.io.File;
 public class CxxCppCheckSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
+  
   private final RulesProfile profile;
-
+  private static List<CppcheckParser> parsers = new LinkedList<CppcheckParser>();
+  
   /**
    * {@inheritDoc}
    */
@@ -55,6 +52,8 @@ public class CxxCppCheckSensor extends CxxReportSensor {
       RulesProfile profile) {
     super(ruleFinder, conf, fs);
     this.profile = profile;
+    parsers.add(new CppcheckParserV2(this));
+    parsers.add(new CppcheckParserV1(this));
   }
 
   /**
@@ -78,40 +77,23 @@ public class CxxCppCheckSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
-    StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-      /**
-       * {@inheritDoc}
-       */
-      public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        try{
-          rootCursor.advance(); // results
+    throws javax.xml.stream.XMLStreamException {
+    boolean parsed = false;
+    for (CppcheckParser parser : parsers) {
+      try {
+        parser.processReport(project, context, report);
+        if (parser.hasParsed()) {
+          CxxUtils.LOG.info("Added report '{}' (parsed by: {})", report, parser);
+          parsed = true;
+          break;
         }
-        catch(com.ctc.wstx.exc.WstxEOFException eofExc){
-          throw new EmptyReportException();
-        }
-
-        SMInputCursor errorCursor = rootCursor.childElementCursor("error"); // error
-        while (errorCursor.getNext() != null) {
-          String file = errorCursor.getAttrValue("file");
-          String line = errorCursor.getAttrValue("line");
-          String id = errorCursor.getAttrValue("id");
-          String msg = errorCursor.getAttrValue("msg");
-
-          if (isInputValid(file, line, id, msg)) {
-            saveViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
-          } else {
-            CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
-          }
-        }
+      } catch (XMLStreamException e) {
+        CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
       }
+    }
 
-      private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
-      }
-    });
-
-    parser.parse(report);
+    if (!parsed) {
+      CxxUtils.LOG.error("Report {} cannot be parsed", report);
+    }
   }
 }
