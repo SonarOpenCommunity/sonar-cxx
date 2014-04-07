@@ -20,7 +20,7 @@ if (0) {                   // Compliant - already reported
   printf("\n");            // Non-Compliant
   if (0) {                 // Compliant - already reported
         printf("\n");      // Compliant
-	printf("\n");          // Compliant - with the default tab width of 8 characters
+	printf("\n");          // Compliant with the default tab width (8)
     printf("\n");          // Non-Compliant
   }
       ; printf("\n");      // Compliant
@@ -89,4 +89,9 @@ class Foo {
   void       Test1();      // Compliant
   virtual void ReportError(); // Compliant
   virtual void Test()=0;   // Compliant
+  virtual ~Foo()      {;}   // Compliant
+  enum Code { CODE_1, CODE_2,	// No check
+              CODE_3, CODE_4,   // Compliant
+	      CODE_4,	CODE_5,     // Compliant with the default tab width (8)
+    CODE_6 };           // Not compliant
 };

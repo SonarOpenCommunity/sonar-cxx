@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Stack;
 
 @Rule(
   key = "IndentationCheck",
@@ -52,11 +53,13 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       CxxGrammarImpl.namespaceBody,
       CxxGrammarImpl.declarationSeq,
       CxxGrammarImpl.classSpecifier,
-      CxxGrammarImpl.enumSpecifier
+      CxxGrammarImpl.enumeratorList
   };
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {
       CxxGrammarImpl.statement,
+      CxxGrammarImpl.emptyStatement,
+      CxxGrammarImpl.emptyDeclaration,
       CxxGrammarImpl.memberDeclaration,
       CxxGrammarImpl.enumeratorDefinition,
   };
@@ -127,11 +130,22 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     return column;
   }
 
+  private Stack<Integer> blockLevels = new Stack<Integer>();
+
   @Override
   public void visitNode(AstNode node) {
     if (node.is(BLOCK_TYPES)) {
+      blockLevels.push(expectedLevel);
       expectedLevel += indentationLevel;
       isBlockAlreadyReported = false;
+
+      AstNode firstChild = node.getFirstChild(CHECKED_TYPES);
+      if (firstChild != null) {
+        AstNode prevNode = firstChild.getPreviousAstNode();
+        if (prevNode != null && firstChild.getToken().getLine() == prevNode.getToken().getLine()) {
+          expectedLevel = getTabColumn(firstChild);
+        }
+      }
     } else if (node.getToken().getColumn() != expectedLevel && !isExcluded(node) && getTabColumn(node) != expectedLevel) {
       getContext().createLineViolation(this, "Make this line start at column " + (expectedLevel + 1) + ".", node);
       isBlockAlreadyReported = true;
@@ -141,7 +155,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
   @Override
   public void leaveNode(AstNode node) {
     if (node.is(BLOCK_TYPES)) {
-      expectedLevel -= indentationLevel;
+      expectedLevel = blockLevels.pop();
       isBlockAlreadyReported = false;
     }
 
