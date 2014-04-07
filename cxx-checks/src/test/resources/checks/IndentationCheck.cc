@@ -78,4 +78,14 @@ class Foo {
       default: ;
     }
   };
+  void foo()         {}    // Compliant
+  Foo();                   // Compliant
+  enum Code {              // Compliant
+    CODE_OK,
+    CODE_ERROR,
+  }
+  bool       variable;     // Compliant
+  void       Test1();      // Compliant
+  virtual void ReportError(); // Compliant
+  virtual void Test()=0;   // Compliant
 };
