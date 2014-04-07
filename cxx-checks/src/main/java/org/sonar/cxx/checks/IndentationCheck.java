@@ -56,8 +56,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {
       CxxGrammarImpl.statement,
-      CxxGrammarImpl.simpleTypeSpecifier,
-      CxxGrammarImpl.memberSpecification,
+      CxxGrammarImpl.memberDeclaration,
       CxxGrammarImpl.enumeratorDefinition,
   };
 
