@@ -27,12 +27,9 @@ enum Foo
     e = 4                                         // Compliant
 };
 
-/*
 #define MY_NUM 1234
 
 int someFunction()
 {
     return MY_NUM;
 }
-
-*/
