@@ -63,6 +63,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       CxxGrammarImpl.declaration,
       CxxGrammarImpl.memberDeclaration,
       CxxGrammarImpl.enumeratorDefinition,
+      CxxGrammarImpl.switchLabelStatement
   };
 
   private static final int DEFAULT_INDENTATION_LEVEL = 2;
@@ -212,6 +213,10 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
      if (node.is(CxxGrammarImpl.statement) && node.getFirstChild().is(CxxGrammarImpl.compoundStatement) &&
            (node.getParent().is(CxxGrammarImpl.iterationStatement) || node.getParent().is(CxxGrammarImpl.ifStatement))) {
        //Compound statements inside condition/loops should be at the same indent level as the if/else/loop keyword
+       return expectedLevel - indentationLevel;
+     }
+     if (node.is(CxxGrammarImpl.switchLabelStatement)) {
+       //Switch label statements are visited after we enter the switchBlockStatementGroup, so indent has already been incremented
        return expectedLevel - indentationLevel;
      }
      return expectedLevel;

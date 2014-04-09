@@ -55,7 +55,15 @@ public class IndentationCheckTest {
         .next().atLine(138)
         .next().atLine(150)
         .next().atLine(152)
-        .next().atLine(155);
+        .next().atLine(155)
+        .next().atLine(160)
+        .next().atLine(161)
+        .next().atLine(166)
+        .next().atLine(169)
+        .next().atLine(170)
+        .next().atLine(173)
+        .next().atLine(175)
+        .next().atLine(179);
   }
 
   @Test

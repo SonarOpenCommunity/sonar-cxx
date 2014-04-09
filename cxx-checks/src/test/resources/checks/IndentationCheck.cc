@@ -152,5 +152,30 @@ namespace YYY {            // Compliant
 namespace XXX {            // Non-Compliant
 }
 }
-  int fun() {              // Non-Complint
+  int fun() {              // Non-Compliant
   }
+void foo1() {              // Compliant
+  printf("\n");            // Compliant
+}                          // Compliant
+ void foo2() {             // Non-Compliant
+ printf("hehe");           // Non-Compliant
+     printf("\n");         // Compliant - already reported
+}
+void foo3() {
+  switch(x) {
+   case 1:                 // Non-Compliant
+      break;               // Compliant
+    case 2:                // Compliant
+     break;                // Non-Compliant
+  default:                 // Non-Compliant
+      break;
+  }
+   switch (0)              // Non-Compliant
+   {
+   case 0:                 // Non-Compliant
+      printf("\n");        // Compliant
+     break;                // Compliant - already reported
+    case 1:                // Compliant
+     break;                // Non-Compliant
+   }
+}
