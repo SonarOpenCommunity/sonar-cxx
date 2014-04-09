@@ -100,4 +100,29 @@ start:
 end:
 printf("\n");              // Non-compliant
   }
+  void VariousIfs() {
+    if (0)                 // Compliant
+      printf("\n");        // Compliant
+    if (0)                 // Compliant
+    printf("\n");          // Non-Compliant
+    if (0) printf("\n");   // Compliant
+    if (0) { printf("\n"); }// Compliant
+    if (0);                // Compliant
+    if (1)
+    {
+    }
+    else if (2)            // Compliant
+    {
+      printf("\n");        // Compliant
+    }
+    else if (3)
+      printf("\n");        // Compliant
+    else
+    {                      // Compliant
+      printf("\n");        // Compliant
+    }
+    if (0) {               // Compliant
+      printf("\n");        // Compliant
+    }
+  }
 };

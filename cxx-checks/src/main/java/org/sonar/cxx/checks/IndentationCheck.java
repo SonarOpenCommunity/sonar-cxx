@@ -53,7 +53,9 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       CxxGrammarImpl.namespaceBody,
       CxxGrammarImpl.declarationSeq,
       CxxGrammarImpl.classSpecifier,
-      CxxGrammarImpl.enumeratorList
+      CxxGrammarImpl.enumeratorList,
+      CxxGrammarImpl.iterationStatement,
+      CxxGrammarImpl.ifStatement
   };
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {
@@ -80,7 +82,6 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   private int expectedLevel;
   private boolean isBlockAlreadyReported;
-  private int lastCheckedLine;
 
   private Charset charset;
 
@@ -98,7 +99,6 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
   public void visitFile(AstNode node) {
     expectedLevel = 0;
     isBlockAlreadyReported = false;
-    lastCheckedLine = 0;
   }
 
   @Override
@@ -132,12 +132,36 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   private Stack<Integer> blockLevels = new Stack<Integer>();
 
+  /** Check if the node is a conditional block.
+   * i.e. verify if the node is a statementSeq (inside a compoundStatement inside a statement), which is
+   * inside an if or iteration statement.
+   */
+  private boolean isConditionalBlock(AstNode node) {
+    if (node.is(CxxGrammarImpl.statementSeq)) {
+      node = node.getParent() //compoundStatement
+                 .getParent() //statement
+                 .getParent();
+      return node.is(CxxGrammarImpl.ifStatement) || node.is(CxxGrammarImpl.iterationStatement);
+    }
+    return false;
+  }
+
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(BLOCK_TYPES)) {
+    if (node.is(CxxGrammarImpl.ifStatement) || node.is(CxxGrammarImpl.iterationStatement)) {
       blockLevels.push(expectedLevel);
-      expectedLevel += indentationLevel;
+      if (!node.getParent().getParent().is(CxxGrammarImpl.ifStatement) || isLineFirstStatement(node))
+        //do not indent if this condition block is a direct child of another one, and not on his own line: e.g. "else if ()"
+        expectedLevel += indentationLevel;
       isBlockAlreadyReported = false;
+    }
+    else if (node.is(BLOCK_TYPES)) {
+      blockLevels.push(expectedLevel);
+      if (!isConditionalBlock(node)) {
+        //do not further indent conditional block, the if/for/... statement already incremented the indentation
+        expectedLevel += indentationLevel;
+        isBlockAlreadyReported = false;
+      }
 
       AstNode firstChild = node.getFirstChild(CHECKED_TYPES);
       if (firstChild != null) {
@@ -163,6 +187,11 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
        //Label should be at the beginning of the line
        return 0;
      }
+     if (node.is(CxxGrammarImpl.statement) && node.getFirstChild().is(CxxGrammarImpl.compoundStatement) &&
+           (node.getParent().is(CxxGrammarImpl.iterationStatement) || node.getParent().is(CxxGrammarImpl.ifStatement))) {
+       //Compound statements inside condition/loops should be at the same indent level as the if/else/loop keyword
+       return expectedLevel - indentationLevel;
+     }
      return expectedLevel;
   }
 
@@ -172,9 +201,6 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       expectedLevel = blockLevels.pop();
       isBlockAlreadyReported = false;
     }
-
-    Token lastToken = getLastToken(node);
-    lastCheckedLine = lastToken.getLine();
   }
 
   private boolean isExcluded(AstNode node) {
@@ -182,7 +208,8 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
   }
 
   private boolean isLineFirstStatement(AstNode node) {
-    return lastCheckedLine != node.getTokenLine();
+    AstNode prev = node.getPreviousAstNode();
+    return prev == null || getLastToken(prev).getLine() != node.getTokenLine();
   }
 
   private static Token getLastToken(AstNode node) {
