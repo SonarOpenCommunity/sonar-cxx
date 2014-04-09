@@ -94,6 +94,13 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     defaultValue = "" + DEFAULT_INDENT_LINKAGE_SPEC)
   boolean indentLinkageSpecification = DEFAULT_INDENT_LINKAGE_SPEC;
 
+  private static final boolean DEFAULT_INDENT_SWITCH_CASE = true;
+
+  @RuleProperty(
+    key = "indentSwitchCase",
+    defaultValue = "" + DEFAULT_INDENT_SWITCH_CASE)
+  boolean indentSwitchCase = DEFAULT_INDENT_SWITCH_CASE;
+
   private int expectedLevel;
   private boolean isBlockAlreadyReported;
 
@@ -181,7 +188,8 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       blockLevels.push(expectedLevel);
       if (!isConditionalBlock(node) && //do not further indent conditional block, the if/for/... statement already incremented the indentation
           (indentNamespace || !isNamespaceBody(node)) && //do not indent inside namespace
-          (indentLinkageSpecification || !isLinkageSpecificationBlock(node))) { //do not indent inside linkage specification block
+          (indentLinkageSpecification || !isLinkageSpecificationBlock(node)) && //do not indent inside linkage specification block
+          (indentSwitchCase || !node.is(CxxGrammarImpl.switchBlockStatementGroups))) { //do not indent 'case' and 'default' inside switch statement
         expectedLevel += indentationLevel;
         isBlockAlreadyReported = false;
       }
