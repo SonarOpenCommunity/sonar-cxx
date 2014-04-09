@@ -31,10 +31,10 @@ if (0) {                   // Compliant - already reported
   int b;                   // Non-Compliant
   };
 };
-  enum FooX {
-    A,                    // Compliant
-  B,                      // Non-Compliant
-    C
+  enum FooX {             // Non-Compliant
+    A,                    // Non-Compliant
+  B,                      // Compliant
+    C                     // Compliant - already reported
 };
 int FooY() {
 void foo1();               // Non-Compliant
@@ -134,7 +134,7 @@ namespace Toto {
   {
     printf("\n");          // Compliant
   }
-class Foo {
+class Foo {                // Non-Compliant
   int a;                   // Non-Compliant
 };
 }
@@ -143,3 +143,14 @@ void foo() {
   printf("\n");            // Compliant
 }
 }
+enum Foo {                 // Compliant
+  A,
+  B
+};
+  namespace XXX { }        // Non-Compliant
+namespace YYY {            // Compliant
+namespace XXX {            // Non-Compliant
+}
+}
+  int fun() {              // Non-Complint
+  }

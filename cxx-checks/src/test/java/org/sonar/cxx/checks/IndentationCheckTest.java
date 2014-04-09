@@ -44,12 +44,18 @@ public class IndentationCheckTest {
         .next().atLine(20)
         .next().atLine(24).withMessage("Make this line start at column 9.")
         .next().atLine(31)
+        .next().atLine(34)
         .next().atLine(35)
         .next().atLine(40)
+        .next().atLine(58)
         .next().atLine(96)
         .next().atLine(101)
         .next().atLine(107)
-        .next().atLine(138);
+        .next().atLine(137)
+        .next().atLine(138)
+        .next().atLine(150)
+        .next().atLine(152)
+        .next().atLine(155);
   }
 
   @Test
