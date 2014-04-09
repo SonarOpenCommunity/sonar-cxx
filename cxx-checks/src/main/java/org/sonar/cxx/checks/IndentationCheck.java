@@ -50,7 +50,6 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       CxxGrammarImpl.statementSeq,
       CxxGrammarImpl.switchBlockStatementGroups,
       CxxGrammarImpl.switchBlockStatementGroup,
-      CxxGrammarImpl.namespaceBody,
       CxxGrammarImpl.declarationSeq,
       CxxGrammarImpl.classSpecifier,
       CxxGrammarImpl.enumeratorList,
@@ -79,6 +78,20 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     key = "tabWidth",
     defaultValue = "" + DEFAULT_TAB_WIDTH)
   public int tabWidth = DEFAULT_TAB_WIDTH;
+
+  private static final boolean DEFAULT_INDENT_NAMESPACE = true;
+
+  @RuleProperty(
+    key = "indentNamespace",
+    defaultValue = "" + DEFAULT_INDENT_NAMESPACE)
+  boolean indentNamespace = DEFAULT_INDENT_NAMESPACE;
+
+  private static final boolean DEFAULT_INDENT_LINKAGE_SPEC = false;
+
+  @RuleProperty(
+    key = "indentLinkageSpecification",
+    defaultValue = "" + DEFAULT_INDENT_LINKAGE_SPEC)
+  boolean indentLinkageSpecification = DEFAULT_INDENT_LINKAGE_SPEC;
 
   private int expectedLevel;
   private boolean isBlockAlreadyReported;
@@ -146,6 +159,14 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     return false;
   }
 
+  private boolean isNamespaceBody(AstNode node) {
+    return node.is(CxxGrammarImpl.declarationSeq) && node.getParent().is(CxxGrammarImpl.namespaceBody);
+  }
+
+  private boolean isLinkageSpecificationBlock(AstNode node) {
+    return node.is(CxxGrammarImpl.declarationSeq) && node.getParent().is(CxxGrammarImpl.linkageSpecification);
+  }
+
   @Override
   public void visitNode(AstNode node) {
     if (node.is(CxxGrammarImpl.ifStatement) || node.is(CxxGrammarImpl.iterationStatement)) {
@@ -157,8 +178,9 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     }
     else if (node.is(BLOCK_TYPES)) {
       blockLevels.push(expectedLevel);
-      if (!isConditionalBlock(node)) {
-        //do not further indent conditional block, the if/for/... statement already incremented the indentation
+      if (!isConditionalBlock(node) && //do not further indent conditional block, the if/for/... statement already incremented the indentation
+          (indentNamespace || !isNamespaceBody(node)) && //do not indent inside namespace
+          (indentLinkageSpecification || !isLinkageSpecificationBlock(node))) { //do not indent inside linkage specification block
         expectedLevel += indentationLevel;
         isBlockAlreadyReported = false;
       }

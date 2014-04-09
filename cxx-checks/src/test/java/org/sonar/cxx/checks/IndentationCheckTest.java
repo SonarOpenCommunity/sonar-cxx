@@ -48,7 +48,8 @@ public class IndentationCheckTest {
         .next().atLine(40)
         .next().atLine(96)
         .next().atLine(101)
-        .next().atLine(107);
+        .next().atLine(107)
+        .next().atLine(138);
   }
 
   @Test

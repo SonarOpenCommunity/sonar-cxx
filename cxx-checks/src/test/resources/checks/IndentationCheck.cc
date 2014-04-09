@@ -126,3 +126,20 @@ printf("\n");              // Non-compliant
     }
   }
 };
+namespace Toto {
+  class Foo {
+    int a;                 // Compliant
+  };
+  void foo()
+  {
+    printf("\n");          // Compliant
+  }
+class Foo {
+  int a;                   // Non-Compliant
+};
+}
+extern "C" {
+void foo() {
+  printf("\n");            // Compliant
+}
+}
