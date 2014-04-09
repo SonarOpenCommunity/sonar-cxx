@@ -146,10 +146,24 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
           expectedLevel = getTabColumn(firstChild);
         }
       }
-    } else if (node.getToken().getColumn() != expectedLevel && !isExcluded(node) && getTabColumn(node) != expectedLevel) {
+    } else if (node.getToken().getColumn() != expectedLevel && !isExcluded(node) && getTabColumn(node) != getExpectedNodeLevel(node)) {
       getContext().createLineViolation(this, "Make this line start at column " + (expectedLevel + 1) + ".", node);
       isBlockAlreadyReported = true;
     }
+  }
+
+  /** Get the expected indent level for the specified.
+   * Base indent is expectedLevel, but some special construct get specific indentation rules.
+   * @param node The current node.
+   * @return The indent level.
+   */
+  public int getExpectedNodeLevel(AstNode node)
+  {
+     if (node.is(CxxGrammarImpl.statement) && node.getFirstChild().is(CxxGrammarImpl.labeledStatement)) {
+       //Label should be at the beginning of the line
+       return 0;
+     }
+     return expectedLevel;
   }
 
   @Override
