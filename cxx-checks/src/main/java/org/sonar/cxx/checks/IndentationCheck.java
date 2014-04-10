@@ -20,16 +20,15 @@
 package org.sonar.cxx.checks;
 
 import com.google.common.io.Files;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.AstNodeType;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.*;
 import com.sonar.sslr.squid.checks.SquidCheck;
 
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 
@@ -128,7 +127,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
   }
 
   private List<String> fileLines = null;
-  private int getTabColumn(AstNode node)
+  private int getTabColumn(Token token)
   {
     if (fileLines == null) {
       try {
@@ -138,11 +137,11 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       }
     }
 
-    int line = node.getToken().getLine() - 1;
-    int column = node.getToken().getColumn();
+    int line = token.getLine() - 1;
+    int column = token.getColumn();
     if (fileLines != null && line < fileLines.size()) {
       final String prefix = fileLines.get(line);
-      for (int i = 0; i < prefix.length() && i < node.getToken().getColumn(); i++) {
+      for (int i = 0; i < prefix.length() && i < token.getColumn(); i++) {
         if (prefix.charAt(i) == '\t') {
           column += tabWidth - 1;
         }
@@ -175,6 +174,14 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     return node.is(CxxGrammarImpl.declarationSeq) && node.getParent().is(CxxGrammarImpl.linkageSpecification);
   }
 
+  private void verifyIndent(AstNode node, Token token) {
+    int expectedNodeLevel = token.getType() == CxxTokenType.PREPROCESSOR ? 0 : getExpectedNodeLevel(node);
+    if (token.getColumn() != expectedNodeLevel && !isExcluded(node, token) && getTabColumn(token) != expectedNodeLevel) {
+      getContext().createLineViolation(this, "Make this line start at column " + (expectedNodeLevel + 1) + ".", token);
+      isBlockAlreadyReported = true;
+    }
+  }
+
   @Override
   public void visitNode(AstNode node) {
     if (node.is(CxxGrammarImpl.ifStatement) || node.is(CxxGrammarImpl.iterationStatement)) {
@@ -198,12 +205,16 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       if (firstChild != null) {
         AstNode prevNode = firstChild.getPreviousAstNode();
         if (prevNode != null && firstChild.getToken().getLine() == prevNode.getToken().getLine()) {
-          expectedLevel = getTabColumn(firstChild);
+          expectedLevel = getTabColumn(getFirstTokenOnLine(firstChild));
         }
       }
-    } else if (node.getToken().getColumn() != expectedLevel && !isExcluded(node) && getTabColumn(node) != getExpectedNodeLevel(node)) {
-      getContext().createLineViolation(this, "Make this line start at column " + (expectedLevel + 1) + ".", node);
-      isBlockAlreadyReported = true;
+    }
+    else {
+      for(Trivia trivia : node.getToken().getTrivia())
+        for(Token token : trivia.getTokens()) {
+          verifyIndent(node, token);
+        }
+      verifyIndent(node, node.getToken());
     }
   }
 
@@ -238,13 +249,34 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     }
   }
 
-  private boolean isExcluded(AstNode node) {
-    return isBlockAlreadyReported || !isLineFirstStatement(node);
+  private boolean isExcluded(AstNode node, Token token) {
+    return isBlockAlreadyReported || !isLineFirstToken(node, token);
+  }
+
+  private boolean isLineFirstToken(AstNode node, Token token) {
+    for(Trivia trivia : node.getToken().getTrivia())
+      for(Token t : trivia.getTokens())
+        if (t.getLine() == token.getLine() && t.getColumn() < token.getColumn()) {
+          return false;
+        }
+
+    AstNode prev = node.getPreviousAstNode();
+    return prev == null || getLastToken(prev).getLine() != token.getLine();
   }
 
   private boolean isLineFirstStatement(AstNode node) {
     AstNode prev = node.getPreviousAstNode();
     return prev == null || getLastToken(prev).getLine() != node.getTokenLine();
+  }
+
+  private static Token getFirstTokenOnLine(AstNode node) {
+    Token firstTokenOnLine = node.getToken();
+    for(Trivia trivia : firstTokenOnLine.getTrivia())
+      for(Token token : trivia.getTokens())
+        if (token.getLine() == firstTokenOnLine.getLine() && token.getColumn() < firstTokenOnLine.getColumn()) {
+          firstTokenOnLine = token;
+        }
+    return firstTokenOnLine;
   }
 
   private static Token getLastToken(AstNode node) {

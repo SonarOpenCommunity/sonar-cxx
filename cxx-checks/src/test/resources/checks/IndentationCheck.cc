@@ -179,3 +179,25 @@ void foo3() {
      break;                // Non-Compliant
    }
 }
+#define EMPTY()
+void Trivia() {
+  EMPTY();                 // Compliant
+  EMPTY()
+  ;                        // Compliant
+    EMPTY();               // Non-Compliant
+  if (1) {
+    EMPTY()
+      ;                    // Non-Compliant
+  }
+  if (1) { EMPTY();        // Compliant
+           printf("1");    // Compliant
+             printf("0"); }// Non-Compliant
+  if (1) {
+    /* this is correct */  // Compliant
+      /* this is not */    // Non-Compliant
+    ;
+  }
+#if 0                      // Compliant
+  #endif                   // Non-Compliant
+  printf("0");
+}

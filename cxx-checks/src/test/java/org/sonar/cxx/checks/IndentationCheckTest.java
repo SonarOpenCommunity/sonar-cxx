@@ -25,6 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squid.api.SourceFile;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 
@@ -63,7 +64,12 @@ public class IndentationCheckTest {
         .next().atLine(170)
         .next().atLine(173)
         .next().atLine(175)
-        .next().atLine(179);
+        .next().atLine(179)
+        .next().atLine(187)
+        .next().atLine(190)
+        .next().atLine(194)
+        .next().atLine(197)
+        .next().atLine(201);
   }
 
   @Test
