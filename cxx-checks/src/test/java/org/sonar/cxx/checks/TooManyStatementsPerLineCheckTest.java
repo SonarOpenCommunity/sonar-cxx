@@ -34,9 +34,10 @@ public class TooManyStatementsPerLineCheckTest {
   public void test() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyStatementsPerLine.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(7).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
-        .next().atLine(10)
-        .next().atLine(15)
+        .next().atLine(10).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
+        .next().atLine(13)
+        .next().atLine(16)
+        .next().atLine(20)
         .noMore();
   }
 
