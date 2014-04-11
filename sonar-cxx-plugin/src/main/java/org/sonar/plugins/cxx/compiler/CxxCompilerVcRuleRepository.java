@@ -17,16 +17,30 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.compiler;
 
-import org.junit.Test;
+import org.sonar.api.config.Settings;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
-import static org.junit.Assert.assertEquals;
+/**
+ * {@inheritDoc}
+ */
+public final class CxxCompilerVcRuleRepository extends CxxAbstractRuleRepository {
+  public static final String KEY = "compiler";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.compiler";
+    
+  /**
+   * {@inheritDoc}
+   */
+  public CxxCompilerVcRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
+    super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
+    setName(KEY);
+  }
 
-public class CxxPluginTest {
-  @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(26, plugin.getExtensions().size());
+  @Override
+  protected String fileName() {
+    return "/compiler-vc.xml";
   }
 }

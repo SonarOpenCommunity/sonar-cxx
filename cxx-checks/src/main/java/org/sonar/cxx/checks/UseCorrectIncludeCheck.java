@@ -41,7 +41,7 @@ import java.util.List;
 
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
     
-  private static final String DEFAULT_REGULAR_EXPRESSION = "#include.*(?>\"|\\<)[\\\\/\\.]+";
+  private static final String DEFAULT_REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
   private static final String DEFAULT_MESSAGE = "Use correct #include directives";
   
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;

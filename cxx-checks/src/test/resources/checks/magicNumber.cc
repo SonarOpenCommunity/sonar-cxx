@@ -27,7 +27,6 @@ enum Foo
     e = 4                                         // Compliant
 };
 
-/*
 #define MY_NUM 1234
 
 int someFunction()
@@ -35,4 +34,7 @@ int someFunction()
     return MY_NUM;
 }
 
-*/
+int someData[] = {
+    0x151, 0x4541, 0x524, 0x4121, 0x41223, 0x5451,
+    0x412, 0x7420, 0x78,  0x7443, 0x78874, 0x8744
+};
