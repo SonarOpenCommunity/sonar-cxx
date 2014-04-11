@@ -23,7 +23,7 @@ import com.google.common.collect.Maps;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.squid.checks.SquidCheck;
-
+import java.util.Arrays;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -38,7 +38,7 @@ import java.util.Map;
 public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
 
   private static final int MINIMAL_LITERAL_LENGTH = 7;
-  private static String[] allowedliteralnames = {"nullptr"};
+  private static final String[] ALLOWED_LITERAL_NAMES = {"nullptr"};
 
   private final Map<String, Integer> firstOccurrence = Maps.newHashMap();
   private final Map<String, Integer> literalsOccurrences = Maps.newHashMap();
@@ -83,17 +83,14 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
   private void visitOccurence(String literal, int line) {
     if (literal.length() >= minimalLiteralLength) {
       if (!firstOccurrence.containsKey(literal)) {
-        boolean isAllowed = false;
-        for(String allowedLiteral : allowedliteralnames) {
-          if (allowedLiteral.equals(literal)) {
-            isAllowed = true;
-          }   
+
+        if (Arrays.asList(ALLOWED_LITERAL_NAMES).contains(literal)) {
+          return;
         }
         
-        if (!isAllowed) {
-          firstOccurrence.put(literal, line);
-          literalsOccurrences.put(literal, 1);          
-        }
+        firstOccurrence.put(literal, line);
+        literalsOccurrences.put(literal, 1);   
+
       } else {
         int occurences = literalsOccurrences.get(literal);
         literalsOccurrences.put(literal, occurences + 1);
