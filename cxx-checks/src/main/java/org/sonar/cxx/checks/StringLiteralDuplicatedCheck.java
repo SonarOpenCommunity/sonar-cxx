@@ -83,14 +83,10 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
   private void visitOccurence(String literal, int line) {
     if (literal.length() >= minimalLiteralLength) {
       if (!firstOccurrence.containsKey(literal)) {
-
-        if (Arrays.asList(ALLOWED_LITERAL_NAMES).contains(literal)) {
-          return;
+        if (!Arrays.asList(ALLOWED_LITERAL_NAMES).contains(literal)) {
+          firstOccurrence.put(literal, line);
+          literalsOccurrences.put(literal, 1);   
         }
-        
-        firstOccurrence.put(literal, line);
-        literalsOccurrences.put(literal, 1);   
-
       } else {
         int occurences = literalsOccurrences.get(literal);
         literalsOccurrences.put(literal, occurences + 1);
