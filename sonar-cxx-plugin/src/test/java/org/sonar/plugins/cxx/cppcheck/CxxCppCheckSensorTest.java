@@ -39,6 +39,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class CxxCppCheckSensorTest {
+
   private CxxCppCheckSensor sensor;
   private SensorContext context;
   private Project project;
@@ -63,25 +64,44 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(5)).saveViolation(any(Violation.class));
+    verify(context, times(8)).saveViolation(any(Violation.class));
   }
 
   @Test
-  public void shouldReportProjectLevelViolations() {
+  public void shouldReportProjectLevelViolationsV1() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-                         "cppcheck-reports/cppcheck-result-projectlevelviolation.xml");
+      "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
     sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }
 
   @Test
-  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFound() {
+  public void shouldReportProjectLevelViolationsV2() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-                         "cppcheck-reports/cppcheck-result-SAMPLE.xml");
+      "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(context, times(1)).saveViolation(any(Violation.class));
+  }
+  
+  @Test
+  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+      "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
     sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveViolation(any(Violation.class));
   }
+  
+  @Test
+  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+      "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    when(context.getResource((File) anyObject())).thenReturn(null);
+    sensor.analyse(project, context);
+    verify(context, times(0)).saveViolation(any(Violation.class));
+  }  
 }

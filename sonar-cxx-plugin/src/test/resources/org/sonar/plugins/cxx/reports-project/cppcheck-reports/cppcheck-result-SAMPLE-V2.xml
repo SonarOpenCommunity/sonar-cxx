@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+  <cppcheck version="1.53"/>
+  <errors>  
+    <error id="unusedFunction" severity="style" msg="The function 'foo' is never used"
+             verbose="long error text" inconclusive="true">
+      <location file="sources/utils/code_chunks.cpp" line="1"/>
+    </error>
+    <error id="unusedFunction" severity="style" msg="The function 'foo' is never used"
+             verbose="long error text" inconclusive="true">
+      <location file="sources/utils/utils.cpp" line="1"/>
+    </error>
+  </errors>
+</results>

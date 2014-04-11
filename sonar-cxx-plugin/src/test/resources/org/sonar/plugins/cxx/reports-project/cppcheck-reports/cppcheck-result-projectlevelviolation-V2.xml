@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+  <cppcheck version="1.53"/>
+  <errors>  
+    <error id="someid" severity="error" msg="somemessage"/>
+  </errors>
+</results>
