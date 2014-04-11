@@ -56,19 +56,24 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
     } catch (IOException e) {
       throw new SonarException(e);
     }
-    String[] name = null;
     int nr= 0;
     for (String line : lines) {
       nr++;
-      String[] sub = line.split("^.*#define\\s+", 2);
+      String[] sub = line.split("^\\s*#define\\s+", 2);
       if (sub.length>1) {
-        name = sub[1].toLowerCase().split("\\s",2);
-        for (String keyword : keywords) {
-          if (name[0].startsWith("_"+keyword) || (name[0].startsWith("__"+keyword))  ) {
-            getContext().createLineViolation(this, "Reserved name used for macro (incorrect use of underscore)", nr);
-          } else {
-            if (name[0].contains(keyword)) {
+        String name = sub[1].split("[\\s(]",2)[0];
+        if (name.startsWith("_") && Character.isUpperCase(name.charAt(1))) {
+          getContext().createLineViolation(this, "Reserved name used for macro (begins with underscore followed by a capital letter)", nr);
+        }
+        else if (name.contains("__")) {
+          getContext().createLineViolation(this, "Reserved name used for macro (contains two consecutive underscores)", nr);
+        }
+        else {
+          name = name.toLowerCase();
+          for (String keyword : keywords) {
+            if (name.equals(keyword)) {
               getContext().createLineViolation(this, "Reserved name used for macro (keyword or alternative token redefined)", nr);
+              break;
             }
           }
         }
