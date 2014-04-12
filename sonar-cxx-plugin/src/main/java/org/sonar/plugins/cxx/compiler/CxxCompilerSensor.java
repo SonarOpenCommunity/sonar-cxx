@@ -32,7 +32,6 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -129,7 +128,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
       parser.ParseReport(report, reportCharset, reportRegEx, warnings);
       for(CompilerParser.Warning w : warnings) {
         // get filename from file system - e.g. VC writes case insensitive file name to html
-        String filename = getCaseSensitiveFileName(w.filename, fs.sourceDirs());
+        String filename = CxxUtils.getCaseSensitiveFileName(w.filename, fs.sourceDirs());
         if (isInputValid(filename, w.line, w.id, w.msg)) {
           if (saveUniqueViolation(project, context, parser.rulesRepositoryKey(), filename, w.line, w.id, w.msg)) {
             countViolations++;
@@ -150,40 +149,5 @@ public class CxxCompilerSensor extends CxxReportSensor {
     return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
       && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
   }
-
-  /**
-   *  Supports full path and relative path in report.xml file.
-   */     
-  private String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
-    // check whether the report file uses absolute path
-    File targetfile = new java.io.File(file);
-    if (targetfile.exists()) {
-      file = getRealFileName(targetfile);
-    } else {
-      Iterator<java.io.File> iterator = sourceDirs.iterator();
-      while (iterator.hasNext()) {              
-           targetfile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
-           if (targetfile.exists()) {
-               file = getRealFileName(targetfile);
-               break;
-           }
-      }
-    }
-    return file;      
-  }
-     
-  /**
-   * Find the case sensitive file name - tools might use different naming schema
-   * e.g. VC HTML or build log report uses case insensitive file name (lower case on windows)
-   */      
-  private String getRealFileName( File filename){
-     try {
-         return filename.getCanonicalFile().getAbsolutePath();
-     } catch (java.io.IOException e) {
-       CxxUtils.LOG.error("SaveViolation GetRealFileName failed '{}'", e.toString());
-       }
-     return filename.getName();
-  }
-
-  
+ 
 }
