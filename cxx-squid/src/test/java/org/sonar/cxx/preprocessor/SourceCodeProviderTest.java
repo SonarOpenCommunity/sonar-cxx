@@ -136,6 +136,6 @@ public class SourceCodeProviderTest {
 
   @Test
   public void getting_source_code() {
-    assertEquals(String.format("source code%n"), codeProvider.getSourceCode(expected));
+    assertEquals("source code", codeProvider.getSourceCode(expected));
   }
 }
