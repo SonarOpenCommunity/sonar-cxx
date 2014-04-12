@@ -1083,14 +1083,6 @@
     </description>
   </rule>
   <rule>
-    <key>dangerousUsageStrtol</key>
-    <configkey>dangerousUsageStrtol</configkey>
-    <name>Invalid radix in call to strtol or strtoul. Must be 0 or 2-36</name>
-    <description>
-      Invalid radix in call to strtol or strtoul. Must be 0 or 2-36.
-    </description>
-  </rule>
-  <rule>
     <key>passedByValue</key>
     <configkey>passedByValue</configkey>
     <name>Function parameter should be passed by reference</name>
@@ -1781,15 +1773,6 @@
     <name>Function 'substr' useless call. Function create copy of the 'str' object</name>
     <description>
       Useless call of function 'substr' because it returns a copy of the object. Use operator= instead.
-    </description>
-  </rule>
-  <rule>
-    <key>wrongcctypecall</key>
-    <configkey>wrongcctypecall</configkey>
-    <name>Wrong usage of a function from the ctype-family</name>
-    <description>
-      Passing negative values to the functions of the ctype-family
-      (isalnum|isalpha|isascii|is..) causes undefined behavior.
     </description>
   </rule>
 
@@ -2483,16 +2466,6 @@
     </description>
   </rule>
 
-  <rule>
-    <key>tooBigSleepTime</key>
-    <configkey>tooBigSleepTime</configkey>
-    <name>
-      Invalid argument for usleep
-    </name>
-    <description>
-      The argument of usleep must be less than 1000000.
-    </description>
-  </rule>
 
   <rule>
     <key>uninitStructMember</key>
@@ -2691,6 +2664,90 @@
     <name>Potential division by zero</name>
     <description>
       Either the condition is useless or there is division by zero.
+    </description>
+  </rule>
+  
+  <!-- ########### New in cppcheck 1.63 ########### -->
+  <rule>
+    <key>assertWithSideEffect</key>
+    <configkey>assertWithSideEffect</configkey>
+    <name>Assert with side effect</name>
+    <description>
+      Assert statement calls a function which may have desired side effects: 'function'.
+    </description>
+  </rule>
+  
+  <rule>
+    <key>assignmentInAssert</key>
+    <configkey>assignmentInAssert</configkey>
+    <name>Assignment in assert</name>
+    <description>
+      Assert statement modifies 'var'.
+    </description>
+  </rule>
+
+
+  <rule>
+    <key>pointerArithBool</key>
+    <configkey>pointerArithBool</configkey>
+    <name>Pointer arithmetic conversion</name>
+    <description>
+      Converting pointer arithmetic result to bool. The bool is always true unless there is undefined behaviour.
+    </description>
+  </rule>
+
+  <rule>
+    <key>leakReturnValNotUsed</key>
+    <configkey>leakReturnValNotUsed</configkey>
+    <name>Leak return value</name>
+    <description>
+      Return value of allocation function funcName is not used.
+    </description>
+  </rule>  
+  
+  <rule>
+    <key>invalidFunctionArg</key>
+    <configkey>invalidFunctionArg</configkey>
+    <name>Invalid function argument</name>
+    <description>
+      Invalid func_name() argument nr 1
+    </description>
+  </rule>  
+    
+  <rule>
+    <key>invalidFunctionArgBool</key>
+    <configkey>invalidFunctionArgBool</configkey>
+    <name>Invalid function bool argument</name>
+    <description>
+      Invalid func_name() argument nr 1. A non-boolean value is required.
+    </description>
+  </rule>  
+
+  <!-- ########### Deprecated in 1.63 ########### -->
+  <rule>
+    <key>tooBigSleepTime</key>
+    <configkey>tooBigSleepTime</configkey>
+    <name>
+      Invalid argument for usleep
+    </name>
+    <description>
+      The argument of usleep must be less than 1000000.
+    </description>
+  </rule>
+  <rule>
+    <key>dangerousUsageStrtol</key>
+    <configkey>dangerousUsageStrtol</configkey>
+    <name>Invalid radix in call to strtol or strtoul. Must be 0 or 2-36</name>
+    <description>
+      Invalid radix in call to strtol or strtoul. Must be 0 or 2-36.
+    </description>
+  <rule>
+    <key>wrongcctypecall</key>
+    <configkey>wrongcctypecall</configkey>
+    <name>Wrong usage of a function from the ctype-family</name>
+    <description>
+      Passing negative values to the functions of the ctype-family
+      (isalnum|isalpha|isascii|is..) causes undefined behavior.
     </description>
   </rule>
 </rules>

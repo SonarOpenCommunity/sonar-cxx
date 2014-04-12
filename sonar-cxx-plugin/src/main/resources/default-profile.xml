@@ -1536,6 +1536,38 @@
       <key>zerodivcond</key>
       <priority>MINOR</priority>
     </rule>
+    <!-- ########### Missing or new in cppcheck 1.63 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>assertWithSideEffect</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>assignmentInAssert</key>
+      <priority>MINOR</priority>
+    </rule>
+        <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>pointerArithBool</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>leakReturnValNotUsed</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidFunctionArg</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>invalidFunctionArgBool</key>
+      <priority>MAJOR</priority>
+    </rule>    
+    
     
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
