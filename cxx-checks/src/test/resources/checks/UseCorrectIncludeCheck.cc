@@ -6,6 +6,7 @@
 #include "\apath/string" // Non-Compliant
 #include "..\apath/string" // Non-Compliant
 #include "apath/string" // Compliant
+#include "string"// Compliant
 
 
 class A {

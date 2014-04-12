@@ -30,11 +30,11 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team edition or 2010/2012/2013 premium edition)
@@ -43,17 +43,14 @@ import java.util.regex.Pattern;
  */
 public class CxxCompilerSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.compiler.reportPath";
-  private static final String DEFAULT_REPORT_PATH = "compiler-reports/BuildLog.htm";
   public static final String REPORT_REGEX_DEF = "sonar.cxx.compiler.regex";
-  // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
-  public static final String DEFAULT_REGEX_DEF = "^.*[\\\\,/](.*)\\(([0-9]+)\\)\\x20:\\x20warning\\x20(C\\d\\d\\d\\d):(.*)$";
-  // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
-  // sample regex: "^.*[\\\\,/](?<filename>.*)\\((?<line>[0-9]+)\\)\\x20:\\x20warning\\x20(?<id>C\\d\\d\\d\\d):(?<message>.*)$";
-  // get value with e.g. scanner.match().group("filename");
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.compiler.charset";
-  public static final String DEFAULT_CHARSET_DEF = "UTF-16";
-  private RulesProfile profile;
-  private HashSet<String> uniqueIssues = new HashSet<String>();
+  public static final String PARSER_KEY_DEF = "sonar.cxx.compiler.parser";
+  public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.KEY;
+
+  private final RulesProfile profile;
+  private final HashSet<String> uniqueIssues = new HashSet<String>();
+  private final HashMap<String, CompilerParser> parsers = new HashMap<String, CompilerParser>();
 
   /**
    * {@inheritDoc}
@@ -61,6 +58,27 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public CxxCompilerSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
     super(ruleFinder, conf, fs);
     this.profile = profile;
+
+    addCompilerParser(new CxxCompilerVcParser());
+    addCompilerParser(new CxxCompilerGccParser());
+  }
+
+  /**
+   * Add a compiler parser.
+   */
+  private void addCompilerParser(CompilerParser parser) {
+    parsers.put(parser.key(), parser);
+  }
+
+  /**
+   * Get the compiler parser to use.
+   */
+  private CompilerParser getCompilerParser() {
+    String parserKey = getStringProperty(PARSER_KEY_DEF, DEFAULT_PARSER_DEF);
+    CompilerParser parser = parsers.get(parserKey);
+    if (parser == null)
+        parser = parsers.get(DEFAULT_PARSER_DEF);
+    return parser;
   }
 
   /**
@@ -69,7 +87,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   @Override
   public boolean shouldExecuteOnProject(Project project) {
     return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxCompilerRuleRepository.KEY).isEmpty();
+      && !profile.getActiveRulesByRepository(getCompilerParser().rulesRepositoryKey()).isEmpty();
   }
 
   @Override
@@ -79,7 +97,21 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   @Override
   protected String defaultReportPath() {
-    return DEFAULT_REPORT_PATH;
+    return getCompilerParser().defaultReportPath();
+  }
+
+  /**
+   * Get string property from configuration.
+   * If the string is not set or empty, return the default value.
+   * @param name Name of the property
+   * @param def Default value
+   * @return Value of the property if set and not empty, else default value.
+   */
+  public String getParserStringProperty(String name, String def) {
+      String s = getStringProperty(name, "");
+      if (StringUtils.isEmpty(s))
+          return def;
+      return s;
   }
 
   @Override
@@ -87,34 +119,27 @@ public class CxxCompilerSensor extends CxxReportSensor {
       throws javax.xml.stream.XMLStreamException
   {
     int countViolations = 0;
-    String reportCharset = getStringProperty(REPORT_CHARSET_DEF, DEFAULT_CHARSET_DEF);
-    String reportRegEx = getStringProperty(REPORT_REGEX_DEF, DEFAULT_REGEX_DEF);
+    final CompilerParser parser = getCompilerParser();
+    final String reportCharset = getParserStringProperty(REPORT_CHARSET_DEF, parser.defaultCharset());
+    final String reportRegEx = getParserStringProperty(REPORT_REGEX_DEF, parser.defaultRegexp());
+    final List<CompilerParser.Warning> warnings = new LinkedList<CompilerParser.Warning>();
+
     // Iterate through the lines of the input file
+    CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
     try {
-      CxxUtils.LOG.debug("Scanner initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
-      Scanner scanner = new Scanner(report, reportCharset);
-      Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
-      CxxUtils.LOG.debug("Using pattern : '" + p.toString() + "'");
-      while (scanner.findWithinHorizon(p, 0) != null)
-      {
-        String filename = scanner.match().group(1);
-        String line = scanner.match().group(2);
-        String id = scanner.match().group(3);
-        String msg = scanner.match().group(4);
+      parser.ParseReport(report, reportCharset, reportRegEx, warnings);
+      for(CompilerParser.Warning w : warnings) {
         // get filename from file system - e.g. VC writes case insensitive file name to html
-        filename = getCaseSensitiveFileName(filename, fs.sourceDirs());
-        CxxUtils.LOG.debug("Scanner-matches file='" + filename + "' line='" + line + "' id='" + id + "' msg=" + msg);
-        if (isInputValid(filename, line, id, msg)) {
-            if (uniqueIssues.add(filename + line + id + msg))
-            {
-            saveViolation(project, context, CxxCompilerRuleRepository.KEY, filename, line, id, msg);
+        String filename = getCaseSensitiveFileName(w.filename, fs.sourceDirs());
+        if (isInputValid(filename, w.line, w.id, w.msg)) {
+          if (uniqueIssues.add(filename + w.line + w.id + w.msg)) {
+            saveViolation(project, context, parser.rulesRepositoryKey(), filename, w.line, w.id, w.msg);
             countViolations++;
-            }
+          }
         } else {
-          CxxUtils.LOG.warn("C-Compiler warning: {}", msg);
+          CxxUtils.LOG.warn("C-Compiler warning: {}", w.msg);
         }
       }
-      scanner.close();
       CxxUtils.LOG.info("C-Compiler warnings processed = " + countViolations);
     } catch (java.io.FileNotFoundException e) {
       CxxUtils.LOG.error("processReport Exception: " + "report.getName" + " - not processed '{}'", e.toString());

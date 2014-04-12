@@ -78,7 +78,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return CxxPlugin.isEnabled(project);
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
   
   /**
@@ -107,6 +107,7 @@ public final class CxxSquidSensor implements Sensor {
       cxxConf.setDefines(Arrays.asList(lines));
     }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+    cxxConf.setErrorRecoveryEnabled(conf.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY));
     return cxxConf;
   }
 

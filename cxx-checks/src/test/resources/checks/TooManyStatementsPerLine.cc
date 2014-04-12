@@ -1,6 +1,9 @@
 int doSomething();
 int doSomethingElse();
 bool condition = true;
+#define TEST(a,b) if (a) {    \
+                  } if (b) {  \
+                  }
 class TooManyStatementsPerLine {
     int a; int b; // OK - not a statement
     void myfunc() {
@@ -9,6 +12,8 @@ class TooManyStatementsPerLine {
         if (a) {  } // OK
         if (a) {  } if (b) {  } // NOK
         while (condition); // OK
+        TEST(a,b) // OK
+        if (a) {  } TEST(a,b) // NOK
     label: while (condition) { // OK
         break; // OK
     }

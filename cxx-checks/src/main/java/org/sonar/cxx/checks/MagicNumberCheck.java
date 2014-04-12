@@ -34,7 +34,7 @@ import java.util.Set;
 
 @Rule(
   key = "MagicNumber",
-  description = "Magic numbers shall not be used. Maintainability will be improved using global const defintions for components",
+  description = "Magic numbers shall not be used. Maintainability will be improved using global const definitions for components",
   priority = Priority.MINOR)
 
 public class MagicNumberCheck extends SquidCheck<Grammar> {
@@ -56,14 +56,14 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (!isInDeclaration(node) && !isExcluded(node) && !isInEnum(node)) {
+    if (!isInDeclaration(node) && !isExcluded(node) && !isInEnum(node) && !isArrayInitializer(node) && !isGenerated(node)) {
       getContext().createLineViolation(this, "Extract this magic number '" + node.getTokenOriginalValue() 
           + "' into a constant, variable declaration or an enum.", node);
     }
   }
 
   private boolean isInDeclaration(AstNode node) {
-    return node.hasAncestor(CxxGrammarImpl.declarationStatement);  
+    return node.hasAncestor(CxxGrammarImpl.declarationStatement);
   }
 
   private boolean isExcluded(AstNode node) {
@@ -72,6 +72,15 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   private boolean isInEnum(AstNode node) {
     return node.hasAncestor(CxxGrammarImpl.enumeratorList);
+  }
+
+  private boolean isArrayInitializer(AstNode node) {
+    return node.hasAncestor(CxxGrammarImpl.bracedInitList);
+  }
+
+
+  private boolean isGenerated(AstNode node) {
+    return node.getToken().isGeneratedCode();
   }
 
 }

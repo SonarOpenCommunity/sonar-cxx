@@ -29,10 +29,18 @@ import org.sonar.api.rules.XMLRuleParser;
 public class CxxCompilerRuleRepositoryTest {
 
   @Test
-  public void createRulesTest() {
-    CxxCompilerRuleRepository rulerep = new CxxCompilerRuleRepository(
+  public void createVcRulesTest() {
+    CxxCompilerVcRuleRepository rulerep = new CxxCompilerVcRuleRepository(
         mock(ServerFileSystem.class),
         new XMLRuleParser(), new Settings());
     assertThat(rulerep.createRules()).hasSize(690);
+  }
+
+  @Test
+  public void createGccRulesTest() {
+    CxxCompilerGccRuleRepository rulerep = new CxxCompilerGccRuleRepository(
+        mock(ServerFileSystem.class),
+        new XMLRuleParser(), new Settings());
+    assertThat(rulerep.createRules()).hasSize(159);
   }
 }

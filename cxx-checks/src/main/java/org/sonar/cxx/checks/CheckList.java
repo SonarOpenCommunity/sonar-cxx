@@ -49,6 +49,7 @@ public final class CheckList {
         MissingNewLineAtEndOfFileCheck.class,
         NoSonarCheck.class,
         ParsingErrorCheck.class,
+        ParsingErrorRecoveryCheck.class,
         ReservedNamesCheck.class,
         StringLiteralDuplicatedCheck.class,
         TabCharacterCheck.class,

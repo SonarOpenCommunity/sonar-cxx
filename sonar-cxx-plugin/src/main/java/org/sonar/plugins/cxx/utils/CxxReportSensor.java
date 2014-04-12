@@ -67,7 +67,7 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public boolean shouldExecuteOnProject(Project project) {
-    return CxxPlugin.isEnabled(project);
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
 
   /**
@@ -145,7 +145,7 @@ public abstract class CxxReportSensor implements Sensor {
    * Project or file-level violations can be saved by passing null for the according parameters
    * ('file' = 'line' = null for project level, 'line' = null for file-level)
    */
-  protected void saveViolation(Project project, SensorContext context, String ruleRepoKey,
+  public void saveViolation(Project project, SensorContext context, String ruleRepoKey,
                                String file, String line, String ruleId, String msg) {
     RuleQuery ruleQuery = RuleQuery.create()
       .withRepositoryKey(ruleRepoKey)

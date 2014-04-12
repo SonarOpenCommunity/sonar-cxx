@@ -31,7 +31,10 @@ import org.sonar.plugins.cxx.externalrules.CxxExternalRuleRepository;
 import org.sonar.plugins.cxx.externalrules.CxxExternalRulesSensor;
 import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
 import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
-import org.sonar.plugins.cxx.compiler.CxxCompilerRuleRepository;
+import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
+import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
+import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
+import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
@@ -98,17 +101,26 @@ import java.util.List;
     global = false,
     project = true),
   @Property(
+    key = CxxCompilerSensor.PARSER_KEY_DEF,
+    defaultValue = CxxCompilerSensor.DEFAULT_PARSER_DEF,
+    type = PropertyType.SINGLE_SELECT_LIST,
+    options = { CxxCompilerVcParser.KEY, CxxCompilerGccParser.KEY },
+    name = "Compiler parser to use",
+    description = "The kind of compiler parser to use.",
+    global = false,
+    project = true),
+  @Property(
     key = CxxCompilerSensor.REPORT_REGEX_DEF,
-    defaultValue = CxxCompilerSensor.DEFAULT_REGEX_DEF,
+    defaultValue = "",
     name = "RegEx to identify the 4 groups of the compiler warning message",
-    description = "Java regular expression with 4 groups for file, line, message ID, message",
+    description = "Java regular expression with 4 groups for file, line, message ID, message. Leave empty to use the parser's default.",
     global = false,
     project = true),
   @Property(
     key = CxxCompilerSensor.REPORT_CHARSET_DEF,
-    defaultValue = CxxCompilerSensor.DEFAULT_CHARSET_DEF,
+    defaultValue = "",
     name = "Encoding of the compiler report",
-    description = "The encoding to use when reading the compiler report",
+    description = "The encoding to use when reading the compiler report. Leave empty to use the parser's default.",
     global = false,
     project = true),
   @Property(
@@ -166,14 +178,23 @@ import java.util.List;
     name = "URL of the xslt transformer",
     description = "TODO",
     global = false,
+    project = true),
+  @Property(
+    key = CxxPlugin.ERROR_RECOVERY_KEY,
+    defaultValue = "true",
+    name = "Parse error recovery control",
+    description = "Enables/disables the parse error recovery. For development purposes.",
+    type = PropertyType.BOOLEAN,
+    global = false,
     project = true)
-})
+    })
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
-
+  public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
+  
   /**
    * {@inheritDoc}
    */
@@ -192,7 +213,8 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxCppCheckSensor.class);
     l.add(CxxPCLintRuleRepository.class);
     l.add(CxxPCLintSensor.class);
-    l.add(CxxCompilerRuleRepository.class);
+    l.add(CxxCompilerVcRuleRepository.class);
+    l.add(CxxCompilerGccRuleRepository.class);
     l.add(CxxCompilerSensor.class);
     l.add(CxxVeraxxRuleRepository.class);
     l.add(CxxVeraxxSensor.class);
