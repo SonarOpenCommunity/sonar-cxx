@@ -1537,6 +1537,23 @@
       <priority>MINOR</priority>
     </rule>
     
+    <!-- ########### New 1.64 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>negativeMemoryAllocationSize</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memsetFloat</key>
+      <priority>MINOR</priority>
+    </rule> 
+        <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memsetValueOutOfRange</key>
+      <priority>MINOR</priority>
+    </rule> 
+    
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->

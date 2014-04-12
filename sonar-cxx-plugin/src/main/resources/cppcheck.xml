@@ -1274,14 +1274,6 @@
     </description>
   </rule>
   <rule>
-    <key>duplicateBranch</key>
-    <configkey>duplicateBranch</configkey>
-    <name>Redundant 'if' and 'else' branches</name>
-    <description>
-      Found duplicate branches for if and else.
-    </description>
-  </rule>
-  <rule>
     <key>duplicateExpression</key>
     <configkey>duplicateExpression</configkey>
     <name>Same expression on both sides of '&amp;&amp;'</name>
@@ -2693,4 +2685,39 @@
       Either the condition is useless or there is division by zero.
     </description>
   </rule>
+  
+  <!-- ########### Deprecated as of 1.64 ########### -->
+  <rule>
+    <key>duplicateBranch</key>
+    <configkey>duplicateBranch</configkey>
+    <name>Redundant 'if' and 'else' branches</name>
+    <description>
+      Found duplicate branches for if and else.
+    </description>
+  </rule>
+  <!-- ########### New in cppcheck 1.64 ########### -->
+  <rule>
+    <key>negativeMemoryAllocationSize</key>
+    <configkey>negativeMemoryAllocationSize</configkey>
+    <name>Memory allocation is negative</name>
+    <description>
+      Memory allocation size have to be greater or equal to 0.
+    </description>
+  </rule>
+  <rule>
+    <key>memsetFloat</key>
+    <configkey>memsetFloat</configkey>
+    <name>Memset Float</name>
+    <description>
+      The 2nd memset() argument 'varname' is a float, its representation is implementation defined.
+    </description>
+  </rule>
+  <rule>
+    <key>memsetValueOutOfRange</key>
+    <configkey>memsetValueOutOfRange</configkey>
+    <name>Memset Value out of range</name>
+    <description>
+      The 2nd memset() argument 'varname' doesn't fit into an 'unsigned char'.
+    </description>
+  </rule>    
 </rules>
