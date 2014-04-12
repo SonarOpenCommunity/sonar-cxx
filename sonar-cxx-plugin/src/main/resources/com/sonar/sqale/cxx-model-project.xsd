@@ -28,10 +28,18 @@
                     <xs:element name="remediationFunction">
                       <xs:simpleType>
                         <xs:restriction base="xs:string">
-                          <xs:pattern value="linear|linear_offset|constant_resource|undefined"/>
+                          <xs:pattern value="linear|linear_offset|constant_issue|undefined"/>
                         </xs:restriction>
                       </xs:simpleType>
                     </xs:element>                  
+                  <xs:element name="remediationOffsetVal" type="xs:double" />
+                  <xs:element name="remediationOffsetUnit">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:pattern value="d|h|mn|undefined"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>                     
                     <xs:element name="severity">
                     <xs:simpleType>
                       <xs:restriction base="xs:string">
@@ -40,9 +48,9 @@
                     </xs:simpleType>
                   </xs:element>
                   <xs:element name="repo" type="xs:string" />
-                    <xs:element name="description" type="xs:string" />
-                  </xs:sequence>
-                  <xs:attribute name="key" type="xs:string" use="required" />
+                  <xs:element name="description" type="xs:string" />                
+                </xs:sequence>
+                <xs:attribute name="key" type="xs:string" use="required" />
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
