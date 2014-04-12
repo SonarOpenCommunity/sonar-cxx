@@ -144,7 +144,7 @@ public abstract class CxxReportSensor implements Sensor {
    * Saves code violation only if unique.
    * Compares file, line, ruleId and msg.
    */  
-  protected boolean saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
+  public boolean saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
                                         String file, String line, String ruleId, String msg) {
   
     if (uniqueIssues.add(file + line + ruleId + msg)) {

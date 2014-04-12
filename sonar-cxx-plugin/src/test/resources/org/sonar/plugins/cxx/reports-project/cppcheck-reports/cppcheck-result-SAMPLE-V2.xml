@@ -6,7 +6,7 @@
              verbose="long error text" inconclusive="true">
       <location file="sources/utils/code_chunks.cpp" line="1"/>
     </error>
-    <error id="unusedFunction" severity="style" msg="The function 'foo' is never used"
+    <error id="unusedFunction" severity="style" msg="The function 'utils' is never used"
              verbose="long error text" inconclusive="true">
       <location file="sources/utils/utils.cpp" line="1"/>
     </error>

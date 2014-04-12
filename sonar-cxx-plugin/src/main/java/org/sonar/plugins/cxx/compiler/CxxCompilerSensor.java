@@ -49,7 +49,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.KEY;
 
   private final RulesProfile profile;
-  private final HashSet<String> uniqueIssues = new HashSet<String>();
   private final HashMap<String, CompilerParser> parsers = new HashMap<String, CompilerParser>();
 
   /**
@@ -132,8 +131,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
         // get filename from file system - e.g. VC writes case insensitive file name to html
         String filename = getCaseSensitiveFileName(w.filename, fs.sourceDirs());
         if (isInputValid(filename, w.line, w.id, w.msg)) {
-          if (uniqueIssues.add(filename + w.line + w.id + w.msg)) {
-            saveViolation(project, context, parser.rulesRepositoryKey(), filename, w.line, w.id, w.msg);
+          if (saveUniqueViolation(project, context, parser.rulesRepositoryKey(), filename, w.line, w.id, w.msg)) {
             countViolations++;
           }
         } else {
