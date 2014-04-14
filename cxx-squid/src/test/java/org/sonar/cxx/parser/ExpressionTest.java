@@ -38,6 +38,7 @@ public class ExpressionTest {
     
     g.rule(CxxGrammarImpl.LITERAL).mock();
     g.rule(CxxGrammarImpl.expression).mock();
+    g.rule(CxxGrammarImpl.compoundStatement).mock();
     g.rule(CxxGrammarImpl.idExpression).mock();
     g.rule(CxxGrammarImpl.lambdaExpression).mock();
     
@@ -46,7 +47,8 @@ public class ExpressionTest {
       .matches("this")
       .matches("( expression )")
       .matches("idExpression")
-      .matches("lambdaExpression");
+      .matches("lambdaExpression")
+      .matches("( compoundStatement )");
   }
 
   @Test
@@ -54,6 +56,7 @@ public class ExpressionTest {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
     
     assertThat(p).matches("(istream_iterator<string>(cin))");
+    assertThat(p).matches("({ int i = 0; a = i++; })");
   }
   
   @Test

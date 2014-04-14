@@ -324,7 +324,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
                 CxxKeyword.THIS,
                 par_expression,
                 idExpression,
-                lambdaExpression)
+                lambdaExpression,
+                // EXTENSION: gcc's statement expression: a compound statement enclosed in parentheses may appear as an expression
+                b.sequence("(", compoundStatement, ")"))
       ).skipIfOneChild();
     
     b.rule(par_expression).is(b.sequence("(", expression, ")"));
