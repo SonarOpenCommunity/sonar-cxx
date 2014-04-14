@@ -108,7 +108,7 @@ public class CxxSquidSensorTest {
 @Test
   public void testForceIncludedFiles() {
     settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include"); // todo: not sure if it should work without this (=> using baseDir)?
-    settings.setProperty(CxxPlugin.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder\\force2.hh");
+    settings.setProperty(CxxPlugin.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder/force2.hh");
     setUpSensor(TestUtils.loadResource("force-include-project"), "src");
 
     sensor.analyse(project, context);
