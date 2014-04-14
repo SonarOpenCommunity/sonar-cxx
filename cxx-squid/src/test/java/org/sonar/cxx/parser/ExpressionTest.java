@@ -56,7 +56,9 @@ public class ExpressionTest {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
     
     assertThat(p).matches("(istream_iterator<string>(cin))");
-    assertThat(p).matches("({ int i = 0; a = i++; })");
+
+    // GCCs extension: statement expression
+    assertThat(p).matches("({ int i = 0; a = i++; })"); 
   }
   
   @Test
