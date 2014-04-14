@@ -27,6 +27,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.AnnotationCheckFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.profiles.RulesProfile;
@@ -37,6 +38,7 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.squid.api.CheckMessage;
 import org.sonar.squid.api.SourceCode;
@@ -113,6 +115,8 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void save(Collection<SourceCode> squidSourceFiles) {
+    int violationsCount = 0;
+
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
 
@@ -121,8 +125,12 @@ public final class CxxSquidSensor implements Sensor {
       saveMeasures(sonarFile, squidFile);
       saveFilesComplexityDistribution(sonarFile, squidFile);
       saveFunctionsComplexityDistribution(sonarFile, squidFile);
-      saveViolations(sonarFile, squidFile);
+      violationsCount += saveViolations(sonarFile, squidFile);
     }
+
+    Measure measure = new Measure(CxxMetrics.SQUID);
+    measure.setIntValue(violationsCount);
+    context.saveMeasure(measure);
   }
 
   private void saveMeasures(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
@@ -152,7 +160,7 @@ public final class CxxSquidSensor implements Sensor {
     context.saveMeasure(sonarFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
   }
 
-  private void saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
+  private int saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     if (messages != null) {
       for (CheckMessage message : messages) {
@@ -161,7 +169,9 @@ public final class CxxSquidSensor implements Sensor {
             .setMessage(message.getText(Locale.ENGLISH));
         context.saveViolation(violation);
       }
+      return messages.size();
     }
+    return 0;
   }
 
   @Override

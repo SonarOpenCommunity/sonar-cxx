@@ -28,6 +28,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
@@ -57,7 +58,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs);
+    super(ruleFinder, conf, fs, CxxMetrics.PCLINT);
     this.profile = profile;
   }
 
@@ -98,7 +99,6 @@ public class CxxPCLintSensor extends CxxReportSensor {
         }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue");
-        int countViolations = 0;
         try {
         while (errorCursor.getNext() != null){
 
@@ -111,17 +111,14 @@ public class CxxPCLintSensor extends CxxReportSensor {
               if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
                   id = mapMisraRulesToUniqueSonarRules(msg);
               }
-              if (saveUniqueViolation(project, context, CxxPCLintRuleRepository.KEY,
-                                      file, line, id, msg)) {
-                countViolations++;
-              }
+              saveUniqueViolation(project, context, CxxPCLintRuleRepository.KEY,
+                                  file, line, id, msg);
             } else {
               CxxUtils.LOG.warn("PC-lint warning ignored: {}", msg);
               CxxUtils.LOG.debug("File: " + file + ", Line: " + line + ", ID: "
                   + id + ", msg: " + msg);
             }
          }
-        CxxUtils.LOG.info("PC-lint issues processed = " + countViolations);
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
           CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString());
         }

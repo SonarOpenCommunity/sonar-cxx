@@ -23,6 +23,8 @@ import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
+import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
@@ -50,6 +52,9 @@ public abstract class CxxReportSensor implements Sensor {
   private HashMap<String, Rule> ruleCache = new HashMap<String, Rule>();
   protected ModuleFileSystem fs;
 
+  private final Metric metric;
+  private int violationsCount;
+
   /**
    * {@inheritDoc}
    */
@@ -64,6 +69,17 @@ public abstract class CxxReportSensor implements Sensor {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
     this.fs = fs;
+    this.metric = null;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, Metric metric) {
+    this.ruleFinder = ruleFinder;
+    this.conf = conf;
+    this.fs = fs;
+    this.metric = metric;
   }
 
   /**
@@ -80,10 +96,16 @@ public abstract class CxxReportSensor implements Sensor {
     try {
       List<File> reports = getReports(conf, fs.baseDir().getPath(),
           reportPathKey(), defaultReportPath());
+
+      violationsCount = 0;
+
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);
         try{
+          int prevViolationsCount = violationsCount;
           processReport(project, context, report);
+          CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+                            violationsCount - prevViolationsCount);
         }
         catch(EmptyReportException e){
           CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
@@ -92,6 +114,12 @@ public abstract class CxxReportSensor implements Sensor {
 
       if (reports.isEmpty()) {
         handleNoReportsCase(context);
+      }
+
+      if (metric != null) {
+        Measure measure = new Measure(metric);
+        measure.setIntValue(violationsCount);
+        context.saveMeasure(measure);
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -206,6 +234,7 @@ public abstract class CxxReportSensor implements Sensor {
     }
     violation.setMessage(msg);
     context.saveViolation(violation);
+    violationsCount++;
   }
 
   private Rule getRule(String ruleRepoKey, String ruleId) {
