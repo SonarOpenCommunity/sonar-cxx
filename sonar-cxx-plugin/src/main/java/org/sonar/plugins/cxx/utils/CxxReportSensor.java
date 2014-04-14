@@ -148,8 +148,7 @@ public abstract class CxxReportSensor implements Sensor {
                                         String file, String line, String ruleId, String msg) {
   
     if (uniqueIssues.add(file + line + ruleId + msg)) {
-      saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
-      return true;
+      return saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
     }
     return false;
   }
@@ -160,8 +159,10 @@ public abstract class CxxReportSensor implements Sensor {
    * Project or file-level violations can be saved by passing null for the according parameters
    * ('file' = 'line' = null for project level, 'line' = null for file-level)
    */
-  public void saveViolation(Project project, SensorContext context, String ruleRepoKey,
+  public boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
                                String file, String line, String ruleId, String msg) {
+    
+    boolean added = false;
     RuleQuery ruleQuery = RuleQuery.create()
       .withRepositoryKey(ruleRepoKey)
       .withKey(ruleId);
@@ -199,10 +200,12 @@ public abstract class CxxReportSensor implements Sensor {
       if (violation != null){
         violation.setMessage(msg);
         context.saveViolation(violation);
+        added = true;
       }
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
-    }
+    }    
+    return added;
   }
   
   protected void processReport(Project project, SensorContext context, File report)
