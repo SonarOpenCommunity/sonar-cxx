@@ -28,6 +28,22 @@ class Program
     /// </example>
     /// <param name="task">The task.</param>
 
+    /** This is some doxygen documentation
+     * @{
+     * - List item 1;
+     * - List item 2;
+     * @}
+     * @code
+     * void myFunction() { return 0; }
+     * @endcode
+     */
+
+    /*! Alternative doxygen syntax
+     * void myFunction() { return 0; }
+     */
+
+    //! This is as well: void myFunction() { return 0; }
+
     void foo()
     {
     }
