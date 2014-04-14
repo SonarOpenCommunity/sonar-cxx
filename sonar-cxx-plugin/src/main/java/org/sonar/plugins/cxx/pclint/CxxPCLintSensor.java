@@ -52,7 +52,6 @@ public class CxxPCLintSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
   private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
   private RulesProfile profile;
-  private HashSet<String> uniqueIssues = new HashSet<String>();
 
   /**
    * {@inheritDoc}
@@ -112,10 +111,9 @@ public class CxxPCLintSensor extends CxxReportSensor {
               if(msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
                   id = mapMisraRulesToUniqueSonarRules(msg);
               }
-              if (uniqueIssues.add(file + line + id + msg)) {
-                  saveViolation(project, context, CxxPCLintRuleRepository.KEY,
-                      file, line, id, msg);
-                  countViolations++;
+              if (saveUniqueViolation(project, context, CxxPCLintRuleRepository.KEY,
+                                      file, line, id, msg)) {
+                countViolations++;
               }
             } else {
               CxxUtils.LOG.warn("PC-lint warning ignored: {}", msg);

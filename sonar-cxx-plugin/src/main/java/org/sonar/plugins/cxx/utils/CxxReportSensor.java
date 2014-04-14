@@ -45,6 +45,7 @@ public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   protected Settings conf;
   private HashSet<String> uniqueFileName = new HashSet<String>();
+  private HashSet<String> uniqueIssues = new HashSet<String>();
   protected ModuleFileSystem fs;
   
   /**
@@ -139,6 +140,20 @@ public abstract class CxxReportSensor implements Sensor {
     return reports;
   }
 
+  /**
+   * Saves code violation only if unique.
+   * Compares file, line, ruleId and msg.
+   */  
+  public boolean saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
+                                        String file, String line, String ruleId, String msg) {
+  
+    if (uniqueIssues.add(file + line + ruleId + msg)) {
+      saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
+      return true;
+    }
+    return false;
+  }
+  
   /**
    * Saves a code violation which is detected in the given file/line
    * and has given ruleId and message. Saves it to the given project and context.
