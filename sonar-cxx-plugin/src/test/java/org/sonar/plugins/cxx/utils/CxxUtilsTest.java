@@ -17,11 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
 import java.util.LinkedList;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class CxxUtilsTest {
@@ -32,55 +32,56 @@ public class CxxUtilsTest {
     boolean result = CxxUtils.isSystemCaseSensitive();
 
     // Windows OS is case insensitive
-    assert (result == !isWindows);
+    assertTrue(result == !isWindows);
   }
-  
+
   @Test
   public void testCaseSensitiveFileName() {
     try {
-      File fileUpperCase = new java.io.File(System.getProperty("java.io.tmpdir") +
-                                            java.io.File.separatorChar +
-                                            "CXX.TEST.testCaseSensitiveFileName.TXT");
+      File fileUpperCase = new java.io.File(System.getProperty("java.io.tmpdir")
+        + java.io.File.separatorChar
+        + "CXX_TEST_CS.TXT");
       String realFileName = fileUpperCase.getCanonicalFile().getAbsolutePath();
       fileUpperCase.createNewFile();
-      String result = CxxUtils.getCaseSensitiveFileName(realFileName.toLowerCase(),
-                                                        new LinkedList<java.io.File>());
+      String result = CxxUtils.getCaseSensitiveFileName(
+        realFileName.toLowerCase(),
+        new LinkedList<java.io.File>());
       fileUpperCase.delete();
-      
+
       if (CxxUtils.isSystemCaseSensitive()) {
-        assert (realFileName == result);
+        assertFalse("isSystemCaseSensitive=true", realFileName.equals(result));
       } else {
-        assert (realFileName != result);
+        assertTrue("isSystemCaseSensitive=false", realFileName.equals(result));
       }
-      
-    } catch (java.io.IOException e) {
-      assert (false);
+
+    } catch (Exception e) {
+      fail(e.toString());
     }
   }
-  
+
   @Test
   public void testCaseSensitiveFileNameWithDirList() {
     try {
-      File fileUpperCase = new java.io.File(System.getProperty("java.io.tmpdir") +
-                                            java.io.File.separatorChar +
-                                            "CXX.TEST.testCaseSensitiveFileNameWithDirList.TXT");
+      File fileUpperCase = new java.io.File(System.getProperty("java.io.tmpdir")
+        + java.io.File.separatorChar
+        + "CXX_TEST_CS.TXT");
       String realFileName = fileUpperCase.getCanonicalFile().getAbsolutePath();
       fileUpperCase.createNewFile();
       LinkedList<java.io.File> sourceDirs = new LinkedList<java.io.File>();
       sourceDirs.add(new java.io.File(fileUpperCase.getParent().toLowerCase()));
       String result = CxxUtils.getCaseSensitiveFileName(fileUpperCase.getName().toLowerCase(),
-                                                        sourceDirs);
+        sourceDirs);
       fileUpperCase.delete();
-      
+
       if (CxxUtils.isSystemCaseSensitive()) {
-        assert (realFileName == result);
+        assertFalse("isSystemCaseSensitive=true", realFileName.equals(result));
       } else {
-        assert (realFileName != result);
+        assertTrue("isSystemCaseSensitive=false",realFileName.equals(result));
       }
-      
-    } catch (java.io.IOException e) {
-      assert (false);
+
+    } catch (Exception e) {
+      fail(e.toString());
     }
   }
-  
+
 }
