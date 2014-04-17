@@ -65,7 +65,7 @@
                 <rule-key>unnecessaryQualification</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -2066,7 +2066,7 @@
                 <rule-key>726</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -2205,7 +2205,7 @@
                 <rule-key>C4001</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4272,7 +4272,7 @@
                 <rule-key>525</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4285,7 +4285,7 @@
                 <rule-key>539</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4298,7 +4298,7 @@
                 <rule-key>602</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4401,7 +4401,7 @@
                 <rule-key>725</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4558,7 +4558,7 @@
                 <rule-key>L001</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4607,7 +4607,7 @@
                 <rule-key>T003</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4620,7 +4620,7 @@
                 <rule-key>T007</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4633,7 +4633,7 @@
                 <rule-key>T008</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4646,7 +4646,7 @@
                 <rule-key>T009</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -4659,7 +4659,7 @@
                 <rule-key>T011</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -7264,7 +7264,7 @@
                 <rule-key>stlSize</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -7277,7 +7277,7 @@
                 <rule-key>redundantIfRemove</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -7648,7 +7648,7 @@
                 <rule-key>duplicateBranch</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -8105,7 +8105,7 @@
                 <rule-key>uninitMemberVar</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -12126,7 +12126,7 @@
                 <rule-key>arrayIndexThenCheck</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -12157,7 +12157,7 @@
                 <rule-key>uninitvar</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -12188,7 +12188,7 @@
                 <rule-key>unusedPrivateFunction</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -12363,7 +12363,7 @@
                 <rule-key>nullPointer</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -12448,7 +12448,7 @@
                 <rule-key>functionConst</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -12749,7 +12749,7 @@
                 <rule-key>unsignedLessThanZero</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -13176,7 +13176,7 @@
                 <rule-key>unnecessaryForwardDeclaration</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -13441,7 +13441,7 @@
                 <rule-key>virtualDestructor</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>constant_issue</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
