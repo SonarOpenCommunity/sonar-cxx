@@ -19,33 +19,23 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.resources.Project;
 import org.sonar.commonrules.api.CommonRulesEngine;
-import org.sonar.commonrules.api.CommonRulesEngineProvider;
+import org.sonar.commonrules.api.CommonRulesRepository;
 
-public class CxxCommonRulesEngineProvider extends CommonRulesEngineProvider {
+public class CxxCommonRulesEngine extends CommonRulesEngine {
 
-  public CxxCommonRulesEngineProvider() {
-    super();
-  }
-
-  public CxxCommonRulesEngineProvider(Project project) {
-    super(project);
+  public CxxCommonRulesEngine() {
+    super(CxxLanguage.KEY);
   }
 
   @Override
-  protected void doActivation(CommonRulesEngine engine) {
-    engine.activateRule("InsufficientBranchCoverage");
-    engine.activateRule("InsufficientCommentDensity");
-    engine.activateRule("DuplicatedBlocks");
-    engine.activateRule("InsufficientLineCoverage");
-    engine.activateRule("SkippedUnitTests");
-    engine.activateRule("FailedUnitTests");    
+  protected void doEnableRules(CommonRulesRepository repository) {
+    repository
+      .enableDuplicatedBlocksRule()
+      .enableInsufficientCommentDensityRule(null)
+      .enableInsufficientLineCoverageRule(null)
+      .enableInsufficientBranchCoverageRule(null)
+      .enableFailedUnitTestsRule()
+      .enableSkippedUnitTestsRule();
   }
-
-  @Override
-  protected String getLanguageKey() {
-    return CxxLanguage.KEY;
-  }
-
 }
