@@ -1,0 +1,168 @@
+#!/usr/bin/env python
+
+import os
+import subprocess
+import sys
+import time
+import urllib
+from glob import glob
+from shutil import copyfile
+import re
+
+SONAR_HOME = "/home/wenns/sonar"
+#SONAR_VERSIONS = ["3.3.2", "3.4.1", "3.5.1", "3.6", "3.7.3", "4.0", "4.2-RC2"]
+SONAR_VERSIONS = ["3.7.3", "4.0", "4.2"]
+SONAR_URL = "http://localhost:9000"
+SCRIPT_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "bin", "linux-x86-32", "sonar.sh")
+LOGFILE_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "logs", "sonar.log")
+SONAR_PLUGINS_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "extensions", "plugins")
+SONAR_ERROR_RE = re.compile(".* ERROR .*")
+SONAR_WARN_RE = re.compile(".* WARN .*")
+INDENT = "    "
+
+log_msgs = ""
+def log(msg):
+    global log_msgs
+    log_msgs += msg + "\n"
+
+
+def test_bootup(plugin, version):
+    print("Running smoke test for Sonar %s" % version)
+
+    rc = 0
+    if is_installed(version):
+        cleanup(version)
+        install_plugin(plugin, version)
+        started = start_sonar(version)
+        logsOK = checkSonarLogs(version)
+        if started:
+            # rc &= checkPluginInstalled(version)
+            stop_sonar(version)
+    else:
+        sys.stdout.write("not available\n")
+    return all([started, logsOK])
+
+def cleanup(version):
+    sys.stdout.write(INDENT + "cleaning logs ... ")
+    sys.stdout.flush()
+    try:
+        os.remove(sonarLogFile(version))
+    except OSError, e:
+        pass
+    sys.stdout.write("OK\n")
+    
+def is_installed(version):
+    return os.path.exists(sonar_script(version))
+
+def install_plugin(plugin, version):
+    sys.stdout.write(INDENT + "copying jar ... ")
+    sys.stdout.flush()
+    for path in glob(os.path.join(SONAR_PLUGINS_TMPL % version, "sonar-cxx*.jar")):
+        os.remove(path)
+    copyfile(plugin, os.path.join(SONAR_PLUGINS_TMPL % version, os.path.basename(plugin)))
+    sys.stdout.write("OK\n")
+
+def start_sonar(version):
+    sys.stdout.write(INDENT + "starting Sonar ... ")
+    sys.stdout.flush()
+    now = time.time()
+
+    print " ".join([sonar_script(version), "start"])
+    rc = subprocess.call([sonar_script(version), "start"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    if rc != 0 or not wait_for_sonar(30, is_webui_up):
+        sys.stdout.write("FAILED\n")
+        return False
+    
+    sys.stdout.write("OK, duration: %f\n" % (time.time() - now))
+    return True
+        
+def stop_sonar(version):
+    sys.stdout.write(INDENT + "stopping Sonar ... ")
+    sys.stdout.flush()
+    rc = subprocess.call([sonar_script(version), "stop"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    if rc != 0 or not wait_for_sonar(30, is_webui_down):
+        return False
+    
+    sys.stdout.write("OK\n")
+    return True
+
+def sonar_script(version):
+    return SCRIPT_TMPL % version
+
+def sonarLogFile(version):
+    return LOGFILE_TMPL % version
+
+def wait_for_sonar(timeout, criteria):
+    for i in range(timeout):
+        if criteria():
+            return True
+        time.sleep(1)
+    return False
+
+def is_webui_up():
+    try:
+        return urllib.urlopen(SONAR_URL).getcode() == 200
+    except:
+        return False
+
+def is_webui_down():
+    try:
+        urllib.urlopen(SONAR_URL)
+        return False
+    except IOError:
+        return True
+
+def usage():
+    return "%s <path to plugin>" % os.path.basename(sys.argv[0])
+
+def checkSonarLogs(version):
+    sys.stdout.write(INDENT + "logs check ... ")
+    sys.stdout.flush()
+    badlines = []
+    errors = warnings = 0
+    
+    with open(sonarLogFile(version), "r") as log:
+        lines = log.readlines()
+        errors = warnings = 0
+        for line in lines:
+            if isSonarError(line):
+                badlines.append(line)
+                errors += 1
+            elif isSonarWarning(line):
+                badlines.append(line)
+                warnings += 1
+
+    sys.stdout.write("FAILED\n" if errors > 0 else "OK\n")
+
+    if badlines:
+        for line in badlines: 
+            print 2*INDENT + line
+        print 2*INDENT + 70 * "-"
+        
+    summary_msg = "%i errors and %i warnings\n" % (errors, warnings)
+    
+    sys.stdout.write(2*INDENT + len(summary_msg) * "-")
+    sys.stdout.write(2*INDENT + summary_msg)
+    return errors == 0
+
+def isSonarError(line):
+    return SONAR_ERROR_RE.match(line)
+
+def isSonarWarning(line):
+    return SONAR_WARN_RE.match(line)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print usage()
+        sys.exit(-1)
+
+    if is_webui_up():
+        print "Sonar seems to be running, exit it first"
+        sys.exit(-1)
+
+    plugin = sys.argv[1]
+    ec = 0
+    for sonar_version in SONAR_VERSIONS:
+        ec &= test_bootup(plugin, sonar_version)
+    sys.exit(ec)
+    
