@@ -1,5 +1,20 @@
 #!/usr/bin/env python
 
+#
+# Automated smoke tests for a build of the Sonar C++ Community Plugin
+#
+# Preconditions:
+#   - Download and install all Sonar version which
+#     the plugin version has to support on your box
+#   - adjust the global variables (SONAR_HOME, SONAR_VERSIONS etc.)
+#     to fit your site
+#   - optional: install colorama (using something like 'pip install colorama' )
+#     to get colorized output
+
+# Usage:
+#   $ smoketest <path to .jar>
+#
+
 import os
 import subprocess
 import sys
@@ -10,8 +25,7 @@ from shutil import copyfile
 import re
 
 SONAR_HOME = "/home/wenns/sonar"
-#SONAR_VERSIONS = ["3.3.2", "3.4.1", "3.5.1", "3.6", "3.7.3", "4.0", "4.2-RC2"]
-SONAR_VERSIONS = ["3.7.3", "4.0", "4.2"]
+SONAR_VERSIONS = ["3.7.3", "4.0", "4.1.2", "4.2"]
 SONAR_URL = "http://localhost:9000"
 SCRIPT_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "bin", "linux-x86-32", "sonar.sh")
 LOGFILE_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "logs", "sonar.log")
@@ -20,39 +34,53 @@ SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 INDENT = "    "
 
-log_msgs = ""
-def log(msg):
-    global log_msgs
-    log_msgs += msg + "\n"
+
+RED = ""
+GREEN = ""
+RESET = ""
+RESET_ALL = ""
+BRIGHT = ""
+try:
+    import colorama
+    colorama.init()
+    RED = colorama.Fore.RED
+    GREEN = colorama.Fore.GREEN
+    RESET = colorama.Fore.RESET
+    BRIGHT = colorama.Style.BRIGHT
+    RESET_ALL = colorama.Style.RESET_ALL
+except ImportError:
+    pass
 
 
 def test_bootup(plugin, version):
-    print("Running smoke test for Sonar %s" % version)
+    print(BRIGHT + "\nRunning smoke test for Sonar %s" % version + RESET_ALL)
 
-    rc = 0
     if is_installed(version):
         cleanup(version)
         install_plugin(plugin, version)
         started = start_sonar(version)
         logsOK = checkSonarLogs(version)
-        if started:
-            # rc &= checkPluginInstalled(version)
-            stop_sonar(version)
+        # installOK = checkPluginInstalled(version)
+        stop_sonar(version)
+        return all([started, logsOK])
     else:
-        sys.stdout.write("not available\n")
-    return all([started, logsOK])
+        sys.stdout.write(INDENT + RED + "not available\n" + RESET)
+        return False
+
 
 def cleanup(version):
     sys.stdout.write(INDENT + "cleaning logs ... ")
     sys.stdout.flush()
     try:
         os.remove(sonarLogFile(version))
-    except OSError, e:
+    except OSError:
         pass
-    sys.stdout.write("OK\n")
-    
+    sys.stdout.write(GREEN + "OK\n" + RESET)
+
+
 def is_installed(version):
     return os.path.exists(sonar_script(version))
+
 
 def install_plugin(plugin, version):
     sys.stdout.write(INDENT + "copying jar ... ")
@@ -60,50 +88,60 @@ def install_plugin(plugin, version):
     for path in glob(os.path.join(SONAR_PLUGINS_TMPL % version, "sonar-cxx*.jar")):
         os.remove(path)
     copyfile(plugin, os.path.join(SONAR_PLUGINS_TMPL % version, os.path.basename(plugin)))
-    sys.stdout.write("OK\n")
+    sys.stdout.write(GREEN + "OK\n" + RESET)
+
 
 def start_sonar(version):
     sys.stdout.write(INDENT + "starting Sonar ... ")
     sys.stdout.flush()
     now = time.time()
 
-    print " ".join([sonar_script(version), "start"])
-    rc = subprocess.call([sonar_script(version), "start"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    if rc != 0 or not wait_for_sonar(30, is_webui_up):
-        sys.stdout.write("FAILED\n")
+    rc = subprocess.call([sonar_script(version), "start"],
+                         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    if rc != 0 or not wait_for_sonar(50, is_webui_up):
+        sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
-    
-    sys.stdout.write("OK, duration: %f\n" % (time.time() - now))
+
+    sys.stdout.write(GREEN + "OK, duration: %f\n" % (time.time() - now) + RESET)
+
     return True
-        
+
+
 def stop_sonar(version):
     sys.stdout.write(INDENT + "stopping Sonar ... ")
     sys.stdout.flush()
-    rc = subprocess.call([sonar_script(version), "stop"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    rc = subprocess.call([sonar_script(version), "stop"],
+                         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     if rc != 0 or not wait_for_sonar(30, is_webui_down):
+        sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
-    
-    sys.stdout.write("OK\n")
+
+    sys.stdout.write(GREEN + "OK\n" + RESET)
     return True
+
 
 def sonar_script(version):
     return SCRIPT_TMPL % version
 
+
 def sonarLogFile(version):
     return LOGFILE_TMPL % version
 
+
 def wait_for_sonar(timeout, criteria):
-    for i in range(timeout):
+    for _ in range(timeout):
         if criteria():
             return True
         time.sleep(1)
     return False
 
+
 def is_webui_up():
     try:
         return urllib.urlopen(SONAR_URL).getcode() == 200
-    except:
+    except IOError:
         return False
+
 
 def is_webui_down():
     try:
@@ -112,41 +150,48 @@ def is_webui_down():
     except IOError:
         return True
 
+
 def usage():
     return "%s <path to plugin>" % os.path.basename(sys.argv[0])
+
 
 def checkSonarLogs(version):
     sys.stdout.write(INDENT + "logs check ... ")
     sys.stdout.flush()
     badlines = []
     errors = warnings = 0
-    
-    with open(sonarLogFile(version), "r") as log:
-        lines = log.readlines()
-        errors = warnings = 0
-        for line in lines:
-            if isSonarError(line):
-                badlines.append(line)
-                errors += 1
-            elif isSonarWarning(line):
-                badlines.append(line)
-                warnings += 1
+    try:
+        with open(sonarLogFile(version), "r") as log:
+            lines = log.readlines()
+            errors = warnings = 0
+            for line in lines:
+                if isSonarError(line):
+                    badlines.append(line)
+                    errors += 1
+                elif isSonarWarning(line):
+                    badlines.append(line)
+                    warnings += 1
+        reslabel = (RED + "FAILED\n") if errors > 0 else (GREEN + "OK\n")
+    except IOError, e:
+        badlines.append(str(e) + "\n")
+        reslabel = RED + "FAILED\n"
 
-    sys.stdout.write("FAILED\n" if errors > 0 else "OK\n")
+    sys.stdout.write(reslabel + RESET)
 
     if badlines:
-        for line in badlines: 
-            print 2*INDENT + line
-        print 2*INDENT + 70 * "-"
-        
+        for line in badlines:
+            sys.stdout.write(2*INDENT + line)
+
     summary_msg = "%i errors and %i warnings\n" % (errors, warnings)
-    
-    sys.stdout.write(2*INDENT + len(summary_msg) * "-")
-    sys.stdout.write(2*INDENT + summary_msg)
+
+    print(2*INDENT + len(summary_msg) * "-")
+    print(2*INDENT + summary_msg)
     return errors == 0
+
 
 def isSonarError(line):
     return SONAR_ERROR_RE.match(line)
+
 
 def isSonarWarning(line):
     return SONAR_WARN_RE.match(line)
@@ -160,9 +205,18 @@ if __name__ == "__main__":
         print "Sonar seems to be running, exit it first"
         sys.exit(-1)
 
-    plugin = sys.argv[1]
-    ec = 0
+    build = sys.argv[1]
+    badversions = []
+    goodversions = []
     for sonar_version in SONAR_VERSIONS:
-        ec &= test_bootup(plugin, sonar_version)
-    sys.exit(ec)
-    
+        if test_bootup(build, sonar_version):
+            goodversions.append(sonar_version)
+        else:
+            badversions.append(sonar_version)
+
+    print
+    print BRIGHT + "Summary:" + RESET_ALL
+    print INDENT + "Tests succeded for: " + GREEN + ", ".join(goodversions) + RESET
+    print INDENT + "Tests failed for: " + RED + ", ".join(badversions) + RESET
+
+    sys.exit(len(badversions) == 0)
