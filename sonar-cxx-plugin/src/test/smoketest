@@ -60,9 +60,10 @@ def test_bootup(plugin, version):
         install_plugin(plugin, version)
         started = start_sonar(version)
         logsOK = checkSonarLogs(version)
+        analysisFinishedOk = runAnalysis(version)
         # installOK = checkPluginInstalled(version)
         stop_sonar(version)
-        return all([started, logsOK])
+        return all([started, logsOK, analysisFinishedOk])
     else:
         sys.stdout.write(INDENT + RED + "not available\n" + RESET)
         return False
@@ -102,7 +103,7 @@ def start_sonar(version):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
-    sys.stdout.write(GREEN + "OK, duration: %f\n" % (time.time() - now) + RESET)
+    sys.stdout.write(GREEN + "OK, duration: %03.1f\n" % (time.time() - now) + RESET)
 
     return True
 
@@ -196,7 +197,30 @@ def isSonarError(line):
 def isSonarWarning(line):
     return SONAR_WARN_RE.match(line)
 
+
+def runAnalysis(version):
+    sys.stdout.write(INDENT + "running analysis ... ")
+    sys.stdout.flush()
+    basedir = os.path.dirname(os.path.realpath(__file__))
+    project = "resources/org/sonar/plugins/cxx/codechunks-project"
+    now = time.time()
+    
+    rc = subprocess.call("sonar-runner",
+                         cwd = os.path.join(basedir, project),
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
+    if rc == 0:
+        label = GREEN + "OK, duration: %03.1f\n" % (time.time() - now)
+    else:
+        label = RED + "FAILED\n"
+        
+    sys.stdout.write(label + RESET)
+    
+    return rc == 0
+
+
 if __name__ == "__main__":
+    
     if len(sys.argv) != 2:
         print usage()
         sys.exit(-1)
