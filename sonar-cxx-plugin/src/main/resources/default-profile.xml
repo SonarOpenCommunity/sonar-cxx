@@ -1243,7 +1243,7 @@
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>toomanyconfigs</key>
-      <priority>MINOR</priority>
+      <priority>INFO</priority>
     </rule>
 
     <!-- ########### Missing or new in cppcheck 1.57 ########### -->
