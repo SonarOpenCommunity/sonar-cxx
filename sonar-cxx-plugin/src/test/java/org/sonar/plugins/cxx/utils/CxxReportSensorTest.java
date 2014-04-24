@@ -115,59 +115,49 @@ public class CxxReportSensorTest {
     assertFound(reports);
   }
 
-
   @Test
   public void savesACorrectLineLevelViolation() {
-    assert(sensor.saveViolation(??, ??, rulerepokey, "existingfile",
-                                "1", "existingruleid", "somemessage"))
-      
-      
-      
-      // public boolean saveViolation(
-      // Project project, SensorContext context, String ruleRepoKey,
-
-      //                            String file, String line, String ruleId, String msg) {
-      
-    }
+    // assert(sensor.saveViolation(??, ??, rulerepokey, "existingfile",
+    //                             "1", "existingruleid", "somemessage"))
+  }
   
   @Test
   public void savesACorrectFileLevelViolation() {
+    //TDB
   }
   
   @Test
   public void savesACorrectProjectLevelViolation() {
+    //TDB
   }
 
   ///// negative testcases for saveViolation ////////////
   @Test
   public void savesOnProjectLevelIfFilenameIsEmpty() {
+    //TDB
   }
 
   @Test
-  public void doesNotSaveIfLineCannotBeParsed() {
+  public void doesNotSaveIfLineNumberCannotBeParsed() {
+    //TDB
   }
 
   @Test
   public void doesNotSaveIfRuleCannotBeFound() {
-  }
-
-  @Test
-  public void doesNotSaveIfRuleCannotBeFound() {
+    //TDB
   }
 
   @Test
   public void doesNotSaveIfResourceCannotBeFoundInSonar() {
+    //TDB
   }
-
-
-
   
   private void assertFound(List<File> reports) {
     assert (reports != null);
     assert (reports.get(0).exists());
     assert (reports.get(0).isAbsolute());
   }
-
+  
   private void assertNotFound(List<File> reports) {
     assert (reports != null);
   }
@@ -179,28 +169,12 @@ public class CxxReportSensorTest {
   }
 
   private static Project mockProjectWithSomeFiles(String languageKey) {
-        Project project = TestUtils.mockProject();
-        List<InputFile> listofFiles = new LinkedList<InputFile>();
-        InputFile inputFile = mock(InputFile.class);
-        listofFiles.add(0, inputFile);
-        when(project.getLanguageKey()).thenReturn(languageKey);
-        when(project.getFileSystem().mainFiles(languageKey)).thenReturn(listofFiles);
-        return project;
+    Project project = TestUtils.mockProject();
+    List<InputFile> listofFiles = new LinkedList<InputFile>();
+    InputFile inputFile = mock(InputFile.class);
+    listofFiles.add(0, inputFile);
+    when(project.getLanguageKey()).thenReturn(languageKey);
+    when(project.getFileSystem().mainFiles(languageKey)).thenReturn(listofFiles);
+    return project;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 }
