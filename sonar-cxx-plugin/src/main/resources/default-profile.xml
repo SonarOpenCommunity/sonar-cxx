@@ -43,16 +43,6 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>returnAutocstr</key>
-      <priority>MAJOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>returnTempPointer</key>
-      <priority>MAJOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>autovarInvalidDeallocation</key>
       <priority>MAJOR</priority>
     </rule>
@@ -208,22 +198,12 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>nonreentrantFunctionsasctime</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>nonreentrantFunctionscrypt</key>
       <priority>MINOR</priority>
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>nonreentrantFunctionsctermid</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>nonreentrantFunctionsctime</key>
       <priority>MINOR</priority>
     </rule>
     <rule>
@@ -383,11 +363,6 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>nonreentrantFunctionsrand</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>nonreentrantFunctionsreaddir</key>
       <priority>MINOR</priority>
     </rule>
@@ -399,11 +374,6 @@
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>nonreentrantFunctionstempnam</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>nonreentrantFunctionstmpnam</key>
       <priority>MINOR</priority>
     </rule>
     <rule>
@@ -703,11 +673,6 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>conditionAlwaysTrueFalse</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>duplicateIf</key>
       <priority>MINOR</priority>
     </rule>
@@ -759,11 +724,6 @@
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>stlOutOfBounds</key>
-      <priority>MAJOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>erase</key>
       <priority>MAJOR</priority>
     </rule>
     <rule>
@@ -942,11 +902,6 @@
       <key>returnAddressOfFunctionParameter</key>
       <priority>MAJOR</priority>
     </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>secondAlwaysTrueFalseWhenFirstTrue</key>
-      <priority>MINOR</priority>
-    </rule>
 
     <!-- ########### New in cppcheck 1.52 ########### -->
     <rule>
@@ -982,11 +937,6 @@
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>incorrectStringBooleanError</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>redundantStrcpyInSwitch</key>
       <priority>MINOR</priority>
     </rule>
     <rule>
@@ -1072,17 +1022,7 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>obsoleteFunctionsasctime</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>obsoleteFunctionsasctime_r</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>obsoleteFunctionsctime</key>
       <priority>MINOR</priority>
     </rule>
     <rule>
@@ -1185,11 +1125,6 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>missingScanfFormatWidth</key>
-      <priority>MAJOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>moduloAlwaysTrueFalse</key>
       <priority>MINOR</priority>
     </rule>
@@ -1278,11 +1213,6 @@
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
       <key>redundantCopyLocalConst</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
-      <key>redundantOperationInSwitch</key>
       <priority>MINOR</priority>
     </rule>
     <rule>
