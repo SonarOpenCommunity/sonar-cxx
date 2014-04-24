@@ -45,7 +45,7 @@ public class CxxReportSensorTest {
     public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs){
       super(settings, fs);
     }
-    
+
     @Override
     public void analyse(Project p, SensorContext sc) {
     }
@@ -115,6 +115,53 @@ public class CxxReportSensorTest {
     assertFound(reports);
   }
 
+
+  @Test
+  public void savesACorrectLineLevelViolation() {
+    assert(sensor.saveViolation(??, ??, rulerepokey, "existingfile",
+                                "1", "existingruleid", "somemessage"))
+      
+      
+      
+      // public boolean saveViolation(
+      // Project project, SensorContext context, String ruleRepoKey,
+
+      //                            String file, String line, String ruleId, String msg) {
+      
+    }
+  
+  @Test
+  public void savesACorrectFileLevelViolation() {
+  }
+  
+  @Test
+  public void savesACorrectProjectLevelViolation() {
+  }
+
+  ///// negative testcases for saveViolation ////////////
+  @Test
+  public void savesOnProjectLevelIfFilenameIsEmpty() {
+  }
+
+  @Test
+  public void doesNotSaveIfLineCannotBeParsed() {
+  }
+
+  @Test
+  public void doesNotSaveIfRuleCannotBeFound() {
+  }
+
+  @Test
+  public void doesNotSaveIfRuleCannotBeFound() {
+  }
+
+  @Test
+  public void doesNotSaveIfResourceCannotBeFoundInSonar() {
+  }
+
+
+
+  
   private void assertFound(List<File> reports) {
     assert (reports != null);
     assert (reports.get(0).exists());
@@ -140,4 +187,20 @@ public class CxxReportSensorTest {
         when(project.getFileSystem().mainFiles(languageKey)).thenReturn(listofFiles);
         return project;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }
