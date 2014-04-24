@@ -23,6 +23,8 @@ import urllib
 from glob import glob
 from shutil import copyfile
 import re
+import requests
+import json
 
 SONAR_HOME = "/home/wenns/sonar"
 SONAR_VERSIONS = ["3.7.4", "4.0", "4.1.2", "4.2"]
@@ -33,7 +35,33 @@ SONAR_PLUGINS_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "extensions", "plugins
 SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 INDENT = "    "
+PROJECT_KEY = "smoketest_project1"
+PROJECT_PATH = "resources/org/sonar/plugins/cxx/smoketest_project1"
 
+EXP_MEASURES = {
+    "ncloc": 52.0,
+    "lines": 124.0,
+    "files": 4.0,
+    "directories": 3.0,
+    "functions": 5.0,
+    "comment_lines_density": 31.6,
+    "comment_lines": 24.0,
+    "duplicated_lines_density": 69.4,
+    "duplicated_lines": 86,
+    "duplicated_blocks": 2,
+    "duplicated_files": 2,
+    "complexity": 7,
+    "function_complexity": 1.4,
+    "violations": 18,
+    "violations_density": 0.0,
+    "coverage": 84.0,
+    "line_coverage": 100.0,
+    "branch_coverage": 50.0,
+    "test_success_density": 60.0,
+    "test_failures": 2.0,
+    "test_errors": 0.0,
+    "tests": 5.0
+    }
 
 RED = ""
 GREEN = ""
@@ -61,9 +89,10 @@ def test_bootup(plugin, version):
         started = start_sonar(version)
         logsOK = checkSonarLogs(version)
         analysisFinishedOk = runAnalysis(version)
+        resultingMetricsOk = checkMetrics()
         # installOK = checkPluginInstalled(version)
         stop_sonar(version)
-        return all([started, logsOK, analysisFinishedOk])
+        return all([started, logsOK, analysisFinishedOk, resultingMetricsOk])
     else:
         sys.stdout.write(INDENT + RED + "not available\n" + RESET)
         return False
@@ -204,12 +233,11 @@ def runAnalysis(version):
     sys.stdout.write(INDENT + "running analysis (see %s) ... " % logfname)
     sys.stdout.flush()
     basedir = os.path.dirname(os.path.realpath(__file__))
-    project = "resources/org/sonar/plugins/cxx/codechunks-project"
     now = time.time()
 
-    with open(logfname, "w" ) as logfile:
+    with open(logfname, "w") as logfile:
         rc = subprocess.call(["sonar-runner", "-X"],
-                             cwd=os.path.join(basedir, project),
+                             cwd=os.path.join(basedir, PROJECT_PATH),
                              stdout=logfile, stderr=logfile)
     if rc == 0:
         label = GREEN + "OK, duration: %03.1f s\n" % (time.time() - now)
@@ -219,6 +247,38 @@ def runAnalysis(version):
     sys.stdout.write(label + RESET)
     
     return rc == 0
+
+
+def diffDicts(d1, d2):
+    rc = 0
+    difflist = []
+    if d1 != d2:
+        rc = 1
+        for k1, v1 in d1.iteritems():
+            v2 = d2[k1]
+            if v1 != v2:
+                difflist.append("%s %s/%s" % (k1, str(v1), str(v2)))
+    return rc, ", ".join(difflist)
+
+
+def checkMetrics():
+    sys.stdout.write(INDENT + "checking resulting metrics ... ")
+    sys.stdout.flush()
+
+    rc = 0
+    r = requests.get(SONAR_URL + "/api/resources?resource=" + PROJECT_KEY + "&metrics="
+                     + ",".join(EXP_MEASURES.keys()))
+    gotMeasures = _toSimpleDict(json.loads(r.text)[0]["msr"])
+
+    rc, diff = diffDicts(EXP_MEASURES, gotMeasures)
+    label = (GREEN + "OK") if rc == 0 else (RED + "FAILED, diff: " + diff)
+    sys.stdout.write(label + "\n" + RESET)
+
+    return rc
+
+
+def _toSimpleDict(measures):
+    return {measure["key"]: measure["val"] for measure in measures}
 
 
 if __name__ == "__main__":
