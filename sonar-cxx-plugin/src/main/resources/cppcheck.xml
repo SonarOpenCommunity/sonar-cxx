@@ -2559,3 +2559,24 @@
     </description>
   </rule>
 </rules>
+
+<!-- ########### Deprecated as of 1.63.1 ########### -->
+<!-- dangerousUsageStrtol -->
+<!-- conditionAlwaysTrueFalse -->
+<!-- sizeArgumentAsChar -->
+<!-- complexPatternError -->
+<!-- missingPercentCharacter -->
+<!-- redundantStrcpyInSwitch -->
+<!-- stlcstrthrow -->
+<!-- wrongcctypecall -->
+<!-- debug -->
+<!-- strncatUsage -->
+<!-- invalidScanfFormatWidth -->
+<!-- leakconfiguration -->
+<!-- missingScanfFormatWidth -->
+<!-- redundantOperationInSwitch -->
+<!-- unknownPattern -->
+<!-- invalidFree -->
+<!-- invalidLengthModifierError -->
+<!-- tooBigSleepTime -->
+<!-- class_X_Y -->
