@@ -255,7 +255,7 @@ def diffDicts(d1, d2):
     if d1 != d2:
         rc = 1
         for k1, v1 in d1.iteritems():
-            v2 = d2[k1]
+            v2 = d2.get(k1, "<None>")
             if v1 != v2:
                 difflist.append("%s %s/%s" % (k1, str(v1), str(v2)))
     return rc, ", ".join(difflist)
@@ -266,12 +266,17 @@ def checkMetrics():
     sys.stdout.flush()
 
     rc = 0
-    r = requests.get(SONAR_URL + "/api/resources?resource=" + PROJECT_KEY + "&metrics="
+    try:
+        r = requests.get(SONAR_URL + "/api/resources?resource=" + PROJECT_KEY + "&metrics="
                      + ",".join(EXP_MEASURES.keys()))
-    gotMeasures = _toSimpleDict(json.loads(r.text)[0]["msr"])
+        gotMeasures = _toSimpleDict(json.loads(r.text)[0]["msr"])
 
-    rc, diff = diffDicts(EXP_MEASURES, gotMeasures)
-    label = (GREEN + "OK") if rc == 0 else (RED + "FAILED, diff: " + diff)
+        rc, diff = diffDicts(EXP_MEASURES, gotMeasures)
+        label = (GREEN + "OK") if rc == 0 else (RED + "FAILED, diff: " + diff)
+    except requests.exceptions.ConnectionError, e:
+        rc = 1
+        label = RED + "FAILED, reason: " + str(e)
+        
     sys.stdout.write(label + "\n" + RESET)
 
     return rc
