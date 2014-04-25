@@ -1124,14 +1124,6 @@
     </description>
   </rule>
   <rule>
-    <key>assignmentInAssert</key>
-    <configkey>assignmentInAssert</configkey>
-    <name>Assert statement modifies variable</name>
-    <description>
-      Assert statement modifies variable.
-    </description>
-  </rule>
-  <rule>
     <key>invalidscanf</key>
     <configkey>invalidscanf</configkey>
     <name>scanf without field width limits can crash with huge input data</name>
