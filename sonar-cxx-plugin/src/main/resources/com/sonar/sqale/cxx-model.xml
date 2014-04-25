@@ -4105,19 +4105,6 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
-                <rule-key>secondAlwaysTrueFalseWhenFirstTrue</rule-key>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>30</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
                 <rule-key>redundantCondition</rule-key>
                 <prop>
                     <key>remediationFactor</key>
