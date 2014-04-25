@@ -2569,14 +2569,6 @@
     </description>
   </rule>
   <rule>
-    <key>assignmentInAssert</key>
-    <configkey>assignmentInAssert</configkey>
-    <name>Assignment in assert</name>
-    <description>
-      Assert statement modifies variable.
-    </description>
-  </rule>
-  <rule>
     <key>pointerArithBool</key>
     <configkey>pointerArithBool</configkey>
     <name>Pointer arithmetic conversion</name>
