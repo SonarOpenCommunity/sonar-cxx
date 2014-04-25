@@ -1499,6 +1499,23 @@
       <priority>MAJOR</priority>
     </rule>
 
+    <!-- ########### New 1.64 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>negativeMemoryAllocationSize</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memsetFloat</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>memsetValueOutOfRange</key>
+      <priority>MAJOR</priority>
+    </rule>
+
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->

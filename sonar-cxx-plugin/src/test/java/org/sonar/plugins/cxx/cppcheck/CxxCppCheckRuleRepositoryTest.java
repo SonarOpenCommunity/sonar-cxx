@@ -32,6 +32,6 @@ public class CxxCppCheckRuleRepositoryTest {
   public void createRulesTest() {
     CxxCppCheckRuleRepository rulerep = new CxxCppCheckRuleRepository(
         mock(ServerFileSystem.class), new XMLRuleParser(), new Settings());
-    assertEquals(295, rulerep.createRules().size());
+    assertEquals(298, rulerep.createRules().size());
   }
 }

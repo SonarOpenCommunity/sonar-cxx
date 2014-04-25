@@ -2608,10 +2608,36 @@
       A function gets passed an invalid argument. A non-boolean value is required.
     </description>
   </rule>
+
+  <!-- ########### New in cppcheck 1.64 ########### -->
+  <rule>
+    <key>negativeMemoryAllocationSize</key>
+    <configkey>negativeMemoryAllocationSize</configkey>
+    <name>Memory allocation is negative</name>
+    <description>
+      Memory allocation size have to be greater or equal to 0.
+    </description>
+  </rule>
+  <rule>
+    <key>memsetFloat</key>
+    <configkey>memsetFloat</configkey>
+    <name>Memset Float</name>
+    <description>
+      The 2nd memset() argument is a float, its representation is implementation defined.
+    </description>
+  </rule>
+  <rule>
+    <key>memsetValueOutOfRange</key>
+    <configkey>memsetValueOutOfRange</configkey>
+    <name>Memset value out of range</name>
+    <description>
+      The 2nd memset() argument doesn't fit into an 'unsigned char'.
+    </description>
+  </rule>
 </rules>
 
 
-<!-- ########### Deprecated in 1.63 ########### -->
+<!-- ########### Deprecated as of 1.63 ########### -->
 <!-- tooBigSleepTime -->
 <!-- dangerousUsageStrtol -->
 <!-- wrongcctypecall -->
@@ -2636,3 +2662,6 @@
 <!-- invalidLengthModifierError -->
 <!-- tooBigSleepTime -->
 <!-- class_X_Y -->
+
+<!-- ########### Deprecated as of 1.64 ########### -->
+<!-- duplicateBranch -->
