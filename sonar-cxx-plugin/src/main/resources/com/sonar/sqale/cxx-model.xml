@@ -8208,7 +8208,7 @@
                 <rule-key>invalidPrintfArgType_uint</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>undefined</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
@@ -12731,7 +12731,7 @@
                 <rule-key>duplicateBreak</rule-key>
                 <prop>
                     <key>remediationFunction</key>
-                    <txt>undefined</txt>
+                    <txt>linear</txt>
                 </prop>
                 <prop>
                     <key>remediationFactor</key>
