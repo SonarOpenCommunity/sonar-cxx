@@ -2558,7 +2558,63 @@
       Either the condition is useless or there is division by zero.
     </description>
   </rule>
+
+  <!-- ########### New in cppcheck 1.63 ########### -->
+  <rule>
+    <key>assertWithSideEffect</key>
+    <configkey>assertWithSideEffect</configkey>
+    <name>Assert with side effect</name>
+    <description>
+      Assert statement calls a function which may have desired side effects.
+    </description>
+  </rule>
+  <rule>
+    <key>assignmentInAssert</key>
+    <configkey>assignmentInAssert</configkey>
+    <name>Assignment in assert</name>
+    <description>
+      Assert statement modifies variable.
+    </description>
+  </rule>
+  <rule>
+    <key>pointerArithBool</key>
+    <configkey>pointerArithBool</configkey>
+    <name>Pointer arithmetic conversion</name>
+    <description>
+      Converting pointer arithmetic result to bool. The bool is always true unless there is undefined behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>leakReturnValNotUsed</key>
+    <configkey>leakReturnValNotUsed</configkey>
+    <name>Leak return value</name>
+    <description>
+      Return value of allocation function is not used.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidFunctionArg</key>
+    <configkey>invalidFunctionArg</configkey>
+    <name>Invalid function argument</name>
+    <description>
+      A function gets passed an invalid argument.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidFunctionArgBool</key>
+    <configkey>invalidFunctionArgBool</configkey>
+    <name>Invalid function bool argument</name>
+    <description>
+      A function gets passed an invalid argument. A non-boolean value is required.
+    </description>
+  </rule>
 </rules>
+
+
+<!-- ########### Deprecated in 1.63 ########### -->
+<!-- tooBigSleepTime -->
+<!-- dangerousUsageStrtol -->
+<!-- wrongcctypecall -->
 
 <!-- ########### Deprecated as of 1.63.1 ########### -->
 <!-- dangerousUsageStrtol -->
