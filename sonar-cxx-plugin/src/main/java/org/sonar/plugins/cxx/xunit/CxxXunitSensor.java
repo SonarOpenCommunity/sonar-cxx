@@ -237,6 +237,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       cxxConf.setDefines(Arrays.asList(lines));
     }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+    cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
     
     for (File file : files) {
       @SuppressWarnings("unchecked")

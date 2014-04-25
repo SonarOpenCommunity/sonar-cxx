@@ -134,8 +134,8 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context,
-      CxxConfiguration conf,
-      SourceCodeProvider sourceCodeProvider) {
+    CxxConfiguration conf,
+    SourceCodeProvider sourceCodeProvider) {
     this.context = context;
     this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
 
@@ -144,34 +144,48 @@ public class CxxPreprocessor extends Preprocessor {
 
     pplineParser = CppParser.create(conf);
 
-    // parse the configured defines and store into the macro library
-    for (String define : conf.getDefines()) {
-      LOG.debug("parsing external macro: '{}'", define);
-      if (!define.equals("")) {
-        Macro macro = parseMacroDefinition("#define " + define);
-        if (macro != null) {
-          LOG.info("storing external macro: '{}'", macro);
-          macros.putHighPrio(macro.name, macro);
+    try {
+      macros.setHighPrio(true);
+
+      // parse the configured defines and store into the macro library
+      for (String define : conf.getDefines()) {
+        LOG.debug("parsing external macro: '{}'", define);
+        if (!define.equals("")) {
+          Macro macro = parseMacroDefinition("#define " + define);
+          if (macro != null) {
+            LOG.info("storing external macro: '{}'", macro);
+            macros.put(macro.name, macro);
+          }
         }
       }
-    }
 
-    // set standard macros
-    for (Map.Entry<String, String> entry: StandardDefinitions.macros().entrySet()) {
-      Token bodyToken;
-      try{
-        bodyToken = Token.builder()
-          .setLine(1)
-          .setColumn(0)
-          .setURI(new java.net.URI(""))
-          .setValueAndOriginalValue(entry.getValue())
-          .setType(STRING)
-          .build();
-      } catch (java.net.URISyntaxException e) {
-        throw new RuntimeException(e);
+      // set standard macros
+      for (Map.Entry<String, String> entry : StandardDefinitions.macros().entrySet()) {
+        Token bodyToken;
+        try {
+          bodyToken = Token.builder()
+            .setLine(1)
+            .setColumn(0)
+            .setURI(new java.net.URI(""))
+            .setValueAndOriginalValue(entry.getValue())
+            .setType(STRING)
+            .build();
+        } catch (java.net.URISyntaxException e) {
+          throw new RuntimeException(e);
+        }
+
+        macros.put(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken), false));
       }
-      
-      macros.putHighPrio(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken), false));
+
+      // parse the configured force includes and store into the macro library
+      for (String include : conf.getForceIncludeFiles()) {
+        LOG.debug("parsing force include: '{}'", include);
+        if (!include.equals("")) {
+          parseIncludeLine("#include <" + include + ">");
+        }
+      }
+    } finally {
+      macros.setHighPrio(false);
     }
   }
 
@@ -371,12 +385,17 @@ public class CxxPreprocessor extends Preprocessor {
     Macro macro = parseMacroDefinition(ast);
     if (macro != null) {
       LOG.trace("[{}:{}]: storing macro: '{}'", new Object[] {filename, token.getLine(), macro});
-      macros.putLowPrio(macro.name, macro);
+      macros.put(macro.name, macro);
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
+  private void parseIncludeLine(String includeLine) {
+    AstNode includeAst = pplineParser.parse(includeLine);
+    handleIncludeLine(includeAst, includeAst.getToken(), "");
+  }
+    
   PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename) {
     //
     // Included files have to be scanned with the (only) goal of gathering macros.

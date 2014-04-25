@@ -20,6 +20,7 @@ if (0) {                   // Compliant - already reported
   printf("\n");            // Non-Compliant
   if (0) {                 // Compliant - already reported
         printf("\n");      // Compliant
+	printf("\n");          // Compliant with the default tab width (8)
     printf("\n");          // Non-Compliant
   }
       ; printf("\n");      // Compliant
@@ -30,10 +31,10 @@ if (0) {                   // Compliant - already reported
   int b;                   // Non-Compliant
   };
 };
-  enum FooX {
-    A,                    // Compliant
-  B,                      // Non-Compliant
-    C
+  enum FooX {             // Non-Compliant
+    A,                    // Non-Compliant
+  B,                      // Compliant
+    C                     // Compliant - already reported
 };
 int FooY() {
 void foo1();               // Non-Compliant
@@ -78,4 +79,125 @@ class Foo {
       default: ;
     }
   };
+  void foo()         {}    // Compliant
+  Foo();                   // Compliant
+  enum Code {              // Compliant
+    CODE_OK,
+    CODE_ERROR,
+  }
+  bool       variable;     // Compliant
+  void       Test1();      // Compliant
+  virtual void ReportError(); // Compliant
+  virtual void Test()=0;   // Compliant
+  virtual ~Foo()      {;}  // Compliant
+  enum Code { CODE_1, CODE_2,	// No check
+              CODE_3, CODE_4,   // Compliant
+	      CODE_4,	CODE_5,     // Compliant with the default tab width (8)
+    CODE_6 };              // Not compliant
+  void Labels() {
+start:
+    printf("\n");          // Compliant
+end:
+printf("\n");              // Non-compliant
+  }
+  void VariousIfs() {
+    if (0)                 // Compliant
+      printf("\n");        // Compliant
+    if (0)                 // Compliant
+    printf("\n");          // Non-Compliant
+    if (0) printf("\n");   // Compliant
+    if (0) { printf("\n"); }// Compliant
+    if (0);                // Compliant
+    if (1)
+    {
+    }
+    else if (2)            // Compliant
+    {
+      printf("\n");        // Compliant
+    }
+    else if (3)
+      printf("\n");        // Compliant
+    else
+    {                      // Compliant
+      printf("\n");        // Compliant
+    }
+    if (0) {               // Compliant
+      printf("\n");        // Compliant
+    }
+  }
 };
+namespace Toto {
+  class Foo {
+    int a;                 // Compliant
+  };
+  void foo()
+  {
+    printf("\n");          // Compliant
+  }
+class Foo {                // Non-Compliant
+  int a;                   // Non-Compliant
+};
+}
+extern "C" {
+void foo() {
+  printf("\n");            // Compliant
+}
+}
+enum Foo {                 // Compliant
+  A,
+  B
+};
+  namespace XXX { }        // Non-Compliant
+namespace YYY {            // Compliant
+namespace XXX {            // Non-Compliant
+}
+}
+  int fun() {              // Non-Compliant
+  }
+void foo1() {              // Compliant
+  printf("\n");            // Compliant
+}                          // Compliant
+ void foo2() {             // Non-Compliant
+ printf("hehe");           // Non-Compliant
+     printf("\n");         // Compliant - already reported
+}
+void foo3() {
+  switch(x) {
+   case 1:                 // Non-Compliant
+      break;               // Compliant
+    case 2:                // Compliant
+     break;                // Non-Compliant
+  default:                 // Non-Compliant
+      break;
+  }
+   switch (0)              // Non-Compliant
+   {
+   case 0:                 // Non-Compliant
+      printf("\n");        // Compliant
+     break;                // Compliant - already reported
+    case 1:                // Compliant
+     break;                // Non-Compliant
+   }
+}
+#define EMPTY()
+void Trivia() {
+  EMPTY();                 // Compliant
+  EMPTY()
+  ;                        // Compliant
+    EMPTY();               // Non-Compliant
+  if (1) {
+    EMPTY()
+      ;                    // Non-Compliant
+  }
+  if (1) { EMPTY();        // Compliant
+           printf("1");    // Compliant
+             printf("0"); }// Non-Compliant
+  if (1) {
+    /* this is correct */  // Compliant
+      /* this is not */    // Non-Compliant
+    ;
+  }
+#if 0                      // Compliant
+  #endif                   // Non-Compliant
+  printf("0");
+}

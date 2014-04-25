@@ -43,7 +43,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
   
   private final RulesProfile profile;
-  private static List<CppcheckParser> parsers = new LinkedList<CppcheckParser>();
+  private final List<CppcheckParser> parsers = new LinkedList<CppcheckParser>();
   
   /**
    * {@inheritDoc}

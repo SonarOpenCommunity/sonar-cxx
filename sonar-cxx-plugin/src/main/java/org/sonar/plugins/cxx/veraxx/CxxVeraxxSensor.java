@@ -99,9 +99,10 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
 
-                saveViolation(project, context, CxxVeraxxRuleRepository.KEY,
-                    name, line, source, message);
-                countIssues++;
+                if( saveUniqueViolation(project, context, CxxVeraxxRuleRepository.KEY,
+                                        name, line, source, message)) {
+                  countIssues++;
+                }
               } else {
                 CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
                     errorCursor.getAttrValue("line"),

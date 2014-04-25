@@ -74,8 +74,8 @@ public class CppcheckParserV2 implements CppcheckParser {
                 String msg = errorCursor.getAttrValue("msg");
                 //String verbose = errorCursor.getAttrValue("verbose");
                 //String inconclusive = errorCursor.getAttrValue("inconclusive");
-                String file = "";
-                String line = "";
+                String file = null;
+                String line = null;
 
                 SMInputCursor locationCursor = errorCursor.childElementCursor("location"); // location
                 if (locationCursor.getNext() != null) {
@@ -84,7 +84,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                 }
 
                 if (isInputValid(file, line, id, msg)) {
-                  sensor.saveViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+                  sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
                 } else {
                   CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
                 }

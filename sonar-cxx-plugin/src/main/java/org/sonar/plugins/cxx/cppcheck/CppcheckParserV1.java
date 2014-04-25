@@ -72,7 +72,7 @@ public class CppcheckParserV1 implements CppcheckParser {
             String msg = errorCursor.getAttrValue("msg");
 
             if (isInputValid(file, line, id, msg)) {
-              sensor.saveViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+              sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
             } else {
               CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
             }

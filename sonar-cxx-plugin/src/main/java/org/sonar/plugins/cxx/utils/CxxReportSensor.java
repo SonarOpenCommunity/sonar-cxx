@@ -31,7 +31,6 @@ import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.plugins.cxx.CxxPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,9 +43,10 @@ import java.util.List;
 public abstract class CxxReportSensor implements Sensor {
   private RuleFinder ruleFinder;
   protected Settings conf;
-  private HashSet<String> uniqueFileName = new HashSet<String>();
+  private HashSet<String> notFoundFiles = new HashSet<String>();
+  private HashSet<String> uniqueIssues = new HashSet<String>();
   protected ModuleFileSystem fs;
-  
+
   /**
    * {@inheritDoc}
    */
@@ -140,13 +140,27 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
+   * Saves code violation only if unique.
+   * Compares file, line, ruleId and msg.
+   */
+  public boolean saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
+                                        String file, String line, String ruleId, String msg) {
+
+    if (uniqueIssues.add(file + line + ruleId + msg)) {
+      return saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
+    }
+    return false;
+  }
+
+  /**
    * Saves a code violation which is detected in the given file/line
    * and has given ruleId and message. Saves it to the given project and context.
    * Project or file-level violations can be saved by passing null for the according parameters
    * ('file' = 'line' = null for project level, 'line' = null for file-level)
    */
-  public void saveViolation(Project project, SensorContext context, String ruleRepoKey,
+  public boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
                                String file, String line, String ruleId, String msg) {
+    boolean added = false;
     RuleQuery ruleQuery = RuleQuery.create()
       .withRepositoryKey(ruleRepoKey)
       .withKey(ruleId);
@@ -172,8 +186,9 @@ public abstract class CxxReportSensor implements Sensor {
             }
           }
         } else {
-          if (uniqueFileName.add(file)) {
-          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", file);
+          if (notFoundFiles.add(file)) {
+            // issue this warning only once per file
+            CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", file);
           }
         }
       } else {
@@ -184,12 +199,14 @@ public abstract class CxxReportSensor implements Sensor {
       if (violation != null){
         violation.setMessage(msg);
         context.saveViolation(violation);
+        added = true;
       }
     } else {
       CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
     }
+    return added;
   }
-  
+
   protected void processReport(Project project, SensorContext context, File report)
       throws Exception
   {

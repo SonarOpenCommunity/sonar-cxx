@@ -23,22 +23,20 @@ import org.sonar.api.web.CodeColorizerFormat;
 import org.sonar.colorizer.CDocTokenizer;
 import org.sonar.colorizer.CppDocTokenizer;
 import org.sonar.colorizer.KeywordsTokenizer;
-import org.sonar.colorizer.StringTokenizer;
 import org.sonar.colorizer.Tokenizer;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.sonar.colorizer.LiteralTokenizer;
+import org.sonar.colorizer.RegexpTokenizer;
+import org.sonar.cxx.api.CxxKeyword;
 
 /**
  * {@inheritDoc}
  */
 public final class CxxColorizer extends CodeColorizerFormat {
-  private static final String[] KEYWORDS = {
-    "auto", "char", "class", "double", "float", "inline", "int", "long", "private", "protected",
-    "public", "return", "short", "static", "struct", "template", "throw", "typedef", "typename",
-    "union", "unsigned", "virtual", "void"
-  };
-  private List<Tokenizer> tokenizers;
+
+  private static final String SPAN = "</span>";
 
   /**
    * {@inheritDoc}
@@ -49,14 +47,13 @@ public final class CxxColorizer extends CodeColorizerFormat {
 
   @Override
   public List<Tokenizer> getTokenizers() {
-    if (tokenizers == null) {
-      String tagAfter = "</span>";
-      tokenizers = new ArrayList<Tokenizer>();
-      tokenizers.add(new StringTokenizer("<span class=\"s\">", tagAfter));
-      tokenizers.add(new KeywordsTokenizer("<span class=\"k\">", tagAfter, KEYWORDS));
-      tokenizers.add(new CDocTokenizer("<span class=\"c\">", tagAfter));
-      tokenizers.add(new CppDocTokenizer("<span class=\"c\">", tagAfter));
-    }
+    List<Tokenizer> tokenizers = new ArrayList<Tokenizer>();
+    tokenizers.add(new CDocTokenizer("<span class=\"p\">", SPAN)); // C style comments
+    tokenizers.add(new CppDocTokenizer("<span class=\"p\">", SPAN)); // C++ style comments    
+    tokenizers.add(new KeywordsTokenizer("<span class=\"k\">", SPAN, CxxKeyword.keywordValues())); // keywords
+    tokenizers.add(new LiteralTokenizer("<span class=\"s\">", SPAN)); // strings, characters
+    tokenizers.add(new RegexpTokenizer("<span class=\"h\">", SPAN, "#[^\\n\\r]*+")); // preprocessor directives
+    tokenizers.add(new RegexpTokenizer("<span class=\"c\">", SPAN, "[+-]?[0-9]+[xX]?+(\\.[0-9]*+)?")); // numbers
     return tokenizers;
   }
 }

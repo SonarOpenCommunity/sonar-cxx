@@ -25,6 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squid.api.SourceFile;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 
@@ -42,11 +43,33 @@ public class IndentationCheckTest {
         .next().atLine(12)
         .next().atLine(16)
         .next().atLine(20)
-        .next().atLine(23).withMessage("Make this line start at column 9.")
-        .next().atLine(30) 
-        .next().atLine(34) 
-        .next().atLine(39)
-        .next().atLine(73).withMessage("Make this line start at column 9.");
+        .next().atLine(24).withMessage("Make this line start at column 9.")
+        .next().atLine(31)
+        .next().atLine(34)
+        .next().atLine(35)
+        .next().atLine(40)
+        .next().atLine(58)
+        .next().atLine(96)
+        .next().atLine(101)
+        .next().atLine(107)
+        .next().atLine(137)
+        .next().atLine(138)
+        .next().atLine(150)
+        .next().atLine(152)
+        .next().atLine(155)
+        .next().atLine(160)
+        .next().atLine(161)
+        .next().atLine(166)
+        .next().atLine(169)
+        .next().atLine(170)
+        .next().atLine(173)
+        .next().atLine(175)
+        .next().atLine(179)
+        .next().atLine(187)
+        .next().atLine(190)
+        .next().atLine(194)
+        .next().atLine(197)
+        .next().atLine(201);
   }
 
   @Test
