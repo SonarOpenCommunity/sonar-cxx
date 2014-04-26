@@ -1465,11 +1465,6 @@
     </rule>
     <rule>
       <repositoryKey>cppcheck</repositoryKey>
-      <key>assignmentInAssert</key>
-      <priority>MINOR</priority>
-    </rule>
-    <rule>
-      <repositoryKey>cppcheck</repositoryKey>
       <key>pointerArithBool</key>
       <priority>MAJOR</priority>
     </rule>
