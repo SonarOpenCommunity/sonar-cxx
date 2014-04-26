@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 /**
  * {@inheritDoc}
@@ -44,7 +45,12 @@ public class BullseyeParser implements CoverageParser {
   private int totalcovereddecisions;
   private int totalconditions;
   private int totalcoveredconditions;
-
+  private ModuleFileSystem fs;
+    
+  public BullseyeParser(ModuleFileSystem fs) {
+    this.fs = fs;
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -124,7 +130,8 @@ public class BullseyeParser implements CoverageParser {
         }     
         CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
         fileWalk(child, fileMeasuresBuilderIn);
-        coverageData.put(refPath + fileName, fileMeasuresBuilderIn);
+        String csPath = CxxUtils.getCaseSensitiveFileName(refPath + fileName, fs.sourceDirs());
+        coverageData.put(csPath, fileMeasuresBuilderIn);
 
       } else {
         recTreeWalk(refPath, child, path, coverageData);

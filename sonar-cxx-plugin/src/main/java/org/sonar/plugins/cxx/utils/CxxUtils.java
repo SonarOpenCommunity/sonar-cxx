@@ -23,11 +23,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utility class holding various, well, utilities
  */
 public final class CxxUtils {
+  private static boolean isCaseSensitive = true;
+  private static boolean caseSensitiveTestDone = false;
 
   private CxxUtils() {
     // only static methods
@@ -47,5 +51,61 @@ public final class CxxUtils {
       return "null";
     }
     return file.getAbsolutePath();
+  }
+  
+  /**
+   * @return returns true if file system on this operating system is case sensitive
+   */
+  public static boolean isSystemCaseSensitive() {
+    if (!caseSensitiveTestDone) {
+      try {
+        caseSensitiveTestDone = true;
+        File fileLowerCase = new java.io.File(System.getProperty("java.io.tmpdir") +
+                                              java.io.File.separatorChar +
+                                              "cxx.test.abc.txt");
+        fileLowerCase.createNewFile();
+        File fileUpperCase = new java.io.File(System.getProperty("java.io.tmpdir") +
+                                              java.io.File.separatorChar +
+                                              "CXX.TEST.ABC.TXT");
+        isCaseSensitive = !fileUpperCase.exists();
+        fileLowerCase.delete();
+      } catch (java.io.IOException e) {
+        CxxUtils.LOG.error("isSystemCaseSensitive failed '{}'", e.toString());
+      }
+    }
+
+    return isCaseSensitive;
+  }
+  
+  /**
+   * @return returns case sensitive filename
+   */
+  public static String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
+    File targetfile = new java.io.File(file);
+    if (targetfile.exists()) {
+      file = getRealFileName(targetfile);
+    } else {
+      Iterator<java.io.File> iterator = sourceDirs.iterator();
+      while (iterator.hasNext()) {
+        targetfile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
+        if (targetfile.exists()) {
+          file = getRealFileName(targetfile);
+          break;
+        }
+      }
+    }
+    return file;
+  }
+
+  /**
+   * Get the case sensitive file name.
+   */
+  private static String getRealFileName(File filename) {
+    try {
+      return filename.getCanonicalFile().getAbsolutePath();
+    } catch (java.io.IOException e) {
+      CxxUtils.LOG.error("getRealFileName failed '{}'", e.toString());
+    }
+    return filename.getName();
   }
 }

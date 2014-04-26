@@ -169,6 +169,7 @@ public abstract class CxxReportSensor implements Sensor {
       Violation violation = null;
       // handles file="" situation
       if ((file != null) && (file.length() > 0)){
+        file = CxxUtils.getCaseSensitiveFileName(file, fs.sourceDirs());
         org.sonar.api.resources.File resource =
           org.sonar.api.resources.File.fromIOFile(new File(file), project);
         if (context.getResource(resource) != null) {

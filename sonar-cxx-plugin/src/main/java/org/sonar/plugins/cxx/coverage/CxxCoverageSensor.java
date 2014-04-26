@@ -62,8 +62,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public CxxCoverageSensor(Settings settings, ModuleFileSystem fs) {
     super(settings, fs);
     
-    parsers.add(new CoberturaParser());
-    parsers.add(new BullseyeParser());
+    parsers.add(new CoberturaParser(fs));
+    parsers.add(new BullseyeParser(fs));
   }
 
   /**
