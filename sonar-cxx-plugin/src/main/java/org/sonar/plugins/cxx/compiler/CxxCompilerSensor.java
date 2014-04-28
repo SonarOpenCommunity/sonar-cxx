@@ -153,7 +153,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   /**
    *  Supports full path and relative path in report.xml file.
-   */     
+   */
   private String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
     // check whether the report file uses absolute path
     File targetfile = new java.io.File(file);
@@ -161,7 +161,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
       file = getRealFileName(targetfile);
     } else {
       Iterator<java.io.File> iterator = sourceDirs.iterator();
-      while (iterator.hasNext()) {              
+      while (iterator.hasNext()) {
            targetfile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
            if (targetfile.exists()) {
                file = getRealFileName(targetfile);
@@ -169,13 +169,13 @@ public class CxxCompilerSensor extends CxxReportSensor {
            }
       }
     }
-    return file;      
+    return file;
   }
-     
+
   /**
    * Find the case sensitive file name - tools might use different naming schema
    * e.g. VC HTML or build log report uses case insensitive file name (lower case on windows)
-   */      
+   */
   private String getRealFileName( File filename){
      try {
          return filename.getCanonicalFile().getAbsolutePath();
@@ -185,5 +185,5 @@ public class CxxCompilerSensor extends CxxReportSensor {
      return filename.getName();
   }
 
-  
+
 }

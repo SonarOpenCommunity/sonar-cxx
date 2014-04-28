@@ -55,13 +55,13 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private static final String OVERALL_DEFAULT_REPORT_PATH = "coverage-reports/overall-coverage-*.xml";
 
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
-  
+
   /**
    * {@inheritDoc}
    */
   public CxxCoverageSensor(Settings settings, ModuleFileSystem fs) {
     super(settings, fs);
-    
+
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
   }

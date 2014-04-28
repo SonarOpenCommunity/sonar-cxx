@@ -52,8 +52,8 @@ EXP_MEASURES = {
     "duplicated_files": 2,
     "complexity": 7,
     "function_complexity": 1.4,
-    "violations": 18,
-    "violations_density": 0.0,
+    "violations": 12,
+    "violations_density": 53.8,
     "coverage": 84.0,
     "line_coverage": 100.0,
     "branch_coverage": 50.0,
@@ -134,7 +134,6 @@ def start_sonar(version):
 
     sys.stdout.write(GREEN + "OK, duration: %03.1f s\n" % (time.time() - now)
                      + RESET)
-
     return True
 
 
@@ -250,10 +249,10 @@ def runAnalysis(version):
 
 
 def diffDicts(d1, d2):
-    rc = 0
+    rc = True
     difflist = []
     if d1 != d2:
-        rc = 1
+        rc = False
         for k1, v1 in d1.iteritems():
             v2 = d2.get(k1, "<None>")
             if v1 != v2:
@@ -265,16 +264,15 @@ def checkMetrics():
     sys.stdout.write(INDENT + "checking resulting metrics ... ")
     sys.stdout.flush()
 
-    rc = 0
+    rc = False
     try:
         r = requests.get(SONAR_URL + "/api/resources?resource=" + PROJECT_KEY + "&metrics="
                      + ",".join(EXP_MEASURES.keys()))
         gotMeasures = _toSimpleDict(json.loads(r.text)[0]["msr"])
 
         rc, diff = diffDicts(EXP_MEASURES, gotMeasures)
-        label = (GREEN + "OK") if rc == 0 else (RED + "FAILED, diff: " + diff)
+        label = (GREEN + "OK") if rc else (RED + "FAILED, diff: " + diff)
     except requests.exceptions.ConnectionError, e:
-        rc = 1
         label = RED + "FAILED, reason: " + str(e)
         
     sys.stdout.write(label + "\n" + RESET)

@@ -67,13 +67,15 @@ public class CoberturaParser implements CoverageParser {
       throws XMLStreamException
   {
     while (clazz.getNext() != null) {
-      String fileName = clazz.getAttrValue("filename");
-      CoverageMeasuresBuilder builder = coverageData.get(fileName);
-      if (builder == null) {
-        builder = CoverageMeasuresBuilder.create();
-        coverageData.put(fileName, builder);
+      String normalPath = CxxUtils.normalizePath(clazz.getAttrValue("filename"));
+      if(normalPath != null){
+        CoverageMeasuresBuilder builder = coverageData.get(normalPath);
+        if (builder == null) {
+          builder = CoverageMeasuresBuilder.create();
+          coverageData.put(normalPath, builder);
+        }
+        collectFileData(clazz, builder);
       }
-      collectFileData(clazz, builder);
     }
   }
 

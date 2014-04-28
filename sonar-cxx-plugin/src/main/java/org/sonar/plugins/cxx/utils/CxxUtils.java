@@ -48,4 +48,16 @@ public final class CxxUtils {
     }
     return file.getAbsolutePath();
   }
+
+  /**
+   * Normalize the given path to pass it to sonar. Return null if normalization has failed.
+   */
+  public static String normalizePath(String filename) {
+    try {
+      return new File(filename).getCanonicalPath();
+    } catch (java.io.IOException e) {
+      LOG.error("path normalizing of '{}' failed: '{}'", filename, e.toString());
+      return null;
+    }
+  }
 }
