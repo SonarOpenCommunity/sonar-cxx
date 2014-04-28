@@ -169,26 +169,29 @@ public abstract class CxxReportSensor implements Sensor {
       Violation violation = null;
       // handles file="" situation
       if ((file != null) && (file.length() > 0)){
-        org.sonar.api.resources.File resource =
-          org.sonar.api.resources.File.fromIOFile(new File(file), project);
-        if (context.getResource(resource) != null) {
-          // file level violation
-          violation = Violation.create(rule, resource);
-
-          // considering the line information for file level violations only
-          if (line != null){
-            try{
-              int linenr = Integer.parseInt(line);
-              linenr = linenr == 0 ? 1 : linenr;
-              violation.setLineId(linenr);
-            } catch(java.lang.NumberFormatException nfe){
-              CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+        String normalPath = CxxUtils.normalizePath(file);
+        if(normalPath != null){
+          org.sonar.api.resources.File resource =
+            org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
+          if (context.getResource(resource) != null) {
+            // file level violation
+            violation = Violation.create(rule, resource);
+            
+            // considering the line information for file level violations only
+            if (line != null){
+              try{
+                int linenr = Integer.parseInt(line);
+                linenr = linenr == 0 ? 1 : linenr;
+                violation.setLineId(linenr);
+              } catch(java.lang.NumberFormatException nfe){
+                CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+              }
             }
-          }
-        } else {
-          if (notFoundFiles.add(file)) {
-            // issue this warning only once per file
-            CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", file);
+          } else {
+            if (notFoundFiles.add(normalPath)) {
+              // issue this warning only once per file
+              CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
+            }
           }
         }
       } else {

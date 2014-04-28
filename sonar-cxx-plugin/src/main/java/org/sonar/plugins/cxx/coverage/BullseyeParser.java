@@ -124,8 +124,11 @@ public class BullseyeParser implements CoverageParser {
         }     
         CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
         fileWalk(child, fileMeasuresBuilderIn);
-        coverageData.put(refPath + fileName, fileMeasuresBuilderIn);
-
+        String normalPath = CxxUtils.normalizePath(refPath + fileName);
+        if(normalPath != null){
+          coverageData.put(refPath + fileName, fileMeasuresBuilderIn);
+        }
+        
       } else {
         recTreeWalk(refPath, child, path, coverageData);
       }
