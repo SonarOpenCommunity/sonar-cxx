@@ -67,14 +67,14 @@ public abstract class CxxAbstractRuleRepository extends RuleRepository {
 
       for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) {
         rules.addAll(xmlRuleParser.parse(userExtensionXml));
-      }      
+      }
     }
-    
+
     String customRules = settings.getString(this.customRepositoryKey);
     if (StringUtils.isNotBlank(customRules)) {
       rules.addAll(xmlRuleParser.parse(new StringReader(customRules)));
-    }    
-       
+    }
+
     return rules;
   }
 

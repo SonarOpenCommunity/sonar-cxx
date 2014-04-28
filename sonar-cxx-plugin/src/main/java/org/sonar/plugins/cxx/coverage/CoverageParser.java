@@ -35,7 +35,7 @@ public interface CoverageParser {
    * Parses the given report and stores the results in the according builder
    * @param xmlFile The report to parse
    * @param coverageData A Map mapping source file names to coverage measures. Has
-   *        to be used to store the results into. 
+   *        to be used to store the results into.
    */
   void parseReport(File xmlFile, Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException;

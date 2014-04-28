@@ -176,7 +176,7 @@ public abstract class CxxReportSensor implements Sensor {
           if (context.getResource(resource) != null) {
             // file level violation
             violation = Violation.create(rule, resource);
-            
+
             // considering the line information for file level violations only
             if (line != null){
               try{
