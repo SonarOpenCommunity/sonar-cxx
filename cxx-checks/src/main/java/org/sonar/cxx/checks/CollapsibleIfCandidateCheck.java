@@ -45,9 +45,9 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (!hasElseClause(node)) {
+    if (!hasElseClause(node) && !hasDeclaration(node)) {
       AstNode enclosingIfStatement = getEnclosingIfStatement(node);
-      if (enclosingIfStatement != null && !hasElseClause(enclosingIfStatement) && hasSingleTrueStatement(enclosingIfStatement)) {
+      if (enclosingIfStatement != null && !hasElseClause(enclosingIfStatement) && hasSingleTrueStatement(enclosingIfStatement) && !hasDeclaration(enclosingIfStatement)) {
         getContext().createLineViolation(this, "Merge this if statement with the enclosing one.", node);
       }
     }
@@ -55,6 +55,16 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
   private static boolean hasElseClause(AstNode node) {
     return node.hasDirectChildren(CxxKeyword.ELSE);
+  }
+
+  /**
+   * Verify if the ifStatement's condition is actually a variable declaration.
+   * This is the case if the condition is not an expression. This prevents collapse, since multiple definitions and
+   * expressions cannot be combined.
+   */
+  private static boolean hasDeclaration(AstNode node) {
+    AstNode condition = node.getFirstChild(CxxGrammarImpl.condition);
+    return !(condition.getNumberOfChildren() == 1 && condition.getFirstChild().is(CxxGrammarImpl.expression));
   }
 
   @Nullable
