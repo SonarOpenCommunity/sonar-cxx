@@ -20,8 +20,6 @@
 package org.sonar.plugins.cxx.coverage;
 
 import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -91,9 +89,11 @@ public class VisualStudioParser implements CoverageParser {
     SMInputCursor sourceFile = sourceFiles.childElementCursor("source_file");
     while (sourceFile.getNext() != null) {
       String id = sourceFile.getAttrValue("id");
-      String path = sourceFile.getAttrValue("path");
-      path = getCaseSensitiveFileName(path, fs.sourceDirs());
-      coverageData.put(path, coverageData.remove(id)); // replace key id with path
+      String normalPath = CxxUtils.normalizePath(sourceFile.getAttrValue("path"));
+      CoverageMeasuresBuilder builder = coverageData.remove(id);
+      if (normalPath != null) {
+        coverageData.put(normalPath, builder); // replace id with path
+      }
     }
   }
 
@@ -135,41 +135,6 @@ public class VisualStudioParser implements CoverageParser {
         startLine++;
       }
     }
-  }
-
-  /**
-   * Supports full path and relative path in report.xml file.
-   */
-  private String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
-    // check whether the report file uses absolute path
-    File targetfile = new java.io.File(file);
-    if (targetfile.exists()) {
-      file = getRealFileName(targetfile);
-    } else {
-      Iterator<java.io.File> iterator = sourceDirs.iterator();
-      while (iterator.hasNext()) {
-        targetfile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
-        if (targetfile.exists()) {
-          file = getRealFileName(targetfile);
-          break;
-        }
-      }
-    }
-    return file;
-  }
-
-  /**
-   * Find the case sensitive file name - tools might use different naming schema
-   * e.g. VC HTML or build log report uses case insensitive file name (lower
-   * case on windows)
-   */
-  private String getRealFileName(File filename) {
-    try {
-      return filename.getCanonicalFile().getAbsolutePath();
-    } catch (java.io.IOException e) {
-      CxxUtils.LOG.error("CoverageSensor GetRealFileName failed '{}'", e.toString());
-    }
-    return filename.getName();
   }
 
 }
