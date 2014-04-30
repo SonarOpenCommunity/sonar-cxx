@@ -8,12 +8,9 @@
 #     the plugin version has to support on your box
 #   - adjust the global variables (SONAR_HOME, SONAR_VERSIONS etc.)
 #     to fit your site
+#   - install the requests lib (using something like 'pip install requests' )
 #   - optional: install colorama (using something like 'pip install colorama' )
 #     to get colorized output
-
-# Usage:
-#   $ smoketest <path to .jar>
-#
 
 import os
 import subprocess
@@ -26,17 +23,18 @@ import re
 import requests
 import json
 
-SONAR_HOME = "/home/wenns/sonar"
-SONAR_VERSIONS = ["3.7.4", "4.0", "4.1.2", "4.2"]
+from sitedefs import SONAR_HOME, SONAR_VERSIONS, START_SCRIPT, STOP_SCRIPT
+
 SONAR_URL = "http://localhost:9000"
-SCRIPT_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "bin", "linux-x86-32", "sonar.sh")
 LOGFILE_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "logs", "sonar.log")
 SONAR_PLUGINS_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "extensions", "plugins")
 SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 INDENT = "    "
 PROJECT_KEY = "smoketest_project1"
-PROJECT_PATH = "resources/org/sonar/plugins/cxx/smoketest_project1"
+PROJECT_PATH = "../resources/org/sonar/plugins/cxx/smoketest_project1"
+BASEDIR = os.path.dirname(os.path.realpath(__file__))
+JAR_PATH = os.path.normpath(glob(os.path.join(BASEDIR, "../../../target/*SNAPSHOT.jar"))[0])
 
 EXP_MEASURES = {
     "ncloc": 52.0,
@@ -80,17 +78,16 @@ except ImportError:
     pass
 
 
-def test_bootup(plugin, version):
+def test_bootup(version):
     print(BRIGHT + "\nRunning smoke test for Sonar %s" % version + RESET_ALL)
 
     if is_installed(version):
         cleanup(version)
-        install_plugin(plugin, version)
+        install_plugin(version)
         started = start_sonar(version)
         logsOK = checkSonarLogs(version)
         analysisFinishedOk = runAnalysis(version)
         resultingMetricsOk = checkMetrics()
-        # installOK = checkPluginInstalled(version)
         stop_sonar(version)
         return all([started, logsOK, analysisFinishedOk, resultingMetricsOk])
     else:
@@ -109,15 +106,15 @@ def cleanup(version):
 
 
 def is_installed(version):
-    return os.path.exists(sonar_script(version))
+    return os.path.exists(START_SCRIPT % version)
 
 
-def install_plugin(plugin, version):
+def install_plugin(version):
     sys.stdout.write(INDENT + "copying jar ... ")
     sys.stdout.flush()
     for path in glob(os.path.join(SONAR_PLUGINS_TMPL % version, "sonar-cxx*.jar")):
         os.remove(path)
-    copyfile(plugin, os.path.join(SONAR_PLUGINS_TMPL % version, os.path.basename(plugin)))
+    copyfile(JAR_PATH, os.path.join(SONAR_PLUGINS_TMPL % version, os.path.basename(JAR_PATH)))
     sys.stdout.write(GREEN + "OK\n" + RESET)
 
 
@@ -125,9 +122,7 @@ def start_sonar(version):
     sys.stdout.write(INDENT + "starting Sonar ... ")
     sys.stdout.flush()
     now = time.time()
-
-    rc = subprocess.call([sonar_script(version), "start"],
-                         stdout=subprocess.PIPE)
+    rc = subprocess.call(start_script(version), stdout=subprocess.PIPE, shell = (os.name == "nt"))
     if rc != 0 or not wait_for_sonar(50, is_webui_up):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
@@ -140,8 +135,7 @@ def start_sonar(version):
 def stop_sonar(version):
     sys.stdout.write(INDENT + "stopping Sonar ... ")
     sys.stdout.flush()
-    rc = subprocess.call([sonar_script(version), "stop"],
-                         stdout=subprocess.PIPE)
+    rc = subprocess.call(stop_script(version), stdout=subprocess.PIPE, shell = (os.name == "nt"))
     if rc != 0 or not wait_for_sonar(30, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
@@ -150,8 +144,18 @@ def stop_sonar(version):
     return True
 
 
-def sonar_script(version):
-    return SCRIPT_TMPL % version
+def start_script(version):
+    res = START_SCRIPT % version
+    if os.name != "nt":
+        res = [res, "start"]
+    return res
+
+
+def stop_script(version):
+    res = STOP_SCRIPT % version
+    if os.name != "nt":
+        res = [res, "stop"]
+    return res
 
 
 def sonarLogFile(version):
@@ -179,10 +183,6 @@ def is_webui_down():
         return False
     except IOError:
         return True
-
-
-def usage():
-    return "%s <path to plugin>" % os.path.basename(sys.argv[0])
 
 
 def checkSonarLogs(version):
@@ -231,20 +231,19 @@ def runAnalysis(version):
     logfname = "analysis_%s.log" % version
     sys.stdout.write(INDENT + "running analysis (see %s) ... " % logfname)
     sys.stdout.flush()
-    basedir = os.path.dirname(os.path.realpath(__file__))
     now = time.time()
-
+    runner = "sonar-runner.bat" if os.name == 'nt' else "sonar-runner"
     with open(logfname, "w") as logfile:
-        rc = subprocess.call(["sonar-runner", "-X"],
-                             cwd=os.path.join(basedir, PROJECT_PATH),
+        rc = subprocess.call([runner, "-X"],
+                             cwd=os.path.join(BASEDIR, PROJECT_PATH),
                              stdout=logfile, stderr=logfile)
     if rc == 0:
         label = GREEN + "OK, duration: %03.1f s\n" % (time.time() - now)
     else:
         label = RED + "FAILED\n"
-        
+
     sys.stdout.write(label + RESET)
-    
+
     return rc == 0
 
 
@@ -267,14 +266,14 @@ def checkMetrics():
     rc = False
     try:
         r = requests.get(SONAR_URL + "/api/resources?resource=" + PROJECT_KEY + "&metrics="
-                     + ",".join(EXP_MEASURES.keys()))
+                         + ",".join(EXP_MEASURES.keys()))
         gotMeasures = _toSimpleDict(json.loads(r.text)[0]["msr"])
 
         rc, diff = diffDicts(EXP_MEASURES, gotMeasures)
         label = (GREEN + "OK") if rc else (RED + "FAILED, diff: " + diff)
     except requests.exceptions.ConnectionError, e:
         label = RED + "FAILED, reason: " + str(e)
-        
+
     sys.stdout.write(label + "\n" + RESET)
 
     return rc
@@ -285,20 +284,14 @@ def _toSimpleDict(measures):
 
 
 if __name__ == "__main__":
-    
-    if len(sys.argv) != 2:
-        print usage()
-        sys.exit(-1)
-
     if is_webui_up():
         print "Sonar seems to be running, exit it first"
         sys.exit(-1)
 
-    build = sys.argv[1]
     badversions = []
     goodversions = []
     for sonar_version in SONAR_VERSIONS:
-        if test_bootup(build, sonar_version):
+        if test_bootup(sonar_version):
             goodversions.append(sonar_version)
         else:
             badversions.append(sonar_version)
