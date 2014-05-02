@@ -59,5 +59,16 @@ public class CxxExternalRuleRepositoryTest {
     CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
         new XMLRuleParser(), settings);
     assertThat(rulerep.createRules()).hasSize(2);
+  }
+  
+  @Test
+  public void createNullRulesTest() {
+    Settings settings = new Settings();
+    String customkey = "1873293847";
+    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY, customkey);
+    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY + "." + customkey + "." + CxxExternalRuleRepository.CUSTOM_RULES_PROFILE_KEY, null);
+    CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
+        new XMLRuleParser(), settings);
+    assertThat(rulerep.createRules()).hasSize(0);
   }  
 }

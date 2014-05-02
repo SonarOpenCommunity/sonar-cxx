@@ -53,7 +53,10 @@ public class CxxExternalRuleRepository extends RuleRepository {
     for(String key : settings.getStringArray(CUSTOM_RULES_KEY))
     {
       if (StringUtils.isNotBlank(key)) {
-        rules.addAll(xmlRuleParser.parse(new StringReader(settings.getString(GetCombinedKey(key)))));
+        String data = settings.getString(GetCombinedKey(key));
+        if (StringUtils.isNotBlank(data)) {
+          rules.addAll(xmlRuleParser.parse(new StringReader(data)));
+        }
       }      
     }
 
