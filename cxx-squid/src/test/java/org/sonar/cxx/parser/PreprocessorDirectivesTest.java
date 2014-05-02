@@ -38,7 +38,7 @@ public class PreprocessorDirectivesTest {
                           + "array[IDX];");
   }
 
-  //@Test
+  @Test
   public void hashhash_related_parsing_problem() {
     // this reproduces a macros expansion problem where
     // necessary whitespaces get lost
@@ -51,5 +51,16 @@ public class PreprocessorDirectivesTest {
                         + "break;\n"
                         + "}\n"
                         + "}\n");
+  }
+
+  @Test
+  public void prescan() {
+    assert (p.parse(
+              "#define AFTERX(x) X_ ## x\n"
+              + "#define XAFTERX(x) AFTERX(x)\n"
+              + "#define TABLESIZE 1024\n"
+              + "#define BUFSIZE TABLESIZE\n"
+              + "XAFTERX(BUFSIZE)")
+            .getTokenValue().equals("X_1024"));
   }
 }
