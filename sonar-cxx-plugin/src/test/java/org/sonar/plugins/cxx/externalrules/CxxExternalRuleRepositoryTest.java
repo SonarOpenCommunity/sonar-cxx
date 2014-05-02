@@ -20,20 +20,44 @@
 package org.sonar.plugins.cxx.externalrules;
 
 import org.junit.Test;
-import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.rules.XMLRuleParser;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import org.sonar.api.config.Settings;
 
 public class CxxExternalRuleRepositoryTest {
 
+  String profile = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n" +
+          "<rules>\n" +
+          "    <rule key=\"cpplint.readability/nolint-0\">\n" +
+          "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n" +
+          "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n" +
+          "        <category name=\"readability\" />\n" +
+          "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n" +
+          "    </rule>\n" +
+          "    <rule key=\"cpplint.readability/fn_size-0\">\n" +
+          "        <name><![CDATA[ Small and focused functions are preferred:   %s has %d non-comment lines   (error triggered by exceeding %d lines).   % (self.current_function, self.lines_in_function, trigger)]]></name>\n" +
+          "        <configKey><![CDATA[cpplint.readability/fn_size-0@CPP_LINT]]></configKey>\n" +
+          "        <category name=\"readability\" />\n" +
+          "        <description><![CDATA[  Small and focused functions are preferred:   %s has %d non-comment lines   (error triggered by exceeding %d lines).   % (self.current_function, self.lines_in_function, trigger) ]]></description>\n" +
+          "    </rule></rules>";
+  
+
   @Test
-  public void createRulesTest() {
+  public void createEmptyRulesTest() {
     CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
-        mock(ServerFileSystem.class),
         new XMLRuleParser(), new Settings());
     assertThat(rulerep.createRules()).hasSize(0);
   }
+  
+  @Test
+  public void createNonEmptyRulesTest() {
+    Settings settings = new Settings();
+    String customkey = "1873293847";
+    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY, customkey);
+    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY + "." + customkey + "." + CxxExternalRuleRepository.CUSTOM_RULES_PROFILE_KEY, profile);
+    CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
+        new XMLRuleParser(), settings);
+    assertThat(rulerep.createRules()).hasSize(2);
+  }  
 }
