@@ -19,22 +19,20 @@
  */
 package org.sonar.plugins.cxx.compiler;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team edition or 2010/2012/2013 premium edition)
@@ -75,8 +73,9 @@ public class CxxCompilerSensor extends CxxReportSensor {
   private CompilerParser getCompilerParser() {
     String parserKey = getStringProperty(PARSER_KEY_DEF, DEFAULT_PARSER_DEF);
     CompilerParser parser = parsers.get(parserKey);
-    if (parser == null)
-        parser = parsers.get(DEFAULT_PARSER_DEF);
+    if (parser == null) {
+      parser = parsers.get(DEFAULT_PARSER_DEF);
+    }
     return parser;
   }
 
@@ -107,16 +106,16 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * @return Value of the property if set and not empty, else default value.
    */
   public String getParserStringProperty(String name, String def) {
-      String s = getStringProperty(name, "");
-      if (StringUtils.isEmpty(s))
-          return def;
-      return s;
+    String s = getStringProperty(name, "");
+    if (StringUtils.isEmpty(s)) {
+      return def;
+    }
+    return s;
   }
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
+      throws javax.xml.stream.XMLStreamException {
     int countViolations = 0;
     final CompilerParser parser = getCompilerParser();
     final String reportCharset = getParserStringProperty(REPORT_CHARSET_DEF, parser.defaultCharset());
@@ -124,14 +123,13 @@ public class CxxCompilerSensor extends CxxReportSensor {
     final List<CompilerParser.Warning> warnings = new LinkedList<CompilerParser.Warning>();
 
     // Iterate through the lines of the input file
-    CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
+    CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '" + report + "', CharSet= '" + reportCharset + "'" );
     try {
       parser.ParseReport(report, reportCharset, reportRegEx, warnings);
       for(CompilerParser.Warning w : warnings) {
         // get filename from file system - e.g. VC writes case insensitive file name to html
-        String filename = getCaseSensitiveFileName(w.filename, fs.sourceDirs());
-        if (isInputValid(filename, w.line, w.id, w.msg)) {
-          if (saveUniqueViolation(project, context, parser.rulesRepositoryKey(), filename, w.line, w.id, w.msg)) {
+        if (isInputValid(w.filename, w.line, w.id, w.msg)) {
+          if (saveUniqueViolation(project, context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg)) {
             countViolations++;
           }
         } else {
@@ -150,40 +148,4 @@ public class CxxCompilerSensor extends CxxReportSensor {
     return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
       && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
   }
-
-  /**
-   *  Supports full path and relative path in report.xml file.
-   */
-  private String getCaseSensitiveFileName(String file, List<java.io.File> sourceDirs) {
-    // check whether the report file uses absolute path
-    File targetfile = new java.io.File(file);
-    if (targetfile.exists()) {
-      file = getRealFileName(targetfile);
-    } else {
-      Iterator<java.io.File> iterator = sourceDirs.iterator();
-      while (iterator.hasNext()) {
-           targetfile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
-           if (targetfile.exists()) {
-               file = getRealFileName(targetfile);
-               break;
-           }
-      }
-    }
-    return file;
-  }
-
-  /**
-   * Find the case sensitive file name - tools might use different naming schema
-   * e.g. VC HTML or build log report uses case insensitive file name (lower case on windows)
-   */
-  private String getRealFileName( File filename){
-     try {
-         return filename.getCanonicalFile().getAbsolutePath();
-     } catch (java.io.IOException e) {
-       CxxUtils.LOG.error("SaveViolation GetRealFileName failed '{}'", e.toString());
-       }
-     return filename.getName();
-  }
-
-
 }

@@ -19,16 +19,18 @@
  */
 package org.sonar.plugins.cxx.utils;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 /**
  * Utility class holding various, well, utilities
  */
 public final class CxxUtils {
-
   private CxxUtils() {
     // only static methods
   }
@@ -59,5 +61,37 @@ public final class CxxUtils {
       LOG.error("path normalizing of '{}' failed: '{}'", filename, e.toString());
       return null;
     }
+  }
+
+  /**
+   * @return returns case sensitive full path
+   */
+  public static String getCaseSensitiveFileName(String file, ModuleFileSystem fs) {
+    File targetfile = new java.io.File(file);
+    String filePath = file;
+    if (targetfile.exists()) {
+      filePath = normalizePath(file);
+    } else {
+      // RATS, CppCheck and Vera++ provide names like './file.cpp' - add source folder for index check
+      filePath = resolveFileName(file, fs.sourceDirs());
+    }
+    if (filePath == null) {
+      filePath = file;
+    }
+    return filePath;
+  }
+
+  private static String resolveFileName(String file, List<java.io.File> searchDirs) {
+    String targetfile = null;
+    Iterator<java.io.File> iterator = searchDirs.iterator();
+    while (iterator.hasNext()) {
+      File sourcefile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
+      if (sourcefile.exists()) {
+        targetfile = normalizePath(sourcefile.getAbsolutePath());
+        break;
+      }
+    }
+   
+    return targetfile;  
   }
 }
