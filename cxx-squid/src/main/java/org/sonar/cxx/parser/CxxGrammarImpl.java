@@ -122,7 +122,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   attributeDeclaration,
   declSpecifier,
   recoveredDeclaration,
-  vcAtlDeclaration,
+  vcAtlDeclaration,   //Microsoft Extension: attributed ATL
 
   conditionDeclSpecifierSeq,
   forrangeDeclSpecifierSeq,
@@ -177,7 +177,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   attributeArgumentClause,
   balancedTokenSeq,
   balancedToken,
-  vcAtlAttribute,
+  vcAtlAttribute,   //Microsoft Extension: attributed ATL
 
   // Declarators
   initDeclaratorList,
