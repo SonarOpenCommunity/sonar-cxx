@@ -1433,43 +1433,7 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
-                <rule-key>obsoleteFunctionsasctime</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
                 <rule-key>obsoleteFunctionsasctime_r</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
-                <rule-key>obsoleteFunctionsctime</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
@@ -3281,24 +3245,6 @@
             <name>OS related portability</name>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
-                <rule-key>nonreentrantFunctionsasctime</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>30</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionscrypt</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3318,24 +3264,6 @@
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionsctermid</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>30</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
-                <rule-key>nonreentrantFunctionsctime</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
@@ -3911,24 +3839,6 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
-                <rule-key>nonreentrantFunctionsrand</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>30</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionsreaddir</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3966,24 +3876,6 @@
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionstempnam</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>30</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
-                <rule-key>nonreentrantFunctionstmpnam</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
@@ -7684,24 +7576,6 @@
                 <prop>
                     <key>remediationFactor</key>
                     <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
-                <rule-key>secondAlwaysTrueFalseWhenFirstTrue</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>30</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -11997,42 +11871,6 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
-                <rule-key>returnAutocstr</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
-                <rule-key>returnTempPointer</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
                 <rule-key>arrayIndexOutOfBounds</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -12850,24 +12688,6 @@
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>stlOutOfBounds</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>d</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
-                <rule-key>erase</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>

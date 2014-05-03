@@ -87,30 +87,6 @@
 			<repo>cppcheck</repo>
 			<description>Returning reference to temporary.</description>
 		</rule>
-		<rule key="returnAutocstr">
-			<name>Returning pointer to auto variable</name>
-			<requirement>INSTRUCTION_RELIABILITY</requirement>
-			<remediationFactorVal>5</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MAJOR</severity>
-			<repo>cppcheck</repo>
-			<description>Returning pointer to auto variable.</description>
-		</rule>
-		<rule key="returnTempPointer">
-			<name>Returning pointer to temporary</name>
-			<requirement>INSTRUCTION_RELIABILITY</requirement>
-			<remediationFactorVal>5</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MAJOR</severity>
-			<repo>cppcheck</repo>
-			<description>Returning pointer to temporary.</description>
-		</rule>
 		<rule key="autovarInvalidDeallocation">
 			<name>Deallocating auto-variable is invalid</name>
 			<requirement>MEMORY_EFFICIENCY</requirement>
@@ -505,20 +481,6 @@
 			<description>Common realloc mistake: variable nulled but not freed upon
       failure.</description>
 		</rule>
-		<rule key="nonreentrantFunctionsasctime">
-			<name>Avoid usage of the function 'asctime'</name>
-			<requirement>OS_RELATED_PORTABILITY</requirement>
-			<remediationFactorVal>30</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MINOR</severity>
-			<repo>cppcheck</repo>
-			<description>The function 'asctime' is not reentrant. For thread-safe
-      applications it is recommended to use the reentrant replacement
-      function 'asctime_r'.</description>
-		</rule>
 		<rule key="nonreentrantFunctionscrypt">
 			<name>Avoid usage of the function 'crypt'</name>
 			<requirement>OS_RELATED_PORTABILITY</requirement>
@@ -546,20 +508,6 @@
 			<description>The function 'ctermid' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'ctermid_r'.</description>
-		</rule>
-		<rule key="nonreentrantFunctionsctime">
-			<name>Avoid usage of the function 'ctime'</name>
-			<requirement>OS_RELATED_PORTABILITY</requirement>
-			<remediationFactorVal>30</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MINOR</severity>
-			<repo>cppcheck</repo>
-			<description>The function 'ctime' is not reentrant. For threadsafe
-      applications it is recommended to use the reentrant replacement
-      function 'ctime_r'.</description>
 		</rule>
 		<rule key="nonreentrantFunctionsecvt">
 			<name>Avoid usage of the function 'ecvt'</name>
@@ -995,20 +943,6 @@
       applications it is recommended to use the reentrant replacement
       function 'localtime_r'.</description>
 		</rule>
-		<rule key="nonreentrantFunctionsrand">
-			<name>Avoid usage of the function 'rand'</name>
-			<requirement>OS_RELATED_PORTABILITY</requirement>
-			<remediationFactorVal>30</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MINOR</severity>
-			<repo>cppcheck</repo>
-			<description>The function 'rand' is not reentrant. For thread-safe
-      applications it is recommended to use the reentrant replacement
-      function 'rand_r'.</description>
-		</rule>
 		<rule key="nonreentrantFunctionsreaddir">
 			<name>Avoid usage of the function 'readdir'</name>
 			<requirement>OS_RELATED_PORTABILITY</requirement>
@@ -1050,20 +984,6 @@
 			<description>The function 'tempnam' is not reentrant. For thread-safe
       applications it is recommended to use the reentrant replacement
       function 'tempnam_r'.</description>
-		</rule>
-		<rule key="nonreentrantFunctionstmpnam">
-			<name>Avoid usage of the function 'tmpnam'</name>
-			<requirement>OS_RELATED_PORTABILITY</requirement>
-			<remediationFactorVal>30</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MINOR</severity>
-			<repo>cppcheck</repo>
-			<description>The function 'tmpnam' is not reentrant. For thread-safe
-      applications it is recommended to use the reentrant replacement
-      function 'tmpnam_r'.</description>
 		</rule>
 		<rule key="nonreentrantFunctionsttyname">
 			<name>Avoid usage of the function 'ttyname'</name>
@@ -1961,20 +1881,6 @@
 			<repo>cppcheck</repo>
 			<description>When i==foo.size(), foo[i] is out of bounds.</description>
 		</rule>
-		<rule key="erase">
-			<name>Dangerous iterator usage after erase()-method</name>
-			<requirement>INSTRUCTION_RELIABILITY</requirement>
-			<remediationFactorVal>5</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MAJOR</severity>
-			<repo>cppcheck</repo>
-			<description>Dangerous iterator usage after erase()-method. After erase the
-      iterator is invalid so dereferencing it or comparing it with another
-      iterator is invalid.</description>
-		</rule>
 		<rule key="invalidIterator2">
 			<name>Iterators may get invalid after push_back|push_front|insert</name>
 			<requirement>INSTRUCTION_RELIABILITY</requirement>
@@ -2377,18 +2283,6 @@
 			<repo>cppcheck</repo>
 			<description>Return the address of a function parameter.</description>
 		</rule>
-		<rule key="secondAlwaysTrueFalseWhenFirstTrue">
-			<name>Redundant condition</name>
-			<requirement>LOGIC_CHANGEABILITY</requirement>
-			<remediationFactorVal>30</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MINOR</severity>
-			<repo>cppcheck</repo>
-			<description>When first comparison is true, the second comparison is always true.</description>
-		</rule>
 		<rule key="simplePatternError">
 			<name>Found simple pattern inside call</name>
 			<requirement>undefined</requirement>
@@ -2695,19 +2589,6 @@
 			<description>scanf argument no. 1: requires non-const pointers or arrays as
       arguments.</description>
 		</rule>
-		<rule key="obsoleteFunctionsasctime">
-			<name>Avoid usage of the function 'asctime'</name>
-			<requirement>LANGUAGE_RELATED_PORTABILITY</requirement>
-			<remediationFactorVal>5</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MINOR</severity>
-			<repo>cppcheck</repo>
-			<description>The function 'asctime' is obsolete. It is recommended to use the
-      function 'strftime' instead.</description>
-		</rule>
 		<rule key="obsoleteFunctionsasctime_r">
 			<name>Avoid usage of the function 'asctime_r'</name>
 			<requirement>LANGUAGE_RELATED_PORTABILITY</requirement>
@@ -2720,19 +2601,6 @@
 			<repo>cppcheck</repo>
 			<description>The function 'asctime_r' is obsolete. It is recommended to use
       the function 'strftime' instead.</description>
-		</rule>
-		<rule key="obsoleteFunctionsctime">
-			<name>Avoid usage of the function 'ctime'</name>
-			<requirement>LANGUAGE_RELATED_PORTABILITY</requirement>
-			<remediationFactorVal>5</remediationFactorVal>
-			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>linear</remediationFunction>
-			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>d</remediationOffsetUnit>
-			<severity>MINOR</severity>
-			<repo>cppcheck</repo>
-			<description>The function 'ctime' is obsolete. It is recommended to use the
-      function 'strftime' instead.</description>
 		</rule>
 		<rule key="obsoleteFunctionsrand_r">
 			<name>Avoid usage of the function 'rand_r'</name>
