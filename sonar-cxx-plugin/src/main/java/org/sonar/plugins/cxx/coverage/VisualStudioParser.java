@@ -25,7 +25,6 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -33,12 +32,6 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class VisualStudioParser implements CoverageParser {
-
-  private ModuleFileSystem fs;
-
-  public VisualStudioParser(ModuleFileSystem fs) {
-    this.fs = fs;
-  }
 
   /**
    * {@inheritDoc}
