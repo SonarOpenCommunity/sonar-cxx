@@ -90,4 +90,9 @@ public class CxxCompilerGccParser implements CompilerParser{
     }
     scanner.close();
   }
+  
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }
