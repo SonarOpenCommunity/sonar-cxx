@@ -103,16 +103,16 @@ public class CxxCoverageSensor extends CxxReportSensor {
           if (!measuresForReport.isEmpty()) {
             parsed = true;
             measuresTotal.putAll(measuresForReport);
-            CxxUtils.LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
+            CxxUtils.LOG.info("Added report '" + report + "' (parsed by: " + parser + ") to the coverage data");
             break;
           }
         } catch (XMLStreamException e) {
-          CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
+          CxxUtils.LOG.trace("Report " + report + " cannot be parsed by " + parser);
         }
       }
 
       if (!parsed) {
-        CxxUtils.LOG.error("Report {} cannot be parsed", report);
+        CxxUtils.LOG.error("Report " + report + " cannot be parsed");
       }
     }
 
@@ -128,7 +128,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       org.sonar.api.resources.File cxxfile =
           org.sonar.api.resources.File.fromIOFile(new File(filePath), project);
       if (fileExist(context, cxxfile)) {
-        CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
+        CxxUtils.LOG.debug("Saving coverage measures for file '" + filePath + "'");
         for (Measure measure : entry.getValue().createMeasures()) {
           switch (coveragetype) {
             case UNIT_TEST_COVERAGE:
@@ -145,7 +145,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           context.saveMeasure(cxxfile, measure);
         }
       } else {
-        CxxUtils.LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
+        CxxUtils.LOG.warn("Cannot find the file '" + filePath + "', ignoring coverage measures");
       }
     }
   }

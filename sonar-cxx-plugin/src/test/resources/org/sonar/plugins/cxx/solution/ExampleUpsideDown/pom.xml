@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.sonar-plugins.cxx.example</groupId>
+  <artifactId>example-upside-down</artifactId>
+   <version>1.0-SNAPSHOT</version>
+  <name>Example Solution upside down</name>
+  <packaging>sln</packaging>
+
+  <properties>
+   
+	<!-- source files are elsewhere... -->
+	<dotnet.source.directory>../Example</dotnet.source.directory>
+	
+    <visual.studio.solution>Example.sln</visual.studio.solution>
+    <visual.test.project.pattern>*.Tests</visual.test.project.pattern>
+    <sonar.language>c++</sonar.language>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <configuration>
+          <language>c++</language>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

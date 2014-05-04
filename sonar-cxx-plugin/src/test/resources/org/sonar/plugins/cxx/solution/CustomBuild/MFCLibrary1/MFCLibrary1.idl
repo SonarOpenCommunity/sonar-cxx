@@ -1,0 +1,10 @@
+// MFCLibrary1.idl : type library source for MFCLibrary1.dll
+// This file will be processed by the MIDL compiler to produce the
+// type library (MFCLibrary1.tlb).
+
+[ uuid(1A03CA4F-8363-408A-BA18-6CF54DD5DBB0), version(1.0) ]
+library MFCLibrary1
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+};

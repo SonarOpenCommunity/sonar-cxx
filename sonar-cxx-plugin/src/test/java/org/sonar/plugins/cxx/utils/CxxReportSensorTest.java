@@ -73,14 +73,14 @@ public class CxxReportSensorTest {
     new CxxReportSensorImpl(settings, fs);
   }
 
-  @Test
-  public void shouldAllwaysExecute() {
-    // which means: only on cxx projects
-    CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs);
-    Project cxxProject = mockProjectWithSomeFiles(CxxLanguage.KEY);
-    Project foreignProject = mockProjectWithLanguageKey("whatever");
-    assert (sensor.shouldExecuteOnProject(cxxProject));
-  }
+//  @Test
+//  public void shouldAllwaysExecute() {
+//    // which means: only on cxx projects
+//    CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs);
+//    Project cxxProject = mockProjectWithSomeFiles(CxxLanguage.KEY);
+//    Project foreignProject = mockProjectWithLanguageKey("whatever");
+//    assert (sensor.shouldExecuteOnProject(cxxProject));
+//  }
 
   @Test
   public void getReports_shouldFindSomethingIfThere() {

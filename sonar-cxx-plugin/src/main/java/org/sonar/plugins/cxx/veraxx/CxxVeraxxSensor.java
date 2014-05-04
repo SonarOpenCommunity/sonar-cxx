@@ -71,18 +71,16 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
+      throws javax.xml.stream.XMLStreamException {
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**
          * {@inheritDoc}
          */
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-          try{
+          try {
             rootCursor.advance();
-          }
-          catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
             throw new EmptyReportException();
           }
 
@@ -91,7 +89,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
           while (fileCursor.getNext() != null) {
             String name = fileCursor.getAttrValue("name");
 
-            CxxUtils.LOG.info("Vera++ processes file = " + name);              
+            CxxUtils.LOG.info("Vera++ processes file = " + name);
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!name.equals("error")) {
@@ -104,13 +102,12 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                   countIssues++;
                 }
               } else {
-                CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
-                    errorCursor.getAttrValue("line"),
-                    errorCursor.getAttrValue("message"));
+                CxxUtils.LOG.debug("Error in line '" + errorCursor.getAttrValue("line") + 
+                    " with message '"+ errorCursor.getAttrValue("message")+ "'");
               }
             }
           }
-          CxxUtils.LOG.info("Vera++ issues processed = " + countIssues);    
+          CxxUtils.LOG.info("Vera++ issues processed = " + countIssues);
         }
       });
 

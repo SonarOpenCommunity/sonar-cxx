@@ -36,6 +36,7 @@ import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
+import org.sonar.plugins.cxx.compiler.CxxVisualStudioProjectBuilder;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.squid.CxxSquidSensor;
@@ -44,6 +45,7 @@ import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
+import org.sonar.plugins.cxx.api.microsoft.BuildConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +125,47 @@ import java.util.List;
     global = false,
     project = true),
   @Property(
+      key = CxxPlugin.VS_SOLUTION_ENABLED,
+      defaultValue = "false",
+      name = "Activate Visual Studio Solution support",
+      description = "Enable \".sln\" file analysis.",
+      global = false,
+      project = true,
+      type = PropertyType.BOOLEAN),    
+    @Property(
+    key = CxxPlugin.VS_TEST_PROJECT_PATTERN_KEY,
+    defaultValue = CxxPlugin.VS_TEST_PROJECT_PATTERN_DEFVALUE,
+    name = "Test project names",
+    description = "Pattern that check project names to identify test projects.",
+    global = true,
+    project = true),
+  @Property(
+    key = CxxPlugin.VS_SOLUTION_FILE_KEY,
+    defaultValue = CxxPlugin.VS_SOLUTION_FILE_DEFVALUE,
+    name = "Solution to analyse",
+    description = "Relative path to the \".sln\" file that represents the solution to analyse. If none provided, a \".sln\" file will be searched at the root of the project.",
+    global = false,
+    project = true),
+  @Property(
+    key = CxxPlugin.VS_BUILD_CONFIGURATION_KEY,
+    defaultValue = CxxPlugin.VS_BUILD_CONFIGURATIONS_DEFVALUE,
+    name = "Build configuration",
+    description = "Build configurations used to build the solution.",
+    global = true,
+    project = true),
+  @Property(key = CxxPlugin.VS_BUILD_PLATFORM_KEY,
+    defaultValue = CxxPlugin.VS_BUILD_PLATFORM_DEFVALUE,
+    name = "Build platform",
+    description = "Build platform used to build the solution.",
+    global = true,
+    project = true),
+  @Property(key = CxxPlugin.VS_KEY_GENERATION_STRATEGY_KEY, defaultValue = "",
+    name = "Resource key generation strategy",
+    description = "Strategy to generate sonar resource keys. Default value is standard. If you encounter " +
+      "any 'NonUniqueResultException' errors you can set this property to 'safe'",
+    global = true,
+    project = true),
+  @Property(
     key = CxxCoverageSensor.REPORT_PATH_KEY,
     defaultValue = "",
     name = "Path to unit test coverage report(s)",
@@ -200,6 +243,26 @@ public final class CxxPlugin extends SonarPlugin {
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
+
+  public static final String VS_SOLUTION_ENABLED = "sonar.cxx.visualstudio.enabled";
+  
+  public static final String VS_TEST_PROJECT_PATTERN_KEY = "sonar.cxx.visualstudio.testProjectPattern";
+  public static final String VS_TEST_PROJECT_PATTERN_DEFVALUE = "*.Tests";
+
+  public static final String VS_IT_PROJECT_PATTERN_KEY = "sonar.cxx.visualstudio.itProjectPattern";
+  public static final String VS_IT_PROJECT_PATTERN_DEFVALUE = "";
+
+  public static final String VS_SOLUTION_FILE_KEY = "sonar.cxx.visualstudio.solution.file";
+  public static final String VS_SOLUTION_FILE_DEFVALUE = "";
+
+  public static final String VS_BUILD_CONFIGURATION_KEY = "sonar.cxx.buildConfiguration";
+  public static final String VS_BUILD_CONFIGURATIONS_DEFVALUE = "Debug";
+
+  public static final String VS_BUILD_PLATFORM_KEY = "sonar.cxx.buildPlatform";
+  public static final String VS_BUILD_PLATFORM_DEFVALUE = BuildConfiguration.DEFAULT_PLATFORM;
+
+  public static final String VS_KEY_GENERATION_STRATEGY_KEY = "sonar.cxx.key.generation.strategy";  
+
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.force_includes";
   
@@ -235,6 +298,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxExternalRulesSensor.class);
     l.add(CxxExternalRuleRepository.class);
     l.add(CxxRuleRepository.class);
+    l.add(CxxVisualStudioProjectBuilder.class);
 
     return l;
   }

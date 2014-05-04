@@ -51,7 +51,7 @@ public class BullseyeParser implements CoverageParser {
   public void parseReport(File xmlFile, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException
   {
-    CxxUtils.LOG.info("Bullseye - Parsing report '{}'", xmlFile);
+    CxxUtils.LOG.info("Bullseye - Parsing report '" + xmlFile + "'");
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -103,7 +103,8 @@ public class BullseyeParser implements CoverageParser {
     }
   }
 
-  private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData)
+  private void recTreeWalk(String refPath, SMInputCursor folder,
+      List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
@@ -125,10 +126,9 @@ public class BullseyeParser implements CoverageParser {
         CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
         fileWalk(child, fileMeasuresBuilderIn);
         String normalPath = CxxUtils.normalizePath(refPath + fileName);
-        if(normalPath != null){
-          coverageData.put(normalPath, fileMeasuresBuilderIn);
+        if (normalPath != null) {
+          coverageData.put(refPath + fileName, fileMeasuresBuilderIn);
         }
-
       } else {
         recTreeWalk(refPath, child, path, coverageData);
       }

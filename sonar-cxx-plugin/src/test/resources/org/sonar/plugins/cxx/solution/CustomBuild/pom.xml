@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.codehaus.maven.dotnet.example</groupId>
+  <artifactId>example</artifactId>
+   <version>1.0-SNAPSHOT</version>
+  <name>CustomBuild .Net for Maven</name>
+  <packaging>sln</packaging>
+
+  <properties>
+    <!-- NOTE : the versions and parameters may be defined as properties 
+       Prefer this option to the plugin specific configuration as it may be accessible to several plugins
+    -->
+    <visual.studio.solution>CustomBuild.sln</visual.studio.solution>
+    <visual.test.project.pattern>*.Tests</visual.test.project.pattern>
+    <dotnet.tool.version>4.0</dotnet.tool.version>
+    <sonar.language>cs</sonar.language>
+	<fxcop.directory>tata</fxcop.directory>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.sonar-plugins.dotnet</groupId>
+        <artifactId>maven-dotnet-plugin</artifactId>
+        <!-- Possible definition of projects parameters -->
+        <!--
+        <configuration>
+          <testProjectPattern>*.Tests</testProjectPattern>
+          <solutionName>Example.sln</solutionName>
+          <toolVersion>3.5</toolVersion>
+          <buildConfigurations>
+            <buildConfiguration>Debug</buildConfiguration>
+            <buildConfiguration>Release</buildConfiguration>
+          </buildConfigurations>
+        </configuration>
+        -->
+		<configuration>
+			<reportFileName>ddd.xml</reportFileName>
+		</configuration>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <configuration>
+          <language>cs</language>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

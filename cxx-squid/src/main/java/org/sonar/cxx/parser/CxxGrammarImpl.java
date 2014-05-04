@@ -27,6 +27,7 @@ import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.CxxConfiguration;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
+import static com.sonar.sslr.api.GenericTokenType.EOL;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -589,7 +590,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(labeledStatement).is(b.optional(attributeSpecifierSeq), IDENTIFIER, ":", statement);
 
     b.rule(expressionStatement).is(b.optional(expression), ";");
-            
+    
     b.rule(compoundStatement).is("{", statementSeq, "}");
     
 
@@ -599,7 +600,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement))
       );
     
-    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", "{", switchBlockStatementGroups, "}");  
+    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", "{", switchBlockStatementGroups, "}");
     
     b.rule(switchBlockStatementGroups).is(b.zeroOrMore(switchBlockStatementGroup));  
  
@@ -872,7 +873,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(usingDirective).is(b.optional(attributeSpecifier), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional("::"), b.optional(nestedNameSpecifier), namespaceName, ";");
 
     b.rule(asmDefinition).is(CxxKeyword.ASM, "(", STRING, ")", ";");
-    
+
+//    b.rule(asmDefinition).is(
+//        b.firstOf(
+//            b.sequence(CxxKeyword.ASM, "(", STRING, ")", ";"),
+//            b.sequence(CxxKeyword.ASM, "{", b.anyToken(), "}"),
+//            b.sequence(CxxKeyword.ASM, b.oneOrMore(statement), ";", b.anyToken(), EOL)
+//        )
+//        );
+//    
     b.rule(linkageSpecification).is(CxxKeyword.EXTERN, STRING, b.firstOf(b.sequence("{", b.optional(declarationSeq), "}"), declaration));
 
     b.rule(attributeSpecifierSeq).is(b.oneOrMore(attributeSpecifier));

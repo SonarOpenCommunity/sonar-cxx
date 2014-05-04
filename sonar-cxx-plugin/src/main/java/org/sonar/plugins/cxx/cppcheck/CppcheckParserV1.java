@@ -47,7 +47,7 @@ public class CppcheckParserV1 implements CppcheckParser {
    */
   public void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("cppcheck V1 - Parsing report '{}'", report);
+    CxxUtils.LOG.info("cppcheck V1 - Parsing report '" + report + "'");
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -61,22 +61,24 @@ public class CppcheckParserV1 implements CppcheckParser {
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
           throw new EmptyReportException();
         }
-
+        int countIssues = 0;
         try {
-          SMInputCursor errorCursor = rootCursor.childElementCursor("error"); // error
+          SMInputCursor errorCursor = rootCursor.childElementCursor("error");
           while (errorCursor.getNext() != null) {
             String file = errorCursor.getAttrValue("file");
             String line = errorCursor.getAttrValue("line");
             String id = errorCursor.getAttrValue("id");
-            //String severity = errorCursor.getAttrValue("severity");
             String msg = errorCursor.getAttrValue("msg");
 
             if (isInputValid(file, line, id, msg)) {
-              sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+              if (sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg)) {
+                countIssues++;
+              }
             } else {
               CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
             }
           }
+          CxxUtils.LOG.info("CppCheck issues processed = " + countIssues);
         } catch (RuntimeException e) {
           parsed = false;
           throw new XMLStreamException();
@@ -100,3 +102,4 @@ public class CppcheckParserV1 implements CppcheckParser {
     return getClass().getSimpleName();
   }
 }
+
