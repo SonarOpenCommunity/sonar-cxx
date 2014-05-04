@@ -185,4 +185,9 @@ public class BullseyeParser implements CoverageParser {
       }
     }
   }
+  
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }

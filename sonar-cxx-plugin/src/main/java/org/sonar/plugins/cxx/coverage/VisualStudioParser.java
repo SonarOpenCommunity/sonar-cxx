@@ -52,11 +52,6 @@ public class VisualStudioParser implements CoverageParser {
     parser.parse(xmlFile);
   }
 
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
-
   private void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException {
     while (module.getNext() != null) {
@@ -130,4 +125,8 @@ public class VisualStudioParser implements CoverageParser {
     }
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }
