@@ -19,26 +19,28 @@
  */
 package org.sonar.plugins.cxx;
 
+import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
-import org.sonar.commonrules.api.CommonRulesEngine;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import org.sonar.commonrules.api.CommonRulesRepository;
 
 /**
  *
  * @author Jorge Costa
  */
-public class CxxCommonRulesEngineProviderTest {
+public class CxxCommonRulesEngineTest {
+
   @Test
-  public void testCxxCommonRulesEngineProvider() {
-    CxxCommonRulesEngineProvider engineProvider = new CxxCommonRulesEngineProvider(TestUtils.mockProject());
-    CommonRulesEngine engine = mock(CommonRulesEngine.class);
-    engineProvider.doActivation(engine);
-    verify(engine, times(1)).activateRule("InsufficientBranchCoverage");
-    verify(engine, times(1)).activateRule("InsufficientCommentDensity");
-    verify(engine, times(1)).activateRule("DuplicatedBlocks");
-    verify(engine, times(1)).activateRule("InsufficientLineCoverage");
+  public void provide_extensions() {
+    CxxCommonRulesEngine engine = new CxxCommonRulesEngine();
+    assertThat(engine.provide()).isNotEmpty();
+  }
+
+  @Test
+  public void enable_common_rules() {
+    CxxCommonRulesEngine engine = new CxxCommonRulesEngine();
+    CommonRulesRepository repo = engine.newRepository();
+    assertThat(repo.rules()).hasSize(6);
+    assertThat(repo.rule(CommonRulesRepository.RULE_INSUFFICIENT_COMMENT_DENSITY)).isNotNull();
   }
 }

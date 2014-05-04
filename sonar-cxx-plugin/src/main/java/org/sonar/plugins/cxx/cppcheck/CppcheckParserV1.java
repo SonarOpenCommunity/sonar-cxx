@@ -94,4 +94,9 @@ public class CppcheckParserV1 implements CppcheckParser {
   public boolean hasParsed() {
     return parsed;
   }
+  
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 }

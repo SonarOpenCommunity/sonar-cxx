@@ -2898,7 +2898,7 @@
     <key>651</key>
     <configkey>651</configkey>
     <priority>MAJOR</priority>
-    <name>L065: Potentially confusing initializer</name>
+    <name>L0651: Potentially confusing initializer</name>
     <description>An initializer for a complex aggregate is being processed that contains some subaggregates that are bracketed and some that are not. ANSI recommends either "minimally bracketed" initializers in which there are no interior braces or "fully bracketed" initializers in which all interior aggregates are bracketed.</description>
   </rule>
   <rule>

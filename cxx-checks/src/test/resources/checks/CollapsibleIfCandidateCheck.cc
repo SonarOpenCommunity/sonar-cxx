@@ -82,5 +82,16 @@ int main(void)
             }
 
         }
+
+        void declarations( )  {
+            if (false) { // Compliant
+                if (bool aValue = false) { // Compliant
+                }
+            }
+            if (bool aValue = false) { // Compliant
+                if (false) {           // Compliant
+                }
+            }
+        }
     };
 }

@@ -122,6 +122,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   attributeDeclaration,
   declSpecifier,
   recoveredDeclaration,
+  vcAtlDeclaration,   //Microsoft Extension: attributed ATL
 
   conditionDeclSpecifierSeq,
   forrangeDeclSpecifierSeq,
@@ -176,6 +177,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   attributeArgumentClause,
   balancedTokenSeq,
   balancedToken,
+  vcAtlAttribute,   //Microsoft Extension: attributed ATL
 
   // Declarators
   initDeclaratorList,
@@ -288,6 +290,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     exceptionHandling(b);
 
     misc(b);
+    vcAttributedAtl(b);
     
     b.setRootRule(translationUnit);
 
@@ -307,7 +310,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         BOOL,
         NULLPTR));
   }
-  
+
+  private static void vcAttributedAtl(LexerfulGrammarBuilder b) {
+    b.rule(vcAtlAttribute).is(
+      "[", b.oneOrMore(b.anyTokenButNot("]")), "]"
+    );
+    b.rule(vcAtlDeclaration).is(vcAtlAttribute, ";");
+  }
+    
   private static void toplevel(LexerfulGrammarBuilder b, CxxConfiguration conf) {
     if (conf.getErrorRecoveryEnabled() == true) {
       b.rule(translationUnit).is(b.zeroOrMore(b.firstOf(declaration, recoveredDeclaration)), EOF);
@@ -579,7 +589,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(labeledStatement).is(b.optional(attributeSpecifierSeq), IDENTIFIER, ":", statement);
 
     b.rule(expressionStatement).is(b.optional(expression), ";");
-    
+            
     b.rule(compoundStatement).is("{", statementSeq, "}");
     
 
@@ -673,7 +683,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             linkageSpecification,
             namespaceDefinition,
             emptyDeclaration,
-            attributeDeclaration
+            attributeDeclaration,
+            vcAtlDeclaration
         )
         );
 
@@ -800,7 +811,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
 //    b.rule(enumSpecifier).is(b.sequence(enumHead, "{", b.optional(enumeratorList), "}"));
     
-    b.rule(enumHead).is(enumKey, b.optional(attributeSpecifierSeq), b.firstOf(b.sequence(nestedNameSpecifier, IDENTIFIER), b.optional(IDENTIFIER)), b.optional(enumBase));
+    b.rule(enumHead).is(b.optional(vcAtlAttribute), enumKey, b.optional(attributeSpecifierSeq), b.firstOf(b.sequence(nestedNameSpecifier, IDENTIFIER), b.optional(IDENTIFIER)), b.optional(enumBase));
 
     b.rule(opaqueEnumDeclaration).is(enumKey, b.optional(attributeSpecifierSeq), IDENTIFIER, b.optional(enumBase), ";");
 
@@ -1015,7 +1026,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(parameterDeclaration).is(
         b.firstOf(
-            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)),
+            b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)),
             b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause)))
         );
 
@@ -1084,8 +1095,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(classHead).is(
         b.firstOf(
-            b.sequence(classKey, b.optional(attributeSpecifierSeq), classHeadName, b.optional(classVirtSpecifier), b.optional(baseClause)),
-            b.sequence(classKey, b.optional(attributeSpecifierSeq), b.optional(baseClause))
+            b.sequence(b.optional(vcAtlAttribute), classKey, b.optional(attributeSpecifierSeq), classHeadName, b.optional(classVirtSpecifier), b.optional(baseClause)),
+            b.sequence(b.optional(vcAtlAttribute), classKey, b.optional(attributeSpecifierSeq), b.optional(baseClause))
         )
         );
 
@@ -1108,7 +1119,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(memberDeclaration).is(
         b.firstOf(
-          b.sequence(b.optional(attributeSpecifierSeq), b.optional(memberDeclSpecifierSeq), b.optional(memberDeclaratorList), ";"),
+          b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), b.optional(memberDeclSpecifierSeq), b.optional(memberDeclaratorList), ";"),
             b.sequence(functionDefinition, b.optional(";")),
             b.sequence(b.optional("::"), nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
             usingDeclaration,

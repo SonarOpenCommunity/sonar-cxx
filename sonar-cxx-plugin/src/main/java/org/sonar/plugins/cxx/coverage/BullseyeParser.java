@@ -126,7 +126,7 @@ public class BullseyeParser implements CoverageParser {
         fileWalk(child, fileMeasuresBuilderIn);
         String normalPath = CxxUtils.normalizePath(refPath + fileName);
         if(normalPath != null){
-          coverageData.put(refPath + fileName, fileMeasuresBuilderIn);
+          coverageData.put(normalPath, fileMeasuresBuilderIn);
         }
 
       } else {
@@ -184,5 +184,10 @@ public class BullseyeParser implements CoverageParser {
         fileMeasuresBuilderIn.setHits(Integer.parseInt(line), 0);
       }
     }
+  }
+  
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
   }
 }
