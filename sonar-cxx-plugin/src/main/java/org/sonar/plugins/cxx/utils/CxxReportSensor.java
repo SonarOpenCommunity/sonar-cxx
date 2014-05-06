@@ -86,10 +86,6 @@ public abstract class CxxReportSensor implements Sensor {
           CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
         }
       }
-
-      if (reports.isEmpty()) {
-        handleNoReportsCase(context);
-      }
     } catch (Exception e) {
       String msg = new StringBuilder()
           .append("Cannot feed the data into sonar, details: '")
