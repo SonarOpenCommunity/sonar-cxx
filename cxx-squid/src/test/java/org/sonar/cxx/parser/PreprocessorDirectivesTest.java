@@ -114,7 +114,7 @@ public class PreprocessorDirectivesTest {
 //    assert (serialize(p.parse(
 //      "#define A_B A/*Comment*/B\n"
 //      +" A_B;"))
-//      .equals("A B ; EOF"));    
+//      .equals("A B ; EOF"));
   }
 
   @Test
@@ -166,7 +166,7 @@ public class PreprocessorDirectivesTest {
 //    assert (serialize(p.parse(
 //      "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
 //      + "eprintf(\"success!\");"))
-//      .equals("fprintf ( stderr , \"success!\" ) ; EOF"));    
+//      .equals("fprintf ( stderr , \"success!\" ) ; EOF"));
   }
 
   @Test
@@ -207,7 +207,7 @@ public class PreprocessorDirectivesTest {
 //      + "#define B 0x##n\n"
 //      + "A")
 //      .getTokenValue().equals("0xn(cf)"));
-    
+
 //    @todo
 //    assert (p.parse(
 //      "#define A B(cf)\n"
@@ -266,7 +266,7 @@ public class PreprocessorDirectivesTest {
 
   @Test
   public void self_referential_macros() {
-//    @todo         
+//    @todo
 //    assert (p.parse(
 //      "#define EPERM EPERM"
 //      + "EPERM")
