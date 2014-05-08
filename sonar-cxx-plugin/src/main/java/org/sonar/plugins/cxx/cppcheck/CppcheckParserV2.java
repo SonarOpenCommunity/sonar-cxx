@@ -57,7 +57,7 @@ public class CppcheckParserV2 implements CppcheckParser {
         parsed = true;
 
         try {
-          rootCursor.advance(); // results
+          rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
           throw new EmptyReportException();
         }
@@ -65,30 +65,32 @@ public class CppcheckParserV2 implements CppcheckParser {
         try {
           String version = rootCursor.getAttrValue("version");
           if (version.equals("2")) {
-            SMInputCursor errorsCursor = rootCursor.childElementCursor("errors"); // errors
+            SMInputCursor errorsCursor = rootCursor.childElementCursor("errors");
             if (errorsCursor.getNext() != null) {
-              SMInputCursor errorCursor = errorsCursor.childElementCursor("error"); // error
+              int countIssues = 0;
+              SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
                 String id = errorCursor.getAttrValue("id");
-                //String severity = errorCursor.getAttrValue("severity");
                 String msg = errorCursor.getAttrValue("msg");
-                //String verbose = errorCursor.getAttrValue("verbose");
-                //String inconclusive = errorCursor.getAttrValue("inconclusive");
                 String file = null;
                 String line = null;
 
-                SMInputCursor locationCursor = errorCursor.childElementCursor("location"); // location
+                SMInputCursor locationCursor = errorCursor.childElementCursor("location");
                 if (locationCursor.getNext() != null) {
                   file = locationCursor.getAttrValue("file");
                   line = locationCursor.getAttrValue("line");
                 }
 
                 if (isInputValid(file, line, id, msg)) {
-                  sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+                  if(sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg)){
+                    countIssues++;
+                  }
                 } else {
                   CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
                 }
               }
+
+              CxxUtils.LOG.info("CppCheck issues processed = " + countIssues);
             }
           }
         } catch (RuntimeException e) {
