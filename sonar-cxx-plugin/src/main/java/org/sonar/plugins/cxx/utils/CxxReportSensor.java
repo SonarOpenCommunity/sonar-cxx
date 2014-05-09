@@ -191,7 +191,9 @@ public abstract class CxxReportSensor implements Sensor {
 
     if (add) {
       Rule rule = GetRule(ruleRepoKey, ruleId);
-      ContextSaveViolation(context, resource, lineNr, rule, msg);
+      if (rule != null) {
+        ContextSaveViolation(context, resource, lineNr, rule, msg);
+      }
     }
 
     return add;
