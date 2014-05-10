@@ -201,12 +201,11 @@ public class PreprocessorDirectivesTest {
       + "macro_start"))
       .equals("int main ( void ) ; EOF"));
 
-//    @todo
-//    assert (p.parse(
-//      "#define A B(cf)\n"
-//      + "#define B 0x##n\n"
-//      + "A")
-//      .getTokenValue().equals("0xn(cf)"));
+    assert (serialize(p.parse(
+      "#define A B(cf)\n"
+      + "#define B 0x##n\n"
+      + "A"))
+      .equals("0 xn ( cf ) EOF"));
 
 //    @todo
 //    assert (p.parse(
@@ -224,14 +223,13 @@ public class PreprocessorDirectivesTest {
       + "x = FOO;"))
       .equals("x = FOO ; EOF"));
 
-//    @todo
-//    assert (p.parse(
-//      "#define BUFSIZE 1020"
-//      + "#define TABLESIZE BUFSIZE"
-//      + "#undef BUFSIZE"
-//      + "#define BUFSIZE 37"
-//      + "TABLESIZE")
-//      .getTokenValue().equals("37"));
+    assert (p.parse(
+      "#define BUFSIZE 1020\n"
+      + "#define TABLESIZE BUFSIZE\n"
+      + "#undef BUFSIZE\n"
+      + "#define BUFSIZE 37\n"
+      + "TABLESIZE")
+      .getTokenValue().equals("37"));
   }
 
   @Test
@@ -266,11 +264,10 @@ public class PreprocessorDirectivesTest {
 
   @Test
   public void self_referential_macros() {
-//    @todo
-//    assert (p.parse(
-//      "#define EPERM EPERM"
-//      + "EPERM")
-//      .getTokenValue().equals("EPERM"));
+    assert (p.parse(
+      "#define EPERM EPERM\n"
+      + "EPERM")
+      .getTokenValue().equals("EPERM"));
 
     assert (serialize(p.parse(
       "#define foo (4 + foo)\n"
