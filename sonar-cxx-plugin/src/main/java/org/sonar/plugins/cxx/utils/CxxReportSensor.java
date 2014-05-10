@@ -175,7 +175,7 @@ public abstract class CxxReportSensor implements Sensor {
           org.sonar.api.resources.File file
             = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
           if (context.getResource(file) != null) {
-            lineNr = GetLineAsInt(line);
+            lineNr = getLineAsInt(line);
             resource = file;
             add = true;
           } else {
@@ -190,16 +190,16 @@ public abstract class CxxReportSensor implements Sensor {
     }
 
     if (add) {
-      Rule rule = GetRule(ruleRepoKey, ruleId);
+      Rule rule = getRule(ruleRepoKey, ruleId);
       if (rule != null) {
-        ContextSaveViolation(context, resource, lineNr, rule, msg);
+        contextSaveViolation(context, resource, lineNr, rule, msg);
       }
     }
 
     return add;
   }
 
-  private void ContextSaveViolation(SensorContext context, Resource resource, int lineNr, Rule rule, String msg) {
+  private void contextSaveViolation(SensorContext context, Resource resource, int lineNr, Rule rule, String msg) {
     Violation violation = Violation.create(rule, resource);
     if (lineNr > 0) {
       violation.setLineId(lineNr);
@@ -208,7 +208,7 @@ public abstract class CxxReportSensor implements Sensor {
     context.saveViolation(violation);
   }
 
-  private Rule GetRule(String ruleRepoKey, String ruleId) {
+  private Rule getRule(String ruleRepoKey, String ruleId) {
     String key = ruleRepoKey + ruleId; // StringBuilder is slower
     Rule rule = ruleCache.get(key);
     if (rule == null) {
@@ -224,7 +224,7 @@ public abstract class CxxReportSensor implements Sensor {
     return rule;
   }
 
-  private int GetLineAsInt(String line) {
+  private int getLineAsInt(String line) {
     int lineNr = 0;
     if (line != null) {
       try {
