@@ -123,11 +123,6 @@ public class CxxXunitSensor extends CxxReportSensor {
     parseReport(project, context, transformReport(report));
   }
 
-  @Override
-  protected void handleNoReportsCase(SensorContext context) {
-    context.saveMeasure(CoreMetrics.TESTS, 0.0);
-  }
-
   File transformReport(File report)
       throws java.io.IOException, javax.xml.transform.TransformerException
   {

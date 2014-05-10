@@ -644,11 +644,8 @@ public class CxxPreprocessor extends Preprocessor {
         else if (index < arguments.size()) {
           Token replacement = arguments.get(index);
 
-          // TODO: maybe we should pipe the argument through the whole expansion
-          // engine before doing the replacement
-          // String newValue = serialize(expandMacro("", replacement.getValue()));
-
-          String newValue = replacement.getValue();
+          // The arguments have to be fully expanded before expanding the body of the macro
+          String newValue = serialize(expandMacro("", replacement.getValue()));
 
           if (i > 0 && body.get(i - 1).getValue().equals("#")) {
             newTokens.remove(newTokens.size() - 1);

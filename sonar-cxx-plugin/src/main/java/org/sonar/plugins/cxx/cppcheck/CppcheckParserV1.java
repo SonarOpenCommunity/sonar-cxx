@@ -61,6 +61,7 @@ public class CppcheckParserV1 implements CppcheckParser {
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
           throw new EmptyReportException();
         }
+
         int countIssues = 0;
         try {
           SMInputCursor errorCursor = rootCursor.childElementCursor("error");
@@ -71,8 +72,8 @@ public class CppcheckParserV1 implements CppcheckParser {
             String msg = errorCursor.getAttrValue("msg");
 
             if (isInputValid(file, line, id, msg)) {
-              if (sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg)) {
-                countIssues++;
+              if(sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg)){
+                ++countIssues;
               }
             } else {
               CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);

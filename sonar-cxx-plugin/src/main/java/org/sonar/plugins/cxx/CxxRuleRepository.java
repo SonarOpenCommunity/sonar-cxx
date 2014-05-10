@@ -27,6 +27,7 @@ import org.sonar.cxx.checks.CheckList;
 import java.util.List;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.PropertyField;
 import org.sonar.api.PropertyType;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
@@ -41,6 +42,18 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
  * Creates FXCop rule repositories for every language supported by FxCop.
  */
 @Properties({
+  @Property(
+    key = CxxExternalRuleRepository.CUSTOM_RULES_KEY,
+    name = "External rules definition",
+    description = "Profiles for external rules",
+    project = false,
+    global = true,
+    fields = {    
+      @PropertyField(
+        key = CxxExternalRuleRepository.CUSTOM_RULES_PROFILE_KEY,
+        name = "Xml Profile",
+        description = "Rule Definition",
+        type = PropertyType.TEXT)}),  
   @Property(key = CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY,
     defaultValue = "", name = "Compiler custom rules for Visual C++",
     description = "XML description of Compiler custom rules", type = PropertyType.TEXT,
@@ -68,11 +81,7 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
   @Property(key = CxxVeraxxRuleRepository.CUSTOM_RULES_KEY,
     defaultValue = "", name = "Vera++ custom rules",
     description = "XML description of Vera++ custom rules", type = PropertyType.TEXT,
-    global = true, project = false),
-  @Property(key = CxxExternalRuleRepository.CUSTOM_RULES_KEY,
-    defaultValue = "", name = "External custom rules",
-    description = "XML description of External custom rules", type = PropertyType.TEXT,
-    global = true, project = false)      
+    global = true, project = false)  
 })
 public class CxxRuleRepository extends RuleRepository {
 

@@ -65,9 +65,11 @@ public class CppcheckParserV2 implements CppcheckParser {
         try {
           String version = rootCursor.getAttrValue("version");
           if (version.equals("2")) {
-            int countIssues = 0;
+
             SMInputCursor errorsCursor = rootCursor.childElementCursor("errors");
             if (errorsCursor.getNext() != null) {
+              int countIssues = 0;
+
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
                 String id = errorCursor.getAttrValue("id");
@@ -82,15 +84,16 @@ public class CppcheckParserV2 implements CppcheckParser {
                 }
 
                 if (isInputValid(file, line, id, msg)) {
-                  if (sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg)) {
+                  if(sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg)){
                     countIssues++;
                   }
                 } else {
                   CxxUtils.LOG.warn("Skipping invalid violation: '" + msg + "'");
                 }
               }
+
+              CxxUtils.LOG.info("CppCheck issues processed = " + countIssues);
             }
-            CxxUtils.LOG.info("CppCheck issues processed = " + countIssues);
           }
         } catch (RuntimeException e) {
           parsed = false;

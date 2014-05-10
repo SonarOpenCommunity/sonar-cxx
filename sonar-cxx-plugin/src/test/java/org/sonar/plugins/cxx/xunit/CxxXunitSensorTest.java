@@ -142,7 +142,7 @@ public class CxxXunitSensorTest {
   }
   
   @Test
-  public void shouldReportZeroTestWhenNoReportFound() {
+  public void shouldReportNothingWhenNoReportFound() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
 
@@ -150,7 +150,7 @@ public class CxxXunitSensorTest {
 
     sensor.analyse(project, context);
 
-    verify(context, times(1)).saveMeasure(eq(CoreMetrics.TESTS), eq(0.0));
+    verify(context, times(0)).saveMeasure(eq(CoreMetrics.TESTS), any(Double.class));
   }
 
   @Test(expected = org.sonar.api.utils.SonarException.class)
