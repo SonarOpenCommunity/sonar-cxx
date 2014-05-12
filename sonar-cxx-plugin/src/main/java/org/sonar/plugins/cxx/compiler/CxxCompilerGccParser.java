@@ -29,7 +29,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CxxCompilerGccParser implements CompilerParser{
-  public static final String KEY = "gcc";
+  public static final String KEY = "GCC";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = message, 4=id
   public static final String DEFAULT_REGEX_DEF = "^(.*):([0-9]+):[0-9]+: warning: (.*)\\[(.*)\\]$";
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible

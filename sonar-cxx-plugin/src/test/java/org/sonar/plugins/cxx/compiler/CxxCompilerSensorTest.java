@@ -62,14 +62,14 @@ public class CxxCompilerSensorTest {
 
   @Test
   public void shouldReportCorrectVcViolations() {
-    CxxCompilerSensor sensor = createSensor("vc");
+    CxxCompilerSensor sensor = createSensor(CxxCompilerVcParser.KEY);
     sensor.analyse(project, context);
     verify(context, times(9)).saveViolation(any(Violation.class));
   }
 
   @Test
   public void shouldReportCorrectGccViolations() {
-    CxxCompilerSensor sensor = createSensor("gcc");
+    CxxCompilerSensor sensor = createSensor(CxxCompilerGccParser.KEY);
     sensor.analyse(project, context);
     verify(context, times(4)).saveViolation(any(Violation.class));
   }
