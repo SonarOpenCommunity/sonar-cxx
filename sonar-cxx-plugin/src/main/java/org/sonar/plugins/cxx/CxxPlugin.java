@@ -100,8 +100,8 @@ public final class CxxPlugin extends SonarPlugin {
 
       PropertyDefinition.builder(DEFINES_KEY)
       .name("Default macros")
-      //TODO: now to deal with multi-line macros??
-      .description("Additional macro definitions to use when analysing the source code. Use to provide macros which cannot be resolved by other means. Define one macro per line.")
+      .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide macros which cannot be resolved by other means."
+                   + " Use the 'force includes' setting to inject more complex, multi-line macros.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.TEXT)
@@ -123,7 +123,6 @@ public final class CxxPlugin extends SonarPlugin {
     String subcateg = "Code analysis";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCppCheckSensor.REPORT_PATH_KEY)
-      .defaultValue("")
       .name("Cppcheck report(s)")
       .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to projects root."
                    + " Both XML formats (version 1 and version 2) are supported."
@@ -135,7 +134,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
-      .defaultValue("")
       .name("Cppcheck custom rules")
       .description("XML definitions of custom Cppcheck rules, which are'nt builtin into the plugin."
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -145,7 +143,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxValgrindSensor.REPORT_PATH_KEY)
-      .defaultValue("")
       .name("Valgrind report(s)")
       .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -155,7 +152,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
-      .defaultValue("")
       .name("Valgrind custom rules")
       .description("XML definitions of custom Valgrind rules, which are'nt builtin into the plugin."
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -165,7 +161,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxPCLintSensor.REPORT_PATH_KEY)
-      .defaultValue("")
       .name("PC-lint report(s)")
       .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects root."
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -175,7 +170,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
-      .defaultValue("")
       .name("PC-lint custom rules")
       .description("XML definitions of custom PC-lint rules, which are'nt builtin into the plugin."
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -185,7 +179,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxRatsSensor.REPORT_PATH_KEY)
-      .defaultValue("")
       .name("RATS report(s)")
       .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/> reports(s), relative to projects root."
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -195,7 +188,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxRatsRuleRepository.CUSTOM_RULES_KEY)
-      .defaultValue("")
       .name("RATS custom rules")
       .description("XML definitions of custom RATS rules, which are'nt builtin into the plugin."
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -205,7 +197,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxVeraxxSensor.REPORT_PATH_KEY)
-      .defaultValue("")
       .name("Vera++ report(s)")
       .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s), relative to projects root."
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -227,14 +218,13 @@ public final class CxxPlugin extends SonarPlugin {
       .name("External checkers report(s)")
       .description("Path to a code analysis report, which is generated by some unsupported code analyser, relative to projects root."
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary."
-                   + " You have to also define rules using the property ... when using this feature. See ... for details.")
+                   + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a> for details.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(11)
       .build(),
 
       PropertyDefinition.builder(CxxExternalRuleRepository.CUSTOM_RULES_KEY)
-      .defaultValue("")
       .name("External rules")
       .description("Rule sets for 'external' code analysers."
                    + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
@@ -256,7 +246,6 @@ public final class CxxPlugin extends SonarPlugin {
     String subcateg = "Compiler warnings";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_PATH_KEY)
-      .defaultValue("")
       .name("Compiler report(s)")
       .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -286,14 +275,13 @@ public final class CxxPlugin extends SonarPlugin {
 
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_REGEX_DEF)
       .name("Custom matcher")
-      .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, message. For advanced usages. Leave empty to use the parser's default.")
+      .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, message. For advanced usages. Leave empty to use parser's default.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(4)
       .build(),
 
       PropertyDefinition.builder(CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY)
-      .defaultValue("")
       .name("Custom rules for Visual C++ warnings")
       .description("XML definitions of custom rules for Visual C++ warnings, which are'nt builtin into the plugin."
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -303,7 +291,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY)
-      .defaultValue("")
       .name("Custom rules for GCC warnings")
       .description("XML definitions of custom rules for GCC's warnings, which are'nt builtin into the plugin."
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -348,7 +335,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
-      .defaultValue("")
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
                    + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Get-test-execution-metrics' for supported formats."
@@ -359,7 +345,6 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
-      .defaultValue("")
       .name("XSLT transformer")
       .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
                    + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
