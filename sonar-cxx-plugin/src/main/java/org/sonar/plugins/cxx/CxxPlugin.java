@@ -224,18 +224,12 @@ public final class CxxPlugin extends SonarPlugin {
       .index(11)
       .build(),
 
-      PropertyDefinition.builder(CxxExternalRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder(CxxExternalRuleRepository.RULES_KEY)
       .name("External rules")
-      .description("Rule sets for 'external' code analysers."
+      .description("Rule sets for 'external' code analysers. Use one value per rule set."
                    + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
       .type(PropertyType.TEXT)
-      .fields(
-        PropertyFieldDefinition.build(CxxExternalRuleRepository.CUSTOM_RULES_PROFILE_KEY)
-        .name("XML rule definitions for external code analyzers")
-        .description("Use a value per rule set")
-        .type(PropertyType.TEXT)
-        .build()
-        )
+      .multiValues(true)
       .subCategory(subcateg)
       .index(12)
       .build()
