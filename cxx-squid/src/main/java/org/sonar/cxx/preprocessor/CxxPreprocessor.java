@@ -180,7 +180,7 @@ public class CxxPreprocessor extends Preprocessor {
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '{}'", include);
         if (!include.equals("")) {
-          parseIncludeLine("#include <" + include + ">");
+          parseIncludeLine("#include \"" + include + "\"");
         }
       }
     } finally {
