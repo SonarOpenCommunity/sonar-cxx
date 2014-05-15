@@ -62,7 +62,7 @@ public final class CxxPlugin extends SonarPlugin {
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.force_includes";
 
   public static List<PropertyDefinition> generalProperties() {
-    String subcateg = "General";
+    String subcateg = "(1) General";
     return ImmutableList.of(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
       .defaultValue(CxxLanguage.DEFAULT_SOURCE_SUFFIXES)
@@ -120,7 +120,7 @@ public final class CxxPlugin extends SonarPlugin {
   }
 
   public static List<PropertyDefinition> codeAnalysisProperties() {
-    String subcateg = "Code analysis";
+    String subcateg = "(2) Code analysis";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCppCheckSensor.REPORT_PATH_KEY)
       .name("Cppcheck report(s)")
@@ -237,7 +237,7 @@ public final class CxxPlugin extends SonarPlugin {
   }
 
   public static List<PropertyDefinition> compilerWarningsProperties() {
-    String subcateg = "Compiler warnings";
+    String subcateg = "(4) Compiler warnings";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_PATH_KEY)
       .name("Compiler report(s)")
@@ -296,7 +296,7 @@ public final class CxxPlugin extends SonarPlugin {
   }
 
   public static List<PropertyDefinition> testingAndCoverageProperties() {
-    String subcateg = "Testing & Coverage";
+    String subcateg = "(3) Testing & Coverage";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCoverageSensor.REPORT_PATH_KEY)
       .name("Unit test coverage report(s)")
