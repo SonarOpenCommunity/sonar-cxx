@@ -35,8 +35,8 @@ import org.sonar.plugins.cxx.CxxLanguage;
  */
 public class CxxExternalRuleRepository extends RuleRepository {
 
-  public static final String KEY = "cxxexternal";
-  public static final String RULES_KEY = "sonar.cxx.externalrules.rules";
+  public static final String KEY = "other";
+  public static final String RULES_KEY = "sonar.cxx.other.rules";
   public final Settings settings;
   private final XMLRuleParser xmlRuleParser;
 

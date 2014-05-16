@@ -41,7 +41,7 @@ import java.io.File;
  */
 public class CxxExternalRulesSensor extends CxxReportSensor {
 
-  public static final String REPORT_PATH_KEY = "sonar.cxx.externalrules.reportPath";
+  public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPath";
   private static final String DEFAULT_REPORT_PATH = "externalrules-reports/externalrules-result-*.xml";
   private final RulesProfile profile;
 

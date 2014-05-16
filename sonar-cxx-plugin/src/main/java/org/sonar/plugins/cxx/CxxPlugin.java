@@ -57,9 +57,9 @@ public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
-  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
+  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
-  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.force_includes";
+  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
 
   public static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
