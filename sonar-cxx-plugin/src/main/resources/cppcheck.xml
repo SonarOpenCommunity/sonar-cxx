@@ -2105,7 +2105,7 @@
   <rule>
     <key>shiftNegative</key>
     <configkey>shiftNegative</configkey>
-    <name>Shifting by a negative value is undefined behaviour</name>
+    <name>Shifting by a negative value</name>
     <description>
       Shifting by a negative value is undefined behaviour.
     </description>
@@ -2663,7 +2663,7 @@
   <rule>
     <key>seekOnAppendedFile</key>
     <configkey>seekOnAppendedFile</configkey>
-    <name>Repositioning operation performed on a file opened in append mode has no effect</name>
+    <name>Repositioning operation in append mode</name>
     <description>
       Repositioning operation performed on a file opened in append mode has no effect.
     </description>

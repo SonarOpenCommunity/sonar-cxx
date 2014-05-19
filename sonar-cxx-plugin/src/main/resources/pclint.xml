@@ -7951,13 +7951,6 @@
     <description>A C-style comment was seen inside a C++-style comment.  This can result in confusion.</description>
   </rule>
   <rule>
-    <key>9066</key>
-    <configkey>9066</configkey>
-    <priority>INFO</priority>
-    <name>L9066: C++ comment contains C comment</name>
-    <description>A C-style comment was seen inside a C++-style comment.  This can result in confusion.</description>
-  </rule>
-  <rule>
     <key>9067</key>
     <configkey>9067</configkey>
     <priority>INFO</priority>
