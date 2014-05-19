@@ -36,12 +36,11 @@ public class CxxExternalRuleRepositoryTest {
           "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n" +
           "    </rule>\n" +
           "    <rule key=\"cpplint.readability/fn_size-0\">\n" +
-          "        <name><![CDATA[ Small and focused functions are preferred:   %s has %d non-comment lines   (error triggered by exceeding %d lines).   % (self.current_function, self.lines_in_function, trigger)]]></name>\n" +
-          "        <configKey><![CDATA[cpplint.readability/fn_size-0@CPP_LINT]]></configKey>\n" +
+          "        <name>name</name>\n" +
+          "        <configKey>key</configKey>\n" +
           "        <category name=\"readability\" />\n" +
-          "        <description><![CDATA[  Small and focused functions are preferred:   %s has %d non-comment lines   (error triggered by exceeding %d lines).   % (self.current_function, self.lines_in_function, trigger) ]]></description>\n" +
+          "        <description>descr</description>\n" +
           "    </rule></rules>";
-  
 
   @Test
   public void createEmptyRulesTest() {
@@ -49,26 +48,22 @@ public class CxxExternalRuleRepositoryTest {
         new XMLRuleParser(), new Settings());
     assertThat(rulerep.createRules()).hasSize(0);
   }
-  
+
   @Test
   public void createNonEmptyRulesTest() {
     Settings settings = new Settings();
-    String customkey = "1873293847";
-    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY, customkey);
-    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY + "." + customkey + "." + CxxExternalRuleRepository.CUSTOM_RULES_PROFILE_KEY, profile);
+    settings.appendProperty(CxxExternalRuleRepository.RULES_KEY, profile);
     CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
-        new XMLRuleParser(), settings);
+      new XMLRuleParser(), settings);
     assertThat(rulerep.createRules()).hasSize(2);
   }
-  
+
   @Test
   public void createNullRulesTest() {
     Settings settings = new Settings();
-    String customkey = "1873293847";
-    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY, customkey);
-    settings.appendProperty(CxxExternalRuleRepository.CUSTOM_RULES_KEY + "." + customkey + "." + CxxExternalRuleRepository.CUSTOM_RULES_PROFILE_KEY, null);
+    settings.appendProperty(CxxExternalRuleRepository.RULES_KEY, null);
     CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
-        new XMLRuleParser(), settings);
+      new XMLRuleParser(), settings);
     assertThat(rulerep.createRules()).hasSize(0);
-  }  
+  }
 }

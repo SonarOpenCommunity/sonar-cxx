@@ -29,7 +29,7 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  */
 public final class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "compiler-gcc";
-  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.compiler-gcc";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.compiler-gcc.customRules";
 
   /**
    * {@inheritDoc}
