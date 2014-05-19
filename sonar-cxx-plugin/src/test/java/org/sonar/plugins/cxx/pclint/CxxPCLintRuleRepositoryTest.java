@@ -34,6 +34,6 @@ public class CxxPCLintRuleRepositoryTest {
     CxxPCLintRuleRepository rulerep = new CxxPCLintRuleRepository(
         mock(ServerFileSystem.class),
         new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(1333);
+    assertThat(rulerep.createRules()).hasSize(1411);
   }
 }
