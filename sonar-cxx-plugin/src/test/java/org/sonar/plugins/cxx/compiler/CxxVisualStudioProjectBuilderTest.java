@@ -53,7 +53,7 @@ public class CxxVisualStudioProjectBuilderTest {
   public void initBuilder() {
     settings = Settings.createForComponent(new CxxPlugin());
     settings.setProperty("sonar.language", "c++");
-    settings.setProperty(CxxPlugin.VS_SOLUTION_ENABLED, "true");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_SOLUTION_ENABLED, "true");
     solutionBaseDir = TestUtils.getResource("/org/sonar/plugins/cxx/solution/Example");
     root = ProjectDefinition.create().setBaseDir(solutionBaseDir).setWorkDir(new File(solutionBaseDir, "WORK-DIR"));
     root.setVersion("1.0");
@@ -71,13 +71,13 @@ public class CxxVisualStudioProjectBuilderTest {
 
   @Test(expected = SonarException.class)
   public void testNonExistingSlnFile() throws Exception {
-    settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "NonExistingFile.sln");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY, "NonExistingFile.sln");
     projectBuilder.build(reactor);
   }
 
   @Test
   public void testCorrectlyConfiguredProject() throws Exception {
-    settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "Example.sln");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY, "Example.sln");
     projectBuilder.build(reactor);
     // check that the solution is built
     VisualStudioSolution solution = projectBuilder.getCurrentSolution();
@@ -105,8 +105,8 @@ public class CxxVisualStudioProjectBuilderTest {
 
   @Test
   public void testCorrectlyConfiguredProjectInSafeMode() throws Exception {
-    settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "Example.sln");
-    settings.setProperty(CxxPlugin.VS_KEY_GENERATION_STRATEGY_KEY, "safe");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY, "Example.sln");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_KEY_GENERATION_STRATEGY_KEY, "safe");
     projectBuilder.build(reactor);
     // check that the configuration is OK
 //    assertThat(projectBuilder.getWorkingDirectory(), is("WORK-DIR"));
@@ -136,7 +136,7 @@ public class CxxVisualStudioProjectBuilderTest {
 
   @Test
   public void testNoSpecifiedSlnFileButOneFound() throws Exception {
-    settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY, "");
     projectBuilder.build(reactor);
     VisualStudioSolution solution = projectBuilder.getCurrentSolution();
     assertNotNull(solution);
@@ -145,14 +145,14 @@ public class CxxVisualStudioProjectBuilderTest {
 
   @Test(expected = SonarException.class)
   public void testNoSpecifiedSlnFileButNoneFound() throws Exception {
-    settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY, "");
     root.setBaseDir(TestUtils.getResource("/org/sonar/plugins/cxx/solution"));
     projectBuilder.build(reactor);
   }
 
   @Test(expected = SonarException.class)
   public void testNoSpecifiedSlnFileButTooManyFound() throws Exception {
-    settings.setProperty(CxxPlugin.VS_SOLUTION_FILE_KEY, "");
+    settings.setProperty(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY, "");
     root.setBaseDir(TestUtils.getResource("/org/sonar/plugins/cxx/solution/FakeSolutionWithTwoSlnFiles"));
     projectBuilder.build(reactor);
   }

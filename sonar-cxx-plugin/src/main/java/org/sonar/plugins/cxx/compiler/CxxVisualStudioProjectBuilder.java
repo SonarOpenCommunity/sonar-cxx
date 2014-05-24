@@ -35,6 +35,7 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.api.CxxException;
+import org.sonar.plugins.cxx.api.microsoft.BuildConfiguration;
 import org.sonar.plugins.cxx.api.microsoft.ModelFactory;
 import org.sonar.plugins.cxx.api.microsoft.SourceFile;
 import org.sonar.plugins.cxx.api.microsoft.VisualStudioProject;
@@ -45,6 +46,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
+
 import com.google.common.collect.Maps;
 
 /**
@@ -52,6 +54,19 @@ import com.google.common.collect.Maps;
  * sources.
  */
 public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
+  
+  public static final String VS_SOLUTION_ENABLED = "sonar.cxx.visualstudio.enabled";
+  public static final String VS_TEST_PROJECT_PATTERN_KEY = "sonar.cxx.visualstudio.testProjectPattern";
+  public static final String VS_TEST_PROJECT_PATTERN_DEFVALUE = "*.Tests";
+  public static final String VS_IT_PROJECT_PATTERN_KEY = "sonar.cxx.visualstudio.itProjectPattern";
+  public static final String VS_IT_PROJECT_PATTERN_DEFVALUE = "";
+  public static final String VS_SOLUTION_FILE_KEY = "sonar.cxx.visualstudio.solution.file";
+  public static final String VS_SOLUTION_FILE_DEFVALUE = "";
+  public static final String VS_BUILD_CONFIGURATION_KEY = "sonar.cxx.buildConfiguration";
+  public static final String VS_BUILD_CONFIGURATIONS_DEFVALUE = "Debug";
+  public static final String VS_BUILD_PLATFORM_KEY = "sonar.cxx.buildPlatform";
+  public static final String VS_BUILD_PLATFORM_DEFVALUE = BuildConfiguration.DEFAULT_PLATFORM;
+  public static final String VS_KEY_GENERATION_STRATEGY_KEY = "sonar.cxx.key.generation.strategy";
   
   private static final Logger LOG = LoggerFactory.getLogger(CxxVisualStudioProjectBuilder.class);
 
@@ -143,7 +158,7 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
     LOG.debug("- BaseDir (absolut path): " + root.getBaseDir().getAbsolutePath());    
     String workDir = root.getWorkDir().getAbsolutePath().substring(root.getBaseDir().getAbsolutePath().length() + 1);
 
-    boolean safeMode = "safe".equalsIgnoreCase(configuration.getString(CxxPlugin.VS_KEY_GENERATION_STRATEGY_KEY));
+    boolean safeMode = "safe".equalsIgnoreCase(configuration.getString(VS_KEY_GENERATION_STRATEGY_KEY));
     LOG.debug("- use Safe mode for Multi-Project key generation: " + safeMode);
     for (VisualStudioProject vsProject : currentSol.getProjects()) {
       final String projectKey;
@@ -189,8 +204,8 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
     LOG.info("The following 'sln' file has been found and will be used: " + slnFile.getAbsolutePath());
 
     try {
-      ModelFactory.setTestProjectNamePattern(configuration.getString(CxxPlugin.VS_TEST_PROJECT_PATTERN_KEY));
-      ModelFactory.setIntegTestProjectNamePattern(configuration.getString(CxxPlugin.VS_IT_PROJECT_PATTERN_KEY));
+      ModelFactory.setTestProjectNamePattern(configuration.getString(VS_TEST_PROJECT_PATTERN_KEY));
+      ModelFactory.setIntegTestProjectNamePattern(configuration.getString(VS_IT_PROJECT_PATTERN_KEY));
       VisualStudioSolution solution = ModelFactory.getSolution(slnFile);
       setCurrentSolution(solution);
     } catch (IOException e) {
@@ -201,7 +216,7 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
   }
 
   private File findSlnFile(File baseDir) {
-    String slnFilePath = configuration.getString(CxxPlugin.VS_SOLUTION_FILE_KEY);
+    String slnFilePath = configuration.getString(VS_SOLUTION_FILE_KEY);
     final File slnFile;
     if (StringUtils.isEmpty(slnFilePath)) {
       LOG.info("No '.sln' file found or specified: trying to find one...");
@@ -226,7 +241,7 @@ public class CxxVisualStudioProjectBuilder extends ProjectBuilder {
       LOG.warn("No '.sln' file specified, and none found at the root of the project: " + baseDir.getAbsolutePath());
     } else if (foundSlnFiles.size() > 1) {
       LOG.warn("More than one '.sln' file found at the root of the project: please tell which one to use via the configuration ("
-        + CxxPlugin.VS_SOLUTION_FILE_KEY + ").");
+        + VS_SOLUTION_FILE_KEY + ").");
     } else {
       slnFile = foundSlnFiles.iterator().next();
     }

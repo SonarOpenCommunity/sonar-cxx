@@ -116,6 +116,7 @@ public class CxxPreprocessor extends Preprocessor {
   private Parser<Grammar> pplineParser = null;
   private MapChain<String, Macro> macros = new MapChain<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
+  private Set<String> notFoundFileforToken = new HashSet<String>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
@@ -180,7 +181,7 @@ public class CxxPreprocessor extends Preprocessor {
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '" + include +"'");
         if (!include.equals("")) {
-          parseIncludeLine("#include <" + include + ">");
+          parseIncludeLine("#include \"" + include + "\"");
         }
       }
     } finally {
@@ -408,7 +409,10 @@ public class CxxPreprocessor extends Preprocessor {
     
     File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
+      if (!notFoundFileforToken.contains(filename+token.getValue())) {
       LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '" + token.getValue() + "'");
+      notFoundFileforToken.add(filename+token.getValue());
+      }
     }
     else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());

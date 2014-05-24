@@ -22,8 +22,11 @@ package org.sonar.plugins.cxx;
 import org.sonar.api.Extension;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.config.PropertyFieldDefinition;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
+import org.sonar.api.resources.Qualifiers;
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
@@ -47,231 +50,365 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 import org.sonar.plugins.cxx.api.microsoft.BuildConfiguration;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Properties({
-  @Property(
-    key = CxxPlugin.INCLUDE_DIRECTORIES_KEY,
-    defaultValue = "",
-    name = "Directories to search included files in",
-    description = "The include directories may be defined either relative to projects' root or absolute.",
-    global = true,
-    project = true),
-  @Property(
-    key = CxxPlugin.DEFINES_KEY,
-    defaultValue = "",
-    name = "Default macro definitions",
-    description = "Macro definition to use while analysing the source. Use to provide macros which cannot be resolved by other means.",
-    type = PropertyType.TEXT,
-    global = true,
-    project = true),
-  @Property(
-    key = CxxPlugin.SOURCE_FILE_SUFFIXES_KEY,
-    defaultValue = CxxLanguage.DEFAULT_SOURCE_SUFFIXES,
-    name = "Source files suffixes",
-    description = "Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.",
-    global = true,
-    project = true),
-  @Property(
-    key = CxxPlugin.HEADER_FILE_SUFFIXES_KEY,
-    defaultValue = CxxLanguage.DEFAULT_HEADER_SUFFIXES,
-    name = "Header files suffixes",
-    description = "Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.",
-    global = true,
-    project = true),
-  @Property(
-    key = CxxCppCheckSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to cppcheck report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxPCLintSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to pclint report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxCompilerSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to C++ compiler report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxCompilerSensor.PARSER_KEY_DEF,
-    defaultValue = CxxCompilerSensor.DEFAULT_PARSER_DEF,
-    type = PropertyType.SINGLE_SELECT_LIST,
-    options = { CxxCompilerVcParser.KEY, CxxCompilerGccParser.KEY },
-    name = "Compiler parser to use",
-    description = "The kind of compiler parser to use.",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxCompilerSensor.REPORT_REGEX_DEF,
-    defaultValue = "",
-    name = "RegEx to identify the 4 groups of the compiler warning message",
-    description = "Java regular expression with 4 groups for file, line, message ID, message. Leave empty to use the parser's default.",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxCompilerSensor.REPORT_CHARSET_DEF,
-    defaultValue = "",
-    name = "Encoding of the compiler report",
-    description = "The encoding to use when reading the compiler report. Leave empty to use the parser's default.",
-    global = false,
-    project = true),
-  @Property(
-      key = CxxPlugin.VS_SOLUTION_ENABLED,
-      defaultValue = "false",
-      name = "Activate Visual Studio Solution support",
-      description = "Enable \".sln\" file analysis.",
-      global = false,
-      project = true,
-      type = PropertyType.BOOLEAN),    
-    @Property(
-    key = CxxPlugin.VS_TEST_PROJECT_PATTERN_KEY,
-    defaultValue = CxxPlugin.VS_TEST_PROJECT_PATTERN_DEFVALUE,
-    name = "Test project names",
-    description = "Pattern that check project names to identify test projects.",
-    global = true,
-    project = true),
-  @Property(
-    key = CxxPlugin.VS_SOLUTION_FILE_KEY,
-    defaultValue = CxxPlugin.VS_SOLUTION_FILE_DEFVALUE,
-    name = "Solution to analyse",
-    description = "Relative path to the \".sln\" file that represents the solution to analyse. If none provided, a \".sln\" file will be searched at the root of the project.",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxPlugin.VS_BUILD_CONFIGURATION_KEY,
-    defaultValue = CxxPlugin.VS_BUILD_CONFIGURATIONS_DEFVALUE,
-    name = "Build configuration",
-    description = "Build configurations used to build the solution.",
-    global = true,
-    project = true),
-  @Property(key = CxxPlugin.VS_BUILD_PLATFORM_KEY,
-    defaultValue = CxxPlugin.VS_BUILD_PLATFORM_DEFVALUE,
-    name = "Build platform",
-    description = "Build platform used to build the solution.",
-    global = true,
-    project = true),
-  @Property(key = CxxPlugin.VS_KEY_GENERATION_STRATEGY_KEY, defaultValue = "",
-    name = "Resource key generation strategy",
-    description = "Strategy to generate sonar resource keys. Default value is standard. If you encounter " +
-      "any 'NonUniqueResultException' errors you can set this property to 'safe'",
-    global = true,
-    project = true),
-  @Property(
-    key = CxxCoverageSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to unit test coverage report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxCoverageSensor.IT_REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to integration test coverage report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxCoverageSensor.OVERALL_REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to overall test coverage report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxRatsSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to rats report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxValgrindSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to valgrind report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxVeraxxSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to vera++ report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxXunitSensor.REPORT_PATH_KEY,
-    defaultValue = "",
-    name = "Path to unit test execution report(s)",
-    description = "Relative to projects' root. Ant patterns are accepted",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxXunitSensor.XSLT_URL_KEY,
-    defaultValue = "",
-    name = "URL of the xslt transformer",
-    description = "TODO",
-    global = false,
-    project = true),
-  @Property(
-    key = CxxPlugin.ERROR_RECOVERY_KEY,
-    defaultValue = "true",
-    name = "Parse error recovery control",
-    description = "Enables/disables the parse error recovery. For development purposes.",
-    type = PropertyType.BOOLEAN,
-    global = false,
-    project = true),
- @Property(
-    key = CxxPlugin.FORCE_INCLUDE_FILES_KEY,
-    defaultValue = "",
-    name = "Force inclusion definitions",
-    description = "Causes one or more filenames to be implicitly included at the beginning of each file",
-    type = PropertyType.TEXT,
-    global = true,
-    project = true)        
-    })
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
-  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
-
-  public static final String VS_SOLUTION_ENABLED = "sonar.cxx.visualstudio.enabled";
-  
-  public static final String VS_TEST_PROJECT_PATTERN_KEY = "sonar.cxx.visualstudio.testProjectPattern";
-  public static final String VS_TEST_PROJECT_PATTERN_DEFVALUE = "*.Tests";
-
-  public static final String VS_IT_PROJECT_PATTERN_KEY = "sonar.cxx.visualstudio.itProjectPattern";
-  public static final String VS_IT_PROJECT_PATTERN_DEFVALUE = "";
-
-  public static final String VS_SOLUTION_FILE_KEY = "sonar.cxx.visualstudio.solution.file";
-  public static final String VS_SOLUTION_FILE_DEFVALUE = "";
-
-  public static final String VS_BUILD_CONFIGURATION_KEY = "sonar.cxx.buildConfiguration";
-  public static final String VS_BUILD_CONFIGURATIONS_DEFVALUE = "Debug";
-
-  public static final String VS_BUILD_PLATFORM_KEY = "sonar.cxx.buildPlatform";
-  public static final String VS_BUILD_PLATFORM_DEFVALUE = BuildConfiguration.DEFAULT_PLATFORM;
-
-  public static final String VS_KEY_GENERATION_STRATEGY_KEY = "sonar.cxx.key.generation.strategy";  
-
+  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
-  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.force_includes";
-  
+  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
 
+  public static List<PropertyDefinition> generalProperties() {
+    String subcateg = "(1) General";
+    return ImmutableList.of(
+      PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
+      .defaultValue(CxxLanguage.DEFAULT_SOURCE_SUFFIXES)
+      .name("Source files suffixes")
+      .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(1)
+      .build(),
+
+      PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
+      .defaultValue(CxxLanguage.DEFAULT_HEADER_SUFFIXES)
+      .name("Header files suffixes")
+      .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(2)
+      .build(),
+
+      PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
+      .name("Include directories")
+      .description("Comma-separated list of directories to search the included files in. May be defined either relative to projects root or absolute.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(3)
+      .build(),
+
+      PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
+      .subCategory(subcateg)
+      .name("Force includes")
+      .description("Comma-separated list of files which should to be included implicitly at the beginning of each source file.")
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(4)
+      .build(),
+
+      PropertyDefinition.builder(DEFINES_KEY)
+      .name("Default macros")
+      .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide macros which cannot be resolved by other means."
+                   + " Use the 'force includes' setting to inject more complex, multi-line macros.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.TEXT)
+      .index(5)
+      .build(),
+
+      PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
+      .defaultValue("true")
+      .name("Parse error recovery")
+      .description("Enables/disables the parse error recovery. For development purposes.")
+      .subCategory(subcateg)
+      .type(PropertyType.BOOLEAN)
+      .hidden()
+      .build()
+      );
+  }
+
+  public static List<PropertyDefinition> codeAnalysisProperties() {
+    String subcateg = "(2) Code analysis";
+    return ImmutableList.of(
+      PropertyDefinition.builder(CxxCppCheckSensor.REPORT_PATH_KEY)
+      .name("Cppcheck report(s)")
+      .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to projects root."
+                   + " Both XML formats (version 1 and version 2) are supported."
+                   + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
+        )
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(1)
+      .build(),
+
+      PropertyDefinition.builder(CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
+      .name("Cppcheck custom rules")
+      .description("XML definitions of custom Cppcheck rules, which are'nt builtin into the plugin."
+                   + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(2)
+      .build(),
+
+      PropertyDefinition.builder(CxxValgrindSensor.REPORT_PATH_KEY)
+      .name("Valgrind report(s)")
+      .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(3)
+      .build(),
+
+      PropertyDefinition.builder(CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
+      .name("Valgrind custom rules")
+      .description("XML definitions of custom Valgrind rules, which are'nt builtin into the plugin."
+                   + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(4)
+      .build(),
+
+      PropertyDefinition.builder(CxxPCLintSensor.REPORT_PATH_KEY)
+      .name("PC-lint report(s)")
+      .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects root."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(5)
+      .build(),
+
+      PropertyDefinition.builder(CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
+      .name("PC-lint custom rules")
+      .description("XML definitions of custom PC-lint rules, which are'nt builtin into the plugin."
+                   + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(6)
+      .build(),
+
+      PropertyDefinition.builder(CxxRatsSensor.REPORT_PATH_KEY)
+      .name("RATS report(s)")
+      .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/> reports(s), relative to projects root."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(7)
+      .build(),
+
+      PropertyDefinition.builder(CxxRatsRuleRepository.CUSTOM_RULES_KEY)
+      .name("RATS custom rules")
+      .description("XML definitions of custom RATS rules, which are'nt builtin into the plugin."
+                   + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(8)
+      .build(),
+
+      PropertyDefinition.builder(CxxVeraxxSensor.REPORT_PATH_KEY)
+      .name("Vera++ report(s)")
+      .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s), relative to projects root."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(9)
+      .build(),
+
+      PropertyDefinition.builder(CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
+      .name("Vera++ custom rules")
+      .description("XML definitions of custom Vera++ rules, which are'nt builtin into the plugin."
+                   + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(10)
+      .build(),
+
+      PropertyDefinition.builder(CxxExternalRulesSensor.REPORT_PATH_KEY)
+      .name("External checkers report(s)")
+      .description("Path to a code analysis report, which is generated by some unsupported code analyser, relative to projects root."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary."
+                   + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a> for details.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(11)
+      .build(),
+
+      PropertyDefinition.builder(CxxExternalRuleRepository.RULES_KEY)
+      .name("External rules")
+      .description("Rule sets for 'external' code analysers. Use one value per rule set."
+                   + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
+      .type(PropertyType.TEXT)
+      .multiValues(true)
+      .subCategory(subcateg)
+      .index(12)
+      .build()
+      );
+  }
+
+  public static List<PropertyDefinition> compilerWarningsProperties() {
+    String subcateg = "(4) Compiler warnings";
+    return ImmutableList.of(
+      PropertyDefinition.builder(CxxCompilerSensor.REPORT_PATH_KEY)
+      .name("Compiler report(s)")
+      .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(1)
+      .build(),
+
+      PropertyDefinition.builder(CxxCompilerSensor.PARSER_KEY_DEF)
+      .defaultValue(CxxCompilerSensor.DEFAULT_PARSER_DEF)
+      .name("Format")
+      .type(PropertyType.SINGLE_SELECT_LIST)
+      .options(CxxCompilerVcParser.KEY, CxxCompilerGccParser.KEY)
+      .description("The format of the warnings file. Currently supported are Visual C++ and GCC.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(2)
+      .build(),
+
+      PropertyDefinition.builder(CxxCompilerSensor.REPORT_CHARSET_DEF)
+      .name("Encoding")
+      .description("The encoding to use when reading the compiler report. Leave empty to use parser's default.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(3)
+      .build(),
+
+      PropertyDefinition.builder(CxxCompilerSensor.REPORT_REGEX_DEF)
+      .name("Custom matcher")
+      .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, message. For advanced usages. Leave empty to use parser's default.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(4)
+      .build(),
+
+      PropertyDefinition.builder(CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY)
+      .name("Custom rules for Visual C++ warnings")
+      .description("XML definitions of custom rules for Visual C++ warnings, which are'nt builtin into the plugin."
+                   + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(5)
+      .build(),
+
+      PropertyDefinition.builder(CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY)
+      .name("Custom rules for GCC warnings")
+      .description("XML definitions of custom rules for GCC's warnings, which are'nt builtin into the plugin."
+                   + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(6)
+      .build()
+      );
+  }
+
+  public static List<PropertyDefinition> testingAndCoverageProperties() {
+    String subcateg = "(3) Testing & Coverage";
+    return ImmutableList.of(
+      PropertyDefinition.builder(CxxCoverageSensor.REPORT_PATH_KEY)
+      .name("Unit test coverage report(s)")
+      .description("Path to a report containing unit test coverage data, relative to projects root."
+                   + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(1)
+      .build(),
+
+      PropertyDefinition.builder(CxxCoverageSensor.IT_REPORT_PATH_KEY)
+      .name("Integration test coverage report(s)")
+      .description("Path to a report containing integration test coverage data, relative to projects root."
+                   + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(2)
+      .build(),
+
+      PropertyDefinition.builder(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)
+      .name("Overall test coverage report(s)")
+      .description("Path to a report containing overall test coverage data (i.e. test coverage gained by all tests of all kinds), relative to projects root."
+                   + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(3)
+      .build(),
+
+      PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
+      .name("Unit test execution report(s)")
+      .description("Path to unit test execution report(s), relative to projects root."
+                   + " See <a href='https://github.com/wenns/sonar-cxx/wiki/Get-test-execution-metrics' for supported formats."
+                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(4)
+      .build(),
+
+      PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
+      .name("XSLT transformer")
+      .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
+                   + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(5)
+      .build()
+      );
+  }
+
+  public static List<PropertyDefinition> VisualStudioSolutionProperties() {
+    String subcateg = "(5) Visual Studio Solutions";
+    return ImmutableList.of(
+      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_SOLUTION_ENABLED)
+      .name("Activate Visual Studio Solution support")
+      .description("Enable multi module analysis based on Visual Studio solution (\".sln\") files."
+                 + "Default: false")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(1)
+      .build(),
+
+
+      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY)
+      .name("Solution to analyse")
+      .description("Relative path to the \".sln\" file that represents the solution to analyse."
+                 + "If none provided, a \".sln\" file will be searched at the root of the project.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(2)
+      .build(),
+
+
+      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_BUILD_CONFIGURATION_KEY)
+      .name("Build configuration")
+      .description("Build configurations used to build the solution. "
+                 + "Default: Debug")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(3)
+      .build(),
+
+
+      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_BUILD_PLATFORM_KEY)
+      .name("Build platform")
+      .description("Build platform used to build the solution. "
+                 + "Default: x86")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(4)
+      .build(),
+
+
+      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_KEY_GENERATION_STRATEGY_KEY)
+      .name("Resource key generation strategy")
+      .description("Strategy to generate sonar resource keys. Default value is standard. If you encounter " +
+      "any 'NonUniqueResultException' errors you can set this property to 'safe'")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(5)
+      .build()
+      );
+  }
   /**
    * {@inheritDoc}
    */
-  public List<Class<? extends Extension>> getExtensions() {
-    List<Class<? extends Extension>> l = new ArrayList<Class<? extends Extension>>();
+  public List getExtensions() {
+    List<Object> l = new ArrayList<Object>();
     l.add(CxxLanguage.class);
     l.add(CxxSourceImporter.class);
     l.add(CxxColorizer.class);
@@ -299,6 +436,12 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxExternalRuleRepository.class);
     l.add(CxxRuleRepository.class);
     l.add(CxxVisualStudioProjectBuilder.class);
+
+    l.addAll(generalProperties());
+    l.addAll(codeAnalysisProperties());
+    l.addAll(testingAndCoverageProperties());
+    l.addAll(compilerWarningsProperties());
+    l.addAll(VisualStudioSolutionProperties());
 
     return l;
   }

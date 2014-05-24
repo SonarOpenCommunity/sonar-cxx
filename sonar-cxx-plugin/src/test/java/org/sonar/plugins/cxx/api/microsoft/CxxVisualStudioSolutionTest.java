@@ -61,12 +61,12 @@ public class CxxVisualStudioSolutionTest {
     assertNull(project);
   }
 
-  @Test
-  public void testGetUnitTestProjects() throws Exception {
-    VisualStudioSolution solution = ModelFactory.getSolution(TestUtils.getResource(SOLUTION_PATH));
-    List<VisualStudioProject> testProjects = solution.getUnitTestProjects();
-    assertEquals(1, testProjects.size());
-  }
+//  @Test
+//  public void testGetUnitTestProjects() throws Exception {
+//    VisualStudioSolution solution = ModelFactory.getSolution(TestUtils.getResource(SOLUTION_PATH));
+//    List<VisualStudioProject> testProjects = solution.getUnitTestProjects();
+//    assertEquals(1, testProjects.size());
+//  }
 
   @Test
   public void testGetProjectFromSonarProject() throws Exception {

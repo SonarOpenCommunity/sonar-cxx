@@ -68,17 +68,17 @@ public final class CxxUtils {
   /**
    * @return returns case sensitive full path
    */
-  public static String getCaseSensitiveFileName(String file, ModuleFileSystem fs) {
-    File targetfile = new java.io.File(file);
-    String filePath = file;
+  public static String getCaseSensitiveFileName(String filename, ModuleFileSystem fs) {
+    File targetfile = new java.io.File(filename);
+    String filePath = filename;
     if (targetfile.exists()) {
-      filePath = normalizePath(file);
+      filePath = normalizePath(filename);
     } else {
       // RATS, CppCheck and Vera++ provide names like './file.cpp' - add source folder for index check
-      filePath = resolveFileName(file, fs.sourceDirs());
+      filePath = resolveFileName(filename, fs.sourceDirs());
     }
     if (filePath == null) {
-      filePath = file;
+      filePath = filename;
     }
     return filePath;
   }

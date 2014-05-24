@@ -35,8 +35,10 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import org.sonar.api.resources.Resource;
 
 /**
  * {@inheritDoc}
@@ -46,6 +48,7 @@ public abstract class CxxReportSensor implements Sensor {
   protected Settings conf;
   private HashSet<String> notFoundFiles = new HashSet<String>();
   private HashSet<String> uniqueIssues = new HashSet<String>();
+  private HashMap<String, Rule> ruleCache = new HashMap<String, Rule>();
   protected ModuleFileSystem fs;
 
   /**
@@ -148,76 +151,105 @@ public abstract class CxxReportSensor implements Sensor {
   public boolean saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
                                         String file, String line, String ruleId, String msg) {
 
-    if (uniqueIssues.add(file + line + ruleId + msg)) {
+    if (uniqueIssues.add(file + line + ruleId + msg)) { // StringBuilder is slower
       return saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
     }
     return false;
   }
 
   /**
-   * Saves a code violation which is detected in the given file/line
-   * and has given ruleId and message. Saves it to the given project and context.
-   * Project or file-level violations can be saved by passing null for the according parameters
-   * ('file' = 'line' = null for project level, 'line' = null for file-level)
+   * Saves a code violation which is detected in the given file/line and has
+   * given ruleId and message. Saves it to the given project and context.
+   * Project or file-level violations can be saved by passing null for the
+   * according parameters ('file' = null for project level, 'line' = null for
+   * file-level)
    */
+
   public boolean saveViolation(Project module, SensorContext context, String ruleRepoKey,
-                               String file, String line, String ruleId, String msg) {
-    boolean added = false;
-    RuleQuery ruleQuery = RuleQuery.create()
-      .withRepositoryKey(ruleRepoKey)
-      .withKey(ruleId);
-    Rule rule = ruleFinder.find(ruleQuery);
-    if (rule != null) {
-      Violation violation = null;
-      // handles file="" situation
-      if ((file != null) && (file.length() > 0)){
-        String normalPath = CxxUtils.normalizePath(file);
+                               String filename, String line, String ruleId, String msg) {
+    boolean add = false;
+    Resource resource = null;
+    int lineNr = 0;
+      // handles file="" situation -- file level
+      if ((filename != null) && (filename.length() > 0)){
+        String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
+//        if (normalPath == null) { 
+//          // support SQ<4.2
+//          org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(new File(filename), module.getFileSystem().getTestDirs());
+//          normalPath = sonarFile.getLongName();
+//        }
+//        if (normalPath  == null){
+//          org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(new File(CxxUtils.getCaseSensitiveFileName(filename, fs)), module);
+//          normalPath = sonarFile.getLongName();          
+//        }
         if(normalPath != null){
+          if (!notFoundFiles.contains(normalPath)) {
           org.sonar.api.resources.File sonarFile =
             org.sonar.api.resources.File.fromIOFile(new File(normalPath), module);
-          if (sonarFile == null) { 
-            // support SQ<4.2
-            sonarFile = org.sonar.api.resources.File.fromIOFile(new File(normalPath), module.getFileSystem().getTestDirs());
-          }
-          if (sonarFile  == null){
-            normalPath = CxxUtils.getCaseSensitiveFileName(file, fs);
-            sonarFile = org.sonar.api.resources.File.fromIOFile(new File(normalPath), module);            
-          }
-          if (context.getResource(sonarFile ) != null) {
-            // file level violation
-            violation = Violation.create(rule, sonarFile);
 
-            // considering the line information for file level violations only
-            if (line != null){
-              try{
-                int linenr = Integer.parseInt(line);
-                linenr = linenr == 0 ? 1 : linenr;
-                violation.setLineId(linenr);
-              } catch(java.lang.NumberFormatException nfe){
-                CxxUtils.LOG.warn("Skipping invalid line number: " + line);
-              }
-            }
+          if (context.getResource(sonarFile ) != null) {
+            lineNr = getLineAsInt(line);
+            resource = sonarFile;
+            add = true;
           } else {
-            if (notFoundFiles.add(normalPath)) {
-              // issue this warning only once per file
               CxxUtils.LOG.warn("Cannot find the file '"+ normalPath + "', skipping violations");
+              notFoundFiles.add(normalPath);
             }
           }
         }
-      } else {
-        // project level violation
-        violation = Violation.create(rule, module);
-      }
-
-      if (violation != null){
-        violation.setMessage(msg);
-        context.saveViolation(violation);
-        added = true;
-      }
-    } else {
-      CxxUtils.LOG.warn("Cannot find the rule '" + ruleId + "' skipping violation");
+     } else { 
+      // project level violation
+      resource = module;
+      add = true;
     }
-    return added;
+
+    if (add) {
+      Rule rule = getRule(ruleRepoKey, ruleId);
+      if (rule != null) {
+        contextSaveViolation(context, resource, lineNr, rule, msg);
+      }
+    }
+
+    return add;
+  }
+
+  private void contextSaveViolation(SensorContext context, Resource resource, int lineNr, Rule rule, String msg) {
+    Violation violation = Violation.create(rule, resource);
+    if (lineNr > 0) {
+      violation.setLineId(lineNr);
+    }
+    violation.setMessage(msg);
+    context.saveViolation(violation);
+  }
+
+  private Rule getRule(String ruleRepoKey, String ruleId) {
+    String key = ruleRepoKey + ruleId; // StringBuilder is slower
+    Rule rule = ruleCache.get(key);
+    if (rule == null) {
+      RuleQuery ruleQuery = RuleQuery.create()
+        .withRepositoryKey(ruleRepoKey)
+        .withKey(ruleId);
+      rule = ruleFinder.find(ruleQuery);
+      ruleCache.put(key, rule);
+      if (rule == null) {
+        CxxUtils.LOG.warn("Cannot find the rule {}, skipping violation", ruleId);
+      }
+    }
+    return rule;
+  }
+
+  private int getLineAsInt(String line) {
+    int lineNr = 0;
+    if (line != null) {
+      try {
+        lineNr = Integer.parseInt(line);
+        lineNr = lineNr == 0 ? 1 : lineNr;
+      } catch (java.lang.NumberFormatException nfe) {
+        CxxUtils.LOG.warn("Skipping invalid line number: " + line);
+        lineNr = -1;
+      }
+    }
+    return lineNr;
   }
 
   protected void processReport(Project project, SensorContext context, File report)
