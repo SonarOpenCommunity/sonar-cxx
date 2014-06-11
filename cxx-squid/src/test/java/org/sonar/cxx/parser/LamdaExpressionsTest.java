@@ -30,10 +30,7 @@ import static org.mockito.Mockito.mock;
 /**
  * @author jmecosta
  */
-public class LamdaExpressionsTest {
-
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class LamdaExpressionsTest extends ParserBaseTest {
 
   @Test
   public void lambdaExpression() {

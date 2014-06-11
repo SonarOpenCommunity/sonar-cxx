@@ -19,26 +19,23 @@
  */
 package org.sonar.cxx.parser;
 
+import org.sonar.cxx.CxxConfiguration;
+
+import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
-import org.junit.Test;
-import com.sonar.sslr.api.Grammar;
 
-import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class FileInputTest extends ParserBaseTest {
-  
-  @Test
-  public void translationUnit() {
-    p.setRootRule(g.rule(CxxGrammarImpl.translationUnit));
-    
-    g.rule(CxxGrammarImpl.declaration).mock();
-    
-    assertThat(p)
-      .matches("declaration")
-      .matches("declaration declaration")
-      .matches("declaration\ndeclaration")
-      .matches("\n");
+public class ParserBaseTest {
+  protected CxxConfiguration conf = null;
+  protected Parser<Grammar> p = null;
+  protected Grammar g = null;
+
+  public ParserBaseTest(){
+    conf = new CxxConfiguration();
+    conf.setErrorRecoveryEnabled(false);
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    g = p.getGrammar();
   }
 }

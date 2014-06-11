@@ -28,10 +28,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import static org.mockito.Mockito.mock;
 
-public class SpecialMemberFunctionsTest {
-
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class SpecialMemberFunctionsTest extends ParserBaseTest {
 
   @Test
   public void ctorInitializer_reallife() {
