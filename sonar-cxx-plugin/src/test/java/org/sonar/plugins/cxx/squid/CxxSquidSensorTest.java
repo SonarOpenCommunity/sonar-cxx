@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.resources.Directory;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.profiles.RulesProfile;
@@ -36,12 +37,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
@@ -130,6 +129,38 @@ public class CxxSquidSensorTest {
     sensor.analyse(project, context);
 
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+  }
+
+  @Test
+  public void testCircularFileDependency() {
+    setUpSensor(TestUtils.loadResource("circular-includes-project"), null);
+    sensor.analyse(project, context);
+
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(1.0));
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(1.0));
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(1.0));
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), eq(2.0));
+
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_CYCLES), eq(0.0));
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_FEEDBACK_EDGES), eq(0.0));
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_TANGLES), eq(0.0));
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_EDGES_WEIGHT), eq(0.0));
+  }
+
+  @Test
+  public void testCircularPackageDependency() {
+    setUpSensor(TestUtils.loadResource("circular-packages-project"), null);
+    sensor.analyse(project, context);
+
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(0.0));
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(0.0));
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(0.0));
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), anyDouble()); //0 for package1, 1 for package2
+
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_CYCLES), eq(1.0));
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_FEEDBACK_EDGES), eq(1.0));
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_TANGLES), eq(1.0));
+    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_EDGES_WEIGHT), eq(3.0));
   }
 
   private void setUpSensor(File baseDir, String sourceDir){

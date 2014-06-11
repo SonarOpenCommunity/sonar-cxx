@@ -19,6 +19,8 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Preprocessor;
@@ -37,14 +39,7 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.lexer.CxxLexer;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Map;
+import java.util.*;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
@@ -119,6 +114,7 @@ public class CxxPreprocessor extends Preprocessor {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
+  private Multimap<String, String> includedFiles = HashMultimap.create();
 
   // state which is not shared between files
   private State state = new State(null);
@@ -186,6 +182,11 @@ public class CxxPreprocessor extends Preprocessor {
     } finally {
       macros.setHighPrio(false);
     }
+  }
+
+  public Collection<String> getIncludedFiles(File file)
+  {
+    return includedFiles.get(file.getPath());
   }
 
   @Override
@@ -405,8 +406,13 @@ public class CxxPreprocessor extends Preprocessor {
     // b) extract the filename out of the include body and try to find it
     // c) if not done yet, process it using a special lexer, which calls back only
     //    if it finds relevant preprocessor directives (currently: include's and define's)
-    
     File includedFile = findIncludedFile(ast, token, filename);
+
+    File currentFile = this.getFileUnderAnalysis();
+    if (currentFile != null && includedFile != null) {
+      includedFiles.put(currentFile.getPath(), includedFile.getAbsolutePath());
+    }
+
     if (includedFile == null) {
       LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
     }
