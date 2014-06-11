@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.squid;
 
 import com.google.common.collect.Lists;
+import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.squid.AstScanner;
 import com.sonar.sslr.squid.SquidAstVisitor;
 import org.sonar.api.batch.Sensor;
@@ -32,10 +33,12 @@ import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Violation;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
+import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.squid.api.CheckMessage;
@@ -44,8 +47,6 @@ import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
 import org.sonar.squid.indexer.QueryByParent;
 import org.sonar.squid.indexer.QueryByType;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.Arrays;
@@ -113,16 +114,20 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void save(Collection<SourceCode> squidSourceFiles) {
+    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(project, context, annotationCheckFactory);
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
+      File ioFile = new File(squidFile.getKey());
 
-      org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(new File(squidFile.getKey()), project);
+      org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(ioFile, project);
 
       saveMeasures(sonarFile, squidFile);
       saveFilesComplexityDistribution(sonarFile, squidFile);
       saveFunctionsComplexityDistribution(sonarFile, squidFile);
-      saveViolations(sonarFile, squidFile);
+      dependencyAnalyzer.addFile(sonarFile, CxxParser.getIncludedFiles(ioFile));
     }
+
+    dependencyAnalyzer.save();
   }
 
   private void saveMeasures(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
