@@ -165,39 +165,29 @@ public abstract class CxxReportSensor implements Sensor {
    * file-level)
    */
 
-  public boolean saveViolation(Project module, SensorContext context, String ruleRepoKey,
-                               String filename, String line, String ruleId, String msg) {
+  public boolean saveViolation(Project module, SensorContext context,
+      String ruleRepoKey, String filename, String line, String ruleId,
+      String msg) {
     boolean add = false;
     Resource resource = null;
     int lineNr = 0;
-      // handles file="" situation -- file level
-      if ((filename != null) && (filename.length() > 0)){
-        String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
-//        if (normalPath == null) { 
-//          // support SQ<4.2
-//          org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(new File(filename), module.getFileSystem().getTestDirs());
-//          normalPath = sonarFile.getLongName();
-//        }
-//        if (normalPath  == null){
-//          org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(new File(CxxUtils.getCaseSensitiveFileName(filename, fs)), module);
-//          normalPath = sonarFile.getLongName();          
-//        }
-        if(normalPath != null){
-          if (!notFoundFiles.contains(normalPath)) {
-          org.sonar.api.resources.File sonarFile =
-            org.sonar.api.resources.File.fromIOFile(new File(normalPath), module);
+    // handles file="" situation -- file level
+    if ((filename != null) && (filename.length() > 0)) {
+      String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
+      if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
+          org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
+              .fromIOFile(new File(normalPath), module);
 
-          if (context.getResource(sonarFile ) != null) {
+          if (context.getResource(sonarFile) != null) {
             lineNr = getLineAsInt(line);
             resource = sonarFile;
             add = true;
           } else {
-              CxxUtils.LOG.warn("Cannot find the file '"+ normalPath + "', skipping violations");
-              notFoundFiles.add(normalPath);
-            }
+            CxxUtils.LOG.warn("Cannot find the file '" + normalPath + "', skipping violations");
+            notFoundFiles.add(normalPath);
           }
-        }
-     } else { 
+      }
+    } else {
       // project level violation
       resource = module;
       add = true;

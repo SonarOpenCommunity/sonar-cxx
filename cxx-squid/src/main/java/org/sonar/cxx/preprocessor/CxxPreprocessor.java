@@ -409,12 +409,12 @@ public class CxxPreprocessor extends Preprocessor {
     
     File includedFile = findIncludedFile(ast, token, filename);
     if (includedFile == null) {
-      if (!notFoundFileforToken.contains(filename+token.getValue())) {
-      LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '" + token.getValue() + "'");
-      notFoundFileforToken.add(filename+token.getValue());
+      if (!notFoundFileforToken.contains(filename + token.getValue())) {
+        LOG.warn("[" + filename + ":" + token.getLine()
+            + "]: cannot find the sources for '" + token.getValue() + "'");
+        notFoundFileforToken.add(filename + token.getValue());
       }
-    }
-    else if (!analysedFiles.contains(includedFile)) {
+    }    else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());
 //      LOG.debug("[" + filename + ":" + token.getLine() + "]: processing '" + token.getValue() + "', resolved to file '" + includedFile.getAbsolutePath() +"'");
       

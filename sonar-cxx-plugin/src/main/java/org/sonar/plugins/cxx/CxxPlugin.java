@@ -19,11 +19,7 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.Extension;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.config.PropertyFieldDefinition;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.resources.Qualifiers;
@@ -39,7 +35,6 @@ import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
-import org.sonar.plugins.cxx.compiler.CxxVisualStudioProjectBuilder;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.squid.CxxSquidSensor;
@@ -48,7 +43,6 @@ import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
-import org.sonar.plugins.cxx.api.microsoft.BuildConfiguration;
 
 import com.google.common.collect.ImmutableList;
 
@@ -351,60 +345,7 @@ public final class CxxPlugin extends SonarPlugin {
       );
   }
 
-  public static List<PropertyDefinition> VisualStudioSolutionProperties() {
-    String subcateg = "(5) Visual Studio Solutions";
-    return ImmutableList.of(
-      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_SOLUTION_ENABLED)
-      .name("Activate Visual Studio Solution support")
-      .description("Enable multi module analysis based on Visual Studio solution (\".sln\") files."
-                 + "Default: false")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(1)
-      .build(),
-
-
-      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_SOLUTION_FILE_KEY)
-      .name("Solution to analyse")
-      .description("Relative path to the \".sln\" file that represents the solution to analyse."
-                 + "If none provided, a \".sln\" file will be searched at the root of the project.")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(2)
-      .build(),
-
-
-      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_BUILD_CONFIGURATION_KEY)
-      .name("Build configuration")
-      .description("Build configurations used to build the solution. "
-                 + "Default: Debug")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(3)
-      .build(),
-
-
-      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_BUILD_PLATFORM_KEY)
-      .name("Build platform")
-      .description("Build platform used to build the solution. "
-                 + "Default: x86")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(4)
-      .build(),
-
-
-      PropertyDefinition.builder(CxxVisualStudioProjectBuilder.VS_KEY_GENERATION_STRATEGY_KEY)
-      .name("Resource key generation strategy")
-      .description("Strategy to generate sonar resource keys. Default value is standard. If you encounter " +
-      "any 'NonUniqueResultException' errors you can set this property to 'safe'")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(5)
-      .build()
-      );
-  }
-  /**
+ /**
    * {@inheritDoc}
    */
   public List getExtensions() {
@@ -435,13 +376,11 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxExternalRulesSensor.class);
     l.add(CxxExternalRuleRepository.class);
     l.add(CxxRuleRepository.class);
-    l.add(CxxVisualStudioProjectBuilder.class);
 
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
-    l.addAll(VisualStudioSolutionProperties());
 
     return l;
   }

@@ -24,22 +24,8 @@ import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleRepository;
 import org.sonar.cxx.checks.CheckList;
 
-import com.google.common.collect.ImmutableList;
-
 import java.util.List;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
-import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.PropertyField;
-import org.sonar.api.PropertyType;
-import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
-import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
-import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
-import org.sonar.plugins.cxx.externalrules.CxxExternalRuleRepository;
-import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
-import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
-import org.sonar.plugins.cxx.valgrind.CxxValgrindRuleRepository;
-import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
+
 
 public class CxxRuleRepository extends RuleRepository {
 
