@@ -31,10 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class PreprocessorDirectivesTest {
-
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class PreprocessorDirectivesTest extends ParserBaseTest {
 
   private String serialize(AstNode root) {
     List<String> values = new LinkedList<String>();
@@ -94,16 +91,16 @@ public class PreprocessorDirectivesTest {
       + "int x[] = { NUMBERS };"))
       .equals("int x [ ] = { 1 , 2 , 3 } ; EOF"));
 
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define TABLESIZE BUFSIZE\n"
       + "#define BUFSIZE 1024\n"
-      + "TABLESIZE")
-      .getTokenValue().equals("1024"));
+      + "int i = TABLESIZE;"))
+      .equals("int i = 1024 ; EOF"));
 
     assert (serialize(p.parse(
       "#define A 1 + 1\n"
-      + "A;"))
-      .equals("1 + 1 ; EOF"));
+      + "int i = A;"))
+      .equals("int i = 1 + 1 ; EOF"));
 
     assert (serialize(p.parse(
       "#define A a // Comment\n"
@@ -129,13 +126,13 @@ public class PreprocessorDirectivesTest {
   public void macro_arguments() {
     assert (serialize(p.parse(
       "#define min(X, Y)  ((X) < (Y) ? (X) : (Y))\n"
-      + "min(a + 28, *p);"))
-      .equals("( ( a + 28 ) < ( * p ) ? ( a + 28 ) : ( * p ) ) ; EOF"));
+      + "int i = min(a + 28, *p);"))
+      .equals("int i = ( ( a + 28 ) < ( * p ) ? ( a + 28 ) : ( * p ) ) ; EOF"));
 
     assert (serialize(p.parse(
-      "#define foo(x) x, \"x\"\n"
-      + "foo(bar);"))
-      .equals("bar , \"x\" ; EOF"));
+      "#define foo(x) x + \"x\"\n"
+      + "string s = foo(bar);"))
+      .equals("string s = bar + \"x\" ; EOF"));
   }
 
   @Test
@@ -171,48 +168,43 @@ public class PreprocessorDirectivesTest {
 
   @Test
   public void stringification() {
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define str(s) #s\n"
-      + "str(t)")
-      .getTokenValue().equals("\"t\""));
+      + "string s = str(t);"))
+      .equals("string s = \"t\" ; EOF"));
 
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define xstr(s) str(s)\n"
       + "#define str(s) #s\n"
       + "#define foo 4\n"
-      + "str(foo)")
-      .getTokenValue().equals("\"4\""));
+      + "string s = str(foo);"))
+      .equals("string s = \"4\" ; EOF"));
   }
 
   @Test
   public void concatenation() {
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define A t ## 1\n"
-      + "A")
-      .getTokenValue().equals("t1"));
+      + "int i = A;"))
+      .equals("int i = t1 ; EOF"));
 
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define A(p) p ## 1\n"
-      + "A(t)")
-      .getTokenValue().equals("t1"));
+      + "t = A(t);"))
+      .equals("t = t1 ; EOF"));
 
     assert (serialize(p.parse(
       "#define macro_start i ## n ##t m         ##ain(void);\n"
       + "macro_start"))
       .equals("int main ( void ) ; EOF"));
 
-    assert (serialize(p.parse(
-      "#define A B(cf)\n"
-      + "#define B 0x##n\n"
-      + "A"))
-      .equals("0 xn ( cf ) EOF"));
-
-//    @todo
-//    assert (p.parse(
-//      "#define A B(cf)\n"
-//      + "#define B(n) 0x##n\n"
-//      + "A")
-//      .getTokenValue().equals("0xcf"));
+    // FIXME: this failes due to a bug in production code
+    // which rips apart the number '0xcf'
+    // assert (serialize(p.parse(
+    //   "#define A B(cf)\n"
+    //   + "#define B(n) 0x##n\n"
+    //   + "i = A;"))
+    //   .equals("i = 0xcf ; EOF"));
   }
 
   @Test
@@ -223,61 +215,61 @@ public class PreprocessorDirectivesTest {
       + "x = FOO;"))
       .equals("x = FOO ; EOF"));
 
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define BUFSIZE 1020\n"
       + "#define TABLESIZE BUFSIZE\n"
       + "#undef BUFSIZE\n"
       + "#define BUFSIZE 37\n"
-      + "TABLESIZE")
-      .getTokenValue().equals("37"));
+      + "int i = TABLESIZE;"))
+      .equals("int i = 37 ; EOF"));
   }
 
   @Test
   public void redefining_macros() {
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define FOO 1\n"
       + "#define FOO 2\n"
-      + "FOO")
-      .getTokenValue().equals("2"));
+      + "int i = FOO;"))
+      .equals("int i = 2 ; EOF"));
   }
 
   @Test
   public void prescan() {
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define AFTERX(x) X_ ## x\n"
       + "#define XAFTERX(x) AFTERX(x)\n"
       + "#define TABLESIZE 1024\n"
       + "#define BUFSIZE TABLESIZE\n"
-      + "XAFTERX(BUFSIZE)")
-      .getTokenValue().equals("X_1024"));
+      + "int i = XAFTERX(BUFSIZE);"))
+      .equals("int i = X_1024 ; EOF"));
 
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define FOOBAR 1\n"
       + "#define CHECK(a, b) (( a ## b + 1 == 2))\n"
       + "#if CHECK(FOO , BAR)\n"
-      + "1\n"
+      + "i = 1;\n"
       + "#else\n"
       + "0\n"
-      + "#endif")
-      .getTokenValue().equals("1"));
+      + "#endif"))
+      .equals("i = 1 ; EOF"));
   }
 
   @Test
   public void self_referential_macros() {
-    assert (p.parse(
+    assert (serialize(p.parse(
       "#define EPERM EPERM\n"
-      + "EPERM")
-      .getTokenValue().equals("EPERM"));
+      + "a = EPERM;"))
+      .equals("a = EPERM ; EOF"));
 
     assert (serialize(p.parse(
       "#define foo (4 + foo)\n"
-      + "foo;"))
-      .equals("( 4 + foo ) ; EOF"));
+      + "i = foo;"))
+      .equals("i = ( 4 + foo ) ; EOF"));
 
     assert (serialize(p.parse(
       "#define x (4 + y)\n"
       + "#define y (2 * x)\n"
-      + "x;"))
-      .equals("( 4 + ( 2 * x ) ) ; EOF"));
+      + "i = x;"))
+      .equals("i = ( 4 + ( 2 * x ) ) ; EOF"));
   }
 }

@@ -27,10 +27,7 @@ import org.junit.Test;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class AttributedAtlTest {
-
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class AttributedAtlTest extends ParserBaseTest {
 
   @Test
   public void vcAtlDeclaration() {
