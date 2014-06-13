@@ -89,7 +89,7 @@ public class CxxAstScannerTest {
 
    @Test
    public void error_recovery_declaration() {
-     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/parser/own/error_recovery_declaration.cc"));
+     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/parser/bad/error_recovery_declaration.cc"));
      assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
    }
 }
