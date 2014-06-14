@@ -32,6 +32,7 @@ import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
 import org.sonar.squid.api.SourceProject;
 
 import java.io.File;
+import java.util.Collection;
 
 public final class CxxParser {
   private static CxxPreprocessor cxxpp = null;
@@ -42,7 +43,9 @@ public final class CxxParser {
   public static void finishedParsing(File path){
     cxxpp.finishedPreprocessing(path);
   }
-  
+
+  public static Collection<String> getIncludedFiles(File path) { return cxxpp.getIncludedFiles(path); }
+
   public static Parser<Grammar> create() {
     return create(new SquidAstVisitorContextImpl<Grammar>(new SourceProject("")),
                   new CxxConfiguration());
