@@ -7998,7 +7998,15 @@
     <name>L9071: defined macro 'Name' is reserved to the compiler String</name>
     <description>A macro was defined which is reserved to the compiler. Such definition results in undefined behavior. If String is present, the macro name is one of the more obscure identifiers reserved and String provides an explanation to that effect.</description>
   </rule>
-
+  
+  <rule>
+    <key>9072</key>
+    <configkey>9072</configkey>
+    <priority>INFO</priority>
+    <name>L9072: parameter list differs from prior declaration for function 'name'</name>
+    <description>parameter list differs from prior declaration for function 'name'.</description>
+  </rule>
+  
   <rule>
     <key>9074</key>
     <configkey>9074</configkey>
@@ -8430,7 +8438,15 @@
     <name>L9139: case label follows default in switch statement</name>
     <description>A case label was encountered following the default label of a switch statement.</description>
   </rule>
-
+  
+  <rule>
+    <key>9140</key>
+    <configkey>9140</configkey>
+    <priority>INFO</priority>
+    <name>L9140: continue statement detected</name>
+    <description>continue statement detected.</description>
+  </rule>
+  
   <rule>
     <key>9141</key>
     <configkey>9141</configkey>
@@ -8567,6 +8583,23 @@
     <description>Either a static_assert() or a using-declaration was seen at global scope, as indicated by the String.</description>
   </rule>
 
+    <rule>
+    <key>9163</key>
+    <configkey>9163</configkey>
+    <priority>INFO</priority>
+    <name>L9163: increment/decrement operator combined with another operator</name>
+    <description>increment/decrement operator combined with another operator.</description>
+  </rule>
+
+  <rule>
+    <key>9166</key>
+    <configkey>9166</configkey>
+    <priority>INFO</priority>
+    <name>L9166: function parameter list differs from prior declaration</name>
+    <description>function parameter list differs from prior declaration.</description>
+  </rule>
+
+  
 <!--MISRA C (2004) Rules-->
   <rule>
     <key>M1.1</key>
