@@ -5743,7 +5743,6 @@
     <description>In a declaration, the form 'auto D(parms)-&gt;type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type</description>
   </rule>
   <rule>
-  <rule>
     <key>1116</key>
     <configkey>1116</configkey>
     <priority>CRITICAL</priority>
@@ -5771,7 +5770,8 @@
     <name>L1119: Virtual function 'Symbol' marked with override does not override</name>
     <description>A virtual function was marked with the override keyword but does not override a base class function.</description>
   </rule>
-
+  <!--12XX   Internal Error-->
+  <rule>
     <key>1268</key>
     <configkey>1268</configkey>
     <priority>BLOCKER</priority>
@@ -5779,6 +5779,15 @@
     <description>Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
     be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software</description>
   </rule>
+  <rule>
+    <key>1270</key>
+    <configkey>1270</configkey>
+    <priority>BLOCKER</priority>
+    <name>L1270: Internal Error; contact Gimpel Software</name>
+    <description>Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
+    be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software</description>
+  </rule>
+  <!--C++ Warning Messages-->
   <rule>
     <key>1401</key>
     <configkey>1401</configkey>
