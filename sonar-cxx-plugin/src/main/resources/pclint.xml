@@ -5743,7 +5743,6 @@
     <description>In a declaration, the form 'auto D(parms)-&gt;type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type</description>
   </rule>
   <rule>
-  <rule>
     <key>1116</key>
     <configkey>1116</configkey>
     <priority>CRITICAL</priority>
@@ -5771,7 +5770,8 @@
     <name>L1119: Virtual function 'Symbol' marked with override does not override</name>
     <description>A virtual function was marked with the override keyword but does not override a base class function.</description>
   </rule>
-
+  <!--12XX   Internal Error-->
+  <rule>
     <key>1268</key>
     <configkey>1268</configkey>
     <priority>BLOCKER</priority>
@@ -5779,6 +5779,15 @@
     <description>Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
     be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software</description>
   </rule>
+  <rule>
+    <key>1270</key>
+    <configkey>1270</configkey>
+    <priority>BLOCKER</priority>
+    <name>L1270: Internal Error; contact Gimpel Software</name>
+    <description>Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
+    be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software</description>
+  </rule>
+  <!--C++ Warning Messages-->
   <rule>
     <key>1401</key>
     <configkey>1401</configkey>
@@ -7989,7 +7998,15 @@
     <name>L9071: defined macro 'Name' is reserved to the compiler String</name>
     <description>A macro was defined which is reserved to the compiler. Such definition results in undefined behavior. If String is present, the macro name is one of the more obscure identifiers reserved and String provides an explanation to that effect.</description>
   </rule>
-
+  
+  <rule>
+    <key>9072</key>
+    <configkey>9072</configkey>
+    <priority>INFO</priority>
+    <name>L9072: parameter list differs from prior declaration for function 'name'</name>
+    <description>parameter list differs from prior declaration for function 'name'.</description>
+  </rule>
+  
   <rule>
     <key>9074</key>
     <configkey>9074</configkey>
@@ -8421,7 +8438,15 @@
     <name>L9139: case label follows default in switch statement</name>
     <description>A case label was encountered following the default label of a switch statement.</description>
   </rule>
-
+  
+  <rule>
+    <key>9140</key>
+    <configkey>9140</configkey>
+    <priority>INFO</priority>
+    <name>L9140: continue statement detected</name>
+    <description>continue statement detected.</description>
+  </rule>
+  
   <rule>
     <key>9141</key>
     <configkey>9141</configkey>
@@ -8558,6 +8583,23 @@
     <description>Either a static_assert() or a using-declaration was seen at global scope, as indicated by the String.</description>
   </rule>
 
+    <rule>
+    <key>9163</key>
+    <configkey>9163</configkey>
+    <priority>INFO</priority>
+    <name>L9163: increment/decrement operator combined with another operator</name>
+    <description>increment/decrement operator combined with another operator.</description>
+  </rule>
+
+  <rule>
+    <key>9166</key>
+    <configkey>9166</configkey>
+    <priority>INFO</priority>
+    <name>L9166: function parameter list differs from prior declaration</name>
+    <description>function parameter list differs from prior declaration.</description>
+  </rule>
+
+  
 <!--MISRA C (2004) Rules-->
   <rule>
     <key>M1.1</key>
