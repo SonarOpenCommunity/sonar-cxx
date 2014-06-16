@@ -39,3 +39,9 @@ int main(int argc, char** argv)
     
     return foo()->i;
 }
+
+//C-COMPATIBILITY: C99 designated initializers
+struct Point { int x, y; };
+Point p = { .y = 45, .x = 72 };
+int a[6] = { [4] = 29, [2] = 15 };
+int widths[200] = { [0 ... 9] = 1, [10 ... 99] = 2, [100] = 3 };
