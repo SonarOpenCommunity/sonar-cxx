@@ -519,10 +519,14 @@ public class ExpressionTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.pmExpression));
     g.rule(CxxGrammarImpl.unaryExpression).mock();
     g.rule(CxxGrammarImpl.typeId).mock();
+    g.rule(CxxGrammarImpl.bracedInitList).mock();
 
     assertThat(p).matches("unaryExpression");
     assertThat(p).matches("(typeId) unaryExpression");
     assertThat(p).matches("(typeId)(typeId) unaryExpression");
+
+    // C-COMPATIBILITY: C99 compound literals
+    assertThat(p).matches("(typeId) bracedInitList");
   }
 
   @Test
@@ -532,5 +536,9 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("(istream_iterator<string>(cin))");
     assertThat(p).matches("(Color)c");
     assertThat(p).matches("CDB::mask");
+
+    // C-COMPATIBILITY: C99 compound literals
+    assertThat(p).matches("(Point){ 400, 200 }");
+    assertThat(p).matches("(int []){ 1, 2, 4, 8 }");
   }
 }
