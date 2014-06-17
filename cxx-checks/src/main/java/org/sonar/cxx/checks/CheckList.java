@@ -46,6 +46,7 @@ public final class CheckList {
         IndentationCheck.class,
         MagicNumberCheck.class,
         MissingCurlyBracesCheck.class,
+        MissingIncludeFileCheck.class,
         MissingNewLineAtEndOfFileCheck.class,
         NoSonarCheck.class,
         ParsingErrorCheck.class,
