@@ -10,7 +10,7 @@
   
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.9.1</version>
   <packaging>pom</packaging>
   
   <name>Cxx</name>
@@ -46,42 +46,47 @@
       <name>Vincent Hardion</name>
       <email>vincent.hardion@gmail.com</email>
     </developer>
-  </developers>
-
-  <contributors>
-    <contributor>
+    <developer>
       <name>Mathias Cocheril</name>
       <email>mathias.cocheril-ext@sgcib.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>JP Chemali</name>
       <email>jshemali@hotmail.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Sylvain Hellegouarch</name>
       <email>sh@defuze.org</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Przemyslaw Kociolek</name>
       <email>przemyslaw.kociolek@sabre.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Patrick Gansterer</name>
       <email>paroga@paroga.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Bert Kandert</name>
       <email>bert.k@hotmail.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Wolfgang Buckel</name>
       <email>wolfgang.buckel@siemens.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>keithmarsh</name>
       <email>bitbucket@keithmarsh.com</email>
-    </contributor>
-  </contributors>
+    </developer>
+    <developer>
+      <name>guwirth</name>
+      <email>guenter.wirth@etas.com</email>
+    </developer>
+    <developer>
+      <name>Francois Ferrand</name>
+      <email>thetypz@gmail.com</email>
+    </developer>
+  </developers>
   
   <modules>
     <module>cxx-squid</module>
