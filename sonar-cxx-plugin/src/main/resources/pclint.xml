@@ -1615,10 +1615,25 @@
   <rule>
     <key>436</key>
     <configkey>436</configkey>
-    <priority>MAJOR</priority>
+    <priority>CRITICAL</priority>
     <name>L0436: Apparent preprocessor directive in invocation of macro 'Symbol'</name>
-    <description>A function like macro was invoked whose arguments extended for multiple lines which included preprocessor statements. This is almost certainly an error brought about by a missing right parenthesis.
-    By the rules of Standard C the preprocessing directive is absorbed into the macro argument but then will not subsequently get executed. For this reason some compilers treat the apparent preprocessor directive as a directive. This is logical but not portable. It is therefore best to avoid this construct.</description>
+    <description>
+    This is issued in the context of an invocation of a function-like macro.
+    Example:
+
+           #define FOO(p) p
+
+           FOO(
+                   #define X Y
+              )
+
+     According to the ISO Standards, this results in undefined behavior.
+
+       By the rules of Standard C the preprocessing directive is
+       absorbed into the macro argument but then will not subsequently
+       get executed.  For this reason some compilers treat the apparent
+       preprocessor directive as a directive.  This is logical but not
+       portable.  It is therefore best to avoid this construct.</description>
   </rule>
   <rule>
     <key>437</key>
@@ -1835,6 +1850,18 @@
        given upon an inconsistent use of designated initializers (used for specific fields of arrays or structures).  It is possible for an element of such an aggregate to be initialized twice either through the use of two separate designators or through a designator and the conventional sequential initialization process.
        In either case the end result is not specified and the construction is usually a sign of a logic error.</description>
   </rule>
+  <rule>
+    <key>491</key>
+    <configkey>491</configkey>
+    <priority>MAJOR</priority>
+    <name>L0491: non-standard use of 'defined' preprocessor operator</name>
+    <description>The ISO standards restrict the use of the defined preprocessor keyword to either
+     
+           defined(identifier)
+           defined identifier
+     
+       Additionally, the preprocessor operator may not result from the expansion of another macro. This diagnostic highlights departures from these requirements as non-portable code.</description>
+  </rule>  
   <rule>
     <key>501</key>
     <configkey>501</configkey>
@@ -7953,6 +7980,13 @@
     <description>An else-branch was seen which contained neither a comment nor an actionable statement. At least one standards organization cautions against such "empty else" branches</description>
   </rule>
   <rule>
+    <key>9064</key>
+    <configkey>9064</configkey>
+    <priority>INFO</priority>
+    <name>L9064: goto references earlier label</name>
+    <description>A goto makes reference to a label appearing earlier in the code. At least one author recommends all such statements referencing points later in the code, instead, in an attempt to reduce visual code complexity</description>
+  </rule>
+  <rule>
     <key>9066</key>
     <configkey>9066</configkey>
     <priority>INFO</priority>
@@ -8003,8 +8037,8 @@
     <key>9072</key>
     <configkey>9072</configkey>
     <priority>INFO</priority>
-    <name>L9072: parameter list differs from prior declaration for function 'name'</name>
-    <description>parameter list differs from prior declaration for function 'name'.</description>
+    <name>L9072: parameter list differs from prior declaration for function 'Symbol'</name>
+    <description>The numed function was found declared with one parameter list and another which differs either by type or parameter name. At least one author advises against such inconsistency for various reasons.</description>
   </rule>
   
   <rule>
@@ -8444,7 +8478,7 @@
     <configkey>9140</configkey>
     <priority>INFO</priority>
     <name>L9140: continue statement detected</name>
-    <description>continue statement detected.</description>
+    <description>A continue statement appears outside what one author calls a "well-formed for loop". Said author advises against such usage in the interest of reducing code complexity.</description>
   </rule>
   
   <rule>
@@ -8583,23 +8617,30 @@
     <description>Either a static_assert() or a using-declaration was seen at global scope, as indicated by the String.</description>
   </rule>
 
-    <rule>
+  <rule>
     <key>9163</key>
     <configkey>9163</configkey>
     <priority>INFO</priority>
     <name>L9163: increment/decrement operator combined with another operator</name>
-    <description>increment/decrement operator combined with another operator.</description>
+    <description>One of these two operatorions appears in combination with another arithmetic operator. At least one author advises against such practice for purposes of code readability and concerns about undefined behavior.</description>
+  </rule>
+
+  <rule>
+    <key>9165</key>
+    <configkey>9165</configkey>
+    <priority>INFO</priority>
+    <name>L9165: function 'Symbol' defined with a variable number of arguments</name>
+    <description>The named function is defined to take a variable number of arguments. At least one author advises against such a practice because doing so avoids the type checking provided by the compiler.</description>
   </rule>
 
   <rule>
     <key>9166</key>
     <configkey>9166</configkey>
     <priority>INFO</priority>
-    <name>L9166: function parameter list differs from prior declaration</name>
-    <description>function parameter list differs from prior declaration.</description>
+    <name>L9166: function parameter list differs from prior declaration/overloaded function</name>
+    <description>A function's parameter list has been found to differ from either the parameter list of a prior declaration of that function or from an overload of that function. At least one author recommends making counterpart parameters identical in name in the interest of documentation. Note: In the case of overloaded functions, if one function has fewer parameters than the other, only the number of parameters in the shorter parameter list are examined.</description>
   </rule>
 
-  
 <!--MISRA C (2004) Rules-->
   <rule>
     <key>M1.1</key>
