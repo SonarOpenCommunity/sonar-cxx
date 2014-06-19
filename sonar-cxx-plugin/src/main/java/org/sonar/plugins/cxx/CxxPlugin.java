@@ -109,12 +109,12 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
-      .defaultValue("true")
+      .defaultValue("False")
       .name("Parse error recovery")
-      .description("Enables/disables the parse error recovery. For development purposes.")
+      .description("Enables/disables the parse error recovery (experimental).")
       .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
-      .hidden()
       .build()
       );
   }
