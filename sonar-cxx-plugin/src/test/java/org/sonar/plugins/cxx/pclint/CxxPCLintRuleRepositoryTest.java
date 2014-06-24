@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.rules.XMLRuleParser;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import org.sonar.api.config.Settings;
 
@@ -34,6 +34,6 @@ public class CxxPCLintRuleRepositoryTest {
     CxxPCLintRuleRepository rulerep = new CxxPCLintRuleRepository(
         mock(ServerFileSystem.class),
         new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(1333);
+    assertEquals(1410, rulerep.createRules().size());
   }
 }

@@ -19,26 +19,43 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
-import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RuleRepository;
+import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
  * Loads the external rules configuration file.
  */
-public class CxxExternalRuleRepository extends CxxAbstractRuleRepository {
+public class CxxExternalRuleRepository extends RuleRepository {
 
-  public static final String KEY = "cxxexternal";
-  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.cxxexternal";
+  public static final String KEY = "other";
+  public static final String RULES_KEY = "sonar.cxx.other.rules";
+  public final Settings settings;
+  private final XMLRuleParser xmlRuleParser;
 
-  public CxxExternalRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
-    super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
+  public CxxExternalRuleRepository(XMLRuleParser xmlRuleParser, Settings settings) {
+    super(KEY, CxxLanguage.KEY);
+    this.xmlRuleParser = xmlRuleParser;
+    this.settings = settings;
   }
 
   @Override
-  protected String fileName() {
-    return "";
+  public List<Rule> createRules() {
+    List<Rule> rules = new ArrayList<Rule>();
+
+    for(String ruleDefs : settings.getStringArray(RULES_KEY)){
+      if (StringUtils.isNotBlank(ruleDefs)) {
+        rules.addAll(xmlRuleParser.parse(new StringReader(ruleDefs)));
+      }
+    }
+
+    return rules;
   }
 }

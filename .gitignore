@@ -3,4 +3,5 @@ target
 .classpath
 *.prefs
 .sonar
+*.log
 \#*\#

@@ -62,21 +62,24 @@ public class CppcheckParserV1 implements CppcheckParser {
           throw new EmptyReportException();
         }
 
+        int countIssues = 0;
         try {
           SMInputCursor errorCursor = rootCursor.childElementCursor("error"); // error
           while (errorCursor.getNext() != null) {
             String file = errorCursor.getAttrValue("file");
             String line = errorCursor.getAttrValue("line");
             String id = errorCursor.getAttrValue("id");
-            //String severity = errorCursor.getAttrValue("severity");
             String msg = errorCursor.getAttrValue("msg");
 
             if (isInputValid(file, line, id, msg)) {
-              sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
+              if(sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg)){
+                ++countIssues;
+              }
             } else {
               CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
             }
           }
+          CxxUtils.LOG.info("CppCheck issues processed = " + countIssues);
         } catch (RuntimeException e) {
           parsed = false;
           throw new XMLStreamException();

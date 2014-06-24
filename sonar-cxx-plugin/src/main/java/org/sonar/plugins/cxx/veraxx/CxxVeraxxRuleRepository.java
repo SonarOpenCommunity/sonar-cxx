@@ -29,7 +29,7 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  */
 public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "vera++";
-  public static final String CUSTOM_RULES_KEY = "sonar.cxx.customRules.vera++";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.vera++.customRules";
 
   /**
    * {@inheritDoc}

@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
-//import org.sonar.cxx.api.CxxGrammar;
 import com.sonar.sslr.api.Grammar;
 
 import org.sonar.cxx.lexer.CxxLexer;
@@ -181,7 +180,7 @@ public class CxxPreprocessor extends Preprocessor {
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '{}'", include);
         if (!include.equals("")) {
-          parseIncludeLine("#include <" + include + ">");
+          parseIncludeLine("#include \"" + include + "\"");
         }
       }
     } finally {
@@ -646,11 +645,8 @@ public class CxxPreprocessor extends Preprocessor {
         else if (index < arguments.size()) {
           Token replacement = arguments.get(index);
 
-          // TODO: maybe we should pipe the argument through the whole expansion
-          // engine before doing the replacement
-          // String newValue = serialize(expandMacro("", replacement.getValue()));
-
-          String newValue = replacement.getValue();
+          // The arguments have to be fully expanded before expanding the body of the macro
+          String newValue = serialize(expandMacro("", replacement.getValue()));
 
           if (i > 0 && body.get(i - 1).getValue().equals("#")) {
             newTokens.remove(newTokens.size() - 1);

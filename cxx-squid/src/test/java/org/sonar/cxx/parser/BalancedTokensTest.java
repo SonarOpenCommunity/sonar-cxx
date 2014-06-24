@@ -31,10 +31,7 @@ import static org.mockito.Mockito.mock;
  *
  * @author jmecosta
  */
-public class BalancedTokensTest {
-
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class BalancedTokensTest extends ParserBaseTest {
 
   @Test
   public void attributeSpecifierSeq() {

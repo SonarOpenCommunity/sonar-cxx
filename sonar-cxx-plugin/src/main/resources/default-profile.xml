@@ -1501,6 +1501,33 @@
       <priority>MAJOR</priority>
     </rule>
 
+    <!-- ########### New 1.65 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>exceptThrowInNoexecptFunction</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>exceptThrowInNoThrowFunction</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>exceptThrowInAttributeNoThrowFunction</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>exceptThrowInDeclspecNoThrowFunction</key>
+      <priority>MAJOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>seekOnAppendedFile</key>
+      <priority>MINOR</priority>
+    </rule>
+
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->

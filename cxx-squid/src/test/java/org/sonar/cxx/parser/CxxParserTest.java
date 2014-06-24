@@ -19,33 +19,72 @@
  */
 package org.sonar.cxx.parser;
 
+import org.sonar.cxx.CxxConfiguration;
+
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import com.sonar.sslr.api.Grammar;
+import java.net.URISyntaxException;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
+import static org.junit.Assert.fail;
 
-public class CxxParserTest {
 
-  private Parser<Grammar> parser = CxxParser.create(mock(SquidAstVisitorContext.class));
+public class CxxParserTest extends ParserBaseTest {
+  String errSources = "/parser/bad/error_recovery_declaration.cc";
+  String[] goodFiles = {"own", "examples"};
+  String rootDir = "src/test/resources/parser";
+  File erroneousSources = null;
+
+  public CxxParserTest(){
+    super();
+    try{
+      erroneousSources = new File(CxxParserTest.class.getResource(errSources).toURI());
+    } catch (java.net.URISyntaxException e) {}
+  }
 
   @Test
-  public void test() {
+  public void testParsingOnDiverseSourceFiles() {
     Collection<File> files = listFiles();
     for (File file : files) {
-      parser.parse(file);
+      p.parse(file);
       CxxParser.finishedParsing(file);
     }
   }
 
-  private static Collection<File> listFiles() {
-    File dir = new File("src/test/resources/parser/");
-    return FileUtils.listFiles(dir, new String[] {"cc", "cpp", "hpp"}, true);
+  @Test
+  public void testParseErrorRecovery() {
+    // The error recovery works, if:
+    // - a syntacticly incorrect file causes a parse error when recovery is disabled
+    // - but doesnt cause such an error if we run with default settings
+
+    try{
+      p.parse(erroneousSources);
+      fail("Parser could not recognize the syntax error");
+    }
+    catch(com.sonar.sslr.api.RecognitionException re){
+    }
+
+    conf.setErrorRecoveryEnabled(true);
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    p.parse(erroneousSources); //<-- this shouldnt throw now
+  }
+
+
+  private Collection<File> listFiles() {
+    List<File> files = new ArrayList<File>();
+    for(String dir: goodFiles){
+      files.addAll(FileUtils.listFiles(new File(rootDir, dir),
+                                       new String[] {"cc", "cpp", "hpp"}, true));
+    }
+    return files;
   }
 
 }
