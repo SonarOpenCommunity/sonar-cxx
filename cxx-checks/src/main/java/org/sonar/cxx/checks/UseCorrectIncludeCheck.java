@@ -40,10 +40,10 @@ import java.util.List;
   priority = Priority.BLOCKER)
 
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
-    
+
   private static final String DEFAULT_REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
   private static final String DEFAULT_MESSAGE = "Use correct #include directives";
-  
+
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
   public String message = DEFAULT_MESSAGE;
   private Pattern pattern = null;
@@ -59,7 +59,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
       }
     }
   }
-  
+
   @Override
   public void visitFile(AstNode astNode) {
     List<String> lines;
@@ -75,7 +75,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
       }
     }
   }
-  
+
   @Override
   public void setCharset(Charset charset) {
     this.charset = charset;

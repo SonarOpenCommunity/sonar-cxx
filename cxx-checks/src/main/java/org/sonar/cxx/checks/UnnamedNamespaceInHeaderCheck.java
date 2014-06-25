@@ -37,7 +37,7 @@ import com.sonar.sslr.api.Grammar;
 public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT_NAME_SUFFIX = ".h,.hh,.hpp,.H";
- 
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.unnamedNamespaceDefinition);
@@ -46,19 +46,19 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   }
 
 
-  
+
   @Override
   public void visitNode(AstNode node) {
     if (isHeader(getContext().getFile().getName())) {
       getContext().createFileViolation(this, "Unnamed namespaces are not allowed in header files.", node);
     }
   }
-  
+
   private boolean isHeader(String name) {
     String[] suffixes = StringUtils.split(DEFAULT_NAME_SUFFIX, ",");
     for (String suff : suffixes) {
       if (name.endsWith(suff)) {
-        return true;       
+        return true;
       }
     }
     return false;

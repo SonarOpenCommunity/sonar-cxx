@@ -120,12 +120,12 @@ public class CxxReportSensorTest {
     // assert(sensor.saveViolation(??, ??, rulerepokey, "existingfile",
     //                             "1", "existingruleid", "somemessage"))
   }
-  
+
   @Test
   public void savesACorrectFileLevelViolation() {
     //TDB
   }
-  
+
   @Test
   public void savesACorrectProjectLevelViolation() {
     //TDB
@@ -151,13 +151,13 @@ public class CxxReportSensorTest {
   public void doesNotSaveIfResourceCannotBeFoundInSonar() {
     //TDB
   }
-  
+
   private void assertFound(List<File> reports) {
     assert (reports != null);
     assert (reports.get(0).exists());
     assert (reports.get(0).isAbsolute());
   }
-  
+
   private void assertNotFound(List<File> reports) {
     assert (reports != null);
   }

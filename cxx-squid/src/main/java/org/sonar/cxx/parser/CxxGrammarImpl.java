@@ -271,12 +271,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   dynamicExceptionSpecification,
   typeIdList,
   noexceptSpecification;
-   
+
   public static final Logger LOG = LoggerFactory.getLogger("CxxGrammarImpl");
-  
+
   public static Grammar create(CxxConfiguration conf) {
     LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();
-    
+
     toplevel(b, conf);
     expressions(b);
     statements(b);
@@ -291,13 +291,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     misc(b);
     vcAttributedAtl(b);
-    
+
     b.setRootRule(translationUnit);
 
     return b.build();
   }
 
-  
+
   private static void misc(LexerfulGrammarBuilder b) {
     // C++ Standard, Section 2.14.6 "Boolean literals"
     b.rule(BOOL).is(b.firstOf(CxxKeyword.TRUE, CxxKeyword.FALSE));
@@ -317,7 +317,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
     b.rule(vcAtlDeclaration).is(vcAtlAttribute, ";");
   }
-    
+
   private static void toplevel(LexerfulGrammarBuilder b, CxxConfiguration conf) {
     if (conf.getErrorRecoveryEnabled() == true) {
       b.rule(translationUnit).is(b.zeroOrMore(b.firstOf(declaration, recoveredDeclaration)), EOF);
@@ -338,11 +338,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
                 // EXTENSION: gcc's statement expression: a compound statement enclosed in parentheses may appear as an expression
                 b.sequence("(", compoundStatement, ")"))
       ).skipIfOneChild();
-    
+
     b.rule(par_expression).is(b.sequence("(", expression, ")"));
-    
+
     b.rule(idExpression).is(b.firstOf(qualifiedId, unqualifiedId));
-    
+
     b.rule(unqualifiedId).is(
       b.firstOf(
         templateId,
@@ -354,7 +354,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         IDENTIFIER
         )
       );
-    
+
     b.rule(qualifiedId).is(
       b.firstOf(
             b.sequence(nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId),
@@ -380,7 +380,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(lambdaExpression).is(lambdaIntroducer, b.optional(lambdaDeclarator), compoundStatement);
-    
+
     b.rule(lambdaIntroducer).is("[", b.optional(lambdaCapture), "]");
 
     b.rule(lambdaCapture).is(
@@ -392,9 +392,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(captureDefault).is(b.firstOf("&", "="));
-    
+
     b.rule(captureList).is(b.sequence(capture, b.optional("...")), b.zeroOrMore(",", b.sequence(capture, b.optional("..."))));
-    
+
     b.rule(capture).is(
       b.firstOf(
         IDENTIFIER,
@@ -406,7 +406,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       "(", parameterDeclarationClause, ")", b.optional(CxxKeyword.MUTABLE),
       b.optional(exceptionSpecification), b.optional(attributeSpecifierSeq), b.optional(trailingReturnType)
       );
-    
+
     b.rule(postfixExpression).is(
       b.firstOf(
             b.sequence(simpleTypeSpecifier, "(", b.optional(expressionList), ")"),
@@ -479,7 +479,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(unaryOperator).is(
       b.firstOf("*", "&", "+", "-", "!", "~")
       );
-    
+
     b.rule(newExpression).is(
       b.firstOf(
         b.sequence(b.optional("::"), CxxKeyword.NEW, b.optional(newPlacement), newTypeId, b.optional(newInitializer)),
@@ -489,9 +489,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(newPlacement).is("(", expressionList, ")");
-           
+
     b.rule(newTypeId).is(typeSpecifierSeq, b.optional(newDeclarator));
-    
+
     b.rule(newDeclarator).is(
       b.firstOf(
         noptrNewDeclarator,
@@ -500,7 +500,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(noptrNewDeclarator).is("[", expression, "]", b.optional(attributeSpecifierSeq), b.zeroOrMore("[", constantExpression, "]", b.optional(attributeSpecifierSeq)));
-    
+
     b.rule(newInitializer).is(
       b.firstOf(
         b.sequence("(", b.optional(expressionList), ")"),
@@ -564,11 +564,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(constantExpression).is(conditionalExpression);
   }
-  
+
 
 
   private static void statements(LexerfulGrammarBuilder b) {
- 
+
     b.rule(statement).is(
       b.firstOf(
         b.sequence(b.optional(attributeSpecifierSeq), compoundStatement),
@@ -583,39 +583,39 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         emptyStatement
         )
       );
-    
+
     b.rule(emptyStatement).is(";");
- 
+
     b.rule(labeledStatement).is(b.optional(attributeSpecifierSeq), IDENTIFIER, ":", statement);
 
     b.rule(expressionStatement).is(b.optional(expression), ";");
-            
-    b.rule(compoundStatement).is("{", statementSeq, "}");
-    
 
-    b.rule(statementSeq).is(b.zeroOrMore(statement));  
-    
+    b.rule(compoundStatement).is("{", statementSeq, "}");
+
+
+    b.rule(statementSeq).is(b.zeroOrMore(statement));
+
     b.rule(ifStatement).is(
       b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement))
       );
-    
-    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", "{", switchBlockStatementGroups, "}");  
-    
-    b.rule(switchBlockStatementGroups).is(b.zeroOrMore(switchBlockStatementGroup));  
- 
-    b.rule(switchBlockStatementGroup).is(switchLabelStatement, b.optional(emptyStatement), b.zeroOrMore(statement), b.optional(jumpStatement));  
-    
+
+    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", "{", switchBlockStatementGroups, "}");
+
+    b.rule(switchBlockStatementGroups).is(b.zeroOrMore(switchBlockStatementGroup));
+
+    b.rule(switchBlockStatementGroup).is(switchLabelStatement, b.optional(emptyStatement), b.zeroOrMore(statement), b.optional(jumpStatement));
+
     b.rule(switchLabelStatement).is(b.firstOf(
-        b.sequence(CxxKeyword.CASE, constantExpression, ":"), 
+        b.sequence(CxxKeyword.CASE, constantExpression, ":"),
         b.sequence(CxxKeyword.DEFAULT, ":")));
-    
+
     b.rule(condition).is(
         b.firstOf(
           b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, b.firstOf(b.sequence("=", initializerClause), bracedInitList)),
           expression
           )
       );
-    
+
     b.rule(conditionDeclSpecifierSeq).is(
       b.oneOrMore(
         b.nextNot(b.sequence(declarator, b.firstOf("=", "{"))),
@@ -632,14 +632,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement)
         )
       );
-    
+
     b.rule(forInitStatement).is(
       b.firstOf(
         expressionStatement,
         simpleDeclaration
         )
       );
-    
+
     b.rule(forRangeDeclaration).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
 
     b.rule(forrangeDeclSpecifierSeq).is(
@@ -656,7 +656,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         bracedInitList
         )
       );
-    
+
     b.rule(jumpStatement).is(
       b.firstOf(
         b.sequence(CxxKeyword.BREAK, ";"),
@@ -672,7 +672,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   private static void declarations(LexerfulGrammarBuilder b) {
     b.rule(declarationSeq).is(b.oneOrMore(declaration));
-    
+
     b.rule(declaration).is(
         b.firstOf(
             functionDefinition,
@@ -732,7 +732,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         typeSpecifier
         )
       );
-    
+
     b.rule(storageClassSpecifier).is(
       b.firstOf(CxxKeyword.REGISTER, CxxKeyword.STATIC, CxxKeyword.THREAD_LOCAL, CxxKeyword.EXTERN, CxxKeyword.MUTABLE)
       );
@@ -740,9 +740,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(functionSpecifier).is(
       b.firstOf(CxxKeyword.INLINE, CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
       );
-    
+
     b.rule(typedefName).is(IDENTIFIER);
-    
+
     b.rule(typeSpecifier).is(
       b.firstOf(
         classSpecifier,
@@ -750,7 +750,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         trailingTypeSpecifier
         )
       );
-    
+
     b.rule(trailingTypeSpecifier).is(
       b.firstOf(
         simpleTypeSpecifier,
@@ -759,7 +759,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         cvQualifier
         )
       );
-    
+
     b.rule(typeSpecifierSeq).is(b.oneOrMore(typeSpecifier), b.optional(attributeSpecifierSeq));
 
     b.rule(trailingTypeSpecifierSeq).is(b.oneOrMore(trailingTypeSpecifier), b.optional(attributeSpecifierSeq));
@@ -772,7 +772,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "void foo(::A a);". Figure out if there is another way
-        
+
             b.sequence(b.optional(b.firstOf(nestedNameSpecifier, "::")), typeName)
         )
         );
@@ -791,15 +791,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(elaboratedTypeSpecifier).is(
       b.firstOf(
         b.sequence(classKey, b.optional(nestedNameSpecifier), b.optional(CxxKeyword.TEMPLATE), simpleTemplateId),
-        
+
         // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
         // stuff like "friend class ::A". Figure out if there is another way
         b.sequence(classKey, b.optional(attributeSpecifierSeq), b.optional(b.firstOf(nestedNameSpecifier, "::")), IDENTIFIER),
-        
+
         b.sequence(CxxKeyword.ENUM, b.optional(nestedNameSpecifier), IDENTIFIER)
         )
       );
-    
+
     b.rule(enumName).is(IDENTIFIER);
 
     b.rule(enumSpecifier).is(
@@ -810,7 +810,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
 //    b.rule(enumSpecifier).is(b.sequence(enumHead, "{", b.optional(enumeratorList), "}"));
-    
+
     b.rule(enumHead).is(b.optional(vcAtlAttribute), enumKey, b.optional(attributeSpecifierSeq), b.firstOf(b.sequence(nestedNameSpecifier, IDENTIFIER), b.optional(IDENTIFIER)), b.optional(enumBase));
 
     b.rule(opaqueEnumDeclaration).is(enumKey, b.optional(attributeSpecifierSeq), IDENTIFIER, b.optional(enumBase), ";");
@@ -824,7 +824,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(enumeratorDefinition).is(enumerator, b.optional("=", constantExpression));
 
     b.rule(enumerator).is(IDENTIFIER);
-    
+
     b.rule(namespaceName).is(
         b.firstOf(
           originalNamespaceName,
@@ -833,7 +833,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         );
 
     b.rule(originalNamespaceName).is(IDENTIFIER);
-    
+
     b.rule(namespaceDefinition).is(
       b.firstOf(
         namedNamespaceDefinition,
@@ -847,21 +847,21 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         extensionNamespaceDefinition
         )
       );
-    
+
     b.rule(originalNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, "{", namespaceBody, "}");
-           
+
     b.rule(extensionNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, "{", namespaceBody, "}");
 
     b.rule(unnamedNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, "{", namespaceBody, "}");
 
     b.rule(namespaceBody).is(b.optional(declarationSeq));
-    
+
     b.rule(namespaceAlias).is(IDENTIFIER);
-    
+
     b.rule(namespaceAliasDefinition).is(CxxKeyword.NAMESPACE, IDENTIFIER, "=", qualifiedNamespaceSpecifier, ";");
-    
+
     b.rule(qualifiedNamespaceSpecifier).is(b.optional(nestedNameSpecifier), namespaceName);
-    
+
     b.rule(usingDeclaration).is(
         b.firstOf(
             b.sequence(CxxKeyword.USING, b.optional(CxxKeyword.TYPENAME), nestedNameSpecifier, unqualifiedId, ";"),
@@ -872,7 +872,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(usingDirective).is(b.optional(attributeSpecifier), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional("::"), b.optional(nestedNameSpecifier), namespaceName, ";");
 
     b.rule(asmDefinition).is(CxxKeyword.ASM, "(", STRING, ")", ";");
-    
+
     b.rule(linkageSpecification).is(CxxKeyword.EXTERN, STRING, b.firstOf(b.sequence("{", b.optional(declarationSeq), "}"), declaration));
 
     b.rule(attributeSpecifierSeq).is(b.oneOrMore(attributeSpecifier));
@@ -902,11 +902,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       attributeScopedToken,
       IDENTIFIER
       ));
-  
+
   b.rule(attributeScopedToken).is(attributeNamespace, "::", IDENTIFIER);
-  
+
   b.rule(attributeNamespace).is(IDENTIFIER);
-  
+
   b.rule(attributeArgumentClause).is("(", balancedTokenSeq, ")");
 
   b.rule(balancedTokenSeq).is(b.zeroOrMore(balancedToken));
@@ -919,7 +919,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.sequence("[", balancedTokenSeq, "]")
       ));
   }
-  
+
   private static void declarators(LexerfulGrammarBuilder b) {
     b.rule(initDeclaratorList).is(initDeclarator, b.zeroOrMore(",", initDeclarator));
 
@@ -1070,19 +1070,19 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             bracedInitList
         )
       );
-    
+
     b.rule(initializerClause).is(
       b.firstOf(
         assignmentExpression,
         bracedInitList
         )
       );
-    
+
     b.rule(initializerList).is(initializerClause, b.optional("..."), b.zeroOrMore(",", initializerClause, b.optional("...")));
-    
+
     b.rule(bracedInitList).is("{", b.optional(initializerList), b.optional(","), "}");
   }
-  
+
   private static void classes(LexerfulGrammarBuilder b) {
     b.rule(className).is(
       b.firstOf(
@@ -1156,7 +1156,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(pureSpecifier).is("=", "0");
   }
-  
+
   private static void derivedClasses(LexerfulGrammarBuilder b) {
     b.rule(baseClause).is(":", baseSpecifierList);
 
@@ -1182,7 +1182,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.firstOf(CxxKeyword.PRIVATE, CxxKeyword.PROTECTED, CxxKeyword.PUBLIC)
         );
   }
-  
+
   private static void specialMemberFunctions(LexerfulGrammarBuilder b) {
     b.rule(conversionFunctionId).is(CxxKeyword.OPERATOR, conversionTypeId);
 
@@ -1203,7 +1203,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
         );
   }
-  
+
   private static void overloading(LexerfulGrammarBuilder b) {
     b.rule(operatorFunctionId).is(CxxKeyword.OPERATOR, operator);
 

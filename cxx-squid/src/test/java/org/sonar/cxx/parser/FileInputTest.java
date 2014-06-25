@@ -28,13 +28,13 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class FileInputTest extends ParserBaseTest {
-  
+
   @Test
   public void translationUnit() {
     p.setRootRule(g.rule(CxxGrammarImpl.translationUnit));
-    
+
     g.rule(CxxGrammarImpl.declaration).mock();
-    
+
     assertThat(p)
       .matches("declaration")
       .matches("declaration declaration")

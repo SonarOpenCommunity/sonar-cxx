@@ -87,7 +87,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
   private static void consumeComment(CodeReader code) {
     char ch;
-    
+
     code.pop(); // initial '*'
     while (true) {
       ch = (char)code.pop();
@@ -100,7 +100,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
       }
     }
   }
-  
+
   private static boolean isNewline(char ch) {
     return (ch == '\n') || (ch == '\r');
   }

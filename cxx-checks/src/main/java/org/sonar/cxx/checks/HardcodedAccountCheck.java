@@ -38,15 +38,15 @@ import java.util.regex.Pattern;
   priority = Priority.BLOCKER)
 
 public class HardcodedAccountCheck extends SquidCheck<Grammar> {
-  
+
  /*
   * more information for C++ security from CERT:
   * https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=637
-  * 
-  * MSC18-C. Be careful while handling sensitive data, such as passwords, in program code 
+  *
+  * MSC18-C. Be careful while handling sensitive data, such as passwords, in program code
   * https://www.securecoding.cert.org/confluence/display/seccode/MSC18-C.+Be+careful+while+handling+sensitive+data%2C+such+as+passwords%2C+in+program+code
-  * 
-*/    
+  *
+*/
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "\\bDSN\\b.*=.*;\\b(UID|PWD)\\b=.*;";
   private static Matcher reg = null;
@@ -55,7 +55,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
       key = "regularExpression",
       defaultValue = DEFAULT_REGULAR_EXPRESSION)
     public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
-  
+
   public String getRegularExpression() {
     return regularExpression;
   }
@@ -66,13 +66,13 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
     checkNotNull(regularExpression, "getRegularExpression() should not return null");
 
     if (!Strings.isNullOrEmpty(regEx)) {
-      try {    
+      try {
         reg = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {
         throw new SonarException("Unable to compile regular expression: " + regEx, e);
       }
     }
-    subscribeTo(CxxGrammarImpl.LITERAL); 
+    subscribeTo(CxxGrammarImpl.LITERAL);
   }
 
   @Override

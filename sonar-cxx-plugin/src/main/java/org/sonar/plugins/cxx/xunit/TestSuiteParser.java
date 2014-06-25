@@ -53,7 +53,7 @@ public class TestSuiteParser implements XmlStreamHandler {
     catch(com.ctc.wstx.exc.WstxEOFException eofExc){
       throw new EmptyReportException();
     }
-    
+
     do{
       String testSuiteClassName = testSuiteCursor.getAttrValue("name");
       String testFileName = testSuiteCursor.getAttrValue("filename");
@@ -75,7 +75,7 @@ public class TestSuiteParser implements XmlStreamHandler {
   private boolean isValidKey(String key){
     return key != null && !"".equals(key);
   }
-  
+
   /**
    * Returns successfully parsed reports as a collection of TestSuite objects.
    */

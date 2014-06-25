@@ -91,7 +91,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
           while (fileCursor.getNext() != null) {
             String name = fileCursor.getAttrValue("name");
 
-            CxxUtils.LOG.info("Vera++ processes file = " + name);              
+            CxxUtils.LOG.info("Vera++ processes file = " + name);
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!name.equals("error")) {
@@ -110,7 +110,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
               }
             }
           }
-          CxxUtils.LOG.info("Vera++ issues processed = " + countIssues);    
+          CxxUtils.LOG.info("Vera++ issues processed = " + countIssues);
         }
       });
 

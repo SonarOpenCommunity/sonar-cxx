@@ -32,7 +32,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
   priority = Priority.MAJOR)
 
 public class UselessParenthesesCheck extends SquidCheck<Grammar> {
- 
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.par_expression);
