@@ -34,13 +34,13 @@ import com.sonar.sslr.squid.checks.SquidCheck;
 
 //similar Vera++ rule L006 "Source file is too long"
 public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
-        
+
   private static final int DEFAULT_MAXIMUM = 2000;
 
   @RuleProperty(key = "maximumFileLocThreshold",
           defaultValue = "" + DEFAULT_MAXIMUM)
   private int max = DEFAULT_MAXIMUM;
-  
+
 
   public void SetMax(int max) {
     this.max = max;
@@ -54,4 +54,3 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
     }
   }
 }
-

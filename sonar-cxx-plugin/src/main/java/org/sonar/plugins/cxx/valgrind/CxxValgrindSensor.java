@@ -73,7 +73,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(project, context, parser.parseReport(report));
   }
-  
+
   void saveErrors(Project project, SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
       ValgrindFrame frame = error.getLastOwnFrame(fs.baseDir().getPath());

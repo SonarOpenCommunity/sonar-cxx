@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
+ * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -17,30 +17,25 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.rats;
+package org.sonar.cxx.parser;
 
-import org.sonar.api.config.Settings;
-import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
-import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
+import org.sonar.cxx.CxxConfiguration;
 
-/**
- * {@inheritDoc}
- */
-public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
-  public static final String KEY = "rats";
-  public static final String CUSTOM_RULES_KEY = "sonar.cxx.rats.customRules";
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.impl.Parser;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
 
-  /**
-   * {@inheritDoc}
-   */
-  public CxxRatsRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
-    super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
-  }
+import static org.mockito.Mockito.mock;
 
-  @Override
-  protected String fileName() {
-    return "/rats.xml";
+public class ParserBaseTest {
+  protected CxxConfiguration conf = null;
+  protected Parser<Grammar> p = null;
+  protected Grammar g = null;
+
+  public ParserBaseTest(){
+    conf = new CxxConfiguration();
+    conf.setErrorRecoveryEnabled(false);
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    g = p.getGrammar();
   }
 }

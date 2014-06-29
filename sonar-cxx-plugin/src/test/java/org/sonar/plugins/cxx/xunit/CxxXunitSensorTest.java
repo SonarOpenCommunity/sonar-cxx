@@ -81,27 +81,27 @@ public class CxxXunitSensorTest {
   public void shouldFindTheSourcesOfTheTestfiles() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
-    
+
     List<File> sourceDirs = new ArrayList<File>();
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
     sourceDirs.add(baseDir);
-    
+
     List<File> testDirs = new ArrayList<File>();
     testDirs.add(new File(baseDir, "tests1"));
     testDirs.add(new File(baseDir, "tests2"));
-    
+
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
-    
+
     sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
     sensor.buildLookupTables(project);
-    
+
     // case 1:
     // the testcase file resides: directly under the test directory
     // the testcase file contains: only one class
     // the report mentions: the class name
     assertEquals(sensor.lookupFilePath("TestClass1"), new File(baseDir, "tests1/Test1.cc").getPath());
-    
+
     // case 2:
     // the testcase file resides: in a subdirectory
     // the testcase file contains: a couple of classes
@@ -113,13 +113,13 @@ public class CxxXunitSensorTest {
     // the testcase file contains: the class in a namespace
     // the report mentions: the class name
     assertEquals(sensor.lookupFilePath("TestClass3"), new File(baseDir, "tests2/Test3.cc").getPath());
-    
+
     // case 4:
     // the testcase file resides: somewhere
     // the testcase file contains: the class is implemented via a header and impl. file
     // the report mentions: the class name
     assertEquals(new File(baseDir, "tests2/Test4.cc").getPath(), sensor.lookupFilePath("TestClass4"));
-    
+
     // case 5:
     // the testcase file resides: somewhere
     // the testcase file contains: class A and class B
@@ -130,7 +130,7 @@ public class CxxXunitSensorTest {
     // in context of Test5.cc
     // assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_A"));
     // assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_B"));
-    
+
     // case 6:
     // the testcase file resides: somewhere
     // the testcase file contains: a class A, distributed across a
@@ -140,7 +140,7 @@ public class CxxXunitSensorTest {
                anyOf(is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
                      is(new File(baseDir, "tests1/Test6_B.cc").getPath())));
   }
-  
+
   @Test
   public void shouldReportNothingWhenNoReportFound() {
     Settings config = new Settings();

@@ -71,7 +71,7 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
   private static AstNode getEnclosingIfStatement(AstNode node) {
     AstNode grandParent = node.getParent().getParent();
     if (grandParent.is(CxxGrammarImpl.ifStatement)) {
-      return grandParent;    
+      return grandParent;
     } else if (!grandParent.is(CxxGrammarImpl.statementSeq)) {
       return null;
     }

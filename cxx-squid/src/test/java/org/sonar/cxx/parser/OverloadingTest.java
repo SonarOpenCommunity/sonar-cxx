@@ -27,18 +27,15 @@ import com.sonar.sslr.api.Grammar;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class OverloadingTest {
-
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class OverloadingTest extends ParserBaseTest {
 
   @Test
   public void operatorFunctionId_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.operatorFunctionId));
-    
+
     assertThat(p).matches("operator()");
   }
-  
+
   @Test
   public void operator() {
     p.setRootRule(g.rule(CxxGrammarImpl.operator));

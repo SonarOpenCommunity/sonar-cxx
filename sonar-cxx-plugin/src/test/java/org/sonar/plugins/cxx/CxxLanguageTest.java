@@ -53,7 +53,7 @@ public class CxxLanguageTest {
   @Test
   public void shouldReturnDefaultFileSuffixes() {
     CxxLanguage cxx = new CxxLanguage(config);
-    
+
     String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
     String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
     String[] expectedAll = {".cxx", ".cpp", ".cc", ".c", ".hxx", ".hpp", ".hh", ".h"};

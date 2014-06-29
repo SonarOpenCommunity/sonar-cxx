@@ -36,7 +36,7 @@ public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar> {
 
   @RuleProperty(defaultValue = "" + DEFAULT_MAX)
   private int max = DEFAULT_MAX;
-  
+
 
   public void setMax(int max) {
     this.max = max;

@@ -1840,9 +1840,9 @@
   <rule>
     <key>redundantCondition</key>
     <configkey>redundantCondition</configkey>
-    <name>Redundant condition</name>
+    <name>Redundant condition is always true</name>
     <description>
-      This condition will always have the same result.
+      Redundant condition: If x &gt; 11 the condition x &gt; 10 is always true.
     </description>
   </rule>
   <rule>
@@ -2107,7 +2107,7 @@
     <configkey>shiftNegative</configkey>
     <name>Shifting by a negative value</name>
     <description>
-      Shifting by a negative value.
+      Shifting by a negative value is undefined behaviour.
     </description>
   </rule>
   <rule>
@@ -2330,10 +2330,10 @@
     <key>missingIncludeSystem</key>
     <configkey>missingIncludeSystem</configkey>
     <name>
-      Included file not found.
+      Included files not found.
     </name>
     <description>
-      Cannot find an included file, the code analysis may be inaccurate.
+      Include files not found. Please note: Cppcheck does not need standard library headers to get proper results.
     </description>
   </rule>
 
@@ -2624,6 +2624,48 @@
     <name>Memset value out of range</name>
     <description>
       The 2nd memset() argument doesn't fit into an 'unsigned char'.
+    </description>
+  </rule>
+    <!-- ########### New in cppcheck 1.65 ########### -->
+  <rule>
+    <key>exceptThrowInNoexecptFunction</key>
+    <configkey>exceptThrowInNoexecptFunction</configkey>
+    <name>Exception thrown in noexcept function</name>
+    <description>
+      Inproper function declaration using noexcep.
+      <!-- see also http://aristeia.com/EC++11-14/noexcept%202014-03-31.pdf (draft) -->
+    </description>
+  </rule>
+  <rule>
+    <key>exceptThrowInNoThrowFunction</key>
+    <configkey>exceptThrowInNoThrowFunction</configkey>
+    <name>Exception thrown in nothrow() function</name>
+    <description>
+      Function is decared as nothrow and but exceptions might occure.
+    </description>
+  </rule>
+  <rule>
+    <key>exceptThrowInAttributeNoThrowFunction</key>
+    <configkey>exceptThrowInAttributeNoThrowFunction</configkey>
+    <name>Exception thrown in __attribute__((nothrow)) function</name>
+    <description>
+      Exception thrown in __attribute__((nothrow)) function.
+    </description>
+  </rule>
+  <rule>
+    <key>exceptThrowInDeclspecNoThrowFunction</key>
+    <configkey>exceptThrowInDeclspecNoThrowFunction</configkey>
+    <name>Exception thrown in __declspec(nothrow) function</name>
+    <description>
+      Exception thrown in __declspec(nothrow) function.
+    </description>
+  </rule>
+  <rule>
+    <key>seekOnAppendedFile</key>
+    <configkey>seekOnAppendedFile</configkey>
+    <name>Repositioning operation in append mode</name>
+    <description>
+      Repositioning operation performed on a file opened in append mode has no effect.
     </description>
   </rule>
 </rules>

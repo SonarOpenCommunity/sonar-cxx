@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
     <version>14</version>
   </parent>
-  
+
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.9.1</version>
   <packaging>pom</packaging>
-  
+
   <name>Cxx</name>
   <url>https://github.com/wenns/sonar-cxx</url>
   <inceptionYear>2011</inceptionYear>
@@ -26,7 +26,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <developers>
     <developer>
       <id>wenns</id>
@@ -46,43 +46,48 @@
       <name>Vincent Hardion</name>
       <email>vincent.hardion@gmail.com</email>
     </developer>
-  </developers>
-
-  <contributors>
-    <contributor>
+    <developer>
       <name>Mathias Cocheril</name>
       <email>mathias.cocheril-ext@sgcib.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>JP Chemali</name>
       <email>jshemali@hotmail.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Sylvain Hellegouarch</name>
       <email>sh@defuze.org</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Przemyslaw Kociolek</name>
       <email>przemyslaw.kociolek@sabre.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Patrick Gansterer</name>
       <email>paroga@paroga.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Bert Kandert</name>
       <email>bert.k@hotmail.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>Wolfgang Buckel</name>
       <email>wolfgang.buckel@siemens.com</email>
-    </contributor>
-    <contributor>
+    </developer>
+    <developer>
       <name>keithmarsh</name>
       <email>bitbucket@keithmarsh.com</email>
-    </contributor>
-  </contributors>
-  
+    </developer>
+    <developer>
+      <name>guwirth</name>
+      <email>guenter.wirth@etas.com</email>
+    </developer>
+    <developer>
+      <name>Francois Ferrand</name>
+      <email>thetypz@gmail.com</email>
+    </developer>
+  </developers>
+
   <modules>
     <module>cxx-squid</module>
     <module>cxx-checks</module>
@@ -145,13 +150,13 @@
         <artifactId>ant</artifactId>
         <version>1.6</version>
       </dependency>
-      
+
       <dependency>
         <groupId>jdom</groupId>
         <artifactId>jdom</artifactId>
         <version>1.0</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.codehaus.sonar.sslr</groupId>
         <artifactId>sslr-core</artifactId>
@@ -237,12 +242,12 @@
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
-        </plugin>                        
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.16</version>
-        </plugin>                        
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

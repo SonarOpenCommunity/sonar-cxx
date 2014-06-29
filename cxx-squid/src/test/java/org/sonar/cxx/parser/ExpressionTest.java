@@ -27,21 +27,18 @@ import com.sonar.sslr.api.Grammar;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class ExpressionTest {
-
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class ExpressionTest extends ParserBaseTest {
 
   @Test
   public void primaryExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
-    
+
     g.rule(CxxGrammarImpl.LITERAL).mock();
     g.rule(CxxGrammarImpl.expression).mock();
     g.rule(CxxGrammarImpl.compoundStatement).mock();
     g.rule(CxxGrammarImpl.idExpression).mock();
     g.rule(CxxGrammarImpl.lambdaExpression).mock();
-    
+
     assertThat(p)
       .matches("LITERAL")
       .matches("this")
@@ -54,13 +51,13 @@ public class ExpressionTest {
   @Test
   public void primaryExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
-    
+
     assertThat(p).matches("(istream_iterator<string>(cin))");
 
     // GCCs extension: statement expression
-    assertThat(p).matches("({ int i = 0; a = i++; })"); 
+    assertThat(p).matches("({ int i = 0; a = i++; })");
   }
-  
+
   @Test
   public void idExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.idExpression));

@@ -57,12 +57,12 @@ public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
-  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.include_directories";
+  public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
-  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.force_includes";
+  public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
 
   public static List<PropertyDefinition> generalProperties() {
-    String subcateg = "General";
+    String subcateg = "(1) General";
     return ImmutableList.of(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
       .defaultValue(CxxLanguage.DEFAULT_SOURCE_SUFFIXES)
@@ -109,18 +109,18 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
-      .defaultValue("true")
+      .defaultValue("False")
       .name("Parse error recovery")
-      .description("Enables/disables the parse error recovery. For development purposes.")
+      .description("Enables/disables the parse error recovery (experimental).")
       .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
-      .hidden()
       .build()
       );
   }
 
   public static List<PropertyDefinition> codeAnalysisProperties() {
-    String subcateg = "Code analysis";
+    String subcateg = "(2) Code analysis";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCppCheckSensor.REPORT_PATH_KEY)
       .name("Cppcheck report(s)")
@@ -237,7 +237,7 @@ public final class CxxPlugin extends SonarPlugin {
   }
 
   public static List<PropertyDefinition> compilerWarningsProperties() {
-    String subcateg = "Compiler warnings";
+    String subcateg = "(4) Compiler warnings";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_PATH_KEY)
       .name("Compiler report(s)")
@@ -296,7 +296,7 @@ public final class CxxPlugin extends SonarPlugin {
   }
 
   public static List<PropertyDefinition> testingAndCoverageProperties() {
-    String subcateg = "Testing & Coverage";
+    String subcateg = "(3) Testing & Coverage";
     return ImmutableList.of(
       PropertyDefinition.builder(CxxCoverageSensor.REPORT_PATH_KEY)
       .name("Unit test coverage report(s)")

@@ -28,9 +28,7 @@ import com.sonar.sslr.api.Grammar;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class StatementTest {
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class StatementTest extends ParserBaseTest {
 
   @Test
   public void statement() {
@@ -136,7 +134,7 @@ public class StatementTest {
     assertThat(p).matches("switch ( condition ) { default : break; }");
     assertThat(p).matches("switch ( condition ) { case constantExpression : statement break; default : break; }");
   }
-  
+
   @Test
   public void ifStatement_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.ifStatement));

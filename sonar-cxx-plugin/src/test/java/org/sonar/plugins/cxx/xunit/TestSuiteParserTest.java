@@ -35,22 +35,22 @@ public class TestSuiteParserTest {
   TestSuiteParser parserHandler = new TestSuiteParser();
   StaxParser parser = new StaxParser(parserHandler, false);
   String REPORTS_PATH = "/org/sonar/plugins/cxx/reports-project/xunit-reports/";
-  
+
   @Test
   public void suiteDoesntEqualsNull() throws XMLStreamException {
     File xmlReport = TestUtils.loadResource(REPORTS_PATH + "xunit-result-SAMPLE_with_fileName.xml");
     parser.parse(xmlReport);
-    
+
     TestSuite fileReport = (TestSuite)parserHandler.getParsedReports().toArray()[0];
     assertEquals(fileReport.getKey(), "test/file.cpp");
-    assertEquals(fileReport.getTests(), 3);        
+    assertEquals(fileReport.getTests(), 3);
   }
 
   @Test
   public void parserDoesntAcceptEmptyFilepaths() throws XMLStreamException {
     File xmlReport = TestUtils.loadResource(REPORTS_PATH + "xunit-result_with_emptyFileName.xml");
     parser.parse(xmlReport);
-    
+
     TestSuite fileReport = (TestSuite)parserHandler.getParsedReports().toArray()[0];
     assertEquals("SAMPLEtest", fileReport.getKey());
   }

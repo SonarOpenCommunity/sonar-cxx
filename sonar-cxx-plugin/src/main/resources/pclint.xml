@@ -7937,11 +7937,625 @@
     <description>A trigraph was seen inside a comment. Since trigraphs are translated before preprocessing, a trigraph sequence like ??/ can have surprising results, especially in a C++ style comment where the trigraph sequence translates into a backslash.</description>
   </rule>
   <rule>
+    <key>9063</key>
+    <configkey>9063</configkey>
+    <priority>INFO</priority>
+    <name>L9063: no comment or action in else-branch</name>
+    <description>An else-branch was seen which contained neither a comment nor an actionable statement. At least one standards organization cautions against such "empty else" branches</description>
+  </rule>
+  <rule>
     <key>9066</key>
     <configkey>9066</configkey>
     <priority>INFO</priority>
     <name>L9066: C++ comment contains C comment</name>
     <description>A C-style comment was seen inside a C++-style comment.  This can result in confusion.</description>
+  </rule>
+  <rule>
+    <key>9067</key>
+    <configkey>9067</configkey>
+    <priority>INFO</priority>
+    <name>L9067: array declared without explicit dimension</name>
+    <description>An array was declared without a dimension. At least one standards organization advises against such a practice in the interest of safety. Note: this message is not given if the array is initialized at the time of declaration.</description>
+  </rule>
+<!-- MISRA Rules PClint 9.0l -->
+  <rule>
+    <key>9068</key>
+    <configkey>9068</configkey>
+    <priority>INFO</priority>
+    <name>L9068: partial array initialization</name>
+    <description>An array has been initialized only partly. Providing an explicit initialization for each element of an array makes it clear every element has been considered. This diagnostic is not issued if the array is initialized with a {0} initializer or if the initializer consists entirely of designated initializers or if the array is initialized using a string literal.</description>
+  </rule>
+
+  <rule>
+    <key>9069</key>
+    <configkey>9069</configkey>
+    <priority>INFO</priority>
+    <name>L9069: in initializer for symbol 'Symbol', initializer of type 'Type' needs braces or designator</name>
+    <description>An array is initialized without sufficient braces or designators to clarify exactly which elements are initialized with which values.</description>
+  </rule>
+
+  <rule>
+    <key>9070</key>
+    <configkey>9070</configkey>
+    <priority>INFO</priority>
+    <name>L9070: recursive function 'Symbol', location Location</name>
+    <description>The named function has been found to potentially call itself, either directly or indirectly. Recursion carries with it the danger of exceeding available stack space, which can lead to a run-time failure. All else being equal, the more recursion is constrained, the easier determining the worst-case stack usage can be.</description>
+  </rule>
+
+  <rule>
+    <key>9071</key>
+    <configkey>9071</configkey>
+    <priority>INFO</priority>
+    <name>L9071: defined macro 'Name' is reserved to the compiler String</name>
+    <description>A macro was defined which is reserved to the compiler. Such definition results in undefined behavior. If String is present, the macro name is one of the more obscure identifiers reserved and String provides an explanation to that effect.</description>
+  </rule>
+
+  <rule>
+    <key>9074</key>
+    <configkey>9074</configkey>
+    <priority>INFO</priority>
+    <name>L9074: conversion between a pointer to function and another type</name>
+    <description>A conversion was seen between a pointer to function and a different type. The conversion of a pointer to a function into or from a pointer to object, pointer to incomplete type, or pointer to void results in undefined behavior and, consequently, at least one standards organization advises against such practice. This diagnostic is suppressed if the conversion is to void.</description>
+  </rule>
+
+  <rule>
+    <key>9075</key>
+    <configkey>9075</configkey>
+    <priority>INFO</priority>
+    <name>L9075: external symbol 'Symbol' defined without a prior declaration</name>
+    <description>If a declaration for an object or function is visible when that object or function is defined, a compiler must verfiy the declaration and definition are compatible. A lack of prior declaration prevents such checking.</description>
+  </rule>
+
+  <rule>
+    <key>9076</key>
+    <configkey>9076</configkey>
+    <priority>INFO</priority>
+    <name>L9076: conversion between a pointer to incomplete type and another type </name>
+    <description>Conversions involving pointers to incomplete types causes undefined behavior if converted to or from a floating point type and can cause incorrect alignment if to or from a pointer type. This message is suppressed if the conversion is to void. Also, for purposes of this diagnostic, pointers to void are not treated as pointers to incomplete types.</description>
+  </rule>
+
+  <rule>
+    <key>9077</key>
+    <configkey>9077</configkey>
+    <priority>INFO</priority>
+    <name>L9077: missing unconditional break from final switch case</name>
+    <description>A case at the end of a switch had no unconditional break. Some coding guidelines require the use of a break for every switch case, including the last one, for maintenance reasons.</description>
+  </rule>
+
+  <rule>
+    <key>9078</key>
+    <configkey>9078</configkey>
+    <priority>INFO</priority>
+    <name>L9078: conversion between a pointer and integer type</name>
+    <description>A conversion between a pointer type and an integer/enum type was seen. Such conversions can result in undefined behavior if the pointer value cannot be represented in the integer/enum type. This diagnostic is not given for null pointer constants.</description>
+  </rule>
+
+  <rule>
+    <key>9079</key>
+    <configkey>9079</configkey>
+    <priority>INFO</priority>
+    <name>L9079: conversion from pointer to void to pointer to other type</name>
+    <description>Conversion of a pointer to void into a pointer to object may result in a pointer which is not correctly aligned, resulting in undefined behavior.</description>
+  </rule>
+
+  <rule>
+    <key>9080</key>
+    <configkey>9080</configkey>
+    <priority>INFO</priority>
+    <name>L9080: integer null pointer constant used</name>
+    <description>An integer null pointer constant other than the NULL macro was used. Using the NULL macro makes it clear a null pointer constant was intended.</description>
+  </rule>
+
+  <rule>
+    <key>9081</key>
+    <configkey>9081</configkey>
+    <priority>INFO</priority>
+    <name>L9081: too few independent cases for switch</name>
+    <description>A switch was seen with less than two non-consecutive case labels. A switch with less than two such cases is redundant and may indicate a programming error.</description>
+  </rule>
+
+  <rule>
+    <key>9082</key>
+    <configkey>9082</configkey>
+    <priority>INFO</priority>
+    <name>L9082: switch statement should either begin or end with default label </name>
+    <description>Placing the default label either first or last makes locating it easier.</description>
+  </rule>
+
+  <rule>
+    <key>9083</key>
+    <configkey>9083</configkey>
+    <priority>INFO</priority>
+    <name>L9083: undefined macro 'String' matches an identifier reserved to the compiler</name>
+    <description>A #undef was seen applied to an identifier given by String and that identifier is reserved to the compiler by the ISO C/C++ standards.</description>
+  </rule>
+
+  <rule>
+    <key>9084</key>
+    <configkey>9084</configkey>
+    <priority>INFO</priority>
+    <name>L9084: result of assignment operator used in larger expression</name>
+    <description>An assignment expression was seen inside a larger expression. The use of assignment operators, simple or compound, in combination with other arithmetic operations can significantly impair the readability of the code.</description>
+  </rule>
+
+  <rule>
+    <key>9085</key>
+    <configkey>9085</configkey>
+    <priority>INFO</priority>
+    <name>L9085: statement or comment should appear in default case</name>
+    <description>A default was seen without a comment or statement between it and either the corresponding break or, if default is the last case in the switch, the closing }. Adding a statement to take action or adding a comment to explain why no action is taken is a form of defensive programming.</description>
+  </rule>
+
+  <rule>
+    <key>9086</key>
+    <configkey>9086</configkey>
+    <priority>INFO</priority>
+    <name>L9086: include directives should have single arguments</name>
+    <description>A #include directive is followed by more than one angle bracket sequence or string literal. The ISO standards do not define behavior in such cases.</description>
+  </rule>
+
+  <rule>
+    <key>9087</key>
+    <configkey>9087</configkey>
+    <priority>INFO</priority>
+    <name>L9087: cast performed between a pointer to object type and a pointer to a different object type</name>
+    <description>A cast was seen between two pointer types which differ with respect to what those types point. Additionally, the type to which the expression was cast is not a pointer to char, whether signed or unsigned. At least one standards organization has cautioned against such a practice.</description>
+  </rule>
+
+  <rule>
+    <key>9088</key>
+    <configkey>9088</configkey>
+    <priority>INFO</priority>
+    <name>L9088: named signed single-bit bit-field</name>
+    <description>A named bit-field was declared with a signed data type and only one bit of width. According to the ISO C Standard, a single-bit signed bit-field has one sign bit and no value bits and, consequently does not specify a meaningful value.</description>
+  </rule>
+
+  <rule>
+    <key>9089</key>
+    <configkey>9089</configkey>
+    <priority>INFO</priority>
+    <name>L9089: potential side-effect in argument to sizeof</name>
+    <description>An argument to sizeof was found to have a potential side-effect. Arguments to sizeof are not usually evaluated, unless the argument names a variable length array type. Avoidance of such arguments is advised.</description>
+  </rule>
+
+  <rule>
+    <key>9090</key>
+    <configkey>9090</configkey>
+    <priority>INFO</priority>
+    <name>L9090: unconditional break missing from switch case</name>
+    <description>A switch case was seen which did not conclude with an unconditional break. Some authors advise against such absences on the grounds they are often errors.</description>
+  </rule>
+
+  <rule>
+    <key>9102</key>
+    <configkey>9102</configkey>
+    <priority>INFO</priority>
+    <name>L9102: possible digraph, 'String'</name>
+    <description>A possible digraph was seen. At least one set of coding guidelines advises against such due to the risk of failure to meet developer expectations.</description>
+  </rule>
+
+  <rule>
+    <key>9104</key>
+    <configkey>9104</configkey>
+    <priority>INFO</priority>
+    <name>L9104: octal escape sequence used</name>
+    <description>Octal escape sequences can be problematic because the inadvertent introduction of a decimal digit (i.e. 8 or 9) ends the octal escape and introduces another character. This diagnostic is not given for \0.</description>
+  </rule>
+
+  <rule>
+    <key>9105</key>
+    <configkey>9105</configkey>
+    <priority>INFO</priority>
+    <name>L9105: unsigned octal and hexadecimal literals require a 'U' suffix</name>
+    <description>The inclusion of such a suffix makes clear the value has unsigned type.</description>
+  </rule>
+
+  <rule>
+    <key>9106</key>
+    <configkey>9106</configkey>
+    <priority>INFO</priority>
+    <name>L9106: lower case literal suffix, 'String'</name>
+    <description>Using upper case literal suffixes removes the potential for ambiguity with respect to literal values.</description>
+  </rule>
+
+  <rule>
+    <key>9107</key>
+    <configkey>9107</configkey>
+    <priority>INFO</priority>
+    <name>L9107: header cannot be included in more than one translation unit because of the definition of symbol 'Symbol'</name>
+    <description>One set of guidelines advises the use of headers in such a way as to avoid the definition of objects or functions which occupy storage.</description>
+  </rule>
+
+  <rule>
+    <key>9108</key>
+    <configkey>9108</configkey>
+    <priority>INFO</priority>
+    <name>L9108: function 'Symbol' not declared at file scope</name>
+    <description>A function declared at block scope will refer to a member of the enclosing namespace. Additionally, where a declaration statement could either declare a function or an object, the compiler will choose to declare the function. Declaring the function at file scope reduces the likelihood of confusion in both cases.</description>
+  </rule>
+
+  <rule>
+    <key>9109</key>
+    <configkey>9109</configkey>
+    <priority>INFO</priority>
+    <name>L9109: type 'Symbol' previously declared at location 'Location'</name>
+    <description>Having a single declaration of a type helps the compiler detect type incompatibility. One simple solution to ensure type declaration consistency is to declare a type in a header if it is used in multiple modules.</description>
+  </rule>
+
+  <rule>
+    <key>9110</key>
+    <configkey>9110</configkey>
+    <priority>INFO</priority>
+    <name>L9110: bit representation of a floating point type used</name>
+    <description>The underlying bit representation of floating point values can differ from compiler to compiler, making reliance upon such representation non-portable.</description>
+  </rule>
+
+  <rule>
+    <key>9111</key>
+    <configkey>9111</configkey>
+    <priority>INFO</priority>
+    <name>L9111: boolean expression used with non-permitted operator 'String'</name>
+    <description>The use of expressions of bool with certain operators, such as the bitwise operators, is not likely to be either meaningful or intended.</description>
+  </rule>
+
+  <rule>
+    <key>9112</key>
+    <configkey>9112</configkey>
+    <priority>INFO</priority>
+    <name>L9112: plain char used with prohibited operator 'String'</name>
+    <description>With the exception of the sequence of character values representing 0 thru 9, the exact value of any other particular character is not guaranteed and reliance upon such an order is non-portable.</description>
+  </rule>
+
+  <rule>
+    <key>9113</key>
+    <configkey>9113</configkey>
+    <priority>INFO</priority>
+    <name>L9113: dependence placed on C/C++ operator precedence</name>
+    <description>The use of parentheses instead of relying upon operator precedence can help make the code easier to understand.</description>
+  </rule>
+
+  <rule>
+    <key>9114</key>
+    <configkey>9114</configkey>
+    <priority>INFO</priority>
+    <name>L9114: implicit conversion of integer cvalue expression</name>
+    <description>A prominent coding standard has defined the notion of a cvalue expression and, to help ensure operations in a given expression are performed within a particular fashion, the guidelines caution against such a value undergoing implicit conversions.</description>
+  </rule>
+
+  <rule>
+    <key>9115</key>
+    <configkey>9115</configkey>
+    <priority>INFO</priority>
+    <name>L9115: implicit conversion from integer to floating point type</name>
+    <description>Such conversions between these two types of values can result in inexact representation.</description>
+  </rule>
+
+  <rule>
+    <key>9116</key>
+    <configkey>9116</configkey>
+    <priority>INFO</priority>
+    <name>L9116: implicit conversion of floating point cvalue expression</name>
+    <description>A prominent coding standard has defined the notion of a cvalue expression and, to help ensure operations in a given expression are performed within a particular fashion, the guidelines caution against such a value undergoing implicit conversions.</description>
+  </rule>
+
+  <rule>
+    <key>9117</key>
+    <configkey>9117</configkey>
+    <priority>INFO</priority>
+    <name>L9117: implicit conversion changes signedness</name>
+    <description>Some such conversions can lead to implementation defined behavior. Reliance upon such behavior is, therefore, not portable.</description>
+  </rule>
+
+  <rule>
+    <key>9118</key>
+    <configkey>9118</configkey>
+    <priority>INFO</priority>
+    <name>L9118: implicit conversion from floating point to integer type</name>
+    <description>Such conversions between these two types of values can result in undefined behavior.</description>
+  </rule>
+
+  <rule>
+    <key>9119</key>
+    <configkey>9119</configkey>
+    <priority>INFO</priority>
+    <name>L9119: implicit conversion of integer to smaller type</name>
+    <description>A prominent coding standard has defined the notion of an underlying type. Such conversions when said underlying type is an integral type can result in the loss of information.</description>
+  </rule>
+
+  <rule>
+    <key>9120</key>
+    <configkey>9120</configkey>
+    <priority>INFO</priority>
+    <name>L9120: implicit conversion of floating point to smaller type</name>
+    <description>A prominent coding standard has defined the notion of an underlying type. Such conversions when said underlying type is floating point type can result in the loss of information.</description>
+  </rule>
+
+  <rule>
+    <key>9121</key>
+    <configkey>9121</configkey>
+    <priority>INFO</priority>
+    <name>L9121: cast of cvalue expression from integer to floating point type</name>
+    <description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+  </rule>
+
+  <rule>
+    <key>9122</key>
+    <configkey>9122</configkey>
+    <priority>INFO</priority>
+    <name>L9122: cast of cvalue expression from floating point to integer type</name>
+    <description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+  </rule>
+
+  <rule>
+    <key>9123</key>
+    <configkey>9123</configkey>
+    <priority>INFO</priority>
+    <name>L9123: cast of integer cvalue expression to larger type</name>
+    <description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+  </rule>
+
+  <rule>
+    <key>9124</key>
+    <configkey>9124</configkey>
+    <priority>INFO</priority>
+    <name>L9124: cast of floating point cvalue expression to larger type</name>
+    <description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+  </rule>
+
+  <rule>
+    <key>9125</key>
+    <configkey>9125</configkey>
+    <priority>INFO</priority>
+    <name>L9125: cast of cvalue expression changes signedness</name>
+    <description>A prominent coding standard has defined the notion of a cvalue expression and an underlying type. Casting a cvalue expression from an (un)signed underlying type to the other may lead to a value inconsistent with expectations.</description>
+  </rule>
+
+  <rule>
+    <key>9126</key>
+    <configkey>9126</configkey>
+    <priority>INFO</priority>
+    <name>L9126: operators '~' and '&lt;&lt;' require recasting to underlying type for sub-integers</name>
+    <description>A prominent coding standard has defined the notion of an underlying type. Casting an expression resulting from these operators, when the operand has an underlying type has type of unsigned char or unsigned short, reduces the risk of unexpected high order bits resulting from integral promotion.</description>
+  </rule>
+
+  <rule>
+    <key>9127</key>
+    <configkey>9127</configkey>
+    <priority>INFO</priority>
+    <name>L9127: disallowed use of non-character value String</name>
+    <description>A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the char type be used only for character values.</description>
+  </rule>
+
+  <rule>
+    <key>9128</key>
+    <configkey>9128</configkey>
+    <priority>INFO</priority>
+    <name>L9128: plain char mixed with type other than plain char</name>
+    <description>A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the char type not be mixed with other types.</description>
+  </rule>
+
+  <rule>
+    <key>9129</key>
+    <configkey>9129</configkey>
+    <priority>INFO</priority>
+    <name>L9129: disallowed use of non-numeric value String</name>
+    <description>A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the signed char and unsigned char types not be used for character values.</description>
+  </rule>
+
+  <rule>
+    <key>9130</key>
+    <configkey>9130</configkey>
+    <priority>INFO</priority>
+    <name>L9130: bitwise operator 'String' applied to signed underlying type</name>
+    <description>A prominent coding standard has defined the notion of an underlying type and notes the fact bitwise operations are not typically meaningful when applied to operands of signed type and can even result in implementation defined behavior. As such, when the underlying type of an expression is signed, bitwise operations are discouraged.</description>
+  </rule>
+
+  <rule>
+    <key>9131</key>
+    <configkey>9131</configkey>
+    <priority>INFO</priority>
+    <name>L9131: non-postfix expression used with logical operator</name>
+    <description>Using only postfix-expressions with logical operators helps to improve readability of the code. Note, this message is not given if the expression consists of either a sequence of only logical &amp;&amp; or a sequence of only logical ||.</description>
+  </rule>
+
+  <rule>
+    <key>9132</key>
+    <configkey>9132</configkey>
+    <priority>INFO</priority>
+    <name>L9132: array type passed to function expecting a pointer</name>
+    <description>Array-to-pointer decay results in a loss of array bound information. A function depending upon an array to have a certain length, if that array decays to a pointer, can result in out-of-bounds operations, depending upon whether or not the bound of the original array matches with expectations.</description>
+  </rule>
+
+  <rule>
+    <key>9133</key>
+    <configkey>9133</configkey>
+    <priority>INFO</priority>
+    <name>L9133: boolean expression required for operator 'String'</name>
+    <description>The use of non-bool operands with !, &amp;&amp;, or || is unlikely to be meaningful or intended. A more likely scenario is the programmer meant to use such an operand with one of the bitwise operators.</description>
+  </rule>
+
+  <rule>
+    <key>9134</key>
+    <configkey>9134</configkey>
+    <priority>INFO</priority>
+    <name>L9134: prohibited operator 'String' applied to unsigned underlying type </name>
+    <description>A prominent coding standard has defined the notion of an underlying type and notes the application of certain operators to expressions of unsigned type creates a result of the same type for type of rank unsigned int or above and is not a meaningful operation in such cases. For cases where such an operator is applied to unsigned sub-int expressions, the same standard deprecates such a practice.</description>
+  </rule>
+
+  <rule>
+    <key>9135</key>
+    <configkey>9135</configkey>
+    <priority>INFO</priority>
+    <name>L9135: unary operator &amp; overloaded</name>
+    <description>The unary operator &amp; was overloaded.</description>
+  </rule>
+
+  <rule>
+    <key>9136</key>
+    <configkey>9136</configkey>
+    <priority>INFO</priority>
+    <name>L9136: out of bounds value for right hand side of shift operator</name>
+    <description>The value specified for the right hand side of a shift operator was out of bounds for the MISRA C++ underlying type on the left hand side of the operator.</description>
+  </rule>
+
+  <rule>
+    <key>9137</key>
+    <configkey>9137</configkey>
+    <priority>INFO</priority>
+    <name>L9137: floating point test for equality or inequality</name>
+    <description>A floating point value was tested, directly or indirectly, for (in)equality with another value.</description>
+  </rule>
+
+  <rule>
+    <key>9138</key>
+    <configkey>9138</configkey>
+    <priority>INFO</priority>
+    <name>L9138: null statement not in line by itself</name>
+    <description>A null statement was encountered that, before preprocessing, did not appear on a line by itself. Comments following the null statement are allowed as long as there is whitespace separating the null statement from the comment.</description>
+  </rule>
+
+  <rule>
+    <key>9139</key>
+    <configkey>9139</configkey>
+    <priority>INFO</priority>
+    <name>L9139: case label follows default in switch statement</name>
+    <description>A case label was encountered following the default label of a switch statement.</description>
+  </rule>
+
+  <rule>
+    <key>9141</key>
+    <configkey>9141</configkey>
+    <priority>INFO</priority>
+    <name>L9141: global declaration of symbol 'Symbol'</name>
+    <description>The specified symbol was declared in the global namespace.</description>
+  </rule>
+
+  <rule>
+    <key>9142</key>
+    <configkey>9142</configkey>
+    <priority>INFO</priority>
+    <name>L9142: non-global function, main, declared</name>
+    <description>A function with the name 'main' was declared that was not the global main function.</description>
+  </rule>
+
+  <rule>
+    <key>9144</key>
+    <configkey>9144</configkey>
+    <priority>INFO</priority>
+    <name>L9144: using-directive used</name>
+    <description>A using directive was encountered.</description>
+  </rule>
+
+  <rule>
+    <key>9145</key>
+    <configkey>9145</configkey>
+    <priority>INFO</priority>
+    <name>L9145: using-directive/declaration in header file</name>
+    <description>A using directive or using declaration was encountered in a header file.</description>
+  </rule>
+
+  <rule>
+    <key>9146</key>
+    <configkey>9146</configkey>
+    <priority>INFO</priority>
+    <name>L9146: multiple declarators in a declaration</name>
+    <description>A declaration was encountered that contains multiple declarators. For example:  int i, j;  will elicit this message.</description>
+  </rule>
+
+  <rule>
+    <key>9147</key>
+    <configkey>9147</configkey>
+    <priority>INFO</priority>
+    <name>L9147: function identifier 'Symbol' used without '&amp;' or parenthesized parameter list</name>
+    <description>The unadorned name of a function was encountered that was not part of a function call.</description>
+  </rule>
+
+  <rule>
+    <key>9148</key>
+    <configkey>9148</configkey>
+    <priority>INFO</priority>
+    <name>L9148: '=' should initialize either all enum members or only the first for enumerator 'Symbol'</name>
+    <description>Unintentional duplication of enumerator values can occur when an enumeration consists of members with explicit and implicit values.</description>
+  </rule>
+
+  <rule>
+    <key>9149</key>
+    <configkey>9149</configkey>
+    <priority>INFO</priority>
+    <name>L9149: bit field must be explicitly signed integer, unsigned integer, or bool</name>
+    <description>When using 'int' or 'wchar_t' as the bit-field type, it is implementation defined whether or not the type used is a signed type. Explicitly specifying 'signed' or 'unsigned' makes it clear what type will be used as the underlying type.</description>
+  </rule>
+
+  <rule>
+    <key>9150</key>
+    <configkey>9150</configkey>
+    <priority>INFO</priority>
+    <name>L9150: non-private data member 'Symbol' within a non-POD structure</name>
+    <description>A member of a non-POD structure was declared public or protected.</description>
+  </rule>
+
+  <rule>
+    <key>9151</key>
+    <configkey>9151</configkey>
+    <priority>INFO</priority>
+    <name>L9151: public copy assignment operator in abstract class</name>
+    <description>A public copy assignment operator was declared in an abstract class.</description>
+  </rule>
+
+  <rule>
+    <key>9153</key>
+    <configkey>9153</configkey>
+    <priority>INFO</priority>
+    <name>L9153: viable set contains both function 'Symbol' and template 'Symbol' </name>
+    <description>In a context where a name resolves either to a non-template function or to a specialization of a function template (typically a call), the set of viable candidates included both.</description>
+  </rule>
+
+  <rule>
+    <key>9154</key>
+    <configkey>9154</configkey>
+    <priority>INFO</priority>
+    <name>L9154: pointer expression thrown</name>
+    <description>A pointer type was passed to a throw expression. It may not be clear who is responsible for cleaning up the pointed to object.</description>
+  </rule>
+
+  <rule>
+    <key>9156</key>
+    <configkey>9156</configkey>
+    <priority>INFO</priority>
+    <name>L9156: empty throw outside of a catch block</name>
+    <description>An empty throw expression was encountered outside of a try-catch block. An empty throw re-throws the currently handled exception. If there is no such exception std::terminate() will be called. This is  likely to be unintended.</description>
+  </rule>
+
+  <rule>
+    <key>9158</key>
+    <configkey>9158</configkey>
+    <priority>INFO</priority>
+    <name>L9158: '#define' used within a block for macro 'Name'</name>
+    <description>A macro definition occurred inside of a braced region such as in a function or class definition. Such usage could imply the belief that the scope of the macro definition is limited to the braced region which is not the case.</description>
+  </rule>
+
+  <rule>
+    <key>9159</key>
+    <configkey>9159</configkey>
+    <priority>INFO</priority>
+    <name>L9159: '#undef' used within a block for macro 'Name'</name>
+    <description>A macro was undefined inside of a braced region such as in a function or class definition. Such usage could imply the mistaken belief that the scope of the directive is limited to the braced region.</description>
+  </rule>
+
+  <rule>
+    <key>9160</key>
+    <configkey>9160</configkey>
+    <priority>INFO</priority>
+    <name>L9160: all preprocessing directives must be valid</name>
+    <description>The first token on a line was a '#' but was not part of a valid preprocessing directive.</description>
+  </rule>
+
+  <rule>
+    <key>9162</key>
+    <configkey>9162</configkey>
+    <priority>INFO</priority>
+    <name>L9162: use of 'String' at global scope</name>
+    <description>Either a static_assert() or a using-declaration was seen at global scope, as indicated by the String.</description>
   </rule>
 
 <!--MISRA C (2004) Rules-->

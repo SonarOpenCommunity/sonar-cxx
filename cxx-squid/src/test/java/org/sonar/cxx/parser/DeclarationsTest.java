@@ -27,9 +27,7 @@ import com.sonar.sslr.api.Grammar;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class DeclarationsTest {
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
-  Grammar g = p.getGrammar();
+public class DeclarationsTest extends ParserBaseTest {
 
   @Test
   public void declarationSeq() {

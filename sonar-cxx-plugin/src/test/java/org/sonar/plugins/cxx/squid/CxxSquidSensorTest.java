@@ -120,7 +120,7 @@ public class CxxSquidSensorTest {
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(1.0));
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
-  
+
   @Test
   public void testBehaviourOnCircularIncludes() {
     // especially: when two files, both belonging to the set of
