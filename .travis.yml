@@ -6,7 +6,7 @@ jdk:
 
 
 install:
-        - ./sonar-cxx-plugins/src/test/integration/setup_sonar.sh
+        - ./sonar-cxx-plugin/src/test/integration/setup_sonar.sh
 
 before_script:
         - cp sonar-cxx-plugin/src/test/integration/sitedefs_sample.py sonar-cxx-plugin/src/test/integration/sitedefs.py
