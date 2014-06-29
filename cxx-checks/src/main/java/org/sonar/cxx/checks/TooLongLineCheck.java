@@ -22,6 +22,7 @@ package org.sonar.cxx.checks;
 import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.squid.checks.SquidCheck;
+import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -41,11 +42,17 @@ import java.util.List;
 public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final int DEFAULT_MAXIMUM_LINE_LENHGTH = 160;
+  private static final int DEFAULT_TAB_WIDTH = 8;
 
   @RuleProperty(
     key = "maximumLineLength",
     defaultValue = "" + DEFAULT_MAXIMUM_LINE_LENHGTH)
   public int maximumLineLength = DEFAULT_MAXIMUM_LINE_LENHGTH;
+
+  @RuleProperty(
+      key = "tabWidth",
+      defaultValue = "" + DEFAULT_TAB_WIDTH)
+  public int tabWidth = DEFAULT_TAB_WIDTH;
 
   private Charset charset;
 
@@ -63,8 +70,9 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
     }
     for (int i = 0; i < lines.size(); i++) {
       String line = lines.get(i);
-      if (line.length() > maximumLineLength) {
-        getContext().createLineViolation(this, "Split this {0} characters long line (which is greater than {1} authorized).", i + 1, line.length(), maximumLineLength);
+      int length = line.length() + StringUtils.countMatches(line, "\t") * (tabWidth - 1);
+      if (length > maximumLineLength) {
+        getContext().createLineViolation(this, "Split this {0} characters long line (which is greater than {1} authorized).", i + 1, length, maximumLineLength);
       }
     }
   }
