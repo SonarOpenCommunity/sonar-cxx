@@ -14,8 +14,8 @@ import json
 from sitedefs import SONAR_HOME, SONAR_VERSIONS, START_SCRIPT, STOP_SCRIPT
 
 SONAR_URL = "http://localhost:9000"
-LOGFILE_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "logs", "sonar.log")
-SONAR_PLUGINS_TMPL = os.path.join(SONAR_HOME, "sonar-%s", "extensions", "plugins")
+LOGFILE_TMPL = os.path.join(SONAR_HOME, "sonarqube-%s", "logs", "sonar.log")
+SONAR_PLUGINS_TMPL = os.path.join(SONAR_HOME, "sonarqube-%s", "extensions", "plugins")
 SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 INDENT = "    "
@@ -253,8 +253,9 @@ def checkMetrics():
 
     rc = False
     try:
-        r = requests.get(SONAR_URL + "/api/resources?resource=" + PROJECT_KEY + "&metrics="
-                         + ",".join(EXP_MEASURES.keys()))
+        url = (SONAR_URL + "/api/resources?resource=" + PROJECT_KEY + "&metrics="
+               + ",".join(EXP_MEASURES.keys()))
+        r = requests.get(url)
         gotMeasures = _toSimpleDict(json.loads(r.text)[0]["msr"])
 
         rc, diff = diffDicts(EXP_MEASURES, gotMeasures)
@@ -289,4 +290,4 @@ if __name__ == "__main__":
     print INDENT + "Tests succeded for: " + GREEN + ", ".join(goodversions) + RESET
     print INDENT + "Tests failed for: " + RED + ", ".join(badversions) + RESET
 
-    sys.exit(len(badversions) == 0)
+    sys.exit(len(badversions) != 0)
