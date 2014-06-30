@@ -64,6 +64,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   pseudoDestructorName,
   unaryExpression,
   unaryOperator,
+  binaryOperator,
   newExpression,
   newPlacement,
   newTypeId,
@@ -191,6 +192,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   cvQualifierSeq,
   cvQualifier,
   refQualifier,
+  restrictQualifier,
   declaratorId,
   typeId,
   abstractDeclarator,
@@ -345,7 +347,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(unqualifiedId).is(
       b.firstOf(
-        templateId,
+        // Mitigate ambiguity between relational operators < > and angular brackets by looking ahead
+        b.sequence(templateId, b.next(b.firstOf("(", ")", "[", "]", "?", binaryOperator, ",", ";", EOF))),
         operatorFunctionId,
         conversionFunctionId,
         literalOperatorId,
@@ -361,7 +364,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence("::", IDENTIFIER),
             b.sequence("::", operatorFunctionId),
             b.sequence("::", literalOperatorId),
-            b.sequence("::", templateId)
+            b.sequence("::", templateId, b.next(b.firstOf(operator, ";")))
         )
         );
 
@@ -461,6 +464,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(unaryExpression).is(
+      b.optional("__extension__"),  // marker for gcc extensions
       b.firstOf(
         b.sequence(unaryOperator, castExpression),
         postfixExpression,
@@ -479,7 +483,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(unaryOperator).is(
       b.firstOf("*", "&", "+", "-", "!", "~")
       );
+    b.rule(binaryOperator).is(
+      b.firstOf("||", "&&", "&", "|", "^", "==", "!=", "<=", "<", ">=", ">", "<<", ">>", "*", "/", "+", "-", assignmentOperator));
 
+    b.rule(binaryOperator).is(
+      b.firstOf("||", "&&", "&", "|", "^", "==", "!=", "<=", "<", ">=", ">", "<<", ">>", "*", "/", "+", "-", assignmentOperator));
+    
+    b.rule(binaryOperator).is(
+      b.firstOf("||", "&&", "&", "|", "^", "==", "!=", "<=", "<", ">=", ">", "<<", ">>", "*", "/", "+", "-", assignmentOperator));
+    
     b.rule(newExpression).is(
       b.firstOf(
         b.sequence(b.optional("::"), CxxKeyword.NEW, b.optional(newPlacement), newTypeId, b.optional(newInitializer)),
@@ -551,6 +563,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       ).skipIfOneChild();
 
     b.rule(assignmentExpression).is(
+    	b.optional("__extension__"), // marks gcc extensions
         b.firstOf(
             b.sequence(logicalOrExpression, assignmentOperator, initializerClause),
             conditionalExpression,
@@ -598,8 +611,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(ifStatement).is(
       b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement))
       );
-
-    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", "{", switchBlockStatementGroups, "}");
+    // some gnu system headers contain declarations before the first case label
+    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")",
+    		"{", b.optional(declarationSeq), switchBlockStatementGroups, "}");
 
     b.rule(switchBlockStatementGroups).is(b.zeroOrMore(switchBlockStatementGroup));
 
@@ -737,8 +751,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(CxxKeyword.REGISTER, CxxKeyword.STATIC, CxxKeyword.THREAD_LOCAL, CxxKeyword.EXTERN, CxxKeyword.MUTABLE)
       );
 
-    b.rule(functionSpecifier).is(
-      b.firstOf(CxxKeyword.INLINE, CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
+    b.rule(functionSpecifier).is( // extern inline and alternate keywords for inline are gcc extensions
+      b.firstOf(CxxKeyword.INLINE, "__inline__", "__inline", CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
       );
 
     b.rule(typedefName).is(IDENTIFIER);
@@ -767,6 +781,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(simpleTypeSpecifier).is(
       b.firstOf(
         "char", "char16_t", "char32_t", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void", "auto",
+        b.sequence(b.firstOf("typeof", "__typeof", "__typeof__"), "(", 
+        		b.firstOf(assignmentExpression, typeSpecifierSeq, IDENTIFIER), ")"), // gcc extension
         decltypeSpecifier,
         b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId),
 
@@ -847,13 +863,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         extensionNamespaceDefinition
         )
       );
+    // gcc allows attributes for namespaces
+    b.rule(originalNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, b.optional(attributeSpecifierSeq), "{", namespaceBody, "}");
+           
+    b.rule(extensionNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, b.optional(attributeSpecifierSeq), "{", namespaceBody, "}");
 
-    b.rule(originalNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, "{", namespaceBody, "}");
 
-    b.rule(extensionNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, "{", namespaceBody, "}");
-
-    b.rule(unnamedNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, "{", namespaceBody, "}");
-
+    b.rule(unnamedNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, b.optional(attributeSpecifierSeq), "{", namespaceBody, "}");
     b.rule(namespaceBody).is(b.optional(declarationSeq));
 
     b.rule(namespaceAlias).is(IDENTIFIER);
@@ -871,8 +887,17 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(usingDirective).is(b.optional(attributeSpecifier), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional("::"), b.optional(nestedNameSpecifier), namespaceName, ";");
 
-    b.rule(asmDefinition).is(CxxKeyword.ASM, "(", STRING, ")", ";");
-
+    b.rule(asmDefinition).is(
+    		b.firstOf(CxxKeyword.ASM, "__asm__", "__asm"),
+    		b.optional(b.firstOf(CxxKeyword.VOLATILE, "__volatile__", "__volatile")),
+    		"(", 
+    		b.zeroOrMore(b.firstOf(
+    		    STRING,
+    			":", ",",
+    			b.sequence("[", IDENTIFIER, "]"), 
+    			b.sequence("(", expression, ")" ))),
+    		")", ";");
+    
     b.rule(linkageSpecification).is(CxxKeyword.EXTERN, STRING, b.firstOf(b.sequence("{", b.optional(declarationSeq), "}"), declaration));
 
     b.rule(attributeSpecifierSeq).is(b.oneOrMore(attributeSpecifier));
@@ -880,6 +905,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(attributeSpecifier).is(
         b.firstOf(
             b.sequence("[", "[", attributeList, "]", "]"),
+            b.sequence(b.firstOf(CxxKeyword.ASM,  "__asm__", "__asm"), "(", STRING, ")"), // gcc extension
+            b.sequence(CxxKeyword.__ATTRIBUTE__, "(", "(", attributeList, ")", ")"), // gcc extension
             alignmentSpecifier
         ));
 
@@ -913,7 +940,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   b.rule(balancedToken).is(
     b.firstOf(
-      IDENTIFIER,
+      b.sequence(IDENTIFIER, b.optional(",", expressionList)),
+      expressionList,
       b.sequence("(", balancedTokenSeq, ")"),
       b.sequence("{", balancedTokenSeq, "}"),
       b.sequence("[", balancedTokenSeq, "]")
@@ -952,28 +980,32 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
         );
 
-    b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq), b.optional(refQualifier), b.optional(exceptionSpecification));
+    b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, cvQualifierSeq, refQualifier, exceptionSpecification)));
 
     b.rule(trailingReturnType).is("->", trailingTypeSpecifierSeq, b.optional(abstractDeclarator));
 
     b.rule(ptrOperator).is(
         b.firstOf(
-            b.sequence("*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq)),
-            b.sequence("&", b.optional(attributeSpecifierSeq)),
-            b.sequence("&&", b.optional(attributeSpecifierSeq)),
-            b.sequence(nestedNameSpecifier, "*", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq))
+            b.sequence("*", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, cvQualifierSeq, restrictQualifier))),
+            b.sequence("&", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, restrictQualifier))),
+            b.sequence("&&", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, restrictQualifier))),
+            b.sequence(nestedNameSpecifier, "*", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, cvQualifierSeq, restrictQualifier)))
         )
         );
 
     b.rule(cvQualifierSeq).is(b.oneOrMore(cvQualifier));
 
     b.rule(cvQualifier).is(
-        b.firstOf(CxxKeyword.CONST, CxxKeyword.VOLATILE)
+        b.firstOf(CxxKeyword.CONST, CxxKeyword.VOLATILE, "__const") // some gcc headers contain __const
         );
 
     b.rule(refQualifier).is(
         b.firstOf("&", "&&")
         );
+    
+    b.rule(restrictQualifier).is(
+    	b.firstOf("restrict", "__restrict__", "__restrict")
+    	);
 
     b.rule(declaratorId).is(
         b.firstOf(
@@ -1015,19 +1047,19 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         );
 
     b.rule(parameterDeclarationClause).is(
-        b.firstOf(
-            b.sequence(parameterDeclarationList, ",", "..."),
-            b.sequence(b.optional(parameterDeclarationList), b.optional("...")),
-            "..."
-        )
-        );
+            b.firstOf(
+                b.sequence(parameterDeclarationList, ",", "..."),
+                b.sequence(b.optional(parameterDeclarationList), b.optional("...")),
+                "..."
+            )
+            );
 
     b.rule(parameterDeclarationList).is(parameterDeclaration, b.zeroOrMore(",", parameterDeclaration));
 
     b.rule(parameterDeclaration).is(
         b.firstOf(
             b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)),
-            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause)))
+            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause))) 
         );
 
     b.rule(parameterDeclSpecifierSeq).is(
@@ -1043,9 +1075,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(functionDeclSpecifierSeq).is(
         b.oneOrMore(
             b.nextNot(b.sequence(declarator, b.optional(virtSpecifierSeq), functionBody)),
-            declSpecifier
-        ),
-        b.optional(attributeSpecifierSeq)
+            declSpecifier,
+            b.optional(attributeSpecifierSeq)
+        )
         );
 
     b.rule(functionBody).is(
@@ -1066,12 +1098,17 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(braceOrEqualInitializer).is(
       b.firstOf(
-            b.sequence("=", initializerClause),
-            bracedInitList
+            b.sequence("=", expression),
+            b.sequence(b.optional("="), bracedInitList)
         )
       );
 
     b.rule(initializerClause).is(
+      b.optional(b.firstOf(
+        b.sequence(IDENTIFIER, ":"), 
+        b.sequence(".", IDENTIFIER, "=")
+        )
+      ),
       b.firstOf(
         assignmentExpression,
         bracedInitList
@@ -1091,7 +1128,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
       );
 
-    b.rule(classSpecifier).is(classHead, "{", b.optional(memberSpecification), "}");
+    // gcc allows attributes after the class body
+    b.rule(classSpecifier).is(classHead, "{", b.optional(memberSpecification), "}", b.optional(attributeSpecifierSeq));
 
     b.rule(classHead).is(
         b.firstOf(
@@ -1172,6 +1210,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(classOrDecltype).is(
         b.firstOf(
+        	b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId),
             b.sequence(b.optional(nestedNameSpecifier), className),
             decltypeSpecifier)
         );
@@ -1231,8 +1270,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(templateParameter).is(
         b.firstOf(
-            typeParameter,
-            parameterDeclaration
+            b.sequence(typeParameter, b.next(b.firstOf(",", ">"))),
+            // boost uses the typename keyword when passing an argument of a type determined by another argument 
+            b.sequence(b.optional(CxxKeyword.TYPENAME), parameterDeclaration)
         )
         );
 
@@ -1263,15 +1303,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(templateArgument).is(
         b.firstOf(
-            typeId,
+            b.sequence(typeId, b.next(b.firstOf(">", ",", "..."))),
+            typenameSpecifier, // seen in gnu system headers
 
             // FIXME: workaround to parse stuff like "carray<int, 10>"
-            // actually, it should be covered by the next rule (constantExpression)
+            // actually, it should be covered by a constantExpression rule,
             // but it doesnt work because of ambiguity template syntax <--> relationalExpression
-            shiftExpression,
-            constantExpression,
-
-            idExpression
+            b.sequence(
+            		b.firstOf(idExpression, shiftExpression), 
+            		b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(idExpression, shiftExpression)))
         )
         );
 

@@ -37,6 +37,6 @@ public class UselessParenthesesCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UselessParenthesesCheck.cc"), new UselessParenthesesCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
         .next().atLine(4).withMessage("Remove those useless parentheses.")
-        .next().atLine(5);
+        .next().atLine(5).next().atLine(6);
   }
 }

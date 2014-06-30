@@ -192,7 +192,7 @@ public class CxxLexerWithPreprocessingTest {
     // + "#define join(c, d) in_between(c hash_hash(x) d)\n"
     // + "join(x,y)");
     // assertThat(tokens).hasSize(2); //"x ## y" + EOF
-    // assertThat(tokens, hasToken("\"x ## y\"", GenericTokenType.STRING));
+    // assertThat(tokens, hasToken("\"x ## y\"", CxxTokenType.STRING));
   }
 
   @Test

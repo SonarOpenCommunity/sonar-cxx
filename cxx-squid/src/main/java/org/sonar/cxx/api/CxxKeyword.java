@@ -29,6 +29,7 @@ public enum CxxKeyword implements TokenType {
   ALIGNAS("alignas"),
   ALIGNOF("alignof"),
   ASM("asm"),
+  __ATTRIBUTE__("__attribute__"), // gcc extension
   AUTO("auto"),
   BOOL("bool"),
   BREAK("break"),

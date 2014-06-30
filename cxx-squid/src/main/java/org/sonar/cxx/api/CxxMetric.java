@@ -31,7 +31,8 @@ public enum CxxMetric implements MetricDef {
   CLASSES,
   COMPLEXITY,
   COMMENT_LINES,
-  COMMENT_BLANK_LINES;
+  COMMENT_BLANK_LINES,
+  PARAMETER_COUNT;
 
   public String getName() {
     return name();

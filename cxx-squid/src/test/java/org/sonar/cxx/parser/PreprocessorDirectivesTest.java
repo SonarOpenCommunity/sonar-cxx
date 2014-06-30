@@ -180,7 +180,14 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "#define str(s) #s\n"
       + "#define foo 4\n"
       + "string s = str(foo);"))
-      .equals("string s = \"4\" ; EOF"));
+      .equals("string s = \"foo\" ; EOF"));
+
+    assert (serialize(p.parse(
+    	      "#define xstr(s) str(s)\n"
+    	      + "#define str(s) #s\n"
+    	      + "#define foo 4\n"
+    	      + "string s = xstr(foo)"))
+    	      .equals("string s = \"4\" ; EOF")); // tested with gcc
   }
 
   @Test
@@ -203,8 +210,10 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
     // FIXME: this failes due to a bug in production code
     // which rips apart the number '0xcf'
     // assert (serialize(p.parse(
-    //   "#define A B(cf)\n"
-    //   + "#define B(n) 0x##n\n"
+    assert (p.parse(
+     "#define A B(cf)\n"
+      + "#define B(n) 0##x##n\n" // todo: make it work without the first ##
+      + "A")
     //   + "i = A;"))
     //   .equals("i = 0xcf ; EOF"));
   }

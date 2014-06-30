@@ -25,7 +25,6 @@ import com.sonar.sslr.api.CommentAnalyser;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.api.Grammar;
-
 import com.sonar.sslr.squid.AstScanner;
 import com.sonar.sslr.squid.SourceCodeBuilderCallback;
 import com.sonar.sslr.squid.SourceCodeBuilderVisitor;
@@ -35,6 +34,7 @@ import com.sonar.sslr.squid.metrics.CommentsVisitor;
 import com.sonar.sslr.squid.metrics.ComplexityVisitor;
 import com.sonar.sslr.squid.metrics.CounterVisitor;
 import com.sonar.sslr.squid.metrics.LinesVisitor;
+
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
@@ -52,7 +52,9 @@ import org.sonar.squid.api.SourceProject;
 import org.sonar.squid.indexer.QueryByType;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public final class CxxAstScanner {
 
@@ -188,6 +190,19 @@ public final class CxxAstScanner {
         .subscribeTo(complexityAstNodeType)
         .build());
 
+    AstNodeType[] parameterCountAstNodeType = new AstNodeType[] {
+    	CxxGrammarImpl.parameterDeclaration
+    };
+    List<AstNodeType> exclusionNodeTypes = new ArrayList<AstNodeType>();
+    exclusionNodeTypes.add(CxxGrammarImpl.parameterDeclaration);
+    exclusionNodeTypes.add(CxxGrammarImpl.functionBody);
+    
+    builder.withSquidAstVisitor(ComplexityVisitor.<Grammar> builder()
+    		.setMetricDef(CxxMetric.PARAMETER_COUNT)
+    		.subscribeTo(parameterCountAstNodeType)
+    		.setExclusions(exclusionNodeTypes)
+    		.build());
+    
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor(context));
 
