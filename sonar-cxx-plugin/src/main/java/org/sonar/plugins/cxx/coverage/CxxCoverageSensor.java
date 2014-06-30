@@ -25,6 +25,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -67,6 +68,30 @@ public class CxxCoverageSensor extends CxxReportSensor {
     parsers.add(new VisualStudioParser());
   }
 
+  private void reportZeroCoverageForUncoveredFiles(Project project, SensorContext context) {
+    List<InputFile> sourceFiles = project.getFileSystem().mainFiles(new String("c++"));
+
+    for(InputFile source : sourceFiles) {
+
+      org.sonar.api.resources.File cxxfile = org.sonar.api.resources.File.fromIOFile(source.getFile(), project);
+
+      Measure statementsMeasure = context.getMeasure(cxxfile, CoreMetrics.STATEMENTS);
+
+      if(statementsMeasure != null) {
+
+        double value = statementsMeasure.getValue();
+
+        if(context.getMeasure(cxxfile, CoreMetrics.LINES_TO_COVER) == null) {
+          context.saveMeasure(cxxfile, new Measure(CoreMetrics.LINES_TO_COVER, value));
+        }
+
+        if(context.getMeasure(cxxfile, CoreMetrics.UNCOVERED_LINES) == null) {
+          context.saveMeasure(cxxfile, new Measure(CoreMetrics.UNCOVERED_LINES, value));
+        }
+      }
+    }
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -87,6 +112,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
     List<File> overallReports = getReports(conf, baseDir, OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
     saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
+
+    reportZeroCoverageForUncoveredFiles(project, context);
   }
 
   private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
