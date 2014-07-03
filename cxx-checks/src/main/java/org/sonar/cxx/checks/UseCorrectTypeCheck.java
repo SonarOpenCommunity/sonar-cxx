@@ -42,15 +42,15 @@ import java.util.regex.Pattern;
   cardinality = Cardinality.MULTIPLE)
 
 public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
-    
+
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {
-    CxxGrammarImpl.typeName, 
+    CxxGrammarImpl.typeName,
     CxxGrammarImpl.condition
-  }; 
-  
+  };
+
   private static final String DEFAULT_REGULAR_EXPRESSION = "WORD|BOOL|BYTE|FLOAT|NULL";
   private static final String DEFAULT_MESSAGE = "Use C++ types whenever possible";
-  
+
   @RuleProperty(
     key = "regularExpression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
@@ -60,15 +60,15 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
     key = "message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
-    
+
   public String getRegularExpression() {
     return regularExpression;
   }
-    
+
   public String getMessage() {
     return message;
   }
-  
+
   private Pattern pattern = null;
   private final Map<String, Integer> firstOccurrence = Maps.newHashMap();
   private final Map<String, Integer> literalsOccurrences = Maps.newHashMap();
@@ -84,7 +84,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
       }
     }
   }
-  
+
 
   @Override
   public void visitFile(AstNode node) {

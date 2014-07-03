@@ -74,7 +74,7 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
       if (occurences > 1) {
         String literal = literalOccurences.getKey();
 
-        getContext().createLineViolation(this, "Define a constant instead of duplicating this literal " + literal + " " + occurences 
+        getContext().createLineViolation(this, "Define a constant instead of duplicating this literal " + literal + " " + occurences
             + " times.", firstOccurrence.get(literal));
       }
     }
@@ -85,7 +85,7 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
       if (!firstOccurrence.containsKey(literal)) {
         if (!Arrays.asList(ALLOWED_LITERAL_NAMES).contains(literal)) {
           firstOccurrence.put(literal, line);
-          literalsOccurrences.put(literal, 1);   
+          literalsOccurrences.put(literal, 1);
         }
       } else {
         int occurences = literalsOccurrences.get(literal);

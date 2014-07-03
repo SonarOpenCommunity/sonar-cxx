@@ -37,7 +37,7 @@ public class BalancedTokensTest extends ParserBaseTest {
   public void attributeSpecifierSeq() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifierSeq));
     g.rule(CxxGrammarImpl.attributeSpecifier).mock();
-    
+
     assertThat(p)
       .matches("attributeSpecifier")
       .matches("attributeSpecifier attributeSpecifier");
@@ -54,7 +54,7 @@ public class BalancedTokensTest extends ParserBaseTest {
   public void attributeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeSpecifier));
     g.rule(CxxGrammarImpl.attributeList).mock();
-    
+
     assertThat(p).matches("[ [ attributeList ] ]");
   }
 

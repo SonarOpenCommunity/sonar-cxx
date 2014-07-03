@@ -41,7 +41,7 @@ public class CxxCoverageSensorTest {
   private SensorContext context;
   private Project project;
   private ModuleFileSystem fs;
-  
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
@@ -70,7 +70,7 @@ public class CxxCoverageSensorTest {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura-bignumberofhits.xml");
     sensor = new CxxCoverageSensor(settings, fs);
-    
+
     sensor.analyse(project, context);
   }
 

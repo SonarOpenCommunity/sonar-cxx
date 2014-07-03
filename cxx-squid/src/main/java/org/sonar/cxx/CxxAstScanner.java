@@ -81,7 +81,7 @@ public final class CxxAstScanner {
     }
     return (SourceFile) sources.iterator().next();
   }
-  
+
   public static AstScanner<Grammar> create(CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<Grammar>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf);
@@ -182,7 +182,7 @@ public final class CxxAstScanner {
       CxxPunctuator.OR,
       CxxPunctuator.QUEST
     };
-    
+
     builder.withSquidAstVisitor(ComplexityVisitor.<Grammar> builder()
         .setMetricDef(CxxMetric.COMPLEXITY)
         .subscribeTo(complexityAstNodeType)
@@ -190,15 +190,15 @@ public final class CxxAstScanner {
 
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor(context));
-    
+
     // log syntax errors
     builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor(context));
-    
+
     /* External visitors (typically Check ones) */
     for (SquidAstVisitor<Grammar> visitor : visitors) {
         if (visitor instanceof CxxCharsetAwareVisitor) {
             ((CxxCharsetAwareVisitor) visitor).setCharset(conf.getCharset());
-          }      
+          }
         builder.withSquidAstVisitor(visitor);
     }
 

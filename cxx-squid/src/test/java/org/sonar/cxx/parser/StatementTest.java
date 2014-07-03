@@ -134,7 +134,7 @@ public class StatementTest extends ParserBaseTest {
     assertThat(p).matches("switch ( condition ) { default : break; }");
     assertThat(p).matches("switch ( condition ) { case constantExpression : statement break; default : break; }");
   }
-  
+
   @Test
   public void ifStatement_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.ifStatement));

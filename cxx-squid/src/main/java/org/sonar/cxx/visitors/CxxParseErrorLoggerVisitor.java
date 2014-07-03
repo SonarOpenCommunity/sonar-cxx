@@ -20,7 +20,7 @@
 package org.sonar.cxx.visitors;
 
 import org.sonar.cxx.parser.CxxGrammarImpl;
-        
+
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
@@ -32,11 +32,11 @@ import com.sonar.sslr.squid.SquidAstVisitorContext;
 public class CxxParseErrorLoggerVisitor <GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   private SquidAstVisitorContext context = null;
-  
+
   public CxxParseErrorLoggerVisitor(SquidAstVisitorContext context){
     this.context = context;
   }
-  
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.recoveredDeclaration);

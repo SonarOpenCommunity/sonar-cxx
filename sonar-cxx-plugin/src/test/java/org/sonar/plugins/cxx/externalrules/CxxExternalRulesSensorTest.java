@@ -111,7 +111,7 @@ public class CxxExternalRulesSensorTest {
     sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
     sensor.analyse(project, context);
   }
-  
+
   @Test
   public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
     settings = new Settings();

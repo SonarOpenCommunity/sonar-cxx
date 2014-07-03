@@ -37,7 +37,7 @@ public class MapChain<K, V> {
   public void setHighPrio(boolean value) {
     isHighPrioEnabled = value;
   }
-  
+
   public V put(K key, V value) {
     if (isHighPrioEnabled) {
       return highPrioMap.put(key, value);

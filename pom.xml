@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
     <version>14</version>
   </parent>
-  
+
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>0.9.1</version>
+  <version>0.9.2-SNAPSHOT</version>
   <packaging>pom</packaging>
-  
+
   <name>Cxx</name>
   <url>https://github.com/wenns/sonar-cxx</url>
   <inceptionYear>2011</inceptionYear>
@@ -26,7 +26,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <developers>
     <developer>
       <id>wenns</id>
@@ -87,7 +87,7 @@
       <email>thetypz@gmail.com</email>
     </developer>
   </developers>
-  
+
   <modules>
     <module>cxx-squid</module>
     <module>cxx-checks</module>
@@ -150,13 +150,13 @@
         <artifactId>ant</artifactId>
         <version>1.6</version>
       </dependency>
-      
+
       <dependency>
         <groupId>jdom</groupId>
         <artifactId>jdom</artifactId>
         <version>1.0</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.codehaus.sonar.sslr</groupId>
         <artifactId>sslr-core</artifactId>
@@ -176,11 +176,6 @@
         <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId>
         <artifactId>sslr-squid-bridge</artifactId>
         <version>2.3</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.sonar.common-rules</groupId>
-        <artifactId>sonar-common-rules</artifactId>
-        <version>1.0.1</version>
       </dependency>
 
       <dependency>
@@ -242,12 +237,12 @@
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
-        </plugin>                        
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.16</version>
-        </plugin>                        
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

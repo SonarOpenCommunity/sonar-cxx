@@ -32,11 +32,11 @@ public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRA
   implements AstAndTokenVisitor {
 
   private SquidAstVisitorContext context = null;
-  
+
   public CxxFileVisitor(SquidAstVisitorContext context){
     this.context = context;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -51,5 +51,3 @@ public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRA
   public void visitToken(Token token) {
   }
 }
-
-

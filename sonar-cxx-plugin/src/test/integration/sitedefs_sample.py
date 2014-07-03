@@ -8,8 +8,8 @@
 
 import os
 
-SONAR_HOME = "/home/joe/sonar"
-SONAR_VERSIONS = ["3.7.4", "4.0", "4.1.2", "4.2"]
+SONAR_HOME = "/tmp/"
+SONAR_VERSIONS = ["4.2"]
 
 # for Windows, 32 bit:
 #START_SCRIPT = os.path.join(SONAR_HOME, "sonar-%s", "bin", "windows-x86-32", "StartNTService.bat")
@@ -20,5 +20,5 @@ SONAR_VERSIONS = ["3.7.4", "4.0", "4.1.2", "4.2"]
 #STOP_SCRIPT = START_SCRIPT
 
 # for Linux, 64 bit:
-START_SCRIPT = os.path.join(SONAR_HOME, "sonar-%s", "bin", "linux-x86-64", "sonar.sh")
+START_SCRIPT = os.path.join(SONAR_HOME, "sonarqube-%s", "bin", "linux-x86-64", "sonar.sh")
 STOP_SCRIPT = START_SCRIPT

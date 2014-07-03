@@ -84,7 +84,7 @@ public class CxxCppCheckSensorTest {
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }
-  
+
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
@@ -94,7 +94,7 @@ public class CxxCppCheckSensorTest {
     sensor.analyse(project, context);
     verify(context, times(0)).saveViolation(any(Violation.class));
   }
-  
+
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
@@ -103,5 +103,5 @@ public class CxxCppCheckSensorTest {
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveViolation(any(Violation.class));
-  }  
+  }
 }

@@ -49,7 +49,7 @@ public final class CxxColorizer extends CodeColorizerFormat {
   public List<Tokenizer> getTokenizers() {
     List<Tokenizer> tokenizers = new ArrayList<Tokenizer>();
     tokenizers.add(new CDocTokenizer("<span class=\"p\">", SPAN)); // C style comments
-    tokenizers.add(new CppDocTokenizer("<span class=\"p\">", SPAN)); // C++ style comments    
+    tokenizers.add(new CppDocTokenizer("<span class=\"p\">", SPAN)); // C++ style comments
     tokenizers.add(new KeywordsTokenizer("<span class=\"k\">", SPAN, CxxKeyword.keywordValues())); // keywords
     tokenizers.add(new LiteralTokenizer("<span class=\"s\">", SPAN)); // strings, characters
     tokenizers.add(new RegexpTokenizer("<span class=\"h\">", SPAN, "#[^\\n\\r]*+")); // preprocessor directives

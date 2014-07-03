@@ -90,8 +90,8 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public List<String> getForceIncludeFiles() {
     return forceIncludeFiles;
-  }          
-          
+  }
+
   public void setBaseDir(String baseDir) {
     this.baseDir = baseDir;
   }
