@@ -39,7 +39,6 @@ public class FixmeTagPresenceCheck extends SquidCheck<Grammar> implements AstAnd
 
   private final CommentContainsPatternChecker checker = new CommentContainsPatternChecker(this, PATTERN, MESSAGE);
 
-  @Override
   public void visitToken(Token token) {
     checker.visitToken(token);
   }

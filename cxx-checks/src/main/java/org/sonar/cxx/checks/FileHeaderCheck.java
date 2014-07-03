@@ -54,7 +54,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
   private Charset charset;
   private String[] expectedLines;
 
-  @Override
+  //@Override
   public void setCharset(Charset charset) {
     this.charset = charset;
   }

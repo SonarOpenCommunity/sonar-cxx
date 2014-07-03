@@ -90,7 +90,7 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
     }
   }
 
-  @Override
+  //@Override
   public void visitToken(Token token) {
     if (pattern != null) {
       for (Trivia trivia : token.getTrivia()) {

@@ -39,7 +39,7 @@ public class TodoTagPresenceCheck extends SquidCheck<Grammar> implements AstAndT
 
   private final CommentContainsPatternChecker checker = new CommentContainsPatternChecker(this, PATTERN, MESSAGE);
 
-  @Override
+  //@Override
   public void visitToken(Token token) {
     checker.visitToken(token);
   }
