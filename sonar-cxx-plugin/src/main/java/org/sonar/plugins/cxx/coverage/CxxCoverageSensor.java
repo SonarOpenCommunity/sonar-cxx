@@ -72,19 +72,18 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    String baseDir = fs.baseDir().getPath();
-    List<File> reports = getReports(conf, baseDir, REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    List<File> reports = getReports(conf, getBaseDir(), REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     CxxUtils.LOG.debug("Parsing coverage reports");
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
     saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
-    List<File> itReports = getReports(conf, baseDir, IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
+    List<File> itReports = getReports(conf, getBaseDir(), IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
     saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
-    List<File> overallReports = getReports(conf, baseDir, OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
+    List<File> overallReports = getReports(conf, getBaseDir(), OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
     saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
   }

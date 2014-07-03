@@ -21,6 +21,7 @@ package org.sonar.plugins.cxx.cppcheck;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
@@ -31,12 +32,12 @@ import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 public class CxxCppCheckSensorTest {
 
@@ -104,4 +105,24 @@ public class CxxCppCheckSensorTest {
     sensor.analyse(project, context);
     verify(context, times(0)).saveViolation(any(Violation.class));
   }
+  
+  @Test
+  public void shouldNotReportAnyViolationsWhenProjectBaseDirPointsToLocationWithoutFiles() {
+    settings.setProperty(CxxPlugin.PROJECTBASEDIR_KEY, System.getProperty("java.io.tmpdir"));
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(context, times(0)).saveViolation(any(Violation.class));
+  }    
+  
+  @Test
+  public void shouldReportViolationsWhenProjectBaseDirPointsToLocationWithFiles() {
+    String baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project/cppcheck-reports").getAbsolutePath();
+
+    settings.setProperty(CxxPlugin.PROJECTBASEDIR_KEY, baseDir);
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+      "cppcheck-result-projectlevelviolation-V2.xml");    
+    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(context, times(1)).saveViolation(any(Violation.class));
+  }  
 }

@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import org.sonar.api.resources.Resource;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 /**
  * {@inheritDoc}
@@ -75,10 +76,23 @@ public abstract class CxxReportSensor implements Sensor {
 
   /**
    * {@inheritDoc}
+     * @return 
+   */  
+  protected String getBaseDir() {  
+      if (conf.getString(CxxPlugin.PROJECTBASEDIR_KEY) == null || conf.getString(CxxPlugin.PROJECTBASEDIR_KEY).equals("")) {          
+          return fs.baseDir().getPath();      
+      } else {      
+          CxxUtils.LOG.info(CxxPlugin.PROJECTBASEDIR_KEY + " defined using '{}' as base path", conf.getString(CxxPlugin.PROJECTBASEDIR_KEY));
+          return conf.getString(CxxPlugin.PROJECTBASEDIR_KEY);          
+      }
+  }
+  
+  /**
+   * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+      List<File> reports = getReports(conf, getBaseDir(),
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);
