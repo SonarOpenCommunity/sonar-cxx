@@ -47,6 +47,7 @@ import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
+import org.sonar.api.resources.Project;
 
 import com.google.common.collect.ImmutableList;
 
@@ -392,5 +393,9 @@ public final class CxxPlugin extends SonarPlugin {
   @Override
   public String toString() {
     return getClass().getSimpleName();
+  }
+
+  public static boolean isEnabled(Project project) {
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
 }

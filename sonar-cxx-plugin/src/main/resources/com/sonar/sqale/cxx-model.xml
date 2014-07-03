@@ -668,7 +668,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4049</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -686,7 +686,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4256</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -704,7 +704,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4267</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -722,7 +722,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4311</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -740,7 +740,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4312</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -758,7 +758,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4319</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -776,7 +776,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4324</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -794,7 +794,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4325</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -812,7 +812,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4342</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -830,7 +830,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4344</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -848,7 +848,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4345</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -866,7 +866,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4351</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -884,7 +884,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4353</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -902,7 +902,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4355</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -920,7 +920,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4356</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -938,7 +938,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4359</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -956,7 +956,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4400</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -974,7 +974,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4431</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -1433,7 +1433,43 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
+                <rule-key>obsoleteFunctionsasctime</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
                 <rule-key>obsoleteFunctionsasctime_r</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
+                <rule-key>obsoleteFunctionsctime</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
@@ -2165,7 +2201,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4001</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2178,7 +2214,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4067</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2196,7 +2232,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4092</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2214,7 +2250,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4114</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2232,7 +2268,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4157</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2250,7 +2286,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4162</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2268,7 +2304,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4190</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2286,7 +2322,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4200</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2304,7 +2340,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4201</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2322,7 +2358,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4202</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2340,7 +2376,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4203</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2358,7 +2394,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4204</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2376,7 +2412,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4205</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2394,7 +2430,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4206</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2412,7 +2448,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4207</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2430,7 +2466,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4208</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2448,7 +2484,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4210</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2466,7 +2502,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4211</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2484,7 +2520,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4212</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2502,7 +2538,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4213</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2520,7 +2556,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4214</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2538,7 +2574,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4215</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2556,7 +2592,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4216</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2574,7 +2610,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4218</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2592,7 +2628,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4220</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2610,7 +2646,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4221</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2628,7 +2664,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4223</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2646,7 +2682,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4224</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2664,7 +2700,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4226</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2682,7 +2718,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4227</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2700,7 +2736,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4228</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2718,7 +2754,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4229</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2736,7 +2772,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4230</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2754,7 +2790,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4231</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2772,7 +2808,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4232</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2790,7 +2826,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4233</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2808,7 +2844,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4234</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2826,7 +2862,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4235</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2844,7 +2880,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4237</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2862,7 +2898,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4238</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2880,7 +2916,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4239</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2898,7 +2934,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4240</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2916,7 +2952,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4288</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2934,7 +2970,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4289</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2952,7 +2988,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4303</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2970,7 +3006,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4346</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -2988,7 +3024,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4347</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3006,7 +3042,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4350</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3024,7 +3060,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4377</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3042,7 +3078,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4378</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3060,7 +3096,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4379</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3078,7 +3114,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4480</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3096,7 +3132,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4481</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3114,7 +3150,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4482</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3132,7 +3168,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4516</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3150,7 +3186,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4517</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3168,7 +3204,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4572</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3186,7 +3222,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4580</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3204,7 +3240,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4581</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3222,7 +3258,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4611</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3245,6 +3281,24 @@
             <name>OS related portability</name>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
+                <rule-key>nonreentrantFunctionsasctime</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>30</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionscrypt</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3264,6 +3318,24 @@
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionsctermid</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>30</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
+                <rule-key>nonreentrantFunctionsctime</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
@@ -3839,6 +3911,24 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
+                <rule-key>nonreentrantFunctionsrand</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>30</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionsreaddir</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3893,6 +3983,24 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
+                <rule-key>nonreentrantFunctionstmpnam</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>30</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
                 <rule-key>nonreentrantFunctionsttyname</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -3910,7 +4018,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6535</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5428,7 +5536,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4296</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5446,7 +5554,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4336</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5464,7 +5572,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4337</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5482,7 +5590,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4390</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5500,7 +5608,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4404</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5518,7 +5626,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4545</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5536,7 +5644,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4546</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5554,7 +5662,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4547</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5572,7 +5680,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4548</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5590,7 +5698,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4549</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5608,7 +5716,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4552</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5626,7 +5734,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4553</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5644,7 +5752,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4554</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5662,7 +5770,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4555</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5680,7 +5788,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6313</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5698,7 +5806,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6314</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5716,7 +5824,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6315</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5734,7 +5842,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6316</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5752,7 +5860,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6317</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5770,7 +5878,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6319</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5788,7 +5896,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6326</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5806,7 +5914,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6336</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5926,7 +6034,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4995</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -5944,7 +6052,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4996</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -6362,7 +6470,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6277</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -6402,7 +6510,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6248</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -6914,7 +7022,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4150</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -6932,7 +7040,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4154</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -6950,7 +7058,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4156</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -6968,7 +7076,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4291</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -6986,7 +7094,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6211</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -7004,7 +7112,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6278</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -7022,7 +7130,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6279</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -7040,7 +7148,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6280</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -7058,7 +7166,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6283</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -7466,7 +7574,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4124</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -7484,7 +7592,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4800</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -7576,6 +7684,24 @@
                 <prop>
                     <key>remediationFactor</key>
                     <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
+                <rule-key>secondAlwaysTrueFalseWhenFirstTrue</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>30</val>
                     <txt>mn</txt>
                 </prop>
                 <prop>
@@ -10472,7 +10598,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4015</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10490,7 +10616,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4018</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10508,7 +10634,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4048</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10526,7 +10652,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4056</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10544,7 +10670,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4088</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10562,7 +10688,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4089</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10580,7 +10706,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4090</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10598,7 +10724,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4172</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10616,7 +10742,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4189</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10634,7 +10760,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4242</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10652,7 +10778,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4243</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10670,7 +10796,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4244</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10688,7 +10814,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4245</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10706,7 +10832,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4251</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10724,7 +10850,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4254</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10742,7 +10868,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4268</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10760,7 +10886,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4269</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10778,7 +10904,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4302</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10796,7 +10922,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4305</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10814,7 +10940,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4306</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10832,7 +10958,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4307</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10850,7 +10976,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4308</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10868,7 +10994,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4309</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10886,7 +11012,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4310</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10904,7 +11030,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4326</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10922,7 +11048,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4333</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10940,7 +11066,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4334</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10958,7 +11084,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4365</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10976,7 +11102,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4366</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -10994,7 +11120,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4368</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11012,7 +11138,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4369</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11030,7 +11156,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4389</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11048,7 +11174,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4408</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11066,7 +11192,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4539</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11084,7 +11210,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4566</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11102,7 +11228,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6101</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11120,7 +11246,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6385</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11138,7 +11264,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6386</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11156,7 +11282,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6411</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11174,7 +11300,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6412</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11628,7 +11754,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4286</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11646,7 +11772,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4290</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11664,7 +11790,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4297</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11682,7 +11808,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4509</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11700,7 +11826,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4530</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11718,7 +11844,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4986</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11736,7 +11862,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6318</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11754,7 +11880,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6320</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -11854,6 +11980,42 @@
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>returnTempReference</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
+                <rule-key>returnAutocstr</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
+                <rule-key>returnTempPointer</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
@@ -12688,6 +12850,24 @@
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>stlOutOfBounds</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cppcheck</rule-repo>
+                <rule-key>erase</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
@@ -22162,7 +22342,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4002</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22180,7 +22360,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4003</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22198,7 +22378,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4005</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22216,7 +22396,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4007</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22234,7 +22414,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4010</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22252,7 +22432,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4013</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22270,7 +22450,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4020</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22288,7 +22468,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4022</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22306,7 +22486,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4024</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22324,7 +22504,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4028</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22342,7 +22522,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4029</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22360,7 +22540,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4031</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22378,7 +22558,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4032</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22396,7 +22576,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4034</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22414,7 +22594,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4042</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22432,7 +22612,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4047</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22450,7 +22630,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4073</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22468,7 +22648,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4074</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22486,7 +22666,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4079</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22504,7 +22684,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4083</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22522,7 +22702,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4091</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22540,7 +22720,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4094</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22558,7 +22738,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4096</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22576,7 +22756,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4098</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22594,7 +22774,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4099</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22612,7 +22792,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4100</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22630,7 +22810,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4101</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22648,7 +22828,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4116</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22666,7 +22846,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4129</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22684,7 +22864,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4133</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22702,7 +22882,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4142</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22720,7 +22900,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4144</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22738,7 +22918,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4159</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22756,7 +22936,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4183</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22774,7 +22954,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4192</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22792,7 +22972,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4197</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22810,7 +22990,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4250</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22828,7 +23008,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4255</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22846,7 +23026,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4258</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22864,7 +23044,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4263</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22882,7 +23062,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4265</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22900,7 +23080,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4266</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22918,7 +23098,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4272</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22936,7 +23116,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4273</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22954,7 +23134,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4275</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22972,7 +23152,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4276</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -22990,7 +23170,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4278</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23008,7 +23188,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4280</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23026,7 +23206,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4281</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23044,7 +23224,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4285</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23062,7 +23242,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4287</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23080,7 +23260,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4293</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23098,7 +23278,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4295</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23116,7 +23296,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4313</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23134,7 +23314,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4318</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23152,7 +23332,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4329</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23170,7 +23350,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4339</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23188,7 +23368,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4340</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23206,7 +23386,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4341</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23224,7 +23404,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4348</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23242,7 +23422,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4357</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23260,7 +23440,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4358</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23278,7 +23458,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4364</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23296,7 +23476,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4374</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23314,7 +23494,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4375</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23332,7 +23512,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4376</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23350,7 +23530,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4381</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23368,7 +23548,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4384</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23386,7 +23566,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4391</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23404,7 +23584,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4392</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23422,7 +23602,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4393</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23440,7 +23620,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4407</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23458,7 +23638,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4409</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23476,7 +23656,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4410</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23494,7 +23674,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4411</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23512,7 +23692,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4412</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23530,7 +23710,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4414</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23548,7 +23728,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4420</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23566,7 +23746,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4428</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23584,7 +23764,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4429</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23602,7 +23782,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4430</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23620,7 +23800,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4432</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23638,7 +23818,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4433</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23656,7 +23836,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4434</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23674,7 +23854,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4445</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23692,7 +23872,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4461</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23710,7 +23890,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4510</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23728,7 +23908,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4511</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23746,7 +23926,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4512</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23764,7 +23944,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4513</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23782,7 +23962,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4514</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23800,7 +23980,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4515</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23818,7 +23998,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4518</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23836,7 +24016,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4519</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23854,7 +24034,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4520</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23872,7 +24052,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4523</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23890,7 +24070,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4532</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23908,7 +24088,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4538</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23926,7 +24106,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4540</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23944,7 +24124,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4541</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23962,7 +24142,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4564</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23980,7 +24160,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4565</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -23998,7 +24178,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4659</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24016,7 +24196,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4700</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24034,7 +24214,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4701</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24052,7 +24232,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4702</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24070,7 +24250,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4703</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24088,7 +24268,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4715</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24106,7 +24286,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4716</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24124,7 +24304,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4742</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24142,7 +24322,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4743</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24160,7 +24340,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4744</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24178,7 +24358,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4746</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24196,7 +24376,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4747</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24214,7 +24394,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4756</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24232,7 +24412,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4772</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24250,7 +24430,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4789</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24268,7 +24448,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4804</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24286,7 +24466,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4805</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24304,7 +24484,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4819</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24322,7 +24502,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4826</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24340,7 +24520,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4867</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24358,7 +24538,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4905</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24376,7 +24556,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4906</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24394,7 +24574,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4927</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24412,7 +24592,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4928</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24430,7 +24610,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6001</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24448,7 +24628,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6011</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24466,7 +24646,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6014</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24484,7 +24664,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6029</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24502,7 +24682,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6031</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24520,7 +24700,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6053</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24538,7 +24718,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6054</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24556,7 +24736,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6057</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24574,7 +24754,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6066</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24592,7 +24772,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6067</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24610,7 +24790,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6200</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24628,7 +24808,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6201</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24646,7 +24826,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6202</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24664,7 +24844,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6203</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24682,7 +24862,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6204</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24700,7 +24880,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6209</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24718,7 +24898,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6214</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24736,7 +24916,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6215</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24754,7 +24934,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6244</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24772,7 +24952,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6246</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24790,7 +24970,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6255</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24808,7 +24988,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6258</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24826,7 +25006,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6259</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24844,7 +25024,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6260</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24862,7 +25042,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6268</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24880,7 +25060,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6270</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24898,7 +25078,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6272</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24916,7 +25096,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6273</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24934,7 +25114,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6274</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24952,7 +25132,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6276</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24970,7 +25150,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6281</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -24988,7 +25168,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6282</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25006,7 +25186,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6284</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25024,7 +25204,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6285</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25042,7 +25222,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6286</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25060,7 +25240,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6287</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25078,7 +25258,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6288</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25096,7 +25276,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6289</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25114,7 +25294,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6290</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25132,7 +25312,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6291</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25150,7 +25330,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6292</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25168,7 +25348,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6293</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25186,7 +25366,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6294</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25204,7 +25384,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6295</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25222,7 +25402,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6296</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25240,7 +25420,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6297</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25258,7 +25438,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6298</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25276,7 +25456,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6299</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25294,7 +25474,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6302</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25312,7 +25492,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6303</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25330,7 +25510,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6305</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25348,7 +25528,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6306</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25366,7 +25546,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6308</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25384,7 +25564,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6309</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25402,7 +25582,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6310</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25420,7 +25600,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6312</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25438,7 +25618,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6327</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25456,7 +25636,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6330</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25474,7 +25654,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6335</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25492,7 +25672,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6340</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25510,7 +25690,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6383</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25528,7 +25708,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6384</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25546,7 +25726,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6530</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25564,7 +25744,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28163</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25582,7 +25762,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28164</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25600,7 +25780,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28182</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25618,7 +25798,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28183</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25636,7 +25816,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28193</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25654,7 +25834,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28197</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25672,7 +25852,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28198</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25690,7 +25870,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28199</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -25708,7 +25888,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C28278</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26054,7 +26234,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4061</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26072,7 +26252,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4062</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26090,7 +26270,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6235</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26108,7 +26288,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6236</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26126,7 +26306,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6237</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26144,7 +26324,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6239</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26162,7 +26342,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C6240</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -26346,7 +26526,7 @@
                 </prop>
             </chc>
             <chc>
-                <rule-repo>compiler-vc</rule-repo>
+                <rule-repo>compiler</rule-repo>
                 <rule-key>C4640</rule-key>
                 <prop>
                     <key>remediationFunction</key>
