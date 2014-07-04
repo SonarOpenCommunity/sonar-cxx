@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.utils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
@@ -38,7 +39,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import org.sonar.api.resources.Resource;
-import org.sonar.plugins.cxx.CxxPlugin;
 
 /**
  * {@inheritDoc}
@@ -50,21 +50,23 @@ public abstract class CxxReportSensor implements Sensor {
   private HashSet<String> uniqueIssues = new HashSet<String>();
   private HashMap<String, Rule> ruleCache = new HashMap<String, Rule>();
   protected ModuleFileSystem fs;
+    private final ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(Settings conf, ModuleFileSystem fs) {
-    this(null, conf, fs);
+  public CxxReportSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
+    this(null, conf, fs, reactor);
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs) {
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
     this.fs = fs;
+    this.reactor = reactor;
   }
 
   /**
@@ -73,26 +75,13 @@ public abstract class CxxReportSensor implements Sensor {
   public boolean shouldExecuteOnProject(Project project) {
     return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
-
-  /**
-   * {@inheritDoc}
-     * @return 
-   */  
-  protected String getBaseDir() {  
-      if (conf.getString(CxxPlugin.PROJECTBASEDIR_KEY) == null || conf.getString(CxxPlugin.PROJECTBASEDIR_KEY).equals("")) {          
-          return fs.baseDir().getPath();      
-      } else {      
-          CxxUtils.LOG.info(CxxPlugin.PROJECTBASEDIR_KEY + " defined using '{}' as base path", conf.getString(CxxPlugin.PROJECTBASEDIR_KEY));
-          return conf.getString(CxxPlugin.PROJECTBASEDIR_KEY);          
-      }
-  }
   
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, getBaseDir(),
+      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);

@@ -51,7 +51,7 @@ public class CxxVeraxxSensorTest {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), fs, mock(RulesProfile.class));
+    sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
     org.sonar.api.resources.File resourceMock = mock(org.sonar.api.resources.File.class);
     when(context.getResource((org.sonar.api.resources.File) anyObject())).thenReturn(resourceMock);

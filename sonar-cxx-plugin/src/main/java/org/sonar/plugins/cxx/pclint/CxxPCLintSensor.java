@@ -39,6 +39,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * PC-lint is an equivalent to pmd but for C++
@@ -56,8 +57,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs);
+  public CxxPCLintSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(ruleFinder, conf, fs, reactor);
     this.profile = profile;
   }
 

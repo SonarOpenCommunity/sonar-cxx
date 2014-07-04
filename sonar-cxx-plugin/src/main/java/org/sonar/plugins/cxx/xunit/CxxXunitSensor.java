@@ -62,6 +62,7 @@ import org.sonar.squid.api.SourceFunction;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 
 /**
@@ -80,8 +81,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, ModuleFileSystem fs, CxxLanguage cxxLang) {
-    super(conf, fs);
+  public CxxXunitSensor(Settings conf, ModuleFileSystem fs, CxxLanguage cxxLang, ProjectReactor reactor) {
+    super(conf, fs, reactor);
     this.lang = cxxLang;
     xsltURL = conf.getString(XSLT_URL_KEY);
   }
