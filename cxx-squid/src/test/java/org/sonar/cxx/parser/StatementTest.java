@@ -133,6 +133,8 @@ public class StatementTest extends ParserBaseTest {
     assertThat(p).matches("switch ( condition ) { default : ; }");
     assertThat(p).matches("switch ( condition ) { default : break; }");
     assertThat(p).matches("switch ( condition ) { case constantExpression : statement break; default : break; }");
+    // EXTENSION: gcc's case range
+    assertThat(p).matches("switch ( condition ) { case constantExpression ... constantExpression : break; }");
   }
 
   @Test

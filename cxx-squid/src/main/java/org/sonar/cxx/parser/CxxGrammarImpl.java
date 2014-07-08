@@ -607,6 +607,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(switchLabelStatement).is(b.firstOf(
         b.sequence(CxxKeyword.CASE, constantExpression, ":"),
+        // EXTENSION: gcc's case range
+        b.sequence(CxxKeyword.CASE, constantExpression, "...", constantExpression, ":"),
         b.sequence(CxxKeyword.DEFAULT, ":")));
 
     b.rule(condition).is(
