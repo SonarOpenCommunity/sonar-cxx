@@ -27,6 +27,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
@@ -46,7 +47,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   public CxxVeraxxSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs);
+    super(ruleFinder, conf, fs, CxxMetrics.VERAXX);
     this.profile = profile;
   }
 
@@ -86,7 +87,6 @@ public class CxxVeraxxSensor extends CxxReportSensor {
             throw new EmptyReportException();
           }
 
-          int countIssues = 0;
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");
           while (fileCursor.getNext() != null) {
             String name = fileCursor.getAttrValue("name");
@@ -99,10 +99,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
 
-                if( saveUniqueViolation(project, context, CxxVeraxxRuleRepository.KEY,
-                                        name, line, source, message)) {
-                  countIssues++;
-                }
+                saveUniqueViolation(project, context, CxxVeraxxRuleRepository.KEY,
+                                    name, line, source, message);
               } else {
                 CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
                     errorCursor.getAttrValue("line"),
@@ -110,7 +108,6 @@ public class CxxVeraxxSensor extends CxxReportSensor {
               }
             }
           }
-          CxxUtils.LOG.info("Vera++ issues processed = " + countIssues);
         }
       });
 
