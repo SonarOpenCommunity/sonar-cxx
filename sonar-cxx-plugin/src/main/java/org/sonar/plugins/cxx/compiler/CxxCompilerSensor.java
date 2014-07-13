@@ -33,6 +33,7 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team edition or 2010/2012/2013 premium edition)
@@ -52,8 +53,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs);
+  public CxxCompilerSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(ruleFinder, conf, fs, reactor);
     this.profile = profile;
 
     addCompilerParser(new CxxCompilerVcParser());

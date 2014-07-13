@@ -162,7 +162,7 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // cccc + EOF
     assertThat(tokens, hasToken("cccc", GenericTokenType.IDENTIFIER));
   }
-  
+
   //@Test
   public void hashhash_arguments_with_whitespace_before_comma() {
     // The blank behind FOO finds its way into the expansion.
@@ -172,14 +172,14 @@ public class CxxLexerWithPreprocessingTest {
     // Corresponds to the Jira issue SONARPLUGINS-3060
     List<Token> tokens = lexer.lex("#define FOOBAR 1\n"
                                    + "#define CHECK(a, b) (( a ## b + 1 == 2))\n"
-                                   + "#if CHECK(FOO , BAR)\n"  
+                                   + "#if CHECK(FOO , BAR)\n"
                                    + "yes\n"
                                    + "#endif");
-    
+
     assertThat(tokens).hasSize(2); // yes + EOF
     assertThat(tokens, hasToken("yes", GenericTokenType.IDENTIFIER));
   }
-  
+
   //@Test
   public void expanding_hashhash_operator_sampleFromCPPStandard() {
     // TODO: think about implementing this behavior. This is a sample from the standard, which is
@@ -642,14 +642,14 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens).hasSize(2); // ifbody + EOF
     assertThat(tokens, hasToken("ifbody", GenericTokenType.IDENTIFIER));
   }
-  
+
   //@Test
   public void hashhash_operator_problem() {
     // Corresponds to the Jira Issue SONARPLUGINS-3055.
     // The problem here is that 0x##n is splitted into
     // [0, x, ##, n] sequence of tokens by the initial parsing routine.
     // After this, 0 and the rest of the number get never concatenated again.
-    
+
     List<Token> tokens = lexer.lex("#define A B(cf)\n"
                                    + "#define B(n) 0x##n\n"
                                    + "A");

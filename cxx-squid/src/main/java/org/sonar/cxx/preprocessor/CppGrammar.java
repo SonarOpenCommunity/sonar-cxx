@@ -108,14 +108,14 @@ public enum CppGrammar implements GrammarRuleKey {
     includeLineGrammar(b);
     ifLineGrammar(b);
     allTheOtherLinesGrammar(b);
-    
+
     b.setRootRule(preprocessorLine);
 
     return b.build();
   }
 
-  
-  
+
+
   private static void toplevelDefinitionGrammar(LexerfulGrammarBuilder b) {
     b.rule(preprocessorLine).is(
         b.firstOf(

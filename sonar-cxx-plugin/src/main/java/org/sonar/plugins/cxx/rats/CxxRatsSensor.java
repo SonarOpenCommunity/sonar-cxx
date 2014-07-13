@@ -32,6 +32,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.List;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * {@inheritDoc}
@@ -45,8 +46,8 @@ public final class CxxRatsSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxRatsSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs);
+  public CxxRatsSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(ruleFinder, conf, fs, reactor);
     this.profile = profile;
   }
 
@@ -99,7 +100,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
           }
         }
       }
-      CxxUtils.LOG.info("RATS issues processed = " + countIssues);    
+      CxxUtils.LOG.info("RATS issues processed = " + countIssues);
     } catch (org.jdom.input.JDOMParseException e) {
       // when RATS fails the XML file might be incomplete
       CxxUtils.LOG.error("Ignore incomplete XML output from RATS " + e.toString());

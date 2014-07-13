@@ -24,11 +24,11 @@ import java.util.Map;
 
 public final class StandardDefinitions {
   private StandardDefinitions(){}
-  
+
   public static Map<String, String> macros(){
-    // This is a collection of standard macros according to 
+    // This is a collection of standard macros according to
     // http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
-    
+
     return ImmutableMap.<String, String>builder()
       .put("__FILE__", "\"file\"")         // for now
       .put("__LINE__", "1")            // that should hopefully suffice

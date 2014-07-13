@@ -33,6 +33,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * Custom Rule Import, all static analysis are supported.
@@ -48,8 +49,8 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxExternalRulesSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs);
+  public CxxExternalRulesSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(ruleFinder, conf, fs, reactor);
     this.profile = profile;
   }
 

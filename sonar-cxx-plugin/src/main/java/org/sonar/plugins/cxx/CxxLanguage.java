@@ -38,7 +38,7 @@ public class CxxLanguage extends AbstractLanguage {
 
   public static FileQuery sourceQuery = FileQuery.onSource().onLanguage(KEY);
   public static FileQuery testQuery = FileQuery.onTest().onLanguage(KEY);
-  
+
   /**
    * {@inheritDoc}
    */

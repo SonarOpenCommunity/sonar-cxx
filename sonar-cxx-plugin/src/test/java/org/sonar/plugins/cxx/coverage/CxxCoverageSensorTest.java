@@ -28,6 +28,7 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
@@ -41,12 +42,14 @@ public class CxxCoverageSensorTest {
   private SensorContext context;
   private Project project;
   private ModuleFileSystem fs;
-  
+  private ProjectReactor reactor;
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxCoverageSensor(new Settings(), fs);
+    reactor = TestUtils.mockReactor();
+    sensor = new CxxCoverageSensor(new Settings(), fs, reactor);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -69,8 +72,8 @@ public class CxxCoverageSensorTest {
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura-bignumberofhits.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
-    
+    sensor = new CxxCoverageSensor(settings, fs, reactor);
+
     sensor.analyse(project, context);
   }
 

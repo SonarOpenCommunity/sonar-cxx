@@ -63,7 +63,7 @@ public final class ExpressionEvaluator {
 
   private long evalToInt(AstNode exprAst) {
     LOG.trace("Evaluating expression: {}", exprAst);
-    
+
     int noChildren = exprAst.getNumberOfChildren();
     if (noChildren == 0) {
       return evalLeaf(exprAst);
@@ -170,7 +170,7 @@ public final class ExpressionEvaluator {
       AstNode operand = exprAst.getChild(i);
       result = result || eval(operand);
     }
-    
+
     return result ? 1 : 0;
   }
 
@@ -197,7 +197,7 @@ public final class ExpressionEvaluator {
     } else {
       throw new EvaluationException("Unknown equality operator '" + operator + "'");
     }
-    
+
     int noChildren = exprAst.getNumberOfChildren();
     for(int i = 4; i < noChildren; i+=2){
       operator = exprAst.getChild(i-1).getTokenValue();
@@ -210,7 +210,7 @@ public final class ExpressionEvaluator {
         throw new EvaluationException("Unknown equality operator '" + operator + "'");
       }
     }
-    
+
     return result ? 1 : 0;
   }
 
@@ -236,7 +236,7 @@ public final class ExpressionEvaluator {
     for(int i = 4; i < noChildren; i+=2){
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
-      
+
       resultAsInt = result ? 1 : 0;
       if (operator.equals("<")) {
         result = resultAsInt < evalToInt(rhs);
@@ -250,7 +250,7 @@ public final class ExpressionEvaluator {
         throw new EvaluationException("Unknown relational operator '" + operator + "'");
       }
     }
-    
+
     return result ? 1 : 0;
   }
 
@@ -262,7 +262,7 @@ public final class ExpressionEvaluator {
       AstNode operand = exprAst.getChild(i);
       result &= evalToInt(operand);
     }
-    
+
     return result;
   }
 
@@ -273,7 +273,7 @@ public final class ExpressionEvaluator {
       AstNode operand = exprAst.getChild(i);
       result |= evalToInt(operand);
     }
-    
+
     return result;
   }
 
@@ -284,7 +284,7 @@ public final class ExpressionEvaluator {
       AstNode operand = exprAst.getChild(i);
       result ^= evalToInt(operand);
     }
-    
+
     return result;
   }
 
@@ -314,11 +314,11 @@ public final class ExpressionEvaluator {
     AstNode rhs;
     long result = evalToInt(exprAst.getChild(0));
     int noChildren = exprAst.getNumberOfChildren();
-    
+
     for(int i = 2; i < noChildren; i+=2){
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
-      
+
       if (operator.equals("<<")) {
         result = result << evalToInt(rhs);
       } else if (operator.equals(">>")) {
@@ -336,11 +336,11 @@ public final class ExpressionEvaluator {
     AstNode rhs;
     long result = evalToInt(exprAst.getChild(0));
     int noChildren = exprAst.getNumberOfChildren();
-    
+
     for(int i = 2; i < noChildren; i+=2){
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
-      
+
       if (operator.equals("+")) {
         result += evalToInt(rhs);
       } else if (operator.equals("-")) {
@@ -349,7 +349,7 @@ public final class ExpressionEvaluator {
         throw new EvaluationException("Unknown additive operator '" + operator + "'");
       }
     }
-    
+
     return result;
   }
 
@@ -358,11 +358,11 @@ public final class ExpressionEvaluator {
     AstNode rhs;
     long result = evalToInt(exprAst.getChild(0));
     int noChildren = exprAst.getNumberOfChildren();
-    
+
     for(int i = 2; i < noChildren; i+=2){
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
-      
+
       if (operator.equals("*")) {
         result *= evalToInt(rhs);
       } else if (operator.equals("/")) {
@@ -373,7 +373,7 @@ public final class ExpressionEvaluator {
         throw new EvaluationException("Unknown multiplicative operator '" + operator + "'");
       }
     }
-    
+
     return result;
   }
 
@@ -417,7 +417,7 @@ public final class ExpressionEvaluator {
     if(value == null){
       LOG.warn("Undefined functionlike macro '{}' assuming 0", macroName);
     }
-    
+
     return value == null ? 0 : evalToInt(value);
   }
 

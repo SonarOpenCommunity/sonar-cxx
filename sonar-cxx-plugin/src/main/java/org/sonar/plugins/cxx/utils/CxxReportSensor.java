@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.utils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
@@ -50,21 +51,23 @@ public abstract class CxxReportSensor implements Sensor {
   private HashSet<String> uniqueIssues = new HashSet<String>();
   private HashMap<String, Rule> ruleCache = new HashMap<String, Rule>();
   protected ModuleFileSystem fs;
+    private final ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(Settings conf, ModuleFileSystem fs) {
-    this(null, conf, fs);
+  public CxxReportSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
+    this(null, conf, fs, reactor);
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs) {
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
     this.fs = fs;
+    this.reactor = reactor;
   }
 
   /**
@@ -74,13 +77,13 @@ public abstract class CxxReportSensor implements Sensor {
 //    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   return !fs.files(FileQuery.onSource().onLanguage(CxxLanguage.KEY)).isEmpty();
   }
-
+  
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '" + report + "'");

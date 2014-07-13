@@ -49,7 +49,7 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
   private static final String DEFAULT_REGULAR_EXPRESSION = "<Safetykey>.*</Safetykey>";
   private static final String DEFAULT_MESSAGE = "Source files implementing risk mitigations shall use special name suffix";
   private static final String DEFAULT_NAME_SUFFIX = "_SAFETY";
-  
+
   @RuleProperty(
     key = "regularExpression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
@@ -57,26 +57,26 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
 
   @RuleProperty(
     key = "message",
-    defaultValue = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'") 
+    defaultValue = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'")
   public String message = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'";
-  
+
   @RuleProperty(
           key = "suffix",
           defaultValue = DEFAULT_NAME_SUFFIX)
   public String suffix = DEFAULT_NAME_SUFFIX;
-    
+
   public String getRegularExpression() {
     return regularExpression;
   }
-    
+
   public String getMessage() {
     return message;
   }
-  
+
   public String getSuffix() {
     return suffix;
   }
-  
+
   private Pattern pattern = null;
 
   @Override
@@ -109,5 +109,5 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
       }
     }
   }
-  
+
 }

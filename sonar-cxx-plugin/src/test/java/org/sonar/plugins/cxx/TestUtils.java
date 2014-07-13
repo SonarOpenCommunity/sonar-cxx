@@ -22,6 +22,8 @@ package org.sonar.plugins.cxx;
 import org.apache.commons.configuration.Configuration;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.CoreProperties;
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
@@ -43,6 +45,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 
 public class TestUtils {
   public static RuleFinder mockRuleFinder() {
@@ -111,6 +114,18 @@ public class TestUtils {
     return project;
   }
 
+  
+          
+  public static ProjectReactor mockReactor(File baseDir,
+                                                List<File> sourceDirs, List<File> testDirs) {
+    ProjectReactor reactor = mock(ProjectReactor.class);
+    ProjectDefinition projectDef = mock(ProjectDefinition.class);
+    when(reactor.getRoot()).thenReturn(projectDef);
+    when(projectDef.getBaseDir()).thenReturn(baseDir);
+
+    return reactor;
+  }
+
   public static ModuleFileSystem mockFileSystem(File baseDir,
                                                 List<File> sourceDirs, List<File> testDirs) {
     ModuleFileSystem fs = mock(ModuleFileSystem.class);
@@ -126,13 +141,19 @@ public class TestUtils {
 
     return fs;
   }
-
+  
   public static ModuleFileSystem mockFileSystem() {
     File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
     List<File> empty = new ArrayList<File>();
     return mockFileSystem(baseDir, empty, empty);
   }
   
+  public static ProjectReactor mockReactor() {
+    File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
+    List<File> empty = new ArrayList<File>();
+    return mockReactor(baseDir, empty, empty);
+  }  
+
   private static List<InputFile> fromSourceFiles(List<File> sourceFiles) {
     List<InputFile> result = new ArrayList<InputFile>();
     for (File file : sourceFiles) {

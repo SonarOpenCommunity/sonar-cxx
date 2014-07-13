@@ -62,7 +62,7 @@ public final class CxxSquidSensor implements Sensor {
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
   private final AnnotationCheckFactory annotationCheckFactory;
-  
+
   private Project project;
   private SensorContext context;
   private AstScanner<Grammar> scanner;
@@ -81,19 +81,19 @@ public final class CxxSquidSensor implements Sensor {
   public boolean shouldExecuteOnProject(Project project) {
     return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
-  
+
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     this.project = project;
     this.context = context;
-    
+
     Collection<SquidAstVisitor<Grammar>> squidChecks = annotationCheckFactory.getChecks();
     List<SquidAstVisitor<Grammar>> visitors = Lists.newArrayList(squidChecks);
     this.scanner = CxxAstScanner.create(createConfiguration(project, conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
-    
+
     scanner.scanFiles(fs.files(CxxLanguage.sourceQuery));
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
@@ -168,7 +168,7 @@ public final class CxxSquidSensor implements Sensor {
       }
     }
   }
- 
+
   @Override
   public String toString() {
     return getClass().getSimpleName();

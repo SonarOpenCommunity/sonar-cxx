@@ -30,6 +30,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.Set;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * {@inheritDoc}
@@ -42,8 +43,8 @@ public class CxxValgrindSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxValgrindSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs);
+  public CxxValgrindSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(ruleFinder, conf, fs, reactor);
     this.profile = profile;
   }
 
@@ -73,7 +74,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(project, context, parser.parseReport(report));
   }
-  
+
   void saveErrors(Project project, SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
       ValgrindFrame frame = error.getLastOwnFrame(fs.baseDir().getPath());

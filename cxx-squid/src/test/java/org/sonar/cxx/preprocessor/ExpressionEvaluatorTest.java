@@ -82,7 +82,7 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("0 || 1"));
     assertTrue(evaluator.eval("1 || 1"));
     assertTrue(evaluator.eval("0 || 0 || 1"));
-    
+
     assertFalse(evaluator.eval("0 || 0"));
     assertFalse(evaluator.eval("0 || 0 || 0"));
   }
@@ -91,7 +91,7 @@ public class ExpressionEvaluatorTest {
   public void logical_and() {
     assertTrue(evaluator.eval("1 && 1"));
     assertTrue(evaluator.eval("1 && 1 && 1"));
-    
+
     assertFalse(evaluator.eval("1 && 0"));
     assertFalse(evaluator.eval("0 && 1"));
     assertFalse(evaluator.eval("0 && 0"));
@@ -104,7 +104,7 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("0 | 1"));
     assertTrue(evaluator.eval("1 | 1"));
     assertTrue(evaluator.eval("0 | 0 | 1"));
-    
+
     assertFalse(evaluator.eval("0 | 0 | 0"));
   }
 
@@ -138,11 +138,11 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("true == 1"));
     assertTrue(evaluator.eval("false == 0"));
     assertTrue(evaluator.eval("0 == false"));
-    
+
     assertTrue(evaluator.eval("true != 2"));
     assertTrue(evaluator.eval("false != 1"));
     assertTrue(evaluator.eval("1 != 2"));
-    
+
     assertFalse(evaluator.eval("1 == 0"));
     assertFalse(evaluator.eval("3 != 3"));
     assertFalse(evaluator.eval("2 != 3 != 4"));
@@ -158,7 +158,7 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("1 > 0"));
     assertTrue(evaluator.eval("1 >= 0"));
     assertTrue(evaluator.eval("0 < 0 < 2"));
-    
+
     assertFalse(evaluator.eval("3 < 2"));
     assertFalse(evaluator.eval("3 <= 2"));
     assertFalse(evaluator.eval("0 > 1"));
@@ -168,7 +168,7 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("2 > 1 > false"));
     assertTrue(evaluator.eval("0 >= 0 >= false"));
     assertTrue(evaluator.eval("0 <= 0  >= true"));
-    
+
     assertFalse(evaluator.eval("1 < 1 > false"));
     assertFalse(evaluator.eval("0 >= 1 >= true"));
     assertFalse(evaluator.eval("2 <= 2 <= false"));
@@ -322,7 +322,7 @@ public class ExpressionEvaluatorTest {
   public void std_macro_evaluated_as_expected() {
     CxxPreprocessor pp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
     ExpressionEvaluator evaluator = new ExpressionEvaluator(mock(CxxConfiguration.class), pp);
-    
+
     assertTrue(evaluator.eval("__LINE__"));
     assertTrue(evaluator.eval("__STDC__"));
     assertTrue(evaluator.eval("__STDC_HOSTED__"));

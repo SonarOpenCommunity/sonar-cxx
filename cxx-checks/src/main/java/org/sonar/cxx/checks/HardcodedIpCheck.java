@@ -54,29 +54,29 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "^.*((?<![\\d|\\.])(?:\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b\\.){3}\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b(?!\\d|\\.)).*$";
   private static Matcher IP = null;
-  
+
   @RuleProperty(
       key = "regularExpression",
       defaultValue = DEFAULT_REGULAR_EXPRESSION)
     public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
-  
+
   public String getRegularExpression() {
     return regularExpression;
   }
-  
+
   @Override
   public void init() {
     String regEx = getRegularExpression();
     checkNotNull(regEx, "getRegularExpression() should not return null");
 
     if (!Strings.isNullOrEmpty(regEx)) {
-      try {    
+      try {
         IP = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {
         throw new SonarException("Unable to compile regular expression: " + regEx, e);
       }
     }
-    subscribeTo(CxxGrammarImpl.LITERAL);  
+    subscribeTo(CxxGrammarImpl.LITERAL);
   }
 
   @Override
@@ -89,5 +89,5 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
       }
     }
   }
-  
+
 }
