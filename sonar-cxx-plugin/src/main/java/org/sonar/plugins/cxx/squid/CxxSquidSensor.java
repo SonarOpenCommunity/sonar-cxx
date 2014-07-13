@@ -27,6 +27,7 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.AnnotationCheckFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.profiles.RulesProfile;
@@ -37,6 +38,7 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.squid.api.CheckMessage;
 import org.sonar.squid.api.SourceCode;
@@ -61,13 +63,13 @@ public final class CxxSquidSensor implements Sensor {
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
   private final AnnotationCheckFactory annotationCheckFactory;
-  
+
   private Project project;
   private SensorContext context;
   private AstScanner<Grammar> scanner;
   private Settings conf;
   private ModuleFileSystem fs;
-  
+
   /**
    * {@inheritDoc}
    */
@@ -80,21 +82,21 @@ public final class CxxSquidSensor implements Sensor {
   public boolean shouldExecuteOnProject(Project project) {
     return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
-  
+
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     this.project = project;
     this.context = context;
-    
+
     Collection<SquidAstVisitor<Grammar>> squidChecks = annotationCheckFactory.getChecks();
     List<SquidAstVisitor<Grammar>> visitors = Lists.newArrayList(squidChecks);
     this.scanner = CxxAstScanner.create(createConfiguration(project, conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
-    
+
     scanner.scanFiles(fs.files(CxxLanguage.sourceQuery));
-    
+
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }
@@ -113,6 +115,8 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void save(Collection<SourceCode> squidSourceFiles) {
+    int violationsCount = 0;
+
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
 
@@ -121,8 +125,12 @@ public final class CxxSquidSensor implements Sensor {
       saveMeasures(sonarFile, squidFile);
       saveFilesComplexityDistribution(sonarFile, squidFile);
       saveFunctionsComplexityDistribution(sonarFile, squidFile);
-      saveViolations(sonarFile, squidFile);
+      violationsCount += saveViolations(sonarFile, squidFile);
     }
+
+    Measure measure = new Measure(CxxMetrics.SQUID);
+    measure.setIntValue(violationsCount);
+    context.saveMeasure(measure);
   }
 
   private void saveMeasures(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
@@ -152,7 +160,7 @@ public final class CxxSquidSensor implements Sensor {
     context.saveMeasure(sonarFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
   }
 
-  private void saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
+  private int saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     if (messages != null) {
       for (CheckMessage message : messages) {
@@ -161,9 +169,11 @@ public final class CxxSquidSensor implements Sensor {
             .setMessage(message.getText(Locale.ENGLISH));
         context.saveViolation(violation);
       }
+      return messages.size();
     }
+    return 0;
   }
- 
+
   @Override
   public String toString() {
     return getClass().getSimpleName();

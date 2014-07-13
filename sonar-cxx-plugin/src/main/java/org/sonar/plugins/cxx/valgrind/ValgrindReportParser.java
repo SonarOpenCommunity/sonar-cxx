@@ -56,7 +56,7 @@ class ValgrindReportParser {
       catch(com.ctc.wstx.exc.WstxEOFException eofExc){
         throw new EmptyReportException();
       }
-      
+
       SMInputCursor errorCursor = rootCursor.childElementCursor("error");
 
       while (errorCursor.getNext() != null) {

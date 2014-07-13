@@ -37,7 +37,7 @@ public class FunctionComplexityCheck extends SquidCheck<Grammar> {
 
   @RuleProperty(defaultValue = "" + DEFAULT_MAX)
   private int max = DEFAULT_MAX;
-  
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.functionDefinition);

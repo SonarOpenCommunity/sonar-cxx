@@ -36,9 +36,9 @@ import com.sonar.sslr.api.Grammar;
 
 //similar Vera++ rule T018
 public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
-  
+
   private static final String DEFAULT_NAME_SUFFIX = ".h,.hh,.hpp,.H";
- 
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.blockDeclaration);
@@ -50,12 +50,12 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
       getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
       }
     }
-  
+
   private boolean isHeader(String name) {
     String[] suffixes = StringUtils.split(DEFAULT_NAME_SUFFIX, ",");
     for (String suff : suffixes) {
       if (name.endsWith(suff)) {
-        return true;       
+        return true;
       }
     }
     return false;

@@ -35,7 +35,7 @@ public class SomethingTest {
   @Test
   public void test() {
     //p.setRootRule(g.rule(CxxGrammarImpl.TEST));
-    
+
     //assertThat(p).parse("void foo() override {};"));
   }
 }

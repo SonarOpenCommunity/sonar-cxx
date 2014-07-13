@@ -42,7 +42,7 @@ public final class CxxParser {
   public static void finishedParsing(File path){
     cxxpp.finishedPreprocessing(path);
   }
-  
+
   public static Parser<Grammar> create() {
     return create(new SquidAstVisitorContextImpl<Grammar>(new SourceProject("")),
                   new CxxConfiguration());

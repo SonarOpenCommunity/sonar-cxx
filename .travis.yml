@@ -1,0 +1,18 @@
+language: java
+
+jdk:
+  - oraclejdk7
+  - openjdk6
+
+
+install:
+        - ./sonar-cxx-plugin/src/test/integration/setup_sonar.sh
+
+before_script:
+        - cp sonar-cxx-plugin/src/test/integration/sitedefs_sample.py sonar-cxx-plugin/src/test/integration/sitedefs.py
+        - sudo pip install requests
+
+script:
+        - mvn install -DskipTests=true
+        - mvn test
+        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin sonar-cxx-plugin/src/test/integration/smoketest

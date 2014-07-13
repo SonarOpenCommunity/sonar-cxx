@@ -357,6 +357,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxLanguage.class);
     l.add(CxxSourceImporter.class);
     l.add(CxxColorizer.class);
+    l.add(CxxMetrics.class);
     l.add(CxxSquidSensor.class);
     l.add(CxxCpdMapping.class);
     l.add(CxxRatsRuleRepository.class);

@@ -32,10 +32,10 @@ public class OverloadingTest extends ParserBaseTest {
   @Test
   public void operatorFunctionId_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.operatorFunctionId));
-    
+
     assertThat(p).matches("operator()");
   }
-  
+
   @Test
   public void operator() {
     p.setRootRule(g.rule(CxxGrammarImpl.operator));

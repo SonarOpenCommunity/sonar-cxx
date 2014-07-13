@@ -44,7 +44,7 @@ import java.util.Stack;
   priority = Priority.MAJOR)
 
 public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
-  
+
   private static final AstNodeType[] BLOCK_TYPES = new AstNodeType[] {
       CxxGrammarImpl.statementSeq,
       CxxGrammarImpl.switchBlockStatementGroups,

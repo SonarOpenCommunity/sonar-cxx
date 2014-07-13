@@ -42,7 +42,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
 
   private static String[] keywords = null;
   private Charset charset;
-  
+
   @Override
   public void init() {
     keywords = CxxKeyword.keywordValues();

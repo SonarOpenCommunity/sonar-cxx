@@ -32,7 +32,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
   priority = Priority.MAJOR)
 
 public class UselessParenthesesCheck extends SquidCheck<Grammar> {
- 
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.par_expression);
@@ -40,7 +40,9 @@ public class UselessParenthesesCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.par_expression) && node.getParent().is(CxxGrammarImpl.expression)) {
+    if (node.is(CxxGrammarImpl.par_expression) &&
+        node.getParent().is(CxxGrammarImpl.expression) &&
+        !node.isCopyBookOrGeneratedNode()) {
       getContext().createLineViolation(this, "Remove those useless parentheses.", node);
     }
   }

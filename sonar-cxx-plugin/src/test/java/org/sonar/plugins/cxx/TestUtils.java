@@ -132,7 +132,7 @@ public class TestUtils {
     List<File> empty = new ArrayList<File>();
     return mockFileSystem(baseDir, empty, empty);
   }
-  
+
   private static List<InputFile> fromSourceFiles(List<File> sourceFiles) {
     List<InputFile> result = new ArrayList<InputFile>();
     for (File file : sourceFiles) {

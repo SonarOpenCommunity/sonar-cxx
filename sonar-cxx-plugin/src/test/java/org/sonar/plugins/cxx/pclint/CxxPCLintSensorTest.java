@@ -108,7 +108,7 @@ public class CxxPCLintSensorTest {
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }
-  
+
   @Test
   public void shouldThrowExceptionInvalidChar() {
     Settings settings = new Settings();

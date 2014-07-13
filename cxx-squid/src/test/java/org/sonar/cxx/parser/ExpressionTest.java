@@ -32,13 +32,13 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void primaryExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
-    
+
     g.rule(CxxGrammarImpl.LITERAL).mock();
     g.rule(CxxGrammarImpl.expression).mock();
     g.rule(CxxGrammarImpl.compoundStatement).mock();
     g.rule(CxxGrammarImpl.idExpression).mock();
     g.rule(CxxGrammarImpl.lambdaExpression).mock();
-    
+
     assertThat(p)
       .matches("LITERAL")
       .matches("this")
@@ -51,13 +51,13 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void primaryExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
-    
+
     assertThat(p).matches("(istream_iterator<string>(cin))");
 
     // GCCs extension: statement expression
-    assertThat(p).matches("({ int i = 0; a = i++; })"); 
+    assertThat(p).matches("({ int i = 0; a = i++; })");
   }
-  
+
   @Test
   public void idExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.idExpression));
@@ -519,10 +519,14 @@ public class ExpressionTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.pmExpression));
     g.rule(CxxGrammarImpl.unaryExpression).mock();
     g.rule(CxxGrammarImpl.typeId).mock();
+    g.rule(CxxGrammarImpl.bracedInitList).mock();
 
     assertThat(p).matches("unaryExpression");
     assertThat(p).matches("(typeId) unaryExpression");
     assertThat(p).matches("(typeId)(typeId) unaryExpression");
+
+    // C-COMPATIBILITY: C99 compound literals
+    assertThat(p).matches("(typeId) bracedInitList");
   }
 
   @Test
@@ -532,5 +536,9 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("(istream_iterator<string>(cin))");
     assertThat(p).matches("(Color)c");
     assertThat(p).matches("CDB::mask");
+
+    // C-COMPATIBILITY: C99 compound literals
+    assertThat(p).matches("(Point){ 400, 200 }");
+    assertThat(p).matches("(int []){ 1, 2, 4, 8 }");
   }
 }

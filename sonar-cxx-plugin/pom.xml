@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.2-SNAPSHOT</version>
   </parent>
-  
+
   <artifactId>sonar-cxx-plugin</artifactId>
   <packaging>sonar-plugin</packaging>
-  
+
   <name>Cxx :: Sonar Plugin</name>
   <inceptionYear>2010</inceptionYear>
   <description>Enable analysis and reporting on c++ projects.</description>
@@ -55,7 +55,7 @@
       <version>2.0.9</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>ant</groupId>
       <artifactId>ant</artifactId>

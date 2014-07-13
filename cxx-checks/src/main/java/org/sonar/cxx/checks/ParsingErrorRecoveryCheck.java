@@ -33,14 +33,14 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
   priority = Priority.INFO)
 
 public class ParsingErrorRecoveryCheck extends SquidCheck<Grammar> {
-  
+
   @Override
   public void init() {
     subscribeTo(CxxGrammarImpl.recoveredDeclaration);
   }
-   
+
   @Override
   public void visitNode(AstNode node) {
     getContext().createLineViolation(this, "C++ Parser can't read code. Declaration is skipped.", node.getToken().getLine());
-  }  
+  }
 }
