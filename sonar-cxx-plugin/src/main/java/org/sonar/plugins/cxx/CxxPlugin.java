@@ -56,8 +56,7 @@ import java.util.List;
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
-  public static final String DEFINES_KEY = "sonar.cxx.defines";
-  public static final String PROJECTBASEDIR_KEY = "sonar.cxx.projectBaseDir";  
+  public static final String DEFINES_KEY = "sonar.cxx.defines";  
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
@@ -107,18 +106,7 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.TEXT)
       .index(5)
-      .build(),
-
-      PropertyDefinition.builder(PROJECTBASEDIR_KEY)
-      .name("Project base directory")
-      .description("This property is used to define the project root directory (location of properties file)"
-                   + " When defined it will be used as base directory for searching reports files."
-                   + " In a multi module configuration it simplifies the location for searching paths")    
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .type(PropertyType.TEXT)
-      .index(6)
-      .build(),      
+      .build(),     
 
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
       .defaultValue("False")
