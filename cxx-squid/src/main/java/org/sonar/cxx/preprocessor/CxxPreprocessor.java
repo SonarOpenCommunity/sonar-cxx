@@ -145,13 +145,11 @@ public class CxxPreprocessor extends Preprocessor {
 
       // parse the configured defines and store into the macro library
       for (String define : conf.getDefines()) {
-//        LOG.debug("parsing external macro: '"+ define + "'");
-        LOG.debug("parsing external macro: '{}'", define);
+//        LOG.debug("parsing external macro: '{}'", define);
         if (!define.equals("")) {
           Macro macro = parseMacroDefinition("#define " + define);
           if (macro != null) {
-//            LOG.debug("storing external macro: '" + macro + "'");
-            LOG.info("storing external macro: '{}'", macro);
+//            LOG.info("storing external macro: '{}'", macro);
             macros.put(macro.name, macro);
           }
         }

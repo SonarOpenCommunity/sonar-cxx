@@ -37,7 +37,6 @@ import org.sonar.api.batch.bootstrap.ProjectReactor;
 import javax.xml.stream.XMLStreamException;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

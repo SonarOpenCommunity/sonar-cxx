@@ -33,8 +33,6 @@ import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -119,8 +117,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
+      throws javax.xml.stream.XMLStreamException {
     final CompilerParser parser = getCompilerParser();
     final String reportCharset = getParserStringProperty(REPORT_CHARSET_DEF, parser.defaultCharset());
     final String reportRegEx = getParserStringProperty(REPORT_REGEX_DEF, parser.defaultRegexp());
