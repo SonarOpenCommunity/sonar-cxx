@@ -23,12 +23,12 @@ import com.google.common.collect.Lists;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.squid.AstScanner;
 import com.sonar.sslr.squid.SquidAstVisitor;
-
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.AnnotationCheckFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.profiles.RulesProfile;
@@ -43,6 +43,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.squid.api.CheckMessage;
 import org.sonar.squid.api.SourceCode;
@@ -71,21 +72,19 @@ public final class CxxSquidSensor implements Sensor {
   private AstScanner<Grammar> scanner;
   private Settings conf;
   private ModuleFileSystem fs;
-  private ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(RulesProfile profile, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
+  public CxxSquidSensor(RulesProfile profile, Settings conf, ModuleFileSystem fs) {
     this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
     this.conf = conf;
     this.fs = fs;
-    this.reactor = reactor;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-//    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
-    return !fs.files(FileQuery.onSource().onLanguage(CxxLanguage.KEY)).isEmpty();
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+//    return !fs.files(FileQuery.onSource().onLanguage(CxxLanguage.KEY)).isEmpty();
   }
 
   /**
@@ -120,7 +119,8 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void save(Collection<SourceCode> squidSourceFiles) {
-    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(project, context, annotationCheckFactory, fs, reactor);
+    int violationsCount = 0;
+    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(project, context, annotationCheckFactory);
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
       File ioFile = new File(squidFile.getKey());
@@ -130,9 +130,13 @@ public final class CxxSquidSensor implements Sensor {
       saveMeasures(sonarFile, squidFile);
       saveFilesComplexityDistribution(sonarFile, squidFile);
       saveFunctionsComplexityDistribution(sonarFile, squidFile);
+      violationsCount += saveViolations(sonarFile, squidFile);
       dependencyAnalyzer.addFile(sonarFile, CxxParser.getIncludedFiles(ioFile));
     }
 
+    Measure measure = new Measure(CxxMetrics.SQUID);
+    measure.setIntValue(violationsCount);
+    context.saveMeasure(measure);
     dependencyAnalyzer.save();
   }
 
@@ -163,7 +167,7 @@ public final class CxxSquidSensor implements Sensor {
     context.saveMeasure(sonarFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
   }
 
-  private void saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
+  private int saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     if (messages != null) {
       for (CheckMessage message : messages) {
@@ -172,7 +176,9 @@ public final class CxxSquidSensor implements Sensor {
             .setMessage(message.getText(Locale.ENGLISH));
         context.saveViolation(violation);
       }
+      return messages.size();
     }
+    return 0;
   }
 
   @Override

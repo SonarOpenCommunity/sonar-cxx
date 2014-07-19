@@ -43,7 +43,7 @@ public class CxxCompilerSensorTest {
   private Project project;
   private RuleFinder ruleFinder;
   private RulesProfile profile;
-  
+
   private CxxCompilerSensor createSensor(String parser)
   {
       Settings settings = new Settings();

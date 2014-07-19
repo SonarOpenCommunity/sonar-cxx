@@ -451,6 +451,37 @@ public class DeclaratorsTest extends ParserBaseTest {
 
     assertThat(p).matches("(istream_iterator<string>(cin))");
     assertThat(p).matches("istream_iterator<string>()");
+
+    // C-COMPATIBILITY: C99 designated initializers
+    assertThat(p).matches(".name = string(\"Something\")");
+    assertThat(p).matches("[5] = {}");
+    assertThat(p).matches(".values = { [4] = 5, [5 ... 7] = 1, [2] = 0 }");
+  }
+
+  @Test
+  public void initializerClause() {
+    p.setRootRule(g.rule(CxxGrammarImpl.initializerClause));
+
+    g.rule(CxxGrammarImpl.assignmentExpression).mock();
+    g.rule(CxxGrammarImpl.initializerList).mock();
+    g.rule(CxxGrammarImpl.constantExpression).mock();
+
+    assertThat(p).matches("{}");
+    assertThat(p).matches("{ initializerList }");
+    assertThat(p).matches("assignmentExpression");
+
+    // C-COMPATIBILITY: C99 designated initializers
+    assertThat(p).matches(".fieldName = {}");
+    assertThat(p).matches(".fieldName = { initializerList }");
+    assertThat(p).matches(".fieldName = assignmentExpression");
+    assertThat(p).matches("[constantExpression] = {}");
+    assertThat(p).matches("[constantExpression] = { initializerList }");
+    assertThat(p).matches("[constantExpression] = assignmentExpression");
+
+    // C-COMPATIBILITY: EXTENSION: gcc's designated initializers range
+    assertThat(p).matches("[constantExpression ... constantExpression] = {}");
+    assertThat(p).matches("[constantExpression ... constantExpression] = { initializerList }");
+    assertThat(p).matches("[constantExpression ... constantExpression] = assignmentExpression");
   }
 
   @Test

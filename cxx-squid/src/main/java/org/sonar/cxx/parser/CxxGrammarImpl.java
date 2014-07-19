@@ -515,6 +515,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(castExpression).is(
       b.firstOf(
+        // C-COMPATIBILITY: C99 compound literals
+        b.sequence("(", typeId, ")", bracedInitList ),
         b.sequence(
           b.next("(", typeId, ")"), "(", typeId, ")", castExpression),
         unaryExpression
@@ -608,6 +610,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(switchLabelStatement).is(b.firstOf(
         b.sequence(CxxKeyword.CASE, constantExpression, ":"),
+        // EXTENSION: gcc's case range
+        b.sequence(CxxKeyword.CASE, constantExpression, "...", constantExpression, ":"),
         b.sequence(CxxKeyword.DEFAULT, ":")));
 
     b.rule(condition).is(
@@ -1082,9 +1086,16 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(initializerClause).is(
-      b.firstOf(
-        assignmentExpression,
-        bracedInitList
+      b.sequence(
+        // C-COMPATIBILITY: C99 designated initializers
+        b.optional(b.firstOf(b.sequence(".", IDENTIFIER, "="),
+                             // EXTENSION: gcc's designated initializers range
+                             b.sequence("[", constantExpression, "...", constantExpression, "]", "="),
+                             b.sequence("[", constantExpression, "]", "="))),
+        b.firstOf(
+          assignmentExpression,
+          bracedInitList
+          )
         )
       );
 

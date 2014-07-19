@@ -27,6 +27,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
@@ -50,7 +51,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   public CxxExternalRulesSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(ruleFinder, conf, fs, reactor);
+    super(ruleFinder, conf, fs, reactor, CxxMetrics.EXTERNAL);
     this.profile = profile;
   }
 

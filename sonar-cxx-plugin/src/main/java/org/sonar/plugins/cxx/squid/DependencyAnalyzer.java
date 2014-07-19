@@ -21,9 +21,7 @@ package org.sonar.plugins.cxx.squid;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.checks.CheckFactory;
 import org.sonar.api.design.Dependency;
 import org.sonar.api.measures.CoreMetrics;
@@ -36,7 +34,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.rules.Violation;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.graph.*;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -50,20 +47,16 @@ public class DependencyAnalyzer {
   private Project project;
   private SensorContext context;
   private CheckFactory checkFactory;
-  private ModuleFileSystem fs;
-  private ProjectReactor reactor;
 
   private DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<File, FileEdge>();
   private DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<Directory, DirectoryEdge>();
   private HashMap<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
   private Multimap<Directory, File> directoryFiles = HashMultimap.create();
 
-  public DependencyAnalyzer(Project project, SensorContext context, CheckFactory checkFactory, ModuleFileSystem fs, ProjectReactor reactor) {
+  public DependencyAnalyzer(Project project, SensorContext context, CheckFactory checkFactory) {
     this.project = project;
     this.context = context;
     this.checkFactory = checkFactory;
-    this.fs = fs;
-    this.reactor = reactor;
   }
 
   public void addFile(File sonarFile, Collection<String> includedFiles) {
@@ -74,7 +67,7 @@ public class DependencyAnalyzer {
 
     //Build the dependency graph
     for (String file : includedFiles) {
-      File includedFile = File.fromIOFile(new java.io.File(file), fs.sourceDirs());
+      File includedFile = File.fromIOFile(new java.io.File(file), project);
       if (includedFile != null) {
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile);

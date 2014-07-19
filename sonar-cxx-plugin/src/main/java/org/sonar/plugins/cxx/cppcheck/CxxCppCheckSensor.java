@@ -30,6 +30,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -51,7 +52,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
    */
   public CxxCppCheckSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs,
       RulesProfile profile, ProjectReactor reactor) {
-    super(ruleFinder, conf, fs, reactor);
+    super(ruleFinder, conf, fs, reactor, CxxMetrics.CPPCHECK);
     this.profile = profile;
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
@@ -84,17 +85,20 @@ public class CxxCppCheckSensor extends CxxReportSensor {
       try {
         parser.processReport(project, context, report);
         if (parser.hasParsed()) {
-          CxxUtils.LOG.info("Added report '" + report +"' (parsed by:"+ parser + ")");
+//          CxxUtils.LOG.info("Added report '" + report +"' (parsed by:"+ parser + ")");
+          CxxUtils.LOG.info("Added report '{}' (parsed by: {})", report, parser);
           parsed = true;
           break;
         }
       } catch (XMLStreamException e) {
-        CxxUtils.LOG.trace("Report " + report + " cannot be parsed by " + parser);
+//        CxxUtils.LOG.trace("Report " + report + " cannot be parsed by " + parser);
+        CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
       }
     }
 
     if (!parsed) {
-      CxxUtils.LOG.error("Report " + report + " cannot be parsed");
+//      CxxUtils.LOG.error("Report " + report + " cannot be parsed");
+      CxxUtils.LOG.error("Report {} cannot be parsed", report);
     }
   }
 }

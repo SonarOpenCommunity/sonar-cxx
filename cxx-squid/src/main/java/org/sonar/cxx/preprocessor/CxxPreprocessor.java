@@ -145,11 +145,13 @@ public class CxxPreprocessor extends Preprocessor {
 
       // parse the configured defines and store into the macro library
       for (String define : conf.getDefines()) {
-        LOG.debug("parsing external macro: '"+ define + "'");
+//        LOG.debug("parsing external macro: '"+ define + "'");
+        LOG.debug("parsing external macro: '{}'", define);
         if (!define.equals("")) {
           Macro macro = parseMacroDefinition("#define " + define);
           if (macro != null) {
-            LOG.debug("storing external macro: '" + macro + "'");
+//            LOG.debug("storing external macro: '" + macro + "'");
+            LOG.info("storing external macro: '{}'", macro);
             macros.put(macro.name, macro);
           }
         }
@@ -175,7 +177,8 @@ public class CxxPreprocessor extends Preprocessor {
 
       // parse the configured force includes and store into the macro library
       for (String include : conf.getForceIncludeFiles()) {
-        LOG.debug("parsing force include: '" + include +"'");
+//        LOG.debug("parsing force include: '" + include +"'");
+        LOG.debug("parsing force include: '{}'", include);
         if (!include.equals("")) {
           parseIncludeLine("#include \"" + include + "\"");
         }
@@ -258,7 +261,8 @@ public class CxxPreprocessor extends Preprocessor {
     // a corresponding #undef directive is encountered or (if none
     // is encountered) until the end of the translation unit.
 
-    LOG.debug("finished preprocessing '" + file + "'");
+//    LOG.debug("finished preprocessing '" + file + "'");
+    LOG.debug("finished preprocessing '{}'", file);
 
     analysedFiles.clear();
     macros.clearLowPrio();
@@ -407,6 +411,7 @@ public class CxxPreprocessor extends Preprocessor {
     // b) extract the filename out of the include body and try to find it
     // c) if not done yet, process it using a special lexer, which calls back only
     //    if it finds relevant preprocessor directives (currently: include's and define's)
+
     File includedFile = findIncludedFile(ast, token, filename);
 
     File currentFile = this.getFileUnderAnalysis();
@@ -416,16 +421,14 @@ public class CxxPreprocessor extends Preprocessor {
 
     if (includedFile == null) {
       if (!notFoundFileforToken.contains(filename + token.getValue())) {
-        LOG.warn("[" + filename + ":" + token.getLine()
-            + "]: cannot find the sources for '" + token.getValue() + "'");
+//        LOG.warn("[" + filename + ":" + token.getLine()
+//            + "]: cannot find the sources for '" + token.getValue() + "'");
+        LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
         notFoundFileforToken.add(filename + token.getValue());
       }
-    }    else if (!analysedFiles.contains(includedFile)) {
+    }
+    else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());
-
-//      LOG.debug("[" + filename + ":" + token.getLine() + "]: processing '" + token.getValue() + "', resolved to file '" + includedFile.getAbsolutePath() +"'");
-      
-
 //      LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
 //                new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
 
@@ -438,12 +441,6 @@ public class CxxPreprocessor extends Preprocessor {
         state = stateStack.pop();
       }
     }
-
-//    else {
-//      LOG.debug("[" + filename + ":" + token.getLine() + "]: skipping already included file '"+ includedFile + "'");
-//    }
-    
-
 //    else {
 //      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
 //    }

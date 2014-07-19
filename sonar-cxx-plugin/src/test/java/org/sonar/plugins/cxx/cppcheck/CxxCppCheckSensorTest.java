@@ -21,7 +21,6 @@ package org.sonar.plugins.cxx.cppcheck;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Matchers.any;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
@@ -32,6 +31,7 @@ import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -107,5 +107,5 @@ public class CxxCppCheckSensorTest {
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveViolation(any(Violation.class));
-  }   
+  }
 }

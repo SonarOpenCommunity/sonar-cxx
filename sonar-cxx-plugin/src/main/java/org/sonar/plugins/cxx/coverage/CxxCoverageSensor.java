@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 /**
  * {@inheritDoc}
  */
@@ -55,7 +56,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private static final String OVERALL_DEFAULT_REPORT_PATH = "coverage-reports/overall-coverage-*.xml";
 
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
-    private final ProjectReactor reactor;
+  private final ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
@@ -74,7 +75,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-      
     List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     CxxUtils.LOG.debug("Parsing coverage reports");
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
@@ -105,16 +105,19 @@ public class CxxCoverageSensor extends CxxReportSensor {
           if (!measuresForReport.isEmpty()) {
             parsed = true;
             measuresTotal.putAll(measuresForReport);
-            CxxUtils.LOG.info("Added report '" + report + "' (parsed by: " + parser + ") to the coverage data");
+            CxxUtils.LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
+//            CxxUtils.LOG.info("Added report '" + report + "' (parsed by: " + parser + ") to the coverage data");
             break;
           }
         } catch (XMLStreamException e) {
-          CxxUtils.LOG.trace("Report " + report + " cannot be parsed by " + parser);
+          CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
+//          CxxUtils.LOG.trace("Report " + report + " cannot be parsed by " + parser);
         }
       }
 
       if (!parsed) {
-        CxxUtils.LOG.error("Report " + report + " cannot be parsed");
+        CxxUtils.LOG.error("Report {} cannot be parsed", report);
+//        CxxUtils.LOG.error("Report " + report + " cannot be parsed");
       }
     }
 

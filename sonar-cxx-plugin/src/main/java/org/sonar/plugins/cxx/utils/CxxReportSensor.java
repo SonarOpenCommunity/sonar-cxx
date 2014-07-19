@@ -24,6 +24,8 @@ import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
+import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
@@ -53,11 +55,14 @@ public abstract class CxxReportSensor implements Sensor {
   protected ModuleFileSystem fs;
   private final ProjectReactor reactor;
 
+  private final Metric metric;
+  private int violationsCount;
+
   /**
    * {@inheritDoc}
    */
   public CxxReportSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
-    this(null, conf, fs, reactor);
+    this(null, conf, fs, reactor, null);
   }
 
   /**
@@ -68,6 +73,18 @@ public abstract class CxxReportSensor implements Sensor {
     this.conf = conf;
     this.fs = fs;
     this.reactor = reactor;
+    this.metric = null;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, ProjectReactor reactor, Metric metric) {
+    this.ruleFinder = ruleFinder;
+    this.conf = conf;
+    this.fs = fs;
+    this.reactor = reactor;
+    this.metric = metric;
   }
 
   /**
@@ -83,20 +100,34 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public void analyse(Project project, SensorContext context) {
     try {
-//      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
-      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+//      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
           reportPathKey(), defaultReportPath());
+
+      violationsCount = 0;
+
       for (File report : reports) {
-        CxxUtils.LOG.info("Processing report '" + report + "'");
+//        CxxUtils.LOG.info("Processing report '" + report + "'");
+        CxxUtils.LOG.info("Processing report '{}'", report);
         try{
+          int prevViolationsCount = violationsCount;
           processReport(project, context, report);
-        } catch(EmptyReportException e) {
-          CxxUtils.LOG.warn("The report " + report + " seems to be empty, ignoring.");
+          CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+                            violationsCount - prevViolationsCount);
+        }
+        catch(EmptyReportException e){
+          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
         }
       }
 
       if (reports.isEmpty()) {
         handleNoReportsCase(context);
+      }
+
+      if (metric != null) {
+        Measure measure = new Measure(metric);
+        measure.setIntValue(violationsCount);
+        context.saveMeasure(measure);
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -130,7 +161,8 @@ public abstract class CxxReportSensor implements Sensor {
       reportPath = defaultReportPath;
     }
 
-    CxxUtils.LOG.debug("Using pattern "  + reportPath + " to find reports");
+//    CxxUtils.LOG.debug("Using pattern "  + reportPath + " to find reports");
+    CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
     DirectoryScanner scanner = new DirectoryScanner();
     String[] includes = new String[1];
@@ -168,8 +200,7 @@ public abstract class CxxReportSensor implements Sensor {
    * according parameters ('file' = null for project level, 'line' = null for
    * file-level)
    */
-
-  public boolean saveViolation(Project module, SensorContext context,
+  public boolean saveViolation(Project project, SensorContext context,
       String ruleRepoKey, String filename, String line, String ruleId,
       String msg) {
     boolean add = false;
@@ -180,7 +211,7 @@ public abstract class CxxReportSensor implements Sensor {
       String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
       if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
           org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
-//            .fromIOFile(new File(normalPath), module); 
+//            .fromIOFile(new File(normalPath), project); 
               .fromIOFile(new File(normalPath), fs.sourceDirs());
 
           if (context.getResource(sonarFile) != null) {
@@ -188,13 +219,14 @@ public abstract class CxxReportSensor implements Sensor {
             resource = sonarFile;
             add = true;
           } else {
-            CxxUtils.LOG.warn("Cannot find the file '" + normalPath + "', skipping violations");
+//            CxxUtils.LOG.warn("Cannot find the file '" + normalPath + "', skipping violations");
+            CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
             notFoundFiles.add(normalPath);
           }
       }
     } else {
       // project level violation
-      resource = module;
+      resource = project;
       add = true;
     }
 
@@ -215,6 +247,7 @@ public abstract class CxxReportSensor implements Sensor {
     }
     violation.setMessage(msg);
     context.saveViolation(violation);
+    violationsCount++;
   }
 
   private Rule getRule(String ruleRepoKey, String ruleId) {
@@ -240,7 +273,8 @@ public abstract class CxxReportSensor implements Sensor {
         lineNr = Integer.parseInt(line);
         lineNr = lineNr == 0 ? 1 : lineNr;
       } catch (java.lang.NumberFormatException nfe) {
-        CxxUtils.LOG.warn("Skipping invalid line number: " + line);
+//        CxxUtils.LOG.warn("Skipping invalid line number: " + line);
+        CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
         lineNr = -1;
       }
     }

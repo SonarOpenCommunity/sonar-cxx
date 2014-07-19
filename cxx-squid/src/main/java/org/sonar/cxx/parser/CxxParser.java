@@ -44,8 +44,9 @@ public final class CxxParser {
     cxxpp.finishedPreprocessing(path);
   }
 
-
-  public static Collection<String> getIncludedFiles(File path) { return cxxpp.getIncludedFiles(path); }
+  public static Collection<String> getIncludedFiles(File path) {
+    return cxxpp.getIncludedFiles(path);
+  }
 
   public static Parser<Grammar> create() {
     return create(new SquidAstVisitorContextImpl<Grammar>(new SourceProject("")),

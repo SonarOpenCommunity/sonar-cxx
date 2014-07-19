@@ -19,21 +19,24 @@
  */
 package org.sonar.plugins.cxx.compiler;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team edition or 2010/2012/2013 premium edition)
@@ -54,7 +57,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   public CxxCompilerSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(ruleFinder, conf, fs, reactor);
+    super(ruleFinder, conf, fs, reactor, CxxMetrics.COMPILER);
     this.profile = profile;
 
     addCompilerParser(new CxxCompilerVcParser());
@@ -116,28 +119,26 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException {
-    int countViolations = 0;
+      throws javax.xml.stream.XMLStreamException
+  {
     final CompilerParser parser = getCompilerParser();
     final String reportCharset = getParserStringProperty(REPORT_CHARSET_DEF, parser.defaultCharset());
     final String reportRegEx = getParserStringProperty(REPORT_REGEX_DEF, parser.defaultRegexp());
     final List<CompilerParser.Warning> warnings = new LinkedList<CompilerParser.Warning>();
 
     // Iterate through the lines of the input file
-    CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '" + report + "', CharSet= '" + reportCharset + "'" );
+//    CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '" + report + "', CharSet= '" + reportCharset + "'" );
+    CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
     try {
       parser.ParseReport(report, reportCharset, reportRegEx, warnings);
       for(CompilerParser.Warning w : warnings) {
         // get filename from file system - e.g. VC writes case insensitive file name to html
         if (isInputValid(w.filename, w.line, w.id, w.msg)) {
-          if (saveUniqueViolation(project, context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg)) {
-            countViolations++;
-          }
+          saveUniqueViolation(project, context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg);
         } else {
           CxxUtils.LOG.warn("C-Compiler warning: {}", w.msg);
         }
       }
-      CxxUtils.LOG.info("C-Compiler warnings processed = " + countViolations);
     } catch (java.io.FileNotFoundException e) {
       CxxUtils.LOG.error("processReport Exception: " + "report.getName" + " - not processed '{}'", e.toString());
     } catch (java.lang.IllegalArgumentException e1) {
