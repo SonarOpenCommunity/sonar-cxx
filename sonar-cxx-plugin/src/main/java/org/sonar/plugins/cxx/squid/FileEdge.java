@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
+ * Copyright (C) 2010 Neticoa SAS France
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -17,16 +17,29 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.checks;
+package org.sonar.plugins.cxx.squid;
 
-import org.junit.Test;
+import org.sonar.api.resources.File;
+import org.sonar.graph.Edge;
 
-import static org.fest.assertions.Assertions.assertThat;
+class FileEdge implements Edge<File> {
+  private File from;
+  private File to;
 
-public class CheckListTest {
+  public FileEdge(File from, File to) {
+    this.from = from;
+    this.to = to;
+  }
 
-  @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(31);
+  public int getWeight() {
+    return 1;
+  }
+
+  public File getFrom() {
+    return from;
+  }
+
+  public File getTo() {
+    return to;
   }
 }

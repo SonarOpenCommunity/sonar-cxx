@@ -37,6 +37,7 @@ public final class CheckList {
         CollapsibleIfCandidateCheck.class,
         CommentedCodeCheck.class,
         CommentRegularExpressionCheck.class,
+        CycleBetweenPackagesCheck.class,
         FileComplexityCheck.class,
         FileHeaderCheck.class,
         FixmeTagPresenceCheck.class,
