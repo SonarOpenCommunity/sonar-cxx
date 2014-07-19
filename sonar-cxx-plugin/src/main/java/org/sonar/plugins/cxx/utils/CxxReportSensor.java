@@ -51,7 +51,7 @@ public abstract class CxxReportSensor implements Sensor {
   private HashSet<String> uniqueIssues = new HashSet<String>();
   private HashMap<String, Rule> ruleCache = new HashMap<String, Rule>();
   protected ModuleFileSystem fs;
-    private final ProjectReactor reactor;
+  private final ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
@@ -83,7 +83,8 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
+//      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
+      List<File> reports = getReports(conf, fs.baseDir().getPath(),
           reportPathKey(), defaultReportPath());
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '" + report + "'");
@@ -179,7 +180,8 @@ public abstract class CxxReportSensor implements Sensor {
       String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
       if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
           org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
-              .fromIOFile(new File(normalPath), module);
+//            .fromIOFile(new File(normalPath), module); 
+              .fromIOFile(new File(normalPath), fs.sourceDirs());
 
           if (context.getResource(sonarFile) != null) {
             lineNr = getLineAsInt(line);

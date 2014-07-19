@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.squid;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Directory;
@@ -49,6 +50,7 @@ public class CxxSquidSensorTest {
   private ModuleFileSystem fs;
   private List<File> emptyList;
   private Project project;
+  private ProjectReactor reactor;
 
   @Before
   public void setUp() {
@@ -168,6 +170,7 @@ public class CxxSquidSensorTest {
     sourceDirs.add(sourceDir == null ? baseDir : new File(baseDir, sourceDir));
     project = TestUtils.mockProject(baseDir, sourceDirs, emptyList);
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, emptyList);
-    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
+    reactor = TestUtils.mockReactor();
+    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs, reactor);
   }
 }

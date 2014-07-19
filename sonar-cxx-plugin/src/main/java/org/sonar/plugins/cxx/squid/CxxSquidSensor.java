@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.squid.AstScanner;
 import com.sonar.sslr.squid.SquidAstVisitor;
+
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.AnnotationCheckFactory;
@@ -33,7 +34,9 @@ import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.rules.Violation;
+import org.sonar.api.scan.filesystem.FileQuery;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
@@ -68,18 +71,21 @@ public final class CxxSquidSensor implements Sensor {
   private AstScanner<Grammar> scanner;
   private Settings conf;
   private ModuleFileSystem fs;
+  private ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(RulesProfile profile, Settings conf, ModuleFileSystem fs) {
+  public CxxSquidSensor(RulesProfile profile, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
     this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
     this.conf = conf;
     this.fs = fs;
+    this.reactor = reactor;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+//    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+    return !fs.files(FileQuery.onSource().onLanguage(CxxLanguage.KEY)).isEmpty();
   }
 
   /**
@@ -114,7 +120,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void save(Collection<SourceCode> squidSourceFiles) {
-    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(project, context, annotationCheckFactory);
+    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(project, context, annotationCheckFactory, fs, reactor);
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
       File ioFile = new File(squidFile.getKey());
