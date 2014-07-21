@@ -50,9 +50,9 @@ EXP_MEASURES = {
     "file_complexity": 0.9,
     "class_complexity": 6.0,
  
-   # violations
-    "violations": 18,
-    "violations_density": 7.1,
+    # violations
+    "violations": 12,
+    "violations_density": 57.1,
 
     # coverage statistics
     "coverage": 84.0,
@@ -269,7 +269,6 @@ def diffDicts(d1, d2):
         rc = False
         for k1, v1 in d1.iteritems():
             v2 = d2.get(k1, None)
-            print v1, " ", v2
             if v1 != v2:
                 difflist.append("%s %s/%s" % (k1, str(v1), str(v2)))
     return rc, ", ".join(difflist)
