@@ -246,4 +246,12 @@
       </plugins>
     </pluginManagement>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.1.2</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 </project>
