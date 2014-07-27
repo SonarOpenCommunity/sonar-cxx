@@ -100,8 +100,8 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public void analyse(Project project, SensorContext context) {
     try {
-//      List<File> reports = getReports(conf, fs.baseDir().getPath(),
-      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
+      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+//      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
           reportPathKey(), defaultReportPath());
 
       violationsCount = 0;
@@ -208,6 +208,7 @@ public abstract class CxxReportSensor implements Sensor {
     int lineNr = 0;
     // handles file="" situation -- file level
     if ((filename != null) && (filename.length() > 0)) {
+//      String normalPath = CxxUtils.normalizePath(filename);
       String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
       if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
           org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
