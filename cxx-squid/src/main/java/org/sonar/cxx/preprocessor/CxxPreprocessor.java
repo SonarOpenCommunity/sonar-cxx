@@ -22,6 +22,7 @@ package org.sonar.cxx.preprocessor;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.api.PreprocessorAction;
@@ -116,6 +117,45 @@ public class CxxPreprocessor extends Preprocessor {
   private ExpressionEvaluator ifExprEvaluator;
   private Multimap<String, String> includedFiles = HashMultimap.create();
 
+  public static class MissingInclude {
+    private int line;
+    private String directive;
+
+    MissingInclude(int line, String directive) {
+      this.line = line;
+      this.directive = directive;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+
+      MissingInclude that = (MissingInclude) o;
+
+      if (line != that.line) return false;
+      if (directive != null ? !directive.equals(that.directive) : that.directive != null) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int result = line;
+      result = 31 * result + (directive != null ? directive.hashCode() : 0);
+      return result;
+    }
+
+    public String getDirective() {
+      return directive;
+    }
+
+    public int getLine() {
+      return line;
+    }
+  }
+  private Multimap<String, MissingInclude> missingIncludeFiles = HashMultimap.create();
+
   // state which is not shared between files
   private State state = new State(null);
   private Stack<State> stateStack = new Stack<State>();
@@ -184,9 +224,12 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  public Collection<String> getIncludedFiles(File file)
-  {
+  public Collection<String> getIncludedFiles(File file) {
     return includedFiles.get(file.getPath());
+  }
+  
+  public Collection<MissingInclude> getMissingIncludeFiles(File file) {
+    return missingIncludeFiles.get(file.getPath());
   }
 
   @Override
@@ -416,6 +459,9 @@ public class CxxPreprocessor extends Preprocessor {
 
     if (includedFile == null) {
       LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
+      if (currentFile != null) {
+        missingIncludeFiles.put(currentFile.getPath(), new MissingInclude(token.getLine(), token.getValue()));
+      }
     }
     else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());

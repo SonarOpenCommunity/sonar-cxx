@@ -19,14 +19,23 @@
  */
 package org.sonar.cxx.checks;
 
-import org.junit.Test;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.check.Priority;
+import org.sonar.cxx.parser.CxxParser;
+import org.sonar.cxx.preprocessor.CxxPreprocessor;
+import org.sonar.check.Rule;
 
-import static org.fest.assertions.Assertions.assertThat;
-
-public class CheckListTest {
-
-  @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(32);
+@Rule(
+    key = "MissingInclude",
+    priority = Priority.INFO)
+public class MissingIncludeFileCheck extends SquidCheck<Grammar> {
+  @Override
+  public void leaveFile(AstNode astNode) {
+    for(CxxPreprocessor.MissingInclude missingInclude : CxxParser.getMissingIncludeFiles(getContext().getFile())) {
+      getContext().createLineViolation(this, "Unable to find the source for '" + missingInclude.getDirective() + "'.",
+          missingInclude.getLine());
+    }
   }
 }
