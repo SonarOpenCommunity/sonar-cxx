@@ -76,5 +76,18 @@ public class CxxCoverageSensorTest {
 
     sensor.analyse(project, context);
   }
+  
+  
+  @Test
+  public void shoulParseTopLevelFiles() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye-coverage-report-data-in-root-node.xml");
+    sensor = new CxxCoverageSensor(settings, fs, reactor);
+    
+    sensor.analyse(project, context);
+    verify(context, times(163)).saveMeasure((File) anyObject(), any(Measure.class));
+  }
+  
+  
 
 }

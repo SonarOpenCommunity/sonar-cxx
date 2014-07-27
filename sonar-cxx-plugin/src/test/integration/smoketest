@@ -25,24 +25,51 @@ BASEDIR = os.path.dirname(os.path.realpath(__file__))
 JAR_PATH = os.path.normpath(glob(os.path.join(BASEDIR, "../../../target/*SNAPSHOT.jar"))[0])
 
 EXP_MEASURES = {
-    "ncloc": 52.0,
-    "lines": 124.0,
-    "files": 4.0,
-    "directories": 3.0,
+    # size metrics
+    "ncloc": 56.0,
+    "lines": 148.0,
+    "statements": 36,
+    "classes": 1,
+    "files": 8.0,
+    "directories": 5.0,
     "functions": 5.0,
-    "comment_lines_density": 31.6,
+
+    # comments / documentation
+    "comment_lines_density": 30.0,
     "comment_lines": 24.0,
-    "duplicated_lines_density": 69.4,
+
+    # duplications
+    "duplicated_lines_density": 58.1,
     "duplicated_lines": 86,
     "duplicated_blocks": 2,
     "duplicated_files": 2,
+
+    # complexity
     "complexity": 7,
     "function_complexity": 1.4,
+    "file_complexity": 0.9,
+    "class_complexity": 6.0,
+ 
+    # violations
     "violations": 12,
-    "violations_density": 53.8,
+    "violations_density": 57.1,
+
+    # coverage statistics
     "coverage": 84.0,
     "line_coverage": 100.0,
     "branch_coverage": 50.0,
+    "it_coverage": 84.0,
+    "it_line_coverage": 100.0,
+    "it_branch_coverage": 50.0,
+    "overall_coverage": 84.0,
+    "overall_line_coverage": 100.0,
+    "overall_branch_coverage": 50.0,
+
+    # design/tangles
+    "package_tangle_index": 100,
+    "package_tangles": 1.0,
+  
+    # test execution statistics
     "test_success_density": 60.0,
     "test_failures": 2.0,
     "test_errors": 0.0,
@@ -241,7 +268,7 @@ def diffDicts(d1, d2):
     if d1 != d2:
         rc = False
         for k1, v1 in d1.iteritems():
-            v2 = d2.get(k1, "<None>")
+            v2 = d2.get(k1, None)
             if v1 != v2:
                 difflist.append("%s %s/%s" % (k1, str(v1), str(v2)))
     return rc, ", ".join(difflist)
