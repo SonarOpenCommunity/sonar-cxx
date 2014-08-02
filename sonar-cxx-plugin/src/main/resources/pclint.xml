@@ -651,6 +651,13 @@
     would be better.</description>
   </rule>
   <rule>
+    <key>94</key>
+    <configkey>94</configkey>
+    <priority>CRITICAL</priority>
+    <name>L0094: xml element termination name 'String' does not match start name 'String'</name>
+    <description>The tag names delimiting an XML element do not match.</description>
+  </rule>
+  <rule>
     <key>95</key>
     <configkey>95</configkey>
     <priority>CRITICAL</priority>
@@ -970,6 +977,22 @@
     <description>An option contained information that was inconsistent with itself or with an earlier option. The String provided in the message explains more fully what the problem is.</description>
   </rule>
   <rule>
+    <key>142</key>
+    <configkey>142</configkey>
+    <priority>CRITICAL</priority>
+    <name>L0142: case constant 'String' used previously in this switch</name>
+    <description><![CDATA[
+<p>A duplicate case constant was detected.  For example, the following code will be diagnosed as a repetition of case constant '1'.</p>
+<pre><tt>
+           switch( n )
+               {
+               case 1:  m = 25;    break;
+               case 2-1: m = 27;   break;
+               }
+</tt></pre>
+]]></description>
+  </rule>
+  <rule>
     <key>144</key>
     <configkey>144</configkey>
     <priority>CRITICAL</priority>
@@ -1103,20 +1126,16 @@
     <configkey>165</configkey>
     <priority>CRITICAL</priority>
     <name>L0165: An [unscoped] emuration cannot be forward-declared (int is assumed)</name>
-    <description>An [unscoped] enumeration cannot be forward-declared [without an
-       enum-base] (int is assumed) -- This message is issued at the
-       point of a forward-declaration of an enumeration like so:
-     
+    <description><![CDATA[
+<p>An [unscoped] enumeration cannot be forward-declared [without an enum-base] (int is assumed) -- This message is issued at the point of a forward-declaration of an enumeration like so:</p>
+<pre><tt>
                enum E; // Error
-     
-       This is prohibited by ISO C and ISO C++98.  In C++0x, we can
-       modify this example to be well-formed by explicitly indicating
-       the underlying integral type; example:
-     
+</tt></pre>
+<p>This is prohibited by ISO C and ISO C++98.  In C++0x, we can modify this example to be well-formed by explicitly indicating the underlying integral type; example:</p>
+<pre><tt>
                enum E : unsigned short; // Ok
-     
-       If you are not using C++0x and/or your compiler supports the
-       construct you may simply suppress this message with a -e165.</description>
+</tt></pre>
+<p>If you are not using C++0x and/or your compiler supports the construct you may simply suppress this message with a -e165.</p>]]></description>
   </rule>
   <rule>
     <key>166</key>
@@ -1130,18 +1149,17 @@
     <configkey>170</configkey>
     <priority>CRITICAL</priority>
     <name>L0170: Explicit type-specifier required for symbol 'Symbol', int assumed</name>
-    <description>A declaration did not have an explicit type as required by C99
-       or C++.  int was assumed.  This could easily happen if an
-       intended comma was replaced by a semicolon.  For example, if
-       instead of typing:
-     
+    <description><![CDATA[
+<p>A declaration did not have an explicit type as required by C99 or C++. int was assumed. This could easily happen if an intended comma was replaced by a semicolon.  For example, if instead of typing:</p>
+<pre><tt>
            double       radius,
                         diameter;
-     
-       the programmer had typed:
-     
+</tt></pre>
+<p>the programmer had typed:</p>
+<pre><tt>
            double       radius;
-                        diameter;</description>
+                        diameter;
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>171</key>
@@ -1269,6 +1287,13 @@
     <priority>BLOCKER</priority>
     <name>L0317:File encoding, String, not currently supported</name>
     <description>Lint detected a byte order mark at the beginning of a file which indicated the file is encoded in the given format. As of this writing, the only formats supported to any extent are ASCII and UTF-8 (for which Lint presumes ASCII encoding).</description>
+  </rule>
+  <rule>
+    <key>318</key>
+    <configkey>318</configkey>
+    <priority>BLOCKER</priority>
+    <name>L0318: EOF for a module found within a macro argument list</name>
+    <description>We found the end of a module within the argument list of a macro.  Since such situations are almost certain to be erroneous, we gracefully shut down, alerting the User to the reason.</description>
   </rule>
   <rule>
     <key>321</key>
@@ -1846,10 +1871,31 @@
     <configkey>485</configkey>
     <priority>MAJOR</priority>
     <name>L0485: Duplicate initialization of object element</name>
-    <description>This message is
-       given upon an inconsistent use of designated initializers (used for specific fields of arrays or structures).  It is possible for an element of such an aggregate to be initialized twice either through the use of two separate designators or through a designator and the conventional sequential initialization process.
-       In either case the end result is not specified and the construction is usually a sign of a logic error.</description>
+    <description>This message is given upon an inconsistent use of designated initializers (used for specific fields of arrays or structures). It is possible for an element of such an aggregate to be initialized twice either through the use of two separate designators or through a designator and the conventional sequential initialization process. In either case the end result is not specified and the construction is usually a sign of a logic error.</description>
   </rule>
+  <rule>
+    <key>486</key>
+    <configkey>486</configkey>
+    <priority>MAJOR</priority>
+    <name>L0486: attempting to write to a file opened as read-only</name>
+    <description>A file pointer was obtained with a call to an fopen-like function in read-only mode. This pointer was then used in an attempt to write to the file. The ISO standards leave the behavior in such cases as unspecified.</description>
+  </rule>
+  <rule>
+    <key>488</key>
+    <configkey>488</configkey>
+    <priority>MAJOR</priority>
+    <name>L0488: Symbol 'Symbol' has same implicit enumerator value 'String' as enumerator 'Symbol'</name>
+    <description><![CDATA[<p>Two enumerators have the same value and at least one received that value implicitly. For example:</p>
+     
+           enum colors { red, blue, green = 1 };
+     
+       will elicit this informational message while
+     
+           enum colors { red, blue = 1, green = 1 };
+     
+       will not.]]></description>
+  </rule>
+
   <rule>
     <key>491</key>
     <configkey>491</configkey>
@@ -1930,9 +1976,7 @@
     <configkey>510</configkey>
     <priority>MAJOR</priority>
     <name>L0510: File extension 'String' reserved for future versions of this product</name>
-    <description>File name extensions that are not those recognized as implying C++ source code or indirect files for lint or pre-compiled headers for lint or lint object modules or project files are assumed to be C source code.
-       If we recognize a new file extension in some future version of lint it can be beneficial to warn about the use of this file extension in any earlier version of lint.
-       One reason for this is to aid in the transition between versions of the product. During this transition period a new file extension may be provided unintentionally to a former version of the product resulting in surprising behavior.</description>
+    <description>File name extensions that are not those recognized as implying C++ source code or indirect files for lint or pre-compiled headers for lint or lint object modules or project files are assumed to be C source code. If we recognize a new file extension in some future version of lint it can be beneficial to warn about the use of this file extension in any earlier version of lint. One reason for this is to aid in the transition between versions of the product. During this transition period a new file extension may be provided unintentionally to a former version of the product resulting in surprising behavior.</description>
   </rule>
   <rule>
     <key>511</key>
@@ -2453,7 +2497,14 @@
     <configkey>585</configkey>
     <priority>MAJOR</priority>
     <name>L0585: The sequence (??Char) is not a valid Trigraph sequence</name>
-    <description>This warning is issued whenever a pair of '?' characters is seen within a string (or character) constant but that pair is not followed by a character which would make the triple a valid Trigraph sequence. Did the programmer intend this to be a Trigraph sequence and merely err? Even if no Trigraph were intended, it can easily be mistaken by the reader of the code to be a Trigraph. Moreover, what assurances do we have that in the future the invalid Trigraph might not become a valid Trigraph and change the meaning of the string? To protect yourself from such an event you may place a backslash between the '?' characters. Alternatively you may use concatenation of string constants. For example: pattern = "(???) ???-????"; // warning 585 pattern = "(?\?\?) ?\?\?-?\?\?\?"; // no warning #define Q "?" pattern = "(" Q Q Q ") " Q Q Q "-" Q Q Q Q // no warning</description>
+    <description><![CDATA[<p>This warning is issued whenever a pair of '?' characters is seen within a string (or character) constant but that pair is not followed by a character which would make the triple a valid Trigraph sequence. Did the programmer intend this to be a Trigraph sequence and merely err? Even if no Trigraph were intended, it can easily be mistaken by the reader of the code to be a Trigraph. Moreover, what assurances do we have that in the future the invalid Trigraph might not become a valid Trigraph and change the meaning of the string? To protect yourself from such an event you may place a backslash between the '?' characters. Alternatively you may use concatenation of string constants.</p>
+<p>For example:</p>
+<pre><tt>
+    pattern = "(???) ???-????"; // warning 585 
+    pattern = "(?\?\?) ?\?\?-?\?\?\?"; // no warning 
+    #define Q "?" 
+    pattern = "(" Q Q Q ") " Q Q Q "-" Q Q Q Q // no warning
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>586</key>
@@ -4808,78 +4859,85 @@
     <configkey>960</configkey>
     <priority>INFO</priority>
     <name>L0960: Violates MISRA Year Required Rule Name, String</name>
-    <description>MISRA is the "Guidelines for the use of the C Language in Vehicle Based Software". [10] The first version of the MISRA Standard was released in 1998 and the second in 2004. Lint references the rules from each version of the Standard using integers for 1998 and in decimal form for 2004, as per the Standard numbering style.
-    The list of required checks made for both MISRA 1998 and 2004 are:
-    (Rule 16/12.12) Bit representation of a floating point type used.
-    (Rule 19/7.1) Octal constant used. (Rule 32/9.3) Should initialize either all enum members or only the first.
-    (Rule 22/8.7) Could define variable at block scope.
-    (Rule 27/8.8) Object/function previously declared.
-    (Rule 33/12.4) Side effects on right hand side of logical operator.
-    (Rule 34/12.5) Non-primary expression used with logical operator.
-    (Rule 36/12.6) Boolean expression required for operator.
-    (Rule 40/12.3) 'sizeof' used on expressions with side effect.
-    (Rule 42/12.10) Comma operator used outside of 'for' expression.
-    (Rule 47/12.1) Dependence placed on C operator precedence.
-    (Rule 54/14.3) Null statement not in line by itself.
-    (Rule 57/14.5) continue statement should not be used.
-    (Rules 59/14.8 &amp; 14.9) Left brace expected for if, else, for, do, and while.
-    (Rule 60/14.10) No 'else' at end of 'if ... else if' chain.
-    (Rule 63/15.4) Boolean value in switch expression.
-    (Rule 65/13.4) Floating point variable used as loop counter.
-    (Rule 68/8.6) Function not declared at file scope.
-    (Rule 69/16.1) Function has variable number of arguments.
-    (Rule 73/16.3) Either all parameters or no parameters should have identifiers.
-    (Rule 74/16.4) Parameter list differs from prior declaration for function.
-    (Rule 87/19.1) Declaration before #include.
-    (Rule 88/19.2) Header file name with non-standard character.
-    (Rule 91/19.5) '#define/#undef' used within a block.
-    (Rule 92/19.6) Use of '#undef' prohibited.
-    (Rule 98/19.12) Multiple use of '#' and/or '##' operators in macro definition.
-    (Rule 100/19.14) Non-standard use of 'defined' preprocessor operator.
-    (Rule 115/20.2) Re-use of C90 identifier/identifier pattern.
+    <description><![CDATA[<p>MISRA is the "Guidelines for the use of the C Language in Vehicle Based Software". [10] The first version of the MISRA Standard was released in 1998 and the second in 2004. Lint references the rules from each version of the Standard using integers for 1998 and in decimal form for 2004, as per the Standard numbering style.</p>
+    <p>The list of required checks made for both MISRA 1998 and 2004 are:</p>
+<pre><tt>
+       (Rule 16/12.12) Bit representation of a floating point type used.
+       (Rule 19/7.1) Octal constant used.
+       (Rule 22/8.7) Could define variable at block scope.
+       (Rule 27/8.8) Object/function previously declared.
+       (Rule 32/9.3) Should initialize either all enum members or only the first.
+       (Rule 33/12.4) Side effects on right hand side of logical operator.
+       (Rule 34/12.5) Non-primary expression used with logical operator.
+       (Rule 36/12.6) Boolean expression required for operator.
+       (Rule 40/12.3) 'sizeof' used on expressions with side effect
+       (Rule 42/12.10) Comma operator used outside of 'for' expression.
+       (Rule 47/12.1) Dependence placed on C operator precedence.
+       (Rule 54/14.3) Null statement not in line by itself.
+       (Rule 57/14.5) continue statement should not be used.
+       (Rules 59/14.8 & 14.9) Left brace expected for if, else, for, do, and while.
+       (Rule 60/14.10) No 'else' at end of 'if ... else if' chain.
+       (Rule 63/15.4) Boolean value in switch expression.
+       (Rule 65/13.4) Floating point variable used as loop counter.
+       (Rule 68/8.6) Function not declared at file scope.
+       (Rule 69/16.1) Function has variable number of arguments.
+       (Rule 73/16.3) Either all parameters or no parameters should have identifiers.
+       (Rule 74/16.4) Parameter list differs from prior declaration for function.
+       (Rule 87/19.1) Declaration before #include.
+       (Rule 88/19.2) Header file name with non-standard character.
+       (Rule 91/19.5) '#define/#undef' used within a block.
+       (Rule 92/19.6) Use of '#undef' prohibited.
+       (Rule 98/19.12) Multiple use of '#' and/or '##' operators in macro definition.
+       (Rule 100/19.14) Non-standard use of 'defined' preprocessor operator.
+       (Rule 115/20.2) Re-use of C90 identifier/identifier pattern.
 
-    Required checks made exclusively for MISRA 1998 are:
-    (Rule 8) Multibyte characters and wide string literals prohibited.
-    (Rule 42) Comma operator used outside of 'for' expression.
-    (Rule 54) Null statement not in line by itself.
-    (Rule 58) break used outside of a switch.
-    (Rule 73) Either all parameters or no parameters should have identifiers.
-    (Rule 87) Declaration before #include.
-    (Rule 88) Header file name contains non-standard character.
-    (Rule 110) Bitfields inside union.
+       Required checks made exclusively for MISRA 1998 are:
 
-    Required checks made exclusively for MISRA 2004 are:
-    (Rule 4.1) Prohibited escape sequence used.
-    (Rule 6.1) Disallowed use of non-character value.
-    (Rule 6.2) Disallowed use of non-numeric value.
-    (Rule 8.5) No definitions of objects or function in header files.
-    (Rules 10.1 &amp; 10.2) Prohibited implicit conversion.
-    (Rules 10.3 &amp; 10.4) Prohibited cast of complex expressions.
-    (Rule 10.5) Recasting required for operators '~' and '&lt;&lt;'.
-    (Rule 10.6) Unsigned integer literals require a 'U' suffix.
-    (Rule 11.5) Attempt to cast away const/volatile from a pointer or reference.
-    (Rule 12.3) 'sizeof' used on expressions with side effect.
-    (Rule 12.7) Bitwise operator applied to signed underlying type.
-    (Rule 12.9) Prohibited operator applied to unsigned underlying type.
-    (Rule 12.10) Comma operator used.
-    (Rule 12.13) Increment or decrement combined with another operator.
-    (Rule 14.3) Null statement not in line by itself.
-    (Rule 14.6) More than one 'break' terminates loop.
-    (Rule 14.8) Left brace expected.
-    (Rule 16.3) All parameters shall have identifiers.
-    (Rule 16.9) Function identifier used without '&amp;' or parenthesized parameter list.
-    (Rule 17.4) Pointer arithmetic other than array indexing used.
-    (Rule 14.10) No 'else' at end of 'if ... else if' chain.
-    (Rule 15.4) Boolean value in switch expression.
-    (Rule 18.4) Unions shall not be used.
-    (Rule 19.6) Use of '#undef' prohibited.
-    (Rule 19.13) '#/##' operator used in macro.
+       (Rule 8) Multibyte characters and wide string literals prohibited.
+       (Rule 42) Comma operator used outside of 'for' expression.
+       (Rule 54) Null statement not in line by itself.
+       (Rule 58) break used outside of a switch.
+       (Rule 73) Either all parameters or no parameters should have identifiers.
+       (Rule 87) Declaration before #include.
+       (Rule 88) Header file name contains non-standard character.
+       (Rule 110) Bitfields inside union.
 
-    MISRA 1998 checking is achieved using the -misra(1) option. For MISRA 2004 checks, use -misra(2).
+       Required checks made exclusively for MISRA 2004 are:
 
-    You may disable individual rules to your taste by using the Rule number in an esym option. For example:
+       (Rule 4.1) Prohibited escape sequence used.
+       (Rule 6.1) Disallowed use of non-character value.
+       (Rule 6.2) Disallowed use of non-numeric value.
+       (Rule 8.5) No definitions of objects or function in header files.
+       (Rules 10.1 & 10.2) Prohibited implicit conversion.
+       (Rules 10.3 & 10.4) Prohibited cast of complex expressions.
+       (Rule 10.5) Recasting required for operators '~' and '<<'.
+       (Rule 10.6) Unsigned integer literals require a 'U' suffix.
+       (Rule 11.5) Attempt to cast away const/volatile from a pointer or reference.
+
+       (Rule 12.7) Bitwise operator applied to signed underlying type.
+       (Rule 12.9) Prohibited operator applied to unsigned underlying type.
+       (Rule 12.10) Comma operator used.
+       (Rule 12.13) Increment or decrement combined with another operator.
+       (Rule 14.3) Null statement not in line by itself.
+       (Rule 14.6) More than one 'break' terminates loop.
+       (Rule 14.8) Left brace expected.
+       (Rule 16.3) All parameters shall have identifiers.
+       (Rule 16.9) Function identifier used without '&' or parenthesized parameter list.
+       (Rule 17.4) Pointer arithmetic other than array indexing used.
+
+
+       (Rule 18.4) Unions shall not be used.
+       (Rule 19.13) '#/##' operator used in macro.
+</tt></pre>
+
+<p>MISRA 1998 checking is achieved using the -misra(1) option. For
+MISRA 2004 checks, use -misra(2)</p>
+
+<p>You may disable individual rules to your taste by using the Rule number in an esym option.</p> <p>For example:</p>
+<pre><tt>
     -esym( 960, 75, 8? )
-    will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.</description>
+</tt></pre>
+<p>will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.</p>]]></description>
   </rule>
   <rule>
     <key>961</key>
@@ -5770,6 +5828,19 @@
     <description>In a declaration, the form 'auto D(parms)-&gt;type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type</description>
   </rule>
   <rule>
+    <key>1113</key>
+    <configkey>1113</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1113: In this use of 'Template', type substitution failed for 'Type'</name>
+    <description><![CDATA[<p>Type is the type of Template; it is used at the cited location with concrete arguments, but substitution failed.</p>
+    <p>Example:</p>
+<pre><tt>
+           template<class T> using X = typename T::type;
+           typedef X<int> XI; // error 1113
+</tt></pre>
+]]></description>
+  </rule>
+  <rule>
     <key>1116</key>
     <configkey>1116</configkey>
     <priority>CRITICAL</priority>
@@ -5796,6 +5867,68 @@
     <priority>CRITICAL</priority>
     <name>L1119: Virtual function 'Symbol' marked with override does not override</name>
     <description>A virtual function was marked with the override keyword but does not override a base class function.</description>
+  </rule>
+  <rule>
+    <key>1120</key>
+    <configkey>1120</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1120: Incomplete type 'Type' is not a valid range expression</name>
+    <description>An incomplete type was used as a range expression in a range-based for statement. A range expression must be a complete type.</description>
+  </rule>
+  <rule>
+    <key>1121</key>
+    <configkey>1121</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1121: No viable 'String' function defined for type 'Type' used as range expressionn</name>
+    <description>A non-array range expression used in a range-based for statement has no viable begin or end function.</description>
+  </rule>
+  <rule>
+    <key>1122</key>
+    <configkey>1122</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1122: Range expression of type 'Type' has 'String' member but no 'String' member</name>
+    <description>The type of a range expression used in a range-based for statement has either a begin or end member function but not both.</description>
+  </rule>
+  <rule>
+    <key>1123</key>
+    <configkey>1123</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1123: Attempt to derive from class 'Symbol' marked as 'final' at Location</name>
+    <description>A class that was marked with the final class-virt-specifier was used as a base class in a class declaration.</description>
+  </rule>
+  <rule>
+    <key>1124</key>
+    <configkey>1124</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1124: Digit separator not allowed: 'String'</name>
+    <description>A digit separator character was encountered within a numeric literal at a point where digit separators are not allowed. Digit separators are only allowed between digits of a numeric literal and cannot be adjacent to each other.  String contains additional information related to the specific misuse such as "after digit sequence", "following base prefix", "consecutive digit separators", etc.</description>
+  </rule>
+  <rule>
+    <key>1125</key>
+    <configkey>1125</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1125: A type cannot be defined in a friend declaration</name>
+    <description><![CDATA[<p>Example:</p>
+<pre><tt>
+           class A {
+             friend struct B;    // ok
+             friend struct C {}; // error
+           };
+</tt></pre>]]></description>
+  </rule>
+  <rule>
+    <key>1126</key>
+    <configkey>1126</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1126: In std::underlying_type&lt;T&gt;, T must be an enumeration type; but here, T is 'Type'.</name>
+    <description>The special library template std::underlying_type is intended to take an enumeration type; when this condition is satisfied, its typedef member 'type' is the underlying integral type of the enumeration. This error is issued for the case where the type is not an enumeration.</description>
+  </rule>
+  <rule>
+    <key>1127</key>
+    <configkey>1127</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1127: catch handler after catch(...)</name>
+    <description>A catch handler appeared following a catch(...) in the same try-catch statement which invokes undefined behavior.</description>
   </rule>
   <!--12XX   Internal Error-->
   <rule>
@@ -6643,6 +6776,22 @@
     [11, ?13.4.3]</description>
   </rule>
   <rule>
+    <key>1723</key>
+    <configkey>1723</configkey>
+    <priority>MINOR</priority>
+    <name>L1723: Template 'Symbol' arbitrarily selected.  Refer to Error 'Integer'</name>
+    <description><![CDATA[<p>This is a supplemental message to the Error that immediately preceded, which was about a failure to select a single best partial specialization for an instantiation. Its purpose is to show some of the context of subsequent processing (which is now in a state of recovery).</p>
+<p>Example:</p>
+<pre><tt>
+           template<class T, class U> struct A;
+           template<class T, class U> struct A<T*, U> {  };
+           template<class T, class U> struct A<T, U*> {  };
+           A<int*, char*>  x; // Error 1084 followed by Info 1723
+</tt></pre>
+]]></description>
+  </rule>
+
+  <rule>
     <key>1724</key>
     <configkey>1724</configkey>
     <priority>MINOR</priority>
@@ -6835,6 +6984,13 @@
     <priority>MINOR</priority>
     <name>L1750: local template 'Symbol' (Location) not referenced</name>
     <description>A 'local' template is one that is not defined in a header file. The template was not used in the module in which it was defined.</description>
+  </rule>
+  <rule>
+    <key>1751</key>
+    <configkey>1751</configkey>
+    <priority>MINOR</priority>
+    <name>L1751: unnamed namespace in header</name>
+    <description>An unnamed namespace was used in a header file.</description>
   </rule>
   <rule>
     <key>1752</key>
@@ -7445,73 +7601,76 @@
     <configkey>1960</configkey>
     <priority>INFO</priority>
     <name>L1960: Violates MISRA C++ Required Rule Name, String</name>
-    <description>In addition to a C coding standard, MISRA has also compiled a C++ one.
-    We suggest use of the options file au-misra-cpp.lnt to activate these and other MISRA C++ messages.
-    The list of checks made are as follows:
-    (Rule 0-1-8) Void return type for function without external side-effects.
-    (Rule 2-13-2) Octal constant or escape sequence used.
-    (Rule 2-13-4) Lower case literal suffix.
-    (Rule 3-1-1) Object/function definitions in headers.
-    (Rule 3-1-2) Function not declared at file scope. 
-    (Rule 3-2-3)  Object/function previously declared in location.
-    (Rule 3-9-3)  Bit representation of a floating point type used.
-    (Rule 4-5-1)  Boolean expression used with non-permitted operator.
-    (Rule 4-5-3)  Plain char used with prohibited operator.
-    (Rule 5-0-3) Implicit conversion of cvalue.
-    (Rule 5-0-4) Implicit conversion changes signedness. 
-    (Rule 5-0-5) Implicit conversion between integer and floating point types.
-    (Rule 5-0-6) Implicit conversion to smaller type.
-    (Rule 5-0-7) Cast of cvalue between integer and floating point types.
-    (Rule 5-0-8) Cast of cvalue to larger type.
-    (Rule 5-0-9) Cast of cvalue changes signedness.
-    (Rule 5-0-10) Recasting required for operators '~' and '&lt;&lt;'.
-    (Rule 5-0-11) Disallowed use of non-character value.
-    (Rule 5-0-12  Disallowed use of non-numeric value.
-    (Rule 5-0-15) Pointer arithmetic other than array indexing used.
-    (Rule 5-0-19) More than two pointer indirection levels used. 
-    (Rule 5-0-21) Bitwise operator applied to signed underlying type.
-    (Rule 5-2-1)  Non-postfix expression used with logical operator.
-    (Rule 5-2-5)  Attempt to cast away const/volatile from a pointer or reference.
-    (Rule 5-2-12) Array-pointer decay when passing the array to a function.
-    (Rule 5-3-1)  Boolean expression required for operator.
-    (Rule 5-3-2) Prohibited operator applied to unsigned underlying type:
-    (Rule 5-3-3) Overloading unary &amp;.
-    (Rule 5-3-4) 'sizeof' used on expressions with side effect.
-    (Rule 5-14-1) Side effects on right hand side of logical operator.
-    (Rule 5-18-1) Comma operator used.
-    (Rule 6-2-3) Null statement not in line by itself.
-    (Rules 6-3-1 and 6-4-1) Left brace expected for if, else, for, do, switch and while.
-    (Rule 6-4-2) No 'else' at end of 'if ... else if' chain.
-    (Rule 6-4-7) Boolean value in switch expression.
-    (Rule 6-6-2) Gotos jumping to an earlier point in the code.
-    (Rule 6-6-3) continue statement should not be used.
-    (Rule 6-6-4) More than one 'break' terminates loop.
-    (Rule 7-3-1) Global declarations other than main(), namespace declarations, extern "C" declarations and arithmetic typedefs.
-    (Rule 7-3-2) Using the identifier main for functions other than the global one.
-    (Rule 7-3-3) Unnamed namespaces in headers.
-    (Rule 7-3-4) No using-directives allowed.
-    (Rule 7-3-6) using-directives or using declarations (except class and/or block scope using declarations) in header files.
-    (Rule 8-0-1) Multiple declarators in a declaration.
-    (Rule 8-4-1) Function has variable number of arguments.
-    (Rule 8-4-2) Function parameter list differs.
-    (Rule 8-4-4) Function identifier used without '&amp;' or parenthisized parameter list.
-    (Rule 8-5-3) Should initialize either all enum members or only the first.
-    (Rule 9-5-1) Unions shall not be used.
-    (Rule 11-0-1) Non-private data member within a no-POD structure.
-    (Rule 12-8-2) Public copy constructor in abstract class.
-    (Rule 14-8-1) Explicit specialization of overloaded function templates.
-    (Rule 15-1-2) Explicit throw of the Null macro.
-    (Rule 15-1-3) Empty throw outside of a catch block.
-    (Rule 15-3-7) Catch handler after catch(...) in a try-catch sequence.
-    (Rule 16-0-1) Only preprocessor statements and comments before '#include'.
-    (Rule 16-0-2) '#define/#undef' used within a block.
-    (Rule 16-0-3) Use of '#undef' is discouraged.
-    (Rule 16-0-4) Use of function-like macros is discouraged.
-    (Rule 16-1-1) Non-standard use of 'defined' preprocessor operator.
-    (Rule 16-2-4) Header file name with non-standard character:
-    (Rule 16-3-1) Multiple use of '#' and/or '##' operators in macro definition.
-    (Rule 17-0-2) Re-use of reserved identifier.
-    You may disable individual rules to your taste by using the Rule number in an esym option; see Message 960.</description>
+    <description><![CDATA[
+<p>In addition to a C coding standard, MISRA has also compiled a C++ one. We suggest use of the options file au-misra-cpp.lnt to activate these and other MISRA C++ messages.</p>
+<p>The list of checks made are as follows:</p>
+<pre><tt>
+       (Rule 0-1-8)  Void return type for function without external side-effects.
+       (Rule 2-13-2) Octal constant or escape sequence used.
+       (Rule 2-13-4) Lower case literal suffix.
+       (Rule 3-1-1)  Object/function definitions in headers.
+       (Rule 3-1-2)  Function not declared at file scope.
+       (Rule 3-2-3)  Object/function previously declared in location.
+       (Rule 3-9-3)  Bit representation of a floating point type used.
+       (Rule 4-5-1)  Boolean expression used with non-permitted operator.
+       (Rule 4-5-3)  Plain char used with prohibited operator.
+       (Rule 5-0-3)  Implicit conversion of cvalue.
+       (Rule 5-0-4)  Implicit conversion changes signedness.
+       (Rule 5-0-5)  Implicit conversion between integer and floating point types.
+       (Rule 5-0-6)  Implicit conversion to smaller type.
+       (Rule 5-0-7)  Cast of cvalue between integer and floating point types.
+       (Rule 5-0-8)  Cast of cvalue to larger type.
+       (Rule 5-0-9)  Cast of cvalue changes signedness.
+       (Rule 5-0-10) Recasting required for operators '~' and '&lt;&lt;'.
+       (Rule 5-0-11) Disallowed use of non-character value.
+       (Rule 5-0-12  Disallowed use of non-numeric value.
+       (Rule 5-0-15) Pointer arithmetic other than array indexing used.
+       (rule 5-0-19) More than two pointer indirection levels used.
+       (Rule 5-0-21) Bitwise operator applied to signed underlying type.
+       (Rule 5-2-1)  Non-postfix expression used with logical operator.
+       (Rule 5-2-5)  Attempt to cast away const/volatile from a pointer or reference.
+       (Rule 5-2-12) Array-pointer decay when passing the array to a function.
+       (Rule 5-3-1)  Boolean expresion required for operator.
+       (Rule 5-3-2)  Prohibited operator applied to unsigned underlying type: .
+       (Rule 5-3-3)  Overloading unary &amp;.
+       (Rule 5-3-4)  'sizeof' used on expressions with side effect.
+       (Rule 5-14-1) Side effects on right hand side of logical operator.
+       (Rule 5-18-1) Comma operator used.
+       (Rule 6-2-3)  Null statement not in line by itself.
+       (Rules 6-3-1 and 6-4-1) Left brace expected for if, else, for, do, switch and while.
+       (Rule 6-4-2)  No 'else' at end of 'if ... else if' chain.
+       (Rule 6-4-7)  Boolean value in switch expression.
+       (Rule 6-6-2)  Gotos jumping to an earlier point in the code.
+       (Rule 6-6-3)  continue statement should not be used.
+       (Rule 6-6-4)  More than one 'break' terminates loop.
+       (Rule 7-3-1)  Global declarations other than main(), namespace declarations, extern &quot;C&quot; declarations and arithmetic typedefs.
+       (Rule 7-3-2)  Using the identifier main for functions other than the global one.
+       (Rule 7-3-3)  Unnamed namespaces in headers.
+       (Rule 7-3-4)  No using-directives allowed.
+       (Rule 7-3-6)  using-directives or using declarations (except class and/or block scope using declarations) in header files.
+       (Rule 8-0-1)  Multiple declarators in a declaration.
+       (Rule 8-4-1)  Function has variable number of arguments.
+       (Rule 8-4-2)  Function parameter list differs
+       (Rule 8-4-4)  Function identifier used without '&amp;' or parenthisized parameter list.
+       (Rule 8-5-3)  Should initialize either all enum members or only the first.
+       (Rule 9-5-1)  Unions shall not be used.
+       (Rule 11-0-1) Non-private data member within a no-POD structure.
+       (Rule 12-8-2) Public copy constructor in abstract class.
+       (Rule 14-8-1) Explicit specialization of overloaded function templates.
+       (Rule 15-1-2) Explicit throw of the Null macro.
+       (Rule 15-1-3) Empty throw outside of a catch block.
+       (Rule 15-3-7) Catch handler after catch(...) in a try-catch sequence.
+       (Rule 16-0-1) Only preprocessor statements and comments before '#include'.
+       (Rule 16-0-2) '#define/#undef' used within a block.
+       (Rule 16-0-3) Use of '#undef' is discouraged.
+       (Rule 16-0-4) Use of function-like macros is discouraged.
+       (Rule 16-1-1) Non-standard use of 'defined' preprocessor operator.
+       (Rule 16-2-4) Header file name with non-standard character: .
+       (Rule 16-3-1) Multiple use of '#' and/or '##' operators in macro definition.
+       (Rule 17-0-2) Re-use of reserved identifier
+</tt></pre>
+<p>You may disable individual rules to your taste by using the Rule number in an esym option; see Message 960.</p>
+ ]]></description>
   </rule>
   <rule>
     <key>1961</key>
@@ -7536,8 +7695,18 @@
     <configkey>1963</configkey>
     <priority>INFO</priority>
     <name>L1963: Violates MISRA C++ Advisory Rule Name, String</name>
-    <description>This message is issued for some violations of the MISRA C++ advisory guidelines. We suggest use of the options file au-misra-cpp.lnt to activate these and other MISRA C++ messages.
-    The list of checks made are as follows: (Rule 2-5-1) Possible digraph used. (Rule 5-0-2) Dependence placed on C's operator precedence. (Rule 14-8-2) Mixing template and non-template functions in a viable sets. (Rule 15-0-2) Throwing a pointer expression. (Rule 16-2-5) Header file name with non-standard character. (Rule 16-3-2) No use of '#' or '##'.</description>
+    <description><![CDATA[<p>This message is issued for some violations of the MISRA C++ advisory guidelines. We suggest use of the options file au-misra-cpp.lnt to activate these and other MISRA C++ messages.</p>
+<p>The list of checks made are as follows:</p>
+<pre><tt>
+       (Rule 2-5-1)  Possible digraph used.
+       (Rule 5-0-2)  Dependence placed on C's operator precedence.
+       (Rule 5-2-10) Increment or decrement combined with another operator.
+       (Rule 14-8-2) Mixing template and non-template functions in a viable sets.
+       (Rule 15-0-2) Throwing a pointer expression.
+       (Rule 16-2-5) Header file name with non-standard character.
+       (Rule 16-3-2) No use of '#' or '##'.
+</tt></pre>
+]]></description>
   </rule>
   <rule>
     <key>9001</key>
