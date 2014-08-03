@@ -1788,7 +1788,7 @@
 			<requirement>INSTRUCTION_RELIABILITY</requirement>
 			<remediationFactorVal>5</remediationFactorVal>
 			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>MINOR</severity>
@@ -3022,7 +3022,7 @@
 			<requirement>DATA_RELIABILITY</requirement>
 			<remediationFactorVal>5</remediationFactorVal>
 			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>MINOR</severity>
@@ -5512,20 +5512,16 @@
 			<remediationOffsetUnit>d</remediationOffsetUnit>
 			<severity>undefined</severity>
 			<repo>pclint</repo>
-			<description>An [unscoped] enumeration cannot be forward-declared [without an
-       enum-base] (int is assumed) -- This message is issued at the
-       point of a forward-declaration of an enumeration like so:
-     
+			<description>&lt;![CDATA[
+&lt;p&gt;An [unscoped] enumeration cannot be forward-declared [without an enum-base] (int is assumed) -- This message is issued at the point of a forward-declaration of an enumeration like so:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
                enum E; // Error
-     
-       This is prohibited by ISO C and ISO C++98.  In C++0x, we can
-       modify this example to be well-formed by explicitly indicating
-       the underlying integral type; example:
-     
+&lt;/tt&gt;&lt;/pre&gt;
+&lt;p&gt;This is prohibited by ISO C and ISO C++98.  In C++0x, we can modify this example to be well-formed by explicitly indicating the underlying integral type; example:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
                enum E : unsigned short; // Ok
-     
-       If you are not using C++0x and/or your compiler supports the
-       construct you may simply suppress this message with a -e165.</description>
+&lt;/tt&gt;&lt;/pre&gt;
+&lt;p&gt;If you are not using C++0x and/or your compiler supports the construct you may simply suppress this message with a -e165.&lt;/p&gt;]]&gt;</description>
 		</rule>
 		<rule key="166">
 			<name>L0166: Function defined within a function</name>
@@ -5539,6 +5535,24 @@
 			<repo>pclint</repo>
 			<description>A function definition was found within the body of another function's definition. Such a construct is almost certainly an error.</description>
 		</rule>
+		<rule key="169">
+			<name>L0169: mode(String) requests an (integral/floating point) type of size N, but no such type exists.</name>
+			<requirement>undefined</requirement>
+			<remediationFactorVal>0</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>&lt;![CDATA[&lt;p&gt;(Please check -s options in the Lint configuration.)
+This occurs for a use of the GCC attribute mode() as in:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
+           __attribute__((mode(DF)));
+&lt;/tt&gt;&lt;/pre&gt;
+&lt;p&gt;This is supposed to match a built-in scalar type whose size is the size indicated in the message. If this message is issued, it probably means that size options have not been set to match the compile configuration; see Section 5.3, Size and Alignment Options.&lt;/p&gt;
+]]&gt;</description>
+		</rule>
 		<rule key="170">
 			<name>L0170: Explicit type-specifier required for symbol 'Symbol', int assumed</name>
 			<requirement>INSTRUCTION_RELIABILITY</requirement>
@@ -5549,18 +5563,17 @@
 			<remediationOffsetUnit>d</remediationOffsetUnit>
 			<severity>undefined</severity>
 			<repo>pclint</repo>
-			<description>A declaration did not have an explicit type as required by C99
-       or C++.  int was assumed.  This could easily happen if an
-       intended comma was replaced by a semicolon.  For example, if
-       instead of typing:
-     
+			<description>&lt;![CDATA[
+&lt;p&gt;A declaration did not have an explicit type as required by C99 or C++. int was assumed. This could easily happen if an intended comma was replaced by a semicolon.  For example, if instead of typing:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
            double       radius,
                         diameter;
-     
-       the programmer had typed:
-     
+&lt;/tt&gt;&lt;/pre&gt;
+&lt;p&gt;the programmer had typed:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
            double       radius;
-                        diameter;</description>
+                        diameter;
+&lt;/tt&gt;&lt;/pre&gt;]]&gt;</description>
 		</rule>
 		<rule key="171">
 			<name>L0171: Ellipsis requires at least one parameter-declaration</name>
@@ -5708,7 +5721,7 @@
 			<description>A single declaration was found to be too long for an internal buffer (about 2000 characters). This occurred when attempting to write out the declaration using the -o... option. The first 30 characters of the declaration is given in String. Typically this is caused by a very long struct whose substructures, if any, are untagged. First identify the declaration that is causing the difficulty. If a struct or union, assign a tag to any unnamed substructures or subunion. A typedef can also be used to reduce the size of such a declaration.</description>
 		</rule>
 		<rule key="312">
-			<name>L0312: Lint Object Module has obsolete or foreign version id: Integer</name>
+			<name>L0312: Lint (Precompiled Header/Object Module) has obsolete or foreign version id: Integer</name>
 			<requirement>undefined</requirement>
 			<remediationFactorVal>0</remediationFactorVal>
 			<remediationFactorUnit>undefined</remediationFactorUnit>
@@ -5717,7 +5730,7 @@
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>undefined</severity>
 			<repo>pclint</repo>
-			<description>A lint object module was produced with a prior or different version of PC-lint/FlexeLint. Delete the.lob file and recreate it using your new version of PC-lint/FlexeLint.</description>
+			<description>A lint precompiled header or object module was produced with a prior or different version of PC-lint/FlexeLint. Delete the.lob  or .lph file and recreate it using your new version of PC-lint/FlexeLint.</description>
 		</rule>
 		<rule key="313">
 			<name>L0313: Too many files</name>
@@ -5778,6 +5791,18 @@
 			<severity>undefined</severity>
 			<repo>pclint</repo>
 			<description>Lint detected a byte order mark at the beginning of a file which indicated the file is encoded in the given format. As of this writing, the only formats supported to any extent are ASCII and UTF-8 (for which Lint presumes ASCII encoding).</description>
+		</rule>
+		<rule key="318">
+			<name>L0318: EOF for a module found within a macro argument list</name>
+			<requirement>undefined</requirement>
+			<remediationFactorVal>0</remediationFactorVal>
+			<remediationFactorUnit>undefined</remediationFactorUnit>
+			<remediationFunction>undefined</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>undefined</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>We found the end of a module within the argument list of a macro.  Since such situations are almost certain to be erroneous, we gracefully shut down, alerting the User to the reason.</description>
 		</rule>
 		<rule key="321">
 			<name>L0321: Declaration stack overflow</name>
@@ -5870,13 +5895,13 @@
 			<name>L0330: Static assertion failure: 'String'</name>
 			<requirement>undefined</requirement>
 			<remediationFactorVal>0</remediationFactorVal>
-			<remediationFactorUnit>undefined</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>undefined</remediationOffsetUnit>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
 			<severity>undefined</severity>
 			<repo>pclint</repo>
-			<description>Static assertion failure.</description>
+			<description>For the indicated static_assert directive, Lint evaluated the constant expression to false, and the resulting message is given by the String</description>
 		</rule>
 		<rule key="333">
 			<name>L0333: Not allowed to open file 'String'</name>
@@ -6708,6 +6733,68 @@
 			<description>This message is
        given upon an inconsistent use of designated initializers (used for specific fields of arrays or structures).  It is possible for an element of such an aggregate to be initialized twice either through the use of two separate designators or through a designator and the conventional sequential initialization process.
        In either case the end result is not specified and the construction is usually a sign of a logic error.</description>
+		</rule>
+		<rule key="486">
+			<name>L0486: attempting to write to a file opened as read-only</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A file pointer was obtained with a call to an fopen-like function in read-only mode. This pointer was then used in an attempt to write to the file. The ISO standards leave the behavior in such cases as unspecified.</description>
+		</rule>
+		<rule key="488">
+			<name>L0488: Symbol 'Symbol' has same implicit enumerator value 'String' as enumerator 'Symbol'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>&lt;![CDATA[&lt;p&gt;Two enumerators have the same value and at least one received that value implicitly. For example:&lt;/p&gt;
+     
+           enum colors { red, blue, green = 1 };
+     
+       will elicit this informational message while
+     
+           enum colors { red, blue = 1, green = 1 };
+     
+       will not.]]&gt;</description>
+		</rule>
+		<rule key="489">
+			<name>L0489: attempting to modify the contents of a string literal</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>5</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An assignment to an element of a string literal was seen. Doing so results in undefined behavior.</description>
+		</rule>
+		<rule key="491">
+			<name>L0491: non-standard use of 'defined' preprocessor operator</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>&lt;![CDATA[&lt;p&gt;The ISO standards restrict the use of the defined preprocessor keyword to either&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
+           defined(identifier)
+           defined identifier
+&lt;/pre&gt;&lt;/tt&gt;
+&lt;p&gt;Additionally, the preprocessor operator may not result from the expansion of another macro. This diagnostic highlights departures from these requirements as non-portable code.&lt;/p&gt;
+       ]]&gt;</description>
 		</rule>
 		<rule key="501">
 			<name>L0501: Expected signed type</name>
@@ -11550,78 +11637,85 @@
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>undefined</severity>
 			<repo>pclint</repo>
-			<description>MISRA is the "Guidelines for the use of the C Language in Vehicle Based Software". [10] The first version of the MISRA Standard was released in 1998 and the second in 2004. Lint references the rules from each version of the Standard using integers for 1998 and in decimal form for 2004, as per the Standard numbering style.
-    The list of required checks made for both MISRA 1998 and 2004 are:
-    (Rule 16/12.12) Bit representation of a floating point type used.
-    (Rule 19/7.1) Octal constant used. (Rule 32/9.3) Should initialize either all enum members or only the first.
-    (Rule 22/8.7) Could define variable at block scope.
-    (Rule 27/8.8) Object/function previously declared.
-    (Rule 33/12.4) Side effects on right hand side of logical operator.
-    (Rule 34/12.5) Non-primary expression used with logical operator.
-    (Rule 36/12.6) Boolean expression required for operator.
-    (Rule 40/12.3) 'sizeof' used on expressions with side effect.
-    (Rule 42/12.10) Comma operator used outside of 'for' expression.
-    (Rule 47/12.1) Dependence placed on C operator precedence.
-    (Rule 54/14.3) Null statement not in line by itself.
-    (Rule 57/14.5) continue statement should not be used.
-    (Rules 59/14.8 &amp; 14.9) Left brace expected for if, else, for, do, and while.
-    (Rule 60/14.10) No 'else' at end of 'if ... else if' chain.
-    (Rule 63/15.4) Boolean value in switch expression.
-    (Rule 65/13.4) Floating point variable used as loop counter.
-    (Rule 68/8.6) Function not declared at file scope.
-    (Rule 69/16.1) Function has variable number of arguments.
-    (Rule 73/16.3) Either all parameters or no parameters should have identifiers.
-    (Rule 74/16.4) Parameter list differs from prior declaration for function.
-    (Rule 87/19.1) Declaration before #include.
-    (Rule 88/19.2) Header file name with non-standard character.
-    (Rule 91/19.5) '#define/#undef' used within a block.
-    (Rule 92/19.6) Use of '#undef' prohibited.
-    (Rule 98/19.12) Multiple use of '#' and/or '##' operators in macro definition.
-    (Rule 100/19.14) Non-standard use of 'defined' preprocessor operator.
-    (Rule 115/20.2) Re-use of C90 identifier/identifier pattern.
+			<description>&lt;![CDATA[&lt;p&gt;MISRA is the "Guidelines for the use of the C Language in Vehicle Based Software". [10] The first version of the MISRA Standard was released in 1998 and the second in 2004. Lint references the rules from each version of the Standard using integers for 1998 and in decimal form for 2004, as per the Standard numbering style.&lt;/p&gt;
+    &lt;p&gt;The list of required checks made for both MISRA 1998 and 2004 are:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
+       (Rule 16/12.12) Bit representation of a floating point type used.
+       (Rule 19/7.1) Octal constant used.
+       (Rule 22/8.7) Could define variable at block scope.
+       (Rule 27/8.8) Object/function previously declared.
+       (Rule 32/9.3) Should initialize either all enum members or only the first.
+       (Rule 33/12.4) Side effects on right hand side of logical operator.
+       (Rule 34/12.5) Non-primary expression used with logical operator.
+       (Rule 36/12.6) Boolean expression required for operator.
+       (Rule 40/12.3) 'sizeof' used on expressions with side effect
+       (Rule 42/12.10) Comma operator used outside of 'for' expression.
+       (Rule 47/12.1) Dependence placed on C operator precedence.
+       (Rule 54/14.3) Null statement not in line by itself.
+       (Rule 57/14.5) continue statement should not be used.
+       (Rules 59/14.8 &amp; 14.9) Left brace expected for if, else, for, do, and while.
+       (Rule 60/14.10) No 'else' at end of 'if ... else if' chain.
+       (Rule 63/15.4) Boolean value in switch expression.
+       (Rule 65/13.4) Floating point variable used as loop counter.
+       (Rule 68/8.6) Function not declared at file scope.
+       (Rule 69/16.1) Function has variable number of arguments.
+       (Rule 73/16.3) Either all parameters or no parameters should have identifiers.
+       (Rule 74/16.4) Parameter list differs from prior declaration for function.
+       (Rule 87/19.1) Declaration before #include.
+       (Rule 88/19.2) Header file name with non-standard character.
+       (Rule 91/19.5) '#define/#undef' used within a block.
+       (Rule 92/19.6) Use of '#undef' prohibited.
+       (Rule 98/19.12) Multiple use of '#' and/or '##' operators in macro definition.
+       (Rule 100/19.14) Non-standard use of 'defined' preprocessor operator.
+       (Rule 115/20.2) Re-use of C90 identifier/identifier pattern.
 
-    Required checks made exclusively for MISRA 1998 are:
-    (Rule 8) Multibyte characters and wide string literals prohibited.
-    (Rule 42) Comma operator used outside of 'for' expression.
-    (Rule 54) Null statement not in line by itself.
-    (Rule 58) break used outside of a switch.
-    (Rule 73) Either all parameters or no parameters should have identifiers.
-    (Rule 87) Declaration before #include.
-    (Rule 88) Header file name contains non-standard character.
-    (Rule 110) Bitfields inside union.
+       Required checks made exclusively for MISRA 1998 are:
 
-    Required checks made exclusively for MISRA 2004 are:
-    (Rule 4.1) Prohibited escape sequence used.
-    (Rule 6.1) Disallowed use of non-character value.
-    (Rule 6.2) Disallowed use of non-numeric value.
-    (Rule 8.5) No definitions of objects or function in header files.
-    (Rules 10.1 &amp; 10.2) Prohibited implicit conversion.
-    (Rules 10.3 &amp; 10.4) Prohibited cast of complex expressions.
-    (Rule 10.5) Recasting required for operators '~' and '&lt;&lt;'.
-    (Rule 10.6) Unsigned integer literals require a 'U' suffix.
-    (Rule 11.5) Attempt to cast away const/volatile from a pointer or reference.
-    (Rule 12.3) 'sizeof' used on expressions with side effect.
-    (Rule 12.7) Bitwise operator applied to signed underlying type.
-    (Rule 12.9) Prohibited operator applied to unsigned underlying type.
-    (Rule 12.10) Comma operator used.
-    (Rule 12.13) Increment or decrement combined with another operator.
-    (Rule 14.3) Null statement not in line by itself.
-    (Rule 14.6) More than one 'break' terminates loop.
-    (Rule 14.8) Left brace expected.
-    (Rule 16.3) All parameters shall have identifiers.
-    (Rule 16.9) Function identifier used without '&amp;' or parenthesized parameter list.
-    (Rule 17.4) Pointer arithmetic other than array indexing used.
-    (Rule 14.10) No 'else' at end of 'if ... else if' chain.
-    (Rule 15.4) Boolean value in switch expression.
-    (Rule 18.4) Unions shall not be used.
-    (Rule 19.6) Use of '#undef' prohibited.
-    (Rule 19.13) '#/##' operator used in macro.
+       (Rule 8) Multibyte characters and wide string literals prohibited.
+       (Rule 42) Comma operator used outside of 'for' expression.
+       (Rule 54) Null statement not in line by itself.
+       (Rule 58) break used outside of a switch.
+       (Rule 73) Either all parameters or no parameters should have identifiers.
+       (Rule 87) Declaration before #include.
+       (Rule 88) Header file name contains non-standard character.
+       (Rule 110) Bitfields inside union.
 
-    MISRA 1998 checking is achieved using the -misra(1) option. For MISRA 2004 checks, use -misra(2).
+       Required checks made exclusively for MISRA 2004 are:
 
-    You may disable individual rules to your taste by using the Rule number in an esym option. For example:
+       (Rule 4.1) Prohibited escape sequence used.
+       (Rule 6.1) Disallowed use of non-character value.
+       (Rule 6.2) Disallowed use of non-numeric value.
+       (Rule 8.5) No definitions of objects or function in header files.
+       (Rules 10.1 &amp; 10.2) Prohibited implicit conversion.
+       (Rules 10.3 &amp; 10.4) Prohibited cast of complex expressions.
+       (Rule 10.5) Recasting required for operators '~' and '&lt;&lt;'.
+       (Rule 10.6) Unsigned integer literals require a 'U' suffix.
+       (Rule 11.5) Attempt to cast away const/volatile from a pointer or reference.
+
+       (Rule 12.7) Bitwise operator applied to signed underlying type.
+       (Rule 12.9) Prohibited operator applied to unsigned underlying type.
+       (Rule 12.10) Comma operator used.
+       (Rule 12.13) Increment or decrement combined with another operator.
+       (Rule 14.3) Null statement not in line by itself.
+       (Rule 14.6) More than one 'break' terminates loop.
+       (Rule 14.8) Left brace expected.
+       (Rule 16.3) All parameters shall have identifiers.
+       (Rule 16.9) Function identifier used without '&amp;' or parenthesized parameter list.
+       (Rule 17.4) Pointer arithmetic other than array indexing used.
+
+
+       (Rule 18.4) Unions shall not be used.
+       (Rule 19.13) '#/##' operator used in macro.
+&lt;/tt&gt;&lt;/pre&gt;
+
+&lt;p&gt;MISRA 1998 checking is achieved using the -misra(1) option. For
+MISRA 2004 checks, use -misra(2)&lt;/p&gt;
+
+&lt;p&gt;You may disable individual rules to your taste by using the Rule number in an esym option.&lt;/p&gt; &lt;p&gt;For example:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
     -esym( 960, 75, 8? )
-    will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.</description>
+&lt;/tt&gt;&lt;/pre&gt;
+&lt;p&gt;will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.&lt;/p&gt;]]&gt;</description>
 		</rule>
 		<rule key="961">
 			<name>L0961: Violates MISRA Year Advisory Rule Name, String"</name>
@@ -11633,14 +11727,14 @@
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>undefined</severity>
 			<repo>pclint</repo>
-			<description>This message is issued for some violations of the MISRA advisory guidelines. Certain rules were advisories in the 1998 Standard and became required for the 2004 Standard and vice versa. Therefore, you might see some rules repeated here already listed above for message 960.
-    The list of advisory checks made for both MISRA 1998 and 2004 are:
+			<description>&lt;![CDATA[&lt;p&gt;This message is issued for some violations of the MISRA advisory guidelines. Certain rules were advisories in the 1998 Standard and became required for the 2004 Standard and vice versa. Therefore, you might see some rules repeated here already listed above for message 960.&lt;/p&gt;
+    &lt;p&gt;The list of advisory checks made for both MISRA 1998 and 2004 are:
     (Rule 47/12.1) Dependence placed on C's operator precedence (Rule 87/19.1) Only preprocessor statements and comments before '#include'. (Rule 93/19.7) Use of function-like macros is discouraged. (Rule 102/17.5) More than two pointer indirection levels used.
     Advisory checks made exclusively for MISRA 1998 are:
     (Rule 18) Constant requires numerical suffix (Rule 28) 'register' class discouraged (Rule 40) 'sizeof' used on expressions with side effect (Rule 44) Redundant explicit casting (Rule 55) Non-case label (Rule 60) No 'else' at end of 'if ... else if' chain. (Rule 63) Boolean value in switch expression (Rule 92) Use of '#undef' is discouraged
     Advisory checks made exclusively for MISRA 2004 are:
     (Rule 19.2) Header file name contains non-standard character. (Rule 19.13) No use of '#' or '##'.
-    Messages can be suppressed based on rule number. See also Message 960.</description>
+    Messages can be suppressed based on rule number. See also Message 960.&lt;/p&gt;]]&gt;</description>
 		</rule>
 		<rule key="962">
 			<name>L0962: Macro 'Symbol' defined identically at another location (Location)</name>
@@ -13090,7 +13184,7 @@
     Note that the Microsoft compiler implements this extension. For that reason, the Lint option -elib(1111) appears in recent versions of our configuration files for Microsoft compilers.</description>
 		</rule>
 		<rule key="1112">
-			<name>L1111: In a declaration, the form 'auto D(parms)-&gt;type' is the only valid way to use a trailing-return-type</name>
+			<name>L1112: In a declaration, the form 'auto D(parms)-&gt;type' is the only valid way to use a trailing-return-type</name>
 			<requirement>INSTRUCTION_RELIABILITY</requirement>
 			<remediationFactorVal>1</remediationFactorVal>
 			<remediationFactorUnit>mn</remediationFactorUnit>
@@ -13101,8 +13195,207 @@
 			<repo>pclint</repo>
 			<description>In a declaration, the form 'auto D(parms)-&gt;type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type</description>
 		</rule>
+		<rule key="1113">
+			<name>L1013: Symbol 'Name' not a member of class 'Name'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The second operand of a scope operator or a '.' or '-&amp;gt;' operator is not a member of the class (struct or union) expressed or implied by the left hand operand. [11, ?3.2]</description>
+		</rule>
+		<rule key="1114">
+			<name>L1014: Explicit storage class not needed for member function 'Symbol'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An explicit Symbol storage class such as extern or static was given in a separate definition of a class member. The storage class is effectively defined by its appearance within the class and may not be restated at definition time.</description>
+		</rule>
+		<rule key="1115">
+			<name>L1015: Symbol 'Name' not found in class</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>In an expression of the form X::Y, Y must be a member of X or of a public or protected base class of X. [11, ?10.4]</description>
+		</rule>
+		<rule key="1116">
+			<name>L1016: Symbol 'Symbol' is supposed to denote a class</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>In a base-specifier an identifier is supposed to specify a base class. However, the identifier was not previously declared in this module. [11, ?10]</description>
+		</rule>
+		<rule key="1117">
+			<name>L1017: conflicting access-specifier 'String'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Two different access specifiers were given in a simple base-specifier. [11, ?10]</description>
+		</rule>
+		<rule key="1118">
+			<name>L1018: Expected a type after 'new'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>In an expression involving new, a type is expected after possibly processing a placement. None was found. [11, ?5.3.3]</description>
+		</rule>
+		<rule key="1119">
+			<name>L1019: Could not find match for function 'Symbol(String)'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>In attempting to find a match between a set of overloaded functions or operators (name given as Symbol) and an actual argument list (provided as String) no match could be found. [11, ?13.2]</description>
+		</rule>
+		<rule key="1120">
+			<name>L1020: template specialization for 'Symbol' declared without a 'template&amp;lt;&amp;gt;' prefix</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A class template specialization is generally preceded by a 'template&amp;lt;&amp;gt;' clause as in: template&amp;lt; class T &amp;gt; class A { }; // a template template&amp;lt;&amp;gt; class A&amp;lt;int&amp;gt; { }; // a specialization If the 'template&amp;lt;&amp;gt;' is omitted, you will get this message but it will still be interpreted as a specialization. Before the standardization of template syntax was completed, a template specialization did not require this clause and its absence is still permitted by some compilers.</description>
+		</rule>
+		<rule key="1121">
+			<name>L1021: No viable 'String' function defined for type 'Type' used as range expression</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A non-array range expression used in a range-based for statement has no viable begin or end function.</description>
+		</rule>
+		<rule key="1122">
+			<name>L1022: Function: 'String' must be a class member</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The type of a range expression used in a range-based for statement has either a begin or end member function but not both.</description>
+		</rule>
+		<rule key="1123">
+			<name>L1123: Attempt to derive from class 'Symbol' marked as 'final' at Location</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A class that was marked with the final class-virt-specifier was used as a base class in a class declaration.</description>
+		</rule>
+		<rule key="1124">
+			<name>L1124: Digit separator not allowed: 'String'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A digit separator character was encountered within a numeric literal at a point where digit separators are not allowed. Digit separators are only allowed between digits of a numeric literal and cannot be adjacent to each other.  String contains additional information related to the specific misuse such as "after digit sequence", "following base prefix", "consecutive digit separators", etc.</description>
+		</rule>
+		<rule key="1125">
+			<name>L1125: A type cannot be defined in a friend declaration</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>&lt;![CDATA[&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
+           class A {
+             friend struct B;    // ok
+             friend struct C {}; // error
+           };
+&lt;/tt&gt;&lt;/pre&gt;]]&gt;</description>
+		</rule>
+		<rule key="1126">
+			<name>L1126: In std::underlying_type&amp;lt;T&amp;gt;, T must be an enumeration type; but here, T is 'Type'.</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The special library template std::underlying_type is intended to take an enumeration type; when this condition is satisfied, its typedef member 'type' is the underlying integral type of the enumeration. This error is issued for the case where the type is not an enumeration.</description>
+		</rule>
+		<rule key="1127">
+			<name>L1127: catch handler after catch(...)</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>5</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A catch handler appeared following a catch(...) in the same try-catch statement which invokes undefined behavior.</description>
+		</rule>
 		<rule key="1268">
 			<name>L1268: Internal Error; contact Gimpel Software</name>
+			<requirement>undefined</requirement>
+			<remediationFactorVal>0</remediationFactorVal>
+			<remediationFactorUnit>undefined</remediationFactorUnit>
+			<remediationFunction>undefined</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>undefined</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Internal Error  -- Some inconsistency or contradiction was discovered in the PC-lint/FlexeLint system. This may or may not
+    be the result of a user error. This inconsistency should be brought to the attention of Gimpel Software</description>
+		</rule>
+		<rule key="1270">
+			<name>L1270: Internal Error; contact Gimpel Software</name>
 			<requirement>undefined</requirement>
 			<remediationFactorVal>0</remediationFactorVal>
 			<remediationFactorUnit>undefined</remediationFactorUnit>
@@ -14470,6 +14763,26 @@
     a = b = c
     [11, ?13.4.3]</description>
 		</rule>
+		<rule key="1723">
+			<name>L1723: Template 'Symbol' arbitrarily selected.  Refer to Error 'Integer'</name>
+			<requirement>undefined</requirement>
+			<remediationFactorVal>0</remediationFactorVal>
+			<remediationFactorUnit>undefined</remediationFactorUnit>
+			<remediationFunction>undefined</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>undefined</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>&lt;![CDATA[&lt;p&gt;This is a supplemental message to the Error that immediately preceded, which was about a failure to select a single best partial specialization for an instantiation. Its purpose is to show some of the context of subsequent processing (which is now in a state of recovery).&lt;/p&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
+           template&lt;class T, class U&gt; struct A;
+           template&lt;class T, class U&gt; struct A&lt;T*, U&gt; {  };
+           template&lt;class T, class U&gt; struct A&lt;T, U*&gt; {  };
+           A&lt;int*, char*&gt;  x; // Error 1084 followed by Info 1723
+&lt;/tt&gt;&lt;/pre&gt;
+]]&gt;</description>
+		</rule>
 		<rule key="1724">
 			<name>L1724: Argument to copy constructor for class 'Symbol' should be a const reference</name>
 			<requirement>undefined</requirement>
@@ -15792,73 +16105,76 @@
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>undefined</severity>
 			<repo>pclint</repo>
-			<description>In addition to a C coding standard, MISRA has also compiled a C++ one.
-    We suggest use of the options file au-misra-cpp.lnt to activate these and other MISRA C++ messages.
-    The list of checks made are as follows:
-    (Rule 0-1-8) Void return type for function without external side-effects.
-    (Rule 2-13-2) Octal constant or escape sequence used.
-    (Rule 2-13-4) Lower case literal suffix.
-    (Rule 3-1-1) Object/function definitions in headers.
-    (Rule 3-1-2) Function not declared at file scope. 
-    (Rule 3-2-3)  Object/function previously declared in location.
-    (Rule 3-9-3)  Bit representation of a floating point type used.
-    (Rule 4-5-1)  Boolean expression used with non-permitted operator.
-    (Rule 4-5-3)  Plain char used with prohibited operator.
-    (Rule 5-0-3) Implicit conversion of cvalue.
-    (Rule 5-0-4) Implicit conversion changes signedness. 
-    (Rule 5-0-5) Implicit conversion between integer and floating point types.
-    (Rule 5-0-6) Implicit conversion to smaller type.
-    (Rule 5-0-7) Cast of cvalue between integer and floating point types.
-    (Rule 5-0-8) Cast of cvalue to larger type.
-    (Rule 5-0-9) Cast of cvalue changes signedness.
-    (Rule 5-0-10) Recasting required for operators '~' and '&lt;&lt;'.
-    (Rule 5-0-11) Disallowed use of non-character value.
-    (Rule 5-0-12  Disallowed use of non-numeric value.
-    (Rule 5-0-15) Pointer arithmetic other than array indexing used.
-    (Rule 5-0-19) More than two pointer indirection levels used. 
-    (Rule 5-0-21) Bitwise operator applied to signed underlying type.
-    (Rule 5-2-1)  Non-postfix expression used with logical operator.
-    (Rule 5-2-5)  Attempt to cast away const/volatile from a pointer or reference.
-    (Rule 5-2-12) Array-pointer decay when passing the array to a function.
-    (Rule 5-3-1)  Boolean expression required for operator.
-    (Rule 5-3-2) Prohibited operator applied to unsigned underlying type:
-    (Rule 5-3-3) Overloading unary &amp;.
-    (Rule 5-3-4) 'sizeof' used on expressions with side effect.
-    (Rule 5-14-1) Side effects on right hand side of logical operator.
-    (Rule 5-18-1) Comma operator used.
-    (Rule 6-2-3) Null statement not in line by itself.
-    (Rules 6-3-1 and 6-4-1) Left brace expected for if, else, for, do, switch and while.
-    (Rule 6-4-2) No 'else' at end of 'if ... else if' chain.
-    (Rule 6-4-7) Boolean value in switch expression.
-    (Rule 6-6-2) Gotos jumping to an earlier point in the code.
-    (Rule 6-6-3) continue statement should not be used.
-    (Rule 6-6-4) More than one 'break' terminates loop.
-    (Rule 7-3-1) Global declarations other than main(), namespace declarations, extern "C" declarations and arithmetic typedefs.
-    (Rule 7-3-2) Using the identifier main for functions other than the global one.
-    (Rule 7-3-3) Unnamed namespaces in headers.
-    (Rule 7-3-4) No using-directives allowed.
-    (Rule 7-3-6) using-directives or using declarations (except class and/or block scope using declarations) in header files.
-    (Rule 8-0-1) Multiple declarators in a declaration.
-    (Rule 8-4-1) Function has variable number of arguments.
-    (Rule 8-4-2) Function parameter list differs.
-    (Rule 8-4-4) Function identifier used without '&amp;' or parenthisized parameter list.
-    (Rule 8-5-3) Should initialize either all enum members or only the first.
-    (Rule 9-5-1) Unions shall not be used.
-    (Rule 11-0-1) Non-private data member within a no-POD structure.
-    (Rule 12-8-2) Public copy constructor in abstract class.
-    (Rule 14-8-1) Explicit specialization of overloaded function templates.
-    (Rule 15-1-2) Explicit throw of the Null macro.
-    (Rule 15-1-3) Empty throw outside of a catch block.
-    (Rule 15-3-7) Catch handler after catch(...) in a try-catch sequence.
-    (Rule 16-0-1) Only preprocessor statements and comments before '#include'.
-    (Rule 16-0-2) '#define/#undef' used within a block.
-    (Rule 16-0-3) Use of '#undef' is discouraged.
-    (Rule 16-0-4) Use of function-like macros is discouraged.
-    (Rule 16-1-1) Non-standard use of 'defined' preprocessor operator.
-    (Rule 16-2-4) Header file name with non-standard character:
-    (Rule 16-3-1) Multiple use of '#' and/or '##' operators in macro definition.
-    (Rule 17-0-2) Re-use of reserved identifier.
-    You may disable individual rules to your taste by using the Rule number in an esym option; see Message 960.</description>
+			<description>&lt;![CDATA[
+&lt;p&gt;In addition to a C coding standard, MISRA has also compiled a C++ one. We suggest use of the options file au-misra-cpp.lnt to activate these and other MISRA C++ messages.&lt;/p&gt;
+&lt;p&gt;The list of checks made are as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;tt&gt;
+       (Rule 0-1-8)  Void return type for function without external side-effects.
+       (Rule 2-13-2) Octal constant or escape sequence used.
+       (Rule 2-13-4) Lower case literal suffix.
+       (Rule 3-1-1)  Object/function definitions in headers.
+       (Rule 3-1-2)  Function not declared at file scope.
+       (Rule 3-2-3)  Object/function previously declared in location.
+       (Rule 3-9-3)  Bit representation of a floating point type used.
+       (Rule 4-5-1)  Boolean expression used with non-permitted operator.
+       (Rule 4-5-3)  Plain char used with prohibited operator.
+       (Rule 5-0-3)  Implicit conversion of cvalue.
+       (Rule 5-0-4)  Implicit conversion changes signedness.
+       (Rule 5-0-5)  Implicit conversion between integer and floating point types.
+       (Rule 5-0-6)  Implicit conversion to smaller type.
+       (Rule 5-0-7)  Cast of cvalue between integer and floating point types.
+       (Rule 5-0-8)  Cast of cvalue to larger type.
+       (Rule 5-0-9)  Cast of cvalue changes signedness.
+       (Rule 5-0-10) Recasting required for operators '~' and '&amp;lt;&amp;lt;'.
+       (Rule 5-0-11) Disallowed use of non-character value.
+       (Rule 5-0-12  Disallowed use of non-numeric value.
+       (Rule 5-0-15) Pointer arithmetic other than array indexing used.
+       (rule 5-0-19) More than two pointer indirection levels used.
+       (Rule 5-0-21) Bitwise operator applied to signed underlying type.
+       (Rule 5-2-1)  Non-postfix expression used with logical operator.
+       (Rule 5-2-5)  Attempt to cast away const/volatile from a pointer or reference.
+       (Rule 5-2-12) Array-pointer decay when passing the array to a function.
+       (Rule 5-3-1)  Boolean expresion required for operator.
+       (Rule 5-3-2)  Prohibited operator applied to unsigned underlying type: .
+       (Rule 5-3-3)  Overloading unary &amp;amp;.
+       (Rule 5-3-4)  'sizeof' used on expressions with side effect.
+       (Rule 5-14-1) Side effects on right hand side of logical operator.
+       (Rule 5-18-1) Comma operator used.
+       (Rule 6-2-3)  Null statement not in line by itself.
+       (Rules 6-3-1 and 6-4-1) Left brace expected for if, else, for, do, switch and while.
+       (Rule 6-4-2)  No 'else' at end of 'if ... else if' chain.
+       (Rule 6-4-7)  Boolean value in switch expression.
+       (Rule 6-6-2)  Gotos jumping to an earlier point in the code.
+       (Rule 6-6-3)  continue statement should not be used.
+       (Rule 6-6-4)  More than one 'break' terminates loop.
+       (Rule 7-3-1)  Global declarations other than main(), namespace declarations, extern &amp;quot;C&amp;quot; declarations and arithmetic typedefs.
+       (Rule 7-3-2)  Using the identifier main for functions other than the global one.
+       (Rule 7-3-3)  Unnamed namespaces in headers.
+       (Rule 7-3-4)  No using-directives allowed.
+       (Rule 7-3-6)  using-directives or using declarations (except class and/or block scope using declarations) in header files.
+       (Rule 8-0-1)  Multiple declarators in a declaration.
+       (Rule 8-4-1)  Function has variable number of arguments.
+       (Rule 8-4-2)  Function parameter list differs
+       (Rule 8-4-4)  Function identifier used without '&amp;amp;' or parenthisized parameter list.
+       (Rule 8-5-3)  Should initialize either all enum members or only the first.
+       (Rule 9-5-1)  Unions shall not be used.
+       (Rule 11-0-1) Non-private data member within a no-POD structure.
+       (Rule 12-8-2) Public copy constructor in abstract class.
+       (Rule 14-8-1) Explicit specialization of overloaded function templates.
+       (Rule 15-1-2) Explicit throw of the Null macro.
+       (Rule 15-1-3) Empty throw outside of a catch block.
+       (Rule 15-3-7) Catch handler after catch(...) in a try-catch sequence.
+       (Rule 16-0-1) Only preprocessor statements and comments before '#include'.
+       (Rule 16-0-2) '#define/#undef' used within a block.
+       (Rule 16-0-3) Use of '#undef' is discouraged.
+       (Rule 16-0-4) Use of function-like macros is discouraged.
+       (Rule 16-1-1) Non-standard use of 'defined' preprocessor operator.
+       (Rule 16-2-4) Header file name with non-standard character: .
+       (Rule 16-3-1) Multiple use of '#' and/or '##' operators in macro definition.
+       (Rule 17-0-2) Re-use of reserved identifier
+&lt;/tt&gt;&lt;/pre&gt;
+&lt;p&gt;You may disable individual rules to your taste by using the Rule number in an esym option; see Message 960.&lt;/p&gt;
+ ]]&gt;</description>
 		</rule>
 		<rule key="1961">
 			<name>L1961: virtual member function 'Symbol' could be made const</name>
@@ -16630,6 +16946,936 @@
 			<severity>undefined</severity>
 			<repo>pclint</repo>
 			<description>A C-style comment was seen inside a C++-style comment.  This can result in confusion.</description>
+		</rule>
+		<rule key="9067">
+			<name>L9067: array declared without explicit dimension</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An array was declared without a dimension. At least one standards organization advises against such a practice in the interest of safety. Note: this message is not given if the array is initialized at the time of declaration.</description>
+		</rule>
+		<rule key="9068">
+			<name>L9068: partial array initialization</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An array has been initialized only partly. Providing an explicit initialization for each element of an array makes it clear every element has been considered. This diagnostic is not issued if the array is initialized with a {0} initializer or if the initializer consists entirely of designated initializers or if the array is initialized using a string literal.</description>
+		</rule>
+		<rule key="9069">
+			<name>L9069: in initializer for symbol 'Symbol', initializer of type 'Type' needs braces or designator</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An array is initialized without sufficient braces or designators to clarify exactly which elements are initialized with which values.</description>
+		</rule>
+		<rule key="9070">
+			<name>L9070: recursive function 'Symbol', location Location</name>
+			<requirement>MEMORY_EFFICIENCY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The named function has been found to potentially call itself, either directly or indirectly. Recursion carries with it the danger of exceeding available stack space, which can lead to a run-time failure. All else being equal, the more recursion is constrained, the easier determining the worst-case stack usage can be.</description>
+		</rule>
+		<rule key="9071">
+			<name>L9071: defined macro 'Name' is reserved to the compiler String</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A macro was defined which is reserved to the compiler. Such definition results in undefined behavior. If String is present, the macro name is one of the more obscure identifiers reserved and String provides an explanation to that effect.</description>
+		</rule>
+		<rule key="9072">
+			<name>L9072: parameter list differs from prior declaration for function 'Symbol'</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The numed function was found declared with one parameter list and another which differs either by type or parameter name. At least one author advises against such inconsistency for various reasons.</description>
+		</rule>
+		<rule key="9074">
+			<name>L9074: conversion between a pointer to function and another type</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A conversion was seen between a pointer to function and a different type. The conversion of a pointer to a function into or from a pointer to object, pointer to incomplete type, or pointer to void results in undefined behavior and, consequently, at least one standards organization advises against such practice. This diagnostic is suppressed if the conversion is to void.</description>
+		</rule>
+		<rule key="9075">
+			<name>L9075: external symbol 'Symbol' defined without a prior declaration</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>If a declaration for an object or function is visible when that object or function is defined, a compiler must verfiy the declaration and definition are compatible. A lack of prior declaration prevents such checking.</description>
+		</rule>
+		<rule key="9076">
+			<name>L9076: conversion between a pointer to incomplete type and another type</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Conversions involving pointers to incomplete types causes undefined behavior if converted to or from a floating point type and can cause incorrect alignment if to or from a pointer type. This message is suppressed if the conversion is to void. Also, for purposes of this diagnostic, pointers to void are not treated as pointers to incomplete types.</description>
+		</rule>
+		<rule key="9077">
+			<name>L9077: missing unconditional break from final switch case</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A case at the end of a switch had no unconditional break. Some coding guidelines require the use of a break for every switch case, including the last one, for maintenance reasons.</description>
+		</rule>
+		<rule key="9078">
+			<name>L9078: conversion between a pointer and integer type</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A conversion between a pointer type and an integer/enum type was seen. Such conversions can result in undefined behavior if the pointer value cannot be represented in the integer/enum type. This diagnostic is not given for null pointer constants.</description>
+		</rule>
+		<rule key="9079">
+			<name>L9079: conversion from pointer to void to pointer to other type</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Conversion of a pointer to void into a pointer to object may result in a pointer which is not correctly aligned, resulting in undefined behavior.</description>
+		</rule>
+		<rule key="9080">
+			<name>L9080: integer null pointer constant used</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An integer null pointer constant other than the NULL macro was used. Using the NULL macro makes it clear a null pointer constant was intended.</description>
+		</rule>
+		<rule key="9081">
+			<name>L9081: too few independent cases for switch</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A switch was seen with less than two non-consecutive case labels. A switch with less than two such cases is redundant and may indicate a programming error.</description>
+		</rule>
+		<rule key="9082">
+			<name>L9082: switch statement should either begin or end with default label</name>
+			<requirement>READABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Placing the default label either first or last makes locating it easier.</description>
+		</rule>
+		<rule key="9083">
+			<name>L9083: undefined macro 'String' matches an identifier reserved to the compiler</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A #undef was seen applied to an identifier given by String and that identifier is reserved to the compiler by the ISO C/C++ standards.</description>
+		</rule>
+		<rule key="9084">
+			<name>L9084: result of assignment operator used in larger expression</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An assignment expression was seen inside a larger expression. The use of assignment operators, simple or compound, in combination with other arithmetic operations can significantly impair the readability of the code.</description>
+		</rule>
+		<rule key="9085">
+			<name>L9085: statement or comment should appear in default case</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A default was seen without a comment or statement between it and either the corresponding break or, if default is the last case in the switch, the closing }. Adding a statement to take action or adding a comment to explain why no action is taken is a form of defensive programming.</description>
+		</rule>
+		<rule key="9086">
+			<name>L9086: include directives should have single arguments</name>
+			<requirement>LANGUAGE_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A #include directive is followed by more than one angle bracket sequence or string literal. The ISO standards do not define behavior in such cases.</description>
+		</rule>
+		<rule key="9087">
+			<name>L9087: cast performed between a pointer to object type and a pointer to a different object type</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A cast was seen between two pointer types which differ with respect to what those types point. Additionally, the type to which the expression was cast is not a pointer to char, whether signed or unsigned. At least one standards organization has cautioned against such a practice.</description>
+		</rule>
+		<rule key="9088">
+			<name>L9088: named signed single-bit bit-field</name>
+			<requirement>LANGUAGE_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A named bit-field was declared with a signed data type and only one bit of width. According to the ISO C Standard, a single-bit signed bit-field has one sign bit and no value bits and, consequently does not specify a meaningful value.</description>
+		</rule>
+		<rule key="9089">
+			<name>L9089: potential side-effect in argument to sizeof</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An argument to sizeof was found to have a potential side-effect. Arguments to sizeof are not usually evaluated, unless the argument names a variable length array type. Avoidance of such arguments is advised.</description>
+		</rule>
+		<rule key="9090">
+			<name>L9090: unconditional break missing from switch case</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A switch case was seen which did not conclude with an unconditional break. Some authors advise against such absences on the grounds they are often errors.</description>
+		</rule>
+		<rule key="9102">
+			<name>L9102: possible digraph, 'String'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A possible digraph was seen. At least one set of coding guidelines advises against such due to the risk of failure to meet developer expectations.</description>
+		</rule>
+		<rule key="9104">
+			<name>L9104: octal escape sequence used</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Octal escape sequences can be problematic because the inadvertent introduction of a decimal digit (i.e. 8 or 9) ends the octal escape and introduces another character. This diagnostic is not given for \0.</description>
+		</rule>
+		<rule key="9105">
+			<name>L9105: unsigned octal and hexadecimal literals require a 'U' suffix</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The inclusion of such a suffix makes clear the value has unsigned type.</description>
+		</rule>
+		<rule key="9106">
+			<name>L9106: lower case literal suffix, 'String'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Using upper case literal suffixes removes the potential for ambiguity with respect to literal values.</description>
+		</rule>
+		<rule key="9107">
+			<name>L9107: header cannot be included in more than one translation unit because of the definition of symbol 'Symbol'</name>
+			<requirement>MEMORY_EFFICIENCY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>One set of guidelines advises the use of headers in such a way as to avoid the definition of objects or functions which occupy storage.</description>
+		</rule>
+		<rule key="9108">
+			<name>L9108: function 'Symbol' not declared at file scope</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A function declared at block scope will refer to a member of the enclosing namespace. Additionally, where a declaration statement could either declare a function or an object, the compiler will choose to declare the function. Declaring the function at file scope reduces the likelihood of confusion in both cases.</description>
+		</rule>
+		<rule key="9109">
+			<name>L9109: type 'Symbol' previously declared at location 'Location'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Having a single declaration of a type helps the compiler detect type incompatibility. One simple solution to ensure type declaration consistency is to declare a type in a header if it is used in multiple modules.</description>
+		</rule>
+		<rule key="9110">
+			<name>L9110: bit representation of a floating point type used</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The underlying bit representation of floating point values can differ from compiler to compiler, making reliance upon such representation non-portable.</description>
+		</rule>
+		<rule key="9111">
+			<name>L9111: boolean expression used with non-permitted operator 'String'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The use of expressions of bool with certain operators, such as the bitwise operators, is not likely to be either meaningful or intended.</description>
+		</rule>
+		<rule key="9112">
+			<name>L9112: plain char used with prohibited operator 'String'</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>With the exception of the sequence of character values representing 0 thru 9, the exact value of any other particular character is not guaranteed and reliance upon such an order is non-portable.</description>
+		</rule>
+		<rule key="9113">
+			<name>L9113: dependence placed on C/C++ operator precedence</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The use of parentheses instead of relying upon operator precedence can help make the code easier to understand.</description>
+		</rule>
+		<rule key="9114">
+			<name>L9114: implicit conversion of integer cvalue expression</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of a cvalue expression and, to help ensure operations in a given expression are performed within a particular fashion, the guidelines caution against such a value undergoing implicit conversions.</description>
+		</rule>
+		<rule key="9115">
+			<name>L9115: implicit conversion from integer to floating point type</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Such conversions between these two types of values can result in inexact representation.</description>
+		</rule>
+		<rule key="9116">
+			<name>L9116: implicit conversion of floating point cvalue expression</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of a cvalue expression and, to help ensure operations in a given expression are performed within a particular fashion, the guidelines caution against such a value undergoing implicit conversions.</description>
+		</rule>
+		<rule key="9117">
+			<name>L9117: implicit conversion changes signedness</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Some such conversions can lead to implementation defined behavior. Reliance upon such behavior is, therefore, not portable.</description>
+		</rule>
+		<rule key="9118">
+			<name>L9118: implicit conversion from floating point to integer type</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Such conversions between these two types of values can result in undefined behavior.</description>
+		</rule>
+		<rule key="9119">
+			<name>L9119: implicit conversion of integer to smaller type</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of an underlying type. Such conversions when said underlying type is an integral type can result in the loss of information.</description>
+		</rule>
+		<rule key="9120">
+			<name>L9120: implicit conversion of floating point to smaller type</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of an underlying type. Such conversions when said underlying type is floating point type can result in the loss of information.</description>
+		</rule>
+		<rule key="9121">
+			<name>L9121: cast of cvalue expression from integer to floating point type</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+		</rule>
+		<rule key="9122">
+			<name>L9122: cast of cvalue expression from floating point to integer type</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+		</rule>
+		<rule key="9123">
+			<name>L9123: cast of integer cvalue expression to larger type</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+		</rule>
+		<rule key="9124">
+			<name>L9124: cast of floating point cvalue expression to larger type</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of a cvalue expression and the casting of such expressions does not change the type in which such expressions are evaluated.</description>
+		</rule>
+		<rule key="9125">
+			<name>L9125: cast of cvalue expression changes signedness</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of a cvalue expression and an underlying type. Casting a cvalue expression from an (un)signed underlying type to the other may lead to a value inconsistent with expectations.</description>
+		</rule>
+		<rule key="9126">
+			<name>L9126: operators '~' and '&amp;lt;&amp;lt;' require recasting to underlying type for sub-integers</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of an underlying type. Casting an expression resulting from these operators, when the operand has an underlying type has type of unsigned char or unsigned short, reduces the risk of unexpected high order bits resulting from integral promotion.</description>
+		</rule>
+		<rule key="9127">
+			<name>L9127: disallowed use of non-character value String</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the char type be used only for character values.</description>
+		</rule>
+		<rule key="9128">
+			<name>L9128: plain char mixed with type other than plain char</name>
+			<requirement>COMPILER_RELATED_PORTABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the char type not be mixed with other types.</description>
+		</rule>
+		<rule key="9129">
+			<name>L9129: disallowed use of non-numeric value String</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent standard urges, since whether plain char is signed or unsigned is implementation defined, the signed char and unsigned char types not be used for character values.</description>
+		</rule>
+		<rule key="9130">
+			<name>L9130: bitwise operator 'String' applied to signed underlying type</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of an underlying type and notes the fact bitwise operations are not typically meaningful when applied to operands of signed type and can even result in implementation defined behavior. As such, when the underlying type of an expression is signed, bitwise operations are discouraged.</description>
+		</rule>
+		<rule key="9131">
+			<name>L9131: non-postfix expression used with logical operator</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Using only postfix-expressions with logical operators helps to improve readability of the code. Note, this message is not given if the expression consists of either a sequence of only logical &amp;amp;&amp;amp; or a sequence of only logical ||.</description>
+		</rule>
+		<rule key="9132">
+			<name>L9132: array type passed to function expecting a pointer</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Array-to-pointer decay results in a loss of array bound information. A function depending upon an array to have a certain length, if that array decays to a pointer, can result in out-of-bounds operations, depending upon whether or not the bound of the original array matches with expectations.</description>
+		</rule>
+		<rule key="9133">
+			<name>L9133: boolean expression required for operator 'String'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The use of non-bool operands with !, &amp;amp;&amp;amp;, or || is unlikely to be meaningful or intended. A more likely scenario is the programmer meant to use such an operand with one of the bitwise operators.</description>
+		</rule>
+		<rule key="9134">
+			<name>L9134: prohibited operator 'String' applied to unsigned underlying type</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A prominent coding standard has defined the notion of an underlying type and notes the application of certain operators to expressions of unsigned type creates a result of the same type for type of rank unsigned int or above and is not a meaningful operation in such cases. For cases where such an operator is applied to unsigned sub-int expressions, the same standard deprecates such a practice.</description>
+		</rule>
+		<rule key="9135">
+			<name>L9135: unary operator &amp;amp; overloaded</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The unary operator &amp;amp; was overloaded.</description>
+		</rule>
+		<rule key="9136">
+			<name>L9136: out of bounds value for right hand side of shift operator</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The value specified for the right hand side of a shift operator was out of bounds for the MISRA C++ underlying type on the left hand side of the operator.</description>
+		</rule>
+		<rule key="9137">
+			<name>L9137: floating point test for equality or inequality</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A floating point value was tested, directly or indirectly, for (in)equality with another value.</description>
+		</rule>
+		<rule key="9138">
+			<name>L9138: null statement not in line by itself</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A null statement was encountered that, before preprocessing, did not appear on a line by itself. Comments following the null statement are allowed as long as there is whitespace separating the null statement from the comment.</description>
+		</rule>
+		<rule key="9139">
+			<name>L9139: case label follows default in switch statement</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A case label was encountered following the default label of a switch statement.</description>
+		</rule>
+		<rule key="9140">
+			<name>L9140: continue statement detected</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>A continue statement appears outside what one author calls a "well-formed for loop". Said author advises against such usage in the interest of reducing code complexity.</remediationFactorVal>
+			<description>A continue statement appears outside what one author calls a "well-formed for loop". Said author advises against such usage in the interest of reducing code complexity.</description>
+		</rule>
+		<rule key="9141">
+			<name>L9141: global declaration of symbol 'Symbol'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The specified symbol was declared in the global namespace.</description>
+		</rule>
+		<rule key="9142">
+			<name>L9142: non-global function, main, declared</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A function with the name 'main' was declared that was not the global main function.</description>
+		</rule>
+		<rule key="9144">
+			<name>L9144: using-directive used</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A using directive was encountered.</description>
+		</rule>
+		<rule key="9145">
+			<name>L9145: using-directive/declaration in header file</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A using directive or using declaration was encountered in a header file.</description>
+		</rule>
+		<rule key="9146">
+			<name>L9146: multiple declarators in a declaration</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A declaration was encountered that contains multiple declarators. For example:  int i, j;  will elicit this message.</description>
+		</rule>
+		<rule key="9147">
+			<name>L9147: function identifier 'Symbol' used without '&amp;amp;' or parenthesized parameter list</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The unadorned name of a function was encountered that was not part of a function call.</description>
+		</rule>
+		<rule key="9148">
+			<name>L9148: '=' should initialize either all enum members or only the first for enumerator 'Symbol'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Unintentional duplication of enumerator values can occur when an enumeration consists of members with explicit and implicit values.</description>
+		</rule>
+		<rule key="9149">
+			<name>L9149: bit field must be explicitly signed integer, unsigned integer, or bool</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>When using 'int' or 'wchar_t' as the bit-field type, it is implementation defined whether or not the type used is a signed type. Explicitly specifying 'signed' or 'unsigned' makes it clear what type will be used as the underlying type.</description>
+		</rule>
+		<rule key="9150">
+			<name>L9150: non-private data member 'Symbol' within a non-POD structure</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A member of a non-POD structure was declared public or protected.</description>
+		</rule>
+		<rule key="9151">
+			<name>L9151: public copy assignment operator in abstract class</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A public copy assignment operator was declared in an abstract class.</description>
+		</rule>
+		<rule key="9153">
+			<name>L9153: viable set contains both function 'Symbol' and template 'Symbol'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>In a context where a name resolves either to a non-template function or to a specialization of a function template (typically a call), the set of viable candidates included both.</description>
+		</rule>
+		<rule key="9154">
+			<name>L9154: pointer expression thrown</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A pointer type was passed to a throw expression. It may not be clear who is responsible for cleaning up the pointed to object.</description>
+		</rule>
+		<rule key="9156">
+			<name>L9156: empty throw outside of a catch block</name>
+			<requirement>INSTRUCTION_RELIABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>An empty throw expression was encountered outside of a try-catch block. An empty throw re-throws the currently handled exception. If there is no such exception std::terminate() will be called. This is  likely to be unintended.</description>
+		</rule>
+		<rule key="9158">
+			<name>L9158: '#define' used within a block for macro 'Name'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A macro definition occurred inside of a braced region such as in a function or class definition. Such usage could imply the belief that the scope of the macro definition is limited to the braced region which is not the case.</description>
+		</rule>
+		<rule key="9159">
+			<name>L9159: '#undef' used within a block for macro 'Name'</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>A macro was undefined inside of a braced region such as in a function or class definition. Such usage could imply the mistaken belief that the scope of the directive is limited to the braced region.</description>
+		</rule>
+		<rule key="9160">
+			<name>L9160: all preprocessing directives must be valid</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>The first token on a line was a '#' but was not part of a valid preprocessing directive.</description>
+		</rule>
+		<rule key="9162">
+			<name>L9162: use of 'String' at global scope</name>
+			<requirement>UNDERSTANDABILITY</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
+			<remediationOffsetVal>0</remediationOffsetVal>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
+			<severity>undefined</severity>
+			<repo>pclint</repo>
+			<description>Either a static_assert() or a using-declaration was seen at global scope, as indicated by the String.</description>
 		</rule>
 		<rule key="M1.1">
 			<name>M1.1: Strict ANSI checking (MISRA C)</name>
@@ -22453,12 +23699,12 @@ immediately cast to the underlying type of the operand.</description>
 		</rule>
 		<rule key="_execl">
 			<name>_execl</name>
-			<requirement>undefined</requirement>
-			<remediationFactorVal>0</remediationFactorVal>
-			<remediationFactorUnit>undefined</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<requirement>SECURITY_FEATURES</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>undefined</remediationOffsetUnit>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
 			<severity>MAJOR</severity>
 			<repo>rats</repo>
 			<description>While this _exec variant does not search the path for a program
@@ -22495,12 +23741,12 @@ immediately cast to the underlying type of the operand.</description>
 		</rule>
 		<rule key="_execle">
 			<name>_execle</name>
-			<requirement>undefined</requirement>
-			<remediationFactorVal>0</remediationFactorVal>
-			<remediationFactorUnit>undefined</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<requirement>SECURITY_FEATURES</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>undefined</remediationOffsetUnit>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
 			<severity>MAJOR</severity>
 			<repo>rats</repo>
 			<description>While this _exec variant does not search the path for a program
@@ -22540,12 +23786,12 @@ immediately cast to the underlying type of the operand.</description>
 		</rule>
 		<rule key="_execlp">
 			<name>_execlp</name>
-			<requirement>undefined</requirement>
-			<remediationFactorVal>0</remediationFactorVal>
-			<remediationFactorUnit>undefined</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<requirement>SECURITY_FEATURES</requirement>
+			<remediationFactorVal>1</remediationFactorVal>
+			<remediationFactorUnit>mn</remediationFactorUnit>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
-			<remediationOffsetUnit>undefined</remediationOffsetUnit>
+			<remediationOffsetUnit>d</remediationOffsetUnit>
 			<severity>MAJOR</severity>
 			<repo>rats</repo>
 			<description>Many program execution commands under Windows will search the
