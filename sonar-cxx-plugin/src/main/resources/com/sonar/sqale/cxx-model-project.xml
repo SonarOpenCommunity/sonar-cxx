@@ -1788,7 +1788,7 @@
 			<requirement>INSTRUCTION_RELIABILITY</requirement>
 			<remediationFactorVal>5</remediationFactorVal>
 			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>MINOR</severity>
@@ -3022,7 +3022,7 @@
 			<requirement>DATA_RELIABILITY</requirement>
 			<remediationFactorVal>5</remediationFactorVal>
 			<remediationFactorUnit>mn</remediationFactorUnit>
-			<remediationFunction>undefined</remediationFunction>
+			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
 			<remediationOffsetUnit>undefined</remediationOffsetUnit>
 			<severity>MINOR</severity>
@@ -17676,7 +17676,7 @@ MISRA 2004 checks, use -misra(2)&lt;/p&gt;
 		<rule key="9141">
 			<name>L9141: global declaration of symbol 'Symbol'</name>
 			<requirement>UNDERSTANDABILITY</requirement>
-			<remediationFactorVal>The specified symbol was declared in the global namespace.</remediationFactorVal>
+			<remediationFactorVal>1</remediationFactorVal>
 			<remediationFactorUnit>mn</remediationFactorUnit>
 			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
@@ -17688,7 +17688,7 @@ MISRA 2004 checks, use -misra(2)&lt;/p&gt;
 		<rule key="9142">
 			<name>L9142: non-global function, main, declared</name>
 			<requirement>UNDERSTANDABILITY</requirement>
-			<remediationFactorVal>A function with the name 'main' was declared that was not the global main function.</remediationFactorVal>
+			<remediationFactorVal>1</remediationFactorVal>
 			<remediationFactorUnit>mn</remediationFactorUnit>
 			<remediationFunction>linear</remediationFunction>
 			<remediationOffsetVal>0</remediationOffsetVal>
