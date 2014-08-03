@@ -1145,6 +1145,19 @@
     <description>A function definition was found within the body of another function's definition. Such a construct is almost certainly an error.</description>
   </rule>
   <rule>
+    <key>169</key>
+    <configkey>169</configkey>
+    <priority>CRITICAL</priority>
+    <name>L0169: mode(String) requests an (integral/floating point) type of size N, but no such type exists.</name>
+    <description><![CDATA[<p>(Please check -s options in the Lint configuration.)
+This occurs for a use of the GCC attribute mode() as in:</p>
+<pre><tt>
+           __attribute__((mode(DF)));
+</tt></pre>
+<p>This is supposed to match a built-in scalar type whose size is the size indicated in the message. If this message is issued, it probably means that size options have not been set to match the compile configuration; see Section 5.3, Size and Alignment Options.</p>
+]]></description>
+  </rule>
+  <rule>
     <key>170</key>
     <configkey>170</configkey>
     <priority>CRITICAL</priority>
@@ -1250,8 +1263,8 @@
     <key>312</key>
     <configkey>312</configkey>
     <priority>BLOCKER</priority>
-    <name>L0312: Lint Object Module has obsolete or foreign version id: Integer</name>
-    <description>A lint object module was produced with a prior or different version of PC-lint/FlexeLint. Delete the.lob file and recreate it using your new version of PC-lint/FlexeLint.</description>
+    <name>L0312: Lint (Precompiled Header/Object Module) has obsolete or foreign version id: Integer</name>
+    <description>A lint precompiled header or object module was produced with a prior or different version of PC-lint/FlexeLint. Delete the.lob  or .lph file and recreate it using your new version of PC-lint/FlexeLint.</description>
   </rule>
   <rule>
     <key>313</key>
@@ -1352,7 +1365,7 @@
     <configkey>330</configkey>
     <priority>BLOCKER</priority>
     <name>L0330: Static assertion failure: 'String'</name>
-    <description>Static assertion failure.</description>
+    <description>For the indicated static_assert directive, Lint evaluated the constant expression to false, and the resulting message is given by the String</description>
   </rule>
   <rule>
     <key>333</key>
@@ -1895,18 +1908,25 @@
      
        will not.]]></description>
   </rule>
-
+  <rule>
+    <key>489</key>
+    <configkey>489</configkey>
+    <priority>CRITICAL</priority>
+    <name>L0489: attempting to modify the contents of a string literal</name>
+    <description>An assignment to an element of a string literal was seen. Doing so results in undefined behavior.</description>
+  </rule>
   <rule>
     <key>491</key>
     <configkey>491</configkey>
     <priority>MAJOR</priority>
     <name>L0491: non-standard use of 'defined' preprocessor operator</name>
-    <description>The ISO standards restrict the use of the defined preprocessor keyword to either
-     
+    <description><![CDATA[<p>The ISO standards restrict the use of the defined preprocessor keyword to either</p>
+<pre><tt>
            defined(identifier)
            defined identifier
-     
-       Additionally, the preprocessor operator may not result from the expansion of another macro. This diagnostic highlights departures from these requirements as non-portable code.</description>
+</pre></tt>
+<p>Additionally, the preprocessor operator may not result from the expansion of another macro. This diagnostic highlights departures from these requirements as non-portable code.</p>
+       ]]></description>
   </rule>  
   <rule>
     <key>501</key>
@@ -4937,21 +4957,22 @@ MISRA 2004 checks, use -misra(2)</p>
 <pre><tt>
     -esym( 960, 75, 8? )
 </tt></pre>
-<p>will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.</p>]]></description>
+<p>will suppress MISRA rules 75 and any of the those between 80 and 89 inclusive that are issued as the result of a 960. See [10] for information on the MISRA guidelines.</p>
+]]></description>
   </rule>
   <rule>
     <key>961</key>
     <configkey>961</configkey>
     <priority>INFO</priority>
     <name>L0961: Violates MISRA Year Advisory Rule Name, String"</name>
-    <description>This message is issued for some violations of the MISRA advisory guidelines. Certain rules were advisories in the 1998 Standard and became required for the 2004 Standard and vice versa. Therefore, you might see some rules repeated here already listed above for message 960.
-    The list of advisory checks made for both MISRA 1998 and 2004 are:
+    <description><![CDATA[<p>This message is issued for some violations of the MISRA advisory guidelines. Certain rules were advisories in the 1998 Standard and became required for the 2004 Standard and vice versa. Therefore, you might see some rules repeated here already listed above for message 960.</p>
+    <p>The list of advisory checks made for both MISRA 1998 and 2004 are:
     (Rule 47/12.1) Dependence placed on C's operator precedence (Rule 87/19.1) Only preprocessor statements and comments before '#include'. (Rule 93/19.7) Use of function-like macros is discouraged. (Rule 102/17.5) More than two pointer indirection levels used.
     Advisory checks made exclusively for MISRA 1998 are:
     (Rule 18) Constant requires numerical suffix (Rule 28) 'register' class discouraged (Rule 40) 'sizeof' used on expressions with side effect (Rule 44) Redundant explicit casting (Rule 55) Non-case label (Rule 60) No 'else' at end of 'if ... else if' chain. (Rule 63) Boolean value in switch expression (Rule 92) Use of '#undef' is discouraged
     Advisory checks made exclusively for MISRA 2004 are:
     (Rule 19.2) Header file name contains non-standard character. (Rule 19.13) No use of '#' or '##'.
-    Messages can be suppressed based on rule number. See also Message 960.</description>
+    Messages can be suppressed based on rule number. See also Message 960.</p>]]></description>
   </rule>
   <rule>
     <key>962</key>
@@ -5179,6 +5200,13 @@ MISRA 2004 checks, use -misra(2)</p>
     <priority>CRITICAL</priority>
     <name>L1020: template specialization for 'Symbol' declared without a 'template&lt;&gt;' prefix</name>
     <description>A class template specialization is generally preceded by a 'template&lt;&gt;' clause as in: template&lt; class T &gt; class A { }; // a template template&lt;&gt; class A&lt;int&gt; { }; // a specialization If the 'template&lt;&gt;' is omitted, you will get this message but it will still be interpreted as a specialization. Before the standardization of template syntax was completed, a template specialization did not require this clause and its absence is still permitted by some compilers.</description>
+  </rule>
+  <rule>
+    <key>1021</key>
+    <configkey>1021</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1021: No viable 'String' function defined for type 'Type' used as range expression</name>
+    <description>A non-array range expression used in a range-based for statement has no viable begin or end function.</description>
   </rule>
   <rule>
     <key>1022</key>
@@ -8230,7 +8258,7 @@ MISRA 2004 checks, use -misra(2)</p>
     <key>9076</key>
     <configkey>9076</configkey>
     <priority>INFO</priority>
-    <name>L9076: conversion between a pointer to incomplete type and another type </name>
+    <name>L9076: conversion between a pointer to incomplete type and another type</name>
     <description>Conversions involving pointers to incomplete types causes undefined behavior if converted to or from a floating point type and can cause incorrect alignment if to or from a pointer type. This message is suppressed if the conversion is to void. Also, for purposes of this diagnostic, pointers to void are not treated as pointers to incomplete types.</description>
   </rule>
 
@@ -8278,7 +8306,7 @@ MISRA 2004 checks, use -misra(2)</p>
     <key>9082</key>
     <configkey>9082</configkey>
     <priority>INFO</priority>
-    <name>L9082: switch statement should either begin or end with default label </name>
+    <name>L9082: switch statement should either begin or end with default label</name>
     <description>Placing the default label either first or last makes locating it easier.</description>
   </rule>
 
