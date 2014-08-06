@@ -2674,7 +2674,7 @@
     <configkey>arrayIndexOutOfBoundsCond</configkey>
     <name>Array index out of bounds</name>
     <description>
-      Array &apos;x[10]&apos; accessed at index 20, which is out of bounds. Otherwise condition &apos;y==20&apos; is redundant.
+      The array access using this index may be out of bounds.
     </description>
   </rule>
   <rule>
@@ -2682,7 +2682,7 @@
     <configkey>charLiteralWithCharPtrCompare</configkey>
     <name>Char literal compared with pointer</name>
     <description>
-      Char literal compared with pointer &apos;foo&apos;. Did you intend to dereference it?
+      Char literal compared with a pointer. Did you intend to dereference it?
     </description>
   </rule>
 
