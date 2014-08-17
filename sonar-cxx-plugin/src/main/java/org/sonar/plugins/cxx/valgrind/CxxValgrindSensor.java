@@ -84,7 +84,6 @@ public class CxxValgrindSensor extends CxxReportSensor {
                             frame.getPath(), frame.getLine(), error.getKind(), error.toString());
       }
       else{
-//        CxxUtils.LOG.warn("Cannot find a project file to assign the valgrind error to" + error + " to");
         CxxUtils.LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
       }
     }

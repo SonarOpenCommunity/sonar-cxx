@@ -107,7 +107,6 @@ public abstract class CxxReportSensor implements Sensor {
       violationsCount = 0;
 
       for (File report : reports) {
-//        CxxUtils.LOG.info("Processing report '" + report + "'");
         CxxUtils.LOG.info("Processing report '{}'", report);
         try{
           int prevViolationsCount = violationsCount;
@@ -161,7 +160,6 @@ public abstract class CxxReportSensor implements Sensor {
       reportPath = defaultReportPath;
     }
 
-//    CxxUtils.LOG.debug("Using pattern "  + reportPath + " to find reports");
     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
     DirectoryScanner scanner = new DirectoryScanner();
@@ -220,7 +218,6 @@ public abstract class CxxReportSensor implements Sensor {
             resource = sonarFile;
             add = true;
           } else {
-//            CxxUtils.LOG.warn("Cannot find the file '" + normalPath + "', skipping violations");
             CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
             notFoundFiles.add(normalPath);
           }
@@ -274,7 +271,6 @@ public abstract class CxxReportSensor implements Sensor {
         lineNr = Integer.parseInt(line);
         lineNr = lineNr == 0 ? 1 : lineNr;
       } catch (java.lang.NumberFormatException nfe) {
-//        CxxUtils.LOG.warn("Skipping invalid line number: " + line);
         CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
         lineNr = -1;
       }

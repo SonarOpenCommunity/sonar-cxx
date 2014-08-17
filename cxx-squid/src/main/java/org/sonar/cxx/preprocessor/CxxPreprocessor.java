@@ -22,7 +22,6 @@ package org.sonar.cxx.preprocessor;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Preprocessor;
 import com.sonar.sslr.api.PreprocessorAction;

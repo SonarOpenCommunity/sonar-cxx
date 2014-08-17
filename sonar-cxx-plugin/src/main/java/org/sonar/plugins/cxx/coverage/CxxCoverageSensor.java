@@ -106,18 +106,15 @@ public class CxxCoverageSensor extends CxxReportSensor {
             parsed = true;
             measuresTotal.putAll(measuresForReport);
             CxxUtils.LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
-//            CxxUtils.LOG.info("Added report '" + report + "' (parsed by: " + parser + ") to the coverage data");
             break;
           }
         } catch (XMLStreamException e) {
           CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
-//          CxxUtils.LOG.trace("Report " + report + " cannot be parsed by " + parser);
         }
       }
 
       if (!parsed) {
         CxxUtils.LOG.error("Report {} cannot be parsed", report);
-//        CxxUtils.LOG.error("Report " + report + " cannot be parsed");
       }
     }
 

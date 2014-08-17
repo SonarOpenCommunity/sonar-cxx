@@ -23,7 +23,6 @@ import com.google.common.io.Files;
 import com.sonar.sslr.api.*;
 import com.sonar.sslr.squid.checks.SquidCheck;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;

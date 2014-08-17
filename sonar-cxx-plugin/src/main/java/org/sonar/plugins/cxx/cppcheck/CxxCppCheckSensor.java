@@ -85,19 +85,16 @@ public class CxxCppCheckSensor extends CxxReportSensor {
       try {
         parser.processReport(project, context, report);
         if (parser.hasParsed()) {
-//          CxxUtils.LOG.info("Added report '" + report +"' (parsed by:"+ parser + ")");
           CxxUtils.LOG.info("Added report '{}' (parsed by: {})", report, parser);
           parsed = true;
           break;
         }
       } catch (XMLStreamException e) {
-//        CxxUtils.LOG.trace("Report " + report + " cannot be parsed by " + parser);
         CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
       }
     }
 
     if (!parsed) {
-//      CxxUtils.LOG.error("Report " + report + " cannot be parsed");
       CxxUtils.LOG.error("Report {} cannot be parsed", report);
     }
   }

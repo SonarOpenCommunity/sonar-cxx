@@ -71,7 +71,7 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
           !trivia.getToken().getOriginalValue().startsWith("//!") &&
           !trivia.getToken().getOriginalValue().startsWith("/**") &&
           !trivia.getToken().getOriginalValue().startsWith("/*!")) {
-        String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(
+        String[] lines = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(
             trivia.getToken().getOriginalValue()));
 
         for (int lineOffset = 0; lineOffset < lines.length; lineOffset++) {
