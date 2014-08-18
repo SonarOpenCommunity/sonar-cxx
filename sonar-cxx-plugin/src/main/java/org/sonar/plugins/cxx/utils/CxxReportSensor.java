@@ -100,10 +100,12 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, fs.baseDir().getPath(),
-//      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(),
+//      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getCanonicalPath(),
           reportPathKey(), defaultReportPath());
 
+      CxxUtils.LOG.warn("fs.baseDir().getPath() = '{}'", fs.baseDir().getPath());
+      CxxUtils.LOG.warn("reactor.getRoot().getBaseDir().getCanonicalPath() = '{}'", reactor.getRoot().getBaseDir().getCanonicalPath());
       violationsCount = 0;
 
       for (File report : reports) {
