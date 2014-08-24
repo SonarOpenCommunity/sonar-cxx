@@ -184,11 +184,11 @@ public class CxxPreprocessor extends Preprocessor {
 
       // parse the configured defines and store into the macro library
       for (String define : conf.getDefines()) {
-//        LOG.debug("parsing external macro: '{}'", define);
+        LOG.debug("parsing external macro: '{}'", define);
         if (!define.equals("")) {
           Macro macro = parseMacroDefinition("#define " + define);
           if (macro != null) {
-//            LOG.info("storing external macro: '{}'", macro);
+            LOG.debug("storing external macro: '{}'", macro);
             macros.put(macro.name, macro);
           }
         }
@@ -214,7 +214,6 @@ public class CxxPreprocessor extends Preprocessor {
 
       // parse the configured force includes and store into the macro library
       for (String include : conf.getForceIncludeFiles()) {
-//        LOG.debug("parsing force include: '" + include +"'");
         LOG.debug("parsing force include: '{}'", include);
         if (!include.equals("")) {
           parseIncludeLine("#include \"" + include + "\"");
@@ -301,7 +300,6 @@ public class CxxPreprocessor extends Preprocessor {
     // a corresponding #undef directive is encountered or (if none
     // is encountered) until the end of the translation unit.
 
-//    LOG.debug("finished preprocessing '" + file + "'");
     LOG.debug("finished preprocessing '{}'", file);
 
     analysedFiles.clear();
@@ -467,8 +465,8 @@ public class CxxPreprocessor extends Preprocessor {
     }
     else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());
-//      LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
-//                new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+      LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
+                new Object[] {filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
 
       stateStack.push(state);
       state = new State(includedFile);
@@ -479,9 +477,9 @@ public class CxxPreprocessor extends Preprocessor {
         state = stateStack.pop();
       }
     }
-//    else {
-//      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
-//    }
+    else {
+      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
+    }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }

@@ -130,7 +130,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       org.sonar.api.resources.File cxxfile =
           org.sonar.api.resources.File.fromIOFile(new File(filePath), project);
       if (fileExist(context, cxxfile)) {
-        CxxUtils.LOG.debug("Saving coverage measures for file '" + filePath + "'");
+        CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : entry.getValue().createMeasures()) {
           switch (coveragetype) {
             case UNIT_TEST_COVERAGE:
@@ -147,7 +147,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           context.saveMeasure(cxxfile, measure);
         }
       } else {
-        CxxUtils.LOG.warn("Cannot find the file '" + filePath + "', ignoring coverage measures");
+        CxxUtils.LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
       }
     }
   }

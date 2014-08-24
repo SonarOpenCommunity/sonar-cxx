@@ -54,7 +54,7 @@ public final class ExpressionEvaluator {
     try {
       constExprAst = parser.parse(constExpr);
     } catch (com.sonar.sslr.api.RecognitionException re) {
-      LOG.trace("Error evaluating expression '{}', assuming 0", constExpr);
+      LOG.debug("Error evaluating expression '{}', assuming 0", constExpr);
       return 0;
     }
 

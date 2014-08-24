@@ -47,7 +47,7 @@ public class CppcheckParserV2 implements CppcheckParser {
    */
   public void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("cppcheck V2 - Parsing report '" + report + "'");
+    CxxUtils.LOG.info("cppcheck V2 - Parsing report '{}'", report);
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -65,7 +65,6 @@ public class CppcheckParserV2 implements CppcheckParser {
         try {
           String version = rootCursor.getAttrValue("version");
           if (version.equals("2")) {
-
             SMInputCursor errorsCursor = rootCursor.childElementCursor("errors");
             if (errorsCursor.getNext() != null) {
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
@@ -84,7 +83,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                 if (isInputValid(file, line, id, msg)) {
                   sensor.saveUniqueViolation(project, context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
                 } else {
-                  CxxUtils.LOG.warn("Skipping invalid violation: '" + msg + "'");
+                  CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
                 }
               }
             }

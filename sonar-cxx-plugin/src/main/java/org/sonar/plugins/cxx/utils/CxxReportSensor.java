@@ -62,18 +62,14 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public CxxReportSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
-    this(null, conf, fs, reactor, null);
+    this(null, conf, fs, reactor);
   }
 
   /**
    * {@inheritDoc}
    */
   public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
-    this.ruleFinder = ruleFinder;
-    this.conf = conf;
-    this.fs = fs;
-    this.reactor = reactor;
-    this.metric = null;
+    this(ruleFinder, conf, fs, reactor, null);
   }
 
   /**
