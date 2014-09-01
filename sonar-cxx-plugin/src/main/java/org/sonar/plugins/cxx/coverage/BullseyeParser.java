@@ -80,6 +80,8 @@ public class BullseyeParser implements CoverageParser {
   private void collectCoverageLeafNodes(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
 
+    refPath = ensureRefPathIsCorrect(refPath);
+    
     while (folder.getNext() != null) {      
       File fileName = new File(refPath, folder.getAttrValue("name"));
       recTreeTopWalk(fileName, folder, coverageData);
@@ -104,6 +106,8 @@ public class BullseyeParser implements CoverageParser {
   private void collectCoverage2(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
 
+    refPath = ensureRefPathIsCorrect(refPath);
+    
     LinkedList<String> path = new LinkedList<String>();
     while (folder.getNext() != null) {
       String folderName = folder.getAttrValue("name");
@@ -141,6 +145,9 @@ public class BullseyeParser implements CoverageParser {
   
   private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
+    
+    refPath = ensureRefPathIsCorrect(refPath);
+    
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
       String folderChildName = child.getLocalName();
@@ -225,5 +232,13 @@ public class BullseyeParser implements CoverageParser {
   @Override
   public String toString() {
     return getClass().getSimpleName();
+  }
+
+  private String ensureRefPathIsCorrect(String refPath) {    
+    if(refPath == null || refPath.endsWith("\\") || refPath.endsWith("/")) {
+      return refPath;
+    }
+    
+    return refPath + "/";
   }
 }
