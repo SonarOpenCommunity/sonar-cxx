@@ -9049,6 +9049,14 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9090: unconditional break missing from switch case</name>
     <description>A switch case was seen which did not conclude with an unconditional break. Some authors advise against such absences on the grounds they are often errors.</description>
   </rule>
+  
+  <rule>
+    <key>9091</key>
+    <configkey>9091</configkey>
+    <priority>INFO</priority>
+    <name>L9091: casting from pointer type to integer type</name>
+    <description>casting from pointer type to integer type [MISRA C++ Rule 5-2-9].</description>
+  </rule>
 
   <rule>
     <key>9102</key>

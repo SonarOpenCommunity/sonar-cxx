@@ -2685,7 +2685,15 @@
       Char literal compared with a pointer. Did you intend to dereference it?
     </description>
   </rule>
-
+  <rule>
+    <key>obsoleteFunctionasctime</key>
+    <configkey>obsoleteFunctionasctime</configkey>
+    <name>Avoid usage of the function 'asctime'</name>
+    <description>
+      The function 'asctime' is obsolete. It is recommended to use
+      the function 'strftime' instead.
+    </description>
+  </rule>
 </rules>
 
 
