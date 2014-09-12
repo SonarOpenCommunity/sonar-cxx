@@ -157,7 +157,7 @@ public class BullseyeParser implements CoverageParser {
         String fileName = "";
         Iterator<String> iterator = path.iterator();
         while (iterator.hasNext()) {
-          fileName += iterator.next() + "/";
+          fileName += iterator.next() + File.separator;
         }
 
         fileName = StringUtils.chop(fileName);
@@ -234,11 +234,11 @@ public class BullseyeParser implements CoverageParser {
     return getClass().getSimpleName();
   }
 
-  private String ensureRefPathIsCorrect(String refPath) {    
-    if(refPath == null || refPath.endsWith("\\") || refPath.endsWith("/")) {
+  private String ensureRefPathIsCorrect(String refPath) {
+    if(refPath == null || refPath.length() == 0 || refPath.endsWith(File.separator)) {
       return refPath;
     }
     
-    return refPath + "/";
+    return refPath + File.separatorChar;
   }
 }
