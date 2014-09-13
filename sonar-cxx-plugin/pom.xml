@@ -37,7 +37,11 @@
       <artifactId>sonar-ws-client</artifactId>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.codehaus.sonar.dotnet.tests</groupId>
+      <artifactId>sonar-dotnet-tests-library</artifactId>
+    </dependency>
+    
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>

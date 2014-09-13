@@ -89,7 +89,9 @@ public class TestUtils {
 
     List<InputFile> mainFiles = fromSourceFiles(mainSourceFiles);
     List<InputFile> testFiles = fromSourceFiles(testSourceFiles);
-
+    
+    List<Project> emptyProjectList = new ArrayList<Project>();
+    
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
     when(fileSystem.getBasedir()).thenReturn(baseDir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
@@ -110,7 +112,7 @@ public class TestUtils {
     when(configuration.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
         CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
     when(project.getConfiguration()).thenReturn(configuration);
-
+    when(project.getModules()).thenReturn(emptyProjectList);
     return project;
   }
 
