@@ -36,7 +36,6 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
 public class CppcheckParserV1 implements CppcheckParser {
 
   private CxxCppCheckSensor sensor;
-  private boolean parsed = false;
 
   public CppcheckParserV1(CxxCppCheckSensor sensor) {
     this.sensor = sensor;
@@ -54,15 +53,15 @@ public class CppcheckParserV1 implements CppcheckParser {
        * {@inheritDoc}
        */
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        parsed = true;
 
         try {
           rootCursor.advance(); // results
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
           throw new EmptyReportException();
         }
+
         try {
-          SMInputCursor errorCursor = rootCursor.childElementCursor("error");
+          SMInputCursor errorCursor = rootCursor.childElementCursor("error"); // error
           while (errorCursor.getNext() != null) {
             String file = errorCursor.getAttrValue("file");
             String line = errorCursor.getAttrValue("line");
@@ -76,7 +75,6 @@ public class CppcheckParserV1 implements CppcheckParser {
             }
           }
         } catch (RuntimeException e) {
-          parsed = false;
           throw new XMLStreamException();
         }
       }
@@ -87,10 +85,6 @@ public class CppcheckParserV1 implements CppcheckParser {
     });
 
     parser.parse(report);
-  }
-
-  public boolean hasParsed() {
-    return parsed;
   }
   
   @Override

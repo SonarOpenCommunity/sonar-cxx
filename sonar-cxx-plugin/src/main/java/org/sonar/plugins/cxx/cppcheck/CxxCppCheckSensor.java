@@ -81,14 +81,13 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     boolean parsed = false;
+    
     for (CppcheckParser parser : parsers) {
       try {
         parser.processReport(project, context, report);
-        if (parser.hasParsed()) {
-          CxxUtils.LOG.info("Added report '{}' (parsed by: {})", report, parser);
-          parsed = true;
-          break;
-        }
+        CxxUtils.LOG.info("Added report '{}' (parsed by: {})", report, parser);
+        parsed = true;
+        break;
       } catch (XMLStreamException e) {
         CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
       }
