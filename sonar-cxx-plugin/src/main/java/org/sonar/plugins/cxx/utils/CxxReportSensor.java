@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.utils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -51,6 +52,7 @@ public abstract class CxxReportSensor implements Sensor {
   private HashSet<String> uniqueIssues = new HashSet<String>();
   private HashMap<String, Rule> ruleCache = new HashMap<String, Rule>();
   protected ModuleFileSystem fs;
+  private final ProjectReactor reactor;
 
   private final Metric metric;
   private int violationsCount;
@@ -58,27 +60,25 @@ public abstract class CxxReportSensor implements Sensor {
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(Settings conf, ModuleFileSystem fs) {
-    this(null, conf, fs);
+  public CxxReportSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
+    this(null, conf, fs, reactor);
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs) {
-    this.ruleFinder = ruleFinder;
-    this.conf = conf;
-    this.fs = fs;
-    this.metric = null;
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
+    this(ruleFinder, conf, fs, reactor, null);
   }
 
   /**
    * {@inheritDoc}
    */
-  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, Metric metric) {
+  public CxxReportSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, ProjectReactor reactor, Metric metric) {
     this.ruleFinder = ruleFinder;
     this.conf = conf;
     this.fs = fs;
+    this.reactor = reactor;
     this.metric = metric;
   }
 
@@ -88,26 +88,23 @@ public abstract class CxxReportSensor implements Sensor {
   public boolean shouldExecuteOnProject(Project project) {
     return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
-
+  
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
     try {
-      List<File> reports = getReports(conf, fs.baseDir().getPath(),
-          reportPathKey(), defaultReportPath());
+      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getCanonicalPath(), reportPathKey(), defaultReportPath());
 
       violationsCount = 0;
 
       for (File report : reports) {
         CxxUtils.LOG.info("Processing report '{}'", report);
-        try{
+        try {
           int prevViolationsCount = violationsCount;
           processReport(project, context, report);
-          CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
-                            violationsCount - prevViolationsCount);
-        }
-        catch(EmptyReportException e){
+          CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(), violationsCount - prevViolationsCount);
+        } catch (EmptyReportException e) {
           CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
         }
       }
@@ -122,11 +119,7 @@ public abstract class CxxReportSensor implements Sensor {
         context.saveMeasure(measure);
       }
     } catch (Exception e) {
-      String msg = new StringBuilder()
-          .append("Cannot feed the data into sonar, details: '")
-          .append(e)
-          .append("'")
-          .toString();
+      String msg = new StringBuilder().append("Cannot feed the data into sonar, details: '").append(e).append("'").toString();
       throw new SonarException(msg, e);
     }
   }

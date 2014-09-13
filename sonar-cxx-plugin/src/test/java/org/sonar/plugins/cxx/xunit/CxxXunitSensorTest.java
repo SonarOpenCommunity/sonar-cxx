@@ -44,6 +44,7 @@ import static org.junit.Assert.assertEquals;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.assertThat;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 
 public class CxxXunitSensorTest {
@@ -51,12 +52,14 @@ public class CxxXunitSensorTest {
   private SensorContext context;
   private Project project;
   private ModuleFileSystem fs;
+  private ProjectReactor reactor;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxXunitSensor(new Settings(), fs, TestUtils.mockCxxLanguage());
+    reactor = TestUtils.mockReactor();
+    sensor = new CxxXunitSensor(new Settings(), fs, TestUtils.mockCxxLanguage(), reactor);
     context = mock(SensorContext.class);
   }
 
@@ -93,7 +96,7 @@ public class CxxXunitSensorTest {
     Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
 
-    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage(), reactor);
     sensor.buildLookupTables(project);
 
     // case 1:
@@ -146,7 +149,7 @@ public class CxxXunitSensorTest {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
 
-    sensor = new CxxXunitSensor(config, TestUtils.mockFileSystem(), TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, TestUtils.mockFileSystem(), TestUtils.mockCxxLanguage(), reactor);
 
     sensor.analyse(project, context);
 
@@ -157,7 +160,7 @@ public class CxxXunitSensorTest {
   public void shouldThrowWhenGivenInvalidTime() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
-    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage(), reactor);
 
     sensor.analyse(project, context);
   }
@@ -169,7 +172,7 @@ public class CxxXunitSensorTest {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
 
-    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage(), reactor);
 
     sensor.transformReport(cppunitReport());
   }
@@ -181,7 +184,7 @@ public class CxxXunitSensorTest {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
 
-    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage(), reactor);
     File reportBefore = cppunitReport();
 
     File reportAfter = sensor.transformReport(reportBefore);

@@ -36,18 +36,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 public class CxxCompilerSensorTest {
   private SensorContext context;
   private Project project;
   private RuleFinder ruleFinder;
   private RulesProfile profile;
-
+  
   private CxxCompilerSensor createSensor(String parser)
   {
       Settings settings = new Settings();
       settings.setProperty("sonar.cxx.compiler.parser", parser);
-      return new CxxCompilerSensor(ruleFinder, settings, TestUtils.mockFileSystem(), profile);
+      return new CxxCompilerSensor(ruleFinder, settings, TestUtils.mockFileSystem(), profile, TestUtils.mockReactor());
   }
 
   @Before

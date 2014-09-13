@@ -38,6 +38,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 public class CxxExternalRulesSensorTest {
 
@@ -48,12 +49,14 @@ public class CxxExternalRulesSensorTest {
   private RulesProfile profile;
   private Settings settings;
   private ModuleFileSystem fs;
+  private ProjectReactor reactor;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     ruleFinder = TestUtils.mockRuleFinder();
     fs = TestUtils.mockFileSystem();
+    reactor = TestUtils.mockReactor();
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
     settings = new Settings();
@@ -64,7 +67,7 @@ public class CxxExternalRulesSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(context, times(2)).saveViolation(any(Violation.class));
   }
@@ -73,7 +76,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportFileLevelViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-filelevelviolation.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }
@@ -82,7 +85,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportProjectLevelViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-projectlevelviolation.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }
@@ -90,7 +93,7 @@ public class CxxExternalRulesSensorTest {
   @Test(expected = SonarException.class)
   public void shouldThrowExceptionWhenReportEmpty() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(context, times(0)).saveViolation(any(Violation.class));
   }
@@ -99,7 +102,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportNoViolationsIfNoReportFound() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(context, times(0)).saveViolation(any(Violation.class));
   }
@@ -108,7 +111,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldThrowInCaseOfATrashyReport() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile, reactor);
     sensor.analyse(project, context);
   }
 
@@ -116,7 +119,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(context, times(1)).saveViolation(any(Violation.class));
   }

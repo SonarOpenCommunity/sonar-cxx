@@ -46,7 +46,7 @@ public class CxxRatsSensorTest {
   public void setUp() {
     project = TestUtils.mockProject();
     RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxRatsSensor(ruleFinder, new Settings(), TestUtils.mockFileSystem(), mock(RulesProfile.class));
+    sensor = new CxxRatsSensor(ruleFinder, new Settings(), TestUtils.mockFileSystem(), mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
