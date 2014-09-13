@@ -1,13 +1,14 @@
 <p>
 Proper indentation is a simple and effective way to improve the code's readability.
-Consistent indentation among developers also reduces the differences that are committed to source control systems, making code reviews easier.
+Consistent indentation among the developers on a team also reduces the differences that are committed to source control systems, making code reviews easier.
+By default this rule just check that each block of code is indented but not the size of this indent. The parameter "indentSize" allows to define this expected size
 </p>
 
 <p>The following code illustrates this rule with an indentation level of 2:</p>
 
-<pre>
+<tt><pre>
 class Foo {
-   int a; // Compliant
+  int a; // Compliant
  int b;   // Non-Compliant
 }
-</pre>
+</tt></pre>
