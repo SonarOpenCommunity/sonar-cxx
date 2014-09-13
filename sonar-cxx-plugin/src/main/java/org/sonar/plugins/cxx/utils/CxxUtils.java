@@ -26,6 +26,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.resources.Project;
 
 
 /**
@@ -97,5 +98,8 @@ public final class CxxUtils {
     return targetfile;  
   }
 
+  public static boolean isReactorProject(Project project) {
+    return project.isRoot() && !project.getModules().isEmpty();
+  }
 }
 
