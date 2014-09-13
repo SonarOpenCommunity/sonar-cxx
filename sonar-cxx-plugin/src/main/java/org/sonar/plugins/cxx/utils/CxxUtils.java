@@ -21,6 +21,7 @@ package org.sonar.plugins.cxx.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.resources.Project;
 
 import java.io.File;
 
@@ -59,5 +60,8 @@ public final class CxxUtils {
       LOG.error("path normalizing of '{}' failed: '{}'", filename, e.toString());
       return null;
     }
+  }
+  public static boolean isReactorProject(Project project) {
+    return project.isRoot() && !project.getModules().isEmpty();
   }
 }
