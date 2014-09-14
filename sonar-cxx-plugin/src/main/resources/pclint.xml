@@ -966,20 +966,6 @@
     <key>142</key>
     <configkey>142</configkey>
     <priority>CRITICAL</priority>
-    <name>L0142: case constant '0' used previously in this switch</name>
-    <description>case constant '0' used previously in this switch</description>
-  </rule>
-  <rule>
-    <key>143</key>
-    <configkey>143</configkey>
-    <priority>CRITICAL</priority>
-    <name>L0143: Erroneous option: String</name>
-    <description>An option contained information that was inconsistent with itself or with an earlier option. The String provided in the message explains more fully what the problem is.</description>
-  </rule>
-  <rule>
-    <key>142</key>
-    <configkey>142</configkey>
-    <priority>CRITICAL</priority>
     <name>L0142: case constant 'String' used previously in this switch</name>
     <description><![CDATA[
 <p>A duplicate case constant was detected.  For example, the following code will be diagnosed as a repetition of case constant '1'.</p>
@@ -991,6 +977,13 @@
                }
 </tt></pre>
 ]]></description>
+  </rule>
+  <rule>
+    <key>143</key>
+    <configkey>143</configkey>
+    <priority>CRITICAL</priority>
+    <name>L0143: Erroneous option: String</name>
+    <description>An option contained information that was inconsistent with itself or with an earlier option. The String provided in the message explains more fully what the problem is.</description>
   </rule>
   <rule>
     <key>144</key>
