@@ -200,8 +200,11 @@ public abstract class CxxReportSensor implements Sensor {
       String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
       if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
           org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
-              .fromIOFile(new File(normalPath), fs.sourceDirs());
-
+              .fromIOFile(new File(normalPath), project);
+          if (sonarFile == null) {
+            // support SQ<4.2
+            sonarFile = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project.getFileSystem().getTestDirs());
+          }
           if (context.getResource(sonarFile) != null) {
             lineNr = getLineAsInt(line);
             resource = sonarFile;
