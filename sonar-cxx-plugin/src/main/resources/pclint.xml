@@ -985,6 +985,7 @@
     <name>L0143: Erroneous option: String</name>
     <description>An option contained information that was inconsistent with itself or with an earlier option. The String provided in the message explains more fully what the problem is.</description>
   </rule>
+
   <rule>
     <key>144</key>
     <configkey>144</configkey>
@@ -1172,8 +1173,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>171</configkey>
     <priority>CRITICAL</priority>
     <name>L0171: Ellipsis requires at least one parameter-declaration</name>
-    <description>A function declaration was seen with '...' but no parameter-declaration before it, as required by the ISO C syntax.
-       This diagnostic is not given for C++ code.</description>
+    <description>A function declaration was seen with '...' but no parameter-declaration before it, as required by the ISO C syntax. This diagnostic is not given for C++ code.</description>
   </rule>
   <rule>
     <key>200</key>
@@ -1581,11 +1581,11 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>429</configkey>
     <priority>MAJOR</priority>
     <name>L0429: Custodial pointer 'Symbol' (Location) has not been freed or returned</name>
-    <description>A pointer of auto storage class was allocated storage which was neither freed nor returned to the caller. This represents a "memory leak". A pointer is considered custodial if it uniquely points to the storage area. It is not considered custodial if it has been copied. Thus: int *p = new int[20]; // p is a custodial pointer int *q = p; // p is no longer custodial p = new int[20]; // p again becomes custodial q = p + 0; // p remains custodial
+    <description><![CDATA[<p>A pointer of auto storage class was allocated storage which was neither freed nor returned to the caller. This represents a "memory leak". A pointer is considered custodial if it uniquely points to the storage area. It is not considered custodial if it has been copied. Thus: int *p = new int[20]; // p is a custodial pointer int *q = p; // p is no longer custodial p = new int[20]; // p again becomes custodial q = p + 0; // p remains custodial
     Here p does not lose its custodial property by merely participating in an arithmetic operation.
     A pointer can lose its custodial property by passing the pointer to a function. If the parameter of the function is typed pointer to const or if the function is a library function, that assumption is not made. For example p = malloc(10); strcpy (p, "hello");
     Then p still has custody of storage allocated.
-    It is possible to indicate via semantic options that a function will take custody of a pointer.</description>
+    It is possible to indicate via semantic options that a function will take custody of a pointer.</p>]]></description>
   </rule>
   <rule>
     <key>430</key>
@@ -1607,24 +1607,35 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>432</configkey>
     <priority>MAJOR</priority>
     <name>L0432: Suspicious argument to malloc</name>
-    <description>The following pattern was detected:
+    <description><![CDATA[<p>The following pattern was detected:</p>
+<pre><tt>
     malloc( strlen(e+1) )
-    where e is some expression. This is suspicious because it closely resembles the commonly used pattern:
+</tt></pre>
+<p>    where e is some expression. This is suspicious because it closely resembles the commonly used pattern:</p>
+<pre><tt>
     malloc( strlen(e)+1 )
-    If you really intended to use the first pattern then an equivalent expression that will not raise this error is:
-    malloc( strlen(e)-1 )</description>
+</tt></pre>
+<p>    If you really intended to use the first pattern then an equivalent expression that will not raise this error is:</p>
+<pre><tt>
+    malloc( strlen(e)-1 )</tt></pre>]]></description>
   </rule>
   <rule>
     <key>433</key>
     <configkey>433</configkey>
     <priority>MAJOR</priority>
     <name>L0433: Allocated area not large enough for pointer</name>
-    <description>An allocation was assigned to a pointer whose reach extends beyond the area that was allocated. This would usually happen only with library allocation routines such as malloc and calloc. For example:
+    <description><![CDATA[
+<p>An allocation was assigned to a pointer whose reach extends beyond the area that was allocated. This would usually happen only with library allocation routines such as malloc and calloc. 
+For example:</p>
+<pre><tt>
     int *p = malloc(1);
-    This message is also provided for user-declared allocation functions. For example, if a user's own allocation function is provided with the following semantic:
+</tt></pre>
+<p>    This message is also provided for user-declared allocation functions. For example, if a user's own allocation function is provided with the following semantic:</p>
+<pre><tt>
     -sem(ouralloc,@P==malloc(1n))
-    We would report the same message. Please note that it is necessary to designate that the returned area is freshly allocated (ala malloc).
-    This message is always given in conjunction with the more general Informational Message 826.</description>
+</tt></pre>
+<p>    We would report the same message. Please note that it is necessary to designate that the returned area is freshly allocated (ala malloc).
+    This message is always given in conjunction with the more general Informational Message 826.</p>]]></description>
   </rule>
   <rule>
     <key>434</key>
@@ -1648,8 +1659,9 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>436</configkey>
     <priority>CRITICAL</priority>
     <name>L0436: Apparent preprocessor directive in invocation of macro 'Symbol'</name>
-    <description>
-    This is issued in the context of an invocation of a function-like macro.
+    <description><![CDATA[
+<p>This is issued in the context of an invocation of a function-like macro.</p>
+<pre><tt>
     Example:
 
            #define FOO(p) p
@@ -1657,14 +1669,14 @@ This occurs for a use of the GCC attribute mode() as in:</p>
            FOO(
                    #define X Y
               )
+</tt></pre>
+<p>According to the ISO Standards, this results in undefined behavior.</p>
 
-     According to the ISO Standards, this results in undefined behavior.
-
-       By the rules of Standard C the preprocessing directive is
+<p>       By the rules of Standard C the preprocessing directive is
        absorbed into the macro argument but then will not subsequently
        get executed.  For this reason some compilers treat the apparent
        preprocessor directive as a directive.  This is logical but not
-       portable.  It is therefore best to avoid this construct.</description>
+       portable.  It is therefore best to avoid this construct.</p>]]></description>
   </rule>
   <rule>
     <key>437</key>
@@ -1728,14 +1740,15 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>446</configkey>
     <priority>MAJOR</priority>
     <name>L0446: side effect in initializer</name>
-    <description>An initializer containing a side effect can be potentially troublesome. For example, given the code:
-
+    <description><![CDATA[
+<p>An initializer containing a side effect can be potentially troublesome. For example, given the code:</p>
+<pre><tt>
            void f( int i )
                {
                int a[2] = {i++, i++};
                }
-               
-       The values of the array elements are unspecified because the order of evaluation is unspecified by the C standard.</description>
+</tt></pre>
+<p>       The values of the array elements are unspecified because the order of evaluation is unspecified by the C standard.</p>]]></description>
   </rule>
   <rule>
     <key>447</key>
@@ -1892,14 +1905,14 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>MAJOR</priority>
     <name>L0488: Symbol 'Symbol' has same implicit enumerator value 'String' as enumerator 'Symbol'</name>
     <description><![CDATA[<p>Two enumerators have the same value and at least one received that value implicitly. For example:</p>
-     
+<pre><tt>
            enum colors { red, blue, green = 1 };
-     
-       will elicit this informational message while
-     
+</tt></pre>
+<p>       will elicit this informational message while</p>
+<pre><tt>
            enum colors { red, blue = 1, green = 1 };
-     
-       will not.]]></description>
+</tt></pre>
+<p>       will not.</p>]]></description>
   </rule>
   <rule>
     <key>489</key>
@@ -1918,8 +1931,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
            defined(identifier)
            defined identifier
 </pre></tt>
-<p>Additionally, the preprocessor operator may not result from the expansion of another macro. This diagnostic highlights departures from these requirements as non-portable code.</p>
-       ]]></description>
+<p>Additionally, the preprocessor operator may not result from the expansion of another macro. This diagnostic highlights departures from these requirements as non-portable code.</p>]]></description>
   </rule>  
   <rule>
     <key>501</key>
@@ -2370,9 +2382,13 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>568</configkey>
     <priority>MAJOR</priority>
     <name>L0568: nonnegative quantity is never less than zero.</name>
-    <description>Comparisons of the form:
-    u &gt;= 0 0 &lt;= u u &lt; 0 0 &gt; u
-    are suspicious if u is an unsigned quantity or a quantity judged to be never less then 0. See also message 775.</description>
+    <description><![CDATA[
+<p>Comparisons of the form:</p>
+<pre><tt>
+    u &gt;= 0 0 &lt;= u 
+    u &lt; 0 0 &gt; u
+</tt></pre>
+<p>are suspicious if u is an unsigned quantity or a quantity judged to be never less then 0. See also message 775.</p>]]></description>
   </rule>
   <rule>
     <key>569</key>
@@ -2415,31 +2431,50 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>573</configkey>
     <priority>MAJOR</priority>
     <name>L0573: Signed-unsigned mix with divide</name>
-    <description>one of the operands to / or % was signed and the other unsigned; moreover the signed quantity could be negative. For example:
+    <description><![CDATA[
+<p>one of the operands to / or % was signed and the other unsigned; moreover the signed quantity could be negative. For example:</p>
+<pre><tt>
     u / n
-    where u is unsigned and n is signed will elicit this message whereas:
+</tt></pre>
+<p>where u is unsigned and n is signed will elicit this message whereas:</p>
+<pre><tt>
     u / 4
-    will not, even though 4 is nominally an int. It is not a good idea to mix unsigned quantities with signed quantities in any case (a 737 will also be issued) but, with division, a negative value can create havoc. For example, the innocent looking:
+</tt></pre>
+<p>will not, even though 4 is nominally an int. It is not a good idea to mix unsigned quantities with signed quantities in any case (a 737 will also be issued) but, with division, a negative value can create havoc. For example, the innocent looking:</p>
+<pre><tt>
     n = n / u
-    will, if n is -2 and u is 2, not assign -1 to n but will assign some very large value.
-    To resolve this problem, either cast the integer to unsigned if you know it can never be less than zero or cast the unsigned to an integer if you know it can never exceed the maximum integer.</description>
+</tt></pre>
+<p>will, if n is -2 and u is 2, not assign -1 to n but will assign some very large value.</p>
+<p>To resolve this problem, either cast the integer to unsigned if you know it can never be less than zero or cast the unsigned to an integer if you know it can never exceed the maximum integer.</p>]]></description>
   </rule>
   <rule>
     <key>574</key>
     <configkey>574</configkey>
     <priority>MAJOR</priority>
     <name>L0574: Signed-unsigned mix with relational</name>
-    <description>The four relational operators are: &gt; &gt;= &lt; &lt;=
-    One of the operands to a relational operator was signed and the other unsigned; also, the signed quantity could be negative. For example:
+    <description><![CDATA[
+<p>The four relational operators are:</p>
+<pre><tt>
+&gt; &gt;= &lt; &lt;=
+</tt></pre>
+<p>One of the operands to a relational operator was signed and the other unsigned; also, the signed quantity could be negative. For example:</p>
+<pre><tt>
     if( u &gt; n ) ...
-    where u is unsigned and n is signed will elicit this message whereas:
+</tt></pre>
+<p>where u is unsigned and n is signed will elicit this message whereas:</p>
+<pre><tt>
     if( u &gt; 12 ) ...
-    will not (even though 12 is officially an int it is obvious that it is not negative). It is not a good idea to mix unsigned quantities with signed quantities in any case (a 737 will also be issued) but, with the four relationals, a negative value can produce obscure results. For example, if the conditional:
+</tt></pre>
+<p>will not (even though 12 is officially an int it is obvious that it is not negative). It is not a good idea to mix unsigned quantities with signed quantities in any case (a 737 will also be issued) but, with the four relationals, a negative value can produce obscure results. For example, if the conditional:</p>
+<pre><tt>
     if( n &lt; 0 ) ...
-    is true then the similar appearing:
+</tt></pre>
+<p>is true then the similar appearing:</p>
+<pre><tt>
     u = 0; if( n &lt; u ) ...
-    is false because the promotion to unsigned makes n very large.
-    To resolve this problem, either cast the integer to unsigned if you know it can never be less than zero or cast the unsigned to an int if you know it can never exceed the maximum int.</description>
+</tt></pre>
+<p>is false because the promotion to unsigned makes n very large.</p>
+<p>To resolve this problem, either cast the integer to unsigned if you know it can never be less than zero or cast the unsigned to an int if you know it can never exceed the maximum int.</p>]]></description>
   </rule>
   <rule>
     <key>575</key>
@@ -2586,12 +2621,13 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>598</configkey>
     <priority>MAJOR</priority>
     <name>L0598: Excessive shift value (precision Integer shifted left by Integer)</name>
-    <description>A quantity is being shifted to the left by a value greater than or equal to the precision of that quantity or by a negative value. For example,
-
+    <description><![CDATA[
+<p>A quantity is being shifted to the left by a value greater than or equal to the precision of that quantity or by a negative value. For example,</p>
+<pre><tt>
          i &lt;&lt; 32
-
-       will elicit this message if i is typed int and where int is 32 bits wide or less (the usual case). Such shift results in undefined behavior.
-       To suppress the message you may cast the shifted quantity to a type whose length is at least the length of the shift value.</description>
+</tt></pre>
+<p>will elicit this message if i is typed int and where int is 32 bits wide or less (the usual case). Such shift results in undefined behavior.</p>
+<p>To suppress the message you may cast the shifted quantity to a type whose length is at least the length of the shift value.</p>]]></description>
   </rule>
   <rule>
     <key>601</key>
@@ -2627,16 +2663,36 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>605</configkey>
     <priority>MAJOR</priority>
     <name>L0605: Increase in pointer capability (Context)</name>
-    <description>This warning is typically caused by assigning a (pointer to const) to an ordinary pointer. For example: int *p; const int *q; p = q; /* 605 */ The message will be inhibited if a cast is used as in:
+    <description><![CDATA[
+<p>This warning is typically caused by assigning a (pointer to const) to an ordinary pointer. For example:</p>
+<pre><tt>
+    int *p; 
+    const int *q; 
+    p = q; /* 605 */
+</tt></pre>
+<p>The message will be inhibited if a cast is used as in:</p>
+<pre><tt>
     p = (int *) q;
-    An increase in capability is indicated because the const pointed to by q can now be modified through p. This message can be given for the volatile qualifier as well as the const qualifier and may be given for arbitrary pointer depths (pointers to pointers, pointers to arrays, etc.).
-    If the number of pointer levels exceeds one, things get murky in a hurry. For example: const char ** ppc; char ** pp; pp = ppc; /* 605 - clearly not safe */ ppc = pp; /* 605 - looks safe but it's not */ It was not realized by the C community until very recently that assigning pp to ppc was dangerous. The problem is that after the above assignment, a pointer to a const char can be assigned indirectly through ppc and accessed through pp which can then modify the const char.
-    The message speaks of an "increase in capability" in assigning to ppc, which seems counter intuitive because the indirect pointer has less capability. However, assigning the pointer does not destroy the old one and the combination of the two pointers represents a net increase in capability.
-    The message may also be given for function pointer assignments when the prototype of one function contains a pointer of higher capability than a corresponding pointer in another prototype. There is a curious inversion here whereby a prototype of lower capability translates into a function of greater trust and hence greater capability (a Trojan Horse). For example, let
+</tt></pre>
+<p>An increase in capability is indicated because the const pointed to by q can now be modified through p. This message can be given for the volatile qualifier as well as the const qualifier and may be given for arbitrary pointer depths (pointers to pointers, pointers to arrays, etc.).
+If the number of pointer levels exceeds one, things get murky in a hurry. For example:</p>
+<pre><tt>
+    const char ** ppc; 
+    char ** pp; 
+    pp = ppc; /* 605 - clearly not safe */ 
+    ppc = pp; /* 605 - looks safe but it's not */
+</tt></pre>
+<p>It was not realized by the C community until very recently that assigning pp to ppc was dangerous. The problem is that after the above assignment, a pointer to a const char can be assigned indirectly through ppc and accessed through pp which can then modify the const char.
+The message speaks of an "increase in capability" in assigning to ppc, which seems counter intuitive because the indirect pointer has less capability. However, assigning the pointer does not destroy the old one and the combination of the two pointers represents a net increase in capability.
+The message may also be given for function pointer assignments when the prototype of one function contains a pointer of higher capability than a corresponding pointer in another prototype. There is a curious inversion here whereby a prototype of lower capability translates into a function of greater trust and hence greater capability (a Trojan Horse). For example, let</p>
+<pre><tt>
     void warrior( char * );
-    be a function that destroys its argument. Consider the function:
+</tt></pre>
+<p>be a function that destroys its argument. Consider the function:</p>
+<pre><tt>
     void Troy( void (*horse)(const char *) );
-    Troy() will call horse() with an argument that it considers precious believing the horse() will do no harm. Before compilers knew better and believing that adding in a const to the destination never hurt anything, earlier compilers allowed the Greeks to pass warrior() to Troy and the rest, as they say, is history.</description>
+</tt></pre>
+<p>Troy() will call horse() with an argument that it considers precious believing the horse() will do no harm. Before compilers knew better and believing that adding in a const to the destination never hurt anything, earlier compilers allowed the Greeks to pass warrior() to Troy and the rest, as they say, is history.</p>]]></description>
   </rule>
   <rule>
     <key>606</key>
@@ -3266,7 +3322,16 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>686</configkey>
     <priority>MAJOR</priority>
     <name>L0686: Option 'String' is suspicious because of 'Name'</name>
-    <description>An option is considered suspicious for one of a variety of reasons. The reason is designated by a reason code that is specified by Name. At this writing, the only reason code is 'unbalanced quotes'.</description>
+    <description><![CDATA[
+<p>An option is considered suspicious for one of a variety of reasons. The reason is designated by a reason code that is specified by Name. At this writing the following reasons for issuing this message exist:</p>
+<ul><li>unbalanced quotes -- An option was seen with a quote character which was not balanced within that same option.</li>
+<li>backtick preceding non-meta character is superfluous and has been dropped -- A backtick (`) was seen before a character other than a * or a ?. The use of a backtick in this fashion has no effect.</li>
+<li>Upper case characters within extension 'String'; these will match lower case when +fff is on; try -fff -- A file extension involving capital letters was seen in a +cpp(), +lnt(), or +ext() option while the +fff flag was active. If, for example, you intend for .c to indicate a C module and .C to indicate a C++ module, turning off the fff flag will help avoid unnecessary complaints from Lint.</li>
+<li>extraneous characters following String -- One or more characters were seen immediately following a character which is expected to signify the end of an option, such as a closing right parenthesis. While the extraneous characters are ignored, their presence may indicate a typographical error.</li>
+<li>missing field-specifier in a non-empty format string [No data will be generated for this category.] -- A -program_info() option was expecting a field-specifier which was actually missing. As noted, no data for this particular category will be generated.</li>
+<li>the likelihood of causing meaningless output -- An option,such as -elib(*), -wlib(0), or +fce was seen; this typically hides a problem in the Lint configuration. When using a new Lint configuration, it's common for a user to encounter Error messages from Lint about library header code. (This usually does not indicate a problem with library headers.) For example, a misconfiguration of Lint's preprocessor is by far the most common source of these errors.  If you merely suppress basic Syntax Errors (like Error 10) and/or Fatal Errors (like Error 309), the underlying Lint configuration problem still exists; as a result, Lint will fail to parse your code correctly (because your code depends on the aforementioned library code). The output from Lint would then seem illogical and/or meaningless. Therefore, blanket suppression options like this are highly discouraged.  Instead, other aspects of the Lint configuration should be modified to make Lint's behavior more similar to that of the compiler at (or, typically, before) the point of the Error.</li>
+<li>a lack of an argument -- A -message() was found to not include text between the parentheses, rendering the option meaningless. Did the User possibly intend to include the text immediately after this option?</li>
+ </ul>]]></description>
   </rule>
   <rule>
     <key>687</key>
@@ -5115,7 +5180,11 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1009</configkey>
     <priority>CRITICAL</priority>
     <name>L1009: operator String not redefinable</name>
-    <description>The cited operator, one of '.*', '?', '::' or '.', may not be overloaded. [11, ?13.4]</description>
+    <description><![CDATA[<p>The three operators:</p>
+<pre><tt>
+        .*   ?   .
+</tt></pre>
+<p>are not redefinable and may not be overloaded [11, 13.4].</p>]]></description>
   </rule>
   <rule>
     <key>1010</key>
@@ -5192,7 +5261,13 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1020</configkey>
     <priority>CRITICAL</priority>
     <name>L1020: template specialization for 'Symbol' declared without a 'template&lt;&gt;' prefix</name>
-    <description>A class template specialization is generally preceded by a 'template&lt;&gt;' clause as in: template&lt; class T &gt; class A { }; // a template template&lt;&gt; class A&lt;int&gt; { }; // a specialization If the 'template&lt;&gt;' is omitted, you will get this message but it will still be interpreted as a specialization. Before the standardization of template syntax was completed, a template specialization did not require this clause and its absence is still permitted by some compilers.</description>
+    <description><![CDATA[<p>A class template specialization is generally preceded by a 'template<>' clause as in:</p>
+<pre><tt>
+               template< class T > class A { };       // a template
+               template<> class A<int> { };           // a specialization
+</tt></pre>
+<p>If the 'template<>' is omitted, you will get this message but it will still be interpreted as a specialization.  Before the standardization of template syntax was completed, a template specialization did not require this clause and its absence is still permitted by some compilers.
+</p>]]></description>
   </rule>
   <rule>
     <key>1021</key>
@@ -5206,9 +5281,12 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1022</configkey>
     <priority>CRITICAL</priority>
     <name>L1022: Function: 'String' must be a class member</name>
-    <description>There are four operators which may not be defined except as class members. These are:
-    = () [] -&gt;
-    The parameter String indicates which it is. [11, ?13.4.3 and ?13.4.6]</description>
+    <description><![CDATA[<p>There are four operators which may not be defined except as class members. These are:</p>
+<pre><tt>
+               =  ()  []  ->
+</tt></pre>
+<p>The parameter String indicates which it is.  [11, Ǳ3.4.3 and Ǳ3.4.6]
+</p>]]></description>
   </rule>
   <rule>
     <key>1023</key>
@@ -5243,9 +5321,12 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1027</configkey>
     <priority>CRITICAL</priority>
     <name>L1027: Non-consecutive default arguments in function 'String', assumed 0</name>
-    <description>Default arguments need to be consecutive. For example
-    void f(int i=0, int j, int k=0);
-    is illegal. [11, ?8.2.6]</description>
+    <description><![CDATA[<p>Default arguments need to be consecutive.  For example</p>
+<pre><tt>
+             void f(int i=0, int j, int k=0);
+</tt></pre>
+<p>is illegal.  [11, Ǹ.2.6]
+</p>]]></description>
   </rule>
   <rule>
     <key>1028</key>
@@ -5483,9 +5564,12 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1063</configkey>
     <priority>CRITICAL</priority>
     <name>L1063: Argument to copy constructor for class 'Symbol' should be a reference</name>
-    <description>A constructor for a class closely resembles a copy constructor. A copy constructor for class X is typically declared as:
-    X( const X &amp;)
-    If you leave off the '&amp;' then a copy constructor would be needed just to copy the argument into the copy constructor. This is a runaway recursion. [11, ?12.1]</description>
+    <description><![CDATA[<p>A constructor for a class closely resembles a copy constructor.  A copy constructor for class X is typically declared as:</p>
+<pre><tt>
+             X( const X &)
+</tt></pre>
+<p>If you leave off the '&' then a copy constructor would be needed just to copy the argument into the copy constructor.  This is a runaway recursion.  [11, Ǳ2.1]
+</p>]]></description>
   </rule>
   <rule>
     <key>1064</key>
@@ -5562,8 +5646,12 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1074</configkey>
     <priority>CRITICAL</priority>
     <name>L1074: Expected a namespace identifier</name>
-    <description>In a declaration of the form: namespace name = scoped-identifier
-    the scoped-identifier must identify a namespace.</description>
+    <description><![CDATA[<p>In a declaration of the form:</p>
+<pre><tt>
+             namespace name = scoped-identifier
+</tt></pre>
+<p>the scoped-identifier must identify a namespace.
+</p>]]></description>
   </rule>
   <rule>
     <key>1075</key>
@@ -5584,48 +5672,77 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1077</configkey>
     <priority>CRITICAL</priority>
     <name>L1077: Could not evaluate default template parameter 'String'</name>
-    <description>The evaluation of template parameters is deferred until needed. Thus:
-    template&lt; class T = abc &gt; class A { /* ... */ };
-    will be greeted with an Error 1077 only if an instantiation of A&lt;&gt; requires evaluation of the default argument and if that evaluation cannot be made. In that event int is assumed for type parameters and 0 is assumed for object parameters.</description>
+    <description><![CDATA[<p>The evaluation of template parameters is deferred until needed. Thus:</p>
+<pre><tt>
+             template< class T = abc > class A { /* ... */ };
+</tt></pre>
+<p>will be greeted with an Error 1077 only if an instantiation of A<> requires evaluation of the default argument and if that evaluation cannot be made.  In that event int is assumed for type parameters and 0 is assumed for object parameters.
+</p>]]></description>
   </rule>
   <rule>
     <key>1078</key>
     <configkey>1078</configkey>
     <priority>CRITICAL</priority>
     <name>L1078: class 'Symbol' should not have itself as a base class</name>
-    <description>The following situation will trigger this message.
-    class A : public A { };
-    You can't define A in terms of itself as there is no escape from the recursive plummet.</description>
+    <description><![CDATA[<p>The following situation will trigger this message.</p>
+<pre><tt>
+             class A : public A { };
+</tt></pre>
+<p>You can't define A in terms of itself as there is no escape from the recursive plummet.
+</p>]]></description>
   </rule>
   <rule>
     <key>1079</key>
     <configkey>1079</configkey>
     <priority>CRITICAL</priority>
     <name>L1079: Could not find '&gt;' or ',' to terminate template parameter at Location</name>
-    <description>The default value for a template parameter appears to be malformed. For example, suppose the user mistakenly substituted a ']' for a '&gt;' producing the following: template &lt;class T = A&lt; int ] &gt; class X { };
-    This will cause PC-lint/FlexeLint to process to the end of the file looking (in vain) for the terminating pointy bracket. Not finding it will cause this message to be printed. Fortunately, the message will bear the Location of the malformed template.</description>
+    <description><![CDATA[<p>The default value for a template parameter appears to be malformed.  For example, suppose the user mistakenly substituted a ']' for a '>' producing the following:</p>
+<pre><tt>
+             template <class T = A< int ] >
+                 class X
+                     {
+                     };
+</tt></pre>
+<p>This will cause PC-lint/FlexeLint to process to the end of the file looking (in vain) for the terminating pointy bracket.  Not finding it will cause this message to be printed.  Fortunately, the message will bear the Location of the malformed template.
+</p>]]></description>
   </rule>
   <rule>
     <key>1080</key>
     <configkey>1080</configkey>
     <priority>CRITICAL</priority>
     <name>L1080: Definition for class 'Name' is not in scope</name>
-    <description>This message would be issued whenever a class definition were required and it were not available. For example:
-    class X; // declare class X X *p; // OK, no definition required X a; // Error 1080</description>
+    <description><![CDATA[<p>This message would be issued whenever a class definition were required and it were not available.  For example:</p>
+<pre><tt>
+             class X;        // declare class X
+             X *p;           // OK, no definition required
+             X a;            // Error 1080
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1081</key>
     <configkey>1081</configkey>
     <priority>CRITICAL</priority>
     <name>L1081: Object parameter does not contain the address of a variable</name>
-    <description>A template argument that is passed to a pointer parameter is supposed to identify a symbol. The expression passed does not do so. For example template&lt; int *P &gt; class A { ... }; int a[10]; A&lt; a+2 &gt; x; // a+2 does not represent a symbol</description>
+   <description><![CDATA[<p>A template argument that is passed to a pointer parameter is supposed to identify a symbol.  The expression passed does not do so. For example</p>
+<pre><tt>
+               template< int *P > class A { ... };
+               int a[10];
+               A< a+2 > x;     // a+2 does not represent a symbol
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1082</key>
     <configkey>1082</configkey>
     <priority>CRITICAL</priority>
     <name>L1082: Object parameter for a reference type should be an external symbol</name>
-    <description>A template argument that is passed to a reference parameter is supposed to identify an external symbol. The expression passed does not do so. For example template&lt; int &amp;I &gt; class A { ... }; int a[10]; A&lt; a[2] &gt; x; // a[2] does not represent a symbol See also message 1081.</description>
+    <description><![CDATA[<p>A template argument that is passed to a reference parameter is supposed to identify an external symbol.  The expression passed does not do so.  For example</p>
+<pre><tt>
+               template< int &I > class A { ... };
+               int a[10];
+               A< a[2] > x;     // a[2] does not represent a symbol
+</tt></pre>
+<p>See also message 1081.
+</p>]]></description>
   </rule>
   <rule>
     <key>1083</key>
@@ -5639,17 +5756,35 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1084</configkey>
     <priority>CRITICAL</priority>
     <name>L1084: Ambiguous use of template-id for instantiation of 'Type'</name>
-    <description>When the language calls for a class template to be instantiated and the primary template is "overloaded" via one or more partial specializations, there is an attempt to see if the template arguments match any of those partial specializations. (Note, explicit specializations would have been considered before determining that the class definition needs to be generated by way of instantiation.) If multiple partial specializations match then:
-    - If one of the matching partial specializations is more specialized than all others then it is used for the instantiation.
-    - Otherwise, the program is ill-formed, so Lint issues message 1084.
-    In the message, the matching partial specializations are provided as the list of candidates. Example: template&lt;class T1, class T2, int I&gt; class A {}; //#1 template&lt;class T1, class T2, int I&gt; class A&lt;T1*, T2, I&gt; {}; //#2 template&lt;class T1, class T2, int I&gt; class A&lt;T1, T2*, I&gt; {}; //#3 A&lt;int*, int*, 2&gt; a; // ambiguous: matches #2 and #3 // (and neither template is more specialized than the other)</description>
+    <description><![CDATA[
+<p>When the language calls for a class template to be instantiated and the primary template is "overloaded" via one or more partial specializations, there is an attempt to see if the template arguments match any of those partial specializations.</p>
+<p>(Note, explicit specializations would have been considered before determining that the class definition needs to be generated by way of instantiation.)  If multiple partial specializations match then:</p>
+<ul><li>If one of the matching partial specializations is more specialized than all others then it is used for the instantiation.</li>
+<li>Otherwise, the program is ill-formed, so Lint issues message 1084.</li> </ul> 
+<p>In the message, the matching partial specializations are provided as the list of candidates.  Example:</p>
+<pre><tt>
+               template<class T1, class T2, int I> class A {};             //#1
+               template<class T1, class T2, int I> class A<T1*, T2, I> {}; //#2
+               template<class T1, class T2, int I> class A<T1, T2*, I> {}; //#3
+               A<int*, int*, 2> a; // ambiguous: matches #2 and #3
+                                   // (and neither template is more specialized than the other)
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1085</key>
     <configkey>1085</configkey>
     <priority>CRITICAL</priority>
     <name>L1085: Invalid definition of 'String'</name>
-    <description>An attempt was made to define a member of a template before the template was defined. Example: template&lt;class T, class U&gt; struct A { void }; template&lt;class U, class T&gt; void A&lt;T,U&gt;::f(){} // Error 1085 In this case, the template argument list is out of order; T and U have been interchanged.</description>
+    <description><![CDATA[<p>An attempt was made to define a member of a template before the template was defined. Example:</p>
+<pre><tt>
+               template<class T, class U> struct A
+                       {
+                       void
+                       };
+               template<class U, class T> void A<T,U>::f(){} // Error 1085
+</tt></pre>
+<p>In this case, the template argument list is out of order; T and U have been interchanged.
+</p>]]></description>
   </rule>
   <rule>
     <key>1086</key>
@@ -5663,50 +5798,132 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1087</configkey>
     <priority>CRITICAL</priority>
     <name>L1087: Previous declaration of 'Name' (Location) is incompatible with 'Name' (Location) which was introduced by the current using-declaration</name>
-    <description>A using declaration such as:
-    using NS::name;
-    seems to be in error. It introduces a name that clashes with the name introduced earlier by another using-declaration. E.g.: namespace N { int i;} namespace Q { void i();} using N::i; using Q::i; // Error 1087 issued here.</description>
+    <description><![CDATA[<p>A using declaration such as:</p>
+<pre><tt>
+             using NS::name;
+</tt></pre>
+<p>seems to be in error.  It introduces a name that clashes with the name introduced earlier by another using-declaration.  E.g.:</p>
+
+<pre><tt>
+               namespace N { int i;}
+               namespace Q { void i();}
+               using N::i;
+               using Q::i; // Error 1087 issued here.
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1088</key>
     <configkey>1088</configkey>
     <priority>CRITICAL</priority>
     <name>L1088: A using-declaration must name a qualified-id</name>
-    <description>This error is issued when a using-declaration references a name without the :: scope resolution operator; e.g.: class A { protected: int n; }; class B : public A { public: using n; // Error 1088: should be 'using A::n;' }; See Section 14. Added Bibliography, [34], 7.3.3 namespace.udecl.</description>
+    <description><![CDATA[<p>This error is issued when a using-declaration references a name without the :: scope resolution operator; e.g.:</p>
+<pre><tt>
+               class A { protected: int n; };
+               class B : public A {
+               public:
+                   using n; // Error 1088: should be 'using A::n;'
+               };
+</tt></pre>
+<p>See Section <ref,14. Added Bibliography,14.>, [34], 7.3.3 namespace.udecl.
+</p>]]></description>
   </rule>
   <rule>
     <key>1089</key>
     <configkey>1089</configkey>
     <priority>CRITICAL</priority>
     <name>L1089: A using-declaration must not name a namespace</name>
-    <description>This error is issued when the rightmost part of the qualified-id in a using-declaration is the name of a namespace. E.g.: namespace N { namespace Q{ void g(); } } void f() { using ::N::Q; // Error 1089 Q::g(); } Instead, use a namespace-alias-definition: namespace N { namespace Q{ void g(); } } void f() { namespace Q = ::N::Q; // OK Q::g(); // OK, calls ::N::Q::g(). } See Section 14. Added Bibliography, [35], Issue 460.</description>
+    <description><![CDATA[<p>This error is issued when the rightmost part of the qualified-id in a using-declaration is the name of a namespace.  E.g.:</p>
+<pre><tt>
+               namespace N { namespace Q{ void g(); } }
+               void f() {
+                   using ::N::Q; // Error 1089
+                   Q::g();
+               }
+</tt></pre>
+<p>Instead, use a namespace-alias-definition:</p>
+<pre><tt>
+               namespace N { namespace Q{ void g(); } }
+               void f() {
+                   namespace Q = ::N::Q; // OK
+                   Q::g(); // OK, calls ::N::Q::g().
+               }
+</tt></pre>
+<p>See Section <ref,14. Added Bibliography,14.>, [35], Issue 460.
+</p>]]></description>
   </rule>
   <rule>
     <key>1090</key>
     <configkey>1090</configkey>
     <priority>CRITICAL</priority>
     <name>L1090: A using-declaration must not name a template-id</name>
-    <description>This error is issued when the rightmost part of the qualified-id in a using-declaration is a template-id. E.g.: template&lt;class T&gt; class A { protected: template&lt;class U&gt; class B{}; };
-    struct D : public A&lt;int&gt; { public: using A&lt;int&gt;::B&lt;char*&gt;; // Error 1090 };
-    D::B&lt;char*&gt; bc; Instead, refer to the template name without template arguments: template&lt;class T&gt; class A { protected: template&lt;class U&gt; class B{}; };
-    struct D : public A&lt;int&gt; { public: using A&lt;int&gt;::B; // OK };
-    D::B&lt;char*&gt; bc; // OK See Section 14. Added Bibliography, [34], 7.3.3 namespace.udecl.</description>
+    <description><![CDATA[<p>This error is issued when the rightmost part of the qualified-id in a using-declaration is a template-id.  E.g.:</p>
+<pre><tt>
+               template<class T> class A {
+               protected:
+                   template<class U> class B{};
+               };
+
+               struct D : public A<int> {
+               public:
+                   using A<int>::B<char*>; // Error 1090
+                   };
+
+               D::B<char*> bc;
+</tt></pre>
+<p>Instead, refer to the template name without template arguments:</p>
+<pre><tt>
+               template<class T> class A {
+               protected:
+                   template<class U> class B{};
+               };
+
+               struct D : public A<int> {
+               public:
+                   using A<int>::B; // OK
+                   };
+
+               D::B<char*> bc; // OK
+</tt></pre>
+<p>See Section <ref,14. Added Bibliography,14.>, [34], 7.3.3 namespace.udecl.
+</p>]]></description>
   </rule>
   <rule>
     <key>1091</key>
     <configkey>1091</configkey>
     <priority>CRITICAL</priority>
     <name>L1091: 'Name' is not a base class of 'Name'</name>
-    <description>This error is issued when the nested-name-specifier of the qualified-id in a using-declaration does not name a base class of the class containing the using-declaration; e.g.: struct N { void f(); }
-    class A { protected: void f(); }; class B : A { public: using N::f; // Error 1091 }; See Section 14. Added Bibliography, [35], Issue 400.</description>
+    <description><![CDATA[<p>This error is issued when the nested-name-specifier of the qualified-id in a using-declaration does not name a base class of the class containing the using-declaration; e.g.:</p>
+<pre><tt>
+               struct N {
+                   void f();
+               }
+
+               class A { protected: void f(); };
+               class B : A {
+               public:
+                   using N::f; // Error 1091
+               };
+</tt></pre>
+<p>See Section <ref,14. Added Bibliography,14.>, [35], Issue 400.
+</p>]]></description>
   </rule>
   <rule>
     <key>1092</key>
     <configkey>1092</configkey>
     <priority>CRITICAL</priority>
     <name>L1092: A using-declaration that names a class member must be a member-declaration</name>
-    <description>This error is issued when the nested-name-specifier of the qualified-id in a using-declaration names a class but the using-declaration does not appear where class members are declared. E.g.: struct A { void f(); };
-    struct B : A{ void g() { using A::f; // Error 1092 } }; See Section 14. Added Bibliography, [34], 7.3.3 namespace.udecl.</description>
+    <description><![CDATA[<p>This error is issued when the nested-name-specifier of the qualified-id in a using-declaration names a class but the using-declaration does not appear where class members are declared.  E.g.:</p>
+<pre><tt>
+               struct A { void f(); };
+
+               struct B : A{
+                   void g() {
+                       using A::f; // Error 1092
+                   }
+               };
+</tt></pre>
+<p>See Section <ref,14. Added Bibliography,14.>, [34], 7.3.3 namespace.udecl.
+</p>]]></description>
   </rule>
   <rule>
     <key>1093</key>
@@ -5727,126 +5944,334 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1095</configkey>
     <priority>CRITICAL</priority>
     <name>L1095: Effective type 'Type' of non-type template parameter #Integer (corresponding to argument expression 'String') depends on an unspecialized parameter of this partial specialization</name>
-    <description>The ISO C++ Standard says that "the type of a template parameter corresponding to a specialized non-type argument shall not be dependent on a parameter of the specialization." See Section 14. Added Bibliography, [34], 14.5.4 temp.class.spec. Example: // primary template: template&lt;class T, T N, class U&gt; struct B;
-    // PS #1: template&lt;class U&gt; struct B&lt;int,257,U&gt;; // Ok
-    // PS #2: template&lt;class U&gt; struct B&lt;bool,257,U&gt;; // Ok, same as: template&lt;class U&gt; struct B&lt;bool,true,U&gt;; // Ok (redeclaration of #2)
-    // PS #3: template&lt;class U&gt; struct B&lt;T,257,U&gt;; // Error 1095 here In PS #3, the value 257 is the 'specialized non-type argument' and its corresponding parameter is 'N' whose type is T which was not made concrete. But in PS #1 and PS #2, T was given the concrete types 'int' and 'bool', respectively.</description>
+    <description><![CDATA[<p>The ISO C++ Standard says that "the type of a template parameter corresponding to a specialized non-type argument shall not be dependent on a parameter of the specialization." See Section <ref,14. Added Bibliography,14.>, [34], 14.5.4 temp.class.spec. Example:</p>
+<pre><tt>
+           // primary template:
+           template<class T, T N, class U> struct B;
+
+           // PS #1:
+           template<class U> struct B<int,257,U>; // Ok
+
+           // PS #2:
+           template<class U> struct B<bool,257,U>; // Ok, same as:
+           template<class U> struct B<bool,true,U>; // Ok (redeclaration of #2)
+
+           // PS #3:
+           template<class U> struct B<T,257,U>; // Error 1095 here
+</tt></pre>
+<p>In PS #3, the value 257 is the 'specialized non-type argument' and its corresponding parameter is 'N' whose type is T which was not made concrete.  But in PS #1 and PS #2, T was given the concrete types 'int' and 'bool', respectively.
+</p>]]></description>
   </rule>
   <rule>
     <key>1096</key>
     <configkey>1096</configkey>
     <priority>CRITICAL</priority>
     <name>L1096: A target ctor must be the only mem-initializer in the mem-initializer-list of a delegating ctor</name>
-    <description>C++0x requires that if a constructor delegates to another constructor, then the mem-initializer (the region between the colon and the function body) must contain only one item, and that item must be a call to another constructor (which is called the "target constructor"). Example: struct A { int n; A(int); A( const A&amp; p) : A(p.n) {} // Ok A() : n(42), A(32) // Error 1096 {} };</description>
+    <description><![CDATA[
+<p>C++0x requires that if a constructor delegates to another constructor, then the mem-initializer (the region between the colon and the function body) must contain only one item, and that item must be a call to another constructor (which is called the "target constructor").  Example:</p>
+<pre><tt>
+           struct A
+               {
+               int n;
+               A(int);
+               A( const A& p) : A(p.n) {} // Ok
+               A() :
+                   n(42),  A(32)  // Error 1096
+                   {}
+               };
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1097</key>
     <configkey>1097</configkey>
     <priority>CRITICAL</priority>
     <name>L1097: Delegating ctor delegates directly to itself, causing infinite recursion</name>
-    <description>Example: struct A { int n; A(int x) : A(x){} // Error 1097 };</description>
+    <description><![CDATA[<p>Example:</p>
+<pre><tt>
+           struct A
+               {
+               int n;
+               A(int x) : A(x){} // Error 1097
+               };
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1098</key>
     <configkey>1098</configkey>
     <priority>CRITICAL</priority>
     <name>L1098: Function template specialization 'Symbol' does not match any function template</name>
-    <description>This message is issued for a declaration where the user apparently intended to name a specialization of a function template (e.g., in an explicit specialization, an explicit instantiation or a friend declaration of specialization), but no previously-declared function template is matched. Example: template&lt;class T&gt; void f( const T&amp; ); // #1
-    struct A{}; template&lt;&gt; void f( const A&amp; ); // Ok // (A is the deduced argument to T.)
-    struct B{}; template&lt;&gt; void f( const B ); // Error 1097. // (A template argument cannot be deduced for T.)</description>
+    <description><![CDATA[
+<p>This message is issued for a declaration where the user apparently intended to name a specialization of a function template (e.g., in an explicit specialization, an explicit instantiation or a friend declaration of specialization), but no previously-declared function template is matched.  Example:</p>
+<pre><tt>
+               template<class T> void f( const T& ); // #1
+
+               struct A{};
+               template<> void f( const A& ); // Ok
+               // (A is the deduced argument to T.)
+
+               struct B{};
+               template<> void f( const B ); // Error 1097.
+               // (A template argument cannot be deduced for T.)
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1099</key>
     <configkey>1099</configkey>
     <priority>CRITICAL</priority>
     <name>L1099: Ambiguous function template specialization 'Symbol'</name>
-    <description>This message is issued for a declaration where the user apparently intended to name a specialization of a function template (e.g., in an explicit specialization, an explicit instantiation or a friend declaration of specialization), but the specialization matches multiple function templates, and none of the matched templates is more specialized than all of the other matching templates. The candidates (i.e., the matching templates) are provided in the message. Example: template&lt;class T&gt; struct A {};
-    template&lt;class T, class U&gt; void f( T*, U ); // #1 template&lt;class T, class U&gt; void f( T, A&lt;U&gt; ); // #2
-    struct B{}; template&lt;&gt; void f( B, A&lt;B&gt; ); // Ok // #1 does not match but #2 does.
-    template&lt;&gt; void f( char*, A&lt;int&gt; ); // Error 1099 // Both #1 and #2 match and neither is more specialized than the // other. This situation can be avoided in at least a couple of ways. One way is to explicitly specify one or more template arguments. Example: // continuing from above... template&lt;&gt; void f&lt;char*&gt;( char*, A&lt;int&gt; ); // Ok // #1 does not match but #2 does. Another way is to use SFINAE tactics in the declaration of one or more function templates, e.g. with boost::enable_if.</description>
+    <description><![CDATA[
+<p>This message is issued for a declaration where the user apparently intended to name a specialization of a function template (e.g., in an explicit specialization, an explicit instantiation or a friend declaration of specialization), but the specialization matches multiple function templates, and none of the matched templates is more specialized than all of the other matching templates.  The candidates (i.e., the matching templates) are provided in the message.  Example:</p>
+<pre><tt>
+               template<class T> struct A {};
+
+               template<class T, class U> void f( T*, U    ); // #1
+               template<class T, class U> void f( T,  A<U> ); // #2
+
+               struct B{};
+               template<> void f( B, A<B> ); // Ok
+               // #1 does not match but #2 does.
+
+               template<> void f( char*, A<int> ); // Error 1099
+               // Both #1 and #2 match and neither is more specialized than the
+               // other.
+</tt></pre>
+<p>This situation can be avoided in at least a couple of ways. One way is to explicitly specify one or more template arguments.  Example:</p>
+<pre><tt>
+               // continuing from above...
+               template<> void f<char*>( char*, A<int> ); // Ok
+               // #1 does not match but #2 does.
+</tt></pre>
+<p>Another way is to use SFINAE tactics in the declaration of one or more function templates, e.g. with boost::enable_if </p>]]></description>
   </rule>
   <rule>
     <key>1100</key>
     <configkey>1100</configkey>
     <priority>CRITICAL</priority>
     <name>L1100: Declaration of 'Symbol' does not declare an explicit specialization, explicit instantiation or friend</name>
-    <description>In a declaration that explicitly specifies template arguments with angle brackets immediately after the name of a function template, the declaration must declare either an explicit specialization, explicit instantiation or friend. (Note, an explicit specialization always begins with 'template&lt;&gt;' and an explicit instantiation always begins with 'template'&lt;/name&gt;&lt;description&gt;-without angle brackets after the keyword 'template'.) template&lt;class T&gt; struct A {};
-    template&lt;class T&gt; inline void f( A&lt;T&gt; ); // #1 void f( A&lt;int&gt; ); // #2 // Ok, declares an ordinary function
-    void f&lt;char&gt;( A&lt;char&gt; ); // Error 1100</description>
+    <description><![CDATA[<p>In a declaration that explicitly specifies template arguments with angle brackets immediately after the name of a function template, the declaration must declare either an explicit specialization, explicit instantiation or friend.  (Note, an explicit specialization always begins with 'template<>' and an explicit instantiation always begins with 'template'---without angle brackets after the keyword 'template'.)</p>
+<pre><tt>
+               template<class T> struct A {};
+
+               template<class T> inline void f( A<T> ); // #1
+               void f( A<int> ); // #2 // Ok, declares an ordinary function
+
+               void f<char>( A<char> ); // Error 1100
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1101</key>
     <configkey>1101</configkey>
     <priority>CRITICAL</priority>
     <name>L1101: Type of variable 'Symbol' cannot be deduced from its initializer</name>
-    <description>Example: int f(void); int f(char*); auto n = f; // Error In terms of deduction, this is equivalent to: int f(void); int f(char*); template&lt;class T&gt; void g( const T&amp; ); void h( void ) { g( f ); // Error } Here, 'f' refers to multiple overloaded functions, so it is an ambiguous reference and T cannot be deduced. (Code like this could still be well-formed however, e.g. if g is overloaded with a non-template function whose parameter type is 'ptr-to-function returning int taking (char*)'.)</description>
+    <description><![CDATA[<p>Example:</p>
+<pre><tt>
+               int f(void);
+               int f(char*);
+               auto n = f; // Error
+</tt></pre>
+<p>In terms of deduction, this is equivalent to:</p>
+<pre><tt>
+               int f(void);
+               int f(char*);
+               template<class T> void g( const T& );
+               void h( void )
+                   {
+                   g( f ); // Error
+                   }
+</tt></pre>
+<p>Here,  'f' refers to multiple overloaded functions, so it is an ambiguous reference and T cannot be deduced.  (Code like this could still be well-formed however, e.g. if g is overloaded with a non-template function whose parameter type is 'ptr-to-function returning int taking (char*)'.)
+</p>]]></description>
   </rule>
   <rule>
     <key>1102</key>
     <configkey>1102</configkey>
     <priority>CRITICAL</priority>
     <name>L1102: auto type deduced inconsistently: 'Type' for 'Symbol' but 'Type' for 'Symbol'</name>
-    <description>When multiple variables are defined in the same declaration, and when that declaration uses the keyword auto as the type-specifier (a feature of C++0x), the type for which auto is a placeholder must be the same for each variable. Example: float g(void); char* s(); auto a = 42; // Ok, auto is 'int' auto b = g(); // Ok, auto is 'float' auto c = 'q', *d = s(); // Ok, auto is 'char' (for both c and d) auto x = 42, y = g(); // Error 1102 here</description>
-  </rule>
+    <description><![CDATA[<p>When multiple variables are defined in the same declaration, and when that declaration uses the keyword auto as the type-specifier (a feature of C++0x), the type for which auto is a placeholder must be the same for each variable.  Example:</p>
+<pre><tt>
+               float g(void);
+               char* s();
+               auto a = 42; // Ok, auto is 'int'
+               auto b = g(); // Ok, auto is 'float'
+               auto c = 'q',
+                    *d = s(); // Ok, auto is 'char' (for both c and d)
+               auto x = 42, y = g(); // Error 1102 here
+</tt></pre>]]></description>  </rule>
   <rule>
     <key>1103</key>
     <configkey>1103</configkey>
     <priority>CRITICAL</priority>
     <name>L1103: Type 'Type' is not allowed as an enum-base</name>
-    <description>When an enumeration type is declared with an explicit underlying type, that type must be integral. Example: enum A : bool; // ok enum B : short; // ok enum C : unsigned long long; // ok enum D : float; // Error 1103</description>
-  </rule>
+    <description><![CDATA[<p>When an enumeration type is declared with an explicit underlying type, that type must be integral.  Example:</p>
+<pre><tt>
+               enum A : bool; // ok
+               enum B : short; // ok
+               enum C : unsigned long long; // ok
+               enum D : float; // Error 1103
+</tt></pre>]]></description>  </rule>
   <rule>
     <key>1104</key>
     <configkey>1104</configkey>
     <priority>CRITICAL</priority>
     <name>L1104: A reference to enumeration 'Symbol' should not use 'String'</name>
-    <description>Although an enumeration may be declared or defined using a scope indicator or an underlying type indicator, these should not be applied when simply referencing the enumeration. E.g. enum class A { red, green }; enum class A x; // Error -- don't need 'class' enum A : unsigned { red, green }; enum A : unsigned y; // Error -- don't need ': unsigned'</description>
-  </rule>
+    <description><![CDATA[<p>Although an enumeration may be declared or defined using a scope indicator or an underlying type indicator, these should not be applied when simply referencing the enumeration.  E.g.</p>
+<pre><tt>
+               enum class A { red, green };
+               enum class A x;         // Error: don't need 'class'
+               enum A : unsigned { red, green };
+               enum A : unsigned y;    // Error: don't need ': unsigned'
+</tt></pre>]]></description>  </rule>
   <rule>
     <key>1105</key>
     <configkey>1105</configkey>
     <priority>CRITICAL</priority>
     <name>L1105: Use of ref qualification of 'Symbol' inconsistent with overloaded function 'Symbol' (Location)"</name>
-    <description>If an explicit ref qualifier ('&amp;' or '&amp;&amp;') of a nonstatic member function is employed, an explicit ref qualifier needs to be used with every member of the overload set. Thus: class A { void f(int) &amp;; // ok (so far) void f(int); // 1105 void f(double); // 1105 void g(int); // ok (fresh function) void g(double); // still ok };</description>
-  </rule>
+    <description><![CDATA[<p>If an explicit ref qualifier ('&' or '&&') of a nonstatic member function is employed, an explicit ref qualifier needs to be used with every member of the overload set.  Thus:</p>
+<pre><tt>
+               class A
+                   {
+                   void f(int) &;  // ok (so far)
+                   void f(int);    // 1105
+                   void f(double); // 1105
+                   void g(int);    // ok (fresh function)
+                   void g(double); // still ok
+                   };
+</tt></pre>]]></description>  </rule>
   <rule>
     <key>1106</key>
     <configkey>1106</configkey>
     <priority>CRITICAL</priority>
     <name>L1106: Initializing value 'String' of enumerator 'Name' cannot be represented by the enumeration's underlying type 'Type'</name>
-    <description>An enumerator is being initialized with a value that is inappropriate to the declared type of the initializer. Example: enum E : unsigned char { e = 256 }; The value 256 cannot be represented by an unsigned char.</description>
-  </rule>
+    <description><![CDATA[<p>An enumerator is being initialized with a value that is inappropriate to the declared type of the initializer. Example:</p>
+<pre><tt>
+               enum E : unsigned char { e = 256 };
+</tt></pre>
+<p>The value 256 cannot be represented by an unsigned char.
+</p>]]></description>  </rule>
   <rule>
     <key>1107</key>
     <configkey>1107</configkey>
     <priority>CRITICAL</priority>
     <name>L1107: Mixing two different kinds of string literals</name>
-    <description>Two string literals are being concatenated which have different types. Examples: char *s = u"abc" U"def"; char *q = "L"ghi" u"jkl"; This message is issued for mixing strings of char16_t, char32_t, and/or wchar_t (as shown). Literal string concatenation of any of these with an ordinary character literal is permitted and will receive Informational 707.
-    error;1108;Use of deleted function 'Symbol' defined at 'Location' This message is issued when a deleted function is used. Example: void f( int ) = delete; void f( double ); void g( double d, int n ) { f( d ); // Ok f( n ); // Error }</description>
+    <description><![CDATA[<p>Two string literals are being concatenated which have different types. Examples:</p>
+<pre><tt>
+               char *s = u"abc" U"def";
+               char *q = L"ghi" u"jkl";
+</tt></pre>
+<p>This message is issued for mixing strings of char16_t, char32_t, and/or wchar_t (as shown).  Literal string concatenation of any of these with an ordinary character literal is permitted and will receive Informational 707.
+</p>]]></description>
+  </rule>
+  <rule>
+    <key>1108</key>
+    <configkey>1108</configkey>
+    <priority>CRITICAL</priority>
+    <name>L1108: Use of deleted function 'Symbol' defined at 'Location'</name>
+    <description><![CDATA[<p>
+This message is issued when a deleted function is used.  Example:</p>
+<pre><tt>
+               void f( int ) = delete;
+               void f( double );
+               void g( double d, int n ) {
+                   f( d ); // Ok
+                   f( n ); // Error
+               }
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1110</key>
     <configkey>1110</configkey>
     <priority>CRITICAL</priority>
     <name>L1110: Cycle detected: explicit application of 'Name'::operator-&gt; causes infinite implicit applications of the same operator</name>
-    <description>When an overloaded operator-&gt; is used as in a-&gt;b it is effectively expanded to: a.operator-&gt;()-&gt;b And this expansion repeats until an operator-&gt; is found that does not yield a class type. But in the process of evaluating this expansion, it might be found that one of the operators returns a class type for which an overloaded operator-&gt; was already expanded; in that case, Error 1110 is triggered. Example: struct B; struct A { struct B&amp; operator-&gt;(); }; struct B { struct A&amp; operator-&gt;(); }; int f( A &amp; p ) { p-&gt;g(); } // Error</description>
+    <description><![CDATA[
+<p>When an overloaded operator-> is used as in</p>
+<pre><tt>
+               a->b
+</tt></pre>
+<p>it is effectively expanded to:</p>
+<pre><tt>
+               a.operator->()->b
+</tt></pre>
+<p>And this expansion repeats until an operator-> is found that does not yield a class type.  But in the process of evaluating this expansion, it might be found that one  of the operators returns a class type for which an overloaded operator-> was already expanded; in that case, Error 1110 is triggered. Example:</p>
+<pre><tt>
+               struct B;
+               struct A { struct B& operator->(); };
+               struct B { struct A& operator->(); };
+               int  f( A & p ) { p->g(); } // Error
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1111</key>
     <configkey>1111</configkey>
     <priority>CRITICAL</priority>
     <name>L1111: ISO C++ requires an explicit specialization/instantiation to appear at namespace scope</name>
-    <description>This message is issued at the beginning of each explicit specialization/instantiation that does not appear at namespace scope. Example: struct A { template &lt;typename U&gt; struct B {};
-    // template &lt;&gt; // Would be ill-formed by ISO C++. // struct B&lt;int&gt; {}; }; template&lt;&gt; struct A::B&lt;int&gt; {}; // Ok. There is an additional limitation with member class templates of class templates. As with members of a non-template class, one cannot write a specialization at class scope. Example: template&lt;typename T&gt; struct G { template &lt;typename U&gt; struct H {}; // template &lt;&gt; // Would be ill-formed by ISO C++. // struct H&lt;int&gt; {}; }; But the language specification does not even allow this to be expressed in a namespace-scope definition; there is no way to write an explicit specialization that is a member of a class template. Example: template&lt;typename T&gt; struct J { template &lt;typename U&gt; struct K {}; }; // template&lt;typename T&gt; // template &lt;&gt; // Would be ill-formed by ISO C++; // struct J&lt;T&gt;::K&lt;int&gt; {}; This is because the rules for explicit specializations say that 'template&lt;&gt;' is not allowed to appear after a non-empty template-parameter-list within the same declaration. However, one may write an explicit specialization that is a member of an implicitly-instantiated specialization of a class template. Example: template&lt;typename T&gt; struct L { template &lt;typename U&gt; struct M {}; }; template &lt;&gt; template &lt;&gt; struct L&lt;char&gt;::M&lt;int&gt; {}; // Ok Here, the body of the class L&lt;char&gt; is automatically generated by implicit instantiation (otherwise the reference to 'L&lt;char&gt;::M' would be ill-formed), while the body of L&lt;char&gt;::M&lt;int&gt; is provided in the explicit specialization.
-    In March of 2009, the ISO C++ committee reviewed a report submitted against this example: struct A { template&lt;class T&gt; struct B; template &lt;class T&gt; struct B&lt;T*&gt; { }; // well-formed template &lt;&gt; struct B&lt;int*&gt; { }; // ill-formed }; While it might seem odd that one is able to write the partial specialization but not the full specialization, the committee (which at the time was in a "feature-freeze" mode and trying to finalize a draft for the next International Standard) decided that this capability would need to be regarded as an "extension", meaning that it could be considered as a new feature in a future standard but not as a bug-fix for C++0x.
-    Note that the Microsoft compiler implements this extension. For that reason, the Lint option -elib(1111) appears in recent versions of our configuration files for Microsoft compilers.</description>
+    <description><![CDATA[
+<p>This message is issued at the beginning of each explicit specialization/instantiation that does not appear at namespace scope.  Example:</p>
+<pre><tt>
+               struct A {
+                   template <typename U> struct B {};
+
+                   // template <>  // Would be ill-formed by ISO C++.
+                   //     struct B<int> {};
+               };
+               template<> struct A::B<int> {}; // Ok.
+</tt></pre>
+<p>There is an additional limitation with member class templates of class templates.  As with members of a non-template class, one cannot write a specialization at class scope.   Example:</p>
+<pre><tt>
+               template<typename T> struct G {
+                   template <typename U> struct H {};
+                   // template <>  // Would be ill-formed by ISO C++.
+                   //     struct H<int> {};
+               };
+</tt></pre>
+<p> But the language specification does not even allow this to be expressed in a namespace-scope definition; there is no way to write an explicit specialization that is a member of a class template.  Example:</p>
+<pre><tt>
+               template<typename T> struct J {
+                   template <typename U> struct K {};
+               };
+               // template<typename T>
+               //     template <>  // Would be ill-formed by ISO C++;
+               //         struct J<T>::K<int> {};
+</tt></pre>
+<p>This is because the rules for explicit specializations say that 'template<>' is not allowed to appear after a non-empty template-parameter-list within the same declaration.  However, one may write an explicit specialization that is a member of an implicitly-instantiated specialization of a class template. Example:</p>
+<pre><tt>
+               template<typename T> struct L {
+                   template <typename U> struct M {};
+               };
+               template <> template <> struct L<char>::M<int> {}; // Ok
+</tt></pre>
+<p>Here, the body of the class L<char> is automatically generated by implicit instantiation (otherwise the reference to 'L<char>::M' would be ill-formed), while the body of L<char>::M<int> is provided in the explicit specialization.
+
+In March of 2009, the ISO C++ committee reviewed a report submitted against this example:</p>
+<pre><tt>
+              struct A {
+                 template<class T> struct B;
+                 template <class T> struct B<T*> { }; // well-formed
+                 template <> struct B<int*> { }; // ill-formed
+               };
+</tt></pre>
+<p>While it might seem odd that one is able to write the partial specialization but not the full specialization, the committee (which at the time was in a "feature-freeze" mode and trying to finalize a draft for the next International Standard) decided that this capability would need to be regarded as an "extension", meaning that it could be considered as a new feature in a future standard but not as a bug-fix for C++0x.
+
+Note that the Microsoft compiler implements this extension. For that reason, the Lint option</p>
+<pre><tt>
+               -elib(1111)
+</tt></pre>
+<p>appears in recent versions of our configuration files for Microsoft compilers</p>]]></description>
   </rule>
   <rule>
     <key>1112</key>
     <configkey>1112</configkey>
     <priority>CRITICAL</priority>
-    <name>L1111: In a declaration, the form 'auto D(parms)-&gt;type' is the only valid way to use a trailing-return-type</name>
-    <description>In a declaration, the form 'auto D(parms)-&gt;type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type</description>
+    <name>L1112: In a declaration, the form 'auto D(parms)-&gt;type' is the only valid way to use a trailing-return-type</name>
+    <description><![CDATA[
+<p>In a declaration, the form 'auto D(parms)->type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type -- For example, if you want to declare that f returns a pointer-to-int, you must write:</p>
+<pre><tt>
+               auto f() -> int *;
+         
+         ... and not:
+         
+               auto *f() -> int;
+</tt></pre>
+<p>This also applies to a type-id (e.g., in a cast to a pointer-to-function, or as an argument to a template type-parameter)</p>]]></description>
   </rule>
   <rule>
     <key>1113</key>
@@ -5995,11 +6420,16 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1404</configkey>
     <priority>MAJOR</priority>
     <name>L1404: deleting an object of type 'Symbol' before type is defined</name>
-    <description>The following situation was detected:
-    class X; ... X *p; ... delete p;
-    That is, a placeholder declaration for a class is given and an object of that type is deleted before any definition is seen. This may or may not be followed by the actual class definition:
-    class X { ... };
-    A delete before the class is defined is dangerous because, among other things, any operator delete that may be defined within the class could be ignored.</description>
+    <description><![CDATA[<p>The following situation was detected:</p>
+<pre><tt>
+            class X;   ...   X *p;  ...  delete p;
+</tt></pre>
+<p>That is, a placeholder declaration for a class is given and an object of that type is deleted before any definition is seen. This may or may not be followed by the actual class definition:</p>
+<pre><tt>
+            class X { ... };
+</tt></pre>
+<p>A delete before the class is defined is dangerous because, among other things, any operator delete that may be defined within the class could be ignored.
+</p>]]></description>
   </rule>
   <rule>
     <key>1405</key>
@@ -6035,7 +6465,20 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1414</configkey>
     <priority>MAJOR</priority>
     <name>L1414: Assigning address of auto variable 'Symbol' to member of this</name>
-    <description>The address of an auto variable was taken and assigned to a this member in a member function. For example: struct A { char *x; void f() { char y[10]; x = y; // warning 1414 } }; Here the address of y is being passed to member x but this is dangerous (if not ridiculous) since when the function returns, the storage allocated for y is deallocated and the pointer could very easily harm something.</description>
+    <description><![CDATA[<p>The address of an auto variable was taken and assigned to a this member in a member function.  For example:</p>
+<pre><tt>
+               struct A
+                   {
+                   char *x;
+                   void f()
+                       {
+                       char y[10];
+                       x = y;          // warning 1414
+                       }
+                   };
+</tt></pre>
+<p>Here the address of y is being passed to member x but this is dangerous (if not ridiculous) since when the function returns, the storage allocated for y is deallocated and the pointer could very easily harm something.
+</p>]]></description>
   </rule>
   <rule>
     <key>1415</key>
@@ -6050,14 +6493,30 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1416</configkey>
     <priority>MAJOR</priority>
     <name>L1416: An uninitialized reference 'Symbol' is being used to initialize reference 'Symbol'</name>
-    <description>This message is usually issued when a reference to a member of a class is used to initialize a reference to another member of the same class before the first member was initialized. For example: class C { int &amp;n, &amp;m; C( int &amp;k ) : n(m), m(k) { /* ... */ } }; Here m is initialized properly to be identical to k. However, the initialization of n, taking place, as it does, before m is so initialized, is erroneous. It is undefined what location n will reference.</description>
+    <description><![CDATA[<p>This message is usually issued when a reference to a member of a class is used to initialize a reference to another member of the same class before the first member was initialized.  For example:</p>
+<pre><tt>
+               class C
+                   {
+                   int &n, &m;
+                   C( int &k ) : n(m), m(k) { /* ... */ }
+                   };
+</tt></pre>
+<p>Here m is initialized properly to be identical to k.  However, the initialization of n, taking place, as it does, before m is so initialized, is erroneous.  It is undefined what location n will reference.
+</p>]]></description>
   </rule>
   <rule>
     <key>1417</key>
     <configkey>1417</configkey>
     <priority>MAJOR</priority>
     <name>L1417: reference member 'Symbol' not initialized by constructor initializer list</name>
-    <description>This message is issued when a reference data member of a class does not appear in a mem-initializer. For example, the following code will result in a Warning 1417 for symbol m since a mem-initializer is the only way that m can be reference initialized. class C { int &amp;n, &amp;m; C( int &amp;k ) : n(k) { /* ... */ } };</description>
+    <description><![CDATA[<p>This message is issued when a reference data member of a class does not appear in a mem-initializer.  For example, the following code will result in a Warning 1417 for symbol m since a mem-initializer is the only way that m can be reference initialized.</p>
+<pre><tt>
+               class C
+                   {
+                   int &n, &m;
+                   C( int &k ) : n(k) { /* ... */ }
+                   };
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1419</key>
@@ -6099,11 +6558,16 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1505</configkey>
     <priority>MAJOR</priority>
     <name>L1505: no access specifier provided, 'String' assumed</name>
-    <description>A base class specifier provides no access specifier (public, private or protected). An explicit access specifier is always recommended since the default behavior is often not what is expected. For example:
-    class A : B { int a; };
-    would make B a private base class by default.
-    class A : private B { int a; };
-    is preferred if that's what you want. [11, ?11.1]</description>
+    <description><![CDATA[<p>A base class specifier provides no access specifier (public, private or protected).  An explicit access specifier is always recommended since the default behavior is often not what is expected.  For example:</p>
+<pre><tt>
+            class A : B { int a; };
+</tt></pre>
+<p>would make B a private base class by default.</p>
+<pre><tt>
+            class A : private B { int a; };
+</tt></pre>
+<p>is preferred if that's what you want.  [11, Ǳ1.1]
+</p>]]></description>
   </rule>
   <rule>
     <key>1506</key>
@@ -6180,9 +6644,13 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1520</configkey>
     <priority>MAJOR</priority>
     <name>L1520: Multiple assignment operators for class 'Symbol'</name>
-    <description>More than one assignment operator has been declared for a given class. For example, for class X there may have been declared:
-    void operator=(X); void operator=(X) const;
-    Which is to be used for assignment?</description>
+    <description><![CDATA[<p>More than one assignment operator has been declared for a given class.  For example, for class X there may have been declared:</p>
+<pre><tt>
+             void operator=(X);
+             void operator=(X) const;
+</tt></pre>
+<p>Which is to be used for assignment?
+</p>]]></description>
   </rule>
   <rule>
     <key>1521</key>
@@ -6231,14 +6699,25 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1529</configkey>
     <priority>MAJOR</priority>
     <name>L1529: Symbol 'Symbol' not first checking for assignment to this</name>
-    <description>The assignment operator does not appear to be checking for assignment of the value of a variable to itself (assignment to this). Specifically PC-lint/FlexeLint is looking for one of:
-    if( &amp;arg == this ) if( &amp;arg != this ) if( this == &amp;arg ) if( this != &amp;arg )
-    as the first statement of the function.
-    It is important to check for a self assignment so as to know whether the old value should be subject to a delete operation. This is often overlooked by a class designer since it is counter-intuitive to assign to oneself. But through the magic of aliasing (pointers, references, function arguments) it is possible for an unsuspecting programmer to stumble into a disguised self-assignment [12, Item 17].
-    If you are currently using the following test
-    if( arg == *this)
-    we recommend you replace this with the more efficient:
-    if( &amp;arg == this || arg == *this)</description>
+    <description><![CDATA[<p>The assignment operator does not appear to be checking for assignment of the value of a variable to itself (assignment to this). Specifically PC-lint/FlexeLint is looking for one of:</p>
+<pre><tt>
+                 if( &arg == this )
+                 if( &arg != this )
+                 if( this == &arg )
+                 if( this != &arg )
+</tt></pre>
+<p>as the first statement of the function.
+
+It is important to check for a self assignment so as to know whether the old value should be subject to a delete operation. This is often overlooked by a class designer since it is counter-intuitive to assign to oneself.  But through the magic of aliasing (pointers, references, function arguments) it is possible for an unsuspecting programmer to stumble into a disguised self-assignment [12, Item 17].
+
+If you are currently using the following test</p>
+<pre><tt>
+                 if( arg == *this)
+</tt></pre>
+<p>we recommend you replace this with the more efficient:</p>
+<pre><tt>
+                 if( &arg == this || arg == *this)
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1531</key>
@@ -6280,44 +6759,54 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1536</configkey>
     <priority>MAJOR</priority>
     <name>L1536: Exposing low access member 'Symbol'</name>
-    <description>-- A member function is
-    returning the non-const address of a member either directly or
-    via a reference.  Moreover, the member's access (such as private
-    or protected) is lower than the access of the function returning
-    the address.  For example:
-
-    class X
-    {
-    private:
-    int a;
-    public:
-    int *f() { return &amp;a; }
-    };
-
-    This looks like a breach of the access system [12, Item 30].  You
-    may lower the access rights of the function, raise the
-    accessibility of the member or make the return value a const
-    pointer or reference.  In the above example you could change the
-    function to:
-
-    const int *f() { return &amp;a; }
-    </description>
+    <description><![CDATA[<p>A member function is returning the non-const address of a member either directly or via a reference.  Moreover, the member's access (such as private or protected) is lower than the access of the function returning the address.  For example:</p>
+<pre><tt>
+                 class X
+                     {
+                   private:
+                     int a;
+                   public:
+                     int *f() { return &a; }
+                     };
+</tt></pre>
+<p>This looks like a breach of the access system [12, Item 30].  You may lower the access rights of the function, raise the accessibility of the member or make the return value a const pointer or reference.  In the above example you could change the function to:
+</p>
+<pre><tt>
+                 const int *f() { return &a; }
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1537</key>
     <configkey>1537</configkey>
     <priority>MAJOR</priority>
     <name>L1537: const function returns pointer data member 'Symbol'</name>
-    <description>A const function is behaving suspiciously. It is returning a pointer data member (or equivalently a pointer to data that is pointed to by a data member). For example, class X { int *p; int *f() const { return p; } };
-    Since f is supposedly const and since p is presumptively pointing to data that is logically part of class X we certainly have the potential for a security breach. Either return a pointer to const or remove the const modifier to the function. [12, Item 29 ].
-    Note, if a const function returns the address of a data member then a 605 (capability increase) is issued.</description>
+    <description><![CDATA[<p>A const function is behaving suspiciously.  It is returning a pointer data member (or equivalently a pointer to data that is pointed to by a data member).  For example,</p>
+<pre><tt>
+                 class X
+                     {
+                     int *p;
+                     int *f() const { return p; }
+                     };
+</tt></pre>
+<p>Since f is supposedly const and since p is presumptively pointing to data that is logically part of class X we certainly have the potential for a security breach.  Either return a pointer to const or remove the const modifier to the function.  [12, Item 29].
+
+Note, if a const function returns the address of a data member then a 605 (capability increase) is issued.
+</p>]]></description>
   </rule>
   <rule>
     <key>1538</key>
     <configkey>1538</configkey>
     <priority>MAJOR</priority>
     <name>L1538: base class 'Name' absent from initializer list for copy constructor</name>
-    <description>The indicated base class did not appear in the initializer list for a copy constructor. Was this an oversight? If the initializer list does not contain an initializer for a base class, the default constructor is used for the base class. This is not normally appropriate for a copy constructor. The following is more typical: class B { ... }; class D : public B { D( const D &amp;arg ) : B( arg ) { ... } ... };</description>
+    <description><![CDATA[<p>The indicated base class did not appear in the initializer list for a copy constructor.  Was this an oversight? If the initializer list does not contain an initializer for a base class, the default constructor is used for the base class. This is not normally appropriate for a copy constructor.  The following is more typical:</p>
+<pre><tt>
+                 class B { ... };
+                 class D : public B
+                     {
+                     D( const D &arg ) : B( arg ) { ... }
+                     ...
+                     };
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1539</key>
@@ -6360,11 +6849,21 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1544</configkey>
     <priority>MAJOR</priority>
     <name>L1544: value of variable 'Symbol' (Location) indeterminate (order of initialization)</name>
-    <description>A variable (identified by Symbol) was used in the run-time initialization of a static variable. However this variable itself was initialized at run-time. Since the order of initialization cannot be predicted this is the source of possible error.
-    Whereas addresses are completely known at initialization time values may not be. Whether the value or merely the address of a variable is used in the initialization of a second variable is not an easy thing to determine when an argument is passed by reference or via pointer. For example, class X { X( const X &amp; ); };
-    extern X x1; X x2 = x1; X x1 = x2;
-    It is theoretically possible, but unlikely, that the constructor X() is interested only in the address of its argument and not its current value. If so, it only means you will be getting a spurious report which you can suppress based on variable name. However, if the const is missing when passing a reference parameter (or a pointer parameter) then we cannot easily assume that values are being used. In this case no report will be issued. The moral is that if you want to get the checking implied by this message you should make your constructor reference arguments const.</description>
-  </rule>
+    <description><![CDATA[<p>A variable (identified by Symbol) was used in the run-time initialization of a static variable.  However this variable itself was initialized at run-time.  Since the order of initialization cannot be predicted this is the source of possible error.
+
+Whereas addresses are completely known at initialization time values may not be.  Whether the value or merely the address of a variable is used in the initialization of a second variable is not an easy thing to determine when an argument is passed by reference or via pointer.  For example,</p>
+<pre><tt>
+             class X
+                 {
+                 X( const X & );
+                 };
+
+             extern X x1;
+             X x2 = x1;
+             X x1 = x2;
+</tt></pre>
+<p>It is theoretically possible, but unlikely, that the constructor X() is interested only in the address of its argument and not its current value.  If so, it only means you will be getting a spurious report which you can suppress based on variable name. However, if the const is missing when passing a reference parameter (or a pointer parameter) then we cannot easily assume that values are being used.  In this case no report will be issued.  The moral is that if you want to get the checking implied by this message you should make your constructor reference arguments const.
+</p>]]></description>  </rule>
   <rule>
     <key>1545</key>
     <configkey>1545</configkey>
@@ -6384,9 +6883,18 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1547</configkey>
     <priority>MAJOR</priority>
     <name>L1547: Assignment of array to pointer to base class (Context)</name>
-    <description>An assignment from an array of a derived class to a pointer to a base class was detected. For example: class B { }; class D : public B {}; D a[10]; B *p = a; // Warning 1547 B *q = &amp;a[0]; // OK
-    In this example p is being assigned the address of the first element of an array. This is fraught with danger since access to any element other than the zeroeth must be considered an error (we presume that B and D actually have or have the potential to have different sizes). [23, Item 3].
-    We do not warn about the assignment to q because it appears that the programmer realizes the situation and wishes to confine q to the base object of the zeroeth element of a only. As a further precaution against inappropriate array access, out of bounds warnings are issued for subsequent references to p[1] and q[1].</description>
+    <description><![CDATA[<p>An assignment from an array of a derived class to a pointer to a base class was detected.  For example:</p>
+<pre><tt>
+                 class B { };
+                 class D : public B {};
+                 D a[10];
+                 B *p = a;      // Warning 1547
+                 B *q = &a[0];  // OK
+</tt></pre>
+<p>In this example p is being assigned the address of the first element of an array.  This is fraught with danger since access to any element other than the zeroeth must be considered an error (we presume that B and D actually have or have the potential to have different sizes).  [23, Item 3].
+
+We do not warn about the assignment to q because it appears that the programmer realizes the situation and wishes to confine q to the base object of the zeroeth element of a only.  As a further precaution against inappropriate array access, out of bounds warnings are issued for subsequent references to p[1] and q[1].
+</p>]]></description>
   </rule>
   <rule>
     <key>1548</key>
@@ -6421,9 +6929,17 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1552</configkey>
     <priority>MAJOR</priority>
     <name>L1552: Converting pointer to array-of-derived to pointer to base</name>
-    <description>This warning is similar to Warning 1547 and is sometimes given in conjunction with it. It uses value tracking to determine that an array (that could be dynamically allocated) is being assigned to a base class pointer.
-    For example, Derived *d = new Derived[10]; Base *b; b = d; // Warning 1552 b = &amp;d[0]; // OK
-    [23, Item 3] Also, see the article by Mark Nelson (Bug++ of the Month, Windows developer's Journal, May 1997, pp. 43-44).</description>
+    <description><![CDATA[<p>This warning is similar to Warning 1547 and is sometimes given in conjunction with it.  It uses value tracking to determine that an array (that could be dynamically allocated) is being assigned to a base class pointer.
+
+For example,</p>
+<pre><tt>
+                 Derived *d = new Derived[10];
+                 Base *b;
+                 b = d;      // Warning 1552
+                 b = &d[0];  // OK
+</tt></pre>
+<p>[23, Item 3]  Also, see the article by Mark Nelson (Bug++ of the Month, Windows developer's Journal, May 1997, pp. 43-44).
+</p>]]></description>
   </rule>
   <rule>
     <key>1553</key>
@@ -6437,26 +6953,50 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1554</configkey>
     <priority>MAJOR</priority>
     <name>L1554: Direct pointer copy of member 'Symbol' within copy constructor: 'Symbol'</name>
-    <description>In a copy constructor a pointer was merely copied rather than recreated with new storage. This can create a situation where two objects have the same data and this, in turn, causes problems when these objects are deleted or modified. For example, the following class will draw this warning: class X { char *p; X( const X &amp; x ) { p = x.p; } ... };
-    Here, member p is expected to be recreated using new or some variant.</description>
+    <description><![CDATA[<p>In a copy constructor a pointer was merely copied rather than recreated with new storage.  This can create a situation where two objects have the same data and this, in turn, causes problems when these objects are deleted or modified.  For example, the following class will draw this warning:</p>
+<pre><tt>
+             class X
+                 {
+                 char *p;
+                 X( const X & x )
+                     { p = x.p; }
+                 ...
+                 };
+</tt></pre>
+<p>Here, member p is expected to be recreated using new or some variant.
+</p>]]></description>
   </rule>
   <rule>
     <key>1555</key>
     <configkey>1555</configkey>
     <priority>MAJOR</priority>
     <name>L1555: Direct pointer copy of member 'Symbol' within copy assignment operator: 'Symbol'</name>
-    <description>In a copy assignment operator a pointer was merely copied rather than recreated with new storage. This can create a situation where two objects have the same data and this, in turn, causes problems when these objects are deleted or modified. For example, the following class will draw this warning: class X { char *p; X&amp; operator=( const X &amp; x ) { p = x.p; } ... };
-    Here, member p is expected to be recreated using new or some variant.</description>
+    <description><![CDATA[<p>In a copy assignment operator a pointer was merely copied rather than recreated with new storage.  This can create a situation where two objects have the same data and this, in turn, causes problems when these objects are deleted or modified.  For example, the following class will draw this warning:</p>
+<pre><tt>
+             class X
+                 {
+                 char *p;
+                 X& operator=( const X & x )
+                     { p = x.p; }
+                 ...
+                 };
+</tt></pre>
+<p>Here, member p is expected to be recreated using new or some variant.
+</p>]]></description>
   </rule>
   <rule>
     <key>1556</key>
     <configkey>1556</configkey>
     <priority>MAJOR</priority>
     <name>L1556: 'new Type(integer)' is suspicious</name>
-    <description>A new expression had the form new T(Integer) where type T has no constructor. For example:
-    new int(10)
-    will draw this warning. The expression allocates an area of storage large enough to hold one integer. It then initializes that integer to the value 10. Could this have been a botched attempt to allocate an array of 10 integers? Even if it was a deliberate attempt to allocate and initialize a single integer, a casual inspection of the code could easily lead a reader astray.
-    The warning is only given when the type T has no constructor. If T has a constructor then either a syntactic error will result because no constructor matches the argument or a match will be found. In the latter case no warning will or should be issued.</description>
+    <description><![CDATA[<p>A new expression had the form new T(Integer) where type T has no constructor.  For example:</p>
+<pre><tt>
+             new int(10)
+</tt></pre>
+<p>will draw this warning.  The expression allocates an area of storage large enough to hold one integer.  It then initializes that integer to the value 10.  Could this have been a botched attempt to allocate an array of 10 integers?  Even if it was a deliberate attempt to allocate and initialize a single integer, a casual inspection of the code could easily lead a reader astray.
+
+The warning is only given when the type T has no constructor.  If T has a constructor then either a syntactic error will result because no constructor matches the argument or a match will be found.  In the latter case no warning will or should be issued.
+</p>]]></description>
   </rule>
   <rule>
     <key>1557</key>
@@ -6470,7 +7010,15 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1558</configkey>
     <priority>MAJOR</priority>
     <name>L1558: virtual coupled with inline is an unusual combination</name>
-    <description>The function declared both 'virtual' and 'inline' has been detected. An example of such a situation is as follows: class C { virtual inline void f(); // Warning 1558 }; Virtual functions by their nature require an address and so inlining such a function seems contradictory. We recommend that the 'inline' function specifier be removed.</description>
+    <description><![CDATA[<p>The function declared both 'virtual' and 'inline' has been detected. An example of such a situation is as follows:</p>
+<pre><tt>
+               class C
+                   {
+                   virtual inline void f();   // Warning 1558
+                   };
+</tt></pre>
+<p>Virtual functions by their nature require an address and so inlining such a function seems contradictory.  We recommend that the 'inline' function specifier be removed.
+</p>]]></description>
   </rule>
   <rule>
     <key>1559</key>
@@ -6491,32 +7039,73 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1561</configkey>
     <priority>MAJOR</priority>
     <name>L1561: Reference initialization causes loss of const/volatile integrity (Context)</name>
-    <description>A reference initialization is resulting in a capability gain that can cause a loss of const or volatile integrity.
-    Typically the message is given on initializing a non-const reference with a const. For example: void f( int &amp;x ); const int n = 0; ... f(n); Here, function f() could assign a value to its argument and thereby modify n which is declared to be const.
-    The message can also be issued when a pointer is initialized. Consider the following example. void h( const int *&amp;q ); int *p; ... h(p); It might seem that passing a regular (i.e., non-const) pointer to a const int * could cause no harm. That would be correct if it were not for the reference. If function h() were to assign a pointer to const to its parameter q then upon return from the call, p could be used to modify const data.
-    There are many subtle cases that can boggle the mind. See the commentary to Message 605.</description>
+    <description><![CDATA[<p>A reference initialization is resulting in a capability gain that can cause a loss of const or volatile integrity.
+
+Typically the message is given on initializing a non-const reference with a const.  For example:</p>
+<pre><tt>
+           void f( int &x );
+           const int n = 0;
+           ...
+           f(n);
+</tt></pre>
+<p>Here, function f() could assign a value to its argument and thereby modify n which is declared to be const.
+
+The message can also be issued when a pointer is initialized. Consider the following example.</p>
+<pre><tt>
+           void h( const int *&q );
+           int *p;
+           ...
+           h(p);
+</tt></pre>
+<p>It might seem that passing a regular (i.e., non-const) pointer to a const int * could cause no harm.  That would be correct if it were not for the reference.  If function h() were to assign a pointer to const to its parameter q then upon return from the call, p could be used to modify const data.
+
+There are many subtle cases that can boggle the mind.  See the commentary to Message 605.
+</p>]]></description>
   </rule>
   <rule>
     <key>1562</key>
     <configkey>1562</configkey>
     <priority>MAJOR</priority>
     <name>L1562: Exception specification for 'Symbol' is not a subset of 'Symbol' (Location)</name>
-    <description>The first symbol is that of an overriding virtual function for the second symbol. The exception specification for the first was found not to be a subset of the second. For example, it may be reasonable to have: struct B { virtual void f() throw(B); }; struct D:B { virtual void f() throw(D); }; Here, although the exception specification is not identical, the exception D is considered a subset of the base class B.
-    It would not be reasonable for D::f() to throw an exception outside the range of those thrown by B::f() because in general the compiler will only see calls to B::f() and it should be possible for the compiler to deduce what exceptions could be thrown by examining the static call.</description>
+    <description><![CDATA[<p>The first symbol is that of an overriding virtual function for the second symbol.  The exception specification for the first was found not to be a subset of the second.  For example, it may be reasonable to have:</p>
+<pre><tt>
+               struct B   { virtual void f() throw(B); };
+               struct D:B { virtual void f() throw(D); };
+</tt></pre>
+<p>Here, although the exception specification is not identical, the exception D is considered a subset of the base class B.
+
+It would not be reasonable for D::f() to throw an exception outside the range of those thrown by B::f() because in general the compiler will only see calls to B::f() and it should be possible for the compiler to deduce what exceptions could be thrown by examining the static call
+</p>]]></description>
   </rule>
   <rule>
     <key>1563</key>
     <configkey>1563</configkey>
     <priority>MAJOR</priority>
     <name>L1563: Suspicious third argument to ?: operator</name>
-    <description>The third argument to ?: contained an unparenthesized assignment operator such as p ? a : b = 1 If this is what was intended you should parenthesize the third argument as in: p ? a : (b = 1) Not only is the original form difficult to read but C, as opposed to C++, would parse this as: (p ? a : b) = 1</description>
+    <description><![CDATA[<p>The third argument to ?: contained an unparenthesized assignment operator such as</p>
+<pre><tt>
+               p ? a : b = 1
+</tt></pre>
+<p>If this is what was intended you should parenthesize the third argument as in:</p>
+<pre><tt>
+               p ? a : (b = 1)
+</tt></pre>
+<p>Not only is the original form difficult to read but C, as opposed to C++, would parse this as:</p>
+<pre><tt>
+               (p ? a : b) = 1
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1564</key>
     <configkey>1564</configkey>
     <priority>MAJOR</priority>
     <name>L1564: Assigning a non-zero-one constant to a bool</name>
-    <description>The following looks suspicious. bool a = 34; Although there is an implicit conversion from integral to bool and assigning an integer varaible to a bool to obtain its Boolean meaning is legitimate, assigning an integer such as this looks suspicious. As the message suggests, the warning is not given if the value assigned is either 0 or 1. An Elective Note would be raised in that instance.</description>
+    <description><![CDATA[<p>The following looks suspicious.</p>
+<pre><tt>
+               bool a = 34;
+</tt></pre>
+<p>Although there is an implicit conversion from integral to bool and assigning an integer varaible to a bool to obtain its Boolean meaning is legitimate, assigning an integer such as this looks suspicious.  As the message suggests, the warning is not given if the value assigned is either 0 or 1.  An Elective Note would be raised in that instance.
+</p>]]></description>
   </rule>
   <rule>
     <key>1565</key>
@@ -6530,36 +7119,77 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1566</configkey>
     <priority>MAJOR</priority>
     <name>L1566: member 'Symbol' (Location) might have been initialized by a separate function but no '-sem(Name,initializer)' was seen</name>
-    <description>A class data member (whose name and location are indicated in the message) was not directly initialized by a constructor. It may have been initialized by a separately called member function. If this is the case you may follow the advice given in the message and use a semantic option to inform PC-lint/FlexeLint that the separately called function is in fact an 'initializer'. For example: class A { int a; public: void f(); A() { f(); } }; Here f() is presumably serving as an initializer for the constructor A::A(). To inform PC-lint/FlexeLint of this situation, use the option: -sem( A::f, initializer ) This will suppress Warning 1566 for any constructor of class A that calls A::f.</description>
+    <description><![CDATA[<p>A class data member (whose name and location are indicated in the message) was not directly initialized by a constructor.  It may have been initialized by a separately called member function.  If this is the case you may follow the advice given in the message and use a semantic option to inform PC-lint/FlexeLint that the separately called function is in fact an 'initializer'.  For example:</p>
+<pre><tt>
+               class A {
+                       int a;
+                   public:
+                       void f();
+                       A() { f(); }
+                       };
+</tt></pre>
+<p>Here f() is presumably serving as an initializer for the constructor A::A().  To inform PC-lint/FlexeLint of this situation, use the option:</p>
+<pre><tt>
+               -sem( A::f, initializer )
+</tt></pre>
+<p>This will suppress Warning 1566 for any constructor of class A that calls A::f.
+</p>]]></description>
   </rule>
   <rule>
     <key>1567</key>
     <configkey>1567</configkey>
     <priority>MAJOR</priority>
     <name>L1567: Initialization of variable 'Symbol' (Location) is indeterminate as it uses variable 'Symbol' through calls: 'String'</name>
-    <description>A variable was dynamically initialized using an expression that contained a call to a function and that function referenced a variable that was also dynamically initialized and was in some other module. For example: a.cpp: b.cpp:
-    int g(void); int f(void); int y = g(); int x = f(); int f() { return y; } The initialization of both x and y are dynamic. Although the order of dynamic initialization within a module is pre-ordained the order in which modules are initialized is not. Therefore it is perfectly possible for b.cpp to be initialized before a.cpp. Thus when the call is made upon function f() to initialize x, variable y may not yet have been initialized.</description>
+    <description><![CDATA[<p>A variable was dynamically initialized using an expression that contained a call to a function and that function referenced a variable that was also dynamically initialized and was in some other module.  For example:</p>
+<pre><tt>
+               a.cpp:                  b.cpp:
+
+               int g(void);            int f(void);
+               int y = g();            int x = f();
+               int f() { return y; }
+</tt></pre>
+<p>The initialization of both x and y are dynamic.  Although the order of dynamic initialization within a module is pre-ordained the order in which modules are initialized is not.  Therefore it is perfectly possible for b.cpp to be initialized before a.cpp. Thus when the call is made upon function f() to initialize x, variable y may not yet have been initialized.
+</p>]]></description>
   </rule>
   <rule>
     <key>1568</key>
     <configkey>1568</configkey>
     <priority>MAJOR</priority>
     <name>L1568: Variable 'Symbol' (Location) accesses variable 'Symbol' before the latter is initialized through calls: 'String'</name>
-    <description>A variable was dynamically initialized using an expression that contained a call to a function and that function referenced a variable that was also dynamically initialized but later in the module. For example: int g(void); int f(void); int x = f(); int y = g(); int f() { return y; } The initialization of both x and y are dynamic. The order of dynamic initialization within a module is in the order in which the initialization is specified. Thus when the call is made upon function f() to initialize x, variable y will not yet have been initialized.</description>
+    <description><![CDATA[<p>A variable was dynamically initialized using an expression that contained a call to a function and that function referenced a variable that was also dynamically initialized but later in the module.  For example:</p>
+<pre><tt>
+               int g(void);
+               int f(void);
+               int x = f();
+               int y = g();
+               int f() { return y; }
+</tt></pre>
+<p>The initialization of both x and y are dynamic.  The order of dynamic initialization within a module is in the order in which the initialization is specified.  Thus when the call is made upon function f() to initialize x, variable y will not yet have been initialized.
+</p>]]></description>
   </rule>
   <rule>
     <key>1569</key>
     <configkey>1569</configkey>
     <priority>MAJOR</priority>
     <name>L1569: Initializing a member reference with a temporary.</name>
-    <description>A member reference was initialized with a temporary. For example: struct A { int &amp;n; A() : n(3) {} }; The constructor A() contains an initializer list within which it initializes n. But n will be bound to a temporary created by the compiler to hold the value 3. The lifetime of this temporary is limited; it "persists until the constructor exits" [10 section class.temporary]</description>
+    <description><![CDATA[<p>A member reference was initialized with a temporary.  For example:</p>
+<pre><tt>
+           struct A { int &n;  A() : n(3) {} };
+</tt></pre>
+<p>The constructor A() contains an initializer list within which it initializes n.  But n will be bound to a temporary created by the compiler to hold the value 3.  The lifetime of this temporary is limited; it "persists until the constructor exits" [10 section class.temporary]
+</p>]]></description>
   </rule>
   <rule>
     <key>1570</key>
     <configkey>1570</configkey>
     <priority>MAJOR</priority>
     <name>L1570: Initializing a reference class member with an auto variable 'Symbol'</name>
-    <description>In a constructor initializer, a reference class member is being initialized to bind to an auto variable. Consider: class X { int &amp;n; X(int k) :n(k) {} }; In this example member n is being bound to variable k which, although a parameter, is nonetheless placed into auto storage. But the lifetime of k is only the duration of the call to the constructor, whereas the lifetime of n is the lifetime of the class object constructed.</description>
+    <description><![CDATA[<p>In a constructor initializer, a reference class member is being initialized to bind to an auto variable. Consider:</p>
+<pre><tt>
+           class X { int &n; X(int k) :n(k) {} };
+</tt></pre>
+<p>In this example member n is being bound to variable k which, although a parameter, is nonetheless placed into auto storage. But the lifetime of k is only the duration of the call to the constructor, whereas the lifetime of n is the lifetime of the class object constructed.
+</p>]]></description>
   </rule>
   <rule>
     <key>1571</key>
@@ -6573,22 +7203,59 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1572</configkey>
     <priority>MAJOR</priority>
     <name>L1572: Initializing a static reference variable with an auto variable 'Symbol'</name>
-    <description>A static variable has a lifetime that will exceed that of the auto variable that it has been bound to. Consider void f( int n ) { static int&amp; r = n; ... } The reference r will be permanently bound to an auto variable n. The lifetime of n will not extend beyond the life of the function. On the second and subsequent calls to function f the static variable r will be bound to a non-existent entity.</description>
+    <description><![CDATA[<p>A static variable has a lifetime that will exceed that of the auto variable that it has been bound to.  Consider</p>
+<pre><tt>
+           void f( int n ) { static int& r = n; ... }
+</tt></pre>
+<p>The reference r will be permanently bound to an auto variable n. The lifetime of n will not extend beyond the life of the function.  On the second and subsequent calls to function f the static variable r will be bound to a non-existent entity.
+</p>]]></description>
   </rule>
   <rule>
     <key>1573</key>
     <configkey>1573</configkey>
     <priority>MAJOR</priority>
     <name>L1573: Generic function template 'Symbol' declared in namespace associated with type 'Symbol' (Location)</name>
-    <description>When a class (or union or enum) is declared within a namespace that namespace is said to be associated with the type. A Generic function template is any that has as parameters only intrinsic types or plain template arguments possibly adorned with reference or const or volatile qualification. Consider namespace X { template&lt; class T &gt; void f( int, const T&amp; ); // Generic class A{}; // Warning 1573 } A call to function f that contained an argument of type X::A would, by ADL (Argument Dependent Lookup), need to also consider function X::f even though this function was not in the scope of the call. In the past this has led to strange an unexpected results.
-    Some designers adopt the strategy of embedding the class within a sub namespace and employing a using-declaration to make it available to users of the original namespace. For example: namespace X { template&lt; class T &gt; void f( int, const T&amp; ); // Generic namespace X1 { class A{}; // No Warning } using X1::A; } Now an argument of type X::A will not automatically trigger a consideration of X::f.</description>
+    <description><![CDATA[<p>When a class (or union or enum) is declared within a namespace that namespace is said to be associated with the type.  A Generic function template is any that has as parameters only intrinsic types or plain template arguments possibly adorned with reference or const or volatile qualification.  Consider</p>
+<pre><tt>
+           namespace X
+               {
+               template< class T >
+                   void f( int, const T& );    // Generic
+               class A{};                      // Warning 1573
+               }
+</tt></pre>
+<p>A call to function f that contained an argument of type X::A would, by ADL (Argument Dependent Lookup), need to also consider function X::f even though this function was not in the scope of the call.  In the past this has led to strange an unexpected results.
+
+Some designers adopt the strategy of embedding the class within a sub namespace and employing a using-declaration to make it available to users of the original namespace.  For example:</p>
+<pre><tt>
+           namespace X
+               {
+               template< class T >
+                   void f( int, const T& );    // Generic
+               namespace X1
+                   {
+                   class A{};                  // No Warning
+                   }
+               using X1::A;
+               }
+</tt></pre>
+<p>Now an argument of type X::A will not automatically trigger a consideration of X::f.
+</p>]]></description>
   </rule>
   <rule>
     <key>1574</key>
     <configkey>1574</configkey>
     <priority>MAJOR</priority>
     <name>L1574: Returning the address of an auto variable indirectly through reference variable 'Symbol'</name>
-    <description>Within a function whose return type is reference to some type, a return statement is returning a reference which has been initialized (possibly indirectly) with an auto variable. For example: int &amp;f( int k ) { int &amp;r = k; return r; }</description>
+    <description><![CDATA[
+<p>Within a function whose return type is reference to some type, a return statement is returning a reference which has been initialized (possibly indirectly) with an auto variable.  For example:</p>
+<pre><tt>
+               int &f( int k )
+                   {
+                   int &r = k;
+                   return r;
+                   }
+</tt></pre>]]></description>
   </rule>
   <rule>
     <key>1576</key>
@@ -6619,7 +7286,21 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>1579</configkey>
     <priority>MAJOR</priority>
     <name>L1579: Pointer member 'Symbol' (Location) might have been freed by a separate function but no '-sem(Name,cleanup)' was seen</name>
-    <description>A class data member (whose name and location are indicated in the message) was not directly freed by the class destructor. There was a chance that it was cleared by a separately called member function. If this is the case you may follow the advice given in the message and use a semantic option to inform PC-lint/FlexeLint that the separately called function is in fact a 'cleanup' function. For example: class A { int *p; public: void release_ptrs(); ~A() { release_ptrs(); } }; Here release_ptrs() is presumably serving as a cleanup function for the destructor ~A::A(). To inform PC-lint/FlexeLint of this situation, use the option: -sem( A::release_ptrs, cleanup ) A separate message (Warning 1578) will be issued if the cleanup function fails to clear all pointers. See also Warning 1566.</description>
+    <description><![CDATA[<p>A class data member (whose name and location are indicated in the message) was not directly freed by the class destructor.  There was a chance that it was cleared by a separately called member function.  If this is the case you may follow the advice given in the message and use a semantic option to inform PC-lint/FlexeLint that the separately called function is in fact a 'cleanup' function.  For example:</p>
+<pre><tt>
+               class A {
+                       int *p;
+                   public:
+                       void release_ptrs();
+                       ~A() { release_ptrs(); }
+                       };
+</tt></pre>
+<p>Here release_ptrs() is presumably serving as a cleanup function for the destructor ~A::A().  To inform PC-lint/FlexeLint of this situation, use the option:</p>
+<pre><tt>
+               -sem( A::release_ptrs, cleanup )
+</tt></pre>
+<p>A separate message (Warning 1578) will be issued if the cleanup function fails to clear all pointers.  See also Warning 1566.
+</p>]]></description>
   </rule>
   <rule>
     <key>1701</key>
@@ -8005,23 +8686,25 @@ MISRA 2004 checks, use -misra(2)</p>
     <configkey>9041</configkey>
     <priority>INFO</priority>
     <name>L9041: goto 'Symbol' appears in block 'String' which is not nested in block 'String' which contains the label.</name>
-    <description>It has been deemed safer by some experts that the block (i.e. compound statement) containing the goto should be the same as or nested within the block containing the label.  Thus
-     
+    <description><![CDATA[
+<p>It has been deemed safer by some experts that the block (i.e. compound statement) containing the goto should be the same as or nested within the block containing the label. Thus</p>
+<pre><tt>
            {  label:  {  goto label;  }  }
-     
-       is permitted but
-     
+</tt></pre>
+<p>is permitted but</p>
+<pre><tt>
            {  goto label;  {  label:  }  }
-     
-       is not.  To assist the programmer, the message refers to the blocks using an identification code (Example: "1.2.1").  This identification scheme is defined as follows.
-         (a) The outer block has an identification of 1.
-         (b) If a particular block is identified by x then its immediate subblocks, if any, are identified as x.1, x.2, x.3, etc.
-
-       Thus in the following 'code',
-     
+</tt></pre>
+<p>is not.  To assist the programmer, the message refers to the blocks using an identification code (Example: "1.2.1").  This identification scheme is defined as follows.</p>
+<ul>
+ <li>The outer block has an identification of 1.</li>
+ <li>If a particular block is identified by x then its immediate subblocks, if any, are identified as x.1, x.2, x.3, etc.</li>
+ </ul>
+<p>Thus in the following 'code',</p>
+<pre><tt>
            {  {  }  { { label: } { } } }
-     
-       label: lies in block 1.2.1.</description>
+</tt></pre>
+<p>label: lies in block 1.2.1.</p>]]></description>
   </rule>
   <rule>
     <key>9042</key>
@@ -8365,6 +9048,14 @@ MISRA 2004 checks, use -misra(2)</p>
     <priority>INFO</priority>
     <name>L9090: unconditional break missing from switch case</name>
     <description>A switch case was seen which did not conclude with an unconditional break. Some authors advise against such absences on the grounds they are often errors.</description>
+  </rule>
+  
+  <rule>
+    <key>9091</key>
+    <configkey>9091</configkey>
+    <priority>INFO</priority>
+    <name>L9091: casting from pointer type to integer type</name>
+    <description>A cast of a pointer to an integer type was seen. Since the size of the integer required when a pointer is converted to an integer is implementation defined, some coding guidelines advise against such casts.</description>
   </rule>
 
   <rule>
