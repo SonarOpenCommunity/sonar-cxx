@@ -216,7 +216,7 @@ public class CxxPreprocessor extends Preprocessor {
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '{}'", include);
         if (!include.equals("")) {
-          parseIncludeLine("#include \"" + include + "\"");
+          parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes");
         }
       }
     } finally {
@@ -434,9 +434,9 @@ public class CxxPreprocessor extends Preprocessor {
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
 
-  private void parseIncludeLine(String includeLine) {
+  private void parseIncludeLine(String includeLine, String filename) {
     AstNode includeAst = pplineParser.parse(includeLine);
-    handleIncludeLine(includeAst, includeAst.getToken(), "");
+    handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammar.includeBodyQuoted).getToken(), filename);
   }
 
   PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename) {
