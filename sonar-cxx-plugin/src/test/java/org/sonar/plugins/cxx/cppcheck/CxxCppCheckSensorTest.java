@@ -22,12 +22,13 @@ package org.sonar.plugins.cxx.cppcheck;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
@@ -44,18 +45,20 @@ public class CxxCppCheckSensorTest {
   private SensorContext context;
   private Project project;
   private RulesProfile profile;
-  private RuleFinder ruleFinder;
   private Settings settings;
   private ModuleFileSystem fs;
+  private Issuable issuable;
+  private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    ruleFinder = TestUtils.mockRuleFinder();
+    issuable = TestUtils.mockIssuable();
+    perspectives = TestUtils.mockPerspectives(issuable);
     profile = mock(RulesProfile.class);
     settings = new Settings();
-    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -64,44 +67,44 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(5)).saveViolation(any(Violation.class));
+    verify(issuable, times(5)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldReportProjectLevelViolationsV1() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
-    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(1)).saveViolation(any(Violation.class));
+    verify(issuable, times(1)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldReportProjectLevelViolationsV2() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
-    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(1)).saveViolation(any(Violation.class));
+    verify(issuable, times(1)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
-    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
-    verify(context, times(0)).saveViolation(any(Violation.class));
+    verify(issuable, times(0)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
-    sensor = new CxxCppCheckSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
-    verify(context, times(0)).saveViolation(any(Violation.class));
+    verify(issuable, times(0)).addIssue(any(Issue.class));
   }
 }

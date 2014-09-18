@@ -23,7 +23,10 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.CheckFactory;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.design.Dependency;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -33,7 +36,6 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
-import org.sonar.api.rules.Violation;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.graph.*;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -47,16 +49,18 @@ public class DependencyAnalyzer {
   private Project project;
   private SensorContext context;
   private CheckFactory checkFactory;
+  private ResourcePerspectives perspectives;
 
   private DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<File, FileEdge>();
   private DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<Directory, DirectoryEdge>();
   private HashMap<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
   private Multimap<Directory, File> directoryFiles = HashMultimap.create();
 
-  public DependencyAnalyzer(Project project, SensorContext context, CheckFactory checkFactory) {
+  public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, CheckFactory checkFactory) {
     this.project = project;
     this.context = context;
     this.checkFactory = checkFactory;
+    this.perspectives = perspectives;
   }
 
   public void addFile(File sonarFile, Collection<String> includedFiles) {
@@ -178,13 +182,16 @@ public class DependencyAnalyzer {
       for (FileEdge subEdge : edge.getRootEdges()) {
         Resource fromFile = subEdge.getFrom();
         Resource toFile = subEdge.getTo();
+        Issuable issuable = perspectives.as(Issuable.class, fromFile);
         // If resource cannot be obtained, then silently ignore, because anyway warning will be printed by method addFile
-        if ((fromFile != null) && (toFile != null)) {
-          Violation violation = Violation.create(rule, fromFile)
-              .setMessage("Remove the dependency from file \"" + fromFile.getLongName()
+        if ((issuable != null) && (fromFile != null) && (toFile != null)) {
+          Issue issue = issuable.newIssueBuilder()
+              .ruleKey(rule.getRule().ruleKey())
+              .message("Remove the dependency from file \"" + fromFile.getLongName()
                   + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")
-              .setCost((double) subEdge.getWeight());
-          context.saveViolation(violation);
+              .effortToFix((double) subEdge.getWeight())
+              .build();
+          issuable.addIssue(issue);
         }
       }
     }

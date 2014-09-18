@@ -24,10 +24,10 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -49,9 +49,9 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs,
+  public CxxCppCheckSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs,
       RulesProfile profile) {
-    super(ruleFinder, conf, fs, CxxMetrics.CPPCHECK);
+    super(perspectives, conf, fs, CxxMetrics.CPPCHECK);
     this.profile = profile;
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
