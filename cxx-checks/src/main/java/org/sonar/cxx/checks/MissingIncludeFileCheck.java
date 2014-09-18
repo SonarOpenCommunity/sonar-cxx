@@ -33,8 +33,8 @@ import org.sonar.check.Rule;
 public class MissingIncludeFileCheck extends SquidCheck<Grammar> {
   @Override
   public void leaveFile(AstNode astNode) {
-    for(CxxPreprocessor.MissingInclude missingInclude : CxxParser.getMissingIncludeFiles(getContext().getFile())) {
-      getContext().createLineViolation(this, "Unable to find the source for '" + missingInclude.getDirective() + "'.",
+    for(CxxPreprocessor.Include missingInclude : CxxParser.getMissingIncludeFiles(getContext().getFile())) {
+      getContext().createLineViolation(this, "Unable to find the source for '" + missingInclude.getPath() + "'.",
           missingInclude.getLine());
     }
   }

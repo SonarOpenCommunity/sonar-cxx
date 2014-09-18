@@ -37,6 +37,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
+import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.graph.*;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -64,18 +65,26 @@ public class DependencyAnalyzer {
     this.perspectives = perspectives;
   }
 
-  public void addFile(File sonarFile, Collection<String> includedFiles) {
+  public void addFile(File sonarFile, Collection<CxxPreprocessor.Include> includedFiles) {
     //Store the directory and file
     Directory sonarDir = sonarFile.getParent();
     packagesGraph.addVertex(sonarDir);
     directoryFiles.put(sonarDir, sonarFile);
 
     //Build the dependency graph
-    for (String file : includedFiles) {
-      File includedFile = File.fromIOFile(new java.io.File(file), project);
-      if (includedFile != null) {
+    for (CxxPreprocessor.Include include : includedFiles) {
+      File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project);
+      if (includedFile == null) {
+        CxxUtils.LOG.warn("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
+      }
+      else if (filesGraph.hasEdge(sonarFile, includedFile)) {
+        FileEdge fileEdge = filesGraph.getEdge(sonarFile, includedFile);
+        CxxUtils.LOG.warn("Already created edge from '" + sonarFile.getKey() + "' (line " + include.getLine() + ") to '" + includedFile.getKey() + "'" +
+            ", previous edge from line " + fileEdge.getLine());
+      }
+      else {
         //Add the dependency in the files graph
-        FileEdge fileEdge = new FileEdge(sonarFile, includedFile);
+        FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());
         filesGraph.addEdge(fileEdge);
 
         //Add the dependency in the packages graph, if the directories are different
@@ -88,9 +97,6 @@ public class DependencyAnalyzer {
           }
           edge.addRootEdge(fileEdge);
         }
-      }
-      else {
-        CxxUtils.LOG.warn("Unable to find resource '" + file + "' to create a dependency with '" + sonarFile.getKey() + "'");
       }
     }
   }
@@ -189,6 +195,7 @@ public class DependencyAnalyzer {
         if ((issuable != null) && (fromFile != null) && (toFile != null)) {
           Issue issue = issuable.newIssueBuilder()
               .ruleKey(rule.getRule().ruleKey())
+              .line(subEdge.getLine())
               .message("Remove the dependency from file \"" + fromFile.getLongName()
                   + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")
               .effortToFix((double) subEdge.getWeight())
