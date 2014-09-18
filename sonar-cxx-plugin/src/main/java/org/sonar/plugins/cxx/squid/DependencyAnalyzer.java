@@ -38,6 +38,7 @@ import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.graph.*;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import java.util.Collection;
@@ -175,6 +176,7 @@ public class DependencyAnalyzer {
       // Rule inactive
       return;
     }
+    int violationsCount = 0;
     for (Edge feedbackEdge : feedbackEdges) {
       Directory fromPackage = (Directory) feedbackEdge.getFrom();
       Directory toPackage = (Directory) feedbackEdge.getTo();
@@ -191,10 +193,14 @@ public class DependencyAnalyzer {
                   + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")
               .effortToFix((double) subEdge.getWeight())
               .build();
-          issuable.addIssue(issue);
+          if (issuable.addIssue(issue))
+            violationsCount++;
         }
       }
     }
+    Measure measure = new Measure(CxxMetrics.DEPENDENCIES);
+    measure.setIntValue(violationsCount);
+    context.saveMeasure(measure);
   }
 
   private void saveFileEdge(FileEdge edge, Dependency parent) {
