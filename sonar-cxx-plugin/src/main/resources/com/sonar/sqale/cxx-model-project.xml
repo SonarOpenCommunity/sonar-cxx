@@ -18694,13 +18694,13 @@ immediately cast to the underlying type of the operand.</description>
     </rule>
     <rule key="cppcheckError">
         <name>Internal cppcheck error</name>
-        <requirement>LANGUAGE_RELATED_PORTABILITY</requirement>
-        <remediationFactorVal>1</remediationFactorVal>
-        <remediationFactorUnit>mn</remediationFactorUnit>
-        <remediationFunction>linear</remediationFunction>
+        <requirement>UNDEFINED</requirement>
+        <remediationFactorVal>0.0</remediationFactorVal>
+        <remediationFactorUnit>UNDEFINED</remediationFactorUnit>
+        <remediationFunction>UNDEFINED</remediationFunction>
         <remediationOffsetVal>0.0</remediationOffsetVal>
-        <remediationOffsetUnit>mn</remediationOffsetUnit>
-        <severity>UNDEFINED</severity>
+        <remediationOffsetUnit>UNDEFINED</remediationOffsetUnit>
+        <severity>UNDEFINED</severity>        
         <repo>cppcheck</repo>
         <description>Analysis failed. If the code is valid then please report this
       failure.</description>

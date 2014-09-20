@@ -3292,24 +3292,6 @@
             </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
-                <rule-key>cppcheckError</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>1</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0.0</val>
-                    <txt>mn</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cppcheck</rule-repo>
                 <rule-key>missingInclude</rule-key>
                 <prop>
                     <key>remediationFunction</key>
