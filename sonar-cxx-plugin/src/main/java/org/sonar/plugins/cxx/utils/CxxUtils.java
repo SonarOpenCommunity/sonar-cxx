@@ -61,7 +61,24 @@ public final class CxxUtils {
       return null;
     }
   }
+
+  /**
+   * @return returns case sensitive full path
+   */
+  public static String normalizePathFull(String filename, String baseDir) {
+    String filePath = filename;   
+    File targetfile = new java.io.File(filename);
+    if (targetfile.exists()) {
+      filePath = normalizePath(filename);
+    } else {
+      // RATS, CppCheck and Vera++ provide names like './file.cpp' - add source folder for index check
+      filePath = normalizePath(baseDir + File.separator + filename);
+    }
+    return filePath;
+  }
+
   public static boolean isReactorProject(Project project) {
     return project.isRoot() && !project.getModules().isEmpty();
   }
 }
+

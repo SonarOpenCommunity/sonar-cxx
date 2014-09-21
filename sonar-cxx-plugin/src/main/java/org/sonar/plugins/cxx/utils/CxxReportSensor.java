@@ -99,7 +99,6 @@ public abstract class CxxReportSensor implements Sensor {
         if (reports.isEmpty()) {
           reports = getReports(conf, fs.baseDir().getPath(), reportPathKey(), defaultReportPath());
         }
-
         violationsCount = 0;
 
         for (File report : reports) {
@@ -193,24 +192,23 @@ public abstract class CxxReportSensor implements Sensor {
     boolean add = false;
     Resource resource = null;
     int lineNr = 0;
-
-    if ((filename != null) && (filename.length() > 0)) { // file level
-      String normalPath = CxxUtils.normalizePath(filename);
-      if (normalPath != null) {
-        if (!notFoundFiles.contains(normalPath)) {
-          org.sonar.api.resources.File file
-            = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
-          if (context.getResource(file) != null) {
+    // handles file="" situation -- file level
+    if ((filename != null) && (filename.length() > 0)) {
+      String normalPath = CxxUtils.normalizePathFull(filename, fs.baseDir().getAbsolutePath());
+      if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
+          org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
+              .fromIOFile(new File(normalPath), project);
+          if (context.getResource(sonarFile) != null) {
             lineNr = getLineAsInt(line);
-            resource = file;
+            resource = sonarFile;
             add = true;
           } else {
             CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
             notFoundFiles.add(normalPath);
           }
-        }
       }
-    } else { // project level
+    } else {
+      // project level issue
       resource = project;
       add = true;
     }
