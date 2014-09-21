@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
 import org.sonar.api.resources.Resource;
 
 /**
@@ -197,13 +198,13 @@ public abstract class CxxReportSensor implements Sensor {
     int lineNr = 0;
     // handles file="" situation -- file level
     if ((filename != null) && (filename.length() > 0)) {
-      String normalPath = CxxUtils.getCaseSensitiveFileName(filename, fs);
+      String normalPath = CxxUtils.normalizePathList(filename, fs.baseDir().getAbsolutePath());
       if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
           org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
               .fromIOFile(new File(normalPath), project);
           if (sonarFile == null) {
             // support SQ<4.2
-            sonarFile = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project.getFileSystem().getTestDirs());
+            sonarFile = org.sonar.api.resources.File.fromIOFile(new File(normalPath), fs.testDirs());
           }
           if (context.getResource(sonarFile) != null) {
             lineNr = getLineAsInt(line);

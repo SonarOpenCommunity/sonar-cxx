@@ -20,12 +20,9 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.resources.Project;
 
 
@@ -69,33 +66,16 @@ public final class CxxUtils {
   /**
    * @return returns case sensitive full path
    */
-  public static String getCaseSensitiveFileName(String filename, ModuleFileSystem fs) {
+  public static String normalizePathList(String filename, String baseDir) {
+    String filePath = filename;   
     File targetfile = new java.io.File(filename);
-    String filePath = filename;
     if (targetfile.exists()) {
       filePath = normalizePath(filename);
     } else {
       // RATS, CppCheck and Vera++ provide names like './file.cpp' - add source folder for index check
-      filePath = resolveFileName(filename, fs.sourceDirs());
-    }
-    if (filePath == null) {
-      filePath = filename;
+      filePath = normalizePath(baseDir + File.separator + filename);
     }
     return filePath;
-  }
-
-  private static String resolveFileName(String file, List<java.io.File> searchDirs) {
-    String targetfile = null;
-    Iterator<java.io.File> iterator = searchDirs.iterator();
-    while (iterator.hasNext()) {
-      File sourcefile = new java.io.File(iterator.next().getPath() + java.io.File.separatorChar + file);
-      if (sourcefile.exists()) {
-        targetfile = normalizePath(sourcefile.getAbsolutePath());
-        break;
-      }
-    }
-   
-    return targetfile;  
   }
 
   public static boolean isReactorProject(Project project) {
