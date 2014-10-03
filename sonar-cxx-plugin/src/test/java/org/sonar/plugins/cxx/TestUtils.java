@@ -75,22 +75,6 @@ public class TestUtils {
   }
 
   /**
-   * @return  default mock project
-   */
-  public static Project mockCoberturaCoverageProject() {
-    List<File> empty = new ArrayList<File>();
-    return mockProject(loadResource("/org/sonar/plugins/cxx/reports-project/cobertura"), empty, empty);
-  }
-  
-  /**
-   * @return  default mock project
-   */
-  public static Project mockBullseyeCoverageProject() {
-    List<File> empty = new ArrayList<File>();
-    return mockProject(loadResource("/org/sonar/plugins/cxx/reports-project/bullseye"), empty, empty);
-  }  
-  
-  /**
    * Mock project
    * @param baseDir project base dir
    * @param sourceFiles project source files
