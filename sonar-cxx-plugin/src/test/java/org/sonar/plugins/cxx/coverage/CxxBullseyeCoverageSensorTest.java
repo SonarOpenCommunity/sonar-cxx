@@ -70,7 +70,7 @@ public class CxxBullseyeCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs);
     
     sensor.analyse(project, context);
-    verify(context, times(94)).saveMeasure((File) anyObject(), any(Measure.class));
+    verify(context, times(28)).saveMeasure((File) anyObject(), any(Measure.class));
   }
   
     @Test
@@ -80,7 +80,7 @@ public class CxxBullseyeCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs);
     
     sensor.analyse(project, context);
-    verify(context, times(94)).saveMeasure((File) anyObject(), any(Measure.class));
+    verify(context, times(28)).saveMeasure((File) anyObject(), any(Measure.class));
   }
 
 }
