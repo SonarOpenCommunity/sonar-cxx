@@ -36,7 +36,46 @@ public final class StandardDefinitions {
       .put("__TIME__", "\"??:??:??\"")     // indicates 'time unknown'. should suffice
       .put("__STDC__", "1")
       .put("__STDC_HOSTED__", "1")
-      .put("__cplusplus", "1")
+      .put("__cplusplus", "201103L")
+      .build();
+  }
+
+  public static Map<String, String> compatibilityMacros(){
+    // This is a collection of macros used to let C code be parsed by C++ parser
+    return ImmutableMap.<String, String>builder()
+      .put("alignas", "__alignas")
+      .put("alignof", "__alignof")
+      .put("catch", "__catch")
+      .put("class", "__class")
+      .put("constexpr", "__constexpr")
+      .put("const_cast", "__const_cast")
+      .put("decltype", "__decltype")
+      .put("delete", "__delete")
+      .put("dynamic_cast", "__dynamic_cast")
+      .put("explicit", "__explicit")
+      .put("export", "__export")
+      .put("friend", "__friend")
+      .put("mutable", "__mutable")
+      .put("namespace", "__namespace")
+      .put("new", "__new")
+      .put("noexcept", "__noexcept")
+      .put("nullptr", "__nullptr")
+      .put("operator", "__operator")
+      .put("override", "__override")
+      .put("private", "__private")
+      .put("protected", "__protected")
+      .put("public", "__public")
+      .put("reinterpret_cast", "__reinterpret_cast")
+      .put("static_assert", "__static_assert")
+      .put("static_cast", "__static_cast")
+      .put("thread_local", "__thread_local")
+      .put("throw", "__throw")
+      .put("try", "__try")
+      .put("typeid", "__typeid")
+      .put("typename", "__typename")
+      .put("using", "__using")
+      .put("template", "__template")
+      .put("virtual", "__virtual")
       .build();
   }
 }

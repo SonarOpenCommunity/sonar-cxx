@@ -41,6 +41,7 @@ import org.sonar.cxx.lexer.CxxLexer;
 import java.io.File;
 import java.util.*;
 
+import static org.apache.commons.io.FilenameUtils.wildcardMatchOnSystem;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
@@ -114,6 +115,7 @@ public class CxxPreprocessor extends Preprocessor {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
+  private List<String> cFilesPatterns;
 
   public static class Include {
     private int line;
@@ -167,11 +169,31 @@ public class CxxPreprocessor extends Preprocessor {
     this(context, conf, new SourceCodeProvider());
   }
 
+  private void registerMacros(Map<String,String> standardMacros) {
+    for (Map.Entry<String, String> entry : standardMacros.entrySet()) {
+      Token bodyToken;
+      try {
+        bodyToken = Token.builder()
+            .setLine(1)
+            .setColumn(0)
+            .setURI(new java.net.URI(""))
+            .setValueAndOriginalValue(entry.getValue())
+            .setType(STRING)
+            .build();
+      } catch (java.net.URISyntaxException e) {
+        throw new RuntimeException(e);
+      }
+
+      macros.put(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken), false));
+    }
+  }
+
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context,
     CxxConfiguration conf,
     SourceCodeProvider sourceCodeProvider) {
     this.context = context;
     this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
+    this.cFilesPatterns = conf.getCFilesPatterns();
 
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
@@ -194,22 +216,7 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       // set standard macros
-      for (Map.Entry<String, String> entry : StandardDefinitions.macros().entrySet()) {
-        Token bodyToken;
-        try {
-          bodyToken = Token.builder()
-            .setLine(1)
-            .setColumn(0)
-            .setURI(new java.net.URI(""))
-            .setValueAndOriginalValue(entry.getValue())
-            .setType(STRING)
-            .build();
-        } catch (java.net.URISyntaxException e) {
-          throw new RuntimeException(e);
-        }
-
-        macros.put(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken), false));
-      }
+      registerMacros(StandardDefinitions.macros());
 
       // parse the configured force includes and store into the macro library
       for (String include : conf.getForceIncludeFiles()) {
@@ -231,12 +238,36 @@ public class CxxPreprocessor extends Preprocessor {
     return missingIncludeFiles.get(file.getPath());
   }
 
+  private boolean isCFile(String filePath) {
+    for (String pattern : cFilesPatterns) {
+      if (wildcardMatchOnSystem(filePath, pattern)) {
+        LOG.trace("Parse '{}' as C file, matches '{}' pattern", filePath, pattern);
+        return true;
+      }
+    }
+    LOG.trace("Parse '{}' as C++ file", filePath);
+    return false;
+  }
+
+  private File currentContextFile = null;
+
   @Override
   public PreprocessorAction process(List<Token> tokens) {
     Token token = tokens.get(0);
     TokenType ttype = token.getType();
     File file = getFileUnderAnalysis();
     String filePath = file == null ? token.getURI().toString() : file.getAbsolutePath();
+
+    if (context.getFile() != currentContextFile) {
+      currentContextFile = context.getFile();
+      if (isCFile(currentContextFile.getAbsolutePath())) {
+        //Create macros to replace C++ keywords when parsing C files
+        registerMacros(StandardDefinitions.compatibilityMacros());
+        macros.disable("__cplusplus");
+      } else {
+        macros.enable("__cplusplus");
+      }
+    }
 
     if (ttype == PREPROCESSOR) {
 
@@ -304,6 +335,7 @@ public class CxxPreprocessor extends Preprocessor {
     analysedFiles.clear();
     macros.clearLowPrio();
     state.reset();
+    currentContextFile = null;
   }
 
   public String valueOf(String macroname) {
