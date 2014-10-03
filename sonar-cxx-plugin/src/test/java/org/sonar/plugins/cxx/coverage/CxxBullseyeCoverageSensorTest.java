@@ -36,7 +36,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class CxxCoverageSensorTest {
+public class CxxBullseyeCoverageSensorTest {
   private CxxCoverageSensor sensor;
   private SensorContext context;
   private Project project;
@@ -46,7 +46,6 @@ public class CxxCoverageSensorTest {
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxCoverageSensor(new Settings(), fs);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -54,23 +53,34 @@ public class CxxCoverageSensorTest {
 
   @Test
   public void shouldReportCorrectCoverage() {
-    sensor.analyse(project, context);
-    verify(context, times(113)).saveMeasure((File) anyObject(), any(Measure.class));
-  }
-
-  @Test
-  public void shouldReportNoCoverageSaved() {
-    when(context.getResource((File) anyObject())).thenReturn(null);
-    sensor.analyse(project, context);
-    verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
-  }
-
-  @Test
-  public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     Settings settings = new Settings();
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura-bignumberofhits.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
+    settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
+    settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
     sensor = new CxxCoverageSensor(settings, fs);
-
+    
     sensor.analyse(project, context);
-  }  
+    verify(context, times(90)).saveMeasure((File) anyObject(), any(Measure.class));
+  }
+  
+  @Test
+  public void shoulParseTopLevelFiles() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node.xml");
+    sensor = new CxxCoverageSensor(settings, fs);
+    
+    sensor.analyse(project, context);
+    verify(context, times(94)).saveMeasure((File) anyObject(), any(Measure.class));
+  }
+  
+    @Test
+  public void shoulCorrectlyHandleDriveLettersWithoutSlash() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash.xml");
+    sensor = new CxxCoverageSensor(settings, fs);
+    
+    sensor.analyse(project, context);
+    verify(context, times(94)).saveMeasure((File) anyObject(), any(Measure.class));
+  }
+
 }
