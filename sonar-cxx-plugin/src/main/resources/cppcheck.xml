@@ -304,7 +304,7 @@
     <configkey>mismatchSize</configkey>
     <name>The given size is mismatching</name>
     <description>
-      The given size is mismatching.
+      The allocated size is not a multiple of the underlying type&apos;s size.
     </description>
   </rule>
   <rule>
@@ -972,7 +972,7 @@
     <configkey>wrongmathcall</configkey>
     <name>Passing value to () leads to undefined result</name>
     <description>
-      Passing value to () leads to undefined result.
+      Passing value to () leads to implementation-defined result.
     </description>
   </rule>
   <rule>
@@ -980,8 +980,7 @@
     <configkey>fflushOnInputStream</configkey>
     <name>fflush() called on input stream "stdin" may result in undefined behavior</name>
     <description>
-      fflush() called on input stream "stdin" may result in undefined
-      behavior.
+      fflush() called on input stream "stdin" may result in undefined behavior on non-linux systems.
     </description>
   </rule>
   <rule>
@@ -2377,7 +2376,7 @@
       Effectless function parameter assignment.
     </name>
     <description>
-      Assignment of function parameter has no effect outside the function.
+      Assignment of function parameter has no effect outside the function. Did you forget dereferencing it?
     </description>
   </rule>
 
@@ -2692,6 +2691,143 @@
     <description>
       The function 'asctime' is obsolete. It is recommended to use
       the function 'strftime' instead.
+    </description>
+  </rule>
+    <!-- ########### New in cppcheck 1.67 ########### -->
+  <rule>
+    <key>deadpointer</key>
+    <configkey>deadpointer</configkey>
+    <name>Dead pointer usage</name>
+    <description>
+      Pointer &apos;pointer&apos; is dead if it has been assigned &apos;&amp;x&apos; at line 0.
+    </description>
+  </rule>
+  <rule>
+    <key>ignoredReturnValue</key>
+    <configkey>ignoredReturnValue</configkey>
+    <name>Return value of  malloc() not used</name>
+    <description>
+      Return value of function malloc() is not used.
+    </description>
+  </rule>
+  <rule>
+    <key>integerOverflow</key>
+    <configkey>integerOverflow</configkey>
+    <name>Signed integer overflow for expression</name>
+    <description>
+      Signed integer overflow for expression.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidscanf_libc</key>
+    <configkey>invalidscanf_libc</configkey>
+    <name>scanf without field width limits can crash</name>
+    <description>
+      scanf without field width limits can crash with huge input data on some versions of libc.
+    </description>
+  </rule>
+  <rule>
+    <key>memsetClassFloat</key>
+    <configkey>memsetClassFloat</configkey>
+    <name>memset is used on class which contains a floating point number</name>
+    <description>
+      Using memset() on class which contains a floating point number.
+    </description>
+  </rule>
+  <rule>
+    <key>memsetClassReference</key>
+    <configkey>memsetClassReference</configkey>
+    <name>Using memory function on class that contains references</name>
+    <description>
+      Using &apos;memfunc&apos; on class that contains a reference.
+    </description>
+  </rule>
+  <rule>
+    <key>selfInitialization</key>
+    <configkey>selfInitialization</configkey>
+    <name>Member variable is initialized by itself.</name>
+    <description>
+      Member variable &apos;var&apos; is initialized by itself.
+    </description>
+  </rule>
+  <rule>
+    <key>shiftTooManyBits</key>
+    <configkey>shiftTooManyBits</configkey>
+    <name>Shifting 32-bit value by 64 bits is undefined behaviour</name>
+    <description>
+      Shifting 32-bit value by 64 bits is undefined behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>signConversion</key>
+    <configkey>signConversion</configkey>
+    <name>Suspicious sign conversion of var in calculation</name>
+    <description>
+      Suspicious code: sign conversion of var in calculation, even though var can have a negative value.
+    </description>
+  </rule>
+  <rule>
+    <key>sizeofDivisionMemfunc</key>
+    <configkey>sizeofDivisionMemfunc</configkey>
+    <name>Suspicious calculation of memset() bytes size</name>
+    <description>
+      Division by result of sizeof(). memset() expects a size in bytes, did you intend to multiply instead?
+    </description>
+  </rule>
+  <rule>
+    <key>unpreciseMathCall</key>
+    <configkey>unpreciseMathCall</configkey>
+    <name>Avoid loss of precision for expression</name>
+    <description>
+      Expression &apos;1 - erf(x)&apos; can be replaced by &apos;erfc(x)&apos; to avoid loss of precision.
+    </description>
+  </rule>
+  <rule>
+    <key>uselessAssignmentArg</key>
+    <configkey>uselessAssignmentArg</configkey>
+    <name>Assignment of function parameter has no effect outside the function</name>
+    <description>
+      Assignment of function parameter has no effect outside the function.
+    </description>
+  </rule>
+  <rule>
+    <key>va_end_missing</key>
+    <configkey>va_end_missing</configkey>
+    <name>va_list not closed by va_end()</name>
+    <description>
+      va_list &apos;vl&apos; was opened but not closed by va_end().
+    </description>
+  </rule>
+  <rule>
+    <key>va_list_usedBeforeStarted</key>
+    <configkey>va_list_usedBeforeStarted</configkey>
+    <name>va_list used before va_start() call</name>
+    <description>
+      va_list &apos;vl&apos; used before va_start() was called.
+    </description>
+  </rule>
+  <rule>
+    <key>va_start_referencePassed</key>
+    <configkey>va_start_referencePassed</configkey>
+    <name>Using reference as parameter for va_start() is undefined behaviour</name>
+    <description>
+      Using reference &apos;arg1&apos; as parameter for va_start() results in undefined behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>va_start_subsequentCalls</key>
+    <configkey>va_start_subsequentCalls</configkey>
+    <name>va_start() or va_copy() called without va_end() inbetween</name>
+    <description>
+      va_start() or va_copy() called subsequently on &apos;vl&apos; without va_end() inbetween.
+    </description>
+  </rule>
+  <rule>
+    <key>va_start_wrongParameter</key>
+    <configkey>va_start_wrongParameter</configkey>
+    <name>Given argument to va_start() is not last one</name>
+    <description>
+      &apos;arg1&apos; given to va_start() is not last named argument of the function. Did you intend to pass &apos;arg2&apos;?.
     </description>
   </rule>
 </rules>
