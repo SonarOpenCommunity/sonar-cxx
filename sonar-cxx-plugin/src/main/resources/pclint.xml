@@ -6261,7 +6261,7 @@ Note that the Microsoft compiler implements this extension. For that reason, the
     <key>1112</key>
     <configkey>1112</configkey>
     <priority>CRITICAL</priority>
-    <name>L1112: In a declaration, the form 'auto D(parms)-&gt;type' is the only valid way to use a trailing-return-type</name>
+    <name>L1111: In a declaration, the form 'auto D(parms)-&gt;type' is the only valid way to use a trailing-return-type</name>
     <description><![CDATA[
 <p>In a declaration, the form 'auto D(parms)->type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type -- For example, if you want to declare that f returns a pointer-to-int, you must write:</p>
 <pre><tt>
