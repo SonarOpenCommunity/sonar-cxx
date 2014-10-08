@@ -9055,7 +9055,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9091</configkey>
     <priority>INFO</priority>
     <name>L9091: casting from pointer type to integer type</name>
-    <description>casting from pointer type to integer type [MISRA C++ Rule 5-2-9].</description>
+    <description>A cast of a pointer to an integer type was seen. Since the size of the integer required when a pointer is converted to an integer is implementation defined, some coding guidelines advise against such casts.</description>
   </rule>
 
   <rule>
