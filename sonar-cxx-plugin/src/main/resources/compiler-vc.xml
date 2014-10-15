@@ -3854,6 +3854,15 @@
     </description>
   </rule>
   <rule>
+    <key>C4806</key>
+    <configkey>C4806</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4806: 'operation' : unsafe operation: no value of type 'type' promoted to type 'type' can equal the given constant</name>
+    <description>
+      This message warns against code such as b == 3, where b has type bool. The promotion rules cause bool to be promoted to int. This is legal, but it can never be true. The following sample generates C4806.
+    </description>
+  </rule>
+  <rule>
     <key>C4815</key>
     <configkey>C4815</configkey>
     <priority>CRITICAL</priority>
