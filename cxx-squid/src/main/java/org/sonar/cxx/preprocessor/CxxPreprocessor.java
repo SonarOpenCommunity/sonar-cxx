@@ -695,6 +695,22 @@ public class CxxPreprocessor extends Preprocessor {
         if (index == -1) {
           newTokens.add(curr);
         }
+        else if (index == arguments.size()) {
+          // EXTENSION: GCC's special meaning of token paste operator
+          // If variable argument is left out then the comma before the paste operator will be deleted
+          int j = i;
+          while(j > 0 && body.get(j - 1).getType() == WS)
+            j--;
+          if (j == 0 || !body.get(--j).getValue().equals("##"))
+            continue;
+          int k = j;
+          while(j > 0 && body.get(j - 1).getType() == WS)
+            j--;
+          if (j > 0 && body.get(j - 1).getValue().equals(",")) {
+            newTokens.remove(newTokens.size() - 1 + j - i); //remove the comma
+            newTokens.remove(newTokens.size() - 1 + k - i); //remove the paste operator
+          }
+        }
         else if (index < arguments.size()) {
           Token replacement = arguments.get(index);
 

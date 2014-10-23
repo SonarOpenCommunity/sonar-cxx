@@ -160,12 +160,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
     //   + "eprintf(\"success!\");"))
     //   .equals("fprintf ( stderr , \"success!\" , ) ; EOF"));
 
-//    @todo
-//    // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
-//    assert (serialize(p.parse(
-//      "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
-//      + "eprintf(\"success!\");"))
-//      .equals("fprintf ( stderr , \"success!\" ) ; EOF"));
+    // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
+    assert (serialize(p.parse(
+      "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
+      + "eprintf(\"success!\");"))
+      .equals("fprintf ( stderr , \"success!\" ) ; EOF"));
   }
 
   @Test
