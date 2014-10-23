@@ -111,7 +111,7 @@ public enum CppGrammar implements GrammarRuleKey {
 
     b.setRootRule(preprocessorLine);
 
-    return b.build();
+    return b.buildWithMemoizationOfMatchesForAllRules();
   }
 
 

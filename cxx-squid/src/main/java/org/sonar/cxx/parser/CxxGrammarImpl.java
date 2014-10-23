@@ -294,7 +294,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.setRootRule(translationUnit);
 
-    return b.build();
+    return b.buildWithMemoizationOfMatchesForAllRules();
   }
 
 
