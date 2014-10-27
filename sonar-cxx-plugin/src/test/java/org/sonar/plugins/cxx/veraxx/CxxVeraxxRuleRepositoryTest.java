@@ -34,6 +34,6 @@ public class CxxVeraxxRuleRepositoryTest {
     CxxVeraxxRuleRepository rulerep = new CxxVeraxxRuleRepository(
         mock(ServerFileSystem.class),
         new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(27);
+    assertThat(rulerep.createRules()).hasSize(28);
   }
 }
