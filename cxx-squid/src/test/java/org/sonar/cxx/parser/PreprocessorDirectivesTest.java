@@ -153,6 +153,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "eprintf(\"%s:%d: \", input_file, lineno);"))
       .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
 
+    assert (serialize(p.parse(
+        "#define eprintf(format, args...) fprintf (stderr, format, args)\n"
+            + "eprintf(\"%s:%d: \", input_file, lineno);"))
+        .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
+
     // FIXME: can this actually be swallowed by GCC?? My experiments showed the opposite, so far...
     // GNU CPP: Vou are allowed to leave the variable argument out entirely
     // assert (serialize(p.parse(
