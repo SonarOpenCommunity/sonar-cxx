@@ -19,23 +19,42 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.api.checks.CheckFactory;
+import org.sonar.api.rules.ActiveRule;
 import org.sonar.check.Priority;
-import org.sonar.cxx.parser.CxxParser;
-import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.check.Rule;
 
-@Rule(
-    key = "MissingInclude",
-    priority = Priority.INFO)
-public class MissingIncludeFileCheck extends SquidCheck<Grammar> {
-  @Override
-  public void leaveFile(AstNode astNode) {
-    for(CxxPreprocessor.Include missingInclude : CxxParser.getMissingIncludeFiles(getContext().getFile())) {
-      getContext().createLineViolation(this, "Unable to find the source for '" + missingInclude.getPath() + "'.",
-          missingInclude.getLine());
+import javax.annotation.CheckForNull;
+
+/**
+ * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which actually does the job of finding duplicated
+ * includes
+ */
+@Rule(key = DuplicatedIncludeCheck.RULE_KEY,
+    priority = Priority.MAJOR)
+
+public class DuplicatedIncludeCheck extends SquidCheck<Grammar> {
+
+  public static final String RULE_KEY = "DuplicatedInclude";
+
+  /**
+   * @return null, if this check is inactive
+   */
+  @CheckForNull
+  public static ActiveRule getActiveRule(CheckFactory checkFactory) {
+    for (Object check : checkFactory.getChecks()) {
+      if (DuplicatedIncludeCheck.class.equals(check.getClass())) {
+        return checkFactory.getActiveRule(check);
+      }
     }
+    return null;
   }
+
+  @Override
+  public String toString() {
+    return RULE_KEY + " rule";
+  }
+
 }

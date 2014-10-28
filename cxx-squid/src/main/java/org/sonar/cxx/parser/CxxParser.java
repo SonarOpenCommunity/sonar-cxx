@@ -44,11 +44,11 @@ public final class CxxParser {
     cxxpp.finishedPreprocessing(path);
   }
 
-  public static Collection<String> getIncludedFiles(File path) {
+  public static Collection<CxxPreprocessor.Include> getIncludedFiles(File path) {
     return cxxpp.getIncludedFiles(path);
   }
   
-  public static Collection<CxxPreprocessor.MissingInclude> getMissingIncludeFiles(File path) {
+  public static Collection<CxxPreprocessor.Include> getMissingIncludeFiles(File path) {
     return cxxpp.getMissingIncludeFiles(path);
   }
   

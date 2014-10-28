@@ -22,10 +22,15 @@ package org.sonar.plugins.cxx;
 import org.apache.commons.configuration.Configuration;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.CoreProperties;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
+import org.sonar.api.resources.Resource;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.RuleQuery;
@@ -45,13 +50,22 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestUtils {
-  public static RuleFinder mockRuleFinder() {
-    Rule ruleMock = Rule.create("", "", "");
-    RuleFinder ruleFinder = mock(RuleFinder.class);
-    when(ruleFinder.findByKey((String) anyObject(),
-        (String) anyObject())).thenReturn(ruleMock);
-    when(ruleFinder.find((RuleQuery) anyObject())).thenReturn(ruleMock);
-    return ruleFinder;
+  public static Issuable mockIssuable() {
+    Issue issue = mock(Issue.class);
+    Issuable.IssueBuilder issueBuilder = mock(Issuable.IssueBuilder.class);
+    when(issueBuilder.build()).thenReturn(issue);
+    when(issueBuilder.ruleKey((RuleKey)anyObject())).thenReturn(issueBuilder);
+    when(issueBuilder.line((Integer)anyObject())).thenReturn(issueBuilder);
+    when(issueBuilder.message((String)anyObject())).thenReturn(issueBuilder);
+    Issuable issuable = mock(Issuable.class);
+    when(issuable.newIssueBuilder()).thenReturn(issueBuilder);
+    return issuable;
+  }
+
+  public static ResourcePerspectives mockPerspectives(Issuable issuable) {
+    ResourcePerspectives perspectives = mock(ResourcePerspectives.class);
+    when(perspectives.as((Class) anyObject(), (Resource) anyObject())).thenReturn(issuable);
+    return perspectives;
   }
 
   public static File loadResource(String resourceName) {
@@ -77,7 +91,8 @@ public class TestUtils {
   /**
    * Mock project
    * @param baseDir project base dir
-   * @param sourceFiles project source files
+   * @param sourceDirs project source files
+   * @param testDirs project test files
    * @return  mocked project
    */
   public static Project mockProject(File baseDir, List<File> sourceDirs, List<File> testDirs) {

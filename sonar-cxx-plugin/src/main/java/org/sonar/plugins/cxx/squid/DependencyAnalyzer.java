@@ -23,7 +23,10 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.CheckFactory;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.design.Dependency;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
@@ -33,9 +36,11 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rules.ActiveRule;
-import org.sonar.api.rules.Violation;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
+import org.sonar.cxx.checks.DuplicatedIncludeCheck;
+import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.graph.*;
+import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import java.util.Collection;
@@ -47,30 +52,57 @@ public class DependencyAnalyzer {
   private Project project;
   private SensorContext context;
   private CheckFactory checkFactory;
+  private ResourcePerspectives perspectives;
+  private int violationsCount;
+  private ActiveRule duplicateIncludeRule;
 
   private DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<File, FileEdge>();
   private DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<Directory, DirectoryEdge>();
   private HashMap<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
   private Multimap<Directory, File> directoryFiles = HashMultimap.create();
 
-  public DependencyAnalyzer(Project project, SensorContext context, CheckFactory checkFactory) {
+  public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, CheckFactory checkFactory) {
     this.project = project;
     this.context = context;
     this.checkFactory = checkFactory;
+    this.perspectives = perspectives;
+
+    this.violationsCount = 0;
+    this.duplicateIncludeRule = DuplicatedIncludeCheck.getActiveRule(checkFactory);
   }
 
-  public void addFile(File sonarFile, Collection<String> includedFiles) {
+  public void addFile(File sonarFile, Collection<CxxPreprocessor.Include> includedFiles) {
     //Store the directory and file
     Directory sonarDir = sonarFile.getParent();
     packagesGraph.addVertex(sonarDir);
     directoryFiles.put(sonarDir, sonarFile);
 
     //Build the dependency graph
-    for (String file : includedFiles) {
-      File includedFile = File.fromIOFile(new java.io.File(file), project);
-      if (includedFile != null) {
+    for (CxxPreprocessor.Include include : includedFiles) {
+      File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project);
+      if (includedFile == null) {
+        CxxUtils.LOG.warn("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
+      }
+      else if (filesGraph.hasEdge(sonarFile, includedFile)) {
+        FileEdge fileEdge = filesGraph.getEdge(sonarFile, includedFile);
+        Issuable issuable = perspectives.as(Issuable.class, sonarFile);
+        if ((issuable != null) && (duplicateIncludeRule != null)) {
+          Issue issue = issuable.newIssueBuilder()
+              .ruleKey(duplicateIncludeRule.getRule().ruleKey())
+              .line(include.getLine())
+              .message("Remove duplicated include, \"" + includedFile.getLongName() + "\" is already included at line " + fileEdge.getLine() + ".")
+              .build();
+          if (issuable.addIssue(issue))
+            violationsCount++;
+        }
+        else {
+          CxxUtils.LOG.warn("Already created edge from '" + sonarFile.getKey() + "' (line " + include.getLine() + ") to '" + includedFile.getKey() + "'" +
+              ", previous edge from line " + fileEdge.getLine());
+        }
+      }
+      else {
         //Add the dependency in the files graph
-        FileEdge fileEdge = new FileEdge(sonarFile, includedFile);
+        FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());
         filesGraph.addEdge(fileEdge);
 
         //Add the dependency in the packages graph, if the directories are different
@@ -83,9 +115,6 @@ public class DependencyAnalyzer {
           }
           edge.addRootEdge(fileEdge);
         }
-      }
-      else {
-        CxxUtils.LOG.warn("Unable to find resource '" + file + "' to create a dependency with '" + sonarFile.getKey() + "'");
       }
     }
   }
@@ -166,27 +195,35 @@ public class DependencyAnalyzer {
   }
 
   private void saveViolations(Set<Edge> feedbackEdges, DirectedGraph<Directory, DirectoryEdge> packagesGraph) {
-    ActiveRule rule = CycleBetweenPackagesCheck.getActiveRule(checkFactory);
-    if (rule == null) {
-      // Rule inactive
-      return;
-    }
-    for (Edge feedbackEdge : feedbackEdges) {
-      Directory fromPackage = (Directory) feedbackEdge.getFrom();
-      Directory toPackage = (Directory) feedbackEdge.getTo();
-      DirectoryEdge edge = packagesGraph.getEdge(fromPackage, toPackage);
-      for (FileEdge subEdge : edge.getRootEdges()) {
-        Resource fromFile = subEdge.getFrom();
-        Resource toFile = subEdge.getTo();
-        // If resource cannot be obtained, then silently ignore, because anyway warning will be printed by method addFile
-        if ((fromFile != null) && (toFile != null)) {
-          Violation violation = Violation.create(rule, fromFile)
-              .setMessage("Remove the dependency from file \"" + fromFile.getLongName()
-                  + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")
-              .setCost((double) subEdge.getWeight());
-          context.saveViolation(violation);
+    ActiveRule cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(checkFactory);
+    if (cycleBetweenPackagesRule != null) {
+      for (Edge feedbackEdge : feedbackEdges) {
+        Directory fromPackage = (Directory) feedbackEdge.getFrom();
+        Directory toPackage = (Directory) feedbackEdge.getTo();
+        DirectoryEdge edge = packagesGraph.getEdge(fromPackage, toPackage);
+        for (FileEdge subEdge : edge.getRootEdges()) {
+          Resource fromFile = subEdge.getFrom();
+          Resource toFile = subEdge.getTo();
+          Issuable issuable = perspectives.as(Issuable.class, fromFile);
+          // If resource cannot be obtained, then silently ignore, because anyway warning will be printed by method addFile
+          if ((issuable != null) && (fromFile != null) && (toFile != null)) {
+            Issue issue = issuable.newIssueBuilder()
+                .ruleKey(cycleBetweenPackagesRule.getRule().ruleKey())
+                .line(subEdge.getLine())
+                .message("Remove the dependency from file \"" + fromFile.getLongName()
+                    + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")
+                .effortToFix((double) subEdge.getWeight())
+                .build();
+            if (issuable.addIssue(issue))
+              violationsCount++;
+          }
         }
       }
+    }
+    if (cycleBetweenPackagesRule != null || duplicateIncludeRule != null) {
+      Measure measure = new Measure(CxxMetrics.DEPENDENCIES);
+      measure.setIntValue(violationsCount);
+      context.saveMeasure(measure);
     }
   }
 

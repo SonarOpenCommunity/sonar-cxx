@@ -22,12 +22,13 @@ package org.sonar.plugins.cxx.externalrules;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
@@ -44,15 +45,17 @@ public class CxxExternalRulesSensorTest {
   private CxxExternalRulesSensor sensor;
   private SensorContext context;
   private Project project;
-  private RuleFinder ruleFinder;
   private RulesProfile profile;
   private Settings settings;
   private ModuleFileSystem fs;
+  private Issuable issuable;
+  private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    ruleFinder = TestUtils.mockRuleFinder();
+    issuable = TestUtils.mockIssuable();
+    perspectives = TestUtils.mockPerspectives(issuable);
     fs = TestUtils.mockFileSystem();
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
@@ -64,51 +67,51 @@ public class CxxExternalRulesSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(2)).saveViolation(any(Violation.class));
+    verify(issuable, times(2)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldReportFileLevelViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-filelevelviolation.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(1)).saveViolation(any(Violation.class));
+    verify(issuable, times(1)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldReportProjectLevelViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-projectlevelviolation.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(1)).saveViolation(any(Violation.class));
+    verify(issuable, times(1)).addIssue(any(Issue.class));
   }
 
   @Test(expected = SonarException.class)
   public void shouldThrowExceptionWhenReportEmpty() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(0)).saveViolation(any(Violation.class));
+    verify(issuable, times(0)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldReportNoViolationsIfNoReportFound() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(0)).saveViolation(any(Violation.class));
+    verify(issuable, times(0)).addIssue(any(Issue.class));
   }
 
   @Test(expected = SonarException.class)
   public void shouldThrowInCaseOfATrashyReport() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
   }
 
@@ -116,8 +119,8 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
-    sensor = new CxxExternalRulesSensor(ruleFinder, settings, fs, profile);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(context, times(1)).saveViolation(any(Violation.class));
+    verify(issuable, times(1)).addIssue(any(Issue.class));
   }
 }

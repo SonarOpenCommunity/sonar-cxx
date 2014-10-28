@@ -22,16 +22,14 @@ package org.sonar.plugins.cxx.veraxx;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import java.io.File;
-import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
@@ -45,13 +43,16 @@ public class CxxVeraxxSensorTest {
   private SensorContext context;
   private Project project;
   private ModuleFileSystem fs;
+  private Issuable issuable;
+  private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    RuleFinder ruleFinder = TestUtils.mockRuleFinder();
-    sensor = new CxxVeraxxSensor(ruleFinder, new Settings(), fs, mock(RulesProfile.class));
+    issuable = TestUtils.mockIssuable();
+    perspectives = TestUtils.mockPerspectives(issuable);
+    sensor = new CxxVeraxxSensor(perspectives, new Settings(), fs, mock(RulesProfile.class));
     context = mock(SensorContext.class);
     org.sonar.api.resources.File resourceMock = mock(org.sonar.api.resources.File.class);
     when(context.getResource((org.sonar.api.resources.File) anyObject())).thenReturn(resourceMock);
@@ -60,6 +61,6 @@ public class CxxVeraxxSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(context, times(10)).saveViolation(any(Violation.class));
+    verify(issuable, times(10)).addIssue(any(Issue.class));
   }
 }

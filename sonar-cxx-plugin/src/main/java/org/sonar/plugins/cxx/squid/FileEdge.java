@@ -23,12 +23,14 @@ import org.sonar.api.resources.File;
 import org.sonar.graph.Edge;
 
 class FileEdge implements Edge<File> {
-  private File from;
-  private File to;
+  private final File from;
+  private final File to;
+  private final int line;
 
-  public FileEdge(File from, File to) {
+  public FileEdge(File from, File to, int line) {
     this.from = from;
     this.to = to;
+    this.line = line;
   }
 
   public int getWeight() {
@@ -41,5 +43,9 @@ class FileEdge implements Edge<File> {
 
   public File getTo() {
     return to;
+  }
+
+  public int getLine() {
+    return line;
   }
 }

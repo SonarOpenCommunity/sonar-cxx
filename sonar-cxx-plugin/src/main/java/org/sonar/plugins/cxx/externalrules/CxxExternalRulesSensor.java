@@ -22,10 +22,10 @@ package org.sonar.plugins.cxx.externalrules;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -49,8 +49,8 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxExternalRulesSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
-    super(ruleFinder, conf, fs, CxxMetrics.EXTERNAL);
+  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
+    super(perspectives, conf, fs, CxxMetrics.EXTERNAL);
     this.profile = profile;
   }
 
