@@ -124,6 +124,27 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
   }
 
   @Test
+  public void complex_macro_rescanning() {
+    assert (serialize(p.parse(
+        "#define lang_init std_init\n"
+            + "#define std_init() c_init()\n"
+            + "lang_init();"))
+        .equals("c_init ( ) ; EOF"));
+
+    assert (serialize(p.parse(
+        "#define lang_init(x) std_init\n"
+            + "#define std_init() c_init()\n"
+            + "lang_init(0)();"))
+        .equals("c_init ( ) ; EOF"));
+
+    /*assert (serialize(p.parse(
+        "#define PAIR(x,y) x, y\n"
+            + "#define FOO(x, y) x + y\n"
+            + "FOO(PAIR(x, y));"))
+        .equals("x + y ; EOF"));*/
+  }
+
+  @Test
   public void macro_arguments() {
     assert (serialize(p.parse(
       "#define min(X, Y)  ((X) < (Y) ? (X) : (Y))\n"

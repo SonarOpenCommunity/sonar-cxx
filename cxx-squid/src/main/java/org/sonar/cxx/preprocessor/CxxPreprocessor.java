@@ -91,7 +91,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     public String toString() {
       return name
-        + (params == null ? "" : "(" + serialize(params, ", ") + ")")
+        + (params == null ? "" : "(" + serialize(params, ", ") + (isVariadic ? "..." : "") + ")")
         + " -> '" + serialize(body) + "'";
     }
 
@@ -501,7 +501,6 @@ public class CxxPreprocessor extends Preprocessor {
     if (macro != null) {
       List<Token> replTokens = new LinkedList<Token>();
       int tokensConsumed = 0;
-      List<Token> arguments = new ArrayList<Token>();
 
       if (macro.params == null) {
         tokensConsumed = 1;
@@ -517,12 +516,25 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       if (tokensConsumed > 0) {
+
+        // Partial rescanning, to handle dangling function like macro expansion
+        if (replTokens.size() == 1 && replTokens.get(0).getType() == IDENTIFIER) {
+          macros.disable(macro.name);
+          PreprocessorAction action = handleIdentifiersAndKeywords(tokens.subList(tokensConsumed - 1, tokens.size()),
+              replTokens.get(0), filename);
+          if (action != PreprocessorAction.NO_OPERATION) {
+            tokensConsumed += action.getNumberOfConsumedTokens() - 1;
+            replTokens = action.getTokensToInject();
+          }
+          macros.enable(macro.name);
+        }
+
         replTokens = reallocate(replTokens, curr);
 
         LOG.trace("[{}:{}]: replacing '" + curr.getValue()
-          + (arguments.isEmpty()
-              ? ""
-              : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
+                + (tokensConsumed == 1
+                ? ""
+                : serialize(tokens.subList(1, tokensConsumed))) + "' -> '" + serialize(replTokens) + "'",
             filename, curr.getLine());
 
         ppaction = new PreprocessorAction(
