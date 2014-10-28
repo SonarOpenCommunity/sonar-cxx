@@ -30,6 +30,7 @@ import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -517,17 +518,34 @@ public class CxxPreprocessor extends Preprocessor {
 
       if (tokensConsumed > 0) {
 
-        // Partial rescanning, to handle dangling function like macro expansion
-        if (replTokens.size() == 1 && replTokens.get(0).getType() == IDENTIFIER) {
-          macros.disable(macro.name);
-          PreprocessorAction action = handleIdentifiersAndKeywords(tokens.subList(tokensConsumed - 1, tokens.size()),
-              replTokens.get(0), filename);
-          if (action != PreprocessorAction.NO_OPERATION) {
-            tokensConsumed += action.getNumberOfConsumedTokens() - 1;
-            replTokens = action.getTokensToInject();
+        // Rescanning to expand function like macros, in case it requires consuming more tokens
+        List<Token> outTokens = new LinkedList<Token>();
+        macros.disable(macro.name);
+        while(!replTokens.isEmpty()) {
+          Token c = replTokens.get(0);
+          PreprocessorAction action = PreprocessorAction.NO_OPERATION;
+          if (c.getType() == IDENTIFIER) {
+            List<Token> rest = ListUtils.union(replTokens, tokens.subList(tokensConsumed, tokens.size()));
+            action = handleIdentifiersAndKeywords(rest, c, filename);
           }
-          macros.enable(macro.name);
+          if (action == PreprocessorAction.NO_OPERATION) {
+            replTokens = replTokens.subList(1, replTokens.size());
+            outTokens.add(c);
+          }
+          else {
+            outTokens.addAll(action.getTokensToInject());
+            int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
+            if (tokensConsumedRescanning >= replTokens.size()) {
+              tokensConsumed += tokensConsumedRescanning - replTokens.size();
+              replTokens = replTokens.subList(replTokens.size(), replTokens.size());
+            }
+            else {
+              replTokens = replTokens.subList(tokensConsumedRescanning, replTokens.size());
+            }
+          }
         }
+        replTokens = outTokens;
+        macros.enable(macro.name);
 
         replTokens = reallocate(replTokens, curr);
 

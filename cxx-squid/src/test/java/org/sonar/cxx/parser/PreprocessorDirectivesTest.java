@@ -132,10 +132,10 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
         .equals("c_init ( ) ; EOF"));
 
     assert (serialize(p.parse(
-        "#define lang_init(x) std_init\n"
+        "#define lang_init(x) x = std_init\n"
             + "#define std_init() c_init()\n"
-            + "lang_init(0)();"))
-        .equals("c_init ( ) ; EOF"));
+            + "lang_init(c)();"))
+        .equals("c = c_init ( ) ; EOF"));
 
     /*assert (serialize(p.parse(
         "#define PAIR(x,y) x, y\n"
