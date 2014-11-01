@@ -67,9 +67,15 @@ public class CxxMetrics implements Metrics {
       .setQualitative(true)
       .setDomain("C++")
       .create();
+  public static final Metric DEPENDENCIES = new Metric.Builder("CXX-DEPENDENCIES", "Cyclic dependency violations", Metric.ValueType.INT)
+      .setDirection(Metric.DIRECTION_WORST)
+      .setQualitative(true)
+      .setDomain("C++")
+      .create();
 
   public List<Metric> getMetrics() {
     List<Metric> list = new ArrayList<Metric>();
+    list.add(DEPENDENCIES);
     list.add(COMPILER);
     list.add(CPPCHECK);
     list.add(EXTERNAL);

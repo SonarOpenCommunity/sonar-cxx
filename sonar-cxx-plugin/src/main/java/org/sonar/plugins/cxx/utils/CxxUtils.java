@@ -82,4 +82,3 @@ public final class CxxUtils {
     return project.isRoot() && !project.getModules().isEmpty();
   }
 }
-

@@ -142,7 +142,7 @@ public class BullseyeParser implements CoverageParser {
       funcWalk(func, fileMeasuresBuilderIn);
     }
   }
-
+  
   private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
     
@@ -171,6 +171,7 @@ public class BullseyeParser implements CoverageParser {
         if(normalPath != null){
           coverageData.put(normalPath, fileMeasuresBuilderIn);
         }
+
       } else {
         recTreeWalk(refPath, child, path, coverageData);
       }

@@ -20,10 +20,11 @@
 package org.sonar.plugins.cxx.valgrind;
 
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -31,7 +32,6 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 import java.io.File;
 import java.util.Set;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * {@inheritDoc}
@@ -44,8 +44,8 @@ public class CxxValgrindSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxValgrindSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(ruleFinder, conf, fs, reactor, CxxMetrics.VALGRIND);
+  public CxxValgrindSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(perspectives, conf, fs, reactor, CxxMetrics.VALGRIND);
     this.profile = profile;
   }
 

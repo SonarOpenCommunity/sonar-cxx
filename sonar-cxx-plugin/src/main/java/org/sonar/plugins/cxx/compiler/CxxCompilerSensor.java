@@ -21,10 +21,10 @@ package org.sonar.plugins.cxx.compiler;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.rules.RuleFinder;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -54,8 +54,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerSensor(RuleFinder ruleFinder, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(ruleFinder, conf, fs, reactor, CxxMetrics.COMPILER);
+  public CxxCompilerSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(perspectives, conf, fs, reactor, CxxMetrics.COMPILER);
     this.profile = profile;
 
     addCompilerParser(new CxxCompilerVcParser());

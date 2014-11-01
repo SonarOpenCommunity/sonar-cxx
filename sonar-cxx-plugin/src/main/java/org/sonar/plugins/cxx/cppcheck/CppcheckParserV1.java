@@ -92,4 +92,3 @@ public class CppcheckParserV1 implements CppcheckParser {
     return getClass().getSimpleName();
   }
 }
-

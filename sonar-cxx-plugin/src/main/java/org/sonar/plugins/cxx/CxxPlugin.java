@@ -19,7 +19,11 @@
  */
 package org.sonar.plugins.cxx;
 
+import org.sonar.api.Extension;
+import org.sonar.api.Properties;
+import org.sonar.api.Property;
 import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.config.PropertyFieldDefinition;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.resources.Qualifiers;

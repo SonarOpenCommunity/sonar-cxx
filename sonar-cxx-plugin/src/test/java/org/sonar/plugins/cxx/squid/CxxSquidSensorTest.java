@@ -22,13 +22,12 @@ package org.sonar.plugins.cxx.squid;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Directory;
-import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
@@ -168,6 +167,6 @@ public class CxxSquidSensorTest {
     sourceDirs.add(sourceDir == null ? baseDir : new File(baseDir, sourceDir));
     project = TestUtils.mockProject(baseDir, sourceDirs, emptyList);
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, emptyList);
-    sensor = new CxxSquidSensor(mock(RulesProfile.class), settings, fs);
+    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class), mock(RulesProfile.class), settings, fs);
   }
 }
