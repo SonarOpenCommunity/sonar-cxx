@@ -111,19 +111,17 @@ public class CxxPreprocessor extends Preprocessor {
   private Parser<Grammar> pplineParser = null;
   private MapChain<String, Macro> macros = new MapChain<String, Macro>();
   private Set<File> analysedFiles = new HashSet<File>();
-  private Set<String> notFoundFileforToken = new HashSet<String>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
-  private Multimap<String, String> includedFiles = HashMultimap.create();
-  
-  public static class MissingInclude {
-    private int line;
-    private String directive;
 
-    MissingInclude(int line, String directive) {
+  public static class Include {
+    private int line;
+    private String path;
+
+    Include(int line, String path) {
       this.line = line;
-      this.directive = directive;
+      this.path = path;
     }
 
     @Override
@@ -131,10 +129,10 @@ public class CxxPreprocessor extends Preprocessor {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
 
-      MissingInclude that = (MissingInclude) o;
+      Include that = (Include) o;
 
       if (line != that.line) return false;
-      if (directive != null ? !directive.equals(that.directive) : that.directive != null) return false;
+      if (path != null ? !path.equals(that.path) : that.path != null) return false;
 
       return true;
     }
@@ -142,19 +140,20 @@ public class CxxPreprocessor extends Preprocessor {
     @Override
     public int hashCode() {
       int result = line;
-      result = 31 * result + (directive != null ? directive.hashCode() : 0);
+      result = 31 * result + (path != null ? path.hashCode() : 0);
       return result;
     }
 
-    public String getDirective() {
-      return directive;
+    public String getPath() {
+      return path;
     }
 
     public int getLine() {
       return line;
     }
   }
-  private Multimap<String, MissingInclude> missingIncludeFiles = HashMultimap.create();
+  private Multimap<String, Include> includedFiles = HashMultimap.create();
+  private Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
 
   // state which is not shared between files
   private State state = new State(null);
@@ -224,14 +223,14 @@ public class CxxPreprocessor extends Preprocessor {
     }
   }
 
-  public Collection<String> getIncludedFiles(File file) {
+  public Collection<Include> getIncludedFiles(File file) {
     return includedFiles.get(file.getPath());
   }
   
-  public Collection<MissingInclude> getMissingIncludeFiles(File file) {
+  public Collection<Include> getMissingIncludeFiles(File file) {
     return missingIncludeFiles.get(file.getPath());
   }
-  
+
   @Override
   public PreprocessorAction process(List<Token> tokens) {
     Token token = tokens.get(0);
@@ -454,13 +453,13 @@ public class CxxPreprocessor extends Preprocessor {
 
     File currentFile = this.getFileUnderAnalysis();
     if (currentFile != null && includedFile != null) {
-      includedFiles.put(currentFile.getPath(), includedFile.getAbsolutePath());
+      includedFiles.put(currentFile.getPath(), new Include(token.getLine(), includedFile.getAbsolutePath()));
     }
 
     if (includedFile == null) {
       LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
       if (currentFile != null) {
-        missingIncludeFiles.put(currentFile.getPath(), new MissingInclude(token.getLine(), token.getValue()));
+        missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
       }
     }
     else if (!analysedFiles.contains(includedFile)) {
@@ -694,6 +693,22 @@ public class CxxPreprocessor extends Preprocessor {
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
           newTokens.add(curr);
+        }
+        else if (index == arguments.size()) {
+          // EXTENSION: GCC's special meaning of token paste operator
+          // If variable argument is left out then the comma before the paste operator will be deleted
+          int j = i;
+          while(j > 0 && body.get(j - 1).getType() == WS)
+            j--;
+          if (j == 0 || !body.get(--j).getValue().equals("##"))
+            continue;
+          int k = j;
+          while(j > 0 && body.get(j - 1).getType() == WS)
+            j--;
+          if (j > 0 && body.get(j - 1).getValue().equals(",")) {
+            newTokens.remove(newTokens.size() - 1 + j - i); //remove the comma
+            newTokens.remove(newTokens.size() - 1 + k - i); //remove the paste operator
+          }
         }
         else if (index < arguments.size()) {
           Token replacement = arguments.get(index);

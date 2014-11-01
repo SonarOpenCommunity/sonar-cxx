@@ -78,7 +78,6 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
     //   + "}\n");
   }
 
-
   @Test
   public void object_like_macros() {
     assert (serialize(p.parse(
@@ -154,6 +153,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "eprintf(\"%s:%d: \", input_file, lineno);"))
       .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
 
+    assert (serialize(p.parse(
+        "#define eprintf(format, args...) fprintf (stderr, format, args)\n"
+            + "eprintf(\"%s:%d: \", input_file, lineno);"))
+        .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
+
     // FIXME: can this actually be swallowed by GCC?? My experiments showed the opposite, so far...
     // GNU CPP: Vou are allowed to leave the variable argument out entirely
     // assert (serialize(p.parse(
@@ -161,12 +165,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
     //   + "eprintf(\"success!\");"))
     //   .equals("fprintf ( stderr , \"success!\" , ) ; EOF"));
 
-//    @todo
-//    // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
-//    assert (serialize(p.parse(
-//      "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
-//      + "eprintf(\"success!\");"))
-//      .equals("fprintf ( stderr , \"success!\" ) ; EOF"));
+    // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
+    assert (serialize(p.parse(
+      "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
+      + "eprintf(\"success!\");"))
+      .equals("fprintf ( stderr , \"success!\" ) ; EOF"));
   }
 
   @Test

@@ -111,7 +111,7 @@ public enum CppGrammar implements GrammarRuleKey {
 
     b.setRootRule(preprocessorLine);
 
-    return b.build();
+    return b.buildWithMemoizationOfMatchesForAllRules();
   }
 
 
@@ -166,7 +166,7 @@ public enum CppGrammar implements GrammarRuleKey {
         )
         );
 
-    b.rule(parameterList).is(IDENTIFIER, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), IDENTIFIER));
+    b.rule(parameterList).is(IDENTIFIER, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), IDENTIFIER, b.nextNot(b.sequence(b.zeroOrMore(WS), "..."))));
     b.rule(argumentList).is(argument, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), argument));
 
     b.rule(argument).is(

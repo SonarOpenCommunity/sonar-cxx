@@ -38,6 +38,7 @@ public final class CheckList {
         CommentedCodeCheck.class,
         CommentRegularExpressionCheck.class,
         CycleBetweenPackagesCheck.class,
+        DuplicatedIncludeCheck.class,
         FileComplexityCheck.class,
         FileHeaderCheck.class,
         FixmeTagPresenceCheck.class,

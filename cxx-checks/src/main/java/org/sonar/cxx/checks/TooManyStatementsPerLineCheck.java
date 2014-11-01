@@ -54,7 +54,8 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
 
   /** Exclude subsequent generated nodes, if they are consecutive and on the same line.
    */
-  private boolean isGeneratedNodeExcluded(AstNode astNode) {
+  private boolean isGeneratedNodeExcluded(AstNode astNode)
+  {
     AstNode prev = astNode.getPreviousAstNode();
     return prev != null &&
            prev.getTokenLine() == astNode.getTokenLine() &&
@@ -65,10 +66,10 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   /** Exclude 'break' statement if it is on the same line as the switch label (case: or default:).
    * i.e. the break statement is on the same line as it's "switchBlockStatementGroup" ancestor.
    */
-  private boolean isBreakStatementExcluded(AstNode astNode) {
-    if (!excludeCaseBreak || astNode.getToken().getType() != CxxKeyword.BREAK) {
+  private boolean isBreakStatementExcluded(AstNode astNode)
+  {
+    if (!excludeCaseBreak || astNode.getToken().getType() != CxxKeyword.BREAK)
       return false;
-    }
 
     AstNode switchGroup = astNode.getFirstAncestor(CxxGrammarImpl.switchBlockStatementGroup);
     return switchGroup != null
