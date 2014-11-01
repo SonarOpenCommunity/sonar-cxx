@@ -985,7 +985,6 @@
     <name>L0143: Erroneous option: String</name>
     <description>An option contained information that was inconsistent with itself or with an earlier option. The String provided in the message explains more fully what the problem is.</description>
   </rule>
-
   <rule>
     <key>144</key>
     <configkey>144</configkey>
