@@ -33,7 +33,7 @@ public class CxxCompilerRuleRepositoryTest {
     CxxCompilerVcRuleRepository rulerep = new CxxCompilerVcRuleRepository(
         mock(ServerFileSystem.class),
         new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(692);
+    assertThat(rulerep.createRules()).hasSize(693);
   }
 
   @Test

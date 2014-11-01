@@ -9056,6 +9056,14 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9091: casting from pointer type to integer type</name>
     <description>A cast of a pointer to an integer type was seen. Since the size of the integer required when a pointer is converted to an integer is implementation defined, some coding guidelines advise against such casts.</description>
   </rule>
+  
+  <rule>
+    <key>9092</key>
+    <configkey>9092</configkey>
+    <priority>INFO</priority>
+    <name>L9092: casting between a pointer to void and an integral type</name>
+    <description>A cast of a pointer to void and an integral type was seen, some coding guidelines advise against such casts.</description>
+  </rule>
 
   <rule>
     <key>9102</key>

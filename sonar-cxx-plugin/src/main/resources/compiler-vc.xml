@@ -528,6 +528,15 @@
     </description>
   </rule>
   <rule>
+    <key>C4130</key>
+    <configkey>C4130</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4130: 'operator' : logical operation on address of string constant</name>
+    <description>
+      Using the operator with the address of a string literal produces unexpected code.
+    </description>
+  </rule>  
+  <rule>
     <key>C4133</key>
     <configkey>C4133</configkey>
     <priority>CRITICAL</priority>

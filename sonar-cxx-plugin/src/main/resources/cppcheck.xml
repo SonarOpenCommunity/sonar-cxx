@@ -1774,6 +1774,15 @@
     </description>
   </rule>
   <rule>
+    <key>obsoleteFunctionsasctime</key>
+    <configkey>obsoleteFunctionsasctime</configkey>
+    <name>Avoid usage of the function 'asctime'</name>
+    <description>
+      The function 'asctime' is obsolete. It is recommended to use
+      the function 'strftime' instead.
+    </description>
+  </rule>
+  <rule>
     <key>obsoleteFunctionsasctime_r</key>
     <configkey>obsoleteFunctionsasctime_r</configkey>
     <name>Avoid usage of the function 'asctime_r'</name>
@@ -1781,7 +1790,7 @@
       The function 'asctime_r' is obsolete. It is recommended to use
       the function 'strftime' instead.
     </description>
-  </rule>
+  </rule>  
   <rule>
     <key>obsoleteFunctionsrand_r</key>
     <configkey>obsoleteFunctionsrand_r</configkey>
