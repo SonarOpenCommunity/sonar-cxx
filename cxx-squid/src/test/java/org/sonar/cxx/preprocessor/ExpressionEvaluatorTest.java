@@ -51,7 +51,8 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("0XAA"));
     assertTrue(evaluator.eval("1L"));
     assertTrue(evaluator.eval("1u"));
-
+    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFF"));
+    
     assertFalse(evaluator.eval("0"));
     assertFalse(evaluator.eval("0x0"));
   }
@@ -226,7 +227,7 @@ public class ExpressionEvaluatorTest {
     assertFalse(evaluator.eval("+0"));
     assertFalse(evaluator.eval("-0"));
     assertFalse(evaluator.eval("!1"));
-    // assertFalse(evaluator.eval("~OxFFFFFFFFFFFFFFFF"));
+    assertFalse(evaluator.eval("~0xFFFFFFFFFFFFFFFF"));
   }
 
   @Test
