@@ -1,5 +1,4 @@
 .sonar
 build
-googletest_*
 *.gc*
 *.[oa]
