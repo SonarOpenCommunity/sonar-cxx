@@ -1,0 +1,32 @@
+Currently, I am in progress of validating the xunit-Feature,
+i.e. writing integration tests, writing a grammar for the input format
+etc. I have a couple of findings so far:
+
+* As well the JUnit (version ...) as Googletest produce reports which
+  begin with the tag 'testsuites'. TODO: what about nosetests?? The
+  current implementation is able to consume it, because it ignores the
+  root tag, just to the testssuite tag, iterates over all testcases
+  and import them. Given a report with *multiple* testsuite-tags in
+  it, it will *ignore* all but the first one.
+
+  I think I will change this behaviour to a more sane one "loop over all
+  testsuite-tags"
+
+* We've introduced the filename attribute as a means to locate the test
+  resources. Using this tag (and the knowledge which test resides in
+  which file) one can augment the report putting such attributes
+  holding paths to the right files into right places in the
+  report. Now, it is only accepted in the testsuite-tag, which seems
+  to be wrong, as at makes the assumption that all testcases
+  belonging to the same testsuite reside in the same source
+  file. Which is clearly wrong. 
+
+  I think we should change that.
+
+* The XML samples used in the unit tests do not conform to the schema
+  in full extend. Some dont use "testsuites" as root tag. Some contain
+  attributes which neither JUnit nor Googletest produce.
+  
+  My plan is to correct those file to conform to the grammar.
+
+Comments, ideas, objections?

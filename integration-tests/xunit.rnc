@@ -1,0 +1,63 @@
+# 
+# The following is a grammar in Relax NG Compact syntax for
+# JUnit-compatible report files which sonar-cxx is able to import. It
+# combines the flavors implemented by JUnit and Googletest.
+#
+# It can be used to validate xunit-reports, i.e. to determine, if
+# a xunit-report is valid according to the expectations of sonar-cxx.
+# It can be done as follows:
+#
+# $ rnv junit_schema.rnc <your xml report>
+#
+# rnv is a XML validator which can be obtained here:
+# http://www.davidashen.net/rnv.html
+#
+
+element testsuite {
+   attribute name { text },
+
+   # this is our extension which helps to locate test resources.
+   # Unfortunately, it seems to be on the wrong level, as each
+   # testscase may be in an own file. What to do?
+   # 
+   # Its is not ignored by the logic, but handled optionally
+   attribute filename { text }?,
+   
+   # the following attribute are accepted but ignored, thus 'optional'
+   attribute tests { text } ?,
+   attribute failures { text } ?,
+   attribute disabled { text } ?,
+   attribute errors { text } ?,
+   attribute time { text } ?,
+   attribute skipped { text } ?,
+   
+   # the properties are ignored
+   element properties {
+      element property {
+         attribute name { text },
+         attribute value { text }
+      }+
+   }?,
+         
+   element testcase {
+      attribute name { text },
+      attribute classname { text },
+      attribute time { text },
+
+      # status is evaluated optionally
+      attribute status { text }?,
+      
+      ( element failure {
+         attribute message { text },
+         attribute type { text } ?, 
+         text
+      } | element error {
+         attribute message { text },
+         attribute type { text } ?, 
+         text
+      } | element skipped {
+         empty
+      } | empty )
+   }*
+}
+
