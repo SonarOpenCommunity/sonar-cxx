@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
+  <rule key="CustomRuleTemplate">
+    <cardinality>MULTIPLE</cardinality>
+    <priority>MAJOR</priority>
+    <name><![CDATA[Template for custom Custom rules]]></name>
+    <description>
+      <![CDATA[
+<p>
+Follow these steps to make your custom Custom rules available in SonarQube:
+</p>
+
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile</li>
+  </ol>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+</ol>
+      ]]>
+    </description>
+  </rule>
   <rule>
     <key>1</key>
     <configkey>1</configkey>
@@ -1625,7 +1645,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>MAJOR</priority>
     <name>L0433: Allocated area not large enough for pointer</name>
     <description><![CDATA[
-<p>An allocation was assigned to a pointer whose reach extends beyond the area that was allocated. This would usually happen only with library allocation routines such as malloc and calloc. 
+<p>An allocation was assigned to a pointer whose reach extends beyond the area that was allocated. This would usually happen only with library allocation routines such as malloc and calloc.
 For example:</p>
 <pre><tt>
     int *p = malloc(1);
@@ -1932,7 +1952,7 @@ For example:</p>
            defined identifier
 </pre></tt>
 <p>Additionally, the preprocessor operator may not result from the expansion of another macro. This diagnostic highlights departures from these requirements as non-portable code.</p>]]></description>
-  </rule>  
+  </rule>
   <rule>
     <key>501</key>
     <configkey>501</configkey>
@@ -2385,7 +2405,7 @@ For example:</p>
     <description><![CDATA[
 <p>Comparisons of the form:</p>
 <pre><tt>
-    u &gt;= 0 0 &lt;= u 
+    u &gt;= 0 0 &lt;= u
     u &lt; 0 0 &gt; u
 </tt></pre>
 <p>are suspicious if u is an unsigned quantity or a quantity judged to be never less then 0. See also message 775.</p>]]></description>
@@ -2548,9 +2568,9 @@ For example:</p>
     <description><![CDATA[<p>This warning is issued whenever a pair of '?' characters is seen within a string (or character) constant but that pair is not followed by a character which would make the triple a valid Trigraph sequence. Did the programmer intend this to be a Trigraph sequence and merely err? Even if no Trigraph were intended, it can easily be mistaken by the reader of the code to be a Trigraph. Moreover, what assurances do we have that in the future the invalid Trigraph might not become a valid Trigraph and change the meaning of the string? To protect yourself from such an event you may place a backslash between the '?' characters. Alternatively you may use concatenation of string constants.</p>
 <p>For example:</p>
 <pre><tt>
-    pattern = "(???) ???-????"; // warning 585 
-    pattern = "(?\?\?) ?\?\?-?\?\?\?"; // no warning 
-    #define Q "?" 
+    pattern = "(???) ???-????"; // warning 585
+    pattern = "(?\?\?) ?\?\?-?\?\?\?"; // no warning
+    #define Q "?"
     pattern = "(" Q Q Q ") " Q Q Q "-" Q Q Q Q // no warning
 </tt></pre>]]></description>
   </rule>
@@ -2666,8 +2686,8 @@ For example:</p>
     <description><![CDATA[
 <p>This warning is typically caused by assigning a (pointer to const) to an ordinary pointer. For example:</p>
 <pre><tt>
-    int *p; 
-    const int *q; 
+    int *p;
+    const int *q;
     p = q; /* 605 */
 </tt></pre>
 <p>The message will be inhibited if a cast is used as in:</p>
@@ -2677,9 +2697,9 @@ For example:</p>
 <p>An increase in capability is indicated because the const pointed to by q can now be modified through p. This message can be given for the volatile qualifier as well as the const qualifier and may be given for arbitrary pointer depths (pointers to pointers, pointers to arrays, etc.).
 If the number of pointer levels exceeds one, things get murky in a hurry. For example:</p>
 <pre><tt>
-    const char ** ppc; 
-    char ** pp; 
-    pp = ppc; /* 605 - clearly not safe */ 
+    const char ** ppc;
+    char ** pp;
+    pp = ppc; /* 605 - clearly not safe */
     ppc = pp; /* 605 - looks safe but it's not */
 </tt></pre>
 <p>It was not realized by the C community until very recently that assigning pp to ppc was dangerous. The problem is that after the above assignment, a pointer to a const char can be assigned indirectly through ppc and accessed through pp which can then modify the const char.
@@ -5760,7 +5780,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <p>When the language calls for a class template to be instantiated and the primary template is "overloaded" via one or more partial specializations, there is an attempt to see if the template arguments match any of those partial specializations.</p>
 <p>(Note, explicit specializations would have been considered before determining that the class definition needs to be generated by way of instantiation.)  If multiple partial specializations match then:</p>
 <ul><li>If one of the matching partial specializations is more specialized than all others then it is used for the instantiation.</li>
-<li>Otherwise, the program is ill-formed, so Lint issues message 1084.</li> </ul> 
+<li>Otherwise, the program is ill-formed, so Lint issues message 1084.</li> </ul>
 <p>In the message, the matching partial specializations are provided as the list of candidates.  Example:</p>
 <pre><tt>
                template<class T1, class T2, int I> class A {};             //#1
@@ -6266,9 +6286,9 @@ Note that the Microsoft compiler implements this extension. For that reason, the
 <p>In a declaration, the form 'auto D(parms)->type' (where D is either a name or a parenthesized region) is the only valid way to use a trailing-return-type -- For example, if you want to declare that f returns a pointer-to-int, you must write:</p>
 <pre><tt>
                auto f() -> int *;
-         
+
          ... and not:
-         
+
                auto *f() -> int;
 </tt></pre>
 <p>This also applies to a type-id (e.g., in a cast to a pointer-to-function, or as an argument to a template type-parameter)</p>]]></description>
@@ -8447,7 +8467,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9006</configkey>
     <priority>INFO</priority>
     <name>L9006: 'sizeof' used on expression with side effect</name>
-    <description>If the operand of the sizeof operator is an expression, it is not usually evaluated.  
+    <description>If the operand of the sizeof operator is an expression, it is not usually evaluated.
     Attempting to apply sizeof to such an expression can result, therefore, in code one expects to be evaluated actually not being evaluated and the side-effects not taking place.</description>
   </rule>
   <rule>
@@ -8739,7 +8759,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9046</configkey>
     <priority>INFO</priority>
     <name>L9046: Typographical ambiguity with respect to symbol, 'Symbol', Reasons, Location</name>
-    <description>Some have warned against the use o identifiers which may be considered typographically ambiguous. 
+    <description>Some have warned against the use o identifiers which may be considered typographically ambiguous.
     In addition to the name of the previously seen symbol, the reasons Lint considers the identifiers to be ambiguous and the location of said previous symbol are provided in the message, if available.</description>
   </rule>
   <rule>
@@ -8810,7 +8830,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9056</configkey>
     <priority>INFO</priority>
     <name>L9056: Inline function 'Symbol' defined with storage-class specifier 'String'</name>
-    <description>This message is issued for all inline functions defined with a storage-class specifier. 
+    <description>This message is issued for all inline functions defined with a storage-class specifier.
     +estring can be used to find all inline functions defined with a specific specifier. For example, +estring(9056, extern) will report all inline functions defined with extern.</description>
   </rule>
   <rule>
@@ -8818,9 +8838,9 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9057</configkey>
     <priority>INFO</priority>
     <name>L9057: Lowercase L follows 'u' in literal suffix</name>
-    <description>A lowercase letter "l" is used inside of a literal suffix following an upper or lowercase letter u. 
-    With some fonts, the lowercase letter "l can be easily confused with the number one. 
-    This is less likely to happen when there is a "u" between the number and the "l" (as in 35ul), but some coding standards forbid the use of "l" in any literals. 
+    <description>A lowercase letter "l" is used inside of a literal suffix following an upper or lowercase letter u.
+    With some fonts, the lowercase letter "l can be easily confused with the number one.
+    This is less likely to happen when there is a "u" between the number and the "l" (as in 35ul), but some coding standards forbid the use of "l" in any literals.
     Message 620 reports the more suspicious case where the "l" immediately follows a number (as in 35l).</description>
   </rule>
   <rule>
@@ -8828,7 +8848,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9058</configkey>
     <priority>INFO</priority>
     <name>L9058: tag 'Symbol' (Location) unused outside of typedefs</name>
-    <description>A tag was used only in the course of creating a typedef. 
+    <description>A tag was used only in the course of creating a typedef.
     Was the tag unused by mistake (say a recursive reference inside the body of the struct was accidentally omitted)?  Such tags are most often redundant and can be eliminated.</description>
   </rule>
   <rule>
@@ -8905,7 +8925,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9071: defined macro 'Name' is reserved to the compiler String</name>
     <description>A macro was defined which is reserved to the compiler. Such definition results in undefined behavior. If String is present, the macro name is one of the more obscure identifiers reserved and String provides an explanation to that effect.</description>
   </rule>
-  
+
   <rule>
     <key>9072</key>
     <configkey>9072</configkey>
@@ -8913,7 +8933,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9072: parameter list differs from prior declaration for function 'Symbol'</name>
     <description>The numed function was found declared with one parameter list and another which differs either by type or parameter name. At least one author advises against such inconsistency for various reasons.</description>
   </rule>
-  
+
   <rule>
     <key>9074</key>
     <configkey>9074</configkey>
@@ -9049,7 +9069,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9090: unconditional break missing from switch case</name>
     <description>A switch case was seen which did not conclude with an unconditional break. Some authors advise against such absences on the grounds they are often errors.</description>
   </rule>
-  
+
   <rule>
     <key>9091</key>
     <configkey>9091</configkey>
@@ -9353,7 +9373,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9139: case label follows default in switch statement</name>
     <description>A case label was encountered following the default label of a switch statement.</description>
   </rule>
-  
+
   <rule>
     <key>9140</key>
     <configkey>9140</configkey>
@@ -9361,7 +9381,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9140: continue statement detected</name>
     <description>A continue statement appears outside what one author calls a "well-formed for loop". Said author advises against such usage in the interest of reducing code complexity.</description>
   </rule>
-  
+
   <rule>
     <key>9141</key>
     <configkey>9141</configkey>
@@ -10749,7 +10769,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <description>(Required) The character sequence /* shall not be used within a C-style comment.</description>
   </rule>
   <!--
-  MISRA C++ rule 2-7-2 req n/a not statically checkable  
+  MISRA C++ rule 2-7-2 req n/a not statically checkable
   <rule>
     <key>M2-7-2</key>
     <configkey>M2-7-2</configkey>
@@ -10757,14 +10777,14 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M2-7-2: do not comment out code (MISRA C++)</name>
     <description>(Required) Sections of code shall not be "commented out" using C-style comments.</description>
   </rule>
-  MISRA C++ rule 2-7-3 adv n/a not statically checkable  
+  MISRA C++ rule 2-7-3 adv n/a not statically checkable
   <rule>
     <key>M2-7-3</key>
     <configkey>M2-7-3</configkey>
     <priority>INFO</priority>
     <name>M2-7-3: do not comment out code (MISRA C++)</name>
     <description>(Advisory) Sections of code should not be "commented out" using C++ comments.</description>
-  </rule>  
+  </rule>
   -->
   <rule>
     <key>M2-10-1</key>
