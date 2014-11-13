@@ -49,7 +49,7 @@ EXP_MEASURES = {
     "function_complexity": 1.4,
     "file_complexity": 0.9,
     "class_complexity": 6.0,
- 
+
     # violations
     "violations": 12,
     "violations_density": 57.1,
@@ -68,12 +68,12 @@ EXP_MEASURES = {
     # design/tangles
     "package_tangle_index": 100,
     "package_tangles": 1.0,
-  
+
     # test execution statistics
-    "test_success_density": 60.0,
+    "test_success_density": 50.0,
     "test_failures": 2.0,
     "test_errors": 0.0,
-    "tests": 5.0
+    "tests": 4.0
     }
 
 RED = ""
