@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites tests="4" failures="2" disabled="1" errors="0" time="0" name="AllTests">
-  <testsuite name="Component1Test" tests="4" failures="2" disabled="1" errors="0" time="0">
-    <testcase name="foo_successfull" status="run" time="0" classname="Component1Test" />
+<testsuites tests="4" failures="2" disabled="1" errors="0" time="0.05" name="AllTests">
+  <testsuite name="Component1Test" tests="4" failures="2" disabled="1" errors="0" time="0.05">
+    <testcase name="foo_successfull" status="run" time="0.05" classname="Component1Test" />
     <testcase name="foo_failing" status="run" time="0" classname="Component1Test">
-      <failure message="Value of: 112&#x0A;Expected: bar.foo()&#x0A;Which is: 111" type=""><![CDATA[test_component1.cc:18
+      <failure message="Value of: 112&#x0A;Expected: bar.foo()&#x0A;Which is: 111" type=""><![CDATA[test_component1.cc:17
 Value of: 112
 Expected: bar.foo()
 Which is: 111]]></failure>

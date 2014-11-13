@@ -14,7 +14,8 @@ all:
 	@mkdir -p build
 	@$(MAKE) -C src
 	@$(MAKE) -C tests
-	-$(BUILD_DIR)/test_component1 --gtest_output=xml:googletest_report.xml
+	-$(BUILD_DIR)/test_component1 --gtest_output=xml:googletest_report_1.xml
+	-$(BUILD_DIR)/test_misc --gtest_output=xml:googletest_report_2.xml
 
 clean:
 	rm -rf build googletest_*

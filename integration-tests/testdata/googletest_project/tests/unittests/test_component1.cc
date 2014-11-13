@@ -1,7 +1,5 @@
-#include <iostream>
-using namespace std;
-
 #include <gtest/gtest.h>
+#include <unistd.h>
 #include <component1.hh>
 
 namespace {
@@ -9,11 +7,12 @@ namespace {
     protected:
         Bar bar;
     };
-    
+
     TEST_F(Component1Test, foo_successfull) {
+        usleep(50000);
         EXPECT_EQ(bar.foo(), 111);
     }
-    
+
     TEST_F(Component1Test, foo_failing) {
         EXPECT_EQ(bar.foo(), 112);
     }

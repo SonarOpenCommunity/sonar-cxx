@@ -57,11 +57,6 @@ def step_impl(context):
     assert context.rc == 0, "Exit code is %i, but should be zero" % context.rc
 
 
-def _build_regexp(multiline_str):
-    lines = multiline_str.split(r"\n")
-    print lines
-    
-
 @then(u'the analysis log contains no error/warning messages except those matching')
 def step_impl(context):
     ignore_re = build_regexp(context.text)
@@ -113,7 +108,7 @@ def step_impl(context):
     assert context.rc != 0, "Exit code is %i, but should be non zero" % context.rc
 
 
-@then(u'the analysis log should contain a line matching')
+@then(u'the analysis log contains a line matching')
 def step_impl(context):
     pattern = re.compile(context.text)
     with open(context.log) as logfo:
