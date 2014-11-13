@@ -46,20 +46,38 @@ public class CxxCoverageSensorTest {
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxCoverageSensor(new Settings(), fs);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test
-  public void shouldReportCorrectCoverage() {
+  public void shouldReportCorrectCoverageOnUnitTestCoverage() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    
+    sensor = new CxxCoverageSensor(settings, fs);
+
     sensor.analyse(project, context);
-    verify(context, times(219)).saveMeasure((File) anyObject(), any(Measure.class));
+    verify(context, times(33)).saveMeasure((File) anyObject(), any(Measure.class));
+  }
+  
+  @Test
+  public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
+    
+    sensor = new CxxCoverageSensor(settings, fs);
+
+    sensor.analyse(project, context);
+    verify(context, times(99)).saveMeasure((File) anyObject(), any(Measure.class));
   }
 
   @Test
   public void shouldReportNoCoverageSaved() {
+    sensor = new CxxCoverageSensor(new Settings(), fs);
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
@@ -68,31 +86,42 @@ public class CxxCoverageSensorTest {
   @Test
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     Settings settings = new Settings();
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura-bignumberofhits.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
     sensor = new CxxCoverageSensor(settings, fs);
 
     sensor.analyse(project, context);
-  }
-  
+  }  
   
   @Test
-  public void shoulParseTopLevelFiles() {
+  public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     Settings settings = new Settings();
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye-coverage-report-data-in-root-node.xml");
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
     sensor = new CxxCoverageSensor(settings, fs);
-    
-    sensor.analyse(project, context);
-    verify(context, times(163)).saveMeasure((File) anyObject(), any(Measure.class));
-  }
-  
-    @Test
-  public void shoulCorrectlyHandleDriveLettersWithoutSlash() {
-    Settings settings = new Settings();
-    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye-coverage-drive-letter-without-slash.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
-    
-    sensor.analyse(project, context);
-    verify(context, times(163)).saveMeasure((File) anyObject(), any(Measure.class));
-  }
 
+    sensor.analyse(project, context);
+    
+    verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
+  } 
+  
+  @Test
+  public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
+    sensor = new CxxCoverageSensor(settings, fs);
+
+    sensor.analyse(project, context);
+    
+    verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
+  }   
+  
+  @Test
+  public void shouldReportCoverageWhenVisualStudioCase() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
+    sensor = new CxxCoverageSensor(settings, fs);
+
+    sensor.analyse(project, context);
+    
+    verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
+  }    
 }
