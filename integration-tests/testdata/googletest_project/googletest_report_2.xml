@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites tests="3" failures="1" disabled="1" errors="0" time="0.051" name="AllTests">
-  <testsuite name="Fixture" tests="3" failures="1" disabled="1" errors="0" time="0.051">
-    <testcase name="test_successfull" status="run" time="0.051" classname="Fixture" />
+<testsuites tests="3" failures="1" disabled="1" errors="0" time="0.05" name="AllTests">
+  <testsuite name="Fixture" tests="3" failures="1" disabled="1" errors="0" time="0.05">
+    <testcase name="test_successfull" status="run" time="0.05" classname="Fixture" />
     <testcase name="test_failing" status="run" time="0" classname="Fixture">
       <failure message="Value of: 12&#x0A;Expected: 1" type=""><![CDATA[test_misc.cc:14
 Value of: 12

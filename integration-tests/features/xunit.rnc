@@ -1,0 +1,86 @@
+#
+# The following is a grammar in Relax NG Compact syntax for
+# JUnit-compatible report files which sonar-cxx is able to import.
+# Many test frameworks are able to generate output which is JUnit-compatible
+# or at least, 'JUnit-inspirated'. The following grammar
+# combines the flavors implemented by JUnit itself and Googletest.
+#
+# It can be used to validate xunit-reports, i.e. to determine, if
+# a report is valid according to the expectations of sonar-cxx.
+# It can be done as follows:
+#
+# $ rnv xunit.rnc <your xml report>
+#
+# rnv is a XML validator which can be obtained here:
+# http://www.davidashen.net/rnv.html
+#
+
+# The output from a single testsuite. The way how testcases are
+# composed into testsuites is framework dependend.
+element testsuite {
+   attribute name { text },
+
+   # This is our extension which helps to locate test resources. If
+   # present, the value of this attribute is interpreted as path to
+   # the source file which contains the testcases inside this
+   # testsuite.
+   # (TODO: test if both relative and absolute paths work)
+   #
+   attribute filename { text }?,
+
+   # The following attributes are accepted but ignored, thus 'optional'
+   attribute tests { text } ?,
+   attribute failures { text } ?,
+   attribute disabled { text } ?,
+   attribute errors { text } ?,
+   attribute time { text } ?,
+   attribute skipped { text } ?,
+
+   # Defined properties (name-value pairs) at test execution.
+   # Ignored by the plugin, thus optional.
+   element properties {
+      element property {
+         attribute name { text },
+         attribute value { text }
+      }+
+   }?,
+
+   # The results from executing a test method.
+   element testcase {
+      # Name of this testcase. Parsed and passed to SQ.
+      attribute name { text },
+
+      # The classname in this this testcase is implemented. The value
+      # of this attribute varies quite alot accross test
+      # frameworks. TODO: describe our sources lookup strategy.
+      attribute classname { text },
+
+      # Execution time of the testcase in ms. Is parsed and passed to SQ.
+      attribute time { text },
+
+      # Status is evaluated optionally: googletest marks skipped tests
+      # with status="notrun"
+      attribute status { text }?,
+
+      # Test failed
+      ( element failure {
+         attribute message { text },
+         attribute type { text } ?,
+         text
+
+      # Test errored
+      } | element error {
+         attribute message { text },
+         attribute type { text } ?,
+         text
+
+      # Test was skipped (JUnit-style)
+      } | element skipped {
+         attribute message { text } ?,
+         attribute type { text } ?,
+         text?
+
+      # Test was successfull
+      } | empty )
+   }*
+}

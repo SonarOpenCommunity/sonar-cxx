@@ -3,7 +3,9 @@ provides a means to check that the plugin works (or works not) with a
 particular SonarQube version/setup.
 
 
-== Preconditions ==
+Preconditions
+=============
+
 Make sure the following preconditions are met, before running the test suite:
 
 * Python is installed
@@ -12,7 +14,8 @@ Make sure the following preconditions are met, before running the test suite:
 * Optional: colorama module is installed ('pip install colorama')
 
 
-== Usage ==
+Usage
+=====
 Either install the plugin, startup SonarQube manually and simply run:
 
 $ behave
@@ -27,13 +30,13 @@ jar in sonar-python-plugin/target. So make sure the plugin is build
 and the jar is available.
 
 
-== Features to test ==
+Features to test
+================
 - core/common:
   - finding reports
     - using slashes as separators
     - using backslashes as separators
     - using div. patterns
-
 
 - Import of the coverage data
   - BullsEye, coberture and VisualStudio formats
@@ -61,7 +64,8 @@ and the jar is available.
 - Multi-module support
 
 
-== Why behave/Python ==
+Why behave/Python
+=================
 Gherkin as a specification language is quite an obvious choice because
 of its clarity. JBehave seems to be big and bloated. Besides, its just
 faster to write the steps implementation in something like
