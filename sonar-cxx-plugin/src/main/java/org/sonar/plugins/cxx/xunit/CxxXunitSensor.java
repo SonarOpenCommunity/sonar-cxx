@@ -157,15 +157,15 @@ public class CxxXunitSensor extends CxxReportSensor {
       throws javax.xml.stream.XMLStreamException, IOException {
     CxxUtils.LOG.info("Parsing report '{}'", report);
 
-    TestSuiteParser parserHandler = new TestSuiteParser();
+    XunitReportParser parserHandler = new XunitReportParser();
     StaxParser parser = new StaxParser(parserHandler, false);
     parser.parse(report);
 
-    for (TestSuite fileReport : parserHandler.getParsedReports()) {
-      String fileKey = fileReport.getKey();
+    for (TestSuite tsuite : parserHandler.getTestSuites()) {
+      String fileKey = tsuite.getKey();
       try {
         org.sonar.api.resources.File resource = getTestFile(project, context, fileKey);
-        saveTestMetrics(context, resource, fileReport);
+        saveTestMetrics(context, resource, tsuite);
       } catch (org.sonar.api.utils.SonarException ex) {
         CxxUtils.LOG.warn("Cannot save test metrics for '{}', details: {}", fileKey, ex);
       }
@@ -174,14 +174,14 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   private void saveTestMetrics(SensorContext context, org.sonar.api.resources.File resource, TestSuite fileReport) {
     double testsRun = fileReport.getTests() - fileReport.getSkipped();
-    
+
     context.saveMeasure(resource, CoreMetrics.SKIPPED_TESTS, (double) fileReport.getSkipped());
     context.saveMeasure(resource, CoreMetrics.TESTS, testsRun);
     context.saveMeasure(resource, CoreMetrics.TEST_ERRORS, (double) fileReport.getErrors());
     context.saveMeasure(resource, CoreMetrics.TEST_FAILURES, (double) fileReport.getFailures());
     context.saveMeasure(resource, CoreMetrics.TEST_EXECUTION_TIME, (double) fileReport.getTime());
 
-    
+
     if (testsRun > 0) {
       double testsPassed = testsRun - fileReport.getErrors() - fileReport.getFailures();
       double successDensity = testsPassed * PERCENT_BASE / testsRun;

@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * {@inheritDoc}
  */
-public class TestSuiteParser implements XmlStreamHandler {
+public class XunitReportParser implements XmlStreamHandler {
 
   private Map<String, TestSuite> testSuites = new HashMap<String, TestSuite>();
 
@@ -79,7 +79,7 @@ public class TestSuiteParser implements XmlStreamHandler {
   /**
    * Returns successfully parsed reports as a collection of TestSuite objects.
    */
-  public Collection<TestSuite> getParsedReports() {
+  public Collection<TestSuite> getTestSuites() {
     return testSuites.values();
   }
 
