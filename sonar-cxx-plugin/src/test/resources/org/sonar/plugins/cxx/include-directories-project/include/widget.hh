@@ -1,0 +1,1 @@
+#define WIDGET void widget(){}

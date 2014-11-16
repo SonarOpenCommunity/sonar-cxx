@@ -229,6 +229,9 @@ public class CppGrammarTest {
     assertThat(p).matches("#include /**/ <ace/config-all.h>");
     assertThat(p).matches("#include <math.h> /**/ /**/");
     assertThat(p).matches("#include USER_CONFIG");
+    assertThat(p).matches("#include macro(a,b,c)");
+    assertThat(p).matches("#include BOOST_PP_STRINGIZE(boost/mpl/aux_/preprocessed/AUX778076_PREPROCESSED_HEADER)");
+    assertThat(p).matches("#include BOOST_PP_TUPLE_ELEM_2(0,10,<boost/utility/detail/result_of_iterate.hpp>,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
   }
 
   @Test

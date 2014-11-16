@@ -15,6 +15,8 @@
 // 7. ... but it does in the 'free' form of the include statement
 #define LOCATION "bar.hh"
 #include LOCATION
+#define MACRO(p) p
+#include MACRO("widget.hh")
 
 INCLUDE1
 INCLUDE2
@@ -24,3 +26,4 @@ INCLUDE_SND_SUBFOLDER_1
 HEADER1
 HEADER2
 BAR //void bar(){}
+WIDGET //void widget(){}
