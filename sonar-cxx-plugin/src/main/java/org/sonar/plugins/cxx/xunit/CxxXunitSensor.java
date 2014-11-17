@@ -108,7 +108,8 @@ public class CxxXunitSensor extends CxxReportSensor {
       List<File> reports = getReports(conf, fs.baseDir().getPath(),
                                       REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
       if (!reports.isEmpty()) {
-        if (conf.getBoolean(PROVIDE_DETAILS_KEY)) {
+        boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
+        if (providedetails) {
           detailledMode(project, context, reports);
         } else {
           simpleMode(project, context, reports);
@@ -119,7 +120,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
-        .append("Cannot feed the data into sonar, details: '")
+        .append("Cannot feed the data into SonarQube, details: '")
         .append(e)
         .append("'")
         .toString();
@@ -130,14 +131,18 @@ public class CxxXunitSensor extends CxxReportSensor {
   private void simpleMode(final Project project, final SensorContext context, List<File> reports)
     throws javax.xml.stream.XMLStreamException {
 
+    CxxUtils.LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
+
     XunitReportParser parserHandler = new XunitReportParser();
     StaxParser parser = new StaxParser(parserHandler, false);
     for (File report : reports) {
       CxxUtils.LOG.info("Parsing report '{}'", report);
-      parser.parse(report);
+      try{
+        parser.parse(report);
+      } catch(EmptyReportException e){
+        CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+      }
     }
-
-    CxxUtils.LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
 
     double testsCount = 0.0;
     double testsSkipped = 0.0;
