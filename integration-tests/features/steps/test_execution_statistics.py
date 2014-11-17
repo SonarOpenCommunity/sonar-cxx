@@ -61,46 +61,80 @@ def step_impl(context):
 def step_impl(context):
     ignore_re = build_regexp(context.text)
     badlines, _errors, _warnings = analyselog(context.log, ignore_re)
-    
+
     assert len(badlines) == 0,\
         ("Found following errors and/or warnings lines in the logfile:\n"
          + "".join(badlines)
          + "For details see %s" % context.log)
 
 
+METRICS_ORDER = [
+    "tests",
+    "test_failures",
+    "test_errors",
+    "skipped_tests",
+    "test_success_density",
+    "test_execution time"
+    ]
+
+
+def _expMeasuresToDict(measures):
+    def convertvalue(value):
+        return None if value == "None" else float(value)
+    res = {}
+    if isinstance(measures, model.Table):
+        res = {row["metric"]: convertvalue(row["value"]) for row in measures}
+    elif isinstance(measures, list):
+        assert len(measures) == len(METRICS_ORDER)
+        res = {}
+        for i in range(len(measures) - 1):
+            res[METRICS_ORDER[i]] = convertvalue(measures[i])
+    return res
+
+
+def _gotMeasuresToDict(measures):
+    return {measure["key"]: measure["val"] for measure in measures}
+
+
+def _diffMeasures(expected, measured):
+    difflist = []
+    for metric, value_expected in expected.iteritems():
+        value_measured = measured.get(metric, None)
+        if value_expected != value_measured:
+            difflist.append("\t%s is actually %s" % (metric, str(value_measured)))
+    return "\n".join(difflist)
+
+
 @then(u'the following metrics have following values')
 def step_impl(context):
-    def _toSimpleDict(measures):
-        if isinstance(measures, model.Table):
-            return {row["metric"]: None if row["value"] == "None" else float(row["value"])
-                    for row in measures}
-        else:
-            return {measure["key"]: measure["val"] for measure in measures}
+    exp_measures = _expMeasuresToDict(context.table)
+    assert_measures(context.project, exp_measures)
 
-    def diffMeasures(expected, measured):
-        difflist = []
-        for metric, value_expected in expected.iteritems():
-            value_measured = measured.get(metric, None)
-            if value_expected != value_measured:
-                difflist.append("\t%s is actually %s" % (metric, str(value_measured)))
-        return "\n".join(difflist)
 
-    exp_measures = _toSimpleDict(context.table)
-    metrics_to_query = exp_measures.keys()
+def assert_measures(project, measures):
+    metrics_to_query = measures.keys()
 
     try:
-        url = (SONAR_URL + "/api/resources?resource=" + context.project + "&metrics="
+        url = (SONAR_URL + "/api/resources?resource=" + project + "&metrics="
                + ",".join(metrics_to_query))
         response = requests.get(url)
         got_measures = {}
         json_measures = json.loads(response.text)[0].get("msr", None)
         if json_measures is not None:
-            got_measures = _toSimpleDict(json_measures)
-        diff = diffMeasures(exp_measures, got_measures)
+            got_measures = _gotMeasuresToDict(json_measures)
+
+        diff = _diffMeasures(measures, got_measures)
     except requests.exceptions.ConnectionError, e:
         assert False, "cannot query the metrics, details: %s" % str(e)
 
     assert diff == "", "\n" + diff
+
+
+@then(u'the test related metrics have following values: {values}')
+def step_impl(context, values):
+    parsed_values = [value.strip() for value in values.split(",")]
+    exp_measures = _expMeasuresToDict(parsed_values)
+    assert_measures(context.project, exp_measures)
 
 
 @then(u'the analysis breaks')

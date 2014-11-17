@@ -26,14 +26,14 @@ etc. I have a couple of findings so far:
   report. Now, it is only accepted in the testsuite-tag, which seems
   to be wrong, as at makes the assumption that all testcases
   belonging to the same testsuite reside in the same source
-  file. Which is clearly wrong. 
+  file. Which is clearly wrong.
 
   I think we should change that.
 
 * The XML samples used in the unit tests do not conform to the schema
   in full extend. Some dont use "testsuites" as root tag. Some contain
   attributes which neither JUnit nor Googletest produce.
-  
+
   My plan is to correct those file to conform to the grammar.
 
 Comments, ideas, objections?

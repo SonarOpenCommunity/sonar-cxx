@@ -345,6 +345,17 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(5)
+      .build(),
+
+      PropertyDefinition.builder(CxxXunitSensor.PROVIDE_DETAILS_KEY)
+      .name("Provide test execution details")
+      .description("If 'True', tries to assign testcases in report to test resources in Sonar, "
+                   + "thus making the drillown to details possible")
+      .defaultValue("True")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(6)
       .build()
       );
   }
