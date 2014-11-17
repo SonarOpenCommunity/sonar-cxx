@@ -33,8 +33,7 @@ from common import analyselog
 SONAR_URL = "http://localhost:9000"
 INDENT = "    "
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
-jarpattern = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
-JAR_PATH = os.path.normpath(glob(jarpattern)[0])
+JARPATTERN = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
 RELPATH_LOG = "logs/sonar.log"
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
@@ -71,14 +70,16 @@ def before_all(context):
         if sonarhome is not None:
             if os.path.exists(sonarhome):
                 cleanup(sonarhome)
-                install_plugin(sonarhome)
-                started = start_sonar(sonarhome)
-                if not started:
-                    sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting"
+                if install_plugin(sonarhome):
+                    started = start_sonar(sonarhome)
+                    if not started:
+                        sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting"
                                      % sonarhome + RESET)
+                        sys.exit(-1)
+                    didstartsonar = True
+                    checklogs(sonarhome)
+                else:
                     sys.exit(-1)
-                didstartsonar = True
-                checklogs(sonarhome)
             else:
                 sys.stderr.write(INDENT + RED + "The folder '%s' doesnt exist, exiting"
                                  % sonarhome + RESET)
@@ -123,8 +124,23 @@ def install_plugin(sonarhome):
     pluginspath = os.path.join(sonarhome, RELPATH_PLUGINS)
     for path in glob(os.path.join(pluginspath, "sonar-cxx-plugin*.jar")):
         os.remove(path)
-    copyfile(JAR_PATH, os.path.join(pluginspath, os.path.basename(JAR_PATH)))
+    jpath = jarpath()
+    if not jpath:
+        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n")
+        sys.stderr.flush()
+        return False
+
+    copyfile(jpath, os.path.join(pluginspath, os.path.basename(jpath)))
     sys.stdout.write(GREEN + "OK\n" + RESET)
+    return True
+
+
+
+def jarpath():
+    jars = glob(JARPATTERN)
+    if not jars:
+        return None
+    return os.path.normpath(jars[0])
 
 
 def start_sonar(sonarhome):

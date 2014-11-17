@@ -51,17 +51,20 @@ public class CxxXunitSensorTest {
   private SensorContext context;
   private Project project;
   private ModuleFileSystem fs;
+  private Settings config;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxXunitSensor(new Settings(), fs, TestUtils.mockCxxLanguage());
+    config = new Settings();
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
+    config.setProperty(CxxXunitSensor.PROVIDE_DETAILS_KEY, "True");
     sensor.analyse(project, context);
 
     verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),

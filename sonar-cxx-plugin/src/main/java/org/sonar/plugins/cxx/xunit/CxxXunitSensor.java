@@ -29,8 +29,10 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser;
+import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
@@ -70,6 +72,8 @@ import java.util.regex.Pattern;
 public class CxxXunitSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
+  public static final String PROVIDE_DETAILS_KEY = "sonar.cxx.xunit.provideDetails";
+
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
   private String xsltURL = null;
   private CxxLanguage lang = null;
@@ -95,24 +99,103 @@ public class CxxXunitSensor extends CxxReportSensor {
     return CoverageExtension.class;
   }
 
-  @Override
-  protected String reportPathKey() {
-    return REPORT_PATH_KEY;
-  }
-
-  @Override
-  protected String defaultReportPath() {
-    return DEFAULT_REPORT_PATH;
-  }
-
   /**
    * {@inheritDoc}
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    buildLookupTables(project);
-    super.analyse(project, context);
+    try{
+      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+                                      REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+      if (!reports.isEmpty()) {
+        boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
+        if (providedetails) {
+          detailledMode(project, context, reports);
+        } else {
+          simpleMode(project, context, reports);
+        }
+      }
+      else{
+        CxxUtils.LOG.debug("No reports found, nothing to process");
+      }
+    } catch (Exception e) {
+      String msg = new StringBuilder()
+        .append("Cannot feed the data into SonarQube, details: '")
+        .append(e)
+        .append("'")
+        .toString();
+      throw new SonarException(msg, e);
+    }
   }
+
+  private void simpleMode(final Project project, final SensorContext context, List<File> reports)
+    throws javax.xml.stream.XMLStreamException {
+
+    CxxUtils.LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
+
+    XunitReportParser parserHandler = new XunitReportParser();
+    StaxParser parser = new StaxParser(parserHandler, false);
+    for (File report : reports) {
+      CxxUtils.LOG.info("Parsing report '{}'", report);
+      try{
+        parser.parse(report);
+      } catch(EmptyReportException e){
+        CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+      }
+    }
+
+    double testsCount = 0.0;
+    double testsSkipped = 0.0;
+    double testsErrors = 0.0;
+    double testsFailures = 0.0;
+    double testsTime = 0.0;
+    for (TestSuite ts : parserHandler.getTestSuites()) {
+      testsCount += ts.getTests() - ts.getSkipped();
+      testsSkipped += ts.getSkipped();
+      testsErrors += ts.getErrors();
+      testsFailures += ts.getFailures();
+      testsTime += ts.getTime();
+    }
+
+    if (testsCount > 0) {
+      double testsPassed = testsCount - testsErrors - testsFailures;
+      double successDensity = testsPassed * PERCENT_BASE / testsCount;
+      context.saveMeasure(project, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(successDensity));
+
+      context.saveMeasure(project, CoreMetrics.TESTS, testsCount);
+      context.saveMeasure(project, CoreMetrics.SKIPPED_TESTS, testsSkipped);
+      context.saveMeasure(project, CoreMetrics.TEST_ERRORS, testsErrors);
+      context.saveMeasure(project, CoreMetrics.TEST_FAILURES, testsFailures);
+      context.saveMeasure(project, CoreMetrics.TEST_EXECUTION_TIME, testsTime);
+    }
+    else{
+      CxxUtils.LOG.debug("The reports contain no testcases");
+    }
+  }
+
+  private void detailledMode(final Project project, final SensorContext context, List<File> reports)
+    throws
+    javax.xml.stream.XMLStreamException,
+    java.io.IOException,
+    javax.xml.transform.TransformerException
+  {
+    CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
+
+    buildLookupTables(project);
+
+    for (File report : reports) {
+      CxxUtils.LOG.info("Processing report '{}'", report);
+      try{
+        //int prevViolationsCount = violationsCount;
+        processReport(project, context, report);
+        //CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+        //                  violationsCount - prevViolationsCount);
+      } catch(EmptyReportException e){
+        CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+      }
+    }
+  }
+
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
@@ -155,17 +238,16 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   private void parseReport(Project project, SensorContext context, File report)
       throws javax.xml.stream.XMLStreamException, IOException {
-    CxxUtils.LOG.info("Parsing report '{}'", report);
 
-    TestSuiteParser parserHandler = new TestSuiteParser();
+    XunitReportParser parserHandler = new XunitReportParser();
     StaxParser parser = new StaxParser(parserHandler, false);
     parser.parse(report);
 
-    for (TestSuite fileReport : parserHandler.getParsedReports()) {
-      String fileKey = fileReport.getKey();
+    for (TestSuite tsuite : parserHandler.getTestSuites()) {
+      String fileKey = tsuite.getKey();
       try {
         org.sonar.api.resources.File resource = getTestFile(project, context, fileKey);
-        saveTestMetrics(context, resource, fileReport);
+        saveTestMetrics(context, resource, tsuite);
       } catch (org.sonar.api.utils.SonarException ex) {
         CxxUtils.LOG.warn("Cannot save test metrics for '{}', details: {}", fileKey, ex);
       }
@@ -174,14 +256,14 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   private void saveTestMetrics(SensorContext context, org.sonar.api.resources.File resource, TestSuite fileReport) {
     double testsRun = fileReport.getTests() - fileReport.getSkipped();
-    
+
     context.saveMeasure(resource, CoreMetrics.SKIPPED_TESTS, (double) fileReport.getSkipped());
     context.saveMeasure(resource, CoreMetrics.TESTS, testsRun);
     context.saveMeasure(resource, CoreMetrics.TEST_ERRORS, (double) fileReport.getErrors());
     context.saveMeasure(resource, CoreMetrics.TEST_FAILURES, (double) fileReport.getFailures());
     context.saveMeasure(resource, CoreMetrics.TEST_EXECUTION_TIME, (double) fileReport.getTime());
 
-    
+
     if (testsRun > 0) {
       double testsPassed = testsRun - fileReport.getErrors() - fileReport.getFailures();
       double successDensity = testsPassed * PERCENT_BASE / testsRun;

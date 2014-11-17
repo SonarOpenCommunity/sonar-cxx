@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-//import com.google.common.collect.Iterables;
 import java.io.File;
 import javax.xml.stream.XMLStreamException;
 import org.junit.Before;
@@ -31,8 +30,8 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.TestUtils;
 
-public class TestSuiteParserTest {
-  TestSuiteParser parserHandler = new TestSuiteParser();
+public class XunitReportParserTest {
+  XunitReportParser parserHandler = new XunitReportParser();
   StaxParser parser = new StaxParser(parserHandler, false);
   String REPORTS_PATH = "/org/sonar/plugins/cxx/reports-project/xunit-reports/";
 
@@ -41,9 +40,9 @@ public class TestSuiteParserTest {
     File xmlReport = TestUtils.loadResource(REPORTS_PATH + "xunit-result-SAMPLE_with_fileName.xml");
     parser.parse(xmlReport);
 
-    TestSuite fileReport = (TestSuite)parserHandler.getParsedReports().toArray()[0];
-    assertEquals(fileReport.getKey(), "test/file.cpp");
-    assertEquals(fileReport.getTests(), 3);
+    TestSuite tsuite = (TestSuite)parserHandler.getTestSuites().toArray()[0];
+    assertEquals(tsuite.getKey(), "test/file.cpp");
+    assertEquals(tsuite.getTests(), 3);
   }
 
   @Test
@@ -51,7 +50,7 @@ public class TestSuiteParserTest {
     File xmlReport = TestUtils.loadResource(REPORTS_PATH + "xunit-result_with_emptyFileName.xml");
     parser.parse(xmlReport);
 
-    TestSuite fileReport = (TestSuite)parserHandler.getParsedReports().toArray()[0];
-    assertEquals("SAMPLEtest", fileReport.getKey());
+    TestSuite tsuite = (TestSuite)parserHandler.getTestSuites().toArray()[0];
+    assertEquals("SAMPLEtest", tsuite.getKey());
   }
 }
