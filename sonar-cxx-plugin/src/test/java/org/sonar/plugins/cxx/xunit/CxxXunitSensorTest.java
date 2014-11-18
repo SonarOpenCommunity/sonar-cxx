@@ -44,7 +44,7 @@ import static org.junit.Assert.assertEquals;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.junit.Assert.assertThat;
-
+import static org.mockito.Mockito.when;
 
 public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
@@ -58,8 +58,15 @@ public class CxxXunitSensorTest {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
     config = new Settings();
-    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
     context = mock(SensorContext.class);
+
+    sensor = new CxxXunitSensor(config, fs, TestUtils.mockCxxLanguage());
+    ResourceFinder resourceFinder = mock(ResourceFinder.class);
+    when(resourceFinder.findInSonar(
+           any(File.class), any(SensorContext.class),
+           any(ModuleFileSystem.class), any(Project.class))
+      ).thenReturn(new org.sonar.api.resources.File("doesntmatter"));
+    sensor.injectResourceFinder(resourceFinder);
   }
 
   @Test
@@ -67,17 +74,17 @@ public class CxxXunitSensorTest {
     config.setProperty(CxxXunitSensor.PROVIDE_DETAILS_KEY, "True");
     sensor.analyse(project, context);
 
-    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TESTS), anyDouble());
-    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.SKIPPED_TESTS), anyDouble());
-    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TEST_ERRORS), anyDouble());
-    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TEST_FAILURES), anyDouble());
-    verify(context, times(3)).saveMeasure((org.sonar.api.resources.File) anyObject(),
+    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
         eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
-    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
+    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
   }
 
   @Test

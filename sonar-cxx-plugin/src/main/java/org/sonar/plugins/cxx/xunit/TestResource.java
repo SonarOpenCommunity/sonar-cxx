@@ -28,8 +28,6 @@ import java.util.List;
  * collected from the reports.
  */
 public class TestResource {
-
-  private String key;
   private int errors = 0;
   private int skipped = 0;
   private int tests = 0;
@@ -39,16 +37,17 @@ public class TestResource {
   private org.sonar.api.resources.File sonarResource = null;
 
   /**
-   * Creates a test resource instance uniquely identified by the given key
-   * @param key The key to construct a test resource for
+   * Creates a test resource instance which corresponds and represents the
+   * passed resources.File instance
+   * @param sonarResource The resource in SQ which this TestResource proxies
    */
-  public TestResource(String key) {
-    this.key = key;
+  public TestResource(org.sonar.api.resources.File sonarResource) {
+    this.sonarResource = sonarResource;
     this.testCases = new ArrayList<TestCase>();
   }
 
   public String getKey() {
-    return key;
+    return sonarResource.getKey();
   }
 
   public int getErrors() {
@@ -69,24 +68,6 @@ public class TestResource {
 
   public int getFailures() {
     return failures;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    TestResource that = (TestResource) o;
-    return key.equals(that.key);
-  }
-
-  @Override
-  public int hashCode() {
-    return key.hashCode();
   }
 
   /**
@@ -118,10 +99,6 @@ public class TestResource {
     }
     details.append("</tests-details>");
     return details.toString();
-  }
-
-  public void setSonarResource(org.sonar.api.resources.File resource) {
-    sonarResource = resource;
   }
 
   public org.sonar.api.resources.File getSonarResource() {

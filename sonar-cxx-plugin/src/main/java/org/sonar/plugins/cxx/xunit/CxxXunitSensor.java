@@ -64,6 +64,8 @@ import org.sonar.squid.api.SourceFunction;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -82,6 +84,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   static Pattern classNameMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
   private final static double PERCENT_BASE = 100d;
 
+  private ResourceFinder resourceFinder = null;
+
   /**
    * {@inheritDoc}
    */
@@ -89,6 +93,11 @@ public class CxxXunitSensor extends CxxReportSensor {
     super(conf, fs);
     this.lang = cxxLang;
     xsltURL = conf.getString(XSLT_URL_KEY);
+    this.resourceFinder = new DefaultResourceFinder();
+  }
+
+  void injectResourceFinder(ResourceFinder finder) {
+    this.resourceFinder = finder;
   }
 
   /**
@@ -108,11 +117,23 @@ public class CxxXunitSensor extends CxxReportSensor {
       List<File> reports = getReports(conf, fs.baseDir().getPath(),
                                       REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
       if (!reports.isEmpty()) {
+        XunitReportParser parserHandler = new XunitReportParser();
+        StaxParser parser = new StaxParser(parserHandler, false);
+        for (File report : reports) {
+          CxxUtils.LOG.info("Parsing report '{}'", report);
+          try{
+            parser.parse(transformReport(report));
+          } catch(EmptyReportException e){
+            CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+          }
+        }
+        List<TestCase> testcases = parserHandler.getTestCases();
+
         boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
         if (providedetails) {
-          detailledMode(project, context, reports);
+          detailledMode(project, context, testcases);
         } else {
-          simpleMode(project, context, reports);
+          simpleMode(project, context, testcases);
         }
       }
       else{
@@ -128,34 +149,30 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
   }
 
-  private void simpleMode(final Project project, final SensorContext context, List<File> reports)
-    throws javax.xml.stream.XMLStreamException {
-
+  private void simpleMode(final Project project, final SensorContext context, List<TestCase> testcases)
+    throws javax.xml.stream.XMLStreamException,
+    java.io.IOException,
+    javax.xml.transform.TransformerException
+  {
     CxxUtils.LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
-
-    XunitReportParser parserHandler = new XunitReportParser();
-    StaxParser parser = new StaxParser(parserHandler, false);
-    for (File report : reports) {
-      CxxUtils.LOG.info("Parsing report '{}'", report);
-      try{
-        parser.parse(report);
-      } catch(EmptyReportException e){
-        CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-      }
-    }
 
     double testsCount = 0.0;
     double testsSkipped = 0.0;
     double testsErrors = 0.0;
     double testsFailures = 0.0;
     double testsTime = 0.0;
-    for (TestSuite ts : parserHandler.getTestSuites()) {
-      testsCount += ts.getTests() - ts.getSkipped();
-      testsSkipped += ts.getSkipped();
-      testsErrors += ts.getErrors();
-      testsFailures += ts.getFailures();
-      testsTime += ts.getTime();
+    for (TestCase tc : testcases) {
+      if (tc.isSkipped()) {
+        testsSkipped++;
+      } else if (tc.isFailure()) {
+        testsFailures++;
+      } else if (tc.isError()) {
+        testsErrors++;
+      }
+      testsCount++;
+      testsTime += tc.getTime();
     }
+    testsCount -= testsSkipped;
 
     if (testsCount > 0) {
       double testsPassed = testsCount - testsErrors - testsFailures;
@@ -173,7 +190,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
   }
 
-  private void detailledMode(final Project project, final SensorContext context, List<File> reports)
+  private void detailledMode(final Project project, final SensorContext context, List<TestCase> testcases)
     throws
     javax.xml.stream.XMLStreamException,
     java.io.IOException,
@@ -183,28 +200,41 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     buildLookupTables(project);
 
-    for (File report : reports) {
-      CxxUtils.LOG.info("Processing report '{}'", report);
-      try{
-        //int prevViolationsCount = violationsCount;
-        processReport(project, context, report);
-        //CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
-        //                  violationsCount - prevViolationsCount);
-      } catch(EmptyReportException e){
-        CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-      }
+    Collection<TestResource> locatedResources = lookupResources(project, context, testcases);
+
+    for (TestResource resource : locatedResources) {
+      saveTestMetrics(context, resource);
     }
+
+    //report processed, testcases processed, testcases skipped, resources found
+    //CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+    //                  violationsCount - prevViolationsCount);
   }
 
 
-  @Override
-  protected void processReport(final Project project, final SensorContext context, File report)
-      throws
-      java.io.IOException,
-      javax.xml.transform.TransformerException,
-      javax.xml.stream.XMLStreamException
-  {
-    parseReport(project, context, transformReport(report));
+  private Collection<TestResource> lookupResources(Project project, SensorContext context, List<TestCase> testcases) {
+    Map<String, TestResource> resources = new HashMap<String, TestResource>();
+
+    for (TestCase tc : testcases) {
+      CxxUtils.LOG.debug("Trying the resource for the testcase '{}' ...", tc.getFullname());
+      org.sonar.api.resources.File sonarResource = lookupResource(project, context, tc);
+      if (sonarResource != null) {
+        CxxUtils.LOG.debug("... found! The resource is '{}'", sonarResource);
+
+        TestResource resource = resources.get(sonarResource.getKey());
+        if (resource == null) {
+          resource = new TestResource(sonarResource);
+          resources.put(resource.getKey(), resource);
+        }
+
+        resource.addTestCase(tc);
+      } else {
+        CxxUtils.LOG.warn("... no resource found, the testcase '{}' has to be skipped",
+                          tc.getFullname());
+      }
+    }
+
+    return resources.values();
   }
 
   File transformReport(File report)
@@ -236,77 +266,57 @@ public class CxxXunitSensor extends CxxReportSensor {
     return transformed;
   }
 
-  private void parseReport(Project project, SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException, IOException {
+  private void saveTestMetrics(SensorContext context, TestResource resource) {
+    org.sonar.api.resources.File testfile = resource.getSonarResource();
+    double testsRun = resource.getTests() - resource.getSkipped();
 
-    XunitReportParser parserHandler = new XunitReportParser();
-    StaxParser parser = new StaxParser(parserHandler, false);
-    parser.parse(report);
-
-    for (TestSuite tsuite : parserHandler.getTestSuites()) {
-      String fileKey = tsuite.getKey();
-      try {
-        org.sonar.api.resources.File resource = getTestFile(project, context, fileKey);
-        saveTestMetrics(context, resource, tsuite);
-      } catch (org.sonar.api.utils.SonarException ex) {
-        CxxUtils.LOG.warn("Cannot save test metrics for '{}', details: {}", fileKey, ex);
-      }
-    }
-  }
-
-  private void saveTestMetrics(SensorContext context, org.sonar.api.resources.File resource, TestSuite fileReport) {
-    double testsRun = fileReport.getTests() - fileReport.getSkipped();
-
-    context.saveMeasure(resource, CoreMetrics.SKIPPED_TESTS, (double) fileReport.getSkipped());
-    context.saveMeasure(resource, CoreMetrics.TESTS, testsRun);
-    context.saveMeasure(resource, CoreMetrics.TEST_ERRORS, (double) fileReport.getErrors());
-    context.saveMeasure(resource, CoreMetrics.TEST_FAILURES, (double) fileReport.getFailures());
-    context.saveMeasure(resource, CoreMetrics.TEST_EXECUTION_TIME, (double) fileReport.getTime());
+    context.saveMeasure(testfile, CoreMetrics.SKIPPED_TESTS, (double) resource.getSkipped());
+    context.saveMeasure(testfile, CoreMetrics.TESTS, testsRun);
+    context.saveMeasure(testfile, CoreMetrics.TEST_ERRORS, (double) resource.getErrors());
+    context.saveMeasure(testfile, CoreMetrics.TEST_FAILURES, (double) resource.getFailures());
+    context.saveMeasure(testfile, CoreMetrics.TEST_EXECUTION_TIME, (double) resource.getTime());
 
 
     if (testsRun > 0) {
-      double testsPassed = testsRun - fileReport.getErrors() - fileReport.getFailures();
+      double testsPassed = testsRun - resource.getErrors() - resource.getFailures();
       double successDensity = testsPassed * PERCENT_BASE / testsRun;
-      context.saveMeasure(resource, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(successDensity));
+      context.saveMeasure(testfile, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(successDensity));
     }
-    context.saveMeasure(resource, new Measure(CoreMetrics.TEST_DATA, fileReport.getDetails()));
+    context.saveMeasure(testfile, new Measure(CoreMetrics.TEST_DATA, resource.getDetails()));
   }
 
-  private org.sonar.api.resources.File getTestFile(Project project, SensorContext context, String fileKey) {
-    org.sonar.api.resources.File resource = fromIOFile(fileKey, project);
+  private org.sonar.api.resources.File lookupResource(Project project, SensorContext context, TestCase tc) {
+    // The lookup of the test resource for a test case is performed as follows:
+    // 1. If the testcase carries a filepath just perform the lookup using this data.
+    //    As we assume this as the absolute knowledge, we dont want to fallback to other
+    //    methods, we want to FAIL.
+    // 2. Do a lookup using unchanged value of classname. When this failed, fallback to 3.
+    // 3. Use the classname to search in the lookupTable (this is the AST-based lookup)
+    //    and redo the lookup in Sonar with the gained value.
 
-    if (context.getResource(resource) == null) {
-      String filePath = lookupFilePath(fileKey);
-      resource = fromIOFile(filePath, project);
-      if (context.getResource(resource) == null) {
-        CxxUtils.LOG.debug("Cannot find the source file for test '{}', creating a dummy one", fileKey);
-        resource = createVirtualFile(context, fileKey);
+    org.sonar.api.resources.File sonarResource = null;
+    String filepath = tc.getFilename();
+    if (filepath != null){
+      CxxUtils.LOG.debug("Performing the 'filename'-based lookup using the value '{}'", filepath);
+      return lookupInSonar(filepath, context, project);
+    }
+
+    String classname = tc.getClassname();
+    if (classname != null){
+      CxxUtils.LOG.debug("Performing lookup using classname ('{}')", classname);
+      sonarResource = lookupInSonar(classname, context, project);
+      if (sonarResource == null){
+        filepath = lookupFilePath(classname);
+        CxxUtils.LOG.debug("Performing AST-based lookup, determined file path: '{}'", filepath);
+        sonarResource = lookupInSonar(filepath, context, project);
       }
-    } else {
-      CxxUtils.LOG.debug("Assigning the test '{}' to resource '{}'", fileKey, resource.getKey());
     }
 
-    return resource;
+    return sonarResource;
   }
 
-
-  org.sonar.api.resources.File fromIOFile(String filepath, Project project){
-    File file = new File(filepath);
-    org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project);
-    if (resource == null) {
-      // support SQ<4.2
-      resource = org.sonar.api.resources.File.fromIOFile(file, fs.testDirs());
-    }
-    return resource;
-  }
-
-
-  private org.sonar.api.resources.File createVirtualFile(SensorContext context, String fileKey) {
-    org.sonar.api.resources.File file = new org.sonar.api.resources.File(fileKey);
-    file.setLanguage(this.lang);
-    file.setQualifier(Qualifiers.UNIT_TEST_FILE);
-    context.saveSource(file, "<The sources could not be found. Consult the log file for details>");
-    return file;
+  private org.sonar.api.resources.File lookupInSonar(String filepath, SensorContext context, Project project) {
+    return resourceFinder.findInSonar(new File(filepath), context, this.fs, project);
   }
 
   String lookupFilePath(String key) {

@@ -19,19 +19,23 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+
 import java.io.File;
-import javax.xml.stream.XMLStreamException;
-import org.junit.Before;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.TestUtils;
+public class DefaultResourceFinder implements ResourceFinder {
 
-public class XunitReportParserTest {
-  XunitReportParser parserHandler = new XunitReportParser();
-  StaxParser parser = new StaxParser(parserHandler, false);
-  String REPORTS_PATH = "/org/sonar/plugins/cxx/reports-project/xunit-reports/";
+  public org.sonar.api.resources.File findInSonar(File file, SensorContext context, ModuleFileSystem fs, Project project) {
+    org.sonar.api.resources.File unitTestFile = org.sonar.api.resources.File.fromIOFile(file, project);
+    if (unitTestFile == null) {
+      unitTestFile = org.sonar.api.resources.File.fromIOFile(file, fs.testDirs());
+    }
+    if (context.getResource(unitTestFile) == null) {
+      unitTestFile = null;
+    }
+
+    return unitTestFile;
+  }
 }

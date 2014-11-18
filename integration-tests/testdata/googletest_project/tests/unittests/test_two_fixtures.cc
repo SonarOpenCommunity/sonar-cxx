@@ -2,24 +2,26 @@
 #include <unistd.h>
 
 namespace {
-    class Fixture : public ::testing::Test {
+    class Fixture1 : public ::testing::Test {
     };
 
     // this will be in one testsuite-tag
-    TEST_F(Fixture, test_successfull) {
+    TEST_F(Fixture1, test_successfull) {
         usleep(50000);
         EXPECT_EQ(1, 1);
     }
-    TEST_F(Fixture, test_failing) {
+    TEST_F(Fixture1, test_failing) {
         EXPECT_EQ(1, 12);
     }
-    TEST_F(Fixture, DISABLED_test_skipped) {
+    TEST_F(Fixture1, DISABLED_test_skipped) {
         ASSERT_EQ(1, 1);
     }
 
+    class Fixture2 : public ::testing::Test {
+    };
 
     // this will be in another testsuite-tag
-    TEST(tc1, tc1_good) {
+    TEST(Fixture2, tc1_good) {
         ASSERT_EQ(1, 1);
     }
 }

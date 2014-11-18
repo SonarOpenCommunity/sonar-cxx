@@ -34,13 +34,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * {@inheritDoc}
  */
 public class XunitReportParser implements XmlStreamHandler {
-
-  private Map<String, TestSuite> testSuites = new HashMap<String, TestSuite>();
+  private List<TestCase> testCases = new LinkedList<TestCase>();
 
   /**
    * {@inheritDoc}
@@ -55,47 +56,27 @@ public class XunitReportParser implements XmlStreamHandler {
     }
 
     do{
-      String testSuiteClassName = testSuiteCursor.getAttrValue("name");
+      String testSuiteName = testSuiteCursor.getAttrValue("name");
       String testFileName = testSuiteCursor.getAttrValue("filename");
 
       SMInputCursor testCaseCursor = testSuiteCursor.childElementCursor("testcase");
       while (testCaseCursor.getNext() != null) {
-        String testClassName = getClassname(testCaseCursor, testSuiteClassName);
-        String testSuiteKey = isValidKey(testFileName) ? testFileName : testClassName;
-        TestSuite report = testSuites.get(testSuiteKey);
-        if (report == null) {
-          report = new TestSuite(testSuiteKey);
-          testSuites.put(testSuiteKey, report);
-        }
-        report.addTestCase(parseTestCaseTag(testCaseCursor));
+        testCases.add(parseTestCaseTag(testCaseCursor, testSuiteName, testFileName));
       }
     }while (testSuiteCursor.getNext() != null);
   }
 
-  private boolean isValidKey(String key){
-    return key != null && !"".equals(key);
-  }
-
   /**
-   * Returns successfully parsed reports as a collection of TestSuite objects.
+   * Returns successfully parsed testcases.
    */
-  public Collection<TestSuite> getTestSuites() {
-    return testSuites.values();
+  public List<TestCase> getTestCases() {
+    return testCases;
   }
 
-  private String getClassname(SMInputCursor testCaseCursor, String defaultClassname)
+  private TestCase parseTestCaseTag(SMInputCursor testCaseCursor, String tsName, String tsFilename)
       throws XMLStreamException
   {
-    String testClassName = testCaseCursor.getAttrValue("classname");
-    return testClassName == null ? defaultClassname : testClassName;
-  }
-
-  private TestCase parseTestCaseTag(SMInputCursor testCaseCursor)
-      throws XMLStreamException
-  {
-    // TODO: get a decent grammar for the junit format and check the
-    // logic inside this method against it.
-
+    String classname = testCaseCursor.getAttrValue("classname");
     String name = parseTestCaseName(testCaseCursor);
     Double time = parseTime(testCaseCursor);
     String status = "ok";
@@ -124,7 +105,7 @@ public class XunitReportParser implements XmlStreamHandler {
       }
     }
 
-    return new TestCase(name, time.intValue(), status, stack, msg);
+    return new TestCase(name, time.intValue(), status, stack, msg, classname, tsName, tsFilename);
   }
 
   private double parseTime(SMInputCursor testCaseCursor)
