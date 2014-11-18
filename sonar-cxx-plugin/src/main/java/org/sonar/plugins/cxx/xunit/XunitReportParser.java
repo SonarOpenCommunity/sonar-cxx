@@ -19,6 +19,13 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
+import java.text.ParseException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.ElementFilter;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -26,16 +33,6 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.StaxParser.XmlStreamHandler;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
-
-import javax.xml.stream.XMLStreamException;
-
-import java.text.ParseException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * {@inheritDoc}

@@ -19,22 +19,17 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import org.sonar.api.batch.CoverageExtension;
-import org.sonar.api.batch.DependsUpon;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.StaxParser;
-import org.sonar.api.utils.SonarException;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.plugins.cxx.utils.EmptyReportException;
-import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -45,27 +40,28 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.Collection;
-import java.util.TreeMap;
+import org.sonar.api.batch.CoverageExtension;
+import org.sonar.api.batch.DependsUpon;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.config.Settings;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Measure;
+import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.utils.ParsingUtils;
+import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.StaxParser;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.EmptyReportException;
 import org.sonar.squid.api.SourceClass;
 import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
 import org.sonar.squid.api.SourceFunction;
-
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -78,7 +74,6 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
   private String xsltURL = null;
-  private CxxLanguage lang = null;
   private Map<String, String> classDeclTable = new TreeMap<String, String>();
   private Map<String, String> classImplTable = new TreeMap<String, String>();
   static Pattern classNameMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
@@ -89,9 +84,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, ModuleFileSystem fs, CxxLanguage cxxLang) {
+  public CxxXunitSensor(Settings conf, ModuleFileSystem fs) {
     super(conf, fs);
-    this.lang = cxxLang;
     xsltURL = conf.getString(XSLT_URL_KEY);
     this.resourceFinder = new DefaultResourceFinder();
   }

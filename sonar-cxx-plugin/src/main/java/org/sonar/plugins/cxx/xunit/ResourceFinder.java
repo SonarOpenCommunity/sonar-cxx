@@ -19,11 +19,11 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
+import java.io.File;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import java.io.File;
 
 public interface ResourceFinder {
 

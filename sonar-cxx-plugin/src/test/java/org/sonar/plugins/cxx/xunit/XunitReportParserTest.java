@@ -19,16 +19,7 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import java.io.File;
-import javax.xml.stream.XMLStreamException;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.TestUtils;
 
 public class XunitReportParserTest {
   XunitReportParser parserHandler = new XunitReportParser();
