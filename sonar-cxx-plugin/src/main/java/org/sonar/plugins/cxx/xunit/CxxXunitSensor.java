@@ -192,7 +192,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   {
     CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
 
-    buildLookupTables(project);
+    buildLookupTables();
 
     Collection<TestResource> locatedResources = lookupResources(project, context, testcases);
 
@@ -322,7 +322,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     return path != null ? path : key;
   }
 
-  void buildLookupTables(Project project) {
+  void buildLookupTables() {
     List<File> files = fs.files(CxxLanguage.testQuery);
 
     CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());

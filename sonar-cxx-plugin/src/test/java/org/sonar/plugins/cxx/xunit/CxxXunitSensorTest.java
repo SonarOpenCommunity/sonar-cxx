@@ -104,7 +104,7 @@ public class CxxXunitSensorTest {
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
 
     sensor = new CxxXunitSensor(config, fs);
-    sensor.buildLookupTables(project);
+    sensor.buildLookupTables();
 
     // case 1:
     // the testcase file resides: directly under the test directory
