@@ -16,15 +16,15 @@ Feature: Providing test execution numbers
   # |   compatible with the element testsuite of the schema and can be
   # |   imported too.
   # |
-  # | * Additionaly, the plugin is able to import every XML format 'X'
+  # | * Additionally, the plugin is able to import every XML format 'X'
   # |   when given an XSLT-sheet, which performs the X->JUnitReport
   # |   conversion (This feature should really be deprecated...)
   # |
-  # | * It support two modes: 'simple' and the 'detailled' (swithed
+  # | * It supports two modes: 'simple' and the 'detailed' (switched
   # |   via the parameter -Dsonar.cxx.xunit.provideDetails) In simple
   # |   mode it just aggregates the measures contained in the reports
   # |   and saves the result in the project, skipping all the testcase
-  # |   details. In detailled mode, the plugin tries to find the
+  # |   details. In detailed mode, the plugin tries to find the
   # |   resources (=test source files) where the testcases are
   # |   implemented in and saves the measures to those resources.
   # |
@@ -33,8 +33,8 @@ Feature: Providing test execution numbers
   # |   1. If the testcase-tags have the attribute 'filename', its
   # |      content is assumed to contain a relative path to the
   # |      according test source file.
-  # |   2. Via the attribute 'classname'; herefore it must contain a
-  # |      path to the according relative to projects root
+  # |   2. Via the attribute 'classname'; for this to work it must
+  # |      contain a path to the according relative to projects root
   # |   3. Via parsing the test files and trying to find the values of
   # |      'classname' in the resulting AST's. This requires the test
   # |      sources to be actually parsable.
@@ -46,7 +46,7 @@ Feature: Providing test execution numbers
       # Testcases in googletest reports do not know the source file they come
       # from. The plugin is able to fill this gap for a subset of testcases
       # (currently those which use a fixture) using the 'lookup the classnames
-      # in the AST'-approach. This doesnt work for all testcases, though
+      # in the AST'-approach. This doesn't work for all testcases, though
       #
 
       GIVEN the project "googletest_project"
@@ -101,11 +101,11 @@ Feature: Providing test execution numbers
 
   Scenario: Importing test reports skipping testcase details
       #
-      # When called with provideDetails=false, the plugin doesnt try
+      # When called with provideDetails=false, the plugin doesn't try
       # to assign the testcases found in the report to test files in
       # Sonar, it just sums up all the measures and assigns it to the
-      # project. This makes the procedure more stable but doesnt
-      # provide the details for the testcases in Sonarqube, i.e. the
+      # project. This makes the procedure more stable but doesn't
+      # provide the details for the testcases in SonarQube, i.e. the
       # drilldown wont be possible.
       #
       GIVEN the project "googletest_project"
@@ -165,7 +165,7 @@ Feature: Providing test execution numbers
   #
   # Scenarios to consider:
   # - Importing a test reports with conversion via XSLT (using a boost
-  #   project? cppunit seems to be outdaten und unmaintained...)
+  #   project? cppunit seems to be outdated and unmaintained...)
   # - 'filename'-tag:
   #   - absolute filename
   #   - empty value, invalid path, path pointing to nothing
