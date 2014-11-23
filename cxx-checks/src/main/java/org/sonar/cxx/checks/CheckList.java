@@ -60,6 +60,7 @@ public final class CheckList {
         TooLongLineCheck.class,
         TooManyLinesOfCodeInFileCheck.class,
         TooManyStatementsPerLineCheck.class,
+        UndocumentedApiCheck.class,
         UnnamedNamespaceInHeaderCheck.class,
         UselessParenthesesCheck.class,
         UseCorrectTypeCheck.class,

@@ -32,6 +32,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private List<String> defines = new ArrayList<String>();
   private List<String> includeDirectories = new ArrayList<String>();
   private List<String> forceIncludeFiles = new ArrayList<String>();
+  private List<String> headerFileSuffixes = new ArrayList<String>();
   private String baseDir;
   private boolean errorRecoveryEnabled = true;
 
@@ -106,5 +107,19 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public boolean getErrorRecoveryEnabled(){
     return this.errorRecoveryEnabled;
+  }
+
+  public void setHeaderFileSuffixes(List<String> headerFileSuffixes) {
+      this.headerFileSuffixes = headerFileSuffixes;
+  }
+
+  public void setHeaderFileSuffixes(String[] headerFileSuffixes) {
+    if (headerFileSuffixes != null) {
+      setHeaderFileSuffixes(Arrays.asList(headerFileSuffixes));
+    }
+  }
+
+  public List<String> getHeaderFileSuffixes() {
+    return this.headerFileSuffixes;
   }
 }
