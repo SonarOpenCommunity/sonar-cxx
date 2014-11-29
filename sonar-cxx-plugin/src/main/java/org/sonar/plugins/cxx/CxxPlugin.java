@@ -350,12 +350,23 @@ public final class CxxPlugin extends SonarPlugin {
       .index(5)
       .build(),
 
-      PropertyDefinition.builder(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
+      PropertyDefinition.builder(CxxXunitSensor.PROVIDE_DETAILS_KEY)
+      .name("Provide test execution details")
+      .description("If 'True', tries to assign testcases in report to test resources in Sonar, "
+                   + "thus making the drillown to details possible")
+      .defaultValue("True")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(6)
+      .build(),
+      
+        PropertyDefinition.builder(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
       .name("Visual Studio Test Reports Paths")
       .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
       .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(6)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)    
+      .index(7)
       .build()
       );
   }

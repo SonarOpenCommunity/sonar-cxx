@@ -23,30 +23,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a unit test suite. Contains testcases, maintains some statistics.
- * Reports testcase details in sonar-conform XML
+ * Represents a test resource in Sonar, i.e. a source code file which
+ * implements tests.  Holds all testcases along with all measures
+ * collected from the reports.
  */
-public class TestSuite {
-
-  private String key;
+public class TestResource {
   private int errors = 0;
   private int skipped = 0;
   private int tests = 0;
   private int time = 0;
   private int failures = 0;
   private List<TestCase> testCases;
+  private org.sonar.api.resources.File sonarResource = null;
 
   /**
-   * Creates a testsuite instance uniquely identified by the given key
-   * @param key The key to construct a testsuite for
+   * Creates a test resource instance which corresponds and represents the
+   * passed resources.File instance
+   * @param sonarResource The resource in SQ which this TestResource proxies
    */
-  public TestSuite(String key) {
-    this.key = key;
+  public TestResource(org.sonar.api.resources.File sonarResource) {
+    this.sonarResource = sonarResource;
     this.testCases = new ArrayList<TestCase>();
   }
 
   public String getKey() {
-    return key;
+    return sonarResource.getKey();
   }
 
   public int getErrors() {
@@ -69,26 +70,9 @@ public class TestSuite {
     return failures;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    TestSuite that = (TestSuite) o;
-    return key.equals(that.key);
-  }
-
-  @Override
-  public int hashCode() {
-    return key.hashCode();
-  }
-
   /**
-   * Adds the given test case to this testsuite maintaining the internal statistics
+   * Adds the given test case to this testresource maintaining the
+   * internal statistics
    * @param tc the test case to add
    */
   public void addTestCase(TestCase tc) {
@@ -115,5 +99,9 @@ public class TestSuite {
     }
     details.append("</tests-details>");
     return details.toString();
+  }
+
+  public org.sonar.api.resources.File getSonarResource() {
+    return sonarResource;
   }
 }

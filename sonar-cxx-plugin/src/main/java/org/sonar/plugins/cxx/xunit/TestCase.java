@@ -36,6 +36,9 @@ public class TestCase {
   private String stackTrace;
   private String errorMessage;
   private int time = 0;
+  private String classname = null;
+  private String tsName = null;
+  private String tsFilename = null;
 
   /**
    * Constructs a testcase instance out of following parameters
@@ -46,13 +49,41 @@ public class TestCase {
    *               pass "" if the testcase passed/skipped.
    * @params msg The error message accosiated with this testcase of the execution
    *             was errouneous; pass "" if not.
+   * @params classname The name of the class this testcase is implemented by
+   * @params tsName The name of the testssuite this testcase is in.
+   * @params tsFilename The path of the file which implements the testssuite this testcase is in.
    */
-  public TestCase(String name, int time, String status, String stack, String msg) {
+  public TestCase(String name, int time, String status, String stack, String msg,
+                  String classname, String tsName, String tsFilename) {
     this.name = name;
     this.time = time;
     this.stackTrace = stack;
     this.errorMessage = msg;
     this.status = status;
+    this.classname = classname;
+    this.tsName = tsName;
+    this.tsFilename = tsFilename;
+  }
+
+  /**
+   * Returns the name of the class which is implementing this testcase
+   */
+  public String getClassname() {
+    return classname != null? classname : tsName;
+  }
+
+  /**
+   * Returns the name of the class which is implementing this testcase
+   */
+  public String getFullname() {
+    return tsName + ":" + name;
+  }
+
+  /**
+   * Returns the name of the file where this testcase is implemented
+   */
+  public String getFilename() {
+    return tsFilename;
   }
 
   /**

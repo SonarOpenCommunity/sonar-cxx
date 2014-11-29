@@ -5,7 +5,7 @@ CPPFLAGS = -I../../src -I$(GTEST_DIR)/include -I$(GTEST_DIR)
 LIBS = -lpthread ../libgtest.a $(BUILD_DIR)/libcomponents.a
 
 TESTS = $(BUILD_DIR)/test_component1 \
-	$(BUILD_DIR)/test_misc \
+	$(BUILD_DIR)/test_two_fixtures \
 	$(BUILD_DIR)/test_without_fixture
 
 all: $(TESTS)
@@ -13,10 +13,10 @@ all: $(TESTS)
 $(BUILD_DIR)/test_component1: $(BUILD_DIR)/libcomponents.a test_component1.o
 	$(LD) $^ $(LIBS) $(LDFLAGS) -o $@
 
-$(BUILD_DIR)/test_misc: test_misc.o
+$(BUILD_DIR)/test_two_fixtures: test_two_fixtures.o
 	$(LD) $^ $(LIBS) $(LDFLAGS) -o $@
 
-$(BUILD_DIR)/test_without_fixture: tc_one.o
+$(BUILD_DIR)/test_without_fixture: test_without_fixture.o
 	$(LD) $^ $(LIBS) $(LDFLAGS) -o $@
 
 %.o : %.cc

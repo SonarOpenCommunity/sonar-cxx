@@ -19,12 +19,12 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class TestCaseTest {
   @Test
@@ -32,11 +32,11 @@ public class TestCaseTest {
     Map<String, TestCase> ioMap = new HashMap<String, TestCase>();
 
     ioMap.put("<testcase status=\"ok\" time=\"1\" name=\"name\"/>",
-        new TestCase("name", 1, "ok", "", ""));
+              new TestCase("name", 1, "ok", "", "", "", "", ""));
     ioMap.put("<testcase status=\"error\" time=\"1\" name=\"name\"><error message=\"errmsg\"><![CDATA[stack]]></error></testcase>",
-        new TestCase("name", 1, "error", "stack", "errmsg"));
+              new TestCase("name", 1, "error", "stack", "errmsg",  "", "", ""));
     ioMap.put("<testcase status=\"failure\" time=\"1\" name=\"name\"><failure message=\"errmsg\"><![CDATA[stack]]></failure></testcase>",
-        new TestCase("name", 1, "failure", "stack", "errmsg"));
+              new TestCase("name", 1, "failure", "stack", "errmsg",  "", "", ""));
 
     for (Map.Entry<String, TestCase> entry : ioMap.entrySet()) {
       assertEquals(entry.getKey(), entry.getValue().getDetails());
