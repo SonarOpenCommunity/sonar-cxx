@@ -1,4 +1,24 @@
 <rules>
+  <rule key="CustomRuleTemplate">
+    <cardinality>MULTIPLE</cardinality>
+    <priority>MAJOR</priority>
+    <name><![CDATA[Template for custom Custom rules]]></name>
+    <description>
+      <![CDATA[
+<p>
+Follow these steps to make your custom Custom rules available in SonarQube:
+</p>
+
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile</li>
+  </ol>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+</ol>
+      ]]>
+    </description>
+  </rule>
   <rule>
     <key>InvalidFree</key>
     <name>Invalid free</name>
@@ -22,7 +42,7 @@
       - deallocate with 'delete []' when allocated with 'new []'
     </description>
   </rule>
-  
+
   <rule>
     <key>InvalidRead</key>
     <name>Invalid read</name>
@@ -33,7 +53,7 @@
       isn't mapped, reading already freed memory etc.
     </description>
   </rule>
-  
+
   <rule>
     <key>InvalidWrite</key>
     <name>Invalid write</name>
@@ -45,7 +65,7 @@
       read-only memory etc.
     </description>
   </rule>
-  
+
   <rule>
     <key>InvalidJump</key>
     <name>Invalid jump or move</name>
@@ -54,7 +74,7 @@
       The program tried to jump or move to an invalid address.
     </description>
   </rule>
-  
+
   <rule>
     <key>Overlap</key>
     <name>Overlap of source and destination memory blocks</name>
@@ -75,7 +95,7 @@
       Invalid memory pool specified in client request.
     </description>
   </rule>
-  
+
   <rule>
     <key>UninitCondition</key>
     <name>Condition depends on undefined value</name>
@@ -85,7 +105,7 @@
       i.e. the program has undefined behavior.
     </description>
   </rule>
-  
+
   <rule>
     <key>UninitValue</key>
     <name>Use of undefined value</name>
@@ -94,7 +114,7 @@
       Other uses of undefined values (primarily memory addresses).
     </description>
   </rule>
-  
+
   <rule>
     <key>SyscallParam</key>
     <name>Invalid system call parameter</name>
@@ -104,7 +124,7 @@
       either isn't fully addressable or hasn't been properly initialized.
     </description>
   </rule>
-  
+
   <rule>
     <key>ClientCheck</key>
     <name>Error in client request</name>
@@ -113,7 +133,7 @@
       "Error" resulting from a client check request.
     </description>
   </rule>
-  
+
   <rule>
     <key>Leak_DefinitelyLost</key>
     <name>Memory leak (definitely lost)</name>

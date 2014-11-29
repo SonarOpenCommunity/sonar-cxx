@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
+  <rule key="CustomRuleTemplate">
+    <cardinality>MULTIPLE</cardinality>
+    <priority>MAJOR</priority>
+    <name><![CDATA[Template for custom Custom rules]]></name>
+    <description>
+      <![CDATA[
+<p>
+Follow these steps to make your custom Custom rules available in SonarQube:
+</p>
+
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile</li>
+  </ol>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+</ol>
+      ]]>
+    </description>
+  </rule>    
   <rule>
     <key>C4001</key>
     <configkey>C4001</configkey>
@@ -1230,7 +1250,7 @@
     <key>C4275</key>
     <configkey>C4275</configkey>
     <priority>CRITICAL</priority>
-    <name>C4275: non – DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier'</name>
+    <name>C4275: non–DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier'</name>
     <description>
       An exported class was derived from a class that was not exported.
       To minimize the possibility of data corruption when exporting a class with __declspec(dllexport), ensure that:
@@ -1605,7 +1625,7 @@
     <priority>CRITICAL</priority>
     <name>C4335: Mac file format detected: please convert the source file to either DOS or UNIX format</name>
     <description>
-      The line termination character of the first line of a source file is Macintosh style (‘\r’) as opposed to UNIX (‘\n’) or DOS (‘\r\n’).
+      The line termination character of the first line of a source file is Macintosh style ('\r') as opposed to UNIX ('\n') or DOS ('\r\n').
       This warning is always issued as an errror. See warning pragma for information about how to disable this warning. Also, this warning is only issued once per compiland. Therefore, if there are multiple #include directives that specify files in Macintosh format, C4335 will only be issued once.
       One way to generate files in Macintosh format is by using the Advanced Save Options (on the File menu) in Visual Studio.
     </description>
@@ -2127,7 +2147,7 @@
     <description>
       An incorrect cast was detected.
       C4407 can be generated because of compiler conformance work that was done in Visual C++ 2005. Pointer-to-member now requires a qualified name and the address-of operator (&amp;).
-      C4407 can occur if you cast between a multiple inheritance pointer-to-member to a single inheritance pointer-to-member. Sometimes this can work, but sometimes it can’t because the single inheritance pointer-to-member representation doesn’t hold sufficient information. Compiling with the /vmm might help (for more information, see /vmm, /vms, /vmv (General Purpose Representation)). You can also try rearranging your base classes; the compiler is detecting a loss of information in the conversion because a base class is at a non-zero offset from the derived.
+      C4407 can occur if you cast between a multiple inheritance pointer-to-member to a single inheritance pointer-to-member. Sometimes this can work, but sometimes it can't because the single inheritance pointer-to-member representation doesn't hold sufficient information. Compiling with the /vmm might help (for more information, see /vmm, /vms, /vmv (General Purpose Representation)). You can also try rearranging your base classes; the compiler is detecting a loss of information in the conversion because a base class is at a non-zero offset from the derived.
     </description>
   </rule>
   <rule>
@@ -4298,7 +4318,7 @@
     <priority>CRITICAL</priority>
     <name>C6101: Returning uninitialized memory</name>
     <description>
-      A successful path through the function does not set the named _Out_ parameter. This message is generated based on SAL annotations that indicate that the function in question always succeeds. A function that doesn’t return a success/failure indication should set all of its _Out_ parameters because the analyzer assumes that the _Out_ parameter is uninitialized data before the function is called, and that the function will set the parameter so that it’s no longer uninitialized. If the function does indicate success/failure, then the _Out_ parameter doesn't have to be set in the case of failure, and you can detect and avoid the uninitialized location. In either case, the objective is to avoid the reading of an uninitialized location. If the function sometimes doesn’t touch an _Out_ parameter that’s subsequently used, then the parameter should be initialized before the function call and be marked with the _Inout_ annotation, or the more explicit _Pre_null_ or _Pre_satisfies_() when appropriate. "Partial success" can be handled with the _When_ annotation. For more information, see Using SAL Annotations to Reduce C/C++ Code Defects.
+      A successful path through the function does not set the named _Out_ parameter. This message is generated based on SAL annotations that indicate that the function in question always succeeds. A function that doesn't return a success/failure indication should set all of its _Out_ parameters because the analyzer assumes that the _Out_ parameter is uninitialized data before the function is called, and that the function will set the parameter so that it's no longer uninitialized. If the function does indicate success/failure, then the _Out_ parameter doesn't have to be set in the case of failure, and you can detect and avoid the uninitialized location. In either case, the objective is to avoid the reading of an uninitialized location. If the function sometimes doesn't touch an _Out_ parameter that's subsequently used, then the parameter should be initialized before the function call and be marked with the _Inout_ annotation, or the more explicit _Pre_null_ or _Pre_satisfies_() when appropriate. "Partial success" can be handled with the _When_ annotation. For more information, see Using SAL Annotations to Reduce C/C++ Code Defects.
     </description>
   </rule>
   <rule>
@@ -4327,7 +4347,7 @@
     <name>C6201: buffer overrun for &lt;variable&gt;, which is possibly stack allocated: index &lt;name&gt; is out of valid index range &lt;min&gt; to &lt;max&gt;</name>
     <description>
       This warning indicates that an integer offset into the specified stack array exceeds the maximum bounds of that array. This defect might cause random behavior or crashes.
-      One common cause of this defect is using an array’s size as an index into the array. Because C/C++ array indexing is zero-based, the maximum legal index into an array is one less than the number of array elements.
+      One common cause of this defect is using an array's size as an index into the array. Because C/C++ array indexing is zero-based, the maximum legal index into an array is one less than the number of array elements.
     </description>
   </rule>
   <rule>
@@ -4558,7 +4578,7 @@
     <key>C6248</key>
     <configkey>C6248</configkey>
     <priority>CRITICAL</priority>
-    <name>C6248: setting a SECURITY_DESCRIPTOR’s DACL to NULL will result in an unprotected object</name>
+    <name>C6248: setting a SECURITY_DESCRIPTOR's DACL to NULL will result in an unprotected object</name>
     <description>
       This warning identifies a call that sets a SECURITY_DESCRIPTOR's DACL field to null. If the DACL that belongs to the security descriptor of an object is set to NULL, a null DACL is created. A null DACL grants full access to any user who requests it; normal security checking is not performed with respect to the object. A null DACL should not be confused with an empty DACL. An empty DACL is a properly allocated and initialized DACL that contains no ACEs. An empty DACL grants no access to the object it is assigned to.
       Objects that have null DACLs can have their security descriptors altered by malicious users so that no one has access to the object.
@@ -4626,9 +4646,9 @@
     <priority>CRITICAL</priority>
     <name>C6262: Function uses &lt;constant&gt; bytes of stack: exceeds /analyze:stacksize&lt;constant 2&gt;. Consider moving some data to heap</name>
     <description>
-      This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack—even in user mode—is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
-      To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem—and this warning may be suppressed—but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
-      For kernel-mode code—for example, in driver projects—the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
+      This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack - even in user mode - is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
+      To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem - and this warning may be suppressed - but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
+      For kernel - mode code - for example, in driver projects-the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
     </description>
   </rule>
   <rule>
@@ -4930,7 +4950,7 @@
     <name>C6293: Ill-defined for-loop: counts down from minimum</name>
     <description>
       This warning indicates that a for-loop might not function as intended. It occurs when a loop counts down from a minimum, but has a higher termination condition.
-      A signed —or unsigned—index variable together with a negative increment will cause the loop to count negative until an overflow occurs. This will terminate the loop.
+      A signed - or unsigned - index variable together with a negative increment will cause the loop to count negative until an overflow occurs. This will terminate the loop.
     </description>
   </rule>
 
@@ -6273,7 +6293,7 @@
     <priority>CRITICAL</priority>
     <name>C28208: Function &lt;function&gt; was previously defined with a different parameter list at &lt;file&gt;(&lt;line&gt;). Some analysis tools will yield incorrect results</name>
     <description>
-      This warning is reported when a function’s known definition doesn’t match another occurrence.
+      This warning is reported when a function's known definition doesn't match another occurrence.
     </description>
   </rule>
   <rule>
@@ -6938,7 +6958,7 @@
     <name>C28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Floats are approximated as integers. Types: &lt;typelist&gt;.</name>
     <description>
       C28309: &lt;parameter_name&gt;: Annotation operands must be integer/enum/pointer types. Void operands and C++ overloaded operators are not supported. Floats are approximated as integers. Types: &lt;typelist&gt;.
-      You’ve tried to use a void or a function in an annotation expression, and Code Analysis can't handle it.  This error typically occurs when an operator== that's implemented as a function is used, but other cases may also occur. Examine the types in &lt;typelist&gt; for clues about what’s wrong.
+      You've tried to use a void or a function in an annotation expression, and Code Analysis can't handle it.  This error typically occurs when an operator== that's implemented as a function is used, but other cases may also occur. Examine the types in &lt;typelist&gt; for clues about what's wrong.
     </description>
   </rule>
   <rule>

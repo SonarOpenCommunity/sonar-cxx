@@ -22,7 +22,6 @@ package org.sonar.plugins.cxx.compiler;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;

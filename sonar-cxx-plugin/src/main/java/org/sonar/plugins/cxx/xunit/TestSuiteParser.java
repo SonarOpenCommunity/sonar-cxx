@@ -102,19 +102,25 @@ public class TestSuiteParser implements XmlStreamHandler {
     String stack = "";
     String msg = "";
 
-    SMInputCursor childCursor = testCaseCursor.childElementCursor();
-    if (childCursor.getNext() != null) {
-      String elementName = childCursor.getLocalName();
-      if (elementName.equals("skipped")) {
-        status = "skipped";
-      } else if (elementName.equals("failure")) {
-        status = "failure";
-        msg = childCursor.getAttrValue("message");
-        stack = childCursor.collectDescendantText();
-      } else if (elementName.equals("error")) {
-        status = "error";
-        msg = childCursor.getAttrValue("message");
-        stack = childCursor.collectDescendantText();
+    // Googletest-reports mark the skipped tests with status="notrun"
+    String statusattr = testCaseCursor.getAttrValue("status");
+    if ("notrun".equals(statusattr)) {
+      status = "skipped";
+    } else {
+      SMInputCursor childCursor = testCaseCursor.childElementCursor();
+      if (childCursor.getNext() != null) {
+        String elementName = childCursor.getLocalName();
+        if (elementName.equals("skipped")) {
+          status = "skipped";
+        } else if (elementName.equals("failure")) {
+          status = "failure";
+          msg = childCursor.getAttrValue("message");
+          stack = childCursor.collectDescendantText();
+        } else if (elementName.equals("error")) {
+          status = "error";
+          msg = childCursor.getAttrValue("message");
+          stack = childCursor.collectDescendantText();
+        }
       }
     }
 

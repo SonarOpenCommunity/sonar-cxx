@@ -77,6 +77,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   private Map<String, String> classDeclTable = new TreeMap<String, String>();
   private Map<String, String> classImplTable = new TreeMap<String, String>();
   static Pattern classNameMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
+  private final static double PERCENT_BASE = 100d;
 
   /**
    * {@inheritDoc}
@@ -163,27 +164,29 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     for (TestSuite fileReport : parserHandler.getParsedReports()) {
       String fileKey = fileReport.getKey();
-      double testsCount = fileReport.getTests() - fileReport.getSkipped();
-
       try {
         org.sonar.api.resources.File resource = getTestFile(project, context, fileKey);
-        saveTestMetrics(context, resource, fileReport, testsCount);
+        saveTestMetrics(context, resource, fileReport);
       } catch (org.sonar.api.utils.SonarException ex) {
         CxxUtils.LOG.warn("Cannot save test metrics for '{}', details: {}", fileKey, ex);
       }
     }
   }
 
-  private void saveTestMetrics(SensorContext context, org.sonar.api.resources.File resource, TestSuite fileReport, double testsCount) {
+  private void saveTestMetrics(SensorContext context, org.sonar.api.resources.File resource, TestSuite fileReport) {
+    double testsRun = fileReport.getTests() - fileReport.getSkipped();
+    
     context.saveMeasure(resource, CoreMetrics.SKIPPED_TESTS, (double) fileReport.getSkipped());
-    context.saveMeasure(resource, CoreMetrics.TESTS, testsCount);
+    context.saveMeasure(resource, CoreMetrics.TESTS, testsRun);
     context.saveMeasure(resource, CoreMetrics.TEST_ERRORS, (double) fileReport.getErrors());
     context.saveMeasure(resource, CoreMetrics.TEST_FAILURES, (double) fileReport.getFailures());
     context.saveMeasure(resource, CoreMetrics.TEST_EXECUTION_TIME, (double) fileReport.getTime());
-    final double passedTests = testsCount - fileReport.getErrors() - fileReport.getFailures();
-    if (testsCount > 0) {
-      double percentage = passedTests * 100d / testsCount;
-      context.saveMeasure(resource, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(percentage));
+
+    
+    if (testsRun > 0) {
+      double testsPassed = testsRun - fileReport.getErrors() - fileReport.getFailures();
+      double successDensity = testsPassed * PERCENT_BASE / testsRun;
+      context.saveMeasure(resource, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(successDensity));
     }
     context.saveMeasure(resource, new Measure(CoreMetrics.TEST_DATA, fileReport.getDetails()));
   }
@@ -231,7 +234,6 @@ public class CxxXunitSensor extends CxxReportSensor {
       cxxConf.setDefines(Arrays.asList(lines));
     }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
-    cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
 
     for (File file : files) {
       @SuppressWarnings("unchecked")

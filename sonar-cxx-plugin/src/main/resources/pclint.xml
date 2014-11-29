@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules>
+  <rule key="CustomRuleTemplate">
+    <cardinality>MULTIPLE</cardinality>
+    <priority>MAJOR</priority>
+    <name><![CDATA[Template for custom Custom rules]]></name>
+    <description>
+      <![CDATA[
+<p>
+Follow these steps to make your custom Custom rules available in SonarQube:
+</p>
+
+<ol>
+  <ol>
+    <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
+    <li>Enable the newly created rule in your quality profile</li>
+  </ol>
+  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+</ol>
+      ]]>
+    </description>
+  </rule>
   <rule>
     <key>1</key>
     <configkey>1</configkey>
@@ -985,6 +1005,7 @@
     <name>L0143: Erroneous option: String</name>
     <description>An option contained information that was inconsistent with itself or with an earlier option. The String provided in the message explains more fully what the problem is.</description>
   </rule>
+
   <rule>
     <key>144</key>
     <configkey>144</configkey>
@@ -2547,9 +2568,9 @@ For example:</p>
     <description><![CDATA[<p>This warning is issued whenever a pair of '?' characters is seen within a string (or character) constant but that pair is not followed by a character which would make the triple a valid Trigraph sequence. Did the programmer intend this to be a Trigraph sequence and merely err? Even if no Trigraph were intended, it can easily be mistaken by the reader of the code to be a Trigraph. Moreover, what assurances do we have that in the future the invalid Trigraph might not become a valid Trigraph and change the meaning of the string? To protect yourself from such an event you may place a backslash between the '?' characters. Alternatively you may use concatenation of string constants.</p>
 <p>For example:</p>
 <pre><tt>
-    pattern = "(???) ???-????"; // warning 585 
-    pattern = "(?\?\?) ?\?\?-?\?\?\?"; // no warning 
-    #define Q "?" 
+    pattern = "(???) ???-????"; // warning 585
+    pattern = "(?\?\?) ?\?\?-?\?\?\?"; // no warning
+    #define Q "?"
     pattern = "(" Q Q Q ") " Q Q Q "-" Q Q Q Q // no warning
 </tt></pre>]]></description>
   </rule>
@@ -5284,7 +5305,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <pre><tt>
                =  ()  []  ->
 </tt></pre>
-<p>The parameter String indicates which it is.  [11, Ǳ3.4.3 and Ǳ3.4.6]
+<p>The parameter String indicates which it is.  [11, #3.4.3 and #3.4.6]
 </p>]]></description>
   </rule>
   <rule>
@@ -5324,7 +5345,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <pre><tt>
              void f(int i=0, int j, int k=0);
 </tt></pre>
-<p>is illegal.  [11, Ǹ.2.6]
+<p>is illegal.  [11, #2.6]
 </p>]]></description>
   </rule>
   <rule>
@@ -5567,7 +5588,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <pre><tt>
              X( const X &)
 </tt></pre>
-<p>If you leave off the '&' then a copy constructor would be needed just to copy the argument into the copy constructor.  This is a runaway recursion.  [11, Ǳ2.1]
+<p>If you leave off the '&' then a copy constructor would be needed just to copy the argument into the copy constructor.  This is a runaway recursion.  [11,#2.1]
 </p>]]></description>
   </rule>
   <rule>
@@ -6565,7 +6586,7 @@ Note that the Microsoft compiler implements this extension. For that reason, the
 <pre><tt>
             class A : private B { int a; };
 </tt></pre>
-<p>is preferred if that's what you want.  [11, Ǳ1.1]
+<p>is preferred if that's what you want.  [11,#1.1]
 </p>]]></description>
   </rule>
   <rule>
@@ -8446,7 +8467,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9006</configkey>
     <priority>INFO</priority>
     <name>L9006: 'sizeof' used on expression with side effect</name>
-    <description>If the operand of the sizeof operator is an expression, it is not usually evaluated.  
+    <description>If the operand of the sizeof operator is an expression, it is not usually evaluated.
     Attempting to apply sizeof to such an expression can result, therefore, in code one expects to be evaluated actually not being evaluated and the side-effects not taking place.</description>
   </rule>
   <rule>
@@ -8738,7 +8759,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9046</configkey>
     <priority>INFO</priority>
     <name>L9046: Typographical ambiguity with respect to symbol, 'Symbol', Reasons, Location</name>
-    <description>Some have warned against the use o identifiers which may be considered typographically ambiguous. 
+    <description>Some have warned against the use o identifiers which may be considered typographically ambiguous.
     In addition to the name of the previously seen symbol, the reasons Lint considers the identifiers to be ambiguous and the location of said previous symbol are provided in the message, if available.</description>
   </rule>
   <rule>
@@ -8809,7 +8830,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9056</configkey>
     <priority>INFO</priority>
     <name>L9056: Inline function 'Symbol' defined with storage-class specifier 'String'</name>
-    <description>This message is issued for all inline functions defined with a storage-class specifier. 
+    <description>This message is issued for all inline functions defined with a storage-class specifier.
     +estring can be used to find all inline functions defined with a specific specifier. For example, +estring(9056, extern) will report all inline functions defined with extern.</description>
   </rule>
   <rule>
@@ -8817,9 +8838,9 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9057</configkey>
     <priority>INFO</priority>
     <name>L9057: Lowercase L follows 'u' in literal suffix</name>
-    <description>A lowercase letter "l" is used inside of a literal suffix following an upper or lowercase letter u. 
-    With some fonts, the lowercase letter "l can be easily confused with the number one. 
-    This is less likely to happen when there is a "u" between the number and the "l" (as in 35ul), but some coding standards forbid the use of "l" in any literals. 
+    <description>A lowercase letter "l" is used inside of a literal suffix following an upper or lowercase letter u.
+    With some fonts, the lowercase letter "l can be easily confused with the number one.
+    This is less likely to happen when there is a "u" between the number and the "l" (as in 35ul), but some coding standards forbid the use of "l" in any literals.
     Message 620 reports the more suspicious case where the "l" immediately follows a number (as in 35l).</description>
   </rule>
   <rule>
@@ -8827,7 +8848,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>9058</configkey>
     <priority>INFO</priority>
     <name>L9058: tag 'Symbol' (Location) unused outside of typedefs</name>
-    <description>A tag was used only in the course of creating a typedef. 
+    <description>A tag was used only in the course of creating a typedef.
     Was the tag unused by mistake (say a recursive reference inside the body of the struct was accidentally omitted)?  Such tags are most often redundant and can be eliminated.</description>
   </rule>
   <rule>
@@ -8904,7 +8925,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9071: defined macro 'Name' is reserved to the compiler String</name>
     <description>A macro was defined which is reserved to the compiler. Such definition results in undefined behavior. If String is present, the macro name is one of the more obscure identifiers reserved and String provides an explanation to that effect.</description>
   </rule>
-  
+
   <rule>
     <key>9072</key>
     <configkey>9072</configkey>
@@ -8912,7 +8933,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9072: parameter list differs from prior declaration for function 'Symbol'</name>
     <description>The numed function was found declared with one parameter list and another which differs either by type or parameter name. At least one author advises against such inconsistency for various reasons.</description>
   </rule>
-  
+
   <rule>
     <key>9074</key>
     <configkey>9074</configkey>
@@ -9360,7 +9381,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9139: case label follows default in switch statement</name>
     <description>A case label was encountered following the default label of a switch statement.</description>
   </rule>
-  
+
   <rule>
     <key>9140</key>
     <configkey>9140</configkey>
@@ -9368,7 +9389,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9140: continue statement detected</name>
     <description>A continue statement appears outside what one author calls a "well-formed for loop". Said author advises against such usage in the interest of reducing code complexity.</description>
   </rule>
-  
+
   <rule>
     <key>9141</key>
     <configkey>9141</configkey>
@@ -9890,9 +9911,9 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <key>M10.6</key>
     <configkey>M10.6</configkey>
     <priority>INFO</priority>
-    <name>M10.6: unsigned integer literals require a „U‟ suffix (MISRA C)</name>
+    <name>M10.6: unsigned integer literals require a 'U' suffix (MISRA C)</name>
     <description>
-    unsigned integer literals require a „U‟ suffix</description>
+    unsigned integer literals require a 'U' suffix</description>
   </rule>
   <rule>
     <key>M11.1</key>
@@ -10756,7 +10777,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <description>(Required) The character sequence /* shall not be used within a C-style comment.</description>
   </rule>
   <!--
-  MISRA C++ rule 2-7-2 req n/a not statically checkable  
+  MISRA C++ rule 2-7-2 req n/a not statically checkable
   <rule>
     <key>M2-7-2</key>
     <configkey>M2-7-2</configkey>
@@ -10764,14 +10785,14 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M2-7-2: do not comment out code (MISRA C++)</name>
     <description>(Required) Sections of code shall not be "commented out" using C-style comments.</description>
   </rule>
-  MISRA C++ rule 2-7-3 adv n/a not statically checkable  
+  MISRA C++ rule 2-7-3 adv n/a not statically checkable
   <rule>
     <key>M2-7-3</key>
     <configkey>M2-7-3</configkey>
     <priority>INFO</priority>
     <name>M2-7-3: do not comment out code (MISRA C++)</name>
     <description>(Advisory) Sections of code should not be "commented out" using C++ comments.</description>
-  </rule>  
+  </rule>
   -->
   <rule>
     <key>M2-10-1</key>
@@ -10963,7 +10984,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <key>M5-0-2</key>
     <configkey>M5-0-2</configkey>
     <priority>INFO</priority>
-    <name>M5-0-2: Dependence placed on C’s operator precedence (MISRA C++)</name>
+    <name>M5-0-2: Dependence placed on C's operator precedence (MISRA C++)</name>
     <description>(Advisory) Limited dependence should be placed on C++ operator precedence rules in expressions.</description>
   </rule>
   <rule>
@@ -11162,14 +11183,14 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M5-2-10</configkey>
     <priority>INFO</priority>
     <name>M5-2-10: Increment or decrement combined with another operator (MISRA C++)</name>
-    <description>(Advisory) The increment (++) and decrement (–) operators should not be mixed with other operators in an expression.</description>
+    <description>(Advisory) The increment (++) and decrement (--) operators should not be mixed with other operators in an expression.</description>
   </rule>
   <rule>
     <key>M5-2-11</key>
     <configkey>M5-2-11</configkey>
     <priority>INFO</priority>
-    <name>M5-2-11: overloading special operators – comma &amp;&amp; || (MISRA C++)</name>
-    <description>(Required) The comma operator, &amp;&amp; operator and the || operator shall not be overloaded.</description>
+    <name>M5-2-11: overloading special operators – ',' '&amp;&amp;' '||' (MISRA C++)</name>
+    <description>(Required) The comma operator, '&amp;&amp;' operator and the '||' operator shall not be overloaded.</description>
   </rule>
   <rule>
     <key>M5-2-12</key>
@@ -11318,7 +11339,7 @@ immediately cast to the underlying type of the operand.</description>
   MISRA C++ rule 6-5-1 req no not currently supported
     (Required) A for loop shall contain a single loop-counter which shall not have floating type.
   MISRA C++ rule 6-5-2 req no not currently supported
-    (Required) If loop-counter is not modified by – or ++, then, within condition, the loop-counter shall only be used as an operand to <=, <, > or >=.
+    (Required) If loop-counter is not modified by -– or ++, then, within condition, the loop-counter shall only be used as an operand to <=, <, > or >=.
   -->
   <rule>
     <key>M6-5-3</key>
@@ -11329,7 +11350,7 @@ immediately cast to the underlying type of the operand.</description>
   </rule>
   <!--
   MISRA C++ rule 6-5-4 req no not currently supported
-    (Required) The loop-counter shall be modified by one of: –, ++, -=n, or +=n; where n remains constant for the duration of the loop.
+    (Required) The loop-counter shall be modified by one of: -–, ++, -=n, or +=n; where n remains constant for the duration of the loop.
   MISRA C++ rule 6-5-5 req no not currently supported
     (Required) A loop-control-variable other than the loop-counter shall not be modified within condition or expression.
   MISRA C++ rule 6-5-6 req no not currently supported
@@ -11628,7 +11649,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M12-1-1</configkey>
     <priority>INFO</priority>
     <name>M12-1-1: Call to virtual function within a constructor or destructor (MISRA C++)</name>
-    <description>(Required) An object’s dynamic type shall not be used from the body of its constructor or destructor.</description>
+    <description>(Required) An object's dynamic type shall not be used from the body of its constructor or destructor.</description>
   </rule>
   <rule>
     <key>M12-1-2</key>
@@ -11812,7 +11833,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M15-5-2</configkey>
     <priority>INFO</priority>
     <name>M15-5-2: Exception not in throw-list of function (MISRA C++)</name>
-    <description>(Required) Where a function’s declaration includes an exception specification, the function shall only be capable of throwing exceptions of the indicated type(s).</description>
+    <description>(Required) Where a function's declaration includes an exception specification, the function shall only be capable of throwing exceptions of the indicated type(s).</description>
   </rule>
   <rule>
     <key>M15-5-3</key>
@@ -11833,7 +11854,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M16-0-2</configkey>
     <priority>INFO</priority>
     <name>M16-0-2: '#define/#undef' used within a block (MISRA C++)</name>
-    <description>(Required) Macros shall only be #define’d or #undef’d in the global namespace.</description>
+    <description>(Required) Macros shall only be #define'd or #undef'd in the global namespace.</description>
   </rule>
   <rule>
     <key>M16-0-3</key>
@@ -11914,7 +11935,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M16-2-4</configkey>
     <priority>INFO</priority>
     <name>M16-2-4: Header file name with non-standard character (MISRA C++)</name>
-    <description>(Required) The ’, ", /* or // characters shall not occur in a header file name.</description>
+    <description>(Required) The ', ", /* or // characters shall not occur in a header file name.</description>
   </rule>
   <rule>
     <key>M16-2-5</key>

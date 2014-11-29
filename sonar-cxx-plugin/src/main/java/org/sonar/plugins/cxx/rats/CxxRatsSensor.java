@@ -47,8 +47,10 @@ public final class CxxRatsSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
+
   public CxxRatsSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
     super(perspectives, conf, fs, reactor, CxxMetrics.RATS);
+
     this.profile = profile;
   }
 

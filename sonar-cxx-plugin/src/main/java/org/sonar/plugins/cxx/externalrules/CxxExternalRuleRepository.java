@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +51,16 @@ public class CxxExternalRuleRepository extends RuleRepository {
   public List<Rule> createRules() {
     List<Rule> rules = new ArrayList<Rule>();
 
+    final InputStream xmlStream = getClass().getResourceAsStream("/external-rule.xml");
+    rules.addAll(this.xmlRuleParser.parse(xmlStream));
+
     for(String ruleDefs : settings.getStringArray(RULES_KEY)){
       if (StringUtils.isNotBlank(ruleDefs)) {
         try {
           rules.addAll(xmlRuleParser.parse(new StringReader(ruleDefs)));
         } catch (Exception ex) {
           CxxUtils.LOG.info("Cannot Load XML '{}'", ex.getMessage());
-        }        
+        }
       }
     }
 

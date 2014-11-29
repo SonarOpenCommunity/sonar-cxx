@@ -32,6 +32,6 @@ public class CxxRatsRuleRepositoryTest {
   public void createRulesTest() {
     CxxRatsRuleRepository rulerep = new CxxRatsRuleRepository(
         mock(ServerFileSystem.class), new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(300);
+    assertThat(rulerep.createRules()).hasSize(301);
   }
 }
