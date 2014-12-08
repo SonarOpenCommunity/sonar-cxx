@@ -55,6 +55,7 @@ public final class CheckList {
         ParsingErrorRecoveryCheck.class,
         ReservedNamesCheck.class,
         StringLiteralDuplicatedCheck.class,
+        SwitchLastCaseIsDefaultCheck.class,
         TabCharacterCheck.class,
         TodoTagPresenceCheck.class,
         TooLongLineCheck.class,
