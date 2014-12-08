@@ -41,6 +41,13 @@ public class XunitReportParser implements XmlStreamHandler {
   private List<TestCase> testCases = new LinkedList<TestCase>();
 
   /**
+   * Returns successfully parsed testcases.
+   */
+  public List<TestCase> getTestCases() {
+    return testCases;
+  }
+
+  /**
    * {@inheritDoc}
    */
   public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
@@ -53,21 +60,25 @@ public class XunitReportParser implements XmlStreamHandler {
     }
 
     do{
-      String testSuiteName = testSuiteCursor.getAttrValue("name");
-      String testFileName = testSuiteCursor.getAttrValue("filename");
-
-      SMInputCursor testCaseCursor = testSuiteCursor.childElementCursor("testcase");
-      while (testCaseCursor.getNext() != null) {
-        testCases.add(parseTestCaseTag(testCaseCursor, testSuiteName, testFileName));
-      }
+      parseTestSuiteTag(testSuiteCursor);
     }while (testSuiteCursor.getNext() != null);
   }
 
-  /**
-   * Returns successfully parsed testcases.
-   */
-  public List<TestCase> getTestCases() {
-    return testCases;
+  public void parseTestSuiteTag(SMInputCursor testSuiteCursor)
+    throws XMLStreamException
+  {
+    String testSuiteName = testSuiteCursor.getAttrValue("name");
+    String testFileName = testSuiteCursor.getAttrValue("filename");
+
+    SMInputCursor childCursor = testSuiteCursor.childElementCursor();
+    while (childCursor.getNext() != null) {
+      String elementName = childCursor.getLocalName();
+      if (elementName.equals("testsuite")) {
+        parseTestSuiteTag(childCursor);
+      } else if (elementName.equals("testcase")) {
+        testCases.add(parseTestCaseTag(childCursor, testSuiteName, testFileName));
+      }
+    }
   }
 
   private TestCase parseTestCaseTag(SMInputCursor testCaseCursor, String tsName, String tsFilename)

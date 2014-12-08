@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Automated Tests" tests="186" errors="0" failures="0" ignored="0">
+  <testsuite name="test.AutomatedTests" time="4.486">
+    <testsuite name="test.fs.FileSystemTest" time="0.014">
+      <testcase name="testPrefix" classname="test.fs.FileSystemTest" time="0.003"/>
+    </testsuite>
+    <testsuite name="test.db.DatabaseTest" time="0.014">
+      <testcase name="testTable" classname="test.db.DatabaseTest" time="0.003"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

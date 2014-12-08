@@ -61,30 +61,6 @@ public class CxxXunitSensorTest {
     context = mock(SensorContext.class);
 
     sensor = new CxxXunitSensor(config, fs);
-    ResourceFinder resourceFinder = mock(ResourceFinder.class);
-    when(resourceFinder.findInSonar(
-           any(File.class), any(SensorContext.class),
-           any(ModuleFileSystem.class), any(Project.class))
-      ).thenReturn(new org.sonar.api.resources.File("doesntmatter"));
-    sensor.injectResourceFinder(resourceFinder);
-  }
-
-  @Test
-  public void shouldReportCorrectViolations() {
-    config.setProperty(CxxXunitSensor.PROVIDE_DETAILS_KEY, "True");
-    sensor.analyse(project, context);
-
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TESTS), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.SKIPPED_TESTS), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TEST_ERRORS), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TEST_FAILURES), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
   }
 
   @Test

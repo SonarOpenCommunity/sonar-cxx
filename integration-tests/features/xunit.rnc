@@ -15,9 +15,24 @@
 # http://www.davidashen.net/rnv.html
 #
 
+start = TestSuites
+
+TestSuites = element testsuites {
+   # The following attributes are accepted but ignored, thus 'optional'
+   attribute tests { text } ?,
+   attribute failures { text } ?,
+   attribute disabled { text } ?,
+   attribute errors { text } ?,
+   attribute time { text } ?,
+   attribute name { text } ?,
+   attribute ignored { text } ?,
+
+   TestSuite*
+}
+
 # The output from a single testsuite. The way how testcases are
 # composed into testsuites is framework dependend.
-element testsuite {
+TestSuite = element testsuite {
    attribute name { text },
 
    # This is our extension which helps to locate test resources. If
@@ -45,42 +60,43 @@ element testsuite {
       }+
    }?,
 
-   # The results from executing a test method.
-   element testcase {
-      # Name of this testcase. Parsed and passed to SQ.
-      attribute name { text },
+   (TestSuite* | TestCase*)
+}
 
-      # The classname in this this testcase is implemented. The value
-      # of this attribute varies quite alot accross test
-      # frameworks. TODO: describe our sources lookup strategy.
-      attribute classname { text },
+TestCase = element testcase {
+   # Name of this testcase. Parsed and passed to SQ.
+   attribute name { text },
 
-      # Execution time of the testcase in ms. Is parsed and passed to SQ.
-      attribute time { text },
+   # The classname in this this testcase is implemented. The value
+   # of this attribute varies quite alot accross test
+   # frameworks. TODO: describe our sources lookup strategy.
+   attribute classname { text },
 
-      # Status is evaluated optionally: googletest marks skipped tests
-      # with status="notrun"
-      attribute status { text }?,
+   # Execution time of the testcase in ms. Is parsed and passed to SQ.
+   attribute time { text },
 
-      # Test failed
-      ( element failure {
-         attribute message { text },
-         attribute type { text } ?,
-         text
+   # Status is evaluated optionally: googletest marks skipped tests
+   # with status="notrun"
+   attribute status { text }?,
+
+   # Test failed
+   ( element failure {
+      attribute message { text },
+      attribute type { text } ?,
+      text
 
       # Test errored
-      } | element error {
-         attribute message { text },
-         attribute type { text } ?,
-         text
+   } | element error {
+      attribute message { text },
+      attribute type { text } ?,
+      text
 
       # Test was skipped (JUnit-style)
-      } | element skipped {
-         attribute message { text } ?,
-         attribute type { text } ?,
-         text?
+   } | element skipped {
+      attribute message { text } ?,
+      attribute type { text } ?,
+      text?
 
       # Test was successfull
-      } | empty )
-   }*
+   } | empty )
 }
