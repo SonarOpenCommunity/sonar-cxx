@@ -40,6 +40,7 @@ import static org.junit.Assert.fail;
 public class CxxParserTest extends ParserBaseTest {
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "examples"};
+  String[] cCompatibilityFiles = {"c-compat"};
   String rootDir = "src/test/resources/parser";
   File erroneousSources = null;
 
@@ -52,7 +53,18 @@ public class CxxParserTest extends ParserBaseTest {
 
   @Test
   public void testParsingOnDiverseSourceFiles() {
-    Collection<File> files = listFiles();
+    Collection<File> files = listFiles(goodFiles, new String[] {"cc", "cpp", "hpp"});
+    for (File file : files) {
+      p.parse(file);
+      CxxParser.finishedParsing(file);
+    }
+  }
+
+  @Test
+  public void testParsingInCCompatMode() {
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+
+    Collection<File> files = listFiles(cCompatibilityFiles, new String[] {"c"});
     for (File file : files) {
       p.parse(file);
       CxxParser.finishedParsing(file);
@@ -77,12 +89,10 @@ public class CxxParserTest extends ParserBaseTest {
     p.parse(erroneousSources); //<-- this shouldnt throw now
   }
 
-
-  private Collection<File> listFiles() {
+  private Collection<File> listFiles(String[] dirs, String[] extensions) {
     List<File> files = new ArrayList<File>();
-    for(String dir: goodFiles){
-      files.addAll(FileUtils.listFiles(new File(rootDir, dir),
-                                       new String[] {"cc", "cpp", "hpp"}, true));
+    for(String dir: dirs){
+      files.addAll(FileUtils.listFiles(new File(rootDir, dir), extensions, true));
     }
     return files;
   }
