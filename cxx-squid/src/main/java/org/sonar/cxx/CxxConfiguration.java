@@ -34,6 +34,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private List<String> forceIncludeFiles = new ArrayList<String>();
   private String baseDir;
   private boolean errorRecoveryEnabled = true;
+  private List<String> cFilesPatterns = new ArrayList<String>();
 
   public CxxConfiguration() {
   }
@@ -107,4 +108,15 @@ public class CxxConfiguration extends SquidConfiguration {
   public boolean getErrorRecoveryEnabled(){
     return this.errorRecoveryEnabled;
   }
+
+  public List<String> getCFilesPatterns() {
+    return cFilesPatterns;
+  }
+
+  public void setCFilesPatterns(String[] cFilesPatterns) {
+    if (this.cFilesPatterns != null) {
+      this.cFilesPatterns = Arrays.asList(cFilesPatterns);
+    }
+  }
+
 }

@@ -116,6 +116,7 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     cxxConf.setErrorRecoveryEnabled(conf.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY));
     cxxConf.setForceIncludeFiles(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
+    cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     return cxxConf;
   }
 

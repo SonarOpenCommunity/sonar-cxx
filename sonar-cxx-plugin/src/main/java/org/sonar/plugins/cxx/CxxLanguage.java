@@ -30,6 +30,7 @@ import org.sonar.api.scan.filesystem.FileQuery;
 public class CxxLanguage extends AbstractLanguage {
   public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
   public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
+  public static final String DEFAULT_C_FILES = "*.c,*.C";
   public static final String KEY = "c++";
 
   private String[] sourceSuffixes;
