@@ -19,14 +19,20 @@
  */
 package org.sonar.cxx.toolkit;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
+
 import org.sonar.colorizer.KeywordsTokenizer;
 import org.sonar.colorizer.Tokenizer;
+import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxParser;
+import org.sonar.squid.api.SourceProject;
 import org.sonar.sslr.toolkit.Toolkit;
 
-import java.util.List;
+import com.google.common.collect.ImmutableList;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.squid.SquidAstVisitorContext;
+import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
 
 public final class CxxToolkit {
 
@@ -35,7 +41,13 @@ public final class CxxToolkit {
 
   public static void main(String[] args) {
     System.setProperty("com.apple.mrj.application.apple.menu.about.name", "SSDK");
-    new Toolkit(CxxParser.create(), getCxxTokenizers(), "SSLR Cxx Toolkit").run();
+
+    CxxConfiguration config = new CxxConfiguration();
+    config.setErrorRecoveryEnabled(false);
+    SquidAstVisitorContext<Grammar> context =
+      new SquidAstVisitorContextImpl<Grammar>(new SourceProject(""));
+
+    new Toolkit(CxxParser.create(context, config), getCxxTokenizers(), "SSLR Cxx Toolkit").run();
   }
 
   public static List<Tokenizer> getCxxTokenizers() {
