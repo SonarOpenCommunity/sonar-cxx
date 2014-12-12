@@ -30,6 +30,7 @@ import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.squid.SquidAstVisitorContext;
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +93,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     public String toString() {
       return name
-        + (params == null ? "" : "(" + serialize(params, ", ") + ")")
+        + (params == null ? "" : "(" + serialize(params, ", ") + (isVariadic ? "..." : "") + ")")
         + " -> '" + serialize(body) + "'";
     }
 
@@ -533,7 +534,6 @@ public class CxxPreprocessor extends Preprocessor {
     if (macro != null) {
       List<Token> replTokens = new LinkedList<Token>();
       int tokensConsumed = 0;
-      List<Token> arguments = new ArrayList<Token>();
 
       if (macro.params == null) {
         tokensConsumed = 1;
@@ -549,12 +549,42 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       if (tokensConsumed > 0) {
+
+        // Rescanning to expand function like macros, in case it requires consuming more tokens
+        List<Token> outTokens = new LinkedList<Token>();
+        macros.disable(macro.name);
+        while(!replTokens.isEmpty()) {
+          Token c = replTokens.get(0);
+          PreprocessorAction action = PreprocessorAction.NO_OPERATION;
+          if (c.getType() == IDENTIFIER) {
+            List<Token> rest = ListUtils.union(replTokens, tokens.subList(tokensConsumed, tokens.size()));
+            action = handleIdentifiersAndKeywords(rest, c, filename);
+          }
+          if (action == PreprocessorAction.NO_OPERATION) {
+            replTokens = replTokens.subList(1, replTokens.size());
+            outTokens.add(c);
+          }
+          else {
+            outTokens.addAll(action.getTokensToInject());
+            int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
+            if (tokensConsumedRescanning >= replTokens.size()) {
+              tokensConsumed += tokensConsumedRescanning - replTokens.size();
+              replTokens = replTokens.subList(replTokens.size(), replTokens.size());
+            }
+            else {
+              replTokens = replTokens.subList(tokensConsumedRescanning, replTokens.size());
+            }
+          }
+        }
+        replTokens = outTokens;
+        macros.enable(macro.name);
+
         replTokens = reallocate(replTokens, curr);
 
         LOG.trace("[{}:{}]: replacing '" + curr.getValue()
-          + (arguments.isEmpty()
-              ? ""
-              : "(" + serialize(arguments, ", ") + ")") + "' -> '" + serialize(replTokens) + "'",
+                + (tokensConsumed == 1
+                ? ""
+                : serialize(tokens.subList(1, tokensConsumed))) + "' -> '" + serialize(replTokens) + "'",
             filename, curr.getLine());
 
         ppaction = new PreprocessorAction(
