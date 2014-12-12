@@ -60,6 +60,7 @@ public final class CxxPlugin extends SonarPlugin {
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
+  public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
 
   public static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
@@ -106,6 +107,15 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.TEXT)
       .index(5)
+      .build(),
+
+      PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
+      .defaultValue(CxxLanguage.DEFAULT_C_FILES)
+      .name("C source files patterns")
+      .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the patterns, it is parsed as a standard C file.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(6)
       .build(),
 
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
