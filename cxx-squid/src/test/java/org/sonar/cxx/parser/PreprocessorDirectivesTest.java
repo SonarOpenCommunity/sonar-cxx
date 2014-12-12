@@ -136,6 +136,25 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
             + "#define std_init() c_init()\n"
             + "lang_init(c)();"))
         .equals("c = c_init ( ) ; EOF"));
+
+
+    // This one doesnt work.
+    // The preprocessor seems to resule resolves macro in the wrong order:
+    // BOOST_MSVC => _MSC_VER => 1600 ## _WORKAROUND_GUARD => 1600 _WORKAROUND_GUARD
+    //
+    // instead of
+    //
+    // BOOST_MSVC =>  _MSC_VER
+    // _MSC_VER ## _WORKAROUND_GUARD => _MSC_VER_WORKAROUND_GUARD
+    // _MSC_VER_WORKAROUND_GUARD => 0
+
+    // assert (serialize(p.parse(
+    //   "#define _MSC_VER_WORKAROUND_GUARD 0\n"
+    //   + "#define _MSC_VER 1600\n"
+    //   + "#define BOOST_MSVC _MSC_VER\n"
+    //   + "#define TEST(symbol) symbol ## _WORKAROUND_GUARD\n"
+    //   + "TEST(BOOST_MSVC);"))
+    //   .equals("0 ; EOF"));
   }
 
   @Test
