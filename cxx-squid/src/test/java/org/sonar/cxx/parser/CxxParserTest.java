@@ -35,6 +35,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
 
 
 public class CxxParserTest extends ParserBaseTest {
@@ -62,13 +63,27 @@ public class CxxParserTest extends ParserBaseTest {
 
   @Test
   public void testParsingInCCompatMode() {
-    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    // The C-compatibility replaces c++ keywords, which arent keywords in C,
+    // with non-keyword-strings via the preprocessor.
+    // This mode works if such a file causes parsing errors when the mode
+    // is swithed off and doesnt, if the mode is switched on.
 
-    Collection<File> files = listFiles(cCompatibilityFiles, new String[] {"c"});
-    for (File file : files) {
-      p.parse(file);
-      CxxParser.finishedParsing(file);
+    File cfile = (File)listFiles(cCompatibilityFiles, new String[] {"c"}).toArray()[0];
+
+    SquidAstVisitorContext context = mock(SquidAstVisitorContext.class);
+    when(context.getFile()).thenReturn(cfile);
+
+    conf.setCFilesPatterns(new String[] {""});
+    p = CxxParser.create(context, conf);
+    try{
+      p.parse(cfile);
     }
+    catch(com.sonar.sslr.api.RecognitionException re){
+    }
+
+    conf.setCFilesPatterns(new String[] {"*.c"});
+    p = CxxParser.create(context, conf);
+    p.parse(cfile);
   }
 
   @Test
