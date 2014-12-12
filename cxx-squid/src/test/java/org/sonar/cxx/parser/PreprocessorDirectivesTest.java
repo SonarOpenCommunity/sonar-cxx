@@ -108,11 +108,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "A;"))
       .equals("a ; EOF"));
 
-//    @todo
-//    assert (serialize(p.parse(
-//      "#define A_B A/*Comment*/B\n"
-//      +" A_B;"))
-//      .equals("A B ; EOF"));
+   //@todo
+   // assert (serialize(p.parse(
+   //   "#define A_B A/*Comment*/B\n"
+   //   +" A_B;"))
+   //   .equals("A B ; EOF"));
   }
 
   @Test
@@ -136,12 +136,6 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
             + "#define std_init() c_init()\n"
             + "lang_init(c)();"))
         .equals("c = c_init ( ) ; EOF"));
-
-    /*assert (serialize(p.parse(
-        "#define PAIR(x,y) x, y\n"
-            + "#define FOO(x, y) x + y\n"
-            + "FOO(PAIR(x, y));"))
-        .equals("x + y ; EOF"));*/
   }
 
   @Test
