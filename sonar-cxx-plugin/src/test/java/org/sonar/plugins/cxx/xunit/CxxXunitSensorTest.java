@@ -30,7 +30,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -40,6 +39,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
@@ -55,41 +55,14 @@ public class CxxXunitSensorTest {
   private ProjectReactor reactor;
   private Settings config;
 
-
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    reactor = TestUtils.mockReactor();
-
     config = new Settings();
     context = mock(SensorContext.class);
 
     sensor = new CxxXunitSensor(config, fs, reactor);
-    ResourceFinder resourceFinder = mock(ResourceFinder.class);
-    when(resourceFinder.findInSonar(
-           any(File.class), any(SensorContext.class),
-           any(ModuleFileSystem.class), any(Project.class))
-      ).thenReturn(new org.sonar.api.resources.File("doesntmatter"));
-    sensor.injectResourceFinder(resourceFinder);
-  }
-
-  @Test
-  public void shouldReportCorrectViolations() {
-    config.setProperty(CxxXunitSensor.PROVIDE_DETAILS_KEY, "True");
-    sensor.analyse(project, context);
-
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TESTS), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.SKIPPED_TESTS), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TEST_ERRORS), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TEST_FAILURES), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(),
-        eq(CoreMetrics.TEST_SUCCESS_DENSITY), anyDouble());
-    verify(context, times(1)).saveMeasure((org.sonar.api.resources.File) anyObject(), any(Measure.class));
   }
 
   @Test
@@ -208,3 +181,4 @@ public class CxxXunitSensorTest {
     return new File(new File(fs.baseDir(), "xunit-reports"), "cppunit-report.xml");
   }
 }
+

@@ -25,7 +25,6 @@ import com.sonar.sslr.api.CommentAnalyser;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
 import com.sonar.sslr.api.Grammar;
-
 import com.sonar.sslr.squid.AstScanner;
 import com.sonar.sslr.squid.SourceCodeBuilderCallback;
 import com.sonar.sslr.squid.SourceCodeBuilderVisitor;
@@ -35,6 +34,7 @@ import com.sonar.sslr.squid.metrics.CommentsVisitor;
 import com.sonar.sslr.squid.metrics.ComplexityVisitor;
 import com.sonar.sslr.squid.metrics.CounterVisitor;
 import com.sonar.sslr.squid.metrics.LinesVisitor;
+
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
@@ -44,6 +44,7 @@ import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.cxx.visitors.CxxFileVisitor;
 import org.sonar.cxx.visitors.CxxLinesOfCodeVisitor;
 import org.sonar.cxx.visitors.CxxParseErrorLoggerVisitor;
+import org.sonar.cxx.visitors.CxxPublicApiVisitor;
 import org.sonar.squid.api.SourceClass;
 import org.sonar.squid.api.SourceCode;
 import org.sonar.squid.api.SourceFile;
@@ -153,6 +154,9 @@ public final class CxxAstScanner {
     /* Metrics */
     builder.withSquidAstVisitor(new LinesVisitor<Grammar>(CxxMetric.LINES));
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<Grammar>(CxxMetric.LINES_OF_CODE));
+    builder.withSquidAstVisitor(new CxxPublicApiVisitor<Grammar>(CxxMetric.PUBLIC_API,
+                                                                 CxxMetric.PUBLIC_UNDOCUMENTED_API)
+        .withHeaderFileSuffixes(conf.getHeaderFileSuffixes()));
 
     builder.withSquidAstVisitor(CommentsVisitor.<Grammar> builder().withCommentMetric(CxxMetric.COMMENT_LINES)
         .withNoSonar(true)

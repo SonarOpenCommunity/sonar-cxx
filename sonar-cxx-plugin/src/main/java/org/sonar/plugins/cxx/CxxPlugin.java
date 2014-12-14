@@ -19,11 +19,11 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.Extension;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
+//import org.sonar.api.Extension;
+//import org.sonar.api.Properties;
+//import org.sonar.api.Property;
 import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.config.PropertyFieldDefinition;
+//import org.sonar.api.config.PropertyFieldDefinition;
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.resources.Qualifiers;
@@ -47,10 +47,9 @@ import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
-import org.sonar.plugins.cxx.mstest.MSTestResultsProvider;
+//import org.sonar.plugins.cxx.mstest.MSTestResultsProvider;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsAggregator;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsImportSensor;
-
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -58,11 +57,12 @@ import java.util.List;
 
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
-  static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
+  public static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
   public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
+  public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
 
   public static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
@@ -109,6 +109,15 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.TEXT)
       .index(5)
+      .build(),
+
+      PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
+      .defaultValue(CxxLanguage.DEFAULT_C_FILES)
+      .name("C source files patterns")
+      .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the patterns, it is parsed as a standard C file.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(6)
       .build(),
 
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
@@ -359,14 +368,6 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
       .index(6)
-      .build(),
-      
-        PropertyDefinition.builder(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
-      .name("Visual Studio Test Reports Paths")
-      .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)    
-      .index(7)
       .build()
       );
   }
@@ -419,3 +420,4 @@ public final class CxxPlugin extends SonarPlugin {
     return getClass().getSimpleName();
   }
 }
+

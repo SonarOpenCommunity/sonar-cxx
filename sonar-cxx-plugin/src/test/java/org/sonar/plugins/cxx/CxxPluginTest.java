@@ -30,3 +30,4 @@ public class CxxPluginTest {
     assertEquals(60, plugin.getExtensions().size());
   }
 }
+
