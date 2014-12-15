@@ -32,11 +32,6 @@
       <artifactId>sonar-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-ws-client</artifactId>
-      <scope>test</scope>
-    </dependency>
 
     <dependency>
       <groupId>${project.groupId}</groupId>

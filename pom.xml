@@ -135,11 +135,6 @@
         <version>${sonar.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar</groupId>
-        <artifactId>sonar-ws-client</artifactId>
-        <version>${sonar.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.codehaus.sonar.common-rules</groupId>
         <artifactId>sonar-common-rules</artifactId>
         <version>1.1</version>
