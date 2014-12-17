@@ -106,8 +106,8 @@
     <url>https://github.com/wenns/sonar-cxx/issues?state=open</url>
   </issueManagement>
   <ciManagement>
-    <system>Cloudbees</system>
-    <url>https://wenns.ci.cloudbees.com/</url>
+    <system>Travis-CI</system>
+    <url>https://travis-ci.org/wenns/sonar-cxx/</url>
   </ciManagement>
 
   <properties>
