@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins</groupId>
     <artifactId>parent</artifactId>
-    <version>14</version>
+    <version>18</version>
   </parent>
 
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
@@ -113,7 +113,7 @@
   <properties>
     <license.title>Sonar C++ Plugin (Community) </license.title>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>3.7</sonar.version>
+    <sonar.version>4.2</sonar.version>
     <sslr.version>1.20</sslr.version>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>

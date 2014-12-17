@@ -21,8 +21,10 @@ package org.sonar.cxx.checks;
 
 import javax.annotation.CheckForNull;
 
-import org.sonar.api.checks.CheckFactory;
-import org.sonar.api.rules.ActiveRule;
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.rule.Checks;
+import org.sonar.api.batch.rule.ActiveRule;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
@@ -44,13 +46,8 @@ public class DuplicatedIncludeCheck extends SquidCheck<Grammar> {
    * @return null, if this check is inactive
    */
   @CheckForNull
-  public static ActiveRule getActiveRule(CheckFactory checkFactory) {
-    for (Object check : checkFactory.getChecks()) {
-      if (DuplicatedIncludeCheck.class.equals(check.getClass())) {
-        return checkFactory.getActiveRule(check);
-      }
-    }
-    return null;
+  public static ActiveRule getActiveRule(ActiveRules rules) {
+    return rules.find(RuleKey.of(CheckList.REPOSITORY_KEY, RULE_KEY));
   }
 
   @Override

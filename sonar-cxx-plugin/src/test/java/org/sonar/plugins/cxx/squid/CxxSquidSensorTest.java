@@ -33,6 +33,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.rule.CheckFactory;
+import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
@@ -169,6 +171,9 @@ public class CxxSquidSensorTest {
     sourceDirs.add(sourceDir == null ? baseDir : new File(baseDir, sourceDir));
     project = TestUtils.mockProject(baseDir, sourceDirs, emptyList);
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, emptyList);
-    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class), mock(RulesProfile.class), settings, fs);
+    ActiveRules rules = mock(ActiveRules.class);
+    CheckFactory checkFactory = new CheckFactory(rules);
+    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class), mock(RulesProfile.class),
+                                settings, fs, checkFactory, rules);
   }
 }
