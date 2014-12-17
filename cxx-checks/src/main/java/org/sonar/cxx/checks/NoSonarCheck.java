@@ -22,7 +22,7 @@ package org.sonar.cxx.checks;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import com.sonar.sslr.api.Grammar;

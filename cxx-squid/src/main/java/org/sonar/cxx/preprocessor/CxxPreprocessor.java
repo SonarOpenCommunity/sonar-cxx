@@ -29,7 +29,7 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -234,7 +234,7 @@ public class CxxPreprocessor extends Preprocessor {
   public Collection<Include> getIncludedFiles(File file) {
     return includedFiles.get(file.getPath());
   }
-  
+
   public Collection<Include> getMissingIncludeFiles(File file) {
     return missingIncludeFiles.get(file.getPath());
   }

@@ -25,8 +25,8 @@ import org.sonar.check.RuleProperty;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.api.CxxMetric;
 import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.squid.checks.ChecksHelper;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.ChecksHelper;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(
     key = "TooManyLinesOfCodeInFile",

@@ -23,7 +23,7 @@ import com.google.common.io.Files;
 import com.google.common.base.Strings;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;

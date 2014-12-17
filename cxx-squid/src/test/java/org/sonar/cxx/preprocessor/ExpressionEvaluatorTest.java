@@ -19,7 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
 
@@ -52,7 +52,7 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("1L"));
     assertTrue(evaluator.eval("1u"));
     assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFF"));
-    
+
     assertFalse(evaluator.eval("0"));
     assertFalse(evaluator.eval("0x0"));
   }

@@ -35,7 +35,7 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 /**
  * Abstract visitor that visits public API items.<br>
@@ -469,7 +469,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     /**
      * Check if inline Doxygen documentation is attached to the given token at
      * specified line
-     * 
+     *
      * @param token
      *            the token to inspect
      * @param line

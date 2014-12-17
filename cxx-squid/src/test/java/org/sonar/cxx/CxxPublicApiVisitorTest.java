@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor;
 import org.sonar.cxx.visitors.CxxPublicApiVisitor.PublicApiHandler;
-import org.sonar.squid.api.SourceFile;
+import org.sonar.squidbridge.api.SourceFile;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -55,7 +55,7 @@ public class CxxPublicApiVisitorTest {
 
     /**
      * Check that CxxPublicApiVisitor correctly counts API for given file.
-     * 
+     *
      * @param fileName
      *            the file to use for test
      * @param expectedApi

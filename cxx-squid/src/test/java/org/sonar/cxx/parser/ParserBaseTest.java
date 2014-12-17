@@ -23,7 +23,7 @@ import org.sonar.cxx.CxxConfiguration;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import static org.mockito.Mockito.mock;
 

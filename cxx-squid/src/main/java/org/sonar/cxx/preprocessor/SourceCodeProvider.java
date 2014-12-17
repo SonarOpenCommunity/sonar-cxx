@@ -20,8 +20,8 @@
 package org.sonar.cxx.preprocessor;
 
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class SourceCodeProvider {
   private List<File> includeRoots = new LinkedList<File>();
-  public static final Logger LOG = LoggerFactory.getLogger("SourceCodeProvider");
+  //public static final Logger LOG = LoggerFactory.getLogger("SourceCodeProvider");
 
   public void setIncludeRoots(List<String> includeRoots, String baseDir) {
     for (String tmp : includeRoots) {
@@ -49,15 +49,15 @@ public class SourceCodeProvider {
       try {
         includeRoot = includeRoot.getCanonicalFile();
       } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", includeRoot);
+        //LOG.error("cannot get canonical form of: '{}'", includeRoot);
       }
 
       if (includeRoot.isDirectory()) {
-        LOG.debug("storing include root: '{}'", includeRoot);
+        //LOG.debug("storing include root: '{}'", includeRoot);
         this.includeRoots.add(includeRoot);
       }
       else {
-        LOG.warn("the include root {} doesnt exist", includeRoot.getAbsolutePath());
+        //LOG.warn("the include root {} doesnt exist", includeRoot.getAbsolutePath());
       }
     }
   }
@@ -99,7 +99,7 @@ public class SourceCodeProvider {
       try {
         result = result.getCanonicalFile();
       } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", result);
+        //LOG.error("cannot get canonical form of: '{}'", result);
       }
     }
 
@@ -112,7 +112,7 @@ public class SourceCodeProvider {
       try {
         code = FileUtils.readFileToString(file);
       } catch (java.io.IOException e) {
-        LOG.error("Cannot read contents of the file '{}'", file);
+        //LOG.error("Cannot read contents of the file '{}'", file);
       }
     }
 

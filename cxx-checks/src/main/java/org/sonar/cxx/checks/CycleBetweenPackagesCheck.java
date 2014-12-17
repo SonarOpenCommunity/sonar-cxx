@@ -20,7 +20,7 @@
 package org.sonar.cxx.checks;
 
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 import org.sonar.api.checks.CheckFactory;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.check.Priority;

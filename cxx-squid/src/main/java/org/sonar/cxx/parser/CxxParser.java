@@ -20,8 +20,8 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
-import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
+import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.cxx.CxxConfiguration;
 
 import com.sonar.sslr.api.Grammar;
@@ -29,7 +29,7 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
-import org.sonar.squid.api.SourceProject;
+import org.sonar.squidbridge.api.SourceProject;
 
 import java.io.File;
 import java.util.Collection;
@@ -47,11 +47,11 @@ public final class CxxParser {
   public static Collection<CxxPreprocessor.Include> getIncludedFiles(File path) {
     return cxxpp.getIncludedFiles(path);
   }
-  
+
   public static Collection<CxxPreprocessor.Include> getMissingIncludeFiles(File path) {
     return cxxpp.getMissingIncludeFiles(path);
   }
-  
+
   public static Parser<Grammar> create() {
     return create(new SquidAstVisitorContextImpl<Grammar>(new SourceProject("")),
                   new CxxConfiguration());

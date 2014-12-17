@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(key = "SwitchLastCaseIsDefaultCheck",
     description = "Each switch statement shall have a 'default' case in the last position.",

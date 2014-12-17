@@ -58,10 +58,10 @@ import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
-import org.sonar.squid.api.SourceClass;
-import org.sonar.squid.api.SourceCode;
-import org.sonar.squid.api.SourceFile;
-import org.sonar.squid.api.SourceFunction;
+import org.sonar.squidbridge.api.SourceClass;
+import org.sonar.squidbridge.api.SourceCode;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.api.SourceFunction;
 
 
 /**

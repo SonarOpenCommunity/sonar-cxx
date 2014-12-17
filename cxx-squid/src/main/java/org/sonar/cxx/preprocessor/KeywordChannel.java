@@ -23,8 +23,8 @@ import com.google.common.collect.ImmutableMap;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.channel.Channel;
-import org.sonar.channel.CodeReader;
+import org.sonar.sslr.channel.Channel;
+import org.sonar.sslr.channel.CodeReader;
 
 import java.util.Map;
 import java.util.regex.Matcher;

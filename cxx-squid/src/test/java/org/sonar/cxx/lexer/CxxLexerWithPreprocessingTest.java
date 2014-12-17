@@ -22,7 +22,7 @@ package org.sonar.cxx.lexer;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
 //import org.sonar.cxx.api.CxxGrammar;

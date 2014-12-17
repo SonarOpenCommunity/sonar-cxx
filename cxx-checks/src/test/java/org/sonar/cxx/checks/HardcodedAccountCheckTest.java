@@ -19,14 +19,14 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
-import com.sonar.sslr.squid.checks.CheckMessagesVerifierRule;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 //import org.sonar.squid.api.CheckMessage;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 //import org.sonar.java.model.VisitorsBridge;
-import org.sonar.squid.api.SourceFile;
+import org.sonar.squidbridge.api.SourceFile;
 
 import java.io.File;
 

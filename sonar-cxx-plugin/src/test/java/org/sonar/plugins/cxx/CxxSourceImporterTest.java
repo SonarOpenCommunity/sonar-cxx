@@ -49,7 +49,7 @@ public class CxxSourceImporterTest {
 
     importer.analyse(project, context);
 
-    verify(context).saveSource((Resource<?>) anyObject(), eq("<c++ source>"));
+    verify(context).saveSource((Resource) anyObject(), eq("<c++ source>"));
   }
 
   private Project mockProject() {

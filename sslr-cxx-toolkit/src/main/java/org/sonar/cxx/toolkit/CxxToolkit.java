@@ -26,13 +26,13 @@ import org.sonar.colorizer.Tokenizer;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxParser;
-import org.sonar.squid.api.SourceProject;
+import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.sslr.toolkit.Toolkit;
 
 import com.google.common.collect.ImmutableList;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
-import com.sonar.sslr.squid.SquidAstVisitorContextImpl;
+import org.sonar.squidbridge.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 
 public final class CxxToolkit {
 

@@ -19,10 +19,10 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squid.api.SourceFile;
+import org.sonar.squidbridge.api.SourceFile;
 
 import java.io.File;
 
@@ -37,19 +37,19 @@ public class SafetyTagCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(21).withMessage("Source files implementing risk mitigations shall use special name suffix '_SAFETY' : <Safetykey>MyRimName</Safetykey>");
-    
+
     check = new SafetyTagCheck();
     check.regularExpression = "<Safetykey>.*</Safetykey>";
     check.suffix = "_SAFETY";
-            
+
     file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck_SAFETY.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
-    
+
     check = new SafetyTagCheck();
     check.regularExpression = "<Safetykey>";
     check.suffix = "_SAFETY";
-            
+
     file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck_SAFETY.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();

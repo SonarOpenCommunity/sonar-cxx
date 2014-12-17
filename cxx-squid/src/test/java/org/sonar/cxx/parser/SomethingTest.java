@@ -20,7 +20,7 @@
 package org.sonar.cxx.parser;
 
 import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 import org.junit.Test;
 import com.sonar.sslr.api.Grammar;
 

@@ -23,7 +23,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -57,7 +57,7 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
   @Override
   public void visitNode(AstNode node) {
     if (!isInDeclaration(node) && !isExcluded(node) && !isInEnum(node) && !isArrayInitializer(node) && !isGenerated(node)) {
-      getContext().createLineViolation(this, "Extract this magic number '" + node.getTokenOriginalValue() 
+      getContext().createLineViolation(this, "Extract this magic number '" + node.getTokenOriginalValue()
           + "' into a constant, variable declaration or an enum.", node);
     }
   }

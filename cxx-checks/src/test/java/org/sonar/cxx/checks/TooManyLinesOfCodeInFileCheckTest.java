@@ -19,10 +19,10 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squid.api.SourceFile;
+import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.cxx.checks.TooManyLinesOfCodeInFileCheck;
 import java.io.File;
 

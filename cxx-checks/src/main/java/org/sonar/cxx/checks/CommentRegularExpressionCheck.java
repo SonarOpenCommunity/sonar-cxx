@@ -20,7 +20,7 @@
 package org.sonar.cxx.checks;
 
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.checks.AbstractCommentRegularExpressionCheck;
+import org.sonar.squidbridge.checks.AbstractCommentRegularExpressionCheck;
 import org.sonar.check.Cardinality;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;

@@ -23,10 +23,10 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.squid.measures.MetricDef;
+import org.sonar.squidbridge.measures.MetricDef;
 import com.sonar.sslr.api.Grammar;
 
-import com.sonar.sslr.squid.checks.AbstractFileComplexityCheck;
+import org.sonar.squidbridge.checks.AbstractFileComplexityCheck;
 
 @Rule(
     key = "FileCyclomaticComplexity",

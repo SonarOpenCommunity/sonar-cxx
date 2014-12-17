@@ -33,7 +33,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

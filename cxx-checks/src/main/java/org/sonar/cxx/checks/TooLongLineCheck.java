@@ -21,7 +21,7 @@ package org.sonar.cxx.checks;
 
 import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.squid.checks.SquidCheck;
+import org.sonar.squidbridge.checks.SquidCheck;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
