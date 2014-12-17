@@ -19,11 +19,11 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.junit.Test;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+
+import org.junit.Test;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 public class CxxCpdMappingTest {
   @Test

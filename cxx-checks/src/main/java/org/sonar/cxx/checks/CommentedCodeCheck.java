@@ -19,23 +19,25 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.collect.Sets;
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
-import org.sonar.squidbridge.checks.SquidCheck;
+import java.util.Set;
+import java.util.regex.Pattern;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CppKeyword;
+import org.sonar.squidbridge.checks.SquidCheck;
 import org.sonar.squidbridge.recognizer.CodeRecognizer;
 import org.sonar.squidbridge.recognizer.ContainsDetector;
 import org.sonar.squidbridge.recognizer.Detector;
 import org.sonar.squidbridge.recognizer.EndWithDetector;
 import org.sonar.squidbridge.recognizer.KeywordsDetector;
 import org.sonar.squidbridge.recognizer.LanguageFootprint;
-import java.util.Set;
-import java.util.regex.Pattern;
+
+import com.google.common.collect.Sets;
+import com.sonar.sslr.api.AstAndTokenVisitor;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.Trivia;
 
 @Rule(
   key = "CommentedCode",

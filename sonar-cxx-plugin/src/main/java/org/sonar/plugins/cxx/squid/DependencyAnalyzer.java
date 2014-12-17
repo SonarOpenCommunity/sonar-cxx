@@ -19,8 +19,10 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.checks.CheckFactory;
 import org.sonar.api.component.ResourcePerspectives;
@@ -39,13 +41,18 @@ import org.sonar.api.rules.ActiveRule;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
-import org.sonar.graph.*;
+import org.sonar.graph.Cycle;
+import org.sonar.graph.DirectedGraph;
+import org.sonar.graph.Dsm;
+import org.sonar.graph.DsmTopologicalSorter;
+import org.sonar.graph.Edge;
+import org.sonar.graph.IncrementalCyclesAndFESSolver;
+import org.sonar.graph.MinimumFeedbackEdgeSetSolver;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class DependencyAnalyzer {
 

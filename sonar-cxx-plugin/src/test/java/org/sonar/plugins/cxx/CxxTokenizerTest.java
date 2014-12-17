@@ -19,17 +19,18 @@
  */
 package org.sonar.plugins.cxx;
 
-import net.sourceforge.pmd.cpd.SourceCode;
-import net.sourceforge.pmd.cpd.TokenEntry;
-import net.sourceforge.pmd.cpd.Tokens;
-import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import static org.fest.assertions.Assertions.assertThat;
+import net.sourceforge.pmd.cpd.SourceCode;
+import net.sourceforge.pmd.cpd.TokenEntry;
+import net.sourceforge.pmd.cpd.Tokens;
+
+import org.junit.Test;
 
 public class CxxTokenizerTest {
 

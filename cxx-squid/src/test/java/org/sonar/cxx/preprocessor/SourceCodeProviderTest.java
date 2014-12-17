@@ -19,12 +19,12 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class SourceCodeProviderTest {
   private SourceCodeProvider codeProvider = new SourceCodeProvider();

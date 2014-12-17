@@ -19,14 +19,15 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.api.Grammar;
-import org.sonar.squidbridge.checks.SquidCheck;
+import javax.annotation.CheckForNull;
+
 import org.sonar.api.checks.CheckFactory;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
+import org.sonar.squidbridge.checks.SquidCheck;
 
-import javax.annotation.CheckForNull;
+import com.sonar.sslr.api.Grammar;
 
 /**
  * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which actually does the job of finding duplicated

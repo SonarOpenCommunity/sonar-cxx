@@ -19,18 +19,20 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.squidbridge.checks.SquidCheck;
+import java.util.Collections;
+import java.util.Set;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import java.util.Collections;
-import java.util.Set;
+import org.sonar.squidbridge.checks.SquidCheck;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "MagicNumber",

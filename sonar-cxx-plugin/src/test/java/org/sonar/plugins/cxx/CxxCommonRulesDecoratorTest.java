@@ -19,12 +19,12 @@
  */
 package org.sonar.plugins.cxx;
 
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
 import org.junit.Test;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.ProjectFileSystem;
-
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 public class CxxCommonRulesDecoratorTest {
 

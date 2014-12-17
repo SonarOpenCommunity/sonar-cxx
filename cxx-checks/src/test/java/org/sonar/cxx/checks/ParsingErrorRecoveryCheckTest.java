@@ -19,12 +19,13 @@
  */
 package org.sonar.cxx.checks;
 
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import java.io.File;
+
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class ParsingErrorRecoveryCheckTest {
 

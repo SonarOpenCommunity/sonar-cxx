@@ -22,11 +22,12 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.api.CxxMetric;
-import com.sonar.sslr.api.AstNode;
 import org.sonar.squidbridge.checks.ChecksHelper;
 import org.sonar.squidbridge.checks.SquidCheck;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
     key = "TooManyLinesOfCodeInFile",

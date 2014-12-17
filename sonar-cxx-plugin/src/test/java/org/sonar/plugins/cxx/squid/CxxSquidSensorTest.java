@@ -19,27 +19,29 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Directory;
 import org.sonar.api.resources.Project;
-import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Matchers.anyDouble;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
 
 public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;

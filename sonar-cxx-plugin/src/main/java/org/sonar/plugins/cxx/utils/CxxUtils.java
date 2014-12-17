@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.cxx.utils;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 /**
  * Utility class holding various, well, utilities

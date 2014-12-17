@@ -19,12 +19,12 @@
  */
 package org.sonar.plugins.cxx;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class CxxLanguageTest {
 

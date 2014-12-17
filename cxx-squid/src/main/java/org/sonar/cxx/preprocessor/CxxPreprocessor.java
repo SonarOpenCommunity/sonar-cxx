@@ -19,32 +19,9 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.google.common.collect.Multimap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Preprocessor;
-import com.sonar.sslr.api.PreprocessorAction;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.TokenType;
-import com.sonar.sslr.api.Trivia;
-import com.sonar.sslr.impl.Parser;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sonar.cxx.CxxConfiguration;
-import com.sonar.sslr.api.Grammar;
-
-import org.sonar.cxx.lexer.CxxLexer;
-
-import java.io.File;
-import java.util.*;
-
-import static org.apache.commons.io.FilenameUtils.wildcardMatchOnSystem;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import static org.apache.commons.io.FilenameUtils.wildcardMatchOnSystem;
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.LT;
@@ -52,6 +29,37 @@ import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 import static org.sonar.cxx.api.CxxTokenType.WS;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.lexer.CxxLexer;
+import org.sonar.squidbridge.SquidAstVisitorContext;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Preprocessor;
+import com.sonar.sslr.api.PreprocessorAction;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.TokenType;
+import com.sonar.sslr.api.Trivia;
+import com.sonar.sslr.impl.Parser;
 
 public class CxxPreprocessor extends Preprocessor {
   private class State {

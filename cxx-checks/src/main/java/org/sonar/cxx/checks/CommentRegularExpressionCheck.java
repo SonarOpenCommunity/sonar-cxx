@@ -19,12 +19,13 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.api.Grammar;
-import org.sonar.squidbridge.checks.AbstractCommentRegularExpressionCheck;
 import org.sonar.check.Cardinality;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.squidbridge.checks.AbstractCommentRegularExpressionCheck;
+
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "CommentRegularExpression",

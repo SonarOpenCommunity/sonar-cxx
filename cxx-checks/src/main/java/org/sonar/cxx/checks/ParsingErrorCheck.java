@@ -19,15 +19,16 @@
  */
 package org.sonar.cxx.checks;
 
-import org.sonar.squidbridge.AstScannerExceptionHandler;
-import com.sonar.sslr.api.RecognitionException;
-import org.sonar.squidbridge.checks.SquidCheck;
-import org.sonar.check.Priority;
-import org.sonar.check.Rule;
-import com.sonar.sslr.api.Grammar;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import org.sonar.check.Priority;
+import org.sonar.check.Rule;
+import org.sonar.squidbridge.AstScannerExceptionHandler;
+import org.sonar.squidbridge.checks.SquidCheck;
+
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.RecognitionException;
 
 @Rule(
   key = "ParsingError",

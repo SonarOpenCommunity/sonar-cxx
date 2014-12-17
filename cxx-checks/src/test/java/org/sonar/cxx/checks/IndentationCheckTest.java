@@ -19,15 +19,14 @@
  */
 package org.sonar.cxx.checks;
 
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
-import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
+import java.io.File;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
-import static org.hamcrest.Matchers.*;
-
-import java.io.File;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class IndentationCheckTest {
 

@@ -19,13 +19,13 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.impl.events.ExtendedStackTrace;
-import com.sonar.sslr.impl.events.ExtendedStackTraceStream;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.impl.Parser;
-import org.junit.Test;
 import static org.sonar.sslr.tests.Assertions.assertThat;
+
+import org.junit.Test;
+
+import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.impl.Parser;
 
 
 public class CppGrammarTest {

@@ -19,6 +19,15 @@
  */
 package org.sonar.plugins.cxx;
 
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.batch.SensorContext;
@@ -26,15 +35,6 @@ import org.sonar.api.config.PropertyDefinitions;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class CxxSourceImporterTest {
   @Test

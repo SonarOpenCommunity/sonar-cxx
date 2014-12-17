@@ -19,18 +19,19 @@
  */
 package org.sonar.cxx;
 
-import com.google.common.collect.ImmutableList;
-import org.sonar.squidbridge.AstScanner;
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.io.File;
+
 import org.junit.Test;
-import com.sonar.sslr.api.Grammar;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.squidbridge.indexer.QueryByType;
 
-import java.io.File;
-
-import static org.fest.assertions.Assertions.assertThat;
+import com.google.common.collect.ImmutableList;
+import com.sonar.sslr.api.Grammar;
 
 public class CxxAstScannerTest {
 

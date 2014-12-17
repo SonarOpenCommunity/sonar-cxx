@@ -19,12 +19,12 @@
  */
 package org.sonar.cxx.checks;
 
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
-import org.junit.Test;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.cxx.CxxAstScanner;
-
 import java.io.File;
+
+import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class MissingCurlyBracesCheckTest {
 

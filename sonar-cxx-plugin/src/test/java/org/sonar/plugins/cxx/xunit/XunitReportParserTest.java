@@ -21,14 +21,13 @@ package org.sonar.plugins.cxx.xunit;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.TreeMap;
+import java.io.File;
 import java.util.Map;
-import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.utils.StaxParser;
+import java.util.TreeMap;
 
 import org.junit.Test;
-import org.junit.Before;
-import java.io.File;
+import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class XunitReportParserTest {
 

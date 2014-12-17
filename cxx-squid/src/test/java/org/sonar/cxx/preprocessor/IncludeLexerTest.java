@@ -19,17 +19,18 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Lexer;
-import org.junit.Test;
-import org.sonar.cxx.api.CxxTokenType;
-
-import java.util.List;
-
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
+
+import java.util.List;
+
+import org.junit.Test;
+import org.sonar.cxx.api.CxxTokenType;
+
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Lexer;
 
 public class IncludeLexerTest {
 

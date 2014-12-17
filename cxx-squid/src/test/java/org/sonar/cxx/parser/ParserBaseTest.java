@@ -19,13 +19,13 @@
  */
 package org.sonar.cxx.parser;
 
+import static org.mockito.Mockito.mock;
+
 import org.sonar.cxx.CxxConfiguration;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-
-import static org.mockito.Mockito.mock;
 
 public class ParserBaseTest {
   protected CxxConfiguration conf = null;

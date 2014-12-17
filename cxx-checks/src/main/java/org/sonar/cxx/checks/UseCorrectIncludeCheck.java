@@ -19,21 +19,21 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.io.Files;
-import com.google.common.base.Strings;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.squidbridge.checks.SquidCheck;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
+import org.sonar.squidbridge.checks.SquidCheck;
 
-import java.nio.charset.Charset;
-import java.io.IOException;
-import java.util.regex.Pattern;
-import java.util.List;
+import com.google.common.base.Strings;
+import com.google.common.io.Files;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "UseCorrectInclude",

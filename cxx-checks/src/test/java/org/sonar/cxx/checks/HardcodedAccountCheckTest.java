@@ -19,16 +19,16 @@
  */
 package org.sonar.cxx.checks;
 
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
-import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
+import java.io.File;
+
 //import org.sonar.squid.api.CheckMessage;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 //import org.sonar.java.model.VisitorsBridge;
 import org.sonar.squidbridge.api.SourceFile;
-
-import java.io.File;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class HardcodedAccountCheckTest {
 

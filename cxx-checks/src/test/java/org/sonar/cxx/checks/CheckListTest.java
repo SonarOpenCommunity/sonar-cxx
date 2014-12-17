@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
-import org.junit.Test;
-
 import static org.fest.assertions.Assertions.assertThat;
+
+import org.junit.Test;
 
 public class CheckListTest {
 

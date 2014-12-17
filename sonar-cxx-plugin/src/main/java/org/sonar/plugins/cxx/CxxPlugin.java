@@ -19,14 +19,18 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.Extension;
-import org.sonar.api.Properties;
-import org.sonar.api.Property;
-import org.sonar.api.config.PropertyDefinition;
-import org.sonar.api.config.PropertyFieldDefinition;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
+import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
+import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
+import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
+import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
@@ -34,11 +38,6 @@ import org.sonar.plugins.cxx.externalrules.CxxExternalRuleRepository;
 import org.sonar.plugins.cxx.externalrules.CxxExternalRulesSensor;
 import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
 import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
-import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
-import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
-import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
-import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
-import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.squid.CxxSquidSensor;
@@ -49,9 +48,6 @@ import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
 
 import com.google.common.collect.ImmutableList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";

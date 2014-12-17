@@ -19,13 +19,9 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.impl.Parser;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-import org.junit.Test;
-
 import static org.sonar.sslr.tests.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+
+import org.junit.Test;
 
 public class AttributedAtlTest extends ParserBaseTest {
 

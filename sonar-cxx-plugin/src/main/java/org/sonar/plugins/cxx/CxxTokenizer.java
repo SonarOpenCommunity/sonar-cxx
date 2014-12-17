@@ -19,18 +19,20 @@
  */
 package org.sonar.plugins.cxx;
 
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Lexer;
+import java.io.File;
+import java.nio.charset.Charset;
+import java.util.List;
+
 import net.sourceforge.pmd.cpd.SourceCode;
 import net.sourceforge.pmd.cpd.TokenEntry;
 import net.sourceforge.pmd.cpd.Tokenizer;
 import net.sourceforge.pmd.cpd.Tokens;
+
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.lexer.CxxLexer;
 
-import java.io.File;
-import java.nio.charset.Charset;
-import java.util.List;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Lexer;
 
 public class CxxTokenizer implements Tokenizer {
 

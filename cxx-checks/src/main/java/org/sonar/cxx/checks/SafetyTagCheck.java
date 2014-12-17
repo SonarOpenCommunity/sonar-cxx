@@ -21,23 +21,20 @@ package org.sonar.cxx.checks;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Strings;
-import com.sonar.sslr.api.AstAndTokenVisitor;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.api.Trivia;
-import org.sonar.squidbridge.checks.SquidCheck;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.squidbridge.checks.SquidCheck;
 
-
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.common.base.Strings;
+import com.sonar.sslr.api.AstAndTokenVisitor;
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.Trivia;
 
 @Rule(
   key = "SafetyTagCheck",

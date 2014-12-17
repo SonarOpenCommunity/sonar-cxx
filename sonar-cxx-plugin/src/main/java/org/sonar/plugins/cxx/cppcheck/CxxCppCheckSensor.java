@@ -22,7 +22,9 @@ package org.sonar.plugins.cxx.cppcheck;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;

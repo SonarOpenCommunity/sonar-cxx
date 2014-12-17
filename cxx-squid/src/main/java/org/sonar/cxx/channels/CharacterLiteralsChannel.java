@@ -19,11 +19,12 @@
  */
 package org.sonar.cxx.channels;
 
-import com.sonar.sslr.api.Token;
-import com.sonar.sslr.impl.Lexer;
+import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.sslr.channel.Channel;
 import org.sonar.sslr.channel.CodeReader;
-import org.sonar.cxx.api.CxxTokenType;
+
+import com.sonar.sslr.api.Token;
+import com.sonar.sslr.impl.Lexer;
 
 public class CharacterLiteralsChannel extends Channel<Lexer> {
   private static final char EOF = (char) -1;

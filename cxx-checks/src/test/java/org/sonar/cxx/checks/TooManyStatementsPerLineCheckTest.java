@@ -19,13 +19,14 @@
  */
 package org.sonar.cxx.checks;
 
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import java.io.File;
+
 import junit.framework.Assert;
+
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
-
-import java.io.File;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class TooManyStatementsPerLineCheckTest {
 

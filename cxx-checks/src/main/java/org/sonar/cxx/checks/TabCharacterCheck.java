@@ -19,18 +19,19 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.io.Files;
-import com.sonar.sslr.api.AstNode;
-import org.sonar.squidbridge.checks.SquidCheck;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+
 import org.sonar.api.utils.SonarException;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
-import com.sonar.sslr.api.Grammar;
+import org.sonar.squidbridge.checks.SquidCheck;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
+import com.google.common.io.Files;
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "NoTabCharacter",

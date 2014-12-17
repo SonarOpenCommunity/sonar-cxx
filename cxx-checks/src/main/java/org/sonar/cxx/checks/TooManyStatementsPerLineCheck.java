@@ -19,14 +19,15 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.squidbridge.checks.AbstractOneStatementPerLineCheck;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.squidbridge.checks.AbstractOneStatementPerLineCheck;
+
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
 
 @Rule(
   key = "TooManyStatementsPerLine",

@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import java.util.Set;
+
 import org.junit.Test;
 import org.sonar.squid.recognizer.Detector;
-
-import java.util.Set;
 
 public class CxxLanguageFootprintTest {
   @Test

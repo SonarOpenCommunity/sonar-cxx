@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.cppcheck;
 
 import java.io.File;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 

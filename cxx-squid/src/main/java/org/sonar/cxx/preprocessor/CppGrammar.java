@@ -19,11 +19,6 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.api.Grammar;
-import org.sonar.cxx.api.CxxTokenType;
-import org.sonar.sslr.grammar.GrammarRuleKey;
-import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
-
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static org.sonar.cxx.api.CppKeyword.DEFINE;
 import static org.sonar.cxx.api.CppKeyword.ELIF;
@@ -41,6 +36,12 @@ import static org.sonar.cxx.api.CppKeyword.UNDEF;
 import static org.sonar.cxx.api.CppKeyword.WARNING;
 import static org.sonar.cxx.api.CppPunctuator.HASH;
 import static org.sonar.cxx.api.CxxTokenType.WS;
+
+import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.sslr.grammar.GrammarRuleKey;
+import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
+
+import com.sonar.sslr.api.Grammar;
 
 /**
  * The rules are a subset of those found in the C++ Standard, A.14 "Preprocessor directives"
