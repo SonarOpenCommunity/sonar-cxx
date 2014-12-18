@@ -57,6 +57,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private static final String IT_DEFAULT_REPORT_PATH = "coverage-reports/it-coverage-*.xml";
   private static final String OVERALL_DEFAULT_REPORT_PATH = "coverage-reports/overall-coverage-*.xml";
 
+  public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
+
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
 
   /**
@@ -81,7 +83,10 @@ public class CxxCoverageSensor extends CxxReportSensor {
     List<File> reports = getReports(conf, baseDir, REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
     saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
-    zeroMeasuresWithoutReports(project, context, coverageMeasures);
+    if (isForceZeroCoverageActivated()) {
+      CxxUtils.LOG.debug("ForceZeroCoverageActivated=true");
+      zeroMeasuresWithoutReports(project, context, coverageMeasures);
+    }
 
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReports(conf, baseDir, IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
@@ -164,23 +169,27 @@ public class CxxCoverageSensor extends CxxReportSensor {
         String filePath = CxxUtils.normalizePath(file.getAbsolutePath());
         CoverageMeasuresBuilder fileCoverage = coverageMeasures.get(filePath);
         if (fileCoverage == null) {
-          CxxUtils.LOG.debug("Zero coverage measures for file '{}'", filePath);
-          saveZeroValueForResource(resource, context);
+          saveZeroValueForResource(resource, filePath, context);
         }
       }
     }
   }
 
-  private void saveZeroValueForResource(org.sonar.api.resources.File resource, SensorContext context) {
+  private void saveZeroValueForResource(org.sonar.api.resources.File resource, String filePath, SensorContext context) {
     PropertiesBuilder<Integer, Integer> lineHitsData = new PropertiesBuilder<Integer, Integer>(CoreMetrics.COVERAGE_LINE_HITS_DATA);
-    for (int x = 1; x < context.getMeasure(resource, CoreMetrics.LINES).getIntValue(); x++) {
-      lineHitsData.add(x, 0);
-    }
-    // use non comment lines of code for coverage calculation
     Measure ncloc = context.getMeasure(resource, CoreMetrics.NCLOC);
-    context.saveMeasure(resource, lineHitsData.build());
-    context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, ncloc.getValue());
-    context.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, ncloc.getValue());
+    Measure stmts = context.getMeasure(resource, CoreMetrics.STATEMENTS);
+    if (ncloc != null && stmts != null) {
+      if (ncloc.getValue() > 0 && stmts.getValue() > 0) {
+        CxxUtils.LOG.debug("Zero coverage measures for file '{}'", filePath);
+        for (int i = 1; i <= context.getMeasure(resource, CoreMetrics.LINES).getIntValue(); ++i) {
+          lineHitsData.add(i, 0);
+        }
+        context.saveMeasure(resource, lineHitsData.build());
+        context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, ncloc.getValue());
+        context.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, ncloc.getValue());
+      }
+    }
   }
 
   private Measure convertToItMeasure(Measure measure) {
@@ -231,5 +240,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   private boolean fileExist(SensorContext context, org.sonar.api.resources.File file) {
     return context.getResource(file) != null;
+  }
+
+  private boolean isForceZeroCoverageActivated() {
+    return conf.getBoolean(FORCE_ZERO_COVERAGE_KEY);
   }
 }
