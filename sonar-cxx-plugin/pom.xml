@@ -27,7 +27,6 @@
       <artifactId>sonar-plugin-api</artifactId>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
@@ -42,10 +41,12 @@
       <groupId>ant</groupId>
       <artifactId>ant</artifactId>
     </dependency>
+
     <dependency>
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.codehaus.sonar.common-rules</groupId>
       <artifactId>sonar-common-rules</artifactId>
@@ -60,6 +61,12 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0.9</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
