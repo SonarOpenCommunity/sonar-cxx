@@ -334,6 +334,17 @@ public final class CxxPlugin extends SonarPlugin {
       .index(3)
       .build(),
 
+      PropertyDefinition.builder(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
+      .name("Assign zero line coverage to source files without coverage report(s)")
+      .description("If 'True', assign zero line coverage to source files without coverage report(s),"
+                   + "which results in a more realistic overall Technical Debt value.")
+      .defaultValue("True")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(4)
+      .build(),
+      
       PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
@@ -341,7 +352,7 @@ public final class CxxPlugin extends SonarPlugin {
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(4)
+      .index(5)
       .build(),
 
       PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
@@ -350,7 +361,7 @@ public final class CxxPlugin extends SonarPlugin {
                    + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(5)
+      .index(6)
       .build(),
 
       PropertyDefinition.builder(CxxXunitSensor.PROVIDE_DETAILS_KEY)
@@ -361,8 +372,8 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
-      .index(6)
-      .build()
+      .index(7)
+      .build()      
       );
   }
 
