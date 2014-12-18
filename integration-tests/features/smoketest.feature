@@ -39,8 +39,8 @@ Feature: Smoketest
                # violations
                | violations               | 12    |
                # coverage statistics
-               | coverage                 | 84    |
-               | line_coverage            | 100   |
+               | coverage                 | 41.2  |
+               | line_coverage            | 39.5  |
                | branch_coverage          | 50    |
                | it_coverage              | 84    |
                | it_line_coverage         | 100   |
