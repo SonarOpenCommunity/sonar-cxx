@@ -47,7 +47,7 @@ import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
-//import org.sonar.plugins.cxx.mstest.MSTestResultsProvider;
+import org.sonar.plugins.cxx.mstest.MSTestResultsProvider;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsAggregator;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsImportSensor;
 import com.google.common.collect.ImmutableList;
@@ -368,8 +368,16 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
       .index(6)
+      .build(),
+      
+      PropertyDefinition.builder(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
+      .name("Visual Studio Test Reports Paths")
+      .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)    
+      .index(7)
       .build()
-      );
+    );
   }
 
   /**
