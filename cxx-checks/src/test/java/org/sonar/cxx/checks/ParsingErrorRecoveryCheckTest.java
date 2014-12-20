@@ -19,24 +19,25 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
 import java.io.File;
+
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.squid.api.SourceFile;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class ParsingErrorRecoveryCheckTest {
-    
+
   @Test
   public void test_syntax_error_recovery() {
     CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(true);
     SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/parsingError3.cc"), config, new ParsingErrorRecoveryCheck());
-    
+
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("C++ Parser can't read code. Declaration is skipped.")
       .noMore();
-  }    
-  
+  }
+
 }

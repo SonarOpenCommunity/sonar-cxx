@@ -19,14 +19,15 @@
  */
 package org.sonar.cxx.lexer;
 
-import com.sonar.sslr.impl.Lexer;
+import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxTokenType;
 
-import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
-import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
+import com.sonar.sslr.impl.Lexer;
 
 public class CxxLexer_PreprocessorDisabled_Test {
 

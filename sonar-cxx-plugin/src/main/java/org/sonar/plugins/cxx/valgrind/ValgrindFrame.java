@@ -19,9 +19,9 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.io.File;
+
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Represents a stack frame. Overwrites equality. Has a string serialization that

@@ -19,17 +19,15 @@
  */
 package org.sonar.cxx.parser;
 
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.impl.Parser;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
-import org.junit.Test;
-import com.sonar.sslr.api.Grammar;
+import static org.sonar.sslr.tests.Assertions.assertThat;
+
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 
-import static org.sonar.sslr.tests.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import org.apache.commons.lang.StringUtils;
+import org.junit.Test;
+
+import com.sonar.sslr.api.AstNode;
 
 public class PreprocessorDirectivesTest extends ParserBaseTest {
 

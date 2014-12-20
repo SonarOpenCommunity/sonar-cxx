@@ -19,15 +19,15 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.squid.checks.CheckMessagesVerifier;
-import org.junit.Test;
-import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squid.api.SourceFile;
-import org.sonar.cxx.CxxConfiguration;
+import static org.hamcrest.Matchers.containsString;
 
 import java.io.File;
 
-import static org.hamcrest.Matchers.containsString;
+import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class ParsingErrorCheckTest {
 
@@ -43,7 +43,7 @@ public class ParsingErrorCheckTest {
 
   @Test
   public void test_syntax_error_pperror() {
-    CxxConfiguration config = new CxxConfiguration();  
+    CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(false);
     SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/parsingError2.cc"), config, new ParsingErrorCheck());
     CheckMessagesVerifier.verify(file.getCheckMessages())

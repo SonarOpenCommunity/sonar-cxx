@@ -20,7 +20,9 @@
 package org.sonar.plugins.cxx.cppcheck;
 
 import java.io.File;
+
 import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;

@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
-
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
 
 class ValgrindReportParser {
   public ValgrindReportParser() {

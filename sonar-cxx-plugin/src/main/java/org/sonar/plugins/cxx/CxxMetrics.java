@@ -19,11 +19,11 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.Metrics;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.Metrics;
 
 public class CxxMetrics implements Metrics {
 

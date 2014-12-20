@@ -19,9 +19,12 @@
  */
 package org.sonar.cxx.lexer;
 
-import com.sonar.sslr.api.GenericTokenType;
-import com.sonar.sslr.impl.Lexer;
-import com.sonar.sslr.squid.SquidAstVisitorContext;
+import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
+import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sonar.cxx.api.CxxKeyword;
@@ -29,12 +32,10 @@ import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.cxx.preprocessor.JoinStringsPreprocessor;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 
-import static com.sonar.sslr.test.lexer.LexerMatchers.hasComment;
-import static com.sonar.sslr.test.lexer.LexerMatchers.hasToken;
-import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
+import com.sonar.sslr.api.GenericTokenType;
+import com.sonar.sslr.impl.Lexer;
 
 public class CxxLexerTest {
 

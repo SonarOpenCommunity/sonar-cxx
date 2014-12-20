@@ -19,10 +19,6 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.squid.SquidAstVisitorContext;
-import org.junit.Test;
-import org.sonar.cxx.CxxConfiguration;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -30,6 +26,10 @@ import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import org.junit.Test;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class ExpressionEvaluatorTest {
 
@@ -52,7 +52,7 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("1L"));
     assertTrue(evaluator.eval("1u"));
     assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFF"));
-    
+
     assertFalse(evaluator.eval("0"));
     assertFalse(evaluator.eval("0x0"));
   }

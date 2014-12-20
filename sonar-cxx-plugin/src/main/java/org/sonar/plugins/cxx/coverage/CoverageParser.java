@@ -19,12 +19,12 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import org.sonar.api.measures.CoverageMeasuresBuilder;
+import java.io.File;
+import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import java.io.File;
-import java.util.Map;
+import org.sonar.api.measures.CoverageMeasuresBuilder;
 
 /**
  * The interface a coverage report parser has to implement in order to be used

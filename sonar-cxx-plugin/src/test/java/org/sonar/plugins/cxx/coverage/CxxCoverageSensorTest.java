@@ -19,23 +19,23 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.config.Settings;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.File;
-import org.sonar.api.resources.Project;
-import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.config.Settings;
+import org.sonar.api.measures.Measure;
+import org.sonar.api.resources.File;
+import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCoverageSensorTest {
   private CxxCoverageSensor sensor;
@@ -49,7 +49,6 @@ public class CxxCoverageSensorTest {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
     reactor = TestUtils.mockReactor();
-    sensor = new CxxCoverageSensor(new Settings(), fs, reactor);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -129,3 +128,4 @@ public class CxxCoverageSensorTest {
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
   }    
 }
+

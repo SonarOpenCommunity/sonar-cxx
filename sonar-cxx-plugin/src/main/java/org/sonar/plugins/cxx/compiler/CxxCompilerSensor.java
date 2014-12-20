@@ -19,22 +19,22 @@
  */
 package org.sonar.plugins.cxx.compiler;
 
-import org.apache.commons.lang.StringUtils;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project;
-import org.sonar.plugins.cxx.CxxMetrics;
-import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.config.Settings;
+import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.cxx.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team edition or 2010/2012/2013 premium edition)
@@ -54,7 +54,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-
   public CxxCompilerSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
     super(perspectives, conf, fs, reactor, CxxMetrics.COMPILER);
     this.profile = profile;
@@ -76,9 +75,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   private CompilerParser getCompilerParser() {
     String parserKey = getStringProperty(PARSER_KEY_DEF, DEFAULT_PARSER_DEF);
     CompilerParser parser = parsers.get(parserKey);
-    if (parser == null) {
-      parser = parsers.get(DEFAULT_PARSER_DEF);
-    }
+    if (parser == null)
+        parser = parsers.get(DEFAULT_PARSER_DEF);
     return parser;
   }
 
@@ -109,16 +107,16 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * @return Value of the property if set and not empty, else default value.
    */
   public String getParserStringProperty(String name, String def) {
-    String s = getStringProperty(name, "");
-    if (StringUtils.isEmpty(s)) {
-      return def;
-    }
-    return s;
+      String s = getStringProperty(name, "");
+      if (StringUtils.isEmpty(s))
+          return def;
+      return s;
   }
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException {
+      throws javax.xml.stream.XMLStreamException
+  {
     final CompilerParser parser = getCompilerParser();
     final String reportCharset = getParserStringProperty(REPORT_CHARSET_DEF, parser.defaultCharset());
     final String reportRegEx = getParserStringProperty(REPORT_REGEX_DEF, parser.defaultRegexp());
@@ -148,3 +146,4 @@ public class CxxCompilerSensor extends CxxReportSensor {
       && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
   }
 }
+

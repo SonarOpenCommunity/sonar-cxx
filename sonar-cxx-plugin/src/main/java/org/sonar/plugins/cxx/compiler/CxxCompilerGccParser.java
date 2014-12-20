@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**

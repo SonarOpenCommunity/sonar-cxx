@@ -19,6 +19,16 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
@@ -30,16 +40,6 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
@@ -92,3 +92,4 @@ public class CxxValgrindSensorTest {
     return new ValgrindFrame("ip", "obj", "fn", "dir", "file", "1");
   }
 }
+

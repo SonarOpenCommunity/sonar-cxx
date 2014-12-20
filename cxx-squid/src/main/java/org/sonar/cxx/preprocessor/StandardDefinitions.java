@@ -19,8 +19,9 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.google.common.collect.ImmutableMap;
 import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
 
 public final class StandardDefinitions {
   private StandardDefinitions(){}

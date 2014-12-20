@@ -19,18 +19,19 @@
  */
 package org.sonar.cxx.visitors;
 
+import java.util.Set;
+
+import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.api.CxxPunctuator;
+import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.squidbridge.api.SourceCode;
+
 import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
-import com.sonar.sslr.squid.SquidAstVisitor;
-import org.sonar.cxx.api.CxxPunctuator;
-import org.sonar.cxx.api.CxxMetric;
-import org.sonar.squid.api.SourceCode;
-
-import java.util.Set;
 
 public class CxxCommentLinesVisitor <GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 

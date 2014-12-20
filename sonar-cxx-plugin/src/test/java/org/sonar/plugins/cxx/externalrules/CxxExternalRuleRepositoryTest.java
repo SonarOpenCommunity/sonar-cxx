@@ -19,11 +19,11 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
-import org.junit.Test;
-import org.sonar.api.rules.XMLRuleParser;
-
 import static org.fest.assertions.Assertions.assertThat;
+
+import org.junit.Test;
 import org.sonar.api.config.Settings;
+import org.sonar.api.rules.XMLRuleParser;
 
 public class CxxExternalRuleRepositoryTest {
 

@@ -19,21 +19,21 @@
  */
 package org.sonar.cxx.parser;
 
-import org.sonar.sslr.grammar.GrammarRuleKey;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
-
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.CxxConfiguration;
-
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.EOL;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import static org.sonar.cxx.api.CxxTokenType.CHARACTER;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.sslr.grammar.GrammarRuleKey;
+import org.sonar.sslr.grammar.LexerfulGrammarBuilder;
+
+import com.sonar.sslr.api.Grammar;
 
 /**
  * Based on the C++ Standard, Appendix A

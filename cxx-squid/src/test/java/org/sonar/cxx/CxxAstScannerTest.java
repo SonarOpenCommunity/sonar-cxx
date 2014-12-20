@@ -19,73 +19,73 @@
  */
 package org.sonar.cxx;
 
-import com.google.common.collect.ImmutableList;
-import com.sonar.sslr.squid.AstScanner;
-import org.junit.Test;
-import org.sonar.cxx.api.CxxGrammar;
-import org.sonar.cxx.api.CxxMetric;
-import org.sonar.squid.api.SourceFile;
-import org.sonar.squid.api.SourceProject;
-import org.sonar.squid.indexer.QueryByType;
+import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.Test;
+import org.sonar.cxx.api.CxxMetric;
+import org.sonar.squidbridge.AstScanner;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.api.SourceProject;
+import org.sonar.squidbridge.indexer.QueryByType;
+
+import com.google.common.collect.ImmutableList;
+import com.sonar.sslr.api.Grammar;
 
 public class CxxAstScannerTest {
 
-  // @Test
-  // public void files() {
-  //   AstScanner<CxxGrammar> scanner = CxxAstScanner.create(new CxxConfiguration());
-  //   scanner.scanFiles(ImmutableList.of(new File("src/test/resources/metrics/trivial.cc"),
-  //       new File("src/test/resources/metrics/classes.cc")));
-  //   SourceProject project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator().next();
-  //   assertThat(project.getInt(CxxMetric.FILES)).isEqualTo(2);
-  // }
+  @Test
+  public void files() {
+    AstScanner<Grammar> scanner = CxxAstScanner.create(new CxxConfiguration());
+    scanner.scanFiles(ImmutableList.of(new File("src/test/resources/metrics/trivial.cc"),
+        new File("src/test/resources/metrics/classes.cc")));
+    SourceProject project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator().next();
+    assertThat(project.getInt(CxxMetric.FILES)).isEqualTo(2);
+  }
 
-  // @Test
-  // public void comments() {
-  //   SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/comments.cc"));
-  //   assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(4);
-  //   assertThat(file.getInt(CxxMetric.COMMENT_BLANK_LINES)).isEqualTo(3);
-  //   assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
-  // }
+  @Test
+  public void comments() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/comments.cc"));
+    assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
+    assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
+  }
 
-  // @Test
-  // public void lines() {
-  //   SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
-  //   assertThat(file.getInt(CxxMetric.LINES)).isEqualTo(7);
-  // }
+  @Test
+  public void lines() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
+    assertThat(file.getInt(CxxMetric.LINES)).isEqualTo(7);
+  }
 
-  // @Test
-  // public void lines_of_code() {
-  //   SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
-  //   assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(5);
-  // }
+  @Test
+  public void lines_of_code() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
+    assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(5);
+  }
 
-  // @Test
-  // public void statements() {
-  //   SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/statements.cc"));
-  //   assertThat(file.getInt(CxxMetric.STATEMENTS)).isEqualTo(4);
-  // }
+  @Test
+  public void statements() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/statements.cc"));
+    assertThat(file.getInt(CxxMetric.STATEMENTS)).isEqualTo(4);
+  }
 
-  // @Test
-  // public void functions() {
-  //   SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/functions.cc"));
-  //   assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
-  // }
+  @Test
+  public void functions() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/functions.cc"));
+    assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
+  }
 
-  // @Test
-  // public void classes() {
-  //   SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
-  //   assertThat(file.getInt(CxxMetric.CLASSES)).isEqualTo(2);
-  // }
+  @Test
+  public void classes() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
+    assertThat(file.getInt(CxxMetric.CLASSES)).isEqualTo(2);
+  }
 
-  // @Test
-  // public void complexity() {
-  //   SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/complexity.cc"));
-  //   assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
-  // }
+  @Test
+  public void complexity() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/complexity.cc"));
+    assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
+  }
 
    @Test
    public void error_recovery_declaration() {

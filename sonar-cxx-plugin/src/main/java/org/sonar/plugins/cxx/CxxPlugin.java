@@ -19,14 +19,18 @@
  */
 package org.sonar.plugins.cxx;
 
-//import org.sonar.api.Extension;
-//import org.sonar.api.Properties;
-//import org.sonar.api.Property;
-import org.sonar.api.config.PropertyDefinition;
-//import org.sonar.api.config.PropertyFieldDefinition;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
+import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
+import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
+import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
+import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
+import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
 import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
 import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
@@ -34,11 +38,6 @@ import org.sonar.plugins.cxx.externalrules.CxxExternalRuleRepository;
 import org.sonar.plugins.cxx.externalrules.CxxExternalRulesSensor;
 import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
 import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
-import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
-import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
-import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
-import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
-import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
 import org.sonar.plugins.cxx.rats.CxxRatsSensor;
 import org.sonar.plugins.cxx.squid.CxxSquidSensor;
@@ -51,9 +50,6 @@ import org.sonar.plugins.cxx.mstest.MSTestResultsProvider;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsAggregator;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsImportSensor;
 import com.google.common.collect.ImmutableList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
@@ -340,6 +336,17 @@ public final class CxxPlugin extends SonarPlugin {
       .index(3)
       .build(),
 
+      PropertyDefinition.builder(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
+      .name("Assign zero line coverage to source files without coverage report(s)")
+      .description("If 'True', assign zero line coverage to source files without coverage report(s),"
+                   + "which results in a more realistic overall Technical Debt value.")
+      .defaultValue("True")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(4)
+      .build(),
+      
       PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
@@ -347,7 +354,7 @@ public final class CxxPlugin extends SonarPlugin {
                    + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(4)
+      .index(5)
       .build(),
 
       PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
@@ -356,7 +363,7 @@ public final class CxxPlugin extends SonarPlugin {
                    + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(5)
+      .index(6)
       .build(),
 
       PropertyDefinition.builder(CxxXunitSensor.PROVIDE_DETAILS_KEY)
@@ -367,7 +374,7 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
-      .index(6)
+      .index(7)
       .build(),
       
       PropertyDefinition.builder(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
@@ -375,9 +382,9 @@ public final class CxxPlugin extends SonarPlugin {
       .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)    
-      .index(7)
+      .index(8)
       .build()
-    );
+      );
   }
 
   /**
@@ -386,7 +393,6 @@ public final class CxxPlugin extends SonarPlugin {
   public List getExtensions() {
     List<Object> l = new ArrayList<Object>();
     l.add(CxxLanguage.class);
-    l.add(CxxSourceImporter.class);
     l.add(CxxColorizer.class);
     l.add(CxxMetrics.class);
     l.add(CxxSquidSensor.class);

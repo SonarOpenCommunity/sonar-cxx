@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.veraxx;
 
+import java.io.File;
+
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
@@ -27,14 +29,12 @@ import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import java.io.File;
 
 /**
  * {@inheritDoc}
@@ -73,16 +73,18 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException {
+      throws javax.xml.stream.XMLStreamException
+  {
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**
          * {@inheritDoc}
          */
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-          try {
+          try{
             rootCursor.advance();
-          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+          }
+          catch(com.ctc.wstx.exc.WstxEOFException eofExc){
             throw new EmptyReportException();
           }
 
@@ -116,3 +118,4 @@ public class CxxVeraxxSensor extends CxxReportSensor {
     }
   }
 }
+

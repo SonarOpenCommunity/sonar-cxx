@@ -19,13 +19,18 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import com.google.common.collect.Lists;
-import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.squid.AstScanner;
-import com.sonar.sslr.squid.SquidAstVisitor;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.checks.AnnotationCheckFactory;
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.rule.CheckFactory;
+import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -45,18 +50,17 @@ import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
-import org.sonar.squid.api.CheckMessage;
-import org.sonar.squid.api.SourceCode;
-import org.sonar.squid.api.SourceFile;
-import org.sonar.squid.api.SourceFunction;
-import org.sonar.squid.indexer.QueryByParent;
-import org.sonar.squid.indexer.QueryByType;
+import org.sonar.squidbridge.AstScanner;
+import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.squidbridge.api.CheckMessage;
+import org.sonar.squidbridge.api.SourceCode;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.api.SourceFunction;
+import org.sonar.squidbridge.indexer.QueryByParent;
+import org.sonar.squidbridge.indexer.QueryByType;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
+import com.google.common.collect.Lists;
+import com.sonar.sslr.api.Grammar;
 
 /**
  * {@inheritDoc}
@@ -65,7 +69,8 @@ public final class CxxSquidSensor implements Sensor {
   private static final Number[] FUNCTIONS_DISTRIB_BOTTOM_LIMITS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
-  private final AnnotationCheckFactory annotationCheckFactory;
+  private final Checks<Object> checks;
+  private ActiveRules rules;
 
   private Project project;
   private SensorContext context;
@@ -77,8 +82,10 @@ public final class CxxSquidSensor implements Sensor {
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(ResourcePerspectives perspectives, RulesProfile profile, Settings conf, ModuleFileSystem fs) {
-    this.annotationCheckFactory = AnnotationCheckFactory.create(profile, CheckList.REPOSITORY_KEY, CheckList.getChecks());
+  public CxxSquidSensor(ResourcePerspectives perspectives, RulesProfile profile, Settings conf,
+                        ModuleFileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
+    this.checks = checkFactory.create(CheckList.REPOSITORY_KEY).addAnnotatedChecks(CheckList.getChecks());
+    this.rules = rules;
     this.conf = conf;
     this.fs = fs;
     this.perspectives = perspectives;
@@ -96,8 +103,7 @@ public final class CxxSquidSensor implements Sensor {
     this.project = project;
     this.context = context;
 
-    Collection<SquidAstVisitor<Grammar>> squidChecks = annotationCheckFactory.getChecks();
-    List<SquidAstVisitor<Grammar>> visitors = Lists.newArrayList(squidChecks);
+    List<SquidAstVisitor<Grammar>> visitors = new ArrayList<SquidAstVisitor<Grammar>>((Collection) checks.all());
     this.scanner = CxxAstScanner.create(createConfiguration(project, conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
@@ -124,7 +130,7 @@ public final class CxxSquidSensor implements Sensor {
 
   private void save(Collection<SourceCode> squidSourceFiles) {
     int violationsCount = 0;
-    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(perspectives, project, context, annotationCheckFactory);
+    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(perspectives, project, context, rules);
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
       File ioFile = new File(squidFile.getKey());
@@ -181,10 +187,10 @@ public final class CxxSquidSensor implements Sensor {
       if (issuable != null) {
         for (CheckMessage message : messages) {
           Issue issue = issuable.newIssueBuilder()
-              .ruleKey(annotationCheckFactory.getActiveRule(message.getCheck()).getRule().ruleKey())
-              .line(message.getLine())
-              .message(message.getText(Locale.ENGLISH))
-              .build();
+            .ruleKey(checks.ruleKey(message.getCheck()))
+            .line(message.getLine())
+            .message(message.getText(Locale.ENGLISH))
+            .build();
           if (issuable.addIssue(issue))
             violationsCount++;
         }

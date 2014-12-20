@@ -19,27 +19,31 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.config.Settings;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.resources.Directory;
-import org.sonar.api.resources.Project;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.plugins.cxx.CxxPlugin;
-import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.anyDouble;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.rule.CheckFactory;
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.config.Settings;
+import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.profiles.RulesProfile;
+import org.sonar.api.resources.Directory;
+import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
@@ -167,6 +171,9 @@ public class CxxSquidSensorTest {
     sourceDirs.add(sourceDir == null ? baseDir : new File(baseDir, sourceDir));
     project = TestUtils.mockProject(baseDir, sourceDirs, emptyList);
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, emptyList);
-    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class), mock(RulesProfile.class), settings, fs);
+    ActiveRules rules = mock(ActiveRules.class);
+    CheckFactory checkFactory = new CheckFactory(rules);
+    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class), mock(RulesProfile.class),
+                                settings, fs, checkFactory, rules);
   }
 }

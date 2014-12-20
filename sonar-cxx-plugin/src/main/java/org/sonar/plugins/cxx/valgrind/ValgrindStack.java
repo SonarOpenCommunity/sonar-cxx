@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /** Represents a call stack, consists basically of a list of frames */
 class ValgrindStack {

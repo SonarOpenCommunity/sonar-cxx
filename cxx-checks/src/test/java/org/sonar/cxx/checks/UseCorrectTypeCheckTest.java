@@ -19,13 +19,13 @@
  */
 package org.sonar.cxx.checks;
 
-import com.sonar.sslr.squid.checks.CheckMessagesVerifierRule;
+import java.io.File;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squid.api.SourceFile;
-
-import java.io.File;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class UseCorrectTypeCheckTest {
 
@@ -41,7 +41,7 @@ public class UseCorrectTypeCheckTest {
     .next().atLine(11).withMessage("Use the correct type instead of DWORD (1 times).")
     .next().atLine(12).withMessage("Use the correct type instead of BOOL (1 times).")
     .next().atLine(16).withMessage("Use the correct type instead of BYTE (1 times).")
-    .next().atLine(17).withMessage("Use the correct type instead of FLOAT (1 times).");  
+    .next().atLine(17).withMessage("Use the correct type instead of FLOAT (1 times).");
   }
 
 }

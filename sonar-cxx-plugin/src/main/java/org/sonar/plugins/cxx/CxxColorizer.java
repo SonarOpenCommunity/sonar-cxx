@@ -19,16 +19,16 @@
  */
 package org.sonar.plugins.cxx;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sonar.api.web.CodeColorizerFormat;
 import org.sonar.colorizer.CDocTokenizer;
 import org.sonar.colorizer.CppDocTokenizer;
 import org.sonar.colorizer.KeywordsTokenizer;
-import org.sonar.colorizer.Tokenizer;
-
-import java.util.ArrayList;
-import java.util.List;
 import org.sonar.colorizer.LiteralTokenizer;
 import org.sonar.colorizer.RegexpTokenizer;
+import org.sonar.colorizer.Tokenizer;
 import org.sonar.cxx.api.CxxKeyword;
 
 /**

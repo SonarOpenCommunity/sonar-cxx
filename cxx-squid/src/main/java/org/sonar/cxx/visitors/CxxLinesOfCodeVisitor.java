@@ -19,14 +19,15 @@
  */
 package org.sonar.cxx.visitors;
 
+import static com.sonar.sslr.api.GenericTokenType.EOF;
+
+import org.sonar.squidbridge.SquidAstVisitor;
+import org.sonar.squidbridge.measures.MetricDef;
+
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import com.sonar.sslr.squid.SquidAstVisitor;
-import org.sonar.squid.measures.MetricDef;
-
-import static com.sonar.sslr.api.GenericTokenType.EOF;
 
 /**
  * Visitor that computes the number of lines of code of a file.

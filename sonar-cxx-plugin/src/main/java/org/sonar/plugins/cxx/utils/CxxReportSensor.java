@@ -19,6 +19,11 @@
  */
 package org.sonar.plugins.cxx.utils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -30,18 +35,11 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.api.scan.filesystem.FileQuery;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import org.sonar.api.resources.Resource;
 
 /**
  * {@inheritDoc}
@@ -53,7 +51,7 @@ public abstract class CxxReportSensor implements Sensor {
   private HashSet<String> uniqueIssues = new HashSet<String>();
   protected ModuleFileSystem fs;
   private final ProjectReactor reactor;
-
+  
   private final Metric metric;
   private int violationsCount;
 
@@ -68,7 +66,7 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
-    this(perspectives, conf, fs, reactor, null);
+	    this(perspectives, conf, fs, reactor, null);
   }
 
   /**
@@ -86,50 +84,49 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public boolean shouldExecuteOnProject(Project project) {
-  return !fs.files(FileQuery.onSource().onLanguage(CxxLanguage.KEY)).isEmpty();
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
-  
+
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
-    if (!CxxUtils.isReactorProject(project)){
     try {
-        List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getCanonicalPath(), reportPathKey(), defaultReportPath());
-        if (reports.isEmpty()) {
-          reports = getReports(conf, fs.baseDir().getPath(), reportPathKey(), defaultReportPath());
-        }
-
-        violationsCount = 0;
-
-        for (File report : reports) {
-          CxxUtils.LOG.info("Processing report '{}'", report);
-          try {
-            int prevViolationsCount = violationsCount;
-            processReport(project, context, report);
-            CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(), violationsCount - prevViolationsCount);
-          } catch (EmptyReportException e) {
-            CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-          }
-        }
-
-        if (reports.isEmpty()) {
-          handleNoReportsCase(context);
-        }
-
-        if (metric != null) {
-          Measure measure = new Measure(metric);
-          measure.setIntValue(violationsCount);
-          context.saveMeasure(measure);
-        }
-      } catch (Exception e) {
-        String msg = new StringBuilder()
-            .append("Cannot feed the data into sonar, details: '")
-            .append(e)
-            .append("'")
-            .toString();
-        throw new SonarException(msg, e);
+      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getCanonicalPath(), reportPathKey(), defaultReportPath());
+      if (reports.isEmpty()) {
+        	reports = getReports(conf, fs.baseDir().getPath(), reportPathKey(), defaultReportPath());
       }
+      violationsCount = 0;
+
+      for (File report : reports) {
+        CxxUtils.LOG.info("Processing report '{}'", report);
+        try{
+          int prevViolationsCount = violationsCount;
+          processReport(project, context, report);
+          CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+                            violationsCount - prevViolationsCount);
+        }
+        catch(EmptyReportException e){
+          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+        }
+      }
+
+      if (reports.isEmpty()) {
+        handleNoReportsCase(context);
+      }
+
+      if (metric != null) {
+        Measure measure = new Measure(metric);
+        measure.setIntValue(violationsCount);
+        context.saveMeasure(measure);
+      }
+    } catch (Exception e) {
+      String msg = new StringBuilder()
+          .append("Cannot feed the data into sonar, details: '")
+          .append(e)
+          .append("'")
+          .toString();
+      throw new SonarException(msg, e);
     }
   }
 
@@ -139,11 +136,10 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   public String getStringProperty(String name, String def) {
-    String value = conf.getString(name);
-    if (value == null) {
-      value = def;
-    }
-    return value;
+      String value = conf.getString(name);
+      if (value == null)
+          value = def;
+      return value;
   }
 
   protected List<File> getReports(Settings conf,
@@ -193,29 +189,29 @@ public abstract class CxxReportSensor implements Sensor {
    * according parameters ('file' = null for project level, 'line' = null for
    * file-level)
    */
-  public boolean saveViolation(Project project, SensorContext context,
-      String ruleRepoKey, String filename, String line, String ruleId,
-      String msg) {
+  public boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
+    String filename, String line, String ruleId, String msg) {
     boolean add = false;
     Resource resource = null;
     int lineNr = 0;
-    // handles file="" situation -- file level
-    if ((filename != null) && (filename.length() > 0)) {
-      String normalPath = CxxUtils.normalizePathList(filename, fs.baseDir().getAbsolutePath());
-      if ((normalPath != null) && !notFoundFiles.contains(normalPath)) {
-          org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File
-              .fromIOFile(new File(normalPath), project);
-          if (context.getResource(sonarFile) != null) {
+
+    if ((filename != null) && (filename.length() > 0)) { // file level
+      String normalPath = CxxUtils.normalizePath(filename);
+      if (normalPath != null) {
+        if (!notFoundFiles.contains(normalPath)) {
+          org.sonar.api.resources.File file
+            = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
+          if (context.getResource(file) != null) {
             lineNr = getLineAsInt(line);
-            resource = sonarFile;
+            resource = file;
             add = true;
           } else {
             CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
             notFoundFiles.add(normalPath);
           }
+        }
       }
-    } else {
-      // project level violation
+    } else { // project level
       resource = project;
       add = true;
     }
@@ -275,3 +271,4 @@ public abstract class CxxReportSensor implements Sensor {
     return "";
   };
 }
+

@@ -19,12 +19,12 @@
  */
 package org.sonar.cxx;
 
-import org.sonar.squid.api.SquidConfiguration;
-
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
 

@@ -19,6 +19,12 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
+import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -28,16 +34,12 @@ import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import javax.xml.stream.XMLStreamException;
-import java.io.File;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * PC-lint is an equivalent to pmd but for C++
@@ -55,10 +57,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-
   public CxxPCLintSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, conf, fs, reactor, CxxMetrics.PCLINT);
-
+	super(perspectives, conf, fs, reactor, CxxMetrics.PCLINT);
     this.profile = profile;
   }
 
@@ -83,7 +83,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException {
+      throws javax.xml.stream.XMLStreamException
+  {
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -151,3 +152,4 @@ public class CxxPCLintSensor extends CxxReportSensor {
     parser.parse(report);
   }
 }
+

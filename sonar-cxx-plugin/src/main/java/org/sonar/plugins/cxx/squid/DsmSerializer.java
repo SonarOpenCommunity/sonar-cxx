@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import java.util.HashMap;
+
 import org.sonar.api.design.Dependency;
 import org.sonar.api.resources.Resource;
 import org.sonar.graph.Dsm;
 import org.sonar.graph.DsmCell;
 import org.sonar.graph.Edge;
-
-import java.util.HashMap;
 
 /**
 * Created by fferrand on 12/06/14.

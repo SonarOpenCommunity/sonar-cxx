@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.cxx;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.sonar.colorizer.Tokenizer;
-
-import java.util.List;
 
 public class CxxColorizerTest {
   @Test

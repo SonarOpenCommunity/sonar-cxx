@@ -19,20 +19,20 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import org.codehaus.staxmate.in.SMHierarchicCursor;
-import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.measures.CoverageMeasuresBuilder;
-import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.apache.commons.lang.StringUtils;
-
-import javax.xml.stream.XMLStreamException;
-
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.stream.XMLStreamException;
+
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.staxmate.in.SMHierarchicCursor;
+import org.codehaus.staxmate.in.SMInputCursor;
+import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.utils.StaxParser;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}

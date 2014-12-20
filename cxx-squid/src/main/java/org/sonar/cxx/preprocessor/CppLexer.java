@@ -19,10 +19,13 @@
  */
 package org.sonar.cxx.preprocessor;
 
-import com.sonar.sslr.impl.Lexer;
-import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
-import com.sonar.sslr.impl.channel.PunctuatorChannel;
-import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.and;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.o2n;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
+import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
+
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CppKeyword;
 import org.sonar.cxx.api.CppPunctuator;
@@ -30,12 +33,10 @@ import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
 
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.ANY_CHAR;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.and;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.commentRegexp;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.o2n;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.opt;
-import static com.sonar.sslr.impl.channel.RegexpChannelBuilder.regexp;
+import com.sonar.sslr.impl.Lexer;
+import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
+import com.sonar.sslr.impl.channel.PunctuatorChannel;
+import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
 
 public final class CppLexer {
 

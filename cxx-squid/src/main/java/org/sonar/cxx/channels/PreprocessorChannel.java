@@ -19,11 +19,12 @@
  */
 package org.sonar.cxx.channels;
 
+import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.sslr.channel.Channel;
+import org.sonar.sslr.channel.CodeReader;
+
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
-import org.sonar.channel.Channel;
-import org.sonar.channel.CodeReader;
-import org.sonar.cxx.api.CxxTokenType;
 
 public class PreprocessorChannel extends Channel<Lexer> {
   private static final char EOF = (char) -1;

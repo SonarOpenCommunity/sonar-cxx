@@ -19,17 +19,16 @@
  */
 package org.sonar.cxx.checks;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.io.File;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squid.api.CheckMessage;
-import org.sonar.squid.api.SourceFile;
-
-import static org.fest.assertions.Assertions.assertThat;
-
-import com.sonar.sslr.squid.checks.CheckMessagesVerifierRule;
+import org.sonar.squidbridge.api.CheckMessage;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class UndocumentedApiCheckTest {
 

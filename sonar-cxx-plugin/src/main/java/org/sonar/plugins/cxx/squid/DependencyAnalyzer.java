@@ -19,10 +19,13 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
+
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.checks.CheckFactory;
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.design.Dependency;
 import org.sonar.api.issue.Issuable;
@@ -35,40 +38,44 @@ import org.sonar.api.resources.Directory;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
-import org.sonar.api.rules.ActiveRule;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
-import org.sonar.graph.*;
+import org.sonar.graph.Cycle;
+import org.sonar.graph.DirectedGraph;
+import org.sonar.graph.Dsm;
+import org.sonar.graph.DsmTopologicalSorter;
+import org.sonar.graph.Edge;
+import org.sonar.graph.IncrementalCyclesAndFESSolver;
+import org.sonar.graph.MinimumFeedbackEdgeSetSolver;
 import org.sonar.plugins.cxx.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class DependencyAnalyzer {
 
   private Project project;
   private SensorContext context;
-  private CheckFactory checkFactory;
   private ResourcePerspectives perspectives;
   private int violationsCount;
   private ActiveRule duplicateIncludeRule;
+  private ActiveRule cycleBetweenPackagesRule;
 
   private DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<File, FileEdge>();
   private DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<Directory, DirectoryEdge>();
   private HashMap<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
   private Multimap<Directory, File> directoryFiles = HashMultimap.create();
 
-  public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, CheckFactory checkFactory) {
+  public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, ActiveRules rules) {
     this.project = project;
     this.context = context;
-    this.checkFactory = checkFactory;
     this.perspectives = perspectives;
 
     this.violationsCount = 0;
-    this.duplicateIncludeRule = DuplicatedIncludeCheck.getActiveRule(checkFactory);
+    this.duplicateIncludeRule = DuplicatedIncludeCheck.getActiveRule(rules);
+    this.cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(rules);
   }
 
   public void addFile(File sonarFile, Collection<CxxPreprocessor.Include> includedFiles) {
@@ -88,7 +95,7 @@ public class DependencyAnalyzer {
         Issuable issuable = perspectives.as(Issuable.class, sonarFile);
         if ((issuable != null) && (duplicateIncludeRule != null)) {
           Issue issue = issuable.newIssueBuilder()
-              .ruleKey(duplicateIncludeRule.getRule().ruleKey())
+              .ruleKey(duplicateIncludeRule.ruleKey())
               .line(include.getLine())
               .message("Remove duplicated include, \"" + includedFile.getLongName() + "\" is already included at line " + fileEdge.getLine() + ".")
               .build();
@@ -195,7 +202,6 @@ public class DependencyAnalyzer {
   }
 
   private void saveViolations(Set<Edge> feedbackEdges, DirectedGraph<Directory, DirectoryEdge> packagesGraph) {
-    ActiveRule cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(checkFactory);
     if (cycleBetweenPackagesRule != null) {
       for (Edge feedbackEdge : feedbackEdges) {
         Directory fromPackage = (Directory) feedbackEdge.getFrom();
@@ -208,7 +214,7 @@ public class DependencyAnalyzer {
           // If resource cannot be obtained, then silently ignore, because anyway warning will be printed by method addFile
           if ((issuable != null) && (fromFile != null) && (toFile != null)) {
             Issue issue = issuable.newIssueBuilder()
-                .ruleKey(cycleBetweenPackagesRule.getRule().ruleKey())
+                .ruleKey(cycleBetweenPackagesRule.ruleKey())
                 .line(subEdge.getLine())
                 .message("Remove the dependency from file \"" + fromFile.getLongName()
                     + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")

@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.sonar.plugins.cxx.TestUtils;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class ValgrindReportParserTest {
   private ValgrindReportParser parser;

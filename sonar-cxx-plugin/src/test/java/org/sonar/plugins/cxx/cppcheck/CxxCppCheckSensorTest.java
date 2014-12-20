@@ -19,9 +19,17 @@
  */
 package org.sonar.plugins.cxx.cppcheck;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -29,17 +37,8 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
-import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCppCheckSensorTest {
 
@@ -112,3 +111,4 @@ public class CxxCppCheckSensorTest {
     verify(issuable, times(0)).addIssue(any(Issue.class));
   }
 }
+
