@@ -33,6 +33,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.cxx.api.CxxKeyword;
 
 @Rule(
   key = "MagicNumber",
@@ -58,14 +59,27 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (!isInDeclaration(node) && !isExcluded(node) && !isInEnum(node) && !isArrayInitializer(node) && !isGenerated(node)) {
+    if (!isConst(node) && !isExcluded(node) && !isInEnum(node) && !isArrayInitializer(node) && !isGenerated(node)) {
       getContext().createLineViolation(this, "Extract this magic number '" + node.getTokenOriginalValue()
-          + "' into a constant, variable declaration or an enum.", node);
+        + "' into a constant, variable declaration or an enum.", node);
     }
   }
 
-  private boolean isInDeclaration(AstNode node) {
-    return node.hasAncestor(CxxGrammarImpl.declarationStatement);
+  private boolean isConst(AstNode node) {
+    AstNode decl = null;
+    if (node.hasAncestor(CxxGrammarImpl.initDeclarator)) {
+      decl = node.getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
+    } else if (node.hasAncestor(CxxGrammarImpl.memberDeclarator)) {
+      decl = node.getFirstAncestor(CxxGrammarImpl.memberDeclaration);
+    }
+    if (decl != null) {
+      for (AstNode qualifier : decl.getDescendants(CxxGrammarImpl.cvQualifier)) {
+        if (qualifier.getToken().getType() == CxxKeyword.CONST) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private boolean isExcluded(AstNode node) {
@@ -79,7 +93,6 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
   private boolean isArrayInitializer(AstNode node) {
     return node.hasAncestor(CxxGrammarImpl.bracedInitList);
   }
-
 
   private boolean isGenerated(AstNode node) {
     return node.getToken().isGeneratedCode();
