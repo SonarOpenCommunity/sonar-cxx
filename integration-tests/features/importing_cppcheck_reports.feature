@@ -16,8 +16,8 @@ Feature: Importing Cppcheck reports
 
     Examples:
       | reportpath      | violations |
-      | cppcheck-v1.xml | 7          | # XML version 1
-      | cppcheck-v2.xml | 7          | # XML version 2
+      | cppcheck-v1.xml | 6          | # XML version 1
+      | cppcheck-v2.xml | 6          | # XML version 2
 
 
    Scenario: The reports are missing

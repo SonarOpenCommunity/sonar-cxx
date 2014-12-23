@@ -1,8 +1,8 @@
 language: java
 
 jdk:
-  - oraclejdk7
-  - openjdk8
+  - oraclejdk8
+  - openjdk7
 
 
 install:
