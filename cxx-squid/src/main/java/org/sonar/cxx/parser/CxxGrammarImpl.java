@@ -875,8 +875,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(usingDirective).is(b.optional(attributeSpecifier), CxxKeyword.USING, CxxKeyword.NAMESPACE, b.optional("::"), b.optional(nestedNameSpecifier), namespaceName, ";");
 
-    b.rule(asmDefinition).is(CxxKeyword.ASM, "(", STRING, ")", ";");
-
+    b.rule(asmDefinition).is(
+      b.firstOf(
+        b.sequence(CxxKeyword.ASM, "(", STRING, ")", ";"),
+        b.sequence(CxxKeyword.ASM, "{", b.oneOrMore(b.nextNot(b.firstOf("}", EOF)), b.anyToken()), "}", b.optional(";")),
+        b.sequence(CxxKeyword.ASM, b.oneOrMore(b.nextNot(b.firstOf(";", EOF)), b.anyToken()), ";")
+      ));
+    
     b.rule(linkageSpecification).is(CxxKeyword.EXTERN, STRING, b.firstOf(b.sequence("{", b.optional(declarationSeq), "}"), declaration));
 
     b.rule(attributeSpecifierSeq).is(b.oneOrMore(attributeSpecifier));
