@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+<error file="src/component1.cc" line="15" id="unusedVariable" severity="style" msg="Unused variable: x"/>
+<error file="src/component1.cc" line="35" id="unreadVariable" severity="style" msg="Variable 'i' is assigned a value that is never used."/>
+<error file="src/component1.cc" line="45" id="deallocDealloc" severity="error" msg="Deallocating a deallocated pointer: ip"/>
+<error file="src/component1.cc" line="45" id="doubleFree" severity="error" msg="Memory pointed to by 'ip' is freed twice."/>
+<error file="src/component1.cc" line="30" id="uninitvar" severity="error" msg="Uninitialized variable: a"/>
+<error file="src/component1.cc" line="22" id="unusedFunction" severity="style" msg="The function 'do_valgrind_errors' is never used."/>
+</results>

@@ -20,43 +20,53 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 
 import re
+import os
 
 SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 SONAR_WARN_TO_IGNORE_RE = re.compile(".*H2 database should.*|.*Starting search|.*Starting web")
+RELPATH_LOG = "logs/sonar.log"
 
+def sonarlog(sonarhome):
+    return os.path.join(sonarhome, RELPATH_LOG)
 
 def analyselog(logpath, toignore=None):
     badlines = []
     errors = warnings = 0
-    
-    toingore_re = None if toignore is None else re.compile(toignore)
+
     try:
         with open(logpath, "r") as log:
             lines = log.readlines()
-            for line in lines:
-                if isSonarError(line, toingore_re):
-                    badlines.append(line)
-                    errors += 1
-                elif isSonarWarning(line, toingore_re):
-                    badlines.append(line)
-                    warnings += 1
+            badlines, errors, warnings = analyseloglines(lines, toignore)
     except IOError, e:
         badlines.append(str(e) + "\n")
 
     return badlines, errors, warnings
 
 
+def analyseloglines(lines, toignore=None):
+    badlines = []
+    errors = warnings = 0
+    toingore_re = None if toignore is None else re.compile(toignore)
+    for line in lines:
+        if isSonarError(line, toingore_re):
+            badlines.append(line)
+            errors += 1
+        elif isSonarWarning(line, toingore_re):
+            badlines.append(line)
+            warnings += 1
+    return badlines, errors, warnings
+
+
 def isSonarError(line, toignore_re):
     return (SONAR_ERROR_RE.match(line)
-            and (toignore_re and not toignore_re.match(line)))
+            and (toignore_re is None or not toignore_re.match(line)))
 
 
 def isSonarWarning(line, toignore_re):
     return (SONAR_WARN_RE.match(line)
             and not SONAR_WARN_TO_IGNORE_RE.match(line)
-            and (toignore_re and not toignore_re.match(line)))
-
+            and (toignore_re is None or not toignore_re.match(line)))
 
 def build_regexp(multiline_str):
     lines = [line for line in multiline_str.split("\n") if line != '']

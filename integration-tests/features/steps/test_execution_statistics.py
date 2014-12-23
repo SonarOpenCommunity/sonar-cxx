@@ -25,8 +25,9 @@ import re
 import json
 import requests
 import subprocess
+import shutil
 from behave import given, when, then, model
-from common import analyselog, build_regexp
+from common import analyselog, build_regexp, sonarlog, analyseloglines
 
 
 TESTDATADIR = os.path.normpath(os.path.join(os.path.realpath(__file__),
@@ -43,6 +44,17 @@ def step_impl(context, project):
 @when(u'I run "{command}"')
 def step_impl(context, command):
     context.log = "_%s_.log" % context.project
+
+    sonarhome = os.environ.get("SONARHOME", None)
+    if sonarhome:
+        context.serverlog = sonarlog(sonarhome)
+        if getattr(context, "serverlogfd", None) is not None:
+            context.serverlogfd.close()
+        context.serverlogfd = open(context.serverlog, "r")
+        context.serverlogfd.seek(0, 2)
+    else:
+        context.serverlogfd = None
+
     projecthome = os.path.join(TESTDATADIR, context.project)
     with open(context.log, "w") as logfile:
         rc = subprocess.call(command,
@@ -68,7 +80,35 @@ def step_impl(context):
          + "For details see %s" % context.log)
 
 
-METRICS_ORDER = [
+@then(u'the analysis log contains no error/warning messages')
+def step_impl(context):
+    badlines, _errors, _warnings = analyselog(context.log)
+
+    assert len(badlines) == 0,\
+        ("Found following errors and/or warnings lines in the logfile:\n"
+         + "".join(badlines)
+         + "For details see %s" % context.log)
+
+
+@then(u'the server log (if locatable) contains no error/warning messages')
+def step_impl(context):
+    if context.serverlogfd is not None:
+        lines = context.serverlogfd.readlines()
+        badlines, _errors, _warnings = analyseloglines(lines)
+
+        assert len(badlines) == 0,\
+            ("Found following errors and/or warnings lines in the logfile:\n"
+             + "".join(badlines)
+             + "For details see %s" % context.serverlog)
+
+
+@then(u'the number of violations fed is {number}')
+def step_impl(context, number):
+    exp_measures = {"violations": float(number)}
+    assert_measures(context.project, exp_measures)
+
+
+TEST_METRICS_ORDER = [
     "tests",
     "test_failures",
     "test_errors",
@@ -85,10 +125,10 @@ def _expMeasuresToDict(measures):
     if isinstance(measures, model.Table):
         res = {row["metric"]: convertvalue(row["value"]) for row in measures}
     elif isinstance(measures, list):
-        assert len(measures) == len(METRICS_ORDER)
+        assert len(measures) == len(TEST_METRICS_ORDER)
         res = {}
         for i in range(len(measures) - 1):
-            res[METRICS_ORDER[i]] = convertvalue(measures[i])
+            res[TEST_METRICS_ORDER[i]] = convertvalue(measures[i])
     return res
 
 
@@ -144,9 +184,21 @@ def step_impl(context):
 
 @then(u'the analysis log contains a line matching')
 def step_impl(context):
-    pattern = re.compile(context.text)
-    with open(context.log) as logfo:
+    assert contains_line_matching(context.log, context.text)
+
+
+def contains_line_matching(filepath, pattern):
+    pat = re.compile(pattern)
+    with open(filepath) as logfo:
         for line in logfo:
-            if pattern.match(line):
+            if pat.match(line):
                 return True
     return False
+
+
+@given(u'a report outside the projects directory, e.g. "/tmp/cppcheck-v1.xml"')
+def step_impl(context):
+    report_fname = "cppcheck-v1.xml"
+    source = os.path.join(TESTDATADIR, "cppcheck_project", report_fname)
+    target = os.path.join("/tmp", report_fname)
+    shutil.copyfile(source, target)
