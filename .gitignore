@@ -1,6 +1,7 @@
 target
 .project
 .classpath
+.gitattributes
 *.prefs
 .sonar
 *.log
