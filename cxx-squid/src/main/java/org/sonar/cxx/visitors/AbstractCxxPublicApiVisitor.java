@@ -200,7 +200,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         List<Token> comments = getBlockDocumentation(declarator);
 
         // documentation may be inlined
-        if (comments.size() == 0) {
+        if (comments.isEmpty()) {
             comments = getDeclaratorInlineComment(declarator);
         }
 
@@ -301,7 +301,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         List<Token> comments = getBlockDocumentation(docNode);
 
         // documentation may be inlined
-        if (comments.size() == 0) {
+        if (comments.isEmpty()) {
             comments = getDeclaratorInlineComment(node);
         }
 
@@ -346,7 +346,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                 List<Token> comments = getBlockDocumentation(definition);
 
                 // look for inlined doc
-                if (comments.size() == 0) {
+                if (comments.isEmpty()) {
                     AstNode next = definition.getNextAstNode();
 
                     // inline documentation may be on the next definition token

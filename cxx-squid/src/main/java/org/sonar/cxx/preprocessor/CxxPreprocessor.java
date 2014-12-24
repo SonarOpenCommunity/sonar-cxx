@@ -150,9 +150,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     @Override
     public int hashCode() {
-      int result = line;
-      result = 31 * result + (path != null ? path.hashCode() : 0);
-      return result;
+      return 31 * line + (path != null ? path.hashCode() : 0);
     }
 
     public String getPath() {
