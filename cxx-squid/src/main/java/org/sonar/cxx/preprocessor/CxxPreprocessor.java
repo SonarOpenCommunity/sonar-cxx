@@ -213,7 +213,7 @@ public class CxxPreprocessor extends Preprocessor {
       // parse the configured defines and store into the macro library
       for (String define : conf.getDefines()) {
         LOG.debug("parsing external macro: '{}'", define);
-        if (!define.equals("")) {
+        if (!"".equals(define)) {
           Macro macro = parseMacroDefinition("#define " + define);
           if (macro != null) {
             LOG.info("storing external macro: '{}'", macro);
@@ -228,7 +228,7 @@ public class CxxPreprocessor extends Preprocessor {
       // parse the configured force includes and store into the macro library
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '{}'", include);
-        if (!include.equals("")) {
+        if (!"".equals(include)) {
           parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes");
         }
       }
@@ -728,9 +728,9 @@ public class CxxPreprocessor extends Preprocessor {
         return tokens.subList(tokensConsumed, noTokens);
       }
 
-      if (curr.equals("(")) {
+      if ("(".equals(curr)) {
         nestingLevel++;
-      } else if (curr.equals(")")) {
+      } else if (")".equals(curr)) {
         nestingLevel--;
       }
 
@@ -768,12 +768,12 @@ public class CxxPreprocessor extends Preprocessor {
           int j = i;
           while(j > 0 && body.get(j - 1).getType() == WS)
             j--;
-          if (j == 0 || !body.get(--j).getValue().equals("##"))
+          if (j == 0 || !"##".equals(body.get(--j).getValue()))
             continue;
           int k = j;
           while(j > 0 && body.get(j - 1).getType() == WS)
             j--;
-          if (j > 0 && body.get(j - 1).getValue().equals(",")) {
+          if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
             newTokens.remove(newTokens.size() - 1 + j - i); //remove the comma
             newTokens.remove(newTokens.size() - 1 + k - i); //remove the paste operator
           }
@@ -784,7 +784,7 @@ public class CxxPreprocessor extends Preprocessor {
           // The arguments have to be fully expanded before expanding the body of the macro
           String newValue = serialize(expandMacro("", replacement.getValue()));
 
-          if (i > 0 && body.get(i - 1).getValue().equals("#")) {
+          if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
             newTokens.remove(newTokens.size() - 1);
             newValue = encloseWithQuotes(quote(newValue));
           }
@@ -809,7 +809,7 @@ public class CxxPreprocessor extends Preprocessor {
     Iterator<Token> it = tokens.iterator();
     while (it.hasNext()) {
       Token curr = it.next();
-      if (curr.getValue().equals("##")) {
+      if ("##".equals(curr.getValue())) {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
         newTokens.add(Token.builder()
@@ -842,7 +842,7 @@ public class CxxPreprocessor extends Preprocessor {
     Token succ = null;
     while (it.hasNext()) {
       succ = it.next();
-      if (!succ.getValue().equals("##") && succ.getType() != WS) {
+      if (!"##".equals(succ.getValue()) && succ.getType() != WS) {
         break;
       }
     }
@@ -887,7 +887,7 @@ public class CxxPreprocessor extends Preprocessor {
 
     AstNode paramList = ast.getFirstDescendant(CppGrammar.parameterList);
     List<Token> macroParams = paramList == null
-        ? ast.getName().equals("objectlikeMacroDefinition") ? null : new LinkedList<Token>()
+        ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<Token>()
         : getParams(paramList);
 
     AstNode vaargs = ast.getFirstDescendant(CppGrammar.variadicparameter);
@@ -938,7 +938,7 @@ public class CxxPreprocessor extends Preprocessor {
       StringBuilder sb = new StringBuilder();
       while (true) {
         String value = node.getTokenValue();
-        if (value.equals(">")) {
+        if (">".equals(value)) {
           break;
         }
         sb.append(value);
