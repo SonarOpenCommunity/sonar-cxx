@@ -305,19 +305,30 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
             comments = getDeclaratorInlineComment(node);
         }
 
-        AstNode idNode = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
-        String id;
-
-        AstNode operatorFunctionId = node
-                .getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
-
-        if (operatorFunctionId != null) {
-            id = getOperatorId(operatorFunctionId);
-        } else {
-            id = idNode.getTokenValue();
-        }
-
-        visitPublicApi(idNode, id, comments);
+		String id ="";
+		AstNode idNode = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
+		AstNode operatorFunctionId = node
+				.getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
+//		try {
+			if (operatorFunctionId != null) {
+				id = getOperatorId(operatorFunctionId);
+			} else {
+				if (idNode != null) {
+					id = idNode.getTokenValue();
+				}
+				else {
+					LOG.error("id not set - idNode and operatorFunctionId are null");
+					System.out.println(AstXmlPrinter.print(node)); 
+					
+				}
+			}
+			if ((id != null) && (id.length()>0) && (idNode != null)) {
+				visitPublicApi(idNode, id, comments);
+			}
+//		} catch (java.lang.NullPointerException e) {
+//			logDebug("idNode: " + idNode);
+//			logDebug("operatorFunctionId: " + operatorFunctionId);
+//		}
     }
 
     private void visitEnumSpecifier(AstNode enumSpecifierNode) {
