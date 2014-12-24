@@ -294,7 +294,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                 || container.getType() == CxxGrammarImpl.classSpecifier) {
             docNode = node;
         } else {
-            docNode = (container != null) ? container : node;
+            docNode = container;
         }
 
         // look for block documentation
