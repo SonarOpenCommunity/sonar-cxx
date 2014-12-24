@@ -28,13 +28,12 @@ import platform
 
 from glob import glob
 from shutil import copyfile
-from common import analyselog
+from common import analyselog, sonarlog
 
 SONAR_URL = "http://localhost:9000"
 INDENT = "    "
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
 JARPATTERN = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
-RELPATH_LOG = "logs/sonar.log"
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
 
@@ -184,10 +183,6 @@ def _script_relpath():
     if platform.system() == "Linux" and platform.machine() == "x86_64":
         return "bin/linux-x86-64/sonar.sh"
     return "bin/linux-x86-32/sonar.sh"
-
-
-def sonarlog(sonarhome):
-    return os.path.join(sonarhome, RELPATH_LOG)
 
 
 def wait_for_sonar(timeout, criteria):

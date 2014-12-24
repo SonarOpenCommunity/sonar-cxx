@@ -86,6 +86,14 @@
       <name>Francois Ferrand</name>
       <email>thetypz@gmail.com</email>
     </developer>
+    <developer>
+      <name>Ludovic Cintrat</name>
+      <email>lcintrat@gmail.com</email>
+    </developer>
+    <developer>
+      <name>Peter van Zetten</name>
+      <email>peter.van.zetten@cgi.co</email>
+    </developer>
   </developers>
 
   <modules>
@@ -96,7 +104,7 @@
   </modules>
 
   <scm>
-    <connection>scm:git:git@github.com:SonarCommunity/sonar-cxx.git</connection>
+    <connection>scm:git:git@github.com:wenns/sonar-cxx.git</connection>
     <developerConnection>https://github.com/wenns/sonar-cxx</developerConnection>
     <url>https://github.com/wenns/sonar-cxx</url>
     <tag>HEAD</tag>
