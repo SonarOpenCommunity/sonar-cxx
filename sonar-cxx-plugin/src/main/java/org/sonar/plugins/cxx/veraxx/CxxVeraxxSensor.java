@@ -94,7 +94,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
             CxxUtils.LOG.info("Vera++ processes file = " + name);
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
-              if (!name.equals("error")) {
+              if (!"error".equals(name)) {
                 String line = errorCursor.getAttrValue("line");
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");

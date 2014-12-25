@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
@@ -41,13 +42,15 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
- * {@inheritDoc}
+ * This class is used as base for all sensors which import reports.
+ * It hosts common logic such as finding the reports and saving issues
+ * in SonarQube
  */
 public abstract class CxxReportSensor implements Sensor {
   private ResourcePerspectives perspectives;
   protected Settings conf;
-  private HashSet<String> notFoundFiles = new HashSet<String>();
-  private HashSet<String> uniqueIssues = new HashSet<String>();
+  private Set<String> notFoundFiles = new HashSet<String>();
+  private Set<String> uniqueIssues = new HashSet<String>();
   protected ModuleFileSystem fs;
 
   private final Metric metric;
@@ -196,18 +199,16 @@ public abstract class CxxReportSensor implements Sensor {
 
     if ((filename != null) && (filename.length() > 0)) { // file level
       String normalPath = CxxUtils.normalizePath(filename);
-      if (normalPath != null) {
-        if (!notFoundFiles.contains(normalPath)) {
-          org.sonar.api.resources.File file
-            = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
-          if (context.getResource(file) != null) {
-            lineNr = getLineAsInt(line);
-            resource = file;
-            add = true;
-          } else {
-            CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
-            notFoundFiles.add(normalPath);
-          }
+      if (normalPath != null && !notFoundFiles.contains(normalPath)) {
+        org.sonar.api.resources.File file
+          = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
+        if (context.getResource(file) != null) {
+          lineNr = getLineAsInt(line);
+          resource = file;
+          add = true;
+        } else {
+          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
+          notFoundFiles.add(normalPath);
         }
       }
     } else { // project level
@@ -264,9 +265,9 @@ public abstract class CxxReportSensor implements Sensor {
 
   protected String reportPathKey() {
     return "";
-  };
+  }
 
   protected String defaultReportPath() {
     return "";
-  };
+  }
 }

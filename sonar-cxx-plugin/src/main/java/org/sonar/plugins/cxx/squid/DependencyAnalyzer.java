@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.squid;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Map;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.rule.ActiveRules;
@@ -65,7 +66,7 @@ public class DependencyAnalyzer {
 
   private DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<File, FileEdge>();
   private DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<Directory, DirectoryEdge>();
-  private HashMap<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
+  private Map<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
   private Multimap<Directory, File> directoryFiles = HashMultimap.create();
 
   public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, ActiveRules rules) {

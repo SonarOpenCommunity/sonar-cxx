@@ -73,9 +73,9 @@ public class XunitReportParser implements XmlStreamHandler {
     SMInputCursor childCursor = testSuiteCursor.childElementCursor();
     while (childCursor.getNext() != null) {
       String elementName = childCursor.getLocalName();
-      if (elementName.equals("testsuite")) {
+      if ("testsuite".equals(elementName)) {
         parseTestSuiteTag(childCursor);
-      } else if (elementName.equals("testcase")) {
+      } else if ("testcase".equals(elementName)) {
         testCases.add(parseTestCaseTag(childCursor, testSuiteName, testFileName));
       }
     }
@@ -99,13 +99,13 @@ public class XunitReportParser implements XmlStreamHandler {
       SMInputCursor childCursor = testCaseCursor.childElementCursor();
       if (childCursor.getNext() != null) {
         String elementName = childCursor.getLocalName();
-        if (elementName.equals("skipped")) {
+        if ("skipped".equals(elementName)) {
           status = "skipped";
-        } else if (elementName.equals("failure")) {
+        } else if ("failure".equals(elementName)) {
           status = "failure";
           msg = childCursor.getAttrValue("message");
           stack = childCursor.collectDescendantText();
-        } else if (elementName.equals("error")) {
+        } else if ("error".equals(elementName)) {
           status = "error";
           msg = childCursor.getAttrValue("message");
           stack = childCursor.collectDescendantText();

@@ -57,7 +57,7 @@ public class CxxLanguage extends AbstractLanguage {
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 
-  public final String[] mergeArrays(String[] array1, String[] array2) {
+  private final String[] mergeArrays(String[] array1, String[] array2) {
     String[] result = new String[array1.length + array2.length];
     System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
     System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);

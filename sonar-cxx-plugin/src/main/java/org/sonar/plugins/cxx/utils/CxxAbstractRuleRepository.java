@@ -61,7 +61,7 @@ public abstract class CxxAbstractRuleRepository extends RuleRepository {
     List<Rule> rules = new ArrayList<Rule>();
 
     final XMLRuleParser xmlParser = new XMLRuleParser();
-    if(!fileName().equals("")) {
+    if(!"".equals(fileName())) {
       final InputStream xmlStream = getClass().getResourceAsStream(fileName());
       rules.addAll(xmlParser.parse(xmlStream));
 

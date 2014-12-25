@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * The interface a compiler parser has to implement in order to be used
  * by CxxCompilerSensor
- * 
+ *
  * @author Ferrand
  */
 public interface CompilerParser {
@@ -40,25 +40,25 @@ public interface CompilerParser {
      * @return The key of the rules repository associated with this compiler.
      */
     String rulesRepositoryKey();
-    
+
     /**
      * Get the default report path.
-     * @return 
+     * @return
      */
     String defaultReportPath();
-    
+
     /**
      * Get the default regexp used to parse warning messages.
      * @return The default regexp.
      */
     String defaultRegexp();
-    
+
     /**
-     * Get the default charset 
+     * Get the default charset
      * @return The default regexp.
      */
     String defaultCharset();
-    
+
     static class Warning {
         Warning(String filename, String line, String id, String msg) {
           this.filename = filename;
@@ -72,7 +72,7 @@ public interface CompilerParser {
         public final String id;
         public final String msg;
     }
-    
-    void ParseReport(File report, String charset, String reportRegEx, List<Warning> warnings)
+
+    void parseReport(File report, String charset, String reportRegEx, List<Warning> warnings)
         throws java.io.FileNotFoundException;
 }

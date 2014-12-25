@@ -63,7 +63,7 @@ class ValgrindReportParser {
         valgrindErrors.add(parseErrorTag(errorCursor));
       }
     }
-  };
+  }
 
   private ValgrindError parseErrorTag(SMInputCursor error)
       throws javax.xml.stream.XMLStreamException

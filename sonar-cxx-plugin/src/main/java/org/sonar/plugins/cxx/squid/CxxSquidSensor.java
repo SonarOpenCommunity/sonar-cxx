@@ -59,7 +59,6 @@ import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 
-import com.google.common.collect.Lists;
 import com.sonar.sslr.api.Grammar;
 
 /**

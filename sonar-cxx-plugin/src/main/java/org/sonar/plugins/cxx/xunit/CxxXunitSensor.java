@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.math.BigInteger;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -82,8 +81,8 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   private ResourceFinder resourceFinder = null;
 
-  private int tc_total = 0;
-  private int tc_skipped = 0;
+  private int tcTotal = 0;
+  private int tcSkipped = 0;
 
   /**
    * {@inheritDoc}
@@ -203,8 +202,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     for (TestResource resource : locatedResources) {
       saveTestMetrics(context, resource);
     }
-    //tc_total = 200;
-    CxxUtils.LOG.info("Summary: testcases processed = {}, skipped = {}", tc_total, tc_skipped);
+    CxxUtils.LOG.info("Summary: testcases processed = {}, skipped = {}", tcTotal, tcSkipped);
   }
 
 
@@ -212,7 +210,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     Map<String, TestResource> resources = new HashMap<String, TestResource>();
 
     for (TestCase tc : testcases) {
-      tc_total++;
+      tcTotal++;
 
       CxxUtils.LOG.debug("Trying the resource for the testcase '{}' ...", tc.getFullname());
       org.sonar.api.resources.File sonarResource = lookupResource(project, context, tc);
@@ -227,7 +225,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
         resource.addTestCase(tc);
       } else {
-        tc_skipped++;
+        tcSkipped++;
         CxxUtils.LOG.warn("... no resource found, the testcase '{}' has to be skipped",
                           tc.getFullname());
       }

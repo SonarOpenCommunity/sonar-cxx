@@ -77,7 +77,7 @@ public class CxxCompilerVcParser implements CompilerParser {
   /**
    * {@inheritDoc}
    */
-  public void ParseReport(File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
+  public void parseReport(File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
     CxxUtils.LOG.debug("Using pattern : '" + p.toString() + "'");
@@ -91,7 +91,7 @@ public class CxxCompilerVcParser implements CompilerParser {
     }
     scanner.close();
   }
-  
+
   @Override
   public String toString() {
     return getClass().getSimpleName();
