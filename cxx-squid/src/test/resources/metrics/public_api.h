@@ -87,6 +87,11 @@ struct testStruct {
 	/// testTypeDef
 	///
     typedef toto<T> testTypeDef;
+
+    /**
+     * bitfield doc
+     */
+    unsigned int bitfield:1;
 };
 
 /**

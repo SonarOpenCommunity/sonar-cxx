@@ -123,7 +123,7 @@ public class CxxPublicApiVisitorTest {
 
     @Test
     public void to_delete() {
-        testFile("src/test/resources/metrics/public_api.h", 34, 0, true);
+        testFile("src/test/resources/metrics/public_api.h", 35, 0, true);
     }
 
     @Test
@@ -205,6 +205,7 @@ public class CxxPublicApiVisitorTest {
                 "protectedStructField2");
         expectedIdCommentMap.put("protectedClass", "protectedClass");
         expectedIdCommentMap.put("operator[]", "operator");
+        expectedIdCommentMap.put("bitfield", "bitfield");
 
         // check completeness
         for (final String id : expectedIdCommentMap.keySet()) {
