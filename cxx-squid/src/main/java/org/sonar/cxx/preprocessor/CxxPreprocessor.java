@@ -39,7 +39,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
+import java.util.Deque;
 
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
@@ -166,7 +166,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   // state which is not shared between files
   private State state = new State(null);
-  private Stack<State> stateStack = new Stack<State>();
+  private Deque<State> stateStack = new LinkedList<State>();
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
     this(context, new CxxConfiguration());
