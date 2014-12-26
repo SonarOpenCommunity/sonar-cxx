@@ -48,35 +48,34 @@ import org.sonar.plugins.cxx.CxxLanguage;
  */
 public abstract class CxxReportSensor implements Sensor {
   private ResourcePerspectives perspectives;
-  protected Settings conf;
   private Set<String> notFoundFiles = new HashSet<String>();
   private Set<String> uniqueIssues = new HashSet<String>();
-  protected ModuleFileSystem fs;
-
   private final Metric metric;
   private int violationsCount;
 
+  protected ModuleFileSystem fs;
+  protected Settings conf;
+
   /**
-   * {@inheritDoc}
+   * Use this constructor if you dont have to save violations aka issues
+   *
+   * @param conf the Settings object used to access the configuration properties
+   * @param fs   file system access layer
    */
-  public CxxReportSensor(Settings conf, ModuleFileSystem fs) {
-    this(null, conf, fs);
+  protected CxxReportSensor(Settings conf, ModuleFileSystem fs) {
+    this(null, conf, fs, null);
   }
 
   /**
-   * {@inheritDoc}
+   * Use this constructor if your sensor implementation saves violations aka issues
+   *
+   * @param perspectives used to create issuables
+   * @param conf         the Settings object used to access the configuration properties
+   * @param fs           file system access layer
+   * @param metric       this metrics will be used to save a measure of the overall
+   *                     issue count. Pass 'null' to skip this.
    */
-  public CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs) {
-    this.perspectives = perspectives;
-    this.conf = conf;
-    this.fs = fs;
-    this.metric = null;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, Metric metric) {
+  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, Metric metric) {
     this.perspectives = perspectives;
     this.conf = conf;
     this.fs = fs;
@@ -107,14 +106,9 @@ public abstract class CxxReportSensor implements Sensor {
           processReport(project, context, report);
           CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
                             violationsCount - prevViolationsCount);
-        }
-        catch(EmptyReportException e){
+        } catch(EmptyReportException e){
           CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
         }
-      }
-
-      if (reports.isEmpty()) {
-        handleNoReportsCase(context);
       }
 
       if (metric != null) {
@@ -137,7 +131,7 @@ public abstract class CxxReportSensor implements Sensor {
     return getClass().getSimpleName();
   }
 
-  public String getStringProperty(String name, String def) {
+  protected String getStringProperty(String name, String def) {
       String value = conf.getString(name);
       if (value == null)
           value = def;
@@ -191,7 +185,7 @@ public abstract class CxxReportSensor implements Sensor {
    * according parameters ('file' = null for project level, 'line' = null for
    * file-level)
    */
-  public boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
+  private boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
     String filename, String line, String ruleId, String msg) {
     boolean add = false;
     Resource resource = null;
@@ -258,9 +252,6 @@ public abstract class CxxReportSensor implements Sensor {
   protected void processReport(Project project, SensorContext context, File report)
       throws Exception
   {
-  }
-
-  protected void handleNoReportsCase(SensorContext context) {
   }
 
   protected String reportPathKey() {

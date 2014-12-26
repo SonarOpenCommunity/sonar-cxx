@@ -46,6 +46,7 @@ import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
+import org.sonar.plugins.cxx.utils.CxxMetrics;
 
 import com.google.common.collect.ImmutableList;
 

@@ -55,20 +55,20 @@ public class CxxCoverageSensorTest {
   public void shouldReportCorrectCoverageOnUnitTestCoverage() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
-    
+
     sensor = new CxxCoverageSensor(settings, fs);
 
     sensor.analyse(project, context);
     verify(context, times(33)).saveMeasure((File) anyObject(), any(Measure.class));
   }
-  
+
   @Test
   public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
     settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
     settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
-    
+
     sensor = new CxxCoverageSensor(settings, fs);
 
     sensor.analyse(project, context);
@@ -90,8 +90,8 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs);
 
     sensor.analyse(project, context);
-  }  
-  
+  }
+
   @Test
   public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     Settings settings = new Settings();
@@ -99,10 +99,10 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs);
 
     sensor.analyse(project, context);
-    
+
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
-  } 
-  
+  }
+
   @Test
   public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
     Settings settings = new Settings();
@@ -110,10 +110,10 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs);
 
     sensor.analyse(project, context);
-    
+
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
-  }   
-  
+  }
+
   @Test
   public void shouldReportCoverageWhenVisualStudioCase() {
     Settings settings = new Settings();
@@ -121,7 +121,7 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs);
 
     sensor.analyse(project, context);
-    
+
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
-  }    
+  }
 }

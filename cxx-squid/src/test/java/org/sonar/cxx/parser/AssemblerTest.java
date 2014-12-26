@@ -36,7 +36,7 @@ public class AssemblerTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));
     assertThat(p).matches("asm mov eax, num ;");
   }
-  
+
   @Test
   public void asmVcAssemblyInstructionList1() {
     p.setRootRule(g.rule(CxxGrammarImpl.asmDefinition));

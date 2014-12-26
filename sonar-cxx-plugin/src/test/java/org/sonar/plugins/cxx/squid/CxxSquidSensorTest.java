@@ -38,7 +38,6 @@ import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Directory;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
@@ -173,7 +172,7 @@ public class CxxSquidSensorTest {
     fs = TestUtils.mockFileSystem(baseDir, sourceDirs, emptyList);
     ActiveRules rules = mock(ActiveRules.class);
     CheckFactory checkFactory = new CheckFactory(rules);
-    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class), mock(RulesProfile.class),
+    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class),
                                 settings, fs, checkFactory, rules);
   }
 }

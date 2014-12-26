@@ -22,7 +22,6 @@ package org.sonar.cxx.checks;
 import javax.annotation.CheckForNull;
 
 import org.sonar.api.batch.rule.ActiveRules;
-import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Priority;

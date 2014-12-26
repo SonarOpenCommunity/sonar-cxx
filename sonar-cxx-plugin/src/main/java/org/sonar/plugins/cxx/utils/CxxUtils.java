@@ -28,15 +28,14 @@ import org.slf4j.LoggerFactory;
  * Utility class holding various, well, utilities
  */
 public final class CxxUtils {
-
-  private CxxUtils() {
-    // only static methods
-  }
-
   /**
    * Default logger.
    */
   public static final Logger LOG = LoggerFactory.getLogger("CxxPlugin");
+
+  private CxxUtils() {
+    // only static methods
+  }
 
   /**
    * @param file

@@ -60,17 +60,17 @@ public interface CompilerParser {
     String defaultCharset();
 
     static class Warning {
+        public final String filename;
+        public final String line;
+        public final String id;
+        public final String msg;
+
         Warning(String filename, String line, String id, String msg) {
           this.filename = filename;
           this.line = line;
           this.id = id;
           this.msg = msg;
         }
-
-        public final String filename;
-        public final String line;
-        public final String id;
-        public final String msg;
     }
 
     void parseReport(File report, String charset, String reportRegEx, List<Warning> warnings)

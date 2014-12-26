@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import java.util.regex.MatchResult;
 
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -81,11 +82,13 @@ public class CxxCompilerVcParser implements CompilerParser {
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
     CxxUtils.LOG.debug("Using pattern : '" + p.toString() + "'");
+    MatchResult matchres = null;
     while (scanner.findWithinHorizon(p, 0) != null) {
-      String filename = scanner.match().group(1);
-      String line = scanner.match().group(2);
-      String id = scanner.match().group(3);
-      String msg = scanner.match().group(4);
+      matchres = scanner.match();
+      String filename = matchres.group(1);
+      String line = matchres.group(2);
+      String id = matchres.group(3);
+      String msg = matchres.group(4);
       CxxUtils.LOG.debug("Scanner-matches file='" + filename + "' line='" + line + "' id='" + id + "' msg=" + msg);
       warnings.add(new Warning(filename, line, id, msg));
     }

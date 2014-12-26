@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,9 @@ import java.util.List;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
 
+/**
+ * {@inheritDoc}
+ */
 public class CxxMetrics implements Metrics {
 
   public static final Metric COMPILER = new Metric.Builder("CXX-COMPILER", "C++ compiler Warnings", Metric.ValueType.INT)
