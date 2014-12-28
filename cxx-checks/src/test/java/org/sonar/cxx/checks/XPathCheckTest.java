@@ -29,15 +29,53 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class XPathCheckTest {
 
   @Test
-  public void check() {
+  public void xpathWithoutFilePattern() {
     XPathCheck check = new XPathCheck();
     check.xpathQuery = "//declaration";
     check.message = "Avoid declarations!! ";
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/xpath.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(1).withMessage(check.message)
-        .noMore();
+      .next().atLine(1).withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
+  public void xpathWithFilePattern1() {
+    XPathCheck check = new XPathCheck();
+    check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
+    check.xpathQuery = "//declaration";
+    check.message = "Avoid declarations!! ";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/xpath.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(1).withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
+  public void xpathWithFilePattern2() {
+    XPathCheck check = new XPathCheck();
+    check.matchFilePattern = "/**/test/**/xpath.cc"; // all files with filename xpath.cc in a subdirectory with name test
+    check.xpathQuery = "//declaration";
+    check.message = "Avoid declarations!! ";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/xpath.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(1).withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
+  public void xpathWithFilePattern3() {
+    XPathCheck check = new XPathCheck();
+    check.matchFilePattern = "/**/*.xxx"; // all files with .xxx file extension
+    check.xpathQuery = "//declaration";
+    check.message = "Avoid declarations!! ";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/xpath.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .noMore();
   }
 
 }
