@@ -66,9 +66,9 @@ public class VisualStudioParser implements CoverageParser {
     SMInputCursor child = module.childElementCursor();
     while (child.getNext() != null) {
       String name = child.getLocalName();
-      if (name.equalsIgnoreCase("functions")) {
+      if ("functions".equalsIgnoreCase(name)) {
         collectFunctionMeasures(child, coverageData);
-      } else if (name.equalsIgnoreCase("source_files")) {
+      } else if ("source_files".equalsIgnoreCase(name)) {
         collectSourceFileMeasures(child, coverageData);
       }
     }
@@ -107,7 +107,7 @@ public class VisualStudioParser implements CoverageParser {
       String sourceId = range.getAttrValue("source_id");
       int startLine = Integer.parseInt(range.getAttrValue("start_line"));
       int endLine = Integer.parseInt(range.getAttrValue("end_line"));
-      int covered = !range.getAttrValue("covered").equalsIgnoreCase("no") ? 1 : 0; // value: yes/no/partial
+      int covered = !"no".equalsIgnoreCase(range.getAttrValue("covered")) ? 1 : 0; // value: yes/no/partial
 
       if (!sourceId.equals(lastSourceId) || builder == null) {
         builder = coverageData.get(sourceId);

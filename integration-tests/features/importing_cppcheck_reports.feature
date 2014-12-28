@@ -76,3 +76,4 @@ Feature: Importing Cppcheck reports
    # TOTEST:
    # - behaviour on windows (windows paths in the reports,
    # windows paths in the config pattern...)
+   # - custom rules scenario (precondition: we're able to register such a rule automaticly)

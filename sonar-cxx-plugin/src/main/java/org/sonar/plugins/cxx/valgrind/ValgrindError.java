@@ -26,9 +26,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * a descriptive text and a stack trace.
  */
 class ValgrindError {
-  private String kind;
-  private String text;
-  private ValgrindStack stack;
+  private final String kind;
+  private final String text;
+  private final ValgrindStack stack;
 
   /**
    * Constructs a ValgrindError out of the given attributes

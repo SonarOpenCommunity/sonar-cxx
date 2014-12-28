@@ -33,12 +33,12 @@ public class CxxLanguage extends AbstractLanguage {
   public static final String DEFAULT_C_FILES = "*.c,*.C";
   public static final String KEY = "c++";
 
+  public static final FileQuery SOURCE_QUERY = FileQuery.onSource().onLanguage(KEY);
+  public static final FileQuery TEST_QUERY = FileQuery.onTest().onLanguage(KEY);
+
   private String[] sourceSuffixes;
   private String[] headerSuffixes;
   private String[] fileSuffixes;
-
-  public static FileQuery sourceQuery = FileQuery.onSource().onLanguage(KEY);
-  public static FileQuery testQuery = FileQuery.onTest().onLanguage(KEY);
 
   /**
    * {@inheritDoc}
@@ -57,7 +57,7 @@ public class CxxLanguage extends AbstractLanguage {
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 
-  public final String[] mergeArrays(String[] array1, String[] array2) {
+  private final String[] mergeArrays(String[] array1, String[] array2) {
     String[] result = new String[array1.length + array2.length];
     System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
     System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);

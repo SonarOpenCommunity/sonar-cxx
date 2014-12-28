@@ -110,7 +110,7 @@ public final class CxxAstScanner {
 
           @Override
           public String getContents(String comment) {
-            return comment.substring(0, 2).equals("/*")
+            return "/*".equals(comment.substring(0, 2))
                 ? comment.substring(2, comment.length() - 2)
                 : comment.substring(2);
           }

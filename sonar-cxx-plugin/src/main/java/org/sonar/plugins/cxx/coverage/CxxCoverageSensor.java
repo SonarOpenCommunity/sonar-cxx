@@ -180,16 +180,15 @@ public class CxxCoverageSensor extends CxxReportSensor {
     PropertiesBuilder<Integer, Integer> lineHitsData = new PropertiesBuilder<Integer, Integer>(CoreMetrics.COVERAGE_LINE_HITS_DATA);
     Measure ncloc = context.getMeasure(resource, CoreMetrics.NCLOC);
     Measure stmts = context.getMeasure(resource, CoreMetrics.STATEMENTS);
-    if (ncloc != null && stmts != null) {
-      if (ncloc.getValue() > 0 && stmts.getValue() > 0) {
-        CxxUtils.LOG.debug("Zero coverage measures for file '{}'", filePath);
-        for (int i = 1; i <= context.getMeasure(resource, CoreMetrics.LINES).getIntValue(); ++i) {
-          lineHitsData.add(i, 0);
-        }
-        context.saveMeasure(resource, lineHitsData.build());
-        context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, ncloc.getValue());
-        context.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, ncloc.getValue());
+    if (ncloc != null && stmts != null
+        && ncloc.getValue() > 0 && stmts.getValue() > 0) {
+      CxxUtils.LOG.debug("Zero coverage measures for file '{}'", filePath);
+      for (int i = 1; i <= context.getMeasure(resource, CoreMetrics.LINES).getIntValue(); ++i) {
+        lineHitsData.add(i, 0);
       }
+      context.saveMeasure(resource, lineHitsData.build());
+      context.saveMeasure(resource, CoreMetrics.LINES_TO_COVER, ncloc.getValue());
+      context.saveMeasure(resource, CoreMetrics.UNCOVERED_LINES, ncloc.getValue());
     }
   }
 

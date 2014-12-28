@@ -64,7 +64,7 @@ public class CxxCoverageSensorTest {
     sensor.analyse(project, context);
     verify(context, times(33)).saveMeasure((File) anyObject(), any(Measure.class));
   }
-  
+
   @Test
   public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
     Settings settings = new Settings();
@@ -93,8 +93,8 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs, reactor);
 
     sensor.analyse(project, context);
-  }  
-  
+  }
+
   @Test
   public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     Settings settings = new Settings();
@@ -102,10 +102,10 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs, reactor);
 
     sensor.analyse(project, context);
-    
+
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
-  } 
-  
+  }
+
   @Test
   public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
     Settings settings = new Settings();
@@ -113,10 +113,10 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs, reactor);
 
     sensor.analyse(project, context);
-    
+
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
-  }   
-  
+  }
+
   @Test
   public void shouldReportCoverageWhenVisualStudioCase() {
     Settings settings = new Settings();
@@ -124,8 +124,8 @@ public class CxxCoverageSensorTest {
     sensor = new CxxCoverageSensor(settings, fs, reactor);
 
     sensor.analyse(project, context);
-    
+
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
-  }    
+  }
 }
 

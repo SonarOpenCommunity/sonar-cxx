@@ -21,6 +21,7 @@ package org.sonar.plugins.cxx.compiler;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.plugins.cxx.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -49,7 +50,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.KEY;
 
   private final RulesProfile profile;
-  private final HashMap<String, CompilerParser> parsers = new HashMap<String, CompilerParser>();
+  private final Map<String, CompilerParser> parsers = new HashMap<String, CompilerParser>();
 
   /**
    * {@inheritDoc}
@@ -125,7 +126,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
     // Iterate through the lines of the input file
     CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
     try {
-      parser.ParseReport(report, reportCharset, reportRegEx, warnings);
+      parser.parseReport(report, reportCharset, reportRegEx, warnings);
       for(CompilerParser.Warning w : warnings) {
         // get filename from file system - e.g. VC writes case insensitive file name to html
         if (isInputValid(w.filename, w.line, w.id, w.msg)) {

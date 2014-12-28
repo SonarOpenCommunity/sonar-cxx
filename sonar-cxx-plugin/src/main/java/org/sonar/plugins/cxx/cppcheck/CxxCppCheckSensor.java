@@ -32,7 +32,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.plugins.cxx.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -45,10 +45,10 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 public class CxxCppCheckSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
   private static final String DEFAULT_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
-  
+
   private final RulesProfile profile;
   private final List<CppcheckParser> parsers = new LinkedList<CppcheckParser>();
-  
+
   /**
    * {@inheritDoc}
    */
@@ -83,7 +83,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     boolean parsed = false;
-    
+
     for (CppcheckParser parser : parsers) {
       try {
         parser.processReport(project, context, report);

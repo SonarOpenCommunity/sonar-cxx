@@ -144,7 +144,7 @@ public final class ExpressionEvaluator {
 
   // ///////////////// Primitives //////////////////////
   BigInteger evalBool(String boolValue) {
-    return boolValue.equalsIgnoreCase("true") ? BigInteger.ONE : BigInteger.ZERO;
+    return "true".equalsIgnoreCase(boolValue) ? BigInteger.ONE : BigInteger.ZERO;
   }
 
   BigInteger evalNumber(String intValue) {
@@ -162,7 +162,7 @@ public final class ExpressionEvaluator {
 
   BigInteger evalCharacter(String charValue) {
     // TODO: replace this simplification by something more sane
-    return charValue.equals("'\0'") ? BigInteger.ZERO : BigInteger.ONE;
+    return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
   }
 
   // ////////////// logical expressions ///////////////////////////
@@ -193,9 +193,9 @@ public final class ExpressionEvaluator {
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
     boolean result;
-    if (operator.equals("==")) {
+    if ("==".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) == 0;
-    } else if (operator.equals("!=")) {
+    } else if ("!=".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) != 0;
     } else {
       throw new EvaluationException("Unknown equality operator '" + operator + "'");
@@ -205,9 +205,9 @@ public final class ExpressionEvaluator {
     for(int i = 4; i < noChildren; i+=2){
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
-      if (operator.equals("==")) {
+      if ("==".equals(operator)) {
         result = result == eval(rhs);
-      } else if (operator.equals("!=")) {
+      } else if ("!=".equals(operator)) {
         result = result != eval(rhs);
       } else {
         throw new EvaluationException("Unknown equality operator '" + operator + "'");
@@ -222,13 +222,13 @@ public final class ExpressionEvaluator {
     AstNode lhs = exprAst.getChild(0);
     AstNode rhs = exprAst.getChild(2);
     boolean result;
-    if (operator.equals("<")) {
+    if ("<".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) < 0;
-    } else if (operator.equals(">")) {
+    } else if (">".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) > 0;
-    } else if (operator.equals("<=")) {
+    } else if ("<=".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) <= 0;
-    } else if (operator.equals(">=")) {
+    } else if (">=".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) >= 0;
     } else {
       throw new EvaluationException("Unknown relational operator '" + operator + "'");
@@ -241,13 +241,13 @@ public final class ExpressionEvaluator {
       rhs = exprAst.getChild(i);
 
       resultAsInt = result ? BigInteger.ONE : BigInteger.ZERO;
-      if (operator.equals("<")) {
+      if ("<".equals(operator)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) < 0;
-      } else if (operator.equals(">")) {
+      } else if (">".equals(operator)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) > 0;
-      } else if (operator.equals("<=")) {
+      } else if ("<=".equals(operator)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) <= 0;
-      } else if (operator.equals(">=")) {
+      } else if (">=".equals(operator)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) >= 0;
       } else {
         throw new EvaluationException("Unknown relational operator '" + operator + "'");
@@ -297,14 +297,14 @@ public final class ExpressionEvaluator {
 
     String operator = exprAst.getChild(0).getTokenValue();
     AstNode operand = exprAst.getChild(1);
-    if (operator.equals("+")) {
+    if ("+".equals(operator)) {
       return evalToInt(operand);
-    } else if (operator.equals("-")) {
+    } else if ("-".equals(operator)) {
       return evalToInt(operand).negate();
-    } else if (operator.equals("!")) {
+    } else if ("!".equals(operator)) {
       boolean result = !eval(operand);
       return result ? BigInteger.ONE : BigInteger.ZERO;
-    } else if (operator.equals("~")) {
+    } else if ("~".equals(operator)) {
       //todo: need more information (signed/unsigned, data type length) to invert bits in all cases correct
       return evalToInt(operand).not().and(UINT64_MAX);
     }
@@ -323,10 +323,10 @@ public final class ExpressionEvaluator {
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
 
-      if (operator.equals("<<")) {
+      if ("<<".equals(operator)) {
         //todo: limit to UINT64_MAX?
         result = result.shiftLeft(evalToInt(rhs).intValue()).and(UINT64_MAX);
-      } else if (operator.equals(">>")) {
+      } else if (">>".equals(operator)) {
         result = result.shiftRight(evalToInt(rhs).intValue());
       } else {
         throw new EvaluationException("Unknown shift operator '" + operator + "'");
@@ -346,9 +346,9 @@ public final class ExpressionEvaluator {
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
 
-      if (operator.equals("+")) {
+      if ("+".equals(operator)) {
         result = result.add(evalToInt(rhs));
-      } else if (operator.equals("-")) {
+      } else if ("-".equals(operator)) {
         result = result.subtract(evalToInt(rhs));
       } else {
         throw new EvaluationException("Unknown additive operator '" + operator + "'");
@@ -368,11 +368,11 @@ public final class ExpressionEvaluator {
       operator = exprAst.getChild(i-1).getTokenValue();
       rhs = exprAst.getChild(i);
 
-      if (operator.equals("*")) {
+      if ("*".equals(operator)) {
         result = result.multiply(evalToInt(rhs));
-      } else if (operator.equals("/")) {
+      } else if ("/".equals(operator)) {
         result = result.divide(evalToInt(rhs));
-      } else if (operator.equals("%")) {
+      } else if ("%".equals(operator)) {
         result = result.mod(evalToInt(rhs));
       } else {
         throw new EvaluationException("Unknown multiplicative operator '" + operator + "'");
@@ -425,12 +425,12 @@ public final class ExpressionEvaluator {
 
     return value == null ? BigInteger.ZERO : evalToInt(value);
   }
-  
+
   String stripSuffix(String number)
   {
     return number.replaceAll("[LlUu]", "");
   }
-    
+
   BigInteger decode(String number)
   {
     int radix = 10;
@@ -444,7 +444,7 @@ public final class ExpressionEvaluator {
         }
       }
     }
-    
+
     return new BigInteger(stripSuffix(number), radix);
   }
 }

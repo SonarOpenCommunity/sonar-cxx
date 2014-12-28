@@ -52,8 +52,7 @@ class ValgrindReportParser {
     public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
       try{
         rootCursor.advance();
-      }
-      catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+      } catch(com.ctc.wstx.exc.WstxEOFException eofExc){
         throw new EmptyReportException();
       }
 
@@ -63,7 +62,7 @@ class ValgrindReportParser {
         valgrindErrors.add(parseErrorTag(errorCursor));
       }
     }
-  };
+  }
 
   private ValgrindError parseErrorTag(SMInputCursor error)
       throws javax.xml.stream.XMLStreamException

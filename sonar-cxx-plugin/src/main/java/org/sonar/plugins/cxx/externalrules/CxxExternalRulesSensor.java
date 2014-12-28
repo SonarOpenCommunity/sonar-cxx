@@ -33,12 +33,12 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
  * Custom Rule Import, all static analysis are supported.
- * 
+ *
  * @author jorge costa
  */
 public class CxxExternalRulesSensor extends CxxReportSensor {

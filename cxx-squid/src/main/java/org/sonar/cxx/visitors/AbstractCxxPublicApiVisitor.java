@@ -200,7 +200,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         List<Token> comments = getBlockDocumentation(declarator);
 
         // documentation may be inlined
-        if (comments.size() == 0) {
+        if (comments.isEmpty()) {
             comments = getDeclaratorInlineComment(declarator);
         }
 
@@ -294,41 +294,50 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                 || container.getType() == CxxGrammarImpl.classSpecifier) {
             docNode = node;
         } else {
-            docNode = (container != null) ? container : node;
+            docNode = container;
         }
 
         // look for block documentation
         List<Token> comments = getBlockDocumentation(docNode);
 
         // documentation may be inlined
-        if (comments.size() == 0) {
+        if (comments.isEmpty()) {
             comments = getDeclaratorInlineComment(node);
         }
 
-		String id ="";
-		AstNode idNode = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
-		AstNode operatorFunctionId = node
-				.getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
-//		try {
-			if (operatorFunctionId != null) {
-				id = getOperatorId(operatorFunctionId);
-			} else {
-				if (idNode != null) {
-					id = idNode.getTokenValue();
-				}
-				else {
-					LOG.error("id not set - idNode and operatorFunctionId are null");
-					System.out.println(AstXmlPrinter.print(node)); 
-					
-				}
-			}
-			if ((id != null) && (id.length()>0) && (idNode != null)) {
-				visitPublicApi(idNode, id, comments);
-			}
-//		} catch (java.lang.NullPointerException e) {
-//			logDebug("idNode: " + idNode);
-//			logDebug("operatorFunctionId: " + operatorFunctionId);
-//		}
+        // find the identifier to present to concrete visitors
+        String id = null;
+        AstNode idNode = null;
+
+        // first look for an operator function id
+        idNode = node.getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
+
+        if (idNode != null) {
+            id = getOperatorId(idNode);
+        }
+        else {
+            // look for a declarator id
+            idNode = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
+
+            if (idNode != null) {
+                id = idNode.getTokenValue();
+            }
+            else {
+                // look for an identifier (e.g in bitfield declaration)
+                idNode = node.getFirstDescendant(GenericTokenType.IDENTIFIER);
+
+                if (idNode != null) {
+                    id = idNode.getTokenValue();
+                }
+                else {
+                    LOG.error("Unsupported declarator at " + node.getTokenLine());
+                }
+            }
+        }
+
+        if (idNode != null && id != null) {
+            visitPublicApi(idNode, id, comments);
+        }
     }
 
     private void visitEnumSpecifier(AstNode enumSpecifierNode) {
@@ -357,7 +366,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                 List<Token> comments = getBlockDocumentation(definition);
 
                 // look for inlined doc
-                if (comments.size() == 0) {
+                if (comments.isEmpty()) {
                     AstNode next = definition.getNextAstNode();
 
                     // inline documentation may be on the next definition token

@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
 import org.sonar.check.Cardinality;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -26,6 +27,8 @@ import org.sonar.check.RuleProperty;
 import org.sonar.squidbridge.checks.AbstractXPathCheck;
 
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.utils.PathUtils;
+import org.sonar.api.utils.WildcardPattern;
 
 @Rule(
   key = "XPath",
@@ -33,8 +36,14 @@ import com.sonar.sslr.api.Grammar;
   cardinality = Cardinality.MULTIPLE)
 public class XPathCheck extends AbstractXPathCheck<Grammar> {
 
+  private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final String DEFAULT_XPATH_QUERY = "";
   private static final String DEFAULT_MESSAGE = "The XPath expression matches this piece of code";
+
+  @RuleProperty(
+    key = "matchFilePattern",
+    defaultValue = DEFAULT_MATCH_FILE_PATTERN)
+  public String matchFilePattern = DEFAULT_MATCH_FILE_PATTERN;
 
   @RuleProperty(
     key = "xpathQuery",
@@ -54,6 +63,20 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
   @Override
   public String getMessage() {
     return message;
+  }
+
+  @Override
+  public void visitFile(AstNode fileNode) {
+    if (fileNode != null) {
+      if (!matchFilePattern.isEmpty()) {
+        WildcardPattern pattern = WildcardPattern.create(matchFilePattern);
+        String path = PathUtils.sanitize(getContext().getFile().getPath());
+        if (!pattern.match(path)) {
+          return;
+        }
+      }
+      super.visitFile(fileNode);
+    }
   }
 
 }

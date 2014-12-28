@@ -88,7 +88,7 @@ public class CppcheckParserV1 implements CppcheckParser {
 
     parser.parse(report);
   }
-  
+
   @Override
   public String toString() {
     return getClass().getSimpleName();

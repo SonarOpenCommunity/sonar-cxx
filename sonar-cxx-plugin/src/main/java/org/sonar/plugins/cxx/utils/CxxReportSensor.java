@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
@@ -42,35 +43,40 @@ import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
- * {@inheritDoc}
+ * This class is used as base for all sensors which import reports.
+ * It hosts common logic such as finding the reports and saving issues
+ * in SonarQube
  */
 public abstract class CxxReportSensor implements Sensor {
   private ResourcePerspectives perspectives;
-  protected Settings conf;
-  private HashSet<String> notFoundFiles = new HashSet<String>();
-  private HashSet<String> uniqueIssues = new HashSet<String>();
-  protected ModuleFileSystem fs;
-  private final ProjectReactor reactor;
-  
+  private Set<String> notFoundFiles = new HashSet<String>();
+  private Set<String> uniqueIssues = new HashSet<String>();
   private final Metric metric;
   private int violationsCount;
 
+  protected ModuleFileSystem fs;
+  private final ProjectReactor reactor;
+  protected Settings conf;
+
+
   /**
-   * {@inheritDoc}
+   * Use this constructor if you dont have to save violations aka issues
+   *
+   * @param conf the Settings object used to access the configuration properties
+   * @param fs   file system access layer
    */
-  public CxxReportSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
-    this(null, conf, fs, reactor);
+  protected CxxReportSensor(Settings conf, ModuleFileSystem fs,ProjectReactor reactor) {
+    this(null, conf, fs, reactor, null);
   }
 
   /**
-   * {@inheritDoc}
-   */
-  public CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
-	    this(perspectives, conf, fs, reactor, null);
-  }
-
-  /**
-   * {@inheritDoc}
+   * Use this constructor if your sensor implementation saves violations aka issues
+   *
+   * @param perspectives used to create issuables
+   * @param conf         the Settings object used to access the configuration properties
+   * @param fs           file system access layer
+   * @param metric       this metrics will be used to save a measure of the overall
+   *                     issue count. Pass 'null' to skip this.
    */
   public CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, ProjectReactor reactor, Metric metric) {
     this.perspectives = perspectives;
@@ -105,14 +111,9 @@ public abstract class CxxReportSensor implements Sensor {
           processReport(project, context, report);
           CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
                             violationsCount - prevViolationsCount);
-        }
-        catch(EmptyReportException e){
+        } catch(EmptyReportException e){
           CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
         }
-      }
-
-      if (reports.isEmpty()) {
-        handleNoReportsCase(context);
       }
 
       if (metric != null) {
@@ -135,7 +136,7 @@ public abstract class CxxReportSensor implements Sensor {
     return getClass().getSimpleName();
   }
 
-  public String getStringProperty(String name, String def) {
+  protected String getStringProperty(String name, String def) {
       String value = conf.getString(name);
       if (value == null)
           value = def;
@@ -189,7 +190,7 @@ public abstract class CxxReportSensor implements Sensor {
    * according parameters ('file' = null for project level, 'line' = null for
    * file-level)
    */
-  public boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
+  private boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
     String filename, String line, String ruleId, String msg) {
     boolean add = false;
     Resource resource = null;
@@ -197,18 +198,16 @@ public abstract class CxxReportSensor implements Sensor {
 
     if ((filename != null) && (filename.length() > 0)) { // file level
       String normalPath = CxxUtils.normalizePath(filename);
-      if (normalPath != null) {
-        if (!notFoundFiles.contains(normalPath)) {
-          org.sonar.api.resources.File file
-            = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
-          if (context.getResource(file) != null) {
-            lineNr = getLineAsInt(line);
-            resource = file;
-            add = true;
-          } else {
-            CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
-            notFoundFiles.add(normalPath);
-          }
+      if (normalPath != null && !notFoundFiles.contains(normalPath)) {
+        org.sonar.api.resources.File file
+          = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
+        if (context.getResource(file) != null) {
+          lineNr = getLineAsInt(line);
+          resource = file;
+          add = true;
+        } else {
+          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
+          notFoundFiles.add(normalPath);
         }
       }
     } else { // project level
@@ -260,15 +259,12 @@ public abstract class CxxReportSensor implements Sensor {
   {
   }
 
-  protected void handleNoReportsCase(SensorContext context) {
-  }
-
   protected String reportPathKey() {
     return "";
-  };
+  }
 
   protected String defaultReportPath() {
     return "";
-  };
+  }
 }
 

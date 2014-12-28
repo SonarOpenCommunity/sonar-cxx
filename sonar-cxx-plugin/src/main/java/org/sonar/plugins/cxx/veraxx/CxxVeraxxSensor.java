@@ -31,7 +31,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
-import org.sonar.plugins.cxx.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
@@ -83,8 +83,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
           try{
             rootCursor.advance();
-          }
-          catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+          } catch(com.ctc.wstx.exc.WstxEOFException eofExc){
             throw new EmptyReportException();
           }
 
@@ -95,7 +94,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
             CxxUtils.LOG.info("Vera++ processes file = " + name);
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
-              if (!name.equals("error")) {
+              if (!"error".equals(name)) {
                 String line = errorCursor.getAttrValue("line");
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");

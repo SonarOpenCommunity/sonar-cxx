@@ -62,7 +62,7 @@ public class BullseyeParser implements CoverageParser {
         collectCoverageLeafNodes(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("src"), coverageData);
       }
     });
-    
+
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -72,42 +72,42 @@ public class BullseyeParser implements CoverageParser {
         collectCoverage2(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("folder"), coverageData);
       }
     });
-    
+
     topLevelparser.parse(xmlFile);
     parser.parse(xmlFile);
   }
-  
+
   private void collectCoverageLeafNodes(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
-    
-    while (folder.getNext() != null) {      
+
+    while (folder.getNext() != null) {
       File fileName = new File(refPath, folder.getAttrValue("name"));
       recTreeTopWalk(fileName, folder, coverageData);
     }
-  }  
-  
+  }
+
   private void recTreeTopWalk(File fileName, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
         CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
-                
+
         funcWalk(child, fileMeasuresBuilderIn);
-            
+
         String normalPath = CxxUtils.normalizePath(fileName.getPath());
         if(normalPath != null){
           coverageData.put(normalPath, fileMeasuresBuilderIn);
         }
     }
-  }  
+  }
 
   private void collectCoverage2(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
-    
+
     LinkedList<String> path = new LinkedList<String>();
     while (folder.getNext() != null) {
       String folderName = folder.getAttrValue("name");
@@ -116,7 +116,7 @@ public class BullseyeParser implements CoverageParser {
       path.removeLast();
     }
   }
-  
+
   private void probWalk(SMInputCursor prob, CoverageMeasuresBuilder fileMeasuresBuilderIn) throws XMLStreamException {
     String line = prob.getAttrValue("line");
     String kind = prob.getAttrValue("kind");
@@ -142,18 +142,18 @@ public class BullseyeParser implements CoverageParser {
       funcWalk(func, fileMeasuresBuilderIn);
     }
   }
-  
+
   private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException {
-    
+
     refPath = ensureRefPathIsCorrect(refPath);
-    
+
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
       String folderChildName = child.getLocalName();
       String name = child.getAttrValue("name");
       path.add(name);
-      if (folderChildName.equalsIgnoreCase("src")) {
+      if ("src".equalsIgnoreCase(folderChildName)) {
         String fileName = "";
         Iterator<String> iterator = path.iterator();
         while (iterator.hasNext()) {
@@ -178,7 +178,7 @@ public class BullseyeParser implements CoverageParser {
       path.remove(path.size() - 1);
     }
   }
-  
+
   private void saveConditions(CoverageMeasuresBuilder fileMeasuresBuilderIn) {
     if (totaldecisions > 0 || totalconditions > 0) {
       if (totalcovereddecisions == 0 && totalcoveredconditions == 0) {
@@ -200,35 +200,35 @@ public class BullseyeParser implements CoverageParser {
 
   private void updateMeasures(String kind, String event, String line, CoverageMeasuresBuilder fileMeasuresBuilderIn) {
 
-    if (kind.equalsIgnoreCase("decision") || kind.equalsIgnoreCase("condition")) {
-      if (kind.equalsIgnoreCase("condition")) {
+    if ("decision".equalsIgnoreCase(kind) || "condition".equalsIgnoreCase(kind)) {
+      if ("condition".equalsIgnoreCase(kind)) {
         totalconditions += 2;
         totalcoveredconditions += 1;
-        if (event.equalsIgnoreCase("full")) {
+        if ("full".equalsIgnoreCase(event)) {
           totalcoveredconditions += 1;
         }
-        if (event.equalsIgnoreCase("none")) {
+        if ("none".equalsIgnoreCase(event)) {
           totalcoveredconditions -= 1;
         }
       } else {
         totaldecisions += 1;
         totalcovereddecisions = 1;
-        if (event.equalsIgnoreCase("full")) {
+        if ("full".equalsIgnoreCase(event)) {
           totalcovereddecisions = 2;
         }
-        if (event.equalsIgnoreCase("none")) {
+        if ("none".equalsIgnoreCase(event)) {
           totalcovereddecisions = 0;
         }
       }
     } else {
-      if (event.equalsIgnoreCase("full")) {
+      if ("full".equalsIgnoreCase(event)) {
         fileMeasuresBuilderIn.setHits(Integer.parseInt(line), 1);
       } else {
         fileMeasuresBuilderIn.setHits(Integer.parseInt(line), 0);
       }
     }
   }
-  
+
   @Override
   public String toString() {
     return getClass().getSimpleName();
@@ -238,7 +238,7 @@ public class BullseyeParser implements CoverageParser {
     if(refPath == null || refPath.length() == 0 || refPath.endsWith(File.separator)) {
       return refPath;
     }
-    
+
     return refPath + File.separatorChar;
   }
 }

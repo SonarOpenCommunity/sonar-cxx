@@ -19,7 +19,7 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.sonar.api.design.Dependency;
 import org.sonar.api.resources.Resource;
@@ -32,10 +32,10 @@ import org.sonar.graph.Edge;
 */
 public class DsmSerializer {
   private Dsm<? extends Resource> dsm;
-  HashMap<Edge, Dependency> dependencyIndex;
+  Map<Edge, Dependency> dependencyIndex;
   private StringBuilder json;
 
-  DsmSerializer(Dsm<? extends Resource> dsm, HashMap<Edge, Dependency> dependencyIndex) {
+  DsmSerializer(Dsm<? extends Resource> dsm, Map<Edge, Dependency> dependencyIndex) {
     this.dsm = dsm;
     this.dependencyIndex = dependencyIndex;
     this.json = new StringBuilder();
@@ -92,7 +92,7 @@ public class DsmSerializer {
     json.append('}');
   }
 
-  public static String serialize(Dsm<? extends Resource> dsm, HashMap<Edge, Dependency> dependencyIndex) {
+  public static String serialize(Dsm<? extends Resource> dsm, Map<Edge, Dependency> dependencyIndex) {
     return new DsmSerializer(dsm, dependencyIndex).serialize();
   }
 }

@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx.squid;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Map;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.rule.ActiveRules;
@@ -48,7 +49,7 @@ import org.sonar.graph.DsmTopologicalSorter;
 import org.sonar.graph.Edge;
 import org.sonar.graph.IncrementalCyclesAndFESSolver;
 import org.sonar.graph.MinimumFeedbackEdgeSetSolver;
-import org.sonar.plugins.cxx.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import com.google.common.collect.HashMultimap;
@@ -65,7 +66,7 @@ public class DependencyAnalyzer {
 
   private DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<File, FileEdge>();
   private DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<Directory, DirectoryEdge>();
-  private HashMap<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
+  private Map<Edge, Dependency> dependencyIndex = new HashMap<Edge, Dependency>();
   private Multimap<Directory, File> directoryFiles = HashMultimap.create();
 
   public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, ActiveRules rules) {
@@ -89,8 +90,7 @@ public class DependencyAnalyzer {
       File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project);
       if (includedFile == null) {
         CxxUtils.LOG.warn("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
-      }
-      else if (filesGraph.hasEdge(sonarFile, includedFile)) {
+      } else if (filesGraph.hasEdge(sonarFile, includedFile)) {
         FileEdge fileEdge = filesGraph.getEdge(sonarFile, includedFile);
         Issuable issuable = perspectives.as(Issuable.class, sonarFile);
         if ((issuable != null) && (duplicateIncludeRule != null)) {
@@ -101,13 +101,11 @@ public class DependencyAnalyzer {
               .build();
           if (issuable.addIssue(issue))
             violationsCount++;
-        }
-        else {
+        } else {
           CxxUtils.LOG.warn("Already created edge from '" + sonarFile.getKey() + "' (line " + include.getLine() + ") to '" + includedFile.getKey() + "'" +
               ", previous edge from line " + fileEdge.getLine());
         }
-      }
-      else {
+      } else {
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());
         filesGraph.addEdge(fileEdge);
