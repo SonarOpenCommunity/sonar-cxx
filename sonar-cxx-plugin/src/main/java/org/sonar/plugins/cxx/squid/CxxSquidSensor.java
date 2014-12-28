@@ -115,6 +115,7 @@ public final class CxxSquidSensor implements Sensor {
 
   private CxxConfiguration createConfiguration(Project project, Settings conf) {
     CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+    // set baseDir to parent of multi-module if we use a reactor
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){
