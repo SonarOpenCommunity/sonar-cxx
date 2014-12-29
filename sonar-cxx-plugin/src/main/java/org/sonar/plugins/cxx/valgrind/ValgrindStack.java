@@ -21,6 +21,7 @@ package org.sonar.plugins.cxx.valgrind;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.io.FilenameUtils;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -72,6 +73,7 @@ class ValgrindStack {
    * a function which is in 'our' code
    */
   public ValgrindFrame getLastOwnFrame(String basedir) {
+    basedir = FilenameUtils.normalize(basedir);
     for (ValgrindFrame frame : frames) {
       if (isInside(frame.getDir(), basedir)) {
         return frame;

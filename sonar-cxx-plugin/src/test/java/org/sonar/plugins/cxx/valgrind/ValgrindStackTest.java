@@ -112,7 +112,7 @@ public class ValgrindStackTest {
   }
 
   @Test
-  public void getLastOwnFrame_returnsTheOwnFrame() {
+  public void getLastOwnFrame_returnsTheOwnFrame1() {
     File BASE_DIR = new File("our", "path");
     File OWN_PATH = new File(BASE_DIR, "subdir");
 
@@ -124,4 +124,19 @@ public class ValgrindStackTest {
 
     assertEquals(stack.getLastOwnFrame(BASE_DIR.getPath()), ownFrame);
   }
+  
+ @Test
+  public void getLastOwnFrame_returnsTheOwnFrame2() {
+    File BASE_DIR = new File("our/path/.");
+    File OWN_PATH = new File("our/../our/./path/subdir");
+
+    ValgrindFrame otherFrame = new ValgrindFrame(null, null, null, "someotherpath", null, "1");
+    ValgrindFrame ownFrame = new ValgrindFrame(null, null, null, OWN_PATH.getPath(), null, "1");
+    ValgrindStack stack = new ValgrindStack();
+    stack.addFrame(otherFrame);
+    stack.addFrame(ownFrame);
+
+    assertEquals(stack.getLastOwnFrame(BASE_DIR.getPath()), ownFrame);
+  }
+  
 }
