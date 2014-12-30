@@ -43,6 +43,7 @@ public final class CheckList {
         FileHeaderCheck.class,
         FileEncodingCheck.class,
         FileRegularExpressionCheck.class,
+        LineRegularExpressionCheck.class,
         FixmeTagPresenceCheck.class,
         FunctionComplexityCheck.class,
         HardcodedAccountCheck.class,
