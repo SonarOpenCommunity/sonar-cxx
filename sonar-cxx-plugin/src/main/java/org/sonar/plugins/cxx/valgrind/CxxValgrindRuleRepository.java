@@ -30,13 +30,14 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "valgrind";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.valgrind.customRules";
+  private static final String NAME = "Valgrind";
 
   /**
    * {@inheritDoc}
    */
   public CxxValgrindRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
     super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
+    setName(NAME);
   }
 
   @Override

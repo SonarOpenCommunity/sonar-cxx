@@ -41,9 +41,11 @@ public class CxxExternalRuleRepository extends RuleRepository {
   public static final String RULES_KEY = "sonar.cxx.other.rules";
   public final Settings settings;
   private final XMLRuleParser xmlRuleParser;
+  private static final String NAME = "Other";
 
   public CxxExternalRuleRepository(XMLRuleParser xmlRuleParser, Settings settings) {
     super(KEY, CxxLanguage.KEY);
+    setName(NAME);
     this.xmlRuleParser = xmlRuleParser;
     this.settings = settings;
   }

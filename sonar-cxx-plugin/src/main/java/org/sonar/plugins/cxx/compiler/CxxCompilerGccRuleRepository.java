@@ -30,13 +30,14 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 public final class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "compiler-gcc";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.compiler-gcc.customRules";
+  private static final String NAME = "Compiler-GCC";
 
   /**
    * {@inheritDoc}
    */
   public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
     super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
+    setName(NAME);
   }
 
   @Override

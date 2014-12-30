@@ -30,13 +30,14 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
   static final String KEY = "vera++";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.vera++.customRules";
+  private static final String NAME = "Vera++";
 
   /**
    * {@inheritDoc}
    */
   public CxxVeraxxRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
     super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
+    setName(NAME);
   }
 
   @Override

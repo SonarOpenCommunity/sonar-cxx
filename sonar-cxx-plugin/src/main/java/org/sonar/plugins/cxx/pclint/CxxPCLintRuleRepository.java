@@ -30,13 +30,14 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 public final class CxxPCLintRuleRepository extends CxxAbstractRuleRepository {
   public static final String KEY = "pclint";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.pclint.customRules";
+  private static final String NAME = "PC-lint";
 
   /**
    * {@inheritDoc}
    */
   public CxxPCLintRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
     super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
+    setName(NAME);
   }
 
   @Override

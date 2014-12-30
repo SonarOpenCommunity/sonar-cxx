@@ -28,7 +28,7 @@ import org.sonar.cxx.checks.CheckList;
 
 public class CxxRuleRepository extends RuleRepository {
 
-  private static final String REPOSITORY_NAME = "Sonar";
+  private static final String REPOSITORY_NAME = "c++ SonarQube";
 
   private final AnnotationRuleParser annotationRuleParser;
 
