@@ -152,13 +152,17 @@ public abstract class CxxReportSensor implements Sensor {
 
     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
-    if(new File(reportPath).isAbsolute()){
-      CxxUtils.LOG.error("Absolute paths are not supported ({})", reportPath);
-      return Collections.emptyList();
+    File baseDir = new File(baseDirPath);
+    File reportFile = new File(reportPath);
+    
+    if(reportFile.isAbsolute()) {
+	baseDir = reportFile.getParentFile();
+	reportPath=reportFile.getName();
     }
 
-    DirectoryScanner scanner = new DirectoryScanner(new File(baseDirPath),
-                                                    WildcardPattern.create(reportPath));
+    DirectoryScanner scanner = new DirectoryScanner(baseDir,
+            WildcardPattern.create(reportPath));
+    
     return scanner.getIncludedFiles();
   }
 

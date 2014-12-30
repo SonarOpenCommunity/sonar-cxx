@@ -80,7 +80,7 @@ public class CxxReportSensor_getReports_Test {
     examples.add(new String[] { "**/A.ext",     "A.ext,dir/A.ext", "B.ext" });            // containing question mark
     examples.add(new String[] { "",             "",                "" });                 // empty
 
-    examples.add(new String[] { abspattern,     "",                "A.ext" });            // absolute
+    examples.add(new String[] { abspattern,     "A.ext",           "" });            // absolute
 
     String pattern, match, allpaths;
     List<File> reports;
