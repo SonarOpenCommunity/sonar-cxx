@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="RunAnalysis" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Import Project="configuration.props" Condition="'$(RootConfigurationIncluded)'!='yes'" />
+
+    <Target Name="BuildSolution" >
+        <Exec Command="cov01 -1" ContinueOnError="WarnAndContinue"/>
+        <MSBuild Projects="pathhandling.sln" ContinueOnError="WarnAndContinue"/>
+    </Target>
+
+    
+    <Target Name="RunAnalysis" DependsOnTargets="BuildSolution">
+        <MSBuild Projects="$(MSBuildTasksFolder)\SonarTaskCustom.msbuild"          Targets="CheckCustomSolution"
+                                                    Properties="SolutionName=pathhandling.sln;SolutionRoot=$(MSBuildThisFileDirectory)"/>
+                                                    
+        <Exec Command="covxml -o.sonar/bullseye-coverage-results/bullseyecoverage-result-0.xml"/>
+        <Exec Command="cov01 -0" ContinueOnError="WarnAndContinue"/>
+    </Target>
+</Project>

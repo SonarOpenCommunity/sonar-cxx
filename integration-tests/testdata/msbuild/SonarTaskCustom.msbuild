@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CheckCustomSolution" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="MSBuild.ExtensionPack.tasks" Condition="'$(ExtensionPackIncluded)'!='yes'"/>
+  <Target Name="ValidateCommandLine">
+        <Error Text=" The OpenCoverPath property must be set on the command line." Condition="'$(UserSRCDir)' == ''" />
+  </Target>
+
+  <PropertyGroup>
+        <RootConfigurationIncluded>yes</RootConfigurationIncluded>
+        <ExtBuildToolsPath Condition="'$(ExtBuildToolsPath)' == ''">c:\Tekla\BuildTools</ExtBuildToolsPath>
+        <MSBuildTasksFolder>$(ExtBuildToolsPath)\MSBuildTasks</MSBuildTasksFolder>
+        <PythonPath>$(ExtBuildToolsPath)\Python</PythonPath>
+        <CppCheckPath>$(ExtBuildToolsPath)\Cppcheck</CppCheckPath>
+        <MavenPath>$(ExtBuildToolsPath)\Maven</MavenPath>
+        <OpenCoverPath>$(ExtBuildToolsPath)\OpenCover</OpenCoverPath> 
+        <GallioPath>$(ExtBuildToolsPath)\Gallio</GallioPath> 
+        <SonarRunnerPath>$(ExtBuildToolsPath)\SonarRunner</SonarRunnerPath> 
+        <FxCopPath>$(ExtBuildToolsPath)\FxCop</FxCopPath>
+        <VeraPath>$(ExtBuildToolsPath)\vera++</VeraPath>
+        <RatsPath>$(ExtBuildToolsPath)\rats-2.3</RatsPath>
+        <CppLintPath>$(ExtBuildToolsPath)\CppLint</CppLintPath>
+        <NunitPath>$(ExtBuildToolsPath)\Nunit</NunitPath>
+  </PropertyGroup>
+  
+  <Import Project="VeraTask.msbuild" />
+  <Import Project="RatsTask.msbuild" />
+  <Import Project="CppLintTask.msbuild" />
+  <Import Project="CppCheckTask.msbuild" />
+  <Import Project="GtestXunitConverterTask.msbuild" />
+
+  <Target Name="CheckCustomSolution">
+    <ExtensionPack.Framework.Parallel
+        AdditionalProperties="CppCheckPath=$(CppCheckPath);PythonPath=$(PythonPath);CppLintPath=$(CppLintPath);CppLintEnvironment=$(CppLintEnvironment);VeraPath=$(VeraPath);RatsPath=$(RatsPath);MSBuildDir=$(MSBuildDir);SolutionRoot=$(SolutionRoot);SolutionName=$(SolutionName)"
+        TaskAction="BuildTargetsInParallel"
+        Targets="CheckRats;CheckVera;CheckCppLint;CppCheck"/>
+  </Target>
+  
+</Project>

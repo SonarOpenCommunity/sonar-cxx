@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="gtestmock_redist_init;gtestmock_redist_init_2">
+  <PropertyGroup Label="Default initializers for properties">
+    <Linkage-gtestmock_redist Condition="'$(Linkage-gtestmock_redist)' == ''">dynamic</Linkage-gtestmock_redist>
+    <CallingConvention-gtestmock_redist Condition="'$(CallingConvention-gtestmock_redist)' == ''">cdecl</CallingConvention-gtestmock_redist>
+  </PropertyGroup>
+  <Target Name="gtestmock_redist_init">
+    <gtestmock_redist_Contains Text="Linkage-dynamic" Library="gtestmock_redist" Value="dynamic" Condition="'$(Linkage-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="Linkage-static" Library="gtestmock_redist" Value="static" Condition="'$(Linkage-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="Linkage-ltcg" Library="gtestmock_redist" Value="ltcg" Condition="'$(Linkage-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="Linkage-sxs" Library="gtestmock_redist" Value="sxs" Condition="'$(Linkage-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="Linkage-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="CallingConvention-cdecl" Library="gtestmock_redist" Value="cdecl" Condition="'$(CallingConvention-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="CallingConvention-stdcall" Library="gtestmock_redist" Value="stdcall" Condition="'$(CallingConvention-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="CallingConvention-fastcall" Library="gtestmock_redist" Value="fastcall" Condition="'$(CallingConvention-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="CallingConvention-thiscall" Library="gtestmock_redist" Value="thiscall" Condition="'$(CallingConvention-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+    <gtestmock_redist_Contains Text="CallingConvention-clrcall" Library="gtestmock_redist" Value="clrcall" Condition="'$(CallingConvention-gtestmock_redist)'==''">
+      <Output TaskParameter="Result" PropertyName="CallingConvention-gtestmock_redist" />
+    </gtestmock_redist_Contains>
+  </Target>
+  <Target Name="gtestmock_redist_init_2">
+    <SetEnv Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v100' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v100\dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v100' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v100\dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(Platform.ToLower())' == 'x64' And ( $(PlatformToolset.ToLower().IndexOf('v120')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v120\dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(Platform.ToLower())' == 'win32' And ( $(PlatformToolset.ToLower().IndexOf('v120')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v120\dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v140' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v140\dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+    <SetEnv Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v140' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" Name="PATH" Prefix="true" Value="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v140\dynamic">
+      <Output TaskParameter="OutputEnvironmentVariable" PropertyName="PATH" />
+    </SetEnv>
+  </Target>
+  <ItemGroup Label="x64 and v100 and dynamic" Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v100' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'">
+    <None Include="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v100\dynamic\gtestgmock.dll" Condition="(('$(AppContainerApplication.ToLower())' == 'true')) OR (('$(TargetPlatformIdentifier.ToLower())' == 'windows phone' And '$(TargetPlatformVersion)' == '8.0'))">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup Label="Win32 and v100 and dynamic" Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v100' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'">
+    <None Include="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v100\dynamic\gtestgmock.dll" Condition="(('$(AppContainerApplication.ToLower())' == 'true')) OR (('$(TargetPlatformIdentifier.ToLower())' == 'windows phone' And '$(TargetPlatformVersion)' == '8.0'))">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup Label="x64 and v120 and dynamic" Condition="'$(Platform.ToLower())' == 'x64' And ( $(PlatformToolset.ToLower().IndexOf('v120')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'">
+    <None Include="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v120\dynamic\gtestgmock.dll" Condition="(('$(AppContainerApplication.ToLower())' == 'true')) OR (('$(TargetPlatformIdentifier.ToLower())' == 'windows phone' And '$(TargetPlatformVersion)' == '8.0'))">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup Label="Win32 and v120 and dynamic" Condition="'$(Platform.ToLower())' == 'win32' And ( $(PlatformToolset.ToLower().IndexOf('v120')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'">
+    <None Include="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v120\dynamic\gtestgmock.dll" Condition="(('$(AppContainerApplication.ToLower())' == 'true')) OR (('$(TargetPlatformIdentifier.ToLower())' == 'windows phone' And '$(TargetPlatformVersion)' == '8.0'))">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup Label="x64 and v140 and dynamic" Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v140' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'">
+    <None Include="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v140\dynamic\gtestgmock.dll" Condition="(('$(AppContainerApplication.ToLower())' == 'true')) OR (('$(TargetPlatformIdentifier.ToLower())' == 'windows phone' And '$(TargetPlatformVersion)' == '8.0'))">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup Label="Win32 and v140 and dynamic" Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v140' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'">
+    <None Include="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v140\dynamic\gtestgmock.dll" Condition="(('$(AppContainerApplication.ToLower())' == 'true')) OR (('$(TargetPlatformIdentifier.ToLower())' == 'windows phone' And '$(TargetPlatformVersion)' == '8.0'))">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\default-propertiesui.xml" />
+  </ItemGroup>
+  <Target Name="gtestmock_redist_AfterBuild" AfterTargets="AfterBuild" />
+  <Target Name="gtestmock_redist_AfterBuild_x64_and_v100_and_dynamic" Label="x64 and v100 and dynamic" Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v100' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" AfterTargets="gtestmock_redist_AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v100\dynamic\gtestgmock.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="gtestmock_redist_AfterBuild_Win32_and_v100_and_dynamic" Label="Win32 and v100 and dynamic" Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v100' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" AfterTargets="gtestmock_redist_AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v100\dynamic\gtestgmock.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="gtestmock_redist_AfterBuild_x64_and_v120_and_dynamic" Label="x64 and v120 and dynamic" Condition="'$(Platform.ToLower())' == 'x64' And ( $(PlatformToolset.ToLower().IndexOf('v120')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" AfterTargets="gtestmock_redist_AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v120\dynamic\gtestgmock.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="gtestmock_redist_AfterBuild_Win32_and_v120_and_dynamic" Label="Win32 and v120 and dynamic" Condition="'$(Platform.ToLower())' == 'win32' And ( $(PlatformToolset.ToLower().IndexOf('v120')) &gt; -1 Or '$(PlatformToolset.ToLower())' == 'windowskernelmodedriver8.0' Or '$(PlatformToolset.ToLower())' == 'windowsapplicationfordrivers8.0' Or '$(PlatformToolset.ToLower())' == 'windowsusermodedriver8.0' ) And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" AfterTargets="gtestmock_redist_AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v120\dynamic\gtestgmock.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="gtestmock_redist_AfterBuild_x64_and_v140_and_dynamic" Label="x64 and v140 and dynamic" Condition="'$(Platform.ToLower())' == 'x64' And '$(PlatformToolset.ToLower())' == 'v140' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" AfterTargets="gtestmock_redist_AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)../..//build/native/bin/x64\v140\dynamic\gtestgmock.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="gtestmock_redist_AfterBuild_Win32_and_v140_and_dynamic" Label="Win32 and v140 and dynamic" Condition="'$(Platform.ToLower())' == 'win32' And '$(PlatformToolset.ToLower())' == 'v140' And '$(Linkage-gtestmock_redist.ToLower())' == 'dynamic'" AfterTargets="gtestmock_redist_AfterBuild">
+    <Copy SourceFiles="$(MSBuildThisFileDirectory)../..//build/native/bin/Win32\v140\dynamic\gtestgmock.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <UsingTask TaskName="gtestmock_redist_Contains" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
+    <ParameterGroup>
+      <Text Output="false" ParameterType="System.String" />
+      <Library Output="false" Required="true" ParameterType="System.String" />
+      <Value Output="false" Required="true" ParameterType="System.String" />
+      <Result Output="true" ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code>Result = ((Text ?? "").Split(';').Contains(Library) ) ? Value : String.Empty;</Code>
+    </Task>
+  </UsingTask>
+</Project>
