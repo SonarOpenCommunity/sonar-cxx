@@ -8,7 +8,7 @@
                   VeraOutputType="xml"
                   VeraIgnores="libsolid_kernel\solidkernel.cpp"
                   VeraOptions="-nodup -showrules"
-                  VeraOutputPath="$(SolutionRoot)\.sonar\reports-vera++"
+                  VeraOutputPath="$(SolutionRoot)\sonarcpp\reports-vera++"
                   PathReplacementStrings="$(UserPathReplacementStrings)"
                       />
   </Target>

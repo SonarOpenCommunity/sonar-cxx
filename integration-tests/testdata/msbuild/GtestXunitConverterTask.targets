@@ -8,7 +8,7 @@
         <Message Text="SkipSearchForFileLocation false" Importance="High" />
         <GtestXunitConverterTask 
             SolutionPathToAnalyse="$(SolutionPath)" 
-            GtestXunitConverterOutputPath="$(SolutionDir)\.sonar\reports-xunit"
+            GtestXunitConverterOutputPath="$(SolutionDir)\sonarcpp\reports-xunit"
             SkipSearchForFileLocation="false"
             RunTests="true"
             TestSuffix=".cpp"

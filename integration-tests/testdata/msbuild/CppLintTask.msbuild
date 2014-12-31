@@ -7,7 +7,7 @@
                   PythonPath="$(PythonPath)\python.exe"
                   CppLintPath="$(CppLintPath)\cpplint_mod.py"
                   CppLintOutputType="xml"
-                  CppLintOutputPath="$(SolutionRoot)\.sonar\externalrules-result"/>
+                  CppLintOutputPath="$(SolutionRoot)\sonarcpp\externalrules-result"/>
   </Target>
   
     <Target Name="CppLintCheckCustom">

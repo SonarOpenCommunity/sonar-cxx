@@ -8,7 +8,7 @@
                   CppCheckOptions="--inline-suppr;--enable=all;-j 8"
                   CppCheckDefines="__cplusplus;UNITTEST_VERSION;DEVELOPER_VERSION;NT"
                   CppCheckOutputType="xml-version-1"
-                  CppCheckOutputPath="$(SolutionRoot)\.sonar\reports-cppcheck"
+                  CppCheckOutputPath="$(SolutionRoot)\sonarcpp\reports-cppcheck"
                       />
   </Target>
   

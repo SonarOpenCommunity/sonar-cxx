@@ -13,7 +13,9 @@
         <MSBuild Projects="$(MSBuildTasksFolder)\SonarTaskCustom.msbuild"          Targets="CheckCustomSolution"
                                                     Properties="SolutionName=pathhandling.sln;SolutionRoot=$(MSBuildThisFileDirectory)"/>
                                                     
-        <Exec Command="covxml -o.sonar/bullseye-coverage-results/bullseyecoverage-result-0.xml"/>
+        <Exec Command="mkdir bullseye-coverage-results" WorkingDirectory="$(MSBuildThisFileDirectory)sonarcpp" ContinueOnError="WarnAndContinue"/>
+        <Exec Command="covxml -osonarcpp/bullseye-coverage-results/bullseyecoverage-result-0.xml" ContinueOnError="WarnAndContinue"/>
         <Exec Command="cov01 -0" ContinueOnError="WarnAndContinue"/>
+        <Exec Command="sonar-runner -X" ContinueOnError="WarnAndContinue"/>
     </Target>
 </Project>
