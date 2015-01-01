@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- BullseyeCoverage 8.9.41 Windows License 2656 -->
-<BullseyeCoverage name="covfile.cov" dir="e:/Development/SonarQube/cxx/sonar-cxx/integration-tests/testdata/googletest_bullseye_vs_project/SimplePathHandlingLib/" buildId="c8e063752014-12-31 14:41:06" version="4" xmlns="http://www.bullseye.com/covxml">
-<folder name=".." fn_cov="30" fn_total="685" cd_cov="9" cd_total="528" d_cov="9" d_total="240">
+<BullseyeCoverage name="covfile.cov" dir="e:/Development/SonarQube/cxx/sonar-cxx/integration-tests/testdata/googletest_bullseye_vs_project/SimplePathHandlingLib/" buildId="c8ff57912014-12-31 19:33:10" version="4" xmlns="http://www.bullseye.com/covxml">
+<folder name=".." fn_cov="36" fn_total="691" cd_cov="10" cd_total="530" d_cov="10" d_total="242">
 <folder name=".." fn_cov="30" fn_total="685" cd_cov="9" cd_total="528" d_cov="9" d_total="240">
 <folder name="Packages" fn_cov="30" fn_total="685" cd_cov="9" cd_total="528" d_cov="9" d_total="240">
 <folder name="gtestmock.1.7.2" fn_cov="30" fn_total="685" cd_cov="9" cd_total="528" d_cov="9" d_total="240">
@@ -2368,14 +2368,13 @@
 </folder>
 </folder>
 </folder>
-</folder>
 <folder name="PathHandling.Test" fn_cov="3" fn_total="3" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
-<src name="main.cpp" mtime="1420021732" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<src name="main.cpp" mtime="1420043684" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
 <fn name="main(int,char*[])" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
 <probe line="10" column="3" kind="function" event="full"/>
 </fn>
 </src>
-<src name="PathHandlingTest.cpp" mtime="1420029101" fn_cov="2" fn_total="2" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
+<src name="PathHandlingTest.cpp" mtime="1420043684" fn_cov="2" fn_total="2" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
 <fn name="PathHandlingTest_TestNormalPathCombine_Test::TestBody()" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
 <probe line="10" kind="function" event="full"/>
 </fn>
@@ -2385,7 +2384,7 @@
 </src>
 </folder>
 <folder name="PathHandling" fn_cov="3" fn_total="3" cd_cov="1" cd_total="2" d_cov="1" d_total="2">
-<src name="PathHandle.cpp" mtime="1420021701" fn_cov="3" fn_total="3" cd_cov="1" cd_total="2" d_cov="1" d_total="2">
+<src name="PathHandle.cpp" mtime="1420043685" fn_cov="3" fn_total="3" cd_cov="1" cd_total="2" d_cov="1" d_total="2">
 <fn name="PathHandle::PathHandle()" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
 <probe line="4" kind="function" event="full"/>
 </fn>
@@ -2397,5 +2396,6 @@
 <probe line="17" kind="decision" event="false"/>
 </fn>
 </src>
+</folder>
 </folder>
 </BullseyeCoverage>

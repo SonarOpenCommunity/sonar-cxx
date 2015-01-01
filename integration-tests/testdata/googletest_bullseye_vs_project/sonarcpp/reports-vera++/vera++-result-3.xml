@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.0">
-<file name="E:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\SimplePathHandlingLib\PathHandling.Test\PathHandlingTest.cpp">
+<file name="E:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandlingTest.cpp">
 <error line="1" severity="warning" message="no copyright notice found" source="T013"/>
 </file>
 </checkstyle>

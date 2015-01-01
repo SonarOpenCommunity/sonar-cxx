@@ -45,6 +45,6 @@
     </PropertyGroup>      
     
     <PropertyGroup>
-        <MSBuildTasksFolder>..\..\MSBuild</MSBuildTasksFolder>
+        <MSBuildTasksFolder>..\MSBuild</MSBuildTasksFolder>
     </PropertyGroup>
 </Project>

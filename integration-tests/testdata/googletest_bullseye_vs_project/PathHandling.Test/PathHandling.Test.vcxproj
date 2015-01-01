@@ -53,15 +53,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets" Condition="Exists('..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets')" />
+  <Import Project="..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets" Condition="Exists('..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets'))" />
-    <Error Condition="!Exists('..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets'))" />
+    <Error Condition="!Exists('..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets'))" />
+    <Error Condition="!Exists('..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets'))" />
   </Target>
-  <Import Project="..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets" Condition="Exists('..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets')" />
+  <Import Project="..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets" Condition="Exists('..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets')" />
   <Import Project="..\compile_test.props" />
-  <Import Project="..\..\..\MSBuild\GtestXunitConverterTask.targets" />
+  <Import Project="..\..\MSBuild\GtestXunitConverterTask.targets" />
 </Project>

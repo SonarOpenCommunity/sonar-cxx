@@ -19,7 +19,7 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 
-
+import sys
 import os
 import re
 import json
@@ -155,8 +155,12 @@ def assert_measures(project, measures):
     metrics_to_query = measures.keys()
 
     try:
+        
         url = (SONAR_URL + "/api/resources?resource=" + project + "&metrics="
                + ",".join(metrics_to_query))
+               
+        sys.stdout.write("URL METRICS: " + url + "\n")
+        
         response = requests.get(url)
         got_measures = {}
         json_measures = json.loads(response.text)[0].get("msr", None)
