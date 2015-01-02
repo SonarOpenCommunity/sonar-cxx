@@ -112,7 +112,7 @@ public final class CxxPlugin extends SonarPlugin {
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
       .defaultValue(CxxLanguage.DEFAULT_C_FILES)
       .name("C source files patterns")
-      .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the patterns, it is parsed as a standard C file.")
+      .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the patterns, it is parsed in C-compatibility mode.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(6)
@@ -370,7 +370,7 @@ public final class CxxPlugin extends SonarPlugin {
 
       PropertyDefinition.builder(CxxXunitSensor.PROVIDE_DETAILS_KEY)
       .name("Provide test execution details")
-      .description("If 'True', tries to assign testcases in report to test resources in Sonar, "
+      .description("If 'True', tries to assign testcases in report to test resources in SonarQube, "
                    + "thus making the drillown to details possible")
       .defaultValue("True")
       .subCategory(subcateg)
