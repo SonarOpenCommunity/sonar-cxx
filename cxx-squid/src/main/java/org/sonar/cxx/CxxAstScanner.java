@@ -193,21 +193,6 @@ public final class CxxAstScanner {
         .subscribeTo(complexityAstNodeType)
         .build());
 
-    AstNodeType[] parameterCountAstNodeType = new AstNodeType[] {
-    	CxxGrammarImpl.parameterDeclaration
-    };
-    List<AstNodeType> exclusionNodeTypes = new ArrayList<AstNodeType>();
-    exclusionNodeTypes.add(CxxGrammarImpl.parameterDeclaration);
-    exclusionNodeTypes.add(CxxGrammarImpl.functionBody);
-    
-    /*
-    builder.withSquidAstVisitor(ComplexityVisitor.<Grammar> builder()
-    		.setMetricDef(CxxMetric.PARAMETER_COUNT)
-    		.subscribeTo(parameterCountAstNodeType)
-    		.setExclusions(exclusionNodeTypes)
-    		.build());
-    */
-    
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor(context));
 
