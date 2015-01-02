@@ -287,8 +287,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     // 1. If the testcase carries a filepath just perform the lookup using this data.
     //    As we assume this as the absolute knowledge, we dont want to fallback to other
     //    methods, we want to FAIL.
-    // 2. Do a lookup using unchanged value of classname. When this failed, fallback to 3.
-    // 3. Use the classname to search in the lookupTable (this is the AST-based lookup)
+    // 2. Use the classname to search in the lookupTable (this is the AST-based lookup)
     //    and redo the lookup in Sonar with the gained value.
 
     org.sonar.api.resources.File sonarResource = null;
@@ -300,13 +299,11 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     String classname = tc.getClassname();
     if (classname != null){
-      CxxUtils.LOG.debug("Performing lookup using classname ('{}')", classname);
-      sonarResource = lookupInSonar(classname, context, project);
-      if (sonarResource == null){
-        filepath = lookupFilePath(classname);
-        CxxUtils.LOG.debug("Performing AST-based lookup, determined file path: '{}'", filepath);
-        sonarResource = lookupInSonar(filepath, context, project);
-      }
+      filepath = lookupFilePath(classname);
+      CxxUtils.LOG.debug("Performing AST-based lookup, determined file path: '{}'", filepath);
+      sonarResource = lookupInSonar(filepath, context, project);
+    } else {
+      CxxUtils.LOG.debug("Skipping the AST-based lookup: no classname provided");
     }
 
     return sonarResource;
