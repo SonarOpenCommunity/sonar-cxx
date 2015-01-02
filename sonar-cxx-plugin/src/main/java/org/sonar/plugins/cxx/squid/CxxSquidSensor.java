@@ -92,7 +92,6 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-//    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
     return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
   }
 
