@@ -50,6 +50,7 @@ import org.sonar.plugins.cxx.mstest.MSTestResultsProvider;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsAggregator;
 import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsImportSensor;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
+
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -394,6 +395,7 @@ public final class CxxPlugin extends SonarPlugin {
   /**
    * {@inheritDoc}
    */
+  @Override
   public List getExtensions() {
     List<Object> l = new ArrayList<Object>();
     l.add(CxxLanguage.class);

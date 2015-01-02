@@ -24,12 +24,12 @@ import java.io.File;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -47,7 +47,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+  public CxxVeraxxSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
     super(perspectives, conf, fs, reactor, CxxMetrics.VERAXX);
     this.profile = profile;
   }
@@ -98,13 +98,16 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String line = errorCursor.getAttrValue("line");
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
-
+                CxxUtils.LOG.info("Error in file '{}' , with message '{}'",
+                        name + "(" + errorCursor.getAttrValue("line") + ")",
+                        errorCursor.getAttrValue("message"));
+                
                 saveUniqueViolation(project, context, CxxVeraxxRuleRepository.KEY,
                                     name, line, source, message);
               } else {
                 CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
-                    errorCursor.getAttrValue("line"),
-                    errorCursor.getAttrValue("message"));
+                        name + "(" + errorCursor.getAttrValue("line") + ")",
+                        errorCursor.getAttrValue("message"));
               }
             }
           }

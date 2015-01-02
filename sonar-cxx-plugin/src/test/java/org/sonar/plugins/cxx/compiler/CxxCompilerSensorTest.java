@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -41,6 +42,7 @@ import org.sonar.plugins.cxx.TestUtils;
 public class CxxCompilerSensorTest {
   private SensorContext context;
   private Project project;
+  private DefaultFileSystem fs;
   private RulesProfile profile;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
@@ -49,7 +51,7 @@ public class CxxCompilerSensorTest {
   {
       Settings settings = new Settings();
       settings.setProperty("sonar.cxx.compiler.parser", parser);
-      return new CxxCompilerSensor(perspectives, settings, TestUtils.mockFileSystem(), profile, TestUtils.mockReactor());
+      return new CxxCompilerSensor(perspectives, settings, fs, profile, TestUtils.mockReactor());
   }
 
   @Before

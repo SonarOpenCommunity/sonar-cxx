@@ -28,6 +28,7 @@ import java.util.Set;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
@@ -38,7 +39,6 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
 
@@ -54,7 +54,7 @@ public abstract class CxxReportSensor implements Sensor {
   private final Metric metric;
   private int violationsCount;
 
-  protected ModuleFileSystem fs;
+  protected FileSystem fs;
   private final ProjectReactor reactor;
   protected Settings conf;
 
@@ -65,7 +65,7 @@ public abstract class CxxReportSensor implements Sensor {
    * @param conf the Settings object used to access the configuration properties
    * @param fs   file system access layer
    */
-  protected CxxReportSensor(Settings conf, ModuleFileSystem fs,ProjectReactor reactor) {
+  protected CxxReportSensor(Settings conf, FileSystem fs,ProjectReactor reactor) {
     this(null, conf, fs, reactor, null);
   }
 
@@ -78,7 +78,7 @@ public abstract class CxxReportSensor implements Sensor {
    * @param metric       this metrics will be used to save a measure of the overall
    *                     issue count. Pass 'null' to skip this.
    */
-  public CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, ProjectReactor reactor, Metric metric) {
+  public CxxReportSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, ProjectReactor reactor, Metric metric) {
     this.perspectives = perspectives;
     this.conf = conf;
     this.fs = fs;
@@ -90,7 +90,7 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public boolean shouldExecuteOnProject(Project project) {
-    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+    return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
   }
 
   /**

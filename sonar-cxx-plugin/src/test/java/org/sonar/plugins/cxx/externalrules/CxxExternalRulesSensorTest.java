@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -37,7 +38,6 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -48,18 +48,18 @@ public class CxxExternalRulesSensorTest {
   private Project project;
   private RulesProfile profile;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private DefaultFileSystem fs;
   private ProjectReactor reactor;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
+    fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
+    reactor = TestUtils.mockReactor();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    fs = TestUtils.mockFileSystem();
-    reactor = TestUtils.mockReactor();
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
     settings = new Settings();

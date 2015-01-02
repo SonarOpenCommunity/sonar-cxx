@@ -28,20 +28,18 @@ import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
+import org.sonar.api.measures.PropertiesBuilder;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.sonar.api.measures.PropertiesBuilder;
-import org.sonar.api.scan.filesystem.FileQuery;
-import org.sonar.plugins.cxx.CxxLanguage;
-
 /**
  * {@inheritDoc}
  */
@@ -66,7 +64,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCoverageSensor(Settings settings, ModuleFileSystem fs, ProjectReactor reactor) {
+  public CxxCoverageSensor(Settings settings, FileSystem fs, ProjectReactor reactor) {
     super(settings, fs, reactor);
 
     this.reactor = reactor;
@@ -164,7 +162,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private void zeroMeasuresWithoutReports(Project project,
     SensorContext context,
     Map<String, CoverageMeasuresBuilder> coverageMeasures) {
-    for (File file : fs.files(FileQuery.onSource().onLanguage(CxxLanguage.KEY))) {
+    for (File file : fs.files(fs.predicates().hasLanguage(CxxLanguage.KEY))) {
       org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project);
       if (fileExist(context, resource)) {
         String filePath = CxxUtils.normalizePath(file.getAbsolutePath());

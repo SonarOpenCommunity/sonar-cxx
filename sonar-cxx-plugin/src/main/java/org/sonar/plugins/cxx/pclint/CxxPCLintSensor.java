@@ -29,12 +29,12 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -57,8 +57,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-	super(perspectives, conf, fs, reactor, CxxMetrics.PCLINT);
+  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(perspectives, conf, fs, reactor, CxxMetrics.PCLINT);
     this.profile = profile;
   }
 
@@ -123,17 +123,20 @@ public class CxxPCLintSensor extends CxxReportSensor {
         }
       }
 
-      private boolean isInputValid(String file, String line, String id, String msg) {
-    	try {  
-        if (StringUtils.isEmpty(file) || (Integer.valueOf(line)==0)) {
-          // issue for project or file level
-          return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+      private boolean isInputValid(String file, String line, String id,
+          String msg) {
+        try {
+          if (StringUtils.isEmpty(file) || (Integer.valueOf(line) == 0)) {
+            // issue for project or file level
+            return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+          }
+          return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id)
+              && !StringUtils.isEmpty(msg);
+        } catch (java.lang.NumberFormatException e) {
+          CxxUtils.LOG.error("Ignore number error from PC-lint report '{}'",
+              e.toString());
         }
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
-    	} catch (java.lang.NumberFormatException e) {
-    		CxxUtils.LOG.error("Ignore number error from PC-lint report '{}'", e.toString()); 
-    	}
-    	return false;
+        return false;
       }
 
       /**

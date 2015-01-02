@@ -29,11 +29,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.resources.InputFile;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
 
 
@@ -43,7 +45,7 @@ public class CxxReportSensorTest {
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs, ProjectReactor reactor){
+    public CxxReportSensorImpl(Settings settings, FileSystem fs, ProjectReactor reactor){
       super(settings, fs, reactor);
     }
 
@@ -55,7 +57,7 @@ public class CxxReportSensorTest {
   private CxxReportSensor sensor;
   private File baseDir;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private static DefaultFileSystem fs;
   private ProjectReactor reactor;
 
   @Before
@@ -84,6 +86,7 @@ public class CxxReportSensorTest {
 //    Project cxxProject = mockProjectWithSomeFiles(CxxLanguage.KEY);
 //    Project foreignProject = mockProjectWithLanguageKey("whatever");
 //    assert (sensor.shouldExecuteOnProject(cxxProject));
+//    assert (sensor.shouldExecuteOnProject(foreignProject));
 //  }
 
   @Test
