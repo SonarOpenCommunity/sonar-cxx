@@ -21,7 +21,6 @@ package org.sonar.cxx;
 
 import java.io.File;
 import java.util.Collection;
-
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
@@ -51,8 +50,10 @@ import org.sonar.squidbridge.metrics.LinesVisitor;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
+import java.util.ArrayList;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import java.util.List;
 import com.sonar.sslr.impl.Parser;
 
 public final class CxxAstScanner {
@@ -192,6 +193,21 @@ public final class CxxAstScanner {
         .subscribeTo(complexityAstNodeType)
         .build());
 
+    AstNodeType[] parameterCountAstNodeType = new AstNodeType[] {
+    	CxxGrammarImpl.parameterDeclaration
+    };
+    List<AstNodeType> exclusionNodeTypes = new ArrayList<AstNodeType>();
+    exclusionNodeTypes.add(CxxGrammarImpl.parameterDeclaration);
+    exclusionNodeTypes.add(CxxGrammarImpl.functionBody);
+    
+    /*
+    builder.withSquidAstVisitor(ComplexityVisitor.<Grammar> builder()
+    		.setMetricDef(CxxMetric.PARAMETER_COUNT)
+    		.subscribeTo(parameterCountAstNodeType)
+    		.setExclusions(exclusionNodeTypes)
+    		.build());
+    */
+    
     // to emit a 'new file' event to the internals of the plugin
     builder.withSquidAstVisitor(new CxxFileVisitor(context));
 

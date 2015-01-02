@@ -3,9 +3,10 @@
 using namespace std;
 
 
-//template <class T> ostream& operator<< (ostream& strm, const auto_ptr<T>& p);
+template <class T> ostream& operator<< (ostream& strm, const auto_ptr<T>& p);
 
-//ostream& somefunc();
+ostream& somefunc();
+int printf(const char* fmt, ...);
 class sometype;
 sometype& func();
 
