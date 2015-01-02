@@ -12,6 +12,7 @@ Feature: GoogleTestWithBullseyeAndVsProject
               .*WARN.*to create a dependency with 'PathHandling/PathHandle.h'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
               .*WARN.*Cannot find the file '.*gtestmock.1.7.2.*', ignoring coverage measures
+              .*WARN.*cannot find the sources for.* 
               .*WARN.*syntax error, skip.*
               
               """
@@ -38,7 +39,7 @@ Feature: GoogleTestWithBullseyeAndVsProject
                | file_complexity          | 2.0   |
                | class_complexity         | 4     |
                # violations
-               | violations               | 10    |
+               | violations               | 34    |
                # coverage statistics
                | coverage                 | 88.9  |
                | line_coverage            | 100   |
