@@ -18,9 +18,9 @@ Feature: GoogleTestWithBullseyeAndVsProject
           AND the following metrics have following values:
                | metric                   | value |
                # size metrics
-               | ncloc                    | 22    |
-               | lines                    | 39   |
-               | statements               | 5     |
+               | ncloc                    | 24    |
+               | lines                    | 42   |
+               | statements               | 7     |
                | classes                  | 1     |
                | files                    | 2     |
                | directories              | 2     |
