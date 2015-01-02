@@ -61,19 +61,15 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
 
   @Test
   public void hashhash_related_parsing_problem() {
-    // TODO: make it run.
-    // this reproduces a macros expansion problem where
-    // whitespace handling goes wrong
-
-    // assertThat(p).matches(
-    //   "#define CASES CASE(00)\n"
-    //   + "#define CASE(n) case 0x##n:\n"
-    //   + "void foo()  {\n"
-    //   + "switch (1) {\n"
-    //   + "CASES\n"
-    //   + "break;\n"
-    //   + "}\n"
-    //   + "}\n");
+     assertThat(p).matches(
+       "#define CASES CASE(00)\n"
+       + "#define CASE(n) case 0x##n:\n"
+       + "void foo()  {\n"
+       + "switch (1) {\n"
+       + "CASES\n"
+       + "break;\n"
+       + "}\n"
+       + "}\n");
   }
 
   @Test
@@ -261,13 +257,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "macro_start"))
       .equals("int main ( void ) ; EOF"));
 
-    // FIXME: this failes due to a bug in production code
-    // which rips apart the number '0xcf'
-    // assert (serialize(p.parse(
-    //   "#define A B(cf)\n"
-    //   + "#define B(n) 0x##n\n"
-    //   + "i = A;"))
-    //   .equals("i = 0xcf ; EOF"));
+    assert (serialize(p.parse(
+      "#define A B(cf)\n"
+      + "#define B(n) 0x##n\n"
+      + "i = A;"))
+      .equals("i = 0xcf ; EOF"));
   }
 
   @Test
