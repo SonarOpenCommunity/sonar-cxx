@@ -1,10 +1,10 @@
 Feature: GoogleTestWithBullseyeAndVsProject
 
   This is just for running a smoketest using a somewhat more complex testdata.
-  Will be reworked later.
 
   Scenario: GoogleTestWithBullseyeAndVsProject
       GIVEN the project "googletest_bullseye_vs_project"
+        and rule "rats:getenv" is enabled in project
       WHEN I run "sonar-runner -X"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:

@@ -24,6 +24,7 @@ import os
 import re
 import json
 import requests
+from   requests.auth import HTTPBasicAuth
 import subprocess
 import shutil
 from behave import given, when, then, model
@@ -37,10 +38,32 @@ SONAR_URL = "http://localhost:9000"
 
 @given(u'the project "{project}"')
 def step_impl(context, project):
+    global PROFILE_KEY
     assert os.path.isdir(os.path.join(TESTDATADIR, project))
     context.project = project
+    url = (SONAR_URL + "/api/rules/app")
+    response = requests.get(url)
 
+    profiles = json.loads(response.text).get("qualityprofiles", None)
+    data = _gotKeyFromQualityProfile(profiles)
+    for key, name in data.iteritems():
+        if name == "Sonar way - c++":
+            context.profile_key = key
+    
+@given(u'rule "{rule}" is enabled in project')
+def step_impl(context, rule):
+    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    
+    try:
+        
+        url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
+        payload = {'profile_key': context.profile_key, 'rule_key': rule, "severity": "MAJOR"}
+        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
+        assert response != 200, "cannot change status of message: %s" % str(response.text)
 
+    except requests.exceptions.ConnectionError, e:
+        assert False, "cannot change status of rule, details: %s" % str(e)
+    
 @when(u'I run "{command}"')
 def step_impl(context, command):
     context.log = "_%s_.log" % context.project
@@ -131,7 +154,9 @@ def _expMeasuresToDict(measures):
             res[TEST_METRICS_ORDER[i]] = convertvalue(measures[i])
     return res
 
-
+def _gotKeyFromQualityProfile(measures):
+    return {measure["key"]: measure["name"] + " - " + measure["lang"] for measure in measures}
+    
 def _gotMeasuresToDict(measures):
     return {measure["key"]: measure["val"] for measure in measures}
 
