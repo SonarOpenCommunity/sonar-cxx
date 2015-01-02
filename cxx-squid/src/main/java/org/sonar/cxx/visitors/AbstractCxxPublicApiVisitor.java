@@ -86,7 +86,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     public interface PublicApiHandler {
         void onPublicApi(AstNode node, String id, List<Token> comments);
-    };
+    }
 
     private List<String> headerFileSuffixes;
 
@@ -267,10 +267,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
             // memberDeclaration, or inlined
             if (declarators.size() == 1) {
                 visitMemberDeclarator(memberDeclaration);
-            }
+            } else {
             // if several declarators, doc should be placed before each
             // declarator, or inlined
-            else {
                 for (AstNode declarator : declarators) {
                     visitMemberDeclarator(declarator);
                 }
