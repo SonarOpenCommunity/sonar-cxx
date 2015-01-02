@@ -871,6 +871,22 @@ public class CxxPreprocessor extends Preprocessor {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
       if (last.getType() != WS) {
+        if ( !tokens.isEmpty() ) {
+          Token pred = tokens.get(tokens.size() - 1);
+          if (pred.getType() != WS && !pred.hasTrivia()) {
+            // Needed to paste tokens 0 and x back together after #define N(hex) 0x ## hex
+            tokens.remove(tokens.size() - 1);
+            String replacement = pred.getValue() + last.getValue();
+            last = Token.builder()
+                .setLine(pred.getLine())
+                .setColumn(pred.getColumn())
+                .setURI(pred.getURI())
+                .setValueAndOriginalValue(replacement)
+                .setType(pred.getType())
+                .setGeneratedCode(true)
+                .build();
+          }
+        }
         return last;
       }
     }

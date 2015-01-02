@@ -61,19 +61,15 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
 
   @Test
   public void hashhash_related_parsing_problem() {
-    // TODO: make it run.
-    // this reproduces a macros expansion problem where
-    // whitespace handling goes wrong
-
-    // assertThat(p).matches(
-    //   "#define CASES CASE(00)\n"
-    //   + "#define CASE(n) case 0x##n:\n"
-    //   + "void foo()  {\n"
-    //   + "switch (1) {\n"
-    //   + "CASES\n"
-    //   + "break;\n"
-    //   + "}\n"
-    //   + "}\n");
+     assertThat(p).matches(
+       "#define CASES CASE(00)\n"
+       + "#define CASE(n) case 0x##n:\n"
+       + "void foo()  {\n"
+       + "switch (1) {\n"
+       + "CASES\n"
+       + "break;\n"
+       + "}\n"
+       + "}\n");
   }
 
   @Test
@@ -190,13 +186,6 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
             + "eprintf(\"%s:%d: \", input_file, lineno);"))
         .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
 
-    // FIXME: can this actually be swallowed by GCC?? My experiments showed the opposite, so far...
-    // GNU CPP: Vou are allowed to leave the variable argument out entirely
-    // assert (serialize(p.parse(
-    //   "#define eprintf(format, ...) fprintf (stderr, format, __VA_ARGS__)\n"
-    //   + "eprintf(\"success!\");"))
-    //   .equals("fprintf ( stderr , \"success!\" , ) ; EOF"));
-
     // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
     assert (serialize(p.parse(
       "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
@@ -243,13 +232,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "macro_start"))
       .equals("int main ( void ) ; EOF"));
 
-    // FIXME: this failes due to a bug in production code
-    // which rips apart the number '0xcf'
-    // assert (serialize(p.parse(
     assert (serialize(p.parse(
-     "#define A B(cf)\n"
-      + "#define B(n) 0##x##n\n" // todo: make it work without the first ##
-      + "i = A;")).equals("i = 0xcf ; EOF"));
+      "#define A B(cf)\n"
+      + "#define B(n) 0x##n\n"
+      + "i = A;"))
+      .equals("i = 0xcf ; EOF"));
   }
 
   @Test
