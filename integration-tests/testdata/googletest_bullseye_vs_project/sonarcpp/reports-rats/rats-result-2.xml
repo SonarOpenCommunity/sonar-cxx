@@ -6,7 +6,7 @@
 <dbcount lang="c">334</dbcount>
 <dbcount lang="php">55</dbcount>
 </stats>
-<analyzed>E:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\main.cpp</analyzed>
+<analyzed>./PathHandling.Test\main.cpp</analyzed>
 <timing>
 <total_lines>15</total_lines>
 <total_time>0.000000</total_time>

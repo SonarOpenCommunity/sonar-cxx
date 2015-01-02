@@ -12,6 +12,9 @@ PathHandle::~PathHandle()
 
 std::string PathHandle::CompinePaths(std::string path1, std::string path2)
 {
+    char *pFile = getenv("TEAMCITY_PROJECT_NAME");
+
+    int i = 0;
     char ch = path1.back();
 
     if(ch == '/')

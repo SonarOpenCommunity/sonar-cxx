@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <results>
-<error file="E:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling\PathHandle.cpp" line="0" id="cpplint.legal/copyright-0" severity="warning" msg="No copyright message found.  You should have a line: Copyright [year] &lt;Copyright Owner&gt;"/>
-<error file="E:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling\PathHandle.cpp" line="17" id="cpplint.whitespace/parens-5" severity="warning" msg="Missing space before ( in if("/>
+<error file="./PathHandling/PathHandle.cpp" line="0" id="cpplint.legal/copyright-0" severity="warning" msg="No copyright message found.  You should have a line: Copyright [year] &lt;Copyright Owner&gt;"/>
+<error file="./PathHandling/PathHandle.cpp" line="20" id="cpplint.whitespace/parens-5" severity="warning" msg="Missing space before ( in if("/>
 </results>

@@ -9,6 +9,7 @@
     <RatsTask SolutionPathToAnalyse="$(SolutionRoot)\$(SolutionName)"
                   RatsPath="$(RatsPath)\rats.exe"
                   RatsOutputType="xml"
+                  UseRelativePaths="true"
                   RatsOutputPath="$(SolutionRoot)\sonarcpp\reports-rats"
                   PathReplacementStrings="$(UserPathReplacementStrings)"
                   />

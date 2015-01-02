@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.0">
-<file name="E:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\main.cpp">
+<file name="./PathHandling.Test\main.cpp">
 </file>
 </checkstyle>

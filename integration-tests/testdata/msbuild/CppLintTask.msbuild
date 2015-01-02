@@ -7,6 +7,7 @@
                   PythonPath="$(PythonPath)\python.exe"
                   CppLintPath="$(CppLintPath)\cpplint_mod.py"
                   CppLintOutputType="xml"
+                  UseRelativePaths="true"
                   CppLintOutputPath="$(SolutionRoot)\sonarcpp\externalrules-result"/>
   </Target>
   

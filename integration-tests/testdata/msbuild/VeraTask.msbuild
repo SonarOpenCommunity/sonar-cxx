@@ -10,6 +10,7 @@
                   VeraOptions="-nodup -showrules"
                   VeraOutputPath="$(SolutionRoot)\sonarcpp\reports-vera++"
                   PathReplacementStrings="$(UserPathReplacementStrings)"
+                  UseRelativePaths="true"
                       />
   </Target>
   

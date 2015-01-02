@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- BullseyeCoverage 8.9.41 Windows License 2656 -->
-<BullseyeCoverage name="covfile.cov" dir="e:/Development/SonarQube/cxx/sonar-cxx/integration-tests/testdata/googletest_bullseye_vs_project/SimplePathHandlingLib/" buildId="c8ff57912014-12-31 19:33:10" version="4" xmlns="http://www.bullseye.com/covxml">
-<folder name=".." fn_cov="36" fn_total="691" cd_cov="10" cd_total="530" d_cov="10" d_total="242">
+<BullseyeCoverage name="covfile.cov" dir="./" buildId="c8d7214a2015-01-02 13:59:22" version="4" xmlns="http://www.bullseye.com/covxml">
 <folder name=".." fn_cov="30" fn_total="685" cd_cov="9" cd_total="528" d_cov="9" d_total="240">
 <folder name="Packages" fn_cov="30" fn_total="685" cd_cov="9" cd_total="528" d_cov="9" d_total="240">
 <folder name="gtestmock.1.7.2" fn_cov="30" fn_total="685" cd_cov="9" cd_total="528" d_cov="9" d_total="240">
@@ -2396,6 +2395,5 @@
 <probe line="17" kind="decision" event="false"/>
 </fn>
 </src>
-</folder>
 </folder>
 </BullseyeCoverage>
