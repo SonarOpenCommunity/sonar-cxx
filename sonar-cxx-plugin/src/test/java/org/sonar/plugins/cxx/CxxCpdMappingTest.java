@@ -23,13 +23,13 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
 public class CxxCpdMappingTest {
   @Test
   public void testMapping() {
     CxxLanguage language = mock(CxxLanguage.class);
-    ModuleFileSystem fs = mock(ModuleFileSystem.class);
+    DefaultFileSystem fs = TestUtils.mockFileSystem();
     CxxCpdMapping mapping = new CxxCpdMapping(language, fs);
     assertThat(mapping.getLanguage()).isSameAs(language);
     assertThat(mapping.getTokenizer()).isInstanceOf(CxxTokenizer.class);

@@ -33,15 +33,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxReportSensor_getReports_Test {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs) {
+    public CxxReportSensorImpl(Settings settings, FileSystem fs) {
       super(settings, fs);
     }
   };
@@ -52,7 +53,7 @@ public class CxxReportSensor_getReports_Test {
   private CxxReportSensor sensor;
   private File baseDir;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private DefaultFileSystem fs;
 
   @Before
   public void init() {

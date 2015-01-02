@@ -22,10 +22,10 @@ package org.sonar.plugins.cxx.xunit;
 import java.io.File;
 
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 
 public interface ResourceFinder {
 
-  public org.sonar.api.resources.File findInSonar(File file, SensorContext context, ModuleFileSystem fs, Project project);
+  public org.sonar.api.resources.File findInSonar(File file, SensorContext context, FileSystem fs, Project project);
 }

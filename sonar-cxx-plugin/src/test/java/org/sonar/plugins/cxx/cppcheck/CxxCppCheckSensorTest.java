@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -36,7 +37,6 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCppCheckSensorTest {
@@ -46,7 +46,7 @@ public class CxxCppCheckSensorTest {
   private Project project;
   private RulesProfile profile;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private DefaultFileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 

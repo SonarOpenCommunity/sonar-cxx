@@ -28,6 +28,8 @@ import java.util.Locale;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
@@ -40,7 +42,6 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
@@ -48,6 +49,7 @@ import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -74,14 +76,14 @@ public final class CxxSquidSensor implements Sensor {
   private SensorContext context;
   private AstScanner<Grammar> scanner;
   private Settings conf;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
   private ResourcePerspectives perspectives;
 
   /**
    * {@inheritDoc}
    */
   public CxxSquidSensor(ResourcePerspectives perspectives, Settings conf,
-                        ModuleFileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
+                        FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
     this.checks = checkFactory.create(CheckList.REPOSITORY_KEY).addAnnotatedChecks(CheckList.getChecks());
     this.rules = rules;
     this.conf = conf;
@@ -90,7 +92,8 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+//    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+    return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
   }
 
   /**
@@ -104,15 +107,33 @@ public final class CxxSquidSensor implements Sensor {
     this.scanner = CxxAstScanner.create(createConfiguration(this.fs, this.conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    scanner.scanFiles(fs.files(CxxLanguage.SOURCE_QUERY));
+    scanner.scanFiles(getSourceFiles(this.fs));
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }
 
-  private CxxConfiguration createConfiguration(ModuleFileSystem fs, Settings conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+  private Collection<File> getSourceFiles(FileSystem fs) {
+    return getFiles(fs, org.sonar.api.batch.fs.InputFile.Type.MAIN);
+  }
+
+  private Collection<File> getFiles(FileSystem fs, InputFile.Type type) {
+    Collection<File> list = new ArrayList<File>();
+    Iterable<File> sourceFiles = fs.files(fs.predicates().and(
+        fs.predicates().hasType(type),
+        fs.predicates().hasLanguage(CxxLanguage.KEY)));
+    if (sourceFiles != null) {
+      for (File sourcefile : sourceFiles) {
+        list.add(sourcefile);
+      }
+    }
+    return list;
+  }
+
+  private CxxConfiguration createConfiguration(FileSystem fs, Settings conf) {
+    CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
+
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){
       cxxConf.setDefines(Arrays.asList(lines));
