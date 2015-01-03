@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+<error file="./PathHandling.Test/PathHandlingTest.cpp" line="0" id="cpplint_legal_copyright_0" severity="warning" msg="No copyright message found.  You should have a line: Copyright [year] &lt;Copyright Owner&gt;"/>
+<error file="./PathHandling.Test/PathHandlingTest.cpp" line="3" id="cpplint_tekla_custom_include_files_0" severity="warning" msg="Relative paths to parent directories in includes are not allowed - paths should be set in project files"/>
+<error file="./PathHandling.Test/PathHandlingTest.cpp" line="7" id="cpplint_whitespace_indent_2" severity="warning" msg="public: should be indented +1 space inside class PathHandlingTest"/>
+<error file="./PathHandling.Test/PathHandlingTest.cpp" line="13" id="cpplint_whitespace_line_length_1" severity="warning" msg="Lines should be &lt;= 80 characters long"/>
+<error file="./PathHandling.Test/PathHandlingTest.cpp" line="19" id="cpplint_whitespace_line_length_1" severity="warning" msg="Lines should be &lt;= 80 characters long"/>
+</results>

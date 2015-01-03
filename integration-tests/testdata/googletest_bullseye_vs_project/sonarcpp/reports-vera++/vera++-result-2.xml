@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+<file name="./PathHandling.Test\main.cpp">
+</file>
+</checkstyle>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003' DefaultTargets='Build' ToolsVersion='4.0'>
+
+    <Import Project="configuration.props" Condition="'$(RootConfigurationIncluded)'!='yes'" />
+    <Import Project="includes.props" />
+    
+    <!-- Default C++ project rules. -->
+    <PropertyGroup Label="Configuration">
+        <ConfigurationType>StaticLibrary</ConfigurationType>
+        <CharacterSet>MultiByte</CharacterSet>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <OutDir>$(OutDir)\</OutDir>
+        <LinkIncremental Condition="'$(Configuration)'=='Debug'">true</LinkIncremental>
+        <LinkIncremental Condition="'$(Configuration)'=='Release'">false</LinkIncremental>
+    </PropertyGroup>
+</Project>
