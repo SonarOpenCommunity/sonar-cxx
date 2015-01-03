@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 
-import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -41,6 +41,8 @@ import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.apache.commons.io.FilenameUtils;
+import org.sonar.api.utils.WildcardPattern;
 
 /**
  * This class is used as base for all sensors which import reports.
@@ -151,23 +153,18 @@ public abstract class CxxReportSensor implements Sensor {
     if (reportPath == null) {
       reportPath = defaultReportPath;
     }
+    reportPath = FilenameUtils.normalize(reportPath);
 
     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
-    DirectoryScanner scanner = new DirectoryScanner();
-    String[] includes = new String[1];
-    includes[0] = reportPath;
-    scanner.setIncludes(includes);
-    scanner.setBasedir(new File(baseDirPath));
-    scanner.scan();
-    String[] relPaths = scanner.getIncludedFiles();
-
-    List<File> reports = new ArrayList<File>();
-    for (String relPath : relPaths) {
-      reports.add(new File(baseDirPath, relPath));
+    if(new File(reportPath).isAbsolute()){
+      CxxUtils.LOG.error("Absolute paths are not supported ({})", reportPath);
+      return Collections.emptyList();
     }
 
-    return reports;
+    DirectoryScanner scanner = new DirectoryScanner(new File(baseDirPath),
+                                                    WildcardPattern.create(reportPath));
+    return scanner.getIncludedFiles();
   }
 
   /**

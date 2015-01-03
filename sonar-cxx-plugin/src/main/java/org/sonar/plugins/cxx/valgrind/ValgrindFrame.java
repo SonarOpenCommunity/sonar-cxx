@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.valgrind;
 
 import java.io.File;
+import org.apache.commons.io.FilenameUtils;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -50,7 +51,7 @@ class ValgrindFrame {
       this.fn = fn;
     }
     if (dir != null) {
-      this.dir = dir;
+      this.dir = FilenameUtils.normalize(dir);
     }
     if (file != null) {
       this.file = file;

@@ -30,13 +30,14 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
   public static final String KEY = "rats";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.rats.customRules";
+  private static final String NAME = "RATS";
 
   /**
    * {@inheritDoc}
    */
   public CxxRatsRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
     super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
+    setName(NAME);
   }
 
   @Override

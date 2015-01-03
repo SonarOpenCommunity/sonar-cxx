@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -32,29 +31,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
-import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.fs.InputFile;
-//import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
-//import org.sonar.api.resources.InputFile;
+
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.scan.filesystem.FileQuery;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-
-import com.google.common.collect.Lists;
 
 public class TestUtils {
   public static Issuable mockIssuable() {
@@ -100,24 +91,11 @@ public class TestUtils {
    * @return  mocked project
    */
   public static Project mockProject(File baseDir) {
-//  public static Project mockProject(File baseDir, List<File> sourceDirs, List<File> testDirs) {
-//    List<File> mainSourceFiles = scanForSourceFiles(sourceDirs);
-//    List<File> testSourceFiles = scanForSourceFiles(testDirs);
-
-//    List<InputFile> mainFiles = fromSourceFiles(mainSourceFiles);
-//    List<InputFile> testFiles = fromSourceFiles(testSourceFiles);
-    
     List<Project> emptyProjectList = new ArrayList<Project>();
     
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
     when(fileSystem.getBasedir()).thenReturn(baseDir);
     when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-//    when(fileSystem.getSourceFiles(mockCxxLanguage())).thenReturn(mainSourceFiles);
-//    when(fileSystem.getTestFiles(mockCxxLanguage())).thenReturn(testSourceFiles);
-//    when(fileSystem.mainFiles(CxxLanguage.KEY)).thenReturn(mainFiles);
-//    when(fileSystem.testFiles(CxxLanguage.KEY)).thenReturn(testFiles);
-//    when(fileSystem.getSourceDirs()).thenReturn(sourceDirs);
-//    when(fileSystem.getTestDirs()).thenReturn(testDirs);
 
     Project project = mock(Project.class);
     when(project.getFileSystem()).thenReturn(fileSystem);
@@ -146,9 +124,9 @@ public class TestUtils {
   }
 
   public static DefaultFileSystem mockFileSystem(File baseDir) {
-	DefaultFileSystem fs = new DefaultFileSystem();
-	fs.setEncoding(Charset.forName("UTF-8"));
-	fs.setBaseDir(baseDir);    
+    DefaultFileSystem fs = new DefaultFileSystem();
+    fs.setEncoding(Charset.forName("UTF-8"));
+    fs.setBaseDir(baseDir);
     return fs;
   }
 
@@ -167,11 +145,11 @@ public class TestUtils {
     return new CxxLanguage(new Settings());
   }
 
-  public static  DefaultInputFile CxxInputFile(File baseDir, String relpath, Type ftype) {
-	    return new DefaultInputFile(relpath).setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
-	    		  .setLanguage(CxxLanguage.KEY)
-	    	      .setType(ftype);
-	  }
-
+  public static DefaultInputFile CxxInputFile(File baseDir, String relpath,
+      Type ftype) {
+    return new DefaultInputFile(relpath)
+        .setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
+        .setLanguage(CxxLanguage.KEY).setType(ftype);
+  }
 }
 

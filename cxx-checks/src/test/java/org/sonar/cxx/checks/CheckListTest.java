@@ -27,6 +27,6 @@ public class CheckListTest {
 
   @Test
   public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(36);
+    assertThat(CheckList.getChecks().size()).isEqualTo(38);
   }
 }

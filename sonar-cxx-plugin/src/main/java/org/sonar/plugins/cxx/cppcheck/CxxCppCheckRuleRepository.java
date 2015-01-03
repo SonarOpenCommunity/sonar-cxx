@@ -28,15 +28,17 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  * {@inheritDoc}
  */
 public final class CxxCppCheckRuleRepository extends CxxAbstractRuleRepository {
+
   public static final String KEY = "cppcheck";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.cppcheck.customRules";
+  private static final String NAME = "Cppcheck";
 
   /**
    * {@inheritDoc}
    */
   public CxxCppCheckRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
     super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(KEY);
+    setName(NAME);
   }
 
   @Override
