@@ -35,8 +35,6 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.api.utils.SonarException;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-import org.sonar.api.utils.PathUtils;
-import org.sonar.api.utils.WildcardPattern;
 import com.sonar.sslr.api.AstNode;
 
 @Rule(
@@ -98,15 +96,6 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
         }
       }
     }
-  }
-
-  private boolean matchFile() {
-    if (!matchFilePattern.isEmpty()) {
-      WildcardPattern filePattern = WildcardPattern.create(matchFilePattern);
-      String path = PathUtils.sanitize(getContext().getFile().getPath());
-      return filePattern.match(path);
-    }
-    return true;
   }
 
 }

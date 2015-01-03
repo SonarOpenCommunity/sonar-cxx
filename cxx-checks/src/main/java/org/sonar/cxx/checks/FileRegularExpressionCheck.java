@@ -116,6 +116,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     FileChannel channel = input.getChannel();
     ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
     CharBuffer cbuf = charset.newDecoder().decode(bbuf);
+    input.close();
     return cbuf;
   }
 
