@@ -195,8 +195,6 @@ public class CxxXunitSensor extends CxxReportSensor {
   {
     CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
 
-    buildLookupTables();
-
     Collection<TestResource> locatedResources = lookupResources(project, context, testcases);
 
     for (TestResource resource : locatedResources) {
@@ -297,6 +295,8 @@ public class CxxXunitSensor extends CxxReportSensor {
       return lookupInSonar(filepath, context, project);
     }
 
+    buildLookupTables();
+    
     String classname = tc.getClassname();
     if (classname != null){
       filepath = lookupFilePath(classname);
@@ -323,32 +323,34 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
 
   void buildLookupTables() {
-    List<File> files = fs.files(CxxLanguage.TEST_QUERY);
+    if(classDeclTable.isEmpty() && classImplTable.isEmpty()){
+      List<File> files = fs.files(CxxLanguage.TEST_QUERY);
 
-    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
-    cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
-    String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
-    if(lines.length > 0){
-      cxxConf.setDefines(Arrays.asList(lines));
-    }
-    cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+      CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+      cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
+      String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
+      if(lines.length > 0){
+        cxxConf.setDefines(Arrays.asList(lines));
+      }
+      cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
 
-    for (File file : files) {
-      @SuppressWarnings("unchecked")
-      SourceFile source = CxxAstScanner.scanSingleFileConfig(file, cxxConf);
-      if(source.hasChildren()) {
-        for (SourceCode child : source.getChildren()) {
-          if (child instanceof SourceClass) {
-            classDeclTable.put(child.getName(), file.getPath());
-          }
-          else if(child instanceof SourceFunction){
-            String clsName = matchClassName(child.getKey());
-            if(clsName != null){
-              classImplTable.put(clsName, file.getPath());
+      for (File file : files) {
+        @SuppressWarnings("unchecked")
+        SourceFile source = CxxAstScanner.scanSingleFileConfig(file, cxxConf);
+        if(source.hasChildren()) {
+          for (SourceCode child : source.getChildren()) {
+            if (child instanceof SourceClass) {
+              classDeclTable.put(child.getName(), file.getPath());
+            }
+            else if(child instanceof SourceFunction){
+              String clsName = matchClassName(child.getKey());
+              if(clsName != null){
+                classImplTable.put(clsName, file.getPath());
+              }
             }
           }
         }
-      }
+      }    
     }
   }
 
