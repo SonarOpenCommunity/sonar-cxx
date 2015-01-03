@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CheckCore" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="CppLintTask" AssemblyFile="CppLintTask.dll"/>
+    
+  <Target Name="CheckCppLint">
+    <CppLintTask SolutionPathToAnalyse="$(SolutionRoot)\$(SolutionName)"
+                  PythonPath="$(PythonPath)\python.exe"
+                  CppLintPath="$(CppLintPath)\cpplint_mod.py"
+                  CppLintOutputType="xml"
+                  UseRelativePaths="true"
+                  CppLintOutputPath="$(SolutionRoot)\sonarcpp\externalrules-result"/>
+  </Target>
+  
+    <Target Name="CppLintCheckCustom">
+        <CppLintTask SolutionPathToAnalyse="$(UserSolutionPathToAnalyse)"
+					  PythonPath="$(UserPythonPath)"
+                      CppLintPath="$(UserCppLintPath)"
+                      CppLintOptions="$(UserCppLintOptions)"
+                      CppLintEnvironment="$(UserCppLintEnvironment)"                     
+                      CppLintIgnores="$(UserCppLintIgnores)"
+                      CppLintOutputType="$(UserCppLintOutputType)"
+                      CppLintOutputPath="$(UserCppLintOutputPath)"
+                     PathReplacementStrings="$(UserPathReplacementStrings)"
+                      />
+    </Target>
+</Project>

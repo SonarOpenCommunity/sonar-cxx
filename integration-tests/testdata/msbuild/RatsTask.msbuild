@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CheckCore" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="RatsTask" AssemblyFile="RatsTask.dll"/>
+    
+  <Target Name="CheckRats">
+        <Message Text="SolutionRoot = $(SolutionRoot)"/>
+        <Message Text="SolutionName = $(SolutionName)"/>
+
+    <RatsTask SolutionPathToAnalyse="$(SolutionRoot)\$(SolutionName)"
+                  RatsPath="$(RatsPath)\rats.exe"
+                  RatsOutputType="xml"
+                  UseRelativePaths="true"
+                  RatsOutputPath="$(SolutionRoot)\sonarcpp\reports-rats"
+                  PathReplacementStrings="$(UserPathReplacementStrings)"
+                  />
+  </Target>
+
+  
+    <Target Name="RatsCheckCustom">
+        <RatsTask SolutionPathToAnalyse="$(UserSolutionPathToAnalyse)"
+                      RatsPath="$(UserRatsPath)"
+                      RatsOptions="$(UserRatsOptions)"
+                      RatsIgnores="$(UserRatsIgnores)"
+                      RatsOutputType="$(UserRatsOutputType)"
+                      RatsOutputPath="$(UserRatsOutputPath)"
+                      PathReplacementStrings="$(UserPathReplacementStrings)"
+                      />
+    </Target>
+</Project>

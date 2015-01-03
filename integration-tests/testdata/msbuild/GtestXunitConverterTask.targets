@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="AfterBuild" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="GtestXunitConverterTask" AssemblyFile="GtestXunitConverterTask.dll"/>
+    <Target Name="AfterBuild" Condition="'$(UnitTestsDisabled)' != 'True'">
+        <Message Text="ReferencesBin $(ReferencesBin)" Importance="High" />             
+        <Message Text="Run Gtest Test $(TargetName)$(TargetExt)" Importance="High" />
+        <Message Text="Solution Path $(SolutionDir)" Importance="High" />
+        <Message Text="SkipSearchForFileLocation false" Importance="High" />
+        <GtestXunitConverterTask 
+            SolutionPathToAnalyse="$(SolutionPath)" 
+            GtestXunitConverterOutputPath="$(SolutionDir)\sonarcpp\reports-xunit"
+            SkipSearchForFileLocation="false"
+            UseRelativePaths="true"
+            RunTests="true"
+            TestSuffix=".cpp"
+            GtestExeFile="$(OutDir)\$(TargetName)$(TargetExt)"/>
+    </Target>
+
+</Project>

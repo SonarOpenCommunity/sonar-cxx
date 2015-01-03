@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CheckCore" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="CppCheckTask" AssemblyFile="CppCheckTask.dll" />
+
+    <Target Name="CppCheck">
+    <CppCheckTask SolutionPathToAnalyse="$(SolutionRoot)\$(SolutionName)"
+                  CppCheckPath="$(CppCheckPath)\cppcheck.exe"
+                  CppCheckOptions="--inline-suppr;--enable=all;-j 8"
+                  CppCheckDefines="__cplusplus;UNITTEST_VERSION;DEVELOPER_VERSION;NT"
+                  CppCheckOutputType="xml-version-1"
+                  UseRelativePaths="true"
+                  CppCheckOutputPath="$(SolutionRoot)\sonarcpp\reports-cppcheck"
+                      />
+  </Target>
+  
+    <Target Name="CppCheckCheckCustom">
+        <CppCheckTask SolutionPathToAnalyse="$(UserSolutionPathToAnalyse)"
+                      CppCheckPath="$(UserCppCheckPath)"
+                      CppCheckOptions="$(UserCppCheckArgs)"
+                      CppCheckDefines="$(UserCppCheckDefines)"
+                      CppCheckIgnores="$(UserCppCheckIgnores)"
+                      CppCheckOutputType="$(UserCppCheckOutputType)"
+                      CppCheckOutputPath="$(UserOutputPath)"
+                      />
+    </Target>
+</Project>

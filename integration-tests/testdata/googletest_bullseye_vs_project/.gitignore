@@ -1,0 +1,67 @@
+#ignore thumbnails created by windows
+Thumbs.db
+
+# Ignore files built by Visual Studio
+*.aps
+*.bak
+*.bu
+*.cache
+*.DotSettings
+*.idb
+*.ilk
+*.log
+*.metaproj
+*.ncb
+*.obj
+*.opensdf
+*.pch
+*.pdb
+*.sbr
+*.sdf
+*.sonar
+*.suo
+*.tlb
+*.tlh
+*.tmp
+*.user
+*.vspscc
+*.vsscc
+*_p.c
+
+# Developer tool generated files
+*My Amplifier XE Results - *
+*My Inspector XE Results - *
+*StyleCop.Cache
+*.orig
+*.rej
+*unittest-report*
+*.swp
+
+#Movies
+*.avi
+*.mkv
+*.mpg
+
+#Folders with generated stuff
+**/target/sonar/
+BuildDrop/
+ObjDrop/
+bin/
+bin_x64/
+bin_release/
+bin_release_x64/
+ipch/
+obj/
+[Dd]ebug/
+[Rr]elease/
+[Tt]est[Rr]esult*/
+_ReSharper*/
+
+# Other version control
+.svn/
+*.MySCMServerInfo
+
+# TS stuff
+*.tlog
+*.lastbuildstate
+packages/

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="GtestXunitConverterCheckCustom" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="GtestXunitConverterTask" AssemblyFile="GtestXunitConverterTask.dll"/>
+    <Target Name="GtestXunitConverterCheckCustom">
+        <GtestXunitConverterTask SolutionPathToAnalyse="$(SolutionPathToAnalyse)"
+                  TestSuffix="$(TestSuffix)"
+                  GtestXMLReportFile="$(GtestXMLReportFile)"
+                  GtestXunitConverterOutputPath="$(GtestXunitConverterOutputPath)"
+                  PathReplacementStrings="$(PathReplacementStrings)"
+                  SkipSearchForFileLocation="$(SkipSearchForFileLocation)"
+                  RunTests="$(RunTests)"
+                  GtestExeFile="$(GtestExeFile)"
+                  ExtraArgumentsToGtestExe="$(ExtraArgumentsToGtestExe)"
+                  Shuffle="$(Shuffle)"
+                  SeedStart="$(SeedStart)"
+                  UseRelativePaths="true"
+                  SeedEnd="$(SeedEnd)"/>
+    </Target>
+  
+    <Target Name="GtestShuffler">
+        <GtestXunitConverterTask 
+                  GtestXunitConverterOutputPath="$(BinDir)\reports\shuffle\$(GtestExeFile).xml"
+                  SkipSearchForFileLocation="true"
+                  RunTests="true"
+                  GtestExeFile="$(BinDir)\$(GtestExeFile)"
+                  Shuffle="true"
+                  SeedStart="$(SeedStart)"
+                  SeedEnd="$(SeedEnd)"/>
+    </Target>  
+  
+
+</Project>

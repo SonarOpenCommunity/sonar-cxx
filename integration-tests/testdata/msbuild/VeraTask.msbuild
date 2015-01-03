@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CheckCore" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="VeraTask" AssemblyFile="VeraTask.dll"/>
+    
+    <Target Name="CheckVera">
+    <VeraTask SolutionPathToAnalyse="$(SolutionRoot)\$(SolutionName)"
+                  VeraPath="$(VeraPath)\bin\vera++.exe"
+                  VeraOutputType="xml"
+                  VeraIgnores="libsolid_kernel\solidkernel.cpp"
+                  VeraOptions="-nodup -showrules"
+                  VeraOutputPath="$(SolutionRoot)\sonarcpp\reports-vera++"
+                  PathReplacementStrings="$(UserPathReplacementStrings)"
+                  UseRelativePaths="true"
+                      />
+  </Target>
+  
+  
+    <Target Name="VeraCheckCustom">
+        <VeraTask SolutionPathToAnalyse="$(UserSolutionPathToAnalyse)"
+                      VeraPath="$(UserVeraPath)"
+                      VeraOptions="$(UserVeraOptions)"
+                      VeraIgnores="$(UserVeraIgnores)"
+                      VeraOutputType="$(UserVeraOutputType)"
+                      VeraOutputPath="$(UserVeraOutputPath)"
+                      PathReplacementStrings="$(UserPathReplacementStrings)"
+                      />
+    </Target>
+</Project>

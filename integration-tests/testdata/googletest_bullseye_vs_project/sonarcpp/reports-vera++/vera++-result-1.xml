@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+<file name="./PathHandling\PathHandle.cpp">
+<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+<error line="20" severity="warning" message="keyword 'if' not followed by a single space" source="T008"/>
+</file>
+</checkstyle>

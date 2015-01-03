@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+    <error file="./PathHandling\PathHandle.cpp" line="15" id="unreadVariable" severity="style" msg="Variable &apos;pFile&apos; is assigned a value that is never used."/>
+    <error file="./PathHandling\PathHandle.cpp" line="17" id="unreadVariable" severity="style" msg="Variable &apos;i&apos; is assigned a value that is never used."/>
+    <error id="missingInclude" severity="style" msg="Cppcheck cannot find all the include files (use --check-config for details)"/>
+</results>

@@ -21,5 +21,11 @@ before_script:
 script:
         - mvn install -DskipTests=true
         - mvn test
-        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin SONARHOME=/tmp/sonarqube-4.5.1 behave
+        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin SONARHOME=/tmp/sonarqube-4.5.1 behave integration-tests/features/test_execution_statistics.feature integration-tests/features/importing_cppcheck_reports.feature integration-tests/features/smoketest.feature
+        - /tmp/sonarqube-4.5.1/bin/linux-x86-64/sonar.sh stop
+        - cd /tmp
+        - unzip sonarqube-4.5.1.zip -d sonarqube-4.5.1-1        
+        - cd -
+        - cp integration-tests/testdata/googletest_bullseye_vs_project/4.5.1-db/sonar.h2.db /tmp/sonarqube-4.5.1-1/sonarqube-4.5.1/data
+        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin SONARHOME=/tmp/sonarqube-4.5.1-1/sonarqube-4.5.1 behave integration-tests/features/test_windows_environment_project.feature
 
