@@ -13,6 +13,7 @@
                   ExtraArgumentsToGtestExe="$(ExtraArgumentsToGtestExe)"
                   Shuffle="$(Shuffle)"
                   SeedStart="$(SeedStart)"
+                  UseRelativePaths="true"
                   SeedEnd="$(SeedEnd)"/>
     </Target>
   

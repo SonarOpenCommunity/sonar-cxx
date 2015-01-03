@@ -10,6 +10,7 @@
             SolutionPathToAnalyse="$(SolutionPath)" 
             GtestXunitConverterOutputPath="$(SolutionDir)\sonarcpp\reports-xunit"
             SkipSearchForFileLocation="false"
+            UseRelativePaths="true"
             RunTests="true"
             TestSuffix=".cpp"
             GtestExeFile="$(OutDir)\$(TargetName)$(TargetExt)"/>
