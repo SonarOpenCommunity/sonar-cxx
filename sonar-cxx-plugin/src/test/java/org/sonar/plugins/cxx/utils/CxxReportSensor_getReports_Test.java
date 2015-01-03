@@ -32,17 +32,16 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxReportSensor_getReports_Test {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs) {
-      super(settings, fs);
+    public CxxReportSensorImpl(Settings settings, FileSystem fs, ProjectReactor reactor) {
+      super(settings, fs, reactor);
     }
   };
 
@@ -50,15 +49,14 @@ public class CxxReportSensor_getReports_Test {
   public TemporaryFolder base = new TemporaryFolder();
 
   private CxxReportSensor sensor;
-  private File baseDir;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
 
   @Before
   public void init() {
     settings = new Settings();
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxReportSensorImpl(settings, fs);
+    sensor = new CxxReportSensorImpl(settings, fs, TestUtils.mockReactor());
   }
 
   @Test
