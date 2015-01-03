@@ -19,7 +19,6 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 
-import sys
 import os
 import re
 import json
@@ -50,7 +49,7 @@ def step_impl(context, project):
         if name == "Sonar way - c++":
             context.profile_key = key
     
-@given(u'rule "{rule}" is enabled in project')
+@given(u'rule "{rule}" is enabled')
 def step_impl(context, rule):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
     
@@ -59,11 +58,38 @@ def step_impl(context, rule):
         url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
         payload = {'profile_key': context.profile_key, 'rule_key': rule, "severity": "MAJOR"}
         response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
-        assert response != 200, "cannot change status of message: %s" % str(response.text)
+        if response.status_code != requests.codes.ok:
+            assert False, "cannot change status of rule: %s" % str(response.text)
 
     except requests.exceptions.ConnectionError, e:
         assert False, "cannot change status of rule, details: %s" % str(e)
+        
+@given(u'rule "{rule}" is created based on "{templaterule}" in repository "{repository}"')
+def step_impl(context, rule, templaterule, repository):
+    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
     
+    try:
+        
+        url = (SONAR_URL + "/api/rules/create")
+        payload = {'custom_key': rule, 'html_description': "nodesc", "name": rule, "severity": "MAJOR", "template_key": templaterule, "markdown_description": "nodesc"}
+        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
+
+        if response.status_code != requests.codes.ok:
+            assert False, "cannot change status of rule: %s" % str(response.text)
+            
+    except requests.exceptions.ConnectionError, e:
+        assert False, "cannot change status of rule, details: %s" % str(e)
+
+    try:
+        url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
+        payload = {'profile_key': context.profile_key, 'rule_key': repository + ":" + rule, "severity": "MAJOR"}
+        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
+        if response.status_code != requests.codes.ok:
+            assert False, "cannot change status of rule: %s" % str(response.text)
+
+    except requests.exceptions.ConnectionError, e:
+        assert False, "cannot change status of rule, details: %s" % str(e)            
+        
 @when(u'I run "{command}"')
 def step_impl(context, command):
     context.log = "_%s_.log" % context.project
@@ -102,7 +128,19 @@ def step_impl(context):
          + "".join(badlines)
          + "For details see %s" % context.log)
 
+@then(u'delete created rule {rule}')
+def step_impl(context, rule):
+    try:
+        url = (SONAR_URL + "/api/rules/delete")
+        payload = {'key': rule}
+        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
 
+        if response.status_code != requests.codes.ok:
+            assert False, "cannot delete rule: %s" % str(response.text)
+            
+    except requests.exceptions.ConnectionError, e:
+        assert False, "cannot delete rule, details: %s" % str(e)
+         
 @then(u'the analysis log contains no error/warning messages')
 def step_impl(context):
     badlines, _errors, _warnings = analyselog(context.log)
@@ -184,8 +222,6 @@ def assert_measures(project, measures):
         url = (SONAR_URL + "/api/resources?resource=" + project + "&metrics="
                + ",".join(metrics_to_query))
                
-        sys.stdout.write("URL METRICS: " + url + "\n")
-        
         response = requests.get(url)
         got_measures = {}
         json_measures = json.loads(response.text)[0].get("msr", None)

@@ -4,7 +4,12 @@ Feature: GoogleTestWithBullseyeAndVsProject
 
   Scenario: GoogleTestWithBullseyeAndVsProject
       GIVEN the project "googletest_bullseye_vs_project"
-        and rule "rats:getenv" is enabled in project
+        and rule "rats:getenv" is enabled
+        and rule "cpplint_legal_copyright_0" is created based on "other:CustomRuleTemplate" in repository "other"
+        and rule "cpplint_build_header_guard_0" is created based on "other:CustomRuleTemplate" in repository "other"
+        and rule "cpplint_whitespace_indent_2" is created based on "other:CustomRuleTemplate" in repository "other"
+        and rule "cpplint_whitespace_parens_5" is created based on "other:CustomRuleTemplate" in repository "other"
+        and rule "cpplint_whitespace_line_length_1" is created based on "other:CustomRuleTemplate" in repository "other"
       WHEN I run "sonar-runner -X"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
@@ -39,7 +44,7 @@ Feature: GoogleTestWithBullseyeAndVsProject
                | file_complexity          | 2.0   |
                | class_complexity         | 4     |
                # violations
-               | violations               | 34    |
+               | violations               | 18    |
                # coverage statistics
                | coverage                 | 88.9  |
                | line_coverage            | 100   |
@@ -52,3 +57,8 @@ Feature: GoogleTestWithBullseyeAndVsProject
                | test_failures            | 1     |
                | test_errors              | 0     |
                | tests                    | 2     |
+        THEN delete created rule other:cpplint_build_header_guard_0
+            AND delete created rule other:cpplint_legal_copyright_0
+            AND delete created rule other:cpplint_whitespace_indent_2
+            AND delete created rule other:cpplint_whitespace_parens_5
+            AND delete created rule other:cpplint_whitespace_line_length_1
