@@ -49,7 +49,6 @@ import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;

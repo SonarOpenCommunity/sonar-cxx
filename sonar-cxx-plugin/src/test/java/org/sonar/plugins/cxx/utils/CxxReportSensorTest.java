@@ -19,21 +19,20 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import static org.fest.assertions.Assertions.assertThat;
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+
+import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxReportSensorTest {
@@ -73,15 +72,26 @@ public class CxxReportSensorTest {
     new CxxReportSensorImpl(settings, fs);
   }
 
-//  @Test
-//  public void shouldAllwaysExecute() {
-//    // which means: only on cxx projects
-//    CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs);
-//    Project cxxProject = mockProjectWithSomeFiles(CxxLanguage.KEY);
-//    Project foreignProject = mockProjectWithLanguageKey("whatever");
-//    assert (sensor.shouldExecuteOnProject(cxxProject));
-//  }
-
+  @Test
+  public void test_should_execute_on_project() {
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project");
+    Project project = TestUtils.mockProject(baseDir);
+    String relpath = "compiler-reports/BuildLog.htm";
+    DefaultInputFile testfile = new DefaultInputFile(relpath).setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
+        .setLanguage("whatever")
+        .setType(Type.MAIN);
+    fs.add(testfile);
+    assertThat(sensor.shouldExecuteOnProject(project)).isFalse();
+    
+    baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx");
+    relpath = "source.cc";
+    testfile = new DefaultInputFile(relpath).setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
+        .setLanguage(CxxLanguage.KEY)
+        .setType(Type.MAIN);
+    fs.add(testfile);
+    assertThat(sensor.shouldExecuteOnProject(project)).isTrue();
+  }
+  
   @Test
   public void getReports_shouldFindSomethingIfThere() {
     List<File> reports = sensor.getReports(settings, baseDir.getPath(),
@@ -162,19 +172,4 @@ public class CxxReportSensorTest {
     assert (reports != null);
   }
 
-  private static Project mockProjectWithLanguageKey(String languageKey) {
-    Project project = TestUtils.mockProject();
-    when(project.getLanguageKey()).thenReturn(languageKey);
-    return project;
-  }
-
-  private static Project mockProjectWithSomeFiles(String languageKey) {
-    Project project = TestUtils.mockProject();
-    List<InputFile> listofFiles = new LinkedList<InputFile>();
-    InputFile inputFile = mock(InputFile.class);
-    listofFiles.add(0, inputFile);
-    when(project.getLanguageKey()).thenReturn(languageKey);
-    when(project.getFileSystem().mainFiles(languageKey)).thenReturn(listofFiles);
-    return project;
-  }
 }
