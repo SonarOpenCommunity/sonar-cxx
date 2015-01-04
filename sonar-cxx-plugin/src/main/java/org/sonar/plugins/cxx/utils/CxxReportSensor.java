@@ -79,7 +79,7 @@ public abstract class CxxReportSensor implements Sensor {
    * @param metric       this metrics will be used to save a measure of the overall
    *                     issue count. Pass 'null' to skip this.
    */
-  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, Metric metric, ProjectReactor reactor) {
+  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, ProjectReactor reactor, Metric metric) {
     this.perspectives = perspectives;
     this.conf = conf;
     this.fs = fs;

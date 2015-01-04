@@ -57,10 +57,8 @@ public class CxxXunitSensorTest {
     fs = TestUtils.mockFileSystem();
     config = new Settings();
     reactor = TestUtils.mockReactor();
-    sensor = new CxxXunitSensor(new Settings(), fs, TestUtils.mockCxxLanguage(), reactor);
     context = mock(SensorContext.class);
-
-    sensor = new CxxXunitSensor(config, fs);
+    sensor = new CxxXunitSensor(config, fs, reactor);
   }
 
   @Test
