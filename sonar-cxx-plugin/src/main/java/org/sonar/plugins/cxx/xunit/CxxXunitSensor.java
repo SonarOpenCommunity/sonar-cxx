@@ -195,8 +195,6 @@ public class CxxXunitSensor extends CxxReportSensor {
   {
     CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
 
-    buildLookupTables();
-
     Collection<TestResource> locatedResources = lookupResources(project, context, testcases);
 
     for (TestResource resource : locatedResources) {
@@ -295,6 +293,10 @@ public class CxxXunitSensor extends CxxReportSensor {
     if (filepath != null){
       CxxUtils.LOG.debug("Performing the 'filename'-based lookup using the value '{}'", filepath);
       return lookupInSonar(filepath, context, project);
+    }
+
+    if(classDeclTable.isEmpty() && classImplTable.isEmpty()){
+      buildLookupTables();
     }
 
     String classname = tc.getClassname();
