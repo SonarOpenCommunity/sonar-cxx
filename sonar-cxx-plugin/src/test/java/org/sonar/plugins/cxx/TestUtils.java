@@ -34,6 +34,8 @@ import java.util.List;
 import org.apache.commons.configuration.Configuration;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
@@ -47,6 +49,7 @@ import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.WildcardPattern;
 
 import org.sonar.plugins.cxx.utils.DirectoryScanner;
+
 
 
 public class TestUtils {
@@ -126,6 +129,18 @@ public class TestUtils {
     return project;
   }
 
+  
+          
+  public static ProjectReactor mockReactor(File baseDir,
+                                                List<File> sourceDirs, List<File> testDirs) {
+    ProjectReactor reactor = mock(ProjectReactor.class);
+    ProjectDefinition projectDef = mock(ProjectDefinition.class);
+    when(reactor.getRoot()).thenReturn(projectDef);
+    when(projectDef.getBaseDir()).thenReturn(baseDir);
+
+    return reactor;
+  }
+
   public static ModuleFileSystem mockFileSystem(File baseDir,
                                                 List<File> sourceDirs, List<File> testDirs) {
     ModuleFileSystem fs = mock(ModuleFileSystem.class);
@@ -141,12 +156,18 @@ public class TestUtils {
 
     return fs;
   }
-
+  
   public static ModuleFileSystem mockFileSystem() {
     File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
     List<File> empty = new ArrayList<File>();
     return mockFileSystem(baseDir, empty, empty);
   }
+  
+  public static ProjectReactor mockReactor() {
+    File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
+    List<File> empty = new ArrayList<File>();
+    return mockReactor(baseDir, empty, empty);
+  }  
 
   private static List<InputFile> fromSourceFiles(List<File> sourceFiles) {
     List<InputFile> result = new ArrayList<InputFile>();

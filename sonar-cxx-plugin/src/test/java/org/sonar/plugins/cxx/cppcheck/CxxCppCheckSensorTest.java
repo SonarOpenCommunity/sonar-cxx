@@ -28,6 +28,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Matchers.any;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
@@ -38,6 +39,8 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 public class CxxCppCheckSensorTest {
 
@@ -47,6 +50,7 @@ public class CxxCppCheckSensorTest {
   private RulesProfile profile;
   private Settings settings;
   private ModuleFileSystem fs;
+  private ProjectReactor reactor;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
@@ -55,10 +59,11 @@ public class CxxCppCheckSensorTest {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
     issuable = TestUtils.mockIssuable();
+    reactor = TestUtils.mockReactor();
     perspectives = TestUtils.mockPerspectives(issuable);
     profile = mock(RulesProfile.class);
     settings = new Settings();
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -74,7 +79,7 @@ public class CxxCppCheckSensorTest {
   public void shouldReportProjectLevelViolationsV1() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }
@@ -83,7 +88,7 @@ public class CxxCppCheckSensorTest {
   public void shouldReportProjectLevelViolationsV2() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }
@@ -92,7 +97,7 @@ public class CxxCppCheckSensorTest {
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(issuable, times(0)).addIssue(any(Issue.class));
@@ -102,9 +107,9 @@ public class CxxCppCheckSensorTest {
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(issuable, times(0)).addIssue(any(Issue.class));
-  }
+  }   
 }

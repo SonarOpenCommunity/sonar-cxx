@@ -53,7 +53,7 @@ public class CxxValgrindSensorTest {
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxValgrindSensor(perspectives, new Settings(), TestUtils.mockFileSystem(), mock(RulesProfile.class));
+    sensor = new CxxValgrindSensor(perspectives, new Settings(), TestUtils.mockFileSystem(), mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource(any(File.class))).thenReturn(resourceMock);

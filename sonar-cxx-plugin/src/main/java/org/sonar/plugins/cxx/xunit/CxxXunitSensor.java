@@ -62,6 +62,7 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 
 /**
@@ -87,8 +88,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, ModuleFileSystem fs) {
-    super(conf, fs);
+  public CxxXunitSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
+    super(conf, fs, reactor);
     xsltURL = conf.getString(XSLT_URL_KEY);
     this.resourceFinder = new DefaultResourceFinder();
   }

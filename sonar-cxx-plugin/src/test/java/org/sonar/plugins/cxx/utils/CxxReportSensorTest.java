@@ -35,6 +35,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 public class CxxReportSensorTest {
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
@@ -42,8 +43,8 @@ public class CxxReportSensorTest {
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs){
-      super(settings, fs);
+    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs, ProjectReactor reactor){
+      super(settings, fs, reactor);
     }
 
     @Override
@@ -55,12 +56,15 @@ public class CxxReportSensorTest {
   private File baseDir;
   private Settings settings;
   private ModuleFileSystem fs;
+  private ProjectReactor reactor;
 
   @Before
   public void init() {
     settings = new Settings();
     fs = TestUtils.mockFileSystem();
-    sensor = new CxxReportSensorImpl(settings, fs);
+    reactor = TestUtils.mockReactor();
+    
+    sensor = new CxxReportSensorImpl(settings, fs, reactor);
     try {
       baseDir = new File(getClass().getResource("/org/sonar/plugins/cxx/reports-project/").toURI());
     } catch (java.net.URISyntaxException e) {
@@ -70,13 +74,13 @@ public class CxxReportSensorTest {
 
   @Test
   public void shouldntThrowWhenInstantiating() {
-    new CxxReportSensorImpl(settings, fs);
+    new CxxReportSensorImpl(settings, fs, reactor);
   }
 
   @Test
   public void shouldAllwaysExecute() {
     // which means: only on cxx projects
-    CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs);
+    CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs, reactor);
     Project cxxProject = mockProjectWithSomeFiles(CxxLanguage.KEY);
     Project foreignProject = mockProjectWithLanguageKey("whatever");
     assert (sensor.shouldExecuteOnProject(cxxProject));

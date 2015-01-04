@@ -38,18 +38,19 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 public class CxxCompilerSensorTest {
   private SensorContext context;
   private Project project;
   private RulesProfile profile;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
-
+  
   private CxxCompilerSensor createSensor(String parser)
   {
       Settings settings = new Settings();
       settings.setProperty("sonar.cxx.compiler.parser", parser);
-      return new CxxCompilerSensor(perspectives, settings, TestUtils.mockFileSystem(), profile);
+      return new CxxCompilerSensor(perspectives, settings, TestUtils.mockFileSystem(), profile, TestUtils.mockReactor());
   }
 
   @Before
