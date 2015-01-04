@@ -31,25 +31,24 @@ Feature: Providing test execution numbers
   # | * To locate the test source file for assigning, there are
   # |   two strategies:
   # |   1. If either the testcase-tag or the enclosing testsuite tag
-  # |      contains the the attribute 'filename', its content is
-  # |      assumed to contain a relative path to the according test
-  # |      source file. Testcase overwrites testsuite if both are
-  # |      present.
+  # |      contains the attribute 'filename', its content is assumed
+  # |      to contain a relative path to the according test source
+  # |      file. Filename in testcase overwrites filename in testsuite
+  # |      if both are present.
   # |   2. Via parsing the test files and trying to find the values of
   # |      'classname' in the resulting AST's. This requires the test
   # |      sources to be actually parsable.
   # |
 
 
-
   Scenario: Importing unchanged test googletest reports in default mode
-      #
-      # By default, the plugin doesn't try to assign the testcases
-      # found in the report to test files in Sonar, it just sums up
-      # all the measures and assigns it to the project. This makes the
-      # procedure more stable but doesn't provide the details for the
-      # testcases in SonarQube, i.e. the drilldown wont be possible.
-      #
+
+      By default, the plugin doesn't try to assign the testcases
+      found in the report to test files in Sonar, it just sums up
+      all the measures and assigns it to the project. This makes the
+      procedure more stable but doesn't provide the details for the
+      testcases in SonarQube, i.e. the drilldown wont be possible.
+
       GIVEN the project "googletest_project"
 
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=gtest_without_fixture.xml"
@@ -70,15 +69,12 @@ Feature: Providing test execution numbers
               | test_execution_time  | 0     |
 
 
-
-
   Scenario Outline: Importing unchanged googletest reports in detailled mode
-      #
-      # Testcases in googletest reports do not know the source file they come
-      # from. The plugin is able to fill this gap for a subset of testcases
-      # (currently those which use a fixture) using the 'lookup the classnames
-      # in the AST'-approach. This doesn't work for all testcases, though
-      #
+
+      Testcases in googletest reports do not know the source file they come
+      from. The plugin is able to fill this gap for a subset of testcases
+      (currently those which use a fixture) using the 'lookup the classnames
+      in the AST'-approach. This doesn't work for all testcases, though
 
       GIVEN the project "googletest_project"
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
@@ -87,7 +83,6 @@ Feature: Providing test execution numbers
               """
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
-              .*WARN.*no resource found, the testcase '.*' has to be skipped
               """
           AND the test related metrics have following values: <values>
 
@@ -99,11 +94,52 @@ Feature: Providing test execution numbers
       # contains 'assignable' testcases only
       | gtest.xml                          | 3, 2, 0, 1, 33.3, 50               |
 
+      # testcases in two testsuites which all have to be assigned to the same file
+      | gtest_two_fixtures_in_one_file.xml | 3, 1, 0, 1, 66.7, 0                |
+
+
+  Scenario Outline: Importing unchanged googletest reports in detailled mode, assigning fails
+
+      see above... this is the case where it doesnt work
+
+      GIVEN the project "googletest_project"
+      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
+      THEN the analysis finishes successfully
+          AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
+              .*WARN.*cannot find the sources for '#include <unistd\.h>'
+              .*WARN.*no resource found, the testcase '.*' has to be skipped
+              .*WARN.*Some testcases had to be skipped, check the relevant parts of your setup.*
+              """
+          AND the test related metrics have following values: <values>
+
+      Examples:
+                                           # tests, failure, errors, skipped,
+                                           # density, time
+      | reportpath                         | values                             |
       # no assignable testcases here
       | gtest_without_fixture.xml          | None, None, None, None, None, None |
 
-      # testcases in two testsuites which all have to be assigned to the same file
-      | gtest_two_fixtures_in_one_file.xml | 3, 1, 0, 1, 66.7, 0                |
+
+  Scenario Outline: Importing unchanged googletest reports in detailled mode, sonar.tests unset
+
+      Importing in detailled mode isnt possible unless sonar.tests is set
+
+      GIVEN the project "googletest_project"
+      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true -Dsonar.tests="
+      THEN the analysis finishes successfully
+          AND the analysis log contains a line matching:
+              """
+              .*ERROR - The property 'sonar.tests' is unset. Please set it to proceed
+              """
+          AND the test related metrics have following values: <values>
+
+      Examples:
+                                           # tests, failure, errors, skipped,
+                                           # density, time
+      | reportpath                         | values                             |
+      | gtest.xml                          | None, None, None, None, None, None |
 
 
   Scenario Outline: Importing augmented test reports generated by googletest

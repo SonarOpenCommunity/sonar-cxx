@@ -195,12 +195,22 @@ public class CxxXunitSensor extends CxxReportSensor {
   {
     CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
 
+    String sonarTests = conf.getString("sonar.tests");
+    if (sonarTests == null || "".equals(sonarTests)){
+      CxxUtils.LOG.error("The property 'sonar.tests' is unset. Please set it to proceed");
+      return;
+    }
+
     Collection<TestResource> locatedResources = lookupResources(project, context, testcases);
 
     for (TestResource resource : locatedResources) {
       saveTestMetrics(context, resource);
     }
     CxxUtils.LOG.info("Summary: testcases processed = {}, skipped = {}", tcTotal, tcSkipped);
+    if (tcSkipped > 0){
+      CxxUtils.LOG.warn("Some testcases had to be skipped, check the relevant parts of your setup "
+                        + "(sonar.tests, sonar.test.exclusions, sonar.test.inclusions)");
+    }
   }
 
 
