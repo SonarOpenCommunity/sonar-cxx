@@ -85,16 +85,18 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   @Override
   public void visitFile(AstNode fileNode) {
     if (fileNode != null) {
-      List<String> lines;
-      try {
-        lines = Files.readLines(getContext().getFile(), charset);
-      } catch (IOException e) {
-        throw new SonarException(e);
-      }
-      for (int i = 0; i < lines.size(); ++i) {
-        Matcher matcher = pattern.matcher(lines.get(i));
-        if (matcher.find()) {
-          getContext().createLineViolation(this, message, i + 1);
+      if (matchFile()) {
+        List<String> lines;
+        try {
+          lines = Files.readLines(getContext().getFile(), charset);
+        } catch (IOException e) {
+          throw new SonarException(e);
+        }
+        for (int i = 0; i < lines.size(); ++i) {
+          Matcher matcher = pattern.matcher(lines.get(i));
+          if (matcher.find()) {
+            getContext().createLineViolation(this, message, i + 1);
+          }
         }
       }
     }
