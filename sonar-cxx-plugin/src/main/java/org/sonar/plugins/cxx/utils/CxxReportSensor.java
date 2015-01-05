@@ -225,7 +225,11 @@ public abstract class CxxReportSensor implements Sensor {
         issueBuilder = issueBuilder.line(lineNr);
       }
       Issue issue = issueBuilder.build();
-      result = issuable.addIssue(issue);
+      try{
+        result = issuable.addIssue(issue);
+      } catch (org.sonar.api.utils.MessageException me){
+        CxxUtils.LOG.error("Could not add the issue, details: '{}'", me.toString());
+      }
       if (result)
         violationsCount++;
     }
