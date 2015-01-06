@@ -372,7 +372,7 @@ public final class CxxPlugin extends SonarPlugin {
       .name("Provide test execution details")
       .description("If 'True', tries to assign testcases in report to test resources in SonarQube, "
                    + "thus making the drillown to details possible")
-      .defaultValue("True")
+      .defaultValue("False")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
