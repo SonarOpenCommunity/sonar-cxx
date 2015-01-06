@@ -116,7 +116,6 @@ public class TestUtils {
     when(fileSystem.getTestDirs()).thenReturn(testDirs);
 
     Project project = mock(Project.class);
-    when(project.isRoot()).thenReturn(true);
     when(project.getFileSystem()).thenReturn(fileSystem);
     CxxLanguage lang = mockCxxLanguage();
     when(project.getLanguage()).thenReturn(lang);

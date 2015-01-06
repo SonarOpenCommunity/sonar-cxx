@@ -79,10 +79,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    if(!CxxUtils.isRoot(project)) {
-      return;
-    }
-    
+
     CxxUtils.LOG.debug("Parsing coverage reports");
     List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
 

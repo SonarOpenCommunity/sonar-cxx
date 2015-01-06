@@ -111,10 +111,6 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    if(!CxxUtils.isRoot(project)) {
-      return;
-    }
-    
     try{
       List<File> reports = getReports(conf, fs.baseDir().getPath(),
                                       REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
@@ -148,7 +144,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append("'")
         .toString();
       throw new SonarException(msg, e);
-    }    
+    }
   }
 
   private void simpleMode(final Project project, final SensorContext context, List<TestCase> testcases)
