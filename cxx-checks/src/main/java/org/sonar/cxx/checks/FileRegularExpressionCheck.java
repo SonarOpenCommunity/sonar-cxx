@@ -111,12 +111,19 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
-  private static CharSequence fromFile(File file, Charset charset) throws IOException {
-    FileInputStream input = new FileInputStream(file);
-    FileChannel channel = input.getChannel();
-    ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
-    CharBuffer cbuf = charset.newDecoder().decode(bbuf);
-    return cbuf;
-  }
-
+    private static CharSequence fromFile(File file, Charset charset) throws IOException {
+        FileInputStream input = null;
+        try {
+            input = new FileInputStream(file);
+            FileChannel channel = input.getChannel();
+            ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
+            CharBuffer cbuf = charset.newDecoder().decode(bbuf);
+            return cbuf;
+        } finally {
+            if (input != null) {
+                input.close();
+            }
+        }
+    }
+    
 }

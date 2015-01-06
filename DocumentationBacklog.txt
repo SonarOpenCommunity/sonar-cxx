@@ -1,7 +1,0 @@
-- Document the new behavior around the sonar.cxx.defines changes
-
-- Document the C-Compatibility Mode:
-  - how does it work, no full c-grammar
-  - configuration, patterns
-  - default patterns
-  - add the new config switch to the config reference

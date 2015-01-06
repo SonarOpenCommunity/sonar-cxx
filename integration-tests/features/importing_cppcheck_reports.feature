@@ -31,6 +31,18 @@ Feature: Importing Cppcheck reports
               """
          AND the number of violations fed is 0
 
+   @wip
+   Scenario: The report mentions an unknown rule
+     GIVEN the project "cppcheck_project"
+     WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=rule_unknown.xml"
+     THEN the analysis finishes successfully
+         AND the server log (if locatable) contains no error/warning messages
+         BUT the analysis log contains a line matching
+              """
+              .*ERROR.*Could not add the issue.*The rule '.*' does not exist.
+              """
+         AND the number of violations fed is 0
+
 
    Scenario Outline: The reports are invalid
      GIVEN the project "cppcheck_project"
