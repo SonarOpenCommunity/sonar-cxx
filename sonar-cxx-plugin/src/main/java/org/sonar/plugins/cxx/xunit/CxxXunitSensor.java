@@ -114,10 +114,10 @@ public class CxxXunitSensor extends CxxReportSensor {
     boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
     
     if (!providedetails) {
-      return CxxUtils.isReactorProject(project);
+      return !project.isModule();      
     }
     
-    return !project.getFileSystem().testFiles(CxxLanguage.KEY).isEmpty();
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
 
   /**
