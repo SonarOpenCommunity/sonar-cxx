@@ -76,8 +76,8 @@ public final class CxxUtils {
     return filePath;
   }
 
-  public static boolean isReactorProject(Project project) {
-    return project.isRoot() && !project.getModules().isEmpty();
+  public static boolean isRoot(Project project) {
+    return project.isRoot();
   }
 }
 

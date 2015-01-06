@@ -98,40 +98,42 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
-    if (!CxxUtils.isReactorProject(project)) {
-      try {
+    if (!CxxUtils.isRoot(project)) {
+      return;
+    }
+    
+    try {
       List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getCanonicalPath(),
-          reportPathKey(), defaultReportPath());
-        if (reports.isEmpty()) {
-          reports = getReports(conf, fs.baseDir().getPath(), reportPathKey(), defaultReportPath());
-        }
-        violationsCount = 0;
-
-        for (File report : reports) {
-          CxxUtils.LOG.info("Processing report '{}'", report);
-        try {
-            int prevViolationsCount = violationsCount;
-            processReport(project, context, report);
-          CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
-                            violationsCount - prevViolationsCount);
-          } catch (EmptyReportException e) {
-            CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-          }
-        }
-
-        if (metric != null) {
-          Measure measure = new Measure(metric);
-          measure.setIntValue(violationsCount);
-          context.saveMeasure(measure);
-        }
-      } catch (Exception e) {
-      String msg = new StringBuilder()
-          .append("Cannot feed the data into sonar, details: '")
-          .append(e)
-          .append("'")
-          .toString();
-        throw new SonarException(msg, e);
+        reportPathKey(), defaultReportPath());
+      if (reports.isEmpty()) {
+        reports = getReports(conf, fs.baseDir().getPath(), reportPathKey(), defaultReportPath());
       }
+      violationsCount = 0;
+
+      for (File report : reports) {
+        CxxUtils.LOG.info("Processing report '{}'", report);
+      try {
+          int prevViolationsCount = violationsCount;
+          processReport(project, context, report);
+        CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+                          violationsCount - prevViolationsCount);
+        } catch (EmptyReportException e) {
+          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+        }
+      }
+
+      if (metric != null) {
+        Measure measure = new Measure(metric);
+        measure.setIntValue(violationsCount);
+        context.saveMeasure(measure);
+      }
+    } catch (Exception e) {
+    String msg = new StringBuilder()
+        .append("Cannot feed the data into sonar, details: '")
+        .append(e)
+        .append("'")
+        .toString();
+      throw new SonarException(msg, e);
     }
   }
 
