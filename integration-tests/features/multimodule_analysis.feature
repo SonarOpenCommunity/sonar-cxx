@@ -10,7 +10,7 @@ Feature: cpp-multimodule-project
               """
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
-              .*WARN  - Cannot find the file '.*component_XXX.cc', skipping violations
+              .*WARN  - Cannot find the file '.*', skipping violations
               .*WARN.*to create a dependency with .*
               """
           AND the following metrics have following values:
@@ -37,5 +37,11 @@ Feature: cpp-multimodule-project
                | file_complexity          | 0.9   |
                | class_complexity         | 6     |
                # violations
-               | violations               | 20    |
+               | violations               | 28    |
+               # test execution statistics
+               | test_success_density     | 33.3  |
+               | test_failures            | 2     |
+               | skipped_tests            | 1     |
+               | test_errors              | 0     |
+               | tests                    | 3     |
 

@@ -105,6 +105,20 @@ public class CxxXunitSensor extends CxxReportSensor {
   public Class<?> dependsUponCoverageSensors() {
     return CoverageExtension.class;
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean shouldExecuteOnProject(Project project) {
+    boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
+    
+    if (!providedetails) {
+      return CxxUtils.isReactorProject(project);
+    }
+    
+    return !project.getFileSystem().testFiles(CxxLanguage.KEY).isEmpty();
+  }
 
   /**
    * {@inheritDoc}
