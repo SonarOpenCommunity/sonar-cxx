@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.0">
-<file name="./lib\component2.cc">
+<file name="./lib/component2.cc">
 <error line="1" severity="warning" message="no copyright notice found" source="T013"/>
 <error line="20" severity="warning" message="closing curly bracket not in the same line or column" source="T011"/>
 <error line="27" severity="warning" message="trailing whitespace" source="L001"/>
