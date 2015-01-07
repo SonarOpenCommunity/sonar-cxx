@@ -35,6 +35,8 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.api.utils.SonarException;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.api.utils.PathUtils;
+import org.sonar.api.utils.WildcardPattern;
 import com.sonar.sslr.api.AstNode;
 
 @Rule(
@@ -83,19 +85,31 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   @Override
   public void visitFile(AstNode fileNode) {
     if (fileNode != null) {
-      List<String> lines;
-      try {
-        lines = Files.readLines(getContext().getFile(), charset);
-      } catch (IOException e) {
-        throw new SonarException(e);
-      }
-      for (int i = 0; i < lines.size(); ++i) {
-        Matcher matcher = pattern.matcher(lines.get(i));
-        if (matcher.find()) {
-          getContext().createLineViolation(this, message, i + 1);
+      if (matchFile()) {
+        List<String> lines;
+        try {
+          lines = Files.readLines(getContext().getFile(), charset);
+        } catch (IOException e) {
+          throw new SonarException(e);
+        }
+        for (int i = 0; i < lines.size(); ++i) {
+          Matcher matcher = pattern.matcher(lines.get(i));
+          if (matcher.find()) {
+            getContext().createLineViolation(this, message, i + 1);
+          }
         }
       }
     }
   }
 
+  private boolean matchFile() {
+    if (!matchFilePattern.isEmpty()) {
+      WildcardPattern filePattern = WildcardPattern.create(matchFilePattern);
+      String path = PathUtils.sanitize(getContext().getFile().getPath());
+      return filePattern.match(path);
+    }
+    return true;
+  }
+
 }
+

@@ -42,7 +42,7 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  public void lineRegExWithFilePattern() {
+  public void lineRegExWithFilePattern1() {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
@@ -55,4 +55,17 @@ public class LineRegularExpressionCheckTest {
       .noMore();
   }
 
+  @Test
+  public void lineRegExWithFilePattern2() {
+    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    check.matchFilePattern = "/**/*.xx"; // all files with .xx file extension
+    check.regularExpression = "#include\\s+\"stdafx\\.h\"";
+    check.message = "Found '#include \"stdafx.h\"' in line in a .xx file!";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegEx.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .noMore();
+  }
+
 }
+
