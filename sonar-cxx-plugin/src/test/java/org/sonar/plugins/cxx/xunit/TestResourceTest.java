@@ -53,7 +53,7 @@ public class TestResourceTest {
 
     final int EXEC_TIME = 10;
     resource.addTestCase(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
-                                   "classname", "tsname", "tsfilename"));
+                                      "classname", "tcfilename", "tsname", "tsfilename"));
 
     assertEquals(resource.getTests(), testBefore + 1);
     assertEquals(resource.getTime(), timeBefore + EXEC_TIME);
