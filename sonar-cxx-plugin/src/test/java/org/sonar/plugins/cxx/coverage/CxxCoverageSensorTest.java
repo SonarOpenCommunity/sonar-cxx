@@ -122,6 +122,6 @@ public class CxxCoverageSensorTest {
 
     sensor.analyse(project, context);
 
-    verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
+    verify(context, times(21)).saveMeasure((File) anyObject(), any(Measure.class));
   }
 }

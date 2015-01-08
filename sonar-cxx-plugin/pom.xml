@@ -37,6 +37,10 @@
       <artifactId>cxx-checks</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>jdom</groupId>
