@@ -46,9 +46,9 @@ import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
 import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
 import org.sonar.plugins.cxx.xunit.CxxXunitSensor;
-import org.sonar.plugins.cxx.mstest.MSTestResultsProvider;
-import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsAggregator;
-import org.sonar.plugins.cxx.mstest.MSTestResultsProvider.MSTestResultsImportSensor;
+import org.sonar.plugins.cxx.xunit.MSTestResultsProvider;
+import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsAggregator;
+import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsImportSensor;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 
 import com.google.common.collect.ImmutableList;

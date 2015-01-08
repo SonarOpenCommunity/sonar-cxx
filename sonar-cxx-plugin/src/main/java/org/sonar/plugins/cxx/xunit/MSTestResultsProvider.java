@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.mstest;
+package org.sonar.plugins.cxx.xunit;
 
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.dotnet.tests.UnitTestConfiguration;
