@@ -1,0 +1,11 @@
+<TestLog>
+  <Error file="tests/unittests/test_failure.cc" line="12"><![CDATA[check add(2, 2) == 3 failed]]></Error>
+  <FatalError file="tests/unittests/test_failure.cc" line="17"><![CDATA[critical check add(2, 2) == 3 failed]]></FatalError>
+  <Error file="tests/unittests/test_failure.cc" line="23"><![CDATA[Ouch...]]></Error>
+  <FatalError file="tests/unittests/test_failure.cc" line="29"><![CDATA[Ouch...]]></FatalError>
+  <Exception file="unknown location" line="0">
+    <![CDATA[C string: Ouch...]]><LastCheckpoint file="tests/unittests/test_failure.cc" line="29"><![CDATA[]]></LastCheckpoint>
+  </Exception>
+  <Error file="tests/unittests/test_failure.cc" line="40"><![CDATA[add(..) result: 4]]></Error>
+  <Error file="tests/unittests/test_failure.cc" line="45"><![CDATA[check add(2, 2) == 3 failed [4 != 3]]]></Error>
+</TestLog>

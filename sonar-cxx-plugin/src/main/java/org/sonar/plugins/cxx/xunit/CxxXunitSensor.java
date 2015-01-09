@@ -82,7 +82,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   private int tcTotal = 0;
   private int tcSkipped = 0;
 
-  static Pattern classNameMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
+  static Pattern classNameOnlyMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
+  static Pattern qualClassNameMatchingPattern = Pattern.compile("((?:\\w*::)*?(\\w+?))::\\w+?:\\d+$");
 
   /**
    * {@inheritDoc}
@@ -118,9 +119,9 @@ public class CxxXunitSensor extends CxxReportSensor {
         StaxParser parser = new StaxParser(parserHandler, false);
         for (File report : reports) {
           CxxUtils.LOG.info("Parsing report '{}'", report);
-          try{
+          try {
             parser.parse(transformReport(report));
-          } catch(EmptyReportException e){
+          } catch (EmptyReportException e) {
             CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
           }
         }
@@ -245,11 +246,12 @@ public class CxxXunitSensor extends CxxReportSensor {
   File transformReport(File report)
       throws java.io.IOException, javax.xml.transform.TransformerException
   {
-    File transformed = report;
-    if (xsltURL != null) {
+    File transformed = report;        
+    if (xsltURL != null && report.length() > 0) {
       CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
       InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
       if (inputStream == null) {
+        CxxUtils.LOG.debug("Transforming: try to access external XSLT via URL");
         URL url = new URL(xsltURL);
         inputStream = url.openStream();
       }
@@ -340,7 +342,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
-    if(lines.length > 0){
+    if (lines.length > 0) {
       cxxConf.setDefines(Arrays.asList(lines));
     }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
@@ -348,15 +350,18 @@ public class CxxXunitSensor extends CxxReportSensor {
     for (File file : files) {
       @SuppressWarnings("unchecked")
       SourceFile source = CxxAstScanner.scanSingleFileConfig(file, cxxConf);
-      if(source.hasChildren()) {
+      if (source.hasChildren()) {
         for (SourceCode child : source.getChildren()) {
           if (child instanceof SourceClass) {
             classDeclTable.put(child.getName(), file.getPath());
-          }
-          else if(child instanceof SourceFunction){
-            String clsName = matchClassName(child.getKey());
-            if(clsName != null){
-              classImplTable.put(clsName, file.getPath());
+          } else if (child instanceof SourceFunction) {
+            String clsNameOnly = matchClassNameOnly(child.getKey());
+            if (clsNameOnly != null) {
+              classImplTable.put(clsNameOnly, file.getPath());
+            }
+            String qualClsName = matchQualClassName(child.getKey());
+            if (qualClsName != null && !qualClsName.isEmpty() && !qualClsName.equals(clsNameOnly)) {
+              classImplTable.put(qualClsName, file.getPath());
             }
           }
         }
@@ -364,10 +369,19 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
   }
 
-  String matchClassName(String fullQualFunctionName){
-    Matcher matcher = classNameMatchingPattern.matcher(fullQualFunctionName);
+  String matchClassNameOnly(String fullQualFunctionName) {
+    Matcher matcher = classNameOnlyMatchingPattern.matcher(fullQualFunctionName);
     String clsname = null;
-    if(matcher.matches()){
+    if (matcher.matches()) {
+      clsname = matcher.group(1);
+    }
+    return clsname;
+  }
+
+  String matchQualClassName(String fullQualFunctionName) {
+    Matcher matcher = qualClassNameMatchingPattern.matcher(fullQualFunctionName);
+    String clsname = null;
+    if (matcher.matches()) {
       clsname = matcher.group(1);
     }
     return clsname;

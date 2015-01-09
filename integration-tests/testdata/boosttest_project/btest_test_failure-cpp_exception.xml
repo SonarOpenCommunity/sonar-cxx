@@ -1,0 +1,7 @@
+<TestLog>
+  <FatalError file="tests/unittests/test_failure.cc" line="17"><![CDATA[critical check add(2, 2) == 3 failed]]></FatalError>
+  <FatalError file="tests/unittests/test_failure.cc" line="29"><![CDATA[Ouch...]]></FatalError>
+  <Exception file="unknown location" line="0">
+    <![CDATA[C string: Ouch...]]><LastCheckpoint file="tests/unittests/test_failure.cc" line="29"><![CDATA[]]></LastCheckpoint>
+  </Exception>
+</TestLog>

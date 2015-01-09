@@ -4,7 +4,10 @@ jdk:
   - oraclejdk8
   - openjdk7
 
-
+  
+before_install:
+        - sudo apt-get install libboost-dev libboost-test-dev
+        
 install:
         - cd /tmp
         - wget http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip
