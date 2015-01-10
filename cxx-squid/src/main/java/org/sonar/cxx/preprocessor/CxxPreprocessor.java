@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Deque;
 
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -496,7 +495,8 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFile == null) {
-      LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
+      LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
+               + token.getValue() + "'");
       if (currentFile != null) {
         missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
       }
@@ -563,7 +563,8 @@ public class CxxPreprocessor extends Preprocessor {
           Token c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION;
           if (c.getType() == IDENTIFIER) {
-            List<Token> rest = ListUtils.union(replTokens, tokens.subList(tokensConsumed, tokens.size()));
+            List<Token> rest = new ArrayList(replTokens);
+            rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
           if (action == PreprocessorAction.NO_OPERATION) {
