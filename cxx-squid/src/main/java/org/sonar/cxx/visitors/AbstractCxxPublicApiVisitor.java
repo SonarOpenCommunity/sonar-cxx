@@ -535,11 +535,13 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                         return false;
                     default:
                         LOG.error("isPublicApiMember unhandled case: "
-                                + enclosingSpecifierNode.getType());
+                                + enclosingSpecifierNode.getType() 
+                                + " at " + enclosingSpecifierNode.getTokenLine());
                         return false;
                     }
                 } else {
-                    LOG.error("isPublicApiMember: not a member");
+                    LOG.error("isPublicApiMember: failed to get enclosing "
+                            + "classSpecifier for node at " + node.getTokenLine());
                     return false;
                 }
             }
