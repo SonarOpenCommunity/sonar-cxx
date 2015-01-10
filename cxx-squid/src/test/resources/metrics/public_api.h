@@ -141,4 +141,11 @@ union testUnion
 
 };
 
+/**
+ * <unnamed> doc
+ */
+struct {
+	int testField2; /**< inline testField2 comment */
+} testUnnamedStructVar; ///< testUnnamedStructVar doc
+
 int lastVar; ///< lastVar doc
