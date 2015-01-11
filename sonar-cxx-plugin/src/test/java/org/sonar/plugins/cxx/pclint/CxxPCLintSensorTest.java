@@ -52,7 +52,7 @@ public class CxxPCLintSensorTest {
 
   @Before
   public void setUp() {
-	fs = new DefaultFileSystem();
+    fs = new DefaultFileSystem();
     project = TestUtils.mockProject();
     reactor = TestUtils.mockReactor();
     issuable = TestUtils.mockIssuable();

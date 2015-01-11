@@ -19,62 +19,110 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import static org.junit.Assert.assertEquals;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.File;
-import java.util.Map;
-import java.util.TreeMap;
-
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.sonar.api.utils.StaxParser;
-import org.sonar.api.measures.CoreMetrics;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.plugins.cxx.xunit.MSTestResultsProvider;
 import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsAggregator;
 import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsImportSensor;
-import org.sonar.plugins.dotnet.tests.UnitTestConfiguration;
+import org.sonar.plugins.dotnet.tests.UnitTestResults;
+import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
+
+import com.google.common.collect.ImmutableList;
 
 public class MSTestResultsProviderTest {
   private Project project;
-//  private SensorContext context;
-  private Settings settings;
-  private MSTestResultsAggregator unitTestResultsAggregator;
-//  private DefaultFileSystem fs;
-//  String pathPrefix = "/org/sonar/plugins/cxx/reports-project/vs-test-report/";
-  private final String visualStudioTestResultsFilePropertyKey = "valid.trx";
-  private static final UnitTestConfiguration UNIT_TEST_CONF = new UnitTestConfiguration(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
+  private DefaultFileSystem fs;
+  private Settings config;
+  private SensorContext context;  
+  private MSTestResultsAggregator resultsAggregator;
+  private MSTestResultsImportSensor sensor;
 
   @Before
   public void setUp() {
-    settings = new Settings();
-//    context = mock(SensorContext.class);
+    fs = new DefaultFileSystem();
+    project = TestUtils.mockProject();
+    context = mock(SensorContext.class);
+    File resourceMock = mock(File.class);
+    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
+    }
 
+  @Test
+  public void should_execute_on_project() {
+
+    resultsAggregator = mock(MSTestResultsAggregator.class);
+
+    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(true);
+    assertThat(new UnitTestResultsImportSensor(resultsAggregator).shouldExecuteOnProject(project)).isTrue();
+
+    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(false);
+    assertThat(new UnitTestResultsImportSensor(resultsAggregator).shouldExecuteOnProject(project)).isFalse();
   }
 
   @Test
-  public void testMSTestResult() {
-//  	fs = new DefaultFileSystem();
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project/vs-test-report");
-    project = TestUtils.mockProject(baseDir);
-    unitTestResultsAggregator = new MSTestResultsAggregator(settings);
+  public void should_not_analyze_on_reactor_project() {
+    when(project.isRoot()).thenReturn(true);
+    when(project.getModules()).thenReturn(ImmutableList.of(mock(Project.class)));
 
-//    when(unitTestResultsAggregator.hasUnitTestResultsProperty()).thenReturn(true);
-//    assertThat(new MSTestResultsImportSensor(unitTestResultsAggregator).shouldExecuteOnProject(project)).isTrue();
-//
-//    when(unitTestResultsAggregator.hasUnitTestResultsProperty()).thenReturn(false);
-//    assertThat(new MSTestResultsImportSensor(unitTestResultsAggregator).shouldExecuteOnProject(project)).isFalse();
+    resultsAggregator = mock(MSTestResultsAggregator.class);
+    sensor = new MSTestResultsImportSensor(resultsAggregator);
+    sensor.analyse(project, context);
+
+    verify(context, Mockito.never()).saveMeasure(Mockito.any(Metric.class), Mockito.anyDouble());
   }
+
+  @Test
+  public void should_analyze_on_multi_module_modules() {
+    when(project.isRoot()).thenReturn(false);
+
+    resultsAggregator = mock(MSTestResultsAggregator.class);
+    
+    UnitTestResults results = mock(UnitTestResults.class);
+    when(results.tests()).thenReturn(1.0);
+    when(results.passedPercentage()).thenCallRealMethod();
+    when(results.skipped()).thenReturn(0.0);
+    when(results.failed()).thenReturn(1.0);
+    when(results.errors()).thenReturn(0.0);
+    
+    when(resultsAggregator.aggregate(Mockito.any(UnitTestResults.class))).thenReturn(results);
+    sensor = new MSTestResultsImportSensor(resultsAggregator);
+    sensor.analyse(project, context);
+
+    verify(context, Mockito.atLeastOnce()).saveMeasure(Mockito.any(Metric.class), Mockito.anyDouble());
+  }
+
+//  @Test
+//  public void testMSTestResult() {
+//    config = new Settings();
+//    config.setProperty(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY, "./vs-test-report/VS-Results.xml");
+//
+//    resultsAggregator = new MSTestResultsAggregator(config);
+//    sensor = new MSTestResultsImportSensor(resultsAggregator);
+//    sensor.analyse(project, context);
+//    
+//    verify(context, times(0)).saveMeasure(eq(CoreMetrics.TESTS), any(Double.class));
+//    
+//    verify(resultsAggregator).aggregate(results);
+//    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.TESTS), eq(1.0));
+//    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.TEST_ERRORS), eq(1.0));
+//
+//    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(true);
+//    assertThat(new sensor(unitTestResultsAggregator).shouldExecuteOnProject(project)).isTrue();
+//
+//    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(false);
+//    assertThat(new sensor(unitTestResultsAggregator).shouldExecuteOnProject(project)).isFalse();
+//  }
 
 }

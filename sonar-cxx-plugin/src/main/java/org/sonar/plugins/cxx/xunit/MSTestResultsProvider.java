@@ -19,8 +19,11 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.config.Settings;
+import org.sonar.api.resources.Project;
 import org.sonar.plugins.dotnet.tests.UnitTestConfiguration;
+import org.sonar.plugins.dotnet.tests.UnitTestResults;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsAggregator;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 
@@ -44,8 +47,7 @@ public class MSTestResultsProvider {
     
     public MSTestResultsImportSensor(MSTestResultsAggregator unitTestResultsAggregator) {
       super(unitTestResultsAggregator);
-
     }
-  }
 
+  }
 }
