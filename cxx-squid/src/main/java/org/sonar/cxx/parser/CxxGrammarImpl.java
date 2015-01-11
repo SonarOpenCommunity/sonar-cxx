@@ -191,6 +191,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   cvQualifierSeq,
   cvQualifier,
   refQualifier,
+  restrictQualifier,
   declaratorId,
   typeId,
   abstractDeclarator,
@@ -988,6 +989,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.firstOf("&", "&&")
         );
 
+    b.rule(restrictQualifier).is(
+        b.firstOf("restrict", "__restrict__", "__restrict")
+        );
+    
     b.rule(declaratorId).is(
         b.firstOf(
             b.sequence(b.optional(nestedNameSpecifier), className),
