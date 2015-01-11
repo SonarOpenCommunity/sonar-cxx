@@ -23,3 +23,37 @@ std::vector<std::vector<int> > oldStyle;
 vector<vector<int>> newStyle;
 std::pair<const char*, std::vector<long int>> longNewStyle;
 
+template<class T, class Compare = std::less<T>>
+class list
+{
+};
+
+template <class T>
+struct List
+{
+    List<T>(){}
+    template <class U>
+    List<T>(List<U> & rhs) {}
+};
+
+template <int i>
+class X
+{
+} ;
+
+template <class T>
+class Y
+{
+    T data;
+} ;
+
+typedef unsigned int* B;
+
+void issue_49 ()
+{
+  X<(1>2)> x2;
+  Y<X<1>> x3;
+  vector<pair<int,int>> s;
+  List<unsigned*> ld;
+  static_cast<List<B>>(ld);
+}
