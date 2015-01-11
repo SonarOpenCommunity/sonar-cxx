@@ -256,6 +256,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   templateName,
   templateArgumentList,
   templateArgument,
+  innerTemplateId,
+  innerTemplateArgumentList,
+  innerTemplateArgument,
   typenameSpecifier,
   explicitInstantiation,
   explicitSpecialization,
@@ -717,9 +720,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(simpleDeclSpecifierSeq).is(
       b.oneOrMore(
         b.nextNot(b.sequence(b.optional(initDeclaratorList), ";")),
-        declSpecifier
-        ),
-      b.optional(attributeSpecifierSeq)
+        declSpecifier,
+        b.optional(attributeSpecifierSeq)
+        )
       );
 
     b.rule(staticAssertDeclaration).is(CxxKeyword.STATIC_ASSERT, "(", constantExpression, ",", STRING, ")", ";");
@@ -760,7 +763,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         simpleTypeSpecifier,
         elaboratedTypeSpecifier,
         typenameSpecifier,
-        cvQualifier
+        cvQualifier,
+        restrictQualifier
         )
       );
 
@@ -777,9 +781,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "void foo(::A a);". Figure out if there is another way
 
-            b.sequence(b.optional(b.firstOf(nestedNameSpecifier, "::")), typeName)
+        b.sequence(b.optional(b.firstOf(nestedNameSpecifier,"::")), typeName)
         )
-        );
+      );
 
     b.rule(typeName).is(
         b.firstOf(
@@ -961,7 +965,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
         );
 
-    b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq), b.optional(refQualifier), b.optional(exceptionSpecification));
+    b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq), b.optional(refQualifier), b.optional(exceptionSpecification, b.optional(restrictQualifier)));
 
     b.rule(trailingReturnType).is("->", trailingTypeSpecifierSeq, b.optional(abstractDeclarator));
 
@@ -1035,8 +1039,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(parameterDeclaration).is(
         b.firstOf(
+            b.sequence(IDENTIFIER, "..."),// may occur in variadic templates
             b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)),
-            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause)))
+            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause))
+            )
         );
 
     b.rule(parameterDeclSpecifierSeq).is(
@@ -1134,14 +1140,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         );
 
     b.rule(memberDeclaration).is(
-        b.firstOf(
-          b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), b.optional(memberDeclSpecifierSeq), b.optional(memberDeclaratorList), ";"),
-            b.sequence(functionDefinition, b.optional(";")),
-            b.sequence(b.optional("::"), nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
-            usingDeclaration,
-            staticAssertDeclaration,
-            templateDeclaration,
-            aliasDeclaration
+       b.firstOf(
+         b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), b.optional(memberDeclSpecifierSeq),
+           b.optional(memberDeclaratorList), b.optional(attributeSpecifierSeq), ";"),
+           b.sequence(functionDefinition, b.optional(";")),
+           b.sequence(b.optional("::"), nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
+           usingDeclaration,
+           staticAssertDeclaration,
+           templateDeclaration,
+           aliasDeclaration
         )
         );
 
@@ -1263,19 +1270,40 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
         );
 
-    b.rule(simpleTemplateId).is(templateName, "<", b.optional(templateArgumentList), ">");
+    b.rule(simpleTemplateId).is(b.firstOf(
+        b.sequence(templateName, "<", b.optional(templateArgumentList), ">"),
+        b.sequence(templateName, "<", innerTemplateId, ">>")));
+
+    b.rule(innerTemplateId).is(
+        b.zeroOrMore(templateArgument, b.optional("..."), ","),
+        b.optional(b.firstOf(
+            // typeSpecifierSeq ~> [...] simpleTypeSpecifier
+            b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE),
+            // typeSpecifierSeq ~> [...] elaboratedTypeSpecifier
+            b.sequence(classKey, b.optional(b.firstOf(nestedNameSpecifier,"::")), b.optional(CxxKeyword.TEMPLATE)),
+            // typeSpecifierSeq ~> [...] typeNameSpecifier
+            b.sequence(CxxKeyword.TYPENAME, b.optional(b.firstOf(nestedNameSpecifier,"::")), b.optional(CxxKeyword.TEMPLATE)),
+            // typeSpecifierSeq ~> [...] simpleTypeSpecifier ~> typeName
+            nestedNameSpecifier,
+            "::"
+            )),
+            templateName, "<", b.optional(innerTemplateArgumentList));
 
     b.rule(templateId).is(
         b.firstOf(
             simpleTemplateId,
             b.sequence(operatorFunctionId, "<", b.optional(templateArgumentList), ">"),
-            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList), ">")
+            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList), ">"),
+            b.sequence(operatorFunctionId, "<", b.optional(templateArgumentList, ","), innerTemplateId, ">>"),
+            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList, ","), innerTemplateId, ">>")
         )
         );
 
     b.rule(templateName).is(IDENTIFIER);
 
     b.rule(templateArgumentList).is(templateArgument, b.optional("..."), b.zeroOrMore(",", templateArgument, b.optional("...")));
+
+    b.rule(innerTemplateArgumentList).is(innerTemplateArgument, b.optional("..."), b.zeroOrMore(",", innerTemplateArgument, b.optional("...")));
 
     b.rule(templateArgument).is(
         b.firstOf(
@@ -1290,6 +1318,17 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             idExpression
         )
         );
+
+    b.rule(innerTemplateArgument).is(
+            b.firstOf(
+                b.sequence(typeId, b.next(b.optional("..."), b.firstOf(">>", ","))),
+
+                // FIXME: workaround to parse stuff like "carray<int, 10>", see above
+                b.sequence(
+                        b.firstOf(idExpression, shiftExpression),
+                        b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(idExpression, shiftExpression)))
+            )
+            );
 
     b.rule(typenameSpecifier).is(
         CxxKeyword.TYPENAME, nestedNameSpecifier,
