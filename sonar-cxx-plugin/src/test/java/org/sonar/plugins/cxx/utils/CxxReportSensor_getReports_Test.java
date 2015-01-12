@@ -121,7 +121,6 @@ public class CxxReportSensor_getReports_Test {
     Set<File> realSet = new TreeSet<File>(real);
     Set<File> expectedSet = new TreeSet<File>(expectedFiles);
 
-    System.err.println("Test sets: " + realSet + ", expected: " + expectedSet);
     assert realSet.equals(expectedSet);
   }
 }
