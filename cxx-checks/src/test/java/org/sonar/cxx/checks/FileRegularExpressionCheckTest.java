@@ -20,9 +20,11 @@
 package org.sonar.cxx.checks;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
@@ -31,10 +33,26 @@ public class FileRegularExpressionCheckTest {
   @Test
   public void fileRegExWithoutFilePattern() {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
+    Charset charset = Charset.forName("UTF-8");
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileRegEx.cc"), check);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegEx.cc"), cxxConfig, check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
+  public void fileRegExCodingErrorActionReplace() {
+    FileRegularExpressionCheck check = new FileRegularExpressionCheck();
+    Charset charset = Charset.forName("US-ASCII");
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
+    check.regularExpression = "stdafx\\.h";
+    check.message = "Found 'stdafx.h' in file!";
+
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegEx.cc"), cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -43,11 +61,13 @@ public class FileRegularExpressionCheckTest {
   @Test
   public void fileRegExWithFilePattern() {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
+    Charset charset = Charset.forName("UTF-8");
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileRegEx.cc"), check);
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegEx.cc"), cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();

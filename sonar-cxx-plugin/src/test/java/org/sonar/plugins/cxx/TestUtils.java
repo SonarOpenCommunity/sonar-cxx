@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
+import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
@@ -44,10 +45,6 @@ import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.scan.filesystem.FileQuery;
 import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.utils.WildcardPattern;
-
-import org.sonar.plugins.cxx.utils.DirectoryScanner;
-
 
 public class TestUtils {
   public static Issuable mockIssuable() {
@@ -170,10 +167,14 @@ public class TestUtils {
       includes[i] = "**/*" + suffixes[i];
     }
 
+    DirectoryScanner scanner = new DirectoryScanner();
     for (File baseDir : sourceDirs) {
-      for (String include : includes){
-        DirectoryScanner scanner = new DirectoryScanner(baseDir, WildcardPattern.create(include));
-        result.addAll(scanner.getIncludedFiles());
+      scanner.setBasedir(baseDir);
+      scanner.setIncludes(includes);
+      scanner.scan();
+      for (String relPath : scanner.getIncludedFiles()) {
+        File f = new File(baseDir, relPath);
+        result.add(f);
       }
     }
 
