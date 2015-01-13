@@ -192,7 +192,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   cvQualifierSeq,
   cvQualifier,
   refQualifier,
-  restrictQualifier,
   declaratorId,
   typeId,
   abstractDeclarator,
@@ -464,7 +463,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(unaryExpression).is(
-      b.optional("__extension__"),  // marker for gcc extensions
       b.firstOf(
         b.sequence(unaryOperator, castExpression),
         postfixExpression,
@@ -560,7 +558,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       ).skipIfOneChild();
 
     b.rule(assignmentExpression).is(
-        b.optional("__extension__"), // marks gcc extensions
         b.firstOf(
             b.sequence(logicalOrExpression, assignmentOperator, initializerClause),
             conditionalExpression,
@@ -751,7 +748,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       );
 
     b.rule(functionSpecifier).is( // extern inline and alternate keywords for inline are gcc extensions
-      b.firstOf(CxxKeyword.INLINE, "__inline__", "__inline", CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
+      b.firstOf(CxxKeyword.INLINE, CxxKeyword.VIRTUAL, CxxKeyword.EXPLICIT)
       );
 
     b.rule(typedefName).is(IDENTIFIER);
@@ -780,8 +777,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(simpleTypeSpecifier).is(
       b.firstOf(
         "char", "char16_t", "char32_t", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void", "auto",
-        b.sequence(b.firstOf("typeof", "__typeof", "__typeof__"), "(", 
-                b.firstOf(assignmentExpression, typeSpecifierSeq, IDENTIFIER), ")"), // gcc extension
         decltypeSpecifier,
         b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId),
 
@@ -801,7 +796,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           )
         );
 
-    b.rule(decltypeSpecifier).is(CxxKeyword.DECLTYPE, "(", expression, ")");
+    // gcc has an extension typeof which should be mapped to decltype and which also accepts a type specifier sequence as argument.
+    b.rule(decltypeSpecifier).is(CxxKeyword.DECLTYPE, "(", b.firstOf(expression, typeSpecifierSeq), ")");
 
     b.rule(elaboratedTypeSpecifier).is(
       b.firstOf(
@@ -891,8 +887,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.sequence(CxxKeyword.ASM, "(", STRING, ")", ";"),
         b.sequence(CxxKeyword.ASM, "{", b.oneOrMore(b.nextNot(b.firstOf("}", EOF)), b.anyToken()), "}", b.optional(";")),
         b.sequence(CxxKeyword.ASM, b.oneOrMore(b.nextNot(b.firstOf(";", EOF)), b.anyToken()), ";"),
-        b.sequence(b.firstOf(CxxKeyword.ASM, "__asm__", "__asm"),
-            b.optional(b.firstOf(CxxKeyword.VOLATILE, "__volatile__", "__volatile")),
+        b.sequence(CxxKeyword.ASM,
+            b.optional(CxxKeyword.VOLATILE),
             "(", 
             b.zeroOrMore(b.firstOf(
                 STRING,
@@ -909,8 +905,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(attributeSpecifier).is(
         b.firstOf(
             b.sequence("[", "[", attributeList, "]", "]"),
-            b.sequence(b.firstOf(CxxKeyword.ASM,  "__asm__", "__asm"), "(", STRING, ")"), // gcc extension
-            b.sequence(CxxKeyword.__ATTRIBUTE__, "(", "(", attributeList, ")", ")"), // gcc extension
+            b.sequence(CxxKeyword.ASM, "(", STRING, ")"), // gcc extension
             alignmentSpecifier
         ));
 
@@ -990,27 +985,21 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(ptrOperator).is(
         b.firstOf(
-            b.sequence("*", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, cvQualifierSeq, restrictQualifier))),
-            b.sequence("&", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, restrictQualifier))),
-            b.sequence("&&", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, restrictQualifier))),
-            b.sequence(nestedNameSpecifier, "*", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, cvQualifierSeq, restrictQualifier)))
+            b.sequence("*", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, cvQualifierSeq))),
+            b.sequence("&", b.zeroOrMore(attributeSpecifierSeq)),
+            b.sequence("&&", b.zeroOrMore(attributeSpecifierSeq)),
+            b.sequence(nestedNameSpecifier, "*", b.zeroOrMore(b.firstOf(attributeSpecifierSeq, cvQualifierSeq)))
         )
         );
 
     b.rule(cvQualifierSeq).is(b.oneOrMore(cvQualifier));
 
-    b.rule(cvQualifier).is(
-        b.firstOf(CxxKeyword.CONST, CxxKeyword.VOLATILE, "__const") // some gcc headers contain __const
-        );
+    b.rule(cvQualifier).is(b.firstOf(CxxKeyword.CONST, CxxKeyword.VOLATILE));
 
     b.rule(refQualifier).is(
         b.firstOf("&", "&&")
         );
     
-    b.rule(restrictQualifier).is(
-        b.firstOf("restrict", "__restrict__", "__restrict")
-        );
-
     b.rule(declaratorId).is(
         b.firstOf(
             b.sequence(b.optional(nestedNameSpecifier), className),
