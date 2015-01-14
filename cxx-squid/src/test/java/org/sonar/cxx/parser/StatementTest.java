@@ -133,6 +133,17 @@ public class StatementTest extends ParserBaseTest {
   }
 
   @Test
+  public void switchStatement_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.switchStatement));
+
+    assertThat(p).matches("switch (0) { default : break; }");
+
+    //TODO: make this work.
+    //assertThat(p).matches("switch (0) { {default : break;} }");
+  }
+
+
+  @Test
   public void ifStatement_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.ifStatement));
 
