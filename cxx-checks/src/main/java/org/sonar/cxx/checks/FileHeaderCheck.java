@@ -47,9 +47,8 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
 
   @RuleProperty(
     key = "headerFormat",
-    description = "TEXT",
+    type = "TEXT",
     defaultValue = DEFAULT_HEADER_FORMAT)
-
   public String headerFormat = DEFAULT_HEADER_FORMAT;
 
   private Charset charset;
