@@ -28,23 +28,34 @@
 #ifndef _GXX_MACROS_H_
 #define _GXX_MACROS_H_
 
-// No need to parse attributes
-#define __attribute__(xx)
-
-// Marker for extensions
-#define __extension__
-
-// Not a part of any c++ standard
-#define __restrict
-#define __restrict__
-
-// Alternate forms for various keywords
+// GCC extension keywords and alternate forms
+#define _Complex
+#define __FUNCTION__ "function"
+#define __PRETTY_FUNCTION__ "pretty_function"
+#define __alignof __alignof__
+#define __alignof__(x) sizeof(char)
 #define __asm asm
 #define __asm__ asm
+#define __attribute__(...)
+#define __attribute __attribute__
+#define __complex__ _Complex
 #define __const const
 #define __const__ const
+#define constexpr const
+#define __declspec(...)
+#define __decltype decltype
+#define __extension__
+#define __func__ "func"
+#define __imag__
 #define __inline inline
 #define __inline__ inline
+#define __null 0
+#define __real__
+#define __restrict
+#define __restrict__
+#define __signed signed
+#define __signed__ signed
+#define __thread
 #define typeof decltype
 #define __typeof decltype
 #define __typeof__ decltype
