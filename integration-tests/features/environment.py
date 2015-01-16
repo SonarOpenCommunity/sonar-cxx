@@ -36,6 +36,7 @@ BASEDIR = os.path.dirname(os.path.realpath(__file__))
 JARPATTERN = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
+PIDSonar = 0
 
 
 RED = ""
@@ -146,8 +147,14 @@ def start_sonar(sonarhome):
     sys.stdout.write(INDENT + "starting SonarQube ... ")
     sys.stdout.flush()
     now = time.time()
-    rc = subprocess.call(start_script(sonarhome), stdout=subprocess.PIPE,
-                         shell=(os.name == "nt"))
+    
+    if platform.system() == "Windows" and platform.machine() == "AMD64":
+        p = subprocess.Popen("start cmd.exe /c "  + start_script(sonarhome), stdout=subprocess.PIPE, shell=(os.name == "nt"))
+        rc = 0
+
+    else:
+        rc = subprocess.call(start_script(sonarhome), stdout=subprocess.PIPE, shell=(os.name == "nt"))
+                         
     if rc != 0 or not wait_for_sonar(50, is_webui_up):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
@@ -155,22 +162,28 @@ def start_sonar(sonarhome):
     sys.stdout.write(GREEN + "OK, duration: %03.1f s\n" % (time.time() - now)
                      + RESET)
     return True
-
-
+        
 def stop_sonar(sonarhome):
-    sys.stdout.write(INDENT + "stopping SonarQube ... ")
-    sys.stdout.flush()
-    rc = subprocess.call(stop_script(sonarhome), stdout=subprocess.PIPE,
-                         shell=(os.name == "nt"))
+
+    if platform.system() == "Windows" and platform.machine() == "AMD64":
+        return True
+    else:    
+        sys.stdout.write(INDENT + "stopping SonarQube ... ")
+        sys.stdout.flush()    
+        rc = subprocess.call(stop_script(sonarhome), stdout=subprocess.PIPE,
+                            shell=(os.name == "nt"))
+                            
     if rc != 0 or not wait_for_sonar(30, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
     sys.stdout.write(GREEN + "OK\n\n" + RESET)
     return True
-
-
+        
 def start_script(sonarhome):
+    if platform.system() == "Windows" and platform.machine() == "AMD64":
+        return  os.path.join(sonarhome, _script_relpath())
+    
     return [os.path.join(sonarhome, _script_relpath()), "start"]
 
 
@@ -179,9 +192,12 @@ def stop_script(sonarhome):
 
 
 def _script_relpath():
-    # Linux x86 only for now
     if platform.system() == "Linux" and platform.machine() == "x86_64":
         return "bin/linux-x86-64/sonar.sh"
+        
+    if platform.system() == "Windows" and platform.machine() == "AMD64":
+        return "bin\windows-x86-64\StartSonar.bat"        
+        
     return "bin/linux-x86-32/sonar.sh"
 
 

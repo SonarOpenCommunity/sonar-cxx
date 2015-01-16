@@ -8,10 +8,15 @@ Preconditions
 
 Make sure the following preconditions are met, before running the test suite:
 
-* Python is installed
-* behave (http://pythonhosted.org/behave/) is installed
-* request module is available ('pip install requests' may help)
+* Python is installed. Windows version 2.7.8 tested to be working. 3.4 does not work
+
+* windows only: set python path and python/scripts to path
+* windows only: install pip: python get-pip.py (download from https://bootstrap.pypa.io/get-pip.py) => run pip to check that is working
+
+* behave (http://pythonhosted.org/behave/) ('pip install behave')
+* request module is available ('pip install requests')
 * Optional: colorama module is installed ('pip install colorama')
+
 
 
 Usage
@@ -23,12 +28,15 @@ $ behave
 from the project root folder or let the test suite do the job by
 telling it the path to your SQ installation:
 
-$ SONARHOME=/path/to/SonarQuebe behave
+$ SONARHOME=/path/to/SonarQube behave
 
 In the latter case, the suite will automatically install and test the
-jar in sonar-python-plugin/target. So make sure the plugin is build
+jar in sonar-cxx-plugin/target. So make sure the plugin is build
 and the jar is available.
 
+On Windows, sonarqube will start normally into a separate cmd.exe. 
+Once tests are finished the sonar will still be left running. 
+To stop it the only thing needed is to close the window.
 
 Features to test
 ================
