@@ -197,7 +197,8 @@ public abstract class CxxReportSensor implements Sensor {
     int lineNr = 0;
 
     if ((filename != null) && (filename.length() > 0)) { // file level
-      String normalPath = CxxUtils.normalizePath(filename);
+      String normalPath = CxxUtils.normalizePathList(filename, project.getFileSystem().getBasedir().getAbsolutePath());
+//      String normalPath = CxxUtils.normalizePathList(filename, fs.baseDir().getPath());
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         org.sonar.api.resources.File file
           = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
