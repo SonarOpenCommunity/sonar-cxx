@@ -772,8 +772,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         simpleTypeSpecifier,
         elaboratedTypeSpecifier,
         typenameSpecifier,
-        cvQualifier,
-        restrictQualifier
+        cvQualifier
         )
       );
 
@@ -1336,15 +1335,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(templateArgument).is(
         b.firstOf(
-            typeId,
+            b.sequence(typeId, b.next(b.optional("..."), b.firstOf(">", ","))),
 
             // FIXME: workaround to parse stuff like "carray<int, 10>"
-            // actually, it should be covered by the next rule (constantExpression)
+            // actually, it should be covered by a constantExpression rule,
             // but it doesnt work because of ambiguity template syntax <--> relationalExpression
-            shiftExpression,
-            constantExpression,
-
-            idExpression
+            b.sequence(
+                    b.firstOf(shiftExpression, idExpression),
+                    b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(shiftExpression, idExpression)))
         )
         );
 
@@ -1354,8 +1352,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
                 // FIXME: workaround to parse stuff like "carray<int, 10>", see above
                 b.sequence(
-                        b.firstOf(idExpression, shiftExpression),
-                        b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(idExpression, shiftExpression)))
+                        b.firstOf(shiftExpression, idExpression),
+                        b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(shiftExpression, idExpression)))
             )
             );
 
