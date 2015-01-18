@@ -31,14 +31,14 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
 
@@ -54,6 +54,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final String DEFAULT_MESSAGE = "The regular expression matches this file";
 
   private Charset charset;
+  private CharsetDecoder decoder;
   private Pattern pattern;
 
   @RuleProperty(
@@ -75,7 +76,10 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   public void init() {
     try {
       pattern = Pattern.compile(regularExpression);
-    } catch (PatternSyntaxException e) {
+      decoder = charset.newDecoder();
+      decoder.onMalformedInput(CodingErrorAction.REPLACE);
+      decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+    } catch (Exception e) {
       throw new SonarException(e);
     }
   }
@@ -92,11 +96,11 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
         if (!matchFile()) {
           return;
         }
-        Matcher matcher = pattern.matcher(fromFile(getContext().getFile(), charset));
+        Matcher matcher = pattern.matcher(fromFile(getContext().getFile()));
         if (matcher.find()) {
           getContext().createFileViolation(this, message);
         }
-      } catch (IOException e) {
+      } catch (Exception e) {
         throw new SonarException(e);
       }
     }
@@ -111,12 +115,19 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
-  private static CharSequence fromFile(File file, Charset charset) throws IOException {
-    FileInputStream input = new FileInputStream(file);
-    FileChannel channel = input.getChannel();
-    ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
-    CharBuffer cbuf = charset.newDecoder().decode(bbuf);
-    return cbuf;
+  private CharSequence fromFile(File file) throws Exception {
+    FileInputStream input = null;
+    try {
+      input = new FileInputStream(file);
+      FileChannel channel = input.getChannel();
+      ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
+      CharBuffer cbuf = decoder.decode(bbuf);
+      return cbuf;
+    } finally {
+      if (input != null) {
+        input.close();
+      }
+    }
   }
 
 }

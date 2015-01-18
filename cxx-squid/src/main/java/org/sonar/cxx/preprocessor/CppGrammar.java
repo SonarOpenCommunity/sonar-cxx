@@ -147,9 +147,9 @@ public enum CppGrammar implements GrammarRuleKey {
 
     b.rule(functionlikeMacroDefinition).is(
         b.firstOf(
-            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b.zeroOrMore(WS), ")", b.optional(b.sequence(b.oneOrMore(WS), replacementList))),
-            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.oneOrMore(WS), replacementList))),
-            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS), ",", b.zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.oneOrMore(WS), replacementList)))
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), b.optional(parameterList), b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS), replacementList))),
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS), replacementList))),
+            b.sequence(DEFINE, b.oneOrMore(WS), ppToken, "(", b.zeroOrMore(WS), parameterList, b.zeroOrMore(WS), ",", b.zeroOrMore(WS), variadicparameter, b.zeroOrMore(WS), ")", b.optional(b.sequence(b.zeroOrMore(WS), replacementList)))
         )
         );
 

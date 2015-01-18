@@ -10,7 +10,7 @@
 
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>0.9.2-SNAPSHOT</version>
+  <version>0.9.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
@@ -67,6 +67,7 @@
       <email>paroga@paroga.com</email>
     </developer>
     <developer>
+      <id>Bertk</id>
       <name>Bert Kandert</name>
       <email>bert.k@hotmail.com</email>
     </developer>
@@ -79,18 +80,22 @@
       <email>bitbucket@keithmarsh.com</email>
     </developer>
     <developer>
-      <name>guwirth</name>
+      <id>guwirth</id>
+      <name>Günter Wirth</name>
       <email>guenter.wirth@etas.com</email>
     </developer>
     <developer>
+      <id>Typz</id>
       <name>Francois Ferrand</name>
       <email>thetypz@gmail.com</email>
     </developer>
     <developer>
+      <id>lcintrat</id>
       <name>Ludovic Cintrat</name>
       <email>lcintrat@gmail.com</email>
     </developer>
     <developer>
+      <id>Zetten</id>
       <name>Peter van Zetten</name>
       <email>peter.van.zetten@cgi.co</email>
     </developer>
@@ -146,6 +151,12 @@
         <groupId>org.codehaus.sonar.common-rules</groupId>
         <artifactId>sonar-common-rules</artifactId>
         <version>1.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.6</version>
       </dependency>
 
       <dependency>

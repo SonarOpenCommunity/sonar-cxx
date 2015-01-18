@@ -195,7 +195,11 @@ public class CxxXunitSensor extends CxxReportSensor {
   {
     CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
 
-    buildLookupTables();
+    String sonarTests = conf.getString("sonar.tests");
+    if (sonarTests == null || "".equals(sonarTests)){
+      CxxUtils.LOG.error("The property 'sonar.tests' is unset. Please set it to proceed");
+      return;
+    }
 
     Collection<TestResource> locatedResources = lookupResources(project, context, testcases);
 
@@ -203,6 +207,10 @@ public class CxxXunitSensor extends CxxReportSensor {
       saveTestMetrics(context, resource);
     }
     CxxUtils.LOG.info("Summary: testcases processed = {}, skipped = {}", tcTotal, tcSkipped);
+    if (tcSkipped > 0){
+      CxxUtils.LOG.warn("Some testcases had to be skipped, check the relevant parts of your setup "
+                        + "(sonar.tests, sonar.test.exclusions, sonar.test.inclusions)");
+    }
   }
 
 
@@ -287,8 +295,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     // 1. If the testcase carries a filepath just perform the lookup using this data.
     //    As we assume this as the absolute knowledge, we dont want to fallback to other
     //    methods, we want to FAIL.
-    // 2. Do a lookup using unchanged value of classname. When this failed, fallback to 3.
-    // 3. Use the classname to search in the lookupTable (this is the AST-based lookup)
+    // 2. Use the classname to search in the lookupTable (this is the AST-based lookup)
     //    and redo the lookup in Sonar with the gained value.
 
     org.sonar.api.resources.File sonarResource = null;
@@ -298,15 +305,17 @@ public class CxxXunitSensor extends CxxReportSensor {
       return lookupInSonar(filepath, context, project);
     }
 
+    if(classDeclTable.isEmpty() && classImplTable.isEmpty()){
+      buildLookupTables();
+    }
+
     String classname = tc.getClassname();
     if (classname != null){
-      CxxUtils.LOG.debug("Performing lookup using classname ('{}')", classname);
-      sonarResource = lookupInSonar(classname, context, project);
-      if (sonarResource == null){
-        filepath = lookupFilePath(classname);
-        CxxUtils.LOG.debug("Performing AST-based lookup, determined file path: '{}'", filepath);
-        sonarResource = lookupInSonar(filepath, context, project);
-      }
+      filepath = lookupFilePath(classname);
+      CxxUtils.LOG.debug("Performing AST-based lookup, determined file path: '{}'", filepath);
+      sonarResource = lookupInSonar(filepath, context, project);
+    } else {
+      CxxUtils.LOG.debug("Skipping the AST-based lookup: no classname provided");
     }
 
     return sonarResource;

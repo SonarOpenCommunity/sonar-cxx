@@ -80,9 +80,11 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     private static final boolean DEBUG = false;
     /**
-     * Dump the AST of the file is true.
+     * Dump the AST of the file if true.
      */
     private static final boolean DUMP = false;
+
+    private static final String UNNAMED_CLASSIFIER_ID = "<unnamed>";
 
     public interface PublicApiHandler {
         void onPublicApi(AstNode node, String id, List<Token> comments);
@@ -175,33 +177,71 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     private void visitDeclaratorList(AstNode declaratorList) {
 
         // do not handle declaration in function body
-        if (declaratorList.getFirstAncestor(CxxGrammarImpl.functionBody) != null)
+        AstNode functionBody = declaratorList
+                .getFirstAncestor(CxxGrammarImpl.functionBody);
+
+        if (functionBody != null) {
             return;
+        }
 
         AstNode declaration = declaratorList
                 .getFirstAncestor(CxxGrammarImpl.declaration);
-
-        LOG.trace("declaration: " + declaration);
 
         List<AstNode> declarators = declaratorList
                 .getChildren(CxxGrammarImpl.initDeclarator);
 
         if (declarators.size() == 1) {
-            visitDeclarator(declaration);
+            // a special handling is needed in case of single declarator
+            // because documentation may be located on different places
+            // depending on the declaration
+            visitSingleDeclarator(declaration, declarators.get(0));
         } else {
+            // with several declarators, documentation should be located
+            // on each declarator
             for (AstNode declarator : declarators) {
-                visitDeclarator(declarator);
+                visitDeclarator(declarator, declarator);
             }
         }
     }
 
-    private void visitDeclarator(AstNode declarator) {
+    private void visitSingleDeclarator(AstNode declaration,
+            AstNode declarator) {
+
+        AstNode docNode;
+
+        AstNode params = declaration
+                .getFirstDescendant(CxxGrammarImpl.parametersAndQualifiers);
+
+        // in case of function declaration,
+        // the docNode is set on the declaration node
+        if (params != null) {
+            docNode = declaration;
+        }
+        else {
+            AstNode classSpecifier = declaration
+                    .getFirstDescendant(CxxGrammarImpl.classSpecifier);
+
+            // if a class is specified on the same declaration,
+            // e.g. 'struct {} a;'
+            // the documentation node is set on the declarator
+            if (classSpecifier != null) {
+                docNode = declarator;
+            }
+            else {
+                docNode = declaration;
+            }
+        }
+
+        visitDeclarator(declarator, docNode);
+    }
+
+    private void visitDeclarator(AstNode declarator, AstNode docNode) {
         // look for block documentation
-        List<Token> comments = getBlockDocumentation(declarator);
+        List<Token> comments = getBlockDocumentation(docNode);
 
         // documentation may be inlined
         if (comments.isEmpty()) {
-            comments = getDeclaratorInlineComment(declarator);
+            comments = getDeclaratorInlineComment(docNode);
         }
 
         AstNode declaratorId = declarator
@@ -209,28 +249,51 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
         if (declaratorId == null) {
             LOG.error("null declaratorId: " + AstXmlPrinter.print(declarator));
-        } else
+        } else {
             visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
+        }
     }
 
     private void visitClassSpecifier(AstNode classSpecifier) {
 
-        if (!isPublicApiMember(classSpecifier)) {
-            logDebug(classSpecifier
-                    .getFirstDescendant(CxxGrammarImpl.className)
-                    .getTokenValue()
-                    + " not in public API");
-            return;
-        }
-
+        // check if this is a template specification to adjust
+        // documentation node
         AstNode template = classSpecifier
                 .getFirstAncestor(CxxGrammarImpl.templateDeclaration);
         AstNode docNode = (template != null) ? template : classSpecifier;
 
-        AstNode id = classSpecifier
-                .getFirstDescendant(CxxGrammarImpl.className);
+        // narrow the identifier search scope to classHead
+        AstNode classHead = classSpecifier
+                .getFirstDescendant(CxxGrammarImpl.classHead);
 
-        visitPublicApi(id, id.getTokenValue(), getBlockDocumentation(docNode));
+        if (classHead == null) {
+            LOG.warn("classSpecifier does not embed a classHead at line " +
+                    classSpecifier.getTokenLine());
+            return;
+        }
+
+        // look for the specifier id
+        AstNode id = classHead.getFirstDescendant(CxxGrammarImpl.className);
+
+        AstNode idNode;
+        String idName;
+
+        // check if this is an unnamed specifier
+        if (id == null) {
+            idNode = classSpecifier;
+            idName = UNNAMED_CLASSIFIER_ID;
+        }
+        else {
+            idNode = id;
+            idName = id.getTokenValue();
+        }
+
+        if (!isPublicApiMember(classSpecifier)) {
+            logDebug(idName + " not in public API");
+        }
+        else {
+            visitPublicApi(idNode, idName, getBlockDocumentation(docNode));
+        }
     }
 
     private void visitMemberDeclaration(AstNode memberDeclaration) {
@@ -472,11 +535,13 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                         return false;
                     default:
                         LOG.error("isPublicApiMember unhandled case: "
-                                + enclosingSpecifierNode.getType());
+                                + enclosingSpecifierNode.getType() 
+                                + " at " + enclosingSpecifierNode.getTokenLine());
                         return false;
                     }
                 } else {
-                    LOG.error("isPublicApiMember: not a member");
+                    LOG.error("isPublicApiMember: failed to get enclosing "
+                            + "classSpecifier for node at " + node.getTokenLine());
                     return false;
                 }
             }

@@ -115,6 +115,18 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       "#define lang_init() c_init()\n"
       + "lang_init();"))
       .equals("c_init ( ) ; EOF"));
+
+    // without whitespace after parameter list
+    assert (serialize(p.parse(
+                        "#define foo(a)x\n"
+                        + "foo(b)=1;"))
+            .equals("x = 1 ; EOF"));
+
+    // with parantheses
+    assert (serialize(p.parse(
+                        "#define isequal(a, b)(a == b)\n"
+                        + "b = isequal(1,2);"))
+            .equals("b = ( 1 == 2 ) ; EOF"));
   }
 
   @Test
@@ -185,6 +197,19 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
         "#define eprintf(format, args...) fprintf (stderr, format, args)\n"
             + "eprintf(\"%s:%d: \", input_file, lineno);"))
         .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
+
+    //without whitespace after the parameter list
+    assert (serialize(p.parse(
+        "#define foo(a...);\n"
+            + "foo(a, b)"))
+        .equals("; EOF"));
+
+    //with more params and without whitespace after the parameter list
+    assert (serialize(p.parse(
+        "#define foo(a, b...);\n"
+            + "foo(a, b, c)"))
+        .equals("; EOF"));
+
 
     // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
     assert (serialize(p.parse(

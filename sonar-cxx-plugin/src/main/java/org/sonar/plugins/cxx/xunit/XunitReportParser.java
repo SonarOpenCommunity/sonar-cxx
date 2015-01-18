@@ -68,7 +68,7 @@ public class XunitReportParser implements XmlStreamHandler {
     throws XMLStreamException
   {
     String testSuiteName = testSuiteCursor.getAttrValue("name");
-    String testFileName = testSuiteCursor.getAttrValue("filename");
+    String testSuiteFName = testSuiteCursor.getAttrValue("filename");
 
     SMInputCursor childCursor = testSuiteCursor.childElementCursor();
     while (childCursor.getNext() != null) {
@@ -76,7 +76,7 @@ public class XunitReportParser implements XmlStreamHandler {
       if ("testsuite".equals(elementName)) {
         parseTestSuiteTag(childCursor);
       } else if ("testcase".equals(elementName)) {
-        testCases.add(parseTestCaseTag(childCursor, testSuiteName, testFileName));
+        testCases.add(parseTestCaseTag(childCursor, testSuiteName, testSuiteFName));
       }
     }
   }
@@ -85,6 +85,7 @@ public class XunitReportParser implements XmlStreamHandler {
       throws XMLStreamException
   {
     String classname = testCaseCursor.getAttrValue("classname");
+    String tcFilename = testCaseCursor.getAttrValue("filename");
     String name = parseTestCaseName(testCaseCursor);
     Double time = parseTime(testCaseCursor);
     String status = "ok";
@@ -113,7 +114,7 @@ public class XunitReportParser implements XmlStreamHandler {
       }
     }
 
-    return new TestCase(name, time.intValue(), status, stack, msg, classname, tsName, tsFilename);
+    return new TestCase(name, time.intValue(), status, stack, msg, classname, tcFilename, tsName, tsFilename);
   }
 
   private double parseTime(SMInputCursor testCaseCursor)

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+  <cppcheck version="1.61"/>
+  <errors>
+    <error id="id_of_a_rule_unknown_to_the_server" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+      <location file="src/component1.cc" line="15"/>
+    </error>
+  </errors>
+</results>

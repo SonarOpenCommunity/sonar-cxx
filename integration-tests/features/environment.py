@@ -72,7 +72,7 @@ def before_all(context):
                 if install_plugin(sonarhome):
                     started = start_sonar(sonarhome)
                     if not started:
-                        sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting"
+                        sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting\n"
                                      % sonarhome + RESET)
                         sys.exit(-1)
                     didstartsonar = True
