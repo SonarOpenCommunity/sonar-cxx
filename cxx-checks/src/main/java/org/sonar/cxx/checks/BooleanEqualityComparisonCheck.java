@@ -31,6 +31,7 @@ import com.sonar.sslr.api.AstNode;
 
 @Rule(
   key = "BooleanEqualityComparison",
+  description = "Remove literal boolean values from conditional expressions to improve readability.",
   priority = Priority.MINOR)
 
 public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
@@ -52,7 +53,6 @@ public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
 
   private static boolean hasBooleanLiteralOperand(AstNode node) {
     return node.select()
-//        .children(CxxGrammarImpl.idExpression)
         .children(CxxGrammarImpl.LITERAL)
         .children(CxxGrammarImpl.BOOL)
         .descendants(CxxKeyword.TRUE, CxxKeyword.FALSE)
