@@ -71,7 +71,7 @@ public final class CxxUtils {
       filePath = normalizePath(filename);
     } else {
       // RATS, CppCheck and Vera++ provide names like './file.cpp' - add source folder for index check
-      filePath = normalizePath(baseDir + File.separator + filename);
+      filePath = normalizePath(baseDir + File.separator + targetfile.getName());
     }
     return filePath;
   }
