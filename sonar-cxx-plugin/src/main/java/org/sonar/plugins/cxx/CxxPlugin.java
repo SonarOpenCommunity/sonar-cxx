@@ -386,7 +386,6 @@ public final class CxxPlugin extends SonarPlugin {
    */
   public List getExtensions() {
     List<Object> l = new ArrayList<Object>();
-    l.add(CxxMetrics.class);
     l.add(CxxLanguage.class);
     l.add(CxxColorizer.class);
     l.add(CxxMetrics.class);
