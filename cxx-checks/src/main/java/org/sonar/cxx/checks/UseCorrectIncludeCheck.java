@@ -76,7 +76,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
     }
   }
 
-  //@Override
+  @Override
   public void setCharset(Charset charset) {
     this.charset = charset;
   }

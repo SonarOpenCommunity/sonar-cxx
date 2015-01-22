@@ -66,7 +66,7 @@ import org.slf4j.LoggerFactory;
  * {@inheritDoc}
  */
 public final class CxxSquidSensor implements Sensor {
-	  private static Logger LOG = LoggerFactory.getLogger("CxxSquidSensor");
+  private static Logger LOG = LoggerFactory.getLogger("CxxSquidSensor");
   private static final Number[] FUNCTIONS_DISTRIB_BOTTOM_LIMITS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
@@ -170,7 +170,6 @@ public final class CxxSquidSensor implements Sensor {
       String key = sonarFile.getKey() + "#" +  squidFunction.getKey();
       Method sonarFunction = Method.createMethod(key, sonarFile.getLanguage(), sonarFile);
       if ( context.index(sonarFunction, sonarFile) ) {
-        LOG.debug("  Save measures for " + key);
         context.saveMeasure(sonarFunction, CoreMetrics.NCLOC, squidFunction.getDouble(CxxMetric.LINES_OF_CODE));
         context.saveMeasure(sonarFunction, CoreMetrics.COMPLEXITY, squidFunction.getDouble(CxxMetric.COMPLEXITY));
         context.saveMeasure(sonarFunction, CxxMetrics.PARAM_COUNT, squidFunction.getDouble(CxxMetric.PARAMETER_COUNT));
@@ -182,7 +181,6 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void saveFunctionsComplexityDistribution(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
-	LOG.debug("Save complexitydistribution for " + sonarFile.getKey());
     Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceFunction.class));
     RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION, FUNCTIONS_DISTRIB_BOTTOM_LIMITS);
     for (SourceCode squidFunction : squidFunctionsInFile) {
