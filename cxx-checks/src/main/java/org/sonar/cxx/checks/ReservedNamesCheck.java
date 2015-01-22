@@ -83,7 +83,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
     }
   }
 
-  //@Override
+  @Override
   public void setCharset(Charset charset) {
     this.charset = charset;
   }
