@@ -132,12 +132,10 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxPlugin.COMPILATION_BUILD_LOG_KEY)
-      .defaultValue("False")
       .name("Compilation build log")
       .description("Reuse build information to set include paths and prepocessor definitions")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .type(PropertyType.TEXT)
       .index(8)              
       .build(),
 
@@ -147,7 +145,6 @@ public final class CxxPlugin extends SonarPlugin {
       .description("Format of compilation build log")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .type(PropertyType.TEXT)
       .build()
       );
   }
