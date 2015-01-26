@@ -61,9 +61,6 @@ public final class CxxPlugin extends SonarPlugin {
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
   public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
-  
-  public static final String COMPILATION_BUILD_LOG_KEY = "sonar.cxx.compilationBuildLog";
-  public static final String COMPILATION_FORMAT_KEY = "sonar.cxx.compilationFormat";
 
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
@@ -129,22 +126,6 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
       .index(7)              
-      .build(),
-
-      PropertyDefinition.builder(CxxPlugin.COMPILATION_BUILD_LOG_KEY)
-      .name("Compilation build log")
-      .description("Reuse build information to set include paths and prepocessor definitions")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(8)              
-      .build(),
-
-      PropertyDefinition.builder(CxxPlugin.COMPILATION_FORMAT_KEY)
-      .defaultValue("vc++")
-      .name("Compilation build log format")
-      .description("Format of compilation build log")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .build()
       );
   }
@@ -321,6 +302,14 @@ public final class CxxPlugin extends SonarPlugin {
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(6)
+      .build(),
+
+      PropertyDefinition.builder(CxxCompilerSensor.BUILD_LOG_KEY)
+      .name("Compiler build log")
+      .description("Reuse build information to set include paths and prepocessor definitions")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(8)              
       .build()
       );
   }

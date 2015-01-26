@@ -49,6 +49,7 @@ import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
@@ -122,8 +123,9 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setForceIncludeFiles(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
-    cxxConf.setCompilationPropertiesWithBuildLog(conf.getString(CxxPlugin.COMPILATION_BUILD_LOG_KEY),
-                                                 conf.getString(CxxPlugin.COMPILATION_FORMAT_KEY));
+    cxxConf.setCompilationPropertiesWithBuildLog(conf.getString(CxxCompilerSensor.BUILD_LOG_KEY),
+                                                 conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
+                                                 conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
     return cxxConf;
   }
 
