@@ -33,7 +33,8 @@ public enum CxxMetric implements MetricDef {
   COMMENT_LINES,
   COMMENT_BLANK_LINES,
   PUBLIC_API,
-  PUBLIC_UNDOCUMENTED_API;
+  PUBLIC_UNDOCUMENTED_API,
+  PARAMETER_COUNT;
 
   public String getName() {
     return name();

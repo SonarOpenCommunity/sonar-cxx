@@ -19,14 +19,23 @@
  */
 package org.sonar.cxx.checks;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squidbridge.api.SourceFile;
 
-public class CheckListTest {
+import java.io.File;
 
-  @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(40);
-  }
+public class FunctionParameterCountCheckTest {
+
+	@Test
+	public void check() {
+		FunctionParameterCountCheck check = new FunctionParameterCountCheck();
+		check.setMax(3);
+
+		SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/parametercount.cc"), check);
+		CheckMessagesVerifier.verify(file.getCheckMessages())
+		.next().atLine(7).next().atLine(12).noMore();
+	}
 }
