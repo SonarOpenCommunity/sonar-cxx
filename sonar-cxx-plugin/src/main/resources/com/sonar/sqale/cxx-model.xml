@@ -4230,6 +4230,24 @@
             </chc>
             <chc>
                 <rule-repo>cxx</rule-repo>
+                <rule-key>FunctionParameterCount</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>15</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0</val>
+                    <txt>UNDEFINED</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cxx</rule-repo>
                 <rule-key>UseCorrectInclude</rule-key>
                 <prop>
                     <key>remediationFunction</key>
@@ -4249,6 +4267,24 @@
             <chc>
                 <rule-repo>cxx</rule-repo>
                 <rule-key>TooManyLinesOfCodeInFile</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0</val>
+                    <txt>UNDEFINED</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cxx</rule-repo>
+                <rule-key>TooManyLinesOfCodeInFunction</rule-key>
                 <prop>
                     <key>remediationFunction</key>
                     <txt>linear</txt>
