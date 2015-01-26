@@ -342,9 +342,17 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
 
     private void visitFunctionDefinition(AstNode functionDef) {
-        visitMemberDeclarator(functionDef);
+        if (isPublicApiMember(functionDef)) {
+            visitMemberDeclarator(functionDef);
+        }
     }
 
+    /**
+     * Find documentation node, associated documentation,
+     * identifier of a <em>public</em> member declarator and visit it
+     * as a public API. 
+     * @param node the <em>public</em> member declarator to visit
+     */
     private void visitMemberDeclarator(AstNode node) {
 
         AstNode container = node.getFirstAncestor(

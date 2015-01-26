@@ -92,6 +92,9 @@ struct testStruct {
      * bitfield doc
      */
     unsigned int bitfield:1;
+
+private:
+    void private_def(){}
 };
 
 /**
