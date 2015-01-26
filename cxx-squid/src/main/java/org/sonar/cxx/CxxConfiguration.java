@@ -21,19 +21,18 @@ package org.sonar.cxx;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jfree.util.Log;
-import org.slf4j.LoggerFactory;
 
+import org.slf4j.LoggerFactory;
 import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
@@ -41,8 +40,8 @@ public class CxxConfiguration extends SquidConfiguration {
   private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxConfiguration");
   
   private boolean ignoreHeaderComments = false;
-  private final Set uniqueIncludes = new HashSet();
-  private final Set uniqueDefines = new HashSet();
+  private final Set<String> uniqueIncludes = new HashSet<String>();
+  private final Set<String> uniqueDefines = new HashSet<String>();
   private List<String> forceIncludeFiles = new ArrayList<String>();
   private List<String> headerFileSuffixes = new ArrayList<String>();
   private String baseDir;
@@ -154,34 +153,35 @@ public class CxxConfiguration extends SquidConfiguration {
     return this.headerFileSuffixes;
   }
 
-  public void setCompilationPropertiesWithBuildLog(String filePath, String fileFormat) {
+  public void setCompilationPropertiesWithBuildLog(String filePath, String fileFormat, String charsetName) {
     if (filePath == null || filePath == "") {
       return;
     }
-        
+
     File buildLog = new File(filePath);
     
     if (!buildLog.isAbsolute()) {
       buildLog = new File(baseDir, filePath);
     }
-    
+
     if (buildLog.exists()) {
       LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
-      if (fileFormat.equals("vc++")) {
-        parseVCppLog(buildLog);
+      if (fileFormat.equals("Visual C++")) {
+        parseVCppLog(buildLog, charsetName);
       }
-      
+
       LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
+      LOG.info("Parse build log includes: '{}'", uniqueIncludes.toString());
+      LOG.info("Parse build log defines:  '{}'", uniqueDefines.toString());
     } else {
       LOG.error("Compilation log not found: '{}'", filePath);
     }
   }
 
-  private void parseVCppLog(File buildLog) {
-            
+  private void parseVCppLog(File buildLog, String charsetName) {
+
       try {
-        
-        BufferedReader br = new BufferedReader(new FileReader(buildLog));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(buildLog), charsetName));
         String line;
         String currentProjectPath = "";
         while ((line = br.readLine()) != null) {
@@ -196,19 +196,18 @@ public class CxxConfiguration extends SquidConfiguration {
           
           // get base path of project to make 
           // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
-          if (line.startsWith("Target \"ClCompile\" in file")) {
-            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
-          }
-          
+//          if (line.startsWith("Target \"ClCompile\" in file")) {
+//            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
+//          }
+          currentProjectPath = buildLog.getPath();
           if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe") || 
                   line.contains("C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
             parseVCppCompilerCLLine(line, currentProjectPath);
-          } 
-          
+          }
           if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe") || 
                   line.contains("C:\\Program Files\\Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
             parseVCppCompilerCLLine(line, currentProjectPath);       
-          }          
+          }
           if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe") || 
                   line.contains("C:\\Program Files\\Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
             parseVCppCompilerCLLine(line, currentProjectPath);        
@@ -221,7 +220,7 @@ public class CxxConfiguration extends SquidConfiguration {
         br.close();
       } catch (IOException ex) {
         LOG.error("Cannot parse build log", ex);
-      }      
+      }
   }
 
   private void parseVCppCompilerCLLine(String line, String projectPath) {
@@ -232,7 +231,7 @@ public class CxxConfiguration extends SquidConfiguration {
       if (elems[i].startsWith("/I")) {        
         ParseInclude(elems[i], project);
       }
-      
+
       if (elems[i].startsWith("/D")) {
         ++i;
         String macroElem = processVCppMacro(elems[i]);
@@ -240,14 +239,14 @@ public class CxxConfiguration extends SquidConfiguration {
           uniqueDefines.add(macroElem);
         }
       }
-      
+
       if (elems[i].startsWith("-D")) {
         String macroElem = processVCppMacro(elems[i].replace("-D", ""));
         if (!uniqueDefines.contains(macroElem)) {
           uniqueDefines.add(macroElem);
         }
       }
-	}
+    }
   }
 
   private void ParseInclude(String element, String project) {    

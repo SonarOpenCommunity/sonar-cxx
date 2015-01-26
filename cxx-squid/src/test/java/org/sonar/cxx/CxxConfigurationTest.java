@@ -27,10 +27,13 @@ import org.junit.Test;
 
 public class CxxConfigurationTest {
 
+  private static final String vcKey = "Visual C++";
+  private static final String vcCharSet = "UTF8";
+  
   @Test
   public void emptyValueShouldReturnNoDirsOrDefines() {
     CxxConfiguration config = new CxxConfiguration();
-    config.setCompilationPropertiesWithBuildLog("", "vc++");
+    config.setCompilationPropertiesWithBuildLog("", vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
   }
@@ -38,7 +41,7 @@ public class CxxConfigurationTest {
   @Test
   public void emptyValueShouldReturnWhenNull() {
     CxxConfiguration config = new CxxConfiguration();
-    config.setCompilationPropertiesWithBuildLog(null, "vc++");
+    config.setCompilationPropertiesWithBuildLog(null, vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
   }
@@ -48,7 +51,7 @@ public class CxxConfigurationTest {
     CxxConfiguration config = new CxxConfiguration();
     String[] data = {"dir1", "dir2"};
     config.setIncludeDirectories(data);
-    config.setCompilationPropertiesWithBuildLog("", "vc++");
+    config.setCompilationPropertiesWithBuildLog("", vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
   }  
   
@@ -56,7 +59,7 @@ public class CxxConfigurationTest {
   public void correctlyCreatesConfiguration() {
     CxxConfiguration config = new CxxConfiguration();
     config.setCompilationPropertiesWithBuildLog(
-            (new File("src/test/resources/compiler/vc++13.txt")).getAbsolutePath(), "vc++");
+            (new File("src/test/resources/compiler/vc++13.txt")).getAbsolutePath(), vcKey, vcCharSet);
     
     assertThat(config.getIncludeDirectories().size()).isEqualTo(11);    
     assertThat(config.getDefines().size()).isEqualTo(9);    
