@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.tools.ant.DirectoryScanner;
+import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.component.ResourcePerspectives;
@@ -146,6 +147,7 @@ public abstract class CxxReportSensor implements Sensor {
     if (reportPath == null) {
       reportPath = defaultReportPath;
     }
+    reportPath = FilenameUtils.normalize(reportPath);
 
     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
