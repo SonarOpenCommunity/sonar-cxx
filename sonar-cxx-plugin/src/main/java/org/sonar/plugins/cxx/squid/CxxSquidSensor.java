@@ -123,7 +123,8 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setForceIncludeFiles(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
-    cxxConf.setCompilationPropertiesWithBuildLog(conf.getString(CxxCompilerSensor.BUILD_LOG_KEY),
+    cxxConf.setCompilationPropertiesWithBuildLog(cxxConf.getBaseDir() + File.separator +
+                                                 conf.getString(CxxCompilerSensor.BUILD_LOG_KEY),
                                                  conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
                                                  conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
     return cxxConf;
