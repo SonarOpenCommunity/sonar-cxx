@@ -60,6 +60,7 @@ import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 
 import com.sonar.sslr.api.Grammar;
+import static org.sonar.plugins.cxx.compiler.CxxCompilerSensor.REPORT_CHARSET_DEF;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**

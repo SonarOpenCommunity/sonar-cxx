@@ -271,6 +271,7 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_CHARSET_DEF)
+      .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)              
       .name("Encoding")
       .description("The encoding to use when reading the compiler report. Leave empty to use parser's default.")
       .subCategory(subcateg)
