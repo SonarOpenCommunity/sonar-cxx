@@ -23,15 +23,12 @@ import java.io.File;
 
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.batch.fs.FileSystem;
 
 public class DefaultResourceFinder implements ResourceFinder {
 
-  public org.sonar.api.resources.File findInSonar(File file, SensorContext context, ModuleFileSystem fs, Project project) {
+  public org.sonar.api.resources.File findInSonar(File file, SensorContext context, FileSystem fs, Project project) {
     org.sonar.api.resources.File unitTestFile = org.sonar.api.resources.File.fromIOFile(file, project);
-    if (unitTestFile == null) {
-      unitTestFile = org.sonar.api.resources.File.fromIOFile(file, fs.testDirs());
-    }
     if (context.getResource(unitTestFile) == null) {
       unitTestFile = null;
     }

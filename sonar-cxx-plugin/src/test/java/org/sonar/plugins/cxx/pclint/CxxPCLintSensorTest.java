@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -36,7 +37,6 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.SonarException;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -46,7 +46,7 @@ public class CxxPCLintSensorTest {
   private RulesProfile profile;
   private ResourcePerspectives perspectives;
   private Issuable issuable;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
 
   @Before
   public void setUp() {
