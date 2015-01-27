@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -63,14 +64,15 @@ import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 
 import com.sonar.sslr.api.Grammar;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.sonar.plugins.cxx.compiler.CxxCompilerSensor.REPORT_CHARSET_DEF;
+
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
  * {@inheritDoc}
  */
 public final class CxxSquidSensor implements Sensor {
-  private static Logger LOG = LoggerFactory.getLogger("CxxSquidSensor");
   private static final Number[] FUNCTIONS_DISTRIB_BOTTOM_LIMITS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
@@ -155,10 +157,14 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setForceIncludeFiles(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
-    cxxConf.setCompilationPropertiesWithBuildLog(cxxConf.getBaseDir() + File.separator +
-                                                 conf.getString(CxxCompilerSensor.BUILD_LOG_KEY),
-                                                 conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
-                                                 conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
+
+    String filePaths = conf.getString(CxxCompilerSensor.REPORT_PATH_KEY);    
+    if (filePaths != null && !"".equals(filePaths)) {
+      List<File> reports = CxxReportSensor.getReports(conf, fs.baseDir().getPath(), CxxCompilerSensor.REPORT_PATH_KEY, "");
+      cxxConf.setCompilationPropertiesWithBuildLog(reports,
+                                                   conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
+                                                   conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
+    }
     return cxxConf;
   }
 
@@ -185,7 +191,6 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void saveMeasures(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
-    LOG.debug("Save measures for " + sonarFile.getKey());
     context.saveMeasure(sonarFile, CoreMetrics.FILES, squidFile.getDouble(CxxMetric.FILES));
     context.saveMeasure(sonarFile, CoreMetrics.LINES, squidFile.getDouble(CxxMetric.LINES));
     context.saveMeasure(sonarFile, CoreMetrics.NCLOC, squidFile.getDouble(CxxMetric.LINES_OF_CODE));
@@ -206,9 +211,6 @@ public final class CxxSquidSensor implements Sensor {
         context.saveMeasure(sonarFunction, CoreMetrics.NCLOC, squidFunction.getDouble(CxxMetric.LINES_OF_CODE));
         context.saveMeasure(sonarFunction, CoreMetrics.COMPLEXITY, squidFunction.getDouble(CxxMetric.COMPLEXITY));
         context.saveMeasure(sonarFunction, CxxMetrics.PARAM_COUNT, squidFunction.getDouble(CxxMetric.PARAMETER_COUNT));
-      }
-      else {
-          LOG.warn("  Failed to index " + key);
       }
     }    
   }

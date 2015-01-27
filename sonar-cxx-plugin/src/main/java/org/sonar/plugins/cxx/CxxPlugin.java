@@ -274,6 +274,7 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_CHARSET_DEF)
+      .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)              
       .name("Encoding")
       .description("The encoding to use when reading the compiler report. Leave empty to use parser's default.")
       .subCategory(subcateg)
@@ -304,15 +305,6 @@ public final class CxxPlugin extends SonarPlugin {
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
-      .index(6)
-      .build(),
-
-      PropertyDefinition.builder(CxxCompilerSensor.BUILD_LOG_KEY)
-      .name("Compiler build log")
-      .description("Reuse build information to set include paths and prepocessor definitions")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(8)              
       .build()
       );
   }

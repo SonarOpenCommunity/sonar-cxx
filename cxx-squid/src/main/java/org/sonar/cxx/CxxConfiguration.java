@@ -22,7 +22,6 @@ package org.sonar.cxx;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -153,28 +152,24 @@ public class CxxConfiguration extends SquidConfiguration {
     return this.headerFileSuffixes;
   }
 
-  public void setCompilationPropertiesWithBuildLog(String filePath, String fileFormat, String charsetName) {
-    if (filePath == null || filePath == "") {
+
+  public void setCompilationPropertiesWithBuildLog(List<File> reports, String fileFormat, String charsetName) {
+    
+    if(reports == null) {
       return;
     }
 
-    File buildLog = new File(filePath);
-    
-    if (!buildLog.isAbsolute()) {
-      buildLog = new File(baseDir, filePath);
-    }
+    for(File buildLog : reports) {
+      if (buildLog.exists()) {
+        LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
+        if (fileFormat.equals("Visual C++")) {
+          parseVCppLog(buildLog, charsetName);
+        }
 
-    if (buildLog.exists()) {
-      LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
-      if (fileFormat.equals("Visual C++")) {
-        parseVCppLog(buildLog, charsetName);
-      }
-
-      LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
-      LOG.info("Parse build log includes: '{}'", uniqueIncludes.toString());
-      LOG.info("Parse build log defines:  '{}'", uniqueDefines.toString());
-    } else {
-      LOG.error("Compilation log not found: '{}'", filePath);
+        LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
+      } else {
+        LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
+      }    
     }
   }
 
@@ -196,10 +191,9 @@ public class CxxConfiguration extends SquidConfiguration {
           
           // get base path of project to make 
           // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
-//          if (line.startsWith("Target \"ClCompile\" in file")) {
-//            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
-//          }
-          currentProjectPath = buildLog.getPath();
+          if (line.startsWith("Target \"ClCompile\" in file")) {
+            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
+          }
           if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe") || 
                   line.contains("C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
             parseVCppCompilerCLLine(line, currentProjectPath);
