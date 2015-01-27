@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.slf4j.LoggerFactory;
+import org.sonar.api.config.Settings;
+import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
@@ -153,26 +155,23 @@ public class CxxConfiguration extends SquidConfiguration {
     return this.headerFileSuffixes;
   }
 
-  public void setCompilationPropertiesWithBuildLog(String filePath, String fileFormat, String charsetName) {
-    if (filePath == null || filePath == "") {
+  public void setCompilationPropertiesWithBuildLog(List<File> reports, String fileFormat, String charsetName) {
+    
+    if(reports == null) {
       return;
     }
-
-    File buildLog = new File(filePath);
     
-    if (!buildLog.isAbsolute()) {
-      buildLog = new File(baseDir, filePath);
-    }
+    for(File buildLog : reports) {
+      if (buildLog.exists()) {
+        LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
+        if (fileFormat.equals("Visual C++")) {
+          parseVCppLog(buildLog, charsetName);
+        }
 
-    if (buildLog.exists()) {
-      LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
-      if (fileFormat.equals("Visual C++")) {
-        parseVCppLog(buildLog, charsetName);
-      }
-
-      LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
-    } else {
-      LOG.error("Compilation log not found: '{}'", filePath);
+        LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
+      } else {
+        LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
+      }    
     }
   }
 

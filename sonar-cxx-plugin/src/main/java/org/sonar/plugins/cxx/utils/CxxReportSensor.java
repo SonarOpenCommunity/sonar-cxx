@@ -138,7 +138,7 @@ public abstract class CxxReportSensor implements Sensor {
       return value;
   }
 
-  protected List<File> getReports(Settings conf,
+  public static List<File> getReports(Settings conf,
       String baseDirPath,
       String reportPathPropertyKey,
       String defaultReportPath) {

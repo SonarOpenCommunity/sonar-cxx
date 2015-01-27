@@ -27,6 +27,6 @@ public class CxxPluginTest {
   @Test
   public void testGetExtensions() throws Exception {
     CxxPlugin plugin = new CxxPlugin();
-    assertEquals(59, plugin.getExtensions().size());
+    assertEquals(58, plugin.getExtensions().size());
   }
 }
