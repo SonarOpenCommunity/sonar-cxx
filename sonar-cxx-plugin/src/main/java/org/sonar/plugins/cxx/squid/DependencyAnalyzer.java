@@ -131,15 +131,20 @@ public class DependencyAnalyzer {
     for (Directory dir : packages) {
       //Save dependencies (cross-directories, including cross-directory file dependencies)
       for (DirectoryEdge edge : packagesGraph.getOutgoingEdges(dir)) {
-        Dependency dependency = new Dependency(dir, edge.getTo())
+        Directory to = edge.getTo();
+        if(context.isIndexed(to, false)){
+          Dependency dependency = new Dependency(dir, to)
             .setUsage("references")
             .setWeight(edge.getWeight())
             .setParent(null);
-        context.saveDependency(dependency);
-        dependencyIndex.put(edge, dependency);
+          context.saveDependency(dependency);
+          dependencyIndex.put(edge, dependency);
 
-        for(FileEdge subEdge : edge.getRootEdges()) {
-          saveFileEdge(subEdge, dependency);
+          for(FileEdge subEdge : edge.getRootEdges()) {
+            saveFileEdge(subEdge, dependency);
+          }
+        } else {
+          CxxUtils.LOG.debug("Skipping dependency to directory '{}', because it is'nt part of this project", to.getName());
         }
       }
 
