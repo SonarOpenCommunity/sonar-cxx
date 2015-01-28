@@ -103,8 +103,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                                     name, line, source, message);
               } else {
                 CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
-                        name + "(" + errorCursor.getAttrValue("line") + ")",
-                        errorCursor.getAttrValue("message"));
+                    name + "(" + errorCursor.getAttrValue("line") + ")",
+                    errorCursor.getAttrValue("message"));
               }
             }
           }

@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,8 +31,14 @@ import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
+
+import org.sonar.api.batch.fs.FilePredicates;
+import org.sonar.api.batch.fs.FilePredicate;
+import org.sonar.api.batch.fs.InputFile;
+
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
@@ -86,6 +93,7 @@ public final class CxxSquidSensor implements Sensor {
   private FileSystem fs;
   private final ProjectReactor reactor;
   private ResourcePerspectives perspectives;
+  private final FilePredicate mainFilePredicate;
 
   /**
    * {@inheritDoc}
@@ -99,10 +107,14 @@ public final class CxxSquidSensor implements Sensor {
     this.fs = fs;
     this.reactor = reactor;
     this.perspectives = perspectives;
+    FilePredicates predicates = fs.predicates();
+    this.mainFilePredicate = predicates.and(predicates.hasType(InputFile.Type.MAIN),
+                                            predicates.hasLanguage(CxxLanguage.KEY));
   }
 
   public boolean shouldExecuteOnProject(Project project) {
     return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
+//    return fs.hasFiles(mainFilePredicate);
   }
 
   /**
@@ -118,9 +130,13 @@ public final class CxxSquidSensor implements Sensor {
 
     scanner.scanFiles(getSourceFiles(this.fs));
 
+//    scanner.scanFiles(Lists.newArrayList(fs.files(mainFilePredicate)));
+
+
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }
+
 
   private Collection<File> getSourceFiles(FileSystem fs) {
     return getFiles(fs, org.sonar.api.batch.fs.InputFile.Type.MAIN);

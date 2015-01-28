@@ -29,25 +29,26 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
-import org.apache.commons.configuration.Configuration;
-import org.sonar.api.batch.bootstrap.ProjectDefinition;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.apache.tools.ant.DirectoryScanner;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.CoreProperties;
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
-
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 
 public class TestUtils {
+
   public static Issuable mockIssuable() {
     Issue issue = mock(Issue.class);
     Issuable.IssueBuilder issueBuilder = mock(Issuable.IssueBuilder.class);
@@ -79,42 +80,27 @@ public class TestUtils {
   }
 
   /**
-   * @return  default mock project
+   * Creates a default project mock
    */
   public static Project mockProject() {
     return mockProject(loadResource("/org/sonar/plugins/cxx/reports-project"));
   }
 
   /**
-   * Mock project
-   * @param baseDir project base dir
-   * @return  mocked project
+   * Creates a project mock given its root directory
+   * @param baseDir project root directory
+   * @return mocked project
    */
   public static Project mockProject(File baseDir) {
-    List<Project> emptyProjectList = new ArrayList<Project>();
-    
     ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
     when(fileSystem.getBasedir()).thenReturn(baseDir);
-    when(fileSystem.getSourceCharset()).thenReturn(Charset.defaultCharset());
-
     Project project = mock(Project.class);
     when(project.getFileSystem()).thenReturn(fileSystem);
-    CxxLanguage lang = mockCxxLanguage();
-    when(project.getLanguage()).thenReturn(lang);
-    when(project.getLanguageKey()).thenReturn(lang.getKey());
-    // only for testing, Configuration is deprecated
-    Configuration configuration = mock(Configuration.class);
-    when(configuration.getBoolean(CoreProperties.CORE_IMPORT_SOURCES_PROPERTY,
-        CoreProperties.CORE_IMPORT_SOURCES_DEFAULT_VALUE)).thenReturn(true);
-    when(project.getConfiguration()).thenReturn(configuration);
-    when(project.getModules()).thenReturn(emptyProjectList);
     return project;
   }
 
-  
-          
-  public static ProjectReactor mockReactor(File baseDir,
-                                                List<File> sourceDirs, List<File> testDirs) {
+  public static ProjectReactor mockReactor(File baseDir, List<File> sourceDirs,
+      List<File> testDirs) {
     ProjectReactor reactor = mock(ProjectReactor.class);
     ProjectDefinition projectDef = mock(ProjectDefinition.class);
     when(reactor.getRoot()).thenReturn(projectDef);
@@ -122,34 +108,78 @@ public class TestUtils {
 
     return reactor;
   }
-
-  public static DefaultFileSystem mockFileSystem(File baseDir) {
-    DefaultFileSystem fs = new DefaultFileSystem();
-    fs.setEncoding(Charset.forName("UTF-8"));
-    fs.setBaseDir(baseDir);
-    return fs;
-  }
-
-  public static DefaultFileSystem mockFileSystem() {
-    File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
-    return mockFileSystem(baseDir);
-  }
   
   public static ProjectReactor mockReactor() {
     File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
     List<File> empty = new ArrayList<File>();
     return mockReactor(baseDir, empty, empty);
   }  
+  
+  /**
+   * Mocks the filesystem given the root directory of the project
+   * @param baseDir project root directory
+   * @return mocked filesystem
+   */
+  public static DefaultFileSystem mockFileSystem(File baseDir) {
+    return mockFileSystem(baseDir, Arrays.asList(new File(".")), null);
+  }
+
+  /**
+   * Mocks the filesystem given the root directory and lists of source
+   * and tests directories. The latter are given just as in sonar-project.properties
+   * @param baseDir    project root directory
+   * @param sourceDirs List of source directories, relative to baseDir.
+   * @param testDirs   List of test directories, relative to baseDir.
+   * @return mocked filesystem
+   */
+  public static DefaultFileSystem mockFileSystem(File baseDir,
+                                                 List<File> sourceDirs,
+                                                 List<File> testDirs) {
+    DefaultFileSystem fs = new DefaultFileSystem();
+    fs.setEncoding(Charset.forName("UTF-8"));
+    fs.setBaseDir(baseDir);
+    scanDirs(fs, baseDir, sourceDirs, Type.MAIN);
+    scanDirs(fs, baseDir, testDirs, Type.TEST);
+    return fs;
+  }
+
+  /**
+   * Returns the default filesystem mock
+   */
+  public static DefaultFileSystem mockFileSystem() {
+    return mockFileSystem(loadResource("/org/sonar/plugins/cxx/reports-project"));
+  }
 
   public static CxxLanguage mockCxxLanguage() {
     return new CxxLanguage(new Settings());
   }
 
-  public static DefaultInputFile CxxInputFile(File baseDir, String relpath,
-      Type ftype) {
-    return new DefaultInputFile(relpath)
-        .setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
-        .setLanguage(CxxLanguage.KEY).setType(ftype);
+  private static void scanDirs(DefaultFileSystem fs, File baseDir, List<File> dirs, Type ftype) {
+    if (dirs == null){
+      return;
+    }
+
+//    List<InputFile> result = new ArrayList<InputFile>();
+    String[] suffixes = mockCxxLanguage().getFileSuffixes();
+    String[] includes = new String[suffixes.length];
+    for (int i = 0; i < includes.length; ++i) {
+      includes[i] = "**/*" + suffixes[i];
+    }
+
+    DirectoryScanner scanner = new DirectoryScanner();
+    scanner.setIncludes(includes);
+    String relpath;
+    for (File dir : dirs) {
+      scanner.setBasedir(new File(baseDir, dir.getPath()));
+      scanner.scan();
+      for (String path : scanner.getIncludedFiles()) {
+        relpath = new File(dir, path).getPath();
+        fs.add(new DefaultInputFile(relpath)
+               .setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
+               .setLanguage(CxxLanguage.KEY)
+               .setType(ftype));
+      }
+    }
   }
 }
 

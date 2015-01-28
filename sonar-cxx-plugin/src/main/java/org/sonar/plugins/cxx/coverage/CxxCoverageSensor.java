@@ -66,7 +66,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   public CxxCoverageSensor(Settings settings, FileSystem fs, ProjectReactor reactor) {
     super(settings, fs, reactor);
-
     this.reactor = reactor;
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());

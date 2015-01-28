@@ -88,7 +88,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     public interface PublicApiHandler {
         void onPublicApi(AstNode node, String id, List<Token> comments);
-    }
+    };
 
     private List<String> headerFileSuffixes;
 
@@ -330,9 +330,10 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
             // memberDeclaration, or inlined
             if (declarators.size() == 1) {
                 visitMemberDeclarator(memberDeclaration);
-            } else {
+            }
             // if several declarators, doc should be placed before each
             // declarator, or inlined
+            else {
                 for (AstNode declarator : declarators) {
                     visitMemberDeclarator(declarator);
                 }
@@ -341,9 +342,17 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
 
     private void visitFunctionDefinition(AstNode functionDef) {
-        visitMemberDeclarator(functionDef);
+        if (isPublicApiMember(functionDef)) {
+            visitMemberDeclarator(functionDef);
+        }
     }
 
+    /**
+     * Find documentation node, associated documentation,
+     * identifier of a <em>public</em> member declarator and visit it
+     * as a public API. 
+     * @param node the <em>public</em> member declarator to visit
+     */
     private void visitMemberDeclarator(AstNode node) {
 
         AstNode container = node.getFirstAncestor(

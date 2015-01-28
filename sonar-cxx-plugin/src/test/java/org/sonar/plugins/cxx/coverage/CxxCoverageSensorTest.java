@@ -30,24 +30,23 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCoverageSensorTest {
   private CxxCoverageSensor sensor;
   private SensorContext context;
   private Project project;
-  private DefaultFileSystem fs;
   private ProjectReactor reactor;
+  private FileSystem fs;
 
   @Before
   public void setUp() {
-	fs = TestUtils.mockFileSystem();
+    fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
     reactor = TestUtils.mockReactor();
     context = mock(SensorContext.class);

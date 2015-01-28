@@ -26,13 +26,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-//import java.nio.charset.Charset;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-//import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -47,11 +44,11 @@ public class CxxVeraxxSensorTest {
   private Project project;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
-  private DefaultFileSystem fs;
+  private FileSystem fs;
 
   @Before
   public void setUp() {
-	fs = TestUtils.mockFileSystem();
+    fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);

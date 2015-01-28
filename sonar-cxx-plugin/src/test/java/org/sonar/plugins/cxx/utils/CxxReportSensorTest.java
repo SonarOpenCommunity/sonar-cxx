@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.utils;
 
 import static org.fest.assertions.Assertions.assertThat;
+
 import java.io.File;
 import java.util.List;
 import org.junit.Before;
@@ -58,6 +59,8 @@ public class CxxReportSensorTest {
   private static DefaultFileSystem fs;
   private ProjectReactor reactor;
 
+//  private static FileSystem fs;
+
   @Before
   public void init() {
     settings = new Settings();
@@ -76,6 +79,7 @@ public class CxxReportSensorTest {
   public void shouldntThrowWhenInstantiating() {
     new CxxReportSensorImpl(settings, fs, reactor);
   }
+
 
   @Test
   public void test_should_execute_on_project() {
@@ -96,6 +100,7 @@ public class CxxReportSensorTest {
     fs.add(testfile);
     assertThat(sensor.shouldExecuteOnProject(project)).isTrue();
   }
+
 
   @Test
   public void getReports_shouldFindSomethingIfThere() {

@@ -28,12 +28,18 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
+import java.util.Arrays;
+import java.util.List;
+
+
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+//import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.component.ResourcePerspectives;
@@ -49,6 +55,7 @@ public class CxxSquidSensorTest {
   private SensorContext context;
   private Settings settings;
   private DefaultFileSystem fs;
+//  private FileSystem fs;
   private Project project;
   private ProjectReactor reactor;
   
@@ -61,9 +68,8 @@ public class CxxSquidSensorTest {
   @Test
   public void testCollectingSquidMetrics() {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
-    setUpSensor(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "code_chunks.cc", Type.MAIN));
-    
+    setUpSensor(baseDir, Arrays.asList(new File(".")));
+
     sensor.analyse(project, context);
 
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
@@ -71,7 +77,6 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(54.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(50.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(7.0));
-
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(19.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.COMMENT_LINES), eq(15.0));
@@ -80,10 +85,9 @@ public class CxxSquidSensorTest {
   @Test
   public void testReplacingOfExtenalMacros() {
     settings.setProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/external-macro-project");    
-    setUpSensor(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "test.cc", Type.MAIN));
-    
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/external-macro-project");
+    setUpSensor(baseDir, Arrays.asList(new File(".")));
+
     sensor.analyse(project, context);
 
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
@@ -98,27 +102,16 @@ public class CxxSquidSensorTest {
   public void testFindingIncludedFiles() {
     settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/include-directories-project");
-    setUpSensor(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "src/main.cc", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/bar.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/HEADER1.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/HEADER2.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/include1.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/include2.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/include3.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/widget.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/subfolder/include4.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include_snd/include_snd_1.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include_snd/subfolder/include_snd_subfolder_1.hh", Type.MAIN));
+    setUpSensor(baseDir, Arrays.asList(new File("src")));
 
     sensor.analyse(project, context);
 
-    verify(context, times(11)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.LINES), eq(29.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(9.0));
-    verify(context, times(11)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
     verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(9.0));
-    verify(context, times(11)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
   }
 
   @Test
@@ -126,21 +119,19 @@ public class CxxSquidSensorTest {
     settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
     settings.setProperty(CxxPlugin.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder/force2.hh");
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/force-include-project");
-    setUpSensor(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "src/src1.cc", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "src/src2.cc", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/force1.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "include/subfolder/force2.hh", Type.MAIN));
+
+    setUpSensor(baseDir, Arrays.asList(new File("src")));
 
     sensor.analyse(project, context);
 
-    // ToDo: check whether this unit test is useful - no results are checked for "forced includes"
-    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.LINES), eq(1.0));
-    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
-    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(2.0));
-    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(1.0));
-    verify(context, times(4)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+    // These checks actually check the force include feature, since only if it works the metric values will be like follows
+    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.LINES), eq(1.0));
+    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(2.0));
+    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(1.0));
+    verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+
   }
 
   @Test
@@ -148,11 +139,10 @@ public class CxxSquidSensorTest {
     // especially: when two files, both belonging to the set of
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
-	File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");  
-    setUpSensor(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "test1.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "test2.hh", Type.MAIN));  
-    
+
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");
+    setUpSensor(baseDir, Arrays.asList(new File(".")));
+
     sensor.analyse(project, context);
 
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
@@ -160,11 +150,9 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testCircularFileDependency() {
-	File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");  
-    setUpSensor(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "test1.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "test2.hh", Type.MAIN)); 
-    
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");
+    setUpSensor(baseDir, Arrays.asList(new File(".")));
+
     sensor.analyse(project, context);
 
     verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(1.0));
@@ -180,13 +168,10 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testCircularPackageDependency() {
-	File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-packages-project");  
-    setUpSensor(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "Package1/test1.hh", Type.MAIN));
-    fs.add(TestUtils.CxxInputFile(baseDir, "Package2/test2.hh", Type.MAIN)); 
-    fs.add(TestUtils.CxxInputFile(baseDir, "Package2/test3.hh", Type.MAIN)); 
-    fs.add(TestUtils.CxxInputFile(baseDir, "Package2/test4.hh", Type.MAIN)); 
-    
+
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-packages-project");
+    setUpSensor(baseDir, Arrays.asList(new File("Package1"), new File("Package2")));
+
     sensor.analyse(project, context);
 
     verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(0.0));
@@ -200,9 +185,11 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_EDGES_WEIGHT), eq(3.0));
   }
 
-  private void setUpSensor(File baseDir){
+
+  private void setUpSensor(File baseDir, List<File> srcDirs){
     project = TestUtils.mockProject(baseDir);
-    fs = TestUtils.mockFileSystem(baseDir);
+    fs = TestUtils.mockFileSystem(baseDir, srcDirs, null);
+
     ActiveRules rules = mock(ActiveRules.class);
     CheckFactory checkFactory = new CheckFactory(rules);
     reactor = TestUtils.mockReactor();

@@ -20,12 +20,13 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.apache.tools.ant.DirectoryScanner;
+import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -53,7 +54,6 @@ public abstract class CxxReportSensor implements Sensor {
   private Set<String> uniqueIssues = new HashSet<String>();
   private final Metric metric;
   private int violationsCount;
-
   protected FileSystem fs;
   private final ProjectReactor reactor;
   protected Settings conf;
@@ -151,6 +151,7 @@ public abstract class CxxReportSensor implements Sensor {
     if (reportPath == null) {
       reportPath = defaultReportPath;
     }
+    reportPath = FilenameUtils.normalize(reportPath);
 
     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 

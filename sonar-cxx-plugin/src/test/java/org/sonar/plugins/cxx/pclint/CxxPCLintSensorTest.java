@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -47,12 +47,12 @@ public class CxxPCLintSensorTest {
   private RulesProfile profile;
   private ResourcePerspectives perspectives;
   private Issuable issuable;
-  private DefaultFileSystem fs;
   private ProjectReactor reactor;
+  private FileSystem fs;
 
   @Before
   public void setUp() {
-    fs = new DefaultFileSystem();
+    fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
     reactor = TestUtils.mockReactor();
     issuable = TestUtils.mockIssuable();

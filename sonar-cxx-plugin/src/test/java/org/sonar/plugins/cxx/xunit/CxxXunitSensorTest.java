@@ -30,13 +30,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
@@ -46,8 +46,8 @@ public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
   private SensorContext context;
   private Project project;
-  private DefaultFileSystem fs;
   private ProjectReactor reactor;
+  private FileSystem fs;
   private Settings config;
 
   @Before
@@ -66,17 +66,8 @@ public class CxxXunitSensorTest {
 
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
 
-    Project project = TestUtils.mockProject(baseDir);
-    fs = TestUtils.mockFileSystem(baseDir);
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests1/Test1.cc", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests1/Test5.cc", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests1/Test6.hh", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests1/Test6_A.cc", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests1/Test6_B.cc", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests1/subdir/Test2.cc", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests2/Test3.cc", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests2/Test4.cc", Type.TEST));
-    fs.add(TestUtils.CxxInputFile(baseDir, "tests2/Test4.hh", Type.TEST));
+    fs = TestUtils.mockFileSystem(baseDir, Arrays.asList(new File("src")),
+                                  Arrays.asList(new File("tests1"), new File("tests2")));
 
     sensor = new CxxXunitSensor(config, fs, reactor);
     sensor.buildLookupTables();

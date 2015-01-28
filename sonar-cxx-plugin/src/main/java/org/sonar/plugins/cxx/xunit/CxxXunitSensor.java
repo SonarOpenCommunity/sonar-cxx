@@ -45,6 +45,7 @@ import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
@@ -336,9 +337,10 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
 
   void buildLookupTables() {
-    Iterable<File> files = fs.files(fs.predicates().and(
-        fs.predicates().hasType(org.sonar.api.batch.fs.InputFile.Type.TEST),
-        fs.predicates().hasLanguage(CxxLanguage.KEY)));
+    FilePredicates predicates = fs.predicates();
+    Iterable<File> files = fs.files(predicates.and(
+        predicates.hasType(org.sonar.api.batch.fs.InputFile.Type.TEST),
+        predicates.hasLanguage(CxxLanguage.KEY)));
 
     CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
