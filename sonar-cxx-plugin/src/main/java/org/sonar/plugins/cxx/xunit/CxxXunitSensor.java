@@ -43,11 +43,12 @@ import javax.xml.transform.stream.StreamSource;
 import org.sonar.api.batch.CoverageExtension;
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.api.utils.SonarException;
 import org.sonar.api.utils.StaxParser;
@@ -87,7 +88,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, ModuleFileSystem fs) {
+  public CxxXunitSensor(Settings conf, FileSystem fs) {
     super(conf, fs);
     xsltURL = conf.getString(XSLT_URL_KEY);
     this.resourceFinder = new DefaultResourceFinder();
@@ -335,9 +336,12 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
 
   void buildLookupTables() {
-    List<File> files = fs.files(CxxLanguage.TEST_QUERY);
+    FilePredicates predicates = fs.predicates();
+    Iterable<File> files = fs.files(predicates.and(
+        predicates.hasType(org.sonar.api.batch.fs.InputFile.Type.TEST),
+        predicates.hasLanguage(CxxLanguage.KEY)));
 
-    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+    CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){

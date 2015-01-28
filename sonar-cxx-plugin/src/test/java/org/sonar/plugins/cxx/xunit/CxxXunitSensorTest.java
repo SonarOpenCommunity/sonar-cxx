@@ -30,23 +30,22 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
   private SensorContext context;
   private Project project;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
   private Settings config;
 
   @Before
@@ -64,16 +63,9 @@ public class CxxXunitSensorTest {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
 
-    List<File> sourceDirs = new ArrayList<File>();
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
-    sourceDirs.add(baseDir);
-
-    List<File> testDirs = new ArrayList<File>();
-    testDirs.add(new File(baseDir, "tests1"));
-    testDirs.add(new File(baseDir, "tests2"));
-
-    Project project = TestUtils.mockProject(baseDir, sourceDirs, testDirs);
-    fs = TestUtils.mockFileSystem(baseDir, sourceDirs, testDirs);
+    fs = TestUtils.mockFileSystem(baseDir, Arrays.asList(new File("src")),
+                                  Arrays.asList(new File("tests1"), new File("tests2")));
 
     sensor = new CxxXunitSensor(config, fs);
     sensor.buildLookupTables();
@@ -127,8 +119,7 @@ public class CxxXunitSensorTest {
   public void shouldReportNothingWhenNoReportFound() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
-
-    sensor = new CxxXunitSensor(config, TestUtils.mockFileSystem());
+    sensor = new CxxXunitSensor(config, fs);
 
     sensor.analyse(project, context);
 

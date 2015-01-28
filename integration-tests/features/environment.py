@@ -186,7 +186,7 @@ def start_script(sonarhome):
     elif platform.system() == "Windows":
         if platform.machine() == "x86_64":
             command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartSonar.bat")]
-        elif platform.machine() == "x86":
+        elif platform.machine() == "i686":
             command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "StartSonar.bat")]
 
     if command is None:
@@ -214,7 +214,7 @@ def stop_script(sonarhome):
 def linux_script(sonarhome):
     if platform.machine() == "x86_64":
         return os.path.join(sonarhome, "bin/linux-x86-64/sonar.sh")
-    elif platform.machine() == "x86":
+    elif platform.machine() == "i686":
         return os.path.join(sonarhome, "bin/linux-x86-32/sonar.sh")
 
 

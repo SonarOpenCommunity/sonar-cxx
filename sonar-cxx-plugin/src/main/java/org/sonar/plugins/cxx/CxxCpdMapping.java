@@ -25,16 +25,16 @@ import net.sourceforge.pmd.cpd.Tokenizer;
 
 import org.sonar.api.batch.AbstractCpdMapping;
 import org.sonar.api.resources.Language;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
+import org.sonar.api.batch.fs.FileSystem;
 
 public class CxxCpdMapping extends AbstractCpdMapping {
 
   private final CxxLanguage language;
   private final Charset charset;
 
-  public CxxCpdMapping(CxxLanguage language, ModuleFileSystem fs) {
+  public CxxCpdMapping(CxxLanguage language, FileSystem fs) {
     this.language = language;
-    this.charset = fs.sourceCharset();
+    this.charset = fs.encoding();
   }
 
   public Tokenizer getTokenizer() {
