@@ -39,9 +39,12 @@ Feature: Providing test execution numbers
   # |      'classname' in the resulting AST's. This requires the test
   # |      sources to be actually parsable.
   # |
+                            
+  # ==================
+  # === googletest ===
+  # ==================
 
-
-  Scenario: Importing unchanged test googletest reports in default mode
+  Scenario: Importing unchanged googletest reports in default mode
 
       By default, the plugin doesn't try to assign the testcases
       found in the report to test files in Sonar, it just sums up
@@ -69,7 +72,7 @@ Feature: Providing test execution numbers
               | test_execution_time  | 0     |
 
 
-  Scenario Outline: Importing unchanged googletest reports in detailled mode
+  Scenario Outline: Importing unchanged googletest reports in detailed mode
 
       Testcases in googletest reports do not know the source file they come
       from. The plugin is able to fill this gap for a subset of testcases
@@ -172,8 +175,7 @@ Feature: Providing test execution numbers
         | gtest_fname_in_both.xml | # filename in both tags, the wrong one in testsuite
 
 
-
-  Scenario Outline: Test reports cannot be found or are empty
+  Scenario Outline: googletest reports cannot be found or are empty
       GIVEN the project "googletest_project"
       WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=<reportpath>"
       THEN the analysis finishes successfully
@@ -197,16 +199,173 @@ Feature: Providing test execution numbers
           | notexistingpath  |
           | empty_report.xml |
 
+              
+  #  Scenario: googletest report is invalid
+  #      GIVEN the project "googletest_project"
+  #      WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
+  #      THEN the analysis breaks
+  #          AND the analysis log contains a line matching:
+  #              """
+  #              ERROR.*Cannot feed the data into sonar, details: .*
+  #              """
 
-  Scenario Outline: Test report is invalid
-      GIVEN the project "googletest_project"
-      WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
-      THEN the analysis breaks
-          AND the analysis log contains a line matching:
-              """
-              ERROR.*Cannot feed the data into sonar, details: .*
-              """
+  # =================
+  # === boosttest ===
+  # =================
 
+  Scenario Outline: boosttest reports cannot be found or are empty
+      GIVEN the project "boosttest_project"
+      WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=<reportpath>"
+      THEN the analysis finishes successfully
+          AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*The report.*seems to be empty, ignoring\.
+              """
+          AND the following metrics have following values:
+              | metric               | value |
+              | tests                | None  |
+              | test_failures        | None  |
+              | test_errors          | None  |
+              | skipped_tests        | None  |
+              | test_success_density | None  |
+              | test_execution_time  | None  |
+
+      Examples:
+          | reportpath       |
+          | notexistingpath  |
+          | empty_report.xml |
+
+
+  Scenario: Importing simple boosttest report in default mode
+
+      By default, the plugin doesn't try to assign the testcases
+      found in the report to test files in Sonar, it just sums up
+      all the measures and assigns it to the project. This makes the
+      procedure more stable but doesn't provide the details for the
+      testcases in SonarQube, i.e. the drilldown wont be possible.
+
+      GIVEN the project "boosttest_project"
+
+      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_simple-test_suite.xml"
+
+      THEN the analysis finishes successfully
+          AND the analysis log contains no error/warning messages
+          AND the following metrics have following values:
+              | metric               | value |
+              | tests                | 1     |
+              | test_failures        | 0     |
+              | test_errors          | 0     |
+              | skipped_tests        | 0     |
+              | test_success_density | 100   |
+              | test_execution_time  | 0     |
+
+              
+  Scenario: Importing nested boosttest report in default mode
+
+      Boost unit test framework supports nested testsuites.
+      A testsuite is handled as a C++ namespace.
+      Verify the support of nested testsuites.
+            
+      GIVEN the project "boosttest_project"
+   
+      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
+
+      THEN the analysis finishes successfully
+          AND the analysis log contains no error/warning messages
+          AND the following metrics have following values:
+              | metric               | value |
+              | tests                | 4     |
+              | test_failures        | 0     |
+              | test_errors          | 4     |
+              | skipped_tests        | 0     |
+              | test_success_density | 0     |
+              | test_execution_time  | 3     |
+
+
+  Scenario Outline: Importing unchanged boosttest reports in detailed mode (filename tag)
+
+      Testcases in boosttest reports with setting 'log_level=all' also
+      the root filename of the testcase. Plugin is able to read
+      filename tag and link corresponding test module.
+      
+      GIVEN the project "boosttest_project"
+      
+      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
+      THEN the analysis finishes successfully
+          AND the analysis log contains no error/warning messages
+          AND the test related metrics have following values: <values>
+
+      Examples:
+                                           # tests, failure, errors, skipped,
+                                           # density, time
+      | reportpath                         | values                             |
+
+      # simple example
+      | btest_test_simple-all.xml          | 1, 0, 0, 0, 100, 0                 |
+      
+      # with failure & errors
+      | btest_test_component1-all.xml      | 3, 1, 1, 0, 33.3, 50002            |
+      
+      # with testsuite/sucess
+      | btest_test_success-all.xml         | 1, 0, 0, 0, 100, 3                 |
+      
+      # with nested testsuites
+      | btest_test_nested-all.xml          | 4, 0, 4, 0, 0, 5                   |
+                        
+              
+  Scenario Outline: Importing unchanged boosttest reports in detailed mode (AST)
+
+      Testcases in boosttest reports with setting 'log_level=test_suite'
+      do not know the source file they come from. The plugin is able
+      to fill this gap for a subset of testcases using the
+      'lookup the namespaces in the AST'-approach.
+
+      GIVEN the project "boosttest_project"
+      
+      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
+      THEN the analysis finishes successfully
+          AND the analysis log contains no error/warning messages
+          AND the test related metrics have following values: <values>
+
+      Examples:
+                                           # tests, failure, errors, skipped,
+                                           # density, time
+      | reportpath                         | values                             |
+
+      # simple example
+      | btest_test_simple-test_suite.xml   | 1, 0, 0, 0, 100, 0                 |
+      
+      # with testsuite
+      | btest_test_success-test_suite.xml  | 1, 0, 0, 0, 100, 1                 |
+
+      # with nested testsuites
+      | btest_test_nested-test_suite.xml   | 4, 0, 4, 0, 0, 5                   |
+
+    
+    Scenario: Test with real boost test framework
+  
+        Real boost test framework is a very complex usecase for preprocessor and parser.
+        Test if plugin is able to handle this.
+  
+        GIVEN the project "boosttest_project"
+  
+        WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.includeDirectories=/usr/include"
+        THEN the analysis finishes successfully
+            AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*cannot find the sources for '.*'
+              .*WARN.*Error evaluating expression.*, assuming 0
+              """                            
+            AND the following metrics have following values:
+              | metric               | value |
+              | tests                | 4     |
+              | test_failures        | 0     |
+              | test_errors          | 4     |
+              | skipped_tests        | 0     |
+              | test_success_density | 0     |
+              | test_execution_time  | 3     |
+              
+              
   #
   # Scenarios to consider:
   # - Importing a test reports with conversion via XSLT (using a boost

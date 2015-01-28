@@ -1,0 +1,4 @@
+.sonar
+build
+*.gc*
+*.[oa]
