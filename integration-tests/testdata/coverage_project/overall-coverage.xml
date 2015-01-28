@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<!DOCTYPE coverage
+  SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
+<coverage branch-rate="0.5" line-rate="0.282051282051" timestamp="1422447504" version="gcovr 2.4 (r2774)">
+	<sources>
+		<source>.</source>
+	</sources>
+	<packages>
+		<package branch-rate="0.5" complexity="0.0" line-rate="0.282051282051" name="src">
+			<classes>
+				<class branch-rate="0.5" complexity="0.0" filename="src/component1.cc" line-rate="0.176470588235" name="component1_cc">
+					<lines>
+						<line branch="false" hits="0" number="32"/>
+						<line branch="false" hits="0" number="35"/>
+						<line branch="false" hits="0" number="36"/>
+						<line branch="false" hits="0" number="37"/>
+						<line branch="false" hits="0" number="40"/>
+						<line branch="false" hits="0" number="41"/>
+						<line branch="false" hits="0" number="42"/>
+						<line branch="false" hits="1" number="11"/>
+						<line branch="false" hits="0" number="45"/>
+						<line branch="false" hits="0" number="46"/>
+						<line branch="false" hits="0" number="47"/>
+						<line branch="false" hits="0" number="50"/>
+						<line branch="false" hits="0" number="51"/>
+						<line branch="true" condition-coverage="50% (2/4)" hits="3" number="52">
+							<conditions>
+								<condition coverage="50%" number="0" type="jump"/>
+							</conditions>
+						</line>
+						<line branch="false" hits="0" number="24"/>
+						<line branch="false" hits="1" number="20"/>
+						<line branch="false" hits="0" number="28"/>
+					</lines>
+				</class>
+				<class branch-rate="0.5" complexity="0.0" filename="src/component2.cc" line-rate="0.176470588235" name="component2_cc">
+					<lines>
+						<line branch="false" hits="1" number="19"/>
+						<line branch="false" hits="0" number="34"/>
+						<line branch="false" hits="0" number="35"/>
+						<line branch="false" hits="0" number="36"/>
+						<line branch="false" hits="0" number="39"/>
+						<line branch="false" hits="0" number="40"/>
+						<line branch="false" hits="0" number="41"/>
+						<line branch="false" hits="1" number="10"/>
+						<line branch="false" hits="0" number="44"/>
+						<line branch="false" hits="0" number="45"/>
+						<line branch="false" hits="0" number="46"/>
+						<line branch="false" hits="0" number="49"/>
+						<line branch="false" hits="0" number="50"/>
+						<line branch="true" condition-coverage="50% (2/4)" hits="3" number="51">
+							<conditions>
+								<condition coverage="50%" number="0" type="jump"/>
+							</conditions>
+						</line>
+						<line branch="false" hits="0" number="23"/>
+						<line branch="false" hits="0" number="27"/>
+						<line branch="false" hits="0" number="31"/>
+					</lines>
+				</class>
+				<class branch-rate="0.5" complexity="0.0" filename="src/integration_test.cc" line-rate="1.0" name="integration_test_cc">
+					<lines>
+						<line branch="false" hits="1" number="8"/>
+						<line branch="true" condition-coverage="50% (2/4)" hits="3" number="9">
+							<conditions>
+								<condition coverage="50%" number="0" type="jump"/>
+							</conditions>
+						</line>
+						<line branch="false" hits="1" number="4"/>
+						<line branch="false" hits="1" number="6"/>
+						<line branch="true" condition-coverage="50% (1/2)" hits="1" number="7">
+							<conditions>
+								<condition coverage="50%" number="0" type="jump"/>
+							</conditions>
+						</line>
+					</lines>
+				</class>
+			</classes>
+		</package>
+	</packages>
+</coverage>
+
