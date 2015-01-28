@@ -27,6 +27,7 @@ import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
+import com.sonar.sslr.impl.Lexer;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 import static org.sonar.cxx.api.CxxTokenType.WS;
 
@@ -660,7 +661,24 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private String serialize(List<Token> tokens) {
-    return serialize(tokens, " ");
+	StringBuilder sb = new StringBuilder();
+	if (!tokens.isEmpty()) {
+		sb.append(tokens.get(0).getValue());
+	}
+	for (int i = 1 ; i < tokens.size(); ++i) {
+		Token token = tokens.get(i);
+		if (token.hasTrivia()) {
+			sb.append(' ');
+		}
+		else {
+			Lexer lexer = CxxLexer.create();
+			if (lexer.lex(tokens.get(i-1).getValue()+token.getValue()).size() < 3 ) { // 2 tokens + EOF
+				sb.append(' ');
+			}
+		}
+		sb.append(token.getValue());
+	}
+    return sb.toString();
   }
 
   private String serialize(List<Token> tokens, String spacer) {
@@ -749,6 +767,7 @@ public class CxxPreprocessor extends Preprocessor {
   private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
     // Replace all parameters by according arguments
     // "Stringify" the argument if the according parameter is preceded by an #
+	// Protect arguments to ## operator
 
     List<Token> newTokens = new ArrayList<Token>();
     if (!body.isEmpty()) {
@@ -780,12 +799,30 @@ public class CxxPreprocessor extends Preprocessor {
           }
         }
         else if (index < arguments.size()) {
+          boolean isHashOperand = (i > 0 && body.get(i-1).getValue().equals("#"));
+          if (!isHashOperand) {
+        	int j = i - 1;
+            while (j >= 0 && body.get(j).getType() == WS) {
+            	--j;
+            }
+            if (j >= 0 && body.get(j).getValue().equals("##")) {
+            	isHashOperand = j == 0 || !body.get(j-1).getValue().equals("#");
+            }
+            else {
+            	j = i + 1;
+            	while (j < body.size() && body.get(j).getType() == WS) {
+            		++j;
+            	}
+            	isHashOperand = j < body.size() && body.get(j).getValue().equals("##");
+          }
+        }
           Token replacement = arguments.get(index);
+          // The arguments have to be fully expanded before expanding the body of the macro, unless they are operand to # or ##
+          String newValue = (isHashOperand)
+        		  ? replacement.getOriginalValue() 
+        		  : serialize(expandMacro("", replacement.getValue()));
 
-          // The arguments have to be fully expanded before expanding the body of the macro
-          String newValue = serialize(expandMacro("", replacement.getValue()));
-
-          if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
+          if (!newTokens.isEmpty() && newTokens.get(newTokens.size() - 1).getValue().equals("#")) {
             newTokens.remove(newTokens.size() - 1);
             newValue = encloseWithQuotes(quote(newValue));
           }
@@ -813,11 +850,13 @@ public class CxxPreprocessor extends Preprocessor {
       if ("##".equals(curr.getValue())) {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
+        String replacement = pred.getValue().replaceFirst("\\s*$", "") + succ.getValue().replaceFirst("^\\s*", "");
+        replacement = serialize(expandMacro("", replacement));
         newTokens.add(Token.builder()
             .setLine(pred.getLine())
             .setColumn(pred.getColumn())
             .setURI(pred.getURI())
-            .setValueAndOriginalValue(pred.getValue() + succ.getValue())
+            .setValueAndOriginalValue(replacement)
             .setType(pred.getType())
             .setGeneratedCode(true)
             .build());
@@ -833,6 +872,22 @@ public class CxxPreprocessor extends Preprocessor {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
       if (last.getType() != WS) {
+        if ( !tokens.isEmpty() ) {
+          Token pred = tokens.get(tokens.size() - 1);
+          if (pred.getType() != WS && !pred.hasTrivia()) {
+            // Needed to paste tokens 0 and x back together after #define N(hex) 0x ## hex
+            tokens.remove(tokens.size() - 1);
+            String replacement = pred.getValue() + last.getValue();
+            last = Token.builder()
+                .setLine(pred.getLine())
+                .setColumn(pred.getColumn())
+                .setURI(pred.getURI())
+                .setValueAndOriginalValue(replacement)
+                .setType(pred.getType())
+                .setGeneratedCode(true)
+                .build();
+          }
+        }
         return last;
       }
     }
@@ -950,7 +1005,7 @@ public class CxxPreprocessor extends Preprocessor {
     } else if((node = ast.getFirstDescendant(CppGrammar.includeBodyFreeform)) != null) {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
-      String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
+      String expandedIncludeBody = serialize(expandMacro("", includeBody), ""); 
 
       boolean parseError = false;
       AstNode includeBodyAst = null;
@@ -962,12 +1017,17 @@ public class CxxPreprocessor extends Preprocessor {
       }
 
       if(parseError || includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null){
-        LOG.warn("[{}:{}]: cannot parse included filename: {}'",
+        LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
                  new Object[] {currFileName, token.getLine(), expandedIncludeBody});
         return null;
       }
+      includedFile = findIncludedFile(includeBodyAst, token, currFileName);
+      if (includedFile == null) {
+          LOG.warn("[{}:{}]: cannot find file named {}, expanded from {}",
+                     new Object[] {currFileName, token.getLine(), expandedIncludeBody, includeBody});
+        }
 
-      return findIncludedFile(includeBodyAst, token, currFileName);
+      return includedFile;
     }
 
     if (includedFileName != null) {
