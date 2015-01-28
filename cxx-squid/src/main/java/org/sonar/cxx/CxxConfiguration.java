@@ -222,25 +222,27 @@ public class CxxConfiguration extends SquidConfiguration {
   private void parseVCppCompilerCLLine(String line, String projectPath) {
     File file = new File(projectPath);
     String project = file.getParent();
-    String[] elems = line.split("\\s+");
-    for (int i = 0; i < elems.length; i++) {
-      if (elems[i].startsWith("/I")) {        
-        ParseInclude(elems[i], project);
+    
+    for (int i = 0; i < line.length(); i++) {
+      if (line.charAt(i) == '/' && line.charAt(i + 1) == 'I') {        
+        String includeData = getNextDefinition(line, i + 2);               
+        ParseInclude(includeData, project);
       }
-
-      if (elems[i].startsWith("/D")) {
-        ++i;
-        String macroElem = processVCppMacro(elems[i]);
+      
+      if (line.charAt(i) == '/' && line.charAt(i + 1) == 'D') {
+        String macroData = getNextDefinition(line, i + 3);
+        String macroElem = processVCppMacro(macroData);
         if (!uniqueDefines.contains(macroElem)) {
           uniqueDefines.add(macroElem);
-        }
+        }        
       }
-
-      if (elems[i].startsWith("-D")) {
-        String macroElem = processVCppMacro(elems[i].replace("-D", ""));
+      
+      if (line.charAt(i) == '-' && line.charAt(i + 1) == 'D') {
+        String macroData = getNextDefinition(line, i + 2);
+        String macroElem = processVCppMacro(macroData);
         if (!uniqueDefines.contains(macroElem)) {
           uniqueDefines.add(macroElem);
-        }
+        }         
       }
     }
   }
@@ -268,5 +270,39 @@ public class CxxConfiguration extends SquidConfiguration {
 
   private String processVCppMacro(String rawMacro) {
     return rawMacro.replace("=", " ");
+  }
+
+  private String getNextDefinition(String line, int startIndex) {
+    String includeData = "";
+    boolean isCorrect = false;
+    boolean quoteFound = false;
+    boolean isEscaped = false;
+    int i = startIndex;
+    int firstIndex = startIndex;
+    while(!isCorrect && i < line.length())
+    {
+      if(line.charAt(i) == '"' && i != firstIndex) {
+        quoteFound = true;
+        i++;
+        continue;
+      }
+
+      if(line.charAt(i) == '"') {
+        i++;
+        isEscaped = true;
+        continue;
+      }
+
+      if((line.charAt(i) == ' ' && quoteFound) ||
+              line.charAt(i) == ' ' && !isEscaped) {
+        isCorrect = true;
+        continue;
+      }
+
+      includeData += line.charAt(i);          
+      i++;
+    }
+        
+    return includeData;     
   }
 }
