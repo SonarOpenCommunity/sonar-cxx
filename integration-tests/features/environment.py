@@ -188,6 +188,8 @@ def start_script(sonarhome):
             command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartSonar.bat")]
         elif platform.machine() == "i686":
             command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "StartSonar.bat")]
+    elif platform.system() == "Darwin":
+        command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "start"]
 
     if command is None:
         msg = "Dont know how to find the start script for the platform %s-%s" % (platform.system(), platform.machine())
@@ -203,6 +205,8 @@ def stop_script(sonarhome):
         script = linux_script(sonarhome)
         if script:
             command = [script, "stop"]
+    elif platform.system() == "Darwin":
+        command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "stop"]
 
     if command is None:
         msg = "Dont know how to find the stop script for the platform %s-%s" % (platform.system(), platform.machine())
