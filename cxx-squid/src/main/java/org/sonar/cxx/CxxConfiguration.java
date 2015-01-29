@@ -226,12 +226,14 @@ public class CxxConfiguration extends SquidConfiguration {
     for (String includeElem : getMatches(Pattern.compile("/I\"(.*?)\""), line)) {
       ParseInclude(includeElem, project);
     }
-    
-    for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "), line)) {
+
+    for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "),
+        line)) {
       ParseInclude(includeElem, project);
     }
-    
-    for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"), line)) {
+
+    for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"),
+        line)) {
       ParseMacro(macroElem);
     }
   }
@@ -239,18 +241,19 @@ public class CxxConfiguration extends SquidConfiguration {
   private List<String> getMatches(Pattern pattern, String text) {
     List<String> matches = new ArrayList<String>();
     Matcher m = pattern.matcher(text);
-    while(m.find()) { matches.add(m.group(1)); }
-    return matches;
+    while (m.find()) {
+      matches.add(m.group(1));
     }
-  
-  
-  private void ParseInclude(String element, String project) {    
+    return matches;
+  }
+
+  private void ParseInclude(String element, String project) {
     try {
       File includeRoot = new File(element.replace("\"", ""));
       String includePath = "";
       if (!includeRoot.isAbsolute()) {
-          includeRoot = new File(project, includeRoot.getPath());
-          includePath = includeRoot.getCanonicalPath();
+        includeRoot = new File(project, includeRoot.getPath());
+        includePath = includeRoot.getCanonicalPath();
       } else {
         includePath = includeRoot.getCanonicalPath();
       }
@@ -258,7 +261,8 @@ public class CxxConfiguration extends SquidConfiguration {
         uniqueIncludes.add(includePath);
       }
     } catch (java.io.IOException io) {
-      LOG.error("Cannot parse include path using element '{}' : '{}'", element, io.getMessage());
+      LOG.error("Cannot parse include path using element '{}' : '{}'", element,
+          io.getMessage());
     }
   }
 
@@ -266,6 +270,6 @@ public class CxxConfiguration extends SquidConfiguration {
     macroElem.replace("=", " ");
     if (!uniqueDefines.contains(macroElem)) {
       uniqueDefines.add(macroElem);
+    }
   }
-}
 }
