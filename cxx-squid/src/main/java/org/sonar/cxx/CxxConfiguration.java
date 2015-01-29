@@ -30,6 +30,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.LoggerFactory;
 import org.sonar.squidbridge.api.SquidConfiguration;
@@ -220,42 +222,38 @@ public class CxxConfiguration extends SquidConfiguration {
   private void parseVCppCompilerCLLine(String line, String projectPath) {
     File file = new File(projectPath);
     String project = file.getParent();
-    String[] elems = line.split("\\s+");
-    for (int i = 0; i < elems.length; i++) {
-      if (elems[i].startsWith("/I")) {        
-        ParseInclude(elems[i], project);
-      }
 
-      if (elems[i].startsWith("/D")) {
-        ++i;
-        String macroElem = processVCppMacro(elems[i]);
-        if (!uniqueDefines.contains(macroElem)) {
-          uniqueDefines.add(macroElem);
-        }
-      }
-
-      if (elems[i].startsWith("-D")) {
-        String macroElem = processVCppMacro(elems[i].replace("-D", ""));
-        if (!uniqueDefines.contains(macroElem)) {
-          uniqueDefines.add(macroElem);
-        }
-      }
+    for (String includeElem : getMatches(Pattern.compile("/I\"(.*?)\""), line)) {
+      ParseInclude(includeElem, project);
+    }
+    
+    for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "), line)) {
+      ParseInclude(includeElem, project);
+    }
+    
+    for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"), line)) {
+      ParseMacro(macroElem);
     }
   }
 
+  private List<String> getMatches(Pattern pattern, String text) {
+    List<String> matches = new ArrayList<String>();
+    Matcher m = pattern.matcher(text);
+    while(m.find()) { matches.add(m.group(1)); }
+    return matches;
+    }
+  
+  
   private void ParseInclude(String element, String project) {    
     try {
-      File includeRoot = new File(element.replace("/I", ""));
+      File includeRoot = new File(element.replace("\"", ""));
       String includePath = "";
       if (!includeRoot.isAbsolute()) {
-
           includeRoot = new File(project, includeRoot.getPath());
           includePath = includeRoot.getCanonicalPath();
-
       } else {
         includePath = includeRoot.getCanonicalPath();
       }
-
       if (!uniqueIncludes.contains(includePath)) {
         uniqueIncludes.add(includePath);
       }
@@ -264,7 +262,10 @@ public class CxxConfiguration extends SquidConfiguration {
     }
   }
 
-  private String processVCppMacro(String rawMacro) {
-    return rawMacro.replace("=", " ");
+  private void ParseMacro(String macroElem) {
+    macroElem.replace("=", " ");
+    if (!uniqueDefines.contains(macroElem)) {
+      uniqueDefines.add(macroElem);
   }
+}
 }

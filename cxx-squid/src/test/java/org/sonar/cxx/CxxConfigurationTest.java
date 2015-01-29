@@ -58,13 +58,23 @@ public class CxxConfigurationTest {
   }  
   
   @Test
-  public void correctlyCreatesConfiguration() {
+  public void correctlyCreatesConfiguration1() {
     CxxConfiguration config = new CxxConfiguration();
     List<File> files = new ArrayList<File>();
     files.add(new File("src/test/resources/compiler/vc++13.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(11);    
-    assertThat(config.getDefines().size()).isEqualTo(9);    
+    assertThat(config.getDefines().size()).isEqualTo(7);    
+  }
+  
+  @Test
+  public void correctlyCreatesConfiguration2() {
+    CxxConfiguration config = new CxxConfiguration();
+    List<File> files = new ArrayList<File>();
+    files.add(new File("src/test/resources/compiler/compiler-report.log"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(7);    
+    assertThat(config.getDefines().size()).isEqualTo(22);    
   }
 
 }
