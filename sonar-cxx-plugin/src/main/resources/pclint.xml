@@ -218,6 +218,13 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>The identifier preceding a colon was previously declared at the Location given as not being a label.</description>
   </rule>
   <rule>
+    <key>29</key>
+    <configkey>29</configkey>
+    <priority>CRITICAL</priority>
+    <name>L0029: Duplicated type-specifier</name>
+    <description>Multiple type-specifiers were seen in a context expecting only one. A notable exception to this message, of course, is long long.</description>
+  </rule>
+  <rule>
     <key>30</key>
     <configkey>30</configkey>
     <priority>CRITICAL</priority>
@@ -9468,6 +9475,14 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9151: public copy assignment operator in abstract class</name>
     <description>A public copy assignment operator was declared in an abstract class.</description>
+  </rule>
+
+  <rule>
+    <key>9152</key>
+    <configkey>9152</configkey>
+    <priority>INFO</priority>
+    <name>L9152: explicit specialization of overloaded function templates 'String' and 'String'</name>
+    <description>An explicit specialization of one of the named function templates was seen. Since explicit specializations are considered only after overload resolution chooses a best match from a set of primary function templates, at least one set of coding guidelines suggests avoiding such specialization to reduce the risk of developer confusion.</description>
   </rule>
 
   <rule>
