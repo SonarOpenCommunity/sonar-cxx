@@ -48,6 +48,7 @@ import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.squidbridge.AstScanner;
@@ -123,10 +124,14 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setForceIncludeFiles(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
-    cxxConf.setCompilationPropertiesWithBuildLog(cxxConf.getBaseDir() + File.separator +
-                                                 conf.getString(CxxCompilerSensor.BUILD_LOG_KEY),
-                                                 conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
-                                                 conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
+
+    String filePaths = conf.getString(CxxCompilerSensor.REPORT_PATH_KEY);
+    if (filePaths != null && !"".equals(filePaths)) {
+      List<File> reports = CxxReportSensor.getReports(conf, fs.baseDir().getPath(), CxxCompilerSensor.REPORT_PATH_KEY, "");
+      cxxConf.setCompilationPropertiesWithBuildLog(reports,
+                                                   conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
+                                                   conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
+    }
     return cxxConf;
   }
 
