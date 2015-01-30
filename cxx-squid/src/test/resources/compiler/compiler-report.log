@@ -1,0 +1,34 @@
+﻿Build started 09/13/2014 7:17:50 AM.
+     1>Project "C:\TFS_Server\Server\common\Source\xml\xml.dll.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "..\..\..\bin\x86\Debug\xml\xml.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\..\..\boost\include /I"C:\Program Files (x86)\Windows Kits\8.1\include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\include\shared" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /I..\..\..\_Globals\Include /I..\..\Include /ZI /nologo /W4 /WX- /Od /Oy- /D CODE_ANALYSIS /D BUILD_xml /D BUILD_NOTUT /D UNICODE /D _UNICODE /D MFCDebug /D _DEBUG /D DEBUG /D RWDEBUG /D WIN32 /D _AFXDLL /D _WINDOWS /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _WIN32_IE=0x0800 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _RWTOOLSDLL /D CSA_HAS_DLL /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _WINDOWS /D _RWTOOLSDLL /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /GF /Gm /EHa /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Yc"stdafx.h" /Fp"..\..\..\bin\x86\Debug\xml\xml.pch" /Fo"..\..\..\bin\x86\Debug\xml\\" /Fd"..\..\..\bin\x86\Debug\xml\vc120.pdb" /FR"..\..\..\bin\x86\Debug\xml\" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\\bin\localespc.dll" /FC /errorReport:prompt   /analyze:quiet stdafx.cpp
+         stdafx.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(55): warning C4995: 'memcpy': name was marked as #pragma deprecated
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /I"C:\Program Files (x86)\Windows Kits\8.1\include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\include\shared" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /I..\..\..\_Globals\Include /I..\..\Include /nologo /fo"..\..\..\bin\x86\Debug\xml\AssemblyInfo.res" ..\..\..\_Globals\Source\AssemblyInfo.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\..\bin\x86\Debug\xml.dll" /INCREMENTAL /NOLOGO /LIBPATH:..\..\..\bin\x86\Debug\ /LIBPATH:\atlmfc\lib /LIBPATH:\lib /LIBPATH:"C:\Program Files (x86)\Windows Kits\8.1\lib\winv6.3\um\x86" /LIBPATH:..\..\..\bin\x86\Debug\ /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"..\..\..\bin\x86\Debug\xml.pdb" /MAP:"..\..\..\bin\x86\Debug\xml.map" /MAPINFO:EXPORTS /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /TLBID:1 /DYNAMICBASE /NXCOMPAT:NO /IMPLIB:"..\..\..\bin\x86\Debug\xml.lib" /MACHINE:X86 /SAFESEH /DLL ..\..\..\bin\x86\Debug\xml\AssemblyInfo.res
+         ..\..\..\bin\x86\Debug\xml\xmldocument.obj
+         ..\..\..\bin\x86\Debug\xml\stdafx.obj
+     1>xmldocument.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+            Creating library ..\..\..\bin\x86\Debug\xml.lib and object ..\..\..\bin\x86\Debug\xml.exp
+         xml.dll.vcxproj -> C:\TFS_Server\Server\common\Source\xml\..\..\..\bin\x86\Debug\xml.dll
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"..\..\..\bin\x86\Debug\xml.bsc" /n ..\..\..\bin\x86\Debug\xml\xmldocument.sbr ..\..\..\bin\x86\Debug\xml\stdafx.sbr
+       PostBuildEvent:
+         Description: Create PC-lint macro input file
+         call D:\source-review\sonar\SonarPrepReport ..\..\..\bin\x86\Debug\xml\ 
+         :VCEnd
+         SonarPrepReport ..\..\..\bin\x86\Debug\xml\   
+         Microsoft (R) C/C++ Optimizing Compiler Version 18.00.30723 for x86
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         mac-msc.cpp
+       CustomBuildStep:
+         Description: SonarQube analysis
+         call D:\source-review\sonar\CallSonarQubeVS.bat ..\..\..\bin\x86\Debug\xml\ C:\TFS_Server\Server\common\Source\xml\ xml.dll.vcxproj
+         :VCEnd
+         CallSonarQubeVS ..\..\..\bin\x86\Debug\xml\ C:\TFS_Server\Server\common\Source\xml\ xml.dll.vcxproj 
+         copy ..\..\..\bin\x86\Debug\xml\xml.dll.log to C:\TFS_Server\Server\common\Source\xml\
