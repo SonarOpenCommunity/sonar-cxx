@@ -192,10 +192,11 @@ public class CxxConfiguration extends SquidConfiguration {
           }
           
           // get base path of project to make 
+          currentProjectPath = buildLog.getPath();
           // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
-          if (line.startsWith("Target \"ClCompile\" in file")) {
-            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
-          }
+//          if (line.startsWith("Target \"ClCompile\" in file")) {
+//            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
+//          }
           if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe") || 
                   line.contains("C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
             parseVCppCompilerCLLine(line, currentProjectPath);
