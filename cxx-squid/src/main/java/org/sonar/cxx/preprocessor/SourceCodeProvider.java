@@ -57,7 +57,7 @@ public class SourceCodeProvider {
         this.includeRoots.add(includeRoot);
       }
       else {
-        LOG.warn("the include root {} doesnt exist", includeRoot.getAbsolutePath());
+        LOG.warn("the include root '{}' doesn't exist", includeRoot.getAbsolutePath());
       }
     }
   }
