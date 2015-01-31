@@ -39,7 +39,7 @@ Feature: Providing test execution numbers
   # |      'classname' in the resulting AST's. This requires the test
   # |      sources to be actually parsable.
   # |
-                            
+
   # ==================
   # === googletest ===
   # ==================
@@ -199,42 +199,19 @@ Feature: Providing test execution numbers
           | notexistingpath  |
           | empty_report.xml |
 
-              
-  #  Scenario: googletest report is invalid
-  #      GIVEN the project "googletest_project"
-  #      WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
-  #      THEN the analysis breaks
-  #          AND the analysis log contains a line matching:
-  #              """
-  #              ERROR.*Cannot feed the data into sonar, details: .*
-  #              """
+
+   Scenario: googletest report is invalid
+       GIVEN the project "googletest_project"
+       WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
+       THEN the analysis breaks
+           AND the analysis log contains a line matching:
+               """
+               ERROR.*Cannot feed the data into SonarQube, details: .*
+               """
 
   # =================
   # === boosttest ===
   # =================
-
-  Scenario Outline: boosttest reports cannot be found or are empty
-      GIVEN the project "boosttest_project"
-      WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=<reportpath>"
-      THEN the analysis finishes successfully
-          AND the analysis log contains no error/warning messages except those matching:
-              """
-              .*WARN.*The report.*seems to be empty, ignoring\.
-              """
-          AND the following metrics have following values:
-              | metric               | value |
-              | tests                | None  |
-              | test_failures        | None  |
-              | test_errors          | None  |
-              | skipped_tests        | None  |
-              | test_success_density | None  |
-              | test_execution_time  | None  |
-
-      Examples:
-          | reportpath       |
-          | notexistingpath  |
-          | empty_report.xml |
-
 
   Scenario: Importing simple boosttest report in default mode
 
@@ -259,15 +236,15 @@ Feature: Providing test execution numbers
               | test_success_density | 100   |
               | test_execution_time  | 0     |
 
-              
+
   Scenario: Importing nested boosttest report in default mode
 
       Boost unit test framework supports nested testsuites.
       A testsuite is handled as a C++ namespace.
       Verify the support of nested testsuites.
-            
+
       GIVEN the project "boosttest_project"
-   
+
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
 
       THEN the analysis finishes successfully
@@ -281,15 +258,15 @@ Feature: Providing test execution numbers
               | test_success_density | 0     |
               | test_execution_time  | 3     |
 
-
+  @skip
   Scenario Outline: Importing unchanged boosttest reports in detailed mode (filename tag)
 
       Testcases in boosttest reports with setting 'log_level=all' also
       the root filename of the testcase. Plugin is able to read
       filename tag and link corresponding test module.
-      
+
       GIVEN the project "boosttest_project"
-      
+
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages
@@ -302,17 +279,17 @@ Feature: Providing test execution numbers
 
       # simple example
       | btest_test_simple-all.xml          | 1, 0, 0, 0, 100, 0                 |
-      
+
       # with failure & errors
       | btest_test_component1-all.xml      | 3, 1, 1, 0, 33.3, 50002            |
-      
+
       # with testsuite/sucess
       | btest_test_success-all.xml         | 1, 0, 0, 0, 100, 3                 |
-      
+
       # with nested testsuites
       | btest_test_nested-all.xml          | 4, 0, 4, 0, 0, 5                   |
-                        
-              
+
+  @skip
   Scenario Outline: Importing unchanged boosttest reports in detailed mode (AST)
 
       Testcases in boosttest reports with setting 'log_level=test_suite'
@@ -321,7 +298,7 @@ Feature: Providing test execution numbers
       'lookup the namespaces in the AST'-approach.
 
       GIVEN the project "boosttest_project"
-      
+
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages
@@ -334,28 +311,28 @@ Feature: Providing test execution numbers
 
       # simple example
       | btest_test_simple-test_suite.xml   | 1, 0, 0, 0, 100, 0                 |
-      
+
       # with testsuite
       | btest_test_success-test_suite.xml  | 1, 0, 0, 0, 100, 1                 |
 
       # with nested testsuites
       | btest_test_nested-test_suite.xml   | 4, 0, 4, 0, 0, 5                   |
 
-    
+    @skip
     Scenario: Test with real boost test framework
-  
+
         Real boost test framework is a very complex usecase for preprocessor and parser.
         Test if plugin is able to handle this.
-  
+
         GIVEN the project "boosttest_project"
-  
+
         WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.includeDirectories=/usr/include"
         THEN the analysis finishes successfully
             AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*cannot find the sources for '.*'
               .*WARN.*Error evaluating expression.*, assuming 0
-              """                            
+              """
             AND the following metrics have following values:
               | metric               | value |
               | tests                | 4     |
@@ -364,12 +341,3 @@ Feature: Providing test execution numbers
               | skipped_tests        | 0     |
               | test_success_density | 0     |
               | test_execution_time  | 3     |
-              
-              
-  #
-  # Scenarios to consider:
-  # - Importing a test reports with conversion via XSLT (using a boost
-  #   project? cppunit seems to be outdated and unmaintained...)
-  # - 'filename'-tag:
-  #   - absolute filename
-  #   - empty value, invalid path, path pointing to nothing
