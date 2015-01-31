@@ -31,20 +31,20 @@ import org.sonar.plugins.cxx.CxxLanguage;
 public class DefaultResourceFinder implements ResourceFinder {
 
   public org.sonar.api.resources.File findInSonar(File file, SensorContext context, FileSystem fs, Project project) {
-    org.sonar.api.resources.File unitTestFile = org.sonar.api.resources.File.fromIOFile(findTestFile(file, fs), project);
+    org.sonar.api.resources.File unitTestFile = findTestFile(file, fs, project);
     if (context.getResource(unitTestFile) == null) {
       unitTestFile = null;
     }
     return unitTestFile;
   }
 
-  static File findTestFile(File file, FileSystem fs) {
+  static org.sonar.api.resources.File findTestFile(File file, FileSystem fs, Project project) {
     try {
       FilePredicates p = fs.predicates();
       InputFile unitTestFile = fs.inputFile(file.isAbsolute()
         ? p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath()))
         : p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath())));
-      return unitTestFile != null ? unitTestFile.file() : null;
+      return unitTestFile != null ? org.sonar.api.resources.File.fromIOFile(unitTestFile.file(), project) : null;
     } catch (IllegalArgumentException e) {
       return null;
     }
