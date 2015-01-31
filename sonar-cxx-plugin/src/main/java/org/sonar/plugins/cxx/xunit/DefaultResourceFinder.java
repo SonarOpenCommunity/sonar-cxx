@@ -26,28 +26,27 @@ import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.resources.Project;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 public class DefaultResourceFinder implements ResourceFinder {
 
   public org.sonar.api.resources.File findInSonar(File file, SensorContext context, FileSystem fs, Project project) {
-    FilePredicates p = fs.predicates();
-    Iterable<File> files = null;
-    if (file.isAbsolute()) {
-      files = fs.files(p.and(
-        p.hasLanguage("c++"), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath())
-      ));
-    } else {
-      files = fs.files(p.and(
-        p.hasLanguage("c++"), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath())
-      ));
-    }
-    org.sonar.api.resources.File unitTestFile = null;
-    if (files.iterator().hasNext()) {
-      unitTestFile = org.sonar.api.resources.File.fromIOFile(files.iterator().next(), project);
-      if (context.getResource(unitTestFile) == null) {
-        unitTestFile = null;
-      }
+    org.sonar.api.resources.File unitTestFile = org.sonar.api.resources.File.fromIOFile(findTestFile(file, fs), project);
+    if (context.getResource(unitTestFile) == null) {
+      unitTestFile = null;
     }
     return unitTestFile;
+  }
+
+  static File findTestFile(File file, FileSystem fs) {
+    try {
+      FilePredicates p = fs.predicates();
+      InputFile unitTestFile = fs.inputFile(file.isAbsolute()
+        ? p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath()))
+        : p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath())));
+      return unitTestFile != null ? unitTestFile.file() : null;
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
   }
 }
