@@ -64,7 +64,7 @@ public class CxxConfigurationTest {
     files.add(new File("src/test/resources/compiler/vc++13.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(11);    
-    assertThat(config.getDefines().size()).isEqualTo(7);    
+    assertThat(config.getDefines().size()).isEqualTo(9);    
   }
   
   @Test

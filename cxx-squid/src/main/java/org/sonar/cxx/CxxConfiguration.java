@@ -237,6 +237,11 @@ public class CxxConfiguration extends SquidConfiguration {
         line)) {
       ParseMacro(macroElem);
     }
+
+    for (String macroElem : getMatches(Pattern.compile("[/-]D([^\\s]+)"),
+        line)) {
+      ParseMacro(macroElem);
+    }
   }
 
   private List<String> getMatches(Pattern pattern, String text) {
