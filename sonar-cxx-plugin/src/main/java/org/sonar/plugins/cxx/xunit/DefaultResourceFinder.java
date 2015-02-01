@@ -31,20 +31,19 @@ import org.sonar.plugins.cxx.CxxLanguage;
 public class DefaultResourceFinder implements ResourceFinder {
 
   public org.sonar.api.resources.File findInSonar(File file, SensorContext context, FileSystem fs, Project project) {
-    org.sonar.api.resources.File unitTestFile = findTestFile(file, fs, project);
-    if (context.getResource(unitTestFile) == null) {
-      unitTestFile = null;
+    FilePredicates p = fs.predicates();
+    Iterable<File> unitTestFiles = fs.files(file.isAbsolute()
+      ? p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath()))
+      : p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath()))
+    );
+    org.sonar.api.resources.File unitTestFile = null;
+    if (unitTestFiles.iterator().hasNext()) {
+      unitTestFile = org.sonar.api.resources.File.fromIOFile(unitTestFiles.iterator().next(), project);
+      if (context.getResource(unitTestFile) == null) {
+        unitTestFile = null;
+      }
     }
     return unitTestFile;
   }
 
-  static org.sonar.api.resources.File findTestFile(File file, FileSystem fs, Project project) {
-    FilePredicates p = fs.predicates();
-    Iterable<File> unitTestFiles = fs.files(file.isAbsolute()
-      ? p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath()))
-      : p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath())));
-    return unitTestFiles.iterator().hasNext()
-      ? org.sonar.api.resources.File.fromIOFile(unitTestFiles.iterator().next(), project)
-      : null;
-  }
 }
