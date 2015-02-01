@@ -31,6 +31,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
@@ -227,87 +229,59 @@ public class CxxConfiguration extends SquidConfiguration {
   private void parseVCppCompilerCLLine(String line, String projectPath) {
     File file = new File(projectPath);
     String project = file.getParent();
-    
-    for (int i = 0; i < line.length(); i++) {
-      if (line.charAt(i) == '/' && line.charAt(i + 1) == 'I') {        
-        String includeData = getNextDefinition(line, i + 2);               
-        ParseInclude(includeData, project);
-      }
-      
-      if (line.charAt(i) == '/' && line.charAt(i + 1) == 'D') {
-        String macroData = getNextDefinition(line, i + 3);
-        String macroElem = processVCppMacro(macroData);
-        if (!uniqueDefines.contains(macroElem)) {
-          uniqueDefines.add(macroElem);
-        }        
-      }
-      
-      if (line.charAt(i) == '-' && line.charAt(i + 1) == 'D') {
-        String macroData = getNextDefinition(line, i + 2);
-        String macroElem = processVCppMacro(macroData);
-        if (!uniqueDefines.contains(macroElem)) {
-          uniqueDefines.add(macroElem);
-        }         
-      }
+
+    for (String includeElem : getMatches(Pattern.compile("/I\"(.*?)\""), line)) {
+      ParseInclude(includeElem, project);
     }
+
+    for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "),
+        line)) {
+      ParseInclude(includeElem, project);
+    }
+
+    for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"),
+        line)) {
+      ParseMacro(macroElem);
+    }
+    
+    for (String macroElem : getMatches(Pattern.compile("[/-]D([^\\s]+)"),
+        line)) {
+      ParseMacro(macroElem);
+    }    
   }
 
-  private void ParseInclude(String element, String project) {    
+  private List<String> getMatches(Pattern pattern, String text) {
+    List<String> matches = new ArrayList<String>();
+    Matcher m = pattern.matcher(text);
+    while (m.find()) {
+      matches.add(m.group(1));
+    }
+    return matches;
+  }
+
+  private void ParseInclude(String element, String project) {
     try {
-      File includeRoot = new File(element.replace("/I", ""));
+      File includeRoot = new File(element.replace("\"", ""));
       String includePath = "";
       if (!includeRoot.isAbsolute()) {
-
-          includeRoot = new File(project, includeRoot.getPath());
-          includePath = includeRoot.getCanonicalPath();
-
+        includeRoot = new File(project, includeRoot.getPath());
+        includePath = includeRoot.getCanonicalPath();
       } else {
         includePath = includeRoot.getCanonicalPath();
       }
-
       if (!uniqueIncludes.contains(includePath)) {
         uniqueIncludes.add(includePath);
       }
     } catch (java.io.IOException io) {
-      LOG.error("Cannot parse include path using element '{}' : '{}'", element, io.getMessage());
+      LOG.error("Cannot parse include path using element '{}' : '{}'", element,
+          io.getMessage());
     }
   }
 
-  private String processVCppMacro(String rawMacro) {
-    return rawMacro.replace("=", " ");
-  }
-
-  private String getNextDefinition(String line, int startIndex) {
-    String includeData = "";
-    boolean isCorrect = false;
-    boolean quoteFound = false;
-    boolean isEscaped = false;
-    int i = startIndex;
-    int firstIndex = startIndex;
-    while(!isCorrect && i < line.length())
-    {
-      if(line.charAt(i) == '"' && i != firstIndex) {
-        quoteFound = true;
-        i++;
-        continue;
-      }
-
-      if(line.charAt(i) == '"') {
-        i++;
-        isEscaped = true;
-        continue;
-      }
-
-      if((line.charAt(i) == ' ' && quoteFound) ||
-              line.charAt(i) == ' ' && !isEscaped) {
-        isCorrect = true;
-        continue;
-      }
-
-      includeData += line.charAt(i);          
-      i++;
+  private void ParseMacro(String macroElem) {
+    macroElem.replace("=", " ");
+    if (!uniqueDefines.contains(macroElem)) {
+      uniqueDefines.add(macroElem);
     }
-        
-    return includeData;     
   }
 }
