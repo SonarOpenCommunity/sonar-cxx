@@ -39,14 +39,12 @@ public class DefaultResourceFinder implements ResourceFinder {
   }
 
   static org.sonar.api.resources.File findTestFile(File file, FileSystem fs, Project project) {
-    try {
-      FilePredicates p = fs.predicates();
-      InputFile unitTestFile = fs.inputFile(file.isAbsolute()
-        ? p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath()))
-        : p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath())));
-      return unitTestFile != null ? org.sonar.api.resources.File.fromIOFile(unitTestFile.file(), project) : null;
-    } catch (IllegalArgumentException e) {
-      return null;
-    }
+    FilePredicates p = fs.predicates();
+    Iterable<File> unitTestFiles = fs.files(file.isAbsolute()
+      ? p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath()))
+      : p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath())));
+    return unitTestFiles.iterator().hasNext()
+      ? org.sonar.api.resources.File.fromIOFile(unitTestFiles.iterator().next(), project)
+      : null;
   }
 }
