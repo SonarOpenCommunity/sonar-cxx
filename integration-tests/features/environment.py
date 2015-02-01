@@ -19,6 +19,8 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 
+from __future__ import print_function
+
 import os
 import sys
 import time
@@ -62,7 +64,7 @@ except ImportError:
 # -----------------------------------------------------------------------------
 def before_all(context):
     global didstartsonar
-    print BRIGHT + "\nSetting up the test environment" + RESET_ALL
+    print(BRIGHT + "\nSetting up the test environment" + RESET_ALL)
 
     if not is_webui_up():
         sonarhome = os.environ.get("SONARHOME", None)
@@ -91,7 +93,7 @@ def before_all(context):
                              + RESET)
             sys.exit(-1)
     else:
-        print INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL
+        print(INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
 
 
 def after_all(context):
@@ -264,6 +266,6 @@ def checklogs(sonarhome):
 
     summary_msg = "%i errors and %i warnings\n" % (errors, warnings)
 
-    print 2*INDENT + len(summary_msg) * "-"
-    print 2*INDENT + summary_msg
+    print(2*INDENT + len(summary_msg) * "-")
+    print(2*INDENT + summary_msg)
     return errors == 0
