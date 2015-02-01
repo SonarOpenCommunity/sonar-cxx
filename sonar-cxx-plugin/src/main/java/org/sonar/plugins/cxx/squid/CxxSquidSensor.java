@@ -59,6 +59,7 @@ import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.squidbridge.AstScanner;
@@ -175,6 +176,7 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
 
     String filePaths = conf.getString(CxxCompilerSensor.REPORT_PATH_KEY);    
+
     if (filePaths != null && !"".equals(filePaths)) {
       List<File> reports = CxxReportSensor.getReports(conf, fs.baseDir().getPath(), CxxCompilerSensor.REPORT_PATH_KEY, "");
       cxxConf.setCompilationPropertiesWithBuildLog(reports,
