@@ -47,6 +47,7 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
 
   @RuleProperty(
     key = "xpathQuery",
+    type = "TEXT",
     defaultValue = DEFAULT_XPATH_QUERY)
   public String xpathQuery = DEFAULT_XPATH_QUERY;
 

@@ -258,7 +258,7 @@ Feature: Providing test execution numbers
               | test_success_density | 0     |
               | test_execution_time  | 3     |
 
-  @skip
+ 
   Scenario Outline: Importing unchanged boosttest reports in detailed mode (filename tag)
 
       Testcases in boosttest reports with setting 'log_level=all' also
@@ -289,7 +289,7 @@ Feature: Providing test execution numbers
       # with nested testsuites
       | btest_test_nested-all.xml          | 4, 0, 4, 0, 0, 5                   |
 
-  @skip
+ 
   Scenario Outline: Importing unchanged boosttest reports in detailed mode (AST)
 
       Testcases in boosttest reports with setting 'log_level=test_suite'
@@ -318,8 +318,8 @@ Feature: Providing test execution numbers
       # with nested testsuites
       | btest_test_nested-test_suite.xml   | 4, 0, 4, 0, 0, 5                   |
 
-    @skip
-    Scenario: Test with real boost test framework
+ 
+  Scenario: Test with real boost test framework
 
         Real boost test framework is a very complex usecase for preprocessor and parser.
         Test if plugin is able to handle this.

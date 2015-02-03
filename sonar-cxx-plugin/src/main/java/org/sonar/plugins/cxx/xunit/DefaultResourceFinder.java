@@ -22,17 +22,28 @@ package org.sonar.plugins.cxx.xunit;
 import java.io.File;
 
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.resources.Project;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 public class DefaultResourceFinder implements ResourceFinder {
 
   public org.sonar.api.resources.File findInSonar(File file, SensorContext context, FileSystem fs, Project project) {
-    org.sonar.api.resources.File unitTestFile = org.sonar.api.resources.File.fromIOFile(file, project);
-    if (context.getResource(unitTestFile) == null) {
-      unitTestFile = null;
+    FilePredicates p = fs.predicates();
+    Iterable<File> unitTestFiles = fs.files(file.isAbsolute()
+      ? p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasAbsolutePath(file.getPath()))
+      : p.and(p.hasLanguage(CxxLanguage.KEY), p.hasType(InputFile.Type.TEST), p.hasRelativePath(file.getPath()))
+    );
+    org.sonar.api.resources.File unitTestFile = null;
+    if (unitTestFiles.iterator().hasNext()) {
+      unitTestFile = org.sonar.api.resources.File.fromIOFile(unitTestFiles.iterator().next(), project);
+      if (context.getResource(unitTestFile) == null) {
+        unitTestFile = null;
+      }
     }
-
     return unitTestFile;
   }
+
 }
