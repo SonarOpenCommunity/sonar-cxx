@@ -1,0 +1,53 @@
+From 91b43ed0a0707b3909fd87189c803344e294d785 Mon Sep 17 00:00:00 2001
+From: Jean-Francois Allot <jfallot@infovista.com>
+Date: Tue, 30 Dec 2014 17:06:55 +0100
+Subject: [PATCH] Allow absolute report path Issue #278
+
+---
+ .../java/org/sonar/plugins/cxx/utils/CxxReportSensor.java  | 14 +++++++++-----
+ .../plugins/cxx/utils/CxxReportSensor_getReports_Test.java |  2 +-
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/sonar-cxx-plugin/src/main/java/org/sonar/plugins/cxx/utils/CxxReportSensor.java b/sonar-cxx-plugin/src/main/java/org/sonar/plugins/cxx/utils/CxxReportSensor.java
+index c99fd34..9813918 100644
+--- a/sonar-cxx-plugin/src/main/java/org/sonar/plugins/cxx/utils/CxxReportSensor.java
++++ b/sonar-cxx-plugin/src/main/java/org/sonar/plugins/cxx/utils/CxxReportSensor.java
+@@ -152,13 +152,17 @@ public abstract class CxxReportSensor implements Sensor {
+ 
+     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
+ 
+-    if(new File(reportPath).isAbsolute()){
+-      CxxUtils.LOG.error("Absolute paths are not supported ({})", reportPath);
+-      return Collections.emptyList();
++    File baseDir = new File(baseDirPath);
++    File reportFile = new File(reportPath);
++    
++    if(reportFile.isAbsolute()) {
++	baseDir = reportFile.getParentFile();
++	reportPath=reportFile.getName();
+     }
+ 
+-    DirectoryScanner scanner = new DirectoryScanner(new File(baseDirPath),
+-                                                    WildcardPattern.create(reportPath));
++    DirectoryScanner scanner = new DirectoryScanner(baseDir,
++            WildcardPattern.create(reportPath));
++    
+     return scanner.getIncludedFiles();
+   }
+ 
+diff --git a/sonar-cxx-plugin/src/test/java/org/sonar/plugins/cxx/utils/CxxReportSensor_getReports_Test.java b/sonar-cxx-plugin/src/test/java/org/sonar/plugins/cxx/utils/CxxReportSensor_getReports_Test.java
+index fd428bd..6eea12d 100644
+--- a/sonar-cxx-plugin/src/test/java/org/sonar/plugins/cxx/utils/CxxReportSensor_getReports_Test.java
++++ b/sonar-cxx-plugin/src/test/java/org/sonar/plugins/cxx/utils/CxxReportSensor_getReports_Test.java
+@@ -80,7 +80,7 @@ public class CxxReportSensor_getReports_Test {
+     examples.add(new String[] { "**/A.ext",     "A.ext,dir/A.ext", "B.ext" });            // containing question mark
+     examples.add(new String[] { "",             "",                "" });                 // empty
+ 
+-    examples.add(new String[] { abspattern,     "",                "A.ext" });            // absolute
++    examples.add(new String[] { abspattern,     "A.ext",           "" });            // absolute
+ 
+     String pattern, match, allpaths;
+     List<File> reports;
+-- 
+1.8.3.msysgit.0
+

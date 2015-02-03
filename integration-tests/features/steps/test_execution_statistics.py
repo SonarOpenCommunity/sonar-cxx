@@ -43,25 +43,7 @@ def step_impl(context, project):
 
 @when(u'I run "{command}"')
 def step_impl(context, command):
-    context.log = "_%s_.log" % context.project
-
-    sonarhome = os.environ.get("SONARHOME", None)
-    if sonarhome:
-        context.serverlog = sonarlog(sonarhome)
-        if getattr(context, "serverlogfd", None) is not None:
-            context.serverlogfd.close()
-        context.serverlogfd = open(context.serverlog, "r")
-        context.serverlogfd.seek(0, 2)
-    else:
-        context.serverlogfd = None
-
-    projecthome = os.path.join(TESTDATADIR, context.project)
-    with open(context.log, "w") as logfile:
-        rc = subprocess.call(command,
-                             cwd=projecthome,
-                             stdout=logfile, stderr=logfile,
-                             shell=True)
-    context.rc = rc
+    _run_command(context, command)
 
 
 @then(u'the analysis finishes successfully')
@@ -202,3 +184,32 @@ def step_impl(context):
     source = os.path.join(TESTDATADIR, "cppcheck_project", report_fname)
     target = os.path.join("/tmp", report_fname)
     shutil.copyfile(source, target)
+
+
+@when(u'I run sonar-runner with following options')
+def step_impl(context):
+    arguments = [line for line in context.text.split("\n") if line != '']
+    command = "sonar-runner " + " ".join(arguments)
+    _run_command(context, command)
+
+
+def _run_command(context, command):
+    context.log = "_%s_.log" % context.project
+
+    sonarhome = os.environ.get("SONARHOME", None)
+    if sonarhome:
+        context.serverlog = sonarlog(sonarhome)
+        if getattr(context, "serverlogfd", None) is not None:
+            context.serverlogfd.close()
+        context.serverlogfd = open(context.serverlog, "r")
+        context.serverlogfd.seek(0, 2)
+    else:
+        context.serverlogfd = None
+
+    projecthome = os.path.join(TESTDATADIR, context.project)
+    with open(context.log, "w") as logfile:
+        rc = subprocess.call(command,
+                             cwd=projecthome,
+                             stdout=logfile, stderr=logfile,
+                             shell=True)
+    context.rc = rc
