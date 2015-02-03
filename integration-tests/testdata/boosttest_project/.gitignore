@@ -1,4 +1,4 @@
 .sonar
-build
-*.gc*
 *.[oa]
+*.after_xslt
+
