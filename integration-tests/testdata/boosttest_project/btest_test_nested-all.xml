@@ -1,0 +1,26 @@
+<TestLog>
+  <TestSuite name="Master Test Suite">
+    <TestCase name="WithoutSuite">
+      <FatalError file="tests/unittests/test_nested.cc" line="8"><![CDATA[critical check false failed]]></FatalError>
+      <TestingTime>3000</TestingTime>
+    </TestCase>
+    <TestSuite name="FirstLevel">
+      <TestCase name="OnFirstLevel">
+        <FatalError file="tests/unittests/test_nested.cc" line="15"><![CDATA[critical check false failed]]></FatalError>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+      <TestSuite name="SecondLevel">
+        <TestCase name="OnSecondLevel">
+          <FatalError file="tests/unittests/test_nested.cc" line="22"><![CDATA[critical check false failed]]></FatalError>
+          <TestingTime>1000</TestingTime>
+        </TestCase>
+        <TestSuite name="ThirdLevel">
+          <TestCase name="OnThirdLevel">
+            <FatalError file="tests/unittests/test_nested.cc" line="29"><![CDATA[critical check false failed]]></FatalError>
+            <TestingTime>0</TestingTime>
+          </TestCase>
+        </TestSuite>
+      </TestSuite>
+    </TestSuite>
+  </TestSuite>
+</TestLog>

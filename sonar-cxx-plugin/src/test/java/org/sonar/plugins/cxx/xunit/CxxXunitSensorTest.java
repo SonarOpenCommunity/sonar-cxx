@@ -85,14 +85,14 @@ public class CxxXunitSensorTest {
     // case 3:
     // the testcase file resides: in second directory
     // the testcase file contains: the class in a namespace
-    // the report mentions: the class name
+    // the report mentions: the class name only
     assertEquals(sensor.lookupFilePath("TestClass3"), new File(baseDir, "tests2/Test3.cc").getPath());
-
+    
     // case 4:
     // the testcase file resides: somewhere
     // the testcase file contains: the class is implemented via a header and impl. file
     // the report mentions: the class name
-    assertEquals(new File(baseDir, "tests2/Test4.cc").getPath(), sensor.lookupFilePath("TestClass4"));
+    assertEquals(sensor.lookupFilePath("TestClass4"), new File(baseDir, "tests2/Test4.cc").getPath());
 
     // case 5:
     // the testcase file resides: somewhere
@@ -113,6 +113,12 @@ public class CxxXunitSensorTest {
     assertThat(sensor.lookupFilePath("TestClass6"),
                anyOf(is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
                      is(new File(baseDir, "tests1/Test6_B.cc").getPath())));
+    
+    // case 7:
+    // the boost test framework way
+    // the testcase file contains: testuite is a namespace, testcase a struct
+    // the report mentions: the class name is a qualified name
+    assertEquals(sensor.lookupFilePath("my_test_suite::my_test"), new File(baseDir, "tests1/Test7.cc").getPath());    
   }
 
   @Test
