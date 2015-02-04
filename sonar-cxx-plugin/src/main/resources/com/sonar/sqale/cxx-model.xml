@@ -5080,6 +5080,24 @@
             <name>Understandability</name>
             <chc>
                 <rule-repo>cxx</rule-repo>
+                <rule-key>BooleanEqualityComparison</rule-key>
+                <prop>
+                    <key>remediationFunction</key>
+                    <txt>linear</txt>
+                </prop>
+                <prop>
+                    <key>remediationFactor</key>
+                    <val>5.0</val>
+                    <txt>mn</txt>
+                </prop>
+                <prop>
+                    <key>offset</key>
+                    <val>0.0</val>
+                    <txt>d</txt>
+                </prop>
+            </chc>
+            <chc>
+                <rule-repo>cxx</rule-repo>
                 <rule-key>NotAllowedToDoTag</rule-key>
                 <prop>
                     <key>remediationFunction</key>

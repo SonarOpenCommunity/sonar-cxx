@@ -27,11 +27,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -55,7 +55,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
+  public CxxCompilerSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile) {
     super(perspectives, conf, fs, CxxMetrics.COMPILER);
     this.profile = profile;
 

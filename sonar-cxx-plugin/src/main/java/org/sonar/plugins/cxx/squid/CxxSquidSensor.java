@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,6 +29,10 @@ import java.util.Locale;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.FilePredicates;
+import org.sonar.api.batch.fs.FilePredicate;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
@@ -40,7 +45,6 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
@@ -77,23 +81,27 @@ public final class CxxSquidSensor implements Sensor {
   private SensorContext context;
   private AstScanner<Grammar> scanner;
   private Settings conf;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
   private ResourcePerspectives perspectives;
+  private final FilePredicate mainFilePredicate;
 
   /**
    * {@inheritDoc}
    */
   public CxxSquidSensor(ResourcePerspectives perspectives, Settings conf,
-                        ModuleFileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
+                        FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
     this.checks = checkFactory.create(CheckList.REPOSITORY_KEY).addAnnotatedChecks(CheckList.getChecks());
     this.rules = rules;
     this.conf = conf;
     this.fs = fs;
     this.perspectives = perspectives;
+    FilePredicates predicates = fs.predicates();
+    this.mainFilePredicate = predicates.and(predicates.hasType(InputFile.Type.MAIN),
+                                            predicates.hasLanguage(CxxLanguage.KEY));
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+    return fs.hasFiles(mainFilePredicate);
   }
 
   /**
@@ -107,14 +115,14 @@ public final class CxxSquidSensor implements Sensor {
     this.scanner = CxxAstScanner.create(createConfiguration(this.fs, this.conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    scanner.scanFiles(fs.files(CxxLanguage.SOURCE_QUERY));
+    scanner.scanFiles(Lists.newArrayList(fs.files(mainFilePredicate)));
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }
 
-  private CxxConfiguration createConfiguration(ModuleFileSystem fs, Settings conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+  private CxxConfiguration createConfiguration(FileSystem fs, Settings conf) {
+    CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){

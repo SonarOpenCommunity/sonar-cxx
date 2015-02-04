@@ -1,0 +1,34 @@
+<TestLog>
+  <TestSuite name="my_module">
+    <TestSuite name="my_test_suite">
+      <TestCase name="test_check">
+        <Error file="tests/unittests/test_failure.cc" line="12"><![CDATA[check add(2, 2) == 3 failed]]></Error>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+      <TestCase name="test_require">
+        <FatalError file="tests/unittests/test_failure.cc" line="17"><![CDATA[critical check add(2, 2) == 3 failed]]></FatalError>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+      <TestCase name="test_error">
+        <Error file="tests/unittests/test_failure.cc" line="23"><![CDATA[Ouch...]]></Error>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+      <TestCase name="test_fail">
+        <FatalError file="tests/unittests/test_failure.cc" line="29"><![CDATA[Ouch...]]></FatalError>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+      <TestCase name="test_exception">
+        <Exception file="unknown location" line="0"><![CDATA[C string: Ouch...]]></Exception>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+      <TestCase name="test_message">
+        <Error file="tests/unittests/test_failure.cc" line="40"><![CDATA[add(..) result: 4]]></Error>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+      <TestCase name="test_check_equal">
+        <Error file="tests/unittests/test_failure.cc" line="45"><![CDATA[check add(2, 2) == 3 failed [4 != 3]]]></Error>
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+    </TestSuite>
+  </TestSuite>
+</TestLog>
