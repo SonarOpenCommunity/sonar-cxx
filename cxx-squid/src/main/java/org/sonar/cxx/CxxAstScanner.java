@@ -51,6 +51,7 @@ import org.sonar.squidbridge.metrics.LinesVisitor;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
+import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
@@ -124,7 +125,18 @@ public final class CxxAstScanner {
           sb.append(token.getValue());
         }
         String functionName = sb.toString();
-        SourceFunction function = new SourceFunction(functionName + ":" + astNode.getToken().getLine());
+        sb.setLength(0);
+        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.originalNamespaceDefinition);
+        while (namespace != null) {
+          if (sb.length() > 0) {
+            sb.insert(0, "::");
+          }
+          sb.insert(0, namespace.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue());
+          namespace = namespace.getFirstAncestor(CxxGrammarImpl.originalNamespaceDefinition);
+        }
+        String namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
+        SourceFunction function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
+          + ":" + astNode.getToken().getLine());
         function.setStartAtLine(astNode.getTokenLine());
         return function;
       }
@@ -209,4 +221,23 @@ public final class CxxAstScanner {
     return builder.build();
   }
 
+  // Concatenate two strings, but if there is overlap at the intersection,
+  // include the intersection/overlap only once.
+  public static String intersectingConcatenate(String a, String b) {
+
+    // find length of maximum possible match
+    int len_a = a.length();
+    int len_b = b.length();
+    int max_match = (len_a > len_b) ? len_b : len_a;
+
+    // search down from maximum match size, to get longest possible intersection
+    for (int size = max_match; size > 0; size--) {
+      if (a.regionMatches(len_a - size, b, 0, size)) {
+        return a + b.substring(size, len_b);
+      }
+    }
+
+    // Didn't find any intersection. Fall back to straight concatenation.
+    return a + b;
+  }
 }

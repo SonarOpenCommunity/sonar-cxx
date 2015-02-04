@@ -32,6 +32,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -45,15 +46,17 @@ public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
   private SensorContext context;
   private Project project;
+  private FileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
+    fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxValgrindSensor(perspectives, new Settings(), TestUtils.mockFileSystem(), mock(RulesProfile.class));
+    sensor = new CxxValgrindSensor(perspectives, new Settings(), fs, mock(RulesProfile.class));
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource(any(File.class))).thenReturn(resourceMock);

@@ -1,0 +1,10 @@
+To mock boost test framework:
+
+   use: tests/boost/unit_test.hpp
+
+To test with real boost test framework:
+
+   use 'sudo apt-get install libboost-dev libboost-test-dev' to download and install
+
+   includes: /usr/include/boost
+   libraries: /usr/lib

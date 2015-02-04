@@ -1,0 +1,9 @@
+<TestLog>
+  <TestSuite name="my_module">
+    <TestSuite name="my_test_suite">
+      <TestCase name="my_test">
+        <TestingTime>1000</TestingTime>
+      </TestCase>
+    </TestSuite>
+  </TestSuite>
+</TestLog>
