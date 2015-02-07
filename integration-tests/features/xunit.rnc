@@ -64,12 +64,12 @@ TestSuite = element testsuite {
 }
 
 TestCase = element testcase {
-   # Name of this testcase. Parsed and passed to SQ.
+   # Name of the testcase which is displayed in the UI.
    attribute name { text },
 
-   # The classname in this this testcase is implemented. The value
-   # of this attribute varies quite alot accross test
-   # frameworks. TODO: describe our sources lookup strategy.
+   # The value of the classname attribute varies quite a lot across test frameworks.
+   # supported: unqualified classname, classname or filename
+   # qualified name: ((namespacename|structname|classname)::)*(namespacename|structname|classname)
    attribute classname { text },
 
    # Execution time of the testcase in ms. Is parsed and passed to SQ.
@@ -80,12 +80,18 @@ TestCase = element testcase {
    attribute status { text }?,
 
    # Test failed
+   # Indicates that the test failed. A failure is a test which
+   # the code has explicitly failed by using the mechanisms for
+   # that purpose. For example via an assertEquals.
    ( element failure {
       attribute message { text },
       attribute type { text } ?,
       text
 
       # Test errored
+      # Indicates that the test errored. An errored test is one
+      # that had an unanticipated problem. For example an unchecked
+      # throwable or a problem with the implementation of the test.
    } | element error {
       attribute message { text },
       attribute type { text } ?,

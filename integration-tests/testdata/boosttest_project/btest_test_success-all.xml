@@ -1,0 +1,13 @@
+<TestLog>
+  <TestSuite name="my_module">
+    <TestSuite name="my_test_suite">
+      <TestCase name="my_test">
+        <Info file="tests/unittests/test_success.cc" line="13"><![CDATA[check add(2, 2) == 4 passed]]></Info>
+        <Info file="tests/unittests/test_success.cc" line="15"><![CDATA[check add(2, 2) == 4 passed]]></Info>
+        <Info file="tests/unittests/test_success.cc" line="26"><![CDATA[check 'add(..) result: 4' passed]]></Info>
+        <Info file="tests/unittests/test_success.cc" line="28"><![CDATA[check add(2, 2) == 4 passed]]></Info>
+        <TestingTime>3000</TestingTime>
+      </TestCase>
+    </TestSuite>
+  </TestSuite>
+</TestLog>

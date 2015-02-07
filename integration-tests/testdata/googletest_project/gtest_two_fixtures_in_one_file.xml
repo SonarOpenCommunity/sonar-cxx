@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites tests="4" failures="1" disabled="1" errors="0" time="0.051" name="AllTests">
+<testsuites tests="4" failures="1" disabled="1" errors="0" timestamp="2015-01-28T23:29:18" time="0.051" name="AllTests">
   <testsuite name="Fixture1" tests="3" failures="1" disabled="1" errors="0" time="0.051">
     <testcase name="test_successfull" status="run" time="0.051" classname="Fixture1" />
     <testcase name="test_failing" status="run" time="0" classname="Fixture1">
-      <failure message="Value of: 12&#x0A;Expected: 1" type=""><![CDATA[test_two_fixtures.cc:14
+      <failure message="test_two_fixtures.cc:14&#x0A;Value of: 12&#x0A;Expected: 1" type=""><![CDATA[test_two_fixtures.cc:14
 Value of: 12
 Expected: 1]]></failure>
     </testcase>
