@@ -27,7 +27,7 @@ public class CxxMetricTest {
 
   @Test
   public void test() {
-    assertThat(CxxMetric.values()).hasSize(12);
+    assertThat(CxxMetric.values()).hasSize(11);
 
     for (CxxMetric metric : CxxMetric.values()) {
       assertThat(metric.getName()).isEqualTo(metric.name());
