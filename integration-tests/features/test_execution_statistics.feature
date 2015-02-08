@@ -331,7 +331,6 @@ Feature: Providing test execution numbers
             AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*cannot find the sources for '.*'
-              .*WARN.*Error evaluating expression.*, assuming 0
               """
             AND the following metrics have following values:
               | metric               | value |
