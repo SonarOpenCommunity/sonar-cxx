@@ -218,6 +218,13 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>The identifier preceding a colon was previously declared at the Location given as not being a label.</description>
   </rule>
   <rule>
+    <key>29</key>
+    <configkey>29</configkey>
+    <priority>CRITICAL</priority>
+    <name>L0029: Duplicated type-specifier</name>
+    <description>Multiple type-specifiers were seen in a context expecting only one. A notable exception to this message, of course, is long long.</description>
+  </rule>
+  <rule>
     <key>30</key>
     <configkey>30</configkey>
     <priority>CRITICAL</priority>
@@ -5305,7 +5312,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <pre><tt>
                =  ()  []  ->
 </tt></pre>
-<p>The parameter String indicates which it is.  [11, Ǳ3.4.3 and Ǳ3.4.6]
+<p>The parameter String indicates which it is.  [11, #3.4.3 and #3.4.6]
 </p>]]></description>
   </rule>
   <rule>
@@ -5345,7 +5352,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <pre><tt>
              void f(int i=0, int j, int k=0);
 </tt></pre>
-<p>is illegal.  [11, Ǹ.2.6]
+<p>is illegal.  [11, #2.6]
 </p>]]></description>
   </rule>
   <rule>
@@ -5588,7 +5595,7 @@ MISRA 2004 checks, use -misra(2)</p>
 <pre><tt>
              X( const X &)
 </tt></pre>
-<p>If you leave off the '&' then a copy constructor would be needed just to copy the argument into the copy constructor.  This is a runaway recursion.  [11, Ǳ2.1]
+<p>If you leave off the '&' then a copy constructor would be needed just to copy the argument into the copy constructor.  This is a runaway recursion.  [11,#2.1]
 </p>]]></description>
   </rule>
   <rule>
@@ -6586,7 +6593,7 @@ Note that the Microsoft compiler implements this extension. For that reason, the
 <pre><tt>
             class A : private B { int a; };
 </tt></pre>
-<p>is preferred if that's what you want.  [11, Ǳ1.1]
+<p>is preferred if that's what you want.  [11,#1.1]
 </p>]]></description>
   </rule>
   <rule>
@@ -9077,6 +9084,14 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>L9091: casting from pointer type to integer type</name>
     <description>A cast of a pointer to an integer type was seen. Since the size of the integer required when a pointer is converted to an integer is implementation defined, some coding guidelines advise against such casts.</description>
   </rule>
+  
+  <rule>
+    <key>9092</key>
+    <configkey>9092</configkey>
+    <priority>INFO</priority>
+    <name>L9092: casting between a pointer to void and an integral type</name>
+    <description>A cast of a pointer to void and an integral type was seen, some coding guidelines advise against such casts.</description>
+  </rule>
 
   <rule>
     <key>9102</key>
@@ -9460,6 +9475,14 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9151: public copy assignment operator in abstract class</name>
     <description>A public copy assignment operator was declared in an abstract class.</description>
+  </rule>
+
+  <rule>
+    <key>9152</key>
+    <configkey>9152</configkey>
+    <priority>INFO</priority>
+    <name>L9152: explicit specialization of overloaded function templates 'String' and 'String'</name>
+    <description>An explicit specialization of one of the named function templates was seen. Since explicit specializations are considered only after overload resolution chooses a best match from a set of primary function templates, at least one set of coding guidelines suggests avoiding such specialization to reduce the risk of developer confusion.</description>
   </rule>
 
   <rule>
@@ -9903,9 +9926,9 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <key>M10.6</key>
     <configkey>M10.6</configkey>
     <priority>INFO</priority>
-    <name>M10.6: unsigned integer literals require a „U‟ suffix (MISRA C)</name>
+    <name>M10.6: unsigned integer literals require a 'U' suffix (MISRA C)</name>
     <description>
-    unsigned integer literals require a „U‟ suffix</description>
+    unsigned integer literals require a 'U' suffix</description>
   </rule>
   <rule>
     <key>M11.1</key>
@@ -10976,7 +10999,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <key>M5-0-2</key>
     <configkey>M5-0-2</configkey>
     <priority>INFO</priority>
-    <name>M5-0-2: Dependence placed on C’s operator precedence (MISRA C++)</name>
+    <name>M5-0-2: Dependence placed on C's operator precedence (MISRA C++)</name>
     <description>(Advisory) Limited dependence should be placed on C++ operator precedence rules in expressions.</description>
   </rule>
   <rule>
@@ -11175,14 +11198,14 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M5-2-10</configkey>
     <priority>INFO</priority>
     <name>M5-2-10: Increment or decrement combined with another operator (MISRA C++)</name>
-    <description>(Advisory) The increment (++) and decrement (–) operators should not be mixed with other operators in an expression.</description>
+    <description>(Advisory) The increment (++) and decrement (--) operators should not be mixed with other operators in an expression.</description>
   </rule>
   <rule>
     <key>M5-2-11</key>
     <configkey>M5-2-11</configkey>
     <priority>INFO</priority>
-    <name>M5-2-11: overloading special operators – comma &amp;&amp; || (MISRA C++)</name>
-    <description>(Required) The comma operator, &amp;&amp; operator and the || operator shall not be overloaded.</description>
+    <name>M5-2-11: overloading special operators – ',' '&amp;&amp;' '||' (MISRA C++)</name>
+    <description>(Required) The comma operator, '&amp;&amp;' operator and the '||' operator shall not be overloaded.</description>
   </rule>
   <rule>
     <key>M5-2-12</key>
@@ -11331,7 +11354,7 @@ immediately cast to the underlying type of the operand.</description>
   MISRA C++ rule 6-5-1 req no not currently supported
     (Required) A for loop shall contain a single loop-counter which shall not have floating type.
   MISRA C++ rule 6-5-2 req no not currently supported
-    (Required) If loop-counter is not modified by – or ++, then, within condition, the loop-counter shall only be used as an operand to <=, <, > or >=.
+    (Required) If loop-counter is not modified by -– or ++, then, within condition, the loop-counter shall only be used as an operand to <=, <, > or >=.
   -->
   <rule>
     <key>M6-5-3</key>
@@ -11342,7 +11365,7 @@ immediately cast to the underlying type of the operand.</description>
   </rule>
   <!--
   MISRA C++ rule 6-5-4 req no not currently supported
-    (Required) The loop-counter shall be modified by one of: –, ++, -=n, or +=n; where n remains constant for the duration of the loop.
+    (Required) The loop-counter shall be modified by one of: -–, ++, -=n, or +=n; where n remains constant for the duration of the loop.
   MISRA C++ rule 6-5-5 req no not currently supported
     (Required) A loop-control-variable other than the loop-counter shall not be modified within condition or expression.
   MISRA C++ rule 6-5-6 req no not currently supported
@@ -11641,7 +11664,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M12-1-1</configkey>
     <priority>INFO</priority>
     <name>M12-1-1: Call to virtual function within a constructor or destructor (MISRA C++)</name>
-    <description>(Required) An object’s dynamic type shall not be used from the body of its constructor or destructor.</description>
+    <description>(Required) An object's dynamic type shall not be used from the body of its constructor or destructor.</description>
   </rule>
   <rule>
     <key>M12-1-2</key>
@@ -11825,7 +11848,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M15-5-2</configkey>
     <priority>INFO</priority>
     <name>M15-5-2: Exception not in throw-list of function (MISRA C++)</name>
-    <description>(Required) Where a function’s declaration includes an exception specification, the function shall only be capable of throwing exceptions of the indicated type(s).</description>
+    <description>(Required) Where a function's declaration includes an exception specification, the function shall only be capable of throwing exceptions of the indicated type(s).</description>
   </rule>
   <rule>
     <key>M15-5-3</key>
@@ -11846,7 +11869,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M16-0-2</configkey>
     <priority>INFO</priority>
     <name>M16-0-2: '#define/#undef' used within a block (MISRA C++)</name>
-    <description>(Required) Macros shall only be #define’d or #undef’d in the global namespace.</description>
+    <description>(Required) Macros shall only be #define'd or #undef'd in the global namespace.</description>
   </rule>
   <rule>
     <key>M16-0-3</key>
@@ -11927,7 +11950,7 @@ immediately cast to the underlying type of the operand.</description>
     <configkey>M16-2-4</configkey>
     <priority>INFO</priority>
     <name>M16-2-4: Header file name with non-standard character (MISRA C++)</name>
-    <description>(Required) The ’, ", /* or // characters shall not occur in a header file name.</description>
+    <description>(Required) The ', ", /* or // characters shall not occur in a header file name.</description>
   </rule>
   <rule>
     <key>M16-2-5</key>
