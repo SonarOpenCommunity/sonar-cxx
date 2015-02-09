@@ -5,151 +5,6 @@
        ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\..\..\zlib\Include /I"C:\Program Files (x86)\Windows Kits\8.1\include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\include\shared" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /IInclude /ZI /nologo /W4 /WX- /Od /Oy- /D CODE_ANALYSIS /D BUILD_zip /D BUILD_NOTUT /D UNICODE /D _UNICODE /D MFCDebug /D _DEBUG /D DEBUG /D RWDEBUG /D WIN32 /D _AFXDLL /D _WINDOWS /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _WIN32_IE=0x0800 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _RWTOOLSDLL /D CSA_HAS_DLL /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _WINDOWS /D _RWTOOLSDLL /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /GF /Gm /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Yc"stdafx.h" /Fp"..\..\..\bin\x86\Debug\zip\zip.pch" /Fo"..\..\..\bin\x86\Debug\zip\\" /Fd"..\..\..\bin\x86\Debug\zip\vc120.pdb" /FR"..\..\..\bin\x86\Debug\zip\" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\localespc.dll" /FC /errorReport:prompt   /analyze:quiet stdafx.cpp
          stdafx.cpp
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(55): warning C4995: 'memcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(74): warning C4995: 'memcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(112): warning C4995: 'strcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(118): warning C4995: 'strcat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(121): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(186): warning C4995: 'strncat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(195): warning C4995: 'strncpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(204): warning C4995: 'strtok': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(284): warning C4995: 'wcscat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(294): warning C4995: 'wcscpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(296): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(316): warning C4995: 'wcsncat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(323): warning C4995: 'wcsncpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\string.h(330): warning C4995: 'wcstok': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winbase.h(2662): warning C4995: 'lstrcpynA': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winbase.h(2674): warning C4995: 'lstrcpynW': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winbase.h(6392): warning C4995: 'IsBadReadPtr': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winbase.h(6400): warning C4995: 'IsBadWritePtr': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winbase.h(6408): warning C4995: 'IsBadHugeReadPtr': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winbase.h(6416): warning C4995: 'IsBadHugeWritePtr': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winbase.h(6424): warning C4995: 'IsBadCodePtr': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winuser.h(5304): warning C4995: 'CharToOemA': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winuser.h(5310): warning C4995: 'CharToOemW': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winuser.h(5323): warning C4995: 'OemToCharA': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winuser.h(5330): warning C4995: 'OemToCharW': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winuser.h(5342): warning C4995: 'CharToOemBuffA': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winuser.h(5349): warning C4995: 'CharToOemBuffW': name was marked as #pragma deprecated
-     1>c:\program files (x86)\windows kits\8.1\include\um\winuser.h(14659): warning C4995: 'ChangeWindowMessageFilter': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(733): warning C4995: '_snwprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(733): warning C4995: '_vsnwprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\swprintf.inl(36): warning C4995: 'swprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\swprintf.inl(49): warning C4995: 'vswprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\swprintf.inl(85): warning C4995: 'swprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\swprintf.inl(97): warning C4995: 'vswprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(823): warning C4995: 'swscanf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(833): warning C4995: 'wscanf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(900): warning C4995: '_itow': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(906): warning C4995: '_ultow': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(955): warning C4995: '_i64tow': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(957): warning C4995: '_ui64tow': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(987): warning C4995: '_wmakepath': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(1001): warning C4995: '_wsplitpath': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(1248): warning C4995: 'memcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(1270): warning C4995: 'wmemcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\wchar.h(1274): warning C4995: 'memcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\tchar.h(670): warning C4995: '_tccpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\tchar.h(676): warning C4995: '_tccpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\tchar.h(780): warning C4995: 'wcsncpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\tchar.h(802): warning C4995: 'wcsncat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\tchar.h(813): warning C4995: 'wcstok': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(254): warning C4995: 'gets': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(283): warning C4995: 'scanf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(304): warning C4995: 'sscanf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(337): warning C4995: 'vsnprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(346): warning C4995: '_snprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(346): warning C4995: '_vsnprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(356): warning C4995: 'vsprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdio.h(356): warning C4995: 'sprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdlib.h(481): warning C4995: '_itoa': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdlib.h(483): warning C4995: '_i64toa': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdlib.h(485): warning C4995: '_ui64toa': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdlib.h(520): warning C4995: '_mbstrlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdlib.h(566): warning C4995: '_ultoa': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdlib.h(799): warning C4995: '_makepath': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\stdlib.h(854): warning C4995: '_splitpath': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\malloc.h(166): warning C4995: '_alloca': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlalloc.h(649): warning C4995: '_alloca': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlconv.h(213): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlconv.h(265): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlconv.h(382): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlconv.h(451): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlconv.h(742): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlconv.h(774): warning C4995: 'wcscpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlconv.h(785): warning C4995: 'wcscat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atltrace.h(173): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(94): warning C4995: '_mbscat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(106): warning C4995: '_mbscpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(123): warning C4995: '_mbslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(138): warning C4995: '_mbsnbcat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(150): warning C4995: '_mbsnbcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(166): warning C4995: '_mbsncat': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(178): warning C4995: '_mbsncpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(214): warning C4995: '_mbstok': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\include\mbstring.h(232): warning C4995: '_mbccpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcore.h(48): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcore.h(56): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcore.h(647): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcomcli.h(2425): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcomcli.h(2425): warning C4995: '_alloca': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcommem.h(85): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcommem.h(120): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcommem.h(164): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlcommem.h(208): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlsimpstr.h(686): warning C4995: 'memcpy': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlsimpstr.h(726): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlsimpstr.h(734): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(304): warning C4995: 'vsprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(369): warning C4995: 'CharToOemA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(377): warning C4995: 'OemToCharA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(392): warning C4995: 'CharToOemBuffA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(486): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(492): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(690): warning C4995: 'vswprintf': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(781): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(787): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(2029): warning C4995: 'CharToOemA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\cstringt.h(2039): warning C4995: 'OemToCharA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlbase.h(6220): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlbase.h(6273): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlbase.h(6294): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\statreg.h(118): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\statreg.h(299): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\statreg.h(1001): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\statreg.h(1069): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\statreg.h(1182): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\statreg.h(1581): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\statreg.h(1652): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlbase.h(7156): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(518): warning C4995: 'wvsprintfA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(536): warning C4995: 'wvsprintfA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(556): warning C4995: 'wvsprintfA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(620): warning C4995: 'CharToOemA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(628): warning C4995: 'OemToCharA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(643): warning C4995: 'CharToOemBuffA': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(724): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(730): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(839): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(1067): warning C4995: 'wvsprintfW': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(1086): warning C4995: 'wvsprintfW': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(1108): warning C4995: 'wvsprintfW': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(1231): warning C4995: 'strlen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\atlstr.h(1237): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\afxcmn3.inl(456): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\afxcmn3.inl(457): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\afxcmn3.inl(471): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\Program Files (x86)\Microsoft Visual Studio 14.0\vc\atlmfc\include\afxcmn3.inl(472): warning C4995: 'wcslen': name was marked as #pragma deprecated
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\..\..\zlib\Include /I"C:\Program Files (x86)\Windows Kits\8.1\include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\include\shared" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /I..\..\..\_Globals\Include /I..\..\Include /ZI /nologo /W4 /WX- /Od /Oy- /D CODE_ANALYSIS /D BUILD_zip /D BUILD_NOTUT /D UNICODE /D _UNICODE /D MFCDebug /D _DEBUG /D DEBUG /D RWDEBUG /D WIN32 /D _AFXDLL /D _WINDOWS /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _WIN32_IE=0x0800 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _RWTOOLSDLL /D CSA_HAS_DLL /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _WINDOWS /D _RWTOOLSDLL /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /GF /Gm /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Yu"stdafx.h" /Fp"..\..\..\bin\x86\Debug\zip\zip.pch" /Fo"..\..\..\bin\x86\Debug\zip\\" /Fd"..\..\..\bin\x86\Debug\zip\vc120.pdb" /FR"..\..\..\bin\x86\Debug\zip\\" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\\bin\localespc.dll" /FC /errorReport:prompt   /analyze:quiet FileZip.cpp ZipManager.cpp
-         ZipManager.cpp
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(140): warning C4995: 'alloca': name was marked as #pragma deprecated
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(140): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(140): warning C4995: '_alloca': name was marked as #pragma deprecated
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(198): warning C4995: 'alloca': name was marked as #pragma deprecated
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(198): warning C4995: 'wcslen': name was marked as #pragma deprecated
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(198): warning C4995: '_alloca': name was marked as #pragma deprecated
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(226): warning C4189: 'errclose' : local variable is initialized but not referenced
          FileZip.cpp
          Running Code Analysis for C/C++...
          Generating Code...
@@ -176,7 +31,7 @@
      
        PostBuildEvent:
          Description: Create PC-lint macro input file
-         call D:\plaza-source-review\sonar\SonarPrepReport ..\..\..\bin\x86\Debug\zip\ 
+         call D:\source-review\sonar\SonarPrepReport ..\..\..\bin\x86\Debug\zip\ 
          :VCEnd
          SonarPrepReport ..\..\..\bin\x86\Debug\zip\   
          Microsoft (R) C/C++ Optimizing Compiler Version 18.00.30723 for x86
@@ -185,7 +40,7 @@
          mac-msc.cpp
        CustomBuildStep:
          Description: SonarQube analysis
-         call D:\plaza-source-review\sonar\CallSonarQubeVS.bat ..\..\..\bin\x86\Debug\zip\ C:\TFS_Server\Server\Source\zip\ zip.dll.vcxproj
+         call D:\source-review\sonar\CallSonarQubeVS.bat ..\..\..\bin\x86\Debug\zip\ C:\TFS_Server\Server\Source\zip\ zip.dll.vcxproj
          :VCEnd
          CallSonarQubeVS ..\..\..\bin\x86\Debug\zip\ C:\TFS_Server\Server\Source\zip\ zip.dll.vcxproj 
          copy ..\..\..\bin\x86\Debug\zip\zip.dll.log to C:\TFS_Server\Server\Source\zip\

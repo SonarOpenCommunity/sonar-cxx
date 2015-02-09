@@ -27,7 +27,6 @@ import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
-import com.sonar.sslr.impl.Lexer;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
 import static org.sonar.cxx.api.CxxTokenType.WS;
 
@@ -661,24 +660,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private String serialize(List<Token> tokens) {
-	StringBuilder sb = new StringBuilder();
-	if (!tokens.isEmpty()) {
-		sb.append(tokens.get(0).getValue());
-	}
-	for (int i = 1 ; i < tokens.size(); ++i) {
-		Token token = tokens.get(i);
-		if (token.hasTrivia()) {
-			sb.append(' ');
-		}
-		else {
-			Lexer lexer = CxxLexer.create();
-			if (lexer.lex(tokens.get(i-1).getValue()+token.getValue()).size() < 3 ) { // 2 tokens + EOF
-				sb.append(' ');
-			}
-		}
-		sb.append(token.getValue());
-	}
-    return sb.toString();
+    return serialize(tokens, " ");
   }
 
   private String serialize(List<Token> tokens, String spacer) {
@@ -740,7 +722,7 @@ public class CxxPreprocessor extends Preprocessor {
               .setLine(firstToken.getLine())
               .setColumn(firstToken.getColumn())
               .setURI(firstToken.getURI())
-              .setValueAndOriginalValue(serialize(matchedTokens))
+              .setValueAndOriginalValue(serialize(matchedTokens).trim())
               .setType(STRING)
               .build());
         }
@@ -767,7 +749,6 @@ public class CxxPreprocessor extends Preprocessor {
   private List<Token> replaceParams(List<Token> body, List<Token> parameters, List<Token> arguments) {
     // Replace all parameters by according arguments
     // "Stringify" the argument if the according parameter is preceded by an #
-	// Protect arguments to ## operator
 
     List<Token> newTokens = new ArrayList<Token>();
     if (!body.isEmpty()) {
@@ -776,64 +757,69 @@ public class CxxPreprocessor extends Preprocessor {
         defParamValues.add(t.getValue());
       }
 
+      boolean tokenPastingLeftOp = false;
+      boolean tokenPastingRightOp = false;
+
       for (int i = 0; i < body.size(); ++i) {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
           newTokens.add(curr);
-        }
-        else if (index == arguments.size()) {
+        } else if (index == arguments.size()) {
           // EXTENSION: GCC's special meaning of token paste operator
           // If variable argument is left out then the comma before the paste operator will be deleted
           int j = i;
-          while(j > 0 && body.get(j - 1).getType() == WS)
+          while (j > 0 && body.get(j - 1).getType() == WS) {
             j--;
-          if (j == 0 || !"##".equals(body.get(--j).getValue()))
+          }
+          if (j == 0 || !"##".equals(body.get(--j).getValue())) {
             continue;
+          }
           int k = j;
-          while(j > 0 && body.get(j - 1).getType() == WS)
+          while (j > 0 && body.get(j - 1).getType() == WS) {
             j--;
+          }
           if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
             newTokens.remove(newTokens.size() - 1 + j - i); //remove the comma
             newTokens.remove(newTokens.size() - 1 + k - i); //remove the paste operator
           }
-        }
-        else if (index < arguments.size()) {
-          boolean isHashOperand = (i > 0 && body.get(i-1).getValue().equals("#"));
-          if (!isHashOperand) {
-        	int j = i - 1;
-            while (j >= 0 && body.get(j).getType() == WS) {
-            	--j;
-            }
-            if (j >= 0 && body.get(j).getValue().equals("##")) {
-            	isHashOperand = j == 0 || !body.get(j-1).getValue().equals("#");
-            }
-            else {
-            	j = i + 1;
-            	while (j < body.size() && body.get(j).getType() == WS) {
-            		++j;
-            	}
-            	isHashOperand = j < body.size() && body.get(j).getValue().equals("##");
+        } else if (index < arguments.size()) {
+          // token pasting operator?
+          int j = i + 1;
+          while (j < body.size() && body.get(j).getType() == WS) {
+            j++;
           }
-        }
+          if (j < body.size() && "##".equals(body.get(j).getValue())) {
+            tokenPastingLeftOp = true;
+          }
+          // in case of token pasting operator do not fully expand
           Token replacement = arguments.get(index);
-          // The arguments have to be fully expanded before expanding the body of the macro, unless they are operand to # or ##
-          String newValue = (isHashOperand)
-        		  ? replacement.getOriginalValue() 
-        		  : serialize(expandMacro("", replacement.getValue()));
-
-          if (!newTokens.isEmpty() && newTokens.get(newTokens.size() - 1).getValue().equals("#")) {
-            newTokens.remove(newTokens.size() - 1);
-            newValue = encloseWithQuotes(quote(newValue));
+          String newValue;
+          if (tokenPastingLeftOp) {
+            newValue = replacement.getValue();
+            tokenPastingLeftOp = false;
+            tokenPastingRightOp = true;
+          } else if (tokenPastingRightOp) {
+            newValue = replacement.getValue();
+            tokenPastingLeftOp = false;
+            tokenPastingRightOp = false;
+          } else {
+            // otherwise the arguments have to be fully expanded before expanding the body of the macro
+            newValue = serialize(expandMacro("", replacement.getValue()));
+            if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
+              newTokens.remove(newTokens.size() - 1);
+              newValue = encloseWithQuotes(quote(newValue));
+            }
           }
+
           newTokens.add(Token.builder()
-              .setLine(replacement.getLine())
-              .setColumn(replacement.getColumn())
-              .setURI(replacement.getURI())
-              .setValueAndOriginalValue(newValue)
-              .setType(replacement.getType())
-              .setGeneratedCode(true)
-              .build());
+            .setLine(replacement.getLine())
+            .setColumn(replacement.getColumn())
+            .setURI(replacement.getURI())
+            .setValueAndOriginalValue(newValue)
+            .setType(replacement.getType())
+            .setGeneratedCode(true)
+            .build());
         }
       }
     }
@@ -850,13 +836,11 @@ public class CxxPreprocessor extends Preprocessor {
       if ("##".equals(curr.getValue())) {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
-        String replacement = pred.getValue().replaceFirst("\\s*$", "") + succ.getValue().replaceFirst("^\\s*", "");
-        replacement = serialize(expandMacro("", replacement));
         newTokens.add(Token.builder()
             .setLine(pred.getLine())
             .setColumn(pred.getColumn())
             .setURI(pred.getURI())
-            .setValueAndOriginalValue(replacement)
+            .setValueAndOriginalValue(pred.getValue() + succ.getValue())
             .setType(pred.getType())
             .setGeneratedCode(true)
             .build());
@@ -872,21 +856,6 @@ public class CxxPreprocessor extends Preprocessor {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
       if (last.getType() != WS) {
-        if ( !tokens.isEmpty() ) {
-          Token pred = tokens.get(tokens.size() - 1);
-          if (pred.getType() != WS && !pred.hasTrivia()) {
-            tokens.remove(tokens.size() - 1);
-            String replacement = pred.getValue() + last.getValue();
-            last = Token.builder()
-                .setLine(pred.getLine())
-                .setColumn(pred.getColumn())
-                .setURI(pred.getURI())
-                .setValueAndOriginalValue(replacement)
-                .setType(pred.getType())
-                .setGeneratedCode(true)
-                .build();
-          }
-        }
         return last;
       }
     }
@@ -1004,7 +973,7 @@ public class CxxPreprocessor extends Preprocessor {
     } else if((node = ast.getFirstDescendant(CppGrammar.includeBodyFreeform)) != null) {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
-      String expandedIncludeBody = serialize(expandMacro("", includeBody), ""); 
+      String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
 
       boolean parseError = false;
       AstNode includeBodyAst = null;
@@ -1020,13 +989,8 @@ public class CxxPreprocessor extends Preprocessor {
                  new Object[] {currFileName, token.getLine(), expandedIncludeBody});
         return null;
       }
-      includedFile = findIncludedFile(includeBodyAst, token, currFileName);
-      if (includedFile == null) {
-          LOG.warn("[{}:{}]: cannot find file named {}, expanded from {}",
-                     new Object[] {currFileName, token.getLine(), expandedIncludeBody, includeBody});
-        }
 
-      return includedFile;
+      return findIncludedFile(includeBodyAst, token, currFileName);
     }
 
     if (includedFileName != null) {

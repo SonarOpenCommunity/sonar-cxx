@@ -38,7 +38,6 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
 
 public class CxxCompilerSensorTest {
   private SensorContext context;
@@ -89,7 +88,7 @@ public class CxxCompilerSensorTest {
     settings.setProperty(CxxCompilerSensor.REPORT_REGEX_DEF, "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$");
     CxxCompilerSensor sensor = new CxxCompilerSensor(perspectives, settings, fs, profile, TestUtils.mockReactor());
     sensor.analyse(project, context);
-    verify(issuable, times(152)).addIssue(any(Issue.class));
+    verify(issuable, times(9)).addIssue(any(Issue.class));
   }
 
 

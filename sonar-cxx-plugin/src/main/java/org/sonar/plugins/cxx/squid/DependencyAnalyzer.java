@@ -86,26 +86,28 @@ public class DependencyAnalyzer {
     directoryFiles.put(sonarDir, sonarFile);
 
     //Build the dependency graph
+    Map<String, Integer> firstIncludeLine = new HashMap<String, Integer>();
     for (CxxPreprocessor.Include include : includedFiles) {
       File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project);
-      if (includedFile == null) {
-        CxxUtils.LOG.warn("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
-      } else if (filesGraph.hasEdge(sonarFile, includedFile)) {
-        FileEdge fileEdge = filesGraph.getEdge(sonarFile, includedFile);
+      String includedFilePath = includedFile != null ? includedFile.getPath() : include.getPath();
+      Integer prevIncludeLine = firstIncludeLine.put(includedFilePath, include.getLine());
+      if (prevIncludeLine != null) {
         Issuable issuable = perspectives.as(Issuable.class, sonarFile);
         if ((issuable != null) && (duplicateIncludeRule != null)) {
           Issue issue = issuable.newIssueBuilder()
               .ruleKey(duplicateIncludeRule.ruleKey())
               .line(include.getLine())
-              .message("Remove duplicated include, \"" + includedFile.getLongName() + "\" is already included at line " + fileEdge.getLine() + ".")
+              .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".")
               .build();
           if (issuable.addIssue(issue))
             violationsCount++;
         } else {
-          CxxUtils.LOG.warn("Already created edge from '" + sonarFile.getKey() + "' (line " + include.getLine() + ") to '" + includedFile.getKey() + "'" +
-              ", previous edge from line " + fileEdge.getLine());
+          CxxUtils.LOG.warn("Already created edge from '" + sonarFile.getKey() + "' (line " + include.getLine() + ") to '" + includedFilePath + "'" +
+              ", previous edge from line " + prevIncludeLine);
         }
-      } else {
+      } else if (includedFile == null) {
+        CxxUtils.LOG.warn("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
+      } else if (context.isIndexed(includedFile, false)) {
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());
         filesGraph.addEdge(fileEdge);
@@ -120,6 +122,8 @@ public class DependencyAnalyzer {
           }
           edge.addRootEdge(fileEdge);
         }
+      }  else {
+        CxxUtils.LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.getName());
       }
     }
   }

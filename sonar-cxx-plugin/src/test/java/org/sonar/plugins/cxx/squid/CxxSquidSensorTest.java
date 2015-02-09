@@ -25,6 +25,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyBoolean;
 
 import java.io.File;
 
@@ -47,6 +50,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Directory;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Resource;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -63,6 +67,7 @@ public class CxxSquidSensorTest {
   public void setUp() {
     settings = new Settings();
     context = mock(SensorContext.class);
+    when(context.isIndexed(any(Resource.class), anyBoolean())).thenReturn(true);
   }
 
   @Test
