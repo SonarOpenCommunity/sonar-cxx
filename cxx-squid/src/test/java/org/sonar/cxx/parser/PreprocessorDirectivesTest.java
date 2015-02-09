@@ -147,24 +147,24 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
             + "lang_init(c)();"))
         .equals("c = c_init ( ) ; EOF"));
 
-
-    // This one doesnt work.
-    // The preprocessor seems to resule resolves macro in the wrong order:
-    // BOOST_MSVC => _MSC_VER => 1600 ## _WORKAROUND_GUARD => 1600 _WORKAROUND_GUARD
-    //
-    // instead of
-    //
-    // BOOST_MSVC =>  _MSC_VER
-    // _MSC_VER ## _WORKAROUND_GUARD => _MSC_VER_WORKAROUND_GUARD
-    // _MSC_VER_WORKAROUND_GUARD => 0
-
-    // assert (serialize(p.parse(
-    //   "#define _MSC_VER_WORKAROUND_GUARD 0\n"
-    //   + "#define _MSC_VER 1600\n"
-    //   + "#define BOOST_MSVC _MSC_VER\n"
-    //   + "#define TEST(symbol) symbol ## _WORKAROUND_GUARD\n"
-    //   + "TEST(BOOST_MSVC);"))
-    //   .equals("0 ; EOF"));
+    assert (serialize(p.parse(
+      "#define _MSC_VER_WORKAROUND_GUARD 1\n"
+      + "#define BOOST_MSVC_WORKAROUND_GUARD 0\n"
+      + "#define _MSC_VER 1600\n"
+      + "#define BOOST_MSVC _MSC_VER\n"
+      + "#define TEST(symbol) symbol ## _WORKAROUND_GUARD\n"
+      + "int i=TEST(BOOST_MSVC);"))
+      .equals("int i = 0 ; EOF"));
+    
+    assert (serialize(p.parse(
+      "#define _MSC_VER_WORKAROUND_GUARD 1\n"
+      + "#define BOOST_MSVC_WORKAROUND_GUARD 0\n"
+      + "#define _MSC_VER 1600\n"
+      + "#define BOOST_MSVC _MSC_VER\n"
+      + "#define _WORKAROUND_GUARD _XXX\n"
+      + "#define TEST(symbol1, symbol2) symbol1 ## symbol2\n"
+      + "int i=TEST(BOOST_MSVC, _WORKAROUND_GUARD);"))
+      .equals("int i = 0 ; EOF"));
   }
 
   @Test
