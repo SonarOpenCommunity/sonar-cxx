@@ -12,12 +12,14 @@ Feature: Smoketest
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
               .*WARN  - Cannot find the file '.*component_XXX.cc', skipping violations
+              .*WARN  - Already created edge from 'src/cli/main.cc' \(line 2\) to 'src/lib/component1.hh', previous edge from line 4
+              .*WARN  - Already created edge from 'src/cli/main.cc' \(line 5\) to '3rdparty/extlib.hh', previous edge from line 3
               """
           AND the following metrics have following values:
                | metric                   | value |
                # size metrics
                | ncloc                    | 56    |
-               | lines                    | 148   |
+               | lines                    | 151   |
                | statements               | 36    |
                | classes                  | 1     |
                | files                    | 8     |
@@ -27,7 +29,7 @@ Feature: Smoketest
                | comment_lines_density    | 30    |
                | comment_lines            | 24    |
                # duplications
-               | duplicated_lines_density | 58.1  |
+               | duplicated_lines_density | 57.0  |
                | duplicated_lines         | 86    |
                | duplicated_blocks        | 2     |
                | duplicated_files         | 2     |
