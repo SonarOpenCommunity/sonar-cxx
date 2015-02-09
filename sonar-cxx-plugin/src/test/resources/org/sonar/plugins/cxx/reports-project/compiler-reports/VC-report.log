@@ -1,0 +1,46 @@
+﻿Build started 09/13/2014 8:06:06 AM.
+     1>Project "C:\TFS_Server\Server\Source\zip\zip.dll.vcxproj" on node 3 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "..\..\..\bin\x86\Debug\zip\zip.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\..\..\zlib\Include /I"C:\Program Files (x86)\Windows Kits\8.1\include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\include\shared" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /IInclude /ZI /nologo /W4 /WX- /Od /Oy- /D CODE_ANALYSIS /D BUILD_zip /D BUILD_NOTUT /D UNICODE /D _UNICODE /D MFCDebug /D _DEBUG /D DEBUG /D RWDEBUG /D WIN32 /D _AFXDLL /D _WINDOWS /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _WIN32_IE=0x0800 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _RWTOOLSDLL /D CSA_HAS_DLL /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _WINDOWS /D _RWTOOLSDLL /D AFX_NOVTABLE= /D WINVER=0x0600 /D _WIN32_WINNT=0x0600 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1 /D CSA_TRACE_DISABLE /D _WINDLL /D _UNICODE /D UNICODE /D _AFXDLL /GF /Gm /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Yc"stdafx.h" /Fp"..\..\..\bin\x86\Debug\zip\zip.pch" /Fo"..\..\..\bin\x86\Debug\zip\\" /Fd"..\..\..\bin\x86\Debug\zip\vc120.pdb" /FR"..\..\..\bin\x86\Debug\zip\" /Gd /TP /analyze /analyze:plugin"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\localespc.dll" /FC /errorReport:prompt   /analyze:quiet stdafx.cpp
+         stdafx.cpp
+         FileZip.cpp
+         Running Code Analysis for C/C++...
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /I"C:\Program Files (x86)\Windows Kits\8.1\include\um" /I"C:\Program Files (x86)\Windows Kits\8.1\include\shared" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include" /I"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include" /I..\..\..\_Globals\Include /I..\..\Include /nologo /fo"..\..\..\bin\x86\Debug\zip\AssemblyInfo.res" ..\..\..\_Globals\Source\AssemblyInfo.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\..\..\bin\x86\Debug\zip.dll" /INCREMENTAL /NOLOGO /LIBPATH:..\..\..\bin\x86\Debug\ /LIBPATH:\atlmfc\lib /LIBPATH:\lib /LIBPATH:"C:\Program Files (x86)\Windows Kits\8.1\lib\winv6.3\um\x86" /LIBPATH:..\..\..\bin\x86\Debug\ zlib.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"..\..\..\bin\x86\Debug\zip.pdb" /MAP:"..\..\..\bin\x86\Debug\zip.map" /MAPINFO:EXPORTS /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /TLBID:1 /DYNAMICBASE /NXCOMPAT:NO /IMPLIB:"..\..\..\bin\x86\Debug\zip.lib" /MACHINE:X86 /SAFESEH:NO /DLL ..\..\..\bin\x86\Debug\zip\AssemblyInfo.res
+         ..\..\..\bin\x86\Debug\zip\FileZip.obj
+         ..\..\..\bin\x86\Debug\zip\ZipManager.obj
+         ..\..\..\bin\x86\Debug\zip\stdafx.obj
+            Creating library ..\..\..\bin\x86\Debug\zip.lib and object ..\..\..\bin\x86\Debug\zip.exp
+         zip.dll.vcxproj -> C:\TFS_Server\Server\Source\zip\..\..\..\bin\x86\Debug\zip.dll
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"..\..\..\bin\x86\Debug\zip.bsc" /n ..\..\..\bin\x86\Debug\zip\FileZip.sbr ..\..\..\bin\x86\Debug\zip\ZipManager.sbr ..\..\..\bin\x86\Debug\zip\stdafx.sbr
+     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(51): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(78): warning C6262: Function uses '20600' bytes of stack:  exceeds /analyze:stacksize '16384'.  Consider moving some data to heap.
+     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(163): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(163): warning C6340: Mismatch on sign: 'unsigned long' passed as _Param_(3) when some signed type is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format'.
+     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(202): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(217): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(223): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>c:\tfs_server\Server\source\zip\zipmanager.cpp(18): warning C28159: Consider using 'GetTickCount64' instead of 'GetTickCount'. Reason: GetTickCount overflows roughly every 49 days.  Code that does not take that into account can loop indefinitely.  GetTickCount64 operates on 64 bit values and does not have that problem
+     1>c:\tfs_server\Server\source\zip\zipmanager.cpp(40): warning C28159: Consider using 'GetTickCount64' instead of 'GetTickCount'. Reason: GetTickCount overflows roughly every 49 days.  Code that does not take that into account can loop indefinitely.  GetTickCount64 operates on 64 bit values and does not have that problem
+     
+       PostBuildEvent:
+         Description: Create PC-lint macro input file
+         call D:\source-review\sonar\SonarPrepReport ..\..\..\bin\x86\Debug\zip\ 
+         :VCEnd
+         SonarPrepReport ..\..\..\bin\x86\Debug\zip\   
+         Microsoft (R) C/C++ Optimizing Compiler Version 18.00.30723 for x86
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         mac-msc.cpp
+       CustomBuildStep:
+         Description: SonarQube analysis
+         call D:\source-review\sonar\CallSonarQubeVS.bat ..\..\..\bin\x86\Debug\zip\ C:\TFS_Server\Server\Source\zip\ zip.dll.vcxproj
+         :VCEnd
+         CallSonarQubeVS ..\..\..\bin\x86\Debug\zip\ C:\TFS_Server\Server\Source\zip\ zip.dll.vcxproj 
+         copy ..\..\..\bin\x86\Debug\zip\zip.dll.log to C:\TFS_Server\Server\Source\zip\
