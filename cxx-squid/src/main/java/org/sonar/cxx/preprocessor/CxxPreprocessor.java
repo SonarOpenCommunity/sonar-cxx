@@ -722,7 +722,7 @@ public class CxxPreprocessor extends Preprocessor {
               .setLine(firstToken.getLine())
               .setColumn(firstToken.getColumn())
               .setURI(firstToken.getURI())
-              .setValueAndOriginalValue(serialize(matchedTokens))
+              .setValueAndOriginalValue(serialize(matchedTokens).trim())
               .setType(STRING)
               .build());
         }
@@ -757,46 +757,69 @@ public class CxxPreprocessor extends Preprocessor {
         defParamValues.add(t.getValue());
       }
 
+      boolean tokenPastingLeftOp = false;
+      boolean tokenPastingRightOp = false;
+
       for (int i = 0; i < body.size(); ++i) {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
           newTokens.add(curr);
-        }
-        else if (index == arguments.size()) {
+        } else if (index == arguments.size()) {
           // EXTENSION: GCC's special meaning of token paste operator
           // If variable argument is left out then the comma before the paste operator will be deleted
           int j = i;
-          while(j > 0 && body.get(j - 1).getType() == WS)
+          while (j > 0 && body.get(j - 1).getType() == WS) {
             j--;
-          if (j == 0 || !"##".equals(body.get(--j).getValue()))
+          }
+          if (j == 0 || !"##".equals(body.get(--j).getValue())) {
             continue;
+          }
           int k = j;
-          while(j > 0 && body.get(j - 1).getType() == WS)
+          while (j > 0 && body.get(j - 1).getType() == WS) {
             j--;
+          }
           if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
             newTokens.remove(newTokens.size() - 1 + j - i); //remove the comma
             newTokens.remove(newTokens.size() - 1 + k - i); //remove the paste operator
           }
-        }
-        else if (index < arguments.size()) {
-          Token replacement = arguments.get(index);
-
-          // The arguments have to be fully expanded before expanding the body of the macro
-          String newValue = serialize(expandMacro("", replacement.getValue()));
-
-          if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
-            newTokens.remove(newTokens.size() - 1);
-            newValue = encloseWithQuotes(quote(newValue));
+        } else if (index < arguments.size()) {
+          // token pasting operator?
+          int j = i + 1;
+          while (j < body.size() && body.get(j).getType() == WS) {
+            j++;
           }
+          if (j < body.size() && "##".equals(body.get(j).getValue())) {
+            tokenPastingLeftOp = true;
+          }
+          // in case of token pasting operator do not fully expand
+          Token replacement = arguments.get(index);
+          String newValue;
+          if (tokenPastingLeftOp) {
+            newValue = replacement.getValue();
+            tokenPastingLeftOp = false;
+            tokenPastingRightOp = true;
+          } else if (tokenPastingRightOp) {
+            newValue = replacement.getValue();
+            tokenPastingLeftOp = false;
+            tokenPastingRightOp = false;
+          } else {
+            // otherwise the arguments have to be fully expanded before expanding the body of the macro
+            newValue = serialize(expandMacro("", replacement.getValue()));
+            if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
+              newTokens.remove(newTokens.size() - 1);
+              newValue = encloseWithQuotes(quote(newValue));
+            }
+          }
+
           newTokens.add(Token.builder()
-              .setLine(replacement.getLine())
-              .setColumn(replacement.getColumn())
-              .setURI(replacement.getURI())
-              .setValueAndOriginalValue(newValue)
-              .setType(replacement.getType())
-              .setGeneratedCode(true)
-              .build());
+            .setLine(replacement.getLine())
+            .setColumn(replacement.getColumn())
+            .setURI(replacement.getURI())
+            .setValueAndOriginalValue(newValue)
+            .setType(replacement.getType())
+            .setGeneratedCode(true)
+            .build());
         }
       }
     }

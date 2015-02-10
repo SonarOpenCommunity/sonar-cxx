@@ -32,12 +32,12 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  */
 public class CxxCompilerVcParser implements CompilerParser {
   public static final String KEY = "Visual C++";
-  // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
-  public static final String DEFAULT_REGEX_DEF = "^.*[\\\\,/](.*)\\(([0-9]+)\\)\\x20:\\x20warning\\x20(C\\d\\d\\d\\d):(.*)$";
+  // search for single line with compiler warning message VS2008 - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
+  public static final String DEFAULT_REGEX_DEF = "^.*[\\\\,/](.*)\\((\\d+)\\)\\x20:\\x20warning\\x20(C\\d+):(.*)$";
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
-  // sample regex: "^.*[\\\\,/](?<filename>.*)\\((?<line>[0-9]+)\\)\\x20:\\x20warning\\x20(?<id>C\\d\\d\\d\\d):(?<message>.*)$";
+  // sample regex for VS2012/2013: "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
-  public static final String DEFAULT_CHARSET_DEF = "UTF-16";
+  public static final String DEFAULT_CHARSET_DEF = "UTF-16"; // use "UTF-8" for VS2012/VS2013 build log
   public static final String DEFAULT_REPORT_PATH = "compiler-reports/BuildLog.htm";
 
   /**
