@@ -220,10 +220,10 @@ public final class CxxAstScanner {
             .build());
     
     // to emit a 'new file' event to the internals of the plugin
-    builder.withSquidAstVisitor(new CxxFileVisitor(context));
+    builder.withSquidAstVisitor(new CxxFileVisitor<Grammar>(context));
 
     // log syntax errors
-    builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor(context));
+    builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor<Grammar>(context));
 
     /* External visitors (typically Check ones) */
     for (SquidAstVisitor<Grammar> visitor : visitors) {

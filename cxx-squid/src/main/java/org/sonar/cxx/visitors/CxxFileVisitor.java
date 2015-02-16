@@ -31,9 +31,9 @@ import com.sonar.sslr.api.Token;
 public class CxxFileVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR>
   implements AstAndTokenVisitor {
 
-  private SquidAstVisitorContext context = null;
+  private SquidAstVisitorContext<?> context = null;
 
-  public CxxFileVisitor(SquidAstVisitorContext context){
+  public CxxFileVisitor(SquidAstVisitorContext<?> context){
     this.context = context;
   }
 
