@@ -55,11 +55,11 @@ Feature: Importing coverage data
               | coverage                | 8.5   |
               | line_coverage           | 5.5   |
               | branch_coverage         | 50    |
-              | it_coverage             | 40.6  |
-              | it_line_coverage        | 36.4  |
+              | it_coverage             | 20.3  |
+              | it_line_coverage        | 14.8  |
               | it_branch_coverage      | 50    |
-              | overall_coverage        | 34    |
-              | overall_line_coverage   | 28.2  |
+              | overall_coverage        | 28.1  |
+              | overall_line_coverage   | 22    |
               | overall_branch_coverage | 50    |
 
 
@@ -85,9 +85,9 @@ Feature: Importing coverage data
               | coverage                | 0     |
               | line_coverage           | 0     |
               | branch_coverage         | None  |
-              | it_coverage             | None  |
-              | it_line_coverage        | None  |
+              | it_coverage             | 0     |
+              | it_line_coverage        | 0     |
               | it_branch_coverage      | None  |
-              | overall_coverage        | None  |
-              | overall_line_coverage   | None  |
+              | overall_coverage        | 0     |
+              | overall_line_coverage   | 0     |
               | overall_branch_coverage | None  |
