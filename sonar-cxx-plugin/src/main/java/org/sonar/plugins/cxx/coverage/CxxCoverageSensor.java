@@ -43,10 +43,9 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CxxCoverageSensor extends CxxReportSensor {
-
-  private static final int UNIT_TEST_COVERAGE = 0;
-  public static final int IT_TEST_COVERAGE = 1;
-  public static final int OVERALL_TEST_COVERAGE = 2;
+  private enum CoverageType {
+    UT_COVERAGE, IT_COVERAGE, OVERALL_COVERAGE
+  }
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
   public static final String IT_REPORT_PATH_KEY = "sonar.cxx.coverage.itReportPath";
@@ -80,7 +79,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     CxxUtils.LOG.debug("Parsing coverage reports");
     List<File> reports = getReports(conf, baseDir, REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
-    saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
+    saveMeasures(project, context, coverageMeasures, CoverageType.UT_COVERAGE);
     if (isForceZeroCoverageActivated()) {
       CxxUtils.LOG.debug("ForceZeroCoverageActivated=true");
       zeroMeasuresWithoutReports(project, context, coverageMeasures);
@@ -89,12 +88,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReports(conf, baseDir, IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
-    saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
+    saveMeasures(project, context, itCoverageMeasures, CoverageType.IT_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
     List<File> overallReports = getReports(conf, baseDir, OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
-    saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
+    saveMeasures(project, context, overallCoverageMeasures, CoverageType.OVERALL_COVERAGE);
   }
 
   private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
@@ -130,7 +129,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private void saveMeasures(Project project,
     SensorContext context,
     Map<String, CoverageMeasuresBuilder> coverageMeasures,
-    int coveragetype) {
+    CoverageType ctype) {
     for (Map.Entry<String, CoverageMeasuresBuilder> entry : coverageMeasures.entrySet()) {
       String filePath = entry.getKey();
       org.sonar.api.resources.File cxxfile
@@ -138,16 +137,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
       if (fileExist(context, cxxfile)) {
         CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
         for (Measure measure : entry.getValue().createMeasures()) {
-          switch (coveragetype) {
-            case UNIT_TEST_COVERAGE:
-              break;
-            case IT_TEST_COVERAGE:
+          switch (ctype) {
+            case IT_COVERAGE:
               measure = convertToItMeasure(measure);
               break;
-            case OVERALL_TEST_COVERAGE:
+            case OVERALL_COVERAGE:
               measure = convertForOverall(measure);
-              break;
-            default:
               break;
           }
           context.saveMeasure(cxxfile, measure);
