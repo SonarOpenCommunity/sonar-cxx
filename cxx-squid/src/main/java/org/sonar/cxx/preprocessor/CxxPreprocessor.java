@@ -124,6 +124,7 @@ public class CxxPreprocessor extends Preprocessor {
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
+  private CxxConfiguration conf;
 
   public static class Include {
     private int line;
@@ -200,6 +201,7 @@ public class CxxPreprocessor extends Preprocessor {
     this.context = context;
     this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
     this.cFilesPatterns = conf.getCFilesPatterns();
+    this.conf = conf;
 
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
@@ -495,8 +497,10 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFile == null) {
-      LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
-               + token.getValue() + "'");
+      if (conf.getMissingIncludeWarningsEnabled()){
+        LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
+                 + token.getValue() + "'");
+      }
       if (currentFile != null) {
         missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
       }
