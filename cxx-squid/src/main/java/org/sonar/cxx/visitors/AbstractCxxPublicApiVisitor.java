@@ -84,7 +84,8 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
      */
     private static final boolean DUMP = false;
 
-    private static final String UNNAMED_CLASSIFIER_ID = "<unnamed>";
+    private static final String UNNAMED_CLASSIFIER_ID = "<unnamed class>";
+    private static final String UNNAMED_ENUM_ID       = "<unnamed enumeration>";
 
     public interface PublicApiHandler {
         void onPublicApi(AstNode node, String id, List<Token> comments);
@@ -412,17 +413,19 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
 
     private void visitEnumSpecifier(AstNode enumSpecifierNode) {
+        AstNode enumIdNode = enumSpecifierNode.getFirstDescendant(
+                GenericTokenType.IDENTIFIER);
+
+        String enumId = (enumIdNode == null)?
+                UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
+
         if (!isPublicApiMember(enumSpecifierNode)) {
-            logDebug(enumSpecifierNode.getFirstDescendant(
-                    GenericTokenType.IDENTIFIER).getTokenValue()
-                    + " not in public API");
+            logDebug(enumId + " not in public API");
             return;
         }
 
         visitPublicApi(
-                enumSpecifierNode,
-                enumSpecifierNode.getFirstDescendant(
-                        GenericTokenType.IDENTIFIER).getTokenValue(),
+                enumSpecifierNode, enumId,
                 getBlockDocumentation(enumSpecifierNode));
 
         // deal with enumeration values
