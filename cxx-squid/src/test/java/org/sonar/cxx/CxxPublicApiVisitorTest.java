@@ -141,6 +141,11 @@ public class CxxPublicApiVisitorTest {
         testFile("src/test/resources/metrics/unnamed_class.h", 3, 1, false);
     }
 
+    @Test
+    public void unnamed_enum() {
+        testFile("src/test/resources/metrics/unnamed_enum.h", 1, 1, false);
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void public_api() {
@@ -211,7 +216,7 @@ public class CxxPublicApiVisitorTest {
         expectedIdCommentMap.put("protectedClass", "protectedClass");
         expectedIdCommentMap.put("operator[]", "operator");
         expectedIdCommentMap.put("bitfield", "bitfield");
-        expectedIdCommentMap.put("<unnamed>", "<unnamed>");
+        expectedIdCommentMap.put("<unnamed class>", "<unnamed>");
         expectedIdCommentMap.put("testField2", "testField2");
         expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
 
