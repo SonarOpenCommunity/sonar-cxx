@@ -11,9 +11,8 @@ Feature: Smoketest
               """
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
-              .*WARN  - Cannot find the file '.*component_XXX.cc', skipping violations
-              .*WARN  - Already created edge from 'src/cli/main.cc' \(line 2\) to 'src/lib/component1.hh', previous edge from line 4
-              .*WARN  - Already created edge from 'src/cli/main.cc' \(line 5\) to '3rdparty/extlib.hh', previous edge from line 3
+              .*WARN.*Cannot find the file '.*component_XXX.cc', skipping violations
+              .*WARN.*Already created edge from 'src/cli/main.cc'.*
               """
           AND the following metrics have following values:
                | metric                   | value |
