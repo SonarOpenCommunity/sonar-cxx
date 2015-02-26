@@ -515,9 +515,9 @@ public class CxxPreprocessor extends Preprocessor {
         state = stateStack.pop();
       }
     }
-    else {
-      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
-    }
+//    else {
+//      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
+//    }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
