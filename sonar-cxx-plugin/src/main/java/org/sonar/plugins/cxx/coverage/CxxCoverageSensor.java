@@ -79,7 +79,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     CxxUtils.LOG.debug("Parsing coverage reports");
     List<File> reports = getReports(conf, baseDir, REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
+    Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(project, reports);
     saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
     if (isForceZeroCoverageActivated()) {
       CxxUtils.LOG.debug("ForceZeroCoverageActivated=true");
@@ -88,16 +88,16 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReports(conf, baseDir, IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
+    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(project, itReports);
     saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
     List<File> overallReports = getReports(conf, baseDir, OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
+    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(project, overallReports);
     saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
   }
 
-  private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
+  private Map<String, CoverageMeasuresBuilder> parseReports(Project project, List<File> reports) {
     Map<String, CoverageMeasuresBuilder> measuresTotal = new HashMap<String, CoverageMeasuresBuilder>();
     Map<String, CoverageMeasuresBuilder> measuresForReport = new HashMap<String, CoverageMeasuresBuilder>();
 
@@ -106,7 +106,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       for (CoverageParser parser : parsers) {
         try {
           measuresForReport.clear();
-          parser.parseReport(report, measuresForReport);
+          parser.parseReport(project, report, measuresForReport);
 
           if (!measuresForReport.isEmpty()) {
             parsed = true;

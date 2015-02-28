@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -38,10 +39,10 @@ public class CoberturaParser implements CoverageParser {
   /**
    * {@inheritDoc}
    */
-  public void parseReport(File xmlFile, final Map<String, CoverageMeasuresBuilder> coverageData)
+  public void parseReport(Project project, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException
   {
-    CxxUtils.LOG.info("Parsing report '{}'", xmlFile);
+    CxxUtils.LOG.info("Parsing report (Cobertura) '{}'", CxxUtils.fileToCanonicalPath(report, project));
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -52,7 +53,7 @@ public class CoberturaParser implements CoverageParser {
         collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
       }
     });
-    parser.parse(xmlFile);
+    parser.parse(report);
   }
 
   private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasuresBuilder> coverageData)

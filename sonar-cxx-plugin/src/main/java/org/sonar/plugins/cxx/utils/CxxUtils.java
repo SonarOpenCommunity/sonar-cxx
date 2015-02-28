@@ -23,6 +23,7 @@ import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.resources.Project;
 
 /**
  * Utility class holding various, well, utilities
@@ -47,7 +48,7 @@ public final class CxxUtils {
     }
     return file.getAbsolutePath();
   }
-
+  
   /**
    * Normalize the given path to pass it to sonar. Return null if normalization has failed.
    */
@@ -58,5 +59,18 @@ public final class CxxUtils {
       LOG.error("path normalizing of '{}' failed: '{}'", filename, e.toString());
       return null;
     }
+  }
+  
+  /**
+   * @param file
+   * @param project
+   * @return returns the canonical pathname string or null
+   */
+  public static String fileToCanonicalPath(File file, Project project) {
+    org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project);
+    if (resource != null) {
+      return normalizePath(resource.getPath());
+    }
+    return null;
   }
 }

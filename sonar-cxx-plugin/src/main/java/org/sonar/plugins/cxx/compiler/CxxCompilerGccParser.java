@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
+import org.sonar.api.resources.Project;
 
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -78,7 +79,10 @@ public class CxxCompilerGccParser implements CompilerParser{
   /**
    * {@inheritDoc}
    */
-  public void parseReport(File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
+  public void parseReport(Project project, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException
+  {
+    CxxUtils.LOG.info("Parsing report (GCC) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+  
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
     CxxUtils.LOG.debug("Using pattern : '" + p.toString() + "'");

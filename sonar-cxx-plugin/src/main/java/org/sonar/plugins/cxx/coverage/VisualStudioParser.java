@@ -27,6 +27,7 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -38,9 +39,9 @@ public class VisualStudioParser implements CoverageParser {
   /**
    * {@inheritDoc}
    */
-  public void parseReport(File xmlFile, final Map<String, CoverageMeasuresBuilder> coverageData)
+  public void parseReport(Project project, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.info("Parsing report '{}'", xmlFile);
+    CxxUtils.LOG.info("Parsing report (Visual Studio) '{}'", CxxUtils.fileToCanonicalPath(report, project));
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -51,7 +52,7 @@ public class VisualStudioParser implements CoverageParser {
         collectModuleMeasures(rootCursor.descendantElementCursor("module"), coverageData);
       }
     });
-    parser.parse(xmlFile);
+    parser.parse(report);
   }
 
   private void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasuresBuilder> coverageData)

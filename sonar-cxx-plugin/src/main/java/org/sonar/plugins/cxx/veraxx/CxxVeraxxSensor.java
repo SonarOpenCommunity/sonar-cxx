@@ -74,6 +74,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
       throws javax.xml.stream.XMLStreamException
   {
+    CxxUtils.LOG.info("Parsing report (Vera++) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+    
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**

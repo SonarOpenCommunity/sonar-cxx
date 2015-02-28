@@ -119,7 +119,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         XunitReportParser parserHandler = new XunitReportParser();
         StaxParser parser = new StaxParser(parserHandler, false);
         for (File report : reports) {
-          CxxUtils.LOG.info("Parsing report '{}'", report);
+          CxxUtils.LOG.info("Parsing report (xUnit) '{}'", CxxUtils.fileToCanonicalPath(report, project));
           try {
             parser.parse(transformReport(report));
           } catch (EmptyReportException e) {
