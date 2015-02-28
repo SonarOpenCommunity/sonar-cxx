@@ -152,8 +152,7 @@ public abstract class CxxReportSensor implements Sensor {
       reportPath = defaultReportPath;
     }
     reportPath = FilenameUtils.normalize(reportPath);
-
-    CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
+    CxxUtils.LOG.info("Parsing the XML report " + reportPath);
 
     DirectoryScanner scanner = new DirectoryScanner();
     String[] includes = new String[1];

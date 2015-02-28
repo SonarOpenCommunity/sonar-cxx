@@ -78,7 +78,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   public void analyse(Project project, SensorContext context) {
     CxxUtils.LOG.debug("Parsing coverage reports");
-    List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    List<File> reports = getReportsModule(REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
     saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
     if (isForceZeroCoverageActivated()) {
@@ -87,14 +87,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
 
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
-    List<File> itReports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
+    List<File> itReports = getReportsModule(IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
     saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
-    List<File> overallReports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
+    List<File> overallReports = getReportsModule(OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
     saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
+  }
+
+  private List<File> getReportsModule(String key, String pattern) {
+    List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), key, pattern);
+    if (reports.isEmpty()) {
+      reports = getReports(conf, fs.baseDir().getPath(), key, pattern);
+    }
+    return reports;
   }
 
   private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
