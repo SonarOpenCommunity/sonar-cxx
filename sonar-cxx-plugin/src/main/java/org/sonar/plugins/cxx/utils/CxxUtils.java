@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
  * Utility class holding various, well, utilities
  */
 public final class CxxUtils {
+
   /**
    * Default logger.
    */
@@ -49,7 +50,8 @@ public final class CxxUtils {
   }
 
   /**
-   * Normalize the given path to pass it to sonar. Return null if normalization has failed.
+   * Normalize the given path to pass it to sonar. Return null if normalization
+   * has failed.
    */
   public static String normalizePath(String filename) {
     try {

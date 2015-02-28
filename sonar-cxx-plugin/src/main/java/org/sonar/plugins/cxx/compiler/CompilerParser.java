@@ -21,6 +21,8 @@ package org.sonar.plugins.cxx.compiler;
 
 import java.io.File;
 import java.util.List;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.resources.Project;
 
 /**
  * The interface a compiler parser has to implement in order to be used
@@ -73,6 +75,6 @@ public interface CompilerParser {
         }
     }
 
-    void parseReport(File report, String charset, String reportRegEx, List<Warning> warnings)
+    void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings)
         throws java.io.FileNotFoundException;
 }
