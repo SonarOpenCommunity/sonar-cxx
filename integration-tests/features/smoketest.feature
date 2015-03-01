@@ -43,11 +43,11 @@ Feature: Smoketest
                | coverage                 | 41.2  |
                | line_coverage            | 39.5  |
                | branch_coverage          | 50    |
-               | it_coverage              | 84    |
-               | it_line_coverage         | 100   |
+               | it_coverage              | 41.2  |
+               | it_line_coverage         | 39.5  |
                | it_branch_coverage       | 50    |
-               | overall_coverage         | 84    |
-               | overall_line_coverage    | 100   |
+               | overall_coverage         | 41.2  |
+               | overall_line_coverage    | 39.5  |
                | overall_branch_coverage  | 50    |
                # design/tangles
                | package_tangle_index     | 66.7  |
