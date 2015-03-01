@@ -78,8 +78,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   public void analyse(Project project, SensorContext context) {
     CxxUtils.LOG.debug("Parsing coverage reports");
-    List<File> reports = getReportsModule(REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
+    List<File> utReports = getReportsModule(REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(project, utReports);
     saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
     if (isForceZeroCoverageActivated()) {
       CxxUtils.LOG.debug("ForceZeroCoverageActivated=true");
@@ -88,12 +88,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReportsModule(IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
+    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(project, itReports);
     saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
     List<File> overallReports = getReportsModule(OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
+    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(project, overallReports);
     saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
   }
 
@@ -105,7 +105,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     return reports;
   }
 
-  private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
+  private Map<String, CoverageMeasuresBuilder> parseReports(Project project, List<File> reports) {
     Map<String, CoverageMeasuresBuilder> measuresTotal = new HashMap<String, CoverageMeasuresBuilder>();
     Map<String, CoverageMeasuresBuilder> measuresForReport = new HashMap<String, CoverageMeasuresBuilder>();
 
@@ -114,7 +114,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       for (CoverageParser parser : parsers) {
         try {
           measuresForReport.clear();
-          parser.parseReport(report, measuresForReport);
+          parser.parseReport(project, report, measuresForReport);
 
           if (!measuresForReport.isEmpty()) {
             parsed = true;

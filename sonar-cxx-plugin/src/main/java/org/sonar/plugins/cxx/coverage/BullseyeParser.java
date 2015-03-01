@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -48,10 +49,10 @@ public class BullseyeParser implements CoverageParser {
   /**
    * {@inheritDoc}
    */
-  public void parseReport(File xmlFile, final Map<String, CoverageMeasuresBuilder> coverageData)
+  public void parseReport(Project project, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException
   {
-    CxxUtils.LOG.info("Bullseye - Parsing report '{}'", xmlFile);
+    CxxUtils.LOG.info("Parsing report (Bullseye) '{}'", CxxUtils.fileToCanonicalPath(report, project));
 
     StaxParser topLevelparser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -73,8 +74,8 @@ public class BullseyeParser implements CoverageParser {
       }
     });
 
-    topLevelparser.parse(xmlFile);
-    parser.parse(xmlFile);
+    topLevelparser.parse(report);
+    parser.parse(report);
   }
 
   private void collectCoverageLeafNodes(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)

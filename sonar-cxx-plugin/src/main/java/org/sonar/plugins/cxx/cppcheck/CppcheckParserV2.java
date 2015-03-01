@@ -48,7 +48,7 @@ public class CppcheckParserV2 implements CppcheckParser {
    */
   public void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("cppcheck V2 - Parsing report '{}'", report);
+    CxxUtils.LOG.info("Parsing report (Cppcheck V2) '{}'", CxxUtils.fileToCanonicalPath(report, project));
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**

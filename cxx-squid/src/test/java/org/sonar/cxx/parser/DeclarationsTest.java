@@ -79,6 +79,7 @@ public class DeclarationsTest extends ParserBaseTest {
     // assertThat(p).matches("mpl<N/M>();");
 
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
+    assertThat(p).matches("sometype foo(int& var1);");
   }
 
   @Test

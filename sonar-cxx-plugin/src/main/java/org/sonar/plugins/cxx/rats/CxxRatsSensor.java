@@ -75,6 +75,8 @@ public final class CxxRatsSensor extends CxxReportSensor {
   protected void processReport(Project project, SensorContext context, File report)
       throws org.jdom.JDOMException, java.io.IOException
   {
+    CxxUtils.LOG.info("Parsing report (RATS) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+    
     try
     {
       SAXBuilder builder = new SAXBuilder(false);

@@ -55,3 +55,11 @@ void compoundLiteral()
   int * array;
   array = (int []) { 1, 2, 3, 4, 5};
 }
+
+// C++ parameter by reference
+
+void something(int& var1)
+{
+	if (var1==0)
+		var1++;
+}

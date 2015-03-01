@@ -126,7 +126,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
     // Iterate through the lines of the input file
     CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
     try {
-      parser.parseReport(report, reportCharset, reportRegEx, warnings);
+      parser.parseReport(project, report, reportCharset, reportRegEx, warnings);
       for(CompilerParser.Warning w : warnings) {
         // get filename from file system - e.g. VC writes case insensitive file name to html
         if (isInputValid(w.filename, w.line, w.id, w.msg)) {

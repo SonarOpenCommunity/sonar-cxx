@@ -35,6 +35,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * Custom Rule Import, all static analysis are supported.
@@ -75,9 +76,12 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
+  protected void processReport(final Project project, final SensorContext context, File report) throws javax.xml.stream.XMLStreamException
+  {
+    CxxUtils.LOG.info("Parsing report (other) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+    
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-
+ 
       /**
        * {@inheritDoc}
        */

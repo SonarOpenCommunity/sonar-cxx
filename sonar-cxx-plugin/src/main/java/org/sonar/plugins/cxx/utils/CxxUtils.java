@@ -48,7 +48,7 @@ public final class CxxUtils {
     }
     return file.getAbsolutePath();
   }
-
+  
   /**
    * Normalize the given path to pass it to sonar. Return null if normalization has failed.
    */
@@ -78,5 +78,17 @@ public final class CxxUtils {
 
   public static boolean isReactorProject(Project project) {
     return project.isRoot() && !project.getModules().isEmpty();
+  }
+  /**
+   * @param file
+   * @param project
+   * @return returns the canonical pathname string or null
+   */
+  public static String fileToCanonicalPath(File file, Project project) {
+    org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project);
+    if (resource != null) {
+      return normalizePath(resource.getPath());
+    }
+    return null;
   }
 }
