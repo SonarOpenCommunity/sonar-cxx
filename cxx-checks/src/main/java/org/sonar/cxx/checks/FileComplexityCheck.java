@@ -25,16 +25,30 @@ import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.checks.AbstractFileComplexityCheck;
 import org.sonar.squidbridge.measures.MetricDef;
-
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-    key = "FileCyclomaticComplexity",
-    priority = Priority.MAJOR)
+  key = "FileComplexity",
+  name = "Files should not be too complex",
+  tags = {"cxx"},
+  priority = Priority.MAJOR)
+//@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)
+@SqaleLinearWithOffsetRemediation(
+  coeff = "1min",
+  offset = "30min",
+  effortToFixDescription = "per complexity point above the threshold")
 public class FileComplexityCheck extends AbstractFileComplexityCheck<Grammar> {
   private static final int DEFAULT_MAX = 200;
 
-  @RuleProperty(defaultValue = "" + DEFAULT_MAX)
+  @RuleProperty(
+    key = "max",
+    description = "Maximum complexity allowed",
+    defaultValue = "" + DEFAULT_MAX)
   private int max = DEFAULT_MAX;
 
 

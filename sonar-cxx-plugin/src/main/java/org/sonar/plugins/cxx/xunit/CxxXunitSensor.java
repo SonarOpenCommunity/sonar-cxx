@@ -50,7 +50,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.api.utils.StaxParser;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
@@ -144,7 +144,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append(e)
         .append("'")
         .toString();
-      throw new SonarException(msg, e);
+      throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
   }
 

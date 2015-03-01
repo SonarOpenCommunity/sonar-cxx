@@ -19,19 +19,21 @@
  */
 package org.sonar.cxx.checks;
 
-import org.sonar.check.Cardinality;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.squidbridge.checks.AbstractCommentRegularExpressionCheck;
-
 import com.sonar.sslr.api.Grammar;
+import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.annotations.RuleTemplate;
 
 @Rule(
   key = "CommentRegularExpression",
-  cardinality = Cardinality.MULTIPLE,
+  name = "Regular expression on comment",
+  tags = {"cxx"},
   priority = Priority.MAJOR)
-
+@RuleTemplate
+@NoSqale
 public class CommentRegularExpressionCheck extends AbstractCommentRegularExpressionCheck<Grammar> {
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "";
@@ -39,11 +41,13 @@ public class CommentRegularExpressionCheck extends AbstractCommentRegularExpress
 
   @RuleProperty(
     key = "regularExpression",
+    description = "The regular expression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
+    description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
 

@@ -29,12 +29,19 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "CollapsibleIfCandidate",
-  description = "Merge this if statement with the enclosing one.",
+  name = "Collapsible 'if' statements should be merged",
+  tags = {"cxx"},
   priority = Priority.MAJOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)
+@SqaleConstantRemediation("5min")
 public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
   @Override

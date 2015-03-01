@@ -36,7 +36,7 @@ public class DefaultResourceFinder implements ResourceFinder {
     List<File> files = Lists.newArrayList(fs.files(fs.predicates().is(file)));
     assert (files.size() <= 1);
     return files.size() == 1
-      ? org.sonar.api.resources.File.fromIOFile(files.get(0), project)
+      ? org.sonar.api.resources.File.fromIOFile(files.get(0), project) //@todo fromIOFile: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       : null;
   }
 }

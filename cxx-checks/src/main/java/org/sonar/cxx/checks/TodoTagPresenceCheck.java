@@ -22,16 +22,22 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-  key = "NotAllowedToDoTag",
-  description = "The implementation shall be completed for every iteration",
+  key = "TodoTagPresence",
+  name = "TODO tags should be handled",
+  tags = {"cxx"},
   priority = Priority.INFO)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.INSTRUCTION_RELIABILITY)
+@SqaleConstantRemediation("20min")
 public class TodoTagPresenceCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
   private static final String PATTERN = "TODO";

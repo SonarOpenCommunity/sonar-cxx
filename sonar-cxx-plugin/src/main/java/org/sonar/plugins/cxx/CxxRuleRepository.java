@@ -19,28 +19,24 @@
  */
 package org.sonar.plugins.cxx;
 
-import java.util.List;
-
-import org.sonar.api.rules.AnnotationRuleParser;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleRepository;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.checks.CheckList;
+import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
-public class CxxRuleRepository extends RuleRepository {
+public class CxxRuleRepository implements RulesDefinition {
 
   private static final String REPOSITORY_NAME = "c++ SonarQube";
 
-  private final AnnotationRuleParser annotationRuleParser;
-
-  public CxxRuleRepository(AnnotationRuleParser annotationRuleParser) {
-    super(CheckList.REPOSITORY_KEY, CxxLanguage.KEY);
-    setName(REPOSITORY_NAME);
-    this.annotationRuleParser = annotationRuleParser;
-  }
-
   @Override
-  public List<Rule> createRules() {
-    return annotationRuleParser.parse(CheckList.REPOSITORY_KEY, CheckList.getChecks());
+  public void define(Context context) {
+    NewRepository repository = context.
+      createRepository(CheckList.REPOSITORY_KEY, CxxLanguage.KEY).
+      setName(REPOSITORY_NAME);
+    AnnotationBasedRulesDefinition.load(repository, CxxLanguage.KEY, CheckList.getChecks());
+    for (NewRule rule : repository.rules()) {
+      //FIXME: set internal key to key to ensure rule templates works properly : should be removed when SONAR-6162 is fixed.
+      rule.setInternalKey(rule.key());
+    }
+    repository.done();
   }
-
 }

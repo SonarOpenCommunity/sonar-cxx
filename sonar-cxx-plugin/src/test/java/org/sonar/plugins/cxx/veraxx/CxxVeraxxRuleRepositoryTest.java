@@ -25,15 +25,21 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
 public class CxxVeraxxRuleRepositoryTest {
 
   @Test
   public void createRulesTest() {
-    CxxVeraxxRuleRepository rulerep = new CxxVeraxxRuleRepository(
-        mock(ServerFileSystem.class),
-        new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(28);
+    CxxVeraxxRuleRepository def = new CxxVeraxxRuleRepository(
+      mock(ServerFileSystem.class),
+      new RulesDefinitionXmlLoader(), new Settings());
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxVeraxxRuleRepository.KEY);
+    assertThat(repo.rules()).hasSize(28);
   }
 }

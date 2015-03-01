@@ -23,22 +23,28 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "UseCorrectInclude",
+  name = "#include directive shall not use relative path",
+  tags = {"cxx"},
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.  READABILITY)
+@SqaleConstantRemediation("5min")
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
@@ -55,7 +61,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
       try {
         pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regularExpression, e);
+        throw new SonarException("Unable to compile regular expression: " + regularExpression, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
   }
@@ -66,7 +72,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
     try {
       lines = Files.readLines(getContext().getFile(), charset);
     } catch (IOException e) {
-      throw new SonarException(e);
+      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
     for (int i = 0; i < lines.size(); i++) {
       String line = lines.get(i);

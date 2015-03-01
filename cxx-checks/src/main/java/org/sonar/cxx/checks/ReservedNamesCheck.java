@@ -22,23 +22,28 @@ package org.sonar.cxx.checks;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-  key = "ReservedNamesCheck",
-  description = "Reserved names should not be used for preprocessor macros",
+  key = "ReservedNames",
+  name = "Reserved names should not be used for preprocessor macros",
+  tags = {"cxx"},
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.COMPILER_RELATED_PORTABILITY)
+@SqaleConstantRemediation("5min")
 //similar Vera++ rule T002
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
@@ -56,7 +61,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
     try {
       lines = Files.readLines(getContext().getFile(), charset);
     } catch (IOException e) {
-      throw new SonarException(e);
+      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
     int nr= 0;
     for (String line : lines) {

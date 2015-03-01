@@ -27,16 +27,24 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 /**
  * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which actually does the job of finding duplicated
  * includes
  */
-@Rule(key = DuplicatedIncludeCheck.RULE_KEY,
-    priority = Priority.MAJOR)
-
+@Rule(
+  key = "DuplicatedInclude",
+  name = "Avoid including the same file multiple times",
+  tags = {"cxx"},
+  priority = Priority.MAJOR)
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
+@SqaleConstantRemediation("5min")
 public class DuplicatedIncludeCheck extends SquidCheck<Grammar> {
 
   public static final String RULE_KEY = "DuplicatedInclude";

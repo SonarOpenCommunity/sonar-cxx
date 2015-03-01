@@ -21,18 +21,22 @@ package org.sonar.cxx.checks;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.AstScannerExceptionHandler;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.RecognitionException;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.NoSqale;
 
 @Rule(
   key = "ParsingError",
+  name = "C++ parser failure",
+  tags = {"cxx"},
   priority = Priority.MAJOR)
+@ActivatedByDefault
+@NoSqale
 public class ParsingErrorCheck extends SquidCheck<Grammar> implements AstScannerExceptionHandler {
 
   public void processException(Exception e) {

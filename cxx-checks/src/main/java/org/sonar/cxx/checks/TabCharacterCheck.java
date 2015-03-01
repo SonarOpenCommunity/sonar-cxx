@@ -22,22 +22,27 @@ package org.sonar.cxx.checks;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-  key = "NoTabCharacter",
-  description = "Instead of using tab character, multiple whitespaces shall be used",
+  key = "TabCharacter",
+  name = "Tabulation characters should not be used",
+  tags = {"cxx"},
   priority = Priority.MINOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
+@SqaleConstantRemediation("5min")
 //similar Vera++ rule L002 "Don't use tab characters"
 public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
@@ -53,7 +58,7 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
     try {
       lines = Files.readLines(getContext().getFile(), charset);
     } catch (IOException e) {
-      throw new SonarException(e);
+      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
     for (String line : lines) {
       if (line.contains("\t")) {

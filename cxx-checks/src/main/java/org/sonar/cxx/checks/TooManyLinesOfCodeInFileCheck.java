@@ -25,21 +25,30 @@ import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.checks.ChecksHelper;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-    key = "TooManyLinesOfCodeInFile",
-    priority = Priority.MAJOR)
-
+  key = "TooManyLinesOfCodeInFile",
+  name = "Avoid too many code lines in source file",
+  tags = {"cxx"},
+  priority = Priority.MAJOR)
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
+@SqaleConstantRemediation("10min")
 //similar Vera++ rule L006 "Source file is too long"
 public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
 
   private static final int DEFAULT_MAXIMUM = 2000;
 
-  @RuleProperty(key = "maximumFileLocThreshold",
-          defaultValue = "" + DEFAULT_MAXIMUM)
+  @RuleProperty(
+    key = "max",
+    description = "Maximum code lines allowed",
+    defaultValue = "" + DEFAULT_MAXIMUM)
   private int max = DEFAULT_MAXIMUM;
 
 

@@ -32,18 +32,24 @@ import org.sonar.squidbridge.recognizer.Detector;
 import org.sonar.squidbridge.recognizer.EndWithDetector;
 import org.sonar.squidbridge.recognizer.KeywordsDetector;
 import org.sonar.squidbridge.recognizer.LanguageFootprint;
-
 import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "CommentedCode",
-  description = "Commented code shall be avoided and therefore removed.",
+  name = "Sections of code should not be 'commented out'",
+  tags = {"cxx"},
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
+@SqaleConstantRemediation("5min")
 public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
   private static final double THRESHOLD = 0.94;

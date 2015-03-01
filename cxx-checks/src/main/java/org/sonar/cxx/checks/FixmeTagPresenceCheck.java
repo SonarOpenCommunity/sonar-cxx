@@ -18,20 +18,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package org.sonar.cxx.checks;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-  key = "NotAllowedFixMeTag",
-  description = "All issues shall be fixed before delivery",
+  key = "FixmeTagPresence",
+  name = "FIXME tags should be handled",
+  tags = {"cxx"},
   priority = Priority.MAJOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.INSTRUCTION_RELIABILITY)
+@SqaleConstantRemediation("20min")
 public class FixmeTagPresenceCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
   private static final String PATTERN = "FIXME";

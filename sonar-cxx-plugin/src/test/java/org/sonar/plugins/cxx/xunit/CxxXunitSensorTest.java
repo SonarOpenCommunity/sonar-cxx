@@ -132,7 +132,7 @@ public class CxxXunitSensorTest {
     verify(context, times(0)).saveMeasure(eq(CoreMetrics.TESTS), any(Double.class));
   }
 
-  @Test(expected = org.sonar.api.utils.SonarException.class)
+  @Test(expected = org.sonar.api.utils.SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowWhenGivenInvalidTime() {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");

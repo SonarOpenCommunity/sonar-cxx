@@ -21,21 +21,27 @@ package org.sonar.cxx.checks;
 
 import java.util.Arrays;
 import java.util.Map;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.collect.Maps;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "StringLiteralDuplicated",
+  name = "String literals should not be duplicated",
+  tags = {"cxx"},
   priority = Priority.MINOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
+@SqaleConstantRemediation("5min")
 public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
 
   private static final int MINIMAL_LITERAL_LENGTH = 7;
@@ -45,9 +51,10 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
   private final Map<String, Integer> literalsOccurrences = Maps.newHashMap();
 
   @RuleProperty(
-      key = "minimalLiteralLength",
-      defaultValue = "" + MINIMAL_LITERAL_LENGTH)
-    public int minimalLiteralLength = MINIMAL_LITERAL_LENGTH;
+    key = "minimalLiteralLength",
+    description = "The minimal literal length",
+    defaultValue = "" + MINIMAL_LITERAL_LENGTH)
+  public int minimalLiteralLength = MINIMAL_LITERAL_LENGTH;
 
   @Override
   public void init() {

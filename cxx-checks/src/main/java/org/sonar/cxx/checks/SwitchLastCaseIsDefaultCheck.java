@@ -25,17 +25,25 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
-@Rule(key = "SwitchLastCaseIsDefaultCheck",
-    description = "Each switch statement shall have a 'default' case in the last position.",
-    priority = Priority.MAJOR)
+@Rule(
+  key = "SwitchLastCaseIsDefault",
+  name = "Switch statements should end with a default case",
+  tags = {"cxx"},
+  priority = Priority.MAJOR)
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.LOGIC_RELIABILITY)
+@SqaleConstantRemediation("5min")
 public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {

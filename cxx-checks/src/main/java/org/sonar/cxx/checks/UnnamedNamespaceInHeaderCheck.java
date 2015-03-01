@@ -24,15 +24,21 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "UnnamedNamespaceInHeader",
-  description = "Unnamed namespaces are not allowed in header files.",
+  name = "Unnamed namespaces are not allowed in header files",
+  tags = {"cxx"},
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
+@SqaleConstantRemediation("5min")
 //similar Vera++ rule T017
 public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 

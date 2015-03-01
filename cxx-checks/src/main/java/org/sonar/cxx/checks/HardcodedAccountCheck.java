@@ -23,22 +23,28 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.base.Strings;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-  key = "NoHardcodedAccount",
+  key = "HardcodedAccount",
+  name = "Do not hard code sensitive data in programs",
+  tags = {"cxx"},
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_CHANGEABILITY)
+@SqaleConstantRemediation("30min")
 public class HardcodedAccountCheck extends SquidCheck<Grammar> {
 
  /*
@@ -54,8 +60,9 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
   private static Matcher reg = null;
 
   @RuleProperty(
-      key = "regularExpression",
-      defaultValue = DEFAULT_REGULAR_EXPRESSION)
+    key = "regularExpression",
+    description = "literal regular expression rule",
+    defaultValue = DEFAULT_REGULAR_EXPRESSION)
     public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   public String getRegularExpression() {
@@ -71,7 +78,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
       try {
         reg = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regEx, e);
+        throw new SonarException("Unable to compile regular expression: " + regEx, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
     subscribeTo(CxxGrammarImpl.LITERAL);

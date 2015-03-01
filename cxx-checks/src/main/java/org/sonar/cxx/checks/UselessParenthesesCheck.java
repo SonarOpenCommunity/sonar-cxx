@@ -23,15 +23,21 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "UselessParentheses",
-  description = "Useless parentheses shall be avoided to improve readability",
+  name = "Useless parentheses around expressions should be removed to prevent any misunderstanding",
+  tags = {"cxx"},
   priority = Priority.MAJOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
+@SqaleConstantRemediation("1min")
 public class UselessParenthesesCheck extends SquidCheck<Grammar> {
 
   @Override

@@ -23,24 +23,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.base.Strings;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-  key = "SafetyTagCheck",
-  description = "Risk mitigation implementation shall be defined in separate file",
+  key = "SafetyTag",
+  name = "Risk mitigation implementation shall be defined in separate file",
+  tags = {"cxx"},
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)
+@SqaleConstantRemediation("5min")
 public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "<Safetykey>.*</Safetykey>";
@@ -49,17 +54,20 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
 
   @RuleProperty(
     key = "regularExpression",
+    description = "Comment regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
+    description = "The violation message",
     defaultValue = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'")
   public String message = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'";
 
   @RuleProperty(
-          key = "suffix",
-          defaultValue = DEFAULT_NAME_SUFFIX)
+    key = "suffix",
+    description = "The appropriate file name suffix",
+    defaultValue = DEFAULT_NAME_SUFFIX)
   public String suffix = DEFAULT_NAME_SUFFIX;
 
   public String getRegularExpression() {
@@ -85,7 +93,7 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
       try {
         pattern = Pattern.compile(regEx, Pattern.DOTALL);
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regEx, e);
+        throw new SonarException("Unable to compile regular expression: " + regEx, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
   }

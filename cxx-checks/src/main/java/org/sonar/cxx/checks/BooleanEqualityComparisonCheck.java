@@ -24,16 +24,21 @@ import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.AstNode;
-
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "BooleanEqualityComparison",
-  description = "Remove literal boolean values from conditional expressions to improve readability.",
+  name = "Literal boolean values should not be used in condition expressions",
+  tags = {"cxx"},
   priority = Priority.MINOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
+@SqaleConstantRemediation("5min")
 public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
 
   @Override

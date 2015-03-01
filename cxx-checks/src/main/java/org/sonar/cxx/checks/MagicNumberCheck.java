@@ -21,31 +21,37 @@ package org.sonar.cxx.checks;
 
 import java.util.Collections;
 import java.util.Set;
-
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.api.CxxKeyword;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "MagicNumber",
-  description = "Magic numbers shall not be used. Maintainability will be improved using global const definitions for components",
+  name = "Magic number should not be used",
+  tags = {"cxx"},
   priority = Priority.MINOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)
+@SqaleConstantRemediation("5min")
 public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   private static final String DEFAULT_EXCEPTIONS = "0,1,0x0,0x00,.0,.1,0.0,1.0";
 
   @RuleProperty(
     key = "exceptions",
+    description = "Comma separated list of allowed values (excluding '-' and '+' signs)",
     defaultValue = DEFAULT_EXCEPTIONS)
   public String exceptions = DEFAULT_EXCEPTIONS;
 
