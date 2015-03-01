@@ -41,7 +41,7 @@ public class VisualStudioParser implements CoverageParser {
    */
   public void parseReport(Project project, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.info("Parsing report (Visual Studio) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+    CxxUtils.LOG.info("Parsing report (Visual Studio) '{}'", report);
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**

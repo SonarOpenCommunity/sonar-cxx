@@ -52,7 +52,7 @@ public class BullseyeParser implements CoverageParser {
   public void parseReport(Project project, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException
   {
-    CxxUtils.LOG.info("Parsing report (Bullseye) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+    CxxUtils.LOG.info("Parsing report (Bullseye) '{}'", report);
 
     StaxParser topLevelparser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**

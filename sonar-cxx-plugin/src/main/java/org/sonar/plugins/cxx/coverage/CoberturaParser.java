@@ -42,7 +42,7 @@ public class CoberturaParser implements CoverageParser {
   public void parseReport(Project project, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
       throws XMLStreamException
   {
-    CxxUtils.LOG.info("Parsing report (Cobertura) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+    CxxUtils.LOG.info("Parsing report (Cobertura) '{}'", report);
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**

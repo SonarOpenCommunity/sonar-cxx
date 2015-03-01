@@ -84,11 +84,11 @@ public final class CxxUtils {
    * @param project
    * @return returns the canonical pathname string or null
    */
-  public static String fileToCanonicalPath(File file, Project project) {
-    org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project);
-    if (resource != null) {
-      return normalizePath(resource.getPath());
-    }
-    return null;
-  }
+//  public static String fileToCanonicalPath(File file, Project project) {
+//    org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project);
+//    if (resource != null) {
+//      return normalizePath(resource.getPath());
+//    }
+//    return null;
+//  }
 }

@@ -81,7 +81,7 @@ public class CxxCompilerVcParser implements CompilerParser {
    */
   public void parseReport(Project project, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException
   {
-    CxxUtils.LOG.info("Parsing report (Visual C++) '{}'", CxxUtils.fileToCanonicalPath(report, project));
+    CxxUtils.LOG.info("Parsing report (Visual C++) '{}'", report);
         
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
