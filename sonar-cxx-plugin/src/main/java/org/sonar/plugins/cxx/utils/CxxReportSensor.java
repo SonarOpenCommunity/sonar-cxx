@@ -164,7 +164,8 @@ public abstract class CxxReportSensor implements Sensor {
 
     List<File> reports = new ArrayList<File>();
     for (String relPath : relPaths) {
-      reports.add(new File(baseDirPath, relPath));
+      String path = CxxUtils.normalizePath(new File(baseDirPath, relPath).getAbsolutePath());      
+      reports.add(new File(path));
     }
 
     return reports;
@@ -259,7 +260,7 @@ public abstract class CxxReportSensor implements Sensor {
     return lineNr;
   }
 
-  protected void processReport(Project project, SensorContext context, File report)
+  protected void processReport(final Project project, final SensorContext context, File report)
       throws Exception
   {
   }

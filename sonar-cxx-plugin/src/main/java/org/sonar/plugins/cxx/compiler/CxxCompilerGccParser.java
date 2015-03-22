@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
+import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -79,9 +80,9 @@ public class CxxCompilerGccParser implements CompilerParser{
   /**
    * {@inheritDoc}
    */
-  public void parseReport(Project project, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException
+  public void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException
   {
-    CxxUtils.LOG.info("Parsing report (GCC) '{}'", report);
+    CxxUtils.LOG.info("Parsing 'GCC' format");
   
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);

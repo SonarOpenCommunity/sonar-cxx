@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.coverage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,39 +79,33 @@ public class CxxCoverageSensor extends CxxReportSensor {
   @Override
   public void analyse(Project project, SensorContext context) {
     CxxUtils.LOG.debug("Parsing coverage reports");
-    List<File> utReports = getReportsModule(REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(project, utReports);
+
+    List<File> reports = getCoverageReports(REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+    Map<String, CoverageMeasuresBuilder> coverageMeasures = processReports(project, context, reports);
     saveMeasures(project, context, coverageMeasures, UNIT_TEST_COVERAGE);
   
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
-    List<File> itReports = getReportsModule(IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(project, itReports);
+    List<File> itReports = getCoverageReports(IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
+    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = processReports(project, context, itReports);
     saveMeasures(project, context, itCoverageMeasures, IT_TEST_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
-    List<File> overallReports = getReportsModule(OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(project, overallReports);
+    List<File> overallReports = getCoverageReports(OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
+    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = processReports(project, context, overallReports);
     saveMeasures(project, context, overallCoverageMeasures, OVERALL_TEST_COVERAGE);
   }
 
-  private List<File> getReportsModule(String key, String pattern) {
-    List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), key, pattern);
-    if (reports.isEmpty()) {
-      reports = getReports(conf, fs.baseDir().getPath(), key, pattern);
-    }
-    return reports;
-  }
-
-  private Map<String, CoverageMeasuresBuilder> parseReports(Project project, List<File> reports) {
+  private Map<String, CoverageMeasuresBuilder> processReports(final Project project, final SensorContext context, List<File> reports) {
     Map<String, CoverageMeasuresBuilder> measuresTotal = new HashMap<String, CoverageMeasuresBuilder>();
     Map<String, CoverageMeasuresBuilder> measuresForReport = new HashMap<String, CoverageMeasuresBuilder>();
 
     for (File report : reports) {
+      CxxUtils.LOG.info("Processing report '{}'", report);
       boolean parsed = false;
       for (CoverageParser parser : parsers) {
         try {
           measuresForReport.clear();
-          parser.parseReport(project, report, measuresForReport);
+          parser.processReport(project, context, report, measuresForReport);
 
           if (!measuresForReport.isEmpty()) {
             parsed = true;
@@ -129,6 +124,20 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
 
     return measuresTotal;
+  }
+
+  private List<File> getCoverageReports(String reportKey, String reportDefault) {
+    List<File> reports = null;
+    try {
+      reports = getReports(conf, reactor.getRoot().getBaseDir().getCanonicalPath(), reportKey, reportDefault);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    if ((reports==null) || reports.isEmpty()) {
+        reports = getReports(conf, fs.baseDir().getPath(), reportKey, reportDefault);
+    }
+    return reports;
   }
 
   private void saveMeasures(Project project,

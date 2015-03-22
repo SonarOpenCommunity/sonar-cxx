@@ -120,7 +120,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         XunitReportParser parserHandler = new XunitReportParser();
         StaxParser parser = new StaxParser(parserHandler, false);
         for (File report : reports) {
-          CxxUtils.LOG.info("Parsing report (xUnit) '{}'", report);
+          CxxUtils.LOG.info("Processing report '{}'", report);
           try {
             parser.parse(transformReport(report));
           } catch (EmptyReportException e) {
@@ -129,6 +129,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         }
         List<TestCase> testcases = parserHandler.getTestCases();
 
+        CxxUtils.LOG.info("Parsing 'xUnit' format");
         boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
         if (providedetails) {
           detailledMode(project, context, testcases);
