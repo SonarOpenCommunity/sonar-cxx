@@ -170,7 +170,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       }
     }
 
-    if (isForceZeroCoverageActivated()) {
+    if (isForceZeroCoverageActivated() && project.getModules().isEmpty()) {
       CxxUtils.LOG.debug("ForceZeroCoverageActivated=true");
       zeroMeasuresWithoutReports(project, context, coverageMeasures, coveragetype);
     }
