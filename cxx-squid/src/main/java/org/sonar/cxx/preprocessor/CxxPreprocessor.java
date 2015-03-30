@@ -543,7 +543,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       if (macro.params == null) {
         tokensConsumed = 1;
-        replTokens = expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body)));
+        replTokens = new LinkedList<Token>(expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body))));
       }
       else {
         int tokensConsumedMatchingArgs = expandFunctionLikeMacro(macro.name,
@@ -568,7 +568,7 @@ public class CxxPreprocessor extends Preprocessor {
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
           if (action == PreprocessorAction.NO_OPERATION) {
-            replTokens = replTokens.subList(1, replTokens.size());
+            replTokens.remove(0);
             outTokens.add(c);
           }
           else {
@@ -576,10 +576,10 @@ public class CxxPreprocessor extends Preprocessor {
             int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
             if (tokensConsumedRescanning >= replTokens.size()) {
               tokensConsumed += tokensConsumedRescanning - replTokens.size();
-              replTokens = replTokens.subList(replTokens.size(), replTokens.size());
+              replTokens.subList(0, replTokens.size()).clear();
             }
             else {
-              replTokens = replTokens.subList(tokensConsumedRescanning, replTokens.size());
+              replTokens.subList(0, tokensConsumedRescanning).clear();
             }
           }
         }
