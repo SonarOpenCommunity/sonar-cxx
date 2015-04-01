@@ -82,5 +82,39 @@ public class IndentationCheckTest {
         .next().atLine(9)
         .next().atLine(11);
   }
+  
+  @Test
+  public void verifySwitchIndentFalse() {
+    IndentationCheck check = new IndentationCheck();
+    check.indentSwitchCase = false;
+    check.indentationLevel = 4;
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/IndentationCheckSwitch.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+        .next().atLine(8).withMessage("Make this line start at column 5.")
+        .next().atLine(10).withMessage("Make this line start at column 5.")
+        .next().atLine(29).withMessage("Make this line start at column 9.")
+        .noMore();
+  }  
+  
+  @Test
+  public void verifySwitchIndentTrue() {
+    IndentationCheck check = new IndentationCheck();
+    check.indentSwitchCase = true;
+    check.indentationLevel = 4;
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/IndentationCheckSwitch.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+        .next().atLine(16).withMessage("Make this line start at column 9.")
+        .next().atLine(17).withMessage("Make this line start at column 9.")
+        .next().atLine(22).withMessage("Make this line start at column 9.")
+        .next().atLine(25).withMessage("Make this line start at column 17.")
+        .next().atLine(26).withMessage("Make this line start at column 17.")
+        .next().atLine(30).withMessage("Make this line start at column 9.")    
+        .next().atLine(35).withMessage("Make this line start at column 9.")            
+        .next().atLine(36).withMessage("Make this line start at column 13.")            
+        .noMore();            
+  }    
+  
 
 }
