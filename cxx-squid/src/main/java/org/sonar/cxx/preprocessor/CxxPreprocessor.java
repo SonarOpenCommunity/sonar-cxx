@@ -576,7 +576,7 @@ public class CxxPreprocessor extends Preprocessor {
             int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
             if (tokensConsumedRescanning >= replTokens.size()) {
               tokensConsumed += tokensConsumedRescanning - replTokens.size();
-              replTokens.subList(0, replTokens.size()).clear();
+              replTokens.clear();
             }
             else {
               replTokens.subList(0, tokensConsumedRescanning).clear();
