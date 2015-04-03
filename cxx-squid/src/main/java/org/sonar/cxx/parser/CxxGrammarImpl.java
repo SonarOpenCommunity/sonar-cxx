@@ -460,6 +460,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.rule(typeIdEnclosed).is(b.firstOf(
           b.sequence("<", typeId, ">"),
           b.sequence("<", innerTypeId, ">>")));
+
     b.rule(expressionList).is(initializerList);
 
     b.rule(pseudoDestructorName).is(
@@ -788,9 +789,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             // TODO: the "::"-Alternative to nested-name-specifier is because of need to parse
             // stuff like "void foo(::A a);". Figure out if there is another way
 
-            b.sequence(b.optional(b.firstOf(nestedNameSpecifier, "::")), typeName)
+        b.sequence(b.optional(b.firstOf(nestedNameSpecifier,"::")), typeName)
         )
-        );
+      );
 
     b.rule(typeName).is(
         b.firstOf(
@@ -1052,8 +1053,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.firstOf(
             b.sequence(IDENTIFIER, "..."),// may occur in variadic templates
             b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)),
-            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause))
-			)
+            b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause)))
         );
 
     b.rule(parameterDeclSpecifierSeq).is(
@@ -1151,15 +1151,15 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         );
 
     b.rule(memberDeclaration).is(
-        b.firstOf(
+       b.firstOf(
          b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), b.optional(memberDeclSpecifierSeq),
            b.optional(memberDeclaratorList), b.optional(attributeSpecifierSeq), ";"),
-            b.sequence(functionDefinition, b.optional(";")),
-            b.sequence(b.optional("::"), nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
-            usingDeclaration,
-            staticAssertDeclaration,
-            templateDeclaration,
-            aliasDeclaration
+           b.sequence(functionDefinition, b.optional(";")),
+           b.sequence(b.optional("::"), nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), unqualifiedId, ";"),
+           usingDeclaration,
+           staticAssertDeclaration,
+           templateDeclaration,
+           aliasDeclaration
         )
         );
 
@@ -1264,6 +1264,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(templateParameterListEnclosed).is(b.firstOf(
       b.sequence("<", templateParameterList, ">"),
       b.sequence("<", b.zeroOrMore(templateParameter, ","), innerTypeParameter, ">>")));
+
     b.rule(templateParameterList).is(templateParameter, b.zeroOrMore(",", templateParameter));
 
     b.rule(templateParameter).is(
@@ -1289,8 +1290,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           b.sequence(CxxKeyword.CLASS, b.optional(IDENTIFIER), "=", innerTypeId),
           b.sequence(CxxKeyword.TYPENAME, b.optional(IDENTIFIER), "=", innerTypeId),
           b.sequence(CxxKeyword.TEMPLATE, templateParameterListEnclosed, CxxKeyword.CLASS, b.optional(IDENTIFIER), "=", innerTypeId)
-        )
-        );
+      )
+      );
 
     b.rule(innerTypeId).is(
         b.optional(b.firstOf(
@@ -1314,7 +1315,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.zeroOrMore(templateArgument, b.optional("..."), ","),
         innerTypeId
       );
-	  
+
     b.rule(templateId).is(
         b.firstOf(
             simpleTemplateId,
@@ -1330,6 +1331,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(templateArgumentList).is(templateArgument, b.optional("..."), b.zeroOrMore(",", templateArgument, b.optional("...")));
 
     b.rule(innerTemplateArgumentList).is(innerTemplateArgument, b.optional("..."), b.zeroOrMore(",", innerTemplateArgument, b.optional("...")));
+
     b.rule(templateArgument).is(
         b.firstOf(
             b.sequence(typeId, b.next(b.optional("..."), b.firstOf(">", ","))),

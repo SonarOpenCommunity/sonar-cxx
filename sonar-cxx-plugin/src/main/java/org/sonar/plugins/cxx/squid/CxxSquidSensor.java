@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -37,8 +35,6 @@ import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.FilePredicate;
-import org.sonar.api.batch.fs.InputFile;
-
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
@@ -72,10 +68,6 @@ import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 
 import com.sonar.sslr.api.Grammar;
-
-import static org.sonar.plugins.cxx.compiler.CxxCompilerSensor.REPORT_CHARSET_DEF;
-
-import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
  * {@inheritDoc}
@@ -174,6 +166,7 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setForceIncludeFiles(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
+    cxxConf.setMissingIncludeWarningsEnabled(conf.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
 
     String filePaths = conf.getString(CxxCompilerSensor.REPORT_PATH_KEY);    
 
@@ -183,6 +176,7 @@ public final class CxxSquidSensor implements Sensor {
                                                    conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
                                                    conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
     }
+
     return cxxConf;
   }
 

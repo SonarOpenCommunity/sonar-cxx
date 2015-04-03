@@ -124,6 +124,7 @@ public class CxxPreprocessor extends Preprocessor {
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
+  private CxxConfiguration conf;
 
   public static class Include {
     private int line;
@@ -200,6 +201,7 @@ public class CxxPreprocessor extends Preprocessor {
     this.context = context;
     this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
     this.cFilesPatterns = conf.getCFilesPatterns();
+    this.conf = conf;
 
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
@@ -495,8 +497,10 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFile == null) {
-      LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
-               + token.getValue() + "'");
+      if (conf.getMissingIncludeWarningsEnabled()){
+        LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
+                 + token.getValue() + "'");
+      }
       if (currentFile != null) {
         missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
       }
@@ -543,7 +547,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       if (macro.params == null) {
         tokensConsumed = 1;
-        replTokens = expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body)));
+        replTokens = new LinkedList<Token>(expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body))));
       }
       else {
         int tokensConsumedMatchingArgs = expandFunctionLikeMacro(macro.name,
@@ -568,7 +572,7 @@ public class CxxPreprocessor extends Preprocessor {
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
           if (action == PreprocessorAction.NO_OPERATION) {
-            replTokens = replTokens.subList(1, replTokens.size());
+            replTokens.remove(0);
             outTokens.add(c);
           }
           else {
@@ -576,10 +580,10 @@ public class CxxPreprocessor extends Preprocessor {
             int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
             if (tokensConsumedRescanning >= replTokens.size()) {
               tokensConsumed += tokensConsumedRescanning - replTokens.size();
-              replTokens = replTokens.subList(replTokens.size(), replTokens.size());
+              replTokens.clear();
             }
             else {
-              replTokens = replTokens.subList(tokensConsumedRescanning, replTokens.size());
+              replTokens.subList(0, tokensConsumedRescanning).clear();
             }
           }
         }

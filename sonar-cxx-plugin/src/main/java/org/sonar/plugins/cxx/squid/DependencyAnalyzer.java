@@ -106,7 +106,7 @@ public class DependencyAnalyzer {
               ", previous edge from line " + prevIncludeLine);
         }
       } else if (includedFile == null) {
-        CxxUtils.LOG.warn("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
+        CxxUtils.LOG.debug("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
       } else if (context.isIndexed(includedFile, false)) {
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());

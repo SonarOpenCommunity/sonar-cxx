@@ -249,7 +249,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   File transformReport(File report)
       throws java.io.IOException, javax.xml.transform.TransformerException
   {
-    File transformed = report;        
+    File transformed = report;
     if (xsltURL != null && report.length() > 0) {
       CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
       InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
@@ -352,6 +352,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       cxxConf.setDefines(Arrays.asList(lines));
     }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+    cxxConf.setMissingIncludeWarningsEnabled(conf.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
 
     for (File file : files) {
       @SuppressWarnings("unchecked")

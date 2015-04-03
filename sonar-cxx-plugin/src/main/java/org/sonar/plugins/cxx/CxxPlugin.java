@@ -64,6 +64,7 @@ public final class CxxPlugin extends SonarPlugin {
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
   public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
+  public static final String MISSING_INCLUDE_WARN = "sonar.cxx.missingIncludeWarnings";
 
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
@@ -129,6 +130,16 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
       .index(7)              
+      .build(),
+      
+      PropertyDefinition.builder(CxxPlugin.MISSING_INCLUDE_WARN)
+      .defaultValue("True")
+      .name("Missing include warnings")
+      .description("Enables/disables the warnings when included files could not be found.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(8)   
       .build()
       );
   }

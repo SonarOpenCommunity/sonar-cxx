@@ -59,7 +59,11 @@ Feature: Importing coverage data
               | it_line_coverage        | 14.8  |
               | it_branch_coverage      | 50    |
               | overall_coverage        | 28.1  |
+<<<<<<< HEAD
               | overall_line_coverage   | 22.0  |
+=======
+              | overall_line_coverage   | 22    |
+>>>>>>> origin/master
               | overall_branch_coverage | 50    |
 
 
