@@ -48,7 +48,7 @@ public class CppcheckParserV2 implements CppcheckParser {
    */
   public void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("cppcheck V2 - Parsing report '{}'", report);
+    CxxUtils.LOG.info("Parsing 'Cppcheck V2' format");
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -72,7 +72,10 @@ public class CppcheckParserV2 implements CppcheckParser {
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
                 String id = errorCursor.getAttrValue("id");
-                String msg = errorCursor.getAttrValue("msg");
+                String msg = createMsg(
+                  errorCursor.getAttrValue("inconclusive"),
+                  errorCursor.getAttrValue("msg")
+                );
                 String file = null;
                 String line = null;
 
@@ -99,6 +102,15 @@ public class CppcheckParserV2 implements CppcheckParser {
         }
       }
 
+      private String createMsg(String inconclusive, String msg) {
+        if (!StringUtils.isEmpty(msg)) {
+          if (!StringUtils.isEmpty(inconclusive) && "true".equals(inconclusive)) {
+            return "[inconclusive] " + msg;
+          }
+        }
+        return msg;
+      }
+        
       private boolean isInputValid(String file, String line, String id, String msg) {
         return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }

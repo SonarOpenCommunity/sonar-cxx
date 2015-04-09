@@ -25,6 +25,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyBoolean;
 
 import java.io.File;
 import java.util.Arrays;
@@ -41,8 +44,11 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Directory;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Resource;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.source.Highlightable;
+import org.sonar.api.batch.fs.InputFile;
 
 public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
@@ -50,11 +56,21 @@ public class CxxSquidSensorTest {
   private Settings settings;
   private FileSystem fs;
   private Project project;
+  private ResourcePerspectives perspectives;
+  private Highlightable highlightable;
+  private Highlightable.HighlightingBuilder builder;
 
   @Before
   public void setUp() {
     settings = new Settings();
     context = mock(SensorContext.class);
+    perspectives = mock(ResourcePerspectives.class);
+    highlightable = mock(Highlightable.class);
+    builder = mock(Highlightable.HighlightingBuilder.class);
+
+    when(context.isIndexed(any(Resource.class), anyBoolean())).thenReturn(true); //@todo isIndexed: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+    when(perspectives.as(eq(Highlightable.class), any(InputFile.class))).thenReturn(highlightable);
+    when(highlightable.newHighlighting()).thenReturn(builder);
   }
 
   @Test
@@ -179,7 +195,7 @@ public class CxxSquidSensorTest {
 
     ActiveRules rules = mock(ActiveRules.class);
     CheckFactory checkFactory = new CheckFactory(rules);
-    sensor = new CxxSquidSensor(mock(ResourcePerspectives.class),
-                                settings, fs, checkFactory, rules);
+    
+    sensor = new CxxSquidSensor(perspectives, settings, fs, checkFactory, rules);
   }
 }

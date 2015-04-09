@@ -25,23 +25,34 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
 public class CxxCompilerRuleRepositoryTest {
 
   @Test
   public void createVcRulesTest() {
-    CxxCompilerVcRuleRepository rulerep = new CxxCompilerVcRuleRepository(
-        mock(ServerFileSystem.class),
-        new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(693);
+    CxxCompilerVcRuleRepository def = new CxxCompilerVcRuleRepository(
+      mock(ServerFileSystem.class),
+      new RulesDefinitionXmlLoader(), new Settings());
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxCompilerVcRuleRepository.KEY);
+    assertThat(repo.rules()).hasSize(693);
   }
 
   @Test
   public void createGccRulesTest() {
-    CxxCompilerGccRuleRepository rulerep = new CxxCompilerGccRuleRepository(
-        mock(ServerFileSystem.class),
-        new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(160);
+    CxxCompilerGccRuleRepository def = new CxxCompilerGccRuleRepository(
+      mock(ServerFileSystem.class),
+      new RulesDefinitionXmlLoader(), new Settings());
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxCompilerGccRuleRepository.KEY);
+    assertThat(repo.rules()).hasSize(160);
   }
 }

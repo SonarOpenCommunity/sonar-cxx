@@ -39,7 +39,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
@@ -123,7 +123,7 @@ public abstract class CxxReportSensor implements Sensor {
           .append(e)
           .append("'")
           .toString();
-      throw new SonarException(msg, e);
+      throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
   }
 
@@ -161,7 +161,8 @@ public abstract class CxxReportSensor implements Sensor {
 
     List<File> reports = new ArrayList<File>();
     for (String relPath : relPaths) {
-      reports.add(new File(baseDirPath, relPath));
+      String path = CxxUtils.normalizePath(new File(baseDirPath, relPath).getAbsolutePath());      
+      reports.add(new File(path));
     }
 
     return reports;
@@ -255,7 +256,7 @@ public abstract class CxxReportSensor implements Sensor {
     return lineNr;
   }
 
-  protected void processReport(Project project, SensorContext context, File report)
+  protected void processReport(final Project project, final SensorContext context, File report)
       throws Exception
   {
   }

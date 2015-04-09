@@ -23,8 +23,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Stack;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -32,19 +31,26 @@ import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
-  key = "IndentationCheck",
-  description = "Well formed line itention improves readbility",
+  key = "Indentation",
+  name = "Source code should be correctly indented",
+  tags = {Tags.CONVENTION},
   priority = Priority.MAJOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
+@SqaleConstantRemediation("5min")
 public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final AstNodeType[] BLOCK_TYPES = new AstNodeType[] {
@@ -71,6 +77,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   @RuleProperty(
     key = "indentationLevel",
+    description = "Number of spaces of an indentation level",
     defaultValue = "" + DEFAULT_INDENTATION_LEVEL)
   public int indentationLevel = DEFAULT_INDENTATION_LEVEL;
 
@@ -78,6 +85,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   @RuleProperty(
     key = "tabWidth",
+    description = "Number of spaces in a 'tab' character",
     defaultValue = "" + DEFAULT_TAB_WIDTH)
   public int tabWidth = DEFAULT_TAB_WIDTH;
 
@@ -85,6 +93,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   @RuleProperty(
     key = "indentNamespace",
+    description = "Indicate if the content of the namespace should be indented",
     defaultValue = "" + DEFAULT_INDENT_NAMESPACE)
   boolean indentNamespace = DEFAULT_INDENT_NAMESPACE;
 
@@ -92,6 +101,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   @RuleProperty(
     key = "indentLinkageSpecification",
+    description = "Indicate if the content of a linkage specification block should be indented",
     defaultValue = "" + DEFAULT_INDENT_LINKAGE_SPEC)
   boolean indentLinkageSpecification = DEFAULT_INDENT_LINKAGE_SPEC;
 
@@ -99,6 +109,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   @RuleProperty(
     key = "indentSwitchCase",
+    description = "Indicate if cases in switch should be indented",
     defaultValue = "" + DEFAULT_INDENT_SWITCH_CASE)
   boolean indentSwitchCase = DEFAULT_INDENT_SWITCH_CASE;
 
@@ -135,7 +146,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
       try {
         fileLines = Files.readLines(getContext().getFile(), charset);
       } catch (IOException e) {
-        throw new SonarException(e);
+        throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
 

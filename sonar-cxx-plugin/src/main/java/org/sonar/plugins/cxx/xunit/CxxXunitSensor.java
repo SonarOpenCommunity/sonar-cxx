@@ -50,7 +50,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.api.utils.StaxParser;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
@@ -119,7 +119,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         XunitReportParser parserHandler = new XunitReportParser();
         StaxParser parser = new StaxParser(parserHandler, false);
         for (File report : reports) {
-          CxxUtils.LOG.info("Parsing report '{}'", report);
+          CxxUtils.LOG.info("Processing report '{}'", report);
           try {
             parser.parse(transformReport(report));
           } catch (EmptyReportException e) {
@@ -128,6 +128,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         }
         List<TestCase> testcases = parserHandler.getTestCases();
 
+        CxxUtils.LOG.info("Parsing 'xUnit' format");
         boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
         if (providedetails) {
           detailledMode(project, context, testcases);
@@ -144,7 +145,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append(e)
         .append("'")
         .toString();
-      throw new SonarException(msg, e);
+      throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
   }
 
@@ -247,7 +248,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   File transformReport(File report)
       throws java.io.IOException, javax.xml.transform.TransformerException
   {
-    File transformed = report;        
+    File transformed = report;
     if (xsltURL != null && report.length() > 0) {
       CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
       InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
@@ -350,6 +351,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       cxxConf.setDefines(Arrays.asList(lines));
     }
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+    cxxConf.setMissingIncludeWarningsEnabled(conf.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
 
     for (File file : files) {
       @SuppressWarnings("unchecked")

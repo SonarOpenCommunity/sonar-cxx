@@ -51,6 +51,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private String baseDir;
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<String>();
+  private boolean missingIncludeWarningsEnabled = true;
 
   public CxxConfiguration() {
   }
@@ -157,6 +158,14 @@ public class CxxConfiguration extends SquidConfiguration {
     return this.headerFileSuffixes;
   }
 
+  public void setMissingIncludeWarningsEnabled(boolean enabled){
+    this.missingIncludeWarningsEnabled = enabled;
+  }
+
+  public boolean getMissingIncludeWarningsEnabled(){
+    return this.missingIncludeWarningsEnabled;
+  }
+  
   public void setCompilationPropertiesWithBuildLog(List<File> reports, String fileFormat, String charsetName) {
     
     if(reports == null) {

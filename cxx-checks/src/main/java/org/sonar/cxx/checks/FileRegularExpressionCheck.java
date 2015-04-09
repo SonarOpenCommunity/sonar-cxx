@@ -20,15 +20,13 @@
 package org.sonar.cxx.checks;
 
 import com.sonar.sslr.api.AstNode;
-import org.sonar.check.Cardinality;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.ByteBuffer;
@@ -41,12 +39,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
+import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.annotations.RuleTemplate;
 
 @Rule(
   key = "FileRegularExpression",
-  cardinality = Cardinality.MULTIPLE,
+  name = "File RegEx rule",
   priority = Priority.MAJOR)
-
+@RuleTemplate
+@NoSqale
 public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
@@ -59,16 +60,19 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @RuleProperty(
     key = "matchFilePattern",
+    description = "Ant-style matching patterns for path",
     defaultValue = DEFAULT_MATCH_FILE_PATTERN)
   public String matchFilePattern = DEFAULT_MATCH_FILE_PATTERN;
 
   @RuleProperty(
     key = "regularExpression",
+    description = "The regular expression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
+    description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
 
@@ -80,7 +84,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       decoder.onMalformedInput(CodingErrorAction.REPLACE);
       decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
     } catch (Exception e) {
-      throw new SonarException(e);
+      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
   }
 
@@ -101,7 +105,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
           getContext().createFileViolation(this, message);
         }
       } catch (Exception e) {
-        throw new SonarException(e);
+        throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
   }

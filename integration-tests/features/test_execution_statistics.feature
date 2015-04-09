@@ -258,7 +258,30 @@ Feature: Providing test execution numbers
               | test_success_density | 0     |
               | test_execution_time  | 3     |
 
- 
+              
+ Scenario: Simulate virtual unit test file (provideDetails, filename tag)
+
+      Starting with SQ 4.2 virtual files are no more supported.
+      With 'boosttest-1.x-to-junit-1.0-dummy.xsl' it is possible to simulate this feature again.
+      The stylesheet set the filename tag to './cxx-xunit/dummy.cpp' additional the dummy
+      cpp unittest file in the test folder is needed.
+
+      GIVEN the project "boosttest_project"
+
+      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.xsltURL=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.tests=cxx-xunit -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
+
+      THEN the analysis finishes successfully
+          AND the analysis log contains no error/warning messages
+          AND the following metrics have following values:
+              | metric               | value |
+              | tests                | 4     |
+              | test_failures        | 0     |
+              | test_errors          | 4     |
+              | skipped_tests        | 0     |
+              | test_success_density | 0     |
+              | test_execution_time  | 3     |
+              
+              
   Scenario Outline: Importing unchanged boosttest reports in detailed mode (filename tag)
 
       Testcases in boosttest reports with setting 'log_level=all' also
@@ -331,7 +354,6 @@ Feature: Providing test execution numbers
             AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*cannot find the sources for '.*'
-              .*WARN.*Error evaluating expression.*, assuming 0
               """
             AND the following metrics have following values:
               | metric               | value |

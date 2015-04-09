@@ -25,6 +25,6 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
 public interface CppcheckParser {
-  void processReport(Project project, SensorContext context, File report)
+  void processReport(final Project project, SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException;
 }

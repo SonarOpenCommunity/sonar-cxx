@@ -26,20 +26,28 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import org.sonar.api.batch.SensorContext;
+import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class ValgrindReportParserTest {
+  
+  private Project project;
+  private SensorContext context;
   private ValgrindReportParser parser;
 
   @Before
   public void setUp() {
+    project = TestUtils.mockProject();
+    context = mock(SensorContext.class);
     parser = new ValgrindReportParser();
   }
 
   @Test
   public void shouldParseCorrectNumberOfErrors() throws javax.xml.stream.XMLStreamException {
     File report = TestUtils.loadResource("reports-project/valgrind-reports/valgrind-result-SAMPLE.xml");
-    Set<ValgrindError> valgrindErrors = parser.parseReport(report);
+    Set<ValgrindError> valgrindErrors = parser.processReport(project, context, report);
     assertEquals(valgrindErrors.size(), 6);
   }
 
@@ -47,20 +55,20 @@ public class ValgrindReportParserTest {
   public void shouldThrowWhenGivenAnIncompleteReport_1() throws javax.xml.stream.XMLStreamException {
     // error contains no kind-tag
     File report = TestUtils.loadResource("reports-project/valgrind-reports/incorrect-valgrind-result_1.xml");
-    parser.parseReport(report);
+    parser.processReport(project, context, report);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_2() throws javax.xml.stream.XMLStreamException {
     // error contains no what- or xwhat-tag
     File report = TestUtils.loadResource("reports-project/valgrind-reports/incorrect-valgrind-result_2.xml");
-    parser.parseReport(report);
+    parser.processReport(project, context, report);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_3() throws javax.xml.stream.XMLStreamException {
     // error contains no stack-tag
     File report = TestUtils.loadResource("reports-project/valgrind-reports/incorrect-valgrind-result_3.xml");
-    parser.parseReport(report);
+    parser.processReport(project, context, report);
   }
 }
