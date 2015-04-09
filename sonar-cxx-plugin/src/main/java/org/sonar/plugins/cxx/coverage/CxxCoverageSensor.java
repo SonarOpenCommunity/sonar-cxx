@@ -78,17 +78,17 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     CxxUtils.LOG.debug("Parsing coverage reports");
     List<File> reports = getReports(conf, baseDir, REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> coverageMeasures = parseReports(reports);
+    Map<String, CoverageMeasuresBuilder> coverageMeasures = processReports(project, context, reports);
     saveMeasures(project, context, coverageMeasures, CoverageType.UT_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing integration test coverage reports");
     List<File> itReports = getReports(conf, baseDir, IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = parseReports(itReports);
+    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = processReports(project, context, itReports);
     saveMeasures(project, context, itCoverageMeasures, CoverageType.IT_COVERAGE);
 
     CxxUtils.LOG.debug("Parsing overall test coverage reports");
     List<File> overallReports = getReports(conf, baseDir, OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
-    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = parseReports(overallReports);
+    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = processReports(project, context, overallReports);
     saveMeasures(project, context, overallCoverageMeasures, CoverageType.OVERALL_COVERAGE);
 
     if (isForceZeroCoverageActivated()) {
@@ -98,16 +98,17 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
   }
 
-  private Map<String, CoverageMeasuresBuilder> parseReports(List<File> reports) {
+  private Map<String, CoverageMeasuresBuilder> processReports(final Project project, final SensorContext context, List<File> reports) {
     Map<String, CoverageMeasuresBuilder> measuresTotal = new HashMap<String, CoverageMeasuresBuilder>();
     Map<String, CoverageMeasuresBuilder> measuresForReport = new HashMap<String, CoverageMeasuresBuilder>();
 
     for (File report : reports) {
+      CxxUtils.LOG.info("Processing report '{}'", report);
       boolean parsed = false;
       for (CoverageParser parser : parsers) {
         try {
           measuresForReport.clear();
-          parser.parseReport(report, measuresForReport);
+          parser.processReport(project, context, report, measuresForReport);
 
           if (!measuresForReport.isEmpty()) {
             parsed = true;
