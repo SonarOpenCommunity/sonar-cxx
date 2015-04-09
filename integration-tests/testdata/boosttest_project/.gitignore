@@ -1,0 +1,4 @@
+.sonar
+*.[oa]
+*.after_xslt
+

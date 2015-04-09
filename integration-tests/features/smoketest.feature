@@ -11,13 +11,14 @@ Feature: Smoketest
               """
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
-              .*WARN  - Cannot find the file '.*component_XXX.cc', skipping violations
+              .*WARN.*Cannot find the file '.*component_XXX.cc', skipping violations
+              .*WARN.*Already created edge from 'src/cli/main.cc'.*
               """
           AND the following metrics have following values:
                | metric                   | value |
                # size metrics
                | ncloc                    | 56    |
-               | lines                    | 148   |
+               | lines                    | 151   |
                | statements               | 36    |
                | classes                  | 1     |
                | files                    | 8     |
@@ -27,7 +28,7 @@ Feature: Smoketest
                | comment_lines_density    | 30    |
                | comment_lines            | 24    |
                # duplications
-               | duplicated_lines_density | 58.1  |
+               | duplicated_lines_density | 57.0  |
                | duplicated_lines         | 86    |
                | duplicated_blocks        | 2     |
                | duplicated_files         | 2     |
@@ -42,11 +43,11 @@ Feature: Smoketest
                | coverage                 | 41.2  |
                | line_coverage            | 39.5  |
                | branch_coverage          | 50    |
-               | it_coverage              | 84    |
-               | it_line_coverage         | 100   |
+               | it_coverage              | 41.2  |
+               | it_line_coverage         | 39.5  |
                | it_branch_coverage       | 50    |
-               | overall_coverage         | 84    |
-               | overall_line_coverage    | 100   |
+               | overall_coverage         | 41.2  |
+               | overall_line_coverage    | 39.5  |
                | overall_branch_coverage  | 50    |
                # design/tangles
                | package_tangle_index     | 66.7  |

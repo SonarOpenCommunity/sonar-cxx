@@ -1,0 +1,16 @@
+<TestLog>
+  <TestSuite name="my_module">
+    <TestCase name="foo_successfull">
+      <Info file="tests/unittests/test_component1.cc" line="15"><![CDATA[check bar.foo() == 111 passed]]></Info>
+      <TestingTime>50000000</TestingTime>
+    </TestCase>
+    <TestCase name="foo_failing">
+      <Error file="tests/unittests/test_component1.cc" line="19"><![CDATA[check bar.foo() == 112 failed [111 != 112]]]></Error>
+      <TestingTime>1000</TestingTime>
+    </TestCase>
+    <TestCase name="foo_throwing">
+      <Exception file="unknown location" line="0"><![CDATA[C string: BOOM]]></Exception>
+      <TestingTime>1000</TestingTime>
+    </TestCase>
+  </TestSuite>
+</TestLog>

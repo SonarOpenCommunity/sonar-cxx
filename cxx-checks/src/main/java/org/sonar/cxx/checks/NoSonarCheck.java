@@ -22,19 +22,22 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.NoSqale;
 
 /**
  * Note that {@link com.sonar.sslr.squid.checks.AbstractNoSonarCheck} can't be used because of bug SSLRSQBR-16.
  */
-@Rule(key = "NoSonar",
-      description = "NOSONAR tag shall be reviewed and only used for false positiv issues",
-      priority = Priority.INFO)
-
+@Rule(
+  key = "NoSonar",
+  name = "Avoid use of //NOSONAR marker",
+  priority = Priority.INFO)
+@ActivatedByDefault
+@NoSqale
 public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
   @Override

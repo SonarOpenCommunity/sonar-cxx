@@ -119,6 +119,18 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       "#define lang_init() c_init()\n"
       + "lang_init();"))
       .equals("c_init ( ) ; EOF"));
+
+    // without whitespace after parameter list
+    assert (serialize(p.parse(
+                        "#define foo(a)x\n"
+                        + "foo(b)=1;"))
+            .equals("x = 1 ; EOF"));
+
+    // with parantheses
+    assert (serialize(p.parse(
+                        "#define isequal(a, b)(a == b)\n"
+                        + "b = isequal(1,2);"))
+            .equals("b = ( 1 == 2 ) ; EOF"));
   }
 
   @Test
@@ -135,24 +147,24 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
             + "lang_init(c)();"))
         .equals("c = c_init ( ) ; EOF"));
 
-
-    // This one doesnt work.
-    // The preprocessor seems to resule resolves macro in the wrong order:
-    // BOOST_MSVC => _MSC_VER => 1600 ## _WORKAROUND_GUARD => 1600 _WORKAROUND_GUARD
-    //
-    // instead of
-    //
-    // BOOST_MSVC =>  _MSC_VER
-    // _MSC_VER ## _WORKAROUND_GUARD => _MSC_VER_WORKAROUND_GUARD
-    // _MSC_VER_WORKAROUND_GUARD => 0
-
-    // assert (serialize(p.parse(
-    //   "#define _MSC_VER_WORKAROUND_GUARD 0\n"
-    //   + "#define _MSC_VER 1600\n"
-    //   + "#define BOOST_MSVC _MSC_VER\n"
-    //   + "#define TEST(symbol) symbol ## _WORKAROUND_GUARD\n"
-    //   + "TEST(BOOST_MSVC);"))
-    //   .equals("0 ; EOF"));
+    assert (serialize(p.parse(
+      "#define _MSC_VER_WORKAROUND_GUARD 1\n"
+      + "#define BOOST_MSVC_WORKAROUND_GUARD 0\n"
+      + "#define _MSC_VER 1600\n"
+      + "#define BOOST_MSVC _MSC_VER\n"
+      + "#define TEST(symbol) symbol ## _WORKAROUND_GUARD\n"
+      + "int i=TEST(BOOST_MSVC);"))
+      .equals("int i = 0 ; EOF"));
+    
+    assert (serialize(p.parse(
+      "#define _MSC_VER_WORKAROUND_GUARD 1\n"
+      + "#define BOOST_MSVC_WORKAROUND_GUARD 0\n"
+      + "#define _MSC_VER 1600\n"
+      + "#define BOOST_MSVC _MSC_VER\n"
+      + "#define _WORKAROUND_GUARD _XXX\n"
+      + "#define TEST(symbol1, symbol2) symbol1 ## symbol2\n"
+      + "int i=TEST(BOOST_MSVC, _WORKAROUND_GUARD);"))
+      .equals("int i = 0 ; EOF"));
   }
 
   @Test
@@ -189,6 +201,19 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
         "#define eprintf(format, args...) fprintf (stderr, format, args)\n"
             + "eprintf(\"%s:%d: \", input_file, lineno);"))
         .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
+
+    //without whitespace after the parameter list
+    assert (serialize(p.parse(
+        "#define foo(a...);\n"
+            + "foo(a, b)"))
+        .equals("; EOF"));
+
+    //with more params and without whitespace after the parameter list
+    assert (serialize(p.parse(
+        "#define foo(a, b...);\n"
+            + "foo(a, b, c)"))
+        .equals("; EOF"));
+
 
     // FIXME: can this actually be swallowed by GCC?? My experiments showed the opposite, so far...
     // GNU CPP: Vou are allowed to leave the variable argument out entirely

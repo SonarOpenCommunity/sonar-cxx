@@ -20,62 +20,67 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleRepository;
-import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}
  */
-public abstract class CxxAbstractRuleRepository extends RuleRepository {
+public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
   private final ServerFileSystem fileSystem;
   public final Settings settings;
-  private final XMLRuleParser xmlRuleParser;
+  private final RulesDefinitionXmlLoader xmlRuleLoader;
   protected final String repositoryKey;
+  protected final String repositoryName;
   protected final String customRepositoryKey;
 
   /**
    * {@inheritDoc}
    */
-  public CxxAbstractRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings, String key, String customKey) {
-    super(key, CxxLanguage.KEY);
+  public CxxAbstractRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings, String key, String name, String customKey) {
     this.fileSystem = fileSystem;
-    this.xmlRuleParser = xmlRuleParser;
+    this.xmlRuleLoader = xmlRuleLoader;
     this.repositoryKey = key;
+    this.repositoryName = name;
     this.customRepositoryKey = customKey;
     this.settings = settings;
   }
 
   @Override
-  public List<Rule> createRules() {
-    List<Rule> rules = new ArrayList<Rule>();
+  public void define(Context context) {
+    NewRepository repository = context.createRepository(repositoryKey, CxxLanguage.KEY).setName(repositoryName);
 
-    final XMLRuleParser xmlParser = new XMLRuleParser();
-    if(!"".equals(fileName())) {
-      final InputStream xmlStream = getClass().getResourceAsStream(fileName());
-      rules.addAll(xmlParser.parse(xmlStream));
+    RulesDefinitionXmlLoader xmlLoader = new RulesDefinitionXmlLoader();
+    if (!"".equals(fileName())) {
+      InputStream xmlStream = getClass().getResourceAsStream(fileName());
+      xmlLoader.load(repository, xmlStream, "UTF-8");
 
-      for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) {
-        rules.addAll(xmlRuleParser.parse(userExtensionXml));
+      for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) { //@todo getExtensions: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+        try {
+          FileReader reader = new FileReader(userExtensionXml);
+          xmlRuleLoader.load(repository, reader);
+        } catch (Exception ex) {
+          CxxUtils.LOG.info("Cannot Load XML '{}'", ex.getMessage());
+        }
       }
     }
 
     String customRules = settings.getString(this.customRepositoryKey);
     if (StringUtils.isNotBlank(customRules)) {
-      rules.addAll(xmlRuleParser.parse(new StringReader(customRules)));
+      xmlRuleLoader.load(repository, new StringReader(customRules));
     }
 
-    return rules;
+    //i18nLoader.load(repository); //@todo?
+    repository.done();
   }
 
   protected abstract String fileName();

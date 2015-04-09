@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Deque;
 
-import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +53,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import com.sonar.sslr.api.Preprocessor;
-import com.sonar.sslr.api.PreprocessorAction;
+import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+import com.sonar.sslr.api.PreprocessorAction; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
@@ -125,6 +124,7 @@ public class CxxPreprocessor extends Preprocessor {
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
+  private CxxConfiguration conf;
 
   public static class Include {
     private int line;
@@ -201,6 +201,7 @@ public class CxxPreprocessor extends Preprocessor {
     this.context = context;
     this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
     this.cFilesPatterns = conf.getCFilesPatterns();
+    this.conf = conf;
 
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
@@ -496,7 +497,10 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     if (includedFile == null) {
-      LOG.warn("[{}:{}]: cannot find the sources for '{}'", new Object[] {filename, token.getLine(), token.getValue()});
+      if (conf.getMissingIncludeWarningsEnabled()){
+        LOG.warn("[" + filename + ":" + token.getLine() + "]: cannot find the sources for '"
+                 + token.getValue() + "'");
+      }
       if (currentFile != null) {
         missingIncludeFiles.put(currentFile.getPath(), new Include(token.getLine(), token.getValue()));
       }
@@ -543,7 +547,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       if (macro.params == null) {
         tokensConsumed = 1;
-        replTokens = expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body)));
+        replTokens = new LinkedList<Token>(expandMacro(macro.name, serialize(evaluateHashhashOperators(macro.body))));
       }
       else {
         int tokensConsumedMatchingArgs = expandFunctionLikeMacro(macro.name,
@@ -563,11 +567,12 @@ public class CxxPreprocessor extends Preprocessor {
           Token c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION;
           if (c.getType() == IDENTIFIER) {
-            List<Token> rest = ListUtils.union(replTokens, tokens.subList(tokensConsumed, tokens.size()));
+            List<Token> rest = new ArrayList(replTokens);
+            rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
           if (action == PreprocessorAction.NO_OPERATION) {
-            replTokens = replTokens.subList(1, replTokens.size());
+            replTokens.remove(0);
             outTokens.add(c);
           }
           else {
@@ -575,10 +580,10 @@ public class CxxPreprocessor extends Preprocessor {
             int tokensConsumedRescanning = action.getNumberOfConsumedTokens();
             if (tokensConsumedRescanning >= replTokens.size()) {
               tokensConsumed += tokensConsumedRescanning - replTokens.size();
-              replTokens = replTokens.subList(replTokens.size(), replTokens.size());
+              replTokens.clear();
             }
             else {
-              replTokens = replTokens.subList(tokensConsumedRescanning, replTokens.size());
+              replTokens.subList(0, tokensConsumedRescanning).clear();
             }
           }
         }
@@ -721,7 +726,7 @@ public class CxxPreprocessor extends Preprocessor {
               .setLine(firstToken.getLine())
               .setColumn(firstToken.getColumn())
               .setURI(firstToken.getURI())
-              .setValueAndOriginalValue(serialize(matchedTokens))
+              .setValueAndOriginalValue(serialize(matchedTokens).trim())
               .setType(STRING)
               .build());
         }
@@ -756,46 +761,69 @@ public class CxxPreprocessor extends Preprocessor {
         defParamValues.add(t.getValue());
       }
 
+      boolean tokenPastingLeftOp = false;
+      boolean tokenPastingRightOp = false;
+
       for (int i = 0; i < body.size(); ++i) {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
           newTokens.add(curr);
-        }
-        else if (index == arguments.size()) {
+        } else if (index == arguments.size()) {
           // EXTENSION: GCC's special meaning of token paste operator
           // If variable argument is left out then the comma before the paste operator will be deleted
           int j = i;
-          while(j > 0 && body.get(j - 1).getType() == WS)
+          while (j > 0 && body.get(j - 1).getType() == WS) {
             j--;
-          if (j == 0 || !"##".equals(body.get(--j).getValue()))
+          }
+          if (j == 0 || !"##".equals(body.get(--j).getValue())) {
             continue;
+          }
           int k = j;
-          while(j > 0 && body.get(j - 1).getType() == WS)
+          while (j > 0 && body.get(j - 1).getType() == WS) {
             j--;
+          }
           if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
             newTokens.remove(newTokens.size() - 1 + j - i); //remove the comma
             newTokens.remove(newTokens.size() - 1 + k - i); //remove the paste operator
           }
-        }
-        else if (index < arguments.size()) {
-          Token replacement = arguments.get(index);
-
-          // The arguments have to be fully expanded before expanding the body of the macro
-          String newValue = serialize(expandMacro("", replacement.getValue()));
-
-          if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
-            newTokens.remove(newTokens.size() - 1);
-            newValue = encloseWithQuotes(quote(newValue));
+        } else if (index < arguments.size()) {
+          // token pasting operator?
+          int j = i + 1;
+          while (j < body.size() && body.get(j).getType() == WS) {
+            j++;
           }
+          if (j < body.size() && "##".equals(body.get(j).getValue())) {
+            tokenPastingLeftOp = true;
+          }
+          // in case of token pasting operator do not fully expand
+          Token replacement = arguments.get(index);
+          String newValue;
+          if (tokenPastingLeftOp) {
+            newValue = replacement.getValue();
+            tokenPastingLeftOp = false;
+            tokenPastingRightOp = true;
+          } else if (tokenPastingRightOp) {
+            newValue = replacement.getValue();
+            tokenPastingLeftOp = false;
+            tokenPastingRightOp = false;
+          } else {
+            // otherwise the arguments have to be fully expanded before expanding the body of the macro
+            newValue = serialize(expandMacro("", replacement.getValue()));
+            if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
+              newTokens.remove(newTokens.size() - 1);
+              newValue = encloseWithQuotes(quote(newValue));
+            }
+          }
+
           newTokens.add(Token.builder()
-              .setLine(replacement.getLine())
-              .setColumn(replacement.getColumn())
-              .setURI(replacement.getURI())
-              .setValueAndOriginalValue(newValue)
-              .setType(replacement.getType())
-              .setGeneratedCode(true)
-              .build());
+            .setLine(replacement.getLine())
+            .setColumn(replacement.getColumn())
+            .setURI(replacement.getURI())
+            .setValueAndOriginalValue(newValue)
+            .setType(replacement.getType())
+            .setGeneratedCode(true)
+            .build());
         }
       }
     }

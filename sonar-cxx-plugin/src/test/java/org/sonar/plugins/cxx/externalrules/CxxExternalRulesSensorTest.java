@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -36,8 +37,7 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxExternalRulesSensorTest {
@@ -47,7 +47,7 @@ public class CxxExternalRulesSensorTest {
   private Project project;
   private RulesProfile profile;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
@@ -90,7 +90,7 @@ public class CxxExternalRulesSensorTest {
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }
 
-  @Test(expected = SonarException.class)
+  @Test(expected = SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowExceptionWhenReportEmpty() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
     sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
@@ -107,7 +107,7 @@ public class CxxExternalRulesSensorTest {
     verify(issuable, times(0)).addIssue(any(Issue.class));
   }
 
-  @Test(expected = SonarException.class)
+  @Test(expected = SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowInCaseOfATrashyReport() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");

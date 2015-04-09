@@ -29,11 +29,11 @@ import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -56,7 +56,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
+  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile) {
     super(perspectives, conf, fs, CxxMetrics.PCLINT);
     this.profile = profile;
   }
@@ -84,6 +84,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
       throws javax.xml.stream.XMLStreamException
   {
+    CxxUtils.LOG.info("Parsing 'PC-Lint' format");
+    
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}

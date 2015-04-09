@@ -21,26 +21,28 @@ package org.sonar.cxx.checks;
 
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.sonar.api.utils.SonarException;
-import org.sonar.check.Cardinality;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.annotations.RuleTemplate;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "UseCorrectType",
-  priority = Priority.MINOR,
-  cardinality = Cardinality.MULTIPLE)
-
+  name = "C++ type(s) shall be used",
+  tags = {Tags.CONVENTION},
+  priority = Priority.MINOR)
+@RuleTemplate
+@NoSqale
 public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {
@@ -53,11 +55,13 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
 
   @RuleProperty(
     key = "regularExpression",
+    description = "Type regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
+    description = "The violation message",
     defaultValue = DEFAULT_MESSAGE)
   public String message = DEFAULT_MESSAGE;
 
@@ -80,7 +84,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
       try {
         pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regularExpression, e);
+        throw new SonarException("Unable to compile regular expression: " + regularExpression, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
   }

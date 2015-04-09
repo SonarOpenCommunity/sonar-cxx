@@ -29,18 +29,18 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxCoverageSensorTest {
   private CxxCoverageSensor sensor;
   private SensorContext context;
   private Project project;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
 
   @Before
   public void setUp() {
@@ -122,6 +122,6 @@ public class CxxCoverageSensorTest {
 
     sensor.analyse(project, context);
 
-    verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
+    verify(context, times(21)).saveMeasure((File) anyObject(), any(Measure.class));
   }
 }

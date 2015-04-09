@@ -26,14 +26,15 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * Custom Rule Import, all static analysis are supported.
@@ -49,7 +50,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile) {
+  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile) {
     super(perspectives, conf, fs, CxxMetrics.EXTERNAL);
     this.profile = profile;
   }
@@ -74,9 +75,12 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
+  protected void processReport(final Project project, final SensorContext context, File report) throws javax.xml.stream.XMLStreamException
+  {
+    CxxUtils.LOG.info("Parsing 'other' format");
+    
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
-
+ 
       /**
        * {@inheritDoc}
        */

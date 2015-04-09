@@ -19,19 +19,26 @@
  */
 package org.sonar.plugins.cxx.squid;
 
+import com.google.common.collect.Lists;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
+import javax.annotation.Nullable;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.FilePredicates;
+import org.sonar.api.batch.fs.FilePredicate;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.Perspective;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
@@ -40,7 +47,6 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
 import org.sonar.api.measures.RangeDistributionBuilder;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
@@ -57,6 +63,8 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
+import org.sonar.api.source.Highlightable;
+import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
 
 import com.sonar.sslr.api.Grammar;
 
@@ -74,23 +82,27 @@ public final class CxxSquidSensor implements Sensor {
   private SensorContext context;
   private AstScanner<Grammar> scanner;
   private Settings conf;
-  private ModuleFileSystem fs;
-  private ResourcePerspectives perspectives;
+  private FileSystem fs;
+  private ResourcePerspectives resourcePerspectives;
+  private final FilePredicate mainFilePredicate;
 
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(ResourcePerspectives perspectives, Settings conf,
-                        ModuleFileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
+  public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings conf,
+                        FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
     this.checks = checkFactory.create(CheckList.REPOSITORY_KEY).addAnnotatedChecks(CheckList.getChecks());
     this.rules = rules;
     this.conf = conf;
     this.fs = fs;
-    this.perspectives = perspectives;
+    this.resourcePerspectives = resourcePerspectives;
+    FilePredicates predicates = fs.predicates();
+    this.mainFilePredicate = predicates.and(predicates.hasType(InputFile.Type.MAIN),
+                                            predicates.hasLanguage(CxxLanguage.KEY));
   }
 
   public boolean shouldExecuteOnProject(Project project) {
-    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+    return fs.hasFiles(mainFilePredicate);
   }
 
   /**
@@ -104,14 +116,34 @@ public final class CxxSquidSensor implements Sensor {
     this.scanner = CxxAstScanner.create(createConfiguration(this.fs, this.conf),
                                         visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    scanner.scanFiles(fs.files(CxxLanguage.SOURCE_QUERY));
+    scanner.scanFiles(Lists.newArrayList(fs.files(mainFilePredicate)));
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
+    
+    highlight();
   }
 
-  private CxxConfiguration createConfiguration(ModuleFileSystem fs, Settings conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs.sourceCharset());
+  private void highlight() {
+    CxxHighlighter highlighter = new CxxHighlighter(createConfiguration(fs, conf));
+    for (InputFile inputFile : fs.inputFiles(mainFilePredicate)) {
+      highlighter.highlight(perspective(Highlightable.class, inputFile), inputFile.file());
+    }
+  }
+  
+  <P extends Perspective<?>> P perspective(Class<P> clazz, @Nullable InputFile file) {
+    if (file == null) {
+      throw new IllegalArgumentException("Cannot get " + clazz.getCanonicalName() + "for a null file");
+    }
+    P result = resourcePerspectives.as(clazz, file);
+    if (result == null) {
+      throw new IllegalStateException("Could not get " + clazz.getCanonicalName() + " for " + file);
+    }
+    return result;
+  }
+
+  private CxxConfiguration createConfiguration(FileSystem fs, Settings conf) {
+    CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){
@@ -122,17 +154,18 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setForceIncludeFiles(conf.getStringArray(CxxPlugin.FORCE_INCLUDE_FILES_KEY));
     cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
+    cxxConf.setMissingIncludeWarningsEnabled(conf.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
     return cxxConf;
   }
 
   private void save(Collection<SourceCode> squidSourceFiles) {
     int violationsCount = 0;
-    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(perspectives, project, context, rules);
+    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(resourcePerspectives, project, context, rules);
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
       File ioFile = new File(squidFile.getKey());
 
-      org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(ioFile, project);
+      org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(ioFile, project); //@todo fromIOFile: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 
       saveMeasures(sonarFile, squidFile);
       saveFilesComplexityDistribution(sonarFile, squidFile);
@@ -155,7 +188,6 @@ public final class CxxSquidSensor implements Sensor {
     context.saveMeasure(sonarFile, CoreMetrics.FUNCTIONS, squidFile.getDouble(CxxMetric.FUNCTIONS));
     context.saveMeasure(sonarFile, CoreMetrics.CLASSES, squidFile.getDouble(CxxMetric.CLASSES));
     context.saveMeasure(sonarFile, CoreMetrics.COMPLEXITY, squidFile.getDouble(CxxMetric.COMPLEXITY));
-    context.saveMeasure(sonarFile, CoreMetrics.COMMENT_BLANK_LINES, squidFile.getDouble(CxxMetric.COMMENT_BLANK_LINES));
     context.saveMeasure(sonarFile, CoreMetrics.COMMENT_LINES, squidFile.getDouble(CxxMetric.COMMENT_LINES));
     context.saveMeasure(sonarFile, CoreMetrics.PUBLIC_API, squidFile.getDouble(CxxMetric.PUBLIC_API));
     context.saveMeasure(sonarFile, CoreMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getDouble(CxxMetric.PUBLIC_UNDOCUMENTED_API));
@@ -180,7 +212,7 @@ public final class CxxSquidSensor implements Sensor {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     int violationsCount = 0;
     if (messages != null) {
-      Issuable issuable = perspectives.as(Issuable.class, sonarFile);
+      Issuable issuable = resourcePerspectives.as(Issuable.class, sonarFile);
       if (issuable != null) {
         for (CheckMessage message : messages) {
           Issue issue = issuable.newIssueBuilder()

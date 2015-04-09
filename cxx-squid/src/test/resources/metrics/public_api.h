@@ -92,6 +92,9 @@ struct testStruct {
      * bitfield doc
      */
     unsigned int bitfield:1;
+
+private:
+    void private_def(){}
 };
 
 /**
@@ -140,5 +143,12 @@ union testUnion
 {
 
 };
+
+/**
+ * <unnamed> doc
+ */
+struct {
+	int testField2; /**< inline testField2 comment */
+} testUnnamedStructVar; ///< testUnnamedStructVar doc
 
 int lastVar; ///< lastVar doc
