@@ -65,7 +65,7 @@ public class DsmSerializer {
       json.append("\"i\":");
       json.append(sonarResource.getId());
       json.append(",\"n\":\"");
-      json.append(sonarResource.getName());
+      json.append(sonarResource.getLongName());
       json.append("\",\"q\":\"");
       json.append(sonarResource.getQualifier());
       json.append("\",\"v\":[");

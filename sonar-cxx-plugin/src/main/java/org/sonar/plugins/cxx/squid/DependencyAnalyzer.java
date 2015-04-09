@@ -123,7 +123,7 @@ public class DependencyAnalyzer {
           edge.addRootEdge(fileEdge);
         }
       }  else {
-        CxxUtils.LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.getName());
+        CxxUtils.LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.getLongName());
       }
     }
   }

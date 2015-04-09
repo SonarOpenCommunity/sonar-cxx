@@ -58,7 +58,8 @@ public class Method extends Resource {
    */
   @Override
   public String getDescription() {
-    return language.getName() + " method or function " + getKey() + " in " + parent.getName();
+//    return language.getName() + " method or function " + getKey() + " in " + parent.getName();
+    return null;
   }
 
   @Override
