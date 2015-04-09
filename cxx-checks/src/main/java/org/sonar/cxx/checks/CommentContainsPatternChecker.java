@@ -24,11 +24,33 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import org.sonar.check.Priority;
+import org.sonar.check.Rule;
+import org.sonar.check.RuleProperty;
+import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.annotations.RuleTemplate;
 
+@Rule(
+  key = "CommentContainsPatternChecker",
+  name = "Regular expression on comment",
+  priority = Priority.MAJOR)
+@RuleTemplate
+@NoSqale
 public class CommentContainsPatternChecker {
 
+  @RuleProperty(
+    key = "check",
+    description = "The Squid check")
   private final SquidCheck<?> check;
+
+  @RuleProperty(
+    key = "pattern",
+    description = "The regular expression")
   private final String pattern;
+
+  @RuleProperty(
+    key = "message",
+    description = "The violation message")
   private final String message;
 
   public CommentContainsPatternChecker(SquidCheck<?> check, String pattern, String message) {

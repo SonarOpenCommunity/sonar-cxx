@@ -23,23 +23,27 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
-  key = "UseFileHeader",
-  description = "Use the uniformed header for this project",
+  key = "FileHeader",
+  name = "Copyright and license headers should be defined in all source files",
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
+@SqaleConstantRemediation("5min")
 //similar Vera++ rule T013 "No copyright notice found"
 public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
@@ -47,6 +51,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
 
   @RuleProperty(
     key = "headerFormat",
+    description = "Expected copyright and license header (plain text)",
     type = "TEXT",
     defaultValue = DEFAULT_HEADER_FORMAT)
   public String headerFormat = DEFAULT_HEADER_FORMAT;
@@ -70,7 +75,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     try {
       lines = Files.readLines(getContext().getFile(), charset);
     } catch (IOException e) {
-      throw new SonarException(e);
+      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
 
     if (!matches(expectedLines, lines)) {

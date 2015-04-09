@@ -34,7 +34,7 @@ import org.sonar.cxx.channels.CharacterLiteralsChannel;
 import org.sonar.cxx.channels.PreprocessorChannel;
 import org.sonar.cxx.channels.StringLiteralsChannel;
 
-import com.sonar.sslr.api.Preprocessor;
+import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.BlackHoleChannel;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;

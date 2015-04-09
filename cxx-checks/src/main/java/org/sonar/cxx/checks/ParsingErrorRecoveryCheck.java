@@ -23,16 +23,17 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.NoSqale;
 
 @Rule(
   key = "ParsingErrorRecovery",
-  name = "C++ skip parser error", //todo: why not working in cxx.properties?
-  description = "C++ Parser can't read code. Code is skipped.",
+  name = "C++ skip parser error",
   priority = Priority.INFO)
-
+@ActivatedByDefault
+@NoSqale
 public class ParsingErrorRecoveryCheck extends SquidCheck<Grammar> {
 
   @Override
