@@ -30,7 +30,6 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 @Rule(
   key = "CommentRegularExpression",
   name = "Regular expression on comment",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale

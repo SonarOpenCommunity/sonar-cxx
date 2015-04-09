@@ -33,7 +33,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "UselessParentheses",
   name = "Useless parentheses around expressions should be removed to prevent any misunderstanding",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)

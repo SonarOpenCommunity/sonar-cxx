@@ -28,11 +28,12 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "MissingIncludeFile",
   name = "C++ preprocessor unable to locate file referenced by #include directive",
-  tags = {"cxx"},
+  tags = {Tags.PREPROCESSOR},
   priority = Priority.INFO)
 @ActivatedByDefault
 @NoSqale

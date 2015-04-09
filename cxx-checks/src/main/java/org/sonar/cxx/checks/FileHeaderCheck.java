@@ -40,7 +40,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "FileHeader",
   name = "Copyright and license headers should be defined in all source files",
-  tags = {"cxx"},
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)

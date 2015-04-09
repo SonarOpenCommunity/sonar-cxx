@@ -31,7 +31,6 @@ import org.sonar.squidbridge.annotations.NoSqale;
 @Rule(
   key = "ParsingErrorRecovery",
   name = "C++ skip parser error",
-  tags = {"cxx"},
   priority = Priority.INFO)
 @ActivatedByDefault
 @NoSqale

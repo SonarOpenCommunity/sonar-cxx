@@ -36,11 +36,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "HardcodedIp",
   name = "IP addresses should not be hardcoded",
-  tags = {"cxx"},
+  tags = {Tags.CERT, Tags.SECURITY},
   priority = Priority.CRITICAL)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_CHANGEABILITY)

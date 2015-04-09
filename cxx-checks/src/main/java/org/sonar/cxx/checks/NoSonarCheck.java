@@ -35,7 +35,6 @@ import org.sonar.squidbridge.annotations.NoSqale;
 @Rule(
   key = "NoSonar",
   name = "Avoid use of //NOSONAR marker",
-  tags = {"cxx"},
   priority = Priority.INFO)
 @ActivatedByDefault
 @NoSqale

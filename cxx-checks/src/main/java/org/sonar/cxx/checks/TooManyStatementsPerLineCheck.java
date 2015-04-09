@@ -31,11 +31,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "TooManyStatementsPerLine",
   name = "tatements should be on separate lines",
-  tags = {"cxx"},
+  tags = {Tags.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)

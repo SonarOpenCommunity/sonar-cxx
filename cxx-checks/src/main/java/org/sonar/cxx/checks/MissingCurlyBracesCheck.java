@@ -30,11 +30,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "MissingCurlyBraces",
   name = "if/else/for/while/do statements should always use curly braces",
-  tags = {"cxx"},
+  tags = {Tags.CONVENTION, Tags.PITFALL},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)

@@ -42,7 +42,6 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 @Rule(
   key = "LineRegularExpression",
   name = "Line RegEx rule",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale

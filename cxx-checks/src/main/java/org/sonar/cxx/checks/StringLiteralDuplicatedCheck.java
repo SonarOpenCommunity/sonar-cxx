@@ -37,7 +37,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "StringLiteralDuplicated",
   name = "String literals should not be duplicated",
-  tags = {"cxx"},
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)

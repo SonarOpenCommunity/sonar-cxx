@@ -33,7 +33,6 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 @Rule(
   key = "XPath",
   name = "XPath rule",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale

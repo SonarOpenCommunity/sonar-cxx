@@ -51,13 +51,13 @@ public class CxxHighlighterTest {
   @Test
   public void multiline_comment() throws Exception {
     Highlightable.HighlightingBuilder builder = highlight("  /*Comment*/ ");
-    verify(builder).highlight(2, 13, "cd");
+    verify(builder).highlight(2, 13, "cppd");
   }
 
   @Test
   public void single_line_comment() throws Exception {
     Highlightable.HighlightingBuilder builder = highlight("  //Comment ");
-    verify(builder).highlight(2, 12, "cd");
+    verify(builder).highlight(2, 12, "cppd");
   }
 
   @Test

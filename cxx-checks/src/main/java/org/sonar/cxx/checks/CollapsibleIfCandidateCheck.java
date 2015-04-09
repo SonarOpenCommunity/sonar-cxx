@@ -37,7 +37,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "CollapsibleIfCandidate",
   name = "Collapsible 'if' statements should be merged",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)

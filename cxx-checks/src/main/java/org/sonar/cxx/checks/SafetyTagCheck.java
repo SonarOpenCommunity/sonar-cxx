@@ -41,7 +41,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "SafetyTag",
   name = "Risk mitigation implementation shall be defined in separate file",
-  tags = {"cxx"},
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)

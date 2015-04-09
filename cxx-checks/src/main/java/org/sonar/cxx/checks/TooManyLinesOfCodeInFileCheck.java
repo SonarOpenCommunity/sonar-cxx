@@ -31,15 +31,16 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "TooManyLinesOfCodeInFile",
   name = "Avoid too many code lines in source file",
-  tags = {"cxx"},
+  tags = {Tags.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
-@SqaleConstantRemediation("10min")
+@SqaleConstantRemediation("1h")
 //similar Vera++ rule L006 "Source file is too long"
 public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
 

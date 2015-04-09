@@ -37,7 +37,6 @@ import org.sonar.squidbridge.annotations.NoSqale;
 @Rule(
   key = "FileEncoding",
   name = "Verify that all characters of the file can be encoded with the predefined charset.",
-  tags = {"cxx"},
   priority = Priority.MINOR)
 @ActivatedByDefault
 @NoSqale

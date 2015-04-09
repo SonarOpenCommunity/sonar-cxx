@@ -33,10 +33,9 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "TodoTagPresence",
   name = "TODO tags should be handled",
-  tags = {"cxx"},
   priority = Priority.INFO)
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.INSTRUCTION_RELIABILITY)
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
 @SqaleConstantRemediation("20min")
 public class TodoTagPresenceCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 

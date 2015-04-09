@@ -30,11 +30,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "FileComplexity",
   name = "Files should not be too complex",
-  tags = {"cxx"},
+  tags = {Tags.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
 //@ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)

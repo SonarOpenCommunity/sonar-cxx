@@ -34,11 +34,12 @@ import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "UseCorrectType",
   name = "C++ type(s) shall be used",
-  tags = {"cxx"},
+  tags = {Tags.CONVENTION},
   priority = Priority.MINOR)
 @RuleTemplate
 @NoSqale

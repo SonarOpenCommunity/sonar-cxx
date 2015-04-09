@@ -45,7 +45,6 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 @Rule(
   key = "FileRegularExpression",
   name = "File RegEx rule",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale

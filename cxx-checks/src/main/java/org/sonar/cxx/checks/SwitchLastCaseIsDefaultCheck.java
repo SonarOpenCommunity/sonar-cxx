@@ -39,7 +39,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "SwitchLastCaseIsDefault",
   name = "Switch statements should end with a default case",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.LOGIC_RELIABILITY)

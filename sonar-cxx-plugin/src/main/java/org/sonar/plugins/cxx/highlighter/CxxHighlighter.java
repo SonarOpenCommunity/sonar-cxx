@@ -71,7 +71,7 @@ public class CxxHighlighter {
           if (trivia.getToken().getValue().startsWith("/**")) {
             code = "j"; // javadoc
           } else {
-            code = "cd"; // classic comment
+            code = "cppd"; // C++ doc
           }
           highlight(highlighting, offsets.startOffset(trivia.getToken()), offsets.endOffset(trivia.getToken()), code);
         }

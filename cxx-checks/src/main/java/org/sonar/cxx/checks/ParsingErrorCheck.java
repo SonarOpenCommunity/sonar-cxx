@@ -34,7 +34,6 @@ import org.sonar.api.server.rule.RulesDefinition;
 @Rule(
   key = "ParsingError",
   name = "C++ parser failure",
-  tags = {"cxx"},
   priority = Priority.MAJOR)
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.INSTRUCTION_RELIABILITY)
 @SqaleConstantRemediation("30min")

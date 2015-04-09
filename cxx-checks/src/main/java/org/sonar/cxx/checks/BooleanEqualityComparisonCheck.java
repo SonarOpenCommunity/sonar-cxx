@@ -34,7 +34,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "BooleanEqualityComparison",
   name = "Literal boolean values should not be used in condition expressions",
-  tags = {"cxx"},
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
