@@ -208,26 +208,9 @@ public class CxxConfiguration extends SquidConfiguration {
             currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
           }
           
-          if (line.contains("C:\\Program Files (x86)\\BullseyeCoverage\\bin\\CL.exe")) {
+          if (line.contains("\\bin\\CL.exe")) {
             parseVCppCompilerCLLine(line, currentProjectPath);
           }
-          
-          if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe") || 
-                  line.contains("C:\\Program Files\\Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
-            parseVCppCompilerCLLine(line, currentProjectPath);
-          }
-          if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe") || 
-                  line.contains("C:\\Program Files\\Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
-            parseVCppCompilerCLLine(line, currentProjectPath);       
-          }
-          if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe") || 
-                  line.contains("C:\\Program Files\\Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
-            parseVCppCompilerCLLine(line, currentProjectPath);        
-          }
-          if (line.contains("C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe") || 
-                  line.contains("C:\\Program Files\\Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")) {
-            parseVCppCompilerCLLine(line, currentProjectPath);        
-          }  
         }
         br.close();
       } catch (IOException ex) {
