@@ -71,7 +71,7 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(issuable, times(5)).addIssue(any(Issue.class));
+    verify(issuable, times(7)).addIssue(any(Issue.class));
   }
 
   @Test

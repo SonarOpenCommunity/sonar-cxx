@@ -30,9 +30,24 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.AstNode;
 import org.sonar.squidbridge.checks.ChecksHelper;
 import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 /* Adapted from FunctionComplexityCheck.java by Arnold Metselaar. */
-@Rule(key = "FunctionParameterCount", priority = Priority.MAJOR)
+@Rule(
+    key = "FunctionParameterCount",
+    name = "Avoid functions with too many parameters",
+    tags = {Tags.BRAIN_OVERLOAD},
+    priority = Priority.MAJOR)
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)
+@SqaleLinearWithOffsetRemediation(
+    coeff = "1min",
+    offset = "10min",
+    effortToFixDescription = "per complexity point above the threshold")
 public class FunctionParameterCountCheck extends SquidCheck<Grammar> {
 	  private static final int DEFAULT_MAX = 5;
 

@@ -23,47 +23,63 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 import org.sonar.api.config.Settings;
-import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
 public class CxxExternalRuleRepositoryTest {
 
-  String profile = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n" +
-          "<rules>\n" +
-          "    <rule key=\"cpplint.readability/nolint-0\">\n" +
-          "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n" +
-          "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n" +
-          "        <category name=\"readability\" />\n" +
-          "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n" +
-          "    </rule>\n" +
-          "    <rule key=\"cpplint.readability/fn_size-0\">\n" +
-          "        <name>name</name>\n" +
-          "        <configKey>key</configKey>\n" +
-          "        <category name=\"readability\" />\n" +
-          "        <description>descr</description>\n" +
-          "    </rule></rules>";
+  String profile = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
+    + "<rules>\n"
+    + "    <rule key=\"cpplint.readability/nolint-0\">\n"
+    + "        <name><![CDATA[ Unknown NOLINT error category: %s  % category]]></name>\n"
+    + "        <configKey><![CDATA[cpplint.readability/nolint-0@CPP_LINT]]></configKey>\n"
+    + "        <category name=\"readability\" />\n"
+    + "        <description><![CDATA[  Unknown NOLINT error category: %s  % category ]]></description>\n"
+    + "    </rule>\n"
+    + "    <rule key=\"cpplint.readability/fn_size-0\">\n"
+    + "        <name>name</name>\n"
+    + "        <configKey>key</configKey>\n"
+    + "        <category name=\"readability\" />\n"
+    + "        <description>descr</description>\n"
+    + "    </rule></rules>";
 
   @Test
   public void verifyTemplateRuleIsFound() {
-    CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
-        new XMLRuleParser(), new Settings());
-    assertThat(rulerep.createRules()).hasSize(1);
+    CxxExternalRuleRepository def = new CxxExternalRuleRepository(
+      new RulesDefinitionXmlLoader(), new Settings());
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
+    assertThat(repo.rules()).hasSize(1);
   }
 
   @Test
   public void createNonEmptyRulesTest() {
     Settings settings = new Settings();
     settings.appendProperty(CxxExternalRuleRepository.RULES_KEY, profile);
-    CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
-      new XMLRuleParser(), settings);
-    assertThat(rulerep.createRules()).hasSize(3);
+    CxxExternalRuleRepository def = new CxxExternalRuleRepository(
+      new RulesDefinitionXmlLoader(), settings);
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
+    assertThat(repo.rules()).hasSize(3);
   }
 
   @Test
   public void createNullRulesTest() {
     Settings settings = new Settings();
     settings.appendProperty(CxxExternalRuleRepository.RULES_KEY, null);
-    CxxExternalRuleRepository rulerep = new CxxExternalRuleRepository(
-      new XMLRuleParser(), settings);
-    assertThat(rulerep.createRules()).hasSize(1);
+    CxxExternalRuleRepository def = new CxxExternalRuleRepository(
+      new RulesDefinitionXmlLoader(), settings);
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
+    assertThat(repo.rules()).hasSize(1);
   }
 }

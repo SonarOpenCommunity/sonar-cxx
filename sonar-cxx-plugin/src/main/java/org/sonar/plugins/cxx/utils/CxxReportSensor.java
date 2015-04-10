@@ -40,7 +40,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
@@ -127,7 +127,7 @@ public abstract class CxxReportSensor implements Sensor {
           .append(e)
           .append("'")
           .toString();
-      throw new SonarException(msg, e);
+      throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
   }
 

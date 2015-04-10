@@ -27,16 +27,25 @@ import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 /**
  * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which actually does the job of finding cycles and
  * creating the violations.
  */
-@Rule(key = CycleBetweenPackagesCheck.RULE_KEY,
-      priority = Priority.MAJOR)
-
+@Rule(
+  key = "CycleBetweenPackages",
+  name = "Avoid cyclic dependency between packages",
+  tags = {Tags.CONVENTION},
+  priority = Priority.MAJOR)
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
+@SqaleConstantRemediation("5min")
 public class CycleBetweenPackagesCheck extends SquidCheck<Grammar> {
 
   public static final String RULE_KEY = "CycleBetweenPackages";

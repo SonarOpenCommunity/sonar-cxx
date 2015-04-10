@@ -76,7 +76,6 @@ public final class CxxRatsSensor extends CxxReportSensor {
       throws org.jdom.JDOMException, java.io.IOException
   {
     CxxUtils.LOG.info("Parsing 'RATS' format");
-
     try
     {
       SAXBuilder builder = new SAXBuilder(false);

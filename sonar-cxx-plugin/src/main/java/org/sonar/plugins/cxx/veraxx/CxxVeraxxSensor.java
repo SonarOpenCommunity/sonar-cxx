@@ -76,7 +76,6 @@ public class CxxVeraxxSensor extends CxxReportSensor {
       throws javax.xml.stream.XMLStreamException
   {
     CxxUtils.LOG.info("Parsing 'Vera++' format");
-
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**

@@ -28,10 +28,25 @@ import org.sonar.squidbridge.api.SourceFunction;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.checks.ChecksHelper;
 import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
-@Rule(key = "TooManyLinesOfCodeInFunction", priority = Priority.MAJOR)
+@Rule(
+    key = "TooManyLinesOfCodeInFunction",
+    name = "Avoid too many code lines in a single function",
+    tags = {Tags.BRAIN_OVERLOAD},
+    priority = Priority.MAJOR)
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)
+@SqaleLinearWithOffsetRemediation(
+    coeff = "1min",
+    offset = "10min",
+    effortToFixDescription = "per complexity point above the threshold")
 public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
 	  private static final int DEFAULT_MAX = 50;
 

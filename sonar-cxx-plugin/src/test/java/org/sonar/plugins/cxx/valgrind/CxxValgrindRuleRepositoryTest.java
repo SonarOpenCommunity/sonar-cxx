@@ -29,14 +29,19 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxValgrindRuleRepositoryTest {
+
   @Test
   public void shouldContainProperNumberOfRules() {
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new XMLRuleParser(), new Settings());
-    assertEquals(repo.createRules().size(), 16);
+    CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), new Settings());
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    assertEquals(repo.rules().size(), 16);
   }
 
   @Test
@@ -44,9 +49,13 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesOldFormat.xml"));
-    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
-    assertEquals(repo.createRules().size(), 18);
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+
+    CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), new Settings());
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    assertEquals(repo.rules().size(), 18);
   }
 
   @Test
@@ -54,28 +63,40 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesNewFormat.xml"));
-    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
-    assertEquals(repo.createRules().size(), 17);
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+
+    CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), new Settings());
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    assertEquals(repo.rules().size(), 17);
   }
 
-  @Test(expected = org.sonar.api.utils.SonarException.class)
+  @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
   public void containsInvalidFormatInExtensionRulesNewFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesInvalid.xml"));
-    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
-    repo.createRules();
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+
+    CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), new Settings());
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    assertEquals(repo.rules().size(), 16);
   }
 
-  @Test(expected = org.sonar.api.utils.SonarException.class)
+  @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
   public void containsEmptyExtensionRulesFile() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<File>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesEmptyFile.xml"));
-    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile);
-    CxxValgrindRuleRepository repo = new CxxValgrindRuleRepository(filesystem, new XMLRuleParser(), new Settings());
-    repo.createRules();
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+
+    CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), new Settings());
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+    RulesDefinition.Repository repo = context.repository(CxxValgrindRuleRepository.KEY);
+    assertEquals(repo.rules().size(), 16);
   }
 }

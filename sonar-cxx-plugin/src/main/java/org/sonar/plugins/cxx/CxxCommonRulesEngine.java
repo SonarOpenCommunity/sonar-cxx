@@ -32,10 +32,11 @@ public class CxxCommonRulesEngine extends CommonRulesEngine {
   protected void doEnableRules(CommonRulesRepository repository) {
     repository
       .enableDuplicatedBlocksRule()
-      .enableInsufficientCommentDensityRule(null)
-      .enableInsufficientLineCoverageRule(null)
-      .enableInsufficientBranchCoverageRule(null)
+      .enableSkippedUnitTestsRule()
       .enableFailedUnitTestsRule()
-      .enableSkippedUnitTestsRule();
+      // null parameters -> keep default values as hardcoded in sonar-common-rules
+      .enableInsufficientBranchCoverageRule(null)
+      .enableInsufficientCommentDensityRule(null)
+      .enableInsufficientLineCoverageRule(null);
   }
 }
