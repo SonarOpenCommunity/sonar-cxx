@@ -19,23 +19,28 @@
  */
 package org.sonar.cxx.parser;
 
+import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.impl.Parser;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import static org.mockito.Mockito.mock;
+import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 
 public class CxxParserTest extends ParserBaseTest {
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "examples"};
+  String[] utf8bom = {"utf8bom"};
   String[] cCompatibilityFiles = {"c-compat"};
   String rootDir = "src/test/resources/parser";
   File erroneousSources = null;
@@ -55,7 +60,7 @@ public class CxxParserTest extends ParserBaseTest {
       CxxParser.finishedParsing(file);
     }
   }
-
+ 
   @Test
   public void testParsingInCCompatMode() {
     // The C-compatibility replaces c++ keywords, which arent keywords in C,
@@ -99,6 +104,20 @@ public class CxxParserTest extends ParserBaseTest {
     p.parse(erroneousSources); //<-- this shouldnt throw now
   }
 
+  @Test
+  public void testParsingUtf8BomSourceFiles() {
+    Collection<File> files = listFiles(utf8bom, new String[]{"cc", "cpp", "hpp"});
+
+    CxxConfiguration configuration = new CxxConfiguration(Charset.forName("UTF-8"));
+    configuration.setErrorRecoveryEnabled(false);
+    Parser<Grammar> parser = CxxParser.create(mock(SquidAstVisitorContext.class), configuration);
+
+    for (File file : files) {
+      parser.parse(file);
+      CxxParser.finishedParsing(file);
+    }
+  }
+  
   private Collection<File> listFiles(String[] dirs, String[] extensions) {
     List<File> files = new ArrayList<File>();
     for(String dir: dirs){
