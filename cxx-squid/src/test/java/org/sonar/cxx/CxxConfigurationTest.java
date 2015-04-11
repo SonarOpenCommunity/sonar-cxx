@@ -67,5 +67,17 @@ public class CxxConfigurationTest {
     assertThat(config.getIncludeDirectories().size()).isEqualTo(13);    
     assertThat(config.getDefines().size()).isEqualTo(9);    
   }
+  
+  @Test
+  public void shouldHandleSpeciificV120OptionsCorrectly() {
+    CxxConfiguration config = new CxxConfiguration();
+    List<File> files = new ArrayList<File>();
+    files.add(new File("src/test/resources/compiler/platformToolsetv120.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
+    assertThat(config.getDefines().size()).isEqualTo(1);
+    assertThat(config.getDefines().get(0)).isEqualTo("");    
+  }  
 
 }
