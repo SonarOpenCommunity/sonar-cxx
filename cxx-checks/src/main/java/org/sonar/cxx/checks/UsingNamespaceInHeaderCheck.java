@@ -32,6 +32,7 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.annotations.Tags;
 
+
 @Rule(
   key = "UsingNamespaceInHeader",
   name = "Using namespace directives are not allowed in header files",
@@ -52,7 +53,8 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if ((node.getTokenValue().equals("using")) && (isHeader(getContext().getFile().getName()))) {
+    if ((node.getTokenValue().equals("using")) && node.getFirstChild().getChildren().toString().contains("namespace")
+        && (isHeader(getContext().getFile().getName()))) {
       getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
       }
     }
