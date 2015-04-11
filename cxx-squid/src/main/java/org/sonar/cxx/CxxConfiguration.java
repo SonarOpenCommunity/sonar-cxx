@@ -22,7 +22,6 @@ package org.sonar.cxx;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -35,8 +34,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.slf4j.LoggerFactory;
-import org.sonar.api.config.Settings;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
@@ -44,16 +41,18 @@ public class CxxConfiguration extends SquidConfiguration {
   private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxConfiguration");
   
   private boolean ignoreHeaderComments = false;
-  private final Set<String> uniqueIncludes = new HashSet<String>();
-  private final Set<String> uniqueDefines = new HashSet<String>();
-  private List<String> forceIncludeFiles = new ArrayList<String>();
-  private List<String> headerFileSuffixes = new ArrayList<String>();
+  private final Set<String> uniqueIncludes = new HashSet<>();
+  private final Set<String> uniqueDefines = new HashSet<>();
+  private List<String> forceIncludeFiles = new ArrayList<>();
+  private List<String> headerFileSuffixes = new ArrayList<>();
   private String baseDir;
   private boolean errorRecoveryEnabled = true;
-  private List<String> cFilesPatterns = new ArrayList<String>();
+  private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
 
   private String platformToolset = "v100";
+  private String platform = "Win32";
+  private String configuration = "Debug";
   
   public CxxConfiguration() {
   }
@@ -85,7 +84,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getDefines() {
-    return new ArrayList<String>(uniqueDefines);
+    return new ArrayList<>(uniqueDefines);
   }
 
   public void setIncludeDirectories(List<String> includeDirectories) {
@@ -103,7 +102,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getIncludeDirectories() {
-    return new ArrayList<String>(uniqueIncludes);
+    return new ArrayList<>(uniqueIncludes);
   }
 
   public void setForceIncludeFiles(List<String> forceIncludeFiles) {
@@ -210,6 +209,35 @@ public class CxxConfiguration extends SquidConfiguration {
             currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
           }
           
+          if(line.contains("\\V100\\Microsoft.CppBuild.targets")) {
+            platformToolset = "v100";
+          }
+
+          if(line.contains("\\V110\\Microsoft.CppBuild.targets")) {
+            platformToolset = "v110";
+          }
+
+          if(line.contains("\\V120\\Microsoft.CppBuild.targets")) {
+            platformToolset = "v120";
+          }
+
+          if(line.contains("\\V140\\Microsoft.CppBuild.targets")) {
+            platformToolset = "v140";
+          }
+          
+          // 1>Task "Message"
+          // 1>  Configuration=Debug
+          // 1>Done executing task "Message".
+          // 1>Task "Message"
+          //1>  Platform=Win32
+          if(line.trim().endsWith("Configuration=Release")) {
+            configuration = "Release";
+          }
+          
+          if(line.trim().endsWith("Platform=x64")) {
+            platform = "x64";
+          }          
+    
           if (line.contains("\\bin\\CL.exe")) {
             parseVCppCompilerCLLine(line, currentProjectPath);
           }
@@ -224,22 +252,6 @@ public class CxxConfiguration extends SquidConfiguration {
     File file = new File(projectPath);
     String project = file.getParent();
 
-    if(line.contains("\\V100\\Microsoft.Cpp.Platform.targets")) {
-      platformToolset = "v110";
-    }
-    
-    if(line.contains("\\V110\\Microsoft.Cpp.Platform.targets")) {
-      platformToolset = "v110";
-    }
-        
-    if(line.contains("\\V120\\Microsoft.Cpp.Platform.targets")) {
-      platformToolset = "v120";
-    }
-    
-    if(line.contains("\\V140\\Microsoft.Cpp.Platform.targets")) {
-      platformToolset = "v140";
-    }
-    
     for (String includeElem : getMatches(Pattern.compile("/I\"(.*?)\""), line)) {
       ParseInclude(includeElem, project);
     }
@@ -283,7 +295,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   private List<String> getMatches(Pattern pattern, String text) {
-    List<String> matches = new ArrayList<String>();
+    List<String> matches = new ArrayList<>();
     Matcher m = pattern.matcher(text);
     while (m.find()) {
       matches.add(m.group(1));
@@ -294,7 +306,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private void ParseInclude(String element, String project) {
     try {
       File includeRoot = new File(element.replace("\"", ""));
-      String includePath = "";
+      String includePath;
       if (!includeRoot.isAbsolute()) {
         includeRoot = new File(project, includeRoot.getPath());
         includePath = includeRoot.getCanonicalPath();
@@ -317,73 +329,165 @@ public class CxxConfiguration extends SquidConfiguration {
     }
   }
 
-  private void ParseCommonCompilerOptions(String line) {
+  private void ParseCommonCompilerOptions(String line) {    
+    // Always Defined //
+    //_INTEGRAL_MAX_BITS Reports the maximum size (in bits) for an integral type.    
+    AddMacro("_INTEGRAL_MAX_BITS");    
+    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2010, _MFC_VER is defined as 0x0A00.
+    AddMacro("_MFC_VER");            
+    //_MSC_BUILD Evaluates to the revision number component of the compiler's version number. The revision number is the fourth component of the period-delimited version number. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_BUILD macro evaluates to 1.
+    AddMacro("_MSC_BUILD");    
+    //_MSC_FULL_VER Evaluates to the major, minor, and build number components of the compiler's version number. The major number is the first component of the period-delimited version number, the minor number is the second component, and the build number is the third component. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_FULL_VER macro evaluates to 150020706. Type cl /? at the command line to view the compiler's version number.
+    AddMacro("_MSC_FULL_VER");    
+    //_MSC_VER Evaluates to the major and minor number components of the compiler's version number. The major number is the first component of the period-delimited version number and the minor number is the second component.
+    AddMacro("_MSC_VER"); 
+    //__COUNTER__ Expands to an integer starting with 0 and incrementing by 1 every time it is used in a source file or included headers of the source file. __COUNTER__ remembers its state when you use precompiled headers.
+    AddMacro("__COUNTER__");     
     //__DATE__ The compilation date of the current source file. The date is a string literal of the form Mmm dd yyyy. The month name Mmm is the same as for dates generated by the library function asctime declared in TIME.H.
+    AddMacro("__DATE__");
     //__FILE__ The name of the current source file. __FILE__ expands to a string surrounded by double quotation marks. To ensure that the full path to the file is displayed, use /FC (Full Path of Source Code File in Diagnostics).
+    AddMacro("__FILE__");
     //__LINE__ The line number in the current source file. The line number is a decimal integer constant. It can be changed with a #line directive.
+    AddMacro("__LINE__");
     //__STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
+    AddMacro("__STDC__");
     //__TIME__ The most recent compilation time of the current source file. The time is a string literal of the form hh:mm:ss.
+    AddMacro("__TIME__");
     //__TIMESTAMP__ The date and time of the last modification of the current source file, expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is the abbreviated day of the week and Date is an integer from 1 to 31.
+    AddMacro("__TIMESTAMP__");    
     //_ATL_VER Defines the ATL version. In Visual Studio 2010, _ATL_VER is defined as 0x0A00.
+    AddMacro("_ATL_VER");
+    
     //_CHAR_UNSIGNED Default char type is unsigned. Defined when /J is specified.
     if (line.contains("/J ")) {
       AddMacro("_CHAR_UNSIGNED");    
     }
     
-    //__CLR_VER Defines the version of the common language runtime used when the application was compiled. The value returned will be in the following format:
-    //__cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406. __cplusplus_cli is in effect throughout the translation unit.
-    //__COUNTER__ Expands to an integer starting with 0 and incrementing by 1 every time it is used in a source file or included headers of the source file. __COUNTER__ remembers its state when you use precompiled headers.
-    //__cplusplus Defined for C++ programs only.
     //_CPPRTTI Defined for code compiled with /GR (Enable Run-Time Type Information).
-    //_CPPUNWIND Defined for code compiled with /GX (Enable Exception Handling).
-    //_DEBUG Defined when you compile with /LDd, /MDd, and /MTd.
-    //_DLL Defined when /MD or /MDd (Multithreaded DLL) is specified.
-    //__FUNCDNAME__ Valid only in a function. Defines the decorated name of the enclosing function as a string.
-    //__FUNCDNAME__ is not expanded if you use the /EP or /P compiler option.
-    //__FUNCSIG__ Valid only in a function. Defines the signature of the enclosing function as a string.
-    //__FUNCSIG__ is not expanded if you use the /EP or /P compiler option.
-    //__FUNCTION__ Valid only in a function. Defines the undecorated name of the enclosing function as a string. __FUNCTION__ is not expanded if you use the /EP or /P compiler option.
-    //_INTEGRAL_MAX_BITS Reports the maximum size (in bits) for an integral type.
-    //_M_ALPHA Defined for DEC ALPHA platforms (no longer supported).
-    //_M_AMD64 Defined for x64 processors.
-    //_M_CEE Defined for a compilation that uses any form of /clr (/clr:oldSyntax, /clr:safe, for example).
-    //_M_CEE_PURE Defined for a compilation that uses /clr:pure.
-    //_M_CEE_SAFE Defined for a compilation that uses /clr:safe.
-    if (line.contains("/clr ") || line.contains("/clr:pure ") || line.contains("/clr:safe ")) {
-      AddMacro("__CLR_VER");
-      AddMacro("__cplusplus_cli");
+    if (line.contains("/GR ")) {
+      AddMacro("_CPPRTTI"); 
     } 
     
+    //_MANAGED Defined to be 1 when /clr is specified.
+    if (line.contains("/clr ")) {
+      AddMacro("_MANAGED"); 
+    }      
+    //_M_CEE_PURE Defined for a compilation that uses /clr:pure.
+    if (line.contains("/clr:pure ")) {
+      AddMacro("_M_CEE_PURE");    
+    }    
+    //_M_CEE_SAFE Defined for a compilation that uses /clr:safe.
+    if (line.contains("/clr:safe ")) {
+      AddMacro("_M_CEE_SAFE");    
+    }        
+    //__CLR_VER Defines the version of the common language runtime used when the application was compiled. The value returned will be in the following format:    
+    //__cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406. __cplusplus_cli is in effect throughout the translation unit.    
+    //_M_CEE Defined for a compilation that uses any form of /clr (/clr:oldSyntax, /clr:safe, for example).    
+    if (line.contains("/clr ") ||
+            line.contains("/clr:pure ") ||
+            line.contains("/clr:safe ") ||
+            line.contains("/clr:oldSyntax ") ||
+            line.contains("/clr:noAssembly ") ||
+            line.contains("/clr:nostdlib ") ||
+            line.contains("/clr:initialAppDomain ")) {      
+      
+      AddMacro("_M_CEE");      
+      if (line.contains("/clr ") ||
+              line.contains("/clr:pure ") ||
+              line.contains("/clr:safe ")) {
+        AddMacro("__CLR_VER");     
+        AddMacro("__cplusplus_cli");        
+      }      
+    } 
+                   
+    //_MSC_EXTENSIONS This macro is defined when you compile with the /Ze compiler option (the default). Its value, when defined, is 1.
+    if (line.contains("/Ze ")) {
+      AddMacro("_MSC_EXTENSIONS");    
+    }
+         
+    //__MSVC_RUNTIME_CHECKS Defined when one of the /RTC compiler options is specified.
+    if (line.contains("/RTC ")) {
+      AddMacro("__MSVC_RUNTIME_CHECKS");    
+    }
+    
+    //_DEBUG Defined when you compile with /LDd, /MDd, and /MTd.
+    if (line.contains("/LDd ") ||
+            line.contains("/MDd ") ||
+            line.contains("/MTd ")) {
+      AddMacro("_DEBUG");    
+    }     
+    //_DLL Defined when /MD or /MDd (Multithreaded DLL) is specified. 
+    if (line.contains("/MD ") ||
+            line.contains("/MDd ")) {
+      AddMacro("_DLL");    
+    }    
+    //_MT Defined when /MD or /MDd (Multithreaded DLL) or /MT or /MTd (Multithreaded) is specified.
+    if (line.contains("/MD ") ||
+            line.contains("/MDd ") ||
+            line.contains("/MT ") ||
+            line.contains("/MTd ")) {
+      AddMacro("_MT");    
+    }    
+    
+    //_OPENMP Defined when compiling with /openmp, returns an integer representing the date of the OpenMP specification implemented by Visual C++.
+    if (line.contains("/openmp ")) {
+      AddMacro("_OPENMP");    
+    }
+    
+    //_VC_NODEFAULTLIB Defined when /Zl is used; see /Zl (Omit Default Library Name) for more information.
+    if (line.contains("/Zl ")) {
+      AddMacro("_VC_NODEFAULTLIB");    
+    }    
+
+    //_NATIVE_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used.    
+    //_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used or if wchar_t is defined in a system header file included in your project.
+    if (line.contains("/Zc:wchar_t ")) {
+      AddMacro("_WCHAR_T_DEFINED");   
+      AddMacro("_NATIVE_WCHAR_T_DEFINED");
+    }      
+    
+    //_Wp64 Defined when specifying /Wp64.
+    if (line.contains("/Wp64 ")) {
+      AddMacro("_Wp64");    
+    }   
+    
+    //_M_AMD64 Defined for x64 processors.
+    //_WIN32 Defined for applications for Win32 and Win64. Always defined.
+    //_WIN64 Defined for applications for Win64.
+    //_M_X64 Defined for x64 processors.    
     //_M_IX86 Defined for x86 processors. See the Values for _M_IX86 table below for more information. This is not defined for x64 processors.
     //_M_IA64 Defined for Itanium Processor Family 64-bit processors.
     //_M_IX86_FP Expands to a value indicating which /arch compiler option was used:
     //    0 if /arch was not used.    
     //    1 if /arch:SSE was used.
-    //    2 if /arch:SSE2 was used.
+    //    2 if /arch:SSE2 was used.   
+    if(platform.equals("x64")) {
+      AddMacro("_WIN32");
+      AddMacro("_WIN64");
+      AddMacro("_M_X64");
+      AddMacro("_M_IA64");
+      AddMacro("_M_AMD64");
+    }
+    
+    if(platform.equals("Win32")) {
+      AddMacro("_WIN32");
+      AddMacro("_M_IX86");
+      AddMacro("_M_IX86_FP");
+    }        
+    
+    // Weird Stuff, context sensite //
+    //__cplusplus Defined for C++ programs only.
+    //__FUNCDNAME__ Valid only in a function. Defines the decorated name of the enclosing function as a string.
+    //__FUNCDNAME__ is not expanded if you use the /EP or /P compiler option.
+    //__FUNCSIG__ Valid only in a function. Defines the signature of the enclosing function as a string.
+    //__FUNCSIG__ is not expanded if you use the /EP or /P compiler option.       
+    //__FUNCTION__ Valid only in a function. Defines the undecorated name of the enclosing function as a string. __FUNCTION__ is not expanded if you use the /EP or /P compiler option.
+        
+    // DEPRECATED STUFF //
     //_M_MPPC Defined for Power Macintosh platforms (no longer supported).
     //_M_MRX000 Defined for MIPS platforms (no longer supported).
     //_M_PPC Defined for PowerPC platforms (no longer supported).
-    //_M_X64 Defined for x64 processors.
-    //_MANAGED Defined to be 1 when /clr is specified.
-    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2010, _MFC_VER is defined as 0x0A00.
-    //_MSC_BUILD Evaluates to the revision number component of the compiler's version number. The revision number is the fourth component of the period-delimited version number. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_BUILD macro evaluates to 1.
-    //_MSC_EXTENSIONS This macro is defined when you compile with the /Ze compiler option (the default). Its value, when defined, is 1.
-    //_MSC_FULL_VER Evaluates to the major, minor, and build number components of the compiler's version number. The major number is the first component of the period-delimited version number, the minor number is the second component, and the build number is the third component. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_FULL_VER macro evaluates to 150020706. Type cl /? at the command line to view the compiler's version number.
-    //_MSC_VER Evaluates to the major and minor number components of the compiler's version number. The major number is the first component of the period-delimited version number and the minor number is the second component.
-    //__MSVC_RUNTIME_CHECKS Defined when one of the /RTC compiler options is specified.
-    //_MT Defined when /MD or /MDd (Multithreaded DLL) or /MT or /MTd (Multithreaded) is specified.
-    //_NATIVE_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used.
-    //_OPENMP Defined when compiling with /openmp, returns an integer representing the date of the OpenMP specification implemented by Visual C++.
-    //_VC_NODEFAULTLIB Defined when /Zl is used; see /Zl (Omit Default Library Name) for more information.
-    //_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used or if wchar_t is defined in a system header file included in your project.
-    //_WIN32 Defined for applications for Win32 and Win64. Always defined.
-    //_WIN64 Defined for applications for Win64.
-    //_Wp64 Defined when specifying /Wp64.
-
-
-
-    
-   
+    //_M_ALPHA Defined for DEC ALPHA platforms (no longer supported).
   }       
 
   private void ParseV100CompilerOptions(String line) {
@@ -402,7 +506,14 @@ public class CxxConfiguration extends SquidConfiguration {
     //    /G5 _M_IX86 = 500 (Default. Future compilers will emit a different value to reflect the dominant processor.) Pentium
     //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III 
     //    /G3 _M_IX86 = 300  80386
-    //    /G4 _M_IX86 = 400  80486    
+    //    /G4 _M_IX86 = 400  80486
+    if (line.contains("/GB ") ||
+            line.contains("/G5") || 
+            line.contains("/G6") ||
+            line.contains("/G3") ||
+            line.contains("/G4")) {
+      AddMacro("_M_IX86");    
+    }    
   }
   
   private void ParseV110CompilerOptions(String line) {
@@ -434,7 +545,13 @@ public class CxxConfiguration extends SquidConfiguration {
     //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III 
     //    /G3 _M_IX86 = 300  80386
     //    /G4 _M_IX86 = 400  80486    
-
+    if (line.contains("/GB ") ||
+            line.contains("/G5") || 
+            line.contains("/G6") ||
+            line.contains("/G3") ||
+            line.contains("/G4")) {
+      AddMacro("_M_IX86");    
+    }  
   }
   
   private void ParseV120CompilerOptions(String line) {
@@ -467,11 +584,16 @@ public class CxxConfiguration extends SquidConfiguration {
     //    In the range 30-39 if no /arch ARM option was specified, indicating the default architecture for ARM was used (VFPv3).
     //    In the range 40-49 if /arch:VFPv4 was used.
     //    See /arch (x86) for more information.       
+    if (line.contains("/arch:IA32 ") || 
+            line.contains("/arch:SSE ") || 
+            line.contains("/arch:SSE2 ") ||
+            line.contains("/arch:AVX2 ") ||
+            line.contains("/arch:AVX ")) {
+      AddMacro("_M_ARM_FP");    
+    }     
   }
   
   private void ParseV140CompilerOptions(String line) {
     // TBD when vs 2015 release and documentation updated
   }  
-
-
 }
