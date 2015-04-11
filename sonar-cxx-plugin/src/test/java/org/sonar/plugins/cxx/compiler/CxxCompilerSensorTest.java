@@ -47,10 +47,11 @@ public class CxxCompilerSensorTest {
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
-  private CxxCompilerSensor createSensor(String parser)
+  private CxxCompilerSensor createSensor(String parser, String encoding)
   {
       Settings settings = new Settings();
       settings.setProperty("sonar.cxx.compiler.parser", parser);
+      settings.setProperty("sonar.cxx.compiler.charset", encoding);
       return new CxxCompilerSensor(perspectives, settings, fs, profile);
   }
 
@@ -68,14 +69,14 @@ public class CxxCompilerSensorTest {
 
   @Test
   public void shouldReportACorrectVcViolations() {
-    CxxCompilerSensor sensor = createSensor(CxxCompilerVcParser.KEY);
+    CxxCompilerSensor sensor = createSensor(CxxCompilerVcParser.KEY, "UTF-16");
     sensor.analyse(project, context);
     verify(issuable, times(9)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldReportCorrectGccViolations() {
-    CxxCompilerSensor sensor = createSensor(CxxCompilerGccParser.KEY);
+    CxxCompilerSensor sensor = createSensor(CxxCompilerGccParser.KEY, "UTF-8");
     sensor.analyse(project, context);
     verify(issuable, times(4)).addIssue(any(Issue.class));
   }

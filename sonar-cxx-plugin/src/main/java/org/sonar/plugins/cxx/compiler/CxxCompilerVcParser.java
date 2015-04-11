@@ -39,7 +39,7 @@ public class CxxCompilerVcParser implements CompilerParser {
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
   // sample regex for VS2012/2013: "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
-  public static final String DEFAULT_CHARSET_DEF = "UTF-16"; // use "UTF-8" for VS2012/VS2013 build log
+  public static final String DEFAULT_CHARSET_DEF = "UTF-8"; // use "UTF-16" for VS2010 build log
   public static final String DEFAULT_REPORT_PATH = "compiler-reports/BuildLog.htm";
 
   /**
