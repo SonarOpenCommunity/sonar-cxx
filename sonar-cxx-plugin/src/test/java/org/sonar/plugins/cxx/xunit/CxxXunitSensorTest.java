@@ -65,7 +65,6 @@ public class CxxXunitSensorTest {
     config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
 
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
-
     fs = TestUtils.mockFileSystem(baseDir, Arrays.asList(new File("src")),
                                   Arrays.asList(new File("tests1"), new File("tests2")));
 
@@ -122,7 +121,7 @@ public class CxxXunitSensorTest {
     // the report mentions: the class name is a qualified name
     assertEquals(sensor.lookupFilePath("my_test_suite::my_test"), new File(baseDir, "tests1/Test7.cc").getPath());    
   }
-  
+
   @Test
   public void shouldReportNothingWhenNoReportFound() {
     Settings config = new Settings();
@@ -160,7 +159,7 @@ public class CxxXunitSensorTest {
   {
     Settings config = new Settings();
     config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
-    
+
     sensor = new CxxXunitSensor(config, fs, reactor);
     File reportBefore = cppunitReport();
     File reportAfter = sensor.transformReport(reportBefore);

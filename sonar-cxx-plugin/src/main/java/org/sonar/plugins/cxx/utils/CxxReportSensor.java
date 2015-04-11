@@ -152,7 +152,8 @@ public abstract class CxxReportSensor implements Sensor {
       reportPath = defaultReportPath;
     }
     reportPath = FilenameUtils.normalize(reportPath);
-//    CxxUtils.LOG.info("Parsing the XML report " + reportPath);
+
+    CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
     DirectoryScanner scanner = new DirectoryScanner();
     String[] includes = new String[1];
@@ -199,7 +200,6 @@ public abstract class CxxReportSensor implements Sensor {
 
     if ((filename != null) && (filename.length() > 0)) { // file level
       String normalPath = CxxUtils.normalizePathList(filename, project.getFileSystem().getBasedir().getAbsolutePath());
-//      String normalPath = CxxUtils.normalizePathList(filename, fs.baseDir().getPath());
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         org.sonar.api.resources.File file
           = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);

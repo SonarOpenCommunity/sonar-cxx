@@ -159,7 +159,6 @@ public class TestUtils {
       return;
     }
 
-//    List<InputFile> result = new ArrayList<InputFile>();
     String[] suffixes = mockCxxLanguage().getFileSuffixes();
     String[] includes = new String[suffixes.length];
     for (int i = 0; i < includes.length; ++i) {

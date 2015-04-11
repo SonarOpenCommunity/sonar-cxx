@@ -33,7 +33,6 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.config.Settings;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsAggregator;
 import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsImportSensor;
@@ -45,7 +44,6 @@ import com.google.common.collect.ImmutableList;
 public class MSTestResultsProviderTest {
   private Project project;
   private DefaultFileSystem fs;
-  private Settings config;
   private SensorContext context;  
   private MSTestResultsAggregator resultsAggregator;
   private MSTestResultsImportSensor sensor;
@@ -102,28 +100,5 @@ public class MSTestResultsProviderTest {
 
     verify(context, Mockito.atLeastOnce()).saveMeasure(Mockito.any(Metric.class), Mockito.anyDouble());
   }
-
-//  @Test
-//  public void testMSTestResult() {
-//    config = new Settings();
-//    config.setProperty(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY, "./vs-test-report/VS-Results.xml");
-//
-//    resultsAggregator = new MSTestResultsAggregator(config);
-//    sensor = new MSTestResultsImportSensor(resultsAggregator);
-//    sensor.analyse(project, context);
-//    
-//    verify(context, times(0)).saveMeasure(eq(CoreMetrics.TESTS), any(Double.class));
-//    
-//    verify(resultsAggregator).aggregate(results);
-//    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.TESTS), eq(1.0));
-//    verify(context).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.TEST_ERRORS), eq(1.0));
-//
-//    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(true);
-//    assertThat(new sensor(unitTestResultsAggregator).shouldExecuteOnProject(project)).isTrue();
-//
-//    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(false);
-//    assertThat(new sensor(unitTestResultsAggregator).shouldExecuteOnProject(project)).isFalse();
-//  }
-
 }
 

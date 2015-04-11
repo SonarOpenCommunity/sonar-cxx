@@ -1809,7 +1809,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       The function 'asctime_r' is obsolete. It is recommended to use
       the function 'strftime' instead.
     </description>
-  </rule>  
+  </rule>
   <rule>
     <key>obsoleteFunctionsrand_r</key>
     <configkey>obsoleteFunctionsrand_r</configkey>

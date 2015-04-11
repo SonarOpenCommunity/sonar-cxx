@@ -61,7 +61,7 @@ public class CxxBullseyeCoverageSensorTest {
     settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
     settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
 
-    sensor = new CxxCoverageSensor(settings, fs, reactor); 
+    sensor = new CxxCoverageSensor(settings, fs, reactor);
     sensor.analyse(project, context);
     verify(context, times(90)).saveMeasure((File) anyObject(), any(Measure.class));
   }

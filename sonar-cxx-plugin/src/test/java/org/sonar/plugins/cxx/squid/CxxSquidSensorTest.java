@@ -42,7 +42,6 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-//import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.component.ResourcePerspectives;
@@ -61,7 +60,6 @@ public class CxxSquidSensorTest {
   private SensorContext context;
   private Settings settings;
   private DefaultFileSystem fs;
-//  private FileSystem fs;
   private Project project;
   private ProjectReactor reactor;
   private ResourcePerspectives perspectives;

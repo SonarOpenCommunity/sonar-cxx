@@ -237,18 +237,7 @@ public final class CxxSquidSensor implements Sensor {
     context.saveMeasure(sonarFile, CoreMetrics.COMPLEXITY, squidFile.getDouble(CxxMetric.COMPLEXITY));
     context.saveMeasure(sonarFile, CoreMetrics.COMMENT_LINES, squidFile.getDouble(CxxMetric.COMMENT_LINES));
     context.saveMeasure(sonarFile, CoreMetrics.PUBLIC_API, squidFile.getDouble(CxxMetric.PUBLIC_API));
-    context.saveMeasure(sonarFile, CoreMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getDouble(CxxMetric.PUBLIC_UNDOCUMENTED_API));
-    // save some measures on function level
-    Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceFunction.class));
-    for (SourceCode squidFunction : squidFunctionsInFile) {
-      String key = sonarFile.getKey() + "#" +  squidFunction.getKey();
-      Method sonarFunction = Method.createMethod(key, sonarFile.getLanguage(), sonarFile);
-      if ( context.index(sonarFunction, sonarFile) ) {
-        context.saveMeasure(sonarFunction, CoreMetrics.NCLOC, squidFunction.getDouble(CxxMetric.LINES_OF_CODE));
-        context.saveMeasure(sonarFunction, CoreMetrics.COMPLEXITY, squidFunction.getDouble(CxxMetric.COMPLEXITY));
-        context.saveMeasure(sonarFunction, CxxMetrics.PARAM_COUNT, squidFunction.getDouble(CxxMetric.PARAMETER_COUNT));
-      }
-    }    
+    context.saveMeasure(sonarFile, CoreMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getDouble(CxxMetric.PUBLIC_UNDOCUMENTED_API));  
   }
 
   private void saveFunctionsComplexityDistribution(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {

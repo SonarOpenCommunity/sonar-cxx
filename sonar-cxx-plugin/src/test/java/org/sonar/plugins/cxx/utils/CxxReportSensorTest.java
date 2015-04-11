@@ -59,8 +59,6 @@ public class CxxReportSensorTest {
   private static DefaultFileSystem fs;
   private ProjectReactor reactor;
 
-//  private static FileSystem fs;
-
   @Before
   public void init() {
     settings = new Settings();

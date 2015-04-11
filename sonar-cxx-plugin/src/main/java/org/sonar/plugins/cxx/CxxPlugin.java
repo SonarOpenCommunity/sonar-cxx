@@ -316,6 +316,7 @@ public final class CxxPlugin extends SonarPlugin {
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
+      .index(6)
       .build()
       );
   }
