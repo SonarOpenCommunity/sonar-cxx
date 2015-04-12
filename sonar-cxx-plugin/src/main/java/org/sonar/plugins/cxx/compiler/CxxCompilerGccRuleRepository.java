@@ -21,8 +21,8 @@ package org.sonar.plugins.cxx.compiler;
 
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
-import org.sonar.api.rules.XMLRuleParser;
 import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
 /**
  * {@inheritDoc}
@@ -35,9 +35,8 @@ public final class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepositor
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, XMLRuleParser xmlRuleParser, Settings settings) {
-    super(fileSystem, xmlRuleParser, settings, KEY, CUSTOM_RULES_KEY);
-    setName(NAME);
+  public CxxCompilerGccRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    super(fileSystem, xmlRuleLoader, settings, KEY, NAME, CUSTOM_RULES_KEY);
   }
 
   @Override

@@ -34,6 +34,7 @@ public class UsingNamespaceInHeaderCheckTest {
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UsingNamespaceInHeader.h"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(7).withMessage("Using namespace are not allowed in header files.");
+        .next().atLine(11).withMessage("Using namespace are not allowed in header files.")
+        .noMore();
   }
 }

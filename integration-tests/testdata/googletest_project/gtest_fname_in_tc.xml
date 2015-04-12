@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites tests="1" failures="0" disabled="0" errors="0" time="0" name="AllTests">
-  <testsuite name="ts_one" tests="1" failures="0" disabled="0" errors="0" time="0">
-    <testcase name="tc_one_good" filename="tests/unittests/test_without_fixture.cc" status="run" time="0" classname="ts_one" />
+<testsuites tests="1" failures="0" disabled="0" errors="0" timestamp="2015-01-28T23:29:18" time="0" name="AllTests">
+  <testsuite name="TS" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_successfull" status="run" time="0" classname="TS" filename="tests/unittests/test_fname_in_tc.cc" />
   </testsuite>
 </testsuites>

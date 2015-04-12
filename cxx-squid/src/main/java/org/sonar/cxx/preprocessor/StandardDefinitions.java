@@ -55,6 +55,7 @@ public final class StandardDefinitions {
       .put("dynamic_cast", "__dynamic_cast")
       .put("explicit", "__explicit")
       .put("export", "__export")
+      .put("final", "__final")
       .put("friend", "__friend")
       .put("mutable", "__mutable")
       .put("namespace", "__namespace")

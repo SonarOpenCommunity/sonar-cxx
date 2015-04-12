@@ -20,7 +20,7 @@
 package org.sonar.plugins.cxx;
 
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.ProjectFileSystem;
+import org.sonar.api.resources.ProjectFileSystem; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.commonrules.api.CommonRulesDecorator;
 
 public class CxxCommonRulesDecorator extends CommonRulesDecorator {

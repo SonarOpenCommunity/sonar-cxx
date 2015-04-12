@@ -24,12 +24,12 @@ import java.io.File;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -47,7 +47,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+  public CxxVeraxxSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
     super(perspectives, conf, fs, reactor, CxxMetrics.VERAXX);
     this.profile = profile;
   }
@@ -75,6 +75,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
       throws javax.xml.stream.XMLStreamException
   {
+    CxxUtils.LOG.info("Parsing 'Vera++' format");
+    
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**
@@ -103,7 +105,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                                     name, line, source, message);
               } else {
                 CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
-                    errorCursor.getAttrValue("line"),
+                    name + "(" + errorCursor.getAttrValue("line") + ")",
                     errorCursor.getAttrValue("message"));
               }
             }

@@ -20,14 +20,16 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
-import java.util.Collections;
 
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
@@ -38,11 +40,8 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.apache.commons.io.FilenameUtils;
-import org.sonar.api.utils.WildcardPattern;
 
 /**
  * This class is used as base for all sensors which import reports.
@@ -56,7 +55,7 @@ public abstract class CxxReportSensor implements Sensor {
   private final Metric metric;
   private int violationsCount;
 
-  protected ModuleFileSystem fs;
+  protected FileSystem fs;
   protected Settings conf;
   private final ProjectReactor reactor;
 
@@ -66,7 +65,7 @@ public abstract class CxxReportSensor implements Sensor {
    * @param conf the Settings object used to access the configuration properties
    * @param fs   file system access layer
    */
-  protected CxxReportSensor(Settings conf, ModuleFileSystem fs, ProjectReactor reactor) {
+  protected CxxReportSensor(Settings conf, FileSystem fs, ProjectReactor reactor) {
     this(null, conf, fs, reactor, null);
   }
 
@@ -79,8 +78,7 @@ public abstract class CxxReportSensor implements Sensor {
    * @param metric       this metrics will be used to save a measure of the overall
    *                     issue count. Pass 'null' to skip this.
    */
-  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, ProjectReactor reactor, Metric metric) {
-    this.perspectives = perspectives;
+  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, Metric metric, ProjectReactor reactor) {
     this.conf = conf;
     this.fs = fs;
     this.metric = metric;
@@ -91,7 +89,7 @@ public abstract class CxxReportSensor implements Sensor {
    * {@inheritDoc}
    */
   public boolean shouldExecuteOnProject(Project project) {
-    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+    return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
   }
   
   /**
@@ -130,7 +128,7 @@ public abstract class CxxReportSensor implements Sensor {
           .append(e)
           .append("'")
           .toString();
-        throw new SonarException(msg, e);
+      throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
   }
@@ -159,14 +157,21 @@ public abstract class CxxReportSensor implements Sensor {
 
     CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
 
-    if(new File(reportPath).isAbsolute()){
-      CxxUtils.LOG.error("Absolute paths are not supported ({})", reportPath);
-      return Collections.emptyList();
+    DirectoryScanner scanner = new DirectoryScanner();
+    String[] includes = new String[1];
+    includes[0] = reportPath;
+    scanner.setIncludes(includes);
+    scanner.setBasedir(new File(baseDirPath));
+    scanner.scan();
+    String[] relPaths = scanner.getIncludedFiles();
+
+    List<File> reports = new ArrayList<File>();
+    for (String relPath : relPaths) {
+      String path = CxxUtils.normalizePath(new File(baseDirPath, relPath).getAbsolutePath());      
+      reports.add(new File(path));
     }
 
-    DirectoryScanner scanner = new DirectoryScanner(new File(baseDirPath),
-                                                    WildcardPattern.create(reportPath));
-    return scanner.getIncludedFiles();
+    return reports;
   }
 
   /**
@@ -257,7 +262,7 @@ public abstract class CxxReportSensor implements Sensor {
     return lineNr;
   }
 
-  protected void processReport(Project project, SensorContext context, File report)
+  protected void processReport(final Project project, final SensorContext context, File report)
       throws Exception
   {
   }

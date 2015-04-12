@@ -29,27 +29,27 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxVeraxxSensorTest {
   private CxxVeraxxSensor sensor;
   private SensorContext context;
   private Project project;
-  private ModuleFileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
+  private FileSystem fs;
 
   @Before
   public void setUp() {
-    project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
+    project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
     sensor = new CxxVeraxxSensor(perspectives, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());

@@ -25,22 +25,30 @@ import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.AbstractOneStatementPerLineCheck;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "TooManyStatementsPerLine",
-  description = "Only one statement per line is allowed. Split this line.",
+  name = "Statements should be on separate lines",
+  tags = {Tags.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
+@SqaleConstantRemediation("5min")
 public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCheck<Grammar> {
 
   private static final boolean DEFAULT_EXCLUDE_CASE_BREAK = false;
 
   @RuleProperty(
-      key = "excludeCaseBreak",
-      defaultValue = "" + DEFAULT_EXCLUDE_CASE_BREAK)
+    key = "excludeCaseBreak",
+    description = "Exclude 'break' statement if it is on the same line as the switch label (case: or default:)",
+    defaultValue = "" + DEFAULT_EXCLUDE_CASE_BREAK)
   public boolean excludeCaseBreak = DEFAULT_EXCLUDE_CASE_BREAK;
 
   @Override

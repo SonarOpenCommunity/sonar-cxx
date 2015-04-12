@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Matchers.any;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -37,7 +38,6 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.plugins.cxx.CxxPlugin;
@@ -49,7 +49,7 @@ public class CxxCppCheckSensorTest {
   private Project project;
   private RulesProfile profile;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
   private ProjectReactor reactor;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
@@ -72,7 +72,7 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(issuable, times(5)).addIssue(any(Issue.class));
+    verify(issuable, times(7)).addIssue(any(Issue.class));
   }
 
   @Test

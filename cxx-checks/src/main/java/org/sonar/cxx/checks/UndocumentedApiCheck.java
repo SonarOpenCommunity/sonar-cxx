@@ -21,16 +21,18 @@ package org.sonar.cxx.checks;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.AbstractCxxPublicApiVisitor;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 /**
  * Check that generates issue for undocumented API items.<br>
@@ -61,9 +63,13 @@ import com.sonar.sslr.api.Token;
  *
  * @param <GRAMMAR>
  */
-@Rule(key = "UndocumentedApi",
-      description = "All public APIs should be documented",
-      priority = Priority.MINOR)
+@Rule(
+  key = "UndocumentedApi",
+  name = "Public APIs should be documented",
+  priority = Priority.MINOR)
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_CHANGEABILITY)
+@SqaleConstantRemediation("5min")
 public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
 
     private static final Logger LOG = LoggerFactory

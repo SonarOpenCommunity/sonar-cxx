@@ -31,7 +31,6 @@ public enum CxxMetric implements MetricDef {
   CLASSES,
   COMPLEXITY,
   COMMENT_LINES,
-  COMMENT_BLANK_LINES,
   PUBLIC_API,
   PUBLIC_UNDOCUMENTED_API;
 

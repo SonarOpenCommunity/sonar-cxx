@@ -26,22 +26,22 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxReportSensor_getReports_Test {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs) {
+    public CxxReportSensorImpl(Settings settings, FileSystem fs) {
       super(settings, fs, TestUtils.mockReactor());
     }
   };
@@ -50,9 +50,8 @@ public class CxxReportSensor_getReports_Test {
   public TemporaryFolder base = new TemporaryFolder();
 
   private CxxReportSensor sensor;
-  private File baseDir;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
 
   @Before
   public void init() {
@@ -66,8 +65,7 @@ public class CxxReportSensor_getReports_Test {
     Settings settings = new Settings();
     final String property = "sonar.cxx.cppcheck.reportPath";
     List<String[]> examples = new LinkedList<String[]>();
-    String abspattern = new File(base.getRoot(), "A.ext").getPath();
-
+  
     //                          "pattern",      "matches",         "matches not"
     examples.add(new String[] { "A.ext",        "A.ext",           "dir/B.ext" });        // relative
     examples.add(new String[] { "dir/A.ext",    "dir/A.ext",       "A.ext, dir/B.ext" }); // relative with subdir
@@ -80,7 +78,9 @@ public class CxxReportSensor_getReports_Test {
     examples.add(new String[] { "**/A.ext",     "A.ext,dir/A.ext", "B.ext" });            // containing question mark
     examples.add(new String[] { "",             "",                "" });                 // empty
 
-    examples.add(new String[] { abspattern,     "",                "A.ext" });            // absolute
+    //TODO: decide whether to support absolute paths
+    //String abspattern = new File(base.getRoot(), "A.ext").getPath();
+    //examples.add(new String[] { abspattern,     "",                "A.ext" });            // absolute
 
     String pattern, match, allpaths;
     List<File> reports;
@@ -121,6 +121,6 @@ public class CxxReportSensor_getReports_Test {
     Set<File> realSet = new TreeSet<File>(real);
     Set<File> expectedSet = new TreeSet<File>(expectedFiles);
 
-    assert realSet.equals(expectedSet);
+    assertEquals(realSet, expectedSet);
   }
 }

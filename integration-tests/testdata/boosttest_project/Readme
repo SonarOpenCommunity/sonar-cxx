@@ -1,0 +1,15 @@
+This is a test project used for testing the boosttest-integration
+
+reports are created with log_level=value: resulting report file xxx-value.xml
+
+values:
+all - report all log messages including the passed test notification
+success - the same as all
+test_suite - show test suite messages
+message - show user messages
+warning - report warnings issued by user
+error - report all error conditions
+cpp_exception - report uncaught c++ exception
+system_error - report system originated non-fatal errors (for example, timeout or floating point exception)
+fatal_error - report only user or system originated fatal errors (for example, memory access violation)
+nothing - does not report any information

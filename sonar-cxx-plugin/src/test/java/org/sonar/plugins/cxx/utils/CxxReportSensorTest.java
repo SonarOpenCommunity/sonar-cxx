@@ -19,21 +19,15 @@
  */
 package org.sonar.plugins.cxx.utils;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
+
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 
@@ -43,7 +37,7 @@ public class CxxReportSensorTest {
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, ModuleFileSystem fs, ProjectReactor reactor){
+    public CxxReportSensorImpl(Settings settings, FileSystem fs, ProjectReactor reactor){
       super(settings, fs, reactor);
     }
 
@@ -55,7 +49,7 @@ public class CxxReportSensorTest {
   private CxxReportSensor sensor;
   private File baseDir;
   private Settings settings;
-  private ModuleFileSystem fs;
+  private static FileSystem fs;
   private ProjectReactor reactor;
 
   @Before
@@ -77,14 +71,6 @@ public class CxxReportSensorTest {
     new CxxReportSensorImpl(settings, fs, reactor);
   }
 
-  @Test
-  public void shouldAllwaysExecute() {
-    // which means: only on cxx projects
-    CxxReportSensor sensor = new CxxReportSensorImpl(settings, fs, reactor);
-    Project cxxProject = mockProjectWithSomeFiles(CxxLanguage.KEY);
-    Project foreignProject = mockProjectWithLanguageKey("whatever");
-    assert (sensor.shouldExecuteOnProject(cxxProject));
-  }
 
   @Test
   public void getReports_shouldFindSomethingIfThere() {
@@ -166,19 +152,4 @@ public class CxxReportSensorTest {
     assert (reports != null);
   }
 
-  private static Project mockProjectWithLanguageKey(String languageKey) {
-    Project project = TestUtils.mockProject();
-    when(project.getLanguageKey()).thenReturn(languageKey);
-    return project;
-  }
-
-  private static Project mockProjectWithSomeFiles(String languageKey) {
-    Project project = TestUtils.mockProject();
-    List<InputFile> listofFiles = new LinkedList<InputFile>();
-    InputFile inputFile = mock(InputFile.class);
-    listofFiles.add(0, inputFile);
-    when(project.getLanguageKey()).thenReturn(languageKey);
-    when(project.getFileSystem().mainFiles(languageKey)).thenReturn(listofFiles);
-    return project;
-  }
 }

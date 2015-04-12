@@ -22,7 +22,6 @@ package org.sonar.plugins.cxx;
 import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.AbstractLanguage;
-import org.sonar.api.scan.filesystem.FileQuery;
 
 /**
  * {@inheritDoc}
@@ -32,9 +31,6 @@ public class CxxLanguage extends AbstractLanguage {
   public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
   public static final String DEFAULT_C_FILES = "*.c,*.C";
   public static final String KEY = "c++";
-
-  public static final FileQuery SOURCE_QUERY = FileQuery.onSource().onLanguage(KEY);
-  public static final FileQuery TEST_QUERY = FileQuery.onTest().onLanguage(KEY);
 
   private String[] sourceSuffixes;
   private String[] headerSuffixes;

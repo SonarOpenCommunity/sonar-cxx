@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -42,15 +43,17 @@ public class CxxRatsSensorTest {
   private CxxRatsSensor sensor;
   private SensorContext context;
   private Project project;
+  private FileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
+    fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxRatsSensor(perspectives, new Settings(), TestUtils.mockFileSystem(), mock(RulesProfile.class), TestUtils.mockReactor());
+    sensor = new CxxRatsSensor(perspectives, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);

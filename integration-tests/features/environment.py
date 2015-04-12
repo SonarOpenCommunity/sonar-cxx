@@ -19,8 +19,9 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
 
+from __future__ import print_function
+
 import os
-import subprocess
 import sys
 import time
 import urllib
@@ -28,6 +29,7 @@ import platform
 
 from glob import glob
 from shutil import copyfile
+from subprocess import Popen, PIPE, check_call
 from common import analyselog, sonarlog
 
 SONAR_URL = "http://localhost:9000"
@@ -62,7 +64,7 @@ except ImportError:
 # -----------------------------------------------------------------------------
 def before_all(context):
     global didstartsonar
-    print BRIGHT + "\nSetting up the test environment" + RESET_ALL
+    print(BRIGHT + "\nSetting up the test environment" + RESET_ALL)
 
     if not is_webui_up():
         sonarhome = os.environ.get("SONARHOME", None)
@@ -73,7 +75,7 @@ def before_all(context):
                     started = start_sonar(sonarhome)
                     if not started:
                         sys.stderr.write(INDENT + RED + "Cannot start SonarQube from '%s', exiting\n"
-                                     % sonarhome + RESET)
+                                         % sonarhome + RESET)
                         sys.exit(-1)
                     didstartsonar = True
                     checklogs(sonarhome)
@@ -91,7 +93,7 @@ def before_all(context):
                              + RESET)
             sys.exit(-1)
     else:
-        print INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL
+        print(INDENT + "using the SonarQube already running on '%s'\n\n" % SONAR_URL)
 
 
 def after_all(context):
@@ -134,7 +136,6 @@ def install_plugin(sonarhome):
     return True
 
 
-
 def jarpath():
     jars = glob(JARPATTERN)
     if not jars:
@@ -146,9 +147,8 @@ def start_sonar(sonarhome):
     sys.stdout.write(INDENT + "starting SonarQube ... ")
     sys.stdout.flush()
     now = time.time()
-    rc = subprocess.call(start_script(sonarhome), stdout=subprocess.PIPE,
-                         shell=(os.name == "nt"))
-    if rc != 0 or not wait_for_sonar(50, is_webui_up):
+    Popen(start_script(sonarhome), stdout=PIPE, shell=os.name == "nt")
+    if not wait_for_sonar(50, is_webui_up):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
@@ -158,10 +158,13 @@ def start_sonar(sonarhome):
 
 
 def stop_sonar(sonarhome):
+    if platform.system() == "Windows":
+        sys.stdout.write(YELLOW + "Cannot stop SonarQube automaticly on Windows. Please do it manually.\n" + RESET)
+        return
+
     sys.stdout.write(INDENT + "stopping SonarQube ... ")
     sys.stdout.flush()
-    rc = subprocess.call(stop_script(sonarhome), stdout=subprocess.PIPE,
-                         shell=(os.name == "nt"))
+    rc = check_call(stop_script(sonarhome))
     if rc != 0 or not wait_for_sonar(30, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
@@ -170,19 +173,55 @@ def stop_sonar(sonarhome):
     return True
 
 
+class UnsupportedPlatform(Exception):
+    def __init__(self, msg):
+        super(UnsupportedPlatform, self).__init__(msg)
+
+
 def start_script(sonarhome):
-    return [os.path.join(sonarhome, _script_relpath()), "start"]
+    command = None
+
+    if platform.system() == "Linux":
+        script = linux_script(sonarhome)
+        if script:
+            command = [script, "start"]
+    elif platform.system() == "Windows":
+        if platform.machine() == "x86_64":
+            command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartSonar.bat")]
+        elif platform.machine() == "i686":
+            command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "StartSonar.bat")]
+    elif platform.system() == "Darwin":
+        command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "start"]
+
+    if command is None:
+        msg = "Dont know how to find the start script for the platform %s-%s" % (platform.system(), platform.machine())
+        raise UnsupportedPlatform(msg)
+
+    return command
 
 
 def stop_script(sonarhome):
-    return [os.path.join(sonarhome, _script_relpath()), "stop"]
+    command = None
+
+    if platform.system() == "Linux":
+        script = linux_script(sonarhome)
+        if script:
+            command = [script, "stop"]
+    elif platform.system() == "Darwin":
+        command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "stop"]
+
+    if command is None:
+        msg = "Dont know how to find the stop script for the platform %s-%s" % (platform.system(), platform.machine())
+        raise UnsupportedPlatform(msg)
+
+    return command
 
 
-def _script_relpath():
-    # Linux x86 only for now
-    if platform.system() == "Linux" and platform.machine() == "x86_64":
-        return "bin/linux-x86-64/sonar.sh"
-    return "bin/linux-x86-32/sonar.sh"
+def linux_script(sonarhome):
+    if platform.machine() == "x86_64":
+        return os.path.join(sonarhome, "bin/linux-x86-64/sonar.sh")
+    elif platform.machine() == "i686":
+        return os.path.join(sonarhome, "bin/linux-x86-32/sonar.sh")
 
 
 def wait_for_sonar(timeout, criteria):
@@ -227,6 +266,6 @@ def checklogs(sonarhome):
 
     summary_msg = "%i errors and %i warnings\n" % (errors, warnings)
 
-    print 2*INDENT + len(summary_msg) * "-"
-    print 2*INDENT + summary_msg
+    print(2*INDENT + len(summary_msg) * "-")
+    print(2*INDENT + summary_msg)
     return errors == 0

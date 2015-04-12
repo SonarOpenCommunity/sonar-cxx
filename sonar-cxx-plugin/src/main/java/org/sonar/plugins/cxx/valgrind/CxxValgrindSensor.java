@@ -23,11 +23,11 @@ import java.io.File;
 import java.util.Set;
 
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -44,7 +44,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxValgrindSensor(ResourcePerspectives perspectives, Settings conf, ModuleFileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+  public CxxValgrindSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
     super(perspectives, conf, fs, reactor, CxxMetrics.VALGRIND);
     this.profile = profile;
   }
@@ -72,8 +72,9 @@ public class CxxValgrindSensor extends CxxReportSensor {
   protected void processReport(final Project project, final SensorContext context, File report)
       throws javax.xml.stream.XMLStreamException
   {
+    CxxUtils.LOG.info("Parsing 'Valgrind' format"); 
     ValgrindReportParser parser = new ValgrindReportParser();
-    saveErrors(project, context, parser.parseReport(report));
+    saveErrors(project, context, parser.processReport(project, context, report));
   }
 
   void saveErrors(Project project, SensorContext context, Set<ValgrindError> valgrindErrors) {

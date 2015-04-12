@@ -24,15 +24,22 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
   key = "UsingNamespaceInHeader",
-  description = "Using namespace directives are not allowed in header files",
+  name = "Using namespace directives are not allowed in header files",
+  tags = {Tags.CONVENTION},
   priority = Priority.BLOCKER)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
+@SqaleConstantRemediation("5min")
 //similar Vera++ rule T018
 public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
@@ -45,7 +52,8 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if ((node.getTokenValue().equals("using")) && (isHeader(getContext().getFile().getName()))) {
+    if (isHeader(getContext().getFile().getName()) &&
+        node.getTokenValue().equals("using") && node.getFirstChild().getChildren().toString().contains("namespace")) {
       getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
       }
     }

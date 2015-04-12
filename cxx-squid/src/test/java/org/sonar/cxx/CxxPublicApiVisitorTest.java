@@ -123,7 +123,7 @@ public class CxxPublicApiVisitorTest {
 
     @Test
     public void to_delete() {
-        testFile("src/test/resources/metrics/public_api.h", 35, 0, true);
+        testFile("src/test/resources/metrics/public_api.h", 38, 0, true);
     }
 
     @Test
@@ -134,6 +134,16 @@ public class CxxPublicApiVisitorTest {
     @Test
     public void template() {
         testFile("src/test/resources/metrics/template.h", 3, 2, true);
+    }
+
+    @Test
+    public void unnamed_class() {
+        testFile("src/test/resources/metrics/unnamed_class.h", 3, 1, false);
+    }
+
+    @Test
+    public void unnamed_enum() {
+        testFile("src/test/resources/metrics/unnamed_enum.h", 1, 1, false);
     }
 
     @SuppressWarnings("unchecked")
@@ -206,6 +216,9 @@ public class CxxPublicApiVisitorTest {
         expectedIdCommentMap.put("protectedClass", "protectedClass");
         expectedIdCommentMap.put("operator[]", "operator");
         expectedIdCommentMap.put("bitfield", "bitfield");
+        expectedIdCommentMap.put("<unnamed class>", "<unnamed>");
+        expectedIdCommentMap.put("testField2", "testField2");
+        expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
 
         // check completeness
         for (final String id : expectedIdCommentMap.keySet()) {

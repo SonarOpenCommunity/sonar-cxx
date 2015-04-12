@@ -23,23 +23,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-
 import com.google.common.base.Strings;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.Tags;
 
 @Rule(
-  key = "NoHardcodedIp",
-  description = "IP addresses should never be hardcoded into the source code",
+  key = "HardcodedIp",
+  name = "IP addresses should not be hardcoded",
+  tags = {Tags.CERT, Tags.SECURITY},
   priority = Priority.CRITICAL)
-
+@ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_CHANGEABILITY)
+@SqaleConstantRemediation("30min")
 public class HardcodedIpCheck extends SquidCheck<Grammar>  {
 
 // full IPv6:
@@ -53,9 +59,10 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
   private static Matcher IP = null;
 
   @RuleProperty(
-      key = "regularExpression",
-      defaultValue = DEFAULT_REGULAR_EXPRESSION)
-    public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+    key = "regularExpression",
+    description = "The regular expression",
+    defaultValue = DEFAULT_REGULAR_EXPRESSION)
+  public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   public String getRegularExpression() {
     return regularExpression;
@@ -70,7 +77,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
       try {
         IP = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regEx, e);
+        throw new SonarException("Unable to compile regular expression: " + regEx, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       }
     }
     subscribeTo(CxxGrammarImpl.LITERAL);

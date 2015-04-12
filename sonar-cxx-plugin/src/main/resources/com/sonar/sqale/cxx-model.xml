@@ -7,24 +7,6 @@
             <key>COMPILER_RELATED_PORTABILITY</key>
             <name>Compiler related portability</name>
             <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>ReservedNamesCheck</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>            
-            <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>AssignmentAddressToInteger</rule-key>
                 <prop>
@@ -4157,204 +4139,6 @@
             <key>READABILITY</key>
             <name>Readability</name>
             <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>UseFileHeader</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>NoTabCharacter</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>CommentedCode</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>TooLongLine</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>UseCorrectInclude</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>TooManyLinesOfCodeInFile</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>NewLineAtEOF</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>IndentationCheck</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>TooManyStatementsPerLine</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>MissingCurlyBraces</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>NoSonar</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>clarifyCalculation</rule-key>
                 <prop>
@@ -5078,78 +4862,6 @@
         <chc>
             <key>UNDERSTANDABILITY</key>
             <name>Understandability</name>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>NotAllowedToDoTag</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>NotAllowedFixMeTag</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>StringLiteralDuplicated</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>UselessParentheses</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>strPlusChar</rule-key>
@@ -7111,42 +6823,6 @@
             <key>INPUT_VALIDATION_AND_REPRESENTATION</key>
             <name>Input validation and representation</name>
             <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>NoHardcodedIp</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>NoHardcodedAccount</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
                 <rule-repo>pclint</rule-repo>
                 <rule-key>421</rule-key>
                 <prop>
@@ -8790,24 +8466,6 @@
         <chc>
             <key>ARCHITECTURE_CHANGEABILITY</key>
             <name>Architecture related changeability</name>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>UndocumentedApi</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
         </chc>
         <chc>
             <key>DATA_CHANGEABILITY</key>
@@ -8924,7 +8582,25 @@
                     <txt>d</txt>
                 </prop>
             </chc>
-        </chc>
+          <chc>
+            <rule-repo>common-c++</rule-repo>
+            <rule-key>DuplicatedBlocks</rule-key>
+            <prop>
+              <key>remediationFunction</key>
+              <txt>linear</txt>
+            </prop>
+            <prop>
+              <key>remediationFactor</key>
+              <val>5</val>
+              <txt>h</txt>
+            </prop>
+            <prop>
+              <key>offset</key>
+              <val>0.0</val>
+              <txt>d</txt>
+            </prop>
+          </chc>
+      </chc>
     </chc>
     <chc>
     <key>RELIABILITY</key>
@@ -8932,154 +8608,10 @@
         <chc>
             <key>ARCHITECTURE_RELIABILITY</key>
             <name>Architecture related reliability</name>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>UsingNamespaceInHeader</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>CycleBetweenPackages</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>UnnamedNamespaceInHeader</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>DuplicatedInclude</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
         </chc>
         <chc>
             <key>DATA_RELIABILITY</key>
             <name>Data related reliability</name>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>MagicNumber</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>CollapsibleIfCandidate</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>SafetyTagCheck</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>MissingInclude</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
             <chc>
                 <rule-repo>cppcheck</rule-repo>
                 <rule-key>terminateStrncpy</rule-key>
@@ -28753,24 +28285,6 @@
             <key>LOGIC_RELIABILITY</key>
             <name>Logic related reliability</name>
             <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>SwitchLastCaseIsDefaultCheck</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
                 <rule-repo>pclint</rule-repo>
                 <rule-key>137</rule-key>
                 <prop>
@@ -29462,9 +28976,81 @@
         <chc>
             <key>UNIT_TESTS</key>
             <name>Unit tests</name>
-        </chc>
+      <chc>
+        <rule-repo>common-c++</rule-repo>
+        <rule-key>FailedUnitTests</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>linear</txt>
+        </prop>
+        <prop>
+          <key>remediationFactor</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>0.0</val>
+          <txt>d</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>common-c++</rule-repo>
+        <rule-key>SkippedUnitTests</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>linear</txt>
+        </prop>
+        <prop>
+          <key>remediationFactor</key>
+          <val>1</val>
+          <txt>mn</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>0.0</val>
+          <txt>d</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>common-c++</rule-repo>
+        <rule-key>InsufficientLineCoverage</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>linear</txt>
+        </prop>
+        <prop>
+          <key>remediationFactor</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>0.0</val>
+          <txt>d</txt>
+        </prop>
+      </chc>
+      <chc>
+        <rule-repo>common-c++</rule-repo>
+        <rule-key>InsufficientBranchCoverage</rule-key>
+        <prop>
+          <key>remediationFunction</key>
+          <txt>linear</txt>
+        </prop>
+        <prop>
+          <key>remediationFactor</key>
+          <val>5</val>
+          <txt>mn</txt>
+        </prop>
+        <prop>
+          <key>offset</key>
+          <val>0.0</val>
+          <txt>d</txt>
+        </prop>
+      </chc>
     </chc>
-    <chc>
+  </chc>
+  <chc>
     <key>TESTABILITY</key>
     <name>Testability</name>
         <chc>
@@ -29474,42 +29060,6 @@
         <chc>
             <key>UNIT_TESTABILITY</key>
             <name>Unit level testability</name>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>FileCyclomaticComplexity</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
-            <chc>
-                <rule-repo>cxx</rule-repo>
-                <rule-key>FunctionCyclomaticComplexity</rule-key>
-                <prop>
-                    <key>remediationFunction</key>
-                    <txt>linear</txt>
-                </prop>
-                <prop>
-                    <key>remediationFactor</key>
-                    <val>5</val>
-                    <txt>mn</txt>
-                </prop>
-                <prop>
-                    <key>offset</key>
-                    <val>0</val>
-                    <txt>UNDEFINED</txt>
-                </prop>
-            </chc>
         </chc>
     </chc>
     <chc>

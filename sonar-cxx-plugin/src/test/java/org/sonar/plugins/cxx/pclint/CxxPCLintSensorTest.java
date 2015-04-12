@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -36,8 +37,7 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
-import org.sonar.api.utils.SonarException;
+import org.sonar.api.utils.SonarException; //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 
@@ -47,7 +47,7 @@ public class CxxPCLintSensorTest {
   private RulesProfile profile;
   private ResourcePerspectives perspectives;
   private Issuable issuable;
-  private ModuleFileSystem fs;
+  private FileSystem fs;
   private ProjectReactor reactor;
 
   @Before
@@ -81,7 +81,7 @@ public class CxxPCLintSensorTest {
     verify(issuable, times(29)).addIssue(any(Issue.class));
   }
 
-  @Test(expected=SonarException.class)
+  @Test(expected=SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowExceptionWhenMisra2004DescIsWrong() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
@@ -89,7 +89,7 @@ public class CxxPCLintSensorTest {
     sensor.analyse(project, context);
   }
 
-  @Test(expected=SonarException.class)
+  @Test(expected=SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowExceptionWhenMisra2004RuleDoNotExist() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
