@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
+ * Copyright (C) 2010 Neticoa SAS France
  * dev@sonar.codehaus.org
  *
  * This program is free software; you can redistribute it and/or
@@ -17,24 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.checks;
 
-import java.io.File;
+/**
+ * Package with sensor to evaluate Valgrind specific report files.
+ */
+@ParametersAreNonnullByDefault
+package org.sonar.plugins.cxx.valgrind;
 
-import org.junit.Test;
-import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
-
-public class UsingNamespaceInHeaderCheckTest {
-
-  @Test
-  public void check() {
-    UsingNamespaceInHeaderCheck check = new UsingNamespaceInHeaderCheck();
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UsingNamespaceInHeader.h"), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(11).withMessage("Using namespace are not allowed in header files.")
-        .noMore();
-  }
-}
+import javax.annotation.ParametersAreNonnullByDefault;
