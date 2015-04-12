@@ -121,6 +121,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
          }
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
           CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString());
+        } catch (com.ctc.wstx.exc.WstxEOFException e) {
+          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString());
         }
       }
 
