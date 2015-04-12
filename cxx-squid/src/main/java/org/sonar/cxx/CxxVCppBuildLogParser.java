@@ -34,20 +34,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- * @author jocs
- */
 public class CxxVCppBuildLogParser {
+  private enum VSVersion { V100, V110, V120, V140 };
   
   private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxVCppBuildLogParser");
   
   private final HashMap<String, Set<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;
   
-  private String platformToolset = "v100";
+  private VSVersion platformToolset = VSVersion.V100;
   private String platform = "Win32";
-  private String configuration = "Debug";  
   
   public CxxVCppBuildLogParser(HashMap<String, Set<String>> uniqueIncludesIn,
           HashMap<String, Set<String>> uniqueDefinesIn) {
@@ -81,30 +77,20 @@ public class CxxVCppBuildLogParser {
           }
           
           if(line.contains("\\V100\\Microsoft.CppBuild.targets")) {
-            platformToolset = "v100";
-          }
-
-          if(line.contains("\\V110\\Microsoft.CppBuild.targets")) {
-            platformToolset = "v110";
-          }
-
-          if(line.contains("\\V120\\Microsoft.CppBuild.targets")) {
-            platformToolset = "v120";
-          }
-
-          if(line.contains("\\V140\\Microsoft.CppBuild.targets")) {
-            platformToolset = "v140";
+            platformToolset = VSVersion.V100;
+          } else if(line.contains("\\V110\\Microsoft.CppBuild.targets")) {
+            platformToolset = VSVersion.V110;
+          } else if(line.contains("\\V120\\Microsoft.CppBuild.targets")) {
+            platformToolset = VSVersion.V120;
+          } else if(line.contains("\\V140\\Microsoft.CppBuild.targets")) {
+            platformToolset = VSVersion.V140;
           }
           
           // 1>Task "Message"
           // 1>  Configuration=Debug
           // 1>Done executing task "Message".
           // 1>Task "Message"
-          //1>  Platform=Win32
-          if(line.trim().endsWith("Configuration=Release")) {
-            configuration = "Release";
-          }
-          
+          //1>  Platform=Win32         
           if(line.trim().endsWith("Platform=x64")) {
             platform = "x64";
           }          
@@ -156,19 +142,13 @@ public class CxxVCppBuildLogParser {
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.140).aspx
     ParseCommonCompilerOptions(line, fileElement);
     
-    if (platformToolset.equals("v100")) {
+    if (platformToolset.equals(VSVersion.V100)) {
       ParseV100CompilerOptions(line, fileElement);
-    } 
-    
-    if (platformToolset.equals("v110")) {
+    } else if (platformToolset.equals(VSVersion.V110)) {
       ParseV110CompilerOptions(line, fileElement);
-    }
-    
-    if (platformToolset.equals("v120")) {
+    } else if (platformToolset.equals(VSVersion.V120)) {
       ParseV120CompilerOptions(line, fileElement);
-    }
-    
-    if (platformToolset.equals("v140")) {
+    } else if (platformToolset.equals(VSVersion.V140)) {
       ParseV140CompilerOptions(line, fileElement);
     }    
   }
@@ -234,14 +214,17 @@ public class CxxVCppBuildLogParser {
     AddMacro("__FILE__", fileElement);
     //__LINE__ The line number in the current source file. The line number is a decimal integer constant. It can be changed with a #line directive.
     AddMacro("__LINE__", fileElement);
-    //__STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
-    AddMacro("__STDC__", fileElement);
     //__TIME__ The most recent compilation time of the current source file. The time is a string literal of the form hh:mm:ss.
     AddMacro("__TIME__", fileElement);
     //__TIMESTAMP__ The date and time of the last modification of the current source file, expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is the abbreviated day of the week and Date is an integer from 1 to 31.
     AddMacro("__TIMESTAMP__", fileElement);    
     //_ATL_VER Defines the ATL version. In Visual Studio 2010, _ATL_VER is defined as 0x0A00.
     AddMacro("_ATL_VER", fileElement);
+
+    //__STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
+    if (line.contains("/Za ")) {
+      AddMacro("__STDC__", fileElement);
+    }
     
     //_CHAR_UNSIGNED Default char type is unsigned. Defined when /J is specified.
     if (line.contains("/J ")) {
@@ -268,13 +251,7 @@ public class CxxVCppBuildLogParser {
     //__CLR_VER Defines the version of the common language runtime used when the application was compiled. The value returned will be in the following format:    
     //__cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406. __cplusplus_cli is in effect throughout the translation unit.    
     //_M_CEE Defined for a compilation that uses any form of /clr (/clr:oldSyntax, /clr:safe, for example).    
-    if (line.contains("/clr ") ||
-            line.contains("/clr:pure ") ||
-            line.contains("/clr:safe ") ||
-            line.contains("/clr:oldSyntax ") ||
-            line.contains("/clr:noAssembly ") ||
-            line.contains("/clr:nostdlib ") ||
-            line.contains("/clr:initialAppDomain ")) {      
+    if (line.contains("/clr")) {      
       
       AddMacro("_M_CEE", fileElement);      
       if (line.contains("/clr ") ||
