@@ -992,15 +992,15 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>wrongmathcall</configkey>
     <name>Passing value to () leads to undefined result</name>
     <description>
-      Passing value to () leads to implementation-defined result.
+      Passing value &apos;#&apos; to #() leads to implementation-defined result.
     </description>
   </rule>
   <rule>
     <key>fflushOnInputStream</key>
     <configkey>fflushOnInputStream</configkey>
-    <name>fflush() called on input stream "stdin" may result in undefined behavior</name>
+    <name>fflush() called on input stream &apos;stdin&apos; may result in undefined behavior</name>
     <description>
-      fflush() called on input stream "stdin" may result in undefined behavior on non-linux systems.
+      fflush() called on input stream &apos;stdin&apos; may result in undefined behavior on non-linux systems.
     </description>
   </rule>
   <rule>
@@ -1024,8 +1024,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>sizeofwithsilentarraypointer</configkey>
     <name>Using sizeof for array given as function argument returns the size of pointer</name>
     <description>
-      Using sizeof for array given as function argument returns the
-      size of pointer.
+      Using &apos;sizeof&apos; for array given as function argument returns the size of pointer.
     </description>
   </rule>
   <rule>
@@ -1791,6 +1790,15 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       scanf argument no. 1: requires non-const pointers or arrays as
       arguments.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsasctime</key>
+    <configkey>obsoleteFunctionsasctime</configkey>
+    <name>Avoid usage of the function 'asctime'</name>
+    <description>
+      The function 'asctime' is obsolete. It is recommended to use
+      the function 'strftime' instead.
     </description>
   </rule>
   <rule>

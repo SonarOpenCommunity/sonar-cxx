@@ -129,6 +129,7 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
+      .index(7)              
       .build(),
 
       PropertyDefinition.builder(CxxPlugin.MISSING_INCLUDE_WARN)
@@ -138,6 +139,7 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
+      .index(8)   
       .build()
       );
   }
