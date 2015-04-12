@@ -57,7 +57,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile) {
+  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
     super(perspectives, conf, fs, reactor, CxxMetrics.PCLINT);
     this.profile = profile;
   }

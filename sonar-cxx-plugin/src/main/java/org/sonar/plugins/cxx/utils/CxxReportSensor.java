@@ -64,6 +64,7 @@ public abstract class CxxReportSensor implements Sensor {
    *
    * @param conf the Settings object used to access the configuration properties
    * @param fs   file system access layer
+   * @param reactor
    */
   protected CxxReportSensor(Settings conf, FileSystem fs, ProjectReactor reactor) {
     this(null, conf, fs, reactor, null);
@@ -77,12 +78,14 @@ public abstract class CxxReportSensor implements Sensor {
    * @param fs           file system access layer
    * @param metric       this metrics will be used to save a measure of the overall
    *                     issue count. Pass 'null' to skip this.
+   * @param reactor
    */
-  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, Metric metric, ProjectReactor reactor) {
+  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, ProjectReactor reactor, Metric metric) {
     this.conf = conf;
     this.fs = fs;
     this.metric = metric;
     this.reactor = reactor;
+    this.perspectives = perspectives;
   }
 
   /**
@@ -201,7 +204,8 @@ public abstract class CxxReportSensor implements Sensor {
     int lineNr = 0;
     // handles file="" situation -- file level
     if ((filename != null) && (filename.length() > 0)) {
-      String normalPath = CxxUtils.normalizePathFull(filename, reactor.getRoot().getBaseDir().getAbsolutePath());
+      String root = reactor.getRoot().getBaseDir().getAbsolutePath();
+      String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         org.sonar.api.resources.File file
           = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);

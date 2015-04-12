@@ -119,9 +119,6 @@ public class TestUtils {
     return reactor;
   }
 
-
-  }
-  
   /**
    * Mocks the filesystem given the root directory and lists of source
    * and tests directories. The latter are given just as in sonar-project.properties
