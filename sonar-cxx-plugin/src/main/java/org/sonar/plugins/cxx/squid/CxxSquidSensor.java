@@ -55,6 +55,7 @@ import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
@@ -67,6 +68,10 @@ import org.sonar.api.source.Highlightable;
 import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
 
 import com.sonar.sslr.api.Grammar;
+import org.sonar.cxx.checks.CompileIncludePathNotFoundOrInvalid;
+import org.sonar.cxx.checks.DuplicatedIncludeCheck;
+import static org.sonar.plugins.cxx.compiler.CxxCompilerSensor.REPORT_CHARSET_DEF;
+import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
  * {@inheritDoc}
@@ -143,7 +148,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, Settings conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
+    CxxConfiguration cxxConf = new CxxConfiguration(fs, resourcePerspectives, CompileIncludePathNotFoundOrInvalid.getActiveRule(rules));
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){
@@ -155,6 +160,15 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setCFilesPatterns(conf.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(conf.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
     cxxConf.setMissingIncludeWarningsEnabled(conf.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
+    
+    String filePaths = conf.getString(CxxCompilerSensor.REPORT_PATH_KEY);    
+    if (filePaths != null && !"".equals(filePaths)) {
+      List<File> reports = CxxReportSensor.getReports(conf, fs.baseDir().getPath(), CxxCompilerSensor.REPORT_PATH_KEY, "");
+      cxxConf.setCompilationPropertiesWithBuildLog(reports,
+                                                   conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
+                                                   conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
+    }
+
     return cxxConf;
   }
 

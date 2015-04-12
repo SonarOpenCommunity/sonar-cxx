@@ -131,7 +131,6 @@ public final class CxxPlugin extends SonarPlugin {
       .type(PropertyType.BOOLEAN)
       .index(7)              
       .build(),
-
       PropertyDefinition.builder(CxxPlugin.MISSING_INCLUDE_WARN)
       .defaultValue("True")
       .name("Missing include warnings")
@@ -285,6 +284,7 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
 
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_CHARSET_DEF)
+      .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)              
       .name("Encoding")
       .description("The encoding to use when reading the compiler report. Leave empty to use parser's default.")
       .subCategory(subcateg)
@@ -315,7 +315,6 @@ public final class CxxPlugin extends SonarPlugin {
                    + " The used format is described <a href='https://github.com/wenns/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
-      .index(6)
       .build()
       );
   }
