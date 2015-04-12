@@ -19,14 +19,8 @@
  */
 package org.sonar.cxx;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,10 +28,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FilePredicate;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.rule.ActiveRule;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
@@ -55,8 +54,11 @@ public class CxxConfiguration extends SquidConfiguration {
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
-
+  private ResourcePerspectives perspectives;
+  private FileSystem fs;
+  
   private final CxxVCppBuildLogParser cxxVCppParser;
+  private ActiveRule activeRule;
   
   public CxxConfiguration() {
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
@@ -64,11 +66,31 @@ public class CxxConfiguration extends SquidConfiguration {
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
-  public CxxConfiguration(Charset charset) {
-    super(charset);    
+  public CxxConfiguration(Charset encoding) {
+    super(encoding);   
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+  }
+  
+  public CxxConfiguration(FileSystem fs) {
+    super(fs.encoding());   
+    this.fs = fs;
+    uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
+    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+  }
+  
+  public CxxConfiguration(FileSystem fs,
+          ResourcePerspectives perspectivesIn,
+          ActiveRule activeRule) {
+    super(fs.encoding());   
+    this.fs = fs;
+    perspectives = perspectivesIn;
+    uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
+    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+    this.activeRule = activeRule;
   }
 
   public void setIgnoreHeaderComments(boolean ignoreHeaderComments) {
@@ -199,7 +221,9 @@ public class CxxConfiguration extends SquidConfiguration {
     return this.missingIncludeWarningsEnabled;
   }
   
-  public void setCompilationPropertiesWithBuildLog(List<File> reports, String fileFormat, String charsetName) {
+  public void setCompilationPropertiesWithBuildLog(List<File> reports,
+          String fileFormat,
+          String charsetName) {
     
     if(reports == null) {
       return;
@@ -218,17 +242,35 @@ public class CxxConfiguration extends SquidConfiguration {
       }    
     }
     
-    RaiseIssuesForNotFoundIncludes();
+    if(activeRule != null) {
+      RaiseIssuesForNotFoundIncludes(activeRule, fs);  
+    }     
   }
 
-  private void RaiseIssuesForNotFoundIncludes() {
+  private void RaiseIssuesForNotFoundIncludes(ActiveRule rule, FileSystem fs ) {
+    
+    
     // raise issues for files that have invalid include folders
     for(Map.Entry<String, Set<String>> entry : uniqueIncludes.entrySet()) {
       if(!entry.getKey().equals(OverallIncludeKey)) {
+        
         for(String value : entry.getValue()) {
-          // TBD
-        }
+          File directory = new File(value);
+          if (!directory.exists()) {
+            InputFile sonarFile = fs.inputFile(fs.predicates().hasAbsolutePath(value));
+            Issuable issuable = perspectives.as(Issuable.class, sonarFile);
+            if ((issuable != null) && (rule != null)) {
+              Issue issue = issuable.newIssueBuilder()
+                  .ruleKey(rule.ruleKey())
+                  .line(1)
+                  .message("Remove include from poject files, \"" + value + "\" it does not exist.")
+                  .build();
+              issuable.addIssue(issue);
+            }            
+          }
+
       }
     }
-  }  
+  }
+  }
 }

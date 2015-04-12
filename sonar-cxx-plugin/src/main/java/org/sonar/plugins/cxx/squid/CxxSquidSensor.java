@@ -68,6 +68,8 @@ import org.sonar.api.source.Highlightable;
 import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
 
 import com.sonar.sslr.api.Grammar;
+import org.sonar.cxx.checks.CompileIncludePathNotFoundOrInvalid;
+import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import static org.sonar.plugins.cxx.compiler.CxxCompilerSensor.REPORT_CHARSET_DEF;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
@@ -146,7 +148,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, Settings conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
+    CxxConfiguration cxxConf = new CxxConfiguration(fs, resourcePerspectives, CompileIncludePathNotFoundOrInvalid.getActiveRule(rules));
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){
