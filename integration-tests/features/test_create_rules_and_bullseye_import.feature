@@ -1,6 +1,8 @@
 Feature: GoogleTestWithBullseyeAndVsProject
 
-  This test verifies that analysis is able to import bullseye coverage reports and import custom rules reports
+  This test verifies that analysis is able to import bullseye coverage reports and import custom rules reports.
+  Custom rules are created using Rest API, after test ends rules are deleted.
+  Bullseye reports need to be created before running the test.
 
   Scenario: GoogleTestWithBullseyeAndVsProject
       GIVEN the project "googletest_bullseye_vs_project"
