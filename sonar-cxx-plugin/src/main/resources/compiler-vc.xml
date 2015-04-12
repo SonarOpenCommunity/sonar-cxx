@@ -1250,7 +1250,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <key>C4275</key>
     <configkey>C4275</configkey>
     <priority>CRITICAL</priority>
-    <name>C4275: non–DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier'</name>
+    <name>C4275: non – DLL-interface classkey 'identifier' used as base for DLL-interface classkey 'identifier'</name>
     <description>
       An exported class was derived from a class that was not exported.
       To minimize the possibility of data corruption when exporting a class with __declspec(dllexport), ensure that:

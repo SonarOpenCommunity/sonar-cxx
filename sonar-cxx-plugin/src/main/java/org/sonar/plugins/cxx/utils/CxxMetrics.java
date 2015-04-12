@@ -75,11 +75,6 @@ public class CxxMetrics implements Metrics {
       .setQualitative(true)
       .setDomain("C++")
       .create();
-  public static final Metric PARAM_COUNT = new Metric.Builder("cxx-parameter-count", "Parameter count", Metric.ValueType.INT)
-      .setDescription("Number of parameter for a function or method")
-      .setQualitative(false)
-      .setDomain("C++")
-      .create();
 
   public List<Metric> getMetrics() {
     List<Metric> list = new ArrayList<Metric>();
@@ -92,7 +87,6 @@ public class CxxMetrics implements Metrics {
     list.add(SQUID);
     list.add(VALGRIND);
     list.add(VERAXX);
-    list.add(PARAM_COUNT);
     return list;
   }
 }
