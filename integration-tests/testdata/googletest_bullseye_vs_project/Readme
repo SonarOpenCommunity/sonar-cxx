@@ -1,0 +1,6 @@
+This is a test project used for testing the googletest-integration, bullseye integration and windows builds
+
+ - in windows command line
+   - msbuild run_analysis.msbuild -> this will create all needed data under sonarcpp folder
+   - from root of repository run -> behave integration-tests/features/test_windows_environment_project.feature
+   

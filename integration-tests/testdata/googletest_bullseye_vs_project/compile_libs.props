@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project xmlns='http://schemas.microsoft.com/developer/msbuild/2003' DefaultTargets='Build' ToolsVersion='4.0'>
+    
+    <!-- Common compilation settings for all C++ solutions -->
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <ObjectFileName>$(IntDir)</ObjectFileName>
+            <PrecompiledHeader></PrecompiledHeader>
+            <RuntimeTypeInfo>true</RuntimeTypeInfo>
+            <CompileAs>Default</CompileAs>
+            <PreprocessorDefinitions>NT;OS_NT;WIN32;_MBCS;;ANSI_HEADER;USEMEMLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+            <DebugInformationFormat>OldStyle</DebugInformationFormat>
+            <Optimization Condition="'$(Configuration)'=='Debug'">Disabled</Optimization>
+            <AdditionalOptions Condition="'$(PlatformToolset)'=='LLVM-vs2013'">-Qunused-arguments /GR- /D_HAS_EXCEPTIONS=0 $(AdditionalOptions)</AdditionalOptions>
+            <AdditionalOptions Condition="'$(PlatformToolset)'=='Intel C++ Compiler XE 14.0'">$(AdditionalOptions)</AdditionalOptions>
+            <AdditionalOptions Condition="'$(PlatformToolset)'=='Intel C++ Compiler XE 15.0'">$(AdditionalOptions)</AdditionalOptions>
+        </ClCompile>
+        <Link>
+            <TargetMachine Condition="'$(Platform)'=='Win32'">MachineX86</TargetMachine>
+            <TargetMachine Condition="'$(Platform)'=='x64'">MachineX64</TargetMachine>
+        </Link>        
+        </ItemDefinitionGroup>
+
+    <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+        <ClCompile>
+            <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <AdditionalOptions Condition="'$(PlatformToolset)'!='LLVM-vs2013'">/Zo %(AdditionalOptions)</AdditionalOptions>
+            <AdditionalOptions Condition="'$(PlatformToolset)'=='LLVM-vs2013'">$(AdditionalOptions)</AdditionalOptions>
+            <AdditionalOptions Condition="'$(PlatformToolset)'=='Intel C++ Compiler XE 14.0'">$(AdditionalOptions)</AdditionalOptions>
+            <Optimization>Full</Optimization>
+        </ClCompile>
+    </ItemDefinitionGroup>
+</Project>
