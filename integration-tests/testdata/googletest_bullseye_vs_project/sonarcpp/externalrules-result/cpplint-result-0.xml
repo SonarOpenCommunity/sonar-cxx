@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+<error file="./PathHandling/PathHandle.h" line="0" id="cpplint_legal_copyright_0" severity="warning" msg="No copyright message found.  You should have a line: Copyright [year] &lt;Copyright Owner&gt;"/>
+<error file="./PathHandling/PathHandle.h" line="0" id="cpplint_build_header_guard_0" severity="warning" msg="No #ifndef header guard found, suggested CPP variable is: INTEGRATION_TESTS_TESTDATA_GOOGLETEST_BULLSEYE_VS_PROJECT_PATHHANDLING_PATHHANDLE_H_"/>
+<error file="./PathHandling/PathHandle.h" line="8" id="cpplint_whitespace_indent_2" severity="warning" msg="public: should be indented +1 space inside class PathHandle"/>
+</results>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup>
+    <Linkage-gtestmock>static</Linkage-gtestmock>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>PathHandling.Test</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+    <ProjectGuid>{6C9EC6AA-F731-5F96-C13E-184D9F327E6B}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\configuration_test.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <PropertyGroup>
+    <ExecutablePath>C:\Program Files %28x86%29\BullseyeCoverage\bin;$(ExecutablePath)</ExecutablePath>
+    <NuGetPackageImportStamp>fb1f37d8</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PathHandlingTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PathHandling\PathHandling.vcxproj">
+      <Project>{641653AF-72AC-4E29-A5EC-432082370EC2}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="..\..\..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets" Condition="Exists('..\..\..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\gtestmock.redist.1.7.2\build\native\gtestmock.redist.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets'))" />
+  </Target>
+  <Import Project="..\..\..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets" Condition="Exists('..\..\..\..\..\packages\gtestmock.1.7.2\build\native\gtestmock.targets')" />
+  <Import Project="..\compile_test.props" />
+  <Import Project="..\..\..\..\..\MSBuild\GtestXunitConverterTask.targets" />
+</Project>

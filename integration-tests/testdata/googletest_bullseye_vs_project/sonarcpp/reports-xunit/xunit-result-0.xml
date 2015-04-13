@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="PathHandlingTest" tests="2" failures="1" disabled="0" errors="0" time="0.000000" filename="./PathHandling.Test/PathHandlingTest.cpp">
+   <testcase name="TestNormalPathCombine" status="run" time="0.000000" classname="PathHandlingTest"  filename="./PathHandling.Test/PathHandlingTest.cpp"/>
+   <testcase name="TestRelativePathCombine" status="run" time="0.000000" classname="PathHandlingTest" filename="./PathHandling.Test/PathHandlingTest.cpp">
+<failure message="PathHandlingTest.cpp:19
+Expected: (&quot;c:/path/alskdlas.cpp&quot;) != (pathHandle.CompinePaths(&quot;c:/path&quot;, &quot;alskdlas.cpp&quot;)), actual: &quot;c:/path/alskdlas.cpp&quot; vs &quot;c:/path/alskdlas.cpp&quot;" type=""><![CDATA[PathHandlingTest.cpp:19
+Expected: ("c:/path/alskdlas.cpp") != (pathHandle.CompinePaths("c:/path", "alskdlas.cpp")), actual: "c:/path/alskdlas.cpp" vs "c:/path/alskdlas.cpp"]]></failure>
+   </testcase>
+</testsuite>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+<file name="./PathHandling\PathHandle.h">
+<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+<error line="14" severity="warning" message="trailing empty line(s" source="L003"/>
+</file>
+</checkstyle>

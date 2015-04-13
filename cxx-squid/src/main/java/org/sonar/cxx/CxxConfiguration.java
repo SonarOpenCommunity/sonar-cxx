@@ -19,30 +19,78 @@
  */
 package org.sonar.cxx;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FilePredicate;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.rule.ActiveRule;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.issue.Issuable;
+import org.sonar.api.issue.Issue;
 import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
 
+  private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxConfiguration");
+  public static final String OverallIncludeKey = "CxxOverallInclude";
+  public static final String OverallDefineKey = "CxxOverallDefine";
+  
   private boolean ignoreHeaderComments = false;
-  private List<String> defines = new ArrayList<String>();
-  private List<String> includeDirectories = new ArrayList<String>();
-  private List<String> forceIncludeFiles = new ArrayList<String>();
-  private List<String> headerFileSuffixes = new ArrayList<String>();
+  private final HashMap<String, Set<String>> uniqueIncludes = new HashMap<>();
+  private final HashMap<String, Set<String>> uniqueDefines = new HashMap<>();
+  private List<String> forceIncludeFiles = new ArrayList<>();
+  private List<String> headerFileSuffixes = new ArrayList<>();
   private String baseDir;
   private boolean errorRecoveryEnabled = true;
-  private List<String> cFilesPatterns = new ArrayList<String>();
+  private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
-
+  private ResourcePerspectives perspectives;
+  private FileSystem fs;
+  
+  private final CxxVCppBuildLogParser cxxVCppParser;
+  private ActiveRule activeRule;
+  
   public CxxConfiguration() {
+    uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
+    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
-  public CxxConfiguration(Charset charset) {
-    super(charset);
+  public CxxConfiguration(Charset encoding) {
+    super(encoding);   
+    uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
+    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+  }
+  
+  public CxxConfiguration(FileSystem fs) {
+    super(fs.encoding());   
+    this.fs = fs;
+    uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
+    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+  }
+  
+  public CxxConfiguration(FileSystem fs,
+          ResourcePerspectives perspectivesIn,
+          ActiveRule activeRule) {
+    super(fs.encoding());   
+    this.fs = fs;
+    perspectives = perspectivesIn;
+    uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
+    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+    this.activeRule = activeRule;
   }
 
   public void setIgnoreHeaderComments(boolean ignoreHeaderComments) {
@@ -54,7 +102,12 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setDefines(List<String> defines) {
-    this.defines = defines;
+    Set<String> overallDefs = uniqueDefines.get(OverallDefineKey);
+    for(String define : defines) {      
+      if (!overallDefs.contains(define)) {
+        overallDefs.add(define);
+      }
+    }
   }
 
   public void setDefines(String[] defines) {
@@ -64,11 +117,26 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getDefines() {
-    return defines;
+    Set<String> allDefines = new HashSet<>();
+    
+    for(Set<String> elemSet : uniqueDefines.values()) {
+      for(String value : elemSet) {
+        if (!allDefines.contains(value)) {
+          allDefines.add(value);
+        }
+      }
+    }
+    
+    return new ArrayList<>(allDefines);
   }
 
   public void setIncludeDirectories(List<String> includeDirectories) {
-    this.includeDirectories = includeDirectories;
+    Set<String> overallIncludes = uniqueIncludes.get(OverallIncludeKey);
+    for(String include : includeDirectories) {      
+      if (!overallIncludes.contains(include)) {
+        overallIncludes.add(include);
+      }
+    }
   }
 
   public void setIncludeDirectories(String[] includeDirectories) {
@@ -78,7 +146,17 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getIncludeDirectories() {
-    return includeDirectories;
+    Set<String> allIncludes = new HashSet<>();
+    
+    for(Set<String> elemSet : uniqueIncludes.values()) {
+      for(String value : elemSet) {
+        if (!allIncludes.contains(value)) {
+          allIncludes.add(value);
+        }
+      }
+    }
+    
+    return new ArrayList<>(allIncludes);
   }
 
   public void setForceIncludeFiles(List<String> forceIncludeFiles) {
@@ -141,5 +219,58 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public boolean getMissingIncludeWarningsEnabled(){
     return this.missingIncludeWarningsEnabled;
+  }
+  
+  public void setCompilationPropertiesWithBuildLog(List<File> reports,
+          String fileFormat,
+          String charsetName) {
+    
+    if(reports == null) {
+      return;
+    }
+    
+    for(File buildLog : reports) {
+      if (buildLog.exists()) {
+        LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
+        if (fileFormat.equals("Visual C++")) {
+          cxxVCppParser.parseVCppLog(buildLog, charsetName);
+        }
+
+        LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
+      } else {
+        LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
+      }    
+    }
+    
+    if(activeRule != null) {
+      RaiseIssuesForNotFoundIncludes(activeRule, fs);  
+    }     
+  }
+
+  private void RaiseIssuesForNotFoundIncludes(ActiveRule rule, FileSystem fs ) {
+    
+    
+    // raise issues for files that have invalid include folders
+    for(Map.Entry<String, Set<String>> entry : uniqueIncludes.entrySet()) {
+      if(!entry.getKey().equals(OverallIncludeKey)) {
+        
+        for(String value : entry.getValue()) {
+          File directory = new File(value);
+          if (!directory.exists()) {
+            InputFile sonarFile = fs.inputFile(fs.predicates().hasAbsolutePath(value));
+            Issuable issuable = perspectives.as(Issuable.class, sonarFile);
+            if ((issuable != null) && (rule != null)) {
+              Issue issue = issuable.newIssueBuilder()
+                  .ruleKey(rule.ruleKey())
+                  .line(1)
+                  .message("Remove include from poject files, \"" + value + "\" it does not exist.")
+                  .build();
+              issuable.addIssue(issue);
+            }            
+          }
+
+      }
+    }
+  }
   }
 }
