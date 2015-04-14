@@ -48,7 +48,7 @@ import org.sonar.squidbridge.annotations.Tags;
 @SqaleConstantRemediation("5min")
 public class MagicNumberCheck extends SquidCheck<Grammar> {
 
-  private static final String DEFAULT_EXCEPTIONS = "0,1,0x0,0x00,.0,.1,0.0,1.0";
+  private static final String DEFAULT_EXCEPTIONS = "0,1,0x0,0x00,.0,.1,0.0,1.0,0u,1u,0ul,1ul,1.0f,0.0f,0LL,1LL,0ULL,1ULL";
 
   @RuleProperty(
     key = "exceptions",

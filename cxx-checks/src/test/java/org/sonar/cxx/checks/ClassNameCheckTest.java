@@ -19,26 +19,29 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
 import org.junit.Test;
-import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.sonar.cxx.CxxAstScanner;
 
-public class FunctionComplexityCheckTest {
+import java.io.File;
+
+public class ClassNameCheckTest {
 
   @Test
-  public void check() {
-    FunctionComplexityCheck check = new FunctionComplexityCheck();
-    check.setMax(5);
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionComplexity.cc"), check);
+  public void test() throws Exception {
+    ClassNameCheck check = new ClassNameCheck();
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/ClassName.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(13)
-      .next().atLine(33)
-      .next().atLine(51)
-      .next().atLine(72);
+      .next().atLine(3).withMessage(
+        "Rename class \"MyClass_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      .next().atLine(5).withMessage(
+        "Rename class \"myClassWithNotCompliantName2\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      .next().atLine(9).withMessage(
+        "Rename class \"MyStruct_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      .next().atLine(11).withMessage(
+        "Rename class \"myStructWithNotCompliantName2\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")
+      .noMore();
   }
 
 }

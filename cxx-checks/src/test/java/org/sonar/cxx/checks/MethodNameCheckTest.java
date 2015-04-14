@@ -19,26 +19,26 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
 import org.junit.Test;
-import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.sonar.cxx.CxxAstScanner;
 
-public class FunctionComplexityCheckTest {
+import java.io.File;
+
+public class MethodNameCheckTest {
 
   @Test
-  public void check() {
-    FunctionComplexityCheck check = new FunctionComplexityCheck();
-    check.setMax(5);
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionComplexity.cc"), check);
+  public void test() throws Exception {
+    MethodNameCheck check = new MethodNameCheck();
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/MethodName.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(13)
-      .next().atLine(33)
-      .next().atLine(51)
-      .next().atLine(72);
+      .next().atLine(9).withMessage(
+        "Rename method \"Badly_Named_Method\" to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      .next().atLine(10).withMessage(
+        "Rename method \"TooLongMethodNameBecauseItHasMoreThan30Characters\" "
+        + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      .noMore();
   }
 
 }
