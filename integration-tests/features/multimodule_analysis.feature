@@ -13,8 +13,8 @@ Feature: cpp-multimodule-project
               .*WARN  - Cannot find the file '.*', skipping violations
               .*WARN.*to create a dependency with .*
               .*WARN  - the include root '.*' doesn't exist
-              .*WARN  - [.*]: cannot find the sources for .*
-              .*WARN  - SCM provider autodetection failed. No SCM provider claims to support this project. Please use sonar.scm.provider to define SCM of your project.              
+              .*WARN  - .* cannot find the sources for .*
+              .*WARN  - SCM provider autodetection failed.*
               """
           AND the following metrics have following values:
                | metric                   | value |
