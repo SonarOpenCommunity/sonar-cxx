@@ -12,6 +12,8 @@ Feature: cpp-multimodule-project
               .*WARN.*cannot find the sources for '#include <iostream>'
               .*WARN  - Cannot find the file '.*', skipping violations
               .*WARN.*to create a dependency with .*
+              .*WARN  - the include root '.*' doesn't exist
+              .*WARN  - [.*]: cannot find the sources for '#include "gtest.h"'
               """
           AND the following metrics have following values:
                | metric                   | value |
