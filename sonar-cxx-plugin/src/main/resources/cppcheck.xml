@@ -1024,7 +1024,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>sizeofwithsilentarraypointer</configkey>
     <name>Using sizeof on array given as function argument returns the size of pointer</name>
     <description>
-      Using &apos;sizeof&apos; on array given as function argument returns the size of pointer.
+      Using &apos;sizeof&apos; for array given as function argument returns the size of pointer.
     </description>
   </rule>
   <rule>

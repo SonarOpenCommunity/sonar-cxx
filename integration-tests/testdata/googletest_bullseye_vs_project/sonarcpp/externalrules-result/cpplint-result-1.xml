@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+<error file="./PathHandling/PathHandle.cpp" line="0" id="cpplint_legal_copyright_0" severity="warning" msg="No copyright message found.  You should have a line: Copyright [year] &lt;Copyright Owner&gt;"/>
+<error file="./PathHandling/PathHandle.cpp" line="20" id="cpplint_whitespace_parens_5" severity="warning" msg="Missing space before ( in if("/>
+</results>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?><rats_output>
+<stats>
+<dbcount lang="perl">33</dbcount>
+<dbcount lang="ruby">46</dbcount>
+<dbcount lang="python">62</dbcount>
+<dbcount lang="c">334</dbcount>
+<dbcount lang="php">55</dbcount>
+</stats>
+<analyzed>./PathHandling\PathHandle.cpp</analyzed>
+<vulnerability>
+  <severity>High</severity>
+  <type>getenv</type>
+  <message>
+    Environment variables are highly untrustable input. They may be of any length, and contain any data. Do not make any assumptions regarding content or length. If at all possible avoid using them, and if it is necessary, sanitize them and truncate them to a reasonable length.
+  </message>
+  <file>
+    <name>./PathHandling\PathHandle.cpp</name>
+    <line>15</line>
+  </file>
+</vulnerability>
+<timing>
+<total_lines>27</total_lines>
+<total_time>0.000000</total_time>
+<lines_per_second>-2147483648</lines_per_second>
+</timing>
+</rats_output>

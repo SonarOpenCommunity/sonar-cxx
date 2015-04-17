@@ -4646,9 +4646,10 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>C6262: Function uses &lt;constant&gt; bytes of stack: exceeds /analyze:stacksize&lt;constant 2&gt;. Consider moving some data to heap</name>
     <description>
+
       This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack - even in user mode - is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
       To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem - and this warning may be suppressed - but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
-      For kernel - mode code - for example, in driver projects-the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
+      For kernel -mode code- for example, in driver projects-the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
     </description>
   </rule>
   <rule>
@@ -4950,7 +4951,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <name>C6293: Ill-defined for-loop: counts down from minimum</name>
     <description>
       This warning indicates that a for-loop might not function as intended. It occurs when a loop counts down from a minimum, but has a higher termination condition.
-      A signed - or unsigned - index variable together with a negative increment will cause the loop to count negative until an overflow occurs. This will terminate the loop.
+      A signed —or unsigned— index variable together with a negative increment will cause the loop to count negative until an overflow occurs. This will terminate the loop.
     </description>
   </rule>
 

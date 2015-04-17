@@ -19,12 +19,14 @@
  */
 package org.sonar.cxx.checks;
 
-import org.apache.commons.lang.StringUtils;
+import javax.annotation.CheckForNull;
+
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.rule.ActiveRule;
+import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
-import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -32,40 +34,33 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.annotations.Tags;
 
-
+/**
+ * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which actually does the job of finding duplicated
+ * includes
+ */
 @Rule(
-  key = "UsingNamespaceInHeader",
-  name = "Using namespace directives are not allowed in header files",
-  tags = {Tags.CONVENTION},
-  priority = Priority.BLOCKER)
+  key = "CompileIncludePathNotFoundOrInvalid",
+  name = "Include path used during compilation not found or invalid",
+  tags = {Tags.PREPROCESSOR},
+  priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
 @SqaleConstantRemediation("5min")
-//similar Vera++ rule T018
-public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
+public class CompileIncludePathNotFoundOrInvalid extends SquidCheck<Grammar> {
 
-  private static final String DEFAULT_NAME_SUFFIX = ".h,.hh,.hpp,.H";
+  public static final String RULE_KEY = "CompileIncludePathNotFoundOrInvalid";
 
-  @Override
-  public void init() {
-    subscribeTo(CxxGrammarImpl.blockDeclaration);
+  /**
+   * @return null, if this check is inactive
+   */
+  @CheckForNull
+  public static ActiveRule getActiveRule(ActiveRules rules) {
+    return rules.find(RuleKey.of(CheckList.REPOSITORY_KEY, RULE_KEY));
   }
 
   @Override
-  public void visitNode(AstNode node) {
-    if (isHeader(getContext().getFile().getName()) &&
-        node.getTokenValue().equals("using") && node.getFirstChild().getChildren().toString().contains("namespace")) {
-      getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
-      }
-    }
-
-  private boolean isHeader(String name) {
-    String[] suffixes = StringUtils.split(DEFAULT_NAME_SUFFIX, ",");
-    for (String suff : suffixes) {
-      if (name.endsWith(suff)) {
-        return true;
-      }
-    }
-    return false;
+  public String toString() {
+    return RULE_KEY + " rule";
   }
+
 }

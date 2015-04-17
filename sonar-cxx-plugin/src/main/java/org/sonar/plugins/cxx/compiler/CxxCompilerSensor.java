@@ -48,7 +48,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.compiler.charset";
   public static final String PARSER_KEY_DEF = "sonar.cxx.compiler.parser";
   public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.KEY;
-  public static final String DEFAULT_CHARSET_DEF = "UTF-16";
+  public static final String DEFAULT_CHARSET_DEF = "UTF-8";
 
   private final RulesProfile profile;
   private final Map<String, CompilerParser> parsers = new HashMap<String, CompilerParser>();
