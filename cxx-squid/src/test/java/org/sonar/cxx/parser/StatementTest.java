@@ -137,9 +137,7 @@ public class StatementTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.switchStatement));
 
     assertThat(p).matches("switch (0) { default : break; }");
-
-    //TODO: make this work.
-//    assertThat(p).matches("switch (0) { {default : break;} }");
+    assertThat(p).matches("switch (0) { {default : break;} }");
   }
 
 
