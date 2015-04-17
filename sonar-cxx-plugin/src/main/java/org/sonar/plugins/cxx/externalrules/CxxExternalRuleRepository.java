@@ -58,8 +58,16 @@ public class CxxExternalRuleRepository implements RulesDefinition {
         }
       }
     }
-
-    //i18nLoader.load(repository); //@todo?
+    
+    for (NewRule rule : repository.rules()) {
+      rule
+        //FIXME: set internal key to key to ensure rule templates works properly : should be removed when SONAR-6162 is fixed.
+        .setInternalKey(rule.key())
+        // set default Technical Debt values for 'other' rules
+        .setDebtSubCharacteristic("ERRORS")
+        .setDebtRemediationFunction(rule.debtRemediationFunctions().constantPerIssue("1h"));
+    }
+    
     repository.done();
   }
 
