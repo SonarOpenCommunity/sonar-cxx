@@ -20,7 +20,7 @@ Feature: cpp-multimodule-project
                | metric                   | value |
                # size metrics
                | ncloc                    | 56    |
-               | lines                    | 148   |
+               | lines                    | 150   |
                | statements               | 36    |
                | classes                  | 1     |
                | files                    | 8     |
@@ -30,7 +30,7 @@ Feature: cpp-multimodule-project
                | comment_lines_density    | 30    |
                | comment_lines            | 24    |
                # duplications
-               | duplicated_lines_density | 58.1  |
+               | duplicated_lines_density | 57.3  |
                | duplicated_lines         | 86    |
                | duplicated_blocks        | 2     |
                | duplicated_files         | 2     |
