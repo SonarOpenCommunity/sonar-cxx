@@ -190,6 +190,8 @@ def start_script(sonarhome):
             command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartSonar.bat")]
         elif platform.machine() == "i686":
             command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "StartSonar.bat")]
+        elif platform.machine() == "AMD64":
+            command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartSonar.bat")]
     elif platform.system() == "Darwin":
         command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "start"]
 
