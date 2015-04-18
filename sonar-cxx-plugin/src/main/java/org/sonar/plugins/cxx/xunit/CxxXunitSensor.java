@@ -160,6 +160,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append(e)
         .append("'")
         .toString();
+      CxxUtils.LOG.error(msg);
       throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
   }

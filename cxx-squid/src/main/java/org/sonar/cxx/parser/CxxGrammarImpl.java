@@ -612,9 +612,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement))
       );
 
-    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", "{", switchBlockStatementGroups, "}");
+    b.rule(switchStatement).is(CxxKeyword.SWITCH, "(", condition, ")", 
+        b.firstOf(b.sequence("{", switchBlockStatementGroups, "}"), 
+                  switchBlockStatementGroups));
 
-    b.rule(switchBlockStatementGroups).is(b.zeroOrMore(switchBlockStatementGroup));
+    b.rule(switchBlockStatementGroups).is("{", b.zeroOrMore(switchBlockStatementGroup), "}");
 
     b.rule(switchBlockStatementGroup).is(switchLabelStatement, b.optional(emptyStatement), b.zeroOrMore(statement), b.optional(jumpStatement));
 
