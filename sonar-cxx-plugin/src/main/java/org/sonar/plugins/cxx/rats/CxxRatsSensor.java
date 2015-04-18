@@ -33,6 +33,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * {@inheritDoc}
@@ -46,8 +47,8 @@ public final class CxxRatsSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxRatsSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile) {
-    super(perspectives, conf, fs, CxxMetrics.RATS);
+  public CxxRatsSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(perspectives, conf, fs, reactor, CxxMetrics.RATS);
     this.profile = profile;
   }
 

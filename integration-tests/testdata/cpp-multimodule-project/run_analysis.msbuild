@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="RunAnalysis" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <Import Project="configuration.props" Condition="'$(RootConfigurationIncluded)'!='yes'" />
+
+    <Target Name="BuildSolution" >
+        <Exec Command="cov01 -1" ContinueOnError="WarnAndContinue"/>
+        <MSBuild Projects="MultiModule.sln" ContinueOnError="WarnAndContinue"/>
+    </Target>
+
+    
+    <Target Name="RunAnalysis" DependsOnTargets="BuildSolution">
+        <MSBuild Projects="$(MSBuildTasksFolder)\SonarTaskCustom.msbuild"          Targets="CheckCustomSolution"
+                                                    Properties="SolutionName=MultiModule.sln;SolutionRoot=$(MSBuildThisFileDirectory)"/>
+                                                    
+        <Exec Command="mkdir bullseye-coverage-results" WorkingDirectory="$(MSBuildThisFileDirectory)sonarcpp" ContinueOnError="WarnAndContinue"/>
+        <Exec Command="covxml -osonarcpp/bullseye-coverage-results/bullseyecoverage-result-0.xml" ContinueOnError="WarnAndContinue"/>
+        <!-- this is just a ack to make the bulleye report relative so that i can be used in other environments -->
+        <Exec Command="sed -b -i 's/e:\/Development\/SonarQube\/cxx\/sonar-cxx\/integration-tests\/testdata\/googletest_bullseye_vs_project\//.\//g' sonarcpp\bullseye-coverage-results\bullseyecoverage-result-0.xml" ContinueOnError="WarnAndContinue"/>
+        <Exec Command="cov01 -0" ContinueOnError="WarnAndContinue"/>
+        <Exec Command="sonar-runner -X" ContinueOnError="WarnAndContinue"/>
+    </Target>
+</Project>

@@ -53,7 +53,7 @@ public class CxxRatsSensorTest {
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxRatsSensor(perspectives, new Settings(), fs, mock(RulesProfile.class));
+    sensor = new CxxRatsSensor(perspectives, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);

@@ -39,6 +39,7 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 public class CxxCompilerSensorTest {
   private SensorContext context;
   private Project project;
@@ -46,13 +47,13 @@ public class CxxCompilerSensorTest {
   private RulesProfile profile;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
-
+  
   private CxxCompilerSensor createSensor(String parser, String encoding)
   {
       Settings settings = new Settings();
       settings.setProperty("sonar.cxx.compiler.parser", parser);
       settings.setProperty("sonar.cxx.compiler.charset", encoding);
-      return new CxxCompilerSensor(perspectives, settings, fs, profile);
+      return new CxxCompilerSensor(perspectives, settings, fs, profile, TestUtils.mockReactor());
   }
 
   @Before
@@ -80,6 +81,7 @@ public class CxxCompilerSensorTest {
     sensor.analyse(project, context);
     verify(issuable, times(4)).addIssue(any(Issue.class));
   }
+  
   @Test
   public void shouldReportBCorrectVcViolations() {
     Settings settings = new Settings();
@@ -87,7 +89,7 @@ public class CxxCompilerSensorTest {
     settings.setProperty(CxxCompilerSensor.REPORT_PATH_KEY, "compiler-reports/VC-report.log");
     settings.setProperty(CxxCompilerSensor.REPORT_CHARSET_DEF, "UTF-8");
     settings.setProperty(CxxCompilerSensor.REPORT_REGEX_DEF, "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$");
-    CxxCompilerSensor sensor = new CxxCompilerSensor(perspectives, settings, fs, profile);
+    CxxCompilerSensor sensor = new CxxCompilerSensor(perspectives, settings, fs, profile, TestUtils.mockReactor());
     sensor.analyse(project, context);
     verify(issuable, times(9)).addIssue(any(Issue.class));
   }

@@ -63,6 +63,7 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 
 /**
@@ -89,8 +90,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, FileSystem fs) {
-    super(conf, fs);
+  public CxxXunitSensor(Settings conf, FileSystem fs, ProjectReactor reactor) {
+    super(conf, fs, reactor);
     xsltURL = conf.getString(XSLT_URL_KEY);
     this.resourceFinder = new DefaultResourceFinder();
   }
@@ -105,6 +106,20 @@ public class CxxXunitSensor extends CxxReportSensor {
   @DependsUpon
   public Class<?> dependsUponCoverageSensors() {
     return CoverageExtension.class;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean shouldExecuteOnProject(Project project) {
+    boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
+    
+    if (!providedetails) {
+      return !project.isModule();      
+    }
+    
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
   }
 
   /**

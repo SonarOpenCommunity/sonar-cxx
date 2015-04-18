@@ -31,6 +31,7 @@ import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
@@ -56,15 +57,17 @@ public abstract class CxxReportSensor implements Sensor {
 
   protected FileSystem fs;
   protected Settings conf;
+  private final ProjectReactor reactor;
 
   /**
    * Use this constructor if you dont have to save violations aka issues
    *
    * @param conf the Settings object used to access the configuration properties
    * @param fs   file system access layer
+   * @param reactor
    */
-  protected CxxReportSensor(Settings conf, FileSystem fs) {
-    this(null, conf, fs, null);
+  protected CxxReportSensor(Settings conf, FileSystem fs, ProjectReactor reactor) {
+    this(null, conf, fs, reactor, null);
   }
 
   /**
@@ -75,12 +78,14 @@ public abstract class CxxReportSensor implements Sensor {
    * @param fs           file system access layer
    * @param metric       this metrics will be used to save a measure of the overall
    *                     issue count. Pass 'null' to skip this.
+   * @param reactor
    */
-  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, Metric metric) {
-    this.perspectives = perspectives;
+  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, ProjectReactor reactor, Metric metric) {
     this.conf = conf;
     this.fs = fs;
     this.metric = metric;
+    this.reactor = reactor;
+    this.perspectives = perspectives;
   }
 
   /**
@@ -89,41 +94,45 @@ public abstract class CxxReportSensor implements Sensor {
   public boolean shouldExecuteOnProject(Project project) {
     return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
   }
-
+  
   /**
    * {@inheritDoc}
    */
   public void analyse(Project project, SensorContext context) {
-    try {
-      List<File> reports = getReports(conf, fs.baseDir().getPath(),
+    if (!CxxUtils.isReactorProject(project)) {
+      try {
+      List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getCanonicalPath(),
           reportPathKey(), defaultReportPath());
+        if (reports.isEmpty()) {
+          reports = getReports(conf, fs.baseDir().getPath(), reportPathKey(), defaultReportPath());
+        }
+        violationsCount = 0;
 
-      violationsCount = 0;
-
-      for (File report : reports) {
-        CxxUtils.LOG.info("Processing report '{}'", report);
-        try{
-          int prevViolationsCount = violationsCount;
-          processReport(project, context, report);
+        for (File report : reports) {
+          CxxUtils.LOG.info("Processing report '{}'", report);
+        try {
+            int prevViolationsCount = violationsCount;
+            processReport(project, context, report);
           CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
                             violationsCount - prevViolationsCount);
-        } catch(EmptyReportException e){
-          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+          } catch (EmptyReportException e) {
+            CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+          }
         }
-      }
 
-      if (metric != null) {
-        Measure measure = new Measure(metric);
-        measure.setIntValue(violationsCount);
-        context.saveMeasure(measure);
-      }
-    } catch (Exception e) {
+        if (metric != null) {
+          Measure measure = new Measure(metric);
+          measure.setIntValue(violationsCount);
+          context.saveMeasure(measure);
+        }
+      } catch (Exception e) {
       String msg = new StringBuilder()
           .append("Cannot feed the data into sonar, details: '")
           .append(e)
           .append("'")
           .toString();
       throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      }
     }
   }
 
@@ -193,9 +202,10 @@ public abstract class CxxReportSensor implements Sensor {
     boolean add = false;
     Resource resource = null;
     int lineNr = 0;
-
-    if ((filename != null) && (filename.length() > 0)) { // file level
-      String normalPath = CxxUtils.normalizePath(filename);
+    // handles file="" situation -- file level
+    if ((filename != null) && (filename.length() > 0)) {
+      String root = reactor.getRoot().getBaseDir().getAbsolutePath();
+      String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         org.sonar.api.resources.File file
           = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);

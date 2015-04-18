@@ -37,6 +37,8 @@ import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
@@ -44,6 +46,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
+
 
 public class TestUtils {
 
@@ -105,6 +108,16 @@ public class TestUtils {
   public static DefaultFileSystem mockFileSystem(File baseDir) {
     return mockFileSystem(baseDir, Arrays.asList(new File(".")), null);
   }
+  
+  public static ProjectReactor mockReactor(File baseDir,
+                                                List<File> sourceDirs, List<File> testDirs) {
+    ProjectReactor reactor = mock(ProjectReactor.class);
+    ProjectDefinition projectDef = mock(ProjectDefinition.class);
+    when(reactor.getRoot()).thenReturn(projectDef);
+    when(projectDef.getBaseDir()).thenReturn(baseDir);
+
+    return reactor;
+  }
 
   /**
    * Mocks the filesystem given the root directory and lists of source
@@ -124,6 +137,12 @@ public class TestUtils {
     scanDirs(fs, baseDir, testDirs, Type.TEST);
     return fs;
   }
+  
+  public static ProjectReactor mockReactor() {
+    File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
+    List<File> empty = new ArrayList<File>();
+    return mockReactor(baseDir, empty, empty);
+  }  
 
   /**
    * Returns the default filesystem mock

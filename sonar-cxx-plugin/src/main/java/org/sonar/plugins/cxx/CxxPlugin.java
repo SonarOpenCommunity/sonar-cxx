@@ -59,7 +59,7 @@ import com.google.common.collect.ImmutableList;
 public final class CxxPlugin extends SonarPlugin {
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
-  public static final String DEFINES_KEY = "sonar.cxx.defines";
+  public static final String DEFINES_KEY = "sonar.cxx.defines";  
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
@@ -111,7 +111,7 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.TEXT)
       .index(5)
-      .build(),
+      .build(),     
 
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
       .defaultValue(CxxLanguage.DEFAULT_C_FILES)

@@ -42,7 +42,7 @@ public class CxxReportSensor_getReports_Test {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
     public CxxReportSensorImpl(Settings settings, FileSystem fs) {
-      super(settings, fs);
+      super(settings, fs, TestUtils.mockReactor());
     }
   };
 

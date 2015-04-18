@@ -35,17 +35,20 @@ import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 public class CxxCoverageSensorTest {
   private CxxCoverageSensor sensor;
   private SensorContext context;
   private Project project;
   private FileSystem fs;
+  private ProjectReactor reactor;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
+    reactor = TestUtils.mockReactor();
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);
@@ -56,7 +59,7 @@ public class CxxCoverageSensorTest {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
 
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
 
     sensor.analyse(project, context);
     verify(context, times(33)).saveMeasure((File) anyObject(), any(Measure.class));
@@ -69,7 +72,7 @@ public class CxxCoverageSensorTest {
     settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
     settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
 
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
 
     sensor.analyse(project, context);
     verify(context, times(99)).saveMeasure((File) anyObject(), any(Measure.class));
@@ -77,7 +80,7 @@ public class CxxCoverageSensorTest {
 
   @Test
   public void shouldReportNoCoverageSaved() {
-    sensor = new CxxCoverageSensor(new Settings(), fs);
+    sensor = new CxxCoverageSensor(new Settings(), fs, TestUtils.mockReactor());
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((File) anyObject(), any(Measure.class));
@@ -87,7 +90,7 @@ public class CxxCoverageSensorTest {
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, reactor);
 
     sensor.analyse(project, context);
   }
@@ -96,7 +99,7 @@ public class CxxCoverageSensorTest {
   public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
 
     sensor.analyse(project, context);
 
@@ -107,7 +110,7 @@ public class CxxCoverageSensorTest {
   public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
 
     sensor.analyse(project, context);
 
@@ -118,7 +121,7 @@ public class CxxCoverageSensorTest {
   public void shouldReportCoverageWhenVisualStudioCase() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
 
     sensor.analyse(project, context);
 

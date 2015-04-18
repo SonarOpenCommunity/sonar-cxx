@@ -1,5 +1,5 @@
 ﻿Build started 09/13/2014 8:06:06 AM.
-     1>Project "C:\TFS_Server\Server\Source\zip\zip.dll.vcxproj" on node 3 (Build target(s)).
+     1>Project "Server\Source\zip\zip.dll.vcxproj" on node 3 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "..\..\..\bin\x86\Debug\zip\zip.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -16,18 +16,18 @@
          ..\..\..\bin\x86\Debug\zip\ZipManager.obj
          ..\..\..\bin\x86\Debug\zip\stdafx.obj
             Creating library ..\..\..\bin\x86\Debug\zip.lib and object ..\..\..\bin\x86\Debug\zip.exp
-         zip.dll.vcxproj -> C:\TFS_Server\Server\Source\zip\..\..\..\bin\x86\Debug\zip.dll
+         zip.dll.vcxproj -> Server\Source\zip\..\..\..\bin\x86\Debug\zip.dll
        BscMake:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\bscmake.exe /nologo /o"..\..\..\bin\x86\Debug\zip.bsc" /n ..\..\..\bin\x86\Debug\zip\FileZip.sbr ..\..\..\bin\x86\Debug\zip\ZipManager.sbr ..\..\..\bin\x86\Debug\zip\stdafx.sbr
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(51): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(78): warning C6262: Function uses '20600' bytes of stack:  exceeds /analyze:stacksize '16384'.  Consider moving some data to heap.
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(163): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(163): warning C6340: Mismatch on sign: 'unsigned long' passed as _Param_(3) when some signed type is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format'.
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(202): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(217): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
-     1>C:\TFS_Server\Server\source\zip\zipmanager.cpp(223): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
-     1>c:\tfs_server\Server\source\zip\zipmanager.cpp(18): warning C28159: Consider using 'GetTickCount64' instead of 'GetTickCount'. Reason: GetTickCount overflows roughly every 49 days.  Code that does not take that into account can loop indefinitely.  GetTickCount64 operates on 64 bit values and does not have that problem
-     1>c:\tfs_server\Server\source\zip\zipmanager.cpp(40): warning C28159: Consider using 'GetTickCount64' instead of 'GetTickCount'. Reason: GetTickCount overflows roughly every 49 days.  Code that does not take that into account can loop indefinitely.  GetTickCount64 operates on 64 bit values and does not have that problem
+     1>Server\source\zip\zipmanager.cpp(51): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>Server\source\zip\zipmanager.cpp(78): warning C6262: Function uses '20600' bytes of stack:  exceeds /analyze:stacksize '16384'.  Consider moving some data to heap.
+     1>Server\source\zip\zipmanager.cpp(163): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>Server\source\zip\zipmanager.cpp(163): warning C6340: Mismatch on sign: 'unsigned long' passed as _Param_(3) when some signed type is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format'.
+     1>Server\source\zip\zipmanager.cpp(202): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>Server\source\zip\zipmanager.cpp(217): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>Server\source\zip\zipmanager.cpp(223): warning C6284: Object passed as _Param_(2) when a string is required in call to 'ATL::CStringT<wchar_t,StrTraitMFC_DLL<wchar_t,ATL::ChTraitsCRT<wchar_t> > >::Format' Actual type: 'class ATL::CStringT<wchar_t,class StrTraitMFC_DLL<wchar_t,class ATL::ChTraitsCRT<wchar_t> > >'.
+     1>Server\source\zip\zipmanager.cpp(18): warning C28159: Consider using 'GetTickCount64' instead of 'GetTickCount'. Reason: GetTickCount overflows roughly every 49 days.  Code that does not take that into account can loop indefinitely.  GetTickCount64 operates on 64 bit values and does not have that problem
+     1>Server\source\zip\zipmanager.cpp(40): warning C28159: Consider using 'GetTickCount64' instead of 'GetTickCount'. Reason: GetTickCount overflows roughly every 49 days.  Code that does not take that into account can loop indefinitely.  GetTickCount64 operates on 64 bit values and does not have that problem
      
        PostBuildEvent:
          Description: Create PC-lint macro input file
@@ -40,7 +40,7 @@
          mac-msc.cpp
        CustomBuildStep:
          Description: SonarQube analysis
-         call D:\source-review\sonar\CallSonarQubeVS.bat ..\..\..\bin\x86\Debug\zip\ C:\TFS_Server\Server\Source\zip\ zip.dll.vcxproj
+         call D:\source-review\sonar\CallSonarQubeVS.bat ..\..\..\bin\x86\Debug\zip\ Server\Source\zip\ zip.dll.vcxproj
          :VCEnd
-         CallSonarQubeVS ..\..\..\bin\x86\Debug\zip\ C:\TFS_Server\Server\Source\zip\ zip.dll.vcxproj 
-         copy ..\..\..\bin\x86\Debug\zip\zip.dll.log to C:\TFS_Server\Server\Source\zip\
+         CallSonarQubeVS ..\..\..\bin\x86\Debug\zip\ Server\Source\zip\ zip.dll.vcxproj 
+         copy ..\..\..\bin\x86\Debug\zip\zip.dll.log to Server\Source\zip\

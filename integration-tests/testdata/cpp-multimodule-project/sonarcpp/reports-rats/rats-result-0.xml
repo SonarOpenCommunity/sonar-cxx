@@ -1,0 +1,15 @@
+<?xml version="1.0"?><rats_output>
+<stats>
+<dbcount lang="perl">33</dbcount>
+<dbcount lang="ruby">46</dbcount>
+<dbcount lang="python">62</dbcount>
+<dbcount lang="c">334</dbcount>
+<dbcount lang="php">55</dbcount>
+</stats>
+<analyzed>./cli\main.cc</analyzed>
+<timing>
+<total_lines>9</total_lines>
+<total_time>0.000000</total_time>
+<lines_per_second>-2147483648</lines_per_second>
+</timing>
+</rats_output>
