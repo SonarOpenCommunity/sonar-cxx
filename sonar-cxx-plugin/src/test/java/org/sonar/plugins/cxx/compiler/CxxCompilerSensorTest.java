@@ -82,7 +82,7 @@ public class CxxCompilerSensorTest {
     verify(issuable, times(4)).addIssue(any(Issue.class));
   }
   
-  //@Test
+  @Test
   public void shouldReportBCorrectVcViolations() {
     Settings settings = new Settings();
     settings.setProperty("sonar.cxx.compiler.parser", CxxCompilerVcParser.KEY);
