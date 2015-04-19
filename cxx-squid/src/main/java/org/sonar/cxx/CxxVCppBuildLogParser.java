@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +58,7 @@ public class CxxVCppBuildLogParser {
       try {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(buildLog), charsetName));
         String line;
-        String currentProjectPath = "";
+        Path currentProjectPath = Paths.get(".");
         
         Set<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OverallIncludeKey);
         
@@ -73,7 +75,7 @@ public class CxxVCppBuildLogParser {
           // get base path of project to make 
           // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
           if (line.startsWith("Target \"ClCompile\" in file")) {
-            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
+            currentProjectPath = Paths.get(line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "")).getParent();              
           }
           
           if(line.contains("\\V100\\Microsoft.CppBuild.targets")) {
@@ -97,14 +99,23 @@ public class CxxVCppBuildLogParser {
     
           if (line.contains("\\bin\\CL.exe")) {
             String[] allElems = line.split("\\s+");
-            String fileElement = Paths.get(currentProjectPath, allElems[allElems.length - 1]).toAbsolutePath().toString();
-            if (!uniqueDefines.containsKey(fileElement)) {
-              uniqueDefines.put(fileElement, new HashSet<String>());
-            }
-            if (!uniqueIncludes.containsKey(fileElement)) {
-              uniqueIncludes.put(fileElement, new HashSet<String>());
+            String data = allElems[allElems.length - 1];
+            try {
+              String fileElement = Paths.get(currentProjectPath.toAbsolutePath().toString(), data).toAbsolutePath().toString();
+              
+              if (!uniqueDefines.containsKey(fileElement)) {
+                uniqueDefines.put(fileElement, new HashSet<String>());
+              }
+              
+              if (!uniqueIncludes.containsKey(fileElement)) {
+                uniqueIncludes.put(fileElement, new HashSet<String>());
+              }         
+              
+              parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);             
+            } catch (InvalidPathException ex) {
+              LOG.warn("Cannot extract information from current element: " + data + " : " + ex.getMessage());
             }            
-            parseVCppCompilerCLLine(line, currentProjectPath, fileElement);
+
           }
         }
         br.close();
@@ -114,16 +125,14 @@ public class CxxVCppBuildLogParser {
   }
 
   private void parseVCppCompilerCLLine(String line, String projectPath, String fileElement) {
-    File file = new File(projectPath);
-    String project = file.getParent();
 
     for (String includeElem : getMatches(Pattern.compile("/I\"(.*?)\""), line)) {
-      ParseInclude(includeElem, project, fileElement);
+      ParseInclude(includeElem, projectPath, fileElement);
     }
 
     for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "),
         line)) {
-      ParseInclude(includeElem, project, fileElement);
+      ParseInclude(includeElem, projectPath, fileElement);
     }
 
     for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"),
