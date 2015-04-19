@@ -72,7 +72,8 @@ public final class CheckList {
       SafetyTagCheck.class,
       UseCorrectIncludeCheck.class,
       XPathCheck.class,
-      BooleanEqualityComparisonCheck.class
+      BooleanEqualityComparisonCheck.class,
+      CompileIncludePathNotFoundOrInvalid.class
     );
   }
 
