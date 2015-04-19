@@ -32,7 +32,7 @@ import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsAggregator;
 import org.sonar.plugins.cxx.xunit.MSTestResultsProvider.MSTestResultsImportSensor;
@@ -43,14 +43,14 @@ import com.google.common.collect.ImmutableList;
 
 public class MSTestResultsProviderTest {
   private Project project;
-  private DefaultFileSystem fs;
+  private FileSystem fs;
   private SensorContext context;  
   private MSTestResultsAggregator resultsAggregator;
   private MSTestResultsImportSensor sensor;
 
   @Before
   public void setUp() {
-    fs = new DefaultFileSystem();
+    fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
