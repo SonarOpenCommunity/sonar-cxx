@@ -28,7 +28,10 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.annotations.Tags;
 
 /**
@@ -39,8 +42,11 @@ import org.sonar.squidbridge.annotations.Tags;
   key = "CompileIncludePathNotFoundOrInvalid",
   name = "Include path used during compilation not found or invalid",
   tags = {Tags.PREPROCESSOR},
+  description = "Verifies that include files used by compiler exist",
   priority = Priority.INFO)
 @ActivatedByDefault
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
+@SqaleConstantRemediation("5min")
 public class CompileIncludePathNotFoundOrInvalid extends SquidCheck<Grammar> {
 
   public static final String RULE_KEY = "CompileIncludePathNotFoundOrInvalid";
