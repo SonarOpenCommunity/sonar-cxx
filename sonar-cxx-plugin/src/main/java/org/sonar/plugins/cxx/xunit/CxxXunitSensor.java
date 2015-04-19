@@ -64,7 +64,6 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 
 /**
