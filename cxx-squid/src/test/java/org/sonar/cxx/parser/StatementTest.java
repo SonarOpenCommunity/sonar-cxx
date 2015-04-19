@@ -63,10 +63,10 @@ public class StatementTest extends ParserBaseTest {
     assertThat(p).matches("void foo(string, bool);");
     assertThat(p).matches("foo(int param, int=2);");
 
-    // 'bracket operator isnt welcome here' problem
+    // 'bracket operator isn't welcome here' problem
     assertThat(p).matches("foo(param1, instance()[1]);");
 
-    // 'decraring friend a class in the global namespace' problem
+    // 'declaring friend a class in the global namespace' problem
     assertThat(p).matches("friend class ::SMLCGroupHierarchyImpl;");
 
     // "'bitwise not' applied to a mask inside a namespace" problem

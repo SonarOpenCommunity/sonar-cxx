@@ -7,3 +7,15 @@ target
 *.log
 \#*\#
 *.pyc
+
+*.suo
+*.obj
+*.tlog
+*.log
+*.idb
+*.pdb
+*.ipch
+*.filters
+*.sdf
+*.opensdf
+*.vcxproj.user
