@@ -11,26 +11,26 @@ env:
   - SONARHOME=/tmp/sonarqube-5.1
   
 before_install:
-        - sudo apt-get install libboost-dev libboost-test-dev
+        - travis_retry sudo apt-get install libboost-dev libboost-test-dev
         
 install:
         - cd /tmp
-        - wget http://dist.sonar.codehaus.org/sonarqube-4.5.2.zip
+        - travis_retry wget http://dist.sonar.codehaus.org/sonarqube-4.5.2.zip
         - unzip sonarqube-4.5.2.zip        
-        - wget http://dist.sonar.codehaus.org/sonarqube-4.5.4.zip
+        - travis_retry wget http://dist.sonar.codehaus.org/sonarqube-4.5.4.zip
         - unzip sonarqube-4.5.4.zip        
-        - wget http://dist.sonar.codehaus.org/sonarqube-5.0.1.zip
+        - travis_retry wget http://dist.sonar.codehaus.org/sonarqube-5.0.1.zip
         - unzip sonarqube-5.0.1.zip
-        - wget http://dist.sonar.codehaus.org/sonarqube-5.1.zip
+        - travis_retry wget http://dist.sonar.codehaus.org/sonarqube-5.1.zip
         - unzip sonarqube-5.1.zip        
-        - wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
+        - travis_retry wget http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
         - unzip sonar-runner-dist-2.4.zip
         - cd -
 
 before_script:
-        - sudo pip install requests
-        - sudo pip install behave
-        - sudo pip install colorama
+        - travis_retry sudo pip install requests
+        - travis_retry sudo pip install behave
+        - travis_retry sudo pip install colorama
 
 script:
         - mvn install -DskipTests=true
