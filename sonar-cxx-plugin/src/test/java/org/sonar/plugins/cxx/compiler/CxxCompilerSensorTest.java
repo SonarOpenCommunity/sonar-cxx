@@ -46,14 +46,13 @@ public class CxxCompilerSensorTest {
   private RulesProfile profile;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
-
+  
   private CxxCompilerSensor createSensor(String parser, String encoding)
   {
       Settings settings = new Settings();
       settings.setProperty("sonar.cxx.compiler.parser", parser);
       settings.setProperty("sonar.cxx.compiler.charset", encoding);
       return new CxxCompilerSensor(perspectives, settings, fs, profile, TestUtils.mockReactor());
-
   }
 
   @Before
@@ -81,6 +80,7 @@ public class CxxCompilerSensorTest {
     sensor.analyse(project, context);
     verify(issuable, times(4)).addIssue(any(Issue.class));
   }
+  
   @Test
   public void shouldReportBCorrectVcViolations() {
     Settings settings = new Settings();

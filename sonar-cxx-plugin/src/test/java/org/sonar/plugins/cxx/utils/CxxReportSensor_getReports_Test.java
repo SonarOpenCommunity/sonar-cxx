@@ -35,7 +35,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -43,7 +42,8 @@ public class CxxReportSensor_getReports_Test {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
     public CxxReportSensorImpl(Settings settings, FileSystem fs) {
-      super(settings, fs, reactor);
+      super(settings, fs, TestUtils.mockReactor());
+
     }
   };
 
@@ -52,7 +52,6 @@ public class CxxReportSensor_getReports_Test {
 
   private CxxReportSensor sensor;
   private Settings settings;
-  private ProjectReactor reactor;
   private FileSystem fs;
 
   @Before

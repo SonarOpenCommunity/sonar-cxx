@@ -35,6 +35,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**

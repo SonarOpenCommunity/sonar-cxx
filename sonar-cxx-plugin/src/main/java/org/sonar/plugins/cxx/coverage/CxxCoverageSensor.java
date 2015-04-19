@@ -29,8 +29,8 @@ import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
@@ -59,13 +59,14 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
 
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
-  private final ProjectReactor reactor;
+    private final ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
    */
   public CxxCoverageSensor(Settings settings, FileSystem fs, ProjectReactor reactor) {
     super(settings, fs, reactor);
+
     this.reactor = reactor;
     parsers.add(new CoberturaParser());
     parsers.add(new BullseyeParser());
@@ -77,7 +78,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    
+
     CxxUtils.LOG.debug("Parsing coverage reports");
     List<File> reports = getCoverageReports(REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
     Map<String, CoverageMeasuresBuilder> coverageMeasures = processReports(project, context, reports);

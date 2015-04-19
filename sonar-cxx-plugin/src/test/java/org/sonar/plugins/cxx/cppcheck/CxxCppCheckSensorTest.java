@@ -28,7 +28,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.FileSystem;
@@ -59,6 +58,7 @@ public class CxxCppCheckSensorTest {
     project = TestUtils.mockProject();
     reactor = TestUtils.mockReactor();
     issuable = TestUtils.mockIssuable();
+    reactor = TestUtils.mockReactor();
     perspectives = TestUtils.mockPerspectives(issuable);
     profile = mock(RulesProfile.class);
     settings = new Settings();
@@ -110,6 +110,6 @@ public class CxxCppCheckSensorTest {
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(issuable, times(0)).addIssue(any(Issue.class));
-  }
+  }   
 }
 

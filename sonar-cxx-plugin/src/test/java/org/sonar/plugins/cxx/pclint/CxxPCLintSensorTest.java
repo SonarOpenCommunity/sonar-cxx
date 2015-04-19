@@ -50,12 +50,14 @@ public class CxxPCLintSensorTest {
   private ProjectReactor reactor;
   private FileSystem fs;
 
+
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
     project = TestUtils.mockProject();
     reactor = TestUtils.mockReactor();
     issuable = TestUtils.mockIssuable();
+    reactor = TestUtils.mockReactor();
     perspectives = TestUtils.mockPerspectives(issuable);
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);

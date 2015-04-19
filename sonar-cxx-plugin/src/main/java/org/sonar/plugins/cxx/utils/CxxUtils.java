@@ -66,7 +66,7 @@ public final class CxxUtils {
   /**
    * @return returns case sensitive full path
    */
-  public static String normalizePathList(String filename, String baseDir) {
+  public static String normalizePathFull(String filename, String baseDir) {
     String filePath = filename;   
     File targetfile = new java.io.File(filename);
     if (targetfile.exists()) {
@@ -82,3 +82,4 @@ public final class CxxUtils {
     return project.isRoot() && !project.getModules().isEmpty();
   }
 }
+

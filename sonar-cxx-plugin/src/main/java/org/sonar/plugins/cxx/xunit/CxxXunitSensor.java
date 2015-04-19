@@ -64,6 +64,7 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 
 /**
@@ -107,6 +108,20 @@ public class CxxXunitSensor extends CxxReportSensor {
   public Class<?> dependsUponCoverageSensors() {
     return CoverageExtension.class;
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean shouldExecuteOnProject(Project project) {
+    boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
+    
+    if (!providedetails) {
+      return !project.isModule();      
+    }
+    
+    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+  }
 
   /**
    * {@inheritDoc}
@@ -146,6 +161,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append(e)
         .append("'")
         .toString();
+      CxxUtils.LOG.error(msg);
       throw new SonarException(msg, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     }
   }
