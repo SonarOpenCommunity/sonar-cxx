@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +58,7 @@ public class CxxVCppBuildLogParser {
       try {
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(buildLog), charsetName));
         String line;
-        String currentProjectPath = "";
+        Path currentProjectPath = Paths.get(".");
         
         Set<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OverallIncludeKey);
         
@@ -73,7 +75,10 @@ public class CxxVCppBuildLogParser {
           // get base path of project to make 
           // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
           if (line.startsWith("Target \"ClCompile\" in file")) {
-            currentProjectPath = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");              
+            currentProjectPath = Paths.get(line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "")).getParent();
+            if (currentProjectPath == null) {
+              currentProjectPath = Paths.get(".");
+            }            
           }
           
           if(line.contains("\\V100\\Microsoft.CppBuild.targets")) {
@@ -97,33 +102,43 @@ public class CxxVCppBuildLogParser {
     
           if (line.contains("\\bin\\CL.exe")) {
             String[] allElems = line.split("\\s+");
-            String fileElement = Paths.get(currentProjectPath, allElems[allElems.length - 1]).toAbsolutePath().toString();
-            if (!uniqueDefines.containsKey(fileElement)) {
-              uniqueDefines.put(fileElement, new HashSet<String>());
-            }
-            if (!uniqueIncludes.containsKey(fileElement)) {
-              uniqueIncludes.put(fileElement, new HashSet<String>());
+            String data = allElems[allElems.length - 1];
+            try {
+              String fileElement = Paths.get(currentProjectPath.toAbsolutePath().toString(), data).toAbsolutePath().toString();
+              
+              if (!uniqueDefines.containsKey(fileElement)) {
+                uniqueDefines.put(fileElement, new HashSet<String>());
+              }
+              
+              if (!uniqueIncludes.containsKey(fileElement)) {
+                uniqueIncludes.put(fileElement, new HashSet<String>());
+              }         
+              
+              parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);             
+            } catch (InvalidPathException ex) {
+              LOG.warn("Cannot extract information from current element: " + data + " : " + ex.getMessage());
+            } catch (NullPointerException ex) {
+                LOG.error("Bug in parser, please report: '{}' - '{}'", ex.getMessage(), data + " @ " + currentProjectPath);
+                LOG.error("StackTrace: '{}'", ex.getStackTrace());
             }            
-            parseVCppCompilerCLLine(line, currentProjectPath, fileElement);
+
           }
         }
         br.close();
       } catch (IOException ex) {
         LOG.error("Cannot parse build log", ex);
-      }
+      }      
   }
 
   private void parseVCppCompilerCLLine(String line, String projectPath, String fileElement) {
-    File file = new File(projectPath);
-    String project = file.getParent();
 
     for (String includeElem : getMatches(Pattern.compile("/I\"(.*?)\""), line)) {
-      ParseInclude(includeElem, project, fileElement);
+      ParseInclude(includeElem, projectPath, fileElement);
     }
 
     for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "),
         line)) {
-      ParseInclude(includeElem, project, fileElement);
+      ParseInclude(includeElem, projectPath, fileElement);
     }
 
     for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"),
@@ -197,33 +212,33 @@ public class CxxVCppBuildLogParser {
   private void ParseCommonCompilerOptions(String line, String fileElement) {    
     // Always Defined //
     //_INTEGRAL_MAX_BITS Reports the maximum size (in bits) for an integral type.    
-    AddMacro("_INTEGRAL_MAX_BITS", fileElement);    
+    AddMacro("_INTEGRAL_MAX_BITS=32", fileElement);    
     //_MFC_VER Defines the MFC version. For example, in Visual Studio 2010, _MFC_VER is defined as 0x0A00.
-    AddMacro("_MFC_VER", fileElement);            
+    AddMacro("_MFC_VER=1", fileElement);            
     //_MSC_BUILD Evaluates to the revision number component of the compiler's version number. The revision number is the fourth component of the period-delimited version number. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_BUILD macro evaluates to 1.
-    AddMacro("_MSC_BUILD", fileElement);    
+    AddMacro("_MSC_BUILD=1", fileElement);    
     //_MSC_FULL_VER Evaluates to the major, minor, and build number components of the compiler's version number. The major number is the first component of the period-delimited version number, the minor number is the second component, and the build number is the third component. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_FULL_VER macro evaluates to 150020706. Type cl /? at the command line to view the compiler's version number.
-    AddMacro("_MSC_FULL_VER", fileElement);    
+    AddMacro("_MSC_FULL_VER=150020706", fileElement);    
     //_MSC_VER Evaluates to the major and minor number components of the compiler's version number. The major number is the first component of the period-delimited version number and the minor number is the second component.
-    AddMacro("_MSC_VER", fileElement); 
+    AddMacro("_MSC_VER=1700", fileElement); 
     //__COUNTER__ Expands to an integer starting with 0 and incrementing by 1 every time it is used in a source file or included headers of the source file. __COUNTER__ remembers its state when you use precompiled headers.
-    AddMacro("__COUNTER__", fileElement);     
+    AddMacro("__COUNTER__=0", fileElement);     
     //__DATE__ The compilation date of the current source file. The date is a string literal of the form Mmm dd yyyy. The month name Mmm is the same as for dates generated by the library function asctime declared in TIME.H.
-    AddMacro("__DATE__", fileElement);
+    AddMacro("__DATE__=\"??? ?? ????\"", fileElement);
     //__FILE__ The name of the current source file. __FILE__ expands to a string surrounded by double quotation marks. To ensure that the full path to the file is displayed, use /FC (Full Path of Source Code File in Diagnostics).
-    AddMacro("__FILE__", fileElement);
+    AddMacro("__FILE__=\"file\"", fileElement);
     //__LINE__ The line number in the current source file. The line number is a decimal integer constant. It can be changed with a #line directive.
-    AddMacro("__LINE__", fileElement);
+    AddMacro("__LINE__=1", fileElement);
     //__TIME__ The most recent compilation time of the current source file. The time is a string literal of the form hh:mm:ss.
-    AddMacro("__TIME__", fileElement);
+    AddMacro("__TIME__=\"??:??:??\"", fileElement);
     //__TIMESTAMP__ The date and time of the last modification of the current source file, expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is the abbreviated day of the week and Date is an integer from 1 to 31.
-    AddMacro("__TIMESTAMP__", fileElement);    
+    AddMacro("__TIMESTAMP__=\"??? ?? ???? ??:??:??\"", fileElement);    
     //_ATL_VER Defines the ATL version. In Visual Studio 2010, _ATL_VER is defined as 0x0A00.
-    AddMacro("_ATL_VER", fileElement);
+    AddMacro("_ATL_VER=1", fileElement);
 
     //__STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
     if (line.contains("/Za ")) {
-      AddMacro("__STDC__", fileElement);
+      AddMacro("__STDC__=1", fileElement);
     }
     
     //_CHAR_UNSIGNED Default char type is unsigned. Defined when /J is specified.
