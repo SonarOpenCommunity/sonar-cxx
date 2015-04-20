@@ -75,7 +75,10 @@ public class CxxVCppBuildLogParser {
           // get base path of project to make 
           // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
           if (line.startsWith("Target \"ClCompile\" in file")) {
-            currentProjectPath = Paths.get(line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "")).getParent();              
+            currentProjectPath = Paths.get(line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "")).getParent();
+            if (currentProjectPath == null) {
+              currentProjectPath = Paths.get(".");
+            }            
           }
           
           if(line.contains("\\V100\\Microsoft.CppBuild.targets")) {
