@@ -1335,28 +1335,28 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(innerTemplateArgumentList).is(innerTemplateArgument, b.optional("..."), b.zeroOrMore(",", innerTemplateArgument, b.optional("...")));
 
     b.rule(templateArgument).is(
-        b.firstOf(
-            b.sequence(typeId, b.next(b.optional("..."), b.firstOf(">", ","))),
-
-            // FIXME: workaround to parse stuff like "carray<int, 10>"
-            // actually, it should be covered by a constantExpression rule,
-            // but it doesnt work because of ambiguity template syntax <--> relationalExpression
-            b.sequence(
-                    b.firstOf(shiftExpression, idExpression),
-                    b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(shiftExpression, idExpression)))
-        )
-        );
+      b.firstOf(
+        typeId,
+        
+        // FIXME: workaround to parse stuff like "carray<int, 10>"
+        // actually, it should be covered by the next rule (constantExpression)
+        // but it doesnt work because of ambiguity template syntax <--> relationalExpression
+        shiftExpression,
+        constantExpression,
+        idExpression
+      )
+    );
 
     b.rule(innerTemplateArgument).is(
-            b.firstOf(
-                b.sequence(typeId, b.next(b.optional("..."), b.firstOf(">>", ","))),
-
-                // FIXME: workaround to parse stuff like "carray<int, 10>", see above
-                b.sequence(
-                        b.firstOf(shiftExpression, idExpression),
-                        b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(shiftExpression, idExpression)))
-            )
-            );
+      b.firstOf(
+        b.sequence(typeId, b.next(b.optional("..."), b.firstOf(">>", ","))),
+        
+        // FIXME: workaround to parse stuff like "carray<int, 10>", see above
+        b.sequence(
+          b.firstOf(idExpression, shiftExpression),
+          b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(idExpression, shiftExpression)))
+      )
+    );
 
     b.rule(typenameSpecifier).is(
         CxxKeyword.TYPENAME, nestedNameSpecifier,
