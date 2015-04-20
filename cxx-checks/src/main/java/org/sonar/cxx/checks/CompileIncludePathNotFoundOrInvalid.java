@@ -42,7 +42,8 @@ import org.sonar.squidbridge.annotations.Tags;
   key = "CompileIncludePathNotFoundOrInvalid",
   name = "Include path used during compilation not found or invalid",
   tags = {Tags.PREPROCESSOR},
-  priority = Priority.MAJOR)
+  description = "Verifies that include files used by compiler exist",
+  priority = Priority.INFO)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
 @SqaleConstantRemediation("5min")
