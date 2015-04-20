@@ -121,7 +121,10 @@ public class CxxVCppBuildLogParser {
         br.close();
       } catch (IOException ex) {
         LOG.error("Cannot parse build log", ex);
-      }
+      } catch (NullPointerException ex) {
+        LOG.error("Bug in parser, please report: '{}'", ex.getMessage());
+        LOG.error("StackTrace: '{}'", ex.getStackTrace());
+      }      
   }
 
   private void parseVCppCompilerCLLine(String line, String projectPath, String fileElement) {
