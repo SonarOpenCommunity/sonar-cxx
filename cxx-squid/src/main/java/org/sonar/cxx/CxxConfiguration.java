@@ -250,30 +250,31 @@ public class CxxConfiguration extends SquidConfiguration {
   private void RaiseIssuesForNotFoundIncludes(ActiveRule rule, FileSystem fs) {
 
     // raise issues for files that have invalid include folders
-    for (Map.Entry<String, Set<String>> entry : uniqueIncludes.entrySet()) {
-      if (!entry.getKey().equals(OverallIncludeKey)) {
-
-        for (String value : entry.getValue()) {
-          File directory = new File(value);
-          if (!directory.exists()) {
-            InputFile sonarFile = fs.inputFile(fs.predicates().hasAbsolutePath(
-                value));
-            Issuable issuable = perspectives.as(Issuable.class, sonarFile);
-            if ((issuable != null) && (rule != null)) {
-              Issue issue = issuable
-                  .newIssueBuilder()
-                  .ruleKey(rule.ruleKey())
-                  .line(1)
-                  .message(
-                      "Remove include from poject files, \"" + value
-                          + "\" it does not exist.").build();
-              issuable.addIssue(issue);
-            }
+    for(Map.Entry<String, Set<String>> entry : uniqueIncludes.entrySet()) {
+      if(!entry.getKey().equals(OverallIncludeKey)) {
+        
+        for(String value : entry.getValue()) {
+          try
+          {
+            File directory = new File(entry.getKey());
+            if (!directory.exists()) {
+              InputFile sonarFile = fs.inputFile(fs.predicates().hasAbsolutePath(value));
+              Issuable issuable = perspectives.as(Issuable.class, sonarFile);
+              if ((issuable != null) && (rule != null)) {
+                Issue issue = issuable.newIssueBuilder()
+                    .ruleKey(rule.ruleKey())
+                    .line(1)
+                    .message("Remove include from poject files, \"" + value + "\" it does not exist.")
+                    .build();
+                issuable.addIssue(issue);
+              }            
+            }            
+          } catch(IllegalArgumentException ex) {
+            LOG.warn("Cannot Create Issue for: '{}' reason: '{}'", value, ex.getMessage());
           }
         }
       }
     }
   }
-
 }
 

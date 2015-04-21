@@ -45,19 +45,24 @@ public final class ExpressionEvaluator {
   }
 
   public boolean eval(String constExpr) {
-    return evalToInt(constExpr).compareTo(BigInteger.ZERO) != 0;
+    return evalToInt(constExpr, null).compareTo(BigInteger.ZERO) != 0;
   }
 
   public boolean eval(AstNode constExpr) {
     return evalToInt(constExpr).compareTo(BigInteger.ZERO) != 0;
   }
 
-  private BigInteger evalToInt(String constExpr) {
+  private BigInteger evalToInt(String constExpr, AstNode exprAst) {
     AstNode constExprAst = null;
     try {
       constExprAst = parser.parse(constExpr);
     } catch (com.sonar.sslr.api.RecognitionException re) {
-      LOG.debug("Error evaluating expression '{}', assuming 0", constExpr);
+      if (exprAst != null) {
+        LOG.warn("Error evaluating expression '{}' for AstExp '{}', assuming 0", constExpr, exprAst.getToken());
+      } else {
+        LOG.warn("Error evaluating expression '{}', assuming 0", constExpr);
+      }
+      
       return BigInteger.ZERO;
     }
 
@@ -87,7 +92,7 @@ public final class ExpressionEvaluator {
       return evalCharacter(exprAst.getTokenValue());
     } else if ("IDENTIFIER".equals(nodeType)) {
       String value = preprocessor.valueOf(exprAst.getTokenValue());
-      return value == null ? BigInteger.ZERO : evalToInt(value);
+      return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
     } else {
       throw new EvaluationException("Unknown expression type '" + nodeType + "'");
     }
@@ -423,7 +428,7 @@ public final class ExpressionEvaluator {
       LOG.warn("Undefined functionlike macro '{}' assuming 0", macroName);
     }
 
-    return value == null ? BigInteger.ZERO : evalToInt(value);
+    return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
   }
 
   String stripSuffix(String number)
