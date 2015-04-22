@@ -75,12 +75,21 @@ public class CxxPCLintSensorTest {
   @Test
   public void shouldReportCorrectMisra2004Violations() {
     Settings settings = new Settings();
-    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE.xml");
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(29)).addIssue(any(Issue.class));
   }
 
+  @Test
+  public void shouldReportCorrectMisra2004PcLint9Violations() {
+    Settings settings = new Settings();
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
+    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
+    sensor.analyse(project, context);
+    verify(issuable, times(1)).addIssue(any(Issue.class));
+  }
+  
   @Test(expected=SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowExceptionWhenMisra2004DescIsWrong() {
     Settings settings = new Settings();
