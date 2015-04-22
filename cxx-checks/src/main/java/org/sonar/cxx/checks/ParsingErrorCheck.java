@@ -27,16 +27,15 @@ import org.sonar.squidbridge.AstScannerExceptionHandler;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.RecognitionException;
-import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import org.sonar.squidbridge.annotations.NoSqale;
 
 @Rule(
   key = "ParsingError",
   name = "C++ parser failure",
   priority = Priority.MAJOR)
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.INSTRUCTION_RELIABILITY)
-@SqaleConstantRemediation("30min")
+@ActivatedByDefault
+@NoSqale
 public class ParsingErrorCheck extends SquidCheck<Grammar> implements AstScannerExceptionHandler {
 
   public void processException(Exception e) {
