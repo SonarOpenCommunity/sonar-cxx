@@ -30,20 +30,16 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyBoolean;
 
 import java.io.File;
-
 import java.util.Arrays;
 import java.util.List;
-
 
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-
-import org.sonar.api.batch.bootstrap.ProjectReactor;
-import org.sonar.api.batch.fs.InputFile.Type;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
@@ -59,10 +55,10 @@ public class CxxSquidSensorTest {
   private CxxSquidSensor sensor;
   private SensorContext context;
   private Settings settings;
-  private DefaultFileSystem fs;
+  private FileSystem fs;
   private Project project;
-  private ProjectReactor reactor;
   private ResourcePerspectives perspectives;
+  private ProjectReactor reactor;
   private Highlightable highlightable;
   private Highlightable.HighlightingBuilder builder;
 
@@ -133,7 +129,6 @@ public class CxxSquidSensorTest {
     settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
     settings.setProperty(CxxPlugin.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder/force2.hh");
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/force-include-project");
-
     setUpSensor(baseDir, Arrays.asList(new File("src")));
 
     sensor.analyse(project, context);
@@ -145,7 +140,6 @@ public class CxxSquidSensorTest {
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.STATEMENTS), eq(2.0));
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(1.0));
     verify(context, times(2)).saveMeasure((org.sonar.api.resources.File) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
-
   }
 
   @Test
@@ -153,7 +147,6 @@ public class CxxSquidSensorTest {
     // especially: when two files, both belonging to the set of
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
-
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");
     setUpSensor(baseDir, Arrays.asList(new File(".")));
 
@@ -182,7 +175,6 @@ public class CxxSquidSensorTest {
 
   @Test
   public void testCircularPackageDependency() {
-
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-packages-project");
     setUpSensor(baseDir, Arrays.asList(new File("Package1"), new File("Package2")));
 
@@ -199,13 +191,13 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_EDGES_WEIGHT), eq(3.0));
   }
 
-
   private void setUpSensor(File baseDir, List<File> srcDirs){
     project = TestUtils.mockProject(baseDir);
     fs = TestUtils.mockFileSystem(baseDir, srcDirs, null);
 
     ActiveRules rules = mock(ActiveRules.class);
     CheckFactory checkFactory = new CheckFactory(rules);
+
     reactor = TestUtils.mockReactor();
     sensor = new CxxSquidSensor(perspectives, settings, fs, reactor, checkFactory, rules);
   }
