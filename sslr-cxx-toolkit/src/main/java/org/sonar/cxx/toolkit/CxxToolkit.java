@@ -19,20 +19,7 @@
  */
 package org.sonar.cxx.toolkit;
 
-import java.util.List;
-
-import org.sonar.colorizer.KeywordsTokenizer;
-import org.sonar.colorizer.Tokenizer;
-import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.api.CxxKeyword;
-import org.sonar.cxx.parser.CxxParser;
-import org.sonar.squidbridge.SquidAstVisitorContext;
-import org.sonar.squidbridge.SquidAstVisitorContextImpl;
-import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.sslr.toolkit.Toolkit;
-
-import com.google.common.collect.ImmutableList;
-import com.sonar.sslr.api.Grammar;
 
 public final class CxxToolkit {
 
@@ -40,19 +27,8 @@ public final class CxxToolkit {
   }
 
   public static void main(String[] args) {
-    System.setProperty("com.apple.mrj.application.apple.menu.about.name", "SSDK");
-
-    CxxConfiguration config = new CxxConfiguration();
-    config.setErrorRecoveryEnabled(false);
-    SquidAstVisitorContext<Grammar> context =
-      new SquidAstVisitorContextImpl<Grammar>(new SourceProject(""));
-
-    new Toolkit(CxxParser.create(context, config), getCxxTokenizers(), "SSLR Cxx Toolkit").run();
-  }
-
-  public static List<Tokenizer> getCxxTokenizers() {
-    return ImmutableList.of(
-        (Tokenizer) new KeywordsTokenizer("<span class=\"k\">", "</span>", CxxKeyword.keywordValues()));
+    Toolkit toolkit = new Toolkit("SSLR :: Cxx :: Toolkit", new CxxConfigurationModel());
+    toolkit.run();
   }
 
 }

@@ -28,15 +28,13 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
-import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.Tags;
 
 /**
- * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which actually does the job of finding duplicated
- * includes
+ * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which
+ * actually does the job of finding duplicated includes
  */
 @Rule(
   key = "CompileIncludePathNotFoundOrInvalid",
@@ -45,8 +43,7 @@ import org.sonar.squidbridge.annotations.Tags;
   description = "Verifies that include files used by compiler exist",
   priority = Priority.INFO)
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
-@SqaleConstantRemediation("5min")
+@NoSqale
 public class CompileIncludePathNotFoundOrInvalid extends SquidCheck<Grammar> {
 
   public static final String RULE_KEY = "CompileIncludePathNotFoundOrInvalid";
