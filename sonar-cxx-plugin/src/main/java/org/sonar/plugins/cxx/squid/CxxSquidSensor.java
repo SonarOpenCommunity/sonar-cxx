@@ -20,17 +20,18 @@
 package org.sonar.plugins.cxx.squid;
 
 import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
+
 import javax.annotation.Nullable;
 
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.FilePredicate;
@@ -69,6 +70,7 @@ import org.sonar.api.source.Highlightable;
 import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
 
 import com.sonar.sslr.api.Grammar;
+
 import org.sonar.cxx.checks.CompileIncludePathNotFoundOrInvalid;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
@@ -89,13 +91,11 @@ public final class CxxSquidSensor implements Sensor {
   private FileSystem fs;
   private ResourcePerspectives resourcePerspectives;
   private final FilePredicate mainFilePredicate;
-  private final ProjectReactor reactor;
-
   /**
    * {@inheritDoc}
    */
   public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings conf,
-                        FileSystem fs, ProjectReactor reactor, CheckFactory checkFactory, ActiveRules rules) {
+                        FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
     this.checks = checkFactory.create(CheckList.REPOSITORY_KEY).addAnnotatedChecks(CheckList.getChecks());
     this.rules = rules;
     this.conf = conf;
@@ -104,7 +104,6 @@ public final class CxxSquidSensor implements Sensor {
     FilePredicates predicates = fs.predicates();
     this.mainFilePredicate = predicates.and(predicates.hasType(InputFile.Type.MAIN),
                                             predicates.hasLanguage(CxxLanguage.KEY));
-    this.reactor = reactor;
   }
 
   public boolean shouldExecuteOnProject(Project project) {
@@ -151,9 +150,6 @@ public final class CxxSquidSensor implements Sensor {
   private CxxConfiguration createConfiguration(FileSystem fs, Settings conf) {
     CxxConfiguration cxxConf = new CxxConfiguration(fs, resourcePerspectives, CompileIncludePathNotFoundOrInvalid.getActiveRule(rules));
     String baseDir = fs.baseDir().getAbsolutePath();
-//    if (CxxUtils.isReactorProject(project)) {
-//      baseDir = reactor.getRoot().getBaseDir().getAbsolutePath();
-//    } 
     cxxConf.setBaseDir(baseDir);
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){

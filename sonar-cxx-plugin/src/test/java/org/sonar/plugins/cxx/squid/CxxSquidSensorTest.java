@@ -30,6 +30,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyBoolean;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +40,6 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.ActiveRules;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
@@ -58,7 +58,6 @@ public class CxxSquidSensorTest {
   private FileSystem fs;
   private Project project;
   private ResourcePerspectives perspectives;
-  private ProjectReactor reactor;
   private Highlightable highlightable;
   private Highlightable.HighlightingBuilder builder;
 
@@ -198,7 +197,7 @@ public class CxxSquidSensorTest {
     ActiveRules rules = mock(ActiveRules.class);
     CheckFactory checkFactory = new CheckFactory(rules);
 
-    reactor = TestUtils.mockReactor();
-    sensor = new CxxSquidSensor(perspectives, settings, fs, reactor, checkFactory, rules);
+    List<File> empty = new ArrayList<File>();
+    sensor = new CxxSquidSensor(perspectives, settings, fs, checkFactory, rules);
   }
 }
