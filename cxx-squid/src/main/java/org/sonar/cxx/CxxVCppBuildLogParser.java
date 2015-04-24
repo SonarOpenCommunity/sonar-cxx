@@ -35,14 +35,17 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.FileSystem;
 
 public class CxxVCppBuildLogParser {
+
   private enum VSVersion { V100, V110, V120, V140 };
   
   private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxVCppBuildLogParser");
   
   private final HashMap<String, Set<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;
+  private final FileSystem fs;
   
   private VSVersion platformToolset = VSVersion.V100;
   private String platform = "Win32";
@@ -50,8 +53,16 @@ public class CxxVCppBuildLogParser {
   public CxxVCppBuildLogParser(HashMap<String, Set<String>> uniqueIncludesIn,
           HashMap<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
-    uniqueDefines = uniqueDefinesIn;  
+    uniqueDefines = uniqueDefinesIn;
+    fs = null;
   }
+  
+  public CxxVCppBuildLogParser(HashMap<String, Set<String>> uniqueIncludesIn,
+          HashMap<String, Set<String>> uniqueDefinesIn, FileSystem fsIn) {
+    uniqueIncludes = uniqueIncludesIn;
+    uniqueDefines = uniqueDefinesIn;
+    fs = fsIn;
+  }  
   
   public void parseVCppLog(File buildLog, String charsetName) {
 
@@ -77,7 +88,11 @@ public class CxxVCppBuildLogParser {
           if (line.startsWith("Target \"ClCompile\" in file")) {
             currentProjectPath = Paths.get(line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "")).getParent();
             if (currentProjectPath == null) {
-              currentProjectPath = Paths.get(".");
+              if (fs == null) {
+                currentProjectPath = Paths.get(".");
+              } else {
+                currentProjectPath = Paths.get(fs.baseDir().getPath());
+              }              
             }            
           }
           
