@@ -19,15 +19,14 @@
  */
 package org.sonar.plugins.cxx.cppcheck;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.mockito.Matchers.any;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.FileSystem;
@@ -39,6 +38,9 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
+import org.junit.Before;
+import org.junit.Test;
+
 
 public class CxxCppCheckSensorTest {
 
@@ -71,7 +73,7 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     sensor.analyse(project, context);
-    verify(issuable, times(7)).addIssue(any(Issue.class));
+    verify(issuable, times(9)).addIssue(any(Issue.class));
   }
 
   @Test
@@ -80,7 +82,7 @@ public class CxxCppCheckSensorTest {
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
     sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    verify(issuable, times(3)).addIssue(any(Issue.class));
   }
 
   @Test
@@ -89,7 +91,7 @@ public class CxxCppCheckSensorTest {
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
     sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    verify(issuable, times(3)).addIssue(any(Issue.class));
   }
 
   @Test
@@ -110,6 +112,6 @@ public class CxxCppCheckSensorTest {
     when(context.getResource((File) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(issuable, times(0)).addIssue(any(Issue.class));
-  }   
+  }
 }
 

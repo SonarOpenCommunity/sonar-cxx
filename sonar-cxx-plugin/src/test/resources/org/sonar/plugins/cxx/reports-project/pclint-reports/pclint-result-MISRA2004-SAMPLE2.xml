@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result>
+<issue file =".\test.c" line = "297" number = "931" desc = "Loss of precision (assignment) (float to unsigned int) [MISRA 2004 Rule 10.1]"/>
+</result>

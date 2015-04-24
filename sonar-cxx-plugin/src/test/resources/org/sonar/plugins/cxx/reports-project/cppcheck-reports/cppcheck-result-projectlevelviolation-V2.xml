@@ -2,6 +2,12 @@
 <results version="2">
   <cppcheck version="1.53"/>
   <errors>  
-    <error id="someid" severity="error" msg="somemessage"/>
+    <error id="id1" severity="error" msg="somemessage"/>
+    <error id="id2" severity="warning" msg="somemessage">
+      <location file="*"/>
+    </error>    
+    <error id="id3" severity="information" msg="somemessage" verbose="xyz">
+      <location file="*" line="0"/>
+    </error>
   </errors>
 </results>
