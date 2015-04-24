@@ -78,7 +78,7 @@ public class CxxConfiguration extends SquidConfiguration {
     this.fs = fs;
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
-    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines, fs);
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
   
   public CxxConfiguration(FileSystem fs,
@@ -89,7 +89,7 @@ public class CxxConfiguration extends SquidConfiguration {
     perspectives = perspectivesIn;
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
-    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines, fs);
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
     this.activeRule = activeRule;
   }
 
@@ -233,7 +233,7 @@ public class CxxConfiguration extends SquidConfiguration {
       if (buildLog.exists()) {
         LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
         if (fileFormat.equals("Visual C++")) {
-          cxxVCppParser.parseVCppLog(buildLog, charsetName);
+          cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
         }
 
         LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
