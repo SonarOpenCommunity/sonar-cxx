@@ -62,6 +62,7 @@ public class CxxConfigurationTest {
   @Test
   public void correctlyCreatesConfiguration() {
     CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
     List<File> files = new ArrayList<File>();
     files.add(new File("src/test/resources/compiler/vc++13.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
@@ -73,6 +74,7 @@ public class CxxConfigurationTest {
   @Test
   public void shouldHandleSpeciificCommonOptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformCommon.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
@@ -111,6 +113,7 @@ public class CxxConfigurationTest {
   @Test
   public void shouldHandleSpeciificCommonx64OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformCommonX64.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
@@ -130,6 +133,7 @@ public class CxxConfigurationTest {
   @Test
   public void shouldHandleSpeciificV100OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
     List<File> files = new ArrayList<File>();
     files.add(new File("src/test/resources/compiler/platformToolsetv100.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
@@ -147,6 +151,7 @@ public class CxxConfigurationTest {
   @Test
   public void shouldHandleSpeciificV110OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
     List<File> files = new ArrayList<File>();
     files.add(new File("src/test/resources/compiler/platformToolsetv110.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
@@ -165,6 +170,7 @@ public class CxxConfigurationTest {
   @Test
   public void shouldHandleSpeciificV120OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformToolsetv120.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
