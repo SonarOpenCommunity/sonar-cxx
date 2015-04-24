@@ -78,7 +78,7 @@ public class CxxConfiguration extends SquidConfiguration {
     this.fs = fs;
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
-    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines, fs);
   }
   
   public CxxConfiguration(FileSystem fs,
@@ -89,7 +89,7 @@ public class CxxConfiguration extends SquidConfiguration {
     perspectives = perspectivesIn;
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
-    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
+    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines, fs);
     this.activeRule = activeRule;
   }
 
