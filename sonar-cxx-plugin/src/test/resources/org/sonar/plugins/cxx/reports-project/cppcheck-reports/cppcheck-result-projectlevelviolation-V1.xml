@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
 <results>
-<error id="someid" severity="error" msg="somemessage"/>
+<error id="id1" severity="error" msg="somemessage"/>
+<error id="id2" file="*" severity="error" msg="somemessage"/>
+<error id="id3" file="*" line="0" severity="error" msg="somemessage"/>
 </results>
