@@ -83,6 +83,11 @@ public class CppcheckParserV2 implements CppcheckParser {
                 if (locationCursor.getNext() != null) {
                   file = locationCursor.getAttrValue("file");
                   line = locationCursor.getAttrValue("line");
+
+                  if ("*".equals(file)) { // findings on project level
+                    file = null;
+                    line = null;
+                  }
                 }
 
                 if (isInputValid(file, line, id, msg)) {
@@ -110,7 +115,7 @@ public class CppcheckParserV2 implements CppcheckParser {
         }
         return msg;
       }
-        
+
       private boolean isInputValid(String file, String line, String id, String msg) {
         return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
       }
