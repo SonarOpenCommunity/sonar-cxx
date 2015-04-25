@@ -15,7 +15,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <li>Create a new rule in SonarQube by "copying" this rule template and specify the <code>CheckId</code> of your custom rule, a title, a description, and a default severity.</li>
     <li>Enable the newly created rule in your quality profile</li>
   </ol>
-  <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
+  <li>Relaunch an analysis on your projects, et voila, your custom rules are executed!</li>
 </ol>
       ]]>
     </description>
@@ -1022,7 +1022,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   <rule>
     <key>sizeofwithsilentarraypointer</key>
     <configkey>sizeofwithsilentarraypointer</configkey>
-    <name>Using sizeof for array given as function argument returns the size of pointer</name>
+    <name>Using sizeof on array given as function argument returns the size of pointer</name>
     <description>
       Using &apos;sizeof&apos; for array given as function argument returns the size of pointer.
     </description>
@@ -2856,6 +2856,79 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <name>Given argument to va_start() is not last one</name>
     <description>
       &apos;arg1&apos; given to va_start() is not last named argument of the function. Did you intend to pass &apos;arg2&apos;?.
+    </description>
+  </rule>
+  <rule>
+    <key>unmatchedSuppression</key>
+    <configkey>unmatchedSuppression</configkey>
+    <name>Unmatched suppression: unusedFunction</name>
+    <description>
+      Unmatched suppression: unusedFunction.
+    </description>
+  </rule>
+    <!-- ########### New in cppcheck 1.69 Dev ########### -->
+  <rule>
+    <key>duplicateExpressionTernary</key>
+    <configkey>duplicateExpressionTernary</configkey>
+    <name>Same expression in both branches of ternary operator</name>
+    <description>
+      Same expression in both branches of ternary operator.
+    </description>
+  </rule>
+  <rule>
+    <key>noExplicitConstructor</key>
+    <configkey>noExplicitConstructor</configkey>
+    <name>Class has a constructor with 1 argument that is not explicit</name>
+    <description>
+      Class &apos;classname&apos; has a constructor with 1 argument that is not explicit.
+    </description>
+  </rule>
+  <rule>
+    <key>noExplicitCopyMoveConstructor</key>
+    <configkey>noExplicitCopyMoveConstructor</configkey>
+    <name>Abstract class has a copy/move constructor that is not explicit</name>
+    <description>
+      Abstract class &apos;classname&apos; has a copy/move constructor that is not explicit.
+    </description>
+  </rule>
+  <rule>
+    <key>operatorEqMissingReturnStatement</key>
+    <configkey>operatorEqMissingReturnStatement</configkey>
+    <name>Missing &apos;return&apos; statement in non-void function causes undefined behavior</name>
+    <description>
+      No &apos;return&apos; statement in non-void function causes undefined behavior.
+    </description>
+  </rule>
+  <rule>
+    <key>operatorEqShouldBeLeftUnimplemented</key>
+    <configkey>operatorEqShouldBeLeftUnimplemented</configkey>
+    <name>&apos;operator=&apos; should either return reference to &apos;this&apos;</name>
+    <description>
+      &apos;operator=&apos; should either return reference to &apos;this&apos; instance or be declared private and left unimplemented.
+    </description>
+  </rule>
+  <rule>
+    <key>redundantPointerOp</key>
+    <configkey>redundantPointerOp</configkey>
+    <name>Redundant pointer operation on varname</name>
+    <description>
+      Redundant pointer operation on varname - it&apos;s already a pointer.
+    </description>
+  </rule>
+  <rule>
+    <key>throwInNoexceptFunction</key>
+    <configkey>throwInNoexceptFunction</configkey>
+    <name>Exception thrown in function declared not to throw exceptions</name>
+    <description>
+      Exception thrown in function declared not to throw exceptions.
+    </description>
+  </rule>
+  <rule>
+    <key>useAutoPointerMalloc</key>
+    <configkey>useAutoPointerMalloc</configkey>
+    <name>Object pointed by an &apos;auto_ptr&apos; is destroyed using operator &apos;delete&apos;</name>
+    <description>
+      Object pointed by an &apos;auto_ptr&apos; is destroyed using operator &apos;delete&apos;. You should not use &apos;auto_ptr&apos; for pointers obtained with function &apos;malloc&apos;.
     </description>
   </rule>
 </rules>
