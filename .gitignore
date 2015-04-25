@@ -6,3 +6,5 @@ target
 *.log
 \#*\#
 *.pyc
+
+*.java.orig

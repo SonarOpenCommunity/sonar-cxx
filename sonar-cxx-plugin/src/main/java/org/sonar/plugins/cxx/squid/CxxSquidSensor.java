@@ -20,12 +20,14 @@
 package org.sonar.plugins.cxx.squid;
 
 import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
+
 import javax.annotation.Nullable;
 
 import org.sonar.api.batch.Sensor;
@@ -68,6 +70,7 @@ import org.sonar.api.source.Highlightable;
 import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
 
 import com.sonar.sslr.api.Grammar;
+
 import org.sonar.cxx.checks.CompileIncludePathNotFoundOrInvalid;
 import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import static org.sonar.plugins.cxx.compiler.CxxCompilerSensor.REPORT_CHARSET_DEF;
@@ -90,7 +93,6 @@ public final class CxxSquidSensor implements Sensor {
   private FileSystem fs;
   private ResourcePerspectives resourcePerspectives;
   private final FilePredicate mainFilePredicate;
-
   /**
    * {@inheritDoc}
    */
