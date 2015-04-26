@@ -13,7 +13,7 @@ adds C++ support to this platform.
 
 
 ## Resources
-- [Latest release](https://github.com/wenns/sonar-cxx/releases/tag/cxx-0.9.2)
+- [Latest release](https://github.com/wenns/sonar-cxx/releases)
 - [Documentation](https://github.com/wenns/sonar-cxx/wiki)
 - [Issue Tracker](https://github.com/wenns/sonar-cxx/issues)
 - [Continuous Integration](https://travis-ci.org/wenns/sonar-cxx)
