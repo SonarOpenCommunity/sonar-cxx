@@ -99,9 +99,6 @@
       <name>Peter van Zetten</name>
       <email>peter.van.zetten@cgi.co</email>
     </developer>
-    <developer>
-      <id>ametselaar</id>
-    </developer>
   </developers>
 
   <modules>
