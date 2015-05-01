@@ -31,15 +31,18 @@ if (0) {                   // Compliant - already reported
   int b;                   // Non-Compliant
   };
 };
+// *******************start from column=0
   enum FooX {             // Non-Compliant
     A,                    // Non-Compliant
   B,                      // Compliant
     C                     // Compliant - already reported
 };
+// *******************start from column=0
 int FooY() {
 void foo1();               // Non-Compliant
   void foo2();             // Compliant
 };
+// *******************start from column=0
 class Foo {
   void foo() {
     class MyInterface{
@@ -54,7 +57,7 @@ class Foo {
     1
   };
 };
-
+// *******************start from column=0
  class Foo {               // Non-Compliant
   public:
   int par;
@@ -126,6 +129,7 @@ printf("\n");              // Non-compliant
     }
   }
 };
+// *******************start from column=0
 namespace Toto {
   class Foo {
     int a;                 // Compliant
@@ -138,29 +142,36 @@ class Foo {                // Non-Compliant
   int a;                   // Non-Compliant
 };
 }
+// *******************start from column=0
 extern "C" {
 void foo() {
   printf("\n");            // Compliant
 }
 }
+// *******************start from column=0
 enum Foo {                 // Compliant
   A,
   B
 };
+// *******************start from column=0
   namespace XXX { }        // Non-Compliant
 namespace YYY {            // Compliant
 namespace XXX {            // Non-Compliant
 }
 }
+// *******************start from column=0
   int fun() {              // Non-Compliant
   }
+// *******************start from column=0
 void foo1() {              // Compliant
   printf("\n");            // Compliant
 }                          // Compliant
+// *******************start from column=0
  void foo2() {             // Non-Compliant
  printf("hehe");           // Non-Compliant
      printf("\n");         // Compliant - already reported
 }
+// *******************start from column=0
 void foo3() {
   switch(x) {
    case 1:                 // Non-Compliant
@@ -179,6 +190,7 @@ void foo3() {
      break;                // Non-Compliant
    }
 }
+// *******************start from column=0
 #define EMPTY()
 void Trivia() {
   EMPTY();                 // Compliant
@@ -201,3 +213,31 @@ void Trivia() {
   #endif                   // Non-Compliant
   printf("0");
 }
+// *******************start from column=0
+
+namespace piTest {
+  using rapidxml::xml_node;
+  PngDataSet::PngDataSet(std::string config)
+  {
+    if (config.compare("") != 0)
+      return false;
+  }
+}
+
+namespace B {
+  void f(int);
+  void f(double);
+}
+namespace C {
+  void f(int);
+  void f(double);
+  void f(char);
+}
+void h() {
+  using B::f; // introduces B::f(int), B::f(double)
+  using C::f; // introduces C::f(int), C::f(double), and C::f(char)
+  f('h');      // calls C::f(char)
+  f(1);        // error: B::f(int) or C::f(int)?
+  void f(int); // error: f(int) conflicts with C::f(int) and B::f(int)
+}
+

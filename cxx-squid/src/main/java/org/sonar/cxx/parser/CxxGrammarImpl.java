@@ -158,7 +158,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   originalNamespaceDefinition,
   extensionNamespaceDefinition,
   unnamedNamespaceDefinition,
-  namespaceBody,
+  namespaceBlock,
   namespaceAlias,
   namespaceAliasDefinition,
   qualifiedNamespaceSpecifier,
@@ -865,13 +865,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
       );
 
-    b.rule(originalNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, "{", namespaceBody, "}");
+    b.rule(originalNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, IDENTIFIER, namespaceBlock);
 
-    b.rule(extensionNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, "{", namespaceBody, "}");
+    b.rule(extensionNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, originalNamespaceName, namespaceBlock);
 
-    b.rule(unnamedNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, "{", namespaceBody, "}");
-
-    b.rule(namespaceBody).is(b.optional(declarationSeq));
+    b.rule(unnamedNamespaceDefinition).is(b.optional(CxxKeyword.INLINE), CxxKeyword.NAMESPACE, namespaceBlock);
+    
+    b.rule(namespaceBlock).is("{", b.optional(declarationSeq), "}");
 
     b.rule(namespaceAlias).is(IDENTIFIER);
 
