@@ -179,10 +179,6 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     return false;
   }
 
-  private boolean isNamespaceBody(AstNode node) {
-    return node.is(CxxGrammarImpl.declarationSeq) && node.getParent().is(CxxGrammarImpl.namespaceBody);
-  }
-
   private boolean isLinkageSpecificationBlock(AstNode node) {
     return node.is(CxxGrammarImpl.declarationSeq) && node.getParent().is(CxxGrammarImpl.linkageSpecification);
   }
@@ -207,7 +203,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     else if (node.is(BLOCK_TYPES)) {
       blockLevels.push(expectedLevel);
       if (!isConditionalBlock(node) && //do not further indent conditional block, the if/for/... statement already incremented the indentation
-          (indentNamespace || !isNamespaceBody(node)) && //do not indent inside namespace
+          (indentNamespace || !node.is(CxxGrammarImpl.namespaceBlock)) && //do not indent inside namespace
           (indentLinkageSpecification || !isLinkageSpecificationBlock(node)) && //do not indent inside linkage specification block
           (indentSwitchCase || !node.is(CxxGrammarImpl.switchBlockStatementGroups))) { //do not indent 'case' and 'default' inside switch statement
         expectedLevel += indentationLevel;

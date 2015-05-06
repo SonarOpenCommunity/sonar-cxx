@@ -44,31 +44,32 @@ public class IndentationCheckTest {
         .next().atLine(20)
         .next().atLine(24).withMessage("Make this line start at column 9.")
         .next().atLine(31)
-        .next().atLine(34)
         .next().atLine(35)
-        .next().atLine(40)
-        .next().atLine(58)
-        .next().atLine(96)
-        .next().atLine(101)
-        .next().atLine(107)
-        .next().atLine(137)
-        .next().atLine(138)
-        .next().atLine(150)
-        .next().atLine(152)
-        .next().atLine(155)
-        .next().atLine(160)
-        .next().atLine(161)
-        .next().atLine(166)
-        .next().atLine(169)
+        .next().atLine(36)
+        .next().atLine(42)
+        .next().atLine(61)
+        .next().atLine(99)
+        .next().atLine(104)
+        .next().atLine(110)
+        .next().atLine(141).withMessage("Make this line start at column 3.")
+        .next().atLine(142).withMessage("Make this line start at column 5.")
+        .next().atLine(157).withMessage("Make this line start at column 1.")
+        .next().atLine(159).withMessage("Make this line start at column 3.")
+        .next().atLine(163)
         .next().atLine(170)
-        .next().atLine(173)
-        .next().atLine(175)
-        .next().atLine(179)
-        .next().atLine(187)
+        .next().atLine(171)
+        .next().atLine(177)
+        .next().atLine(180)
+        .next().atLine(181)
+        .next().atLine(184)
+        .next().atLine(186)
         .next().atLine(190)
-        .next().atLine(194)
-        .next().atLine(197)
-        .next().atLine(201);
+        .next().atLine(199)
+        .next().atLine(202)
+        .next().atLine(206)
+        .next().atLine(209)
+        .next().atLine(213)
+        .noMore();
   }
 
   @Test
@@ -79,8 +80,8 @@ public class IndentationCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/IndentationCheck.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
         .next().atLine(4).withMessage("Make this line start at column 5.")
-        .next().atLine(9)
-        .next().atLine(11);
+        .next().atLine(9).withMessage("Make this line start at column 9.")
+        .next().atLine(11).withMessage("Make this line start at column 5.");
   }
 
 }
