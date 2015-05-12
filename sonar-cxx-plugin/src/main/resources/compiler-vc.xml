@@ -568,6 +568,16 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4138</key>
+    <configkey>C4138</configkey>
+    <priority>MAJOR</priority>
+    <name>C4138: '*/' found outside of comment</name>
+    <description>
+      The closing-comment delimiter is not preceded by an opening-comment delimiter.
+      The compiler assumes a space between the asterisk (*) and the forward slash (/).
+    </description>
+  </rule>
+  <rule>
     <key>C4142</key>
     <configkey>C4142</configkey>
     <priority>CRITICAL</priority>
@@ -4646,9 +4656,9 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>C6262: Function uses &lt;constant&gt; bytes of stack: exceeds /analyze:stacksize&lt;constant 2&gt;. Consider moving some data to heap</name>
     <description>
-      This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack—even in user mode—is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
-      To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem—and this warning may be suppressed—but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
-      For kernel-mode code —for example, in driver projects— the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
+      This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack - even in user mode - is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
+      To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem - and this warning may be suppressed - but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
+      For kernel -mode code- for example, in driver projects-the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
     </description>
   </rule>
   <rule>
@@ -6293,7 +6303,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>C28208: Function &lt;function&gt; was previously defined with a different parameter list at &lt;file&gt;(&lt;line&gt;). Some analysis tools will yield incorrect results</name>
     <description>
-      This warning is reported when a function’s known definition doesn’t match another occurrence.
+      This warning is reported when a function's known definition doesn't match another occurrence.
     </description>
   </rule>
   <rule>
