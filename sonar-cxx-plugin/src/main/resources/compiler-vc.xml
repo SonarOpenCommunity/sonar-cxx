@@ -1546,6 +1546,20 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4317</key>
+    <configkey>C4317</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4317: 'printf' : not enough arguments passed for format string</name>
+    <description>
+      <![CDATA[
+<p>There is a conflict between the format specified and the number of parameters. For example the following statement will report this warning</p>
+<pre><code>
+  printf("%d %d\n", 1); //C4317
+</code></pre>
+      ]]>
+    </description>
+  </rule>
+  <rule>
     <key>C4318</key>
     <configkey>C4318</configkey>
     <priority>CRITICAL</priority>
@@ -2230,6 +2244,35 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4422</key>
+    <configkey>C4422</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4422: 'printf' : too many arguments passed for format string</name>
+    <description>
+      <![CDATA[
+<p>There is a conflict between the format specified and the number of parameters. For example the following statement will report this warning</p>
+<pre><code>
+  printf("%d\n", 1, 2); //C4422
+</code></pre>
+      ]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4426</key>
+    <configkey>C4426</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4426: 'symbol' is not allowed in the format string of function 'name'</name>
+    <description>
+      <![CDATA[
+<p>Some specifiers that aren't allowed to be used in some variants of printf. For example printf_s disallows '%n'.</p>
+<pre><code>
+    int n; 
+    printf_s("Test %n", &n); //C4426
+</code></pre>
+      ]]>
+    </description>
+  </rule>
+  <rule>
     <key>C4428</key>
     <configkey>C4428</configkey>
     <priority>CRITICAL</priority>
@@ -2371,6 +2414,24 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <name>C4445: 'function' : in a managed type a virtual method cannot be private</name>
     <description>
       If a virtual function is private, it cannot be accessed by a derived type.
+    </description>
+  </rule>
+  <rule>
+    <key>C4456</key>
+    <configkey>C4456</configkey>
+    <priority>MAJOR</priority>
+    <name>C4456: declaration of 'variable' hides previous local declaration</name>
+    <description>
+      A variable declaration "shadows" another if the enclosing scope already contains a variable with the same name.
+    </description>
+  </rule>
+  <rule>
+    <key>C4457</key>
+    <configkey>C4457</configkey>
+    <priority>MAJOR</priority>
+    <name>C4457: declaration of 'variable' hides function parameter</name>
+    <description>
+      The inner declaration of 'variable' shadows the parameter of function with the same name.
     </description>
   </rule>
   <rule>
@@ -4011,6 +4072,15 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4838</key>
+    <configkey>C4838</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4838: conversion from 'type1' to 'type2' requires a narrowing conversion</name>
+    <description>
+      Implicit conversion might not be sufficient and the precision might be different e.g. double to float. Use explicit type cast if this is intended. 
+    </description>
+  </rule>
+  <rule>
     <key>C4867</key>
     <configkey>C4867</configkey>
     <priority>CRITICAL</priority>
@@ -4656,6 +4726,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>C6262: Function uses &lt;constant&gt; bytes of stack: exceeds /analyze:stacksize&lt;constant 2&gt;. Consider moving some data to heap</name>
     <description>
+
       This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack - even in user mode - is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
       To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem - and this warning may be suppressed - but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
       For kernel -mode code- for example, in driver projects-the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
