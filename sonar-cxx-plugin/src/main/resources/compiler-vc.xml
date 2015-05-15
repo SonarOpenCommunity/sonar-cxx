@@ -568,6 +568,16 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4138</key>
+    <configkey>C4138</configkey>
+    <priority>MAJOR</priority>
+    <name>C4138: '*/' found outside of comment</name>
+    <description>
+      The closing-comment delimiter is not preceded by an opening-comment delimiter.
+      The compiler assumes a space between the asterisk (*) and the forward slash (/).
+    </description>
+  </rule>
+  <rule>
     <key>C4142</key>
     <configkey>C4142</configkey>
     <priority>CRITICAL</priority>
@@ -710,6 +720,26 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       type and extern "C" linkage. This is legal if:
       - All calls to this function occur from C++.
       - The definition of the function is in C++.
+    </description>
+  </rule>
+  <rule>
+    <key>C4191</key>
+    <configkey>C4191</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4191: 'operator/operation' : unsafe conversion from 'type of expression' to 'type required'</name>
+    <description>
+    <![CDATA[
+<p>Several operations involving function pointers are considered unsafe: 
+</p><ul>
+<li>Function types with different calling conventions.</li>
+<li>Function types with different return conventions.</li>
+<li>Argument or return types with different sizes, type categories, or classifications.</li>
+<li>Differing argument list lengths (on <i><b>__cdecl</i></b>, only on cast from longer list to shorter list, even if shorter is varargs).</li>
+<li>Pointer to data (other than <i><b>void*</i></b>) aliased against a pointer to function.</li>
+<li>Any other type difference that would yield an error or warning on a <i><b>reinterpret_cast</b></i>.</li>
+</ul>
+<p>Calling this function through the result pointer might cause your program to crash.</p>
+]]>
     </description>
   </rule>
   <rule>
@@ -1536,6 +1566,20 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4317</key>
+    <configkey>C4317</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4317: 'printf' : not enough arguments passed for format string</name>
+    <description>
+      <![CDATA[
+<p>There is a conflict between the format specified and the number of parameters. For example the following statement will report this warning</p>
+<pre><code>
+  printf("%d %d\n", 1); //C4317
+</code></pre>
+      ]]>
+    </description>
+  </rule>
+  <rule>
     <key>C4318</key>
     <configkey>C4318</configkey>
     <priority>CRITICAL</priority>
@@ -2220,6 +2264,35 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4422</key>
+    <configkey>C4422</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4422: 'printf' : too many arguments passed for format string</name>
+    <description>
+      <![CDATA[
+<p>There is a conflict between the format specified and the number of parameters. For example the following statement will report this warning</p>
+<pre><code>
+  printf("%d\n", 1, 2); //C4422
+</code></pre>
+      ]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4426</key>
+    <configkey>C4426</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4426: 'symbol' is not allowed in the format string of function 'name'</name>
+    <description>
+      <![CDATA[
+<p>Some specifiers that aren't allowed to be used in some variants of printf. For example printf_s disallows '%n'.</p>
+<pre><code>
+    int n; 
+    printf_s("Test %n", &n); //C4426
+</code></pre>
+      ]]>
+    </description>
+  </rule>
+  <rule>
     <key>C4428</key>
     <configkey>C4428</configkey>
     <priority>CRITICAL</priority>
@@ -2364,6 +2437,33 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4456</key>
+    <configkey>C4456</configkey>
+    <priority>MAJOR</priority>
+    <name>C4456: declaration of 'variable' hides previous local declaration</name>
+    <description>
+      A variable declaration "shadows" another if the enclosing scope already contains a variable with the same name.
+    </description>
+  </rule>
+  <rule>
+    <key>C4457</key>
+    <configkey>C4457</configkey>
+    <priority>MAJOR</priority>
+    <name>C4457: declaration of 'variable' hides function parameter</name>
+    <description>
+      The inner declaration of 'variable' shadows the parameter of function with the same name.
+    </description>
+  </rule>
+  <rule>
+    <key>C4458</key>
+    <configkey>C4458</configkey>
+    <priority>MAJOR</priority>
+    <name>C4458: declaration of 'parameter' hides class member</name>
+    <description>
+      The inner declaration of 'paramter' shadows the member of class with the same name.
+    </description>
+  </rule>
+  <rule>
     <key>C4460</key>
     <configkey>C4460</configkey>
     <priority>CRITICAL</priority>
@@ -2394,6 +2494,25 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       - float_control
       - fp_contract
       have no effect under /clr.
+    </description>
+  </rule>
+  <rule>
+    <key>C4471</key>
+    <configkey>C4471</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4471: forward declaration of an unscoped enumeration must have an underlying type</name>
+    <description>
+    <![CDATA[
+      A forward declaration of an unscoped enumeration must have an underlying type( int assumed ).
+      <pre><code>
+      // unscoped enum
+      enum class C {x,y}; //scoped, base is int by default
+      // scoped enum
+      enum class Z: char {x,y}; //scoped, base is char
+      // forward declaration
+      enum class Direction: short; //enum base is short
+      </pre></code>
+      ]]>
     </description>
   </rule>
   <rule>
@@ -4001,6 +4120,15 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     </description>
   </rule>
   <rule>
+    <key>C4838</key>
+    <configkey>C4838</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4838: conversion from 'type1' to 'type2' requires a narrowing conversion</name>
+    <description>
+      Implicit conversion might not be sufficient and the precision might be different e.g. double to float. Use explicit type cast if this is intended. 
+    </description>
+  </rule>
+  <rule>
     <key>C4867</key>
     <configkey>C4867</configkey>
     <priority>CRITICAL</priority>
@@ -4646,9 +4774,10 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>C6262: Function uses &lt;constant&gt; bytes of stack: exceeds /analyze:stacksize&lt;constant 2&gt;. Consider moving some data to heap</name>
     <description>
-      This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack—even in user mode—is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
-      To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem—and this warning may be suppressed—but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
-      For kernel-mode code —for example, in driver projects— the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
+
+      This warning indicates that stack usage that exceeds a preset threshold (constant 2) has been detected in a function. The default stack frame size for this warning is 16 KB for user mode, 1 KB for kernel mode. Stack - even in user mode - is limited, and failure to commit a page of stack causes a stack overflow exception. Kernel mode has a 12 KB stack size limit, which cannot be increased; therefore, kernel-mode code should aggressively limit stack use.
+      To correct the problem behind this warning, you can either move some data to the heap or to other dynamic memory. In user mode, one large stack frame may not be a problem - and this warning may be suppressed - but a large stack frame increases the risk of a stack overflow. (A large stack frame might occur if the function uses the stack heavily or is recursive.) The total stack size in user mode can be increased if stack overflow actually occurs, but only up to the system limit. You can use the /analyze command-line option to change the value for &lt;constant 2&gt;, but increasing it introduces a risk that an error will not be reported.
+      For kernel -mode code- for example, in driver projects-the value of &lt;constant 2&gt; is set to 1 KB. Well-written drivers should have very few functions that approach this value, and changing the limit downward may be desirable. The same general techniques that are used for user-mode code to reduce the stack size can be adapted to kernel-mode code.
     </description>
   </rule>
   <rule>
@@ -6293,7 +6422,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>C28208: Function &lt;function&gt; was previously defined with a different parameter list at &lt;file&gt;(&lt;line&gt;). Some analysis tools will yield incorrect results</name>
     <description>
-      This warning is reported when a function’s known definition doesn’t match another occurrence.
+      This warning is reported when a function's known definition doesn't match another occurrence.
     </description>
   </rule>
   <rule>
