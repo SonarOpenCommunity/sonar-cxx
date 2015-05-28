@@ -19,14 +19,30 @@
  */
 package org.sonar.cxx.checks;
 
-import static org.fest.assertions.Assertions.assertThat;
-
+import org.junit.Rule;
 import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squidbridge.api.CheckMessage;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
-public class CheckListTest {
+import java.io.File;
+
+public class NestedStatementsCheckTest {
+
+  @Rule
+  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(41);
+  public void detected() {
+    NestedStatementsCheck check = new NestedStatementsCheck();
+    check.max = 5;
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/NestedStatementsCheck.cc"), check);
+    checkMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(62)
+      .next().atLine(67)
+      .noMore();
   }
+
 }
