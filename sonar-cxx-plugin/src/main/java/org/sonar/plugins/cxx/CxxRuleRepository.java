@@ -22,6 +22,7 @@ package org.sonar.plugins.cxx;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
+import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 public class CxxRuleRepository implements RulesDefinition {
 
@@ -37,6 +38,8 @@ public class CxxRuleRepository implements RulesDefinition {
       //FIXME: set internal key to key to ensure rule templates works properly : should be removed when SONAR-6162 is fixed.
       rule.setInternalKey(rule.key());
     }
+    
+    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
     repository.done();
   }
 }
