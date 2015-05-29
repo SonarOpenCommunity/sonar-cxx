@@ -27,6 +27,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 /**
  * Loads the external rules configuration file.
@@ -59,6 +60,7 @@ public class CxxExternalRuleRepository implements RulesDefinition {
       }
     }
 
+    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");    
     //i18nLoader.load(repository); //@todo?
     repository.done();
   }
