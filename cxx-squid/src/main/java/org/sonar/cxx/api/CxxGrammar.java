@@ -102,7 +102,7 @@ public class CxxGrammar extends Grammar {
   public Rule declSpecifier;
 
   public Rule conditionDeclSpecifierSeq;
-  public Rule forrangeDeclSpecifierSeq;
+  public Rule forRangeDeclSpecifierSeq;
   public Rule parameterDeclSpecifierSeq;
   public Rule functionDeclSpecifierSeq;
   public Rule simpleDeclSpecifierSeq;
