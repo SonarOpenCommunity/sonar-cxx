@@ -33,6 +33,6 @@ public class CxxRuleRepositoryTest {
     new CxxRuleRepository().define(context);
 
     assertThat(context.repositories()).hasSize(1);
-    assertThat(context.repository("cxx").rules()).hasSize(40);
+    assertThat(context.repository("cxx").rules()).hasSize(41);
   }  
 }
