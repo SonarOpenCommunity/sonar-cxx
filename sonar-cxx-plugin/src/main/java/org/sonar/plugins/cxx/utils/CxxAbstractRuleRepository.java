@@ -30,6 +30,7 @@ import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 /**
  * {@inheritDoc}
@@ -80,6 +81,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     }
 
     //i18nLoader.load(repository); //@todo?
+    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
     repository.done();
   }
 
