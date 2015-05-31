@@ -125,7 +125,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   vcAtlDeclaration,   //Microsoft Extension: attributed ATL
 
   conditionDeclSpecifierSeq,
-  forrangeDeclSpecifierSeq,
+  forRangeDeclSpecifierSeq,
   parameterDeclSpecifierSeq,
   functionDeclSpecifierSeq,
   simpleDeclSpecifierSeq,
@@ -657,16 +657,20 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
       );
 
-    b.rule(forRangeDeclaration).is(b.optional(attributeSpecifierSeq), forrangeDeclSpecifierSeq, declarator);
+    b.rule(forRangeDeclaration).is(
+      b.optional(attributeSpecifierSeq),
+      forRangeDeclSpecifierSeq,
+      declarator
+    );
 
-    b.rule(forrangeDeclSpecifierSeq).is(
+    b.rule(forRangeDeclSpecifierSeq).is(
       b.oneOrMore(
-        b.nextNot(declarator),
-        declSpecifier
-        ),
+        b.nextNot(b.sequence(b.optional(declarator), ":")),
+        declSpecifier,
         b.optional(attributeSpecifierSeq)
-      );
-
+      )
+    );
+        
     b.rule(forRangeInitializer).is(
       b.firstOf(
         expression,
