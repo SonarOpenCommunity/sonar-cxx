@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
+import com.sonar.sslr.api.Grammar;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
@@ -64,6 +65,7 @@ import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.squidbridge.AstScanner;
 
 
 /**
@@ -369,9 +371,10 @@ public class CxxXunitSensor extends CxxReportSensor {
     cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
     cxxConf.setMissingIncludeWarningsEnabled(conf.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
 
+    AstScanner<Grammar> scanner = CxxAstScanner.create(cxxConf);
     for (File file : files) {
       @SuppressWarnings("unchecked")
-      SourceFile source = CxxAstScanner.scanSingleFileConfig(file, cxxConf);
+      SourceFile source = CxxAstScanner.scanFile(scanner, file);
       if (source.hasChildren()) {
         for (SourceCode child : source.getChildren()) {
           if (child instanceof SourceClass) {
