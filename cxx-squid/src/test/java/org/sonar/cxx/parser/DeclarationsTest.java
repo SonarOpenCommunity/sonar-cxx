@@ -166,6 +166,7 @@ public class DeclarationsTest extends ParserBaseTest {
     // class specifier
     assertThat(p).matches("class foo final : bar { }");
     assertThat(p).matches("class foo final : bar { int foo(); }");
+    assertThat(p).matches("class foo final : public ::bar { int foo(); }");
 
     // type names
     assertThat(p).matches("class_foo"); // className->identifier

@@ -969,7 +969,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         ),
         b.zeroOrMore(
         b.firstOf(
-          parametersAndQualifiers,
+            parametersAndQualifiers,
             b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
         )
         )
@@ -1124,7 +1124,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(className).is(
       b.firstOf(
         simpleTemplateId,
-        IDENTIFIER
+        b.sequence(b.optional("::"), IDENTIFIER)
         )
       );
 
