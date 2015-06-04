@@ -46,6 +46,7 @@ public class TemplatesTest extends ParserBaseTest {
     assertThat(p).matches("template <class T> ostream& operator<< (const auto_ptr<T>& p);");
     assertThat(p).matches("template <class T> ostream& operator<< (ostream& strm, const auto_ptr<T>& p);");
     assertThat(p).matches("template<bool (A::*bar)(void)> void foo();");
+    assertThat(p).matches("template<class T> auto mul(T a, T b) -> decltype(a*b) {return a*b;}");
   }
 
   @Test

@@ -79,6 +79,9 @@ public class DeclarationsTest extends ParserBaseTest {
     // assertThat(p).matches("mpl<N/M>();");
 
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
+    assertThat(p).matches("sometype foo(int& var1);");
+    assertThat(p).matches("auto foo(int& var1) -> int;");
+    assertThat(p).matches("auto fp11() -> void(*)(const std::string&);");
   }
 
   @Test
@@ -122,6 +125,16 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("friend class ::SMLCGroupHierarchyImpl;");
     assertThat(p).matches("void foo(int, type[]);");
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
+
+    assertThat(p).matches("auto to_string(int value) -> std::string;");
+    assertThat(p).matches("auto size() const -> std::size_t;");
+    assertThat(p).matches("auto str() const;");
+    assertThat(p).matches("auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator>;");
+
+//  ToDo : make this work
+//  assertThat(p).matches("auto str() const -> const char*;");
+//  assertThat(p).matches("auto std::map::at(const key_type& key) -> mapped_type&;");
+
   }
 
   @Test
@@ -140,7 +153,7 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("register"); // a storage class
     assertThat(p).matches("inline"); // a function specifier
     assertThat(p).matches("friend"); // a function specifier
-    assertThat(p).matches("void"); // a builtin type
+    assertThat(p).matches("void"); // a built-in type
 
     // declSpecifier
     assertThat(p).matches("friend");
@@ -153,6 +166,7 @@ public class DeclarationsTest extends ParserBaseTest {
     // class specifier
     assertThat(p).matches("class foo final : bar { }");
     assertThat(p).matches("class foo final : bar { int foo(); }");
+    assertThat(p).matches("class foo final : public ::bar { int foo(); }");
 
     // type names
     assertThat(p).matches("class_foo"); // className->identifier
@@ -192,19 +206,6 @@ public class DeclarationsTest extends ParserBaseTest {
 
     assertThat(p).matches("templatetype<T>");
     assertThat(p).matches("templatetype<T> int");
-  }
-
-  @Test
-  public void trailingTypeSpecifierSeq() {
-    p.setRootRule(g.rule(CxxGrammarImpl.trailingTypeSpecifierSeq));
-
-    g.rule(CxxGrammarImpl.trailingTypeSpecifier).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-
-    assertThat(p).matches("trailingTypeSpecifier");
-    assertThat(p).matches("trailingTypeSpecifier attributeSpecifierSeq");
-    assertThat(p).matches("trailingTypeSpecifier trailingTypeSpecifier");
-    assertThat(p).matches("trailingTypeSpecifier trailingTypeSpecifier attributeSpecifierSeq");
   }
 
   @Test

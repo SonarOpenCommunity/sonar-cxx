@@ -57,6 +57,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
     assertThat(p).matches("[this] () { cout << _x; }");
     // function pointers c++11, TODO: make this work
     // assertThat(p).matches("[] () -> { return 2; }");
+    // assertThat(p).matches("[] (int x, int y) -> int { return x + y; }");
   }
 
   @Test

@@ -137,7 +137,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   typeSpecifier,
   trailingTypeSpecifier,
   typeSpecifierSeq,
-  trailingTypeSpecifierSeq,
   simpleTypeSpecifier,
   typeName,
   decltypeSpecifier,
@@ -783,8 +782,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(typeSpecifierSeq).is(b.oneOrMore(typeSpecifier), b.optional(attributeSpecifierSeq));
 
-    b.rule(trailingTypeSpecifierSeq).is(b.oneOrMore(trailingTypeSpecifier), b.optional(attributeSpecifierSeq));
-
     b.rule(simpleTypeSpecifier).is(
       b.firstOf(
         "char", "char16_t", "char32_t", "wchar_t", "bool", "short", "int", "long", "signed", "unsigned", "float", "double", "void", "auto",
@@ -954,7 +951,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(declarator).is(
         b.firstOf(
             ptrDeclarator,
-            b.sequence(noptrDeclarator, parametersAndQualifiers, trailingReturnType)
+            noptrDeclarator
         )
         );
 
@@ -972,15 +969,21 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         ),
         b.zeroOrMore(
         b.firstOf(
-          parametersAndQualifiers,
+            parametersAndQualifiers,
             b.sequence("[", b.optional(constantExpression), "]", b.optional(attributeSpecifierSeq))
         )
         )
         );
 
-    b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")", b.optional(attributeSpecifierSeq), b.optional(cvQualifierSeq), b.optional(refQualifier), b.optional(exceptionSpecification));
+    b.rule(parametersAndQualifiers).is("(", parameterDeclarationClause, ")" ,
+                                            b.optional(attributeSpecifierSeq),
+                                            b.optional(cvQualifierSeq),
+                                            b.optional(refQualifier),
+                                            b.optional(trailingReturnType),
+                                            b.optional(exceptionSpecification)
+                                            );
 
-    b.rule(trailingReturnType).is("->", trailingTypeSpecifierSeq, b.optional(abstractDeclarator));
+    b.rule(trailingReturnType).is("->", simpleTypeSpecifier);
 
     b.rule(ptrOperator).is(
         b.firstOf(
@@ -1121,7 +1124,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(className).is(
       b.firstOf(
         simpleTemplateId,
-        IDENTIFIER
+        b.sequence(b.optional("::"), IDENTIFIER)
         )
       );
 
@@ -1207,7 +1210,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(classOrDecltype).is(
         b.firstOf(
-            b.sequence(b.optional(nestedNameSpecifier), className),
+            classHeadName,
             decltypeSpecifier)
         );
 
