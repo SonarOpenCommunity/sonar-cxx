@@ -22,17 +22,18 @@ package org.sonar.plugins.cxx;
 import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.cxx.checks.CheckList;
 
 public class CxxRuleRepositoryTest {
-  
+
   @Test
-  public void test() {
+  public void rulesTest() {
     RulesDefinition.Context context = new RulesDefinition.Context();
     assertThat(context.repositories()).isEmpty();
 
     new CxxRuleRepository().define(context);
 
     assertThat(context.repositories()).hasSize(1);
-    assertThat(context.repository("cxx").rules()).hasSize(41);
-  }  
+    assertThat(context.repository(CheckList.REPOSITORY_KEY).rules()).hasSize(41);
+  }
 }
