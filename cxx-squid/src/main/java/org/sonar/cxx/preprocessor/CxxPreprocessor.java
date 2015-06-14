@@ -808,11 +808,13 @@ public class CxxPreprocessor extends Preprocessor {
             tokenPastingLeftOp = false;
             tokenPastingRightOp = false;
           } else {
-            // otherwise the arguments have to be fully expanded before expanding the body of the macro
-            newValue = serialize(expandMacro("", replacement.getValue()));
             if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
+              // If the token is a macro, the macro is not expanded - the macro name is converted into a string.
               newTokens.remove(newTokens.size() - 1);
-              newValue = encloseWithQuotes(quote(newValue));
+              newValue = encloseWithQuotes(quote(replacement.getValue()));
+            } else {
+              // otherwise the arguments have to be fully expanded before expanding the body of the macro
+              newValue = serialize(expandMacro("", replacement.getValue()));
             }
           }
 
@@ -894,7 +896,47 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private String quote(String str) {
-    return StringUtils.replaceEach(str, new String[] {"\\", "\""}, new String[] {"\\\\", "\\\""});
+    StringBuilder result = new StringBuilder(2 * str.length());
+    boolean addBlank = false;
+    boolean ignoreNextBlank = false;
+    for (int i = 0; i < str.length(); i++) {
+      char c = str.charAt(i);
+      if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') { // token
+        if (addBlank) {
+          result.append(' ');
+          addBlank = false;
+        }
+        result.append(c);
+      } else { // special characters
+        switch (c) {
+          case ' ':
+            if (ignoreNextBlank) {
+              ignoreNextBlank = false;
+            } else {
+              addBlank = true;
+            }
+            break;
+          case '\"':
+            if (addBlank) {
+              result.append(' ');
+              addBlank = false;
+            }
+            result.append("\\\"");
+            break;
+          case '\\':
+            result.append("\\\\");
+            addBlank = false;
+            ignoreNextBlank = true;
+            break;
+          default: // operator
+            result.append(c);
+            addBlank = false;
+            ignoreNextBlank = true;
+            break;
+        }
+      }
+    }
+    return result.toString();
   }
 
   private String encloseWithQuotes(String str) {
