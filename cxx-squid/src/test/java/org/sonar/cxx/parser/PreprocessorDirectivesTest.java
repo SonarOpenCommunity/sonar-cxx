@@ -227,17 +227,69 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
 
   @Test
   public void stringification() {
+    // default use case
     assert (serialize(p.parse(
-      "#define str(s) #s\n"
-      + "string s = str(t);"))
-      .equals("string s = \"t\" ; EOF"));
+      "#define make_string(x) #x\n"
+      + "string s = make_string(a test);"))
+      .equals("string s = \"a test\" ; EOF"));
+
+    // leading and trailing spaces were trimmed,
+    // space between words was compressed to a single space character
+    assert (serialize(p.parse(
+      "#define make_string(x) #x\n"
+      + "string s = make_string(   a    test   );"))
+      .equals("string s = \"a test\" ; EOF"));
+
+    // the quotes were automatically converted
+    assert (serialize(p.parse(
+      "#define make_string(x) #x\n"
+      + "string s = make_string(\"a\" \"test\");"))
+      .equals("string s = \"\\\"a\\\" \\\"test\\\"\" ; EOF"));
+
+    // the slash were automatically converted
+    assert (serialize(p.parse(
+      "#define make_string(x) #x\n"
+      + "string s = make_string(a\\test);"))
+      .equals("string s = \"a\\\\test\" ; EOF"));
+
+    // If the token is a macro, the macro is not expanded
+    // - the macro name is converted into a string.
+    assert (serialize(p.parse(
+      "#define make_string(x) #x\n"
+      + "#define COMMA ,\n"
+      + "string s = make_string(a COMMA test);"))
+      .equals("string s = \"a COMMA test\" ; EOF"));
+      
+    assert (serialize(p.parse(
+      "#define F abc\n"
+      + "#define B def\n"
+      + "#define FB(arg) #arg\n"
+      + "string s = FB(F B);"))
+      .equals("string s = \"F B\" ; EOF"));
+    
+    assert (serialize(p.parse(
+      "#define F abc\n"
+      + "#define B def\n"
+      + "#define FB(arg) #arg\n"
+      + "#define FB1(arg) FB(arg)\n"
+      + "string s = FB1(F B);"))
+      .equals("string s = \"abc def\" ; EOF"));
+    
+    assert (serialize(p.parse(
+      "#define F abc\n"
+      + "#define B def\n"
+      + "#define FB(arg) #arg\n"
+      + "#define FB1(arg) FB(arg)\n"
+      + "string s = FB1(F\\B);"))
+      .equals("string s = \"abc\\\\def\" ; EOF"));
 
     assert (serialize(p.parse(
-      "#define xstr(s) str(s)\n"
-      + "#define str(s) #s\n"
-      + "#define foo 4\n"
-      + "string s = str(foo);"))
-      .equals("string s = \"4\" ; EOF"));
+      "#define F abc\n"
+      + "#define B def\n"
+      + "#define FB(arg) #arg\n"
+      + "#define FB1(arg) FB(arg)\n"
+      + "string s = FB1(F/B);"))
+      .equals("string s = \"abc/def\" ; EOF"));
   }
 
   @Test
