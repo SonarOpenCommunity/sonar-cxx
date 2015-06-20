@@ -78,4 +78,17 @@ public class XPathCheckTest {
       .noMore();
   }
 
+  @Test
+  public void xpathWithFilePatternInvert() {
+    XPathCheck check = new XPathCheck();
+    check.matchFilePattern = "/**/*.xxx"; // all files with not .xxx file extension
+    check.invertFilePattern = true;
+    check.xpathQuery = "//declaration";
+    check.message = "Avoid declarations!! ";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/xpath.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(1).withMessage(check.message)
+      .noMore();
+  }
 }

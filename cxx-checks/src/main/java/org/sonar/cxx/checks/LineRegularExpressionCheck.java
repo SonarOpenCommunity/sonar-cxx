@@ -48,7 +48,9 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
+  private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
   private static final String DEFAULT_REGULAR_EXPRESSION = "";
+  private static final boolean DEFAULT_INVERT_REGULAR_EXPRESSION = false;
   private static final String DEFAULT_MESSAGE = "The regular expression matches this line";
 
   private Charset charset;
@@ -61,10 +63,22 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   public String matchFilePattern = DEFAULT_MATCH_FILE_PATTERN;
 
   @RuleProperty(
+    key = "invertFilePattern",
+    description = "Invert file pattern comparison",
+    defaultValue = "" + DEFAULT_INVERT_FILE_PATTERN)
+  public boolean invertFilePattern = DEFAULT_INVERT_FILE_PATTERN;
+
+  @RuleProperty(
     key = "regularExpression",
     description = "The regular expression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+
+  @RuleProperty(
+    key = "invertRegularExpression",
+    description = "Invert regular expression comparison",
+    defaultValue = "" + DEFAULT_INVERT_REGULAR_EXPRESSION)
+  public boolean invertRegularExpression = DEFAULT_INVERT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
@@ -89,7 +103,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
   @Override
   public void visitFile(AstNode fileNode) {
     if (fileNode != null) {
-      if (matchFile()) {
+      if (compare(invertFilePattern, matchFile())) {
         List<String> lines;
         try {
           lines = Files.readLines(getContext().getFile(), charset);
@@ -98,7 +112,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
         }
         for (int i = 0; i < lines.size(); ++i) {
           Matcher matcher = pattern.matcher(lines.get(i));
-          if (matcher.find()) {
+          if (compare(invertRegularExpression, matcher.find())) {
             getContext().createLineViolation(this, message, i + 1);
           }
         }
@@ -115,4 +129,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
+  private boolean compare(boolean invert, boolean condition) {
+    return invert ? !condition : condition;
+  }
 }

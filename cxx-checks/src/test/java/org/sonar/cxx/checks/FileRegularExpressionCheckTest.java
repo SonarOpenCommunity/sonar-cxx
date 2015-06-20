@@ -45,6 +45,21 @@ public class FileRegularExpressionCheckTest {
   }
 
   @Test
+  public void fileRegExInvertWithoutFilePattern() {
+    FileRegularExpressionCheck check = new FileRegularExpressionCheck();
+    Charset charset = Charset.forName("UTF-8");
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
+    check.regularExpression = "stdafx\\.h";
+    check.invertRegularExpression = true;
+    check.message = "Found no 'stdafx.h' in file!";
+
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegExInvert.cc"), cxxConfig, check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
   public void fileRegExCodingErrorActionReplace() {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("US-ASCII");
@@ -68,6 +83,23 @@ public class FileRegularExpressionCheckTest {
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
 
     SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegEx.cc"), cxxConfig, check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
+  public void fileRegExInvertWithFilePatternInvert() {
+    FileRegularExpressionCheck check = new FileRegularExpressionCheck();
+    Charset charset = Charset.forName("UTF-8");
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
+    check.matchFilePattern = "/**/*.h"; // all files with not .h file extension
+    check.invertFilePattern = true;
+    check.regularExpression = "#include\\s+\"stdafx\\.h\"";
+    check.invertRegularExpression = true;
+    check.message = "Found no '#include \"stdafx.h\"' in a file with not '.h' file extension!";
+
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegExInvert.cc"), cxxConfig, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();

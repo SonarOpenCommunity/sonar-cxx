@@ -42,11 +42,39 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
+  public void lineRegExInvertWithoutFilePattern() {
+    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    check.regularExpression = "//.*";
+    check.invertRegularExpression = true;
+    check.message = "Found no comment in the line!";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegExInvert.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(3).withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
   public void lineRegExWithFilePattern1() {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a .cc file!";
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegEx.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(2).withMessage(check.message)
+      .next().atLine(3).withMessage(check.message)
+      .noMore();
+  }
+
+  @Test
+  public void lineRegExWithFilePatternInvert() {
+    LineRegularExpressionCheck check = new LineRegularExpressionCheck();
+    check.matchFilePattern = "/**/*.xx"; // all files with not .xx file extension
+    check.invertFilePattern = true;
+    check.regularExpression = "#include\\s+\"stdafx\\.h\"";
+    check.message = "Found '#include \"stdafx.h\"' in line in a not .xx file!";
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegEx.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
