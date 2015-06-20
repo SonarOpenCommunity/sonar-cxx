@@ -32,8 +32,7 @@ public class CxxConfigurationTest {
 
   private static final String vcKey = "Visual C++";
   private static final String vcCharSet = "UTF8";
-  private static final int commonDefines = 12;
-  
+
   @Test
   public void emptyValueShouldReturnNoDirsOrDefines() {
     CxxConfiguration config = new CxxConfiguration();
@@ -41,7 +40,7 @@ public class CxxConfigurationTest {
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
   }
-  
+
   @Test
   public void emptyValueShouldReturnWhenNull() {
     CxxConfiguration config = new CxxConfiguration();
@@ -49,7 +48,7 @@ public class CxxConfigurationTest {
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
   }
-  
+
   @Test
   public void emptyValueShouldUseIncludeDirsIfSet() {
     CxxConfiguration config = new CxxConfiguration();
@@ -58,21 +57,21 @@ public class CxxConfigurationTest {
     config.setCompilationPropertiesWithBuildLog(new ArrayList<File>(), vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(2);
   }  
-  
+
   @Test
-  public void correctlyCreatesConfiguration() {
+  public void correctlyCreatesConfiguration1() {
     CxxConfiguration config = new CxxConfiguration();
     config.setBaseDir(".");
     List<File> files = new ArrayList<File>();
     files.add(new File("src/test/resources/compiler/vc++13.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
-    
+
     assertThat(config.getIncludeDirectories().size()).isEqualTo(13);    
-    assertThat(config.getDefines().size()).isEqualTo(commonDefines + 18);    
+    assertThat(config.getDefines().size()).isEqualTo(26 + 5);    
   }
-  
+
   @Test
-  public void shouldHandleSpeciificCommonOptionsCorrectly() {
+  public void shouldHandleSpecificCommonOptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
@@ -81,7 +80,7 @@ public class CxxConfigurationTest {
     
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
     List<String> defines = config.getDefines();
-    assertThat(defines.size()).isEqualTo(commonDefines + 12);
+    assertThat(defines.size()).isEqualTo(20 + 5);
     ValidateDefaultAsserts(defines);
     Assertions.assertThat(defines).as("_OPENMP");
     Assertions.assertThat(defines).as("_WIN32");
@@ -96,31 +95,31 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines).as("_DEBUG");
     Assertions.assertThat(defines).as("_VC_NODEFAULTLIB");    
   }
-  
-  public void shouldHandleSpeciificCommonWin32OptionsCorrectly() {
+
+  public void shouldHandleSpecificCommonWin32OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformCommonWin32.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
     
-    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(3);
     ValidateDefaultAsserts(defines);
     Assertions.assertThat(defines).as("_WIN32");
   }
-  
+
   @Test
-  public void shouldHandleSpeciificCommonx64OptionsCorrectly() {
+  public void shouldHandleSpecificCommonx64OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformCommonX64.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
     
-    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
-    assertThat(defines.size()).isEqualTo(commonDefines + 6);
+    assertThat(defines.size()).isEqualTo(15 + 5);
     ValidateDefaultAsserts(defines);
     Assertions.assertThat(defines).as("_Wp64");
     Assertions.assertThat(defines).as("_WIN32");
@@ -129,9 +128,9 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines).as("_M_IX86");
     Assertions.assertThat(defines).as("_M_IX86_FP");    
   }
-  
+
   @Test
-  public void shouldHandleSpeciificV100OptionsCorrectly() {
+  public void shouldHandleSpecificV100OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
     config.setBaseDir(".");
     List<File> files = new ArrayList<File>();
@@ -140,16 +139,16 @@ public class CxxConfigurationTest {
     
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
     List<String> defines = config.getDefines();
-    assertThat(defines.size()).isEqualTo(commonDefines + 4);
+    assertThat(defines.size()).isEqualTo(12 + 6);
     ValidateDefaultAsserts(defines);    
     Assertions.assertThat(defines).as("_CPPUNWIND");
     Assertions.assertThat(defines).as("_M_IX86");
     Assertions.assertThat(defines).as("_WIN32");
     Assertions.assertThat(defines).as("_M_IX86_FP");    
   }
-  
+
   @Test
-  public void shouldHandleSpeciificV110OptionsCorrectly() {
+  public void shouldHandleSpecificV110OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
     config.setBaseDir(".");
     List<File> files = new ArrayList<File>();
@@ -158,7 +157,7 @@ public class CxxConfigurationTest {
     
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
     List<String> defines = config.getDefines();
-    assertThat(defines.size()).isEqualTo(commonDefines + 5);
+    assertThat(defines.size()).isEqualTo(13 + 6);
     ValidateDefaultAsserts(defines);    
     Assertions.assertThat(defines).as("__cplusplus_winrt");
     Assertions.assertThat(defines).as("_CPPUNWIND");
@@ -166,9 +165,9 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines).as("_WIN32");
     Assertions.assertThat(defines).as("_M_IX86_FP");    
   }
-  
+
   @Test
-  public void shouldHandleSpeciificV120OptionsCorrectly() {
+  public void shouldHandleSpecificV120OptionsCorrectly() {
     CxxConfiguration config = new CxxConfiguration();
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
@@ -177,7 +176,7 @@ public class CxxConfigurationTest {
     
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
     List<String> defines = config.getDefines();
-    assertThat(defines.size()).isEqualTo(commonDefines + 8);
+    assertThat(defines.size()).isEqualTo(15 + 6);
     ValidateDefaultAsserts(defines);    
     Assertions.assertThat(defines).as("__AVX2__");
     Assertions.assertThat(defines).as("__AVX__");
@@ -187,7 +186,29 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines).as("_WIN32");
     Assertions.assertThat(defines).as("_M_IX86");
     Assertions.assertThat(defines).as("_M_IX86_FP");       
-  }  
+  }
+
+  @Test
+  public void shouldHandleSpecificV140OptionsCorrectly() {
+    CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
+    List<File> files = new ArrayList<>();
+    files.add(new File("src/test/resources/compiler/platformToolsetv140.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+    
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);    
+    List<String> defines = config.getDefines();
+    assertThat(defines.size()).isEqualTo(15 + 6);
+    ValidateDefaultAsserts(defines);    
+    Assertions.assertThat(defines).as("__AVX2__");
+    Assertions.assertThat(defines).as("__AVX__");
+    Assertions.assertThat(defines).as("__cplusplus_winrt");
+    Assertions.assertThat(defines).as("_CPPUNWIND");
+    Assertions.assertThat(defines).as("_M_ARM_FP");
+    Assertions.assertThat(defines).as("_WIN64");
+    Assertions.assertThat(defines).as("_M_IX86");
+    Assertions.assertThat(defines).as("_M_IX86_FP");       
+  }
 
   private void ValidateDefaultAsserts(List<String> defines) {
     Assertions.assertThat(defines).as("_INTEGRAL_MAX_BITS");        
@@ -203,5 +224,5 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines).as("__TIMESTAMP__");  
     Assertions.assertThat(defines).as("_ATL_VER");
   }
-
+  
 }

@@ -45,7 +45,7 @@ public class CxxVCppBuildLogParser {
   private final HashMap<String, Set<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;
 
-  private VSVersion platformToolset = VSVersion.V100;
+  private VSVersion platformToolset = VSVersion.V120;
   private String platform = "Win32";
 
   public CxxVCppBuildLogParser(HashMap<String, Set<String>> uniqueIncludesIn,
@@ -83,15 +83,15 @@ public class CxxVCppBuildLogParser {
               }
             }
 
-          if(line.contains("\\V100\\Microsoft.CppBuild.targets")) {
-            platformToolset = VSVersion.V100;
-          } else if(line.contains("\\V110\\Microsoft.CppBuild.targets")) {
-            platformToolset = VSVersion.V110;
-          } else if(line.contains("\\V120\\Microsoft.CppBuild.targets")) {
-            platformToolset = VSVersion.V120;
-          } else if(line.contains("\\V140\\Microsoft.CppBuild.targets")) {
-            platformToolset = VSVersion.V140;
-          }
+        if (line.contains("\\V100\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
+          platformToolset = VSVersion.V100;
+        } else if (line.contains("\\V110\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
+          platformToolset = VSVersion.V110;
+        } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
+          platformToolset = VSVersion.V120;
+        } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")) {
+          platformToolset = VSVersion.V140;
+        }
 
           // 1>Task "Message"
           // 1>  Configuration=Debug
@@ -138,27 +138,24 @@ public class CxxVCppBuildLogParser {
       ParseInclude(includeElem, projectPath, fileElement);
     }
 
-    for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "),
-        line)) {
+    for (String includeElem : getMatches(Pattern.compile("/I([^\\s\"]+) "), line)) {
       ParseInclude(includeElem, projectPath, fileElement);
     }
 
-    for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"),
-        line)) {
+    for (String macroElem : getMatches(Pattern.compile("[/-]D\\s([^\\s]+)"), line)) {
       AddMacro(macroElem, fileElement);
     }
     
-    for (String macroElem : getMatches(Pattern.compile("[/-]D([^\\s]+)"),
-        line)) {
+    for (String macroElem : getMatches(Pattern.compile("[/-]D([^\\s]+)"), line)) {
       AddMacro(macroElem, fileElement);
     }
-    
+
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.100).aspx
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.110).aspx
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.120).aspx 
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.140).aspx
     ParseCommonCompilerOptions(line, fileElement);
-    
+
     if (platformToolset.equals(VSVersion.V100)) {
       ParseV100CompilerOptions(line, fileElement);
     } else if (platformToolset.equals(VSVersion.V110)) {
@@ -167,7 +164,7 @@ public class CxxVCppBuildLogParser {
       ParseV120CompilerOptions(line, fileElement);
     } else if (platformToolset.equals(VSVersion.V140)) {
       ParseV140CompilerOptions(line, fileElement);
-    }    
+    }
   }
 
   private List<String> getMatches(Pattern pattern, String text) {
@@ -214,15 +211,9 @@ public class CxxVCppBuildLogParser {
   private void ParseCommonCompilerOptions(String line, String fileElement) {    
     // Always Defined //
     //_INTEGRAL_MAX_BITS Reports the maximum size (in bits) for an integral type.    
-    AddMacro("_INTEGRAL_MAX_BITS=32", fileElement);    
-    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2010, _MFC_VER is defined as 0x0A00.
-    AddMacro("_MFC_VER=1", fileElement);            
+    AddMacro("_INTEGRAL_MAX_BITS=64", fileElement);    
     //_MSC_BUILD Evaluates to the revision number component of the compiler's version number. The revision number is the fourth component of the period-delimited version number. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_BUILD macro evaluates to 1.
     AddMacro("_MSC_BUILD=1", fileElement);    
-    //_MSC_FULL_VER Evaluates to the major, minor, and build number components of the compiler's version number. The major number is the first component of the period-delimited version number, the minor number is the second component, and the build number is the third component. For example, if the version number of the Visual C++ compiler is 15.00.20706.01, the _MSC_FULL_VER macro evaluates to 150020706. Type cl /? at the command line to view the compiler's version number.
-    AddMacro("_MSC_FULL_VER=150020706", fileElement);    
-    //_MSC_VER Evaluates to the major and minor number components of the compiler's version number. The major number is the first component of the period-delimited version number and the minor number is the second component.
-    AddMacro("_MSC_VER=1700", fileElement); 
     //__COUNTER__ Expands to an integer starting with 0 and incrementing by 1 every time it is used in a source file or included headers of the source file. __COUNTER__ remembers its state when you use precompiled headers.
     AddMacro("__COUNTER__=0", fileElement);     
     //__DATE__ The compilation date of the current source file. The date is a string literal of the form Mmm dd yyyy. The month name Mmm is the same as for dates generated by the library function asctime declared in TIME.H.
@@ -234,10 +225,56 @@ public class CxxVCppBuildLogParser {
     //__TIME__ The most recent compilation time of the current source file. The time is a string literal of the form hh:mm:ss.
     AddMacro("__TIME__=\"??:??:??\"", fileElement);
     //__TIMESTAMP__ The date and time of the last modification of the current source file, expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy, where Ddd is the abbreviated day of the week and Date is an integer from 1 to 31.
-    AddMacro("__TIMESTAMP__=\"??? ?? ???? ??:??:??\"", fileElement);    
-    //_ATL_VER Defines the ATL version. In Visual Studio 2010, _ATL_VER is defined as 0x0A00.
-    AddMacro("_ATL_VER=1", fileElement);
-
+    AddMacro("__TIMESTAMP__=\"??? ?? ???? ??:??:??\"", fileElement);
+    // _M_IX86 
+    //    /GB _M_IX86 = 600 Blend
+    //    /G5 _M_IX86 = 500 (Default. Future compilers will emit a different value to reflect the dominant processor.) Pentium
+    //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III 
+    //    /G3 _M_IX86 = 300  80386
+    //    /G4 _M_IX86 = 400  80486    
+    if (line.contains("/GB ") || line.contains("/G6")) {
+      AddMacro("_M_IX86=600", fileElement);
+    }
+    if (line.contains("/G5")) {
+      AddMacro("_M_IX86=500", fileElement);
+    }
+    if (line.contains("/G3")) {
+      AddMacro("_M_IX86=300", fileElement);
+    }
+    if (line.contains("/G4")) {
+      AddMacro("_M_IX86=400", fileElement);
+    } 
+    //_M_IX86_FP Expands to a value indicating which /arch compiler option was used:
+    //    0 if /arch was not used.
+    //    1 if /arch:SSE was used.
+    //    2 if /arch:SSE2 was used.
+    // Expands to an integer literal value indicating which /arch compiler option was used. The default value is '2' if /arch was not specified
+    AddMacro("_M_IX86_FP=2", fileElement);
+    if (line.contains("/arch:IA32")) {
+      AddMacro("_M_IX86_FP=0", fileElement);
+    }
+    if (line.contains("/arch:SSE")) {
+      AddMacro("_M_IX86_FP=1", fileElement);
+    }
+    if (line.contains("/arch:AVX")) {
+      AddMacro("__AVX__", fileElement);
+    }
+    if (line.contains("/arch:AVX2")) {
+      AddMacro("__AVX2__", fileElement);
+    }
+    // WinCE and WinRT
+    // see https://en.wikipedia.org/wiki/ARM_architecture
+    if (line.contains("/arch:IA32 ") ||
+        line.contains("/arch:SSE ") ||
+        line.contains("/arch:SSE2 ") ||
+        line.contains("/arch:AVX2 ") ||
+        line.contains("/arch:AVX ") ||
+        line.contains("/arch:VFPv4 ") ||
+        line.contains("/arch:ARMv7VE ")) {
+      // In the range 30-39 if no /arch ARM option was specified, indicating the default architecture for ARM was used (VFPv3).
+      // In the range 40-49 if /arch:VFPv4 was used.
+      AddMacro("_M_ARM_FP", fileElement);
+    }
     //__STDC__ Indicates full conformance with the ANSI C standard. Defined as the integer constant 1 only if the /Za compiler option is given and you are not compiling C++ code; otherwise is undefined.
     if (line.contains("/Za ")) {
       AddMacro("__STDC__=1", fileElement);
@@ -268,20 +305,22 @@ public class CxxVCppBuildLogParser {
     //__CLR_VER Defines the version of the common language runtime used when the application was compiled. The value returned will be in the following format:    
     //__cplusplus_cli Defined when you compile with /clr, /clr:pure, or /clr:safe. Value of __cplusplus_cli is 200406. __cplusplus_cli is in effect throughout the translation unit.    
     //_M_CEE Defined for a compilation that uses any form of /clr (/clr:oldSyntax, /clr:safe, for example).    
-    if (line.contains("/clr")) {      
+    if (line.contains("/clr")) {
       
-      AddMacro("_M_CEE", fileElement);      
-      if (line.contains("/clr ") ||
-              line.contains("/clr:pure ") ||
-              line.contains("/clr:safe ")) {
-        AddMacro("__CLR_VER", fileElement);     
-        AddMacro("__cplusplus_cli", fileElement);        
+      AddMacro("_M_CEE", fileElement);
+      AddMacro("__cplusplus_cli=200406", fileElement);
+      AddMacro("__CLR_VER", fileElement);
+      if (line.contains("/clr:pure ")) {
+        AddMacro("_M_CEE_PURE", fileElement);
+      }
+      if ( line.contains("/clr:safe ")) {
+        AddMacro("_M_CEE_SAFE", fileElement);
       }      
     } 
                    
     //_MSC_EXTENSIONS This macro is defined when you compile with the /Ze compiler option (the default). Its value, when defined, is 1.
     if (line.contains("/Ze ")) {
-      AddMacro("_MSC_EXTENSIONS", fileElement);    
+      AddMacro("_MSC_EXTENSIONS", fileElement);
     }
          
     //__MSVC_RUNTIME_CHECKS Defined when one of the /RTC compiler options is specified.
@@ -290,189 +329,137 @@ public class CxxVCppBuildLogParser {
     }
     
     //_DEBUG Defined when you compile with /LDd, /MDd, and /MTd.
-    if (line.contains("/LDd ") ||
-            line.contains("/MDd ") ||
-            line.contains("/MTd ")) {
-      AddMacro("_DEBUG", fileElement);    
+    if (line.contains("/LDd ")) {
+      AddMacro("_DEBUG", fileElement);
     }     
     //_DLL Defined when /MD or /MDd (Multithreaded DLL) is specified. 
-    if (line.contains("/MD ") ||
-            line.contains("/MDd ")) {
-      AddMacro("_DLL", fileElement);    
+    if (line.contains("/MD ") || line.contains("/MDd ")) {
+      AddMacro("_DLL", fileElement);
     }    
-    //_MT Defined when /MD or /MDd (Multithreaded DLL) or /MT or /MTd (Multithreaded) is specified.
-    if (line.contains("/MD ") ||
-            line.contains("/MDd ") ||
-            line.contains("/MT ") ||
-            line.contains("/MTd ")) {
-      AddMacro("_MT", fileElement);    
+    //_MT Defined when /MD (Multithreaded DLL) or /MT (Multithreaded) is specified.
+    if (line.contains("/MD ") || line.contains("/MT ")) {
+      AddMacro("_MT", fileElement);
     }    
-    
+    //_MT Defined when /MDd (Multithreaded DLL) or /MTd (Multithreaded) is specified.
+    if (line.contains("/MDd ") || line.contains("/MTd ")) {
+      AddMacro("_MT", fileElement);
+      AddMacro("_DEBUG", fileElement);
+    } 
     //_OPENMP Defined when compiling with /openmp, returns an integer representing the date of the OpenMP specification implemented by Visual C++.
     if (line.contains("/openmp ")) {
-      AddMacro("_OPENMP", fileElement);    
+      AddMacro("_OPENMP=200203", fileElement);
     }
     
     //_VC_NODEFAULTLIB Defined when /Zl is used; see /Zl (Omit Default Library Name) for more information.
     if (line.contains("/Zl ")) {
-      AddMacro("_VC_NODEFAULTLIB", fileElement);    
-    }    
+      AddMacro("_VC_NODEFAULTLIB", fileElement);
+    }
 
     //_NATIVE_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used.    
     //_WCHAR_T_DEFINED Defined when /Zc:wchar_t is used or if wchar_t is defined in a system header file included in your project.
     if (line.contains("/Zc:wchar_t ")) {
-      AddMacro("_WCHAR_T_DEFINED", fileElement);   
-      AddMacro("_NATIVE_WCHAR_T_DEFINED", fileElement);
-    }      
-    
-    //_Wp64 Defined when specifying /Wp64.
+      AddMacro("_WCHAR_T_DEFINED=1", fileElement);
+      AddMacro("_NATIVE_WCHAR_T_DEFINED=1", fileElement);
+    }
+
+    //_Wp64 Defined when specifying /Wp64. Deprecated in Visual Studio 2010 and Visual Studio 2012, and not supported starting in Visual Studio 2013
     if (line.contains("/Wp64 ")) {
-      AddMacro("_Wp64", fileElement);    
+      AddMacro("_Wp64", fileElement);
     }   
-    
+
     //_M_AMD64 Defined for x64 processors.
     //_WIN32 Defined for applications for Win32 and Win64. Always defined.
     //_WIN64 Defined for applications for Win64.
-    //_M_X64 Defined for x64 processors.    
+    //_M_X64 Defined for x64 processors.
     //_M_IX86 Defined for x86 processors. See the Values for _M_IX86 table below for more information. This is not defined for x64 processors.
     //_M_IA64 Defined for Itanium Processor Family 64-bit processors.
-    //_M_IX86_FP Expands to a value indicating which /arch compiler option was used:
-    //    0 if /arch was not used.    
-    //    1 if /arch:SSE was used.
-    //    2 if /arch:SSE2 was used.   
-    if(platform.equals("x64")) {
+    if(platform.equals("x64")||line.contains("/D WIN64")) {
+      // Defined for compilations that target x64 processors.
       AddMacro("_WIN32", fileElement);
+      // This is not defined for x86 processors.
       AddMacro("_WIN64", fileElement);
       AddMacro("_M_X64", fileElement);
       AddMacro("_M_IA64", fileElement);
       AddMacro("_M_AMD64", fileElement);
     }
-    
-    if(platform.equals("Win32")) {
+    else if(platform.equals("Win32")||line.contains("/D WIN32")) {
+      // Defined for compilations that target x86 processors. 
       AddMacro("_WIN32", fileElement);
-      AddMacro("_M_IX86", fileElement);
-      AddMacro("_M_IX86_FP", fileElement);
-    }        
-    
-    // Weird Stuff, context sensite //
-    //__cplusplus Defined for C++ programs only.
-    //__FUNCDNAME__ Valid only in a function. Defines the decorated name of the enclosing function as a string.
-    //__FUNCDNAME__ is not expanded if you use the /EP or /P compiler option.
-    //__FUNCSIG__ Valid only in a function. Defines the signature of the enclosing function as a string.
-    //__FUNCSIG__ is not expanded if you use the /EP or /P compiler option.       
-    //__FUNCTION__ Valid only in a function. Defines the undecorated name of the enclosing function as a string. __FUNCTION__ is not expanded if you use the /EP or /P compiler option.
-        
-    // DEPRECATED STUFF //
-    //_M_MPPC Defined for Power Macintosh platforms (no longer supported).
-    //_M_MRX000 Defined for MIPS platforms (no longer supported).
-    //_M_PPC Defined for PowerPC platforms (no longer supported).
-    //_M_ALPHA Defined for DEC ALPHA platforms (no longer supported).
-  }       
+      //This is not defined for x64 processors.
+      AddMacro("_M_IX86", fileElement); 
+    }
+    // VC++ 17.0, 18.0, 19.0
+    // _CPPUNWIND Defined for code compiled by using one of the /EH (Exception Handling Model) flags.
+    if (line.contains("/EHs ") || 
+            line.contains("/EHa ") ||
+            line.contains("/EHsc ") ||
+            line.contains("/EHac ")) {
+      AddMacro("_CPPUNWIND", fileElement);
+    }
+  }
 
   private void ParseV100CompilerOptions(String line, String fileElement) {
-    // _CPPUNWIND Defined for code compiled with /GX (Enable Exception Handling).
+    // VC++ V16.0 - VS2010 (V10.0)
+    AddMacro("__cplusplus=199711L", fileElement);
+    // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
+    if (line.contains("/ZW ")) {
+      AddMacro("__cplusplus_winrt=201009", fileElement);    
+    }
+    AddMacro("_MSC_VER=1600", fileElement);
+    // VS2010 SP1
+    AddMacro("_MSC_FULL_VER=16004021901", fileElement);
+    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2010, _MFC_VER is defined as 0x0C00.
+    AddMacro("_MFC_VER=0x0A00", fileElement);
+    AddMacro("_ATL_VER=0x0A00", fileElement);
+    // VC++ 16.0
     if (line.contains("/GX ")) {
-      AddMacro("_CPPUNWIND", fileElement);    
-    } 
-
-    // _M_ALPHA Defined for DEC ALPHA platforms (no longer supported).
-    // _M_IA64 Defined for Itanium Processor Family 64-bit processors.
-    // _M_MPPC Defined for Power Macintosh platforms (no longer supported).
-    // _M_MRX000 Defined for MIPS platforms (no longer supported).
-    // _M_PPC Defined for PowerPC platforms (no longer supported).    
-    // _M_IX86 
-    //    /GB _M_IX86 = 600 Blend
-    //    /G5 _M_IX86 = 500 (Default. Future compilers will emit a different value to reflect the dominant processor.) Pentium
-    //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III 
-    //    /G3 _M_IX86 = 300  80386
-    //    /G4 _M_IX86 = 400  80486
-    if (line.contains("/GB ") ||
-            line.contains("/G5") || 
-            line.contains("/G6") ||
-            line.contains("/G3") ||
-            line.contains("/G4")) {
-      AddMacro("_M_IX86", fileElement);    
-    }    
+      AddMacro("_CPPUNWIND", fileElement);
+    }
   }
 
   private void ParseV110CompilerOptions(String line, String fileElement) {
-    // _M_ALPHA Defined for DEC ALPHA platforms (no longer supported).
-    // _M_IA64 Defined for Itanium Processor Family 64-bit processors.    
-    // _M_MPPC Defined for Power Macintosh platforms (no longer supported).
-    // _M_MRX000 Defined for MIPS platforms (no longer supported).
-    // _M_PPC Defined for PowerPC platforms (no longer supported).
+    // VC++ V17.0 - VS2012 (V11.0)
+    AddMacro("__cplusplus=199711L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      AddMacro("__cplusplus_winrt", fileElement);    
+      AddMacro("__cplusplus_winrt=201009", fileElement);    
     }
-
-    // _CPPUNWIND Defined for code compiled by using one of the /EH (Exception Handling Model) flags.
-    if (line.contains("/EHs ") || 
-            line.contains("/EHa ") || 
-            line.contains("/EHsc ") ||
-            line.contains("/EHac ")) {
-      AddMacro("_CPPUNWIND", fileElement);    
-    } 
-
-    // _M_ARM_FP Expands to a value indicating which /arch compiler option was used:
-    //    In the range 30-39 if no /arch ARM option was specified, indicating the default architecture for ARM was used (VFPv3).
-    //    In the range 40-49 if /arch:VFPv4 was used.
-    //    See /arch (x86) for more information.    
-    // _M_IX86 
-    //    /GB _M_IX86 = 600 Blend
-    //    /G5 _M_IX86 = 500 (Default. Future compilers will emit a different value to reflect the dominant processor.) Pentium
-    //    /G6 _M_IX86 = 600  Pentium Pro, Pentium II, and Pentium III 
-    //    /G3 _M_IX86 = 300  80386
-    //    /G4 _M_IX86 = 400  80486    
-    if (line.contains("/GB ") ||
-            line.contains("/G5") || 
-            line.contains("/G6") ||
-            line.contains("/G3") ||
-            line.contains("/G4")) {
-      AddMacro("_M_IX86", fileElement);    
-    }  
+    AddMacro("_MSC_VER=1700", fileElement);
+    // VS2012 Update 4
+    AddMacro("_MSC_FULL_VER=1700610301", fileElement);
+    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2013, _MFC_VER is defined as 0x0C00.
+    AddMacro("_MFC_VER=0x0B00", fileElement);
+    AddMacro("_ATL_VER=0x0B00", fileElement);
   }
 
   private void ParseV120CompilerOptions(String line, String fileElement) {
-    // __AVX__ Defined when /arch:AVX or /arch:AVX2 is specified.
-    // __AVX2__ Defined when /arch:AVX2 is specified.
-    if (line.contains("/arch:AVX ")) {
-      AddMacro("__AVX__", fileElement);    
-    }
-
-    if (line.contains("/arch:AVX2 ")) {
-      AddMacro("__AVX__", fileElement);
-      AddMacro("__AVX2__", fileElement);    
-    }
-    
-    // _M_ARM Defined for compilations that target ARM processors.
+    // VC++ V18.0 - VS2013 (V12.0)
+    AddMacro("__cplusplus=199711L", fileElement);
     // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
     if (line.contains("/ZW ")) {
-      AddMacro("__cplusplus_winrt", fileElement);    
-    }  
-
-    // _CPPUNWIND Defined for code compiled by using one of the /EH (Exception Handling Model) flags.
-    if (line.contains("/EHs ") || 
-            line.contains("/EHa ") || 
-            line.contains("/EHsc ") ||
-            line.contains("/EHac ")) {
-      AddMacro("_CPPUNWIND", fileElement);    
-    } 
-
-    // _M_ARM_FP Expands to a value indicating which /arch compiler option was used:
-    //    In the range 30-39 if no /arch ARM option was specified, indicating the default architecture for ARM was used (VFPv3).
-    //    In the range 40-49 if /arch:VFPv4 was used.
-    //    See /arch (x86) for more information.       
-    if (line.contains("/arch:IA32 ") || 
-            line.contains("/arch:SSE ") || 
-            line.contains("/arch:SSE2 ") ||
-            line.contains("/arch:AVX2 ") ||
-            line.contains("/arch:AVX ")) {
-      AddMacro("_M_ARM_FP", fileElement);    
+      AddMacro("__cplusplus_winrt=201009", fileElement);
     }
+    AddMacro("_MSC_VER=1800", fileElement);
+    // VS2013 Update 4
+    AddMacro("_MSC_FULL_VER=180031101", fileElement);
+    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2013, _MFC_VER is defined as 0x0C00.
+    AddMacro("_MFC_VER=0x0C00", fileElement);
+    AddMacro("_ATL_VER=0x0C00", fileElement);
   }
-  
+
   private void ParseV140CompilerOptions(String line, String fileElement) {
-    // TBD when vs 2015 release and documentation updated
+    // VC++ V19.0 - VS2015 (V14.0)
+    AddMacro("__cplusplus=199711L", fileElement);
+    // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
+    if (line.contains("/ZW ")) {
+      AddMacro("__cplusplus_winrt=201009", fileElement);
+    }
+    AddMacro("_MSC_VER=1900", fileElement);
+    // VS2015 RC
+    AddMacro("_MSC_FULL_VER=190022816", fileElement);
+    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2013, _MFC_VER is defined as 0x0C00.
+    AddMacro("_MFC_VER=0x0C00", fileElement);
+    AddMacro("_ATL_VER=0x0C00", fileElement);
   }  
 }
+
