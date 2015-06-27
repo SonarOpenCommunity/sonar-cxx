@@ -51,7 +51,9 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
+  private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
   private static final String DEFAULT_REGULAR_EXPRESSION = "";
+  private static final boolean DEFAULT_INVERT_REGULAR_EXPRESSION = false;
   private static final String DEFAULT_MESSAGE = "The regular expression matches this file";
 
   private Charset charset;
@@ -65,10 +67,22 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   public String matchFilePattern = DEFAULT_MATCH_FILE_PATTERN;
 
   @RuleProperty(
+    key = "invertFilePattern",
+    description = "Invert file pattern comparison",
+    defaultValue = "" + DEFAULT_INVERT_FILE_PATTERN)
+  public boolean invertFilePattern = DEFAULT_INVERT_FILE_PATTERN;
+
+  @RuleProperty(
     key = "regularExpression",
     description = "The regular expression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+
+  @RuleProperty(
+    key = "invertRegularExpression",
+    description = "Invert regular expression comparison",
+    defaultValue = "" + DEFAULT_INVERT_REGULAR_EXPRESSION)
+  public boolean invertRegularExpression = DEFAULT_INVERT_REGULAR_EXPRESSION;
 
   @RuleProperty(
     key = "message",
@@ -97,11 +111,11 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   public void visitFile(AstNode fileNode) {
     if (fileNode != null) {
       try {
-        if (!matchFile()) {
+        if (!compare(invertFilePattern, matchFile())) {
           return;
         }
         Matcher matcher = pattern.matcher(fromFile(getContext().getFile()));
-        if (matcher.find()) {
+        if (compare(invertRegularExpression, matcher.find())) {
           getContext().createFileViolation(this, message);
         }
       } catch (Exception e) {
@@ -134,4 +148,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     }
   }
 
+  private boolean compare(boolean invert, boolean condition) {
+    return invert ? !condition : condition;
+  }
 }

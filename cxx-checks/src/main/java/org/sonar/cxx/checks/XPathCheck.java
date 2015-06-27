@@ -39,6 +39,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 public class XPathCheck extends AbstractXPathCheck<Grammar> {
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
+  private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
   private static final String DEFAULT_XPATH_QUERY = "";
   private static final String DEFAULT_MESSAGE = "The XPath expression matches this piece of code";
 
@@ -47,6 +48,12 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
     description = "Ant-style matching patterns for path",
     defaultValue = DEFAULT_MATCH_FILE_PATTERN)
   public String matchFilePattern = DEFAULT_MATCH_FILE_PATTERN;
+
+  @RuleProperty(
+    key = "invertFilePattern",
+    description = "Invert file pattern comparison",
+    defaultValue = "" + DEFAULT_INVERT_FILE_PATTERN)
+  public boolean invertFilePattern = DEFAULT_INVERT_FILE_PATTERN;
 
   @RuleProperty(
     key = "xpathQuery",
@@ -77,7 +84,7 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
       if (!matchFilePattern.isEmpty()) {
         WildcardPattern pattern = WildcardPattern.create(matchFilePattern);
         String path = PathUtils.sanitize(getContext().getFile().getPath());
-        if (!pattern.match(path)) {
+        if (!compare(invertFilePattern, pattern.match(path))) {
           return;
         }
       }
@@ -85,4 +92,7 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
     }
   }
 
+  private boolean compare(boolean invert, boolean condition) {
+    return invert ? !condition : condition;
+  }
 }
