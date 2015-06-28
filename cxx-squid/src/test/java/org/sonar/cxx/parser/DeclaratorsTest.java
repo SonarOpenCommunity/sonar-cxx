@@ -61,7 +61,7 @@ public class DeclaratorsTest extends ParserBaseTest {
     g.rule(CxxGrammarImpl.trailingReturnType).mock();
 
     assertThat(p).matches("ptrDeclarator");
-    assertThat(p).matches("noptrDeclarator");
+    assertThat(p).matches("noptrDeclarator parametersAndQualifiers trailingReturnType");
   }
 
   @Test
@@ -374,6 +374,10 @@ public class DeclaratorsTest extends ParserBaseTest {
     assertThat(p).matches("string");
     assertThat(p).matches("::P& c");
     assertThat(p).matches("bool (A::*bar)(void)");
+    // CLI extension
+    assertThat(p).matches("const int^ i");
+    assertThat(p).matches("const int% i");
+    assertThat(p).matches("const int^% i");
   }
 
   @Test

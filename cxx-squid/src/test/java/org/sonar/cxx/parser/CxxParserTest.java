@@ -35,7 +35,7 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest extends ParserBaseTest {
   String errSources = "/parser/bad/error_recovery_declaration.cc";
-  String[] goodFiles = {"own", "examples"};
+  String[] goodFiles = {"own", "examples", "cli"};
   String[] cCompatibilityFiles = {"c-compat"};
   String rootDir = "src/test/resources/parser";
   File erroneousSources = null;

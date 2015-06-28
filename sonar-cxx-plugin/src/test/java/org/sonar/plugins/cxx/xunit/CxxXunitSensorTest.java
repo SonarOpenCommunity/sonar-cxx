@@ -113,7 +113,8 @@ public class CxxXunitSensorTest {
     //                             a header (definition) and two *.cc files
     // the report mentions: the class name
     assertThat(sensor.lookupFilePath("TestClass6"),
-               anyOf(is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
+               anyOf(is(new File(baseDir, "tests1/Test6.hh").getPath()),
+                     is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
                      is(new File(baseDir, "tests1/Test6_B.cc").getPath())));
     
     // case 7:

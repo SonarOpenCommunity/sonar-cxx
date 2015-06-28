@@ -31,9 +31,9 @@ import com.sonar.sslr.api.Token;
 
 public class CxxParseErrorLoggerVisitor <GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
-  private SquidAstVisitorContext context = null;
+  private SquidAstVisitorContext<?> context = null;
 
-  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext context){
+  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context){
     this.context = context;
   }
 

@@ -35,7 +35,7 @@ public class ClassComplexityCheckTest {
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/ClassComplexity.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(9).withMessage("Class has a complexity of 9 which is greater than 5 authorized.")
+      .next().atLine(9).withMessage("Class has a complexity of 10 which is greater than 5 authorized.")
       .noMore();
   }
 

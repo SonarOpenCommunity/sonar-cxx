@@ -41,10 +41,10 @@ public:
 
 	friend class friendClass;
 
-	// ignore deleted methods
+  // ignore deleted methods
 	A(A const&) = delete;
 
-	// ignore defaulted methods
+  // ignore defaulted methods
 	A& operator=(A const&) = default;
 
 	/**

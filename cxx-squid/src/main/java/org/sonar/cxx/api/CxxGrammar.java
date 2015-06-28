@@ -200,6 +200,34 @@ public class CxxGrammar extends Grammar {
   public Rule virtSpecifier;
   public Rule pureSpecifier;
 
+  // cli extension
+  public Rule cliTopLevelVisibility;
+  public Rule cliFinallyClause;
+  public Rule cliEventDefinition;
+  public Rule cliEventModifiers;
+  public Rule cliPropertyOrEventName;
+  public Rule cliEventType;
+  public Rule cliParameterArray;
+  public Rule cliPropertyDefinition;
+  public Rule cliPropertyModifiers;
+  public Rule cliFunctionDefinition;
+  public Rule cliPropertyIndexes;
+  public Rule cliPropertyIndexParameterList;
+  public Rule cliAccessorSpecification;
+  public Rule cliAccessorDeclaration;
+  public Rule cliDelegateSpecifier;
+  public Rule cliGenericDeclaration;
+  public Rule cliGenericParameterList;
+  public Rule cliConstraintClauseList;
+  public Rule cliConstraintItemList;
+  public Rule cliGenericParameter;
+  public Rule cliGenericId;
+  public Rule cliGenericName;
+  public Rule cliGenericArgumentList;
+  public Rule cliGenericArgument;
+  public Rule cliConstraintClause;
+  public Rule cliConstraintItem;
+
   // Derived classes
   public Rule baseClause;
   public Rule baseSpecifierList;

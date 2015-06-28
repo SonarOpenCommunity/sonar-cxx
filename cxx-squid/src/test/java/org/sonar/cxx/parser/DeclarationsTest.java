@@ -74,7 +74,7 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("aligned_storage<sizeof(result_type)> cache;");
 
     // We cannot parse this, unfortunately. The reasons is an ambiguity between
-    // relational exressions and template parameter list syntax, which cannot be
+    // relational expressions and template parameter list syntax, which cannot be
     // resolved without name lookup, at least according to the standard. Bad c++...
     // assertThat(p).matches("mpl<N/M>();");
 
@@ -82,6 +82,14 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("sometype foo(int& var1);");
     assertThat(p).matches("auto foo(int& var1) -> int;");
     assertThat(p).matches("auto fp11() -> void(*)(const std::string&);");
+
+    assertThat(p).matches("t^ pt;");
+    assertThat(p).matches("t% pt;");
+    assertThat(p).matches("t^% pt;");
+    
+//    assertThat(p).matches("int property;");
+//    assertThat(p).matches("int property = 0;");
+
   }
 
   @Test
@@ -124,6 +132,7 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("void foo(string, bool);");
     assertThat(p).matches("friend class ::SMLCGroupHierarchyImpl;");
     assertThat(p).matches("void foo(int, type[]);");
+    assertThat(p).matches("bool operator==(const lhs&, const rhs&);");
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
 
     assertThat(p).matches("auto to_string(int value) -> std::string;");
@@ -131,6 +140,8 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("auto str() const;");
     assertThat(p).matches("auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator>;");
 
+//    assertThat(p).matches("int property;");
+//    assertThat(p).matches("int property = 0;");
 //  ToDo : make this work
 //  assertThat(p).matches("auto str() const -> const char*;");
 //  assertThat(p).matches("auto std::map::at(const key_type& key) -> mapped_type&;");
@@ -167,6 +178,11 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("class foo final : bar { }");
     assertThat(p).matches("class foo final : bar { int foo(); }");
     assertThat(p).matches("class foo final : public ::bar { int foo(); }");
+    // CLI extension
+    assertThat(p).matches("class foo sealed : bar { }");
+    assertThat(p).matches("ref class foo : bar { }");
+    assertThat(p).matches("public ref class foo : bar { }");
+    assertThat(p).matches("private ref class foo : bar { }");
 
     // type names
     assertThat(p).matches("class_foo"); // className->identifier
@@ -302,6 +318,7 @@ public class DeclarationsTest extends ParserBaseTest {
 
     g.rule(CxxGrammarImpl.enumHead).mock();
     g.rule(CxxGrammarImpl.enumeratorList).mock();
+    g.rule(CxxGrammarImpl.cliAttribute).mock();
 
     assertThat(p).matches("enumHead { }");
     assertThat(p).matches("enumHead { enumeratorList }");
@@ -323,6 +340,7 @@ public class DeclarationsTest extends ParserBaseTest {
     g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
     g.rule(CxxGrammarImpl.enumBase).mock();
     g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
+    g.rule(CxxGrammarImpl.cliAttribute).mock();
 
     assertThat(p).matches("enumKey");
     assertThat(p).matches("enumKey attributeSpecifierSeq");
@@ -390,5 +408,118 @@ public class DeclarationsTest extends ParserBaseTest {
 
     assertThat(p).matches("extern \"foo\" { declarationSeq }");
     assertThat(p).matches("extern \"foo\" declaration");
+  }
+
+  @Test
+  public void propertyDeclaration() {
+    p.setRootRule(g.rule(CxxGrammarImpl.cliPropertyDefinition));
+
+    g.rule(CxxGrammarImpl.cliAttributes).mock();
+    g.rule(CxxGrammarImpl.cliPropertyModifiers).mock();
+    g.rule(CxxGrammarImpl.declarator).mock();
+    g.rule(CxxGrammarImpl.cliPropertyIndexes).mock();
+    g.rule(CxxGrammarImpl.cliAccessorSpecification).mock();
+
+    assertThat(p).matches("property typeSpecifier declarator ;");
+    assertThat(p).matches("cliPropertyModifiers property typeSpecifier declarator ;");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property typeSpecifier declarator ;");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property cliPropertyOrEventName declarator ;");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator ;");
+
+    assertThat(p).matches("property typeSpecifier declarator { cliAccessorSpecification }");
+    assertThat(p).matches("cliPropertyModifiers property typeSpecifier declarator { cliAccessorSpecification }");
+    assertThat(p).matches("cliPropertyModifiers property typeSpecifier declarator cliPropertyIndexes { cliAccessorSpecification }");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property typeSpecifier declarator { cliAccessorSpecification }");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property cliPropertyOrEventName declarator { cliAccessorSpecification }");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator { cliAccessorSpecification }");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property typeSpecifier declarator cliPropertyIndexes { cliAccessorSpecification }");
+    assertThat(p).matches("cliAttributes cliPropertyModifiers property nestedNameSpecifier cliPropertyOrEventName declarator cliPropertyIndexes { cliAccessorSpecification }");
+  }
+
+  @Test
+  public void accessorSpecificationDeclaration() {
+    p.setRootRule(g.rule(CxxGrammarImpl.cliAccessorSpecification));
+
+    g.rule(CxxGrammarImpl.cliAccessorDeclaration).mock();
+    g.rule(CxxGrammarImpl.accessSpecifier).mock();
+
+    assertThat(p).matches("");
+    assertThat(p).matches("cliAccessorDeclaration");
+    assertThat(p).matches("cliAccessorDeclaration cliAccessorDeclaration");
+    assertThat(p).matches("accessSpecifier : cliAccessorDeclaration");
+    assertThat(p).matches("accessSpecifier : cliAccessorDeclaration cliAccessorDeclaration");
+  }
+  @Test
+  public void eventDeclaration() {
+    p.setRootRule(g.rule(CxxGrammarImpl.cliEventDefinition));
+
+    g.rule(CxxGrammarImpl.cliAttributes).mock();
+    g.rule(CxxGrammarImpl.cliEventModifiers).mock();
+    g.rule(CxxGrammarImpl.cliEventType).mock();
+    g.rule(CxxGrammarImpl.cliAccessorSpecification).mock();
+
+    
+    assertThat(p).matches("event cliEventType myEvent ;");
+    assertThat(p).matches("cliEventModifiers event cliEventType myEvent ;");
+    assertThat(p).matches("cliAttributes cliEventModifiers event cliEventType myEvent ;");
+
+    assertThat(p).matches("event cliEventType myEvent { cliAccessorSpecification }");
+    assertThat(p).matches("cliEventModifiers event cliEventType myEvent { cliAccessorSpecification }");
+    assertThat(p).matches("cliAttributes cliEventModifiers event cliEventType myEvent { cliAccessorSpecification }");
+  }
+  @Test
+  public void eventTypeDeclaration() {
+    p.setRootRule(g.rule(CxxGrammarImpl.cliEventType));
+
+    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
+    g.rule(CxxGrammarImpl.typeName).mock();
+    g.rule(CxxGrammarImpl.templateId).mock();
+
+    assertThat(p).matches("nestedNameSpecifier typeName");
+    assertThat(p).matches(":: nestedNameSpecifier typeName");
+    assertThat(p).matches("nestedNameSpecifier typeName^");
+    assertThat(p).matches(":: nestedNameSpecifier typeName^");
+
+    assertThat(p).matches("nestedNameSpecifier template templateId ^");
+    assertThat(p).matches(":: nestedNameSpecifier template templateId ^");
+  }
+  @Test
+  public void cliAttributesDefinition() {
+    p.setRootRule(g.rule(CxxGrammarImpl.cliAttributes));
+    
+    g.rule(CxxGrammarImpl.typeName).mock();
+    g.rule(CxxGrammarImpl.cliAttributeTarget).mock();
+    g.rule(CxxGrammarImpl.cliPositionArgumentList).mock();
+
+    assertThat(p).matches("[ typeName ]");
+    assertThat(p).matches("[ cliAttributeTarget : typeName ]");
+    assertThat(p).matches("[ cliAttributeTarget : typeName, typeName ]");
+    assertThat(p).matches("[ cliAttributeTarget : typeName, typeName (cliPositionArgumentList) ]");
+    
+  }
+  @Test
+  public void cliAttributesDefinition_reallife() {
+    p.setRootRule(g.rule(CxxGrammarImpl.cliAttributes));
+
+    assertThat(p).matches("[Attr]");
+    assertThat(p).matches("[assembly:Attr]");
+    assertThat(p).matches("[class:Attr]");
+    assertThat(p).matches("[constructor:Attr]");
+    assertThat(p).matches("[assembly:Attr]");
+    assertThat(p).matches("[delegate:Attr]");
+    assertThat(p).matches("[enum:Attr]");
+    assertThat(p).matches("[event:Attr]");
+    assertThat(p).matches("[field:Attr]");
+    assertThat(p).matches("[interface:Attr]");
+    assertThat(p).matches("[method:Attr]");
+    assertThat(p).matches("[parameter:Attr]");
+    assertThat(p).matches("[property:Attr]");
+    assertThat(p).matches("[returnvalue:Attr]");
+    assertThat(p).matches("[struct:Attr]");
+    
+    assertThat(p).matches("[returnvalue:Attr(x)]");
+    assertThat(p).matches("[AttributeUsage( AttributeTargets::All )]");
+    assertThat(p).matches("[AttributeUsage(AttributeTargets::Class | AttributeTargets::Method)]");
+    assertThat(p).matches("[ AnotherAttr( gcnew array<Object ^> { 3.14159, \"pi\" }, var1 = gcnew array<Object ^> { \"a\", \"b\" } ) ]");
   }
 }
