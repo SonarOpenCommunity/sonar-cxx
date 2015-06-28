@@ -20,6 +20,7 @@
 package org.sonar.cxx;
 
 import java.io.File;
+import java.util.Collection;
 
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
@@ -42,6 +43,7 @@ import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.api.SourceProject;
+import org.sonar.squidbridge.indexer.QueryByType;
 import org.sonar.squidbridge.metrics.CommentsVisitor;
 import org.sonar.squidbridge.metrics.ComplexityVisitor;
 import org.sonar.squidbridge.metrics.CounterVisitor;
@@ -60,33 +62,26 @@ public final class CxxAstScanner {
   }
 
   /**
-   * Method for scanning a single file
-   */
-  public static SourceFile scanFile(AstScanner<Grammar> scanner, File file) {
-    if (!file.isFile()) {
-      throw new IllegalArgumentException("File '" + file + "' not found.");
-    }
-    scanner.scanFile(file);
-    SourceCode sourceFile = scanner.getIndex().search(file.getAbsolutePath());
-    if (sourceFile == null) {
-      throw new IllegalStateException("Error scanning source file '" + file.getAbsolutePath() + "'.");
-    }
-    return (SourceFile) sourceFile;
-  }
-
-  /**
-   * Helper method for scanning a single file. (low performance - do not use in a loop)
-   */
-  public static SourceFile scanSingleFileConfig(File file, CxxConfiguration cxxConfig, SquidAstVisitor<Grammar>... visitors) {
-    AstScanner<Grammar> scanner = create(cxxConfig, visitors);
-    return scanFile(scanner, file);
-  }
-
-  /**
-   * Helper method for testing checks without having to deploy them on a Sonar instance. (low performance - do not use in a loop)
+   * Helper method for testing checks without having to deploy them on a Sonar instance.
    */
   public static SourceFile scanSingleFile(File file, SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(file, new CxxConfiguration(), visitors);
+  }
+
+  /**
+   * Helper method for scanning a single file
+   */
+  public static SourceFile scanSingleFileConfig(File file, CxxConfiguration cxxConfig, SquidAstVisitor<Grammar>... visitors) {
+    if (!file.isFile()) {
+      throw new IllegalArgumentException("File '" + file + "' not found.");
+    }
+    AstScanner<Grammar> scanner = create(cxxConfig, visitors);
+    scanner.scanFile(file);
+    Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
+    if (sources.size() != 1) {
+      throw new IllegalStateException("Only one SourceFile was expected whereas " + sources.size() + " has been returned.");
+    }
+    return (SourceFile) sources.iterator().next();
   }
 
   public static AstScanner<Grammar> create(CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
