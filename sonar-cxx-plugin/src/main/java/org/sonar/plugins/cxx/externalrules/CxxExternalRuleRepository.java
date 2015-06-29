@@ -28,6 +28,7 @@ import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.squidbridge.rules.SqaleXmlLoader;
+import org.sonar.plugins.cxx.utils.CxxSqaleXmlLoader;
 
 /**
  * Loads the external rules configuration file.
@@ -36,6 +37,7 @@ public class CxxExternalRuleRepository implements RulesDefinition {
 
   public static final String KEY = "other";
   public static final String RULES_KEY = "sonar.cxx.other.rules";
+  public static final String SQALES_KEY = "sonar.cxx.other.sqales";
   public final Settings settings;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private static final String NAME = "Other";
@@ -48,20 +50,29 @@ public class CxxExternalRuleRepository implements RulesDefinition {
   @Override
   public void define(Context context) {
     NewRepository repository = context.createRepository(KEY, CxxLanguage.KEY).setName(NAME);
+    
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
-
     for (String ruleDefs : settings.getStringArray(RULES_KEY)) {
       if (StringUtils.isNotBlank(ruleDefs)) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
         } catch (Exception ex) {
-          CxxUtils.LOG.info("Cannot Load XML '{}'", ex.getMessage());
+          CxxUtils.LOG.info("Cannot load rules XML '{}'", ex.getMessage());
         }
       }
     }
 
-    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");    
-    //i18nLoader.load(repository); //@todo?
+    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
+    for (String sqaleDefs : settings.getStringArray(SQALES_KEY)) {
+      if (StringUtils.isNotBlank(sqaleDefs)) {
+        try {
+          CxxSqaleXmlLoader.load(repository, new StringReader(sqaleDefs));
+        } catch (Exception ex) {
+          CxxUtils.LOG.info("Cannot load SQALE XML '{}'", ex.getMessage());
+        }
+      }
+    }
+
     repository.done();
   }
 
