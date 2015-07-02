@@ -70,7 +70,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
       String[] sub = line.split("^\\s*#define\\s+", 2);
       if (sub.length>1) {
         String name = sub[1].split("[\\s(]",2)[0];
-        if (name.startsWith("_") && Character.isUpperCase(name.charAt(1))) {
+        if (name.startsWith("_") && name.length() > 1 && Character.isUpperCase(name.charAt(1))) {
           getContext().createLineViolation(this, "Reserved name used for macro (begins with underscore followed by a capital letter)", nr);
         }
         else if (name.contains("__")) {

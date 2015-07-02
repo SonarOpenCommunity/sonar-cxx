@@ -23,6 +23,7 @@ public:
 #define _test
 #define TRUE_TEST
 /*#define TRUE this is not an error...*/
+#define _ ks._
 
 int main()
 {
