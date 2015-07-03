@@ -19,62 +19,59 @@
  */
 package org.sonar.cxx.checks;
 
+import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.Grammar;
+import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.api.SourceFunction;
-import org.sonar.squidbridge.checks.ChecksHelper;
-import org.sonar.squidbridge.checks.SquidCheck;
-import com.sonar.sslr.api.AstNode;
-import com.sonar.sslr.api.Grammar;
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.api.SourceClass;
+import org.sonar.squidbridge.checks.ChecksHelper;
+import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(
-  key = "FunctionComplexity",
-  name = "Functions should not be too complex",
-  tags = {Tags.BRAIN_OVERLOAD},
-  priority = Priority.MAJOR)
-@ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)
+  key = "ClassComplexity",
+  priority = Priority.MAJOR,
+  name = "Classes should not be too complex",
+  tags = Tags.BRAIN_OVERLOAD
+)
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
 @SqaleLinearWithOffsetRemediation(
   coeff = "1min",
   offset = "10min",
-  effortToFixDescription = "per complexity point above the threshold")
-public class FunctionComplexityCheck extends SquidCheck<Grammar> {
+  effortToFixDescription = "per complexity point over the threshold")
+public class ClassComplexityCheck extends SquidCheck<Grammar> {
 
-  private static final int DEFAULT_MAX = 10;
+  private static final int DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD = 60;
 
-  @RuleProperty(
-    key = "max",
-    description = "Maximum complexity allowed",
-    defaultValue = "" + DEFAULT_MAX)
-  private int max = DEFAULT_MAX;
+  @RuleProperty(key = "maximumClassComplexityThreshold", defaultValue = "" + DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD)
+  private int maximumClassComplexityThreshold = DEFAULT_MAXIMUM_CLASS_COMPLEXITY_THRESHOLD;
 
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.functionDefinition);
+    subscribeTo(CxxGrammarImpl.classSpecifier);
   }
 
   @Override
   public void leaveNode(AstNode node) {
-    SourceFunction sourceFunction = (SourceFunction) getContext().peekSourceCode();
-    int complexity = ChecksHelper.getRecursiveMeasureInt(sourceFunction, CxxMetric.COMPLEXITY);
-    if (complexity > max) {
+    SourceClass sourceClass = (SourceClass) getContext().peekSourceCode();
+    int complexity = ChecksHelper.getRecursiveMeasureInt(sourceClass, CxxMetric.COMPLEXITY);
+    if (complexity > maximumClassComplexityThreshold) {
       getContext().createLineViolation(this,
-        "The Cyclomatic Complexity of this function is {0,number,integer} which is greater than {1,number,integer} authorized.",
+        "Class has a complexity of {0,number,integer} which is greater than {1,number,integer} authorized.",
         node,
         complexity,
-        max);
+        maximumClassComplexityThreshold);
     }
   }
 
-  public void setMax(int max) {
-    this.max = max;
+  public void setMaximumClassComplexityThreshold(int threshold) {
+    this.maximumClassComplexityThreshold = threshold;
   }
+
 }

@@ -19,26 +19,24 @@
  */
 package org.sonar.cxx.checks;
 
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
+import org.junit.Test;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.cxx.CxxAstScanner;
+
 import java.io.File;
 
-import org.junit.Test;
-import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
-
-public class FunctionComplexityCheckTest {
+public class ClassComplexityCheckTest {
 
   @Test
-  public void check() {
-    FunctionComplexityCheck check = new FunctionComplexityCheck();
-    check.setMax(5);
+  public void test() {
+    ClassComplexityCheck check = new ClassComplexityCheck();
+    check.setMaximumClassComplexityThreshold(5);
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionComplexity.cc"), check);
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/ClassComplexity.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(13)
-      .next().atLine(33)
-      .next().atLine(51)
-      .next().atLine(72);
+      .next().atLine(9).withMessage("Class has a complexity of 9 which is greater than 5 authorized.")
+      .noMore();
   }
 
 }
