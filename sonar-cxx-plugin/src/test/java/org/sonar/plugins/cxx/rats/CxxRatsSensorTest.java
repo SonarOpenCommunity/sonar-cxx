@@ -40,6 +40,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxRatsSensorTest {
+
   private CxxRatsSensor sensor;
   private SensorContext context;
   private Project project;
@@ -53,7 +54,9 @@ public class CxxRatsSensorTest {
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxRatsSensor(perspectives, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());
+    Settings settings = new Settings();
+    settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
+    sensor = new CxxRatsSensor(perspectives, settings, fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
     File resourceMock = mock(File.class);
     when(context.getResource((File) anyObject())).thenReturn(resourceMock);

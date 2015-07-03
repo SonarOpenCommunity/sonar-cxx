@@ -40,7 +40,6 @@ public class CxxCompilerGccParser implements CompilerParser{
   // sample regex: "^.*[\\\\,/](?<filename>.*)\\((?<line>[0-9]+)\\)\\x20:\\x20warning\\x20(?<id>C\\d\\d\\d\\d):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  public static final String DEFAULT_REPORT_PATH = "compiler-reports/build.log";
 
   /**
    * {@inheritDoc}
@@ -54,13 +53,6 @@ public class CxxCompilerGccParser implements CompilerParser{
    */
   public String rulesRepositoryKey() {
     return CxxCompilerGccRuleRepository.KEY;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public String defaultReportPath() {
-    return DEFAULT_REPORT_PATH;
   }
 
   /**

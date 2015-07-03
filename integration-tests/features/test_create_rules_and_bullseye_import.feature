@@ -20,6 +20,7 @@ Feature: GoogleTestWithBullseyeAndVsProject
               .*WARN.*to create a dependency with 'PathHandling/PathHandle.h'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
               .*WARN.*Cannot find the file '.*gtestmock.1.7.2.*', ignoring coverage measures
+              .*WARN.*Cannot find a report for '.*'
               .*WARN.*cannot find the sources for '#include.* 
               
               """

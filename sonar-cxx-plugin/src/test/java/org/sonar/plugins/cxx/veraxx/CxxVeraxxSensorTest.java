@@ -52,7 +52,9 @@ public class CxxVeraxxSensorTest {
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxVeraxxSensor(perspectives, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());
+    Settings settings = new Settings();
+    settings.setProperty(CxxVeraxxSensor.REPORT_PATH_KEY, "vera++-reports/vera++-result-*.xml");
+    sensor = new CxxVeraxxSensor(perspectives, settings, fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
     org.sonar.api.resources.File resourceMock = mock(org.sonar.api.resources.File.class);
     when(context.getResource((org.sonar.api.resources.File) anyObject())).thenReturn(resourceMock);

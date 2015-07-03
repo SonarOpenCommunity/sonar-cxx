@@ -44,12 +44,6 @@ public interface CompilerParser {
     String rulesRepositoryKey();
 
     /**
-     * Get the default report path.
-     * @return
-     */
-    String defaultReportPath();
-
-    /**
      * Get the default regexp used to parse warning messages.
      * @return The default regexp.
      */

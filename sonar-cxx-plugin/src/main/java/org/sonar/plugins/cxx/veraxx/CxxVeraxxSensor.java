@@ -41,7 +41,6 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
  */
 public class CxxVeraxxSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
-  private static final String DEFAULT_REPORT_PATH = "vera++-reports/vera++-result-*.xml";
   private RulesProfile profile;
 
   /**
@@ -64,11 +63,6 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
-  }
-
-  @Override
-  protected String defaultReportPath() {
-    return DEFAULT_REPORT_PATH;
   }
 
   @Override

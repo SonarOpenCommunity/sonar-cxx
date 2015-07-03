@@ -52,7 +52,6 @@ import org.sonar.api.batch.bootstrap.ProjectReactor;
 public class CxxPCLintSensor extends CxxReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
-  private static final String DEFAULT_REPORT_PATH = "pclint-reports/pclint-result-*.xml";
   private final RulesProfile profile;
 
   /**
@@ -75,11 +74,6 @@ public class CxxPCLintSensor extends CxxReportSensor {
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
-  }
-
-  @Override
-  protected String defaultReportPath() {
-    return DEFAULT_REPORT_PATH;
   }
 
   @Override

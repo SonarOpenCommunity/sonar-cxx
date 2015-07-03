@@ -45,7 +45,6 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 public class CxxExternalRulesSensor extends CxxReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPath";
-  private static final String DEFAULT_REPORT_PATH = "externalrules-reports/externalrules-result-*.xml";
   private final RulesProfile profile;
 
   /**
@@ -68,11 +67,6 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
-  }
-
-  @Override
-  protected String defaultReportPath() {
-    return DEFAULT_REPORT_PATH;
   }
 
   @Override

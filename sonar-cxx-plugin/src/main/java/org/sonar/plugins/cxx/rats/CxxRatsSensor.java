@@ -41,7 +41,6 @@ import org.sonar.api.batch.bootstrap.ProjectReactor;
 public final class CxxRatsSensor extends CxxReportSensor {
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
-  private static final String DEFAULT_REPORT_PATH = "rats-reports/rats-result-*.xml";
   private RulesProfile profile;
 
   /**
@@ -64,11 +63,6 @@ public final class CxxRatsSensor extends CxxReportSensor {
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
-  }
-
-  @Override
-  protected String defaultReportPath() {
-    return DEFAULT_REPORT_PATH;
   }
 
   @Override

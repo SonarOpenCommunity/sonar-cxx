@@ -12,6 +12,7 @@ Feature: Smoketest
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
               .*WARN.*Cannot find the file '.*component_XXX.cc', skipping violations
+              .*WARN.*Cannot find a report for '.*'
               .*WARN.*Already created edge from 'src/cli/main.cc'.*
               """
           AND the following metrics have following values:
