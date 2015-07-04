@@ -73,8 +73,6 @@ public class CxxXunitSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   public static final String PROVIDE_DETAILS_KEY = "sonar.cxx.xunit.provideDetails";
-
-  private static final String DEFAULT_REPORT_PATH = "xunit-reports/xunit-result-*.xml";
   private static final double PERCENT_BASE = 100d;
 
   private String xsltURL = null;
@@ -100,6 +98,11 @@ public class CxxXunitSensor extends CxxReportSensor {
     this.resourceFinder = finder;
   }
 
+  @Override
+  protected String reportPathKey() {
+    return REPORT_PATH_KEY;
+  }
+    
   /**
    * {@inheritDoc}
    */
@@ -113,13 +116,14 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public boolean shouldExecuteOnProject(Project project) {
-    boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
-    
-    if (!providedetails) {
-      return !project.isModule();      
+    if (conf.hasKey(reportPathKey())) {
+      if (!conf.getBoolean(PROVIDE_DETAILS_KEY)) {
+        return !project.isModule();
+      } else {
+        return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
+      }
     }
-    
-    return !project.getFileSystem().mainFiles(CxxLanguage.KEY).isEmpty();
+    return false;
   }
 
   /**
@@ -128,8 +132,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   public void analyse(Project project, SensorContext context) {
     try{
-      List<File> reports = getReports(conf, fs.baseDir().getPath(),
-                                      REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
+      List<File> reports = getReports(conf, fs.baseDir().getPath(), "", REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = new XunitReportParser();
         StaxParser parser = new StaxParser(parserHandler, false);

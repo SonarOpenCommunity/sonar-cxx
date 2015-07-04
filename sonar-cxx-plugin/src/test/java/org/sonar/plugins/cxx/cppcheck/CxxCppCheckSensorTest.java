@@ -70,6 +70,8 @@ public class CxxCppCheckSensorTest {
 
   @Test
   public void shouldReportCorrectViolations() {
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+      "cppcheck-reports/cppcheck-result-*.xml");    
     sensor.analyse(project, context);
     verify(issuable, times(9)).addIssue(any(Issue.class));
   }

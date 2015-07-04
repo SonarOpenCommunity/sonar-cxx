@@ -51,10 +51,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
   public static final String IT_REPORT_PATH_KEY = "sonar.cxx.coverage.itReportPath";
   public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
-  private static final String DEFAULT_REPORT_PATH = "coverage-reports/coverage-*.xml";
-  private static final String IT_DEFAULT_REPORT_PATH = "coverage-reports/it-coverage-*.xml";
-  private static final String OVERALL_DEFAULT_REPORT_PATH = "coverage-reports/overall-coverage-*.xml";
-
   public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
 
   private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
@@ -72,40 +68,60 @@ public class CxxCoverageSensor extends CxxReportSensor {
     parsers.add(new VisualStudioParser());
   }
 
+  @Override
+  public boolean shouldExecuteOnProject(Project project) {
+    return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY))
+      && (isForceZeroCoverageActivated()
+          || conf.hasKey(REPORT_PATH_KEY)
+          || conf.hasKey(IT_REPORT_PATH_KEY)
+          || conf.hasKey(OVERALL_REPORT_PATH_KEY)
+      );
+  }
+  
   /**
    * {@inheritDoc}
    */
   @Override
   public void analyse(Project project, SensorContext context) {
 
-    CxxUtils.LOG.debug("Parsing coverage reports");
-    List<File> reports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    if (reports.isEmpty()) {
-        reports = getReports(conf, fs.baseDir().getPath(), REPORT_PATH_KEY, DEFAULT_REPORT_PATH);
-    }
-    Map<String, CoverageMeasuresBuilder> coverageMeasures = processReports(project, context, reports);
-    saveMeasures(project, context, coverageMeasures, CoverageType.UT_COVERAGE);
+    Map<String, CoverageMeasuresBuilder> coverageMeasures = null;
+    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = null;
+    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = null;
 
-    CxxUtils.LOG.debug("Parsing integration test coverage reports");
-    List<File> itReports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
-    if (itReports.isEmpty()) {
-        itReports = getReports(conf, fs.baseDir().getPath(), IT_REPORT_PATH_KEY, IT_DEFAULT_REPORT_PATH);
+    if (conf.hasKey(REPORT_PATH_KEY)) {
+      CxxUtils.LOG.debug("Parsing coverage reports");
+      List<File> reports = getReports(conf,
+        reactor.getRoot().getBaseDir().getAbsolutePath(),
+        fs.baseDir().getPath(),
+        REPORT_PATH_KEY);
+      coverageMeasures = processReports(project, context, reports);
+      saveMeasures(project, context, coverageMeasures, CoverageType.UT_COVERAGE);
     }
-    Map<String, CoverageMeasuresBuilder> itCoverageMeasures = processReports(project, context, itReports);
-    saveMeasures(project, context, itCoverageMeasures, CoverageType.IT_COVERAGE);
 
-    CxxUtils.LOG.debug("Parsing overall test coverage reports");
-    List<File> overallReports = getReports(conf, reactor.getRoot().getBaseDir().getAbsolutePath(), OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
-    if (overallReports.isEmpty()) {
-        overallReports = getReports(conf, fs.baseDir().getPath(), OVERALL_REPORT_PATH_KEY, OVERALL_DEFAULT_REPORT_PATH);
+    if (conf.hasKey(IT_REPORT_PATH_KEY)) {
+      CxxUtils.LOG.debug("Parsing integration test coverage reports");
+      List<File> itReports = getReports(conf,
+        reactor.getRoot().getBaseDir().getAbsolutePath(),
+        fs.baseDir().getPath(),
+        IT_REPORT_PATH_KEY);
+      itCoverageMeasures = processReports(project, context, itReports);
+      saveMeasures(project, context, itCoverageMeasures, CoverageType.IT_COVERAGE);
     }
-    Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = processReports(project, context, overallReports);
-    saveMeasures(project, context, overallCoverageMeasures, CoverageType.OVERALL_COVERAGE);
+
+    if (conf.hasKey(OVERALL_REPORT_PATH_KEY)) {
+      CxxUtils.LOG.debug("Parsing overall test coverage reports");
+      List<File> overallReports = getReports(conf,
+        reactor.getRoot().getBaseDir().getAbsolutePath(),
+        fs.baseDir().getPath(),
+        OVERALL_REPORT_PATH_KEY);
+      overallCoverageMeasures = processReports(project, context, overallReports);
+      saveMeasures(project, context, overallCoverageMeasures, CoverageType.OVERALL_COVERAGE);
+    }
 
     if (isForceZeroCoverageActivated()) {
       CxxUtils.LOG.debug("Zeroing coverage information for untouched files");
       zeroMeasuresWithoutReports(project, context, coverageMeasures,
-                                 itCoverageMeasures, overallCoverageMeasures);
+        itCoverageMeasures, overallCoverageMeasures);
     }
   }
 
@@ -172,21 +188,21 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Map<String, CoverageMeasuresBuilder> coverageMeasures,
     Map<String, CoverageMeasuresBuilder> itCoverageMeasures,
     Map<String, CoverageMeasuresBuilder> overallCoverageMeasures
-    ) {
+  ) {
     for (File file : fs.files(fs.predicates().hasLanguage(CxxLanguage.KEY))) {
-      org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project);
+      org.sonar.api.resources.File resource = org.sonar.api.resources.File.fromIOFile(file, project); //@todo: fromIOFile is deprecated
       if (fileExist(context, resource)) {
         String filePath = CxxUtils.normalizePath(file.getAbsolutePath());
 
-        if (coverageMeasures.get(filePath) == null) {
+        if (coverageMeasures == null || coverageMeasures.get(filePath) == null) {
           saveZeroValueForResource(resource, filePath, context, CoverageType.UT_COVERAGE);
         }
 
-        if (itCoverageMeasures.get(filePath) == null) {
+        if (itCoverageMeasures == null || itCoverageMeasures.get(filePath) == null) {
           saveZeroValueForResource(resource, filePath, context, CoverageType.IT_COVERAGE);
         }
 
-        if (overallCoverageMeasures.get(filePath) == null) {
+        if (overallCoverageMeasures == null || overallCoverageMeasures.get(filePath) == null) {
           saveZeroValueForResource(resource, filePath, context, CoverageType.OVERALL_COVERAGE);
         }
       }

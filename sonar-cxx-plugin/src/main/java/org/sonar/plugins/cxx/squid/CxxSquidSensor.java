@@ -165,7 +165,7 @@ public final class CxxSquidSensor implements Sensor {
     
     String filePaths = conf.getString(CxxCompilerSensor.REPORT_PATH_KEY);    
     if (filePaths != null && !"".equals(filePaths)) {
-      List<File> reports = CxxReportSensor.getReports(conf, fs.baseDir().getPath(), CxxCompilerSensor.REPORT_PATH_KEY, "");
+      List<File> reports = CxxReportSensor.getReports(conf, fs.baseDir().getPath(), "", CxxCompilerSensor.REPORT_PATH_KEY);
       cxxConf.setCompilationPropertiesWithBuildLog(reports,
                                                    conf.getString(CxxCompilerSensor.PARSER_KEY_DEF),
                                                    conf.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));

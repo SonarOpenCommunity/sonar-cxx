@@ -91,7 +91,7 @@ public class CxxReportSensor_getReports_Test {
       setupExample(allpaths);
       settings.setProperty(property, pattern);
 
-      reports = sensor.getReports(settings, base.getRoot().getPath(), property, "");
+      reports = sensor.getReports(settings, base.getRoot().getPath(), "", property);
 
       assertMatch(reports, match);
       deleteExample(base.getRoot());

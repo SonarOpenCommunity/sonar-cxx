@@ -96,11 +96,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
     return REPORT_PATH_KEY;
   }
 
-  @Override
-  protected String defaultReportPath() {
-    return getCompilerParser().defaultReportPath();
-  }
-
   /**
    * Get string property from configuration.
    * If the string is not set or empty, return the default value.

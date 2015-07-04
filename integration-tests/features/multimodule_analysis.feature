@@ -15,6 +15,7 @@ Feature: cpp-multimodule-project
               .*WARN  - the include root '.*' doesn't exist
               .*WARN  - .* cannot find the sources for .*
               .*WARN  - SCM provider autodetection failed.*
+              .*WARN.*Cannot find a report for '.*'
               """
           AND the following metrics have following values:
                | metric                   | value |
