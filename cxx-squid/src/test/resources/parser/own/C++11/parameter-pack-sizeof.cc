@@ -1,13 +1,12 @@
 #include <iostream>
 #include <array>
 
-//ToDo - make this work
-//template<typename... Ts>
-//constexpr auto make_array(Ts&&... ts)
-//->std::array<std::common_type_t<Ts...>, sizeof...(ts)>
-//{
-//  return{ std::forward<Ts>(ts)... };
-//}
+template<typename... Ts>
+constexpr auto make_array(Ts&&... ts)
+->std::array<std::common_type_t<Ts...>, sizeof...(ts)>
+{
+  return{ std::forward<Ts>(ts)... };
+}
 
 int main()
 {
