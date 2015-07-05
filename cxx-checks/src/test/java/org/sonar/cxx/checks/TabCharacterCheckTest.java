@@ -31,18 +31,30 @@ public class TabCharacterCheckTest {
   private TabCharacterCheck check = new TabCharacterCheck();
 
   @Test
-  public void test() {
+  public void fileWithTabsOneMessagePerFile() {
+    check.createLineViolation = false;
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TabCharacter.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().withMessage("Replace all tab characters in this file by sequences of white-spaces.")
-        .noMore();
+      .next().withMessage("Replace all tab characters in this file by sequences of white-spaces.")
+      .noMore();
   }
 
   @Test
-  public void test2() {
+  public void fileWithTabsOneMessagePerLine() {
+    check.createLineViolation = true;
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TabCharacter.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(3).withMessage("Replace all tab characters in this line by sequences of white-spaces.")
+      .next().atLine(4)
+      .noMore();
+  }
+
+  @Test
+  public void fileWithoutTabs() {
+    check.createLineViolation = false;
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/NonEmptyFile.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .noMore();
+      .noMore();
   }
 
 }
