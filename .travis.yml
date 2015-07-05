@@ -1,16 +1,18 @@
 language: java
 
 jdk:
-  - oraclejdk8
-  - openjdk7
+        - oraclejdk8
+        - openjdk7
 
 env:
-  - SONARHOME=/tmp/sonarqube-4.5.4
-  - SONARHOME=/tmp/sonarqube-5.0.1
-  - SONARHOME=/tmp/sonarqube-5.1.1
+        - SONARHOME=/tmp/sonarqube-4.5.4
+        - SONARHOME=/tmp/sonarqube-5.0.1
+        - SONARHOME=/tmp/sonarqube-5.1.1
   
 before_install:
-        - travis_retry sudo apt-get -qq install libboost-dev libboost-test-dev
+        - travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
+        - travis_retry sudo apt-get -qq update
+        - travis_retry sudo apt-get -qq install boost1.55
         
 install:
         - cd /tmp      
