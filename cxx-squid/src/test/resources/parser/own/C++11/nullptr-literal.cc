@@ -1,6 +1,11 @@
 #include <cstddef>
 #include <iostream>
 
+char *pc = nullptr;     // OK
+int  *pi = nullptr;     // OK
+bool   b = nullptr;     // OK. b is false.
+int    i = nullptr;     // error
+
 template<class F, class A>
 void Fwd(F f, A a)
 {

@@ -3,11 +3,30 @@
 #include <map>
 #include <string>
 
+struct Object {
+    float first;
+    int second;
+};
+
+Object scalar = {0.43f, 10}; // One Object, with first=0.43f and second=10
+Object anArray[] = {{13.4f, 3}, {43.28f, 29}, {5.934f, 17}}; // An array of three Objects
+
+class SequenceClass {
+public:
+    SequenceClass(std::initializer_list<int> list);
+};
+SequenceClass some_var = {1, 4, 5, 6};
+
 struct Foo {
   std::vector<int> mem = { 1,2,3 }; // list-initialization of a non-static member
   std::vector<int> mem2;
   Foo() : mem2{ -1, -2, -3 } {} // list-initialization of a member in constructor
 };
+
+std::vector<std::string> v1 = { "xyzzy", "plugh", "abracadabra" };
+std::vector<std::string> v2({ "xyzzy", "plugh", "abracadabra" });
+std::vector<std::string> v3{ "xyzzy", "plugh", "abracadabra" }; // see "Uniform initialization" below
+
 
 std::pair<std::string, std::string> f(std::pair<std::string, std::string> p)
 {

@@ -1,10 +1,4 @@
 #include <iostream>
-// enum that takes 16 bits
-enum smallenum : int16_t {
-  A,
-  B,
-  C
-};
 
 
 // color may be red (value 0), yellow (value 1), green (value 20), or blue (value 21)
@@ -13,6 +7,29 @@ enum color {
   yellow,
   green = 20,
   blue
+};
+
+// enum that takes 16 bits
+enum smallenum : int16_t {
+    A,
+    B,
+    C
+};
+
+// enum class
+enum class Enumeration1 {
+  Val1,
+  Val2,
+  Val3 = 100,
+  Val4 // = 101
+};
+
+// enum struct
+enum struct Enumeration2 {
+    Val1,
+    Val2,
+    Val3 = 100,
+    Val4 // = 101
 };
 
 // altitude may be altitude::high or altitude::low
@@ -36,6 +53,7 @@ std::ostream& operator<<(std::ostream& os, color c)
   }
   return os;
 }
+
 std::ostream& operator<<(std::ostream& os, altitude al)
 {
   return os << static_cast<char>(al);

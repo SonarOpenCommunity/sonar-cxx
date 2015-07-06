@@ -23,7 +23,7 @@ void operator"" _print(const char* str)
   std::cout << str;
 }
 
-//ToDo - make this work
+//@todo - make this work
 int main() {
   //double x = 90.0_deg;
   std::cout << std::fixed << x << '\n';
