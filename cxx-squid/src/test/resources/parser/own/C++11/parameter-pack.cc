@@ -5,7 +5,7 @@ void tprintf(const char* format) // base function
     std::cout << format;
 }
 
-//ToDo - make this work
+//@todo - make this work
 template<typename T, typename... Targs>
 void tprintf(const char* format, T value/*, Targs... Fargs*/) // recursive variadic function
 {
