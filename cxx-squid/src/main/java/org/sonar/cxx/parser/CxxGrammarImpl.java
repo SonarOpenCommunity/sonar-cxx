@@ -453,9 +453,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(capture).is(
       b.firstOf(
-        IDENTIFIER,
-        b.sequence("&", IDENTIFIER),
-        CxxKeyword.THIS
+        expression,
+        b.sequence("&", expression)
         ));
 
     b.rule(lambdaDeclarator).is(
