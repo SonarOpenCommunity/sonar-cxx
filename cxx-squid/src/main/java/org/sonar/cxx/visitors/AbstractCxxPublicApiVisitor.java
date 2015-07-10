@@ -47,6 +47,7 @@ import com.sonar.sslr.impl.ast.AstXmlPrinter;
  * <li>enumerations</li>
  * <li>enumeration values</li>
  * <li>typedefs</li>
+ * <li>alias declaration (<code>using MyAlias = int;</code>)</li>
  * <li>functions</li>
  * <li>variables</li>
  * </ul>
@@ -102,6 +103,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         subscribeTo(CxxGrammarImpl.functionDefinition);
         subscribeTo(CxxGrammarImpl.enumSpecifier);
         subscribeTo(CxxGrammarImpl.initDeclaratorList);
+        subscribeTo(CxxGrammarImpl.aliasDeclaration);
     }
 
     @Override
@@ -151,6 +153,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
             break;
         case initDeclaratorList:
             visitDeclaratorList(astNode);
+            break;
+        case aliasDeclaration:
+            visitAliasDeclaration(astNode);
             break;
         default:
             // should not happen
@@ -409,6 +414,31 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
         if (idNode != null && id != null) {
             visitPublicApi(idNode, id, comments);
+        }
+    }
+
+    private void visitAliasDeclaration(AstNode aliasDeclNode) {
+        if (isPublicApiMember(aliasDeclNode)) {
+            logDebug("AliasDeclaration");
+
+            AstNode aliasDeclIdNode = aliasDeclNode
+                    .getFirstDescendant(GenericTokenType.IDENTIFIER);
+
+            if (aliasDeclIdNode == null) {
+                LOG.error("No identifier found at " + aliasDeclNode.getTokenLine());
+            }
+            else {
+                // look for block documentation
+                List<Token> comments = getBlockDocumentation(aliasDeclNode);
+
+                // documentation may be inlined
+                if (comments.isEmpty()) {
+                    comments = getDeclaratorInlineComment(aliasDeclNode);
+                }
+
+                visitPublicApi(aliasDeclNode, aliasDeclIdNode.getTokenValue(),
+                        comments);
+            }
         }
     }
 

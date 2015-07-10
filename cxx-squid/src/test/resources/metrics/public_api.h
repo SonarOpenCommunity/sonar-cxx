@@ -11,6 +11,9 @@ class testClass
 public:
 	// comment
 	
+	/// aliasDeclaration
+	using aliasDeclaration = int;
+
 	/** publicMethod doc */
 	void publicMethod();
 	
@@ -76,6 +79,8 @@ private:
 		int u;
 	};
 	
+	using privateAliasDeclaration = int;
+
 public:
 	int inlineCommentedLastAttr; //!< inlineCommentedLastAttr comment
 };
@@ -116,6 +121,8 @@ globalVar3; /*!< globalVar3 doc */
 void testFunction();
 
 void testFunction2(); //!< testFunction2 doc
+
+using globalAliasDeclaration = int; ///< inline globalAliasDeclaration
 
 typedef int testType; ///< testType doc
 
