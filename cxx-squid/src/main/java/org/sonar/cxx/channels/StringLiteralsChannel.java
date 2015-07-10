@@ -27,7 +27,7 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 
 /**
-  */
+ */
 public class StringLiteralsChannel extends Channel<Lexer> {
 
   private static final char EOF = (char) -1;
@@ -36,6 +36,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
 
   private int index;
   private char ch;
+  private boolean isRawString = false;
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {
@@ -46,26 +47,31 @@ public class StringLiteralsChannel extends Channel<Lexer> {
     if ((ch != '\"')) {
       return false;
     }
-    if (!read(code)) {
-      return false;
+    if (isRawString) {
+      if (!readRawString(code)) {
+        return false;
+      }
+    } else {
+      if (!readString(code)) {
+        return false;
+      }
     }
+
     for (int i = 0; i < index; i++) {
       sb.append((char) code.pop());
     }
     output.addToken(Token.builder()
-        .setLine(line)
-        .setColumn(column)
-        .setURI(output.getURI())
-        .setValueAndOriginalValue(sb.toString())
-        .setType(CxxTokenType.STRING)
-        .build());
-    sb.setLength(0);
+      .setLine(line)
+      .setColumn(column)
+      .setURI(output.getURI())
+      .setValueAndOriginalValue(sb.toString())
+      .setType(CxxTokenType.STRING)
+      .build());
+    sb.setLength(0);    
     return true;
   }
 
-  private boolean read(CodeReader code) {
-    // TODO: proper reading raw strings.
-
+  private boolean readString(CodeReader code) {
     index++;
     while (code.charAt(index) != ch) {
       if (code.charAt(index) == EOF) {
@@ -81,8 +87,42 @@ public class StringLiteralsChannel extends Channel<Lexer> {
     return true;
   }
 
+  private boolean readRawString(CodeReader code) {
+    // "delimiter( raw_character* )delimiter"
+    index++;
+    while (code.charAt(index) != '(') { // delimiter
+      if (code.charAt(index) == EOF) {
+        return false;
+      }
+      sb.append(code.charAt(index));
+      index++;
+    }
+    String delimiter = sb.toString();
+    do {
+      sb.setLength(0);
+      while (code.charAt(index) != ')') { // raw_character*
+        if (code.charAt(index) == EOF) {
+          return false;
+        }
+        index++;
+      }
+      index++;
+      while (code.charAt(index) != '"') { // delimiter
+        if (code.charAt(index) == EOF) {
+          return false;
+        }
+        sb.append(code.charAt(index));
+        index++;
+      }
+    } while (!sb.toString().equals(delimiter));
+    sb.setLength(0);
+    index++;
+    return true;
+  }
+
   private void readStringPrefix(CodeReader code) {
     ch = code.charAt(index);
+    isRawString = false;
     if ((ch == 'u') || (ch == 'U') || ch == 'L') {
       index++;
       if (ch == 'u' && code.charAt(index) == '8') {
@@ -92,6 +132,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
     }
     if (ch == 'R') {
       index++;
+      isRawString = true;
       ch = code.charAt(index);
     }
   }
