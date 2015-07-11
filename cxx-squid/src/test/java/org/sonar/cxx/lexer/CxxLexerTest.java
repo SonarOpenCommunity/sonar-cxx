@@ -446,11 +446,11 @@ public class CxxLexerTest {
 
   @Test
   public void rawstring_literals() {
-    assertThat("raw string: empty", lexer.lex("R\"\""), hasToken("R\"\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix u", lexer.lex("uR\"\""), hasToken("uR\"\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix u8R", lexer.lex("u8R\"\""), hasToken("u8R\"\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix UR", lexer.lex("UR\"\""), hasToken("UR\"\"", CxxTokenType.STRING));
-    assertThat("raw string: prefix LR", lexer.lex("LR\"\""), hasToken("LR\"\"", CxxTokenType.STRING));
+    assertThat("raw string: empty", lexer.lex("R\"(...)\""), hasToken("R\"(...)\"", CxxTokenType.STRING));
+    assertThat("raw string: prefix u", lexer.lex("uR\"(...)\""), hasToken("uR\"(...)\"", CxxTokenType.STRING));
+    assertThat("raw string: prefix u8R", lexer.lex("u8R\"(...)\""), hasToken("u8R\"(...)\"", CxxTokenType.STRING));
+    assertThat("raw string: prefix UR", lexer.lex("UR\"(...)\""), hasToken("UR\"(...)\"", CxxTokenType.STRING));
+    assertThat("raw string: prefix LR", lexer.lex("LR\"(...)\""), hasToken("LR\"(...)\"", CxxTokenType.STRING));
 
     // examples from the standard
     assertThat("raw string: std example 1", lexer.lex("R\"(...)\""), hasToken("R\"(...)\"", CxxTokenType.STRING));
@@ -458,6 +458,19 @@ public class CxxLexerTest {
     assertThat("raw string: std example 3", lexer.lex("uR\"*∼(...)*∼\""), hasToken("uR\"*∼(...)*∼\"", CxxTokenType.STRING));
     assertThat("raw string: std example 4", lexer.lex("UR\"zzz(...)zzz\""), hasToken("UR\"zzz(...)zzz\"", CxxTokenType.STRING));
     assertThat("raw string: std example 5", lexer.lex("LR\"(...)\""), hasToken("LR\"(...)\"", CxxTokenType.STRING));
+
+    assertThat("raw string: an unescaped \\ character",
+      lexer.lex("R\"(An unescaped \\ character)\""), hasToken("R\"(An unescaped \\ character)\"", CxxTokenType.STRING));
+
+    assertThat("raw string: an unescaped \" character",
+      lexer.lex("R\"(An unescaped \" character)\""), hasToken("R\"(An unescaped \" character)\"", CxxTokenType.STRING));
+
+    assertThat("raw string: represent the string: )\"",
+      lexer.lex("R\"xyz()\")xyz\""), hasToken("R\"xyz()\")xyz\"", CxxTokenType.STRING));
+
+    assertThat("raw string: complex example",
+      lexer.lex("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\""),
+      hasToken("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\"", CxxTokenType.STRING));
   }
 
   @Test
