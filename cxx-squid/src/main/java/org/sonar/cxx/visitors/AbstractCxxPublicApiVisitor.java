@@ -190,6 +190,11 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
             return;
         }
 
+        // ignore friend declarations
+        if (isFriendDeclaration(declaratorList)) {
+            return;
+        }
+
         AstNode declaration = declaratorList
                 .getFirstAncestor(CxxGrammarImpl.declaration);
 
@@ -208,6 +213,36 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                 visitDeclarator(declarator, declarator);
             }
         }
+    }
+
+    private boolean isFriendDeclaration(AstNode declaratorList) {
+        AstNode simpleDeclNode = declaratorList
+                .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
+
+        if (simpleDeclNode == null) {
+            LOG.warn("No simple declaration found for declarator list at {}",
+                    declaratorList.getTokenLine());
+            return false;
+        }
+
+        AstNode simpleDeclSpecifierSeq = simpleDeclNode
+                .getFirstChild(CxxGrammarImpl.simpleDeclSpecifierSeq);
+
+        if (simpleDeclSpecifierSeq == null) {
+            return false;
+        }
+
+        List<AstNode> declSpecifiers = simpleDeclSpecifierSeq
+                .getChildren(CxxGrammarImpl.declSpecifier);
+
+        for (AstNode declSpecifier : declSpecifiers) {
+            AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
+            if (friendNode != null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void visitSingleDeclarator(AstNode declaration,
