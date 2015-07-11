@@ -8,6 +8,8 @@ class testClass
 	void defaultMethod();
 
 public:
+	using aliasDeclaration = int;
+
 	void publicMethod();
 	
 	enum classEnum {

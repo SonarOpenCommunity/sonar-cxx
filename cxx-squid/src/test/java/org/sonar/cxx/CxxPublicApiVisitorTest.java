@@ -123,12 +123,12 @@ public class CxxPublicApiVisitorTest {
 
     @Test
     public void to_delete() {
-        testFile("src/test/resources/metrics/public_api.h", 38, 0, true);
+        testFile("src/test/resources/metrics/public_api.h", 40, 0, true);
     }
 
     @Test
     public void no_doc() {
-        testFile("src/test/resources/metrics/no_doc.h", 20, 20, true);
+        testFile("src/test/resources/metrics/no_doc.h", 21, 21, true);
     }
 
     @Test
@@ -175,6 +175,7 @@ public class CxxPublicApiVisitorTest {
 
         final Map<String, String> expectedIdCommentMap = new HashMap<String, String>();
 
+        expectedIdCommentMap.put("aliasDeclaration", "aliasDeclaration");
         expectedIdCommentMap.put("publicMethod", "publicMethod");
         expectedIdCommentMap.put("testStruct", "testStruct");
         expectedIdCommentMap.put("testUnion", "testUnion");
@@ -202,6 +203,7 @@ public class CxxPublicApiVisitorTest {
         expectedIdCommentMap.put("globalVar1", "globalVar1");
         expectedIdCommentMap.put("globalVar2", "globalVar2");
         expectedIdCommentMap.put("globalVar3", "globalVar3");
+        expectedIdCommentMap.put("globalAliasDeclaration", "globalAliasDeclaration");
         expectedIdCommentMap.put("testType", "testType");
         expectedIdCommentMap.put("enumVar1", "enumVar1");
         expectedIdCommentMap.put("enumVar2", "enumVar2");
@@ -223,19 +225,32 @@ public class CxxPublicApiVisitorTest {
         // check completeness
         for (final String id : expectedIdCommentMap.keySet()) {
             LOG.debug("id: " + id);
+
             List<Token> comments = idCommentMap.get(id);
-            assertThat(comments).isNotEmpty();
-            assertThat(comments.get(0).getValue()).contains(
-                    expectedIdCommentMap.get(id));
-            assertThat(idCommentMap.keySet()).contains(id);
+
+            assertThat(idCommentMap.keySet())
+                    .overridingErrorMessage("No public API for " + id)
+                    .contains(id);
+            assertThat(comments)
+                    .overridingErrorMessage("No documentation for " + id)
+                    .isNotEmpty();
+            assertThat(comments.get(0).getValue())
+                    .overridingErrorMessage("Unexpected documentation for " + id)
+                    .contains(expectedIdCommentMap.get(id));
         }
 
         // check correction
         for (final String id : idCommentMap.keySet()) {
             LOG.debug("id: " + id);
+
             List<Token> comments = idCommentMap.get(id);
-            assertThat(comments).isNotEmpty();
-            assertThat(expectedIdCommentMap.keySet()).contains(id);
+
+            assertThat(comments)
+                    .overridingErrorMessage("No documentation for " + id)
+                    .isNotEmpty();
+            assertThat(expectedIdCommentMap.keySet())
+                    .overridingErrorMessage("Should not be part of public API: " + id)
+                    .contains(id);
         }
 
         assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(
