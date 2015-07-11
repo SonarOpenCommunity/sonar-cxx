@@ -86,6 +86,7 @@ public final class CxxLexer {
         .withChannel(regexp(CxxTokenType.NUMBER, "[1-9][0-9]*+" + opt(INTEGER_SUFFIX))) // Decimal literals
         .withChannel(regexp(CxxTokenType.NUMBER, "0[0-7]++" + opt(INTEGER_SUFFIX))) // Octal Literals
         .withChannel(regexp(CxxTokenType.NUMBER, "0[xX][0-9a-fA-F]++" + opt(INTEGER_SUFFIX))) // Hex Literals
+        .withChannel(regexp(CxxTokenType.NUMBER, "0[bB][01]++" + opt(INTEGER_SUFFIX))) // Binary Literals
         .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(INTEGER_SUFFIX))) // Decimal zero
 
         // C++ Standard, Section 2.14.7 "Pointer literals"
