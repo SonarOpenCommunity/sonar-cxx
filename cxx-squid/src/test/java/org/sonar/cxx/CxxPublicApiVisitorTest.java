@@ -123,12 +123,12 @@ public class CxxPublicApiVisitorTest {
 
     @Test
     public void to_delete() {
-        testFile("src/test/resources/metrics/public_api.h", 40, 0, true);
+        testFile("src/test/resources/metrics/public_api.h", 41, 0, true);
     }
 
     @Test
     public void no_doc() {
-        testFile("src/test/resources/metrics/no_doc.h", 21, 21, true);
+        testFile("src/test/resources/metrics/no_doc.h", 22, 22, true);
     }
 
     @Test
@@ -175,6 +175,7 @@ public class CxxPublicApiVisitorTest {
 
         final Map<String, String> expectedIdCommentMap = new HashMap<String, String>();
 
+        expectedIdCommentMap.put("publicDefinedMethod", "publicDefinedMethod");
         expectedIdCommentMap.put("aliasDeclaration", "aliasDeclaration");
         expectedIdCommentMap.put("publicMethod", "publicMethod");
         expectedIdCommentMap.put("testStruct", "testStruct");

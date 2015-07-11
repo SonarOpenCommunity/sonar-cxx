@@ -23,6 +23,14 @@ public:
 	int inlineCommentedAttr; 
 
 	void inlinePublicMethod();
+
+	// ignore deleted methods
+	A(A const&) = delete;
+
+	// ignore defaulted methods
+	A& operator=(A const&) = default;
+
+	void publicDefinedMethod() { }
 	 
 protected:
 	virtual void protectedMethod();
