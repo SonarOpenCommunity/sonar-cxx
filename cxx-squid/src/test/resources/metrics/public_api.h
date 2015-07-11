@@ -40,6 +40,17 @@ public:
 	template<typename S> friend S& operator<<(S&, A const&);
 
 	friend class friendClass;
+
+	// ignore deleted methods
+	A(A const&) = delete;
+
+	// ignore defaulted methods
+	A& operator=(A const&) = default;
+
+	/**
+	 * publicDefinedMethod comment
+	 */
+	void publicDefinedMethod() { }
 protected:
 	/**
 	 protectedMethod doc

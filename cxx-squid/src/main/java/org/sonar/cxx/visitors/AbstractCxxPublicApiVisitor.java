@@ -384,10 +384,41 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     private void visitFunctionDefinition(AstNode functionDef) {
         if (isPublicApiMember(functionDef)) {
+            // filter out deleted and defaulted methods
+            AstNode functionBodyNode = functionDef
+                    .getFirstChild(CxxGrammarImpl.functionBody);
+
+            if (functionBodyNode != null) {
+                if (isDefaultOrDeleteFunctionBody(functionBodyNode)) {
+                    return;
+                }
+            }
+
             visitMemberDeclarator(functionDef);
         }
     }
 
+    private boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
+        boolean defaultOrDelete = false;
+        List<AstNode> functionBody = functionBodyNode.getChildren();
+
+        // look for exact sub AST
+        if (functionBody.size() == 3) {
+            if (functionBody.get(0).is(CxxPunctuator.ASSIGN)
+                    && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+
+                AstNode bodyType = functionBody.get(1);
+
+                if (bodyType.is(CxxKeyword.DELETE)
+                        || bodyType.is(CxxKeyword.DEFAULT)) {
+                    defaultOrDelete = true;
+                }
+            }
+        }
+
+        return defaultOrDelete;
+    }
+    
     /**
      * Find documentation node, associated documentation,
      * identifier of a <em>public</em> member declarator and visit it
