@@ -35,6 +35,11 @@ public:
 	
 	int attr1, //!< attr1 doc 
 	attr2; ///< attr2 doc
+
+	// ignore friend declaration
+	template<typename S> friend S& operator<<(S&, A const&);
+
+	friend class friendClass;
 protected:
 	/**
 	 protectedMethod doc
