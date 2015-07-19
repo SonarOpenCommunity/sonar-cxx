@@ -1,8 +1,7 @@
 [[deprecated]] int f();
 
-//@todo
-//[[deprecated("g() is thread-unsafe. Use h() instead")]]
-//void g( int& x );
+[[deprecated("g() is thread-unsafe. Use h() instead")]]
+void g( int& x );
 
 void h( int& x );
 

@@ -961,34 +961,30 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence(CxxKeyword.ALIGNAS, "(", assignmentExpression, b.optional("..."), ")")
         ));
 
-    b.rule(attributeList).is(
-        b.firstOf(
-            b.sequence(attribute, "...", b.zeroOrMore(",", attribute, "...")),
-            b.sequence(b.optional(attribute), b.zeroOrMore(",", b.optional(attribute)))
-        ));
+    b.rule(attributeList).is(b.optional(attribute), b.zeroOrMore(",", attribute));
 
     b.rule(attribute).is(attributeToken, b.optional(attributeArgumentClause));
 
   b.rule(attributeToken).is(
     b.firstOf(
-      attributeScopedToken,
-      IDENTIFIER
+      IDENTIFIER,
+      attributeScopedToken
       ));
 
   b.rule(attributeScopedToken).is(attributeNamespace, "::", IDENTIFIER);
 
   b.rule(attributeNamespace).is(IDENTIFIER);
 
-  b.rule(attributeArgumentClause).is("(", balancedTokenSeq, ")");
+  b.rule(attributeArgumentClause).is(balancedTokenSeq);
 
   b.rule(balancedTokenSeq).is(b.zeroOrMore(balancedToken));
 
   b.rule(balancedToken).is(
     b.firstOf(
-      IDENTIFIER,
       b.sequence("(", balancedTokenSeq, ")"),
       b.sequence("{", balancedTokenSeq, "}"),
-      b.sequence("[", balancedTokenSeq, "]")
+      b.sequence("[", balancedTokenSeq, "]"),
+      b.oneOrMore(b.nextNot(b.firstOf("(", ")", "{", "}", "[", "]", EOF)), b.anyToken())
       ));
   }
 
@@ -1200,7 +1196,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(classHead).is(
         b.firstOf(
-            b.sequence(b.optional(cliTopLevelVisibility), b.optional(vcAtlAttribute), classKey, b.optional(attributeSpecifierSeq), classHeadName, b.optional(classVirtSpecifier), b.optional(baseClause)),
+            b.sequence(b.optional(cliTopLevelVisibility), b.optional(vcAtlAttribute), classKey, b.optional(attributeSpecifierSeq), classHeadName, b.optional(classVirtSpecifier), b.optional(baseClause), b.optional(attributeSpecifierSeq)),
             b.sequence(b.optional(cliTopLevelVisibility), b.optional(vcAtlAttribute), classKey, b.optional(attributeSpecifierSeq), b.optional(baseClause))
         )
         );

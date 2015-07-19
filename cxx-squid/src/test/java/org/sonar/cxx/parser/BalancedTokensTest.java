@@ -83,10 +83,7 @@ public class BalancedTokensTest extends ParserBaseTest {
       .matches("")
       .matches("attribute")
       .matches("attribute , attribute")
-      .matches("attribute , ")
-      .matches("attribute , attribute , attribute")
-      .matches("attribute ...")
-      .matches("attribute ... , attribute ...");
+      .matches("attribute , attribute , attribute");
   }
 
   @Test
@@ -130,15 +127,6 @@ public class BalancedTokensTest extends ParserBaseTest {
   }
 
   @Test
-  public void attributeTokenXXXX() {
-    p.setRootRule(g.rule(CxxGrammarImpl.attributeToken));
-
-    assertThat(p)
-      .matches("foo")
-      .matches("foo :: bar");
-  }
-
-  @Test
   public void attributeScopedToken() {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeScopedToken));
     g.rule(CxxGrammarImpl.attributeNamespace).mock();
@@ -165,7 +153,7 @@ public class BalancedTokensTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.attributeArgumentClause));
     g.rule(CxxGrammarImpl.balancedTokenSeq).mock();
 
-    assertThat(p).matches("( balancedTokenSeq )");
+    assertThat(p).matches("balancedTokenSeq");
   }
 
   public void attributeArgumentClauseXXXX() {

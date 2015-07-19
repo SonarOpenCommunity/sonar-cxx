@@ -7,20 +7,18 @@ int [[attr4]] a [10] [[attr5]];
 
 [[attr1]] void [[attr2]] func(int [[attr3]] p) [[attr4]]
 {
- //@todo
- //   [[attr4(arg1, arg2)]] if (cond)
- //   {
- //       [[vendor::attr5]] return i;
- //   }
+    [[attr4(arg1, arg2)]] if (cond)
+    {
+        [[vendor::attr5]] return i;
+    }
 }
 
-//@todo
-//[[attr1]] class C [[attr2]]
-//{
-//
-//   C::C [[attr6]] () [[attr7]];
-//
-//} [[attr3]] c [[attr4]], d [[attr5]];
+[[attr1]] class C [[attr2]]
+{
+
+   C::C [[attr6]] () [[attr7]];
+
+} [[attr3]] c [[attr4]], d [[attr5]];
 // attr1 applies to declarator-ids c, d
 // attr2 applies to the definition of class C
 // attr3 applies to type C
