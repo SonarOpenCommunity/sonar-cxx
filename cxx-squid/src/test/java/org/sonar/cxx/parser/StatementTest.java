@@ -225,6 +225,9 @@ public class StatementTest extends ParserBaseTest {
     
     assertThat(p).matches("for (XMLFluidPlacementEntry* entry: m_pipeFluidPlacementEntries->entries) {delete entry;}");
     assertThat(p).matches("for (ICurveComparer* curveComparer : m_curveComparers) delete curveComparer;");
+    
+    // CLI extension
+    assertThat(p).matches("for each(String^% s in arr) { s = i++.ToString(); }");
   }
 
   @Test

@@ -221,6 +221,7 @@ public class CxxPublicApiVisitorTest {
         expectedIdCommentMap.put("bitfield", "bitfield");
         expectedIdCommentMap.put("<unnamed class>", "<unnamed>");
         expectedIdCommentMap.put("testField2", "testField2");
+//        expectedIdCommentMap.put("operator=", "operator=");
         expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
 
         // check completeness
