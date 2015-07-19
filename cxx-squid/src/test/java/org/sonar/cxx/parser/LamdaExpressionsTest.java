@@ -45,6 +45,11 @@ public class LamdaExpressionsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.lambdaExpression));
 
     assertThat(p).matches("[] ( ) { }");
+    assertThat(p).matches("[] ( ) mutable { }");
+    assertThat(p).matches("[] ( ) noexcept { }");
+    assertThat(p).matches("[] ( ) throw(X,Y) { }");
+    assertThat(p).matches("[] ( ) mutable noexcept { }");
+    assertThat(p).matches("[] ( ) mutable throw(X,Y) { }");    
     assertThat(p).matches("[] (int n) { }");
     assertThat(p).matches("[&] ( ) { }");
     assertThat(p).matches("[&foo] (int n) { }");
@@ -55,9 +60,12 @@ public class LamdaExpressionsTest extends ParserBaseTest {
     assertThat(p).matches("[] () -> int { return 1; }");
     assertThat(p).matches("[] (const string& addr) { return addr.find( \".org\" ) != string::npos; }");
     assertThat(p).matches("[this] () { cout << _x; }");
-    // function pointers c++11, TODO: make this work
-    // assertThat(p).matches("[] () -> { return 2; }");
-    // assertThat(p).matches("[] (int x, int y) -> int { return x + y; }");
+    assertThat(p).matches("[] (int x, int y) -> int { return x + y; }");
+    assertThat(p).matches("[](auto x, auto y) { return x + y; }");
+    assertThat(p).matches("[](const auto& m) { return m.size(); }");
+    assertThat(p).matches("[value = 1] { return value; }");
+    assertThat(p).matches("[value = std::move(ptr)] { return *value; }");
+    assertThat(p).matches("[&r = x, y = x+1] { r += 2; return y+2; }");
   }
 
   @Test
@@ -107,6 +115,10 @@ public class LamdaExpressionsTest extends ParserBaseTest {
     assertThat(p).matches("foo");
     assertThat(p).matches("&foo");
     assertThat(p).matches("this");
+    assertThat(p).matches("value = 1");
+    assertThat(p).matches("u=move(u)");
+    assertThat(p).matches("value = std::move(ptr)");
+    assertThat(p).matches("&r = x, y = x+1");
   }
 
   @Test
