@@ -73,7 +73,7 @@ public class CxxBullseyeCoverageSensorTest {
     verify(context, times(28)).saveMeasure((File) anyObject(), any(Measure.class));
   }
 
-    @Test
+  @Test
   public void shoulCorrectlyHandleDriveLettersWithoutSlash() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash.xml");

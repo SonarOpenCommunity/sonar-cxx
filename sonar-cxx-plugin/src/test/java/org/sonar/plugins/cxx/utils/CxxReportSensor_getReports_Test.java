@@ -91,7 +91,7 @@ public class CxxReportSensor_getReports_Test {
       setupExample(allpaths);
       settings.setProperty(property, pattern);
 
-      reports = sensor.getReports(settings, base.getRoot().getPath(), "", property);
+      reports = sensor.getReports(settings, base.getRoot().getCanonicalPath(), "", property);
 
       assertMatch(reports, match);
       deleteExample(base.getRoot());
@@ -115,8 +115,17 @@ public class CxxReportSensor_getReports_Test {
     String[] parsedPaths = StringUtils.split(expected, ",");
     List<File> expectedFiles = new LinkedList<File>();
     for (String path : parsedPaths) {
-      expectedFiles.add(new File(base.getRoot(), path));
+      // Use canonical path because longpathcomponent may be replaced by longpa~1 on ms windows
+      try {
+        File tmp = new File(base.getRoot(), path);
+        expectedFiles.add(new File (tmp.getCanonicalPath()));
+      }
+      catch(Exception e)
+      {
+        System.console().printf("Exception: {} %s\n:", e.getMessage());
+      }
     }
+    assertEquals(parsedPaths.length, expectedFiles.size());
 
     Set<File> realSet = new TreeSet<File>(real);
     Set<File> expectedSet = new TreeSet<File>(expectedFiles);
