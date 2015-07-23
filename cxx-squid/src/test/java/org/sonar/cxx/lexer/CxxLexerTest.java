@@ -211,44 +211,10 @@ public class CxxLexerTest {
    */
   @Test
   public void bin_integer_literals() {
-    // Hex integer
-    assertThat(lexer.lex("0b1"), hasToken("0b1", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix"
-    assertThat(lexer.lex("0b1u"), hasToken("0b1u", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1U"), hasToken("0b1U", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongSuffix"
-    assertThat(lexer.lex("0b1ul"), hasToken("0b1ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1uL"), hasToken("0b1uL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1Ul"), hasToken("0b1Ul", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1UL"), hasToken("0b1UL", CxxTokenType.NUMBER));
-
-    // With "UnsignedSuffix LongLongSuffix"
-    assertThat(lexer.lex("0b1ull"), hasToken("0b1ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1uLL"), hasToken("0b1uLL", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1Ull"), hasToken("0b1Ull", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1ULL"), hasToken("0b1ULL", CxxTokenType.NUMBER));
-
-    // With "LongSuffix"
-    assertThat(lexer.lex("0b1l"), hasToken("0b1l", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1L"), hasToken("0b1L", CxxTokenType.NUMBER));
-
-    // With "LongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0b1lu"), hasToken("0b1lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1lU"), hasToken("0b1lU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1Lu"), hasToken("0b1Lu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1LU"), hasToken("0b1LU", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix"
-    assertThat(lexer.lex("0b1ll"), hasToken("0b1ll", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1LL"), hasToken("0b1LL", CxxTokenType.NUMBER));
-
-    // With "LongLongSuffix UnsignedSuffix"
-    assertThat(lexer.lex("0b1llu"), hasToken("0b1llu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1llU"), hasToken("0b1llU", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1LLu"), hasToken("0b1LLu", CxxTokenType.NUMBER));
-    assertThat(lexer.lex("0b1LLU"), hasToken("0b1LLU", CxxTokenType.NUMBER));
+    // bin integer
+    assertThat(lexer.lex("0b0"), hasToken("0b0", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0B1"), hasToken("0B1", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0b10101001"), hasToken("0b10101001", CxxTokenType.NUMBER));
   }
 
   /**
