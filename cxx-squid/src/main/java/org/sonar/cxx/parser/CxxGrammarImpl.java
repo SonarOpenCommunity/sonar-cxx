@@ -1102,8 +1102,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.firstOf(
             b.sequence(parameterDeclarationList, ",", "..."),
             b.sequence(b.optional(parameterDeclarationList), b.optional("...")),
-            cliParameterArray,
-            "..."
+            cliParameterArray
         )
         );
 
@@ -1113,7 +1112,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(parameterDeclaration).is(
         b.firstOf(
-            b.sequence(IDENTIFIER, "..."),// may occur in variadic templates
             b.sequence(b.optional(attributeSpecifierSeq), b.optional(vcAtlAttribute), parameterDeclSpecifierSeq, declarator, b.optional("=", initializerClause)),
             b.sequence(b.optional(attributeSpecifierSeq), parameterDeclSpecifierSeq, b.optional(abstractDeclarator), b.optional("=", initializerClause)))
         );
@@ -1121,7 +1119,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(parameterDeclSpecifierSeq).is(
         b.zeroOrMore(
             b.nextNot(b.sequence(b.optional(declarator), b.firstOf("=", ")", ","))),
-            declSpecifier
+            b.sequence(declSpecifier, b.optional("..."))
         ),
         b.optional(attributeSpecifierSeq)
         );
