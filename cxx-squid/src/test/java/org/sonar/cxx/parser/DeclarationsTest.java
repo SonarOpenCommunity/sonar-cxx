@@ -135,16 +135,38 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("bool operator==(const lhs&, const rhs&);");
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
 
+    assertThat(p).matches("int foo();");
+    assertThat(p).matches("const int foo();");
+    assertThat(p).matches("int* foo();");
+    assertThat(p).matches("const int* foo();");
+    assertThat(p).matches("int& foo();");
+    assertThat(p).matches("const int& foo();");
+    assertThat(p).matches("long long foo();");
+    assertThat(p).matches("const long long foo();");
+    assertThat(p).matches("long long* foo();");
+    assertThat(p).matches("const long long* foo();");
+    assertThat(p).matches("long long& foo();");
+    assertThat(p).matches("const long long& foo();");    
+    assertThat(p).matches("MyClass foo();");
+    assertThat(p).matches("const MyClass foo();");
+    assertThat(p).matches("MyClass* foo();");
+    assertThat(p).matches("const MyClass* foo();");
+    assertThat(p).matches("MyClass* foo();");
+    assertThat(p).matches("const MyClass* foo();");
+    
+    assertThat(p).matches("extern int foo();");
+    
+    assertThat(p).matches("auto to_string(int value) -> int;");
+    assertThat(p).matches("auto to_string(int value) -> long long;");
     assertThat(p).matches("auto to_string(int value) -> std::string;");
     assertThat(p).matches("auto size() const -> std::size_t;");
     assertThat(p).matches("auto str() const;");
     assertThat(p).matches("auto equal_range(ForwardIterator first, ForwardIterator last, const Type& value) -> std::pair<ForwardIterator, ForwardIterator>;");
 
-//    assertThat(p).matches("int property;");
-//    assertThat(p).matches("int property = 0;");
-//  ToDo : make this work
-//  assertThat(p).matches("auto str() const -> const char*;");
-//  assertThat(p).matches("auto std::map::at(const key_type& key) -> mapped_type&;");
+    assertThat(p).matches("auto str() const -> const char*;");
+    assertThat(p).matches("auto std::map::at(const key_type& key) -> mapped_type&;");
+    assertThat(p).matches("auto f() -> int(*)[4];");
+    assertThat(p).matches("auto fpif(int) -> int(*)(int);");
 
   }
 

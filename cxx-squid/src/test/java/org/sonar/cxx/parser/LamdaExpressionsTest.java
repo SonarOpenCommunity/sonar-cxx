@@ -58,6 +58,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
     assertThat(p).matches("[&foo1,&foo2,&foo3] (int n, int y, int z) { }");
     assertThat(p).matches("[] () throw () { }");
     assertThat(p).matches("[] () -> int { return 1; }");
+    assertThat(p).matches("[] () -> long long { return 1; }");
     assertThat(p).matches("[] (const string& addr) { return addr.find( \".org\" ) != string::npos; }");
     assertThat(p).matches("[this] () { cout << _x; }");
     assertThat(p).matches("[] (int x, int y) -> int { return x + y; }");

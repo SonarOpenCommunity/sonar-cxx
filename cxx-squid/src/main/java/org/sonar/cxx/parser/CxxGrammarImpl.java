@@ -133,10 +133,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
   storageClassSpecifier,
   functionSpecifier,
-  typedefName,
+  typedefName,  
   typeSpecifier,
-  trailingTypeSpecifier,
   typeSpecifierSeq,
+  trailingTypeSpecifier,
+  trailingTypeSpecifierSeq,
   simpleTypeSpecifier,
   typeName,
   decltypeSpecifier,
@@ -820,6 +821,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
       );
 
+    b.rule(trailingTypeSpecifierSeq).is(b.oneOrMore(trailingTypeSpecifier), b.optional(attributeSpecifierSeq));
+     
     b.rule(trailingTypeSpecifier).is(
       b.firstOf(
         simpleTypeSpecifier,
@@ -1028,7 +1031,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
                                             b.optional(exceptionSpecification)
                                             );
 
-    b.rule(trailingReturnType).is("->", simpleTypeSpecifier);
+    b.rule(trailingReturnType).is(
+        b.sequence("->", b.oneOrMore(trailingTypeSpecifierSeq), b.optional(abstractDeclarator))
+    );
 
     b.rule(ptrOperator).is(
         b.firstOf(
