@@ -303,6 +303,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   templateName,
   templateArgumentList,
   templateArgument,
+  innerSimpleTemplateId,
+  innerTrailingTypeSpecifier,
   innerTypeId,
   innerTemplateId,
   innerTemplateArgumentList,
@@ -399,7 +401,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(unqualifiedId).is(
       b.firstOf(
-        templateId,
+        // Mitigate ambiguity between relational operators < > and angular brackets by looking ahead
+        b.sequence(templateId, b.next(b.firstOf("(", ")", "[", "]", "?", ":", binaryOperator, ",", ";", EOF))),
         IDENTIFIER,
         operatorFunctionId,
         conversionFunctionId,
@@ -1471,40 +1474,46 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
           b.sequence(CxxKeyword.CLASS, b.optional(IDENTIFIER), "=", innerTypeId),
           b.sequence(CxxKeyword.TYPENAME, b.optional(IDENTIFIER), "=", innerTypeId),
-          b.sequence(CxxKeyword.TEMPLATE, templateParameterListEnclosed, CxxKeyword.CLASS, b.optional(IDENTIFIER), "=", innerTypeId)
-      )
+          b.sequence(CxxKeyword.TEMPLATE, templateParameterListEnclosed, CxxKeyword.CLASS, b.optional(IDENTIFIER), "=", innerTypeId)));
+
+    b.rule(simpleTemplateId).is(b.firstOf(
+      b.sequence(templateName, "<", b.optional(templateArgumentList), ">"),
+      b.sequence(templateName, "<", innerTemplateId, ">>")));
+
+    b.rule(innerTemplateId).is(
+        b.sequence(b.zeroOrMore(b.nextNot(b.sequence(innerTypeId, ">>")), templateArgument, b.optional("..."), ","),
+          innerTypeId)
       );
 
     b.rule(innerTypeId).is(
-        b.optional(b.firstOf(
-            // typeSpecifierSeq ~> [...] simpleTypeSpecifier
-            b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE),
-            // typeSpecifierSeq ~> [...] elaboratedTypeSpecifier
-            b.sequence(classKey, b.optional(b.firstOf(nestedNameSpecifier,"::")), b.optional(CxxKeyword.TEMPLATE)),
-            // typeSpecifierSeq ~> [...] typeNameSpecifier
-            b.sequence(CxxKeyword.TYPENAME, b.optional(b.firstOf(nestedNameSpecifier,"::")), b.optional(CxxKeyword.TEMPLATE)),
-            // typeSpecifierSeq ~> [...] simpleTypeSpecifier ~> typeName
-            nestedNameSpecifier,
-            "::"
-            )),
-            templateName, "<", b.optional(innerTemplateArgumentList));
+      b.firstOf(
+        innerTrailingTypeSpecifier,
+        b.sequence(b.oneOrMore(typeSpecifier), innerTrailingTypeSpecifier),
+        b.sequence(typeSpecifierSeq, b.optional(noptrAbstractDeclarator), parametersAndQualifiers, "->", innerTrailingTypeSpecifier)
+      ));
 
-    b.rule(simpleTemplateId).is(b.firstOf(
-        b.sequence(templateName, "<", b.optional(templateArgumentList), ">"),
-        b.sequence(templateName, "<", innerTemplateId, ">>")));
-
-    b.rule(innerTemplateId).is(
-        b.zeroOrMore(templateArgument, b.optional("..."), ","),
-        innerTypeId
+    b.rule(innerTrailingTypeSpecifier).is(
+      b.firstOf(
+        // simpleTypeSpecifier:
+        b.sequence(b.optional("::"), b.optional(nestedNameSpecifier), innerSimpleTemplateId),
+        b.sequence(b.optional("::"), b.optional(nestedNameSpecifier), CxxKeyword.TEMPLATE, innerSimpleTemplateId),
+        // elaboratedTypeSpecifier:
+        b.sequence(b.optional(cliAttributes), classKey, b.optional(nestedNameSpecifier), b.optional(CxxKeyword.TEMPLATE), innerSimpleTemplateId),
+        // typenameSpecifier:
+        b.sequence(CxxKeyword.TYPENAME, nestedNameSpecifier, CxxKeyword.TEMPLATE, innerSimpleTemplateId)
+        // cvQualifier, cliDelegateSpecifier: never end with a template
+        )
       );
+
+    b.rule(innerSimpleTemplateId).is(templateName, "<", innerTemplateArgumentList);
 
     b.rule(templateId).is(
         b.firstOf(
             simpleTemplateId,
-            b.sequence(operatorFunctionId, "<", b.optional(templateArgumentList), ">"),
-            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList), ">"),
             b.sequence(operatorFunctionId, "<", innerTemplateId, ">>"),
-            b.sequence(literalOperatorId, "<", innerTemplateId, ">>")
+            b.sequence(literalOperatorId, "<", innerTemplateId, ">>"),
+            b.sequence(operatorFunctionId, "<", b.optional(templateArgumentList), ">"),
+            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList), ">")
         )
         );
 
@@ -1516,25 +1525,25 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(templateArgument).is(
       b.firstOf(
-        typeId,
-        
+        b.sequence(typeId, b.next(b.firstOf(">", ",", "..."))),
+        b.sequence(typenameSpecifier, b.next(b.firstOf(">", ",", "..."))), // seen in gnu system headers
         // FIXME: workaround to parse stuff like "carray<int, 10>"
         // actually, it should be covered by the next rule (constantExpression)
         // but it doesnt work because of ambiguity template syntax <--> relationalExpression
-        shiftExpression,
-        constantExpression,
-        idExpression
+        b.sequence(shiftExpression, b.next(b.firstOf(">", ","))),
+        b.sequence(constantExpression, b.next(b.firstOf(">", ",")))
+//        idExpression
       )
     );
 
     b.rule(innerTemplateArgument).is(
       b.firstOf(
-        b.sequence(typeId, b.next(b.optional("..."), b.firstOf(">>", ","))),
-        
+        b.sequence(typeId, b.next(b.firstOf(">>", ",", "..."))),
+        b.sequence(typenameSpecifier, b.next(b.firstOf(">>", ",", "..."))), // seen in gnu system headers
         // FIXME: workaround to parse stuff like "carray<int, 10>", see above
-        b.sequence(
-          b.firstOf(idExpression, shiftExpression),
-          b.zeroOrMore(b.firstOf("&&", "||", "&", "|", "^", "!=", "=="), b.firstOf(idExpression, shiftExpression)))
+        b.sequence(additiveExpression, b.next(b.firstOf(">>", ","))),
+        b.sequence(constantExpression, b.next(b.firstOf(">>", ",")))
+//        idExpression
       )
     );
 

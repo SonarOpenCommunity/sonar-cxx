@@ -26,6 +26,8 @@ std::pair<const char*, std::vector<long int>> longNewStyle;
 template<class T, class Compare = std::less<T>>
 class list
 {
+   typedef unsigned char byte;
+   using PatchMap = std::vector<std::pair<size_t, std::vector<byte>>>;
 };
 
 template <class T>
@@ -57,4 +59,14 @@ void issue_49 ()
   List<unsigned*> ld;
   static_cast<List<B>>(ld);
   vector<vector<vector<int>>> vvvi;
+}
+
+template<bool C, class T, class F> struct if_log2_             : F {};
+template<        class T, class F> struct if_log2_<true, T, F> : T {};
+template<unsigned A, unsigned R = 0> struct log2
+	: if_log2_<A == 1, std::integral_constant<int, R>, log2<A / 2, R + 1>> {};
+
+void issue_666 ()
+{
+  X<log2<23>::value> x5;
 }
