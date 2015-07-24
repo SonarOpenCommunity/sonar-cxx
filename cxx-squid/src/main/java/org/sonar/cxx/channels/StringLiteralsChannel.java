@@ -56,7 +56,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
         return false;
       }
     }
-
+    readUdSuffix(code);
     for (int i = 0; i < index; i++) {
       sb.append((char) code.pop());
     }
@@ -134,6 +134,31 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       index++;
       isRawString = true;
       ch = code.charAt(index);
+    }
+  }
+  
+  private void readUdSuffix(CodeReader code) {
+    for (int start_index = index, len = 0;; index++) {
+      char c = code.charAt(index);
+      if (c == EOF) {
+        return;
+      }
+      if ((c >= 'a' && c <= 'z')
+        || (c >= 'A' && c <= 'Z')
+        || (c == '_')) {
+        len++;
+      } else {
+        if (c >= '0' && c <= '9') {
+          if (len > 0) {
+            len++;
+          } else {
+            index = start_index;
+            return;
+          }
+        } else {
+          return;
+        }
+      }
     }
   }
 }

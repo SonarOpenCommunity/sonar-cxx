@@ -352,7 +352,20 @@ public class CxxLexerTest {
     assertThat(lexer.lex("3.14E-10L"), hasToken("3.14E-10L", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0e0L"), hasToken("0e0L", CxxTokenType.NUMBER));
   }
-
+  
+  /**
+   * C++ Standard, Section 2.13.8 "User-defined literals"
+   */
+  @Test
+  public void user_defined_literals() {
+    assertThat(lexer.lex("12_w"), hasToken("12_w", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("1.2_w"), hasToken("1.2_w", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0x123ABC_print"), hasToken("0x123ABC_print", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("0b101010_print"), hasToken("0b101010_print", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("\"two\"_w;"), hasToken("\"two\"_w", CxxTokenType.STRING));
+    assertThat(lexer.lex("'X'_w;"), hasToken("'X'_w", CxxTokenType.CHARACTER));
+  }
+   
   /**
    * C++ Standard, Section 2.14.6 "Boolean literals"
    */
