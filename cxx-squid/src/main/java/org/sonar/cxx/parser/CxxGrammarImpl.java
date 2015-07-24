@@ -64,6 +64,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   pseudoDestructorName,
   unaryExpression,
   unaryOperator,
+  binaryOperator,
   newExpression,
   newPlacement,
   newTypeId,
@@ -542,6 +543,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(unaryOperator).is(
       b.firstOf("*", "&", "+", "-", "!", "~")
       );
+
+    b.rule(binaryOperator).is(
+      b.firstOf("||", "&&", "&", "|", "^", "==", "!=", "<=", "<", ">=", ">", "<<", ">>", "*", "/", "+", "-", assignmentOperator));
 
     b.rule(newExpression).is(
       b.firstOf(
