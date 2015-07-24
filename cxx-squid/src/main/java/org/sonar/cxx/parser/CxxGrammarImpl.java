@@ -1510,10 +1510,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(templateId).is(
         b.firstOf(
             simpleTemplateId,
-            b.sequence(operatorFunctionId, "<", innerTemplateId, ">>"),
-            b.sequence(literalOperatorId, "<", innerTemplateId, ">>"),
             b.sequence(operatorFunctionId, "<", b.optional(templateArgumentList), ">"),
-            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList), ">")
+            b.sequence(literalOperatorId, "<", b.optional(templateArgumentList), ">"),
+            b.sequence(operatorFunctionId, "<", innerTemplateId, ">>"),
+            b.sequence(literalOperatorId, "<", innerTemplateId, ">>")
         )
         );
 
