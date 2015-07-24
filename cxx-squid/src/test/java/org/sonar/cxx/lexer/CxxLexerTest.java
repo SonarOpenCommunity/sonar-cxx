@@ -365,7 +365,23 @@ public class CxxLexerTest {
     assertThat(lexer.lex("\"two\"_w;"), hasToken("\"two\"_w", CxxTokenType.STRING));
     assertThat(lexer.lex("'X'_w;"), hasToken("'X'_w", CxxTokenType.CHARACTER));
   }
-   
+
+  /**
+   * C++ Standard, Section 2.13 ff "digit separators"
+   */
+  @Test
+  public void digit_separators() {
+    assertThat(lexer.lex("1'000'000"), hasToken("1'000'000", CxxTokenType.NUMBER)); // integer
+    assertThat(lexer.lex("0b0100'1100'0110"), hasToken("0b0100'1100'0110", CxxTokenType.NUMBER)); // binary
+    assertThat(lexer.lex("00'04'00'00'00"), hasToken("00'04'00'00'00", CxxTokenType.NUMBER)); // oct  
+    assertThat(lexer.lex("0x10'0000"), hasToken("0x10'0000", CxxTokenType.NUMBER)); // hex  
+    assertThat(lexer.lex("1'000.000'015'3"), hasToken("1'000.000'015'3", CxxTokenType.NUMBER)); // float
+    assertThat(lexer.lex("1'000."), hasToken("1'000.", CxxTokenType.NUMBER));
+    assertThat(lexer.lex(".000'015'3"), hasToken(".000'015'3", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("1'000e-10"), hasToken("1'000e-10", CxxTokenType.NUMBER));
+    assertThat(lexer.lex("1'000e-1'000"), hasToken("1'000e-1'000", CxxTokenType.NUMBER));
+  }
+  
   /**
    * C++ Standard, Section 2.14.6 "Boolean literals"
    */
