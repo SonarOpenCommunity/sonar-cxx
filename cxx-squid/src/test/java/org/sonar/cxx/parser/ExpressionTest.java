@@ -171,6 +171,10 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("const_cast < typeId > ( expression )");
     assertThat(p).matches("typeid ( expression )");
     assertThat(p).matches("typeid ( typeId )");
+    
+    assertThat(p).matches("simpleTypeSpecifier :: typeid");
+    assertThat(p).matches("typenameSpecifier :: typeid");
+
   }
 
   @Test
@@ -182,6 +186,9 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("dynamic_cast<Type*>(myop)->op()");
     assertThat(p).matches("::foo()");
     assertThat(p).matches("obj.foo<int>()");
+    
+    assertThat(p).matches("G::typeid");
+    assertThat(p).matches("int::typeid");
   }
 
   @Test

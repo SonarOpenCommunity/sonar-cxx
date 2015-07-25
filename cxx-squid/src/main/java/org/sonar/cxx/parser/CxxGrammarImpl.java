@@ -471,8 +471,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
             b.sequence(simpleTypeSpecifier, "(", b.optional(expressionList), ")"),
             b.sequence(simpleTypeSpecifier, bracedInitList),
+            b.sequence(simpleTypeSpecifier, "::", "typeid"),
             b.sequence(typenameSpecifier, "(", b.optional(expressionList), ")"),
             b.sequence(typenameSpecifier, bracedInitList),
+            b.sequence(typenameSpecifier, "::", "typeid"),
 
             primaryExpression,
 
@@ -480,8 +482,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence(CxxKeyword.STATIC_CAST, typeIdEnclosed, "(", expression, ")"),
             b.sequence(CxxKeyword.REINTERPRET_CAST, typeIdEnclosed, "(", expression, ")"),
             b.sequence(CxxKeyword.CONST_CAST, typeIdEnclosed, "(", expression, ")"),
-            b.sequence(CxxKeyword.TYPEID, "(", expression, ")"),
-            b.sequence(CxxKeyword.TYPEID, "(", typeId, ")")
+            b.sequence("typeid", "(", expression, ")"),
+            b.sequence("typeid", "(", typeId, ")")
         ),
 
         // postfixExpression [ expression ]
