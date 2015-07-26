@@ -91,7 +91,6 @@ public enum CxxKeyword implements TokenType {
   TRUE("true"),
   TRY("try"),
   TYPEDEF("typedef"),
-  TYPEID("typeid"),
   TYPENAME("typename"),
   UNION("union"),
   UNSIGNED("unsigned"),
