@@ -1,7 +1,2 @@
-This documention is as close to the published C++11 Standard as we
-could find and should be quite accurate. However, it contains at least
-the following flaws:
-
-- the rule alignment-specifier should refers to assignment-exression
-  instead of alignment-expression
-- Unconfirmed: nested-name-specifier should match to "::", but it doesnt.
+C++ Standard Draft Sources
+https://github.com/cplusplus/draft
