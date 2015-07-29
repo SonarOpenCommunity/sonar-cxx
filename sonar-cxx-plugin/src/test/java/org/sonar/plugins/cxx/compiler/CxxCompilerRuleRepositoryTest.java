@@ -40,7 +40,7 @@ public class CxxCompilerRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxCompilerVcRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(704);
+    assertThat(repo.rules()).hasSize(716);
   }
 
   @Test
