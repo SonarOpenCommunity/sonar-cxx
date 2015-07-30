@@ -7,7 +7,7 @@ jdk:
 env:
         - SONARHOME=/tmp/sonarqube-4.5.4
         - SONARHOME=/tmp/sonarqube-5.0.1
-        - SONARHOME=/tmp/sonarqube-5.1.1
+        - SONARHOME=/tmp/sonarqube-5.1.2
   
 before_install:
         - travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
@@ -20,8 +20,8 @@ install:
         - unzip -qq sonarqube-4.5.4.zip        
         - travis_retry wget -q http://dist.sonar.codehaus.org/sonarqube-5.0.1.zip
         - unzip -qq sonarqube-5.0.1.zip
-        - travis_retry wget -q http://dist.sonar.codehaus.org/sonarqube-5.1.1.zip
-        - unzip -qq sonarqube-5.1.1.zip        
+        - travis_retry wget -q http://dist.sonar.codehaus.org/sonarqube-5.1.2.zip
+        - unzip -qq sonarqube-5.1.2.zip        
         - travis_retry wget -q http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
         - unzip -qq sonar-runner-dist-2.4.zip
         - cd -
