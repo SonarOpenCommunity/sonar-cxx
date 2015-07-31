@@ -5,7 +5,7 @@ jdk:
         - openjdk7
 
 env:
-        - SONARHOME=/tmp/sonarqube-4.5.4
+        - SONARHOME=/tmp/sonarqube-4.5.5
         - SONARHOME=/tmp/sonarqube-5.0.1
         - SONARHOME=/tmp/sonarqube-5.1.2
   
@@ -16,8 +16,8 @@ before_install:
         
 install:
         - cd /tmp      
-        - travis_retry wget -q http://dist.sonar.codehaus.org/sonarqube-4.5.4.zip
-        - unzip -qq sonarqube-4.5.4.zip        
+        - travis_retry wget -q http://dist.sonar.codehaus.org/sonarqube-4.5.5.zip
+        - unzip -qq sonarqube-4.5.5.zip        
         - travis_retry wget -q http://dist.sonar.codehaus.org/sonarqube-5.0.1.zip
         - unzip -qq sonarqube-5.0.1.zip
         - travis_retry wget -q http://dist.sonar.codehaus.org/sonarqube-5.1.2.zip
