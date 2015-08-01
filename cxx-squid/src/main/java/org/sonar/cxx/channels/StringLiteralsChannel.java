@@ -128,6 +128,8 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       if (ch == 'u' && code.charAt(index) == '8') {
         index++;
       }
+      if (code.charAt(index) == ' ')
+        index++;
       ch = code.charAt(index);
     }
     if (ch == 'R') {
