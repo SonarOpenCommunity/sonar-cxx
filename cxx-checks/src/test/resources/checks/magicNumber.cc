@@ -45,19 +45,19 @@ int someData[] = {
 
 static const int i1 = 10;     // Compliant
 int i2 = 11;                  // Non-Compliant
-constexpr int compliant1 = 10;
-static constexpr int compliant2 = 10;
+constexpr int compliant1 = 10; // Compliant
+static constexpr int compliant2 = 10; // Compliant
 
 namespace TestNamespace {
-    constexpr int compliant1 = 10;
-    static constexpr int compliant2 = 10;
+    constexpr int compliant1 = 10; // Compliant
+    static constexpr int compliant2 = 10; // Compliant
     const int b1 = 20;        // Compliant
     int b2 = 21;              // Non-Compliant
 }
 
 class TestClass {
-    constexpr int compliant1 = 10;
-    static constexpr int compliant2 = 10;
+    constexpr int compliant1 = 10; // Compliant
+    static constexpr int compliant2 = 10; // Compliant
     static const int c1 = 30; // Compliant
     int c2 = 31;              // Non-Compliant
 };
