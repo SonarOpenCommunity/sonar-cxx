@@ -5,6 +5,8 @@ class Program
 {
     int _tmain(int argc, _TCHAR* argv[])
     {
+        constexpr int compliant1 = 10;             // Compliant
+        static constexpr int compliant2 = 10;      // Compliant
         const long grossSalary = 80000;           // Compliant
         const double Rate = 0.85;                 // Compliant
         double rate2 = 0.85;                      // Non-Compliant
@@ -43,13 +45,19 @@ int someData[] = {
 
 static const int i1 = 10;     // Compliant
 int i2 = 11;                  // Non-Compliant
+constexpr int compliant1 = 10;
+static constexpr int compliant2 = 10;
 
 namespace TestNamespace {
+    constexpr int compliant1 = 10;
+    static constexpr int compliant2 = 10;
     const int b1 = 20;        // Compliant
     int b2 = 21;              // Non-Compliant
 }
 
 class TestClass {
+    constexpr int compliant1 = 10;
+    static constexpr int compliant2 = 10;
     static const int c1 = 30; // Compliant
     int c2 = 31;              // Non-Compliant
 };

@@ -37,11 +37,11 @@ public class MagicNumberCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/magicNumber.cc"), new MagicNumberCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(10).withMessage("Extract this magic number '0.85' into a constant, variable declaration or an enum.")
-      .next().atLine(14)
-      .next().atLine(45)
-      .next().atLine(49)
-      .next().atLine(54);
+      .next().atLine(12).withMessage("Extract this magic number '0.85' into a constant, variable declaration or an enum.")
+      .next().atLine(16)
+      .next().atLine(47)
+      .next().atLine(55)
+      .next().atLine(62);
   }
 
   @Test
@@ -52,12 +52,12 @@ public class MagicNumberCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/magicNumber.cc"), check);
 
     checkMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(15)
-      .next().atLine(18)
-      .next().atLine(19)
-      .next().atLine(45)
-      .next().atLine(49)
-      .next().atLine(54);
+      .next().atLine(17)
+      .next().atLine(20)
+      .next().atLine(21)
+      .next().atLine(47)
+      .next().atLine(55)
+      .next().atLine(62);
   }
 
 }
