@@ -52,6 +52,7 @@ public abstract class CxxReportSensor implements Sensor {
   private ResourcePerspectives perspectives;
   private Set<String> notFoundFiles = new HashSet<String>();
   private Set<String> uniqueIssues = new HashSet<String>();
+  private HashMap<String, Integer> maxLineFiles = new HashMap<String, Integer>();
   private final Metric metric;
   private int violationsCount;
 
@@ -239,6 +240,21 @@ public abstract class CxxReportSensor implements Sensor {
           = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
         if (context.getResource(file) != null) {
           lineNr = getLineAsInt(line);
+          int maxLine = lineNr;
+          if (maxLineFiles.containsKey(normalPath)){
+            maxLine = maxLineFiles.get(normalPath);
+          }
+          else {
+            maxLine = CxxUtils.countLines(normalPath);
+            if (maxLine > 0)
+              maxLineFiles.put(normalPath, maxLine);
+          }
+          if (lineNr > maxLine) {
+            if(CxxUtils.LOG.isWarnEnabled()) {
+            CxxUtils.LOG.warn("Correct line number ("+ lineNr +") from report for '"+ normalPath +"' to max. line (" + maxLine +")");
+            }
+            lineNr = maxLine;
+          }
           resource = file;
           add = true;
         } else {
@@ -303,3 +319,4 @@ public abstract class CxxReportSensor implements Sensor {
     return "";
   }
 }
+
