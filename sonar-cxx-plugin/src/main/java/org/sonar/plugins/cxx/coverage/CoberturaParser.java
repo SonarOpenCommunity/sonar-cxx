@@ -37,6 +37,14 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CoberturaParser implements CoverageParser {
+
+  private final String baseDir;
+
+  public CoberturaParser(final String baseDir)
+  {
+    this.baseDir = baseDir;
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -69,7 +77,7 @@ public class CoberturaParser implements CoverageParser {
       throws XMLStreamException
   {
     while (clazz.getNext() != null) {
-      String normalPath = CxxUtils.normalizePath(clazz.getAttrValue("filename"));
+      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), baseDir);
       if(normalPath != null){
         CoverageMeasuresBuilder builder = coverageData.get(normalPath);
         if (builder == null) {
