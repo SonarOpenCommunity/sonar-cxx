@@ -39,7 +39,7 @@ public class CxxCompilerVcParser implements CompilerParser {
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
   // sample regex for VS2012/2013: "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
-  public static final String DEFAULT_CHARSET_DEF = "UTF-8"; // use "UTF-16" for VS2010 build log
+  public static final String DEFAULT_CHARSET_DEF = "UTF-8"; // use "UTF-16" for VS2010 build log or TFS Team build log file
 
   /**
    * {@inheritDoc}
@@ -74,11 +74,11 @@ public class CxxCompilerVcParser implements CompilerParser {
    */
   public void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException
   {
-    CxxUtils.LOG.info("Parsing 'Visual C++' format");
+    CxxUtils.LOG.info("Parsing 'Visual C++' format ({})", charset);
         
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
-    CxxUtils.LOG.debug("Using pattern : '" + p.toString() + "'");
+    CxxUtils.LOG.info("Using pattern : '" + p.toString() + "'");
     MatchResult matchres = null;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
