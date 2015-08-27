@@ -39,13 +39,18 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 /**
  * {@inheritDoc}
  */
-public class BullseyeParser implements CoverageParser {
+public class BullseyeParser extends CoverageParserBase implements CoverageParser {
 
   private String prevLine;
   private int totaldecisions;
   private int totalcovereddecisions;
   private int totalconditions;
   private int totalcoveredconditions;
+
+  public BullseyeParser(final String baseDir)
+  {
+    super(baseDir);
+  }
 
   /**
    * {@inheritDoc}

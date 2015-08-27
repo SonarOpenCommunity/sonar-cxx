@@ -36,13 +36,11 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 /**
  * {@inheritDoc}
  */
-public class CoberturaParser implements CoverageParser {
-
-  private final String baseDir;
+public class CoberturaParser extends CoverageParserBase implements CoverageParser {
 
   public CoberturaParser(final String baseDir)
   {
-    this.baseDir = baseDir;
+    super(baseDir);
   }
 
   /**

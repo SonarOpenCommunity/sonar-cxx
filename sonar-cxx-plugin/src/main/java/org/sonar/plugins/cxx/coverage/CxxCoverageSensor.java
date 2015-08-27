@@ -63,9 +63,10 @@ public class CxxCoverageSensor extends CxxReportSensor {
     super(settings, fs, reactor);
 
     this.reactor = reactor;
-    parsers.add(new CoberturaParser(fs.baseDir().getAbsolutePath()));
-    parsers.add(new BullseyeParser());
-    parsers.add(new VisualStudioParser());
+    final String baseDir = fs.baseDir().getAbsolutePath();
+    parsers.add(new CoberturaParser(baseDir));
+    parsers.add(new BullseyeParser(baseDir));
+    parsers.add(new VisualStudioParser(baseDir));
   }
 
   @Override
