@@ -156,47 +156,52 @@ public abstract class CxxReportSensor implements Sensor {
     List<File> reports = new ArrayList<File>();
     if (reportPath != null && !reportPath.isEmpty()) {
       reportPath = FilenameUtils.normalize(reportPath);
-      CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
-
-      DirectoryScanner scanner = new DirectoryScanner();
-      String[] includes = new String[1];
-      includes[0] = reportPath;
-      scanner.setIncludes(includes);
-      String baseDirPath = baseDirPath1;
-      scanner.setBasedir(new File(baseDirPath));
-      String[] relPaths = new String[0];
-      try {
-        scanner.scan();
-        relPaths = scanner.getIncludedFiles();
-      } catch (IllegalStateException e) {
-        CxxUtils.LOG.error("Invalid report baseDir '{}'", baseDirPath);
-      }
-      if (relPaths.length < 1 && !baseDirPath2.isEmpty()) {
-        baseDirPath = baseDirPath2;
+      File singleFile = new File(reportPath);
+      if (singleFile.exists()) {
+        reports.add(singleFile);
+      } else {
+        CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
+  
+        DirectoryScanner scanner = new DirectoryScanner();
+        String[] includes = new String[1];
+        includes[0] = reportPath;
+        scanner.setIncludes(includes);
+        String baseDirPath = baseDirPath1;
         scanner.setBasedir(new File(baseDirPath));
+        String[] relPaths = new String[0];
         try {
           scanner.scan();
           relPaths = scanner.getIncludedFiles();
         } catch (IllegalStateException e) {
           CxxUtils.LOG.error("Invalid report baseDir '{}'", baseDirPath);
         }
-      }
-      
-      for (String relPath : relPaths) {
-        String path = CxxUtils.normalizePath(new File(baseDirPath, relPath).getAbsolutePath());
-        try {
-          File reportFile = new File(path);
-          if (reportFile.exists()) {
-            reports.add(reportFile);
-          } else {
-            CxxUtils.LOG.error("Can't read report '{}'", path);
+        if (relPaths.length < 1 && !baseDirPath2.isEmpty()) {
+          baseDirPath = baseDirPath2;
+          scanner.setBasedir(new File(baseDirPath));
+          try {
+            scanner.scan();
+            relPaths = scanner.getIncludedFiles();
+          } catch (IllegalStateException e) {
+            CxxUtils.LOG.error("Invalid report baseDir '{}'", baseDirPath);
           }
-        } catch (SecurityException e) {
-          CxxUtils.LOG.error("Read access to report '{}' denied", path);
         }
-      }
-      if (reports.isEmpty()) {
-        CxxUtils.LOG.warn("Cannot find a report for '{}={}'", reportPathPropertyKey, reportPath);
+        
+        for (String relPath : relPaths) {
+          String path = CxxUtils.normalizePath(new File(baseDirPath, relPath).getAbsolutePath());
+          try {
+            File reportFile = new File(path);
+            if (reportFile.exists()) {
+              reports.add(reportFile);
+            } else {
+              CxxUtils.LOG.error("Can't read report '{}'", path);
+            }
+          } catch (SecurityException e) {
+            CxxUtils.LOG.error("Read access to report '{}' denied", path);
+          }
+        }
+        if (reports.isEmpty()) {
+          CxxUtils.LOG.warn("Cannot find a report for '{}={}'", reportPathPropertyKey, reportPath);
+        }
       }
     } else {
       CxxUtils.LOG.error("Undefined report path value for key '{}'", reportPathPropertyKey);
