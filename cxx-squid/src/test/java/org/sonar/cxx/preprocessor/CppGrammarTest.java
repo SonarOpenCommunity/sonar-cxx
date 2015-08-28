@@ -145,6 +145,10 @@ public class CppGrammarTest {
     assertThat(p).matches("");
     assertThat(p).matches("ppToken");
     assertThat(p).matches("#ppToken");
+    assertThat(p).matches("L#ppToken");
+    assertThat(p).matches("u8#ppToken");
+    assertThat(p).matches("u#ppToken");
+    assertThat(p).matches("U#ppToken");
     assertThat(p).matches("ppToken ## ppToken");
   }
 

@@ -70,6 +70,7 @@ public enum CppGrammar implements GrammarRuleKey {
   multiplicativeExpression,
   additiveExpression,
   shiftExpression,
+  stringPrefix,
   relationalExpression,
   equalityExpression,
   andExpression,
@@ -161,7 +162,7 @@ public enum CppGrammar implements GrammarRuleKey {
         b.oneOrMore(
         b.firstOf(
             "##",
-            "#",
+            b.sequence(b.optional(stringPrefix),"#"),
             ppToken
         )
         )
@@ -169,6 +170,7 @@ public enum CppGrammar implements GrammarRuleKey {
 
     b.rule(parameterList).is(IDENTIFIER, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), IDENTIFIER, b.nextNot(b.sequence(b.zeroOrMore(WS), "..."))));
     b.rule(argumentList).is(argument, b.zeroOrMore(b.zeroOrMore(WS), ",", b.zeroOrMore(WS), argument));
+    b.rule(stringPrefix).is(b.firstOf("L", "u8", "u", "U"));
 
     b.rule(argument).is(
         b.firstOf(
