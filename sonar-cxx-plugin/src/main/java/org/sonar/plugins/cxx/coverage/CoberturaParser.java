@@ -36,7 +36,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 /**
  * {@inheritDoc}
  */
-public class CoberturaParser extends CoverageParserBase implements CoverageParser {
+public class CoberturaParser extends CxxCoverageParser {
 
   public CoberturaParser(final String baseDir)
   {

@@ -22,11 +22,11 @@ package org.sonar.plugins.cxx.coverage;
 /**
  * The base class for coverage report parsers
  */
-public class CoverageParserBase {
+public abstract class CxxCoverageParser implements CoverageParser {
 
     protected final String baseDir;
 
-    CoverageParserBase(final String baseDir)
+    CxxCoverageParser(final String baseDir)
     {
         this.baseDir = baseDir;
     }
