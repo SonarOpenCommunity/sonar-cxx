@@ -53,7 +53,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
   public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
 
-  private static List<CoverageParser> parsers = new LinkedList<CoverageParser>();
+  private List<CoverageParser> parsers = new LinkedList<CoverageParser>();
     private final ProjectReactor reactor;
 
   /**
@@ -63,9 +63,10 @@ public class CxxCoverageSensor extends CxxReportSensor {
     super(settings, fs, reactor);
 
     this.reactor = reactor;
-    parsers.add(new CoberturaParser());
-    parsers.add(new BullseyeParser());
-    parsers.add(new VisualStudioParser());
+    final String baseDir = fs.baseDir().getAbsolutePath();
+    parsers.add(new CoberturaParser(baseDir));
+    parsers.add(new BullseyeParser(baseDir));
+    parsers.add(new VisualStudioParser(baseDir));
   }
 
   @Override

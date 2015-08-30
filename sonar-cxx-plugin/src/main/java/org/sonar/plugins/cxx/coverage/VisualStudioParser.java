@@ -35,7 +35,12 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 /**
  * {@inheritDoc}
  */
-public class VisualStudioParser implements CoverageParser {
+public class VisualStudioParser extends CxxCoverageParser {
+
+  public VisualStudioParser(final String baseDir)
+  {
+    super(baseDir);
+  }
 
   /**
    * {@inheritDoc}
