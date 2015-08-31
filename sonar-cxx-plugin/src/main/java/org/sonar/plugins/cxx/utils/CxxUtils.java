@@ -67,9 +67,9 @@ public final class CxxUtils {
    * @return returns case sensitive full path
    */
   public static String normalizePathFull(String filename, String baseDir) {
-    String filePath = filename;   
     File targetfile = new java.io.File(filename);
-    if (targetfile.exists()) {
+    String filePath;
+    if (targetfile.isAbsolute()) {
       filePath = normalizePath(filename);
     } else {
       // RATS, CppCheck and Vera++ provide names like './file.cpp' - add source folder for index check
