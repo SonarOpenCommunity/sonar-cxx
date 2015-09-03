@@ -573,6 +573,18 @@ A structure, union, or enumerated type with no name is defined in a parenthetica
     </description>
   </rule>
   <rule>
+    <key>C4121</key>
+    <configkey>C4121</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4121: 'symbol' : alignment of a member was sensitive to packing</name>
+    <description><![CDATA[<p>
+The compiler added padding to align a structure member on the packing boundary but the packing value is less than the member's size.
+</p><h2>MSDN Documentation</h2>
+<p><a href="https://msdn.microsoft.com/en-us/library/kabt0ka3.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/kabt0ka3.aspx</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
     <key>C4124</key>
     <configkey>C4124</configkey>
     <priority>CRITICAL</priority>
@@ -580,7 +592,7 @@ A structure, union, or enumerated type with no name is defined in a parenthetica
     <description><![CDATA[<p>
 The __fastcall convention generates faster code, but stack checking causes slower code. When using __fastcall, turn off stack checking with the check_stack pragma or /Gs.
 </p><h2>MSDN Documentation</h2>
-<p><a href="https://msdn.microsoft.com/en-us/library/kabt0ka3.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/kabt0ka3.aspx</a></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/1txs3kya.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/1txs3kya.aspx</a></p>
 ]]>
     </description>
   </rule>
@@ -3145,6 +3157,80 @@ enum class Direction: short; //enum base is short
     </description>
   </rule>
   <rule>
+    <key>C4473</key>
+    <configkey>C4473</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4473: '&lt;function&gt;' : not enough arguments passed for format string</name>
+    <description>
+    <![CDATA[
+Missing variadic arguments can be as big of a security concern as incorrect types, because they may cause your program to read garbage from the stack.
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4473" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4473</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4474</key>
+    <configkey>C4474</configkey>
+    <priority>MAJOR</priority>
+    <name>C4474: '&lt;function&gt;' : too many arguments passed for format string</name>
+    <description>
+    <![CDATA[
+Compiling this with default flags wouldn’t result in any diagnostic messages, giving you a false sense of security, but you can clearly see that there are problems here. Unfortunately, always giving a warning when a format string is not a string literal turned out to generate too many warnings on valid use cases (e.g. localization), so as a compromise we decided to provide this warning as off by default.
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4474" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4474</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4475</key>
+    <configkey>C4475</configkey>
+    <priority>MAJOR</priority>
+    <name>C4475: '&lt;function&gt;' : length modifier '&lt;length&gt;' cannot be used with type field character '&lt;conversion-specifier&gt;' in format specifier</name>
+    <description>
+    <![CDATA[
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4475" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4475</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4476</key>
+    <configkey>C4476</configkey>
+    <priority>MAJOR</priority>
+    <name>C4476: '&lt;function&gt;' : unknown type field character '&lt;conversion-specifier&gt;' in format specifier</name>
+    <description>
+    <![CDATA[
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4476" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4476</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4477</key>
+    <configkey>C4477</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4477: '&lt;function&gt;' :format string '&lt;format-string&gt;' requires an argument of type '&lt;type&gt;', but variadic argument &lt;position&gt; has type '&lt;type&gt;'</name>
+    <description>
+    <![CDATA[
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4477" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4477</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4478</key>
+    <configkey>C4478</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4478: '&lt;function&gt;' : positional and non-positional placeholders cannot be mixed in the same format string</name>
+    <description>
+    <![CDATA[
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4478" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4478</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
     <key>C4480</key>
     <configkey>C4480</configkey>
     <priority>CRITICAL</priority>
@@ -4966,6 +5052,61 @@ Note that the compiler will not find type libraries in different directories if 
 This warning is, by default, issued as an error. C4772 can not be suppressed with /W0.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/sce74ah7.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/sce74ah7.aspx</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4774</key>
+    <configkey>C4774</configkey>
+    <priority>MINOR</priority>
+    <name>C4774: '&lt;function&gt;' : format string expected in argument &lt;position&gt; is not a string literal</name>
+    <description><![CDATA[<p>
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4774" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4774</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4775</key>
+    <configkey>C4775</configkey>
+    <priority>MAJOR</priority>
+    <name>C4775: nonstandard extension used in format string '&lt;format-string&gt;' of function '&lt;function&gt;'</name>
+    <description><![CDATA[<p>
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4775" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4775</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4776</key>
+    <configkey>C4776</configkey>
+    <priority>CRITICAL</priority>
+    <name>C4776: ‘%&lt;conversion-specifier&gt;' is not allowed in the format string of function '&lt;function&gt;'</name>
+    <description><![CDATA[<p>
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4776" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4776</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4777</key>
+    <configkey>C4777</configkey>
+    <priority>MINOR</priority>
+    <name>C4777: '&lt;function&gt;' : format string '&lt;format-string&gt;' requires an argument of type '&lt;type&gt;', but variadic argument &lt;position&gt; has type '&lt;type&gt;'</name>
+    <description><![CDATA[<p>
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4777" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4777</a></p>
+]]>
+    </description>
+  </rule>
+  <rule>
+    <key>C4778</key>
+    <configkey>C4778</configkey>
+    <priority>MAJOR</priority>
+    <name>C4778: '&lt;function&gt;' : unterminated format string '&lt;format-string&gt;'</name>
+    <description><![CDATA[<p>
+</p><h2>MSDN Documentation</h2>
+<p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4778" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4778</a></p>
 ]]>
     </description>
   </rule>
