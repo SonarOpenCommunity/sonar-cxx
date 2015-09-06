@@ -2931,7 +2931,96 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Object pointed by an &apos;auto_ptr&apos; is destroyed using operator &apos;delete&apos;. You should not use &apos;auto_ptr&apos; for pointers obtained with function &apos;malloc&apos;.
     </description>
   </rule>
-</rules>
+  <!-- ########### New in cppcheck 1.70 release ########### -->
+  <rule>
+    <key>negativeArraySize</key>
+    <configkey>negativeArraySize</configkey>
+    <name>Declaration of array &apos;identifier&apos; with negative size is undefined behaviour</name>
+    <description>
+      Declaration of array &apos;identifier&apos; with negative size is undefined behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>badBitmaskCheck</key>
+    <configkey>badBitmaskCheck</configkey>
+    <name>Result of operator &apos;|&apos; is always true if one operand is non-zero</name>
+    <description>
+      Result of operator &apos;|&apos; is always true if one operand is non-zero. Did you intend to use &apos;&amp;&apos;?
+    </description>
+  </rule>
+  <rule>
+    <key>knownConditionTrueFalse</key>
+    <configkey>knownConditionTrueFalse</configkey>
+    <name>Condition &apos;x&apos; is always true</name>
+    <description>
+      Condition &apos;x&apos; is always true.
+    </description>
+  </rule>
+  <rule>
+    <key>nullPointerDefaultArg</key>
+    <configkey>nullPointerDefaultArg</configkey>
+    <name>Possible null pointer dereference if the default parameter value is used: pointer</name>
+    <description>
+      Possible null pointer dereference if the default parameter value is used: pointer.
+    </description>
+  </rule>
+  <rule>
+    <key>nullPointerRedundantCheck</key>
+    <configkey>nullPointerRedundantCheck</configkey>
+    <name>Either the condition is redundant or there is possible null pointer dereference: pointer</name>
+    <description>
+      Either the condition is redundant or there is possible null pointer dereference: pointer.
+    </description>
+  </rule>
+  <rule>
+    <key>obsoleteFunctionsalloca</key>
+    <configkey>obsoleteFunctionsalloca</configkey>
+    <name>Obsolete function &apos;alloca&apos; called</name>
+    <description>
+      Obsolete function &apos;alloca&apos; called. In C99 and later it is recommended to use a variable length array instead.
+    </description>
+  </rule>
+  <rule>
+    <key>raceAfterInterlockedDecrement</key>
+    <configkey>raceAfterInterlockedDecrement</configkey>
+    <name>Race condition: non-interlocked access after InterlockedDecrement()</name>
+    <description>
+      Race condition: non-interlocked access after InterlockedDecrement(). Use InterlockedDecrement() return value instead.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedLabel</key>
+    <configkey>unusedLabel</configkey>
+    <name>Label &apos;identifier&apos; is not used</name>
+    <description>
+      Label &apos;identifier&apos; is not used.
+    </description>
+  </rule>
+  <rule>
+    <key>stringLiteralWrite</key>
+    <configkey>stringLiteralWrite</configkey>
+    <name>Modifying string literal directly or indirectly is undefined behaviour</name>
+    <description>
+      Modifying string literal directly or indirectly is undefined behaviour.
+    </description>
+  </rule>
+  <rule>
+    <key>truncLongCastAssignment</key>
+    <configkey>truncLongCastAssignment</configkey>
+    <name>int result is assigned to long variable (potential truncation)</name>
+    <description>
+      int result is assigned to long variable. If the variable is long to avoid loss of information, then you have loss of information.
+    </description>
+  </rule>
+  <rule>
+    <key>truncLongCastReturn</key>
+    <configkey>truncLongCastReturn</configkey>
+    <name>int result is returned as long value (potential truncation)</name>
+    <description>
+      int result is returned as long value. If the return value is long to avoid loss of information, then you have loss of information.
+    </description>
+  </rule>
+ </rules>
 
 
 <!-- ########### Deprecated as of 1.63 ########### -->

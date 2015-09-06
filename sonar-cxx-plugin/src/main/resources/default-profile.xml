@@ -1641,7 +1641,63 @@
       <key>va_start_wrongParameter</key>
       <priority>MAJOR</priority>
     </rule>
-
+    <!-- ########### New 1.70 ########### -->
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>negativeArraySize</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>badBitmaskCheck</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>knownConditionTrueFalse</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nullPointerDefaultArg</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>nullPointerRedundantCheck</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>obsoleteFunctionsalloca</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>raceAfterInterlockedDecrement</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>unusedLabel</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>stringLiteralWrite</key>
+      <priority>CRITICAL</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>truncLongCastAssignment</key>
+      <priority>MINOR</priority>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck</repositoryKey>
+      <key>truncLongCastReturn</key>
+      <priority>MINOR</priority>
+    </rule>
+    
     <!-- ##############################################  -->
     <!-- ################# rats rules #################  -->
     <!-- ##############################################  -->
