@@ -20,6 +20,10 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +53,7 @@ public final class CxxUtils {
     }
     return file.getAbsolutePath();
   }
-
+  
   /**
    * Normalize the given path to pass it to sonar. Return null if normalization
    * has failed.
@@ -78,8 +82,32 @@ public final class CxxUtils {
     return filePath;
   }
 
+  
+  /**
+   * @return returns true for Reactor Projects
+   */
   public static boolean isReactorProject(Project project) {
     return project.isRoot() && !project.getModules().isEmpty();
+  }
+  
+  /**
+   * @return returns number of Lines of a File
+   */
+  public static int countLines(String normalPath) {
+    LineNumberReader reader;
+    int cnt = 0;    
+    try {
+      reader = new LineNumberReader(new FileReader(normalPath));
+      String lineRead = "";
+      while ((lineRead = reader.readLine()) != null) {}
+      cnt = reader.getLineNumber() + 1; 
+      reader.close();
+    } catch (FileNotFoundException e) {
+      LOG.error("countLines of '{}' failed: '{}'", normalPath, e.toString());
+    } catch (IOException e1) {
+      LOG.error("countLines of '{}' failed: '{}'", normalPath, e1.toString());
+    }
+    return cnt;
   }
 }
 
