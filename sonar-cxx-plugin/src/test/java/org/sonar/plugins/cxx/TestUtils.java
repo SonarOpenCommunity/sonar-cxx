@@ -47,9 +47,11 @@ import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 
-
 public class TestUtils {
 
+  private final static String OS = System.getProperty("os.name").toLowerCase();
+  private final static boolean upperCaseRoot = Character.isUpperCase(System.getProperty("java.home").charAt(0));
+   
   public static Issuable mockIssuable() {
     Issue issue = mock(Issue.class);
     Issuable.IssueBuilder issueBuilder = mock(Issuable.IssueBuilder.class);
@@ -59,6 +61,7 @@ public class TestUtils {
     when(issueBuilder.message((String)anyObject())).thenReturn(issueBuilder);
     Issuable issuable = mock(Issuable.class);
     when(issuable.newIssueBuilder()).thenReturn(issueBuilder);
+    when(issuable.addIssue((Issue)anyObject())).thenReturn(Boolean.TRUE);
     return issuable;
   }
 
@@ -154,7 +157,37 @@ public class TestUtils {
   public static CxxLanguage mockCxxLanguage() {
     return new CxxLanguage(new Settings());
   }
-
+  
+  public static void addInputFile(DefaultFileSystem fs,
+    ResourcePerspectives perspectives,
+    Issuable issuable,
+    String path) {
+    DefaultInputFile inputFile = null;
+    File file = new File(path);
+    if (file.isAbsolute()) {
+      if (upperCaseRoot && isWindows()) {        
+        // workaround: on some Windows system drive letter can be upper or lower case
+        StringBuilder temp = new StringBuilder(path);
+        temp.setCharAt(0, Character.toUpperCase(temp.charAt(0)));
+        path = temp.toString();
+      }
+      inputFile = new DefaultInputFile(path);
+      inputFile.setAbsolutePath(path);
+    } else {
+      inputFile = new DefaultInputFile(path);
+      inputFile.setAbsolutePath(new java.io.File(fs.baseDir(), path).getAbsolutePath());
+    }
+    inputFile.setType(InputFile.Type.MAIN);
+    inputFile.setLanguage(CxxLanguage.KEY);
+    inputFile.setLines(1);
+    when(perspectives.as(Issuable.class, inputFile)).thenReturn(issuable);
+    fs.add(inputFile);
+  }
+  
+  public static boolean isWindows() {
+    return (OS.indexOf("win") >= 0);
+  }
+  
   private static void scanDirs(DefaultFileSystem fs, File baseDir, List<File> dirs, Type ftype) {
     if (dirs == null){
       return;

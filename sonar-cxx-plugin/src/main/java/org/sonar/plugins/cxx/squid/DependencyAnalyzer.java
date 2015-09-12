@@ -27,6 +27,7 @@ import java.util.Map;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.ActiveRule;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.design.Dependency;
 import org.sonar.api.issue.Issuable;
@@ -79,7 +80,8 @@ public class DependencyAnalyzer {
     this.cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(rules);
   }
 
-  public void addFile(File sonarFile, Collection<CxxPreprocessor.Include> includedFiles) {
+  public void addFile(InputFile inputFile, Collection<CxxPreprocessor.Include> includedFiles) {
+    File sonarFile = File.fromIOFile(inputFile.file(), project); //@todo fromIOFile: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     //Store the directory and file
     Directory sonarDir = sonarFile.getParent();
     packagesGraph.addVertex(sonarDir);
@@ -88,7 +90,7 @@ public class DependencyAnalyzer {
     //Build the dependency graph
     Map<String, Integer> firstIncludeLine = new HashMap<String, Integer>();
     for (CxxPreprocessor.Include include : includedFiles) {
-      File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project);
+      File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project); //@todo fromIOFile: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       String includedFilePath = includedFile != null ? includedFile.getPath() : include.getPath();
       Integer prevIncludeLine = firstIncludeLine.put(includedFilePath, include.getLine());
       if (prevIncludeLine != null) {

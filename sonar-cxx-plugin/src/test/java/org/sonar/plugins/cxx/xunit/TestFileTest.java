@@ -19,76 +19,78 @@
  */
 package org.sonar.plugins.cxx.xunit;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestResourceTest {
-  TestResource resource;
-  TestResource equalResource;
-  TestResource otherResource;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class TestFileTest {
+  TestFile testFile;
 
   @Before
   public void setUp() {
-    resource = new TestResource(null);
+    InputFile inputFile = new DefaultInputFile("test.cpp");
+    testFile = new TestFile(inputFile);
   }
 
   @Test
-  public void newBornResourceShouldHaveVirginStatistics() {
-    assertEquals(resource.getTests(), 0);
-    assertEquals(resource.getErrors(), 0);
-    assertEquals(resource.getFailures(), 0);
-    assertEquals(resource.getSkipped(), 0);
-    assertEquals(resource.getTime(), 0);
-    assertEquals(resource.getDetails(), "<tests-details></tests-details>");
+  public void newBornTestFileShouldHaveVirginStatistics() {
+    assertEquals(testFile.getTests(), 0);
+    assertEquals(testFile.getErrors(), 0);
+    assertEquals(testFile.getFailures(), 0);
+    assertEquals(testFile.getSkipped(), 0);
+    assertEquals(testFile.getTime(), 0);
+    assertEquals(testFile.getDetails(), "<tests-details></tests-details>");
   }
 
   @Test
   public void addingTestCaseShouldIncrementStatistics() {
-    int testBefore = resource.getTests();
-    int timeBefore = resource.getTime();
+    int testBefore = testFile.getTests();
+    int timeBefore = testFile.getTime();
 
     final int EXEC_TIME = 10;
-    resource.addTestCase(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
+    testFile.addTestCase(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
                                       "classname", "tcfilename", "tsname", "tsfilename"));
 
-    assertEquals(resource.getTests(), testBefore + 1);
-    assertEquals(resource.getTime(), timeBefore + EXEC_TIME);
+    assertEquals(testFile.getTests(), testBefore + 1);
+    assertEquals(testFile.getTime(), timeBefore + EXEC_TIME);
   }
 
   @Test
   public void addingAnErroneousTestCaseShouldIncrementErrorStatistic() {
-    int errorsBefore = resource.getErrors();
+    int errorsBefore = testFile.getErrors();
     TestCase error = mock(TestCase.class);
     when(error.isError()).thenReturn(true);
 
-    resource.addTestCase(error);
+    testFile.addTestCase(error);
 
-    assertEquals(resource.getErrors(), errorsBefore + 1);
+    assertEquals(testFile.getErrors(), errorsBefore + 1);
   }
 
   @Test
   public void addingAFailedTestCaseShouldIncrementFailedStatistic() {
-    int failedBefore = resource.getFailures();
+    int failedBefore = testFile.getFailures();
     TestCase failedTC = mock(TestCase.class);
     when(failedTC.isFailure()).thenReturn(true);
 
-    resource.addTestCase(failedTC);
+    testFile.addTestCase(failedTC);
 
-    assertEquals(resource.getFailures(), failedBefore + 1);
+    assertEquals(testFile.getFailures(), failedBefore + 1);
   }
 
   @Test
   public void addingASkippedTestCaseShouldIncrementSkippedStatistic() {
-    int skippedBefore = resource.getSkipped();
+    int skippedBefore = testFile.getSkipped();
     TestCase skippedTC = mock(TestCase.class);
     when(skippedTC.isSkipped()).thenReturn(true);
 
-    resource.addTestCase(skippedTC);
+    testFile.addTestCase(skippedTC);
 
-    assertEquals(resource.getSkipped(), skippedBefore + 1);
+    assertEquals(testFile.getSkipped(), skippedBefore + 1);
   }
 }

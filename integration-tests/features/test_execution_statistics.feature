@@ -25,8 +25,8 @@ Feature: Providing test execution numbers
   # |   mode it just aggregates the measures contained in the reports
   # |   and saves the result in the project, skipping all the testcase
   # |   details. In detailed mode, the plugin tries to find the
-  # |   resources (=test source files) where the testcases are
-  # |   implemented in and saves the measures to those resources.
+  # |   test source files where the testcases are implemented in
+  # |   and saves the measures to those input files.
   # |
   # | * To locate the test source file for assigning, there are
   # |   two strategies:
@@ -112,7 +112,7 @@ Feature: Providing test execution numbers
               """
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
-              .*WARN.*no resource found, the testcase '.*' has to be skipped
+              .*WARN.*no input file found, the testcase '.*' has to be skipped
               .*WARN.*Some testcases had to be skipped, check the relevant parts of your setup.*
               """
           AND the test related metrics have following values: <values>

@@ -19,27 +19,25 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.bootstrap.ProjectReactor;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException; //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
 
 public class CxxExternalRulesSensorTest {
 
@@ -48,13 +46,13 @@ public class CxxExternalRulesSensorTest {
   private Project project;
   private RulesProfile profile;
   private Settings settings;
-  private FileSystem fs;
+  private DefaultFileSystem fs;
   private Issuable issuable;
   private ProjectReactor reactor;
   private ResourcePerspectives perspectives;
 
   @Before
-  public void setUp() {
+  public void setUp() {    
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
@@ -63,13 +61,13 @@ public class CxxExternalRulesSensorTest {
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
     settings = new Settings();
-    File resourceMock = mock(File.class);
-    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");  
     sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(2)).addIssue(any(Issue.class));
@@ -79,6 +77,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportFileLevelViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-filelevelviolation.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
@@ -122,6 +121,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));

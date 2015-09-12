@@ -19,17 +19,8 @@
  */
 package org.sonar.plugins.cxx.veraxx;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
@@ -38,13 +29,21 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 public class CxxVeraxxSensorTest {
   private CxxVeraxxSensor sensor;
   private SensorContext context;
   private Project project;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
-  private FileSystem fs;
+  private DefaultFileSystem fs;
 
   @Before
   public void setUp() {
@@ -56,12 +55,16 @@ public class CxxVeraxxSensorTest {
     settings.setProperty(CxxVeraxxSensor.REPORT_PATH_KEY, "vera++-reports/vera++-result-*.xml");
     sensor = new CxxVeraxxSensor(perspectives, settings, fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
-    org.sonar.api.resources.File resourceMock = mock(org.sonar.api.resources.File.class);
-    when(context.getResource((org.sonar.api.resources.File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.h");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/main.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");
     sensor.analyse(project, context);
     verify(issuable, times(10)).addIssue(any(Issue.class));
   }

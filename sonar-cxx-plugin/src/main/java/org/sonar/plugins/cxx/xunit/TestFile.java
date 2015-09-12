@@ -21,33 +21,33 @@ package org.sonar.plugins.cxx.xunit;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.sonar.api.batch.fs.InputFile;
 
 /**
- * Represents a test resource in Sonar, i.e. a source code file which
- * implements tests.  Holds all testcases along with all measures
+ * Represents a test file in Sonar, i.e. a source code file which
+ * implements tests.  Holds all test cases along with all measures
  * collected from the reports.
  */
-public class TestResource {
+public class TestFile {
   private int errors = 0;
   private int skipped = 0;
   private int tests = 0;
   private int time = 0;
   private int failures = 0;
   private List<TestCase> testCases;
-  private org.sonar.api.resources.File sonarResource = null;
+  private InputFile inputFile = null;
 
   /**
-   * Creates a test resource instance which corresponds and represents the
-   * passed resources.File instance
-   * @param sonarResource The resource in SQ which this TestResource proxies
+   * Creates a test file instance which corresponds and represents the passed InputFile instance
+   * @param inputFile The InputFile in SQ which this TestFile proxies
    */
-  public TestResource(org.sonar.api.resources.File sonarResource) {
-    this.sonarResource = sonarResource;
+  public TestFile(InputFile inputFile) {
+    this.inputFile = inputFile;
     this.testCases = new ArrayList<TestCase>();
   }
 
   public String getKey() {
-    return sonarResource.getKey();
+    return inputFile.absolutePath();
   }
 
   public int getErrors() {
@@ -71,8 +71,7 @@ public class TestResource {
   }
 
   /**
-   * Adds the given test case to this testresource maintaining the
-   * internal statistics
+   * Adds the given test case to this test file maintaining the internal statistics
    * @param tc the test case to add
    */
   public void addTestCase(TestCase tc) {
@@ -101,7 +100,7 @@ public class TestResource {
     return details.toString();
   }
 
-  public org.sonar.api.resources.File getSonarResource() {
-    return sonarResource;
+  public InputFile getInputFile() {
+    return inputFile;
   }
 }

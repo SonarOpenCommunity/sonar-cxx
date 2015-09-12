@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx.xunit;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,7 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
@@ -52,8 +50,6 @@ public class MSTestResultsProviderTest {
     new DefaultFileSystem();
     project = TestUtils.mockProject();
     context = mock(SensorContext.class);
-    File resourceMock = mock(File.class);
-    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
     }
 
   @Test
