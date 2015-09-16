@@ -19,32 +19,30 @@
  */
 package org.sonar.plugins.cxx.rats;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class CxxRatsSensorTest {
 
   private CxxRatsSensor sensor;
   private SensorContext context;
   private Project project;
-  private FileSystem fs;
+  private DefaultFileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
@@ -58,12 +56,12 @@ public class CxxRatsSensorTest {
     settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
     sensor = new CxxRatsSensor(perspectives, settings, fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
-    File resourceMock = mock(File.class);
-    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "report.c");
     sensor.analyse(project, context);
     verify(issuable, times(5)).addIssue(any(Issue.class));
   }

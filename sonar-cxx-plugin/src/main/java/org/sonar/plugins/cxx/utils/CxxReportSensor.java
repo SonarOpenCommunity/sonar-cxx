@@ -30,6 +30,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
@@ -209,13 +210,12 @@ public abstract class CxxReportSensor implements Sensor {
    * Saves code violation only if unique.
    * Compares file, line, ruleId and msg.
    */
-  public boolean saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
-                                        String file, String line, String ruleId, String msg) {
+  public void saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
+    String file, String line, String ruleId, String msg) {
 
     if (uniqueIssues.add(file + line + ruleId + msg)) { // StringBuilder is slower
-      return saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
+      saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
     }
-    return false;
   }
 
   /**
@@ -225,67 +225,60 @@ public abstract class CxxReportSensor implements Sensor {
    * according parameters ('file' = null for project level, 'line' = null for
    * file-level)
    */
-  private boolean saveViolation(Project project, SensorContext context, String ruleRepoKey,
+  private void saveViolation(Project project, SensorContext context, String ruleRepoKey,
     String filename, String line, String ruleId, String msg) {
-    boolean add = false;
-    Resource resource = null;
+    Issuable issuable = null;
     int lineNr = 0;
     // handles file="" situation -- file level
     if ((filename != null) && (filename.length() > 0)) {
       String root = reactor.getRoot().getBaseDir().getAbsolutePath();
       String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
-        org.sonar.api.resources.File file
-          = org.sonar.api.resources.File.fromIOFile(new File(normalPath), project);
-        if (context.getResource(file) != null) {
-          lineNr = getLineAsInt(line);
-          resource = file;
-          add = true;
+        InputFile inputFile = fs.inputFile(fs.predicates().is(new File(normalPath)));
+        if (inputFile != null) {
+          lineNr = getLineAsInt(line, inputFile.lines());
+          issuable = perspectives.as(Issuable.class, inputFile);
         } else {
           CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
           notFoundFiles.add(normalPath);
         }
       }
     } else { // project level
-      resource = project;
-      add = true;
+      issuable = perspectives.as(Issuable.class, (Resource) project);
     }
 
-    if (add) {
-      add = contextSaveViolation(resource, lineNr, RuleKey.of(ruleRepoKey, ruleId), msg);
-    }
-
-    return add;
-  }
-
-  private boolean contextSaveViolation(Resource resource, int lineNr, RuleKey rule, String msg) {
-    Issuable issuable = perspectives.as(Issuable.class, resource);
-    boolean result = false;
     if (issuable != null) {
-      Issuable.IssueBuilder issueBuilder = issuable.newIssueBuilder()
-          .ruleKey(rule)
-          .message(msg);
-      if (lineNr > 0) {
-        issueBuilder = issueBuilder.line(lineNr);
-      }
-      Issue issue = issueBuilder.build();
-      try{
-        result = issuable.addIssue(issue);
-      } catch (org.sonar.api.utils.MessageException me){
-        CxxUtils.LOG.error("Could not add the issue, details: '{}'", me.toString());
-      }
-      if (result)
-        violationsCount++;
+      addIssue(issuable, lineNr, RuleKey.of(ruleRepoKey, ruleId), msg);
     }
-    return result;
   }
 
-  private int getLineAsInt(String line) {
+  private void addIssue(Issuable issuable, int lineNr, RuleKey rule, String msg) {
+    Issuable.IssueBuilder issueBuilder = issuable.newIssueBuilder()
+      .ruleKey(rule)
+      .message(msg);
+    if (lineNr > 0) {
+      issueBuilder = issueBuilder.line(lineNr);
+    }
+    Issue issue = issueBuilder.build();
+    try {
+      if (issuable.addIssue(issue)) {
+        violationsCount++;
+      }
+    } catch (org.sonar.api.utils.MessageException me) {
+      CxxUtils.LOG.error("Could not add the issue, details: '{}'", me.toString());
+    }
+  }
+
+  private int getLineAsInt(String line, int maxLine) {
     int lineNr = 0;
     if (line != null) {
       try {
         lineNr = Integer.parseInt(line);
-        lineNr = lineNr == 0 ? 1 : lineNr;
+        if (lineNr < 1) {
+          lineNr = 1;
+        } else if (lineNr > maxLine) { // https://jira.sonarsource.com/browse/SONAR-6792
+          lineNr = maxLine;
+        }
       } catch (java.lang.NumberFormatException nfe) {
         CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
         lineNr = -1;

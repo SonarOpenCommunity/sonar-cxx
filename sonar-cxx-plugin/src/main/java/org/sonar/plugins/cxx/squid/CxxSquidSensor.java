@@ -177,17 +177,17 @@ public final class CxxSquidSensor implements Sensor {
   private void save(Collection<SourceCode> squidSourceFiles) {
     int violationsCount = 0;
     DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(resourcePerspectives, project, context, rules);
+
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
       File ioFile = new File(squidFile.getKey());
+      InputFile inputFile = fs.inputFile(fs.predicates().is(ioFile));
 
-      org.sonar.api.resources.File sonarFile = org.sonar.api.resources.File.fromIOFile(ioFile, project); //@todo fromIOFile: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-
-      saveMeasures(sonarFile, squidFile);
-      saveFilesComplexityDistribution(sonarFile, squidFile);
-      saveFunctionsComplexityDistribution(sonarFile, squidFile);
-      violationsCount += saveViolations(sonarFile, squidFile);
-      dependencyAnalyzer.addFile(sonarFile, CxxParser.getIncludedFiles(ioFile));
+      saveMeasures(inputFile, squidFile);
+      saveFilesComplexityDistribution(inputFile, squidFile);
+      saveFunctionsComplexityDistribution(inputFile, squidFile);
+      violationsCount += saveViolations(inputFile, squidFile);
+      dependencyAnalyzer.addFile(inputFile, CxxParser.getIncludedFiles(ioFile));
     }
 
     Measure measure = new Measure(CxxMetrics.SQUID);
@@ -196,39 +196,39 @@ public final class CxxSquidSensor implements Sensor {
     dependencyAnalyzer.save();
   }
 
-  private void saveMeasures(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
-    context.saveMeasure(sonarFile, CoreMetrics.FILES, squidFile.getDouble(CxxMetric.FILES));
-    context.saveMeasure(sonarFile, CoreMetrics.LINES, squidFile.getDouble(CxxMetric.LINES));
-    context.saveMeasure(sonarFile, CoreMetrics.NCLOC, squidFile.getDouble(CxxMetric.LINES_OF_CODE));
-    context.saveMeasure(sonarFile, CoreMetrics.STATEMENTS, squidFile.getDouble(CxxMetric.STATEMENTS));
-    context.saveMeasure(sonarFile, CoreMetrics.FUNCTIONS, squidFile.getDouble(CxxMetric.FUNCTIONS));
-    context.saveMeasure(sonarFile, CoreMetrics.CLASSES, squidFile.getDouble(CxxMetric.CLASSES));
-    context.saveMeasure(sonarFile, CoreMetrics.COMPLEXITY, squidFile.getDouble(CxxMetric.COMPLEXITY));
-    context.saveMeasure(sonarFile, CoreMetrics.COMMENT_LINES, squidFile.getDouble(CxxMetric.COMMENT_LINES));
-    context.saveMeasure(sonarFile, CoreMetrics.PUBLIC_API, squidFile.getDouble(CxxMetric.PUBLIC_API));
-    context.saveMeasure(sonarFile, CoreMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getDouble(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+  private void saveMeasures(InputFile inputFile, SourceFile squidFile) {
+    context.saveMeasure(inputFile, CoreMetrics.FILES, squidFile.getDouble(CxxMetric.FILES));
+    context.saveMeasure(inputFile, CoreMetrics.LINES, squidFile.getDouble(CxxMetric.LINES));
+    context.saveMeasure(inputFile, CoreMetrics.NCLOC, squidFile.getDouble(CxxMetric.LINES_OF_CODE));
+    context.saveMeasure(inputFile, CoreMetrics.STATEMENTS, squidFile.getDouble(CxxMetric.STATEMENTS));
+    context.saveMeasure(inputFile, CoreMetrics.FUNCTIONS, squidFile.getDouble(CxxMetric.FUNCTIONS));
+    context.saveMeasure(inputFile, CoreMetrics.CLASSES, squidFile.getDouble(CxxMetric.CLASSES));
+    context.saveMeasure(inputFile, CoreMetrics.COMPLEXITY, squidFile.getDouble(CxxMetric.COMPLEXITY));
+    context.saveMeasure(inputFile, CoreMetrics.COMMENT_LINES, squidFile.getDouble(CxxMetric.COMMENT_LINES));
+    context.saveMeasure(inputFile, CoreMetrics.PUBLIC_API, squidFile.getDouble(CxxMetric.PUBLIC_API));
+    context.saveMeasure(inputFile, CoreMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getDouble(CxxMetric.PUBLIC_UNDOCUMENTED_API));
   }
 
-  private void saveFunctionsComplexityDistribution(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
+  private void saveFunctionsComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
     Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceFunction.class));
     RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION, FUNCTIONS_DISTRIB_BOTTOM_LIMITS);
     for (SourceCode squidFunction : squidFunctionsInFile) {
       complexityDistribution.add(squidFunction.getDouble(CxxMetric.COMPLEXITY));
     }
-    context.saveMeasure(sonarFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+    context.saveMeasure(inputFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
   }
 
-  private void saveFilesComplexityDistribution(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
+  private void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
     RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION, FILES_DISTRIB_BOTTOM_LIMITS);
     complexityDistribution.add(squidFile.getDouble(CxxMetric.COMPLEXITY));
-    context.saveMeasure(sonarFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+    context.saveMeasure(inputFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
   }
 
-  private int saveViolations(org.sonar.api.resources.File sonarFile, SourceFile squidFile) {
+  private int saveViolations(InputFile inputFile, SourceFile squidFile) {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     int violationsCount = 0;
     if (messages != null) {
-      Issuable issuable = resourcePerspectives.as(Issuable.class, sonarFile);
+      Issuable issuable = resourcePerspectives.as(Issuable.class, inputFile);
       if (issuable != null) {
         for (CheckMessage message : messages) {
           Issue issue = issuable.newIssueBuilder()

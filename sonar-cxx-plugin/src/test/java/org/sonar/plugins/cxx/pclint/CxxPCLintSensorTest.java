@@ -19,35 +19,34 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.SonarException; //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 public class CxxPCLintSensorTest {
+
   private SensorContext context;
   private Project project;
   private RulesProfile profile;
   private ResourcePerspectives perspectives;
   private Issuable issuable;
-  private FileSystem fs;
+  private DefaultFileSystem fs;
   private ProjectReactor reactor;
 
   @Before
@@ -59,23 +58,25 @@ public class CxxPCLintSensorTest {
     perspectives = TestUtils.mockPerspectives(issuable);
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
-    File resourceMock = mock(File.class);
-    when(context.getResource((File) anyObject())).thenReturn(resourceMock);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.h");
+    TestUtils.addInputFile(fs, perspectives, issuable, "ZipManager.cpp");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
-    verify(issuable, times(15)).addIssue(any(Issue.class));
+    verify(issuable, times(14)).addIssue(any(Issue.class));
   }
 
   @Test
   public void shouldReportCorrectMisra2004Violations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(29)).addIssue(any(Issue.class));
@@ -85,23 +86,26 @@ public class CxxPCLintSensorTest {
   public void shouldReportCorrectMisra2004PcLint9Violations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }
-  
-  @Test(expected=SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+
+  @Test(expected = SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowExceptionWhenMisra2004DescIsWrong() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
   }
 
-  @Test(expected=SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+  @Test(expected = SonarException.class) //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
   public void shouldThrowExceptionWhenMisra2004RuleDoNotExist() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
   }
@@ -110,6 +114,7 @@ public class CxxPCLintSensorTest {
   public void shouldNotRemapMisra1998Rules() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));

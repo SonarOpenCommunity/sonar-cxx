@@ -32,13 +32,12 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.File;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -46,7 +45,7 @@ public class CxxValgrindSensorTest {
   private CxxValgrindSensor sensor;
   private SensorContext context;
   private Project project;
-  private FileSystem fs;
+  private DefaultFileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
 
@@ -58,8 +57,6 @@ public class CxxValgrindSensorTest {
     perspectives = TestUtils.mockPerspectives(issuable);
     sensor = new CxxValgrindSensor(perspectives, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());
     context = mock(SensorContext.class);
-    File resourceMock = mock(File.class);
-    when(context.getResource(any(File.class))).thenReturn(resourceMock);
   }
 
   @Test
@@ -71,6 +68,7 @@ public class CxxValgrindSensorTest {
   public void shouldSaveViolationIfErrorIsInside() {
     Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(true));
+    TestUtils.addInputFile(fs, perspectives, issuable, "dir/file");
     sensor.saveErrors(project, context, valgrindErrors);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }
