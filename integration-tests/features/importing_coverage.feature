@@ -65,7 +65,7 @@ Feature: Importing coverage data
 
   Scenario: Zeroing coverage measures without importing reports
 
-      If we dont pass coverage reports *and* request zeroing untouched
+      If we don't pass coverage reports *and* request zeroing untouched
       files at the same time, all coverage measures, except the branch
       ones, should be 'zero'. The branch coverage measures remain 'None',
       since its currently ignored by the 'force zero...'
@@ -73,12 +73,19 @@ Feature: Importing coverage data
 
       GIVEN the project "coverage_project"
 
-      WHEN I run "sonar-runner -Dsonar.cxx.coverage.forceZeroCoverage=True"
+      WHEN I run sonar-runner with following options:
+          """
+          -Dsonar.cxx.coverage.reportPath=dummy.xml
+          -Dsonar.cxx.coverage.itReportPath=dummy.xml
+          -Dsonar.cxx.coverage.overallReportPath=dummy.xml
+          -Dsonar.cxx.coverage.forceZeroCoverage=True
+          """
 
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*cannot find the sources for '#include <iostream>'
+              .*WARN.*Cannot find a report for '.*'
               """
           AND the following metrics have following values:
               | metric                  | value |
