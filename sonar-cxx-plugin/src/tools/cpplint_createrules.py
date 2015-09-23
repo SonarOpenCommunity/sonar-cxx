@@ -31,6 +31,14 @@ def WriteUpdateFile(filename):
     global _FILE_LINES
     filetowrite = open(filename, 'w')   
     for linei in _FILE_LINES:                   
+        if linei.startswith('        if category in _ERROR_CATEGORIES:'):
+            filetowrite.write('        for value in _ERROR_CATEGORIES:\n')
+            filetowrite.write('          if category.startswith(value):\n')
+            filetowrite.write('            category = value\n')
+        if linei.startswith('  return (linenum in _error_suppressions.get(category, set()) or'):
+            filetowrite.write('  for key in _error_suppressions.keys():\n')
+            filetowrite.write('    if category.startswith(key):\n')
+            filetowrite.write('      category = key\n')
         filetowrite.write(linei)
                                                         
     filetowrite.close()
