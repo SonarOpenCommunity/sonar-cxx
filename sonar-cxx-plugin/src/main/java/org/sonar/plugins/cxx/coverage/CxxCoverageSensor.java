@@ -48,7 +48,9 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CxxCoverageSensor extends CxxReportSensor {
+
   private enum CoverageType {
+
     UT_COVERAGE, IT_COVERAGE, OVERALL_COVERAGE
   }
 
@@ -57,8 +59,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
   public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
 
-  private List<CoverageParser> parsers = new LinkedList<CoverageParser>();
-    private final ProjectReactor reactor;
+  private List<CoverageParser> parsers = new LinkedList<>();
+  private final ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
@@ -77,12 +79,11 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public boolean shouldExecuteOnProject(Project project) {
     return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY))
       && (isForceZeroCoverageActivated()
-          || conf.hasKey(REPORT_PATH_KEY)
-          || conf.hasKey(IT_REPORT_PATH_KEY)
-          || conf.hasKey(OVERALL_REPORT_PATH_KEY)
-      );
+      || conf.hasKey(REPORT_PATH_KEY)
+      || conf.hasKey(IT_REPORT_PATH_KEY)
+      || conf.hasKey(OVERALL_REPORT_PATH_KEY));
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -130,8 +131,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   private Map<String, CoverageMeasuresBuilder> processReports(final Project project, final SensorContext context, List<File> reports) {
-    Map<String, CoverageMeasuresBuilder> measuresTotal = new HashMap<String, CoverageMeasuresBuilder>();
-    Map<String, CoverageMeasuresBuilder> measuresForReport = new HashMap<String, CoverageMeasuresBuilder>();
+    Map<String, CoverageMeasuresBuilder> measuresTotal = new HashMap<>();
+    Map<String, CoverageMeasuresBuilder> measuresForReport = new HashMap<>();
 
     for (File report : reports) {
       CxxUtils.LOG.info("Processing report '{}'", report);
@@ -195,16 +196,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
     for (InputFile inputFile : inputFiles) {
       String filePath = CxxUtils.normalizePath(inputFile.absolutePath());
 
-      if (coverageMeasures == null || coverageMeasures.get(filePath) == null) {
-        saveZeroValueForResource(inputFile, filePath, context, CoverageType.UT_COVERAGE);
+      if (conf.hasKey(REPORT_PATH_KEY)) {
+        if (coverageMeasures == null || coverageMeasures.get(filePath) == null) {
+          saveZeroValueForResource(inputFile, filePath, context, CoverageType.UT_COVERAGE);
+        }
       }
 
-      if (itCoverageMeasures == null || itCoverageMeasures.get(filePath) == null) {
-        saveZeroValueForResource(inputFile, filePath, context, CoverageType.IT_COVERAGE);
+      if (conf.hasKey(IT_REPORT_PATH_KEY)) {
+        if (itCoverageMeasures == null || itCoverageMeasures.get(filePath) == null) {
+          saveZeroValueForResource(inputFile, filePath, context, CoverageType.IT_COVERAGE);
+        }
       }
 
-      if (overallCoverageMeasures == null || overallCoverageMeasures.get(filePath) == null) {
-        saveZeroValueForResource(inputFile, filePath, context, CoverageType.OVERALL_COVERAGE);
+      if (conf.hasKey(OVERALL_REPORT_PATH_KEY)) {
+        if (overallCoverageMeasures == null || overallCoverageMeasures.get(filePath) == null) {
+          saveZeroValueForResource(inputFile, filePath, context, CoverageType.OVERALL_COVERAGE);
+        }
       }
     }
   }
