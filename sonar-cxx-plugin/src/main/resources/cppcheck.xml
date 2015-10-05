@@ -93,6 +93,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Array index out of bounds.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>bufferAccessOutOfBounds</key>
@@ -109,6 +110,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Index is out of bounds: Supplied size is larger than actual size.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>terminateStrncpy</key>
@@ -143,6 +145,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Undefined behavior: pointer arithmetic result does not point
       into or just past the end of the array.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>arrayIndexThenCheck</key>
@@ -962,6 +965,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       copying takes place between objects that overlap as a result of a call
       to sprintf() or snprintf(), the results are undefined".
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>staticStringCompare</key>
@@ -986,6 +990,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Division by zero.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>wrongmathcall</key>
@@ -994,6 +999,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Passing value &apos;#&apos; to #() leads to implementation-defined result.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>fflushOnInputStream</key>
@@ -1405,6 +1411,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       'delete'. Calling 'delete' an an pointer obtained with 'new[]' leads
       to undefined behavior.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>uninitstring</key>
@@ -1539,6 +1546,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       An include file cannot be found.
     </description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>preprocessorErrorDirective</key>
@@ -1632,6 +1640,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       BOOST_FOREACH caches the end() iterator. It's undefined behavior
       if you modify the container.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>compareBoolExpressionWithInt</key>
@@ -1657,6 +1666,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       A boolean comparison with the string literal is always true.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>stringCompare</key>
@@ -1716,6 +1726,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Passing negative values to the functions of the ctype-family
       (isalnum|isalpha|isascii|is..) causes undefined behavior.
     </description>
+    <tag>bug</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.53 ########### -->
@@ -1863,6 +1874,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Member variable is not initialized in the constructor.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>redundantCondition</key>
@@ -1871,6 +1883,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Redundant condition: If x &gt; 11 the condition x &gt; 10 is always true.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>invalidPointerCast</key>
@@ -1965,6 +1978,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Returning/dereferencing variable after it is deallocated / released.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>invalidScanfFormatWidth</key>
@@ -2136,6 +2150,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Shifting by a negative value is undefined behaviour.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>unknownPattern</key>
@@ -2362,6 +2377,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Include files not found. Please note: Cppcheck does not need standard library headers to get proper results.
     </description>
+    <tag>tool-error</tag>
   </rule>
 
   <rule>
@@ -2417,6 +2433,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Passing NULL after the last typed argument to a variadic function leads to undefined behavior.
     </description>
+    <tag>bug</tag>
   </rule>
 
   <rule>
@@ -2472,6 +2489,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       When using void pointers in calculations, the behavior is undefined.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>commaSeparatedReturn</key>
@@ -2492,6 +2510,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Using NaN/Inf in a computation.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>sizeofDereferencedVoidPointer</key>
@@ -2502,6 +2521,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       The behavior of 'sizeof(void)' is not covered by the ISO C standard.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>sizeofVoid</key>
@@ -2512,6 +2532,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Behavior of 'sizeof(void)' is not covered by the ISO C standard.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>wrongPrintfScanfParameterPositionError</key>
@@ -2522,6 +2543,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       printf: referencing parameter 2 while 1 arguments given.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>obsoleteFunctionsctime_r</key>
@@ -2560,6 +2582,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       %f in format string requires 'float *' but the argument type is Unknown.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>invalidScanfArgType_s</key>
@@ -2568,6 +2591,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       %s in format string requires a 'char *' but the argument type is Unknown.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>comparisonFunctionIsAlwaysTrueOrFalse</key>
@@ -2576,6 +2600,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Comparison of two identical variables with isless(varName,varName) evaluates always to false.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>zerodivcond</key>
@@ -2602,6 +2627,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Converting pointer arithmetic result to bool. The bool is always true unless there is undefined behaviour.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>leakReturnValNotUsed</key>
@@ -2652,6 +2678,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       The 2nd memset() argument doesn't fit into an 'unsigned char'.
     </description>
+    <tag>bug</tag>
   </rule>
     <!-- ########### New in cppcheck 1.65 ########### -->
   <rule>
@@ -2703,6 +2730,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       The array access using this index may be out of bounds.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>charLiteralWithCharPtrCompare</key>
@@ -2841,6 +2869,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Using reference &apos;arg1&apos; as parameter for va_start() results in undefined behaviour.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>va_start_subsequentCalls</key>
@@ -2874,6 +2903,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Same expression in both branches of ternary operator.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>noExplicitConstructor</key>
@@ -2898,6 +2928,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       No &apos;return&apos; statement in non-void function causes undefined behavior.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>operatorEqShouldBeLeftUnimplemented</key>
@@ -2939,6 +2970,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Declaration of array &apos;identifier&apos; with negative size is undefined behaviour.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>badBitmaskCheck</key>
@@ -2947,6 +2979,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Result of operator &apos;|&apos; is always true if one operand is non-zero. Did you intend to use &apos;&amp;&apos;?
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>knownConditionTrueFalse</key>
@@ -2955,6 +2988,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Condition &apos;x&apos; is always true.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>nullPointerDefaultArg</key>
@@ -3003,6 +3037,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>
       Modifying string literal directly or indirectly is undefined behaviour.
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>truncLongCastAssignment</key>
