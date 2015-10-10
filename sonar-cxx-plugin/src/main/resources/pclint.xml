@@ -26,6 +26,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0001: Unclosed Comment (Location)</name>
     <description>End of file was reached with an open comment still unclosed. The Location of the open comment is shown.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>2</key>
@@ -33,6 +34,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0002: Unclosed Quote</name>
     <description>An end of line was reached and a matching quote character (single or double) to an earlier quote character on the same line was not found.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>3</key>
@@ -40,6 +42,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0003: #else without a #if</name>
     <description>A #else was encountered not in the scope of a #if, #ifdef or #ifndef.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>4</key>
@@ -47,6 +50,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0004: Too many #if levels</name>
     <description>An internal limit was reached on the level of nesting of #if statements (including #ifdef and #ifndef).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>5</key>
@@ -54,6 +58,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0005: Too many #endif&apos;s</name>
     <description>A #endif was encountered not in the scope of a #if or #ifdef or #ifndef.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>6</key>
@@ -61,6 +66,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0006: Stack Overflow</name>
     <description>One of the built-in non-extend-able stacks has been overextended. The possibilities are too many nested #if statements, #includes statements (including all recursive #include statements), static blocks (bounded by braces) or #define replacements.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>7</key>
@@ -75,6 +81,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0008: Unclosed #if (Location)</name>
     <description>A #if (or #ifdef or #ifndef) was encountered without a corresponding #endif. Location is the location of the #if.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>9</key>
@@ -82,6 +89,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0009: Too many #else&apos;s in #if (Location)</name>
     <description>A given #if contained a #else which in turn was followed by either another #else or a #elif. The error message gives the line of the #if statement that started the conditional that contained the aberration.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>10</key>
@@ -96,6 +104,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0011: Excessive Size</name>
     <description>The file name specified on a #include line had a length that exceeded FILENAME_MAX characters.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>12</key>
@@ -103,6 +112,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0012: Need &lt; or &quot;</name>
     <description>After a #include is detected and after macro substitution is performed, a file specification of the form &lt;filename&gt; or "filename" is expected.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>13</key>
@@ -110,6 +120,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0013: Bad type</name>
     <description>A type adjective such as long, unsigned, etc. cannot be applied to the type which follows.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>14</key>
@@ -124,6 +135,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0015: Symbol 'Symbol' redeclared (TypeDiff) (Location)</name>
     <description>The named symbol has been previously declared or defined in some other module (location given) with a type different from the type given by the declaration at the current location. The parameter TypeDiff provides further information on how the types differ.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>16</key>
@@ -145,6 +157,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0018: Symbol 'Symbol' redeclared (TypeDiff) conflicts with Location</name>
     <description>A symbol is being redeclared. The parameter TypeDiff provides further information on how the types differ. Location is the location of the previous definition.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>19</key>
@@ -153,6 +166,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <name>L0019: Useless Declaration</name>
     <description>A type appeared by itself without an associated variable, and the type was not a struct and not a union and not an enum. A double semi-colon can cause this as in:
     int x;;</description>
+    <tag>unused</tag>
   </rule>
   <rule>
     <key>20</key>
@@ -160,6 +174,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0020: Illegal use of =</name>
     <description>A function declaration was followed by an = sign.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>21</key>
@@ -174,6 +189,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0022: Illegal operator</name>
     <description>A unary operator was found following an operand and the operator is not a post operator.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>23</key>
@@ -181,6 +197,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0023: Expected colon</name>
     <description>A ? operator was encountered but this was not followed by a : as was expected.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>24</key>
@@ -195,6 +212,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0025: Illegal constant</name>
     <description>Too many characters were encountered in a character constant (a constant bounded by ' marks).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>26</key>
@@ -216,6 +234,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0028: Redefinition of symbol 'Symbol' Location</name>
     <description>The identifier preceding a colon was previously declared at the Location given as not being a label.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>29</key>
@@ -223,6 +242,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0029: Duplicated type-specifier</name>
     <description>Multiple type-specifiers were seen in a context expecting only one. A notable exception to this message, of course, is long long.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>30</key>
@@ -230,6 +250,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0030: Expected a constant</name>
     <description>A constant was expected but not obtained. This could be following a case keyword, an array dimension, bit field length, enumeration value, #if expression, etc.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>31</key>
@@ -237,6 +258,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0031: Redefinition of symbol 'Symbol' conflicts with Location</name>
     <description>A data object or function previously defined in this module is being redefined.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>32</key>
@@ -244,6 +266,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0032: Field size (member 'Symbol') should not be zero</name>
     <description>The length of a field was given as non-positive, (0 or negative).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>33</key>
@@ -251,6 +274,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0033: Illegal constant</name>
     <description>A constant was badly formed as when an octal constant contains one of the digits 8 or 9.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>34</key>
@@ -258,6 +282,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0034: Non-constant initializer</name>
     <description>A non-constant initializer was found for a static data item.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>35</key>
@@ -265,6 +290,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0035: Initializer has side-effects</name>
     <description>An initializer with side effects was found for a static data item.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>36</key>
@@ -272,6 +298,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0036: Redefining the storage class of symbol 'Symbol' conflicts with Location</name>
     <description>An object's storage class is being changed.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>37</key>
@@ -279,6 +306,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0037: Value of enumerator 'Symbol' inconsistent (conflicts with Location)</name>
     <description>An enumerator was inconsistently valued.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>38</key>
@@ -286,6 +314,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0038: Offset of symbol 'Symbol' inconsistent (Location)</name>
     <description>A member of a class or struct appears in a different position (offset from the start of the structure) than an earlier declaration. This could be caused by array dimensions changing from one module to another.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>39</key>
@@ -293,6 +322,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0039: Redefinition of symbol 'Symbol' conflicts with Location</name>
     <description>A struct or union is being redefined.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>40</key>
@@ -300,6 +330,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0040: Undeclared identifier 'Name'</name>
     <description>Within an expression, an identifier was encountered that had not previously been declared and was not followed by a left parenthesis. Name is the name of the identifier.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>41</key>
@@ -307,6 +338,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0041: Redefinition of symbol 'Symbol'</name>
     <description>A parameter of either a function or a macro is being repeated.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>42</key>
@@ -314,6 +346,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0042: Expected a statement</name>
     <description>A statement was expected but a token was encountered that could not possibly begin a statement.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>43</key>
@@ -328,6 +361,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0044: Need a switch</name>
     <description>A case or default statement occurred outside a switch.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>45</key>
@@ -349,6 +383,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0047: Bad type</name>
     <description>Unary minus requires an arithmetic operand.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>48</key>
@@ -356,6 +391,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0048: Bad type</name>
     <description>Unary * or the left hand side of the ptr (-&gt;) operator requires a pointer operand.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>49</key>
@@ -370,6 +406,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0050: Attempted to take the address of a non-lvalue</name>
     <description>Unary &amp; operator requires an lvalue (a value suitable for placement on the left hand side of an assignment operator).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>51</key>
@@ -386,6 +423,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>autodecrement (--) and autoincrement (++) operators require an lvalue (a value suitable for placement on the left hand side of an assignment operator). Remember that casts do not normally produce lvalues. Thus
     ++(char *)p;
     is illegal according to the ANSI standard. This construct is allowed by some compilers and is allowed if you use the +fpc option (Pointer Casts are lvalues).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>53</key>
@@ -400,6 +438,8 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0054: Division by 0</name>
     <description>The constant 0 was used on the right hand side of the division operator (/) or the remainder operator (%).</description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>55</key>
@@ -414,6 +454,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0056: Bad type</name>
     <description>Add/subtract operator requires scalar types and pointers may not be added to pointers.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>57</key>
@@ -421,6 +462,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0057: Bad type</name>
     <description>Bit operators ( &amp;, | and ^ ) require integral arguments.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>58</key>
@@ -449,6 +491,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0061: Bad type</name>
     <description>The context requires a Boolean. Booleans must be some form of arithmetic or pointer.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>62</key>
@@ -456,6 +499,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0062: Incompatible types (TypeDiff) for operator ':'</name>
     <description>The 2nd and 3rd arguments to ? : must be compatible types.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>63</key>
@@ -470,6 +514,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0064: Type mismatch (Context) (TypeDiff)</name>
     <description>There was a mismatch in types across an assignment (or implied assignment, see Context). TypeDiff specifies the type difference.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>65</key>
@@ -477,6 +522,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0065: Expected a member name</name>
     <description>After a dot (.) or pointer (-&gt;) operator a member name should appear.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>66</key>
@@ -484,6 +530,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0066: Bad type</name>
     <description>A void type was employed where it is not permitted. If a void type is placed in a prototype then it must be the only type within a prototype. (See error number 49.)</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>67</key>
@@ -491,6 +538,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0067: Can't cast from Type to Type</name>
     <description>Attempt to cast a non-scalar to an integral.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>68</key>
@@ -504,6 +552,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>69</configkey>
     <priority>CRITICAL</priority>
     <name>L0069: Can't cast from Type to Type</name>
+    <tag>bug</tag>
     <description>Bad conversion involving incompatible structures or a structure and some other object.</description>
   </rule>
   <rule>
@@ -511,6 +560,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>70</configkey>
     <priority>CRITICAL</priority>
     <name>L0070: Can't cast from Type to Type</name>
+    <tag>bug</tag>
     <description>Attempt to cast to a pointer from an unusual type (non-integral).</description>
   </rule>
   <rule>
@@ -540,6 +590,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0074: Address of Register</name>
     <description>An attempt was made to apply the address (&amp;) operator to a variable whose storage class was given as register.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>75</key>
@@ -561,6 +612,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0077: Address of bit-field cannot be taken</name>
     <description>The address of a bit-field cannot be taken. The rules of C only allow for taking the address of a whole byte (a whole char).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>78</key>
@@ -568,6 +620,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0078: Symbol 'Symbol' typedef'ed at Location used in expression</name>
     <description>The named symbol was defined in a typedef statement and is therefore considered a type. It was subsequently found in a context where an expression was expected.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>79</key>
@@ -575,6 +628,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0079: Bad type for % operator</name>
     <description>The % operator should be used with some form of integer.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>80</key>
@@ -582,6 +636,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0080: this use of ellipsis is not strictly ANSI</name>
     <description>The ellipsis should be used in a prototype only after a sequence of types not after a sequence of identifiers. Some compilers support this extension. If you want to use this feature suppress this message.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>81</key>
@@ -603,6 +658,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0083: Incompatible pointer types with subtraction</name>
     <description>Two pointers being subtracted have indirect types which differ. You can get PC-lint/FlexeLint to ignore slight differences in the pointers by employing one or more of the -ep... options.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>84</key>
@@ -610,6 +666,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0084: sizeof object is zero or object is undefined</name>
     <description>A sizeof returned a 0 value. This could happen if the object were undefined or incompletely defined. Make sure a complete definition of the object is in scope when you use sizeof.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>85</key>
@@ -617,6 +674,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0085: Array 'Symbol' has dimension 0</name>
     <description>An array (named Symbol) was declared without a dimension in a context that required a non-zero dimension.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>86</key>
@@ -645,6 +703,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0089: Argument or option too long ('String')</name>
     <description>The length of an option (shown in String) exceeds an internal limit. Please try to decompose the option into something smaller. At this writing the limit is 610 characters.</description>
+    <tag>convention</tag>
   </rule>
   <rule>
     <key>90</key>
@@ -652,6 +711,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0090: Option 'String' is only appropriate within a lint comment</name>
     <description>The indicated option is not appropriate at the command or the .lnt level. For example if -unreachable is given on the command line you will get this message.</description>
+    <tag>convention</tag>
   </rule>
   <rule>
     <key>91</key>
@@ -659,6 +719,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0091: Line exceeds Integer characters (use +linebuf)</name>
     <description>A line read from one of the input files is longer than anticipated. By default the line buffer size is 600 characters. Each time you use the +linebuf option you can double this size. The size can be doubled ad infinitum.</description>
+    <tag>convention</tag>
   </rule>
   <rule>
     <key>92</key>
@@ -666,6 +727,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0092: Negative array dimension or bit field length (Integer)</name>
     <description>A negative array dimension or bit field length is not permitted.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>93</key>
@@ -683,6 +745,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0094: xml element termination name 'String' does not match start name 'String'</name>
     <description>The tag names delimiting an XML element do not match.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>95</key>
@@ -690,6 +753,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0095: Expected a macro parameter but instead found 'Name'</name>
     <description>The # operator (or the non-standard extension to the # operator spelled #@) was found within a macro definition but was not immediately followed by a parameter of the macro as is required by the standards. Name identifies the token immediately to the right of the operator.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>96</key>
@@ -697,6 +761,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0096: Unmatched left brace for String on Location</name>
     <description>The purpose of this message is to report the location of a left curly brace that is unmatched by a right curly brace. Such an unmatched left curly can be far removed from the point at which the unbalance was detected (often the end of the compilation unit). Providing the location of the left curly can be extremely helpful in determining the source of the imbalance.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>98</key>
@@ -704,6 +769,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0098: Recovery Error (String)</name>
     <description>A recovery error is issued when an inconsistent state was found while attempting to recover from a syntactic error. The String provided in the message serves as a clue to this inconsistent state. Since the presumptive cause of the error is an earlier error, priority should be placed on resolving the original error. This "Recovery Error" is meant only to provide additional information on the state of the parser.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>101</key>
@@ -713,6 +779,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <description>While processing a function declarator, a parameter specifier was encountered that was not an identifier, whereas a prior parameter was specified as an identifier. This is mixing old-style function declarations with the new-style and is not permitted. For example
     void f(n,int m)
     will elicit this message.</description>
+    <tag>convention</tag>
   </rule>
   <rule>
     <key>102</key>
@@ -720,6 +787,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0102: Illegal parameter specification</name>
     <description>Within a function declarator, a parameter must be specified as either an identifier or as a type followed by a declarator.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>103</key>
@@ -727,6 +795,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0103: Unexpected declaration</name>
     <description>After a prototype, only a comma, semi-colon, right parenthesis or a left brace may occur. This error could occur if you have omitted a terminating character after a declaration or if you are mixing old-style parameter declarations with new-style prototypes.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>104</key>
@@ -741,6 +810,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0105: Conflicting modifiers</name>
     <description>Two consecutive conflicting modifiers were found such as far followed by near. Remove one of the modifiers!</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>106</key>
@@ -757,6 +827,8 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0107: Label 'Symbol' (Location) not defined</name>
     <description>The Symbol at the given Location appeared in a goto but there was no corresponding label.</description>
+    <tag>brain-overload</tag>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>108</key>
@@ -764,6 +836,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0108: Invalid context</name>
     <description>A continue or break statement was encountered without an appropriate surrounding context such as a for, while, or do loop or, for the break statement only, a surrounding switch statement.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>109</key>
@@ -778,6 +851,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0110: Attempt to assign to void</name>
     <description>An attempt was made to assign a value to an object designated (possibly through a pointer) as void.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>111</key>
@@ -785,6 +859,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0111: Assignment to const object</name>
     <description>An object declared as const was assigned a value. This could arise via indirection. For example, if p is a pointer to a const int then assigning to *p will raise this error.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>113</key>
@@ -792,6 +867,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0113: Inconsistent enum declaration</name>
     <description>The sequence of members within an enum (or their values) is inconsistent with that of another enum (usually in some other module) having the same name.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>114</key>
@@ -799,6 +875,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0114: Inconsistent structure declaration for tag 'Symbol'</name>
     <description>The sequence of members within a structure (or union) is inconsistent with another structure (usually in some other module) having the same name.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>115</key>
@@ -806,6 +883,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0115: Struct/union not defined</name>
     <description>A reference to a structure or a union was made that required a definition and there is no definition in scope. For example, a reference to p-&gt;a where p is a pointer to a struct that had not yet been defined in the current module.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>116</key>
@@ -813,6 +891,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0116: Inappropriate storage class</name>
     <description>A storage class other than register was given in a section of code that is dedicated to declaring parameters. The section is that part of a function preceding the first left brace.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>117</key>
@@ -820,6 +899,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0117: Inappropriate storage class</name>
     <description>A storage class was provided outside any function that indicated either auto or register. Such storage classes are appropriate only within functions.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>118</key>
@@ -827,6 +907,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0118: Too few arguments for prototype</name>
     <description>The number of arguments provided for a function was less than the number indicated by a prototype in scope.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>119</key>
@@ -834,6 +915,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0119: Too many arguments for prototype</name>
     <description>The number of arguments provided for a function was greater than the number indicated by a prototype in scope.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>120</key>
@@ -841,6 +923,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0120: Initialization without braces of dataless type 'Symbol'</name>
     <description>There was an attempt to initialize a nested object (e.g., an array element) without braces. Additionally, that object type possesses no data members. class A { public: void f(); }; class B { public: A a; int k; } ; A a[4] = { {}, {}, {}, {} }; // OK B b = { , 34 }; // Error 120</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>121</key>
@@ -848,6 +931,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0121: Attempting to initialize an object of undefined type 'Symbol'</name>
     <description>The initialization of an object was attempted where that object type has no visible definition. For example: class Undefined u = { 5 };</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>122</key>
@@ -855,6 +939,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0122: Digit (Char) too large for radix</name>
     <description>The indicated character was found in a constant beginning with zero. For example, 08 is accepted by some compilers to represent 8 but it should be 010 or plain 8.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>123</key>
@@ -869,6 +954,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0124: Pointer to void not allowed</name>
     <description>A pointer to void was used in a context that does not permit void. This includes subtraction, addition and the relationals (&gt; &gt;= &lt; &lt;=).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>125</key>
@@ -876,6 +962,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0125: Too many storage class specifiers</name>
     <description>More than one storage class specifier (static, extern, typedef, register or auto) was found. Only one is permitted.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>126</key>
@@ -883,6 +970,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0126: Inconsistent structure definition 'Symbol'</name>
     <description>The named structure (or union or enum) was inconsistently defined across modules. The inconsistency was recognized while processing a lint object module. Line number information was not available with this message. Alter the structures so that the member information is consistent.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>127</key>
@@ -890,6 +978,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0127: L0110: Illegal constant</name>
     <description>An empty character constant ('') was found.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>128</key>
@@ -897,6 +986,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0128: Pointer to function not allowed</name>
     <description>A pointer to a function was found in an arithmetic context such as subtraction, addition, or one of the relationals (&gt; &gt;= &lt; &lt;=).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>129</key>
@@ -932,6 +1022,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0133: Too many initializers for aggregate 'Symbol'</name>
     <description>In a brace-enclosed initializer, there are more items than there are elements of the aggregate.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>134</key>
@@ -939,6 +1030,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0134: Missing initializer</name>
     <description>An initializer was expected but only a comma was present.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>135</key>
@@ -946,6 +1038,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0135: comma assumed in initializer</name>
     <description>A comma was missing between two initializers. For example: int a[2][2] = { { 1, 2 } { 3, 4 } }; is missing a comma after the first right brace (}).</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>136</key>
@@ -953,6 +1046,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0136: Illegal macro name</name>
     <description>The ANSI standard restricts the use of certain names as macros. defined is on the restricted list.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>137</key>
@@ -960,6 +1054,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0137: constant 'Symbol' used twice within switch</name>
     <description>The indicated constant was used twice as a case within a switch statement. Currently only enumerated types are checked for repeated occurrence.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>138</key>
@@ -974,6 +1069,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0139: Can't take sizeof function</name>
     <description>There is an attempt to take the sizeof a function.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>140</key>
@@ -981,6 +1077,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0140: Type appears after modifier</name>
     <description>Microsoft modifiers such as far, _near, __huge, _pascal, etc. etc. modify the declarator to its immediate right. It therefore should not appear before the type. For example, you should write int pascal f(void); rather than pascal int f(void);. Note that const and volatile differ from the Microsoft modifiers. They may appear before or after the type. After reporting the error an attempt is made to process the modifiers as the programmer probably intended.</description>
+    <tag>convention</tag>
   </rule>
   <rule>
     <key>141</key>
@@ -1004,6 +1101,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
                }
 </tt></pre>
 ]]></description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>143</key>
@@ -1019,6 +1117,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0144: Non-existent return value for symbol 'Symbol', compare with Location</name>
     <description>An attempt was made to use a non-existent return value of the named function (identified by Symbol). It was previously decided that the function did not return a value or was declared with void.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>145</key>
@@ -1040,6 +1139,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0147: sizeof takes just one argument</name>
     <description>An expression of the form sizeof(a,b) was detected. A second argument is non standard and has been used by some compilers to denote an option to the sizeof operator. If your compiler has a use for the second argument then suppress this message.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>148</key>
@@ -1047,6 +1147,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0148: member 'Symbol' previously declared at Location</name>
     <description>The indicated member was previously declared within the same structure or union. Although a redeclaration of a function may appear benign it is just not permitted by the rules of the language. One of the declarations should be removed.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>149</key>
@@ -1054,6 +1155,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0149: C++ construct 'String' found in C code</name>
     <description>An illegal construct was found in C code. It looked as though it might be suitable for C++. The quoted string identifies the construct further.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>150</key>
@@ -1105,6 +1207,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <name>L0156: Braced initializer for scalar type 'Name'</name>
     <description>An example of an initializer that will draw this complaint is as follows. int s[] = { { 1 } }; After the compiler has seen the first curly it is expecting to see a number (or other numeric expression). Compilers that strictly adhere to the ISO C and C++ Standards will flag this as ill-formed code.
     Note that it is legal (but somewhat arcane) to employ a left curly at the top-level when initializing an object of scalar type. For example, the following is well-formed: int i = { 0 }; // OK; initialize scalar i with 0. char *t = { "bar" }; // OK; initialize scalar t with a pointer to // a statically allocated array. Also note: as the example above implies, this message can apply to pointers to arrays of char; it does not apply to arrays.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>157</key>
@@ -1112,6 +1215,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0157: No data may follow an incomplete array</name>
     <description>An incomplete array is allowed within a struct of a C99 or C++ program but no data is allowed to appear after this array. For example: struct A { int x; int a[]; int b; }; This diagnostic is issued when the 'b' is seen.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>158</key>
@@ -1141,6 +1245,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0161: Repeated use of parameter 'Symbol' in parameter list</name>
     <description>The name of a function parameter was repeated. For example: void f( int n, int m, int n ) {} will cause this message to be issued. Names of parameters for a given function must all be different.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>165</key>
@@ -1164,6 +1269,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <priority>CRITICAL</priority>
     <name>L0166: Function defined within a function</name>
     <description>A function definition was found within the body of another function's definition. Such a construct is almost certainly an error.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>169</key>
@@ -1177,6 +1283,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
 </tt></pre>
 <p>This is supposed to match a built-in scalar type whose size is the size indicated in the message. If this message is issued, it probably means that size options have not been set to match the compile configuration; see Section 5.3, Size and Alignment Options.</p>
 ]]></description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>170</key>
@@ -1194,6 +1301,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
            double       radius;
                         diameter;
 </tt></pre>]]></description>
+    <tag>convention</tag>
   </rule>
   <rule>
     <key>171</key>
@@ -1201,6 +1309,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>CRITICAL</priority>
     <name>L0171: Ellipsis requires at least one parameter-declaration</name>
     <description>A function declaration was seen with '...' but no parameter-declaration before it, as required by the ISO C syntax. This diagnostic is not given for C++ code.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>200</key>
@@ -1208,6 +1317,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0200: Internal Error, subcode=xxxx</name>
     <description>Internal error occurred - subcode is part of message. This inconsistency should be brought to the attention of Gimpel Software</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>301</key>
@@ -1215,6 +1325,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0301: Stack overflow</name>
     <description>There was a stack overflow while processing declarations. Approximately 50 nested declarators were found. For example, if a '/' followed by 50 consecutive '*'s were to introduce a box-like comment and if the '/' were omitted, then this message would be produced.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>302</key>
@@ -1222,6 +1333,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0302: Exceeded Available Memory</name>
     <description>Main memory has been exhausted.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>303</key>
@@ -1229,6 +1341,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0303: String too long (try +macros)</name>
     <description>A single #define definition or macro invocation exceeded an internal limit (of 4096 characters). As the diagnostic indicates the problem can be corrected with an option.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>304</key>
@@ -1236,6 +1349,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0304: Corrupt object file, code Integer, symbol=String</name>
     <description>A PC-lint/FlexeLint object file is apparently corrupted. Please delete the object module and recreate it using the -oo option. The special code identifier number as well as a list of symbol names are optionally suffixed to the message as an aid in diagnosing the problem by technical support.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>305</key>
@@ -1243,6 +1357,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0305: Unable to open module 'file name'</name>
     <description>file name is the name of the file. The named module could not be opened for reading. Perhaps you misspelled the name.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>306</key>
@@ -1250,6 +1365,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0306: Previously encountered module 'FileName'</name>
     <description>FileName is the name of the module. The named module was previously encountered. This is probably a user blunder.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>307</key>
@@ -1257,6 +1373,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0307: Can't open indirect file 'FileName'</name>
     <description>FileName is the name of the indirect file. The named indirect file (ending in .lnt) could not be opened for reading.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>308</key>
@@ -1264,6 +1381,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0308: Can't write to standard out</name>
     <description>stdout was found to equal NULL. This is most unusual.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>309</key>
@@ -1271,6 +1389,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0309: #error ...</name>
     <description>The #error directive was encountered. The ellipsis reflects the original line. Normally processing is terminated at this point. If you set the fce (continue on #error) flag, processing will continue.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>310</key>
@@ -1278,6 +1397,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0310: Declaration too long: 'String...'</name>
     <description>A single declaration was found to be too long for an internal buffer (about 2000 characters). This occurred when attempting to write out the declaration using the -o... option. The first 30 characters of the declaration is given in String. Typically this is caused by a very long struct whose substructures, if any, are untagged. First identify the declaration that is causing the difficulty. If a struct or union, assign a tag to any unnamed substructures or subunion. A typedef can also be used to reduce the size of such a declaration.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>312</key>
@@ -1285,6 +1405,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0312: Lint (Precompiled Header/Object Module) has obsolete or foreign version id: Integer</name>
     <description>A lint precompiled header or object module was produced with a prior or different version of PC-lint/FlexeLint. Delete the.lob  or .lph file and recreate it using your new version of PC-lint/FlexeLint.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>313</key>
@@ -1292,6 +1413,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0313: Too many files</name>
     <description>The number of files that PC-lint/FlexeLint can process has exceeded an internal limit. The FlexeLint user may recompile his system to increase this limit. Look for symbol FSETLEN in custom.h. Currently, the number of files is limited to 4096.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>314</key>
@@ -1299,6 +1421,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0314: Previously used .lnt file: FileName</name>
     <description>The indirect file named was previously encountered. If this was not an accident, you may suppress this message.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>315</key>
@@ -1306,6 +1429,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0315: Exceeded message limit (see -limit)</name>
     <description>The maximum number of messages was exceeded. Normally there is no limit unless one is imposed by the -limit(n) option.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>316</key>
@@ -1313,6 +1437,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0316: Error while writing to file "file name"</name>
     <description>The given file could not be opened for output.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>317</key>
@@ -1320,6 +1445,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0317:File encoding, String, not currently supported</name>
     <description>Lint detected a byte order mark at the beginning of a file which indicated the file is encoded in the given format. As of this writing, the only formats supported to any extent are ASCII and UTF-8 (for which Lint presumes ASCII encoding).</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>318</key>
@@ -1327,6 +1453,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0318: EOF for a module found within a macro argument list</name>
     <description>We found the end of a module within the argument list of a macro.  Since such situations are almost certain to be erroneous, we gracefully shut down, alerting the User to the reason.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>321</key>
@@ -1334,6 +1461,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0321: Declaration stack overflow</name>
     <description>An overflow occurred in the stack used to contain array, pointer, function or reference modifiers when processing a declarator.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>322</key>
@@ -1341,6 +1469,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0322: Unable to open include file FileName</name>
     <description>FileName is the name of the include file which could not be opened. Directory search is controlled by options: -i +fdi and the INCLUDE environment variable. This is a suppressible fatal message. If option -e322 is used, Error message 7 will kick in. A diagnostic will be issued but processing will continue.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>323</key>
@@ -1348,6 +1477,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0323: Token String too long</name>
     <description>In attempting to save a token for later reuse, a fixed size buffer was exceeded (governed by the size M_TOKEN).</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>324</key>
@@ -1355,6 +1485,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0324: Too many symbols Integer</name>
     <description>Too many symbols were encountered. An internal limit was reached.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>325</key>
@@ -1362,6 +1493,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0325: Cannot re-open file 'file name'</name>
     <description>In the case of a large number of nested includes, files in the outer fringe need to be closed before new ones are opened. These outer files then need to be re-opened. An error occurred when attempting to re-open such a file.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>326</key>
@@ -1369,6 +1501,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0326: String 'String ...' too long, exceeds Integer characters</name>
     <description>A string (first 40 characters provided in the message) exceeds some internal limit (provided in the message). There is no antidote to this condition in the form of an option. FlexeLint customers may recompile with a redefinition of either M_STRING (maximum string) or M_NAME (maximum name). To override the definition in custom.h we suggest recompiling with an appropriate -dvar=value option assuming your compiler supports the option.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>328</key>
@@ -1379,6 +1512,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     For example: Module x.cpp: #include "alpha.h" #include "delta.h" #include "beta.h" #include "gamma.h"
     Module y.cpp: #include "alpha.h" #include "beta.h" #include "gamma.h" When the include of "beta.h" occurs in module y.cpp (and if beta.h has been designated as bypass), there will be a Fatal Error 328 that the header sequence of module 'x.cpp' differs from the current module in that the former module included 'delta.h' at a point where the current module included 'beta.h'.
     It was necessary to make this message a fatal error since attempting to bypass headers that do not follow a consistent header sequence is an act of folly. It is possible to continue on after the 328 in hopes of picking up more inconsistencies in other modules. This can be done using the +fce (Continue-on-Error) flag.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>330</key>
@@ -1386,6 +1520,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0330: Static assertion failure: 'String'</name>
     <description>For the indicated static_assert directive, Lint evaluated the constant expression to false, and the resulting message is given by the String</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>333</key>
@@ -1393,6 +1528,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>BLOCKER</priority>
     <name>L0333: Not allowed to open file 'String'</name>
     <description>A 'forbidden' file was opened. Opening such a file is considered a security violation by a hosted implementation.</description>
+    <tag>tool-error</tag>
   </rule>
   <rule>
     <key>401</key>
@@ -1500,6 +1636,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <name>L0415: access of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
     <description>An out-of-bounds pointer was accessed. String designates the operator. The parameter 'Integer' gives some idea how far out of bounds the pointer may be. It is measured in units given by the size of the pointed to object. The value is relative to the last item of good data and therefore should always be greater than zero. For example: int a[10]; a[10] = 0;
     results in an overflow message containing the phrase '1 beyond end of data'.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>416</key>
@@ -1509,6 +1646,7 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <description>An out-of-bounds pointer was created. See message 415 for a description of the parameters Integer and String. For example: int a[10];
     ... f( a + 11 );
     Here, an illicit pointer value is created and is flagged as such by PC-lint/FlexeLint. Note that the pointer a+10 is not considered by PC-lint/FlexeLint to be the creation of an out-of-bounds pointer. This is because ANSI C explicitly allows pointing just beyond an array. Access through a+10, however, as in *(a+10) or the more familiar a[10], would be considered erroneous but in that case message 415 would be issued.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>417</key>
@@ -4144,6 +4282,7 @@ The message may also be given for function pointer assignments when the prototyp
     <name>L0796: Conceivable access of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
     <description>An out-of-bounds pointer may conceivably have been accessed. See message 415 for a description of the parameters Integer and String. For example: int a[10]; int j = 100; for( i = 0; i &lt; n; i++ ) j = n; a[j] = 0;
     Here, the access to a[j] is flagged because it is conceivable that the for loop is not executed leaving the unacceptable index of 100 in variable j. This message is similar to messages 415 and 661 but differing from them by the degree of probability.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>797</key>
@@ -4151,6 +4290,7 @@ The message may also be given for function pointer assignments when the prototyp
     <priority>MINOR</priority>
     <name>L0797: Conceivable creation of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
     <description>An out-of-bounds pointer is potentially being created. See message 415 for a description of the parameters Integer and String. See message 796 for an example of how a probability can be considered 'conceivable'.</description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>798</key>
@@ -4172,6 +4312,8 @@ The message may also be given for function pointer assignments when the prototyp
     <priority>MINOR</priority>
     <name>L0801: Use of goto is deprecated</name>
     <description>A goto was detected. Use of the goto is not considered good programming practice by most authors and its use is normally discouraged. There are a few cases where the goto can be effectively employed but often these can be rewritten just as effectively without the goto. The use of goto's can have a devastating effect on the structure of large functions creating a mass of spaghetti-like confusion. For this reason its use has been banned in many venues.</description>
+    <tag>brain-overload</tag>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>802</key>
@@ -8630,6 +8772,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9028: Unpermitted arithmetic involving an essentially character type</name>
     <description>MISRA C 2012 has defined the concept of essentially character type and placed restrictions on the use of expressions with such a type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9029</key>
@@ -8637,6 +8780,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9029: Mismatched essential type categories for binary operator</name>
     <description>MISRA C 2012 has defined the concept of essential type and placed restrictions on the use of expressions with certain types with respect to binary operators.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9030</key>
@@ -8644,6 +8788,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9030: Impermissible cast</name>
     <description>MISRA C 2012 has defined the concept of essential type and placed restrictions on the use of casts between certain types.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9031</key>
@@ -8651,6 +8796,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9031: Composite expression assigned to a wider essential type</name>
     <description>MISRA C 2012 has defined the concepts of composite expression and essential type and placed restrictions on assignments of the former.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9032</key>
@@ -8658,6 +8804,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9032: Composite expression with smaller essential type than other operand</name>
     <description>MISRA C 2012 has defined the concepts of composite expression and essential type and placed restrictions on operands to binary operators when at least one of the operands meets the definition of the former concept.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9033</key>
@@ -8665,6 +8812,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9033: Impermissible cast of composite expression</name>
     <description>MISRA C 2012 has defined the concepts of composite expression and essential type and placed restrictions on casts of the former. This message, when given, is also followed by text explaining why the cast is considered "impermissible".</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9034</key>
@@ -8672,6 +8820,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9034: Expression assigned to a narrower or different essential type</name>
     <description>MISRA C 2012 has defined the concept of essential type and placed restrictions on assignments in relation to such types.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9035</key>
@@ -8686,6 +8835,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>L9036: Conditional expression should have essentially Boolean type</name>
     <description>MISRA C 2012 has defined the concept of essentially Boolean type and requires that the conditional expressions of all if and iteration-statements comply with this definition.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>9037</key>
@@ -9573,6 +9723,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M1.1: Strict ANSI checking (MISRA C)</name>
     <description>
     Strict ANSI checking, MISRA Rule 1.1</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M1.2</key>
@@ -9581,6 +9732,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M1.2: No undefined or unspecified behavior (MISRA C)</name>
     <description>
     No undefined or unspecified behavior, MISRA Rule 1.2</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M1.4</key>
@@ -9589,6 +9741,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M1.4: Identifier names must be unique in first 31 characters (MISRA C)</name>
     <description>
     Identifier names must be unique in first 31 characters, MISRA Rule 1.4: </description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2.1</key>
@@ -9597,6 +9750,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M2.1: No in-line assembly language (MISRA C)</name>
     <description>
     No in-line assembly language, MISRA Rule 2.1</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2.2</key>
@@ -9605,6 +9759,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M2.2: Do not use // comments (MISRA C)</name>
     <description>
     Do not use // comments, MISRA Rule 2.2</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2.3</key>
@@ -9613,6 +9768,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M2.3: No nested comments (MISRA C)</name>
     <description>
     No nested comments</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2.4</key>
@@ -9621,6 +9777,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M2.4: No nested comments (MISRA C)</name>
     <description>
     No nested comments</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3.4</key>
@@ -9629,6 +9786,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M3.4: Report on pragma use (MISRA C)</name>
     <description>
     Report on pragma use</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3.6</key>
@@ -9637,6 +9795,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M3.6: libraries should conform to MISRA standard (MISRA C)</name>
     <description>
     libraries should conform to MISRA standard</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M4.1</key>
@@ -9645,6 +9804,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M4.1: do not use non-ANSI escape sequences (MISRA C)</name>
     <description>
     do not use non-ANSI escape sequences</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M4.2</key>
@@ -9653,6 +9813,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M4.2: do not use trigraphs (MISRA C)</name>
     <description>
     do not use trigraphs</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5.1</key>
@@ -9661,6 +9822,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M5.1: identifier names must be unique in first 31 characters (MISRA C)</name>
     <description>
     identifier names must be unique in first 31 characters</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5.2</key>
@@ -9669,6 +9831,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M5.2: complain about name hiding (MISRA C)</name>
     <description>
     complain about name hiding</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5.3</key>
@@ -9677,6 +9840,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M5.3: Do not reuse typedef names (MISRA C)</name>
     <description>
     Do not reuse typedef names</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5.4</key>
@@ -9685,6 +9849,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M5.4: Do not reuse tag names (MISRA C)</name>
     <description>
     Do not reuse tag names</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5.5</key>
@@ -9693,6 +9858,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M5.5: Complain about name hiding (MISRA C)</name>
     <description>
     Complain about name hiding</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5.6</key>
@@ -9701,6 +9867,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M5.6: Complain about name hiding (MISRA C)</name>
     <description>
     Complain about name hiding</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5.7</key>
@@ -9709,6 +9876,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M5.7: Do not reuse identifier names (MISRA C)</name>
     <description>
     Do not reuse identifier names</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6.1</key>
@@ -9717,6 +9885,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M6.1: disallowed use of plain char (MISRA C)</name>
     <description>
     disallowed use of plain char</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6.2</key>
@@ -9725,6 +9894,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M6.2: disallowed use of plain char (MISRA C)</name>
     <description>
     disallowed use of plain char</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6.3</key>
@@ -9733,6 +9903,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M6.3: do not use modifiers (int, char, etc) outside of a typedef (MISRA C)</name>
     <description>
     do not use modifiers (int, char, etc) outside of a typedef</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6.4</key>
@@ -9741,6 +9912,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M6.4: bitfield type should be unsigned int or signed int (MISRA C)</name>
     <description>
     bitfield type should be unsigned int or signed int</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6.5</key>
@@ -9749,6 +9921,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M6.5: small bit field should be unsigned int (MISRA C)</name>
     <description>
     small bit field should be unsigned int</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7.1</key>
@@ -9757,6 +9930,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M7.1: Octal constant used (MISRA C)</name>
     <description>
     Octal constant used. </description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.1</key>
@@ -9765,6 +9939,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.1: use function prototypes (MISRA C)</name>
     <description>
     use function prototypes </description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.2</key>
@@ -9773,6 +9948,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.2: function has no explicit type (MISRA C)</name>
     <description>
     function has no explicit type</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.3</key>
@@ -9781,6 +9957,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.3: declaration and definition should have identical parameter types (MISRA C)</name>
     <description>
     declaration and definition should have identical parameter types</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.4</key>
@@ -9789,6 +9966,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.4: symbol redeclared (MISRA C)</name>
     <description>
     symbol redeclared</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.5</key>
@@ -9797,6 +9975,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.5: No definitions of objects or function in header files (MISRA C)</name>
     <description>
     No definitions of objects or function in header files.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.6</key>
@@ -9805,6 +9984,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.6: Function not declared at file scope (MISRA C)</name>
     <description>
     Function not declared at file scope.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.7</key>
@@ -9813,6 +9993,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.7: could define variable at block scope (MISRA C)</name>
     <description>
     could define variable at block scope</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.8</key>
@@ -9821,6 +10002,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.8: object/function previously declared (MISRA C)</name>
     <description>
     object/function previously declared</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.9</key>
@@ -9829,6 +10011,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.9: symbol previously defined (MISRA C)</name>
     <description>
     symbol previously defined</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.10</key>
@@ -9837,6 +10020,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.10: symbol could be made static (MISRA C)</name>
     <description>
     symbol could be made static</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.11</key>
@@ -9845,6 +10029,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.11: symbol previously used as static (MISRA C)</name>
     <description>
     symbol previously used as static</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8.12</key>
@@ -9853,6 +10038,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M8.12: array has 0 dimension (MISRA C)</name>
     <description>
     array has 0 dimension</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9.1</key>
@@ -9861,6 +10047,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M9.1: symbol not initialized (MISRA C)</name>
     <description>
     symbol not initialized</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9.2</key>
@@ -9869,6 +10056,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M9.2: omitted braces within an initializer (MISRA C)</name>
     <description>
     omitted braces within an initializer</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9.3</key>
@@ -9877,6 +10065,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M9.3: Should initialize either all enum members or only the first (MISRA C)</name>
     <description>
     Should initialize either all enum members or only the first.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M10.1</key>
@@ -9889,6 +10078,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     b) the expression is complex, or
     c) the expression is not constant and is a function argument, or
     d) the expression is not constant and is a return expression</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M10.2</key>
@@ -9897,6 +10087,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M10.2: prototype coercion (MISRA C)</name>
     <description>
     prototype coercion</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M10.3</key>
@@ -9905,6 +10096,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M10.3: prohibited cast of complex integer expression (MISRA C)</name>
     <description>
     prohibited cast of complex integer expression</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M10.4</key>
@@ -9913,6 +10105,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M10.4: prohibited cast of complex floating point (MISRA C)</name>
     <description>
     prohibited cast of complex floating point</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M10.5</key>
@@ -9921,6 +10114,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M10.5: recasting required for &lt;&lt; and - operators (MISRA C)</name>
     <description>
     recasting required for &lt;&lt; and - operators</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M10.6</key>
@@ -9929,6 +10123,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M10.6: unsigned integer literals require a 'U' suffix (MISRA C)</name>
     <description>
     unsigned integer literals require a 'U' suffix</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M11.1</key>
@@ -9937,6 +10132,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M11.1: cast pointer to non-pointer (MISRA C)</name>
     <description>
     cast pointer to non-pointer</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M11.2</key>
@@ -9945,6 +10141,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M11.2: cast pointer to non-pointer (MISRA C)</name>
     <description>
     cast pointer to non-pointer</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M11.3</key>
@@ -9953,6 +10150,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M11.3: cast pointer to non-pointer (MISRA C)</name>
     <description>
     cast pointer to non-pointer</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M11.4</key>
@@ -9961,6 +10159,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M11.4: cast pointer to pointer (MISRA C)</name>
     <description>
     cast pointer to pointer</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M11.5</key>
@@ -9969,6 +10168,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M11.5: attempt to cast away const/volatile from a pointer or reference (MISRA C)</name>
     <description>
     attempt to cast away const/volatile from a pointer or reference</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.1</key>
@@ -9977,6 +10177,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.1: dependence on C's operator precedence (MISRA C)</name>
     <description>
     dependence on C's operator precedence</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.2</key>
@@ -9985,6 +10186,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.2: order of evaluation (MISRA C)</name>
     <description>
     order of evaluation</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.3</key>
@@ -9993,6 +10195,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.3: 'sizeof' used on expressions with side effect (MISRA C)</name>
     <description>
     'sizeof' used on expressions with side effect</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.4</key>
@@ -10001,6 +10204,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.4: Side effects on right hand side of logical operator (MISRA C)</name>
     <description>
     Side effects on right hand side of logical operator.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.5</key>
@@ -10009,6 +10213,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.5: non-primary expression used with logical operator (MISRA C)</name>
     <description>
     non-primary expression used with logical operator</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.6</key>
@@ -10017,6 +10222,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.6: boolean expression required for logical operator (MISRA C)</name>
     <description>
     boolean expression required for logical operator</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.7</key>
@@ -10025,6 +10231,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.7: Bitwise operator applied to signed underlying type (MISRA C)</name>
     <description>
     Bitwise operator applied to signed underlying type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.8</key>
@@ -10033,6 +10240,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.8: excessive shift value (MISRA C)</name>
     <description>
     excessive shift value</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.9</key>
@@ -10041,6 +10249,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.9: Prohibited operator applied to unsigned underlying type (MISRA C)</name>
     <description>
     Prohibited operator applied to unsigned underlying type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.10</key>
@@ -10049,6 +10258,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.10: Comma operator used outside of 'for' expression (MISRA C)</name>
     <description>
     Comma operator used outside of 'for' expression.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.11</key>
@@ -10057,6 +10267,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.11: overflow in computing constant (MISRA C)</name>
     <description>
     overflow in computing constant</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.12</key>
@@ -10065,6 +10276,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.12: bit representation of a floating point type used (MISRA C)</name>
     <description>
     bit representation of a floating point type used</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12.13</key>
@@ -10073,6 +10285,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M12.13: increment or decrement combined with another operator (MISRA C)</name>
     <description>
     increment or decrement combined with another operator</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M13.1</key>
@@ -10081,6 +10294,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M13.1: boolean test of assignment (MISRA C)</name>
     <description>
     boolean test of assignment</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M13.2</key>
@@ -10089,6 +10303,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M13.2: boolean test of assignment (MISRA C)</name>
     <description>
     boolean test of assignment</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M13.3</key>
@@ -10097,6 +10312,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M13.3: testing floats for equality (MISRA C)</name>
     <description>
     testing floats for equality, partially covered</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M13.4</key>
@@ -10105,6 +10321,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M13.4: Floating point variable used as loop counter (MISRA C)</name>
     <description>
     Floating point variable used as loop counter.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M13.5</key>
@@ -10113,6 +10330,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M13.5: "for" loop expressions do not match (MISRA C)</name>
     <description>
     "for" loop expressions do not match</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M13.6</key>
@@ -10121,6 +10339,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M13.6: detect loop variables modified within the loop (MISRA C)</name>
     <description>
     detect loop variables modified within the loop</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M13.7</key>
@@ -10129,6 +10348,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M13.7: constant value Boolean (MISRA C)</name>
     <description>
     constant value Boolean</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.1</key>
@@ -10137,6 +10357,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.1: unreachable code (MISRA C)</name>
     <description>
     unreachable code</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.2</key>
@@ -10145,6 +10366,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.2: non-null statement has no effect (MISRA C)</name>
     <description>
     non-null statement has no effect</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.3</key>
@@ -10153,6 +10375,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.3: Null statement not in line by itself (MISRA C)</name>
     <description>
     Null statement not in line by itself.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.4</key>
@@ -10161,6 +10384,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.4: do not use goto (MISRA C)</name>
     <description>
     do not use goto</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.5</key>
@@ -10169,6 +10393,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.5: continue statement should not be used (MISRA C)</name>
     <description>
     continue statement should not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.6</key>
@@ -10177,6 +10402,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.6: More than one 'break' terminates loop (MISRA C)</name>
     <description>
     More than one 'break' terminates loop.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.7</key>
@@ -10185,6 +10411,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.7: return before function end (MISRA C)</name>
     <description>
     return before function end</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.8</key>
@@ -10193,6 +10420,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.8: use braces around body of switch, else, for, do, while (MISRA C)</name>
     <description>
     use braces around body of switch, else, for, do, while</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.9</key>
@@ -10201,6 +10429,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.9: use braces around body of if, else, else if (MISRA C)</name>
     <description>
     use braces around body of if, else, else if</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14.10</key>
@@ -10209,6 +10438,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M14.10: No 'else' at end of 'if ... else if' chain (MISRA C)</name>
     <description>
     No 'else' at end of 'if ... else if' chain.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15.0</key>
@@ -10217,6 +10447,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M15.0: use MISRA switch syntax (MISRA C)</name>
     <description>
     use MISRA switch syntax</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15.1</key>
@@ -10225,6 +10456,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M15.1: need a switch (MISRA C)</name>
     <description>
     need a switch</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15.2</key>
@@ -10233,6 +10465,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M15.2: use break to terminate case (MISRA C)</name>
     <description>
     use break to terminate case</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15.3</key>
@@ -10241,6 +10474,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M15.3: case label follows default in switch statement (MISRA C)</name>
     <description>
     case label follows default in switch statement</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15.4</key>
@@ -10249,6 +10483,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M15.4: Boolean value in switch expression (MISRA C)</name>
     <description>
     Boolean value in switch expression</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15.5</key>
@@ -10257,6 +10492,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M15.5: switch does not have a case (MISRA C)</name>
     <description>
     switch does not have a case</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.1</key>
@@ -10265,6 +10501,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.1: Function has variable number of arguments (MISRA C)</name>
     <description>
     Function has variable number of arguments.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.2</key>
@@ -10273,6 +10510,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.2: do not use recursive functions (MISRA C)</name>
     <description>
     do not use recursive functions</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.3</key>
@@ -10281,6 +10519,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.3: use identifiers for all parameters in a prototype (MISRA C)</name>
     <description>
     use identifiers for all parameters in a prototype</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.4</key>
@@ -10289,6 +10528,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.4: function parameter list differs from prior declaration (MISRA C)</name>
     <description>
     function parameter list differs from prior declaration</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.5</key>
@@ -10297,6 +10537,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.5: function declaration is missing type info (MISRA C)</name>
     <description>
     function declaration is missing type info</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.6</key>
@@ -10305,6 +10546,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.6: too few or too many arguments for prototype (MISRA C)</name>
     <description>
     too few or too many arguments for prototype</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.7</key>
@@ -10313,6 +10555,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.7: use const on parameters where appropriate (MISRA C)</name>
     <description>
     use const on parameters where appropriate</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.8</key>
@@ -10321,6 +10564,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.8: function should return a value (MISRA C)</name>
     <description>
     function should return a value</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.9</key>
@@ -10329,6 +10573,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.9: function identifier used without "&amp;" or parenthesized parameter list (MISRA C)</name>
     <description>
     function identifier used without "&amp;" or parenthesized parameter list</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16.10</key>
@@ -10337,6 +10582,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M16.10: ignoring return value of function (MISRA C)</name>
     <description>
     ignoring return value of function</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17.1</key>
@@ -10345,6 +10591,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M17.1: pointer arithmetic used on non-array (MISRA C)</name>
     <description>
     pointer arithmetic used on non-array</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17.2</key>
@@ -10353,6 +10600,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M17.2: relational or subtract operator applied to pointers (MISRA C)</name>
     <description>
     relational or subtract operator applied to pointers</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17.3</key>
@@ -10361,6 +10609,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M17.3: relational or subtract operator applied to pointers (MISRA C)</name>
     <description>
     relational or subtract operator applied to pointers</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17.4</key>
@@ -10369,6 +10618,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M17.4: pointer arithmetic by increment or decrement (MISRA C)</name>
     <description>
     pointer arithmetic by increment or decrement</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17.5</key>
@@ -10377,6 +10627,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M17.5: more than two pointer indirection levels used (MISRA C)</name>
     <description>
     more than two pointer indirection levels used</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17.6</key>
@@ -10385,6 +10636,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M17.6: assigning address of auto to outer scope symbol or to static (MISRA C)</name>
     <description>
     assigning address of auto to outer scope symbol or to static</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18.1</key>
@@ -10393,6 +10645,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M18.1: vacuous type for variable (MISRA C)</name>
     <description>
     vacuous type for variable</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18.4</key>
@@ -10401,6 +10654,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M18.4: Unions shall not be used,MISRA Rule 18.4</name>
     <description>
     Unions shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.1</key>
@@ -10409,6 +10663,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.1: only preprocessor statements and comments before '#include' (MISRA C)</name>
     <description>
     only preprocessor statements and comments before '#include'</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.2</key>
@@ -10417,6 +10672,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.2: header file name with non-standard character (MISRA C)</name>
     <description>
     header file name with non-standard character</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.3</key>
@@ -10425,6 +10681,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.3: need &lt; or " after #include (MISRA C)</name>
     <description>
     need &lt; or " after #include</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.4</key>
@@ -10433,6 +10690,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.4: expression-like macro not parenthesized (MISRA C)</name>
     <description>
     expression-like macro not parenthesized</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.5</key>
@@ -10441,6 +10699,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.5: '#define/#undef' used within a block (MISRA C)</name>
     <description>
     '#define/#undef' used within a block.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.6</key>
@@ -10449,6 +10708,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.6: Use of '#undef' prohibited (MISRA C)</name>
     <description>
     Use of '#undef' prohibited</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.7</key>
@@ -10457,6 +10717,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.7: use function instead of function-like macro (MISRA C)</name>
     <description>
     use function instead of function-like macro</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.8</key>
@@ -10465,6 +10726,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.8: syntax error in call of macro (MISRA C)</name>
     <description>
     syntax error in call of macro</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.9</key>
@@ -10473,6 +10735,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.9: preprocessor directives in macro invocation (MISRA C)</name>
     <description>
     preprocessor directives in macro invocation</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.10</key>
@@ -10481,6 +10744,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.10: expression-like macro not parenthesized (MISRA C)</name>
     <description>
     expression-like macro not parenthesized</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.11</key>
@@ -10489,6 +10753,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.11: undefined preprocessor variable (MISRA C)</name>
     <description>
     undefined preprocessor variable</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.12</key>
@@ -10497,6 +10762,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.12: Multiple use of '#' and/or '##' operators in macro definition (MISRA C)</name>
     <description>
     Multiple use of '#' and/or '##' operators in macro definition.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.13</key>
@@ -10505,6 +10771,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.13: do not use of # or ## operators in macro definition (MISRA C)</name>
     <description>
     do not use of # or ## operators in macro definition</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.14</key>
@@ -10513,6 +10780,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.14: Non-standard use of 'defined' preprocessor operator (MISRA C)</name>
     <description>
     Non-standard use of 'defined' preprocessor operator.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.15</key>
@@ -10521,6 +10789,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.15: repeated include file (MISRA C)</name>
     <description>
     repeated include file</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.16</key>
@@ -10529,6 +10798,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.16: #endif or #else is not followed by EOL (MISRA C)</name>
     <description>
     #endif or #else is not followed by EOL</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19.17</key>
@@ -10537,6 +10807,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M19.17: #if not closed within file (MISRA C)</name>
     <description>
     #if not closed within file</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.1</key>
@@ -10545,6 +10816,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.1: do not redefine standard functions (MISRA C)</name>
     <description>
     do not redefine standard functions</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.2</key>
@@ -10553,6 +10825,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.2: re-use of reserved identifier (MISRA C)</name>
     <description>
     re-use of reserved identifier</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.3</key>
@@ -10561,6 +10834,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.3: calls to standard library functions are checked (MISRA C)</name>
     <description>
     calls to standard library functions are checked</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.4</key>
@@ -10569,6 +10843,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.4: do not use dynamic heap allocation (MISRA C)</name>
     <description>
     do not use dynamic heap allocation</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.5</key>
@@ -10577,6 +10852,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.5: do not use errno (MISRA C)</name>
     <description>
     do not use errno</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.6</key>
@@ -10585,6 +10861,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.6: do not use offsetof (MISRA C)</name>
     <description>
     do not use offsetof</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.7</key>
@@ -10593,6 +10870,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.7: do not use longjmp, setjmp (MISRA C)</name>
     <description>
     do not use longjmp, setjmp</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.8</key>
@@ -10601,6 +10879,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.8: do not use signal, raise (MISRA C)</name>
     <description>
     do not use signal, raise</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.9</key>
@@ -10609,6 +10888,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.9: do not use stdio.h (MISRA C)</name>
     <description>
     do not use stdio.h</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.10</key>
@@ -10617,6 +10897,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.10: do not use atof, atio, atoll (MISRA C)</name>
     <description>
     do not use atof, atio, atoll</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.11</key>
@@ -10625,6 +10906,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.11: do not use abort, exit, getenv, system (MISRA C)</name>
     <description>
     do not use abort, exit, getenv, system</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M20.12</key>
@@ -10633,6 +10915,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M20.12: do not use time, strftime, clock, difftime, mktime (MISRA C)</name>
     <description>
     do not use time, strftime, clock, difftime, mktime</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M21.1</key>
@@ -10641,6 +10924,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M21.1: static analysis by using PC-lint/FlexeLint (MISRA C)</name>
     <description>
     static analysis by using PC-lint/FlexeLint</description>
+    <tag>misra</tag>
   </rule>
   <!--MISRA C++ (2008) Rules-->
   <rule>
@@ -10649,6 +10933,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-1: Unreachable (MISRA C++)</name>
     <description>(Required) A project shall not contain unreachable code</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-2</key>
@@ -10656,6 +10941,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-2: infeasible path (MISRA C++)</name>
     <description>(Required) A project shall not contain infeasible paths.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-3</key>
@@ -10663,6 +10949,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-3: unused variable (MISRA C++)</name>
     <description>(Required) A project shall not contain unused variables.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-4</key>
@@ -10670,6 +10957,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-4: symbol not referenced or accessed (MISRA C++)</name>
     <description>(Required) A project shall not contain non-volatile POD variables having only one use.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-5</key>
@@ -10677,6 +10965,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-5: unused type declaration (MISRA C++)</name>
     <description>(Required) A project shall not contain unused type declarations.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-6</key>
@@ -10684,6 +10973,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-6: last value assigned to variable not used (MISRA C++)</name>
     <description>(Required) A project shall not contain instances of non-volatile variables being given values that are never subsequently used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-7</key>
@@ -10691,6 +10981,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-7: ignoring return value of function (MISRA C++)</name>
     <description>(Required) The value returned by a function having a non-void return type that is not an overloaded operator shall always be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-8</key>
@@ -10698,6 +10989,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-8: Void return type for function without external side-effects (MISRA C++)</name>
     <description>(Required) All functions with void return type shall have external side effect(s).</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-9</key>
@@ -10705,6 +10997,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-9: dead(redundant) code (MISRA C++)</name>
     <description>(Required) There shall be no dead code.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-10</key>
@@ -10712,6 +11005,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-10: unused function (MISRA C++)</name>
     <description>(Required) Every defined function shall be called at least once.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-11</key>
@@ -10719,6 +11013,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-11: unused function parameter (MISRA C++)</name>
     <description>(Required) There shall be no unused parameters (named or unnamed) in nonvirtual functions.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-1-12</key>
@@ -10726,6 +11021,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-1-12: unused function parameter (MISRA C++)</name>
     <description>(Required) There shall be no unused parameters (named or unnamed) in the set of parameters for a virtual function and all the functions that override it.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M0-2-1</key>
@@ -10733,6 +11029,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-2-1: unions shall not be used (MISRA C++)</name>
     <description>(Required) An object shall not be assigned to an overlapping object.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ Rule 0-3-1 automatically accomplished by using PC-lint/FlexeLint
@@ -10745,6 +11042,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M0-3-2: ignoring return value of function (MISRA C++)</name>
     <description>(Required) If a function generates error information, then that error information shall be tested.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 0-4-1 doc, not statically checkable
@@ -10761,6 +11059,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M1-0-1: strict ANSI / ISO (MISRA C++)</name>
     <description>(Required) All code shall conform to ISO/IEC 14882:2003 "The C++ Standard Incorporating Technical Corrigendum 1".</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 1-0-2 req, not statically checkable
@@ -10776,6 +11075,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-3-1: do not use trigraphs (MISRA C++)</name>
     <description>(Required) Trigraphs shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2-5-1</key>
@@ -10783,6 +11083,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-5-1: possible digraph used (MISRA C++)</name>
     <description>(Advisory) Digraphs should not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2-7-1</key>
@@ -10790,6 +11091,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-7-1: do not nest comments (MISRA C++)</name>
     <description>(Required) The character sequence /* shall not be used within a C-style comment.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 2-7-2 req n/a not statically checkable
@@ -10815,6 +11117,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-10-1: suspicious constant (MISRA C++)</name>
     <description>(Required) Different identifiers shall be typographically unambiguous.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2-10-2</key>
@@ -10822,6 +11125,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-10-2: report on name hiding (MISRA C++)</name>
     <description>(Required) Identifiers declared in an inner scope shall not hide an identifier declared in an outer scope.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 2-10-3 req no not currently supported
@@ -10837,6 +11141,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-10-6: symbol redeclared (MISRA C++)</name>
     <description>(Required) If an identifier refers to a type, it shall not also refer to an object or a function in the same scope.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2-13-1</key>
@@ -10844,6 +11149,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-13-1: non-ANSI escape sequence (MISRA C++)</name>
     <description>(Required) Only those escape sequences that are defined in ISO/IEC 14882:2003 shall be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2-13-2</key>
@@ -10851,6 +11157,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-13-2: octal constant or escape sequence used (MISRA C++)</name>
     <description>(Required) Octal constants (other than zero) and octal escape sequences (other than 0) shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2-13-3</key>
@@ -10858,6 +11165,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-13-3: unsigned octal &amp; hexadecimal literals require a ‘U’ suffix (MISRA C++)</name>
     <description>(Required) A "U" suffix shall be applied to all octal or hexadecimal integer literals of unsigned type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M2-13-4</key>
@@ -10865,6 +11173,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-13-4: Lower case literal suffix (MISRA C++)</name>
     <description>(Required) Literal suffixes shall be upper case.</description>
+    <tag>misra</tag>
   </rule>
    <rule>
     <key>M2-13-5</key>
@@ -10872,6 +11181,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M2-13-5: mixing narrow and wide string literals in concatenation (MISRA C++)</name>
     <description>(Required) Narrow and wide string literals shall not be concatenated.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-1-1</key>
@@ -10879,6 +11189,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-1-1: Object/function definitions in headers (MISRA C++)</name>
     <description>(Required) It shall be possible to include any header file in multiple translation units without violating the One Definition Rule.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-1-2</key>
@@ -10886,6 +11197,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-1-2: Function not declared at file scope (MISRA C++)</name>
     <description>(Required) Functions shall not be declared at block scope.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-1-3</key>
@@ -10893,6 +11205,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-1-3: Array has dimension 0 (MISRA C++)</name>
     <description>(Required) When an array is declared, its size shall either be stated explicitly or defined implicitly by initialization.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-2-1</key>
@@ -10900,6 +11213,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-2-1: Symbol is redeclared or redefined (MISRA C++)</name>
     <description>(Required) All declarations of an object or function shall have compatible types.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-2-2</key>
@@ -10907,6 +11221,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-2-2: Symbol is redeclared or redefined (MISRA C++)</name>
     <description>(Required) The One Definition Rule shall not be violated.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-2-3</key>
@@ -10914,6 +11229,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-2-3: Object/function type previously declared (MISRA C++)</name>
     <description>(Required) A type, object or function that is used in multiple translation units shall be declared in one and only one file.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-2-4</key>
@@ -10921,6 +11237,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-2-4: Symbol is redeclared or redefined (MISRA C++)</name>
     <description>(Required) An identifier with external linkage shall have exactly one definition.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-3-1</key>
@@ -10928,6 +11245,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-3-1: Header declaration for symbol could be moved from header to module/symbol could be made static (MISRA C++)</name>
     <description>(Required) Objects or functions with external linkage shall be declared in a header file.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-3-2</key>
@@ -10935,6 +11253,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-3-2: Static symbol not declared static (MISRA C++)</name>
     <description>(Required) If a function has internal linkage then all re-declarations shall include the static storage class specifier.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 3-4-1 req no not currently supported
@@ -10948,6 +11267,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-9-2: Type or modifier used outside of typedef (MISRA C++)</name>
     <description>(Advisory) typedefs that indicate size and signedness should be used in place of the basic numerical types.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M3-9-3</key>
@@ -10955,6 +11275,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <priority>INFO</priority>
     <name>M3-9-3: Bit representation of a floating point type used (MISRA C++)</name>
     <description>(Required) The underlying bit representations of floating-point values shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M4-5-1</key>
@@ -10963,6 +11284,7 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <name>M4-5-1: Boolean expression used with non-permitted operator (MISRA C++)</name>
     <description>(Required) Expressions with type bool shall not be used as operands to built-in operators other than the assignment operator =, the logical operators
 &amp;&amp;, ||, !, the equality operators == and !=, the unary &amp; operator, and the conditional operator.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 4-5-2 req no not currently supported
@@ -10976,6 +11298,7 @@ operator =, the equality operators == and !=, the unary & operator, and the rela
     <name>M4-5-3: Plain char used with prohibited operator (MISRA C++)</name>
     <description>(Required) Expressions with type (plain) char and wchar_t shall not be used as operands to built-in operators other than the assignment operator =,
 the equality operators == and !=, and the unary &amp; operator.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 4-10-1 req no not currently supported
@@ -10987,6 +11310,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M4-10-2: Implicit conversion from 0 to pointer (MISRA C++)</name>
     <description>(Required) Literal zero (0) shall not be used as the null-pointer-constant.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-1</key>
@@ -10994,6 +11318,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-1: Order of evaluation (MISRA C++)</name>
     <description>(Required) The value of an expression shall be the same under any order of evaluation that the standard permits.</description>
+    <tag>misra</tag>
   </rule>
     <rule>
     <key>M5-0-2</key>
@@ -11001,6 +11326,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-2: Dependence placed on C's operator precedence (MISRA C++)</name>
     <description>(Advisory) Limited dependence should be placed on C++ operator precedence rules in expressions.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-3</key>
@@ -11008,6 +11334,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-3: Implicit conversion of cvalue (MISRA C++)</name>
     <description>(Required) A cvalue expression shall not be implicitly converted to a different underlying type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-4</key>
@@ -11015,6 +11342,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-4: Implicit conversion changes signedness (MISRA C++)</name>
     <description>(Required) An implicit integral conversion shall not change the signedness of the underlying type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-5</key>
@@ -11022,6 +11350,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-5: Implicit conversion between integer and floating point types (MISRA C++)</name>
     <description>(Required) There shall be no implicit floating-integral conversions.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-6</key>
@@ -11029,6 +11358,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-6: Implicit conversion to smaller type (MISRA C++)</name>
     <description>(Required) An implicit integral or floating-point conversion shall not reduce the size of the underlying type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-7</key>
@@ -11036,6 +11366,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-7: Cast of cvalue between integer and floating point types (MISRA C++)</name>
     <description>(Required) There shall be no explicit floating-integral conversions of a cvalue expression.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-8</key>
@@ -11043,6 +11374,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-8: Cast of cvalue to larger type (MISRA C++)</name>
     <description>(Required) An explicit integral or floating-point conversion shall not increase the size of the underlying type of a cvalue expression.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-9</key>
@@ -11050,6 +11382,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <priority>INFO</priority>
     <name>M5-0-9: Cast of cvalue changes signedness (MISRA C++)</name>
     <description>(Required) An explicit integral conversion shall not change the signedness of the underlying type of a cvalue expression.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-10</key>
@@ -11058,6 +11391,7 @@ the equality operators == and !=, and the unary &amp; operator.</description>
     <name>M5-0-10: Recasting required for operators '~' and '&lt;&lt;' (MISRA C++)</name>
     <description>(Required) If the bitwise operators ~ and &lt;&lt; are applied to an operand with an underlying type of unsigned char or unsigned short, the result shall be
 immediately cast to the underlying type of the operand.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-11</key>
@@ -11065,6 +11399,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-11: Type other than plain char (MISRA C++)</name>
     <description>(Required) The plain char type shall only be used for the storage and use of character values.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-12</key>
@@ -11072,6 +11407,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-12: Disallowed use of non-numeric value (MISRA C++)</name>
     <description>(Required) signed char and unsigned char type shall only be used for the storage and use of numeric values.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-13</key>
@@ -11079,6 +11415,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-13: Implicit conversion (MISRA C++)</name>
     <description>(Required) The condition of an if statement and the condition of an iteration-statement shall have type bool.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-14</key>
@@ -11086,6 +11423,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-14: Implicit conversion (MISRA C++)</name>
     <description>(Required) The first operand of a conditional-operator shall have type bool.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-15</key>
@@ -11093,6 +11431,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-15: pointer arithmetic other than array indexing used (MISRA C++)</name>
     <description>(Required) Array indexing shall be the only form of pointer arithmetic.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-16</key>
@@ -11100,6 +11439,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-16: Out-of-bounds pointer (MISRA C++)</name>
     <description>(Required) A pointer operand and any pointer resulting from pointer arithmetic using that operand shall both address elements of the same array.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-17</key>
@@ -11107,6 +11447,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-17: Subtract operator applied to pointers (MISRA C++)</name>
     <description>(Required) Subtraction between pointers shall only be applied to pointers that address elements of the same array.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-18</key>
@@ -11114,6 +11455,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-18: Relational operator applied to pointers (MISRA C++)</name>
     <description>(Required) &gt;, &gt;=, &lt;, &lt;= shall not be applied to objects of pointer type, except where they point to the same array.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-0-19</key>
@@ -11121,6 +11463,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-19: More than two pointer indirection levels used (MISRA C++)</name>
     <description>(Required) The declaration of objects shall contain no more than two levels of pointer indirection.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 5-0-20 req no not currently supported
@@ -11132,6 +11475,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-0-21: Bitwise operator applied to signed underlying type (MISRA C++)</name>
     <description>(Required) Bitwise operators shall only be applied to operands of unsigned underlying type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-1</key>
@@ -11139,6 +11483,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-1: non-postfix expression used with logical operator (MISRA C++)</name>
     <description>(Required) Each operand of a logical &amp;&amp; or || shall be a postfix-expression.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-2</key>
@@ -11146,6 +11491,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-2: use dynamic_cast to downcast polymorphic type (MISRA C++)</name>
     <description>(Required) A pointer to a virtual base class shall only be cast to a pointer to a derived class by means of dynamic_cast.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 5-2-3 adv no not currently supported
@@ -11157,6 +11503,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-4: C-style cast (MISRA C++)</name>
     <description>(Required) C-style casts (other than void casts) and functional notation casts (other than explicit constructor calls) shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-5</key>
@@ -11164,6 +11511,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-5: attempt to cast away const/volatile from a pointer or reference (MISRA C++)</name>
     <description>(Required) A cast shall not remove any const or volatile qualification from the type of a pointer or reference.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-6</key>
@@ -11171,6 +11519,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-6: Suspicious cast / unusual pointer cast (MISRA C++)</name>
     <description>(Required) A cast shall not convert a pointer to a function to any other pointer type, including a pointer to function type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-7</key>
@@ -11178,6 +11527,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-7: Pointer conversion to an unrelated type (MISRA C++)</name>
     <description>(Required) An object with pointer type shall not be converted to an unrelated pointer type, either directly or indirectly.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-8</key>
@@ -11185,6 +11535,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-8: Cast from integer or pointer to void to a pointer to an object (MISRA C++)</name>
     <description>(Required) An object with integer type or pointer to void type shall not be converted to an object with pointer type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-9</key>
@@ -11192,6 +11543,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-9: Cast from pointer to integral type (MISRA C++)</name>
     <description>(Advisory) A cast should not convert a pointer type to an integral type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-10</key>
@@ -11199,6 +11551,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-10: Increment or decrement combined with another operator (MISRA C++)</name>
     <description>(Advisory) The increment (++) and decrement (--) operators should not be mixed with other operators in an expression.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-11</key>
@@ -11206,6 +11559,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-11: overloading special operators – ',' '&amp;&amp;' '||' (MISRA C++)</name>
     <description>(Required) The comma operator, '&amp;&amp;' operator and the '||' operator shall not be overloaded.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-2-12</key>
@@ -11213,6 +11567,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-2-12: Array-pointer decay when passing the array to a function (MISRA C++)</name>
     <description>(Required) An identifier with array type passed as a function argument shall not decay to a pointer.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-3-1</key>
@@ -11220,6 +11575,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-3-1: boolean expression required for operator: '||'; the -strong(B,...) option can help provide Boolean-by-enforcement (MISRA C++)</name>
     <description>(Required) Each operand of the ! operator, the logical &amp;&amp; or the logical || operators shall have type bool.</description>
+    <tag>misra</tag>
   </rule>
     <rule>
     <key>M5-3-2</key>
@@ -11227,6 +11583,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-3-2: Prohibited operator applied to unsigned underlying type (MISRA C++)</name>
     <description>(Required) The unary minus operator shall not be applied to an expression whose underlying type is unsigned</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-3-3</key>
@@ -11234,6 +11591,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-3-3: Overloading unary &amp; (MISRA C++)</name>
     <description>(Required) The unary &amp; operator shall not be overloaded.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-3-4</key>
@@ -11241,6 +11599,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-3-4: 'sizeof' used on expressions with side effect (MISRA C++)</name>
     <description>(Required) Evaluation of the operand to the sizeof operator shall not contain side effects.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-8-1</key>
@@ -11248,6 +11607,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-8-1: excessive shift value (MISRA C++)</name>
     <description>(Required) The right hand operand of a shift operator shall lie between zero and one less than the width in bits of the underlying type of the left hand operand</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M5-14-1</key>
@@ -11255,6 +11615,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-14-1: Side effects on right hand side of logical operator (MISRA C++)</name>
     <description>(Required) The right hand operand of a logical &amp;&amp; or || operator shall not contain side effects.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 5-17-1 req no not currently supported
@@ -11266,6 +11627,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-18-1: Comma operator used (MISRA C++)</name>
     <description>(Required) The comma operator shall not be used.</description>
+    <tag>misra</tag>
   </rule>
    <rule>
     <key>M5-19-1</key>
@@ -11273,6 +11635,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M5-19-1: Overflow in computing constant (MISRA C++)</name>
     <description>(Advisory) Evaluation of constant unsigned integer expressions should not lead to wrap-around.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-2-1</key>
@@ -11280,6 +11643,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-2-1: Assignment operator used in sub-expression (MISRA C++)</name>
     <description>(Required) Assignment operators shall not be used in sub-expressions.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-2-2</key>
@@ -11287,6 +11651,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-2-2: Testing floats for equality (MISRA C++)</name>
     <description>(Required) Floating-point expressions shall not be directly or indirectly tested for equality or inequality</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-2-3</key>
@@ -11294,6 +11659,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-2-3: Null statement not in line by itself (MISRA C++)</name>
     <description>(Required) Before preprocessing, a null statement shall only occur on a line by itself; it may be followed by a comment, provided that the first character following the null statement</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-3-1</key>
@@ -11301,6 +11667,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-3-1: Left brace expected for if, else, for, do, switch and while (MISRA C++)</name>
     <description>(Required) The statement forming the body of a switch, while, do ... while or for statement shall be a compound statement.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-4-1</key>
@@ -11308,6 +11675,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-4-1: Left brace expected for if, else, for, do, switch and while (MISRA C++)</name>
     <description>(Required) An if ( condition ) construct shall be followed by a compound statement. The else keyword shall be followed by either a compound statement, or another if statement.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-4-2</key>
@@ -11315,6 +11683,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-4-2: No 'else' at end of 'if ... else if' chain (MISRA C++)</name>
     <description>(Required) All if ... else if constructs shall be terminated with an else clause.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 6-4-3 req no not currently supported
@@ -11328,6 +11697,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-4-5: Control flows into case/default (MISRA C++)</name>
     <description>(Required) An unconditional throw or break statement shall terminate every non-empty switch-clause.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-4-6</key>
@@ -11335,6 +11705,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-4-6: Switch statement has no default or case follows default (MISRA C++)</name>
     <description>(Required) The final clause of a switch statement shall be the default-clause.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-4-7</key>
@@ -11342,6 +11713,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-4-7: Boolean value in switch expression (MISRA C++)</name>
     <description>(Required) The condition of a switch statement shall not have bool type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-4-8</key>
@@ -11349,6 +11721,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-4-8: Switch does not have a case (MISRA C++)</name>
     <description>(Required) Every switch statement shall have at least one case-clause.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 6-5-1 req no not currently supported
@@ -11362,6 +11735,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-5-3: Reuse of for loop variable could cause chaos (MISRA C++)</name>
     <description>(Required) The loop-counter shall not be modified within condition or statement.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 6-5-4 req no not currently supported
@@ -11379,6 +11753,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-6-2: Gotos jumping to an earlier point in the code (MISRA C++)</name>
     <description>(Required) The goto statement shall jump to a label declared later in the same function body.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-6-3</key>
@@ -11386,6 +11761,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-6-3: continue statement should not be used (MISRA C++)</name>
     <description>(Required) The continue statement shall only be used within a well-formed for loop.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-6-4</key>
@@ -11393,6 +11769,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-6-4: More than one 'break' terminates loop (MISRA C++)</name>
     <description>(Required) For any iteration statement there shall be no more than one break or goto statement used for loop termination.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M6-6-5</key>
@@ -11400,6 +11777,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M6-6-5: Return before function end (MISRA C++)</name>
     <description>(Required) A function shall have a single point of exit at the end of the function.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-1-1</key>
@@ -11407,6 +11785,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-1-1: Use const on parameters where appropriate (MISRA C++)</name>
     <description>(Required) A variable which is not modified shall be const qualified.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-1-2</key>
@@ -11414,6 +11793,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-1-2: Use const on parameters where appropriate (MISRA C++)</name>
     <description>(Required) A pointer or reference parameter in a function shall be declared as pointer to const or reference to const if the corresponding object is not modified.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 7-2-1 req Yes not currently supported
@@ -11425,6 +11805,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-3-1: Global declarations other than main(), namespace declarations, extern &quot;C&quot; declarations and arithmetic typedefs (MISRA C++)</name>
     <description>(Required) The global namespace shall only contain main, namespace declarations and extern &quot;C&quot; declarations.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-3-2</key>
@@ -11432,6 +11813,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-3-2: Using the identifier main for functions other than the global one (MISRA C++)</name>
     <description>(Required) The identifier main shall not be used for a function other than the global function main.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-3-3</key>
@@ -11439,6 +11821,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-3-3: Unnamed namespaces in headers (MISRA C++)</name>
     <description>(Required) There shall be no unnamed namespaces in header files.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-3-4</key>
@@ -11446,6 +11829,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-3-4: No using-directives allowed (MISRA C++)</name>
     <description>(Required) using-directives shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 7-3-5 req no not currently supported
@@ -11457,6 +11841,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-3-6: Using-directives or using declarations (except class and/or block scope using declarations) in header files (MISRA C++)</name>
     <description>(Required) using-directives and using declarations (excluding class scope or function scope using-declarations) shall not be used in header files.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 7-4-1 doc n/a not statically checkable
@@ -11468,6 +11853,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-4-2: Only use the asm declaration to introduce assembly code (MISRA C++)</name>
     <description>(Required) Assembler instructions shall only be introduced using the asm declaration.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 7-4-3 req no not currently supported
@@ -11479,6 +11865,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-5-1: Returning address of auto variable (MISRA C++)</name>
     <description>(Required) A function shall not return a reference or a pointer to an automatic variable (including parameters), defined within the function.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-5-2</key>
@@ -11486,6 +11873,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-5-2: Assigning address of auto to static (MISRA C++)</name>
     <description>(Required) The address of an object with automatic storage shall not be assigned to another object that may persist after the first object has ceased to exist.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-5-3</key>
@@ -11493,6 +11881,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-5-3: Returning address of reference to a const parameter address of reference parameter transferred outside of function (MISRA C++)</name>
     <description>(Required) A function shall not return a reference or a pointer to a parameter that is passed by reference or const reference.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M7-5-4</key>
@@ -11500,6 +11889,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M7-5-4: Worst case function for stack usage (MISRA C++)</name>
     <description>(Advisory) Functions should not call themselves, either directly or indirectly.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-0-1</key>
@@ -11507,6 +11897,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-0-1: Multiple declarators in a declaration (MISRA C++)</name>
     <description>(Required) An init-declarator-list or a member-declarator-list shall consist of a single init-declarator or member declarator respectively.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-3-1</key>
@@ -11514,6 +11905,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-3-1: Virtual function has default parameter (MISRA C++)</name>
     <description>(Required) Parameters in an overriding virtual function shall either use the same default arguments as the function they override, or else shall not specify any default arguments.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-4-1</key>
@@ -11521,6 +11913,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-4-1: Function has variable number of arguments (MISRA C++)</name>
     <description>(Required) Functions shall not be defined using the ellipsis notation.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-4-2</key>
@@ -11528,6 +11921,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-4-2: Function parameter list differs from prior declaration (MISRA C++)</name>
     <description>(Required) The identifiers used for the parameters in a re-declaration of a function shall be identical to those in the declaration.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-4-3</key>
@@ -11535,6 +11929,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-4-3: Function should return a value (MISRA C++)</name>
     <description>(Required) All exit paths from a function with non-void return type shall have an explicit return statement with an expression.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-4-4</key>
@@ -11542,6 +11937,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-4-4: Function parameter list differs from prior declaration (MISRA C++)</name>
     <description>(Required) A function identifier shall either be used to call the function or it shall be preceded by &amp;.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-5-1</key>
@@ -11549,6 +11945,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-5-1: Symbol not initialized (MISRA C++)</name>
     <description>(Required) All variables shall have a defined value before they are used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-5-2</key>
@@ -11556,6 +11953,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-5-2: Omitted braces within an initializer (MISRA C++)</name>
     <description>(Required) Braces shall be used to indicate and match the structure in the nonzero initialization of arrays and structures.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M8-5-3</key>
@@ -11563,6 +11961,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M8-5-3: Should initialize either all enum members or only the first (MISRA C++)</name>
     <description>(Required) In an enumerator list, the = construct shall not be used to explicitly initialize members other than the first, unless all items are explicitly initialized.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9-3-1</key>
@@ -11570,6 +11969,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M9-3-1: Const member function anomaly (MISRA C++)</name>
     <description>(Required) const member functions shall not return non-const pointers or references to class-data.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9-3-2</key>
@@ -11577,6 +11977,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M9-3-2: Member function returns non-const address (MISRA C++)</name>
     <description>(Required) Member functions shall not return non-const handles to classdata.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9-3-3</key>
@@ -11584,6 +11985,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M9-3-3: Member function could be made const (MISRA C++)</name>
     <description>(Required) If a member function can be made static then it shall be made static, otherwise if it can be made const then it shall be made const.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9-5-1</key>
@@ -11591,6 +11993,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M9-5-1: Unions shall not be used (MISRA C++)</name>
     <description>(Required) Unions shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 9-6-1 doc n/a not statically checkable
@@ -11602,6 +12005,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M9-6-2: Bit field type should be int (MISRA C++)</name>
     <description>(Required) Bit-fields shall be either bool type or an explicitly unsigned or signed integral type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9-6-3</key>
@@ -11609,6 +12013,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M9-6-3: Bit field type should be int (MISRA C++)</name>
     <description>(Required) Bit-fields shall not have enum type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M9-6-4</key>
@@ -11616,6 +12021,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M9-6-4: Small bit field is signed rather than unsigned (MISRA C++)</name>
     <description>(Required) Named bit-fields with signed integer type shall have a length of more than one bit.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M10-1-1</key>
@@ -11623,6 +12029,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M10-1-1: Base class need not be virtual (MISRA C++)</name>
     <description>(Advisory) Classes should not be derived from virtual bases.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 10-1-2 req no not currently supported
@@ -11634,6 +12041,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M10-1-3: Non-virtual base class included twice in class (MISRA C++)</name>
     <description>(Required) An accessible base class shall not be both virtual and nonvirtual in the same hierarchy.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 10-2-1 adv no not currently supported
@@ -11647,6 +12055,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M10-3-2: 'virtual' assumed for function (MISRA C++)</name>
     <description>(Required) Each overriding virtual function shall be declared with the virtual keyword.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 10-3-3 req no not currently supported
@@ -11658,6 +12067,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M11-0-1: Non-private data member within a non-POD structure (MISRA C++)</name>
     <description>(Required) Member data in non-POD class types shall be private.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12-1-1</key>
@@ -11665,6 +12075,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M12-1-1: Call to virtual function within a constructor or destructor (MISRA C++)</name>
     <description>(Required) An object's dynamic type shall not be used from the body of its constructor or destructor.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12-1-2</key>
@@ -11672,6 +12083,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M12-1-2: Symbol did not appear in constructor initializer list (MISRA C++)</name>
     <description>(Advisory) All constructors of a class should explicitly call a constructor for all of its immediate base classes and all virtual base classes.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 12-1-3 req no not currently supported
@@ -11683,6 +12095,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M12-8-1: Constructor access global data (MISRA C++)</name>
     <description>(Required) A copy constructor shall only initialize its base classes and the nonstatic members of the class of which it is a member.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M12-8-2</key>
@@ -11690,6 +12103,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M12-8-2: Public copy constructor in abstract class (MISRA C++)</name>
     <description>(Required) The copy assignment operator shall be declared protected or private in an abstract class.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14-5-1</key>
@@ -11697,6 +12111,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-5-1: Generic function template associated with type (MISRA C++)</name>
     <description>(Required) A non-member generic function shall only be declared in a namespace that is not an associated namespace.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14-5-2</key>
@@ -11704,6 +12119,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-5-2: Template constructor cannot be a copy constructor (MISRA C++)</name>
     <description>(Required) A copy constructor shall be declared when there is a template constructor with a single parameter that is a generic parameter.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14-5-3</key>
@@ -11711,6 +12127,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-5-3: Operator =() for class is not assignment operator (MISRA C++)</name>
     <description>(Required) A copy assignment operator shall be declared when there is a template assignment operator with a parameter that is a generic parameter.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14-6-1</key>
@@ -11718,6 +12135,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-6-1: Unqualified name subject to misinterpretation (MISRA C++)</name>
     <description>(Required) In a class template with a dependent base, any name that may be found in that dependent base shall be referred to using a qualified-id or this-&gt;</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 14-6-2 req n/a awaiting clarification from MISRA
@@ -11729,6 +12147,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-7-1: Template was defined but not instantiated (MISRA C++)</name>
     <description>(Required) All class templates, function templates, class template member functions and class template static members shall be instantiated at least once.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 14-7-2 req no not currently supported
@@ -11740,6 +12159,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-7-3: Specialization occurs in different file than template (MISRA C++)</name>
     <description>(Required) All partial and explicit specializations for a template shall be declared in the same file as the declaration of their primary template.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14-8-1</key>
@@ -11747,6 +12167,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-8-1: Explicit specialization of overloaded function templates (MISRA C++)</name>
     <description>(Required) Overloaded function templates shall not be explicitly specialized.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M14-8-2</key>
@@ -11754,6 +12175,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M14-8-2: Mixing template and non-template functions in a viable set (MISRA C++)</name>
     <description>(Advisory) The viable function set for a function call should either contain no function specializations, or only contain function specializations.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 15-0-1 doc n/a not statically checkable
@@ -11765,6 +12187,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-0-2: Throwing a pointer expression (MISRA C++)</name>
     <description>(Advisory) An exception object should not have pointer type.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-0-3</key>
@@ -11772,6 +12195,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-0-3: Case/default within loop; may have been misplaced (MISRA C++)</name>
     <description>(Required) Control shall not be transferred into a try or catch block using a goto or a switch statement.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 15-1-1 req no not currently supported
@@ -11783,6 +12207,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-1-2: Explicit throw of the NULL macro (MISRA C++)</name>
     <description>(Required) NULL shall not be thrown explicitly.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-1-3</key>
@@ -11790,6 +12215,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-1-3: Empty throw outside of a catch block (MISRA C++)</name>
     <description>(Required) An empty throw (throw;) shall only be used in the compound statement of a catch handler</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-3-1</key>
@@ -11797,6 +12223,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-3-1: Exception thrown within destructor (MISRA C++)</name>
     <description>(Required) Exceptions shall be raised only after start-up and before termination of the program.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 15-3-2 adv no not currently supported
@@ -11810,6 +12237,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-3-4: Uncaught exception not on throw-list (MISRA C++)</name>
     <description>(Required) Each exception explicitly thrown in the code shall have a handler of a compatible type in all call paths that could lead to that point.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-3-5</key>
@@ -11817,6 +12245,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-3-5: Catch parameter is not a reference (MISRA C++)</name>
     <description>(Required) A class type exception shall always be caught by reference.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 15-3-6 req no not currently supported
@@ -11828,6 +12257,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-3-7: Catch handler after catch(...) in a try-catch sequence (MISRA C++)</name>
     <description>(Required) Where multiple handlers are provided in a single try-catch statement or function-try-block, any ellipsis (catch-all) handler shall occur last.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-4-1</key>
@@ -11835,6 +12265,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-4-1: Exception specification conflict (MISRA C++)</name>
     <description>(Required) If a function is declared with an exception-specification, then all declarations of the same function (in other translation units) shall be declared with the same set of type-ids.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-5-1</key>
@@ -11842,6 +12273,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-5-1: Exception thrown within destructor (MISRA C++)</name>
     <description>(Required) A class destructor shall not exit with an exception.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-5-2</key>
@@ -11849,6 +12281,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-5-2: Exception not in throw-list of function (MISRA C++)</name>
     <description>(Required) Where a function's declaration includes an exception specification, the function shall only be capable of throwing exceptions of the indicated type(s).</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M15-5-3</key>
@@ -11856,6 +12289,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M15-5-3: Exception thrown within destructor / uncaught exception not on throw-list (MISRA C++)</name>
     <description>(Required) The terminate() function shall not be called implicitly.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-1</key>
@@ -11863,6 +12297,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-1: Only preprocessor statements and comments before '#include' (MISRA C++)</name>
     <description>(Required) #include directives in a file shall only be preceded by other preprocessor directives or comments.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-2</key>
@@ -11870,6 +12305,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-2: '#define/#undef' used within a block (MISRA C++)</name>
     <description>(Required) Macros shall only be #define'd or #undef'd in the global namespace.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-3</key>
@@ -11877,6 +12313,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-3: Use of '#undef' is discouraged (MISRA C++)</name>
     <description>(Required) #undef shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-4</key>
@@ -11884,6 +12321,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-4: Use of function-like macros is discouraged (MISRA C++)</name>
     <description>(Required) Function-like macros shall not be defined.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-5</key>
@@ -11891,6 +12329,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-5: Apparent preprocessor directive in macro (MISRA C++)</name>
     <description>(Required) Arguments to a function like macro shall not contain tokens that look like preprocessing directives.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-6</key>
@@ -11898,6 +12337,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-6: Unparenthesized parameter in macro is passed an expression (MISRA C++)</name>
     <description>(Required) In the definition of a function-like macro, each instance of a parameter shall be enclosed in parentheses, unless it is used as the operand of # or ##.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-7</key>
@@ -11905,6 +12345,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-7: Undefined preprocessor variable (MISRA C++)</name>
     <description>(Required) Undefined macro identifiers shall not be used in #if or #elif preprocessor directives, except as operands to the defined operator.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-0-8</key>
@@ -11912,6 +12353,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-0-8: Unrecognized name after # / endif or else not followed by EOL (MISRA C++)</name>
     <description>(Required) If the # token appears as the first token on a line, then it shall be immediately followed by a preprocessing token.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-1-1</key>
@@ -11919,6 +12361,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-1-1: Non-standard use of 'defined' preprocessor operator (MISRA C++)</name>
     <description>(Required) The defined preprocessor operator shall only be used in one of the two standard forms.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-1-2</key>
@@ -11926,6 +12369,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-1-2: #if not closed off within file (MISRA C++)</name>
     <description>(Required) All #else, #elif and #endif preprocessor directives shall reside in the same file as the #if or #ifdef directive to which they are related.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 16-2-1 req no not currently supported
@@ -11937,6 +12381,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-2-2: Macro could become const variable (MISRA C++)</name>
     <description>(Required) C++ macros shall only be used for: include guards, type qualifiers, or storage class specifiers.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-2-3</key>
@@ -11944,6 +12389,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-2-3: Header file lacks standard include guard (MISRA C++)</name>
     <description>(Required) Include guards shall be provided.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-2-4</key>
@@ -11951,6 +12397,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-2-4: Header file name with non-standard character (MISRA C++)</name>
     <description>(Required) The ', ", /* or // characters shall not occur in a header file name.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-2-5</key>
@@ -11958,6 +12405,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-2-5: header file name with non-standard character (MISRA C++)</name>
     <description>(Advisory) The backslash character should not occur in a header file name.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-2-6</key>
@@ -11965,6 +12413,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-2-6: need &amp;&lt; or &quot; after #include (MISRA C++)</name>
     <description>(Required) The #include directive shall be followed by either a &lt;filename&gt; or &quot;filename&quot; sequence.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-3-1</key>
@@ -11972,6 +12421,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-3-1: Multiple use of '#' and/or '##' operators in macro definition/FlexeLint (MISRA C++)</name>
     <description>(Required) There shall be at most one occurrence of the # or ## operators in a single macro definition.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M16-3-2</key>
@@ -11979,6 +12429,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M16-3-2: no use of '#' or '##' (MISRA C++)</name>
     <description>(Advisory) The # and ## operators should not be used.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 16-6-1 doc n/a not statically checkable
@@ -11990,6 +12441,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M17-0-1: complain about #define standard functions (MISRA C++)</name>
     <description>(Required) Reserved identifiers, macros and functions in the standard library shall not be defined, redefined or undefined.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17-0-2</key>
@@ -11997,6 +12449,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M17-0-2: Re-use of C++ identifier pattern (MISRA C++)</name>
     <description>(Required) The names of standard library macros and objects shall not be reused.</description>
+    <tag>misra</tag>
   </rule>
   <!--
   MISRA C++ rule 17-0-3 req no not currently supported
@@ -12008,6 +12461,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M17-0-4: Use of +elib options to lint library code (MISRA C++)</name>
     <description>(Advisory) All library code shall conform to MISRA C++.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M17-0-5</key>
@@ -12015,6 +12469,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M17-0-5: Do not use setjmp and longjmp (MISRA C++)</name>
     <description>(Required) The setjmp macro and the longjmp function shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-0-1</key>
@@ -12022,6 +12477,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-0-1: Do not use C library (MISRA C++)</name>
     <description>(Required) The C library shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-0-2</key>
@@ -12029,6 +12485,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-0-2: Do not use atof, atoi, atol (MISRA C++)</name>
     <description>(Required) The library functions atof, atoi and atol from library &lt;cstdlib&gt; shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-0-3</key>
@@ -12036,6 +12493,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-0-3: Do not use abort, exit, getenv, system (MISRA C++)</name>
     <description>(Required) The library functions abort, exit, getenv and system from library &lt;cstdlib&gt; shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-0-4</key>
@@ -12043,6 +12501,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-0-4: Do not use functions in ctime header (MISRA C++)</name>
     <description>(Required) The time handling functions of library &lt;ctime&gt; shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-0-5</key>
@@ -12050,6 +12509,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-0-5: Do not use inbounded functions in cstring header (MISRA C++)</name>
     <description>(Required) The unbounded functions of library &lt;cstring&gt; shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-2-1</key>
@@ -12057,6 +12517,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-2-1: Do not use offsetof (MISRA C++)</name>
     <description>(Required) The macro offsetof shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-4-1</key>
@@ -12064,6 +12525,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-4-1: Do not use dynamic heap memory allocation functions  (MISRA C++)</name>
     <description>(Required) Dynamic heap memory allocation shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M18-7-1</key>
@@ -12071,6 +12533,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M18-7-1: Do not use csignal functions (MISRA C++)</name>
     <description>(Required) The signal handling facilities of &lt;csignal&gt; shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M19-3-1</key>
@@ -12078,6 +12541,7 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M19-3-1: Do not use errno (MISRA C++)</name>
     <description>(Required) The error indicator errno shall not be used.</description>
+    <tag>misra</tag>
   </rule>
   <rule>
     <key>M27-0-1</key>
@@ -12085,5 +12549,6 @@ immediately cast to the underlying type of the operand.</description>
     <priority>INFO</priority>
     <name>M27-0-1: Do not use cstdio functions (MISRA C++)</name>
     <description>(Required) The stream input/output library &lt;cstdio&gt; shall not be used.</description>
+    <tag>misra</tag>
   </rule>
 </rules>
