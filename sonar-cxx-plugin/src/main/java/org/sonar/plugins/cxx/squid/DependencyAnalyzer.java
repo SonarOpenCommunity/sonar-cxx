@@ -104,11 +104,11 @@ public class DependencyAnalyzer {
           if (issuable.addIssue(issue))
             violationsCount++;
         } else {
-          CxxUtils.LOG.warn("Already created edge from '" + sonarFile.getKey() + "' (line " + include.getLine() + ") to '" + includedFilePath + "'" +
-              ", previous edge from line " + prevIncludeLine);
+          CxxUtils.LOG.warn("Already created edge from '{}' (line {} to '{}', previous edge from line {}",
+            new Object[]{sonarFile.getKey(), include.getLine(), includedFilePath, prevIncludeLine});
         }
       } else if (includedFile == null) {
-        CxxUtils.LOG.warn("Unable to find resource '" + include.getPath() + "' to create a dependency with '" + sonarFile.getKey() + "'");
+        CxxUtils.LOG.warn("Unable to find resource '{}' to create a dependency with '{}'", include.getPath(), sonarFile.getKey());
       } else if (context.isIndexed(includedFile, false)) {
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());
@@ -125,7 +125,9 @@ public class DependencyAnalyzer {
           edge.addRootEdge(fileEdge);
         }
       }  else {
-        CxxUtils.LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.getName());
+        if (CxxUtils.LOG.isDebugEnabled()) {
+          CxxUtils.LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.getName());
+        }
       }
     }
   }
@@ -158,11 +160,8 @@ public class DependencyAnalyzer {
     Set<Edge> feedbackEdges = cycleDetector.getFeedbackEdgeSet();
     int tangles = cycleDetector.getWeightOfFeedbackEdgeSet();
 
-    CxxUtils.LOG.info("Project '" + project.getKey() + "'"
-        + " Cycles:" + cycles.size()
-        + " Feedback cycles:" + feedbackEdges.size()
-        + " Tangles:" + tangles
-        + " Weight:" + getEdgesWeight(packagesGraph.getEdges(packages)));
+    CxxUtils.LOG.info("Project '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
+      new Object[]{project.getKey(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(packagesGraph.getEdges(packages))});
 
     saveViolations(feedbackEdges, packagesGraph);
     savePositiveMeasure(project, CoreMetrics.PACKAGE_CYCLES, cycles.size());
@@ -190,12 +189,9 @@ public class DependencyAnalyzer {
     Set<Edge> feedbackEdges = solver.getEdges();
     int tangles = solver.getWeightOfFeedbackEdgeSet();
 
-    CxxUtils.LOG.info("Directory: '" + dir.getKey() + "'"
-        + " Cycles:" + cycles.size()
-        + " Feedback cycles:" + feedbackEdges.size()
-        + " Tangles:" + tangles
-        + " Weight:" + getEdgesWeight(filesGraph.getEdges(files)));
-
+    CxxUtils.LOG.info("Directory: '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
+      new Object[]{dir.getKey(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(filesGraph.getEdges(files))});
+           
     savePositiveMeasure(dir, CoreMetrics.FILE_CYCLES, cycles.size());
     savePositiveMeasure(dir, CoreMetrics.FILE_FEEDBACK_EDGES, feedbackEdges.size());
     savePositiveMeasure(dir, CoreMetrics.FILE_TANGLES, tangles);

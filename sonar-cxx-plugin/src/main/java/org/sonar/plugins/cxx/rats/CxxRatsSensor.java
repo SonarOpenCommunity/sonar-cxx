@@ -98,7 +98,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
       }
     } catch (org.jdom.input.JDOMParseException e) {
       // when RATS fails the XML file might be incomplete
-      CxxUtils.LOG.error("Ignore incomplete XML output from RATS '{}'", e.toString());
+      CxxUtils.LOG.error("Ignore incomplete XML output from RATS '{}'", e);
     }
   }
 

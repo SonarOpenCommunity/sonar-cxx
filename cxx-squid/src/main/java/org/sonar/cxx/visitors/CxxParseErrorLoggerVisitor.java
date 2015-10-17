@@ -46,7 +46,8 @@ public class CxxParseErrorLoggerVisitor <GRAMMAR extends Grammar> extends SquidA
   public void visitNode(AstNode node) {
     AstNode identifierAst = node.getFirstChild(GenericTokenType.IDENTIFIER);
     if( identifierAst != null ) {
-      CxxGrammarImpl.LOG.warn("[{}:{}]: syntax error, skip '{}'", new Object[] {context.getFile(), node.getToken().getLine(), identifierAst.getTokenValue()});
+      CxxGrammarImpl.LOG.warn("[{}:{}]: syntax error, skip '{}'",
+        new Object[] {context.getFile(), node.getToken().getLine(), identifierAst.getTokenValue()});
     }
   }
 

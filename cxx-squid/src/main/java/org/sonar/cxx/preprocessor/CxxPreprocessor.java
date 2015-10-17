@@ -413,7 +413,7 @@ public class CxxPreprocessor extends Preprocessor {
       } catch (EvaluationException e) {
         LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
             new Object[] {filename, token.getLine(), token.getValue()});
-        LOG.error(e.toString());
+        LOG.error("{}", e);
         state.skipping = false;
       }
 
@@ -443,7 +443,7 @@ public class CxxPreprocessor extends Preprocessor {
         } catch (EvaluationException e) {
           LOG.error("[{}:{}]: error evaluating the expression {} assume 'true' ...",
                     new Object[] {filename, token.getLine(), token.getValue()});
-          LOG.error(e.toString());
+          LOG.error("{}", e);
           state.skipping = false;
         }
 
@@ -695,7 +695,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       rest = match(rest, ")");
     } catch (MismatchException me) {
-      LOG.error(me.toString());
+      LOG.error("{}", me);
       return 0;
     }
 

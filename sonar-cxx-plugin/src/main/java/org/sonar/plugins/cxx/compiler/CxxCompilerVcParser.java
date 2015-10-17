@@ -78,7 +78,7 @@ public class CxxCompilerVcParser implements CompilerParser {
         
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
-    CxxUtils.LOG.info("Using pattern : '" + p.toString() + "'");
+    CxxUtils.LOG.info("Using pattern : '{}'", p);
     MatchResult matchres = null;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
@@ -86,7 +86,8 @@ public class CxxCompilerVcParser implements CompilerParser {
       String line = matchres.group(2);
       String id = matchres.group(3);
       String msg = matchres.group(4);
-      CxxUtils.LOG.debug("Scanner-matches file='" + filename + "' line='" + line + "' id='" + id + "' msg=" + msg);
+      CxxUtils.LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
+        new Object[]{filename, line, id, msg});
       warnings.add(new Warning(filename, line, id, msg));
     }
     scanner.close();

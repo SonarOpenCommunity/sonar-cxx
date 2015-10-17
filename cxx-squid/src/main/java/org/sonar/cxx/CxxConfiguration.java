@@ -231,7 +231,9 @@ public class CxxConfiguration extends SquidConfiguration {
     
     for(File buildLog : reports) {
       if (buildLog.exists()) {
-        LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
+        }
         if (fileFormat.equals("Visual C++")) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
         }

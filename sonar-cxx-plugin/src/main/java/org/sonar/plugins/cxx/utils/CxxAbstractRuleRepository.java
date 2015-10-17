@@ -70,7 +70,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
           FileReader reader = new FileReader(userExtensionXml);
           xmlRuleLoader.load(repository, reader);
         } catch (Exception ex) {
-          CxxUtils.LOG.info("Cannot Load XML '{}'", ex.getMessage());
+          CxxUtils.LOG.info("Cannot Load XML '{}'", ex);
         }
       }
     }

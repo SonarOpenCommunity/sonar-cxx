@@ -120,7 +120,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
     final List<CompilerParser.Warning> warnings = new LinkedList<CompilerParser.Warning>();
 
     // Iterate through the lines of the input file
-    CxxUtils.LOG.info("Scanner '" + parser.key() + "' initialized with report '{}'" + ", CharSet= '" + reportCharset + "'", report);
+    CxxUtils.LOG.info("Scanner '{}' initialized with report '{}', CharSet= '{}'",
+      new Object[]{parser.key(), report, reportCharset});
     try {
       parser.processReport(project, context, report, reportCharset, reportRegEx, warnings);
       for(CompilerParser.Warning w : warnings) {
@@ -132,9 +133,9 @@ public class CxxCompilerSensor extends CxxReportSensor {
         }
       }
     } catch (java.io.FileNotFoundException e) {
-      CxxUtils.LOG.error("processReport Exception: " + "report.getName" + " - not processed '{}'", e.toString());
+      CxxUtils.LOG.error("processReport Exception: {} - not processed '{}'", report, e);
     } catch (java.lang.IllegalArgumentException e1) {
-      CxxUtils.LOG.error("processReport Exception: " + "report.getName" + " - not processed '{}'", e1.toString());
+      CxxUtils.LOG.error("processReport Exception: {} - not processed '{}'", report, e1);
     }
   }
 
