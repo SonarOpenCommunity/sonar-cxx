@@ -24,7 +24,6 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
 import java.io.File;
@@ -98,7 +97,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       decoder.onMalformedInput(CodingErrorAction.REPLACE);
       decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
     } catch (Exception e) {
-      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      throw new IllegalStateException(e);
     }
   }
 
@@ -119,7 +118,7 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
           getContext().createFileViolation(this, message);
         }
       } catch (Exception e) {
-        throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+        throw new IllegalStateException(e);
       }
     }
   }
