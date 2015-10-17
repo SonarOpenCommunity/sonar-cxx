@@ -445,6 +445,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxRuleRepository.class);
     l.add(MSTestResultsAggregator.class);
     l.add(MSTestResultsImportSensor.class);
+    l.add(CxxSourceCodeColorizer.class);
 
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
