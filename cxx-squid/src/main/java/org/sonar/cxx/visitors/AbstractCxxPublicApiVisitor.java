@@ -159,7 +159,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
             break;
         default:
             // should not happen
-            LOG.error("Visiting unknown node: " + astNode.getType());
+            LOG.error("Visiting unknown node: {}", astNode.getType());
             break;
         }
     }
@@ -289,7 +289,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                 .getFirstDescendant(CxxGrammarImpl.declaratorId);
 
         if (declaratorId == null) {
-            LOG.error("null declaratorId: " + AstXmlPrinter.print(declarator));
+            LOG.error("null declaratorId: {}", AstXmlPrinter.print(declarator));
         } else {
             visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
         }
@@ -473,7 +473,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                     id = idNode.getTokenValue();
                 }
                 else {
-                    LOG.error("Unsupported declarator at " + node.getTokenLine());
+                    LOG.error("Unsupported declarator at {}", node.getTokenLine());
                 }
             }
         }
@@ -491,7 +491,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                     .getFirstDescendant(GenericTokenType.IDENTIFIER);
 
             if (aliasDeclIdNode == null) {
-                LOG.error("No identifier found at " + aliasDeclNode.getTokenLine());
+                LOG.error("No identifier found at {}", aliasDeclNode.getTokenLine());
             }
             else {
                 // look for block documentation
@@ -641,14 +641,11 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
                         // default access in classes is private
                         return false;
                     default:
-                        LOG.error("isPublicApiMember unhandled case: "
-                                + enclosingSpecifierNode.getType() 
-                                + " at " + enclosingSpecifierNode.getTokenLine());
+                        LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(), enclosingSpecifierNode.getTokenLine());
                         return false;
                     }
                 } else {
-                    LOG.error("isPublicApiMember: failed to get enclosing "
-                            + "classSpecifier for node at " + node.getTokenLine());
+                    LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
                     return false;
                 }
             }

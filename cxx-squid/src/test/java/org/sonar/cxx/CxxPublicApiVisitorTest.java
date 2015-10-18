@@ -94,8 +94,10 @@ public class CxxPublicApiVisitorTest {
         SourceFile file = CxxAstScanner.scanSingleFile(new File(fileName),
                 visitor);
 
-        LOG.debug("#API: " + file.getInt(CxxMetric.PUBLIC_API) + " UNDOC: "
-                + file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("#API: {} UNDOC: {}",
+            file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+        }
 
         assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(expectedApi);
         assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(
@@ -170,8 +172,10 @@ public class CxxPublicApiVisitorTest {
         SourceFile file = CxxAstScanner.scanSingleFile(new File(
                 "src/test/resources/metrics/public_api.h"), visitor); //
 
-        LOG.debug("DOC: " + file.getInt(CxxMetric.PUBLIC_API) + " UNDOC: "
-                + file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("DOC: {} UNDOC: {}",
+            file.getInt(CxxMetric.PUBLIC_API),file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+        }
 
         final Map<String, String> expectedIdCommentMap = new HashMap<String, String>();
 
@@ -226,7 +230,7 @@ public class CxxPublicApiVisitorTest {
 
         // check completeness
         for (final String id : expectedIdCommentMap.keySet()) {
-            LOG.debug("id: " + id);
+            LOG.debug("id: {}", id);
 
             List<Token> comments = idCommentMap.get(id);
 
@@ -243,7 +247,7 @@ public class CxxPublicApiVisitorTest {
 
         // check correction
         for (final String id : idCommentMap.keySet()) {
-            LOG.debug("id: " + id);
+            LOG.debug("id: {}", id);
 
             List<Token> comments = idCommentMap.get(id);
 

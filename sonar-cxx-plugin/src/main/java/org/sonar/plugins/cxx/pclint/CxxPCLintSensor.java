@@ -110,14 +110,14 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 file, line, id, msg);
             } else {
               CxxUtils.LOG.warn("PC-lint warning ignored: {}", msg);
-              CxxUtils.LOG.debug("File: " + file + ", Line: " + line + ", ID: "
-                + id + ", msg: " + msg);
+              CxxUtils.LOG.debug("File: {}, Line: {}, ID: {}, msg: {}",
+                new Object[]{file, line, id, msg});
             }
           }
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString());
+          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e);
         } catch (com.ctc.wstx.exc.WstxEOFException e) {
-          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e.toString());
+          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e);
         }
       }
 
@@ -142,8 +142,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
         if (matcher.find()) {
           String misraRule = matcher.group(1);
           String newKey = "M" + misraRule;
-          String debugText = "Remap MISRA rule " + misraRule + " to key " + newKey;
-          CxxUtils.LOG.debug(debugText);
+          CxxUtils.LOG.debug("Remap MISRA rule {} to key {}", misraRule, newKey);
           return newKey;
         }
         return "";

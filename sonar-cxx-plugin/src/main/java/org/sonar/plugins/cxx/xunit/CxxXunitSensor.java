@@ -236,7 +236,9 @@ public class CxxXunitSensor extends CxxReportSensor {
     for (TestCase tc : testcases) {
       tcTotal++;
 
-      CxxUtils.LOG.debug("Trying the input file for the testcase '{}' ...", tc.getFullname());
+      if (CxxUtils.LOG.isDebugEnabled()) {
+        CxxUtils.LOG.debug("Trying the input file for the testcase '{}' ...", tc.getFullname());
+      }
       InputFile inputFile = lookupFile(project, context, tc);
       if (inputFile != null) {
         CxxUtils.LOG.debug("... found! The input file is '{}'", inputFile);

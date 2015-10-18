@@ -57,7 +57,7 @@ public class CxxExternalRuleRepository implements RulesDefinition {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
         } catch (Exception ex) {
-          CxxUtils.LOG.info("Cannot load rules XML '{}'", ex.getMessage());
+          CxxUtils.LOG.info("Cannot load rules XML '{}'", ex);
         }
       }
     }
@@ -68,7 +68,7 @@ public class CxxExternalRuleRepository implements RulesDefinition {
         try {
           CxxSqaleXmlLoader.load(repository, new StringReader(sqaleDefs));
         } catch (Exception ex) {
-          CxxUtils.LOG.info("Cannot load SQALE XML '{}'", ex.getMessage());
+          CxxUtils.LOG.info("Cannot load SQALE XML '{}'", ex);
         }
       }
     }

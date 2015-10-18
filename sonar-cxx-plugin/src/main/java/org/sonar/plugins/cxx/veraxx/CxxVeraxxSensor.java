@@ -87,7 +87,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
           while (fileCursor.getNext() != null) {
             String name = fileCursor.getAttrValue("name");
 
-            CxxUtils.LOG.info("Vera++ processes file = " + name);
+            CxxUtils.LOG.info("Vera++ processes file = {}", name);
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!"error".equals(name)) {
@@ -98,9 +98,11 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 saveUniqueViolation(project, context, CxxVeraxxRuleRepository.KEY,
                                     name, line, source, message);
               } else {
-                CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
+                if (CxxUtils.LOG.isDebugEnabled()) {
+                  CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
                     name + "(" + errorCursor.getAttrValue("line") + ")",
                     errorCursor.getAttrValue("message"));
+                }
               }
             }
           }
@@ -109,7 +111,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
       parser.parse(report);
     } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-      CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", e.toString());
+      CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", e);
     }
   }
 }

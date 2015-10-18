@@ -87,9 +87,8 @@ public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
     protected void onPublicApi(AstNode node, String id, List<Token> comments) {
         boolean commented = !comments.isEmpty();
 
-        LOG.debug("node: " + node.getType() + " line: " + node.getTokenLine()
-                + " id: '" + id + "' documented: " + commented);
-
+      LOG.debug("node: {} line: {} id: '{}' documented: {}",
+        new Object[]{node.getType(), node.getTokenLine(), id, commented});
         if (!commented) {
             getContext().createLineViolation(this, "Undocumented API: " + id,
                     node);
