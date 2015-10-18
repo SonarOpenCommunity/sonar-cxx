@@ -66,14 +66,10 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
-import org.sonar.api.source.Highlightable;
-import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
 
 import com.sonar.sslr.api.Grammar;
 
 import org.sonar.cxx.checks.CompileIncludePathNotFoundOrInvalid;
-import org.sonar.cxx.checks.DuplicatedIncludeCheck;
-import static org.sonar.plugins.cxx.compiler.CxxCompilerSensor.REPORT_CHARSET_DEF;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
@@ -127,15 +123,6 @@ public final class CxxSquidSensor implements Sensor {
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
-    
-    highlight();
-  }
-
-  private void highlight() {
-    CxxHighlighter highlighter = new CxxHighlighter(createConfiguration(fs, conf));
-    for (InputFile inputFile : fs.inputFiles(mainFilePredicate)) {
-      highlighter.highlight(perspective(Highlightable.class, inputFile), inputFile.file());
-    }
   }
   
   <P extends Perspective<?>> P perspective(Class<P> clazz, @Nullable InputFile file) {
