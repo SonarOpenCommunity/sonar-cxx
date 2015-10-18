@@ -59,6 +59,7 @@ Feature: Providing test execution numbers
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
               """
@@ -84,6 +85,7 @@ Feature: Providing test execution numbers
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
               """
@@ -110,6 +112,7 @@ Feature: Providing test execution numbers
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
               .*WARN.*no input file found, the testcase '.*' has to be skipped
@@ -156,6 +159,7 @@ Feature: Providing test execution numbers
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
               """
@@ -181,6 +185,7 @@ Feature: Providing test execution numbers
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <unistd\.h>'
               .*WARN.*The report.*seems to be empty, ignoring\.
@@ -227,7 +232,10 @@ Feature: Providing test execution numbers
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_simple-test_suite.xml"
 
       THEN the analysis finishes successfully
-          AND the analysis log contains no error/warning messages
+          AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
+              """
           AND the following metrics have following values:
               | metric               | value |
               | tests                | 1     |
@@ -249,7 +257,10 @@ Feature: Providing test execution numbers
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
 
       THEN the analysis finishes successfully
-          AND the analysis log contains no error/warning messages
+          AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
+              """
           AND the following metrics have following values:
               | metric               | value |
               | tests                | 4     |
@@ -272,7 +283,10 @@ Feature: Providing test execution numbers
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.xsltURL=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.tests=cxx-xunit -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
 
       THEN the analysis finishes successfully
-          AND the analysis log contains no error/warning messages
+          AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
+              """
           AND the following metrics have following values:
               | metric               | value |
               | tests                | 4     |
@@ -293,7 +307,10 @@ Feature: Providing test execution numbers
 
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
-          AND the analysis log contains no error/warning messages
+          AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
+              """
           AND the test related metrics have following values: <values>
 
       Examples:
@@ -325,7 +342,10 @@ Feature: Providing test execution numbers
 
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
-          AND the analysis log contains no error/warning messages
+          AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
+              """
           AND the test related metrics have following values: <values>
 
       Examples:
@@ -354,6 +374,7 @@ Feature: Providing test execution numbers
         THEN the analysis finishes successfully
             AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '.*'
               """
             AND the following metrics have following values:

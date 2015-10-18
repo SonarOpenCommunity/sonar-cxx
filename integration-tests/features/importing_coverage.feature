@@ -19,6 +19,7 @@ Feature: Importing coverage data
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <iostream>'
               """
           AND the following metrics have following values:
@@ -48,6 +49,7 @@ Feature: Importing coverage data
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <iostream>'
               """
           AND the following metrics have following values:
@@ -84,6 +86,7 @@ Feature: Importing coverage data
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <iostream>'
               .*WARN.*Cannot find a report for '.*'
               """

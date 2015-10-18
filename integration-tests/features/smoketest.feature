@@ -9,6 +9,7 @@ Feature: Smoketest
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
               .*WARN.*Cannot find the file '.*component_XXX.cc', skipping violations
