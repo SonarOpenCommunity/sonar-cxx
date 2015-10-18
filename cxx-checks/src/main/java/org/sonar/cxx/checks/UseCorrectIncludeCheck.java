@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
@@ -62,7 +61,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
       try {
         pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regularExpression, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+        throw new IllegalStateException("Unable to compile regular expression: " + regularExpression, e);
       }
     }
   }
@@ -73,7 +72,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
     try {
       lines = Files.readLines(getContext().getFile(), charset);
     } catch (IOException e) {
-      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      throw new IllegalStateException(e);
     }
     for (int i = 0; i < lines.size(); i++) {
       String line = lines.get(i);

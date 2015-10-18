@@ -30,7 +30,6 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
 import org.sonar.api.utils.PathUtils;
@@ -91,7 +90,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     try {
       pattern = Pattern.compile(regularExpression);
     } catch (PatternSyntaxException e) {
-      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      throw new IllegalStateException(e);
     }
   }
 
@@ -108,7 +107,7 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
         try {
           lines = Files.readLines(getContext().getFile(), charset);
         } catch (IOException e) {
-          throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+          throw new IllegalStateException(e);
         }
         for (int i = 0; i < lines.size(); ++i) {
           Matcher matcher = pattern.matcher(lines.get(i));

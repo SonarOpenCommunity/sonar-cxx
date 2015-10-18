@@ -22,7 +22,6 @@ package org.sonar.cxx.checks;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
-import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
@@ -62,7 +61,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
     try {
       lines = Files.readLines(getContext().getFile(), charset);
     } catch (IOException e) {
-      throw new SonarException(e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      throw new IllegalStateException(e);
     }
     int nr= 0;
     for (String line : lines) {

@@ -23,7 +23,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.sonar.api.utils.SonarException; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -77,7 +76,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar>  {
       try {
         IP = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {
-        throw new SonarException("Unable to compile regular expression: " + regEx, e); //@todo SonarException has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+        throw new IllegalStateException("Unable to compile regular expression: " + regEx, e);
       }
     }
     subscribeTo(CxxGrammarImpl.LITERAL);
