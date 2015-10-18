@@ -11,7 +11,10 @@ Feature: Importing Cppcheck reports
     WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
     THEN the analysis finishes successfully
          AND the server log (if locatable) contains no error/warning messages
-         AND the analysis log contains no error/warning messages
+         AND the analysis log contains no error/warning messages except those matching:
+              """
+              .*WARN.*Unable to get a valid mac address, will use a dummy address
+              """
          AND the number of violations fed is <violations>
 
     Examples:
