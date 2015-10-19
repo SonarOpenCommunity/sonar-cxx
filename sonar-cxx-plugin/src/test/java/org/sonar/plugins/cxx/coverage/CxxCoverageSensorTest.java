@@ -39,6 +39,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxCoverageSensorTest {
   
@@ -133,9 +134,9 @@ public class CxxCoverageSensorTest {
     Settings settings = new Settings();
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "x:/coveragetest/project1/source1.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "x:/coveragetest/project2/source1.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "x:/coveragetest/project2/source2.cpp");
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project1/source1.cpp"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source1.cpp"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source2.cpp"));
     } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-linux.xml");
       TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project1/source1.cpp");
