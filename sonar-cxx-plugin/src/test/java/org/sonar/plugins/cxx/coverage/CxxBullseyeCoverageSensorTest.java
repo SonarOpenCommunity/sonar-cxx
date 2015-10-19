@@ -98,10 +98,10 @@ public class CxxBullseyeCoverageSensorTest {
     Settings settings = new Settings();
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "e:/test/anotherincludeattop.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "e:/test/test/test.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "e:/test/test2/test2.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "e:/test/main.c");
+      TestUtils.addInputFile(fs, perspectives, issuable, "e:/randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h");
+      TestUtils.addInputFile(fs, perspectives, issuable, "e:/randomfoldernamethatihopeknowmachinehas/test/test.c");
+      TestUtils.addInputFile(fs, perspectives, issuable, "e:/randomfoldernamethatihopeknowmachinehas/test2/test2.c");
+      TestUtils.addInputFile(fs, perspectives, issuable, "e:/randomfoldernamethatihopeknowmachinehas/main.c");
     } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-linux.xml");
       TestUtils.addInputFile(fs, perspectives, issuable, "/e/test/anotherincludeattop.h");
@@ -120,8 +120,8 @@ public class CxxBullseyeCoverageSensorTest {
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-win.xml");
       TestUtils.addInputFile(fs, perspectives, issuable, "e:/main.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "e:/test/test.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "e:/test2/test2.c");
+      TestUtils.addInputFile(fs, perspectives, issuable, "e:/randomfoldernamethatihopeknowmachinehas/test.c");
+      TestUtils.addInputFile(fs, perspectives, issuable, "e:/randomfoldernamethatihopeknowmachinehas2/test2.c");
       TestUtils.addInputFile(fs, perspectives, issuable, "e:/anotherincludeattop.h");
     }
     else {
