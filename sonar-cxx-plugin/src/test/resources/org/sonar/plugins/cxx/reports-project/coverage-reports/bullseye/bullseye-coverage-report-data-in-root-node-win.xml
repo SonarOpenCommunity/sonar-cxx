@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BullseyeCoverage name="coverage.cov" dir="e:/test/" buildId="5e0cbdab, 2014-07-02 15:07:32" version="4" xmlns="http://www.bullseye.com/covxml">
+<BullseyeCoverage name="coverage.cov" dir="e:/randomfoldernamethatihopeknowmachinehas/" buildId="5e0cbdab, 2014-07-02 15:07:32" version="4" xmlns="http://www.bullseye.com/covxml">
 <src name="anotherincludeattop.h" mtime="1404302508" fn_cov="1" fn_total="1" cd_cov="1" cd_total="2" d_cov="1" d_total="2">
 <fn name="test_func_2(int)" fn_cov="1" fn_total="1" cd_cov="1" cd_total="2" d_cov="1" d_total="2">
 <probe line="3" column="3" kind="function" event="full"/>

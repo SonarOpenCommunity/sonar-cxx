@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.coverage;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -168,8 +169,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
       String filePath = entry.getKey();
       InputFile cxxFile = fs.inputFile(fs.predicates().hasPath(filePath));
       if (cxxFile != null) {
-        CxxUtils.LOG.debug("Saving coverage measures for file '{}'", filePath);
-        for (Measure measure : entry.getValue().createMeasures()) {
+        Collection<Measure> measures = entry.getValue().createMeasures();
+        CxxUtils.LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
+        for (Measure measure : measures) {
           switch (ctype) {
             case IT_COVERAGE:
               measure = convertToItMeasure(measure);
