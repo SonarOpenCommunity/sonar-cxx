@@ -61,28 +61,38 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
     subscribeTo(CxxGrammarImpl.statement);
   }
 
-  /** Exclude subsequent generated nodes, if they are consecutive and on the same line.
+  /**
+   * Exclude subsequent generated nodes, if they are consecutive and on the same
+   * line.
    */
-  private boolean isGeneratedNodeExcluded(AstNode astNode)
-  {
+  private boolean isGeneratedNodeExcluded(AstNode astNode) {
     AstNode prev = astNode.getPreviousAstNode();
-    return prev != null &&
-           prev.getTokenLine() == astNode.getTokenLine() &&
-           prev.getTokenLine() == astNode.getTokenLine() &&
-           prev.isCopyBookOrGeneratedNode();
+    return prev != null
+      && prev.getTokenLine() == astNode.getTokenLine()
+      && prev.getTokenLine() == astNode.getTokenLine()
+      && prev.isCopyBookOrGeneratedNode();
   }
 
-  /** Exclude 'break' statement if it is on the same line as the switch label (case: or default:).
-   * i.e. the break statement is on the same line as it's "switchBlockStatementGroup" ancestor.
+  /**
+   * Exclude 'break' statement if it is on the same line as the switch label
+   * (case: or default:). i.e. the break statement is on the same line as it's
+   * "switchBlockStatementGroup" ancestor.
    */
-  private boolean isBreakStatementExcluded(AstNode astNode)
-  {
-    if (!excludeCaseBreak || astNode.getToken().getType() != CxxKeyword.BREAK)
+  private boolean isBreakStatementExcluded(AstNode astNode) {
+    if (!excludeCaseBreak || astNode.getToken().getType() != CxxKeyword.BREAK) {
       return false;
+    }
 
     AstNode switchGroup = astNode.getFirstAncestor(CxxGrammarImpl.switchBlockStatementGroup);
     return switchGroup != null
-        && switchGroup.getTokenLine() == astNode.getTokenLine();
+      && switchGroup.getTokenLine() == astNode.getTokenLine();
+  }
+
+  /**
+   * Exclude type alias definitions inside of blocks ( ... { using a = b; ... } ... )
+   */
+  private boolean isTypeAlias(AstNode astNode) {
+    return astNode.getFirstDescendant(CxxGrammarImpl.aliasDeclaration) != null;
   }
 
   @Override
@@ -93,7 +103,8 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
       || statementNode.is(CxxGrammarImpl.iterationStatement)
       || statementNode.is(CxxGrammarImpl.labeledStatement)
       || statementNode.is(CxxGrammarImpl.declaration)
+      || isTypeAlias(statementNode)
       || (statementNode.isCopyBookOrGeneratedNode() && isGeneratedNodeExcluded(statementNode))
       || (statementNode.is(CxxGrammarImpl.jumpStatement) && isBreakStatementExcluded(statementNode));
- }
+  }
 }
