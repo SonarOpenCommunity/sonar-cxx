@@ -90,4 +90,7 @@ int main()
 	fpoly_only(s); // okay, enable_if allows this
 }
 
-
+template <typename RBM, typename Trainer>
+void update_normal(RBM& rbm, Trainer& t) {
+    using rbm_t = RBM; // OK
+}
