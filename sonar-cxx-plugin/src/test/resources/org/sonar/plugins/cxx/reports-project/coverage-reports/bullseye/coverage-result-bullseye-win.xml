@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- BullseyeCoverage 8.7.8 Linux x86 License 110389 -->
-<BullseyeCoverage name="coveragefile.cov" dir="d:/home/path/" buildId="d80ba2ba, 2012-08-02 12:15:13" version="4" xmlns="http://www.bullseye.com/covxml">
+<BullseyeCoverage name="coveragefile.cov" dir="C:/home/path/" buildId="d80ba2ba, 2012-08-02 12:15:13" version="4" xmlns="http://www.bullseye.com/covxml">
   <folder name="TESTCOV" fn_cov="9" fn_total="15" cd_cov="34" cd_total="54" d_cov="18" d_total="30">
     <src name="main.cpp" mtime="1343898900" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
       <fn name="main(int,char**)" fn_cov="1" fn_total="1" cd_cov="0" cd_total="0" d_cov="0" d_total="0">

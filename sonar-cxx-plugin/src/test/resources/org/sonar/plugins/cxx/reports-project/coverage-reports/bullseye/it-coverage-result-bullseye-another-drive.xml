@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- BullseyeCoverage 8.7.48 Windows License 2656 -->
-<BullseyeCoverage name="covfile.cov" dir="c:/Users/jocs/" buildId="9b33970f, 2013-03-14 21:52:40" version="4" xmlns="http://www.bullseye.com/covxml">
+<BullseyeCoverage name="covfile.cov" dir="C:/Users/jocs/" buildId="9b33970f, 2013-03-14 21:52:40" version="4" xmlns="http://www.bullseye.com/covxml">
 <folder name="e:" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
 <folder name="Development" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
 <folder name="sonar-cxx" fn_cov="3" fn_total="5" cd_cov="0" cd_total="0" d_cov="0" d_total="0">
