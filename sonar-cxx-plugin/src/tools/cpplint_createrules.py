@@ -37,7 +37,7 @@ def WriteUpdateFile(filename):
             filetowrite.write('            category = value\n')
         if linei.startswith('  return (linenum in _error_suppressions.get(category, set()) or'):
             filetowrite.write('  for key in _error_suppressions.keys():\n')
-            filetowrite.write('    if category.startswith(key):\n')
+            filetowrite.write('    if key and category.startswith(key):\n')
             filetowrite.write('      category = key\n')
         filetowrite.write(linei)
                                                         
