@@ -37,6 +37,7 @@ INDENT = "    "
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
 JARPATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
 JARPATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC?.jar")
+JARPATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*-?.?.?.jar")
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
 
@@ -144,6 +145,9 @@ def jarpath():
     jars = glob(JARPATTERN2)
     if jars:
         return os.path.normpath(jars[0])
+    jars = glob(JARPATTERN3)
+    if jars:
+        return os.path.normpath(jars[0])        
     return None
 
 
