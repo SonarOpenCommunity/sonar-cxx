@@ -10,7 +10,7 @@
 
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>0.9.4-SNAPSHOT</version>
+  <version>0.9.4</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
@@ -97,7 +97,12 @@
     <developer>
       <id>Zetten</id>
       <name>Peter van Zetten</name>
-      <email>peter.van.zetten@cgi.co</email>
+      <email>peter.vanzetten@gmail.com</email>
+    </developer>
+    <developer>
+      <id>cbagwell</id>
+      <name>Chris Bagwell</name>
+      <email>chris@cnpbagwell.com</email>
     </developer>
   </developers>
 
