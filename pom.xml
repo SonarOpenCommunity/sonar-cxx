@@ -10,7 +10,7 @@
 
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
-  <version>0.9.4</version>
+  <version>0.9.5-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Cxx</name>
