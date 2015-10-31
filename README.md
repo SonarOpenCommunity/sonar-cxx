@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/wenns/sonar-cxx.svg?branch=master)](https://travis-ci.org/wenns/sonar-cxx)
-[![Build status](https://ci.appveyor.com/api/projects/status/mi5ft6fo1qx3q8o7?svg=true)](https://ci.appveyor.com/project/jorgecosta/sonar-cxx)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/ufnpbd1cy3b0bbk0?svg=true)](https://ci.appveyor.com/project/jorgecosta/sonar-cxx)
 
 ## SonarQube C++ Community plugin
 
