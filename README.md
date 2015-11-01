@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/guwirth/sonar-cxx.svg?branch=master)](https://travis-ci.org/guwirth/sonar-cxx)
 [![Build status](https://ci.appveyor.com/api/projects/status/ufnpbd1cy3b0bbk0?svg=true)](https://ci.appveyor.com/project/jorgecosta/sonar-cxx)
 
+Last Snapshot: [Download](https://ci.appveyor.com/project/jorgecosta/sonar-cxx/build/artifacts)
+
 ## SonarQube C++ Community plugin
 
 [SonarQube](https://www.sonarqube.org) is an open platform to manage code quality. This plugin
