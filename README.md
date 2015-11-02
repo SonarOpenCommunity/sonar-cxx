@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/SonarOpenCommunity/sonar-cxx.svg?branch=master)](https://travis-ci.org/SonarOpenCommunity/sonar-cxx)
 [![Build status](https://ci.appveyor.com/api/projects/status/ufnpbd1cy3b0bbk0?svg=true)](https://ci.appveyor.com/project/jorgecosta/sonar-cxx)
 
-[![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/pr?style=flat-square)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
-[![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/issue?style=flat-square)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
+[![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/pr)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
+[![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/issue)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
 
 Last Snapshot: [Download](https://ci.appveyor.com/project/jorgecosta/sonar-cxx/build/artifacts)
 
