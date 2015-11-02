@@ -38,7 +38,6 @@ import org.sonar.api.batch.fs.FilePredicate;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.component.Perspective;
 import org.sonar.api.config.Settings;
@@ -52,6 +51,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.plugins.cxx.api.CustomCxxRulesDefinition;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
@@ -79,7 +79,7 @@ public final class CxxSquidSensor implements Sensor {
   private static final Number[] FUNCTIONS_DISTRIB_BOTTOM_LIMITS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
-  private final Checks<Object> checks;
+  private final CxxChecks checks;
   private ActiveRules rules;
 
   private Project project;
@@ -89,12 +89,24 @@ public final class CxxSquidSensor implements Sensor {
   private FileSystem fs;
   private ResourcePerspectives resourcePerspectives;
   private final FilePredicate mainFilePredicate;
+  
   /**
    * {@inheritDoc}
    */
   public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings conf,
                         FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
-    this.checks = checkFactory.create(CheckList.REPOSITORY_KEY).addAnnotatedChecks(CheckList.getChecks());
+      this(resourcePerspectives, conf, fs, checkFactory, rules, null);
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings conf,
+                        FileSystem fs, CheckFactory checkFactory, ActiveRules rules,
+                        @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
+    this.checks = CxxChecks.createCxxCheck(checkFactory)
+        .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
+        .addCustomChecks(customRulesDefinition);
     this.rules = rules;
     this.conf = conf;
     this.fs = fs;
@@ -219,7 +231,7 @@ public final class CxxSquidSensor implements Sensor {
       if (issuable != null) {
         for (CheckMessage message : messages) {
           Issue issue = issuable.newIssueBuilder()
-            .ruleKey(checks.ruleKey(message.getCheck()))
+            .ruleKey(checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()))
             .line(message.getLine())
             .message(message.getText(Locale.ENGLISH))
             .build();
@@ -238,3 +250,4 @@ public final class CxxSquidSensor implements Sensor {
   }
 
 }
+
