@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/SonarOpenCommunity/sonar-cxx.svg?branch=master)](https://travis-ci.org/SonarOpenCommunity/sonar-cxx)
-[![Build status](https://ci.appveyor.com/api/projects/status/ufnpbd1cy3b0bbk0?svg=true)](https://ci.appveyor.com/project/jorgecosta/sonar-cxx)
+[![Build status](https://ci.appveyor.com/api/projects/status/ebqef0x9l40ae264/branch/master?svg=true)](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master)
 
 [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/pr?style=flat-square)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
 [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/issue?style=flat-square)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
