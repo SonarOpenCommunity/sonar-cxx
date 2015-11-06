@@ -4,7 +4,7 @@
 [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/pr)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
 [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/issue)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)
 
-Last Snapshot: [Download](https://ci.appveyor.com/project/jorgecosta/sonar-cxx/build/artifacts)
+Last Snapshot: [Download](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts)
 
 ## SonarQube C++ Community plugin
 
