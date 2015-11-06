@@ -1,9 +1,9 @@
-|----------|----------|
-|Travis CI | [![Build Status](https://travis-ci.org/SonarOpenCommunity/sonar-cxx.svg?branch=master)](https://travis-ci.org/SonarOpenCommunity/sonar-cxx)|
-|AppVeyor CI | [![Build status](https://ci.appveyor.com/api/projects/status/ebqef0x9l40ae264/branch/master?svg=true)](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master)|
-|Last Snapshot | [Download](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts)|
-|Pull Requests | [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/pr)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)|
-|Issues | [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/issue)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx)|
+| --- | --- |
+| Travis CI | [![Build Status](https://travis-ci.org/SonarOpenCommunity/sonar-cxx.svg?branch=master)](https://travis-ci.org/SonarOpenCommunity/sonar-cxx) |
+| AppVeyor CI | [![Build status](https://ci.appveyor.com/api/projects/status/ebqef0x9l40ae264/branch/master?svg=true)](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master) |
+| Last Snapshot | [Download](https://ci.appveyor.com/project/SonarOpenCommunity/sonar-cxx/branch/master/artifacts) |
+| Pull Requests | [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/pr)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx) |
+| Issues | [![Issue Stats](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx/badge/issue)](http://issuestats.com/github/SonarOpenCommunity/sonar-cxx) |
 
 ## SonarQube C++ Community plugin
 
