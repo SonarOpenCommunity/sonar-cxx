@@ -14,7 +14,7 @@
   <packaging>pom</packaging>
 
   <name>Cxx</name>
-  <url>https://github.com/wenns/sonar-cxx</url>
+  <url>https://github.com/SonarOpenCommunity/sonar-cxx</url>
   <inceptionYear>2011</inceptionYear>
   <organization>
     <name>Waleri Enns</name>
@@ -114,18 +114,18 @@
   </modules>
 
   <scm>
-    <connection>scm:git:git@github.com:wenns/sonar-cxx.git</connection>
-    <developerConnection>https://github.com/wenns/sonar-cxx</developerConnection>
-    <url>https://github.com/wenns/sonar-cxx</url>
+    <connection>scm:git:git@github.com:SonarOpenCommunity/sonar-cxx.git</connection>
+    <developerConnection>https://github.com/SonarOpenCommunity/sonar-cxx</developerConnection>
+    <url>https://github.com/SonarOpenCommunity/sonar-cxx</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>Git</system>
-    <url>https://github.com/wenns/sonar-cxx/issues?state=open</url>
+    <url>https://github.com/SonarOpenCommunity/sonar-cxx/issues?state=open</url>
   </issueManagement>
   <ciManagement>
     <system>Travis-CI</system>
-    <url>https://travis-ci.org/wenns/sonar-cxx/</url>
+    <url>https://travis-ci.org/SonarOpenCommunity/sonar-cxx/</url>
   </ciManagement>
 
   <properties>
