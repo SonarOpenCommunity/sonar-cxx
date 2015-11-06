@@ -14,7 +14,7 @@
   <packaging>pom</packaging>
 
   <name>Cxx</name>
-  <url>https://github.com/wenns/sonar-cxx</url>
+  <url>https://github.com/SonarOpenCommunity/sonar-cxx</url>
   <inceptionYear>2011</inceptionYear>
   <organization>
     <name>Waleri Enns</name>
