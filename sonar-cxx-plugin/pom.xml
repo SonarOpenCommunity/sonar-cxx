@@ -14,7 +14,7 @@
   <name>Cxx :: Sonar Plugin</name>
   <inceptionYear>2010</inceptionYear>
   <description>Enable analysis and reporting on c++ projects.</description>
-  <url>http://docs.codehaus.org/display/SONAR/CXX+PLUGIN</url>
+  <url>https://github.com/SonarOpenCommunity/sonar-cxx/wiki</url>
 
   <properties>
     <license.owner>Neticoa SAS France</license.owner>

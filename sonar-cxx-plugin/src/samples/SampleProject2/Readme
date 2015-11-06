@@ -26,7 +26,7 @@ It assumes following software to be installed:
 - vera++, perl, vera++Report2checkstyleReport.perl
 
 See the the Cxx-Plugin Wiki for some details on dependencies:
-http://docs.codehaus.org/display/SONAR/CXX+Plugin
+https://github.com/SonarOpenCommunity/sonar-cxx/wiki
 
 
 ################################################################################
