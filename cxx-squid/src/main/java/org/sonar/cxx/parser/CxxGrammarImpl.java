@@ -1221,7 +1221,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(classHeadName).is(b.optional(nestedNameSpecifier), className);
 
-    b.rule(classVirtSpecifier).is(b.firstOf(CxxKeyword.FINAL, "sealed", "abstract"));
+    b.rule(classVirtSpecifier).is(b.firstOf("final", "sealed", "abstract"));
 
     b.rule(classKey).is(
         b.firstOf(b.sequence(b.optional(b.firstOf("ref", "value", "interface")), CxxKeyword.CLASS),
@@ -1300,13 +1300,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(cliFunctionModifiers).is(b.oneOrMore(cliFunctionModifier));
 
     b.rule(cliFunctionModifier).is(
-        b.firstOf( "abstract", CxxKeyword.NEW, "sealed", CxxKeyword.OVERRIDE)
+        b.firstOf( "abstract", CxxKeyword.NEW, "sealed", "override")
         );
 
     b.rule(virtSpecifierSeq).is(b.oneOrMore(virtSpecifier));
 
     b.rule(virtSpecifier).is(
-        b.firstOf(CxxKeyword.OVERRIDE, CxxKeyword.FINAL)
+        b.firstOf("override", "final")
         );
 
     b.rule(pureSpecifier).is(b.sequence("=", "0"));

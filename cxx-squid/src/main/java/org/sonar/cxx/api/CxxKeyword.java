@@ -24,8 +24,13 @@ import com.sonar.sslr.api.TokenType;
 
 /**
  * C++ Standard, Section 2.12 "Keywords"
+ *
+ * In this list are only C++ keywords allowed.
+ * All other extensions must be handled as identifiers
+ * (e.g. final, override, ...)
  */
 public enum CxxKeyword implements TokenType {
+  
   ALIGNAS("alignas"),
   ALIGNOF("alignof"),
   ASM("asm"),
@@ -57,7 +62,6 @@ public enum CxxKeyword implements TokenType {
   FLOAT("float"),
   FOR("for"),
   FRIEND("friend"),
-  FINAL("final"),
   GOTO("goto"),
   IF("if"),
   INLINE("inline"),
@@ -69,7 +73,6 @@ public enum CxxKeyword implements TokenType {
   NOEXCEPT("noexcept"),
   NULLPTR("nullptr"),
   OPERATOR("operator"),
-  OVERRIDE("override"),
   PRIVATE("private"),
   PROTECTED("protected"),
   PUBLIC("public"),
@@ -116,7 +119,6 @@ public enum CxxKeyword implements TokenType {
   
   // C++/CLI keywords
   GCNEW("gcnew");
-
   private final String value;
 
   private CxxKeyword(String value) {
