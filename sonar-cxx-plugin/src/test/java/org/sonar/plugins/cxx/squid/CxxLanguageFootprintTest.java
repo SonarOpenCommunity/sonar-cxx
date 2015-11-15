@@ -22,7 +22,7 @@ package org.sonar.plugins.cxx.squid;
 import java.util.Set;
 
 import org.junit.Test;
-import org.sonar.squid.recognizer.Detector;
+import org.sonar.squidbridge.recognizer.Detector;
 
 public class CxxLanguageFootprintTest {
   @Test

@@ -27,6 +27,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -133,9 +134,8 @@ public class TestUtils {
   public static DefaultFileSystem mockFileSystem(File baseDir,
                                                  List<File> sourceDirs,
                                                  List<File> testDirs) {
-    DefaultFileSystem fs = new DefaultFileSystem();
+    DefaultFileSystem fs = new DefaultFileSystem(baseDir);
     fs.setEncoding(Charset.forName("UTF-8"));
-    fs.setBaseDir(baseDir);
     scanDirs(fs, baseDir, sourceDirs, Type.MAIN);
     scanDirs(fs, baseDir, testDirs, Type.TEST);
     return fs;
@@ -161,7 +161,8 @@ public class TestUtils {
   public static void addInputFile(DefaultFileSystem fs,
     ResourcePerspectives perspectives,
     Issuable issuable,
-    String path) {
+    String path,
+    Path basePath) {
     DefaultInputFile inputFile = null;
     File file = new File(path);
     if (file.isAbsolute()) {
@@ -171,16 +172,16 @@ public class TestUtils {
         temp.setCharAt(0, Character.toUpperCase(temp.charAt(0)));
         path = temp.toString();
       }
-      inputFile = new DefaultInputFile(path);
-      inputFile.setAbsolutePath(path);
+      inputFile = new DefaultInputFile("key", path);
+      inputFile.setModuleBaseDir(basePath);
     } else {
-      inputFile = new DefaultInputFile(path);
-      inputFile.setAbsolutePath(new java.io.File(fs.baseDir(), path).getAbsolutePath());
+      inputFile = new DefaultInputFile(new java.io.File(fs.baseDir(), path).getAbsolutePath(), path);
+      inputFile.setModuleBaseDir(basePath);
     }
     inputFile.setType(InputFile.Type.MAIN);
     inputFile.setLanguage(CxxLanguage.KEY);
     inputFile.setLines(1);
-    when(perspectives.as(Issuable.class, inputFile)).thenReturn(issuable);
+    when(perspectives.as(Issuable.class, org.sonar.api.resources.File.create(inputFile.absolutePath()))).thenReturn(issuable);
     fs.add(inputFile);
   }
   
@@ -208,8 +209,8 @@ public class TestUtils {
       scanner.scan();
       for (String path : scanner.getIncludedFiles()) {
         relpath = new File(dir, path).getPath();
-        fs.add(new DefaultInputFile(relpath)
-               .setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
+        fs.add(new DefaultInputFile("key", relpath)
+               //.setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
                .setLanguage(CxxLanguage.KEY)
                .setType(ftype));
       }

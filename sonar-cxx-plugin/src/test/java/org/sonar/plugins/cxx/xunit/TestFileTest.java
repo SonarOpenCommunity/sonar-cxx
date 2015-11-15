@@ -34,7 +34,7 @@ public class TestFileTest {
 
   @Before
   public void setUp() {
-    InputFile inputFile = new DefaultInputFile("test.cpp");
+    InputFile inputFile = new DefaultInputFile("module-key", "test.cpp");
     testFile = new TestFile(inputFile);
   }
 

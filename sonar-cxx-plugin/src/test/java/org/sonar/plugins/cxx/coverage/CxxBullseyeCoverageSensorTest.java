@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
+import java.nio.file.Paths;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
@@ -64,30 +65,30 @@ public class CxxBullseyeCoverageSensorTest {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-win.xml");
       settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-win.xml");
       settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/main.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/source_1.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/main.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.h"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.h"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.cpp"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/main.cpp"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.h"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.cpp"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/source_1.cpp"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.h"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.cpp"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/main.cpp"), Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.h"), Paths.get("c:/home/path/"));
     } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-linux.xml");
       settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-linux.xml");
       settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-linux.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/main.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/source_1.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/main.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.h");
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.h", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.cpp", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/main.cpp", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.h", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.cpp", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/source_1.cpp", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.h", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.cpp", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/main.cpp", Paths.get("c:/home/path/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.h", Paths.get("c:/home/path/"));
     }
     sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
     sensor.analyse(project, context);
@@ -99,16 +100,16 @@ public class CxxBullseyeCoverageSensorTest {
     Settings settings = new Settings();
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test/test.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test2/test2.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/main.c"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h"), Paths.get("C:/randomfoldernamethatihopeknowmachinehas/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test/test.c"), Paths.get("C:/randomfoldernamethatihopeknowmachinehas/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test2/test2.c"), Paths.get("C:/randomfoldernamethatihopeknowmachinehas/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/main.c"), Paths.get("C:/randomfoldernamethatihopeknowmachinehas/"));
     } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-linux.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/anotherincludeattop.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test/test.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test2/test2.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/main.c");
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/anotherincludeattop.h", Paths.get("c:/test/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test/test.c", Paths.get("c:/test/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test2/test2.c", Paths.get("c:/test/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/main.c", Paths.get("c:/test/"));
     }
     sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
     sensor.analyse(project, context);

@@ -69,7 +69,7 @@ public class CxxSquidSensorTest {
     builder = mock(Highlightable.HighlightingBuilder.class);
 
     when(context.isIndexed(any(Resource.class), anyBoolean())).thenReturn(true); //@todo isIndexed: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-    when(perspectives.as(eq(Highlightable.class), any(InputFile.class))).thenReturn(highlightable);
+    when(perspectives.as(eq(Highlightable.class), any(org.sonar.api.resources.File.class))).thenReturn(highlightable);
     when(highlightable.newHighlighting()).thenReturn(builder);
   }
 

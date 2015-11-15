@@ -63,9 +63,9 @@ public class CxxPCLintSensorTest {
   public void shouldReportCorrectViolations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.h");
-    TestUtils.addInputFile(fs, perspectives, issuable, "ZipManager.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.h", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "ZipManager.cpp", fs.baseDirPath());
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(14)).addIssue(any(Issue.class));
@@ -75,7 +75,7 @@ public class CxxPCLintSensorTest {
   public void shouldReportCorrectMisra2004Violations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c", fs.baseDirPath());
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(29)).addIssue(any(Issue.class));
@@ -85,7 +85,7 @@ public class CxxPCLintSensorTest {
   public void shouldReportCorrectMisra2004PcLint9Violations() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c", fs.baseDirPath());
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
@@ -95,7 +95,7 @@ public class CxxPCLintSensorTest {
   public void shouldThrowExceptionWhenMisra2004DescIsWrong() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c", fs.baseDirPath());
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
   }
@@ -104,7 +104,7 @@ public class CxxPCLintSensorTest {
   public void shouldThrowExceptionWhenMisra2004RuleDoNotExist() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c", fs.baseDirPath());
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
   }
@@ -113,7 +113,7 @@ public class CxxPCLintSensorTest {
   public void shouldNotRemapMisra1998Rules() {
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
+    TestUtils.addInputFile(fs, perspectives, issuable, "test.c", fs.baseDirPath());
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
