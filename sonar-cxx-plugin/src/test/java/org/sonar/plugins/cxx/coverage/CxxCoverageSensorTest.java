@@ -139,7 +139,7 @@ public class CxxCoverageSensorTest {
     Settings settings = new Settings();
     FilePredicates predicate = mock(FilePredicates.class);
     when(predicate.hasPath((String) any())).thenReturn(null);       
-    fs = mock(DefaultFileSystem.class);
+    DefaultFileSystem fs = mock(DefaultFileSystem.class);
     
     when(fs.inputFile((FilePredicate) any())).thenReturn(new DefaultInputFile("key", "file.cpp"));
     when(fs.baseDir()).thenReturn(Paths.get("C:/coveragetest/").toFile());

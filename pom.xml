@@ -199,16 +199,10 @@
         <version>1.0.13</version>
       </dependency>
       <dependency>
-        <groupId>org.sonarsource.sonarqube.common-rules</groupId>
-        <artifactId>sonar-common-rules</artifactId>
-        <version>1.2</version>
-      </dependency>
-      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>1.6.2</version>
-      </dependency>
-      
+      </dependency>      
       <dependency>
         <groupId>ant</groupId>
         <artifactId>ant</artifactId>
