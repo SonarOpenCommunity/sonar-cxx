@@ -121,17 +121,17 @@ public class CxxBullseyeCoverageSensorTest {
     Settings settings = new Settings();
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/main.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas2/test2.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/anotherincludeattop.h"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/main.c"), Paths.get("c:/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test.c"), Paths.get("c:/randomfoldernamethatihopeknowmachinehas/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas2/test2.c"), Paths.get("c:/randomfoldernamethatihopeknowmachinehas/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/anotherincludeattop.h"), Paths.get("c:/"));
     }
     else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-linux.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/main.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test2/test2.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/anotherincludeattop.h");      
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/main.c", Paths.get("c:/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test.c", Paths.get("c:/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test2/test2.c", Paths.get("c:/"));
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/anotherincludeattop.h", Paths.get("c:/"));      
     }
     sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
     sensor.analyse(project, context);

@@ -59,12 +59,12 @@ public class CxxVeraxxSensorTest {
 
   @Test
   public void shouldReportCorrectViolations() {
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.h");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/main.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.h", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/main.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp", fs.baseDirPath());
     sensor.analyse(project, context);
     verify(issuable, times(10)).addIssue(any(Issue.class));
   }

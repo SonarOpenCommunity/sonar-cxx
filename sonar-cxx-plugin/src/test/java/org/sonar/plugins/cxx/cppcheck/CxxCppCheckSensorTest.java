@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.cppcheck;
 
+import java.nio.file.Paths;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
@@ -67,8 +68,8 @@ public class CxxCppCheckSensorTest {
   public void shouldReportCorrectViolations() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-*.xml");   
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp", fs.baseDirPath());
     sensor.analyse(project, context);
     verify(issuable, times(9)).addIssue(any(Issue.class));
   }

@@ -68,7 +68,7 @@ public class CxxValgrindSensorTest {
   public void shouldSaveViolationIfErrorIsInside() {
     Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
     valgrindErrors.add(mockValgrindError(true));
-    TestUtils.addInputFile(fs, perspectives, issuable, "dir/file");
+    TestUtils.addInputFile(fs, perspectives, issuable, "dir/file", fs.baseDirPath());
     sensor.saveErrors(project, context, valgrindErrors);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }

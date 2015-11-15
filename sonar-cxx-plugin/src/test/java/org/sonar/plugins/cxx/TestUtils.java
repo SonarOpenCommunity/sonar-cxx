@@ -141,6 +141,12 @@ public class TestUtils {
     return fs;
   }
   
+  public static DefaultFileSystem mockFileSystemNoScan(File baseDir) {
+    DefaultFileSystem fs = new DefaultFileSystem(baseDir);
+    fs.setEncoding(Charset.forName("UTF-8"));
+    return fs;
+  }  
+  
   public static ProjectReactor mockReactor() {
     File baseDir = loadResource("/org/sonar/plugins/cxx/reports-project");
     List<File> empty = new ArrayList<File>();
