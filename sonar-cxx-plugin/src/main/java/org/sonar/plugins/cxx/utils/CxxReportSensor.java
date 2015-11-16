@@ -156,18 +156,27 @@ public abstract class CxxReportSensor implements Sensor {
     List<File> reports = new ArrayList<File>();
     if (reportPath != null && !reportPath.isEmpty()) {
       reportPath = FilenameUtils.normalize(reportPath);
+      
       File singleFile = new File(reportPath);
       if (singleFile.exists()) {
         reports.add(singleFile);
       } else {
         CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
-  
+        String baseDirPath = baseDirPath1;
+        
+        if (singleFile.isAbsolute()) {    
+          String baseNormalize = FilenameUtils.normalize(baseDirPath);
+          CxxUtils.LOG.debug("Search string transformed from '{}'", reportPath);
+          reportPath = reportPath.replace(baseNormalize, "").substring(1);
+          CxxUtils.LOG.debug("To '{}' to find reports, using base Path '{}'", reportPath, baseNormalize);
+        }
+        
         DirectoryScanner scanner = new DirectoryScanner();
         String[] includes = new String[1];
         includes[0] = reportPath;
-        scanner.setIncludes(includes);
-        String baseDirPath = baseDirPath1;
         scanner.setBasedir(new File(baseDirPath));
+        scanner.setIncludes(includes);
+
         String[] relPaths = new String[0];
         try {
           scanner.scan();
@@ -184,6 +193,10 @@ public abstract class CxxReportSensor implements Sensor {
           } catch (IllegalStateException e) {
             CxxUtils.LOG.error("Invalid report baseDir '{}'", baseDirPath);
           }
+        }
+        
+        for (String relPath : relPaths) {
+          CxxUtils.LOG.debug("Report '{}'", relPath);
         }
         
         for (String relPath : relPaths) {

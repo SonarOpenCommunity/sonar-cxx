@@ -10,6 +10,20 @@ install:
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
       }
+      if (!(Test-Path -Path "C:\sonar-runner" )) {
+        (new-object System.Net.WebClient).DownloadFile(
+          'http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip',
+          'C:\sonar-runner-dist.zip'
+        )
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonar-runner-dist.zip", "C:\sonar-runner")
+      }
+      if (!(Test-Path -Path "C:\sonarqube-5.2" )) {
+        (new-object System.Net.WebClient).DownloadFile(
+          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.1.2.zip',
+          'C:\sonarqube-5.1.2.zip'
+        )
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-5.1.2.zip", "C:\sonarqube-5.1.2")
+      }
   - ps: |
       If ($env:Platform -Match "x86") {
         $env:PCRE_PLATFORM="Win32"
@@ -24,18 +38,27 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }	  
-  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-runner\sonar-runner-2.4\bin;%PATH%
+  - cmd: SET SONARHOME=C:\sonarqube-5.1.2\sonarqube-5.1.2
   - cmd: SET
 build_script:
+  - C:\Python27\Scripts\pip.exe install requests
+  - C:\Python27\Scripts\pip.exe install behave
+  - C:\Python27\Scripts\pip.exe install colorama
   - mvn clean install
+  - C:\Python27\Scripts\behave.exe
 cache:
   - C:\maven\
   - C:\Users\appveyor\.m2
 artifacts:
   - path: 'sonar-cxx-plugin\target\sonar-cxx-plugin-0.9.5-SNAPSHOT.jar'
   - path: 'sslr-cxx-toolkit\target\sslr-cxx-toolkit-0.9.5-SNAPSHOT.jar'
+  - path: '*_project_.log'
+  - path: 'C:\sonarqube-5.1.2\sonarqube-5.1.2\logs\*'
 on_failure:
   - ps: Get-ChildItem cxx-squid\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem *_project_.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem C:\sonarqube-5.1.2\sonarqube-5.1.2\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   
