@@ -53,8 +53,6 @@ cache:
 artifacts:
   - path: 'sonar-cxx-plugin\target\sonar-cxx-plugin-0.9.5-SNAPSHOT.jar'
   - path: 'sslr-cxx-toolkit\target\sslr-cxx-toolkit-0.9.5-SNAPSHOT.jar'
-  - path: '*_project_.log'
-  - path: 'C:\sonarqube-5.1.2\sonarqube-5.1.2\logs\*'
 on_failure:
   - ps: Get-ChildItem cxx-squid\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
