@@ -8,3 +8,6 @@ target
 *.pyc
 
 *.java.orig
+**/.sonarqube/*
+**/Debug/**
+**/Release/**

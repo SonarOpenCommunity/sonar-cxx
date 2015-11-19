@@ -26,6 +26,7 @@ install:
       }	  
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET
+  
 build_script:
   - mvn clean install
 cache:

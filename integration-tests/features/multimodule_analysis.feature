@@ -17,6 +17,9 @@ Feature: cpp-multimodule-project
               .*WARN  - .* cannot find the sources for .*
               .*WARN  - SCM provider autodetection failed.*
               .*WARN.*Cannot find a report for '.*'
+              .*WARN.*- File access Failed '.*'
+              .*ERROR.*Invalid report baseDir '.*'
+              .*ERROR.*Using module base failed to find Path '.*'
               """
           AND the following metrics have following values:
                | metric                   | value |
