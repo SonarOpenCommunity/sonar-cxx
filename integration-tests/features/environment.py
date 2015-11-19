@@ -223,7 +223,7 @@ def start_script(sonarhome):
             
         Popen(command, stdout=PIPE, shell=os.name == "nt")            
     elif platform.system() == "Windows":
-        replace(os.path.join(sonarhome, "conf", "wrapper.conf"), "wrapper.java.additional.1=-Djava.awt.headless=true", "wrapper.java.additional.1=-Djava.awt.headless=true -Djava.io.tmpdir=" + os.path.join(sonarhome,"temp"))
+        replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.temp=temp", "sonar.path.temp=" + os.path.join(sonarhome,"temp"))
     
         if platform.machine() == "x86_64":
             sys.stdout.write(GREEN + "Install Service...\n")
