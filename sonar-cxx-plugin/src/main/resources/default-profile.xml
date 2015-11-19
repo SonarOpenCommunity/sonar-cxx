@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <profile>
   <name>Sonar way</name>
-  <language>c++</language>
+  <language>cxx</language>
   <rules>
     <!-- ##################################################  -->
     <!-- ################# cppcheck rules #################  -->

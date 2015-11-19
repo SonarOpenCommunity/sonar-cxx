@@ -22,11 +22,12 @@ package org.sonar.plugins.cxx;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
+import org.sonar.squidbridge.rules.ExternalDescriptionLoader;
 import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 public class CxxRuleRepository implements RulesDefinition {
 
-  private static final String REPOSITORY_NAME = "c++ SonarQube";
+  private static final String REPOSITORY_NAME = "cxx SonarQube";
 
   @Override
   public void define(Context context) {
@@ -40,6 +41,7 @@ public class CxxRuleRepository implements RulesDefinition {
     }
     
     SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
+    ExternalDescriptionLoader.loadHtmlDescriptions(repository, "/org/sonar/l10n/cxx/rules/cxx");
     repository.done();
   }
 }

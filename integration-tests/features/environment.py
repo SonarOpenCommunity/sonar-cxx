@@ -32,6 +32,10 @@ from shutil import copyfile
 from subprocess import Popen, PIPE, check_call
 from common import analyselog, sonarlog
 
+from tempfile import mkstemp
+from shutil import move
+from os import remove, close
+
 SONAR_URL = "http://localhost:9000"
 INDENT = "    "
 BASEDIR = os.path.dirname(os.path.realpath(__file__))
@@ -155,7 +159,7 @@ def start_sonar(sonarhome):
     sys.stdout.write(INDENT + "starting SonarQube ... ")
     sys.stdout.flush()
     now = time.time()
-    Popen(start_script(sonarhome), stdout=PIPE, shell=os.name == "nt")
+    start_script(sonarhome)
     if not wait_for_sonar(50, is_webui_up):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
@@ -167,8 +171,19 @@ def start_sonar(sonarhome):
 
 def stop_sonar(sonarhome):
     if platform.system() == "Windows":
-        sys.stdout.write(YELLOW + "Cannot stop SonarQube automaticly on Windows. Please do it manually.\n" + RESET)
-        return
+        if platform.machine() == "x86_64":
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "UninstallNTService.bat")]
+            check_call(command, stdout=PIPE, shell=os.name == "nt")
+        elif platform.machine() == "i686":
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "UninstallNTService.bat")]
+            check_call(command, stdout=PIPE, shell=os.name == "nt")
+        elif platform.machine() == "AMD64":
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "UninstallNTService.bat")]
+            check_call(command, stdout=PIPE, shell=os.name == "nt")
+            
+        if not wait_for_sonar(30, is_webui_down):
+            sys.stdout.write(RED + "FAILED\n" + RESET)
+            return False
 
     sys.stdout.write(INDENT + "stopping SonarQube ... ")
     sys.stdout.flush()
@@ -185,7 +200,19 @@ class UnsupportedPlatform(Exception):
     def __init__(self, msg):
         super(UnsupportedPlatform, self).__init__(msg)
 
-
+def replace(file_path, pattern, subst):
+    #Create temp file
+    fh, abs_path = mkstemp()
+    with open(abs_path,'w') as new_file:
+        with open(file_path) as old_file:
+            for line in old_file:
+                new_file.write(line.replace(pattern, subst))
+    close(fh)
+    #Remove original file
+    remove(file_path)
+    #Move new file
+    move(abs_path, file_path)
+    
 def start_script(sonarhome):
     command = None
 
@@ -193,16 +220,43 @@ def start_script(sonarhome):
         script = linux_script(sonarhome)
         if script:
             command = [script, "start"]
+            
+        Popen(command, stdout=PIPE, shell=os.name == "nt")            
     elif platform.system() == "Windows":
+        replace(os.path.join(sonarhome, "conf", "sonar.properties"), "#sonar.path.temp=temp", "sonar.path.temp=" + os.path.join(sonarhome,"temp"))
+    
         if platform.machine() == "x86_64":
-            command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartSonar.bat")]
+            sys.stdout.write(GREEN + "Install Service...\n")
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "InstallNTService.bat")]
+            check_call(command, stdout=PIPE, shell=os.name == "nt")
+            sys.stdout.write(GREEN + "Install Service... Ok\n" + RESET)
+            sys.stdout.write(GREEN + "Start Service... \n")
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartNTService.bat")]
+            Popen(command, stdout=PIPE, shell=os.name == "nt")
+            sys.stdout.write(GREEN + "Start Service... Ok \n")
         elif platform.machine() == "i686":
-            command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "StartSonar.bat")]
+            sys.stdout.write(GREEN + "Install Service...\n")
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "InstallNTService.bat")]
+            check_call(command, stdout=PIPE, shell=os.name == "nt")
+            sys.stdout.write(GREEN + "Install Service... Ok\n" + RESET)
+            sys.stdout.write(GREEN + "Start Service... \n")
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-32", "StartNTService.bat")]
+            Popen(command, stdout=PIPE, shell=os.name == "nt")        
+            sys.stdout.write(GREEN + "Start Service... Ok \n" + RESET)            
         elif platform.machine() == "AMD64":
-            command = ["start", "cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartSonar.bat")]
+            sys.stdout.write(GREEN + "Install Service...\n")
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "InstallNTService.bat")]
+            check_call(command, stdout=PIPE, shell=os.name == "nt")
+            sys.stdout.write(GREEN + "Install Service... Ok\n" + RESET)
+            sys.stdout.write(GREEN + "Start Service... \n")
+            command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "StartNTService.bat")]
+            Popen(command, stdout=PIPE, shell=os.name == "nt")                       
+            sys.stdout.write(GREEN + "Start Service... Ok \n" + RESET)
+            
+        sys.stdout.write(GREEN + "Start on windows done... Ok \n" + RESET)
     elif platform.system() == "Darwin":
         command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "start"]
-
+        Popen(command, stdout=PIPE, shell=os.name == "nt")
     if command is None:
         msg = "Dont know how to find the start script for the platform %s-%s" % (platform.system(), platform.machine())
         raise UnsupportedPlatform(msg)
@@ -213,13 +267,15 @@ def start_script(sonarhome):
 def stop_script(sonarhome):
     command = None
 
+    
     if platform.system() == "Linux":
         script = linux_script(sonarhome)
         if script:
             command = [script, "stop"]
     elif platform.system() == "Darwin":
         command = [os.path.join(sonarhome, "bin/macosx-universal-64/sonar.sh"), "stop"]
-
+    elif platform.system() == "Windows":
+        command = ["cmd", "/c", "dir"]
     if command is None:
         msg = "Dont know how to find the stop script for the platform %s-%s" % (platform.system(), platform.machine())
         raise UnsupportedPlatform(msg)
