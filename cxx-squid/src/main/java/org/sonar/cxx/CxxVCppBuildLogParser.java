@@ -102,7 +102,7 @@ public class CxxVCppBuildLogParser {
             platform = "x64";
           }          
 
-          if (line.contains("\\bin\\CL.exe")) {
+          if (line.contains("\\bin\\CL.exe") || line.contains("\\bin\\x86_amd64\\CL.exe")) {
             String[] allElems = line.split("\\s+");
             String data = allElems[allElems.length - 1];
             try {
