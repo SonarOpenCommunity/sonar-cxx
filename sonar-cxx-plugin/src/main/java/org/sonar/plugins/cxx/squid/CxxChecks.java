@@ -32,6 +32,7 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.plugins.cxx.api.CustomCxxRulesDefinition;
 import org.sonar.squidbridge.SquidAstVisitor;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.sonar.sslr.api.Grammar;
 
@@ -89,5 +90,10 @@ public class CxxChecks {
       }
     }
     return null;
+  }
+  
+  @VisibleForTesting
+  public Set<Checks<SquidAstVisitor<Grammar>>> getChecks() {
+    return checksByRepository;
   }
 }
