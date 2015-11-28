@@ -49,7 +49,9 @@ import com.sonar.sslr.api.Token;
  * This visitor should be applied only on header files.<br>
  * Currently, no filtering is applied using preprocessing directive.<br>
  * <p>
- * Limitation: only "in front of the declaration" comments are considered.
+ * Limitation: only "in front of the declaration" comments and inline 
+ * comments (for members) are considered. Documenting public API by name 
+ * (\struct Foo for instance) in other files is not supported. 
  *
  * @see <a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html">
  *      Doxygen Manual: Documenting the code</a>
