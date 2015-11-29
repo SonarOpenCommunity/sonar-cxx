@@ -65,8 +65,8 @@ public class CxxExternalRulesSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");  
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp", fs.baseDirPath());  
     sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(2)).addIssue(any(Issue.class));
@@ -76,7 +76,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportFileLevelViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-filelevelviolation.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
     sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
@@ -120,7 +120,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
     sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));

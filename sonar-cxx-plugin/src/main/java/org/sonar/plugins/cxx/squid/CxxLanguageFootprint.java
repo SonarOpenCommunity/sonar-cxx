@@ -22,11 +22,11 @@ package org.sonar.plugins.cxx.squid;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sonar.squid.recognizer.ContainsDetector;
-import org.sonar.squid.recognizer.Detector;
-import org.sonar.squid.recognizer.EndWithDetector;
-import org.sonar.squid.recognizer.KeywordsDetector;
-import org.sonar.squid.recognizer.LanguageFootprint;
+import org.sonar.squidbridge.recognizer.ContainsDetector;
+import org.sonar.squidbridge.recognizer.Detector;
+import org.sonar.squidbridge.recognizer.EndWithDetector;
+import org.sonar.squidbridge.recognizer.KeywordsDetector;
+import org.sonar.squidbridge.recognizer.LanguageFootprint;
 
 /**
  * {@inheritDoc}

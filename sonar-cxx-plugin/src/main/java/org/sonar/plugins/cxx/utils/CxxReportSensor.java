@@ -241,7 +241,7 @@ public abstract class CxxReportSensor implements Sensor {
         InputFile inputFile = fs.inputFile(fs.predicates().is(new File(normalPath)));
         if (inputFile != null) {
           lineNr = getLineAsInt(line, inputFile.lines());
-          issuable = perspectives.as(Issuable.class, inputFile);
+          issuable = perspectives.as(Issuable.class, org.sonar.api.resources.File.create(inputFile.absolutePath()));
         } else {
           CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
           notFoundFiles.add(normalPath);

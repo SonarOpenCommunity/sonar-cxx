@@ -137,11 +137,11 @@ public final class CxxSquidSensor implements Sensor {
     save(squidSourceFiles);
   }
   
-  <P extends Perspective<?>> P perspective(Class<P> clazz, @Nullable InputFile file) {
+  <P extends Perspective> P perspective(Class<P> clazz, @Nullable InputFile file) {
     if (file == null) {
       throw new IllegalArgumentException("Cannot get " + clazz.getCanonicalName() + "for a null file");
     }
-    P result = resourcePerspectives.as(clazz, file);
+    P result = resourcePerspectives.as(clazz, org.sonar.api.resources.File.create(file.absolutePath()));
     if (result == null) {
       throw new IllegalStateException("Could not get " + clazz.getCanonicalName() + " for " + file);
     }
@@ -227,7 +227,7 @@ public final class CxxSquidSensor implements Sensor {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     int violationsCount = 0;
     if (messages != null) {
-      Issuable issuable = resourcePerspectives.as(Issuable.class, inputFile);
+      Issuable issuable = resourcePerspectives.as(Issuable.class, org.sonar.api.resources.File.create(inputFile.absolutePath()));
       if (issuable != null) {
         for (CheckMessage message : messages) {
           Issue issue = issuable.newIssueBuilder()

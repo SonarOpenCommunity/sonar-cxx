@@ -60,8 +60,8 @@ public class CxxRatsSensorTest {
 
   @Test
   public void shouldReportCorrectViolations() {
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "report.c");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "report.c", fs.baseDirPath());
     sensor.analyse(project, context);
     verify(issuable, times(5)).addIssue(any(Issue.class));
   }

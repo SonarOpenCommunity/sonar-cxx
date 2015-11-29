@@ -262,7 +262,7 @@ public class CxxConfiguration extends SquidConfiguration {
             File directory = new File(entry.getKey());
             if (!directory.exists()) {
               InputFile sonarFile = fs.inputFile(fs.predicates().hasAbsolutePath(value));
-              Issuable issuable = perspectives.as(Issuable.class, sonarFile);
+              Issuable issuable = perspectives.as(Issuable.class, org.sonar.api.resources.File.create(sonarFile.absolutePath()));
               if ((issuable != null) && (rule != null)) {
                 Issue issue = issuable.newIssueBuilder()
                     .ruleKey(rule.ruleKey())

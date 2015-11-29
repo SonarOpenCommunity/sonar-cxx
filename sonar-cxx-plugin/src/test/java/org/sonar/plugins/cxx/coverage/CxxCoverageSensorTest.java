@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
+import java.io.File;
+import java.nio.file.Paths;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
@@ -39,6 +41,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
+import org.sonar.api.batch.fs.FilePredicate;
+import org.sonar.api.batch.fs.FilePredicates;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxCoverageSensorTest {
@@ -65,13 +70,13 @@ public class CxxCoverageSensorTest {
   public void shouldReportCorrectCoverageOnUnitTestCoverage() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.h");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/main.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.h", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/main.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx", fs.baseDirPath());
     sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());     
     sensor.analyse(project, context);
     verify(context, times(33)).saveMeasure((InputFile) anyObject(), any(Measure.class));
@@ -83,13 +88,13 @@ public class CxxCoverageSensorTest {
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
     settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
     settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/cobertura/coverage-result-cobertura.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.h");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/main.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx");
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/SAMPLE-test.h", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/tests/main.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp", fs.baseDirPath());
+    TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx", fs.baseDirPath());
     sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
     sensor.analyse(project, context);
     verify(context, times(99)).saveMeasure((InputFile) anyObject(), any(Measure.class));
@@ -132,17 +137,20 @@ public class CxxCoverageSensorTest {
   @Test
   public void shouldReportCoverageWhenVisualStudioCase() {
     Settings settings = new Settings();
+    FilePredicates predicate = mock(FilePredicates.class);
+    when(predicate.hasPath((String) any())).thenReturn(null);       
+    DefaultFileSystem fs = mock(DefaultFileSystem.class);
+    
+    when(fs.inputFile((FilePredicate) any())).thenReturn(new DefaultInputFile("key", "file.cpp"));
+    when(fs.baseDir()).thenReturn(Paths.get("C:/coveragetest/").toFile());
+    when(fs.predicates()).thenReturn(predicate);
+    
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project1/source1.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source1.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source2.cpp"));
     } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-linux.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project1/source1.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source1.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source2.cpp");
     }
+    
     sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
     sensor.analyse(project, context);
     verify(context, times(21)).saveMeasure((InputFile) anyObject(), any(Measure.class));

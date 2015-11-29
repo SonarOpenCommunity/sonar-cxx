@@ -38,6 +38,9 @@ import org.sonar.plugins.dotnet.tests.UnitTestResults;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 
 import com.google.common.collect.ImmutableList;
+import java.io.File;
+import java.io.IOException;
+import org.apache.tools.ant.types.Path;
 
 public class MSTestResultsProviderTest {
   private Project project;
@@ -46,8 +49,8 @@ public class MSTestResultsProviderTest {
   private MSTestResultsImportSensor sensor;
 
   @Before
-  public void setUp() {
-    new DefaultFileSystem();
+  public void setUp() throws IOException {
+    new DefaultFileSystem(File.createTempFile("sss", "ddds"));
     project = TestUtils.mockProject();
     context = mock(SensorContext.class);
     }

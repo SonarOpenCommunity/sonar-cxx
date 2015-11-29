@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+    <groupId>org.sonarsource.sonar-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
     <version>0.9.5-SNAPSHOT</version>
   </parent>
@@ -23,20 +23,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
+      <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar</groupId>
-      <artifactId>sonar-deprecated</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.sonar.dotnet.tests</groupId>
       <artifactId>sonar-dotnet-tests-library</artifactId>
-    </dependency>
-    
+    </dependency>    
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
@@ -49,7 +43,7 @@
     </dependency>
     
     <dependency>
-      <groupId>org.codehaus.sonar.sslr</groupId>
+      <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
@@ -61,7 +55,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
+      <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
@@ -73,11 +67,6 @@
     <dependency>
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.sonar.common-rules</groupId>
-      <artifactId>sonar-common-rules</artifactId>
-      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>

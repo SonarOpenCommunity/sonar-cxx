@@ -8,7 +8,7 @@
     <version>24</version>
   </parent>
 
-  <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+  <groupId>org.sonarsource.sonar-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
   <version>0.9.5-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -129,10 +129,10 @@
   </ciManagement>
 
   <properties>
-    <license.title>Sonar C++ Plugin (Community) </license.title>
+    <license.title>Sonar C++ Plugin (Community)</license.title>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>4.5.2</sonar.version>
-    <sslr.version>1.20</sslr.version>
+    <sonar.version>5.2</sonar.version>
+    <sslr.version>1.21</sslr.version>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <sonar.pluginName>C++ (Community)</sonar.pluginName>
@@ -143,40 +143,40 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.codehaus.sonar</groupId>
+        <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-plugin-api</artifactId>
         <version>${sonar.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar</groupId>
+        <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-deprecated</artifactId>
         <version>${sonar.version}</version>
       </dependency>      
       <dependency>
-        <groupId>org.codehaus.sonar</groupId>
+        <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-testing-harness</artifactId>
         <version>${sonar.version}</version>
       </dependency>
  
       <dependency>
-        <groupId>org.codehaus.sonar.sslr</groupId>
+        <groupId>org.sonarsource.sslr</groupId>
         <artifactId>sslr-core</artifactId>
         <version>${sslr.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar.sslr</groupId>
+        <groupId>org.sonarsource.sslr</groupId>
         <artifactId>sslr-toolkit</artifactId>
         <version>${sslr.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar.sslr</groupId>
+        <groupId>org.sonarsource.sslr</groupId>
         <artifactId>sslr-testing-harness</artifactId>
         <version>${sslr.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar.sslr-squid-bridge</groupId>
+        <groupId>org.sonarsource.sslr-squid-bridge</groupId>
         <artifactId>sslr-squid-bridge</artifactId>
-        <version>2.6</version>
+        <version>2.6.1</version>
       </dependency>
        <dependency>
         <groupId>junit</groupId>
@@ -199,16 +199,10 @@
         <version>1.0.13</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar.common-rules</groupId>
-        <artifactId>sonar-common-rules</artifactId>
-        <version>1.2</version>
-      </dependency>
-      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>1.6.2</version>
-      </dependency>
-      
+      </dependency>      
       <dependency>
         <groupId>ant</groupId>
         <artifactId>ant</artifactId>
