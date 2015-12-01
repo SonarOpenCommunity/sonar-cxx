@@ -172,10 +172,10 @@ public class CxxLexerWithPreprocessingTest {
     // such cases.
     // Corresponds to the Jira issue SONARPLUGINS-3060
     List<Token> tokens = lexer.lex("#define FOOBAR 1\n"
-                                   + "#define CHECK(a, b) (( a ## b + 1 == 2))\n"
-                                   + "#if CHECK(FOO , BAR)\n"
-                                   + "yes\n"
-                                   + "#endif");
+      + "#define CHECK(a, b) (( a ## b + 1 == 2))\n"
+      + "#if CHECK(FOO , BAR)\n"
+      + "yes\n"
+      + "#endif");
 
     assertThat(tokens).hasSize(2); // yes + EOF
     assertThat(tokens, hasToken("yes", GenericTokenType.IDENTIFIER));
@@ -350,7 +350,7 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void macro_replacement_in_includes_is_working() {
     List<Token> tokens = lexer.lex("#define A \"B\"\n"
-                                   + "#include A\n");
+      + "#include A\n");
     assertThat(tokens).hasSize(1); // EOF
   }
 
@@ -600,11 +600,11 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void problem_with_chained_defined_expressions() {
     List<Token> tokens = lexer.lex("#define _C_\n"
-                                   + "#if !defined(_A_) && !defined(_B_) && !defined(_C_)\n"
-                                   + "truecase\n"
-                                   + "#else\n"
-                                   + "falsecase\n"
-                                   + "#endif");
+      + "#if !defined(_A_) && !defined(_B_) && !defined(_C_)\n"
+      + "truecase\n"
+      + "#else\n"
+      + "falsecase\n"
+      + "#endif");
     assertThat(tokens, hasToken("falsecase", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // falsecase + EOF
   }
@@ -612,13 +612,13 @@ public class CxxLexerWithPreprocessingTest {
   @Test
   public void problem_evaluating_elif_expressions() {
     List<Token> tokens = lexer.lex("#define foo(a) 1\n"
-                                   + "#if 0\n"
-                                   + "body\n"
-                                   + "#elif foo(10)\n"
-                                   + "truecase\n"
-                                   + "#else\n"
-                                   + "falsecase\n"
-                                   + "endif\n");
+      + "#if 0\n"
+      + "body\n"
+      + "#elif foo(10)\n"
+      + "truecase\n"
+      + "#else\n"
+      + "falsecase\n"
+      + "endif\n");
     assertThat(tokens, hasToken("truecase", GenericTokenType.IDENTIFIER));
     assertThat(tokens).hasSize(2); // truecase + EOF
   }
@@ -631,17 +631,33 @@ public class CxxLexerWithPreprocessingTest {
   }
 
   @Test
-  public void dont_look_at_subsequent_elif_clauses() {
+  public void dont_look_at_subsequent_clauses_if_elif() {
     // When a if clause has been evaluated to true, dont look at
     // subsequent elif clauses
     List<Token> tokens = lexer.lex("#define A 1\n"
-                                   + "#if A\n"
-                                   + "ifbody\n"
-                                   + "#elif A\n"
-                                   + "elifbody\n"
-                                   + "#endif");
+      + "#if A\n"
+      + "   ifbody\n"
+      + "#elif A\n"
+      + "   elifbody\n"
+      + "#endif");
     assertThat(tokens).hasSize(2); // ifbody + EOF
     assertThat(tokens, hasToken("ifbody", GenericTokenType.IDENTIFIER));
+  }
+
+  @Test
+  public void dont_look_at_subsequent_clauses_elif_elif() {
+    List<Token> tokens = lexer.lex("#define SDS_ARCH_darwin_15_i86\n"
+      + "#ifdef SDS_ARCH_freebsd_61_i86\n"
+      + "   case1\n"
+      + "#elif defined(SDS_ARCH_darwin_15_i86)\n"
+      + "   case2\n"
+      + "#elif defined(SDS_ARCH_winxp) || defined(SDS_ARCH_Interix)\n"
+      + "   case3\n"
+      + "#else\n"
+      + "   case4\n"
+      + "#endif\n");
+    assertThat(tokens).hasSize(2); // case2 + EOF
+    assertThat(tokens, hasToken("case2", GenericTokenType.IDENTIFIER));
   }
 
   //@Test
@@ -652,8 +668,8 @@ public class CxxLexerWithPreprocessingTest {
     // After this, 0 and the rest of the number get never concatenated again.
 
     List<Token> tokens = lexer.lex("#define A B(cf)\n"
-                                   + "#define B(n) 0x##n\n"
-                                   + "A");
+      + "#define B(n) 0x##n\n"
+      + "A");
     assertThat(tokens, hasToken("0xcf", CxxKeyword.INT));
   }
 }
