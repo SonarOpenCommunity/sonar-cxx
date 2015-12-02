@@ -55,7 +55,7 @@ public class CxxValgrindSensorTest {
     project = TestUtils.mockProject();
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxValgrindSensor(perspectives, new Settings(), fs, mock(RulesProfile.class), TestUtils.mockReactor());
+    sensor = new CxxValgrindSensor(perspectives, new Settings(), fs, mock(RulesProfile.class));
     context = mock(SensorContext.class);
   }
 

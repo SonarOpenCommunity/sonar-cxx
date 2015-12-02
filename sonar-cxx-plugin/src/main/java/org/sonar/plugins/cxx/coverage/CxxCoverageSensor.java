@@ -29,7 +29,6 @@ import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.InputFile;
@@ -61,15 +60,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
 
   private List<CoverageParser> parsers = new LinkedList<>();
-  private final ProjectReactor reactor;
 
   /**
    * {@inheritDoc}
    */
-  public CxxCoverageSensor(Settings settings, FileSystem fs, ProjectReactor reactor) {
-    super(settings, fs, reactor);
-
-    this.reactor = reactor;
+  public CxxCoverageSensor(Settings settings, FileSystem fs) {
+    super(settings, fs);
     final String baseDir = fs.baseDir().getAbsolutePath();
     parsers.add(new CoberturaParser(baseDir));
     parsers.add(new BullseyeParser(baseDir));
@@ -97,30 +93,21 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
     if (settings.hasKey(REPORT_PATH_KEY)) {
       CxxUtils.LOG.debug("Parsing coverage reports");
-      List<File> reports = getReports(settings,
-        reactor.getRoot().getBaseDir().getAbsolutePath(),
-        fs.baseDir().getPath(),
-        REPORT_PATH_KEY);
+      List<File> reports = getReports(settings, fs.baseDir(), REPORT_PATH_KEY);
       coverageMeasures = processReports(project, context, reports);
       saveMeasures(context, coverageMeasures, CoverageType.UT_COVERAGE);
     }
 
     if (settings.hasKey(IT_REPORT_PATH_KEY)) {
       CxxUtils.LOG.debug("Parsing integration test coverage reports");
-      List<File> itReports = getReports(settings,
-        reactor.getRoot().getBaseDir().getAbsolutePath(),
-        fs.baseDir().getPath(),
-        IT_REPORT_PATH_KEY);
+      List<File> itReports = getReports(settings, fs.baseDir(), IT_REPORT_PATH_KEY);
       itCoverageMeasures = processReports(project, context, itReports);
       saveMeasures(context, itCoverageMeasures, CoverageType.IT_COVERAGE);
     }
 
     if (settings.hasKey(OVERALL_REPORT_PATH_KEY)) {
       CxxUtils.LOG.debug("Parsing overall test coverage reports");
-      List<File> overallReports = getReports(settings,
-        reactor.getRoot().getBaseDir().getAbsolutePath(),
-        fs.baseDir().getPath(),
-        OVERALL_REPORT_PATH_KEY);
+      List<File> overallReports = getReports(settings, fs.baseDir(), OVERALL_REPORT_PATH_KEY);
       overallCoverageMeasures = processReports(project, context, overallReports);
       saveMeasures(context, overallCoverageMeasures, CoverageType.OVERALL_COVERAGE);
     }

@@ -20,7 +20,6 @@
 package org.sonar.plugins.cxx.externalrules;
 
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.config.Settings;
@@ -47,7 +46,6 @@ public class CxxExternalRulesSensorTest {
   private Settings settings;
   private DefaultFileSystem fs;
   private Issuable issuable;
-  private ProjectReactor reactor;
   private ResourcePerspectives perspectives;
 
   @Before
@@ -56,7 +54,6 @@ public class CxxExternalRulesSensorTest {
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
     fs = TestUtils.mockFileSystem();
-    reactor = TestUtils.mockReactor();
     profile = mock(RulesProfile.class);
     context = mock(SensorContext.class);
     settings = new Settings();
@@ -67,7 +64,7 @@ public class CxxExternalRulesSensorTest {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");  
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
     verify(issuable, times(2)).addIssue(any(Issue.class));
   }
@@ -77,7 +74,7 @@ public class CxxExternalRulesSensorTest {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-filelevelviolation.xml");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }
@@ -86,7 +83,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportProjectLevelViolations() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-projectlevelviolation.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }
@@ -94,7 +91,7 @@ public class CxxExternalRulesSensorTest {
   @Test(expected = IllegalStateException.class)
   public void shouldThrowExceptionWhenReportEmpty() {
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
     verify(issuable, times(0)).addIssue(any(Issue.class));
   }
@@ -103,7 +100,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportNoViolationsIfNoReportFound() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
     verify(issuable, times(0)).addIssue(any(Issue.class));
   }
@@ -112,7 +109,7 @@ public class CxxExternalRulesSensorTest {
   public void shouldThrowInCaseOfATrashyReport() {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
   }
 
@@ -121,7 +118,7 @@ public class CxxExternalRulesSensorTest {
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile, reactor);
+    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
     verify(issuable, times(1)).addIssue(any(Issue.class));
   }

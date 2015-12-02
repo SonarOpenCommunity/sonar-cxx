@@ -28,7 +28,6 @@ import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
@@ -52,8 +51,8 @@ public class CxxCppCheckSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   public CxxCppCheckSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs,
-      RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, settings, fs, reactor, CxxMetrics.CPPCHECK);
+      RulesProfile profile) {
+    super(perspectives, settings, fs, CxxMetrics.CPPCHECK);
     this.profile = profile;
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));

@@ -24,10 +24,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tools.ant.DirectoryScanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,9 +144,6 @@ public final class CxxUtils {
     }
     return filePath;
   }
-
-  public static boolean isReactorProject(Project project) {
-    return project.isRoot() && !project.getModules().isEmpty();
-  }
+  
 }
 

@@ -89,7 +89,7 @@ public class CxxBullseyeCoverageSensorTest {
       TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/main.cpp");
       TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.h");
     }
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(90)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
@@ -110,7 +110,7 @@ public class CxxBullseyeCoverageSensorTest {
       TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test2/test2.c");
       TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/main.c");
     }
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
@@ -132,7 +132,7 @@ public class CxxBullseyeCoverageSensorTest {
       TestUtils.addInputFile(fs, perspectives, issuable, "/c/test2/test2.c");
       TestUtils.addInputFile(fs, perspectives, issuable, "/c/anotherincludeattop.h");      
     }
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }

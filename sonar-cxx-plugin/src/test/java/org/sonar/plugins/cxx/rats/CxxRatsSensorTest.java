@@ -54,7 +54,7 @@ public class CxxRatsSensorTest {
     perspectives = TestUtils.mockPerspectives(issuable);
     Settings settings = new Settings();
     settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
-    sensor = new CxxRatsSensor(perspectives, settings, fs, mock(RulesProfile.class), TestUtils.mockReactor());
+    sensor = new CxxRatsSensor(perspectives, settings, fs, mock(RulesProfile.class));
     context = mock(SensorContext.class);
   }
 

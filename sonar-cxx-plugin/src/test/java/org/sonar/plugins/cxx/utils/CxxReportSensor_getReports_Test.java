@@ -42,7 +42,7 @@ public class CxxReportSensor_getReports_Test {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
     public CxxReportSensorImpl(Settings settings, FileSystem fs) {
-      super(settings, fs, TestUtils.mockReactor());
+      super(settings, fs);
     }
   };
 
@@ -88,7 +88,7 @@ public class CxxReportSensor_getReports_Test {
       setupExample(allpaths);
       settings.setProperty(property, pattern);
 
-      reports = sensor.getReports(settings, base.getRoot().getPath(), "", property);
+      reports = sensor.getReports(settings, base.getRoot(), property);
 
       assertMatch(reports, match, example[0]);
       deleteExample(base.getRoot());

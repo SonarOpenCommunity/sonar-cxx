@@ -51,4 +51,4 @@ script:
 
 after_failure:
         - cat $SONARHOME/logs/sonar.log
-        - find . -name _cpp-multimodule-project-2_.log | xargs cat
+        - find . -name "*.log" | xargs cat
