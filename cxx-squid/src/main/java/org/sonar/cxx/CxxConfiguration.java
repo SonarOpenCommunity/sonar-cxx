@@ -58,7 +58,6 @@ public class CxxConfiguration extends SquidConfiguration {
   private FileSystem fs;
   
   private final CxxVCppBuildLogParser cxxVCppParser;
-  private ActiveRule activeRule;
   
   public CxxConfiguration() {
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
@@ -82,15 +81,13 @@ public class CxxConfiguration extends SquidConfiguration {
   }
   
   public CxxConfiguration(FileSystem fs,
-          ResourcePerspectives perspectivesIn,
-          ActiveRule activeRule) {
+          ResourcePerspectives perspectivesIn) {
     super(fs.encoding());   
     this.fs = fs;
     perspectives = perspectivesIn;
     uniqueIncludes.put(OverallIncludeKey, new HashSet<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
-    this.activeRule = activeRule;
   }
 
   public void setIgnoreHeaderComments(boolean ignoreHeaderComments) {
@@ -242,41 +239,6 @@ public class CxxConfiguration extends SquidConfiguration {
       } else {
         LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
       }    
-    }
-    
-    if(activeRule != null) {
-      RaiseIssuesForNotFoundIncludes(activeRule, fs);  
-    }     
-  }
-
-  private void RaiseIssuesForNotFoundIncludes(ActiveRule rule, FileSystem fs ) {
-    
-    
-    // raise issues for files that have invalid include folders
-    for(Map.Entry<String, Set<String>> entry : uniqueIncludes.entrySet()) {
-      if(!entry.getKey().equals(OverallIncludeKey)) {
-        
-        for(String value : entry.getValue()) {
-          try
-          {
-            File directory = new File(entry.getKey());
-            if (!directory.exists()) {
-              InputFile sonarFile = fs.inputFile(fs.predicates().hasAbsolutePath(value));
-              Issuable issuable = perspectives.as(Issuable.class, sonarFile);
-              if ((issuable != null) && (rule != null)) {
-                Issue issue = issuable.newIssueBuilder()
-                    .ruleKey(rule.ruleKey())
-                    .line(1)
-                    .message("Remove include from poject files, \"" + value + "\" it does not exist.")
-                    .build();
-                issuable.addIssue(issue);
-              }            
-            }            
-          } catch(IllegalArgumentException ex) {
-            LOG.warn("Cannot Create Issue for: '{}' reason: '{}'", value, ex.getMessage());
-          }
-      }
-    }
-  }
-  }
+    }    
+  }  
 }
