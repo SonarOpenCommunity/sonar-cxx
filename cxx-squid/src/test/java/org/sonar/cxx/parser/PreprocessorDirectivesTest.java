@@ -175,7 +175,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "string s = foo(bar);"))
       .equals("string s = bar + \"x\" ; EOF"));
   }
-
+  
   @Test
   public void variadic_macros() {
     assert (serialize(p.parse(
@@ -198,13 +198,21 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
             + "eprintf(\"%s:%d: \", input_file, lineno);"))
         .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
 
-    //without whitespace after the parameter list
+    // the Visual C++ implementation will suppress a trailing comma
+    // if no arguments are passed to the ellipsis
+    assert (serialize(p.parse(
+        "#define EMPTY\n"
+            + "#define MACRO(s, ...) printf(s, __VA_ARGS__)\n"
+            + "MACRO(\"error\", EMPTY);"))
+        .equals("printf ( \"error\" ) ; EOF"));
+       
+    // without whitespace after the parameter list
     assert (serialize(p.parse(
         "#define foo(a...);\n"
             + "foo(a, b)"))
         .equals("; EOF"));
 
-    //with more params and without whitespace after the parameter list
+    // with more params and without whitespace after the parameter list
     assert (serialize(p.parse(
         "#define foo(a, b...);\n"
             + "foo(a, b, c)"))

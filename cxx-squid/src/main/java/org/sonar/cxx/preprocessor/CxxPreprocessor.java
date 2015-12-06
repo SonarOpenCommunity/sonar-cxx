@@ -60,6 +60,7 @@ import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
+import static org.sonar.cxx.api.CppPunctuator.COMMA;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
@@ -869,14 +870,29 @@ public class CxxPreprocessor extends Preprocessor {
             }
           }
 
-          newTokens.add(Token.builder()
-            .setLine(replacement.getLine())
-            .setColumn(replacement.getColumn())
-            .setURI(replacement.getURI())
-            .setValueAndOriginalValue(newValue)
-            .setType(replacement.getType())
-            .setGeneratedCode(true)
-            .build());
+          if (newValue.isEmpty() && "__VA_ARGS__".equals(curr.getValue())) {
+            // the Visual C++ implementation will suppress a trailing comma
+            // if no arguments are passed to the ellipsis
+            for (int n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
+              if (newTokens.get(n).getType() == WS) {
+                newTokens.remove(n);
+              } else if (newTokens.get(n).getType() == COMMA) {
+                newTokens.remove(n);
+                break;
+              } else {
+                break;
+              }
+            }
+          } else {
+            newTokens.add(Token.builder()
+              .setLine(replacement.getLine())
+              .setColumn(replacement.getColumn())
+              .setURI(replacement.getURI())
+              .setValueAndOriginalValue(newValue)
+              .setType(replacement.getType())
+              .setGeneratedCode(true)
+              .build());
+          }
         }
       }
     }
