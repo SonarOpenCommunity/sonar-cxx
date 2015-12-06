@@ -16,6 +16,7 @@ matrix:
         - env: SONARHOME=/tmp/sonarqube-5.2
 
 before_install:
+        - sudo hostname "$(hostname | cut -c1-63)"
         - travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
         - travis_retry sudo apt-get -qq update
         - travis_retry sudo apt-get -qq install boost1.55
@@ -43,3 +44,6 @@ script:
         - mvn install -DskipTests=true
         - mvn test
         - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin behave
+
+after_failure:
+        - cat $SONARHOME/logs/sonar.log
