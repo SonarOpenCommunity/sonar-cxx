@@ -69,7 +69,6 @@ import org.sonar.squidbridge.indexer.QueryByType;
 
 import com.sonar.sslr.api.Grammar;
 
-import org.sonar.cxx.checks.CompileIncludePathNotFoundOrInvalid;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
@@ -149,7 +148,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, Settings conf) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs, resourcePerspectives, CompileIncludePathNotFoundOrInvalid.getActiveRule(rules));
+    CxxConfiguration cxxConf = new CxxConfiguration(fs, resourcePerspectives);
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
     if(lines.length > 0){

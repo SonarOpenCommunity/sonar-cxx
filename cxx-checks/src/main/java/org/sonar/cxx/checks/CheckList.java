@@ -73,7 +73,6 @@ public final class CheckList {
       UseCorrectIncludeCheck.class,
       XPathCheck.class,
       BooleanEqualityComparisonCheck.class,
-      CompileIncludePathNotFoundOrInvalid.class,
       NestedStatementsCheck.class
     );
   }
