@@ -298,6 +298,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "#define FB1(arg) FB(arg)\n"
       + "string s = FB1(F/B);"))
       .equals("string s = \"abc/def\" ; EOF"));
+    
+    assert (serialize(p.parse(
+      "#define SC_METHOD(func) declare_method_process( func ## _handle, #func, func )\n"
+      + "SC_METHOD(test);"))
+      .equals("declare_method_process ( test_handle , \"test\" , test ) ; EOF"));
   }
 
   @Test
