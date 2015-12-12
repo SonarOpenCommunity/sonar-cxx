@@ -62,6 +62,7 @@ import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.COMMA;
 import static org.sonar.cxx.api.CppPunctuator.LT;
+import static org.sonar.cxx.api.CppPunctuator.HASHHASH;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
@@ -820,6 +821,11 @@ public class CxxPreprocessor extends Preprocessor {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
+          if (tokenPastingRightOp) {
+            if (curr.getType() != WS && curr.getType() != HASHHASH) {
+              tokenPastingRightOp = false;
+            }
+          }
           newTokens.add(curr);
         } else if (index == arguments.size()) {
           // EXTENSION: GCC's special meaning of token paste operator
