@@ -6,15 +6,15 @@ jdk:
 
 env:
         - SONARHOME=/tmp/sonarqube-4.5.6
-        - SONARHOME=/tmp/sonarqube-5.0.1
+#       - SONARHOME=/tmp/sonarqube-5.0.1
         - SONARHOME=/tmp/sonarqube-5.1.2
-        - SONARHOME=/tmp/sonarqube-5.2
+#       - SONARHOME=/tmp/sonarqube-5.2
         - SONARHOME=/tmp/sonarqube-5.3-RC1
   
 matrix:
     fast_finished: true
     allow_failures:
-        - env: SONARHOME=/tmp/sonarqube-5.2
+#       - env: SONARHOME=/tmp/sonarqube-5.2
         - env: SONARHOME=/tmp/sonarqube-5.3-RC1
 
 before_install:
@@ -27,12 +27,12 @@ install:
         - cd /tmp
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-4.5.6.zip
         - unzip -qq sonarqube-4.5.6.zip        
-        - travis_retry wget -q http://downloads.sonarsource.com/sonarqube/sonarqube-5.0.1.zip
-        - unzip -qq sonarqube-5.0.1.zip
+#       - travis_retry wget -q http://downloads.sonarsource.com/sonarqube/sonarqube-5.0.1.zip
+#       - unzip -qq sonarqube-5.0.1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.1.2.zip
         - unzip -qq sonarqube-5.1.2.zip        
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.2.zip
-        - unzip -qq sonarqube-5.2.zip   
+#       - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.2.zip
+#       - unzip -qq sonarqube-5.2.zip   
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.3-RC1.zip
         - unzip -qq sonarqube-5.3-RC1.zip
         - travis_retry wget -q http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
