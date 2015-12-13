@@ -29,6 +29,24 @@ import shutil
 from behave import given, when, then, model
 from common import analyselog, build_regexp, sonarlog, analyseloglines
 
+RED = ""
+YELLOW = ""
+GREEN = ""
+RESET = ""
+RESET_ALL = ""
+BRIGHT = ""
+try:
+    import colorama
+    colorama.init()
+    RED = colorama.Fore.RED
+    YELLOW = colorama.Fore.YELLOW
+    GREEN = colorama.Fore.GREEN
+    RESET = colorama.Fore.RESET
+    BRIGHT = colorama.Style.BRIGHT
+    RESET_ALL = colorama.Style.RESET_ALL
+except ImportError:
+    pass
+    
 TESTDATADIR = os.path.normpath(os.path.join(os.path.realpath(__file__),
                                             "..", "..", "..", "testdata"))
 SONAR_URL = "http://localhost:9000"
@@ -195,12 +213,16 @@ def step_impl(context):
 
 def assert_measures(project, measures):
     metrics_to_query = measures.keys()
+    url = (SONAR_URL + "/api/resources?resource=" + project + "&metrics="
+           + ",".join(metrics_to_query))
 
+    print(BRIGHT + "\nGet measures with query : " + url + RESET_ALL)
+    
     try:
         
-        url = (SONAR_URL + "/api/resources?resource=" + project + "&metrics="
-               + ",".join(metrics_to_query))
+
                
+        
         response = requests.get(url)
         got_measures = {}
         json_measures = json.loads(response.text)[0].get("msr", None)
@@ -209,7 +231,7 @@ def assert_measures(project, measures):
 
         diff = _diffMeasures(measures, got_measures)
     except requests.exceptions.ConnectionError, e:
-        assert False, "cannot query the metrics, details: %s" % str(e)
+        assert False, "cannot query the metrics, details: %s -> url %s" % str(e) % url
 
     assert diff == "", "\n" + diff
 

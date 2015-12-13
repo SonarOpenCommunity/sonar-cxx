@@ -75,12 +75,9 @@ public class CxxReportSensor_getReports_Test {
 
     examples.add(new String[] { "A?.ext",       "AA.ext,AB.ext",   "B.ext" });            // containing question mark
     examples.add(new String[] { "A*.ext",       "A.ext,AAA.ext",   "B.ext" });            // containing question mark
-    examples.add(new String[] { "**/A.ext",     "A.ext,dir/A.ext", "B.ext" });            // containing question mark
     examples.add(new String[] { "",             "",                "" });                 // empty
-
-    //TODO: decide whether to support absolute paths
-    //String abspattern = new File(base.getRoot(), "A.ext").getPath();
-    //examples.add(new String[] { abspattern,     "",                "A.ext" });            // absolute
+    
+    // absolutes paths are covered in CxxUtilsTest
 
     String pattern, match, allpaths;
     List<File> reports;
@@ -93,7 +90,7 @@ public class CxxReportSensor_getReports_Test {
 
       reports = sensor.getReports(settings, base.getRoot().getPath(), "", property);
 
-      assertMatch(reports, match);
+      assertMatch(reports, match, example[0]);
       deleteExample(base.getRoot());
     }
 
@@ -111,7 +108,7 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.cleanDirectory(dir);
   }
 
-  private void assertMatch(List<File> real, String expected) {
+  private void assertMatch(List<File> real, String expected, String pattern) {
     String[] parsedPaths = StringUtils.split(expected, ",");
     List<File> expectedFiles = new LinkedList<File>();
     for (String path : parsedPaths) {
@@ -121,6 +118,6 @@ public class CxxReportSensor_getReports_Test {
     Set<File> realSet = new TreeSet<File>(real);
     Set<File> expectedSet = new TreeSet<File>(expectedFiles);
 
-    assertEquals(realSet, expectedSet);
+    assertEquals("Failed for pattern: " + pattern, expectedSet, realSet);
   }
 }

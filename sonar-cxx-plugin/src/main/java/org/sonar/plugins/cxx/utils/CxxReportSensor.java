@@ -20,10 +20,15 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.commons.io.FilenameUtils;
@@ -42,6 +47,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.plugins.cxx.CxxLanguage;
+import static org.sonar.plugins.cxx.utils.CxxUtils.GetDirectoryScannerForReport;
 
 /**
  * This class is used as base for all sensors which import reports.
@@ -49,6 +55,7 @@ import org.sonar.plugins.cxx.CxxLanguage;
  * in SonarQube
  */
 public abstract class CxxReportSensor implements Sensor {
+  
   private ResourcePerspectives perspectives;
   private Set<String> notFoundFiles = new HashSet<String>();
   private Set<String> uniqueIssues = new HashSet<String>();
@@ -149,55 +156,23 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   public static List<File> getReports(Settings conf,
-    String baseDirPath1,
-    String baseDirPath2,
+    String reactorBaseDir,
+    String moduleBaseDir,
     String reportPathPropertyKey) {
+         
     String reportPath = conf.getString(reportPathPropertyKey);
     List<File> reports = new ArrayList<File>();
     if (reportPath != null && !reportPath.isEmpty()) {
       reportPath = FilenameUtils.normalize(reportPath);
+      
       File singleFile = new File(reportPath);
       if (singleFile.exists()) {
         reports.add(singleFile);
       } else {
         CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
-  
-        DirectoryScanner scanner = new DirectoryScanner();
-        String[] includes = new String[1];
-        includes[0] = reportPath;
-        scanner.setIncludes(includes);
-        String baseDirPath = baseDirPath1;
-        scanner.setBasedir(new File(baseDirPath));
-        String[] relPaths = new String[0];
-        try {
-          scanner.scan();
-          relPaths = scanner.getIncludedFiles();
-        } catch (IllegalStateException e) {
-          CxxUtils.LOG.error("Invalid report baseDir '{}'", baseDirPath);
-        }
-        if (relPaths.length < 1 && !baseDirPath2.isEmpty()) {
-          baseDirPath = baseDirPath2;
-          scanner.setBasedir(new File(baseDirPath));
-          try {
-            scanner.scan();
-            relPaths = scanner.getIncludedFiles();
-          } catch (IllegalStateException e) {
-            CxxUtils.LOG.error("Invalid report baseDir '{}'", baseDirPath);
-          }
-        }
-        
-        for (String relPath : relPaths) {
-          String path = CxxUtils.normalizePath(new File(baseDirPath, relPath).getAbsolutePath());
-          try {
-            File reportFile = new File(path);
-            if (reportFile.exists()) {
-              reports.add(reportFile);
-            } else {
-              CxxUtils.LOG.error("Can't read report '{}'", path);
-            }
-          } catch (SecurityException e) {
-            CxxUtils.LOG.error("Read access to report '{}' denied", path);
-          }
+        CxxUtils.GetReportForBaseDirAndPattern(reactorBaseDir, reportPath, reports);
+        if (reports.isEmpty() && !moduleBaseDir.isEmpty()) {
+          CxxUtils.GetReportForBaseDirAndPattern(moduleBaseDir, reportPath, reports);                  
         }
         if (reports.isEmpty()) {
           CxxUtils.LOG.warn("Cannot find a report for '{}={}'", reportPathPropertyKey, reportPath);
