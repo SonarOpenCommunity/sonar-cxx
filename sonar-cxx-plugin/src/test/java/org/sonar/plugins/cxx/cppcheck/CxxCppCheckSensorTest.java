@@ -59,14 +59,14 @@ public class CxxCppCheckSensorTest {
     perspectives = TestUtils.mockPerspectives(issuable);
     profile = mock(RulesProfile.class);
     settings = new Settings();
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     context = mock(SensorContext.class);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-      "cppcheck-reports/cppcheck-result-*.xml");   
+      "cppcheck-reports/cppcheck-result-*.xml");  
+    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile, reactor);
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");
     sensor.analyse(project, context);

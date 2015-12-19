@@ -47,29 +47,29 @@ public class CxxXunitSensorTest {
   private SensorContext context;
   private Project project;
   private FileSystem fs;
-  private Settings config;
+  private Settings settings;
   private ProjectReactor reactor;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    config = new Settings();
+    settings = new Settings();
     reactor = TestUtils.mockReactor();
     context = mock(SensorContext.class);
-    sensor = new CxxXunitSensor(config, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs, reactor);
   }
 
   @Test
   public void shouldFindTheSourcesOfTheTestfiles() {
-    Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
+    Settings settings = new Settings();
+    settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
 
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
     fs = TestUtils.mockFileSystem(baseDir, Arrays.asList(new File("src")),
                                   Arrays.asList(new File("tests1"), new File("tests2")));
 
-    sensor = new CxxXunitSensor(config, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs, reactor);
     sensor.buildLookupTables();
 
     // case 1:
@@ -126,9 +126,9 @@ public class CxxXunitSensorTest {
 
   @Test
   public void shouldReportNothingWhenNoReportFound() {
-    Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
-    sensor = new CxxXunitSensor(config, fs, TestUtils.mockReactor());
+    Settings settings = new Settings();
+    settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
+    sensor = new CxxXunitSensor(settings, fs, TestUtils.mockReactor());
 
     sensor.analyse(project, context);
 
@@ -137,9 +137,9 @@ public class CxxXunitSensorTest {
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowWhenGivenInvalidTime() {
-    Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
-    sensor = new CxxXunitSensor(config, fs, reactor);
+    Settings settings = new Settings();
+    settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
+    sensor = new CxxXunitSensor(settings, fs, reactor);
 
     sensor.analyse(project, context);
   }
@@ -148,10 +148,10 @@ public class CxxXunitSensorTest {
   public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
       throws java.io.IOException, javax.xml.transform.TransformerException
   {
-    Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
+    Settings settings = new Settings();
+    settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
 
-    sensor = new CxxXunitSensor(config, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs, reactor);
 
     sensor.transformReport(cppunitReport());
   }
@@ -160,10 +160,10 @@ public class CxxXunitSensorTest {
   public void transformReport_shouldTransformCppunitReport()
       throws java.io.IOException, javax.xml.transform.TransformerException
   {
-    Settings config = new Settings();
-    config.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
+    Settings settings = new Settings();
+    settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
 
-    sensor = new CxxXunitSensor(config, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs, reactor);
     File reportBefore = cppunitReport();
 
     File reportAfter = sensor.transformReport(reportBefore);

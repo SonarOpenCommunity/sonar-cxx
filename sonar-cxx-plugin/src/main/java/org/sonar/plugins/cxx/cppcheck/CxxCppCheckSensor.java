@@ -51,9 +51,9 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs,
+  public CxxCppCheckSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs,
       RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, conf, fs, reactor, CxxMetrics.CPPCHECK);
+    super(perspectives, settings, fs, reactor, CxxMetrics.CPPCHECK);
     this.profile = profile;
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));

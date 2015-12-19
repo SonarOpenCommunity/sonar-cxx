@@ -87,9 +87,9 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings conf, FileSystem fs, ProjectReactor reactor) {
-    super(conf, fs, reactor);
-    xsltURL = conf.getString(XSLT_URL_KEY);
+  public CxxXunitSensor(Settings settings, FileSystem fs, ProjectReactor reactor) {
+    super(settings, fs, reactor);
+    xsltURL = settings.getString(XSLT_URL_KEY);
   }
 
   @Override
@@ -110,8 +110,8 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public boolean shouldExecuteOnProject(Project project) {
-    if (conf.hasKey(reportPathKey())) {
-      if (!conf.getBoolean(PROVIDE_DETAILS_KEY)) {
+    if (settings.hasKey(reportPathKey())) {
+      if (!settings.getBoolean(PROVIDE_DETAILS_KEY)) {
         return !project.isModule();
       } else {
         return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY));
@@ -126,7 +126,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   public void analyse(Project project, SensorContext context) {
     try{
-      List<File> reports = getReports(conf, fs.baseDir().getPath(), "", REPORT_PATH_KEY);
+      List<File> reports = getReports(settings, fs.baseDir().getPath(), "", REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = new XunitReportParser();
         StaxParser parser = new StaxParser(parserHandler, false);
@@ -141,7 +141,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         List<TestCase> testcases = parserHandler.getTestCases();
 
         CxxUtils.LOG.info("Parsing 'xUnit' format");
-        boolean providedetails = conf.getBoolean(PROVIDE_DETAILS_KEY);
+        boolean providedetails = settings.getBoolean(PROVIDE_DETAILS_KEY);
         if (providedetails) {
           detailledMode(project, context, testcases);
         } else {
@@ -211,7 +211,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   {
     CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
 
-    String sonarTests = conf.getString("sonar.tests");
+    String sonarTests = settings.getString("sonar.tests");
     if (sonarTests == null || "".equals(sonarTests)){
       CxxUtils.LOG.error("The property 'sonar.tests' is unset. Please set it to proceed");
       return;
@@ -361,12 +361,12 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
-    String[] lines = conf.getStringLines(CxxPlugin.DEFINES_KEY);
+    String[] lines = settings.getStringLines(CxxPlugin.DEFINES_KEY);
     if (lines.length > 0) {
       cxxConf.setDefines(Arrays.asList(lines));
     }
-    cxxConf.setIncludeDirectories(conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
-    cxxConf.setMissingIncludeWarningsEnabled(conf.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
+    cxxConf.setIncludeDirectories(settings.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
+    cxxConf.setMissingIncludeWarningsEnabled(settings.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
 
     for (File file : files) {
       @SuppressWarnings("unchecked")
