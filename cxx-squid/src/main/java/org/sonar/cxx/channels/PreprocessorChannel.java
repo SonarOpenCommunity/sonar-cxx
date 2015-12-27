@@ -27,6 +27,7 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 
 public class PreprocessorChannel extends Channel<Lexer> {
+
   private static final char EOF = (char) -1;
 
   @Override
@@ -41,12 +42,12 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
     String tokenValue = read(code);
     output.addToken(Token.builder()
-        .setLine(line)
-        .setColumn(column)
-        .setURI(output.getURI())
-        .setValueAndOriginalValue(tokenValue)
-        .setType(CxxTokenType.PREPROCESSOR)
-        .build());
+      .setLine(line)
+      .setColumn(column)
+      .setURI(output.getURI())
+      .setValueAndOriginalValue(tokenValue)
+      .setType(CxxTokenType.PREPROCESSOR)
+      .build());
 
     return true;
   }
@@ -67,8 +68,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
         // consume both the backslash and the newline, insert a space instead
         consumeNewline(code);
         sb.append(' ');
-      }
-      else {
+      } else {
         sb.append(ch);
       }
     }
@@ -91,7 +91,7 @@ public class PreprocessorChannel extends Channel<Lexer> {
 
     code.pop(); // initial '*'
     while (true) {
-      ch = (char)code.pop();
+      ch = (char) code.pop();
       if (ch == EOF) {
         break;
       }

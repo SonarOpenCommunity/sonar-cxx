@@ -33,13 +33,13 @@ public class CxxPCLintRuleRepositoryTest {
   @Test
   public void createRulesTest() {
     CxxPCLintRuleRepository def = new CxxPCLintRuleRepository(
-        mock(ServerFileSystem.class),
-        new RulesDefinitionXmlLoader(), new Settings());
-    
+      mock(ServerFileSystem.class),
+      new RulesDefinitionXmlLoader(), new Settings());
+
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.KEY);    
-    assertEquals(1446, repo.rules().size());    
+    RulesDefinition.Repository repo = context.repository(CxxPCLintRuleRepository.KEY);
+    assertEquals(1446, repo.rules().size());
   }
 }

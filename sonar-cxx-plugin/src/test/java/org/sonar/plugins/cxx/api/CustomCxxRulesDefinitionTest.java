@@ -65,13 +65,14 @@ public class CustomCxxRulesDefinitionTest {
     key = RULE_KEY,
     name = RULE_NAME,
     description = "desc",
-    tags = { "bug" })
+    tags = {"bug"})
   public class MyCustomRule extends SquidCheck<Grammar> {
-      @RuleProperty(
-        key = "customParam",
-        description = "Custom parameter",
-        defaultValue = "value")
-      public String customParam = "value";
+
+    @RuleProperty(
+      key = "customParam",
+      description = "Custom parameter",
+      defaultValue = "value")
+    public String customParam = "value";
   }
 
   public static class MyCustomPlSqlRulesDefinition extends CustomCxxRulesDefinition {
@@ -90,8 +91,8 @@ public class CustomCxxRulesDefinitionTest {
     @SuppressWarnings("rawtypes")
     @Override
     public Class[] checkClasses() {
-      return new Class[] { MyCustomRule.class };
+      return new Class[]{MyCustomRule.class};
     }
   }
-  
+
 }

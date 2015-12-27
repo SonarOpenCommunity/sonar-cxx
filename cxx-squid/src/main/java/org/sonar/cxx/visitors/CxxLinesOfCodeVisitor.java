@@ -52,6 +52,7 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> extends SquidAstVisi
   /**
    * {@inheritDoc}
    */
+  @Override
   public void visitToken(Token token) {
     if (token.getType() != EOF) {
       /* Handle all the lines of the token */

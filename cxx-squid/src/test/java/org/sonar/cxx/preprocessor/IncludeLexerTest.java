@@ -34,7 +34,7 @@ import com.sonar.sslr.impl.Lexer;
 
 public class IncludeLexerTest {
 
-  private static Lexer lexer = IncludeLexer.create();
+  private final static Lexer lexer = IncludeLexer.create();
 
   @Test
   public void proper_preprocessor_directives_are_created() {

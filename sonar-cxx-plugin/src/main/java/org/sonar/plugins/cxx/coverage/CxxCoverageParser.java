@@ -24,10 +24,9 @@ package org.sonar.plugins.cxx.coverage;
  */
 public abstract class CxxCoverageParser implements CoverageParser {
 
-    protected final String baseDir;
+  protected final String baseDir;
 
-    CxxCoverageParser(final String baseDir)
-    {
-        this.baseDir = baseDir;
-    }
+  CxxCoverageParser(final String baseDir) {
+    this.baseDir = baseDir;
+  }
 }

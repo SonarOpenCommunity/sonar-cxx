@@ -57,50 +57,39 @@ public final class CxxLexer {
 
   public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
     Lexer.Builder builder = Lexer.builder()
-        .withCharset(conf.getCharset())
-        .withFailIfNoChannelToConsumeOneCharacter(true)
+      .withCharset(conf.getCharset())
+      .withFailIfNoChannelToConsumeOneCharacter(true)
+      .withChannel(new BlackHoleChannel("\\s"))
+      // C++ Standard, Section 2.8 "Comments"
+      .withChannel(commentRegexp("//[^\\n\\r]*+"))
+      .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
+      // backslash at the end of the line: just throw away
+      .withChannel(new BackslashChannel())
+      // Preprocessor directives
+      .withChannel(new PreprocessorChannel())
+      // C++ Standard, Section 2.14.3 "Character literals"
+      .withChannel(new CharacterLiteralsChannel())
+      // C++ Standard, Section 2.14.5 "String literals"
+      .withChannel(new StringLiteralsChannel())
+      // C++ Standard, Section 2.14.4 "Floating literals"
+      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+" + opt(EXP) + opt(UD_SUFFIX)))
+      .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" + opt(EXP) + opt(UD_SUFFIX)))
+      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+" + EXP + opt(UD_SUFFIX)))
+      // C++ Standard, Section 2.14.2 "Integer literals"
+      .withChannel(regexp(CxxTokenType.NUMBER, "[1-9]([']?+[0-9]++)*+" + opt(UD_SUFFIX))) // Decimal literals
+      .withChannel(regexp(CxxTokenType.NUMBER, "0([']?+[0-7]++)++" + opt(UD_SUFFIX))) // Octal Literals
+      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX][0-9a-fA-F]([']?+[0-9a-fA-F]++)*+" + opt(UD_SUFFIX))) // Hex Literals
+      .withChannel(regexp(CxxTokenType.NUMBER, "0[bB][01]([']?+[01]++)*+" + opt(UD_SUFFIX))) // Binary Literals
+      .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(UD_SUFFIX))) // Decimal zero
 
-        .withChannel(new BlackHoleChannel("\\s"))
-
-        // C++ Standard, Section 2.8 "Comments"
-        .withChannel(commentRegexp("//[^\\n\\r]*+"))
-        .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
-
-        // backslash at the end of the line: just throw away
-        .withChannel(new BackslashChannel())
-
-        // Preprocessor directives
-        .withChannel(new PreprocessorChannel())
-
-        // C++ Standard, Section 2.14.3 "Character literals"
-        .withChannel(new CharacterLiteralsChannel())
-
-        // C++ Standard, Section 2.14.5 "String literals"
-        .withChannel(new StringLiteralsChannel())
-
-        // C++ Standard, Section 2.14.4 "Floating literals"
-        .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+" + opt(EXP) + opt(UD_SUFFIX)))
-        .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" + opt(EXP) + opt(UD_SUFFIX)))
-        .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+" + EXP + opt(UD_SUFFIX)))
-
-        // C++ Standard, Section 2.14.2 "Integer literals"
-        .withChannel(regexp(CxxTokenType.NUMBER, "[1-9]([']?+[0-9]++)*+" + opt(UD_SUFFIX))) // Decimal literals
-        .withChannel(regexp(CxxTokenType.NUMBER, "0([']?+[0-7]++)++" + opt(UD_SUFFIX))) // Octal Literals
-        .withChannel(regexp(CxxTokenType.NUMBER, "0[xX][0-9a-fA-F]([']?+[0-9a-fA-F]++)*+" + opt(UD_SUFFIX))) // Hex Literals
-        .withChannel(regexp(CxxTokenType.NUMBER, "0[bB][01]([']?+[01]++)*+" + opt(UD_SUFFIX))) // Binary Literals
-        .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(UD_SUFFIX))) // Decimal zero
-
-        // C++ Standard, Section 2.14.7 "Pointer literals"
-        .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue()))
-
-        // C++ Standard, Section 2.12 "Keywords"
-        // C++ Standard, Section 2.11 "Identifiers"
-        .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true, CxxKeyword.values()))
-
-        // C++ Standard, Section 2.13 "Operators and punctuators"
-        .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
-
-        .withChannel(new UnknownCharacterChannel());
+      // C++ Standard, Section 2.14.7 "Pointer literals"
+      .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue()))
+      // C++ Standard, Section 2.12 "Keywords"
+      // C++ Standard, Section 2.11 "Identifiers"
+      .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true, CxxKeyword.values()))
+      // C++ Standard, Section 2.13 "Operators and punctuators"
+      .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
+      .withChannel(new UnknownCharacterChannel());
 
     for (Preprocessor preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);

@@ -42,15 +42,14 @@ import org.sonar.plugins.cxx.CxxSettings;
 import org.sonar.api.config.Settings;
 
 /**
- * This class is used as base for all sensors which import reports.
- * It hosts common logic such as finding the reports and saving issues
- * in SonarQube
+ * This class is used as base for all sensors which import reports. It hosts
+ * common logic such as finding the reports and saving issues in SonarQube
  */
 public abstract class CxxReportSensor implements Sensor {
-  
+
   private ResourcePerspectives perspectives;
-  private Set<String> notFoundFiles = new HashSet<>();
-  private Set<String> uniqueIssues = new HashSet<>();
+  private final Set<String> notFoundFiles = new HashSet<>();
+  private final Set<String> uniqueIssues = new HashSet<>();
   private final Metric metric;
   private int violationsCount;
 
@@ -60,21 +59,24 @@ public abstract class CxxReportSensor implements Sensor {
   /**
    * Use this constructor if you dont have to save violations aka issues
    *
-   * @param settings the Settings object used to access the configuration properties
-   * @param fs   file system access layer
+   * @param settings the Settings object used to access the configuration
+   * properties
+   * @param fs file system access layer
    */
   protected CxxReportSensor(Settings settings, FileSystem fs) {
     this(null, settings, fs, null);
   }
 
   /**
-   * Use this constructor if your sensor implementation saves violations aka issues
+   * Use this constructor if your sensor implementation saves violations aka
+   * issues
    *
    * @param perspectives used to create issuables
-   * @param settings         the Settings object used to access the configuration properties
-   * @param fs           file system access layer
-   * @param metric       this metrics will be used to save a measure of the overall
-   *                     issue count. Pass 'null' to skip this.
+   * @param settings the Settings object used to access the configuration
+   * properties
+   * @param fs file system access layer
+   * @param metric this metrics will be used to save a measure of the overall
+   * issue count. Pass 'null' to skip this.
    */
   protected CxxReportSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, Metric metric) {
     this.settings = new CxxSettings(settings);
@@ -91,7 +93,7 @@ public abstract class CxxReportSensor implements Sensor {
     return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY))
       && settings.hasKey(reportPathKey());
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -134,10 +136,11 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   protected String getStringProperty(String name, String def) {
-      String value = settings.getString(name);
-      if (value == null)
-          value = def;
-      return value;
+    String value = settings.getString(name);
+    if (value == null) {
+      value = def;
+    }
+    return value;
   }
 
   public static List<File> getReports(Settings settings,
@@ -168,8 +171,7 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   /**
-   * Saves code violation only if unique.
-   * Compares file, line, ruleId and msg.
+   * Saves code violation only if unique. Compares file, line, ruleId and msg.
    */
   public void saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
     String file, String line, String ruleId, String msg) {
@@ -249,8 +251,7 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws Exception
-  {
+    throws Exception {
   }
 
   protected String reportPathKey() {

@@ -32,7 +32,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class ValgrindReportParserTest {
-  
+
   private Project project;
   private SensorContext context;
   private ValgrindReportParser parser;

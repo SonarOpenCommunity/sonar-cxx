@@ -42,225 +42,225 @@ import com.sonar.sslr.api.Token;
 
 public class CxxPublicApiVisitorTest {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger("CxxPublicApiVisitorTest");
+  private static final Logger LOG = LoggerFactory
+    .getLogger("CxxPublicApiVisitorTest");
 
-    private static String getFileExtension(String fileName) {
-        int lastIndexOf = fileName.lastIndexOf(".");
-        if (lastIndexOf == -1) {
-            return "";
+  private static String getFileExtension(String fileName) {
+    int lastIndexOf = fileName.lastIndexOf(".");
+    if (lastIndexOf == -1) {
+      return "";
+    }
+    return fileName.substring(lastIndexOf);
+  }
+
+  /**
+   * Check that CxxPublicApiVisitor correctly counts API for given file.
+   *
+   * @param fileName the file to use for test
+   * @param expectedApi expected number of API
+   * @param expectedUndoc expected number of undocumented API
+   * @param checkDouble if true, fails the test if two items with the same id
+   * are counted..
+   */
+  @SuppressWarnings("unchecked")
+  private void testFile(String fileName, int expectedApi, int expectedUndoc,
+    boolean checkDouble) {
+
+    CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
+      CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
+
+    if (checkDouble) {
+      final Map<String, List<Token>> idCommentMap = new HashMap<>();
+
+      visitor.setHandler(new PublicApiHandler() {
+        @Override
+        public void onPublicApi(AstNode node, String id,
+          List<Token> comments) {
+          if (idCommentMap.containsKey(id)) {
+            Fail.fail("DOUBLE ID: " + id);
+          }
+
+          // store and compare later in order to not break the parsing
+          idCommentMap.put(id, comments);
         }
-        return fileName.substring(lastIndexOf);
+      });
     }
 
-    /**
-     * Check that CxxPublicApiVisitor correctly counts API for given file.
-     *
-     * @param fileName
-     *            the file to use for test
-     * @param expectedApi
-     *            expected number of API
-     * @param expectedUndoc
-     *            expected number of undocumented API
-     * @param checkDouble
-     *            if true, fails the test if two items with the same id are
-     *            counted..
-     */
-    @SuppressWarnings("unchecked")
-    private void testFile(String fileName, int expectedApi, int expectedUndoc,
-            boolean checkDouble) {
+    visitor.withHeaderFileSuffixes(Arrays
+      .asList(getFileExtension(fileName)));
 
-        CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<Grammar>(
-                CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
+    SourceFile file = CxxAstScanner.scanSingleFile(new File(fileName),
+      visitor);
 
-        if (checkDouble) {
-            final Map<String, List<Token>> idCommentMap = new HashMap<String, List<Token>>();
-
-            visitor.setHandler(new PublicApiHandler() {
-                public void onPublicApi(AstNode node, String id,
-                        List<Token> comments) {
-                    if (idCommentMap.containsKey(id))
-                        Fail.fail("DOUBLE ID: " + id);
-
-                    // store and compare later in order to not break the parsing
-                    idCommentMap.put(id, comments);
-                }
-            });
-        }
-
-        visitor.withHeaderFileSuffixes(Arrays
-                .asList(getFileExtension(fileName)));
-
-        SourceFile file = CxxAstScanner.scanSingleFile(new File(fileName),
-                visitor);
-
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("#API: {} UNDOC: {}",
-            file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
-        }
-
-        assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(expectedApi);
-        assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(
-                expectedUndoc);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("#API: {} UNDOC: {}",
+        file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
     }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void test_no_matching_suffix() {
-        // this file does contain public API
-        SourceFile file = CxxAstScanner.scanSingleFile(new File(
-                "src/test/resources/metrics/doxygen_example.h"),
-                new CxxPublicApiVisitor<Grammar>(CxxMetric.PUBLIC_API,
-                        CxxMetric.PUBLIC_UNDOCUMENTED_API)
-                        .withHeaderFileSuffixes(Arrays.asList(".hpp")));
+    assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(expectedApi);
+    assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(
+      expectedUndoc);
+  }
 
-        assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(0);
-        assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
-    }
+  @SuppressWarnings("unchecked")
+  @Test
+  public void test_no_matching_suffix() {
+    // this file does contain public API
+    SourceFile file = CxxAstScanner.scanSingleFile(new File(
+      "src/test/resources/metrics/doxygen_example.h"),
+      new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
+        CxxMetric.PUBLIC_UNDOCUMENTED_API)
+      .withHeaderFileSuffixes(Arrays.asList(".hpp")));
 
-    @Test
-    public void doxygen_example() {
-        testFile("src/test/resources/metrics/doxygen_example.h", 13, 0, false);
-    }
+    assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(0);
+    assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
+  }
 
-    @Test
-    public void to_delete() {
-        testFile("src/test/resources/metrics/public_api.h", 41, 0, true);
-    }
+  @Test
+  public void doxygen_example() {
+    testFile("src/test/resources/metrics/doxygen_example.h", 13, 0, false);
+  }
 
-    @Test
-    public void no_doc() {
-        testFile("src/test/resources/metrics/no_doc.h", 22, 22, true);
-    }
+  @Test
+  public void to_delete() {
+    testFile("src/test/resources/metrics/public_api.h", 41, 0, true);
+  }
 
-    @Test
-    public void template() {
-        testFile("src/test/resources/metrics/template.h", 3, 2, true);
-    }
+  @Test
+  public void no_doc() {
+    testFile("src/test/resources/metrics/no_doc.h", 22, 22, true);
+  }
 
-    @Test
-    public void unnamed_class() {
-        testFile("src/test/resources/metrics/unnamed_class.h", 3, 1, false);
-    }
+  @Test
+  public void template() {
+    testFile("src/test/resources/metrics/template.h", 3, 2, true);
+  }
 
-    @Test
-    public void unnamed_enum() {
-        testFile("src/test/resources/metrics/unnamed_enum.h", 1, 1, false);
-    }
+  @Test
+  public void unnamed_class() {
+    testFile("src/test/resources/metrics/unnamed_class.h", 3, 1, false);
+  }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void public_api() {
-        CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<Grammar>(
-                CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
+  @Test
+  public void unnamed_enum() {
+    testFile("src/test/resources/metrics/unnamed_enum.h", 1, 1, false);
+  }
 
-        final Map<String, List<Token>> idCommentMap = new HashMap<String, List<Token>>();
+  @SuppressWarnings("unchecked")
+  @Test
+  public void public_api() {
+    CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
+      CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
 
-        visitor.setHandler(new PublicApiHandler() {
-            public void onPublicApi(AstNode node, String id,
-                    List<Token> comments) {
-                if (idCommentMap.containsKey(id))
-                    Fail.fail("DOUBLE ID: " + id);
+    final Map<String, List<Token>> idCommentMap = new HashMap<>();
 
-                // store and compare later in order to not break the parsing
-                idCommentMap.put(id, comments);
-            }
-        });
-
-        visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
-
-        SourceFile file = CxxAstScanner.scanSingleFile(new File(
-                "src/test/resources/metrics/public_api.h"), visitor); //
-
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("DOC: {} UNDOC: {}",
-            file.getInt(CxxMetric.PUBLIC_API),file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+    visitor.setHandler(new PublicApiHandler() {
+      @Override
+      public void onPublicApi(AstNode node, String id,
+        List<Token> comments) {
+        if (idCommentMap.containsKey(id)) {
+          Fail.fail("DOUBLE ID: " + id);
         }
 
-        final Map<String, String> expectedIdCommentMap = new HashMap<String, String>();
+        // store and compare later in order to not break the parsing
+        idCommentMap.put(id, comments);
+      }
+    });
 
-        expectedIdCommentMap.put("publicDefinedMethod", "publicDefinedMethod");
-        expectedIdCommentMap.put("aliasDeclaration", "aliasDeclaration");
-        expectedIdCommentMap.put("publicMethod", "publicMethod");
-        expectedIdCommentMap.put("testStruct", "testStruct");
-        expectedIdCommentMap.put("testUnion", "testUnion");
-        expectedIdCommentMap.put("inlineCommentedAttr", "inlineCommentedAttr");
-        expectedIdCommentMap.put("inlineCommentedLastAttr",
-                "inlineCommentedLastAttr");
-        expectedIdCommentMap.put("enumVar", "classEnum"); // only one
-                                                          // declarator, then
-                                                          // doc should precede
-                                                          // decl
-        expectedIdCommentMap.put("classEnum", "classEnum");
-        expectedIdCommentMap.put("classEnumValue", "classEnumValue");
-        expectedIdCommentMap.put("protectedMethod", "protectedMethod");
-        expectedIdCommentMap.put("testTypeDef", "testTypeDef");
-        expectedIdCommentMap.put("testField", "testField");
-        expectedIdCommentMap.put("inlinePublicMethod", "inlinePublicMethod");
-        expectedIdCommentMap.put("publicAttribute", "publicAttribute");
-        expectedIdCommentMap.put("testEnum", "testEnum");
-        expectedIdCommentMap.put("testClass", "testClass");
-        expectedIdCommentMap.put("enum_val", "enum_val");
-        expectedIdCommentMap.put("testFunction", "testFunction");
-        expectedIdCommentMap.put("testFunction2", "testFunction2");
-        expectedIdCommentMap.put("globalVar", "globalVar");
-        expectedIdCommentMap.put("globalVarInline", "globalVarInline");
-        expectedIdCommentMap.put("globalVar1", "globalVar1");
-        expectedIdCommentMap.put("globalVar2", "globalVar2");
-        expectedIdCommentMap.put("globalVar3", "globalVar3");
-        expectedIdCommentMap.put("globalAliasDeclaration", "globalAliasDeclaration");
-        expectedIdCommentMap.put("testType", "testType");
-        expectedIdCommentMap.put("enumVar1", "enumVar1");
-        expectedIdCommentMap.put("enumVar2", "enumVar2");
-        expectedIdCommentMap.put("attr1", "attr1");
-        expectedIdCommentMap.put("attr2", "attr2");
-        expectedIdCommentMap.put("lastVar", "lastVar");
-        expectedIdCommentMap.put("protectedStruct", "protectedStruct");
-        expectedIdCommentMap
-                .put("protectedStructField", "protectedStructField");
-        expectedIdCommentMap.put("protectedStructField2",
-                "protectedStructField2");
-        expectedIdCommentMap.put("protectedClass", "protectedClass");
-        expectedIdCommentMap.put("operator[]", "operator");
-        expectedIdCommentMap.put("bitfield", "bitfield");
-        expectedIdCommentMap.put("<unnamed class>", "<unnamed>");
-        expectedIdCommentMap.put("testField2", "testField2");
+    visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
+
+    SourceFile file = CxxAstScanner.scanSingleFile(new File(
+      "src/test/resources/metrics/public_api.h"), visitor); //
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("DOC: {} UNDOC: {}",
+        file.getInt(CxxMetric.PUBLIC_API), file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+    }
+
+    final Map<String, String> expectedIdCommentMap = new HashMap<>();
+
+    expectedIdCommentMap.put("publicDefinedMethod", "publicDefinedMethod");
+    expectedIdCommentMap.put("aliasDeclaration", "aliasDeclaration");
+    expectedIdCommentMap.put("publicMethod", "publicMethod");
+    expectedIdCommentMap.put("testStruct", "testStruct");
+    expectedIdCommentMap.put("testUnion", "testUnion");
+    expectedIdCommentMap.put("inlineCommentedAttr", "inlineCommentedAttr");
+    expectedIdCommentMap.put("inlineCommentedLastAttr",
+      "inlineCommentedLastAttr");
+    expectedIdCommentMap.put("enumVar", "classEnum"); // only one
+    // declarator, then
+    // doc should precede
+    // decl
+    expectedIdCommentMap.put("classEnum", "classEnum");
+    expectedIdCommentMap.put("classEnumValue", "classEnumValue");
+    expectedIdCommentMap.put("protectedMethod", "protectedMethod");
+    expectedIdCommentMap.put("testTypeDef", "testTypeDef");
+    expectedIdCommentMap.put("testField", "testField");
+    expectedIdCommentMap.put("inlinePublicMethod", "inlinePublicMethod");
+    expectedIdCommentMap.put("publicAttribute", "publicAttribute");
+    expectedIdCommentMap.put("testEnum", "testEnum");
+    expectedIdCommentMap.put("testClass", "testClass");
+    expectedIdCommentMap.put("enum_val", "enum_val");
+    expectedIdCommentMap.put("testFunction", "testFunction");
+    expectedIdCommentMap.put("testFunction2", "testFunction2");
+    expectedIdCommentMap.put("globalVar", "globalVar");
+    expectedIdCommentMap.put("globalVarInline", "globalVarInline");
+    expectedIdCommentMap.put("globalVar1", "globalVar1");
+    expectedIdCommentMap.put("globalVar2", "globalVar2");
+    expectedIdCommentMap.put("globalVar3", "globalVar3");
+    expectedIdCommentMap.put("globalAliasDeclaration", "globalAliasDeclaration");
+    expectedIdCommentMap.put("testType", "testType");
+    expectedIdCommentMap.put("enumVar1", "enumVar1");
+    expectedIdCommentMap.put("enumVar2", "enumVar2");
+    expectedIdCommentMap.put("attr1", "attr1");
+    expectedIdCommentMap.put("attr2", "attr2");
+    expectedIdCommentMap.put("lastVar", "lastVar");
+    expectedIdCommentMap.put("protectedStruct", "protectedStruct");
+    expectedIdCommentMap
+      .put("protectedStructField", "protectedStructField");
+    expectedIdCommentMap.put("protectedStructField2",
+      "protectedStructField2");
+    expectedIdCommentMap.put("protectedClass", "protectedClass");
+    expectedIdCommentMap.put("operator[]", "operator");
+    expectedIdCommentMap.put("bitfield", "bitfield");
+    expectedIdCommentMap.put("<unnamed class>", "<unnamed>");
+    expectedIdCommentMap.put("testField2", "testField2");
 //        expectedIdCommentMap.put("operator=", "operator=");
-        expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
+    expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
 
-        // check completeness
-        for (final String id : expectedIdCommentMap.keySet()) {
-            LOG.debug("id: {}", id);
+    // check completeness
+    for (final String id : expectedIdCommentMap.keySet()) {
+      LOG.debug("id: {}", id);
 
-            List<Token> comments = idCommentMap.get(id);
+      List<Token> comments = idCommentMap.get(id);
 
-            assertThat(idCommentMap.keySet())
-                    .overridingErrorMessage("No public API for " + id)
-                    .contains(id);
-            assertThat(comments)
-                    .overridingErrorMessage("No documentation for " + id)
-                    .isNotEmpty();
-            assertThat(comments.get(0).getValue())
-                    .overridingErrorMessage("Unexpected documentation for " + id)
-                    .contains(expectedIdCommentMap.get(id));
-        }
-
-        // check correction
-        for (final String id : idCommentMap.keySet()) {
-            LOG.debug("id: {}", id);
-
-            List<Token> comments = idCommentMap.get(id);
-
-            assertThat(comments)
-                    .overridingErrorMessage("No documentation for " + id)
-                    .isNotEmpty();
-            assertThat(expectedIdCommentMap.keySet())
-                    .overridingErrorMessage("Should not be part of public API: " + id)
-                    .contains(id);
-        }
-
-        assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(
-                expectedIdCommentMap.keySet().size());
-        assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
+      assertThat(idCommentMap.keySet())
+        .overridingErrorMessage("No public API for " + id)
+        .contains(id);
+      assertThat(comments)
+        .overridingErrorMessage("No documentation for " + id)
+        .isNotEmpty();
+      assertThat(comments.get(0).getValue())
+        .overridingErrorMessage("Unexpected documentation for " + id)
+        .contains(expectedIdCommentMap.get(id));
     }
+
+    // check correction
+    for (final String id : idCommentMap.keySet()) {
+      LOG.debug("id: {}", id);
+
+      List<Token> comments = idCommentMap.get(id);
+
+      assertThat(comments)
+        .overridingErrorMessage("No documentation for " + id)
+        .isNotEmpty();
+      assertThat(expectedIdCommentMap.keySet())
+        .overridingErrorMessage("Should not be part of public API: " + id)
+        .contains(id);
+    }
+
+    assertThat(file.getInt(CxxMetric.PUBLIC_API)).isEqualTo(
+      expectedIdCommentMap.keySet().size());
+    assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
+  }
 }

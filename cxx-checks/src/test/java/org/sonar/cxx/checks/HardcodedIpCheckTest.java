@@ -35,12 +35,12 @@ public class HardcodedIpCheckTest {
   @Rule
   public final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
-  private HardcodedIpCheck check = new HardcodedIpCheck();
+  private final HardcodedIpCheck check = new HardcodedIpCheck();
 
   @Test
   public void detected() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/HardcodedIpCheck.cc"), check);
-     CheckMessagesVerifier.verify(file.getCheckMessages())
+    CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(5).withMessage("Make this IP \"0.0.0.0\" address configurable.")
       .next().atLine(6).withMessage("Make this IP \"http://192.168.0.1/admin.html\" address configurable.");
   }

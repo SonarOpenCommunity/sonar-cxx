@@ -28,7 +28,7 @@ public class MSTestResultsProvider {
 
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportsPaths";
   private static final UnitTestConfiguration UNIT_TEST_CONF = new UnitTestConfiguration(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
-  
+
   private MSTestResultsProvider() {
   }
 
@@ -41,7 +41,7 @@ public class MSTestResultsProvider {
   }
 
   public static class MSTestResultsImportSensor extends UnitTestResultsImportSensor {
-    
+
     public MSTestResultsImportSensor(MSTestResultsAggregator unitTestResultsAggregator) {
       super(unitTestResultsAggregator);
     }

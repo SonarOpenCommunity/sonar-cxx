@@ -70,19 +70,20 @@ public final class CxxUtils {
   }
 
   /**
-   * Creates a scanner for a string path and a baseDir
-   * If base dir is outside report than sets the basedir to local path
+   * Creates a scanner for a string path and a baseDir If base dir is outside
+   * report than sets the basedir to local path
+   *
    * @param rootDirPath
    * @param reportPath
-   * @return 
-   */  
+   * @return
+   */
   public static CxxSearchPathData GetDirectoryScannerForReport(String rootDirPath, String reportPath) {
     File singleFile = new File(reportPath);
     CxxSearchPathData scanner = new CxxSearchPathData();
-    
+
     CxxUtils.LOG.debug("Unprocessed root directory '{}'", rootDirPath);
     CxxUtils.LOG.debug("Unprocessed report file '{}'", reportPath);
-    
+
     if (singleFile.isAbsolute()) {
       String delimeter = Pattern.quote(System.getProperty("file.separator"));
       String reportNormalize = FilenameUtils.normalize(reportPath);
@@ -90,11 +91,11 @@ public final class CxxUtils {
       String pattern = elementsOfPath[elementsOfPath.length - 1];
       String root = reportNormalize.replace(pattern, "");
       if (root.endsWith(File.separator)) {
-        scanner.setBaseDir(root.substring(0, root.length()-1));
+        scanner.setBaseDir(root.substring(0, root.length() - 1));
       } else {
         scanner.setBaseDir(root);
       }
-      
+
       scanner.setPattern(pattern);
     } else {
       if (reportPath.startsWith("**")) {
@@ -103,7 +104,7 @@ public final class CxxUtils {
         scanner.setRecursive();
       } else {
         File file1 = new File(rootDirPath);
-        File file2 = new File(file1, reportPath);    
+        File file2 = new File(file1, reportPath);
         scanner.setBaseDir(FilenameUtils.normalize(file2.getParent()));
         scanner.setPattern(file2.getName());
       }
@@ -111,15 +112,15 @@ public final class CxxUtils {
 
     CxxUtils.LOG.debug("Processed root directory '{}'", scanner.getBaseDir());
     CxxUtils.LOG.debug("Processed report file '{}'", scanner.getPattern());
-    
+
     return scanner;
   }
-  
-  public static void GetReportForBaseDirAndPattern(String baseDirPath, String reportPath, List<File> reports) {    
+
+  public static void GetReportForBaseDirAndPattern(String baseDirPath, String reportPath, List<File> reports) {
     try {
       CxxSearchPathData scanner = GetDirectoryScannerForReport(baseDirPath, reportPath);
       Collection<Path> reportPaths = CxxFileFinder.FindFiles(scanner.getBaseDir(), scanner.getPattern(), scanner.isRecursive());
-      
+
       for (Path path : reportPaths) {
         CxxUtils.LOG.debug("add report '{}'", path.toAbsolutePath().toString());
         reports.add(new File(path.toAbsolutePath().toString()));
@@ -129,7 +130,7 @@ public final class CxxUtils {
       CxxUtils.LOG.warn("Exception '{}'", ex.getMessage());
     }
   }
-  
+
   /**
    * @return returns case sensitive full path
    */
@@ -146,4 +147,3 @@ public final class CxxUtils {
   }
   
 }
-

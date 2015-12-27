@@ -28,20 +28,20 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class MissingCurlyBracesCheckTest {
 
-  private MissingCurlyBracesCheck check = new MissingCurlyBracesCheck();
+  private final MissingCurlyBracesCheck check = new MissingCurlyBracesCheck();
 
   @Test
   public void test() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/MissingCurlyBraces.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(6).withMessage("Missing curly brace.")
-        .next().atLine(7)
-        .next().atLine(8)
-        .next().atLine(11)
-        .next().atLine(22)
-        .next().atLine(25)
-        .next().atLine(28)
-        .noMore();
+      .next().atLine(6).withMessage("Missing curly brace.")
+      .next().atLine(7)
+      .next().atLine(8)
+      .next().atLine(11)
+      .next().atLine(22)
+      .next().atLine(25)
+      .next().atLine(28)
+      .noMore();
   }
 
 }

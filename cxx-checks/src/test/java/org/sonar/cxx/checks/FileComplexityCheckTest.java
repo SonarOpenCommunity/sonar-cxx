@@ -35,7 +35,7 @@ public class FileComplexityCheckTest {
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/functions.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().noMore();
+      .next().noMore();
   }
 
 }

@@ -46,9 +46,9 @@ public class UselessParenthesesCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.par_expression) &&
-        node.getParent().is(CxxGrammarImpl.expression) &&
-        !node.isCopyBookOrGeneratedNode()) {
+    if (node.is(CxxGrammarImpl.par_expression)
+      && node.getParent().is(CxxGrammarImpl.expression)
+      && !node.isCopyBookOrGeneratedNode()) {
       getContext().createLineViolation(this, "Remove those useless parentheses.", node);
     }
   }

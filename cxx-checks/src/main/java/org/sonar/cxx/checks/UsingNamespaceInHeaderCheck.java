@@ -30,7 +30,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "UsingNamespaceInHeader",
@@ -52,11 +52,11 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (isHeader(getContext().getFile().getName()) &&
-        node.getTokenValue().equals("using") && node.getFirstChild().getChildren().toString().contains("namespace")) {
+    if (isHeader(getContext().getFile().getName())
+      && node.getTokenValue().equals("using") && node.getFirstChild().getChildren().toString().contains("namespace")) {
       getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
-      }
     }
+  }
 
   private boolean isHeader(String name) {
     String[] suffixes = StringUtils.split(DEFAULT_NAME_SUFFIX, ",");

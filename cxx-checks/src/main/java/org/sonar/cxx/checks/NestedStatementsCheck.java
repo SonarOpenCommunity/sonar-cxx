@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.checks;
 
-
 import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
@@ -32,7 +31,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.List;
@@ -41,7 +40,7 @@ import java.util.Set;
 @Rule(
   key = "NestedStatements",
   name = "Control flow statements \"if\", \"switch\", \"try\" and iterators should not be nested too deeply",
-  tags = { Tags.BRAIN_OVERLOAD },
+  tags = {Tags.BRAIN_OVERLOAD},
   priority = Priority.MAJOR
 )
 @ActivatedByDefault
@@ -61,10 +60,10 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
   private static final String ELSE_TOKEN = "ELSE";
 
   @RuleProperty(defaultValue = "" + DEFAULT_MAX,
-      description = "Maximum allowed control flow statement nesting depth.")
+    description = "Maximum allowed control flow statement nesting depth.")
   public int max = DEFAULT_MAX;
 
-  private Set<AstNode> checkedNodes = Sets.newHashSet();
+  private final Set<AstNode> checkedNodes = Sets.newHashSet();
   private int nestingLevel = 0;
 
   @Override
@@ -90,9 +89,9 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
       // If the max level is reached, stop descending the tree and create a violation
       if (nestingLevel == max + 1) {
         getContext().createLineViolation(
-            this,
-            "Refactor this code to not nest more than " + max + " if/switch/try/for/while/do statements.",
-            node);
+          this,
+          "Refactor this code to not nest more than " + max + " if/switch/try/for/while/do statements.",
+          node);
       } else {
         visitChildren(watchedDescendants);
       }

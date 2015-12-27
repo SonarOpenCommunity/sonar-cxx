@@ -41,14 +41,14 @@ import static org.mockito.Mockito.mock;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxCoverageSensorTest {
-  
+
   private CxxCoverageSensor sensor;
   private SensorContext context;
   private Project project;
   private DefaultFileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
-  
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
@@ -69,7 +69,7 @@ public class CxxCoverageSensorTest {
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx");
-    sensor = new CxxCoverageSensor(settings, fs);     
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(33)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }

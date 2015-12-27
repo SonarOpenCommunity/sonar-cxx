@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ValgrindErrorTest {
+
   ValgrindError error;
   ValgrindError equalError;
   ValgrindError otherError;
@@ -70,7 +71,7 @@ public class ValgrindErrorTest {
 
   @Test
   public void stringRepresentationShouldResembleValgrindsStandard() {
-    Map<String, ValgrindError> ioMap = new HashMap<String, ValgrindError>();
+    Map<String, ValgrindError> ioMap = new HashMap<>();
 
     ioMap.put("\n\n", new ValgrindError("", "", new ValgrindStack()));
     ioMap.put("description\n\n", new ValgrindError("kind", "description", new ValgrindStack()));

@@ -49,17 +49,17 @@ public class TestUtils {
 
   private final static String OS = System.getProperty("os.name").toLowerCase();
   private final static boolean upperCaseRoot = Character.isUpperCase(System.getProperty("java.home").charAt(0));
-   
+
   public static Issuable mockIssuable() {
     Issue issue = mock(Issue.class);
     Issuable.IssueBuilder issueBuilder = mock(Issuable.IssueBuilder.class);
     when(issueBuilder.build()).thenReturn(issue);
-    when(issueBuilder.ruleKey((RuleKey)anyObject())).thenReturn(issueBuilder);
-    when(issueBuilder.line((Integer)anyObject())).thenReturn(issueBuilder);
-    when(issueBuilder.message((String)anyObject())).thenReturn(issueBuilder);
+    when(issueBuilder.ruleKey((RuleKey) anyObject())).thenReturn(issueBuilder);
+    when(issueBuilder.line((Integer) anyObject())).thenReturn(issueBuilder);
+    when(issueBuilder.message((String) anyObject())).thenReturn(issueBuilder);
     Issuable issuable = mock(Issuable.class);
     when(issuable.newIssueBuilder()).thenReturn(issueBuilder);
-    when(issuable.addIssue((Issue)anyObject())).thenReturn(Boolean.TRUE);
+    when(issuable.addIssue((Issue) anyObject())).thenReturn(Boolean.TRUE);
     return issuable;
   }
 
@@ -90,37 +90,40 @@ public class TestUtils {
 
   /**
    * Creates a project mock given its root directory
+   *
    * @param baseDir project root directory
    * @return mocked project
    */
   public static Project mockProject(File baseDir) {
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class);
+    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class); //todo deprecated
     when(fileSystem.getBasedir()).thenReturn(baseDir);
     Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem);
+    when(project.getFileSystem()).thenReturn(fileSystem); //todo deprecated
     return project;
   }
 
   /**
    * Mocks the filesystem given the root directory of the project
+   *
    * @param baseDir project root directory
    * @return mocked filesystem
    */
   public static DefaultFileSystem mockFileSystem(File baseDir) {
     return mockFileSystem(baseDir, Arrays.asList(new File(".")), null);
   }
-  
+
   /**
-   * Mocks the filesystem given the root directory and lists of source
-   * and tests directories. The latter are given just as in sonar-project.properties
-   * @param baseDir    project root directory
+   * Mocks the filesystem given the root directory and lists of source and tests
+   * directories. The latter are given just as in sonar-project.properties
+   *
+   * @param baseDir project root directory
    * @param sourceDirs List of source directories, relative to baseDir.
-   * @param testDirs   List of test directories, relative to baseDir.
+   * @param testDirs List of test directories, relative to baseDir.
    * @return mocked filesystem
    */
   public static DefaultFileSystem mockFileSystem(File baseDir,
-                                                 List<File> sourceDirs,
-                                                 List<File> testDirs) {
+    List<File> sourceDirs,
+    List<File> testDirs) {
     DefaultFileSystem fs = new DefaultFileSystem();
     fs.setEncoding(Charset.forName("UTF-8"));
     fs.setBaseDir(baseDir);
@@ -128,7 +131,7 @@ public class TestUtils {
     scanDirs(fs, baseDir, testDirs, Type.TEST);
     return fs;
   }
-  
+
   /**
    * Returns the default filesystem mock
    */
@@ -139,7 +142,7 @@ public class TestUtils {
   public static CxxLanguage mockCxxLanguage() {
     return new CxxLanguage(new Settings());
   }
-  
+
   public static void addInputFile(DefaultFileSystem fs,
     ResourcePerspectives perspectives,
     Issuable issuable,
@@ -147,7 +150,7 @@ public class TestUtils {
     DefaultInputFile inputFile = null;
     File file = new File(path);
     if (file.isAbsolute()) {
-      if (upperCaseRoot && isWindows()) {        
+      if (upperCaseRoot && isWindows()) {
         // workaround: on some Windows system drive letter can be upper or lower case
         StringBuilder temp = new StringBuilder(path);
         temp.setCharAt(0, Character.toUpperCase(temp.charAt(0)));
@@ -165,17 +168,17 @@ public class TestUtils {
     when(perspectives.as(Issuable.class, inputFile)).thenReturn(issuable);
     fs.add(inputFile);
   }
-  
+
   public static boolean isWindows() {
     return (OS.indexOf("win") >= 0);
   }
-  
+
   private static void scanDirs(DefaultFileSystem fs, File baseDir, List<File> dirs, Type ftype) {
-    if (dirs == null){
+    if (dirs == null) {
       return;
     }
 
-    List<InputFile> result = new ArrayList<InputFile>();
+    List<InputFile> result = new ArrayList<>();
     String[] suffixes = mockCxxLanguage().getFileSuffixes();
     String[] includes = new String[suffixes.length];
     for (int i = 0; i < includes.length; ++i) {
@@ -191,9 +194,9 @@ public class TestUtils {
       for (String path : scanner.getIncludedFiles()) {
         relpath = new File(dir, path).getPath();
         fs.add(new DefaultInputFile(relpath)
-               .setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
-               .setLanguage(CxxLanguage.KEY)
-               .setType(ftype));
+          .setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
+          .setLanguage(CxxLanguage.KEY)
+          .setType(ftype));
       }
     }
   }

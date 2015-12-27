@@ -42,6 +42,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxValgrindSensorTest {
+
   private CxxValgrindSensor sensor;
   private SensorContext context;
   private Project project;
@@ -66,7 +67,7 @@ public class CxxValgrindSensorTest {
 
   @Test
   public void shouldSaveViolationIfErrorIsInside() {
-    Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
+    Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(true));
     TestUtils.addInputFile(fs, perspectives, issuable, "dir/file");
     sensor.saveErrors(project, context, valgrindErrors);
@@ -75,7 +76,7 @@ public class CxxValgrindSensorTest {
 
   @Test
   public void shouldNotSaveViolationIfErrorIsOutside() {
-    Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
+    Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(false));
     sensor.saveErrors(project, context, valgrindErrors);
     verify(issuable, times(0)).addIssue(any(Issue.class));

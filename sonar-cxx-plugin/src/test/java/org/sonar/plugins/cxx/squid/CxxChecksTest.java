@@ -38,61 +38,62 @@ import com.google.common.collect.ImmutableList;
 import com.sonar.sslr.api.Grammar;
 
 public class CxxChecksTest {
+
   private static final String DEFAULT_REPOSITORY_KEY = "DefaultRuleRepository";
   private static final String DEFAULT_RULE_KEY = "MyRule";
   private static final String CUSTOM_REPOSITORY_KEY = "CustomRuleRepository";
   private static final String CUSTOM_RULE_KEY = "MyCustomRule";
-  
+
   private MyCustomPlSqlRulesDefinition customRulesDefinition;
   private CheckFactory checkFactory;
-  
+
   @Before
   public void setUp() {
     ActiveRules activeRules = (new ActiveRulesBuilder())
-        .create(RuleKey.of(DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY)).activate()
-        .create(RuleKey.of(CUSTOM_REPOSITORY_KEY, CUSTOM_RULE_KEY)).activate()
-        .build();
+      .create(RuleKey.of(DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY)).activate()
+      .create(RuleKey.of(CUSTOM_REPOSITORY_KEY, CUSTOM_RULE_KEY)).activate()
+      .build();
     checkFactory = new CheckFactory(activeRules);
-    
+
     customRulesDefinition = new MyCustomPlSqlRulesDefinition();
     RulesDefinition.Context context = new RulesDefinition.Context();
     customRulesDefinition.define(context);
   }
-  
+
   @SuppressWarnings("rawtypes")
   @Test
   public void shouldReturnDefaultChecks() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addChecks(DEFAULT_REPOSITORY_KEY, ImmutableList.<Class>of(MyRule.class));
-    
+
     SquidAstVisitor<Grammar> defaultCheck = check(checks, DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY);
-    
+
     assertThat(checks.all()).hasSize(1);
     assertThat(checks.ruleKey(defaultCheck)).isNotNull();
     assertThat(checks.ruleKey(defaultCheck).rule()).isEqualTo(DEFAULT_RULE_KEY);
     assertThat(checks.ruleKey(defaultCheck).repository()).isEqualTo(DEFAULT_REPOSITORY_KEY);
   }
-  
+
   @Test
   public void shouldReturnCustomChecks() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
-    checks.addCustomChecks(new CustomCxxRulesDefinition[] { customRulesDefinition });
-    
+    checks.addCustomChecks(new CustomCxxRulesDefinition[]{customRulesDefinition});
+
     SquidAstVisitor<Grammar> customCheck = check(checks, CUSTOM_REPOSITORY_KEY, CUSTOM_RULE_KEY);
-    
+
     assertThat(checks.all()).hasSize(1);
     assertThat(checks.ruleKey(customCheck)).isNotNull();
     assertThat(checks.ruleKey(customCheck).rule()).isEqualTo(CUSTOM_RULE_KEY);
     assertThat(checks.ruleKey(customCheck).repository()).isEqualTo(CUSTOM_REPOSITORY_KEY);
   }
-  
+
   @Test
   public void shouldWorkWithoutCustomChecks() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
     checks.addCustomChecks(null);
     assertThat(checks.all()).hasSize(0);
   }
-  
+
   @SuppressWarnings("rawtypes")
   @Test
   public void shouldNotReturnRuleKeyIfCheckDoesNotExists() {
@@ -100,13 +101,13 @@ public class CxxChecksTest {
     checks.addChecks(DEFAULT_REPOSITORY_KEY, ImmutableList.<Class>of(MyRule.class));
     assertThat(checks.ruleKey(new MyCustomRule())).isNull();
   }
-  
+
   public SquidAstVisitor<Grammar> check(CxxChecks cxxChecks, String repository, String rule) {
     RuleKey key = RuleKey.of(repository, rule);
-    
+
     SquidAstVisitor<Grammar> check;
     for (Checks<SquidAstVisitor<Grammar>> checks : cxxChecks.getChecks()) {
-      check = (SquidAstVisitor<Grammar>)checks.of(key);
+      check = (SquidAstVisitor<Grammar>) checks.of(key);
 
       if (check != null) {
         return check;
@@ -118,7 +119,7 @@ public class CxxChecksTest {
   @Rule(key = DEFAULT_RULE_KEY, name = "This is the default rule", description = "desc")
   public static class MyRule extends SquidCheck<Grammar> {
   }
-  
+
   @Rule(key = CUSTOM_RULE_KEY, name = "This is the custom rule", description = "desc")
   public static class MyCustomRule extends SquidCheck<Grammar> {
   }
@@ -138,7 +139,7 @@ public class CxxChecksTest {
     @SuppressWarnings("rawtypes")
     @Override
     public Class[] checkClasses() {
-      return new Class[] { MyCustomRule.class };
+      return new Class[]{MyCustomRule.class};
     }
   }
 }

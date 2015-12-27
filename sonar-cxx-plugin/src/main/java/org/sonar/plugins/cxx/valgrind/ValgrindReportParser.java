@@ -31,6 +31,7 @@ import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 class ValgrindReportParser {
+
   public ValgrindReportParser() {
   }
 
@@ -38,23 +39,24 @@ class ValgrindReportParser {
    * Parses given valgrind report
    */
   public Set<ValgrindError> processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
+    throws javax.xml.stream.XMLStreamException {
     ValgrindReportStreamHandler streamHandler = new ValgrindReportStreamHandler();
     new StaxParser(streamHandler).parse(report);
     return streamHandler.valgrindErrors;
   }
 
   private class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
-    Set<ValgrindError> valgrindErrors = new HashSet<ValgrindError>();
+
+    Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-      try{
+      try {
         rootCursor.advance();
-      } catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+      } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
         throw new EmptyReportException();
       }
 
@@ -67,8 +69,7 @@ class ValgrindReportParser {
   }
 
   private ValgrindError parseErrorTag(SMInputCursor error)
-      throws javax.xml.stream.XMLStreamException
-  {
+    throws javax.xml.stream.XMLStreamException {
     SMInputCursor child = error.childElementCursor();
 
     String kind = null;
@@ -96,8 +97,7 @@ class ValgrindReportParser {
   }
 
   private ValgrindStack parseStackTag(SMInputCursor child)
-      throws javax.xml.stream.XMLStreamException
-  {
+    throws javax.xml.stream.XMLStreamException {
     ValgrindStack stack = new ValgrindStack();
     SMInputCursor frameCursor = child.childElementCursor("frame");
     while (frameCursor.getNext() != null) {

@@ -25,50 +25,56 @@ import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
 /**
- * The interface a compiler parser has to implement in order to be used
- * by CxxCompilerSensor
+ * The interface a compiler parser has to implement in order to be used by
+ * CxxCompilerSensor
  *
  * @author Ferrand
  */
 public interface CompilerParser {
-    /**
-     * Get the name of the compiler parser.
-     * @return The name of the compiler, used in the configuration.
-     */
-    String key();
 
-    /**
-     * Get the key identifying the rules repository for this compiler.
-     * @return The key of the rules repository associated with this compiler.
-     */
-    String rulesRepositoryKey();
+  /**
+   * Get the name of the compiler parser.
+   *
+   * @return The name of the compiler, used in the configuration.
+   */
+  String key();
 
-    /**
-     * Get the default regexp used to parse warning messages.
-     * @return The default regexp.
-     */
-    String defaultRegexp();
+  /**
+   * Get the key identifying the rules repository for this compiler.
+   *
+   * @return The key of the rules repository associated with this compiler.
+   */
+  String rulesRepositoryKey();
 
-    /**
-     * Get the default charset
-     * @return The default regexp.
-     */
-    String defaultCharset();
+  /**
+   * Get the default regexp used to parse warning messages.
+   *
+   * @return The default regexp.
+   */
+  String defaultRegexp();
 
-    static class Warning {
-        public final String filename;
-        public final String line;
-        public final String id;
-        public final String msg;
+  /**
+   * Get the default charset
+   *
+   * @return The default regexp.
+   */
+  String defaultCharset();
 
-        Warning(String filename, String line, String id, String msg) {
-          this.filename = filename;
-          this.line = line;
-          this.id = id;
-          this.msg = msg;
-        }
+  static class Warning {
+
+    public final String filename;
+    public final String line;
+    public final String id;
+    public final String msg;
+
+    Warning(String filename, String line, String id, String msg) {
+      this.filename = filename;
+      this.line = line;
+      this.id = id;
+      this.msg = msg;
     }
+  }
 
-    void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings)
-        throws java.io.FileNotFoundException;
+  void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings)
+    throws java.io.FileNotFoundException;
 }

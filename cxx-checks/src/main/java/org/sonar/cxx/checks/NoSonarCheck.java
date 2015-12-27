@@ -30,7 +30,8 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
 
 /**
- * Note that {@link com.sonar.sslr.squid.checks.AbstractNoSonarCheck} can't be used because of bug SSLRSQBR-16.
+ * Note that {@link com.sonar.sslr.squid.checks.AbstractNoSonarCheck} can't be
+ * used because of bug SSLRSQBR-16.
  */
 @Rule(
   key = "NoSonar",

@@ -36,15 +36,15 @@ public class ReservedNamesCheckTest {
   public void detected() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/ReservedNamesCheck.cc"), new ReservedNamesCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(3).withMessage("Reserved name used for macro (keyword or alternative token redefined)")
-        .next().atLine(4)
-        .next().atLine(5)
-        .next().atLine(6)
-        .next().atLine(14).withMessage("Reserved name used for macro (begins with underscore followed by a capital letter)")
-        .next().atLine(15)
-        .next().atLine(16)
-        .next().atLine(18).withMessage("Reserved name used for macro (contains two consecutive underscores)")
-        .next().atLine(19)
-        .next().atLine(20);
+      .next().atLine(3).withMessage("Reserved name used for macro (keyword or alternative token redefined)")
+      .next().atLine(4)
+      .next().atLine(5)
+      .next().atLine(6)
+      .next().atLine(14).withMessage("Reserved name used for macro (begins with underscore followed by a capital letter)")
+      .next().atLine(15)
+      .next().atLine(16)
+      .next().atLine(18).withMessage("Reserved name used for macro (contains two consecutive underscores)")
+      .next().atLine(19)
+      .next().atLine(20);
   }
 }

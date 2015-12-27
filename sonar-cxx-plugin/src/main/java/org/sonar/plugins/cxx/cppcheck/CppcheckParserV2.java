@@ -37,7 +37,7 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
  */
 public class CppcheckParserV2 implements CppcheckParser {
 
-  private CxxCppCheckSensor sensor;
+  private final CxxCppCheckSensor sensor;
 
   public CppcheckParserV2(CxxCppCheckSensor sensor) {
     this.sensor = sensor;
@@ -46,6 +46,7 @@ public class CppcheckParserV2 implements CppcheckParser {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     CxxUtils.LOG.info("Parsing 'Cppcheck V2' format");
@@ -54,6 +55,7 @@ public class CppcheckParserV2 implements CppcheckParser {
       /**
        * {@inheritDoc}
        */
+      @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         boolean parsed = false;
 

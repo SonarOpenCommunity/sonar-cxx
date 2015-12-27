@@ -41,6 +41,7 @@ import org.sonar.plugins.cxx.TestUtils;
 public class CxxReportSensor_getReports_Test {
 
   private class CxxReportSensorImpl extends CxxReportSensor {
+
     public CxxReportSensorImpl(Settings settings, FileSystem fs) {
       super(settings, fs);
     }
@@ -64,21 +65,20 @@ public class CxxReportSensor_getReports_Test {
   public void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
     Settings settings = new Settings();
     final String property = "sonar.cxx.cppcheck.reportPath";
-    List<String[]> examples = new LinkedList<String[]>();
-  
+    List<String[]> examples = new LinkedList<>();
+
     //                          "pattern",      "matches",         "matches not"
-    examples.add(new String[] { "A.ext",        "A.ext",           "dir/B.ext" });        // relative
-    examples.add(new String[] { "dir/A.ext",    "dir/A.ext",       "A.ext, dir/B.ext" }); // relative with subdir
+    examples.add(new String[]{"A.ext", "A.ext", "dir/B.ext"});        // relative
+    examples.add(new String[]{"dir/A.ext", "dir/A.ext", "A.ext, dir/B.ext"}); // relative with subdir
 
-    examples.add(new String[] { "dir/../A.ext", "A.ext",           "B.ext, dir/A.ext" }); // relative with subdir
-    examples.add(new String[] { "./A.ext",      "A.ext",           "B.ext" });            // relative with leading dot
+    examples.add(new String[]{"dir/../A.ext", "A.ext", "B.ext, dir/A.ext"}); // relative with subdir
+    examples.add(new String[]{"./A.ext", "A.ext", "B.ext"});            // relative with leading dot
 
-    examples.add(new String[] { "A?.ext",       "AA.ext,AB.ext",   "B.ext" });            // containing question mark
-    examples.add(new String[] { "A*.ext",       "A.ext,AAA.ext",   "B.ext" });            // containing question mark
-    examples.add(new String[] { "",             "",                "" });                 // empty
-    
+    examples.add(new String[]{"A?.ext", "AA.ext,AB.ext", "B.ext"});            // containing question mark
+    examples.add(new String[]{"A*.ext", "A.ext,AAA.ext", "B.ext"});            // containing question mark
+    examples.add(new String[]{"", "", ""});                 // empty
+
     // absolutes paths are covered in CxxUtilsTest
-
     String pattern, match, allpaths;
     List<File> reports;
     for (String[] example : examples) {
@@ -110,13 +110,13 @@ public class CxxReportSensor_getReports_Test {
 
   private void assertMatch(List<File> real, String expected, String pattern) {
     String[] parsedPaths = StringUtils.split(expected, ",");
-    List<File> expectedFiles = new LinkedList<File>();
+    List<File> expectedFiles = new LinkedList<>();
     for (String path : parsedPaths) {
       expectedFiles.add(new File(base.getRoot(), path));
     }
 
-    Set<File> realSet = new TreeSet<File>(real);
-    Set<File> expectedSet = new TreeSet<File>(expectedFiles);
+    Set<File> realSet = new TreeSet<>(real);
+    Set<File> expectedSet = new TreeSet<>(expectedFiles);
 
     assertEquals("Failed for pattern: " + pattern, expectedSet, realSet);
   }

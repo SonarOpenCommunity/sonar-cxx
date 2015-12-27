@@ -45,7 +45,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
 
   private final RulesProfile profile;
-  private final List<CppcheckParser> parsers = new LinkedList<CppcheckParser>();
+  private final List<CppcheckParser> parsers = new LinkedList<>();
 
   /**
    * {@inheritDoc}

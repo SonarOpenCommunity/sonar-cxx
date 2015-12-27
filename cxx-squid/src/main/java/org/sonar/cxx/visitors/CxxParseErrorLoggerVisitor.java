@@ -29,11 +29,11 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 
-public class CxxParseErrorLoggerVisitor <GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   private SquidAstVisitorContext<?> context = null;
 
-  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context){
+  public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
     this.context = context;
   }
 
@@ -45,12 +45,13 @@ public class CxxParseErrorLoggerVisitor <GRAMMAR extends Grammar> extends SquidA
   @Override
   public void visitNode(AstNode node) {
     AstNode identifierAst = node.getFirstChild(GenericTokenType.IDENTIFIER);
-    if( identifierAst != null ) {
+    if (identifierAst != null) {
       CxxGrammarImpl.LOG.warn("[{}:{}]: syntax error, skip '{}'",
-        new Object[] {context.getFile(), node.getToken().getLine(), identifierAst.getTokenValue()});
+        new Object[]{context.getFile(), node.getToken().getLine(), identifierAst.getTokenValue()});
     }
   }
 
+  @Override
   public void visitToken(Token token) {
   }
 }

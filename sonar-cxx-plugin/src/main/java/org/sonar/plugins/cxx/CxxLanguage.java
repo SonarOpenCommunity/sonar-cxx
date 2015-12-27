@@ -27,15 +27,16 @@ import org.sonar.api.config.Settings;
  * {@inheritDoc}
  */
 public class CxxLanguage extends AbstractLanguage {
+
   public static final String DEFAULT_SOURCE_SUFFIXES = ".cxx,.cpp,.cc,.c";
   public static final String DEFAULT_HEADER_SUFFIXES = ".hxx,.hpp,.hh,.h";
   public static final String DEFAULT_C_FILES = "*.c,*.C";
   public static final String KEY = "c++";
 
   private CxxSettings settings;
-  private String[] sourceSuffixes;
-  private String[] headerSuffixes;
-  private String[] fileSuffixes;
+  private final String[] sourceSuffixes;
+  private final String[] headerSuffixes;
+  private final String[] fileSuffixes;
 
   /**
    * {@inheritDoc}
@@ -55,7 +56,7 @@ public class CxxLanguage extends AbstractLanguage {
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 
-  private final String[] mergeArrays(String[] array1, String[] array2) {
+  private String[] mergeArrays(String[] array1, String[] array2) {
     String[] result = new String[array1.length + array2.length];
     System.arraycopy(sourceSuffixes, 0, result, 0, array1.length);
     System.arraycopy(headerSuffixes, 0, result, array1.length, array2.length);
@@ -65,19 +66,20 @@ public class CxxLanguage extends AbstractLanguage {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String[] getFileSuffixes() {
     return fileSuffixes;
   }
 
   /**
-   * @return  suffixes for c++ source files
+   * @return suffixes for c++ source files
    */
   public String[] getSourceFileSuffixes() {
     return sourceSuffixes;
   }
 
   /**
-   * @return  suffixes for c++ header files
+   * @return suffixes for c++ header files
    */
   public String[] getHeaderFileSuffixes() {
     return headerSuffixes;

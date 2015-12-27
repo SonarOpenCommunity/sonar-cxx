@@ -36,12 +36,12 @@ public class UseCorrectTypeCheckTest {
   public void detected() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UseCorrectTypesCheck.cc"), new UseCorrectTypeCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
-    .next().atLine(7).withMessage("Use the correct type instead of NULL (1 times).")
-    .next().atLine(10).withMessage("Use the correct type instead of WORD (1 times).")
-    .next().atLine(11).withMessage("Use the correct type instead of DWORD (1 times).")
-    .next().atLine(12).withMessage("Use the correct type instead of BOOL (1 times).")
-    .next().atLine(16).withMessage("Use the correct type instead of BYTE (1 times).")
-    .next().atLine(17).withMessage("Use the correct type instead of FLOAT (1 times).");
+      .next().atLine(7).withMessage("Use the correct type instead of NULL (1 times).")
+      .next().atLine(10).withMessage("Use the correct type instead of WORD (1 times).")
+      .next().atLine(11).withMessage("Use the correct type instead of DWORD (1 times).")
+      .next().atLine(12).withMessage("Use the correct type instead of BOOL (1 times).")
+      .next().atLine(16).withMessage("Use the correct type instead of BYTE (1 times).")
+      .next().atLine(17).withMessage("Use the correct type instead of FLOAT (1 times).");
   }
 
 }

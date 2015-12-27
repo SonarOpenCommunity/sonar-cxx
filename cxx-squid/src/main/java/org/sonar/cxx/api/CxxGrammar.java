@@ -23,6 +23,7 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Rule;
 
 public class CxxGrammar extends Grammar {
+
   public Rule test;
 
   public Rule bool;

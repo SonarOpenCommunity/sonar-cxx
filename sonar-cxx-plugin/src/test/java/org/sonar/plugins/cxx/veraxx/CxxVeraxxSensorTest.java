@@ -38,6 +38,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class CxxVeraxxSensorTest {
+
   private CxxVeraxxSensor sensor;
   private SensorContext context;
   private Project project;

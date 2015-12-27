@@ -51,6 +51,7 @@ import org.sonar.api.source.Highlightable;
 import org.sonar.api.batch.fs.InputFile;
 
 public class CxxSquidSensorTest {
+
   private CxxSquidSensor sensor;
   private SensorContext context;
   private Settings settings;
@@ -189,13 +190,13 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_EDGES_WEIGHT), eq(3.0));
   }
 
-  private void setUpSensor(File baseDir, List<File> srcDirs){
+  private void setUpSensor(File baseDir, List<File> srcDirs) {
     project = TestUtils.mockProject(baseDir);
     fs = TestUtils.mockFileSystem(baseDir, srcDirs, null);
 
     ActiveRules rules = mock(ActiveRules.class);
     CheckFactory checkFactory = new CheckFactory(rules);
-    
+
     sensor = new CxxSquidSensor(perspectives, settings, fs, checkFactory, rules);
   }
 }

@@ -31,7 +31,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "TooManyLinesOfCodeInFile",
@@ -51,7 +51,6 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
     description = "Maximum code lines allowed",
     defaultValue = "" + DEFAULT_MAXIMUM)
   private int max = DEFAULT_MAXIMUM;
-
 
   public void SetMax(int max) {
     this.max = max;

@@ -24,10 +24,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class MapChainTest {
+
   MapChain<String, String> mc;
 
   public MapChainTest() {
-    mc = new MapChain<String, String>();
+    mc = new MapChain<>();
   }
 
   @Test

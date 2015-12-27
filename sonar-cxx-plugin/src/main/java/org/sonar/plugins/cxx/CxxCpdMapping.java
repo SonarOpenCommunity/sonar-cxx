@@ -37,10 +37,12 @@ public class CxxCpdMapping extends AbstractCpdMapping {
     this.charset = fs.encoding();
   }
 
+  @Override
   public Tokenizer getTokenizer() {
     return new CxxTokenizer(charset);
   }
 
+  @Override
   public Language getLanguage() {
     return language;
   }

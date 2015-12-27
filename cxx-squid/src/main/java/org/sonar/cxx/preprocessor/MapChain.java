@@ -23,10 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapChain<K, V> {
-  private Map<K, V> highPrioMap = new HashMap<K, V>();
-  private Map<K, V> lowPrioMap = new HashMap<K, V>();
-  private Map<K, V> highPrioDisabled = new HashMap<K, V>();
-  private Map<K, V> lowPrioDisabled = new HashMap<K, V>();
+
+  private final Map<K, V> highPrioMap = new HashMap<>();
+  private final Map<K, V> lowPrioMap = new HashMap<>();
+  private final Map<K, V> highPrioDisabled = new HashMap<>();
+  private final Map<K, V> lowPrioDisabled = new HashMap<>();
   private boolean isHighPrioEnabled = false;
 
   public V get(Object key) {

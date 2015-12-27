@@ -18,9 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
 package org.sonar.plugins.cxx.utils;
- 
+
 import static java.nio.file.FileVisitResult.CONTINUE;
- 
+
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -33,55 +33,55 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
- 
+
 public class CxxFileFinder extends SimpleFileVisitor<Path> {
- 
-    private final PathMatcher matcher;
-    private final boolean recursive;
-    private final String baseDir;
-    private List<Path> matchedPaths = new ArrayList<Path>();
-    
-    CxxFileFinder(String pattern, String baseDir, boolean recursive) {
-        matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
-        this.recursive = recursive;
-        this.baseDir = baseDir.toLowerCase();        
+
+  private final PathMatcher matcher;
+  private final boolean recursive;
+  private final String baseDir;
+  private List<Path> matchedPaths = new ArrayList<>();
+
+  CxxFileFinder(String pattern, String baseDir, boolean recursive) {
+    matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
+    this.recursive = recursive;
+    this.baseDir = baseDir.toLowerCase();
+  }
+
+  void match(Path file) {
+    Path name = file.getFileName();
+
+    if (name != null && matcher.matches(name)) {
+      matchedPaths.add(file);
     }
- 
-    void match(Path file) {
-        Path name = file.getFileName();
- 
-        if (name != null && matcher.matches(name)) {
-            matchedPaths.add(file);
-        }
-    }
- 
-    @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        if (recursive) {
-          match(file);
-        } else {
-          String parentPath = file.getParent().toString().toLowerCase();
-          if (parentPath.equals(this.baseDir)) {
-            match(file);  
-          }
-        }
-        
-        return CONTINUE;
-    }
-  
-    @Override
-    public FileVisitResult visitFileFailed(Path file, IOException exc) {
-        CxxUtils.LOG.warn("File access Failed '{}' : ", file, exc.getMessage());
-        return CONTINUE;
+  }
+
+  @Override
+  public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+    if (recursive) {
+      match(file);
+    } else {
+      String parentPath = file.getParent().toString().toLowerCase();
+      if (parentPath.equals(this.baseDir)) {
+        match(file);
+      }
     }
 
-    public Collection<Path> getMatchedPaths() {
-        return matchedPaths;
-    }
-    
-    public static Collection<Path> FindFiles(String baseDir, String pattern, boolean recursive) throws IOException {
-      CxxFileFinder finder = new CxxFileFinder(pattern, baseDir, recursive);
-      Files.walkFileTree(Paths.get(baseDir), finder);
-      return finder.getMatchedPaths();
-    }
+    return CONTINUE;
+  }
+
+  @Override
+  public FileVisitResult visitFileFailed(Path file, IOException exc) {
+    CxxUtils.LOG.warn("File access Failed '{}' : ", file, exc.getMessage());
+    return CONTINUE;
+  }
+
+  public Collection<Path> getMatchedPaths() {
+    return matchedPaths;
+  }
+
+  public static Collection<Path> FindFiles(String baseDir, String pattern, boolean recursive) throws IOException {
+    CxxFileFinder finder = new CxxFileFinder(pattern, baseDir, recursive);
+    Files.walkFileTree(Paths.get(baseDir), finder);
+    return finder.getMatchedPaths();
+  }
 }

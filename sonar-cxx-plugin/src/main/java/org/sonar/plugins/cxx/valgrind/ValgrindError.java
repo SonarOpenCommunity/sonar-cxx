@@ -22,16 +22,18 @@ package org.sonar.plugins.cxx.valgrind;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Represents an error found by valgrind. It always has an id,
- * a descriptive text and a stack trace.
+ * Represents an error found by valgrind. It always has an id, a descriptive
+ * text and a stack trace.
  */
 class ValgrindError {
+
   private final String kind;
   private final String text;
   private final ValgrindStack stack;
 
   /**
    * Constructs a ValgrindError out of the given attributes
+   *
    * @param kind The kind of error, plays the role of an id
    * @param text Description of the error
    * @param stack The associated call stack
@@ -62,9 +64,9 @@ class ValgrindError {
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-        .append(kind)
-        .append(stack)
-        .toHashCode();
+      .append(kind)
+      .append(stack)
+      .toHashCode();
   }
 
   String getKind() {

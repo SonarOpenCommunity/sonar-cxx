@@ -50,7 +50,7 @@ import java.util.Map;
  */
 public class CxxSqaleXmlLoader {
 
-  private NewRepository repository;
+  private final NewRepository repository;
 
   public CxxSqaleXmlLoader(NewRepository repository) {
     this.repository = repository;

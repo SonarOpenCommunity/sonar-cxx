@@ -24,6 +24,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 import org.junit.Test;
 
 public class ClassesTest extends ParserBaseTest {
+
   @Test
   public void className_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.className));
@@ -44,11 +45,11 @@ public class ClassesTest extends ParserBaseTest {
   public void classHead() {
     p.setRootRule(g.rule(CxxGrammarImpl.classHead));
 
-    g.rule(CxxGrammarImpl.classKey).mock();
-    g.rule(CxxGrammarImpl.classHeadName).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.baseClause).mock();
-    g.rule(CxxGrammarImpl.classVirtSpecifier).mock();
+    g.rule(CxxGrammarImpl.classKey).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.classHeadName).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.baseClause).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.classVirtSpecifier).mock(); //@toto deprecated
 
     assertThat(p).matches("classKey classHeadName");
     assertThat(p).matches("classKey attributeSpecifierSeq classHeadName");
@@ -64,8 +65,8 @@ public class ClassesTest extends ParserBaseTest {
   public void classHeadName() {
     p.setRootRule(g.rule(CxxGrammarImpl.classHeadName));
 
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
-    g.rule(CxxGrammarImpl.className).mock();
+    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.className).mock(); //@toto deprecated
 
     assertThat(p).matches("className");
     assertThat(p).matches("nestedNameSpecifier className");
@@ -75,8 +76,8 @@ public class ClassesTest extends ParserBaseTest {
   public void memberSpecification() {
     p.setRootRule(g.rule(CxxGrammarImpl.memberSpecification));
 
-    g.rule(CxxGrammarImpl.memberDeclaration).mock();
-    g.rule(CxxGrammarImpl.accessSpecifier).mock();
+    g.rule(CxxGrammarImpl.memberDeclaration).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.accessSpecifier).mock(); //@toto deprecated
 
     assertThat(p).matches("memberDeclaration");
     assertThat(p).matches("memberDeclaration accessSpecifier :");
@@ -99,7 +100,7 @@ public class ClassesTest extends ParserBaseTest {
   public void memberDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.memberDeclaration));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
+    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.memberDeclSpecifierSeq).mock();
     g.rule(CxxGrammarImpl.memberDeclaratorList).mock();
     g.rule(CxxGrammarImpl.functionDefinition).mock();
@@ -112,7 +113,7 @@ public class ClassesTest extends ParserBaseTest {
     g.rule(CxxGrammarImpl.cliPropertyDefinition).mock();
     g.rule(CxxGrammarImpl.cliEventDefinition).mock();
     g.rule(CxxGrammarImpl.cliDelegateSpecifier).mock();
-    g.rule(CxxGrammarImpl.cliGenericDeclaration).mock();
+    g.rule(CxxGrammarImpl.cliGenericDeclaration).mock(); //@toto deprecated
 
     assertThat(p).matches(";");
     assertThat(p).matches("attributeSpecifierSeq memberDeclSpecifierSeq memberDeclaratorList ;");
@@ -169,7 +170,9 @@ public class ClassesTest extends ParserBaseTest {
     assertThat(p).matches("delegate void ClickEventHandler(int, double);");
     assertThat(p).matches("delegate void Del(int i);");
     assertThat(p).matches("public delegate void DblClickEventHandler(String^);");
-    };
+  }
+
+  ;
 
   @Test
   public void memberDeclaratorList() {
@@ -192,12 +195,12 @@ public class ClassesTest extends ParserBaseTest {
   public void memberDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.memberDeclarator));
 
-    g.rule(CxxGrammarImpl.declarator).mock();
+    g.rule(CxxGrammarImpl.declarator).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.pureSpecifier).mock();
     g.rule(CxxGrammarImpl.braceOrEqualInitializer).mock();
     g.rule(CxxGrammarImpl.constantExpression).mock();
     g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.virtSpecifierSeq).mock();
+    g.rule(CxxGrammarImpl.virtSpecifierSeq).mock(); //@toto deprecated
 
     assertThat(p).matches("declarator");
     assertThat(p).matches("declarator virtSpecifierSeq");
@@ -222,7 +225,7 @@ public class ClassesTest extends ParserBaseTest {
   public void virtSpecifierSeq() {
     p.setRootRule(g.rule(CxxGrammarImpl.virtSpecifierSeq));
 
-    g.rule(CxxGrammarImpl.virtSpecifier).mock();
+    g.rule(CxxGrammarImpl.virtSpecifier).mock(); //@toto deprecated
 
     assertThat(p).matches("virtSpecifier");
     assertThat(p).matches("virtSpecifier virtSpecifier");
@@ -259,7 +262,7 @@ public class ClassesTest extends ParserBaseTest {
   public void baseSpecifierList() {
     p.setRootRule(g.rule(CxxGrammarImpl.baseSpecifierList));
 
-    g.rule(CxxGrammarImpl.baseSpecifier).mock();
+    g.rule(CxxGrammarImpl.baseSpecifier).mock(); //@toto deprecated
 
     assertThat(p).matches("baseSpecifier");
     assertThat(p).matches("baseSpecifier ...");
@@ -273,9 +276,9 @@ public class ClassesTest extends ParserBaseTest {
   public void baseSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.baseSpecifier));
 
-    g.rule(CxxGrammarImpl.baseTypeSpecifier).mock();
+    g.rule(CxxGrammarImpl.baseTypeSpecifier).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.accessSpecifier).mock();
+    g.rule(CxxGrammarImpl.accessSpecifier).mock(); //@toto deprecated
 
     assertThat(p).matches("baseTypeSpecifier");
     assertThat(p).matches("attributeSpecifierSeq baseTypeSpecifier");
@@ -291,9 +294,9 @@ public class ClassesTest extends ParserBaseTest {
   public void classOrDecltype() {
     p.setRootRule(g.rule(CxxGrammarImpl.classOrDecltype));
 
-    g.rule(CxxGrammarImpl.className).mock();
+    g.rule(CxxGrammarImpl.className).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
-    g.rule(CxxGrammarImpl.decltypeSpecifier).mock();
+    g.rule(CxxGrammarImpl.decltypeSpecifier).mock(); //@toto deprecated
 
     assertThat(p).matches("className");
     assertThat(p).matches("nestedNameSpecifier className");

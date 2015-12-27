@@ -34,6 +34,6 @@ public class UnnamedNamespaceInHeaderCheckTest {
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UnnamedNamespaceInHeader.h"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().withMessage("Unnamed namespaces are not allowed in header files.");
+      .next().withMessage("Unnamed namespaces are not allowed in header files.");
   }
 }

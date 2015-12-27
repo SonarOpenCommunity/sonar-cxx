@@ -23,6 +23,7 @@ import org.sonar.squidbridge.measures.CalculatedMetricFormula;
 import org.sonar.squidbridge.measures.MetricDef;
 
 public enum CxxMetric implements MetricDef {
+
   FILES,
   LINES,
   LINES_OF_CODE,
@@ -34,22 +35,27 @@ public enum CxxMetric implements MetricDef {
   PUBLIC_API,
   PUBLIC_UNDOCUMENTED_API;
 
+  @Override
   public String getName() {
     return name();
   }
 
+  @Override
   public boolean isCalculatedMetric() {
     return false;
   }
 
+  @Override
   public boolean aggregateIfThereIsAlreadyAValue() {
     return true;
   }
 
+  @Override
   public boolean isThereAggregationFormula() {
     return true;
   }
 
+  @Override
   public CalculatedMetricFormula getCalculatedMetricFormula() {
     return null;
   }

@@ -49,19 +49,18 @@ public class BooleanEqualityComparisonCheck extends SquidCheck<Grammar> {
   public void visitNode(AstNode node) {
     if (hasBooleanLiteralOperand(node)) {
       getContext().createLineViolation(
-          this,
-          "Remove the unnecessary boolean comparison to simplify this expression.",
-          node);
+        this,
+        "Remove the unnecessary boolean comparison to simplify this expression.",
+        node);
     }
   }
 
   private static boolean hasBooleanLiteralOperand(AstNode node) {
     return node.select()
-        .children(CxxGrammarImpl.LITERAL)
-        .children(CxxGrammarImpl.BOOL)
-        .descendants(CxxKeyword.TRUE, CxxKeyword.FALSE)
-        .isNotEmpty();
+      .children(CxxGrammarImpl.LITERAL)
+      .children(CxxGrammarImpl.BOOL)
+      .descendants(CxxKeyword.TRUE, CxxKeyword.FALSE)
+      .isNotEmpty();
   }
 
 }
-

@@ -28,7 +28,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "MissingIncludeFile",

@@ -35,7 +35,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "UseCorrectInclude",
@@ -43,7 +43,7 @@ import org.sonar.squidbridge.annotations.Tags;
   tags = {Tags.PREPROCESSOR},
   priority = Priority.BLOCKER)
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.  READABILITY)
+@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("5min")
 public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
@@ -86,6 +86,5 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
   public void setCharset(Charset charset) {
     this.charset = charset;
   }
-
 
 }

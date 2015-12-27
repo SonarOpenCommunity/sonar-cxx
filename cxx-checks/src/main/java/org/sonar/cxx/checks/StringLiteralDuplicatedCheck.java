@@ -82,7 +82,7 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
         String literal = literalOccurences.getKey();
 
         getContext().createLineViolation(this, "Define a constant instead of duplicating this literal " + literal + " " + occurences
-            + " times.", firstOccurrence.get(literal));
+          + " times.", firstOccurrence.get(literal));
       }
     }
   }

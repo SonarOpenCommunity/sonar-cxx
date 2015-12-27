@@ -24,24 +24,26 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 public final class StandardDefinitions {
-  private StandardDefinitions(){}
 
-  public static Map<String, String> macros(){
+  private StandardDefinitions() {
+  }
+
+  public static Map<String, String> macros() {
     // This is a collection of standard macros according to
     // http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
 
     return ImmutableMap.<String, String>builder()
-      .put("__FILE__", "\"file\"")         // for now
-      .put("__LINE__", "1")            // that should hopefully suffice
-      .put("__DATE__", "\"??? ?? ????\"")  // indicates 'date unknown'. should suffice
-      .put("__TIME__", "\"??:??:??\"")     // indicates 'time unknown'. should suffice
+      .put("__FILE__", "\"file\"") // for now
+      .put("__LINE__", "1") // that should hopefully suffice
+      .put("__DATE__", "\"??? ?? ????\"") // indicates 'date unknown'. should suffice
+      .put("__TIME__", "\"??:??:??\"") // indicates 'time unknown'. should suffice
       .put("__STDC__", "1")
       .put("__STDC_HOSTED__", "1")
       .put("__cplusplus", "201103L")
       .build();
   }
 
-  public static Map<String, String> compatibilityMacros(){
+  public static Map<String, String> compatibilityMacros() {
     // This is a collection of macros used to let C code be parsed by C++ parser
     return ImmutableMap.<String, String>builder()
       .put("alignas", "__alignas")

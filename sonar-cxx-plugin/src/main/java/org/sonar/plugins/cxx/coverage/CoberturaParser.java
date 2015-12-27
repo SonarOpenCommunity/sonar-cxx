@@ -38,23 +38,23 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  */
 public class CoberturaParser extends CxxCoverageParser {
 
-  public CoberturaParser(final String baseDir)
-  {
+  public CoberturaParser(final String baseDir) {
     super(baseDir);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException
-  {
+    throws XMLStreamException {
     CxxUtils.LOG.info("Parsing 'Cobertura' format");
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
        */
+      @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance();
         collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
@@ -64,19 +64,17 @@ public class CoberturaParser extends CxxCoverageParser {
   }
 
   private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException
-  {
+    throws XMLStreamException {
     while (pack.getNext() != null) {
       collectFileMeasures(pack.descendantElementCursor("class"), coverageData);
     }
   }
 
   private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException
-  {
+    throws XMLStreamException {
     while (clazz.getNext() != null) {
       String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), baseDir);
-      if(normalPath != null){
+      if (normalPath != null) {
         CoverageMeasuresBuilder builder = coverageData.get(normalPath);
         if (builder == null) {
           builder = CoverageMeasuresBuilder.create();
@@ -92,12 +90,12 @@ public class CoberturaParser extends CxxCoverageParser {
     while (line.getNext() != null) {
       int lineId = Integer.parseInt(line.getAttrValue("number"));
       long noHits = Long.parseLong(line.getAttrValue("hits"));
-      if(noHits > Integer.MAX_VALUE){
+      if (noHits > Integer.MAX_VALUE) {
         CxxUtils.LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
-                          noHits, Integer.MAX_VALUE);
+          noHits, Integer.MAX_VALUE);
         noHits = Integer.MAX_VALUE;
       }
-      builder.setHits(lineId, (int)noHits);
+      builder.setHits(lineId, (int) noHits);
 
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");

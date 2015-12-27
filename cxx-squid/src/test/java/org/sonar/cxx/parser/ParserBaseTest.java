@@ -28,11 +28,12 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 
 public class ParserBaseTest {
+
   protected CxxConfiguration conf = null;
   protected Parser<Grammar> p = null;
   protected Grammar g = null;
 
-  public ParserBaseTest(){
+  public ParserBaseTest() {
     conf = new CxxConfiguration();
     conf.setErrorRecoveryEnabled(false);
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);

@@ -38,12 +38,14 @@ import org.sonar.squidbridge.annotations.NoSqale;
 @NoSqale
 public class ParsingErrorCheck extends SquidCheck<Grammar> implements AstScannerExceptionHandler {
 
+  @Override
   public void processException(Exception e) {
     StringWriter exception = new StringWriter();
     e.printStackTrace(new PrintWriter(exception));
     getContext().createFileViolation(this, exception.toString());
   }
 
+  @Override
   public void processRecognitionException(RecognitionException e) {
     getContext().createLineViolation(this, e.getMessage(), e.getLine());
   }

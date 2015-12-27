@@ -36,7 +36,6 @@ public enum CxxPunctuator implements TokenType {
   INCR("++"),
   DECR("--"),
   ASSIGN("="),
-
   // Comparison/relational operators
   EQ("=="),
   NOT_EQ("!="),
@@ -44,12 +43,10 @@ public enum CxxPunctuator implements TokenType {
   GT(">"),
   LT_EQ("<="),
   GT_EQ(">="),
-
   // Logical operators
   NOT("!"),
   AND("&&"),
   OR("||"),
-
   // Bitwise Operators
   BW_NOT("~"),
   BW_AND("&"),
@@ -57,7 +54,6 @@ public enum CxxPunctuator implements TokenType {
   BW_XOR("^"),
   BW_LSHIFT("<<"),
   BW_RSHIFT(">>"),
-
   // Compound assignment operators
   PLUS_ASSIGN("+="),
   MINUS_ASSIGN("-="),
@@ -69,7 +65,6 @@ public enum CxxPunctuator implements TokenType {
   BW_XOR_ASSIGN("^="),
   BW_LSHIFT_ASSIGN("<<="),
   BW_RSHIFT_ASSIGN(">>="),
-
   // Member and pointer operators
   ARROW("->"), // ARROW?
   DOT("."), // DOT?
@@ -87,7 +82,6 @@ public enum CxxPunctuator implements TokenType {
   CURLBR_RIGHT("}"),
   SQBR_LEFT("["),
   SQBR_RIGHT("]"),
-
   // Other operators
   QUEST("?"),
   ELLIPSIS("...");
@@ -98,14 +92,17 @@ public enum CxxPunctuator implements TokenType {
     this.value = word;
   }
 
+  @Override
   public String getName() {
     return name();
   }
 
+  @Override
   public String getValue() {
     return value;
   }
 
+  @Override
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
   }

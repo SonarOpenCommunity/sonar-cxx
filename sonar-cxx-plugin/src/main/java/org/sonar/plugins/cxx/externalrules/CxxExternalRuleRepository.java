@@ -51,7 +51,7 @@ public class CxxExternalRuleRepository implements RulesDefinition {
   @Override
   public void define(Context context) {
     NewRepository repository = context.createRepository(KEY, CxxLanguage.KEY).setName(NAME);
-    
+
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
     for (String ruleDefs : settings.getStringArray(RULES_KEY)) {
       if (StringUtils.isNotBlank(ruleDefs)) {

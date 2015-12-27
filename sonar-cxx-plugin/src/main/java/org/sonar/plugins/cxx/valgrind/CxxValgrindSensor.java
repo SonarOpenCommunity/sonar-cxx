@@ -36,8 +36,9 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public class CxxValgrindSensor extends CxxReportSensor {
+
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
-  private RulesProfile profile;
+  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
@@ -63,9 +64,8 @@ public class CxxValgrindSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
-    CxxUtils.LOG.info("Parsing 'Valgrind' format"); 
+    throws javax.xml.stream.XMLStreamException {
+    CxxUtils.LOG.info("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(project, context, parser.processReport(project, context, report));
   }
@@ -75,9 +75,8 @@ public class CxxValgrindSensor extends CxxReportSensor {
       ValgrindFrame frame = error.getLastOwnFrame(fs.baseDir().getPath());
       if (frame != null) {
         saveUniqueViolation(project, context, CxxValgrindRuleRepository.KEY,
-                            frame.getPath(), frame.getLine(), error.getKind(), error.toString());
-      }
-      else{
+          frame.getPath(), frame.getLine(), error.getKind(), error.toString());
+      } else {
         CxxUtils.LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
       }
     }

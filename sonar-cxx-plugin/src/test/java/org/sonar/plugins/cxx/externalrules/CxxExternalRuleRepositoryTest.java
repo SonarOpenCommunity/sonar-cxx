@@ -45,7 +45,7 @@ public class CxxExternalRuleRepositoryTest {
     + "        <category name=\"readability\" />\n"
     + "        <description>descr</description>\n"
     + "    </rule></rules>";
-  
+
   String profile2 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
     + "<rules>\n"
     + "    <rule key=\"key\">\n"
@@ -55,7 +55,7 @@ public class CxxExternalRuleRepositoryTest {
     + "        <description><![CDATA[description]]></description>\n"
     + "    </rule>\n"
     + "</rules>";
-  
+
   String sqale2 = "<?xml version=\"1.0\"?>\n"
     + "<sqale>\n"
     + "  <chc>\n"
@@ -85,7 +85,7 @@ public class CxxExternalRuleRepositoryTest {
     + "    </chc>\n"
     + "  </chc>\n"
     + "</sqale>";
-  
+
   @Test
   public void verifyTemplateRuleIsFound() {
     CxxExternalRuleRepository def = new CxxExternalRuleRepository(
@@ -125,7 +125,7 @@ public class CxxExternalRuleRepositoryTest {
     RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
     assertThat(repo.rules()).hasSize(1);
   }
-  
+
   @Test
   public void verifyRuleValuesTest() {
     Settings settings = new Settings();
@@ -137,16 +137,16 @@ public class CxxExternalRuleRepositoryTest {
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);   
+    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
     Rule rule = repo.rule("key");
     assertThat(rule).isNotNull();
-    
+
     // from rule.xml
     assertThat(rule.key()).isEqualTo("key");
     assertThat(rule.name()).isEqualTo("name");
     assertThat(rule.internalKey()).isEqualTo("configKey");
     assertThat(rule.htmlDescription()).isEqualTo("description");
-    
+
     // from sqale.xml
     assertThat(rule.debtSubCharacteristic()).isEqualTo("COMPILER_RELATED_PORTABILITY");
     DebtRemediationFunction remediationFunction = rule.debtRemediationFunction();

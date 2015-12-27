@@ -32,25 +32,25 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class UndocumentedApiCheckTest {
 
-    @Rule
-    public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
+  @Rule
+  public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
-    @SuppressWarnings("unchecked")
-    @Test
-    public void detected() {
-        SourceFile file = CxxAstScanner.scanSingleFile(new File(
-                "src/test/resources/checks/UndocumentedApiCheck/no_doc.h"), new UndocumentedApiCheck());
+  @SuppressWarnings("unchecked")
+  @Test
+  public void detected() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File(
+      "src/test/resources/checks/UndocumentedApiCheck/no_doc.h"), new UndocumentedApiCheck());
 
-        checkMessagesVerifier.verify(file.getCheckMessages()).next().atLine(6)
-                .next().atLine(11).next().atLine(13).next().atLine(14).next()
-                .atLine(17).next().atLine(19).next().atLine(21).next()
-                .atLine(23).next().atLine(26).next().atLine(48).next()
-                .atLine(52).next().atLine(53).next().atLine(56).next()
-                .atLine(58).next().atLine(60).next().atLine(63).next()
-                .atLine(65).next().atLine(68).next().atLine(74).next().atLine(77);
+    checkMessagesVerifier.verify(file.getCheckMessages()).next().atLine(6)
+      .next().atLine(11).next().atLine(13).next().atLine(14).next()
+      .atLine(17).next().atLine(19).next().atLine(21).next()
+      .atLine(23).next().atLine(26).next().atLine(48).next()
+      .atLine(52).next().atLine(53).next().atLine(56).next()
+      .atLine(58).next().atLine(60).next().atLine(63).next()
+      .atLine(65).next().atLine(68).next().atLine(74).next().atLine(77);
 
-        for (CheckMessage msg : file.getCheckMessages()) {
-            assertThat(msg.formatDefaultMessage()).isNotEmpty();
-        }
+    for (CheckMessage msg : file.getCheckMessages()) {
+      assertThat(msg.formatDefaultMessage()).isNotEmpty();
     }
+  }
 }

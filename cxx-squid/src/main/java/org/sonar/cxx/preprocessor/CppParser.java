@@ -25,20 +25,21 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 
 public final class CppParser {
+
   private CppParser() {
   }
 
   public static Parser<Grammar> create(CxxConfiguration conf) {
     return Parser.builder(CppGrammar.create())
-        .withLexer(CppLexer.create(conf))
-        .build();
+      .withLexer(CppLexer.create(conf))
+      .build();
   }
 
   public static Parser<Grammar> createConstantExpressionParser(CxxConfiguration conf) {
     Grammar grammar = CppGrammar.create();
     Parser<Grammar> parser = Parser.builder(grammar)
-        .withLexer(CppLexer.create(conf))
-        .build();
+      .withLexer(CppLexer.create(conf))
+      .build();
     parser.setRootRule(grammar.rule(CppGrammar.constantExpression));
     return parser;
   }

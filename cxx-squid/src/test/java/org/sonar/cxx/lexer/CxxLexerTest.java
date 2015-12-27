@@ -262,7 +262,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("0X7LLU"), hasToken("0X7LLU", CxxTokenType.NUMBER));
   }
 
- /**
+  /**
    * C++ Standard, Section 2.14.2 "Integer literals"
    */
   @Test
@@ -306,7 +306,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("0B1LLu"), hasToken("0B1LLu", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0B1LLU"), hasToken("0B1LLU", CxxTokenType.NUMBER));
   }
-  
+
   /**
    * C++ Standard, Section 2.14.4 "Floating literals"
    */
@@ -352,7 +352,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("3.14E-10L"), hasToken("3.14E-10L", CxxTokenType.NUMBER));
     assertThat(lexer.lex("0e0L"), hasToken("0e0L", CxxTokenType.NUMBER));
   }
-  
+
   /**
    * C++ Standard, Section 2.13.8 "User-defined literals"
    */
@@ -381,7 +381,7 @@ public class CxxLexerTest {
     assertThat(lexer.lex("1'000e-10"), hasToken("1'000e-10", CxxTokenType.NUMBER));
     assertThat(lexer.lex("1'000e-1'000"), hasToken("1'000e-1'000", CxxTokenType.NUMBER));
   }
-  
+
   /**
    * C++ Standard, Section 2.14.6 "Boolean literals"
    */

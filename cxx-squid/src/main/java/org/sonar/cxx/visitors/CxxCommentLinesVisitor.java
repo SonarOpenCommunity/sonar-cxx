@@ -33,9 +33,9 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 
-public class CxxCommentLinesVisitor <GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
-  private Set<Integer> comments = Sets.newHashSet();
+  private final Set<Integer> comments = Sets.newHashSet();
   private boolean seenFirstToken;
 
   @Override
@@ -49,12 +49,13 @@ public class CxxCommentLinesVisitor <GRAMMAR extends Grammar> extends SquidAstVi
     seenFirstToken = false;
   }
 
+  @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         if (seenFirstToken) {
           String[] commentLines = getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue())
-              .split("(\r)?\n|\r", -1);
+            .split("(\r)?\n|\r", -1);
           int line = trivia.getToken().getLine();
           for (String commentLine : commentLines) {
             if (!commentLine.contains("NOSONAR") && !getContext().getCommentAnalyser().isBlank(commentLine)) {
@@ -82,6 +83,7 @@ public class CxxCommentLinesVisitor <GRAMMAR extends Grammar> extends SquidAstVi
     sourceCode.setMeasure(CxxMetric.COMMENT_LINES, commentlines);
   }
 
+  @Override
   public void leaveFile(AstNode ast) {
     getContext().peekSourceCode().setMeasure(CxxMetric.COMMENT_LINES, comments.size());
     comments.clear();

@@ -28,12 +28,13 @@ import org.sonar.graph.DsmCell;
 import org.sonar.graph.Edge;
 
 /**
-* Created by fferrand on 12/06/14.
-*/
+ * Created by fferrand on 12/06/14.
+ */
 public class DsmSerializer {
-  private Dsm<? extends Resource> dsm;
+
+  private final Dsm<? extends Resource> dsm;
   Map<Edge, Dependency> dependencyIndex;
-  private StringBuilder json;
+  private final StringBuilder json;
 
   DsmSerializer(Dsm<? extends Resource> dsm, Map<Edge, Dependency> dependencyIndex) {
     this.dsm = dsm;

@@ -57,9 +57,10 @@ import com.google.common.collect.ImmutableList;
  * {@inheritDoc}
  */
 public final class CxxPlugin extends SonarPlugin {
+
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
-  public static final String DEFINES_KEY = "sonar.cxx.defines";  
+  public static final String DEFINES_KEY = "sonar.cxx.defines";
   public static final String INCLUDE_DIRECTORIES_KEY = "sonar.cxx.includeDirectories";
   public static final String ERROR_RECOVERY_KEY = "sonar.cxx.errorRecoveryEnabled";
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
@@ -77,7 +78,6 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-
       PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
       .defaultValue(CxxLanguage.DEFAULT_HEADER_SUFFIXES)
       .name("Header files suffixes")
@@ -86,7 +86,6 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(2)
       .build(),
-
       PropertyDefinition.builder(INCLUDE_DIRECTORIES_KEY)
       .name("Include directories")
       .description("Comma-separated list of directories to search the included files in. May be defined either relative to projects root or absolute.")
@@ -94,7 +93,6 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-
       PropertyDefinition.builder(FORCE_INCLUDE_FILES_KEY)
       .subCategory(subcateg)
       .name("Force includes")
@@ -102,17 +100,15 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(4)
       .build(),
-
       PropertyDefinition.builder(DEFINES_KEY)
       .name("Default macros")
       .description("Additional macro definitions (one per line) to use when analysing the source code. Use to provide macros which cannot be resolved by other means."
-                   + " Use the 'force includes' setting to inject more complex, multi-line macros.")
+        + " Use the 'force includes' setting to inject more complex, multi-line macros.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.TEXT)
       .index(5)
-      .build(),     
-
+      .build(),
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
       .defaultValue(CxxLanguage.DEFAULT_C_FILES)
       .name("C source files patterns")
@@ -121,7 +117,6 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(6)
       .build(),
-
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
       .defaultValue("False")
       .name("Parse error recovery")
@@ -129,7 +124,7 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
-      .index(7)              
+      .index(7)
       .build(),
       PropertyDefinition.builder(CxxPlugin.MISSING_INCLUDE_WARN)
       .defaultValue("True")
@@ -138,9 +133,9 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
-      .index(8)   
+      .index(8)
       .build()
-      );
+    );
   }
 
   private static List<PropertyDefinition> codeAnalysisProperties() {
@@ -149,115 +144,103 @@ public final class CxxPlugin extends SonarPlugin {
       PropertyDefinition.builder(CxxCppCheckSensor.REPORT_PATH_KEY)
       .name("Cppcheck report(s)")
       .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to projects root."
-                   + " Both XML formats (version 1 and version 2) are supported."
-                   + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
-        )
+        + " Both XML formats (version 1 and version 2) are supported."
+        + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service."
+      )
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-
       PropertyDefinition.builder(CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
       .name("Cppcheck custom rules")
       .description("XML definitions of custom Cppcheck rules, which are'nt builtin into the plugin."
-                   + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(2)
       .build(),
-
       PropertyDefinition.builder(CxxValgrindSensor.REPORT_PATH_KEY)
       .name("Valgrind report(s)")
       .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-
       PropertyDefinition.builder(CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
       .name("Valgrind custom rules")
       .description("XML definitions of custom Valgrind rules, which are'nt builtin into the plugin."
-                   + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(4)
       .build(),
-
       PropertyDefinition.builder(CxxPCLintSensor.REPORT_PATH_KEY)
       .name("PC-lint report(s)")
       .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects root."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(5)
       .build(),
-
       PropertyDefinition.builder(CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
       .name("PC-lint custom rules")
       .description("XML definitions of custom PC-lint rules, which are'nt builtin into the plugin."
-                   + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(6)
       .build(),
-
       PropertyDefinition.builder(CxxRatsSensor.REPORT_PATH_KEY)
       .name("RATS report(s)")
       .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/> reports(s), relative to projects root."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(7)
       .build(),
-
       PropertyDefinition.builder(CxxRatsRuleRepository.CUSTOM_RULES_KEY)
       .name("RATS custom rules")
       .description("XML definitions of custom RATS rules, which are'nt builtin into the plugin."
-                   + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(8)
       .build(),
-
       PropertyDefinition.builder(CxxVeraxxSensor.REPORT_PATH_KEY)
       .name("Vera++ report(s)")
       .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s), relative to projects root."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(9)
       .build(),
-
       PropertyDefinition.builder(CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
       .name("Vera++ custom rules")
       .description("XML definitions of custom Vera++ rules, which are'nt builtin into the plugin."
-                   + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(10)
       .build(),
-
       PropertyDefinition.builder(CxxExternalRulesSensor.REPORT_PATH_KEY)
       .name("External checkers report(s)")
       .description("Path to a code analysis report, which is generated by some unsupported code analyser, relative to projects root."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary."
-                   + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a> for details.")
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary."
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a> for details.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(11)
       .build(),
-
       PropertyDefinition.builder(CxxExternalRuleRepository.RULES_KEY)
       .name("External rules")
       .description("Rule sets for 'external' code analysers. Use one value per rule set."
-                   + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
       .type(PropertyType.TEXT)
       .multiValues(true)
       .subCategory(subcateg)
       .index(12)
       .build(),
-    
       PropertyDefinition.builder(CxxExternalRuleRepository.SQALES_KEY)
       .name("External SQALE characteristics")
       .description("SQALE characteristics for 'external' code analysers. Use one value per rule set."
@@ -276,12 +259,11 @@ public final class CxxPlugin extends SonarPlugin {
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_PATH_KEY)
       .name("Compiler report(s)")
       .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-
       PropertyDefinition.builder(CxxCompilerSensor.PARSER_KEY_DEF)
       .defaultValue(CxxCompilerSensor.DEFAULT_PARSER_DEF)
       .name("Format")
@@ -292,16 +274,14 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(2)
       .build(),
-
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_CHARSET_DEF)
-      .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)              
+      .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)
       .name("Encoding")
       .description("The encoding to use when reading the compiler report. Leave empty to use parser's default.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_REGEX_DEF)
       .name("Custom matcher")
       .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, message. For advanced usages. Leave empty to use parser's default.")
@@ -309,24 +289,22 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(4)
       .build(),
-
       PropertyDefinition.builder(CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY)
       .name("Custom rules for Visual C++ warnings")
       .description("XML definitions of custom rules for Visual C++ warnings, which are'nt builtin into the plugin."
-                   + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(5)
       .build(),
-
       PropertyDefinition.builder(CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY)
       .name("Custom rules for GCC warnings")
       .description("XML definitions of custom rules for GCC's warnings, which are'nt builtin into the plugin."
-                   + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .build()
-      );
+    );
   }
 
   private static List<PropertyDefinition> testingAndCoverageProperties() {
@@ -335,89 +313,83 @@ public final class CxxPlugin extends SonarPlugin {
       PropertyDefinition.builder(CxxCoverageSensor.REPORT_PATH_KEY)
       .name("Unit test coverage report(s)")
       .description("Path to a report containing unit test coverage data, relative to projects root."
-                   + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-
       PropertyDefinition.builder(CxxCoverageSensor.IT_REPORT_PATH_KEY)
       .name("Integration test coverage report(s)")
       .description("Path to a report containing integration test coverage data, relative to projects root."
-                   + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(2)
       .build(),
-
       PropertyDefinition.builder(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)
       .name("Overall test coverage report(s)")
       .description("Path to a report containing overall test coverage data (i.e. test coverage gained by all tests of all kinds), relative to projects root."
-                   + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-
       PropertyDefinition.builder(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
       .name("Assign zero line coverage to source files without coverage report(s)")
       .description("If 'True', assign zero line coverage to source files without coverage report(s),"
-                   + "which results in a more realistic overall Technical Debt value.")
+        + "which results in a more realistic overall Technical Debt value.")
       .defaultValue("True")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
       .index(4)
       .build(),
-
       PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
-                   + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics' for supported formats."
-                   + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics' for supported formats."
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(5)
       .build(),
-
       PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
       .name("XSLT transformer")
       .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
-                   + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
+        + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(6)
       .build(),
-
       PropertyDefinition.builder(CxxXunitSensor.PROVIDE_DETAILS_KEY)
       .name("Provide test execution details")
       .description("If 'True', tries to assign testcases in report to test resources in SonarQube, "
-                   + "thus making the drillown to details possible")
+        + "thus making the drillown to details possible")
       .defaultValue("False")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
       .index(7)
       .build(),
-      
       PropertyDefinition.builder(MSTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
       .name("Visual Studio Test Reports Paths")
       .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
       .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)    
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(8)
       .build()
-      );
+    );
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public List getExtensions() {
-    List<Object> l = new ArrayList<Object>();
+    List<Object> l = new ArrayList<>();
     l.add(CxxLanguage.class);
     l.add(CxxMetrics.class);
     l.add(CxxSquidSensor.class);

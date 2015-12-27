@@ -27,14 +27,15 @@ import org.sonar.api.resources.Directory;
 import org.sonar.graph.Edge;
 
 class DirectoryEdge implements Edge<Directory> {
-  private Directory from;
-  private Directory to;
-  private Set<FileEdge> rootEdges;
+
+  private final Directory from;
+  private final Directory to;
+  private final Set<FileEdge> rootEdges;
 
   public DirectoryEdge(Directory from, Directory to) {
     this.from = from;
     this.to = to;
-    this.rootEdges = new HashSet<FileEdge>();
+    this.rootEdges = new HashSet<>();
   }
 
   public void addRootEdge(FileEdge edge) {
@@ -45,14 +46,17 @@ class DirectoryEdge implements Edge<Directory> {
     return rootEdges;
   }
 
+  @Override
   public int getWeight() {
     return rootEdges.size();
   }
 
+  @Override
   public Directory getFrom() {
     return from;
   }
 
+  @Override
   public Directory getTo() {
     return to;
   }

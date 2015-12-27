@@ -20,13 +20,13 @@
 package org.sonar.plugins.cxx;
 
 import com.google.common.collect.ImmutableSet;
-import org.sonar.api.web.CodeColorizerFormat;
-import org.sonar.colorizer.CDocTokenizer;
-import org.sonar.colorizer.CppDocTokenizer;
-import org.sonar.colorizer.KeywordsTokenizer;
-import org.sonar.colorizer.LiteralTokenizer;
-import org.sonar.colorizer.RegexpTokenizer;
-import org.sonar.colorizer.Tokenizer;
+import org.sonar.api.web.CodeColorizerFormat; //@toto deprecated
+import org.sonar.colorizer.CDocTokenizer; //@toto deprecated
+import org.sonar.colorizer.CppDocTokenizer; //@toto deprecated
+import org.sonar.colorizer.KeywordsTokenizer; //@toto deprecated
+import org.sonar.colorizer.LiteralTokenizer; //@toto deprecated
+import org.sonar.colorizer.RegexpTokenizer; //@toto deprecated
+import org.sonar.colorizer.Tokenizer; //@toto deprecated
 
 import java.util.ArrayList;
 import java.util.List;

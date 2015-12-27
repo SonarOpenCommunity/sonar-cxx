@@ -47,7 +47,7 @@ public class CxxValgrindRuleRepositoryTest {
   @Test
   public void containsValidFormatInExtensionRulesOldFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
-    ArrayList<File> extensionFile = new ArrayList<File>();
+    ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesOldFormat.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 
@@ -61,7 +61,7 @@ public class CxxValgrindRuleRepositoryTest {
   @Test
   public void containsValidFormatInExtensionRulesNewFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
-    ArrayList<File> extensionFile = new ArrayList<File>();
+    ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesNewFormat.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 
@@ -75,7 +75,7 @@ public class CxxValgrindRuleRepositoryTest {
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
   public void containsInvalidFormatInExtensionRulesNewFormat() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
-    ArrayList<File> extensionFile = new ArrayList<File>();
+    ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesInvalid.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 
@@ -89,7 +89,7 @@ public class CxxValgrindRuleRepositoryTest {
   @Test //@todo check if new behaviour is ok: Exception is replaced by error message in LOG file
   public void containsEmptyExtensionRulesFile() {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
-    ArrayList<File> extensionFile = new ArrayList<File>();
+    ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesEmptyFile.xml"));
     when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 

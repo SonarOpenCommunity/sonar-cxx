@@ -67,7 +67,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       .setValueAndOriginalValue(sb.toString())
       .setType(CxxTokenType.STRING)
       .build());
-    sb.setLength(0);    
+    sb.setLength(0);
     return true;
   }
 
@@ -128,8 +128,9 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       if (ch == 'u' && code.charAt(index) == '8') {
         index++;
       }
-      if (code.charAt(index) == ' ')
+      if (code.charAt(index) == ' ') {
         index++;
+      }
       ch = code.charAt(index);
     }
     if (ch == 'R') {
@@ -138,7 +139,7 @@ public class StringLiteralsChannel extends Channel<Lexer> {
       ch = code.charAt(index);
     }
   }
-  
+
   private void readUdSuffix(CodeReader code) {
     for (int start_index = index, len = 0;; index++) {
       char c = code.charAt(index);

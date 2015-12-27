@@ -38,7 +38,7 @@ public class CxxRuleRepository implements RulesDefinition {
       //FIXME: set internal key to key to ensure rule templates works properly : should be removed when SONAR-6162 is fixed.
       rule.setInternalKey(rule.key());
     }
-    
+
     SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
     repository.done();
   }

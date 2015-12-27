@@ -31,8 +31,9 @@ import org.sonar.cxx.checks.CheckList;
  * {@inheritDoc}
  */
 public class CxxDefaultProfile extends ProfileDefinition {
-  private XMLProfileParser xmlProfileParser;
-  private AnnotationProfileParser annotationProfileParser;
+
+  private final XMLProfileParser xmlProfileParser;
+  private final AnnotationProfileParser annotationProfileParser;
   private static final String NAME = "Sonar way";
 
   /**
@@ -46,10 +47,10 @@ public class CxxDefaultProfile extends ProfileDefinition {
   @Override
   public RulesProfile createProfile(ValidationMessages messages) {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
-                                                          "default-profile.xml", messages);
+      "default-profile.xml", messages);
     RulesProfile sonarRules = annotationProfileParser.parse(CheckList.REPOSITORY_KEY, NAME,
-                                                            CxxLanguage.KEY, CheckList.getChecks(), messages);
-    for (ActiveRule activeRule: sonarRules.getActiveRules()) {
+      CxxLanguage.KEY, CheckList.getChecks(), messages);
+    for (ActiveRule activeRule : sonarRules.getActiveRules()) {
       profile.addActiveRule(activeRule);
     }
 

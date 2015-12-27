@@ -39,7 +39,7 @@ public class CxxAstScannerTest {
   public void files() {
     AstScanner<Grammar> scanner = CxxAstScanner.create(new CxxConfiguration());
     scanner.scanFiles(ImmutableList.of(new File("src/test/resources/metrics/trivial.cc"),
-        new File("src/test/resources/metrics/classes.cc")));
+      new File("src/test/resources/metrics/classes.cc")));
     SourceProject project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator().next();
     assertThat(project.getInt(CxxMetric.FILES)).isEqualTo(2);
   }
@@ -87,9 +87,9 @@ public class CxxAstScannerTest {
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   }
 
-   @Test
-   public void error_recovery_declaration() {
-     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/parser/bad/error_recovery_declaration.cc"));
-     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
-   }
+  @Test
+  public void error_recovery_declaration() {
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/parser/bad/error_recovery_declaration.cc"));
+    assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
+  }
 }

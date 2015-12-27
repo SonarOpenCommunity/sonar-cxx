@@ -51,6 +51,7 @@ public class CxxDefaultProfileTest {
 
   static RuleFinder ruleFinder() {
     return when(mock(RuleFinder.class).findByKey(anyString(), anyString())).thenAnswer(new Answer<Rule>() {
+      @Override
       public Rule answer(InvocationOnMock invocation) {
         Object[] arguments = invocation.getArguments();
         return Rule.create((String) arguments[0], (String) arguments[1], (String) arguments[1]);

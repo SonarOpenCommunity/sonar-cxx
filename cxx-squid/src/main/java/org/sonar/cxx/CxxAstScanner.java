@@ -62,7 +62,8 @@ public final class CxxAstScanner {
   }
 
   /**
-   * Helper method for testing checks without having to deploy them on a Sonar instance.
+   * Helper method for testing checks without having to deploy them on a Sonar
+   * instance.
    */
   public static SourceFile scanSingleFile(File file, SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(file, new CxxConfiguration(), visitors);
@@ -85,10 +86,10 @@ public final class CxxAstScanner {
   }
 
   public static AstScanner<Grammar> create(CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
-    final SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<Grammar>(new SourceProject("Cxx Project"));
+    final SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf);
 
-    AstScanner.Builder<Grammar> builder = AstScanner.<Grammar> builder(context).setBaseParser(parser);
+    AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
 
     /* Metrics */
     builder.withMetrics(CxxMetric.values());
@@ -98,27 +99,28 @@ public final class CxxAstScanner {
 
     /* Comments */
     builder.setCommentAnalyser(
-        new CommentAnalyser() {
-          @Override
-          public boolean isBlank(String line) {
-            for (int i = 0; i < line.length(); i++) {
-              if (Character.isLetterOrDigit(line.charAt(i))) {
-                return false;
-              }
+      new CommentAnalyser() {
+        @Override
+        public boolean isBlank(String line) {
+          for (int i = 0; i < line.length(); i++) {
+            if (Character.isLetterOrDigit(line.charAt(i))) {
+              return false;
             }
-            return true;
           }
+          return true;
+        }
 
-          @Override
-          public String getContents(String comment) {
-            return "/*".equals(comment.substring(0, 2))
-                ? comment.substring(2, comment.length() - 2)
-                : comment.substring(2);
-          }
-        });
+        @Override
+        public String getContents(String comment) {
+          return "/*".equals(comment.substring(0, 2))
+            ? comment.substring(2, comment.length() - 2)
+            : comment.substring(2);
+        }
+      });
 
     /* Functions */
-    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<Grammar>(new SourceCodeBuilderCallback() {
+    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>(new SourceCodeBuilderCallback() {
+      @Override
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
         StringBuilder sb = new StringBuilder();
         for (Token token : astNode.getFirstDescendant(CxxGrammarImpl.declaratorId).getTokens()) {
@@ -142,13 +144,14 @@ public final class CxxAstScanner {
       }
     }, CxxGrammarImpl.functionDefinition));
 
-    builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
-        .setMetricDef(CxxMetric.FUNCTIONS)
-        .subscribeTo(CxxGrammarImpl.functionDefinition)
-        .build());
+    builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()
+      .setMetricDef(CxxMetric.FUNCTIONS)
+      .subscribeTo(CxxGrammarImpl.functionDefinition)
+      .build());
 
     /* Classes */
-    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<Grammar>(new SourceCodeBuilderCallback() {
+    builder.withSquidAstVisitor(new SourceCodeBuilderVisitor<>(new SourceCodeBuilderCallback() {
+      @Override
       public SourceCode createSourceCode(SourceCode parentSourceCode, AstNode astNode) {
         AstNode classNameAst = astNode.getFirstDescendant(CxxGrammarImpl.className);
         String className = classNameAst == null ? "" : classNameAst.getFirstChild().getTokenValue();
@@ -158,64 +161,62 @@ public final class CxxAstScanner {
       }
     }, CxxGrammarImpl.classSpecifier));
 
-    builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
-        .setMetricDef(CxxMetric.CLASSES)
-        .subscribeTo(CxxGrammarImpl.classSpecifier)
-        .build());
+    builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()
+      .setMetricDef(CxxMetric.CLASSES)
+      .subscribeTo(CxxGrammarImpl.classSpecifier)
+      .build());
 
     /* Metrics */
-    builder.withSquidAstVisitor(new LinesVisitor<Grammar>(CxxMetric.LINES));
-    builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<Grammar>(CxxMetric.LINES_OF_CODE));
-    builder.withSquidAstVisitor(new CxxPublicApiVisitor<Grammar>(CxxMetric.PUBLIC_API,
-                                                                 CxxMetric.PUBLIC_UNDOCUMENTED_API)
-        .withHeaderFileSuffixes(conf.getHeaderFileSuffixes()));
+    builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
+    builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
+    builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
+      CxxMetric.PUBLIC_UNDOCUMENTED_API)
+      .withHeaderFileSuffixes(conf.getHeaderFileSuffixes()));
 
-    builder.withSquidAstVisitor(CommentsVisitor.<Grammar> builder().withCommentMetric(CxxMetric.COMMENT_LINES)
-        .withNoSonar(true)
-        .withIgnoreHeaderComment(conf.getIgnoreHeaderComments())
-        .build());
+    builder.withSquidAstVisitor(CommentsVisitor.<Grammar>builder().withCommentMetric(CxxMetric.COMMENT_LINES)
+      .withNoSonar(true)
+      .withIgnoreHeaderComment(conf.getIgnoreHeaderComments())
+      .build());
 
     /* Statements */
-    builder.withSquidAstVisitor(CounterVisitor.<Grammar> builder()
-        .setMetricDef(CxxMetric.STATEMENTS)
-        .subscribeTo(CxxGrammarImpl.statement)
-        .subscribeTo(CxxGrammarImpl.switchBlockStatementGroups)
-        .subscribeTo(CxxGrammarImpl.switchBlockStatementGroup)
-        .build());
+    builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()
+      .setMetricDef(CxxMetric.STATEMENTS)
+      .subscribeTo(CxxGrammarImpl.statement)
+      .subscribeTo(CxxGrammarImpl.switchBlockStatementGroups)
+      .subscribeTo(CxxGrammarImpl.switchBlockStatementGroup)
+      .build());
 
-    AstNodeType[] complexityAstNodeType = new AstNodeType[] {
+    AstNodeType[] complexityAstNodeType = new AstNodeType[]{
       // Entry points
       CxxGrammarImpl.functionDefinition,
-
       CxxKeyword.IF,
       CxxKeyword.FOR,
       CxxKeyword.WHILE,
       CxxKeyword.CATCH,
       CxxKeyword.CASE,
       CxxKeyword.DEFAULT,
-
       CxxPunctuator.AND,
       CxxPunctuator.OR,
       CxxPunctuator.QUEST
     };
 
-    builder.withSquidAstVisitor(ComplexityVisitor.<Grammar> builder()
-        .setMetricDef(CxxMetric.COMPLEXITY)
-        .subscribeTo(complexityAstNodeType)
-        .build());
+    builder.withSquidAstVisitor(ComplexityVisitor.<Grammar>builder()
+      .setMetricDef(CxxMetric.COMPLEXITY)
+      .subscribeTo(complexityAstNodeType)
+      .build());
 
     // to emit a 'new file' event to the internals of the plugin
-    builder.withSquidAstVisitor(new CxxFileVisitor<Grammar>(context));
+    builder.withSquidAstVisitor(new CxxFileVisitor<>(context));
 
     // log syntax errors
-    builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor<Grammar>(context));
+    builder.withSquidAstVisitor(new CxxParseErrorLoggerVisitor<>(context));
 
     /* External visitors (typically Check ones) */
     for (SquidAstVisitor<Grammar> visitor : visitors) {
-        if (visitor instanceof CxxCharsetAwareVisitor) {
-            ((CxxCharsetAwareVisitor) visitor).setCharset(conf.getCharset());
-          }
-        builder.withSquidAstVisitor(visitor);
+      if (visitor instanceof CxxCharsetAwareVisitor) {
+        ((CxxCharsetAwareVisitor) visitor).setCharset(conf.getCharset());
+      }
+      builder.withSquidAstVisitor(visitor);
     }
 
     return builder.build();

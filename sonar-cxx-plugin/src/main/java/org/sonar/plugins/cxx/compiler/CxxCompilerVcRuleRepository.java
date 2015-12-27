@@ -28,6 +28,7 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  * {@inheritDoc}
  */
 public final class CxxCompilerVcRuleRepository extends CxxAbstractRuleRepository {
+
   public static final String KEY = "compiler-vc";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.compiler-vc.customRules";
   private static final String NAME = "Compiler-VC";

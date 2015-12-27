@@ -33,7 +33,7 @@ import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "UseCorrectType",
@@ -44,7 +44,7 @@ import org.sonar.squidbridge.annotations.Tags;
 @NoSqale
 public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
 
-  private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {
+  private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
     CxxGrammarImpl.typeName,
     CxxGrammarImpl.condition
   };
@@ -87,7 +87,6 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
       }
     }
   }
-
 
   @Override
   public void visitFile(AstNode node) {

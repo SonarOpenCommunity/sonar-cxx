@@ -27,6 +27,7 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 
 public class CharacterLiteralsChannel extends Channel<Lexer> {
+
   private static final char EOF = (char) -1;
 
   private final StringBuilder sb = new StringBuilder();
@@ -51,12 +52,12 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
       sb.append((char) code.pop());
     }
     output.addToken(Token.builder()
-        .setLine(line)
-        .setColumn(column)
-        .setURI(output.getURI())
-        .setValueAndOriginalValue(sb.toString())
-        .setType(CxxTokenType.CHARACTER)
-        .build());
+      .setLine(line)
+      .setColumn(column)
+      .setURI(output.getURI())
+      .setValueAndOriginalValue(sb.toString())
+      .setType(CxxTokenType.CHARACTER)
+      .build());
     sb.setLength(0);
     return true;
   }
@@ -84,7 +85,7 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
       ch = code.charAt(index);
     }
   }
-  
+
   private void readUdSuffix(CodeReader code) {
     for (int start_index = index, len = 0;; index++) {
       char c = code.charAt(index);

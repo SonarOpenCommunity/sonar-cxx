@@ -28,14 +28,14 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class NoSonarCheckTest {
 
-  private NoSonarCheck check = new NoSonarCheck();
+  private final NoSonarCheck check = new NoSonarCheck();
 
   @Test
   public void test() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/NoSonarTagPresenceCheck.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(2).withMessage("Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?")
-        .noMore();
+      .next().atLine(2).withMessage("Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?")
+      .noMore();
   }
 
 }

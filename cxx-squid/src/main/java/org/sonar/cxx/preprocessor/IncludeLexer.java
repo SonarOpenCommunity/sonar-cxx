@@ -40,12 +40,12 @@ public final class IncludeLexer {
 
   public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
     Lexer.Builder builder = Lexer.builder()
-        .withCharset(conf.getCharset())
-        .withFailIfNoChannelToConsumeOneCharacter(true)
-        .withChannel(new BlackHoleChannel("\\s"))
-        .withChannel(new PreprocessorChannel())
-        .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
-        .withChannel(new BlackHoleChannel(".*"));
+      .withCharset(conf.getCharset())
+      .withFailIfNoChannelToConsumeOneCharacter(true)
+      .withChannel(new BlackHoleChannel("\\s"))
+      .withChannel(new PreprocessorChannel())
+      .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
+      .withChannel(new BlackHoleChannel(".*"));
 
     for (Preprocessor preprocessor : preprocessors) {
       builder.withPreprocessor(preprocessor);

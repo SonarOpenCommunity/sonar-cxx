@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ValgrindStackTest {
+
   ValgrindStack stack;
   ValgrindStack equalStack;
   ValgrindStack otherStack;
@@ -124,8 +125,8 @@ public class ValgrindStackTest {
 
     assertEquals(stack.getLastOwnFrame(BASE_DIR.getPath()), ownFrame);
   }
-  
- @Test
+
+  @Test
   public void getLastOwnFrame_returnsTheOwnFrame2() {
     File BASE_DIR = new File("our/path/.");
     File OWN_PATH = new File("our/../our/./path/subdir");
@@ -138,5 +139,5 @@ public class ValgrindStackTest {
 
     assertEquals(stack.getLastOwnFrame(BASE_DIR.getPath()), ownFrame);
   }
-  
+
 }

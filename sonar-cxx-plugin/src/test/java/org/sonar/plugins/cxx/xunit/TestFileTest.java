@@ -30,6 +30,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestFileTest {
+
   TestFile testFile;
 
   @Before
@@ -55,7 +56,7 @@ public class TestFileTest {
 
     final int EXEC_TIME = 10;
     testFile.addTestCase(new TestCase("name", EXEC_TIME, "status", "stack", "msg",
-                                      "classname", "tcfilename", "tsname", "tsfilename"));
+      "classname", "tcfilename", "tsname", "tsfilename"));
 
     assertEquals(testFile.getTests(), testBefore + 1);
     assertEquals(testFile.getTime(), timeBefore + EXEC_TIME);

@@ -40,14 +40,14 @@ import static org.mockito.Mockito.verify;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxBullseyeCoverageSensorTest {
-  
+
   private CxxCoverageSensor sensor;
   private SensorContext context;
   private Project project;
   private DefaultFileSystem fs;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
-    
+
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
@@ -124,13 +124,12 @@ public class CxxBullseyeCoverageSensorTest {
       TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test.c"));
       TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas2/test2.c"));
       TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/anotherincludeattop.h"));
-    }
-    else {
+    } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-linux.xml");
       TestUtils.addInputFile(fs, perspectives, issuable, "/c/main.c");
       TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test.c");
       TestUtils.addInputFile(fs, perspectives, issuable, "/c/test2/test2.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/anotherincludeattop.h");      
+      TestUtils.addInputFile(fs, perspectives, issuable, "/c/anotherincludeattop.h");
     }
     sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);

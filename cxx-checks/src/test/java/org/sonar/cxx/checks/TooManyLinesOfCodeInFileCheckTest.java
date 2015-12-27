@@ -28,23 +28,22 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class TooManyLinesOfCodeInFileCheckTest {
 
-
-  private TooManyLinesOfCodeInFileCheck check = new TooManyLinesOfCodeInFileCheck();
+  private final TooManyLinesOfCodeInFileCheck check = new TooManyLinesOfCodeInFileCheck();
 
   @Test
   public void test() {
     check.SetMax(1);
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/complexity.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().withMessage("This file has 22 lines of code, which is greater than 1 authorized. Split it into smaller files.")
-        .noMore();
+      .next().withMessage("This file has 22 lines of code, which is greater than 1 authorized. Split it into smaller files.")
+      .noMore();
   }
 
   @Test
   public void test2() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/complexity.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .noMore();
+      .noMore();
   }
 
 }

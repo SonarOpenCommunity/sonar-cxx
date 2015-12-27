@@ -32,7 +32,7 @@ import com.sonar.sslr.api.AstNode;
 public class PreprocessorDirectivesTest extends ParserBaseTest {
 
   private String serialize(AstNode root) {
-    List<String> values = new LinkedList<String>();
+    List<String> values = new LinkedList<>();
     iterate(root, values);
     String s = StringUtils.join(values, " ");
     return s;
@@ -61,15 +61,15 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
 
   @Test
   public void hashhash_related_parsing_problem() {
-     assertThat(p).matches(
-       "#define CASES CASE(00)\n"
-       + "#define CASE(n) case 0x##n:\n"
-       + "void foo()  {\n"
-       + "switch (1) {\n"
-       + "CASES\n"
-       + "break;\n"
-       + "}\n"
-       + "}\n");
+    assertThat(p).matches(
+      "#define CASES CASE(00)\n"
+      + "#define CASE(n) case 0x##n:\n"
+      + "void foo()  {\n"
+      + "switch (1) {\n"
+      + "CASES\n"
+      + "break;\n"
+      + "}\n"
+      + "}\n");
   }
 
   @Test
@@ -103,10 +103,10 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       .equals("a ; EOF"));
 
    //@todo
-   // assert (serialize(p.parse(
-   //   "#define A_B A/*Comment*/B\n"
-   //   +" A_B;"))
-   //   .equals("A B ; EOF"));
+    // assert (serialize(p.parse(
+    //   "#define A_B A/*Comment*/B\n"
+    //   +" A_B;"))
+    //   .equals("A B ; EOF"));
   }
 
   @Test
@@ -118,30 +118,30 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
 
     // without whitespace after parameter list
     assert (serialize(p.parse(
-                        "#define foo(a)x\n"
-                        + "foo(b)=1;"))
-            .equals("x = 1 ; EOF"));
+      "#define foo(a)x\n"
+      + "foo(b)=1;"))
+      .equals("x = 1 ; EOF"));
 
     // with parantheses
     assert (serialize(p.parse(
-                        "#define isequal(a, b)(a == b)\n"
-                        + "b = isequal(1,2);"))
-            .equals("b = ( 1 == 2 ) ; EOF"));
+      "#define isequal(a, b)(a == b)\n"
+      + "b = isequal(1,2);"))
+      .equals("b = ( 1 == 2 ) ; EOF"));
   }
 
   @Test
   public void complex_macro_rescanning() {
     assert (serialize(p.parse(
-        "#define lang_init std_init\n"
-            + "#define std_init() c_init()\n"
-            + "lang_init();"))
-        .equals("c_init ( ) ; EOF"));
+      "#define lang_init std_init\n"
+      + "#define std_init() c_init()\n"
+      + "lang_init();"))
+      .equals("c_init ( ) ; EOF"));
 
     assert (serialize(p.parse(
-        "#define lang_init(x) x = std_init\n"
-            + "#define std_init() c_init()\n"
-            + "lang_init(c)();"))
-        .equals("c = c_init ( ) ; EOF"));
+      "#define lang_init(x) x = std_init\n"
+      + "#define std_init() c_init()\n"
+      + "lang_init(c)();"))
+      .equals("c = c_init ( ) ; EOF"));
 
     assert (serialize(p.parse(
       "#define _MSC_VER_WORKAROUND_GUARD 1\n"
@@ -151,7 +151,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "#define TEST(symbol) symbol ## _WORKAROUND_GUARD\n"
       + "int i=TEST(BOOST_MSVC);"))
       .equals("int i = 0 ; EOF"));
-    
+
     assert (serialize(p.parse(
       "#define _MSC_VER_WORKAROUND_GUARD 1\n"
       + "#define BOOST_MSVC_WORKAROUND_GUARD 0\n"
@@ -175,7 +175,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "string s = foo(bar);"))
       .equals("string s = bar + \"x\" ; EOF"));
   }
-  
+
   @Test
   public void variadic_macros() {
     assert (serialize(p.parse(
@@ -194,30 +194,29 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
 
     assert (serialize(p.parse(
-        "#define eprintf(format, args...) fprintf (stderr, format, args)\n"
-            + "eprintf(\"%s:%d: \", input_file, lineno);"))
-        .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
+      "#define eprintf(format, args...) fprintf (stderr, format, args)\n"
+      + "eprintf(\"%s:%d: \", input_file, lineno);"))
+      .equals("fprintf ( stderr , \"%s:%d: \" , input_file , lineno ) ; EOF"));
 
     // the Visual C++ implementation will suppress a trailing comma
     // if no arguments are passed to the ellipsis
     assert (serialize(p.parse(
-        "#define EMPTY\n"
-            + "#define MACRO(s, ...) printf(s, __VA_ARGS__)\n"
-            + "MACRO(\"error\", EMPTY);"))
-        .equals("printf ( \"error\" ) ; EOF"));
-       
+      "#define EMPTY\n"
+      + "#define MACRO(s, ...) printf(s, __VA_ARGS__)\n"
+      + "MACRO(\"error\", EMPTY);"))
+      .equals("printf ( \"error\" ) ; EOF"));
+
     // without whitespace after the parameter list
     assert (serialize(p.parse(
-        "#define foo(a...);\n"
-            + "foo(a, b)"))
-        .equals("; EOF"));
+      "#define foo(a...);\n"
+      + "foo(a, b)"))
+      .equals("; EOF"));
 
     // with more params and without whitespace after the parameter list
     assert (serialize(p.parse(
-        "#define foo(a, b...);\n"
-            + "foo(a, b, c)"))
-        .equals("; EOF"));
-
+      "#define foo(a, b...);\n"
+      + "foo(a, b, c)"))
+      .equals("; EOF"));
 
     // FIXME: can this actually be swallowed by GCC?? My experiments showed the opposite, so far...
     // GNU CPP: Vou are allowed to leave the variable argument out entirely
@@ -225,7 +224,6 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
     //   "#define eprintf(format, ...) fprintf (stderr, format, __VA_ARGS__)\n"
     //   + "eprintf(\"success!\");"))
     //   .equals("fprintf ( stderr , \"success!\" , ) ; EOF"));
-
     // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
     assert (serialize(p.parse(
       "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
@@ -267,14 +265,14 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "#define COMMA ,\n"
       + "string s = make_string(a COMMA test);"))
       .equals("string s = \"a COMMA test\" ; EOF"));
-      
+
     assert (serialize(p.parse(
       "#define F abc\n"
       + "#define B def\n"
       + "#define FB(arg) #arg\n"
       + "string s = FB(F B);"))
       .equals("string s = \"F B\" ; EOF"));
-    
+
     assert (serialize(p.parse(
       "#define F abc\n"
       + "#define B def\n"
@@ -282,7 +280,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "#define FB1(arg) FB(arg)\n"
       + "string s = FB1(F B);"))
       .equals("string s = \"abc def\" ; EOF"));
-    
+
     assert (serialize(p.parse(
       "#define F abc\n"
       + "#define B def\n"

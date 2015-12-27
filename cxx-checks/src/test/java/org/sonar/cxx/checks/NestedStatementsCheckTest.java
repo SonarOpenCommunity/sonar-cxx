@@ -22,9 +22,7 @@ package org.sonar.cxx.checks;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
-import org.sonar.squidbridge.api.CheckMessage;
 import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 import java.io.File;

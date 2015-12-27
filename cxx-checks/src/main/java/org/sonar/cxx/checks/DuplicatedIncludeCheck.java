@@ -32,11 +32,11 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 /**
- * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which actually does the job of finding duplicated
- * includes
+ * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which
+ * actually does the job of finding duplicated includes
  */
 @Rule(
   key = "DuplicatedInclude",
