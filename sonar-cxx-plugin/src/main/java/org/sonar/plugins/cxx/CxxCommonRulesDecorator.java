@@ -19,12 +19,14 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.ProjectFileSystem; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-import org.sonar.commonrules.api.CommonRulesDecorator;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.rule.CheckFactory;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.squidbridge.commonrules.api.CommonRulesDecorator;
 
 public class CxxCommonRulesDecorator extends CommonRulesDecorator {
-  public CxxCommonRulesDecorator(ProjectFileSystem fs, RulesProfile qProfile) {
-    super(CxxLanguage.KEY, fs, qProfile);
+
+  public CxxCommonRulesDecorator(FileSystem fs, CheckFactory checkFactory, ResourcePerspectives resourcePerspectives) {
+    super(CxxLanguage.KEY, fs, checkFactory, resourcePerspectives);
   }
 }

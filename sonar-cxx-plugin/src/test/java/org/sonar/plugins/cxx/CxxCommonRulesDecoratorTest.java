@@ -23,14 +23,15 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.ProjectFileSystem;
+import org.sonar.api.batch.rule.CheckFactory;
+import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
 public class CxxCommonRulesDecoratorTest {
 
   @Test
   public void test_declaration() throws Exception {
-    CxxCommonRulesDecorator decorator = new CxxCommonRulesDecorator(mock(ProjectFileSystem.class), mock(RulesProfile.class));
+    CxxCommonRulesDecorator decorator = new CxxCommonRulesDecorator(new DefaultFileSystem(), mock(CheckFactory.class), mock(ResourcePerspectives.class));
     assertThat(decorator.language()).isEqualTo(CxxLanguage.KEY);
   }
 }
