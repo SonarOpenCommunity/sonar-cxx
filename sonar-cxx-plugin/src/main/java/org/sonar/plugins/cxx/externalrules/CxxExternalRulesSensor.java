@@ -50,8 +50,8 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, conf, fs, reactor, CxxMetrics.EXTERNAL);
+  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(perspectives, settings, fs, reactor, CxxMetrics.EXTERNAL);
     this.profile = profile;
   }
 

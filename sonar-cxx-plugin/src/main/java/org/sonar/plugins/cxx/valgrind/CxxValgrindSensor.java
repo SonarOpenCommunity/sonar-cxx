@@ -43,8 +43,8 @@ public class CxxValgrindSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxValgrindSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, conf, fs, reactor, CxxMetrics.VALGRIND);
+  public CxxValgrindSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(perspectives, settings, fs, reactor, CxxMetrics.VALGRIND);
     this.profile = profile;
   }
 

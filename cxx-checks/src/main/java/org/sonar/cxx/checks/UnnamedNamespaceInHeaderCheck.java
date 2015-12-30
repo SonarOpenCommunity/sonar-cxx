@@ -49,7 +49,7 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   public void init() {
     subscribeTo(CxxGrammarImpl.unnamedNamespaceDefinition);
     // ToDo use cxx.suffixes.headers ?? No API
-    //   conf.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)
+    //   settings.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)
   }
 
 

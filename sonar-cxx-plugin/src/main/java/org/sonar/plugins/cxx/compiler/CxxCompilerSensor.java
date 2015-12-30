@@ -56,8 +56,8 @@ public class CxxCompilerSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, conf, fs, reactor, CxxMetrics.COMPILER);
+  public CxxCompilerSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
+    super(perspectives, settings, fs, reactor, CxxMetrics.COMPILER);
     this.profile = profile;
 
     addCompilerParser(new CxxCompilerVcParser());

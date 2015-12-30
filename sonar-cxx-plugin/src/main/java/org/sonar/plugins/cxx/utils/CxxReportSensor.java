@@ -20,17 +20,11 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import org.apache.tools.ant.DirectoryScanner;
 import org.apache.commons.io.FilenameUtils;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
@@ -38,7 +32,6 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.api.batch.bootstrap.ProjectReactor;
-import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.Measure;
@@ -47,7 +40,8 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.plugins.cxx.CxxLanguage;
-import static org.sonar.plugins.cxx.utils.CxxUtils.GetDirectoryScannerForReport;
+import org.sonar.plugins.cxx.CxxSettings;
+import org.sonar.api.config.Settings;
 
 /**
  * This class is used as base for all sensors which import reports.
@@ -63,32 +57,32 @@ public abstract class CxxReportSensor implements Sensor {
   private int violationsCount;
 
   protected FileSystem fs;
-  protected Settings conf;
+  protected CxxSettings settings;
   private final ProjectReactor reactor;
 
   /**
    * Use this constructor if you dont have to save violations aka issues
    *
-   * @param conf the Settings object used to access the configuration properties
+   * @param settings the Settings object used to access the configuration properties
    * @param fs   file system access layer
    * @param reactor
    */
-  protected CxxReportSensor(Settings conf, FileSystem fs, ProjectReactor reactor) {
-    this(null, conf, fs, reactor, null);
+  protected CxxReportSensor(Settings settings, FileSystem fs, ProjectReactor reactor) {
+    this(null, settings, fs, reactor, null);
   }
 
   /**
    * Use this constructor if your sensor implementation saves violations aka issues
    *
    * @param perspectives used to create issuables
-   * @param conf         the Settings object used to access the configuration properties
+   * @param settings         the Settings object used to access the configuration properties
    * @param fs           file system access layer
    * @param metric       this metrics will be used to save a measure of the overall
    *                     issue count. Pass 'null' to skip this.
    * @param reactor
    */
-  protected CxxReportSensor(ResourcePerspectives perspectives, Settings conf, FileSystem fs, ProjectReactor reactor, Metric metric) {
-    this.conf = conf;
+  protected CxxReportSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, ProjectReactor reactor, Metric metric) {
+    this.settings = new CxxSettings(settings);
     this.fs = fs;
     this.metric = metric;
     this.reactor = reactor;
@@ -100,7 +94,7 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public boolean shouldExecuteOnProject(Project project) {
     return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY))
-      && conf.hasKey(reportPathKey());
+      && settings.hasKey(reportPathKey());
   }
   
   /**
@@ -109,7 +103,7 @@ public abstract class CxxReportSensor implements Sensor {
   public void analyse(Project project, SensorContext context) {
     if (!CxxUtils.isReactorProject(project)) {
       try {
-        List<File> reports = getReports(conf,
+        List<File> reports = getReports(settings,
           reactor.getRoot().getBaseDir().getCanonicalPath(),
           fs.baseDir().getPath(),
           reportPathKey());
@@ -149,18 +143,18 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   protected String getStringProperty(String name, String def) {
-      String value = conf.getString(name);
+      String value = settings.getString(name);
       if (value == null)
           value = def;
       return value;
   }
 
-  public static List<File> getReports(Settings conf,
+  public static List<File> getReports(Settings settings,
     String reactorBaseDir,
     String moduleBaseDir,
     String reportPathPropertyKey) {
          
-    String reportPath = conf.getString(reportPathPropertyKey);
+    String reportPath = settings.getString(reportPathPropertyKey);
     List<File> reports = new ArrayList<File>();
     if (reportPath != null && !reportPath.isEmpty()) {
       reportPath = FilenameUtils.normalize(reportPath);

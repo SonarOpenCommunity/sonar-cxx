@@ -80,9 +80,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public boolean shouldExecuteOnProject(Project project) {
     return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY))
       && (isForceZeroCoverageActivated()
-      || conf.hasKey(REPORT_PATH_KEY)
-      || conf.hasKey(IT_REPORT_PATH_KEY)
-      || conf.hasKey(OVERALL_REPORT_PATH_KEY));
+      || settings.hasKey(REPORT_PATH_KEY)
+      || settings.hasKey(IT_REPORT_PATH_KEY)
+      || settings.hasKey(OVERALL_REPORT_PATH_KEY));
   }
 
   /**
@@ -95,9 +95,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Map<String, CoverageMeasuresBuilder> itCoverageMeasures = null;
     Map<String, CoverageMeasuresBuilder> overallCoverageMeasures = null;
 
-    if (conf.hasKey(REPORT_PATH_KEY)) {
+    if (settings.hasKey(REPORT_PATH_KEY)) {
       CxxUtils.LOG.debug("Parsing coverage reports");
-      List<File> reports = getReports(conf,
+      List<File> reports = getReports(settings,
         reactor.getRoot().getBaseDir().getAbsolutePath(),
         fs.baseDir().getPath(),
         REPORT_PATH_KEY);
@@ -105,9 +105,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
       saveMeasures(context, coverageMeasures, CoverageType.UT_COVERAGE);
     }
 
-    if (conf.hasKey(IT_REPORT_PATH_KEY)) {
+    if (settings.hasKey(IT_REPORT_PATH_KEY)) {
       CxxUtils.LOG.debug("Parsing integration test coverage reports");
-      List<File> itReports = getReports(conf,
+      List<File> itReports = getReports(settings,
         reactor.getRoot().getBaseDir().getAbsolutePath(),
         fs.baseDir().getPath(),
         IT_REPORT_PATH_KEY);
@@ -115,9 +115,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
       saveMeasures(context, itCoverageMeasures, CoverageType.IT_COVERAGE);
     }
 
-    if (conf.hasKey(OVERALL_REPORT_PATH_KEY)) {
+    if (settings.hasKey(OVERALL_REPORT_PATH_KEY)) {
       CxxUtils.LOG.debug("Parsing overall test coverage reports");
-      List<File> overallReports = getReports(conf,
+      List<File> overallReports = getReports(settings,
         reactor.getRoot().getBaseDir().getAbsolutePath(),
         fs.baseDir().getPath(),
         OVERALL_REPORT_PATH_KEY);
@@ -198,19 +198,19 @@ public class CxxCoverageSensor extends CxxReportSensor {
     for (InputFile inputFile : inputFiles) {
       String filePath = CxxUtils.normalizePath(inputFile.absolutePath());
 
-      if (conf.hasKey(REPORT_PATH_KEY)) {
+      if (settings.hasKey(REPORT_PATH_KEY)) {
         if (coverageMeasures == null || coverageMeasures.get(filePath) == null) {
           saveZeroValueForResource(inputFile, filePath, context, CoverageType.UT_COVERAGE);
         }
       }
 
-      if (conf.hasKey(IT_REPORT_PATH_KEY)) {
+      if (settings.hasKey(IT_REPORT_PATH_KEY)) {
         if (itCoverageMeasures == null || itCoverageMeasures.get(filePath) == null) {
           saveZeroValueForResource(inputFile, filePath, context, CoverageType.IT_COVERAGE);
         }
       }
 
-      if (conf.hasKey(OVERALL_REPORT_PATH_KEY)) {
+      if (settings.hasKey(OVERALL_REPORT_PATH_KEY)) {
         if (overallCoverageMeasures == null || overallCoverageMeasures.get(filePath) == null) {
           saveZeroValueForResource(inputFile, filePath, context, CoverageType.OVERALL_COVERAGE);
         }
@@ -307,6 +307,6 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   private boolean isForceZeroCoverageActivated() {
-    return conf.getBoolean(FORCE_ZERO_COVERAGE_KEY);
+    return settings.getBoolean(FORCE_ZERO_COVERAGE_KEY);
   }
 }

@@ -28,18 +28,18 @@ import org.sonar.api.config.Settings;
 
 public class CxxLanguageTest {
 
-  private Settings config;
+  private Settings settings;
 
   @Before
   public void setup() {
-    config = new Settings();
+    settings = new Settings();
   }
 
   @Test
   public void shouldReturnConfiguredFileSuffixes() {
-    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
-    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
-    CxxLanguage cxx = new CxxLanguage(config);
+    settings.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
+    settings.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
+    CxxLanguage cxx = new CxxLanguage(settings);
 
     String[] expected = {".C", ".c", ".H", ".h"};
     String[] expectedSources = {".C", ".c"};
@@ -52,7 +52,7 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnDefaultFileSuffixes() {
-    CxxLanguage cxx = new CxxLanguage(config);
+    CxxLanguage cxx = new CxxLanguage(settings);
 
     String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
     String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
@@ -65,8 +65,8 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredSourceSuffixes() {
-    config.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
-    CxxLanguage cxx = new CxxLanguage(config);
+    settings.setProperty(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY, ".C,.c");
+    CxxLanguage cxx = new CxxLanguage(settings);
 
     String[] expectedSources = {".C", ".c"};
     String[] expectedHeaders = {".hxx", ".hpp", ".hh", ".h"};
@@ -79,8 +79,8 @@ public class CxxLanguageTest {
 
   @Test
   public void shouldReturnConfiguredHeaderSuffixes() {
-    config.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
-    CxxLanguage cxx = new CxxLanguage(config);
+    settings.setProperty(CxxPlugin.HEADER_FILE_SUFFIXES_KEY, ".H,.h");
+    CxxLanguage cxx = new CxxLanguage(settings);
 
     String[] expectedSources = {".cxx", ".cpp", ".cc", ".c"};
     String[] expectedHeaders = {".H", ".h"};
