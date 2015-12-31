@@ -91,9 +91,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>arrayIndexOutOfBounds</configkey>
     <name>Array index out of bounds</name>
     <description>
-      Array index out of bounds.
-    </description>
+<![CDATA[<p>
+Array index out of bounds.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+</description>
     <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>bufferAccessOutOfBounds</key>
@@ -108,9 +113,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>outOfBounds</configkey>
     <name>Index is out of bounds: Supplied size is larger than actual size</name>
     <description>
-      Index is out of bounds: Supplied size is larger than actual size.
+<![CDATA[<p>
+Index is out of bounds: Supplied size is larger than actual size.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>terminateStrncpy</key>
@@ -126,8 +136,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>negativeIndex</configkey>
     <name>Negative array index</name>
     <description>
-      Negative array index is always out of bounds.
+<![CDATA[<p>
+Negative array index is always out of bounds.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>insecureCmdLineArgs</key>
@@ -152,8 +168,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>arrayIndexThenCheck</configkey>
     <name>Array index is used before limits check</name>
     <description>
-      Array index is used before limits check.
+<![CDATA[<p>
+Array index is used before limits check.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>noConstructor</key>
@@ -168,8 +190,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>uninitvar</configkey>
     <name>Uninitialized variable</name>
     <description>
-      Uninitialized variable.
+<![CDATA[<p>
+Uninitialized variable.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>operatorEqVarError</key>
@@ -722,8 +750,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>nullPointer</configkey>
     <name>Possible null pointer dereference</name>
     <description>
-      Possible null pointer dereference.
+<![CDATA[<p>
+Possible null pointer dereference.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>obsoleteFunctionsbcmp</key>
@@ -988,9 +1022,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>zerodiv</configkey>
     <name>Division by zero</name>
     <description>
-      Division by zero.
+<![CDATA[<p>
+Division by zero.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=624" target="_blank">INT33-C. Ensure that division and remainder operations do not result in divide-by-zero errors</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>wrongmathcall</key>
@@ -1418,17 +1457,28 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>uninitstring</configkey>
     <name>Dangerous usage of variable (strncpy doesn't always 0-terminate it)</name>
     <description>
-      Dangerous usage of variable (strncpy doesn't always 0-terminate
-      it).
+<![CDATA[<p>
+Dangerous usage of variable (strncpy doesn't always 0-terminate it).
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>uninitdata</key>
     <configkey>uninitdata</configkey>
     <name>Data is allocated but not initialized</name>
     <description>
-      Data is allocated but not initialized.
+<![CDATA[<p>
+Data is allocated but not initialized.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>unusedFunction</key>
@@ -1594,9 +1644,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>possibleBufferAccessOutOfBounds</configkey>
     <name>Possible buffer overflow if strlen(source) is larger than or equal to sizeof(destination)</name>
     <description>
-      Possible buffer overflow if strlen(source) is larger than or
-      equal to sizeof(destination).
+<![CDATA[<p>
+Possible buffer overflow if strlen(source) is larger than or equal to sizeof(destination).
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>returnAddressOfFunctionParameter</key>
@@ -1872,8 +1927,13 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>uninitMemberVar</configkey>
     <name>Member variable is not initialized in the constructor</name>
     <description>
-      Member variable is not initialized in the constructor.
+<![CDATA[<p>
+Member variable is not initialized in the constructor.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+]]>
     </description>
+    <tag>cert</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -2148,9 +2208,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>shiftNegative</configkey>
     <name>Shifting by a negative value</name>
     <description>
-      Shifting by a negative value is undefined behaviour.
+<![CDATA[<p>
+Shifting by a negative value is undefined behaviour.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>unknownPattern</key>
@@ -2409,8 +2474,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Uninitialized struct member
     </name>
     <description>
-      Missing initialization for a struct member.
+<![CDATA[<p>
+Missing initialization for a struct member.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
 
   <rule>
@@ -2607,8 +2678,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>zerodivcond</configkey>
     <name>Potential division by zero</name>
     <description>
-      Either the condition is useless or there is division by zero.
+<![CDATA[<p>
+Either the condition is useless or there is division by zero.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=624" target="_blank">INT33-C. Ensure that division and remainder operations do not result in divide-by-zero errors</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.63 ########### -->
@@ -2634,8 +2711,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>leakReturnValNotUsed</configkey>
     <name>Leak return value</name>
     <description>
-      Return value of allocation function is not used.
+<![CDATA[<p>
+Return value of allocation function is not used.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=445" target="_blank">MEM31-C. Free dynamically allocated memory when no longer needed</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a></p>
+]]>
     </description>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>invalidFunctionArg</key>
@@ -2676,9 +2759,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>memsetValueOutOfRange</configkey>
     <name>Memset value out of range</name>
     <description>
-      The 2nd memset() argument doesn't fit into an 'unsigned char'.
+<![CDATA[<p>
+The 2nd memset() argument doesn't fit into an 'unsigned char'.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=325" target="_blank">INT31-C. Ensure that integer conversions do not result in lost or misinterpreted data</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
     <!-- ########### New in cppcheck 1.65 ########### -->
   <rule>
@@ -2728,9 +2816,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>arrayIndexOutOfBoundsCond</configkey>
     <name>Array index out of bounds</name>
     <description>
-      The array access using this index may be out of bounds.
-    </description>
+<![CDATA[<p>
+The array access using this index may be out of bounds.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+</description>
     <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>charLiteralWithCharPtrCompare</key>
@@ -2763,8 +2856,13 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>ignoredReturnValue</configkey>
     <name>Return value of  malloc() not used</name>
     <description>
-      Return value of function malloc() is not used.
-    </description>
+<![CDATA[<p>
+Return value of function malloc() is not used.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a></p>
+]]>
+</description>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>integerOverflow</key>
@@ -2811,8 +2909,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>shiftTooManyBits</configkey>
     <name>Shifting 32-bit value by 64 bits is undefined behaviour</name>
     <description>
-      Shifting 32-bit value by 64 bits is undefined behaviour.
+<![CDATA[<p>
+Shifting 32-bit value by 64 bits is undefined behaviour.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>signConversion</key>
@@ -2968,9 +3072,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>negativeArraySize</configkey>
     <name>Declaration of array &apos;identifier&apos; with negative size is undefined behaviour</name>
     <description>
-      Declaration of array &apos;identifier&apos; with negative size is undefined behaviour.
+<![CDATA[<p>
+Declaration of array &apos;identifier&apos; with negative size is undefined behaviour.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=2681" target="_blank">ARR32-C. Ensure size arguments for variable length arrays are in a valid range</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>badBitmaskCheck</key>
@@ -2995,16 +3104,28 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>nullPointerDefaultArg</configkey>
     <name>Possible null pointer dereference if the default parameter value is used: pointer</name>
     <description>
-      Possible null pointer dereference if the default parameter value is used: pointer.
+<![CDATA[<p>
+Possible null pointer dereference if the default parameter value is used: pointer.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>nullPointerRedundantCheck</key>
     <configkey>nullPointerRedundantCheck</configkey>
     <name>Either the condition is redundant or there is possible null pointer dereference: pointer</name>
     <description>
-      Either the condition is redundant or there is possible null pointer dereference: pointer.
+<![CDATA[<p>
+Either the condition is redundant or there is possible null pointer dereference: pointer.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+]]>
     </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>obsoleteFunctionsalloca</key>

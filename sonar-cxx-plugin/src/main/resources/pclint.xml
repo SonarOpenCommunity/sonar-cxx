@@ -1634,8 +1634,18 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>415</configkey>
     <priority>MAJOR</priority>
     <name>L0415: access of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
-    <description>An out-of-bounds pointer was accessed. String designates the operator. The parameter 'Integer' gives some idea how far out of bounds the pointer may be. It is measured in units given by the size of the pointed to object. The value is relative to the last item of good data and therefore should always be greater than zero. For example: int a[10]; a[10] = 0;
-    results in an overflow message containing the phrase '1 beyond end of data'.</description>
+    <description>
+<![CDATA[<p>
+An out-of-bounds pointer was accessed. String designates the operator. The parameter 'Integer' gives some idea how far out of bounds the pointer may be. It is measured in units given by the size of the pointed to object. The value is relative to the last item of good data and therefore should always be greater than zero. For example: 
+  int a[10]; 
+  a[10] = 0;
+results in an overflow message containing the phrase '1 beyond end of data'.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <tag>security</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -1643,9 +1653,19 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>416</configkey>
     <priority>MAJOR</priority>
     <name>L0416: creation of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
-    <description>An out-of-bounds pointer was created. See message 415 for a description of the parameters Integer and String. For example: int a[10];
-    ... f( a + 11 );
-    Here, an illicit pointer value is created and is flagged as such by PC-lint/FlexeLint. Note that the pointer a+10 is not considered by PC-lint/FlexeLint to be the creation of an out-of-bounds pointer. This is because ANSI C explicitly allows pointing just beyond an array. Access through a+10, however, as in *(a+10) or the more familiar a[10], would be considered erroneous but in that case message 415 would be issued.</description>
+    <description>
+<![CDATA[<p>
+An out-of-bounds pointer was created. See message 415 for a description of the parameters Integer and String. For example: 
+  int a[10];
+    ... 
+  f( a + 11 );
+Here, an illicit pointer value is created and is flagged as such by PC-lint/FlexeLint. Note that the pointer a+10 is not considered by PC-lint/FlexeLint to be the creation of an out-of-bounds pointer. This is because ANSI C explicitly allows pointing just beyond an array. Access through a+10, however, as in *(a+10) or the more familiar a[10], would be considered erroneous but in that case message 415 would be issued.
+    </p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <tag>security</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -1660,7 +1680,15 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>418</configkey>
     <priority>MAJOR</priority>
     <name>L0418: Passing null pointer to function 'Symbol', Context Reference</name>
-    <description>A NULL pointer is being passed to a function identified by Symbol. The argument in question is given by Context. The function is either a library function designed not to receive a NULL pointer or a user function dubbed so via the option -function.</description>
+    <description>
+<![CDATA[<p>
+A NULL pointer is being passed to a function identified by Symbol. The argument in question is given by Context. The function is either a library function designed not to receive a NULL pointer or a user function dubbed so via the option -function.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>419</key>
@@ -1668,20 +1696,39 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <priority>MAJOR</priority>
     <name>L0419: Apparent data overrun for function 'Symbol', argument Integer exceeds argument Integer</name>
     <description>This message is for data transfer functions such as memcpy, strcpy, fgets, etc. when the size indicated by the first cited argument (or arguments) exceeds the size of the buffer area cited by the second. The message may also be issued for user functions via the -function option.</description>
+    <tag>bug</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>420</key>
     <configkey>420</configkey>
     <priority>MAJOR</priority>
     <name>L0420: Apparent access beyond array for function 'Symbol', argument Integer exceeds Integer Reference</name>
-    <description>This message is issued for several library functions (such as fwrite, memcmp, etc.) wherein there is an apparent attempt to access more data than exist. For example, if the length of data specified in the fwrite call exceeds the size of the data specified. The function is specified by Symbol and the arguments are identified by argument number.</description>
+    <description>
+<![CDATA[<p>
+This message is issued for several library functions (such as fwrite, memcmp, etc.) wherein there is an apparent attempt to access more data than exist. For example, if the length of data specified in the fwrite call exceeds the size of the data specified. The function is specified by Symbol and the arguments are identified by argument number.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/ARR38-C.+Guarantee+that+library+functions+do+not+form+invalid+pointers" target="_blank">ARR38-C. Guarantee that library functions do not form invalid pointers</a></p>
+]]>    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>421</key>
     <configkey>421</configkey>
     <priority>MAJOR</priority>
     <name>L0421: Caution -- function 'Symbol' is considered dangerous</name>
-    <description>This message is issued (by default) for the built-in function gets. This function is considered dangerous because there is no mechanism to ensure that the buffer provided as first argument will not overflow. A well known computer virus (technically a worm) was created based on this defect. Through the -function option, the user may designate other functions as dangerous.</description>
+    <description>
+<![CDATA[<p>
+This message is issued (by default) for the built-in function gets. This function is considered dangerous because there is no mechanism to ensure that the buffer provided as first argument will not overflow. A well known computer virus (technically a worm) was created based on this defect. Through the -function option, the user may designate other functions as dangerous.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/ARR38-C.+Guarantee+that+library+functions+do+not+form+invalid+pointers" target="_blank">ARR38-C. Guarantee that library functions do not form invalid pointers</a></p>
+]]> 
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>422</key>
@@ -1698,7 +1745,16 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>423</configkey>
     <priority>MAJOR</priority>
     <name>L0423: Creation of memory leak in assignment to variable 'Symbol'</name>
-    <description>An assignment was made to a pointer variable (designated by Symbol) which appeared to already be holding the address of an allocated object which had not been freed. The allocation of memory which is not freed is considered a memory leak.</description>
+    <description>
+<![CDATA[<p>
+An assignment was made to a pointer variable (designated by Symbol) which appeared to already be holding the address of an allocated object which had not been freed. The allocation of memory which is not freed is considered a memory leak.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/MEM31-C.+Free+dynamically+allocated+memory+when+no+longer+needed" target="_blank">MEM31-C. Free dynamically allocated memory when no longer needed</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>424</key>
@@ -1746,12 +1802,26 @@ This occurs for a use of the GCC attribute mode() as in:</p>
     <configkey>429</configkey>
     <priority>MAJOR</priority>
     <name>L0429: Custodial pointer 'Symbol' (Location) has not been freed or returned</name>
-    <description><![CDATA[<p>A pointer of auto storage class was allocated storage which was neither freed nor returned to the caller. This represents a "memory leak". A pointer is considered custodial if it uniquely points to the storage area. It is not considered custodial if it has been copied. Thus: int *p = new int[20]; // p is a custodial pointer int *q = p; // p is no longer custodial p = new int[20]; // p again becomes custodial q = p + 0; // p remains custodial
-    Here p does not lose its custodial property by merely participating in an arithmetic operation.
-    A pointer can lose its custodial property by passing the pointer to a function. If the parameter of the function is typed pointer to const or if the function is a library function, that assumption is not made. For example p = malloc(10); strcpy (p, "hello");
-    Then p still has custody of storage allocated.
-    It is possible to indicate via semantic options that a function will take custody of a pointer.</p>]]></description>
-  </rule>
+    <description>
+<![CDATA[<p>A pointer of auto storage class was allocated storage which was neither freed nor returned to the caller. This represents a "memory leak". A pointer is considered custodial if it uniquely points to the storage area. It is not considered custodial if it has been copied. Thus:
+<pre><tt> 
+    int *p = new int[20]; // p is a custodial pointer 
+    int *q = p; // p is no longer custodial 
+    p = new int[20]; // p again becomes custodial 
+    q = p + 0; // p remains custodial
+</tt></pre>
+Here p does not lose its custodial property by merely participating in an arithmetic operation.
+A pointer can lose its custodial property by passing the pointer to a function. If the parameter of the function is typed pointer to const or if the function is a library function, that assumption is not made. For example 
+  p = malloc(10); 
+  strcpy (p, "hello");
+Then p still has custody of storage allocated.
+It is possible to indicate via semantic options that a function will take custody of a pointer.</p>
+<h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/MEM31-C.+Free+dynamically+allocated+memory+when+no+longer+needed" target="_blank">MEM31-C. Free dynamically allocated memory when no longer needed</a></p>
+    ]]></description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>  </rule>
   <rule>
     <key>430</key>
     <configkey>430</configkey>
@@ -1800,7 +1870,14 @@ For example:</p>
     -sem(ouralloc,@P==malloc(1n))
 </tt></pre>
 <p>    We would report the same message. Please note that it is necessary to designate that the returned area is freshly allocated (ala malloc).
-    This message is always given in conjunction with the more general Informational Message 826.</p>]]></description>
+    This message is always given in conjunction with the more general Informational Message 826.</p>
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/MEM35-C.+Allocate+sufficient+memory+for+an+object" target="_blank">MEM35-C. Allocate sufficient memory for an object</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>434</key>
@@ -2440,7 +2517,14 @@ For example:</p>
     <configkey>553</configkey>
     <priority>MAJOR</priority>
     <name>L0553: Undefined preprocessor variable 'Name', assumed 0</name>
-    <description>The indicated variable had not previously been defined within a #define statement and yet it is being used in a preprocessor condition of the form #if or #elif. Conventionally all variables in preprocessor expressions should be pre-defined. The value of the variable is assumed to be 0.</description>
+    <description><![CDATA[<p>
+The indicated variable had not previously been defined within a #define statement and yet it is being used in a preprocessor condition of the form #if or #elif.
+Conventionally all variables in preprocessor expressions should be pre-defined. The value of the variable is assumed to be 0.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/PRE31-C.+Avoid+side+effects+in+arguments+to+unsafe+macros" target="_blank">PRE31-C. Avoid side effects in arguments to unsafe macros</a></p>
+]]>
+</description>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>555</key>
@@ -2771,15 +2855,44 @@ For example:</p>
     <configkey>592</configkey>
     <priority>MAJOR</priority>
     <name>L0592: Non-literal format specifier used without arguments</name>
-    <description>A printf/scanf style function received a non-literal format specifier without trailing arguments. For example: char msg[100]; ... printf( msg ); This can easily be rewritten to the relatively safe: char msg[100]; ... printf( "%s", msg ); The danger lies in the fact that msg can contain hidden format codes. If msg is read from user input, then in the first example, a naive user could cause a glitch or a crash and a malicious user might exploit this to undermine system security. Since the unsafe form can easily be transformed into the safe form the latter should always be used.</description>
+    <description>
+<![CDATA[<p>
+A printf/scanf style function received a non-literal format specifier without trailing arguments. For example:</p> 
+<pre><tt>
+  char msg[100]; 
+    ... 
+  printf( msg ); 
+</tt></pre>
+<p>This can easily be rewritten to the relatively safe:</p>
+<pre><tt>
+  char msg[100]; 
+    ... 
+  printf( "%s", msg ); 
+</tt></pre>
+<p>The danger lies in the fact that msg can contain hidden format codes. If msg is read from user input, then in the first example, a naive user could cause a glitch or a crash and a malicious user might exploit this to undermine system security. Since the unsafe form can easily be transformed into the safe form the latter should always be used.
+</p>]]>
+    </description>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>593</key>
     <configkey>593</configkey>
     <priority>MAJOR</priority>
     <name>L0593: Custodial pointer 'Symbol' (Location) possibly not freed or returned</name>
-    <description>This is the 'possible' version of message 429. A pointer of auto storage class was allocated storage and not all paths leading to a return statement or to the end of the function contained either a free or a return of the pointer. Hence there is a potential memory leak. For example: void f( int n ) { int *p = new int; if( n ) delete p; } // message 593 In this example an allocation is made and, if n is 0, no delete will have been made.
-    Please see message 429 for an explanation of "custodial" and ways of regulating when pointer variables retain custody of allocations.</description>
+    <description>
+<![CDATA[<p>
+This is the 'possible' version of message 429. A pointer of auto storage class was allocated storage and not all paths leading to a return statement or to the end of the function contained either a free or a return of the pointer. Hence there is a potential memory leak. For example:</p>
+<pre><tt>
+  void f( int n ) 
+    { 
+    int *p = new int; 
+    if( n ) delete p; 
+    } // message 593 
+</tt></pre>
+<p>In this example an allocation is made and, if n is 0, no delete will have been made.
+Please see message 429 for an explanation of "custodial" and ways of regulating when pointer variables retain custody of allocations.
+</p>]]>
+  </description>
   </rule>
   <rule>
     <key>598</key>
@@ -3285,16 +3398,42 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>661</configkey>
     <priority>MAJOR</priority>
     <name>L0661: possible access of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
-    <description>An out-of-bounds pointer may have been accessed. See message 415 for a description of the parameters Integer and String. For example: int a[10]; if( n &lt;= 10 ) a[n] = 0;
-    Here the programmer presumably should have written n&lt;10. This message is similar to messages 415 and 796 but differs from them by the degree of probability.</description>
+    <description>
+<![CDATA[<p>
+An out-of-bounds pointer may have been accessed. See message 415 for a description of the parameters Integer and String. For example:
+<pre><tt> 
+  int a[10]; 
+  if( n &lt;= 10 ) a[n] = 0;
+</tt></pre>
+Here the programmer presumably should have written n&lt;10. This message is similar to messages 415 and 796 but differs from them by the degree of probability.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>662</key>
     <configkey>662</configkey>
     <priority>MAJOR</priority>
     <name>L0662: possible creation of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
-    <description>An out-of-bounds pointer may have been created. See message 415 for a description of the parameters Integer and String. For example: int a[10]; if( n &lt;= 20 ) f( a + n );
-    Here, it appears as though an illicit pointer is being created, but PC-lint/FlexeLint cannot be certain. See also messages 416 and 797.</description>
+    <description>
+<![CDATA[<p>
+An out-of-bounds pointer may have been created. See message 415 for a description of the parameters Integer and String. For example: 
+<pre><tt>
+  int a[10]; 
+  if( n &lt;= 20 ) f( a + n );
+</tt></pre>
+Here, it appears as though an illicit pointer is being created, but PC-lint/FlexeLint cannot be certain. See also messages 416 and 797.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>663</key>
@@ -3351,14 +3490,32 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>669</configkey>
     <priority>MAJOR</priority>
     <name>L0669: Possible data overrun for function 'Symbol', argument Integer exceeds argument Integer Reference</name>
-    <description>This message is for data transfer functions such as memcpy, strcpy, fgets, etc. when the size indicated by the first cited argument (or arguments) can possibly exceed the size of the buffer area cited by the second. The message may also be issued for user functions via the -function option.</description>
+    <description>
+<![CDATA[<p>
+This message is for data transfer functions such as memcpy, strcpy, fgets, etc. when the size indicated by the first cited argument (or arguments) can possibly exceed the size of the buffer area cited by the second. The message may also be issued for user functions via the -function option.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/ARR38-C.+Guarantee+that+library+functions+do+not+form+invalid+pointers" target="_blank">ARR38-C. Guarantee that library functions do not form invalid pointers</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>670</key>
     <configkey>670</configkey>
     <priority>MAJOR</priority>
     <name>L0670: Possible access beyond array for function 'Symbol', argument Integer exceeds Integer Reference</name>
-    <description>This message is issued for several library functions (such as fwrite, memcmp, etc) wherein there is a possible attempt to access more data than exist. For example, if the length of data specified in the fwrite call exceeds the size of the data specified. The function is specified by Symbol and the arguments are identified by argument number.</description>
+    <description>
+<![CDATA[<p>
+This message is issued for several library functions (such as fwrite, memcmp, etc) wherein there is a possible attempt to access more data than exist. For example, if the length of data specified in the fwrite call exceeds the size of the data specified. The function is specified by Symbol and the arguments are identified by argument number.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/ARR38-C.+Guarantee+that+library+functions+do+not+form+invalid+pointers" target="_blank">ARR38-C. Guarantee that library functions do not form invalid pointers</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>671</key>
@@ -3372,7 +3529,16 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>672</configkey>
     <priority>MAJOR</priority>
     <name>L0672: Possible memory leak in assignment to pointer 'Symbol'</name>
-    <description>An assignment was made to a pointer variable (designated by Symbol) which may already be holding the address of an allocated object which had not been freed. The allocation of memory which is not freed is considered a 'memory leak'. The memory leak is considered 'possible' because only some lines of flow will result in a leak.</description>
+    <description>
+<![CDATA[<p>
+An assignment was made to a pointer variable (designated by Symbol) which may already be holding the address of an allocated object which had not been freed. The allocation of memory which is not freed is considered a 'memory leak'. The memory leak is considered 'possible' because only some lines of flow will result in a leak.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/MEM31-C.+Free+dynamically+allocated+memory+when+no+longer+needed" target="_blank">MEM31-C. Free dynamically allocated memory when no longer needed</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>673</key>
@@ -3650,7 +3816,14 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>712</configkey>
     <priority>MINOR</priority>
     <name>L0712: Loss of precision (Context) (Type to Type)</name>
-    <description>An assignment (or implied assignment, see Context) is being made between two integral quantities in which the first Type is larger than the second Type. A cast will suppress this message.</description>
+    <description>
+<![CDATA[<p>
+An assignment (or implied assignment, see Context) is being made between two integral quantities in which the first Type is larger than the second Type. A cast will suppress this message.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/INT31-C.+Ensure+that+integer+conversions+do+not+result+in+lost+or+misinterpreted+data" target="_blank">INT31-C. Ensure that integer conversions do not result in lost or misinterpreted data</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>713</key>
@@ -3795,10 +3968,18 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>732</configkey>
     <priority>MINOR</priority>
     <name>L0732: Loss of sign (Context) (Type to Type)</name>
-    <description>An assignment (or implied assignment, see Context) is made from a signed quantity to an unsigned quantity. Also, it could not be determined that the signed quantity had no sign. For example:
-    u = n; /* Info 732 */ u = 4; /* OK */
-    where u is unsigned and n is not, warrants a message only for the first assignment, even though the constant 4 is nominally a signed int.
-    Make sure that this is not an error (that the assigned value is never negative) and then use a cast (to unsigned) to remove the message.</description>
+    <description>
+<![CDATA[<p>
+An assignment (or implied assignment, see Context) is made from a signed quantity to an unsigned quantity. Also, it could not be determined that the signed quantity had no sign. For example:
+    u = n; /* Info 732 */ 
+    u = 4; /* OK */
+where u is unsigned and n is not, warrants a message only for the first assignment, even though the constant 4 is nominally a signed int.
+Make sure that this is not an error (that the assigned value is never negative) and then use a cast (to unsigned) to remove the message.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/INT31-C.+Ensure+that+integer+conversions+do+not+result+in+lost+or+misinterpreted+data" target="_blank">INT31-C. Ensure that integer conversions do not result in lost or misinterpreted data</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>733</key>
@@ -3812,15 +3993,23 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>734</configkey>
     <priority>MINOR</priority>
     <name>L0734: Loss of precision (Context) (Integer bits to Integer bits)</name>
-    <description>An assignment is being made into an object smaller than an int. The information being assigned is derived from another object or combination of objects in such a way that information could potentially be lost. The number of bits given does not count the sign bit. For example if ch is a char and n is an int then:
+    <description>
+<![CDATA[<p>
+An assignment is being made into an object smaller than an int. The information being assigned is derived from another object or combination of objects in such a way that information could potentially be lost. The number of bits given does not count the sign bit. For example if ch is a char and n is an int then:
     ch = n;
-    will trigger this message whereas:
+will trigger this message whereas:
     ch = n &amp; 1;
-    will not. To suppress the message a cast can be made as in:
+will not. To suppress the message a cast can be made as in:
     ch = (char) n;
-    You may receive notices involving multiplication and shift operators with subinteger variables. For example:
-    ch = ch &lt;&lt; 2 ch = ch * ch
-    where, for example, ch is an unsigned char. These can be suppressed by using the flag +fpm (precision of an operator is bound by the maximum of its operands).</description>
+You may receive notices involving multiplication and shift operators with subinteger variables. For example:
+    ch = ch &lt;&lt; 2 
+    ch = ch * ch
+where, for example, ch is an unsigned char. These can be suppressed by using the flag +fpm (precision of an operator is bound by the maximum of its operands).
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/INT31-C.+Ensure+that+integer+conversions+do+not+result+in+lost+or+misinterpreted+data" target="_blank">INT31-C. Ensure that integer conversions do not result in lost or misinterpreted data</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>735</key>
@@ -4280,17 +4469,40 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>796</configkey>
     <priority>MINOR</priority>
     <name>L0796: Conceivable access of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
-    <description>An out-of-bounds pointer may conceivably have been accessed. See message 415 for a description of the parameters Integer and String. For example: int a[10]; int j = 100; for( i = 0; i &lt; n; i++ ) j = n; a[j] = 0;
-    Here, the access to a[j] is flagged because it is conceivable that the for loop is not executed leaving the unacceptable index of 100 in variable j. This message is similar to messages 415 and 661 but differing from them by the degree of probability.</description>
+    <description>
+<![CDATA[<p>
+An out-of-bounds pointer may conceivably have been accessed. See message 415 for a description of the parameters Integer and String. For example: 
+<pre><tt>
+  int a[10]; 
+  int j = 100; 
+  for( i = 0; i &lt; n; i++ ) 
+    j = n; 
+  a[j] = 0;
+</tt></pre>
+Here, the access to a[j] is flagged because it is conceivable that the for loop is not executed leaving the unacceptable index of 100 in variable j. This message is similar to messages 415 and 661 but differing from them by the degree of probability.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+    </description>
     <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>797</key>
     <configkey>797</configkey>
     <priority>MINOR</priority>
     <name>L0797: Conceivable creation of out-of-bounds pointer ('Integer' beyond end of data) by operator 'String'</name>
-    <description>An out-of-bounds pointer is potentially being created. See message 415 for a description of the parameters Integer and String. See message 796 for an example of how a probability can be considered 'conceivable'.</description>
+    <description>
+<![CDATA[<p>
+An out-of-bounds pointer is potentially being created. See message 415 for a description of the parameters Integer and String. See message 796 for an example of how a probability can be considered 'conceivable'.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+]]>
+    </description>
     <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>798</key>
@@ -4327,14 +4539,34 @@ The message may also be given for function pointer assignments when the prototyp
     <configkey>803</configkey>
     <priority>MINOR</priority>
     <name>L0803: Conceivable data overrun for function 'Symbol', argument Integer exceeds argument Integer Reference</name>
-    <description>This message is for data transfer functions such as memcpy, strcpy, fgets, etc. when the size indicated by the first cited argument (or arguments) can conceivably exceed the size of the buffer area cited by the second. The message may also be issued for user functions via the -function option.</description>
+    <description>
+<![CDATA[<p>
+This message is for data transfer functions such as memcpy, strcpy, fgets, etc. when the size indicated by the first cited argument (or arguments) can conceivably exceed the size of the buffer area cited by the second. The message may also be issued for user functions via the -function option.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/ARR38-C.+Guarantee+that+library+functions+do+not+form+invalid+pointers" target="_blank">ARR38-C. Guarantee that library functions do not form invalid pointers</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>804</key>
     <configkey>804</configkey>
     <priority>MINOR</priority>
     <name>L0804: Conceivable access beyond array for function 'Symbol', argument Integer exceeds Integer Reference</name>
-    <description>This message is issued for several library functions (such as fwrite, memcmp, etc) wherein there is conceivably an attempt to access more data than exist. For example, if the length of data specified in the fwrite call can exceed the size of the data specified. The function is specified by Symbol and the arguments are identified by argument number.</description>
+    <description>
+<![CDATA[<p>
+This message is issued for several library functions (such as fwrite, memcmp, etc) wherein there is conceivably an attempt to access more data than exist. For example, if the length of data specified in the fwrite call can exceed the size of the data specified. The function is specified by Symbol and the arguments are identified by argument number.
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/ARR38-C.+Guarantee+that+library+functions+do+not+form+invalid+pointers" target="_blank">ARR38-C. Guarantee that library functions do not form invalid pointers</a></p>
+]]>
+    </description>
+    <tag>bug</tag>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>805</key>
@@ -6960,7 +7192,12 @@ If you are currently using the following test</p>
 <p>Since f is supposedly const and since p is presumptively pointing to data that is logically part of class X we certainly have the potential for a security breach.  Either return a pointer to const or remove the const modifier to the function.  [12, Item 29].
 
 Note, if a const function returns the address of a data member then a 605 (capability increase) is issued.
-</p>]]></description>
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/cplusplus/OOP55-CPP.+Do+not+use+pointer-to-member+operators+to+access+nonexistent+members" target="_blank">OOP55-CPP. Do not use pointer-to-member operators to access nonexistent members</a></p>
+]]>
+    </description>
+    <tag>cert</tag>
+    <tag>security</tag>
   </rule>
   <rule>
     <key>1538</key>
@@ -8300,18 +8537,33 @@ Some designers adopt the strategy of embedding the class within a sub namespace 
     <configkey>1921</configkey>
     <priority>INFO</priority>
     <name>L1921: Symbol 'Symbol' not checking argument against sizeof(class)</name>
-    <description>This note is given for either operator new or operator delete when defined as member functions. As member functions they are called when new (or delete) is applied to a class type or any derived class type. The difficulty is with the derived class type. Any specialized allocator is likely to be useless for a derived class type and hence experts suggest that a test be made of the size_t argument against sizeof(class). Specifically PC-lint/FlexeLint is looking for one of:
-    if( arg == sizeof(class) ) if( arg != sizeof(class) ) if( sizeof(class) == arg ) if( sizeof(class) != arg )
-    or the equivalent. If any such function is found that is a member of a class that is the base of a derivation, then in addition to Note 1921, we issue Warning 1531. (see Steve Simpson, "More on Memory Management", Dr. Dobb's Journal, August 1994, p. 10).</description>
+    <description>
+<![CDATA[<p>
+This note is given for either operator new or operator delete when defined as member functions. As member functions they are called when new (or delete) is applied to a class type or any derived class type. The difficulty is with the derived class type. Any specialized allocator is likely to be useless for a derived class type and hence experts suggest that a test be made of the size_t argument against sizeof(class). Specifically PC-lint/FlexeLint is looking for one of:
+    if( arg == sizeof(class) ) 
+    if( arg != sizeof(class) ) 
+    if( sizeof(class) == arg ) 
+    if( sizeof(class) != arg )
+or the equivalent. If any such function is found that is a member of a class that is the base of a derivation, then in addition to Note 1921, we issue Warning 1531. (see Steve Simpson, "More on Memory Management", Dr. Dobb's Journal, August 1994, p. 10).
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/cplusplus/MEM00-CPP.+Overloaded+new+operators+should+check+that+their+size+argument+matches+the+size+of+their+class" target="_blank">MEM00-CPP. Overloaded new operators should check that their size argument matches the size of their class</a></p>
+]]>
+  </description>
+  <tag>cert</tag>
   </rule>
   <rule>
     <key>1922</key>
     <configkey>1922</configkey>
     <priority>INFO</priority>
     <name>L1922: Symbol 'Symbol' not checking argument for NULL</name>
-    <description>This message is given for a function operator delete which is not checking its parameter for being the NULL pointer. We would normally expect to see some such check as:
-    if( arg ) if( arg == 0 ) if( arg != NULL )
-    etc. Classes which have destructors will normally filter out passing the NULL pointer into the operator delete so that this message is only in the Elective Note category. If there is no destructor you obtain a warning. See Warning 1532.</description>
+    <description>
+<![CDATA[<p>
+This message is given for a function operator delete which is not checking its parameter for being the NULL pointer. We would normally expect to see some such check as:
+    if( arg ) 
+    if( arg == 0 ) 
+    if( arg != NULL )
+etc. Classes which have destructors will normally filter out passing the NULL pointer into the operator delete so that this message is only in the Elective Note category. If there is no destructor you obtain a warning. See Warning 1532.</p>]]>
+  </description>
   </rule>
   <rule>
     <key>1923</key>
