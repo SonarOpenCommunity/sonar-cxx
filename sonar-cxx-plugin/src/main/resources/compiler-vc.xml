@@ -1759,6 +1759,7 @@ This warning is off by default. See Compiler Warnings That Are Off by Default fo
 <p><a href="https://msdn.microsoft.com/en-us/library/wz2y40yt.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/wz2y40yt.aspx</a></p>
 ]]>
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>C4297</key>
@@ -3429,6 +3430,7 @@ To resolve this warning, explicitly declare the return type of functions.
 <p><a href="https://msdn.microsoft.com/en-us/library/sczye45k.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/sczye45k.aspx</a></p>
 ]]>
     </description>
+    <tag>convention</tag>
   </rule>
   <rule>
     <key>C4509</key>
@@ -3638,6 +3640,7 @@ The following are possible fixes:
 <p><a href="https://msdn.microsoft.com/en-us/library/9t91hh70.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/9t91hh70.aspx</a></p>
 ]]>
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>C4530</key>
@@ -3753,9 +3756,10 @@ A qualifier keyword was applied to an array incorrectly. For more information, s
 A character was specified out of Unicode range.
 The character must be in the Unicode range, or be a valid surropate pair.
 </p><h2>MSDN Documentation</h2>
-<p><a href="" target="_blank"></a></p>
+<p><a href="https://msdn.microsoft.com/en-us/library/t0a6019f.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/t0a6019f.aspx</a></p>
 ]]>
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>C4540</key>
@@ -3781,6 +3785,7 @@ You tried to use a feature that requires run-time type information without enabl
 <p><a href="https://msdn.microsoft.com/en-us/library/8kyye6db.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/8kyye6db.aspx</a></p>
 ]]>
     </description>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>C4543</key>
@@ -4600,6 +4605,7 @@ The reason for the leak is that the out parameter will be set by more than one h
 <p><a href="https://msdn.microsoft.com/en-us/library/6skza916.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/6skza916.aspx</a></p>
 ]]>
     </description>
+    <tag>brain-overload</tag>
   </rule>
   <rule>
     <key>C4684</key>
@@ -6402,6 +6408,7 @@ This warning indicates that the application name parameter is null and there mig
 <p><a href="https://msdn.microsoft.com/en-us/library/4b4tecce.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/4b4tecce.aspx</a></p>
 ]]>
     </description>
+    <tag>cert</tag>
   </rule>
   <rule>
     <key>C6278</key>
@@ -6419,6 +6426,7 @@ If memory is allocated with array new [], it should be typically be freed with a
 <p><a href="https://msdn.microsoft.com/en-us/library/191z9hcz.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/191z9hcz.aspx</a></p>
 ]]>
     </description>
+    <tag>bug</tag>
   </rule>
 
   <rule>
@@ -6436,6 +6444,7 @@ The exact ramifications of this defect are difficult to predict. It might cause 
 <p><a href="https://msdn.microsoft.com/en-us/library/wzasf4t2.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/wzasf4t2.aspx</a></p>
 ]]>
     </description>
+    <tag>bug</tag>
   </rule>
 
   <rule>
@@ -6450,6 +6459,7 @@ For example, this warning would be produced if memory is allocated by using mall
 <p><a href="https://msdn.microsoft.com/en-us/library/hdkf1w6d.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/hdkf1w6d.aspx</a></p>
 ]]>
     </description>
+    <tag>brain-overload</tag>
   </rule>
 
   <rule>
@@ -6489,6 +6499,7 @@ This warning appears only in C++ code and indicates that the calling function ha
 <p><a href="https://msdn.microsoft.com/en-us/library/kkyz199f.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/kkyz199f.aspx</a></p>
 ]]>
     </description>
+    <tag>bug</tag>
   </rule>
 
   <rule>
