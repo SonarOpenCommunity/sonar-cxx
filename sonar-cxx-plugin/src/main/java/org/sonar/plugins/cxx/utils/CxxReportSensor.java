@@ -38,7 +38,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.CxxSettings;
 import org.sonar.api.config.Settings;
 
 /**
@@ -54,7 +53,7 @@ public abstract class CxxReportSensor implements Sensor {
   private int violationsCount;
 
   protected FileSystem fs;
-  protected CxxSettings settings;
+  protected Settings settings;
 
   /**
    * Use this constructor if you dont have to save violations aka issues
@@ -79,7 +78,7 @@ public abstract class CxxReportSensor implements Sensor {
    * issue count. Pass 'null' to skip this.
    */
   protected CxxReportSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, Metric metric) {
-    this.settings = new CxxSettings(settings);
+    this.settings = settings;
     this.fs = fs;
     this.metric = metric;
     this.perspectives = perspectives;
