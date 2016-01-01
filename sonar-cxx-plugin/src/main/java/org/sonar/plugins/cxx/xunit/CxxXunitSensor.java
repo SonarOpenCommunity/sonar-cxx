@@ -62,7 +62,6 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.batch.fs.InputFile;
 
 
@@ -87,8 +86,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxXunitSensor(Settings settings, FileSystem fs, ProjectReactor reactor) {
-    super(settings, fs, reactor);
+  public CxxXunitSensor(Settings settings, FileSystem fs) {
+    super(settings, fs);
     xsltURL = settings.getString(XSLT_URL_KEY);
   }
 
@@ -126,7 +125,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   @Override
   public void analyse(Project project, SensorContext context) {
     try{
-      List<File> reports = getReports(settings, fs.baseDir().getPath(), "", REPORT_PATH_KEY);
+      List<File> reports = getReports(settings, fs.baseDir(), REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = new XunitReportParser();
         StaxParser parser = new StaxParser(parserHandler, false);

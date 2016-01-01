@@ -53,7 +53,7 @@ public class CxxVeraxxSensorTest {
     perspectives = TestUtils.mockPerspectives(issuable);
     Settings settings = new Settings();
     settings.setProperty(CxxVeraxxSensor.REPORT_PATH_KEY, "vera++-reports/vera++-result-*.xml");
-    sensor = new CxxVeraxxSensor(perspectives, settings, fs, mock(RulesProfile.class), TestUtils.mockReactor());
+    sensor = new CxxVeraxxSensor(perspectives, settings, fs, mock(RulesProfile.class));
     context = mock(SensorContext.class);
   }
 

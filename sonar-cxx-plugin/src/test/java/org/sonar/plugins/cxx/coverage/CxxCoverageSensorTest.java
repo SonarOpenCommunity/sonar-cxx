@@ -22,7 +22,6 @@ package org.sonar.plugins.cxx.coverage;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.resources.Project;
@@ -47,7 +46,6 @@ public class CxxCoverageSensorTest {
   private SensorContext context;
   private Project project;
   private DefaultFileSystem fs;
-  private ProjectReactor reactor;
   private Issuable issuable;
   private ResourcePerspectives perspectives;
   
@@ -57,7 +55,6 @@ public class CxxCoverageSensorTest {
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
     fs = TestUtils.mockFileSystem();
-    reactor = TestUtils.mockReactor();
     context = mock(SensorContext.class);
   }
 
@@ -72,7 +69,7 @@ public class CxxCoverageSensorTest {
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx");
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());     
+    sensor = new CxxCoverageSensor(settings, fs);     
     sensor.analyse(project, context);
     verify(context, times(33)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
@@ -90,14 +87,14 @@ public class CxxCoverageSensorTest {
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx");
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(99)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
 
   @Test
   public void shouldReportNoCoverageSaved() {
-    sensor = new CxxCoverageSensor(new Settings(), fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(new Settings(), fs);
     when(context.getResource((InputFile) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((InputFile) anyObject(), any(Measure.class));
@@ -107,7 +104,7 @@ public class CxxCoverageSensorTest {
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
-    sensor = new CxxCoverageSensor(settings, fs, reactor);
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
   }
 
@@ -115,7 +112,7 @@ public class CxxCoverageSensorTest {
   public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
@@ -124,7 +121,7 @@ public class CxxCoverageSensorTest {
   public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
@@ -143,7 +140,7 @@ public class CxxCoverageSensorTest {
       TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source1.cpp");
       TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source2.cpp");
     }
-    sensor = new CxxCoverageSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxCoverageSensor(settings, fs);
     sensor.analyse(project, context);
     verify(context, times(21)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }

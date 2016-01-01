@@ -29,7 +29,6 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 public class CxxReportSensorTest {
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
@@ -37,8 +36,8 @@ public class CxxReportSensorTest {
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, FileSystem fs, ProjectReactor reactor){
-      super(settings, fs, reactor);
+    public CxxReportSensorImpl(Settings settings, FileSystem fs){
+      super(settings, fs);
     }
 
     @Override
@@ -50,15 +49,12 @@ public class CxxReportSensorTest {
   private File baseDir;
   private Settings settings;
   private static FileSystem fs;
-  private ProjectReactor reactor;
 
   @Before
   public void init() {
     settings = new Settings();
     fs = TestUtils.mockFileSystem();
-    reactor = TestUtils.mockReactor();
-    
-    sensor = new CxxReportSensorImpl(settings, fs, reactor);
+    sensor = new CxxReportSensorImpl(settings, fs);
     try {
       baseDir = new File(getClass().getResource("/org/sonar/plugins/cxx/reports-project/").toURI());
     } catch (java.net.URISyntaxException e) {
@@ -68,46 +64,34 @@ public class CxxReportSensorTest {
 
   @Test
   public void shouldntThrowWhenInstantiating() {
-    new CxxReportSensorImpl(settings, fs, reactor);
+    new CxxReportSensorImpl(settings, fs);
   }
 
   @Test
   public void getReports_shouldFindNothingIfNoKey() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
-    List<File> reports = sensor.getReports(settings, baseDir.getPath(), "",
-      "");
+    List<File> reports = sensor.getReports(settings, baseDir, "");
     assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFindNothingIfNoPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, "");
-    List<File> reports = sensor.getReports(settings, baseDir.getPath(), "",
-      REPORT_PATH_PROPERTY_KEY);
+    List<File> reports = sensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFindNothingIfInvalidPath() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, INVALID_REPORT_PATH);
-    List<File> reports = sensor.getReports(settings, baseDir.getPath(), "",
-      REPORT_PATH_PROPERTY_KEY);
+    List<File> reports = sensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertNotFound(reports);
   }
 
   @Test
   public void getReports_shouldFindSomethingBaseDir1() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
-    List<File> reports = sensor.getReports(settings, baseDir.getPath(), "",
-      REPORT_PATH_PROPERTY_KEY);
-    assertFound(reports);
-  }
-
-  @Test
-  public void getReports_shouldFindSomethingBaseDir2() {
-    settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
-    List<File> reports = sensor.getReports(settings, baseDir.getPath()+"Invalid", baseDir.getPath(),
-      REPORT_PATH_PROPERTY_KEY);
+    List<File> reports = sensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertFound(reports);
   }
   

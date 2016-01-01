@@ -34,7 +34,6 @@ import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
@@ -50,8 +49,8 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, settings, fs, reactor, CxxMetrics.EXTERNAL);
+  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
+    super(perspectives, settings, fs, CxxMetrics.EXTERNAL);
     this.profile = profile;
   }
 

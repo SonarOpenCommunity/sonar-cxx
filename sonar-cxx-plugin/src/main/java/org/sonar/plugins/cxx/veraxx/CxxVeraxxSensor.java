@@ -26,7 +26,6 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project;
@@ -46,8 +45,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, settings, fs, reactor, CxxMetrics.VERAXX);
+  public CxxVeraxxSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
+    super(perspectives, settings, fs, CxxMetrics.VERAXX);
     this.profile = profile;
   }
 

@@ -40,7 +40,6 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 public class CxxXunitSensorTest {
   private CxxXunitSensor sensor;
@@ -48,16 +47,14 @@ public class CxxXunitSensorTest {
   private Project project;
   private FileSystem fs;
   private Settings settings;
-  private ProjectReactor reactor;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
     settings = new Settings();
-    reactor = TestUtils.mockReactor();
     context = mock(SensorContext.class);
-    sensor = new CxxXunitSensor(settings, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs);
   }
 
   @Test
@@ -69,7 +66,7 @@ public class CxxXunitSensorTest {
     fs = TestUtils.mockFileSystem(baseDir, Arrays.asList(new File("src")),
                                   Arrays.asList(new File("tests1"), new File("tests2")));
 
-    sensor = new CxxXunitSensor(settings, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs);
     sensor.buildLookupTables();
 
     // case 1:
@@ -128,7 +125,7 @@ public class CxxXunitSensorTest {
   public void shouldReportNothingWhenNoReportFound() {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
-    sensor = new CxxXunitSensor(settings, fs, TestUtils.mockReactor());
+    sensor = new CxxXunitSensor(settings, fs);
 
     sensor.analyse(project, context);
 
@@ -139,7 +136,7 @@ public class CxxXunitSensorTest {
   public void shouldThrowWhenGivenInvalidTime() {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
-    sensor = new CxxXunitSensor(settings, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs);
 
     sensor.analyse(project, context);
   }
@@ -151,7 +148,7 @@ public class CxxXunitSensorTest {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
 
-    sensor = new CxxXunitSensor(settings, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs);
 
     sensor.transformReport(cppunitReport());
   }
@@ -163,7 +160,7 @@ public class CxxXunitSensorTest {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
 
-    sensor = new CxxXunitSensor(settings, fs, reactor);
+    sensor = new CxxXunitSensor(settings, fs);
     File reportBefore = cppunitReport();
 
     File reportAfter = sensor.transformReport(reportBefore);

@@ -39,7 +39,6 @@ import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
-import org.sonar.api.batch.bootstrap.ProjectReactor;
 
 /**
  * PC-lint is an equivalent to pmd but for C++ The first version of the tool was
@@ -57,8 +56,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile, ProjectReactor reactor) {
-    super(perspectives, settings, fs, reactor, CxxMetrics.PCLINT);
+  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
+    super(perspectives, settings, fs, CxxMetrics.PCLINT);
     this.profile = profile;
   }
 
