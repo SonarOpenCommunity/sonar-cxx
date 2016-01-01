@@ -31,12 +31,15 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxReportSensorTest {
+
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
+  private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*V1.xml, cppcheck-reports/*V2.xml";
   private final String INVALID_REPORT_PATH = "something";
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
 
   private class CxxReportSensorImpl extends CxxReportSensor {
-    public CxxReportSensorImpl(Settings settings, FileSystem fs){
+
+    public CxxReportSensorImpl(Settings settings, FileSystem fs) {
       super(settings, fs);
     }
 
@@ -89,12 +92,21 @@ public class CxxReportSensorTest {
   }
 
   @Test
-  public void getReports_shouldFindSomethingBaseDir1() {
+  public void getReports_shouldFindSomething() {
     settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH);
     List<File> reports = sensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
     assertFound(reports);
+    assert (reports.size() == 6);
   }
-  
+
+  @Test
+  public void getReports_shouldFindSomethingList() {
+    settings.setProperty(REPORT_PATH_PROPERTY_KEY, VALID_REPORT_PATH_LIST);
+    List<File> reports = sensor.getReports(settings, baseDir, REPORT_PATH_PROPERTY_KEY);
+    assertFound(reports);
+    assert (reports.size() == 5);
+  }
+
   @Test
   public void savesACorrectLineLevelViolation() {
     // assert(sensor.saveViolation(??, ??, rulerepokey, "existingfile",
