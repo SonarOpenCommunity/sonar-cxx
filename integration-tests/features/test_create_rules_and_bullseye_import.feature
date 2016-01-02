@@ -53,9 +53,6 @@ Feature: GoogleTestWithBullseyeAndVsProject
                | coverage                 | 88.9  |
                | line_coverage            | 100   |
                | branch_coverage          | 50    |
-               # design/tangles
-               | package_tangle_index     | 0     |
-               | package_tangles          | 0     |
                # test execution statistics
                | test_success_density     | 50    |
                | test_failures            | 1     |
