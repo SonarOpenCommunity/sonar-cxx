@@ -91,6 +91,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   par_expression,
   expression,
   constantExpression,
+  cudaKernel,
 
   // Statements
   statement,
@@ -469,10 +470,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(postfixExpression).is(
       b.firstOf(
-            b.sequence(simpleTypeSpecifier, "(", b.optional(expressionList), ")"),
+            b.sequence(simpleTypeSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"),
             b.sequence(simpleTypeSpecifier, bracedInitList),
             b.sequence(simpleTypeSpecifier, "::", "typeid"),
-            b.sequence(typenameSpecifier, "(", b.optional(expressionList), ")"),
+            b.sequence(typenameSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"),
             b.sequence(typenameSpecifier, bracedInitList),
             b.sequence(typenameSpecifier, "::", "typeid"),
 
@@ -510,6 +511,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         )
         )
         ).skipIfOneChild();
+
+    b.rule(cudaKernel).is(b.sequence("<<", "<", b.optional(expressionList), ">>", ">"));
 
         b.rule(typeIdEnclosed).is(b.firstOf(
           b.sequence("<", typeId, ">"),

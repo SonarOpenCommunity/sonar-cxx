@@ -149,6 +149,7 @@ public class ExpressionTest extends ParserBaseTest {
     g.rule(CxxGrammarImpl.typeId).mock();
     g.rule(CxxGrammarImpl.deleteExpression).mock();
     g.rule(CxxGrammarImpl.pseudoDestructorName).mock();
+    g.rule(CxxGrammarImpl.cudaKernel).mock();
 
     assertThat(p).matches("primaryExpression");
     assertThat(p).matches("primaryExpression [ expression ]");
@@ -175,6 +176,7 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("simpleTypeSpecifier :: typeid");
     assertThat(p).matches("typenameSpecifier :: typeid");
 
+    assertThat(p).matches("simpleTypeSpecifier cudaKernel ( expressionList )");
   }
 
   @Test
@@ -189,6 +191,8 @@ public class ExpressionTest extends ParserBaseTest {
     
     assertThat(p).matches("G::typeid");
     assertThat(p).matches("int::typeid");
+
+    assertThat(p).matches("kernel<<<gridDim,blockDim,0>>>(d_data, height, width)");
   }
 
   @Test
