@@ -143,20 +143,21 @@ public abstract class CxxReportSensor implements Sensor {
   public static List<File> getReports(Settings settings,
     File moduleBaseDir,
     String reportPathPropertyKey) {
-         
-    String reportPath = settings.getString(reportPathPropertyKey);
+
+    String[] reportPaths = settings.getStringArray(reportPathPropertyKey);
     List<File> reports = new ArrayList<>();
-    if (reportPath != null && !reportPath.isEmpty()) {
-      reportPath = FilenameUtils.normalize(reportPath);
-      
-      File singleFile = new File(reportPath);
-      if (singleFile.exists()) {
-        reports.add(singleFile);
-      } else {
-        CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
-        CxxUtils.GetReportForBaseDirAndPattern(moduleBaseDir.getPath(), reportPath, reports);
-        if (reports.isEmpty()) {
-          CxxUtils.LOG.warn("Cannot find a report for '{}={}'", reportPathPropertyKey, reportPath);
+    if (reportPaths.length > 0) {
+      for (String reportPath : reportPaths) {
+        reportPath = FilenameUtils.normalize(reportPath);
+        File singleFile = new File(reportPath);
+        if (singleFile.exists()) {
+          reports.add(singleFile);
+        } else {
+          CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
+          CxxUtils.GetReportForBaseDirAndPattern(moduleBaseDir.getPath(), reportPath, reports);
+          if (reports.isEmpty()) {
+            CxxUtils.LOG.warn("Cannot find a report for '{}={}'", reportPathPropertyKey, reportPath);
+          }
         }
       }
     } else {
