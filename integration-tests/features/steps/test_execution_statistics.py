@@ -113,7 +113,8 @@ def step_impl(context, command):
 
 @then(u'the analysis finishes successfully')
 def step_impl(context):
-	time.sleep(60) # delays for 60 seconds
+     # delays for 60 seconds
+    time.sleep(60)
     assert context.rc == 0, "Exit code is %i, but should be zero" % context.rc
 
 
