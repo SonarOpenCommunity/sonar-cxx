@@ -69,6 +69,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 0     |
               | skipped_tests        | 0     |
+              | test_success_density | 100   |
               | test_execution_time  | 0     |
 
 
@@ -168,6 +169,7 @@ Feature: Providing test execution numbers
                | test_failures        | 0     |
                | test_errors          | 0     |
                | skipped_tests        | 0     |
+               | test_success_density | 100   |
                | test_execution_time  | 0     |
 
       Examples:
@@ -195,6 +197,7 @@ Feature: Providing test execution numbers
               | test_failures        | None  |
               | test_errors          | None  |
               | skipped_tests        | None  |
+              | test_success_density | None  |
               | test_execution_time  | None  |
 
       Examples:
@@ -239,6 +242,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 0     |
               | skipped_tests        | 0     |
+              | test_success_density | 100   |
               | test_execution_time  | 0     |
 
 
@@ -263,6 +267,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 4     |
               | skipped_tests        | 0     |
+              | test_success_density | 0     |
               | test_execution_time  | 3     |
 
               
@@ -288,6 +293,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 4     |
               | skipped_tests        | 0     |
+              | test_success_density | 0     |
               | test_execution_time  | 3     |
               
               
@@ -377,4 +383,5 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 4     |
               | skipped_tests        | 0     |
+              | test_success_density | 0     |
               | test_execution_time  | 3     |
