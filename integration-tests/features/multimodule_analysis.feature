@@ -47,7 +47,6 @@ Feature: cpp-multimodule-project
                # violations
                | violations               | 28    |
                # test execution statistics
-               | test_success_density     | 33.3  |
                | test_failures            | 2     |
                | skipped_tests            | 1     |
                | test_errors              | 0     |
