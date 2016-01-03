@@ -25,12 +25,11 @@ import com.sonar.sslr.api.TokenType;
 /**
  * C++ Standard, Section 2.12 "Keywords"
  *
- * In this list are only C++ keywords allowed.
- * All other extensions must be handled as identifiers
- * (e.g. final, override, ...)
+ * In this list are only C++ keywords allowed. All other extensions must be
+ * handled as identifiers (e.g. final, override, ...)
  */
 public enum CxxKeyword implements TokenType {
-  
+
   ALIGNAS("alignas"),
   ALIGNOF("alignof"),
   ASM("asm"),
@@ -103,7 +102,6 @@ public enum CxxKeyword implements TokenType {
   VOLATILE("volatile"),
   WCHAR_T("wchar_t"),
   WHILE("while"),
-
   // Operators
   AND("and"),
   AND_EQ("and_eq"),
@@ -116,7 +114,6 @@ public enum CxxKeyword implements TokenType {
   OR_EQ("or_eq"),
   XOR("xor"),
   XOR_EQ("xor_eq"),
-  
   // C++/CLI keywords
   GCNEW("gcnew");
   private final String value;
@@ -133,6 +130,7 @@ public enum CxxKeyword implements TokenType {
     return value;
   }
 
+  @Override
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
   }

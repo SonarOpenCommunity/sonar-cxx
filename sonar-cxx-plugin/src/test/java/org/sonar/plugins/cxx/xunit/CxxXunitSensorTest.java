@@ -42,6 +42,7 @@ import org.sonar.api.resources.Project;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxXunitSensorTest {
+
   private CxxXunitSensor sensor;
   private SensorContext context;
   private Project project;
@@ -64,7 +65,7 @@ public class CxxXunitSensorTest {
 
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
     fs = TestUtils.mockFileSystem(baseDir, Arrays.asList(new File("src")),
-                                  Arrays.asList(new File("tests1"), new File("tests2")));
+      Arrays.asList(new File("tests1"), new File("tests2")));
 
     sensor = new CxxXunitSensor(settings, fs);
     sensor.buildLookupTables();
@@ -86,7 +87,7 @@ public class CxxXunitSensorTest {
     // the testcase file contains: the class in a namespace
     // the report mentions: the class name only
     assertEquals(sensor.lookupFilePath("TestClass3"), new File(baseDir, "tests2/Test3.cc").getPath());
-    
+
     // case 4:
     // the testcase file resides: somewhere
     // the testcase file contains: the class is implemented via a header and impl. file
@@ -97,28 +98,28 @@ public class CxxXunitSensorTest {
     // the testcase file resides: somewhere
     // the testcase file contains: class A and class B
     // the report mentions: the class A and class B
-
+    
     // TODO: DOESNT WORK for now, to make it work we have to aggregate the
     // TestClass5_A report with the TestClass5_B report and save the results
     // in context of Test5.cc
     // assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_A"));
     // assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_B"));
-
+    
     // case 6:
     // the testcase file resides: somewhere
     // the testcase file contains: a class A, distributed across a
     //                             a header (definition) and two *.cc files
     // the report mentions: the class name
     assertThat(sensor.lookupFilePath("TestClass6"),
-               anyOf(is(new File(baseDir, "tests1/Test6.hh").getPath()),
-                     is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
-                     is(new File(baseDir, "tests1/Test6_B.cc").getPath())));
-    
+      anyOf(is(new File(baseDir, "tests1/Test6.hh").getPath()),
+        is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
+        is(new File(baseDir, "tests1/Test6_B.cc").getPath())));
+
     // case 7:
     // the boost test framework way
     // the testcase file contains: testuite is a namespace, testcase a struct
     // the report mentions: the class name is a qualified name
-    assertEquals(sensor.lookupFilePath("my_test_suite::my_test"), new File(baseDir, "tests1/Test7.cc").getPath());    
+    assertEquals(sensor.lookupFilePath("my_test_suite::my_test"), new File(baseDir, "tests1/Test7.cc").getPath());
   }
 
   @Test
@@ -143,8 +144,7 @@ public class CxxXunitSensorTest {
 
   @Test(expected = java.net.MalformedURLException.class)
   public void transformReport_shouldThrowWhenGivenNotExistingStyleSheet()
-      throws java.io.IOException, javax.xml.transform.TransformerException
-  {
+    throws java.io.IOException, javax.xml.transform.TransformerException {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
 
@@ -155,8 +155,7 @@ public class CxxXunitSensorTest {
 
   @Test
   public void transformReport_shouldTransformCppunitReport()
-      throws java.io.IOException, javax.xml.transform.TransformerException
-  {
+    throws java.io.IOException, javax.xml.transform.TransformerException {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
 

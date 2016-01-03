@@ -34,12 +34,13 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 
 public final class CxxParser {
+
   private static CxxPreprocessor cxxpp = null;
 
   private CxxParser() {
   }
 
-  public static void finishedParsing(File path){
+  public static void finishedParsing(File path) {
     cxxpp.finishedPreprocessing(path);
   }
 
@@ -52,8 +53,8 @@ public final class CxxParser {
   }
 
   public static Parser<Grammar> create() {
-    return create(new SquidAstVisitorContextImpl<Grammar>(new SourceProject("")),
-                  new CxxConfiguration());
+    return create(new SquidAstVisitorContextImpl<>(new SourceProject("")),
+      new CxxConfiguration());
   }
 
   public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context) {
@@ -61,7 +62,7 @@ public final class CxxParser {
   }
 
   public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context,
-                                       CxxConfiguration conf) {
+    CxxConfiguration conf) {
     cxxpp = new CxxPreprocessor(context, conf);
     return Parser.builder(CxxGrammarImpl.create(conf))
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))

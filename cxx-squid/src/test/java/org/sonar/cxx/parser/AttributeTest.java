@@ -45,7 +45,7 @@ public class AttributeTest extends ParserBaseTest {
     assertThat(p).matches("[[carries_dependency]]");
     assertThat(p).matches("[[deprecated]]");
     assertThat(p).matches("[[deprecated(\"reason\")]]");
-    
+
     assertThat(p).matches("[[attr1]] [[attr2]] [[attr3]]");
   }
 

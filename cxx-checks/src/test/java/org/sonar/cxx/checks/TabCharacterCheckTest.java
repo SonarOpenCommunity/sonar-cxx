@@ -28,7 +28,7 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class TabCharacterCheckTest {
 
-  private TabCharacterCheck check = new TabCharacterCheck();
+  private final TabCharacterCheck check = new TabCharacterCheck();
 
   @Test
   public void fileWithTabsOneMessagePerFile() {

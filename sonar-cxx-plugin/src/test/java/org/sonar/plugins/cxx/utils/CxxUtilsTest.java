@@ -22,11 +22,9 @@ package org.sonar.plugins.cxx.utils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.apache.tools.ant.DirectoryScanner;
 import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
 import org.sonar.plugins.cxx.TestUtils;
@@ -45,7 +43,7 @@ public class CxxUtilsTest {
       assertThat(scanner.getPattern()).isEqualTo("abc.xml");
     }
   }
-  
+
   @Test
   public void whenPathIsAbsoluteAndIsInBaseDirShouldShouldUseBaseDir() {
     if (TestUtils.isWindows()) {
@@ -58,10 +56,10 @@ public class CxxUtilsTest {
       assertThat(scanner.getPattern()).isEqualTo("abc.xml");
     }
   }
-  
+
   @Test
   public void whenPathIsAbsoluteAndIsOutsideProjectShouldShouldUseRootOrDrive() {
-    if (TestUtils.isWindows()) {   
+    if (TestUtils.isWindows()) {
       CxxSearchPathData scanner = CxxUtils.GetDirectoryScannerForReport("c:\\mmm\\mmmm\\", "c:\\src\\abs\\abc.xml");
       assertThat(scanner.getBaseDir().toLowerCase()).isEqualTo("c:\\src\\abs");
       assertThat(scanner.getPattern()).isEqualTo("abc.xml");
@@ -69,12 +67,12 @@ public class CxxUtilsTest {
       CxxSearchPathData scanner = CxxUtils.GetDirectoryScannerForReport("/bbb/dddd", "abc.xml");
       assertThat(scanner.getBaseDir()).isEqualTo("/bbb/dddd");
       assertThat(scanner.getPattern()).isEqualTo("abc.xml");
-    }   
-  } 
- 
+    }
+  }
+
   @Test
   public void whenPathIsRelativeAndIsInsideProjectShouldUseProjectDir() {
-    if (TestUtils.isWindows()) {    
+    if (TestUtils.isWindows()) {
       CxxSearchPathData scanner = CxxUtils.GetDirectoryScannerForReport("x:\\src\\abs\\", "abc.xml");
       assertThat(scanner.getBaseDir()).isEqualTo("x:\\src\\abs");
       assertThat(scanner.getPattern()).isEqualTo("abc.xml");
@@ -82,22 +80,22 @@ public class CxxUtilsTest {
       CxxSearchPathData scanner = CxxUtils.GetDirectoryScannerForReport("/src/abs", "abc.xml");
       assertThat(scanner.getBaseDir()).isEqualTo("/src/abs");
       assertThat(scanner.getPattern()).isEqualTo("abc.xml");
-    }   
-  }   
-    
+    }
+  }
+
   //@Test
   public void checkregex() throws IOException {
-      CxxSearchPathData scanner = CxxUtils.GetDirectoryScannerForReport("x:\\src\\abs\\", "E:\\reports\\reports-rats\\*.xml");
-      Collection<Path> paths = CxxFileFinder.FindFiles(scanner.getBaseDir(), scanner.getPattern(), false);
-      
-      assertThat(scanner.getBaseDir()).isEqualTo("x:\\src\\abs");
-      assertThat(scanner.getPattern()).isEqualTo("abc.xml");
+    CxxSearchPathData scanner = CxxUtils.GetDirectoryScannerForReport("x:\\src\\abs\\", "E:\\reports\\reports-rats\\*.xml");
+    Collection<Path> paths = CxxFileFinder.FindFiles(scanner.getBaseDir(), scanner.getPattern(), false);
+
+    assertThat(scanner.getBaseDir()).isEqualTo("x:\\src\\abs");
+    assertThat(scanner.getPattern()).isEqualTo("abc.xml");
   }
-  
+
   //@Test
   public void testWithRealDataInTest() {
-    List<File> reports = new ArrayList<File>();    
-    CxxUtils.GetReportForBaseDirAndPattern("e:/path", "BuildLogTS.*", reports);    
+    List<File> reports = new ArrayList<>();
+    CxxUtils.GetReportForBaseDirAndPattern("e:/path", "BuildLogTS.*", reports);
     assertThat(reports.size()).isEqualTo(1);
-  }  
+  }
 }

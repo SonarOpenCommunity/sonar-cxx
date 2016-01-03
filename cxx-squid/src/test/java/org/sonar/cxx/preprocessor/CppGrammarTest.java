@@ -27,16 +27,16 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 
-
 public class CppGrammarTest {
-  private Parser<Grammar> p = Parser.builder(CppGrammar.create())
+
+  private final Parser<Grammar> p = Parser.builder(CppGrammar.create())
     .withLexer(CppLexer.create())
     .build();
-  private Grammar g = p.getGrammar();
+  private final Grammar g = p.getGrammar();
 
   @Test
   public void preprocessorLine() {
-    g.rule(CppGrammar.defineLine).mock();
+    g.rule(CppGrammar.defineLine).mock(); //@toto deprecated
     g.rule(CppGrammar.includeLine).mock();
     g.rule(CppGrammar.ifdefLine).mock();
     g.rule(CppGrammar.ifLine).mock();

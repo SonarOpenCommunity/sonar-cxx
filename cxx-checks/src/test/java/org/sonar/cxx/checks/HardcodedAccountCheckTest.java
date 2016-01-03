@@ -35,12 +35,12 @@ public class HardcodedAccountCheckTest {
   @Rule
   public final CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
-  private HardcodedAccountCheck check = new HardcodedAccountCheck();
+  private final HardcodedAccountCheck check = new HardcodedAccountCheck();
 
   @Test
   public void detected() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/HardcodedAccount.cc"), check);
-     CheckMessagesVerifier.verify(file.getCheckMessages())
+    CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6).withMessage("Do not hard code sensitive data in programs.")
       .next().atLine(8)
       .next().atLine(9);

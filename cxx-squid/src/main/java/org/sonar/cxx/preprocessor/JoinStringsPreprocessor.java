@@ -30,6 +30,7 @@ import com.sonar.sslr.api.PreprocessorAction; //@todo: deprecated, see http://ja
 import com.sonar.sslr.api.Token;
 
 public class JoinStringsPreprocessor extends Preprocessor {
+
   @Override
   public PreprocessorAction process(List<Token> tokens) {
     Token token = tokens.get(0);
@@ -37,7 +38,6 @@ public class JoinStringsPreprocessor extends Preprocessor {
     if (token.getType() == CxxTokenType.STRING) {
 
       // Joining string literals (C++ Standard, "2.2 Phases of translation, Phase 6")
-
       int numberOfStrings = 1;
       StringBuilder sb = new StringBuilder();
 
@@ -53,14 +53,14 @@ public class JoinStringsPreprocessor extends Preprocessor {
       if (numberOfStrings > 1) {
         List<Token> tokensToInject = Lists.newArrayList();
         tokensToInject.add(
-            Token.builder()
-                .setLine(token.getLine())
-                .setColumn(token.getColumn())
-                .setURI(token.getURI())
-                .setType(CxxTokenType.STRING)
-                .setValueAndOriginalValue("\"" + stripQuotes(token.getValue()) + sb.toString() + "\"")
-                .build()
-            );
+          Token.builder()
+          .setLine(token.getLine())
+          .setColumn(token.getColumn())
+          .setURI(token.getURI())
+          .setType(CxxTokenType.STRING)
+          .setValueAndOriginalValue("\"" + stripQuotes(token.getValue()) + sb.toString() + "\"")
+          .build()
+        );
         return new PreprocessorAction(numberOfStrings, Collections.EMPTY_LIST, tokensToInject);
       }
 

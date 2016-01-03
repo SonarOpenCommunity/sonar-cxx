@@ -33,9 +33,9 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class ExpressionEvaluatorTest {
 
-  private ExpressionEvaluator evaluator =
-      new ExpressionEvaluator(mock(CxxConfiguration.class),
-          mock(CxxPreprocessor.class));
+  private final ExpressionEvaluator evaluator
+    = new ExpressionEvaluator(mock(CxxConfiguration.class),
+      mock(CxxPreprocessor.class));
 
   @Test
   public void bools() {
@@ -240,9 +240,9 @@ public class ExpressionEvaluatorTest {
 
   @Test
   public void identifier_undefined() {
-    ExpressionEvaluator evaluator =
-        new ExpressionEvaluator(mock(CxxConfiguration.class),
-            mock(CxxPreprocessor.class));
+    ExpressionEvaluator evaluator
+      = new ExpressionEvaluator(mock(CxxConfiguration.class),
+        mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("LALA"));
   }
 
@@ -281,9 +281,9 @@ public class ExpressionEvaluatorTest {
 
   @Test
   public void defined_false_without_parantheses() {
-    ExpressionEvaluator evaluator =
-        new ExpressionEvaluator(mock(CxxConfiguration.class),
-            mock(CxxPreprocessor.class));
+    ExpressionEvaluator evaluator
+      = new ExpressionEvaluator(mock(CxxConfiguration.class),
+        mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("defined LALA"));
   }
 
@@ -299,9 +299,9 @@ public class ExpressionEvaluatorTest {
 
   @Test
   public void defined_false_with_parantheses() {
-    ExpressionEvaluator evaluator =
-        new ExpressionEvaluator(mock(CxxConfiguration.class),
-            mock(CxxPreprocessor.class));
+    ExpressionEvaluator evaluator
+      = new ExpressionEvaluator(mock(CxxConfiguration.class),
+        mock(CxxPreprocessor.class));
     assertFalse(evaluator.eval("defined (LALA)"));
     assertFalse(evaluator.eval("defined(LALA)"));
   }

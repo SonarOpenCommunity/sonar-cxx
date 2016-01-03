@@ -29,7 +29,7 @@ public class ExpressionTest extends ParserBaseTest {
   public void primaryExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
 
-    g.rule(CxxGrammarImpl.LITERAL).mock();
+    g.rule(CxxGrammarImpl.LITERAL).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.expression).mock();
     g.rule(CxxGrammarImpl.compoundStatement).mock();
     g.rule(CxxGrammarImpl.idExpression).mock();
@@ -172,7 +172,7 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("const_cast < typeId > ( expression )");
     assertThat(p).matches("typeid ( expression )");
     assertThat(p).matches("typeid ( typeId )");
-    
+
     assertThat(p).matches("simpleTypeSpecifier :: typeid");
     assertThat(p).matches("typenameSpecifier :: typeid");
 
@@ -188,7 +188,7 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("dynamic_cast<Type*>(myop)->op()");
     assertThat(p).matches("::foo()");
     assertThat(p).matches("obj.foo<int>()");
-    
+
     assertThat(p).matches("G::typeid");
     assertThat(p).matches("int::typeid");
 

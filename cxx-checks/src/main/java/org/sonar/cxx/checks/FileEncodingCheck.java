@@ -43,6 +43,7 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
 
   private Charset charset;
 
+  @Override
   public void setCharset(Charset charset) {
     this.charset = charset;
   }

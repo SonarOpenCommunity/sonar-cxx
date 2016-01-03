@@ -54,30 +54,28 @@ public final class CppLexer {
 
   public static Lexer create(CxxConfiguration conf) {
     Lexer.Builder builder = Lexer.builder()
-        .withCharset(conf.getCharset())
-        .withFailIfNoChannelToConsumeOneCharacter(true)
-        .withChannel(regexp(CxxTokenType.WS, "\\s+"))
-        .withChannel(commentRegexp("//[^\\n\\r]*+"))
-        .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
-        .withChannel(new CharacterLiteralsChannel())
-        .withChannel(new StringLiteralsChannel())
+      .withCharset(conf.getCharset())
+      .withFailIfNoChannelToConsumeOneCharacter(true)
+      .withChannel(regexp(CxxTokenType.WS, "\\s+"))
+      .withChannel(commentRegexp("//[^\\n\\r]*+"))
+      .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
+      .withChannel(new CharacterLiteralsChannel())
+      .withChannel(new StringLiteralsChannel())
+      // C++ Standard, Section 2.14.4 "Floating literals"
+      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+" + opt(EXP) + opt(UD_SUFFIX)))
+      .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" + opt(EXP) + opt(UD_SUFFIX)))
+      .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+" + EXP + opt(UD_SUFFIX)))
+      // C++ Standard, Section 2.14.2 "Integer literals"
+      .withChannel(regexp(CxxTokenType.NUMBER, "[1-9]([']?+[0-9]++)*+" + opt(UD_SUFFIX))) // Decimal literals      
+      .withChannel(regexp(CxxTokenType.NUMBER, "0[bB][01]([']?+[01]++)*+" + opt(UD_SUFFIX))) // Binary Literals      
+      .withChannel(regexp(CxxTokenType.NUMBER, "0([']?+[0-7]++)++" + opt(UD_SUFFIX))) // Octal Literals      
+      .withChannel(regexp(CxxTokenType.NUMBER, "0[xX][0-9a-fA-F]([']?+[0-9a-fA-F]++)*+" + opt(UD_SUFFIX))) // Hex Literals      
+      .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(UD_SUFFIX))) // Decimal zero
 
-        // C++ Standard, Section 2.14.4 "Floating literals"
-        .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+\\.([0-9]([']?+[0-9]++)*+)*+" + opt(EXP) + opt(UD_SUFFIX)))
-        .withChannel(regexp(CxxTokenType.NUMBER, "\\.[0-9]([']?+[0-9]++)*+" + opt(EXP) + opt(UD_SUFFIX)))
-        .withChannel(regexp(CxxTokenType.NUMBER, "[0-9]([']?+[0-9]++)*+" + EXP + opt(UD_SUFFIX)))
-
-        // C++ Standard, Section 2.14.2 "Integer literals"
-        .withChannel(regexp(CxxTokenType.NUMBER, "[1-9]([']?+[0-9]++)*+" + opt(UD_SUFFIX))) // Decimal literals      
-        .withChannel(regexp(CxxTokenType.NUMBER, "0[bB][01]([']?+[01]++)*+" + opt(UD_SUFFIX))) // Binary Literals      
-        .withChannel(regexp(CxxTokenType.NUMBER, "0([']?+[0-7]++)++" + opt(UD_SUFFIX))) // Octal Literals      
-        .withChannel(regexp(CxxTokenType.NUMBER, "0[xX][0-9a-fA-F]([']?+[0-9a-fA-F]++)*+" + opt(UD_SUFFIX))) // Hex Literals      
-        .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(UD_SUFFIX))) // Decimal zero
-      
-        .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), CppKeyword.values()))
-        .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
-        .withChannel(new PunctuatorChannel(CppPunctuator.values()))
-        .withChannel(new UnknownCharacterChannel());
+      .withChannel(new KeywordChannel(and("#", o2n("\\s"), "[a-z]", o2n("\\w")), CppKeyword.values()))
+      .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true))
+      .withChannel(new PunctuatorChannel(CppPunctuator.values()))
+      .withChannel(new UnknownCharacterChannel());
 
     return builder.build();
   }

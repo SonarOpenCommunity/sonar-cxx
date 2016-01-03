@@ -32,24 +32,25 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
-
 public class CxxParserTest extends ParserBaseTest {
+
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "examples", "cli", "cuda"};
   String[] cCompatibilityFiles = {"c-compat"};
   String rootDir = "src/test/resources/parser";
   File erroneousSources = null;
 
-  public CxxParserTest(){
+  public CxxParserTest() {
     super();
-    try{
+    try {
       erroneousSources = new File(CxxParserTest.class.getResource(errSources).toURI());
-    } catch (java.net.URISyntaxException e) {}
+    } catch (java.net.URISyntaxException e) {
+    }
   }
 
   @Test
   public void testParsingOnDiverseSourceFiles() {
-    Collection<File> files = listFiles(goodFiles, new String[] {"cc", "cpp", "hpp"});
+    Collection<File> files = listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"});
     for (File file : files) {
       p.parse(file);
       CxxParser.finishedParsing(file);
@@ -63,20 +64,19 @@ public class CxxParserTest extends ParserBaseTest {
     // This mode works if such a file causes parsing errors when the mode
     // is swithed off and doesnt, if the mode is switched on.
 
-    File cfile = (File)listFiles(cCompatibilityFiles, new String[] {"c"}).toArray()[0];
+    File cfile = (File) listFiles(cCompatibilityFiles, new String[]{"c"}).toArray()[0];
 
     SquidAstVisitorContext context = mock(SquidAstVisitorContext.class);
     when(context.getFile()).thenReturn(cfile);
 
-    conf.setCFilesPatterns(new String[] {""});
+    conf.setCFilesPatterns(new String[]{""});
     p = CxxParser.create(context, conf);
-    try{
+    try {
       p.parse(cfile);
-    }
-    catch(com.sonar.sslr.api.RecognitionException re){
+    } catch (com.sonar.sslr.api.RecognitionException re) {
     }
 
-    conf.setCFilesPatterns(new String[] {"*.c"});
+    conf.setCFilesPatterns(new String[]{"*.c"});
     p = CxxParser.create(context, conf);
     p.parse(cfile);
   }
@@ -87,11 +87,10 @@ public class CxxParserTest extends ParserBaseTest {
     // - a syntacticly incorrect file causes a parse error when recovery is disabled
     // - but doesnt cause such an error if we run with default settings
 
-    try{
+    try {
       p.parse(erroneousSources);
       fail("Parser could not recognize the syntax error");
-    }
-    catch(com.sonar.sslr.api.RecognitionException re){
+    } catch (com.sonar.sslr.api.RecognitionException re) {
     }
 
     conf.setErrorRecoveryEnabled(true);
@@ -100,8 +99,8 @@ public class CxxParserTest extends ParserBaseTest {
   }
 
   private Collection<File> listFiles(String[] dirs, String[] extensions) {
-    List<File> files = new ArrayList<File>();
-    for(String dir: dirs){
+    List<File> files = new ArrayList<>();
+    for (String dir : dirs) {
       files.addAll(FileUtils.listFiles(new File(rootDir, dir), extensions, true));
     }
     return files;

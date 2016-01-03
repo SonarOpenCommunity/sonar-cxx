@@ -35,7 +35,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags;  //@todo deprecated
 
 @Rule(
   key = "HardcodedAccount",
@@ -47,15 +47,14 @@ import org.sonar.squidbridge.annotations.Tags;
 @SqaleConstantRemediation("30min")
 public class HardcodedAccountCheck extends SquidCheck<Grammar> {
 
- /*
-  * more information for C++ security from CERT:
-  * https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=637
-  *
-  * MSC18-C. Be careful while handling sensitive data, such as passwords, in program code
-  * https://www.securecoding.cert.org/confluence/display/seccode/MSC18-C.+Be+careful+while+handling+sensitive+data%2C+such+as+passwords%2C+in+program+code
-  *
-*/
-
+  /*
+   * more information for C++ security from CERT:
+   * https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=637
+   *
+   * MSC18-C. Be careful while handling sensitive data, such as passwords, in program code
+   * https://www.securecoding.cert.org/confluence/display/seccode/MSC18-C.+Be+careful+while+handling+sensitive+data%2C+such+as+passwords%2C+in+program+code
+   *
+   */
   private static final String DEFAULT_REGULAR_EXPRESSION = "\\bDSN\\b.*=.*;\\b(UID|PWD)\\b=.*;";
   private static Matcher reg = null;
 
@@ -63,7 +62,7 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
     key = "regularExpression",
     description = "literal regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
-    public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
+  public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
   public String getRegularExpression() {
     return regularExpression;

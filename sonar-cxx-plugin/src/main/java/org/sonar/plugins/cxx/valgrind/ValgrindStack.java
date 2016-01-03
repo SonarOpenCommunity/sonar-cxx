@@ -25,12 +25,16 @@ import org.apache.commons.io.FilenameUtils;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-/** Represents a call stack, consists basically of a list of frames */
+/**
+ * Represents a call stack, consists basically of a list of frames
+ */
 class ValgrindStack {
-  private List<ValgrindFrame> frames = new ArrayList<ValgrindFrame>();
+
+  private List<ValgrindFrame> frames = new ArrayList<>();
 
   /**
    * Adds a stack frame to this call stack
+   *
    * @param frame The frame to add
    */
   public void addFrame(ValgrindFrame frame) {
@@ -69,8 +73,8 @@ class ValgrindStack {
   }
 
   /**
-   * Returns the last frame (counted from the bottom of the stack) of
-   * a function which is in 'our' code
+   * Returns the last frame (counted from the bottom of the stack) of a function
+   * which is in 'our' code
    */
   public ValgrindFrame getLastOwnFrame(String basedir) {
     basedir = FilenameUtils.normalize(basedir);

@@ -36,10 +36,10 @@ public class CommentRegularExpressionCheckTest {
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/commentRegularExpression.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(3).withMessage("Avoid TODO")
-        .next().atLine(5)
-        .next().atLine(6)
-        .noMore();
+      .next().atLine(3).withMessage("Avoid TODO")
+      .next().atLine(5)
+      .next().atLine(6)
+      .noMore();
   }
 
 }

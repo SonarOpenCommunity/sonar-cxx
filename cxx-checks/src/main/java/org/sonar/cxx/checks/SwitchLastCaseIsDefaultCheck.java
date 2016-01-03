@@ -45,8 +45,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @SqaleConstantRemediation("5min")
 public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
 
-  private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[] {
-      CxxGrammarImpl.switchStatement
+  private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
+    CxxGrammarImpl.switchStatement
   };
 
   private static final String MISSING_DEFAULT_CASE_MESSAGE = "Add a default case to this switch.";
@@ -54,6 +54,7 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
   private static final String DEFAULT_CASE_TOKENVALUE = "default";
 
   private static final Predicate<AstNode> DEFAULT_CASE_NODE_FILTER = new Predicate<AstNode>() {
+    @Override
     public boolean apply(AstNode childNode) {
       return childNode.getTokenValue().equals(DEFAULT_CASE_TOKENVALUE);
     }
@@ -84,11 +85,11 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
     List<AstNode> cases = Lists.newArrayList();
 
     for (AstNode stmtGroups : node.getChildren(CxxGrammarImpl.switchBlockStatementGroups)) {
-       for (AstNode stmtGroup: stmtGroups.getChildren(CxxGrammarImpl.switchBlockStatementGroup)) {
-         for (AstNode label : stmtGroup.getChildren(CxxGrammarImpl.switchLabelStatement)) {
-           cases.add(label);
-         }
-       }
+      for (AstNode stmtGroup : stmtGroups.getChildren(CxxGrammarImpl.switchBlockStatementGroup)) {
+        for (AstNode label : stmtGroup.getChildren(CxxGrammarImpl.switchLabelStatement)) {
+          cases.add(label);
+        }
+      }
     }
 
     return cases;

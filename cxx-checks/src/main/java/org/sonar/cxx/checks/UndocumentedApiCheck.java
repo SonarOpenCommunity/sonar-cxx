@@ -57,7 +57,7 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
  * Limitation: only "in front of the declaration" comments are considered.
  *
  * @see <a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html">
- *      Doxygen Manual: Documenting the code</a>
+ * Doxygen Manual: Documenting the code</a>
  *
  * @author Ludovic Cintrat
  *
@@ -72,26 +72,26 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @SqaleConstantRemediation("5min")
 public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger("UndocumentedApiCheck");
+  private static final Logger LOG = LoggerFactory
+    .getLogger("UndocumentedApiCheck");
 
-    private static final List<String> DEFAULT_NAME_SUFFIX = Arrays.asList(".h",
-            ".hh", ".hpp", ".H");
+  private static final List<String> DEFAULT_NAME_SUFFIX = Arrays.asList(".h",
+    ".hh", ".hpp", ".H");
 
-    public UndocumentedApiCheck() {
-        super();
-        withHeaderFileSuffixes(DEFAULT_NAME_SUFFIX);
+  public UndocumentedApiCheck() {
+    super();
+    withHeaderFileSuffixes(DEFAULT_NAME_SUFFIX);
+  }
+
+  @Override
+  protected void onPublicApi(AstNode node, String id, List<Token> comments) {
+    boolean commented = !comments.isEmpty();
+
+    LOG.debug("node: {} line: {} id: '{}' documented: {}",
+      new Object[]{node.getType(), node.getTokenLine(), id, commented});
+    if (!commented) {
+      getContext().createLineViolation(this, "Undocumented API: " + id,
+        node);
     }
-
-    @Override
-    protected void onPublicApi(AstNode node, String id, List<Token> comments) {
-        boolean commented = !comments.isEmpty();
-
-      LOG.debug("node: {} line: {} id: '{}' documented: {}",
-        new Object[]{node.getType(), node.getTokenLine(), id, commented});
-        if (!commented) {
-            getContext().createLineViolation(this, "Undocumented API: " + id,
-                    node);
-        }
-    }
+  }
 }

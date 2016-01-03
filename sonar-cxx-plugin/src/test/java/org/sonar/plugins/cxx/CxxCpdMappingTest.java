@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.sonar.api.batch.fs.FileSystem;
 
 public class CxxCpdMappingTest {
+
   @Test
   public void testMapping() {
     CxxLanguage language = mock(CxxLanguage.class);

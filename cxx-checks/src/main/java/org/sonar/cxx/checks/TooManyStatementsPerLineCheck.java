@@ -31,7 +31,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "TooManyStatementsPerLine",
@@ -89,7 +89,8 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
   }
 
   /**
-   * Exclude type alias definitions inside of blocks ( ... { using a = b; ... } ... )
+   * Exclude type alias definitions inside of blocks ( ... { using a = b; ... }
+   * ... )
    */
   private boolean isTypeAlias(AstNode astNode) {
     return astNode.getFirstDescendant(CxxGrammarImpl.aliasDeclaration) != null;

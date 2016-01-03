@@ -36,10 +36,10 @@ public class CollapsibleIfCandidateCheckTest {
   public void detected() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/CollapsibleIfCandidateCheck.cc"), new CollapsibleIfCandidateCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(16).withMessage("Merge this if statement with the enclosing one.")
-        .next().atLine(49)
-        .next().atLine(54)
-        .noMore();
+      .next().atLine(16).withMessage("Merge this if statement with the enclosing one.")
+      .next().atLine(49)
+      .next().atLine(54)
+      .noMore();
   }
 
 }

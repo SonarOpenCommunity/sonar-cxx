@@ -27,15 +27,15 @@ import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 import com.google.common.collect.ImmutableList;
 
 public abstract class CustomCxxRulesDefinition implements RulesDefinition, BatchExtension {
-    
+
   @Override
   public void define(RulesDefinition.Context context) {
     RulesDefinition.NewRepository repo = context.createRepository(repositoryKey(), CxxLanguage.KEY)
-          .setName(repositoryName());
+      .setName(repositoryName());
 
     // Load metadata from check classes' annotations
     new AnnotationBasedRulesDefinition(repo, CxxLanguage.KEY).addRuleClasses(false,
-          ImmutableList.copyOf(checkClasses()));
+      ImmutableList.copyOf(checkClasses()));
 
     repo.done();
   }

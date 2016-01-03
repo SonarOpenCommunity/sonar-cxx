@@ -34,12 +34,12 @@ public class WrongIncludeCheckTest {
 
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UseCorrectIncludeCheck.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(2).withMessage("Do not use relative path for #include directive.")
-        .next().atLine(3)
-        .next().atLine(4)
-        .next().atLine(5)
-        .next().atLine(6)
-        .next().atLine(7)
-        .noMore();
+      .next().atLine(2).withMessage("Do not use relative path for #include directive.")
+      .next().atLine(3)
+      .next().atLine(4)
+      .next().atLine(5)
+      .next().atLine(6)
+      .next().atLine(7)
+      .noMore();
   }
 }

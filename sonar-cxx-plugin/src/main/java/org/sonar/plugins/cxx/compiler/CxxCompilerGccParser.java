@@ -32,7 +32,8 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 /**
  * {@inheritDoc}
  */
-public class CxxCompilerGccParser implements CompilerParser{
+public class CxxCompilerGccParser implements CompilerParser {
+
   public static final String KEY = "GCC";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = message, 4=id
   public static final String DEFAULT_REGEX_DEF = "^(.*):([0-9]+):[0-9]+: warning: (.*)\\[(.*)\\]$";
@@ -44,6 +45,7 @@ public class CxxCompilerGccParser implements CompilerParser{
   /**
    * {@inheritDoc}
    */
+  @Override
   public String key() {
     return KEY;
   }
@@ -51,6 +53,7 @@ public class CxxCompilerGccParser implements CompilerParser{
   /**
    * {@inheritDoc}
    */
+  @Override
   public String rulesRepositoryKey() {
     return CxxCompilerGccRuleRepository.KEY;
   }
@@ -58,6 +61,7 @@ public class CxxCompilerGccParser implements CompilerParser{
   /**
    * {@inheritDoc}
    */
+  @Override
   public String defaultRegexp() {
     return DEFAULT_REGEX_DEF;
   }
@@ -65,6 +69,7 @@ public class CxxCompilerGccParser implements CompilerParser{
   /**
    * {@inheritDoc}
    */
+  @Override
   public String defaultCharset() {
     return DEFAULT_CHARSET_DEF;
   }
@@ -72,10 +77,10 @@ public class CxxCompilerGccParser implements CompilerParser{
   /**
    * {@inheritDoc}
    */
-  public void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException
-  {
+  @Override
+  public void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
     CxxUtils.LOG.info("Parsing 'GCC' format");
-  
+
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
     CxxUtils.LOG.debug("Using pattern : '{}'", p);

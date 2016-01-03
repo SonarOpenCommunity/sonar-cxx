@@ -64,8 +64,8 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
   /**
    * Verify if the ifStatement's condition is actually a variable declaration.
-   * This is the case if the condition is not an expression. This prevents collapse, since multiple definitions and
-   * expressions cannot be combined.
+   * This is the case if the condition is not an expression. This prevents
+   * collapse, since multiple definitions and expressions cannot be combined.
    */
   private static boolean hasDeclaration(AstNode node) {
     AstNode condition = node.getFirstChild(CxxGrammarImpl.condition);
@@ -92,8 +92,8 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
   private static boolean hasSingleTrueStatement(AstNode node) {
     AstNode statement = node.getFirstChild(CxxGrammarImpl.statement);
-    return statement.hasDirectChildren(CxxGrammarImpl.compoundStatement) ?
-        statement.getFirstChild(CxxGrammarImpl.compoundStatement).getFirstChild(CxxGrammarImpl.statementSeq).getChildren().size() == 1 : true;
+    return statement.hasDirectChildren(CxxGrammarImpl.compoundStatement)
+      ? statement.getFirstChild(CxxGrammarImpl.compoundStatement).getFirstChild(CxxGrammarImpl.statementSeq).getChildren().size() == 1 : true;
   }
 
 }

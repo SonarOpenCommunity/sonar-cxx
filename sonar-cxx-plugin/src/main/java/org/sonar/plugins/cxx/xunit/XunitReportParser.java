@@ -38,7 +38,8 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
  * {@inheritDoc}
  */
 public class XunitReportParser implements XmlStreamHandler {
-  private List<TestCase> testCases = new LinkedList<TestCase>();
+
+  private final List<TestCase> testCases = new LinkedList<>();
 
   /**
    * Returns successfully parsed testcases.
@@ -50,23 +51,22 @@ public class XunitReportParser implements XmlStreamHandler {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
     SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
-    try{
+    try {
       testSuiteCursor.getNext();
-    }
-    catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
       throw new EmptyReportException();
     }
 
-    do{
+    do {
       parseTestSuiteTag(testSuiteCursor);
-    }while (testSuiteCursor.getNext() != null);
+    } while (testSuiteCursor.getNext() != null);
   }
 
   public void parseTestSuiteTag(SMInputCursor testSuiteCursor)
-    throws XMLStreamException
-  {
+    throws XMLStreamException {
     String testSuiteName = testSuiteCursor.getAttrValue("name");
     String testSuiteFName = testSuiteCursor.getAttrValue("filename");
 
@@ -82,8 +82,7 @@ public class XunitReportParser implements XmlStreamHandler {
   }
 
   private TestCase parseTestCaseTag(SMInputCursor testCaseCursor, String tsName, String tsFilename)
-      throws XMLStreamException
-  {
+    throws XMLStreamException {
     String classname = testCaseCursor.getAttrValue("classname");
     String tcFilename = testCaseCursor.getAttrValue("filename");
     String name = parseTestCaseName(testCaseCursor);
@@ -118,8 +117,7 @@ public class XunitReportParser implements XmlStreamHandler {
   }
 
   private double parseTime(SMInputCursor testCaseCursor)
-      throws XMLStreamException
-  {
+    throws XMLStreamException {
     double time = 0.0;
     try {
       String sTime = testCaseCursor.getAttrValue("time");

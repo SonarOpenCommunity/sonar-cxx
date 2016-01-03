@@ -17,39 +17,39 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-
 package org.sonar.plugins.cxx.utils;
 
 public class CxxSearchPathData {
+
   private String pattern = "";
   private String basePath = "";
   private boolean recursive;
-  
+
   CxxSearchPathData() {
     this.recursive = false;
   }
-  
+
   public void setBaseDir(String base) {
     this.basePath = base;
   }
-  
+
   public void setPattern(String pattern) {
     this.pattern = pattern;
   }
-  
+
   public String getBaseDir() {
     return this.basePath;
   }
-    
+
   public String getPattern() {
     return this.pattern;
-  }    
+  }
 
   public void setRecursive() {
     this.recursive = true;
   }
-  
+
   public boolean isRecursive() {
     return this.recursive;
-  }    
+  }
 }

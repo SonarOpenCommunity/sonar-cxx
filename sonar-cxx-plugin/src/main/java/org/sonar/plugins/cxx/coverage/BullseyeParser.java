@@ -47,23 +47,23 @@ public class BullseyeParser extends CxxCoverageParser {
   private int totalconditions;
   private int totalcoveredconditions;
 
-  public BullseyeParser(final String baseDir)
-  {
+  public BullseyeParser(final String baseDir) {
     super(baseDir);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException
-  {
+    throws XMLStreamException {
     CxxUtils.LOG.info("Parsing 'Bullseye' format");
 
     StaxParser topLevelparser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
        */
+      @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance();
         collectCoverageLeafNodes(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("src"), coverageData);
@@ -74,6 +74,7 @@ public class BullseyeParser extends CxxCoverageParser {
       /**
        * {@inheritDoc}
        */
+      @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance();
         collectCoverage2(rootCursor.getAttrValue("dir"), rootCursor.childElementCursor("folder"), coverageData);
@@ -85,7 +86,7 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private void collectCoverageLeafNodes(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException {
+    throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
 
@@ -96,26 +97,26 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private void recTreeTopWalk(File fileName, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException {
+    throws XMLStreamException {
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
-        CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
+      CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
 
-        funcWalk(child, fileMeasuresBuilderIn);
+      funcWalk(child, fileMeasuresBuilderIn);
 
-        String normalPath = CxxUtils.normalizePath(fileName.getPath());
-        if(normalPath != null){
-          coverageData.put(normalPath, fileMeasuresBuilderIn);
-        }
+      String normalPath = CxxUtils.normalizePath(fileName.getPath());
+      if (normalPath != null) {
+        coverageData.put(normalPath, fileMeasuresBuilderIn);
+      }
     }
   }
 
   private void collectCoverage2(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException {
+    throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
 
-    LinkedList<String> path = new LinkedList<String>();
+    LinkedList<String> path = new LinkedList<>();
     while (folder.getNext() != null) {
       String folderName = folder.getAttrValue("name");
       path.add(folderName);
@@ -151,7 +152,7 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData)
-      throws XMLStreamException {
+    throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
 
@@ -175,7 +176,7 @@ public class BullseyeParser extends CxxCoverageParser {
         CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
         fileWalk(child, fileMeasuresBuilderIn);
         String normalPath = CxxUtils.normalizePath(refPath + fileName);
-        if(normalPath != null){
+        if (normalPath != null) {
           coverageData.put(normalPath, fileMeasuresBuilderIn);
         }
 
@@ -242,7 +243,7 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private String ensureRefPathIsCorrect(String refPath) {
-    if(refPath == null || refPath.length() == 0 || refPath.endsWith(File.separator)) {
+    if (refPath == null || refPath.length() == 0 || refPath.endsWith(File.separator)) {
       return refPath;
     }
 

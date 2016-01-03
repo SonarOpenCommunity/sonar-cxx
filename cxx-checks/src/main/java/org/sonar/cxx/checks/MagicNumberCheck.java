@@ -36,7 +36,7 @@ import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "MagicNumber",
@@ -72,26 +72,22 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
     }
   }
 
-  private boolean isConstexpr(AstNode node)
-  {
+  private boolean isConstexpr(AstNode node) {
     AstNode decl = null;
-    
+
     if (node.hasAncestor(CxxGrammarImpl.initDeclarator)) {
       decl = node.getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
     } else if (node.hasAncestor(CxxGrammarImpl.memberDeclarator)) {
       decl = node.getFirstAncestor(CxxGrammarImpl.memberDeclaration);
     }
-    
-    if (null != decl)
-    {
+
+    if (null != decl) {
       return null != decl.getFirstDescendant(CxxKeyword.CONSTEXPR);
-    }
-    else
-    {
+    } else {
       return false;
     }
   }
-  
+
   private boolean isConst(AstNode node) {
     AstNode decl = null;
     if (node.hasAncestor(CxxGrammarImpl.initDeclarator)) {

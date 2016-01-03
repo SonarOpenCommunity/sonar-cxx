@@ -29,7 +29,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void declarationSeq() {
     p.setRootRule(g.rule(CxxGrammarImpl.declarationSeq));
 
-    g.rule(CxxGrammarImpl.declaration).mock();
+    g.rule(CxxGrammarImpl.declaration).mock(); //@toto deprecated
 
     assertThat(p).matches("declaration");
     assertThat(p).matches("declaration declaration");
@@ -39,7 +39,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void declaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.declaration));
 
-    g.rule(CxxGrammarImpl.blockDeclaration).mock();
+    g.rule(CxxGrammarImpl.blockDeclaration).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.functionDefinition).mock();
     g.rule(CxxGrammarImpl.templateDeclaration).mock();
     g.rule(CxxGrammarImpl.explicitInstantiation).mock();
@@ -77,7 +77,6 @@ public class DeclarationsTest extends ParserBaseTest {
     // relational expressions and template parameter list syntax, which cannot be
     // resolved without name lookup, at least according to the standard. Bad c++...
     // assertThat(p).matches("mpl<N/M>();");
-
     assertThat(p).matches("bool operator==<B>(A const&, A const&);");
     assertThat(p).matches("sometype foo(int& var1);");
     assertThat(p).matches("auto foo(int& var1) -> int;");
@@ -86,17 +85,16 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("t^ pt;");
     assertThat(p).matches("t% pt;");
     assertThat(p).matches("t^% pt;");
-    
+
 //    assertThat(p).matches("int property;");
 //    assertThat(p).matches("int property = 0;");
-
   }
 
   @Test
   public void aliasDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.aliasDeclaration));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
+    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.typeId).mock();
 
     assertThat(p).matches("using foo = typeId");
@@ -107,7 +105,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void simpleDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleDeclaration));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
+    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.simpleDeclSpecifierSeq).mock();
     g.rule(CxxGrammarImpl.initDeclaratorList).mock();
 
@@ -146,16 +144,16 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("long long* foo();");
     assertThat(p).matches("const long long* foo();");
     assertThat(p).matches("long long& foo();");
-    assertThat(p).matches("const long long& foo();");    
+    assertThat(p).matches("const long long& foo();");
     assertThat(p).matches("MyClass foo();");
     assertThat(p).matches("const MyClass foo();");
     assertThat(p).matches("MyClass* foo();");
     assertThat(p).matches("const MyClass* foo();");
     assertThat(p).matches("MyClass* foo();");
     assertThat(p).matches("const MyClass* foo();");
-    
+
     assertThat(p).matches("extern int foo();");
-    
+
     assertThat(p).matches("auto to_string(int value) -> int;");
     assertThat(p).matches("auto to_string(int value) -> long long;");
     assertThat(p).matches("auto to_string(int value) -> std::string;");
@@ -174,7 +172,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void staticAssertDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.staticAssertDeclaration));
 
-    g.rule(CxxGrammarImpl.constantExpression).mock();
+    g.rule(CxxGrammarImpl.constantExpression).mock(); //@toto deprecated
 
     assertThat(p).matches("static_assert ( constantExpression , \"foo\" ) ;");
   }
@@ -229,7 +227,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void typeSpecifierSeq() {
     p.setRootRule(g.rule(CxxGrammarImpl.typeSpecifierSeq));
 
-    g.rule(CxxGrammarImpl.typeSpecifier).mock();
+    g.rule(CxxGrammarImpl.typeSpecifier).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
 
     assertThat(p).matches("typeSpecifier");
@@ -250,7 +248,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void simpleTypeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleTypeSpecifier));
 
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
+    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.typeName).mock();
     g.rule(CxxGrammarImpl.simpleTemplateId).mock();
     g.rule(CxxGrammarImpl.decltypeSpecifier).mock();
@@ -287,7 +285,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void typeName() {
     p.setRootRule(g.rule(CxxGrammarImpl.typeName));
 
-    g.rule(CxxGrammarImpl.className).mock();
+    g.rule(CxxGrammarImpl.className).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.enumName).mock();
     g.rule(CxxGrammarImpl.typedefName).mock();
     g.rule(CxxGrammarImpl.simpleTemplateId).mock();
@@ -309,7 +307,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void elaboratedTypeSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.elaboratedTypeSpecifier));
 
-    g.rule(CxxGrammarImpl.classKey).mock();
+    g.rule(CxxGrammarImpl.classKey).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
     g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
     g.rule(CxxGrammarImpl.simpleTemplateId).mock();
@@ -338,7 +336,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void enumSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.enumSpecifier));
 
-    g.rule(CxxGrammarImpl.enumHead).mock();
+    g.rule(CxxGrammarImpl.enumHead).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.enumeratorList).mock();
     g.rule(CxxGrammarImpl.cliAttribute).mock();
 
@@ -358,7 +356,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void enumHead() {
     p.setRootRule(g.rule(CxxGrammarImpl.enumHead));
 
-    g.rule(CxxGrammarImpl.enumKey).mock();
+    g.rule(CxxGrammarImpl.enumKey).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
     g.rule(CxxGrammarImpl.enumBase).mock();
     g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
@@ -378,7 +376,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void enumeratorList() {
     p.setRootRule(g.rule(CxxGrammarImpl.enumeratorList));
 
-    g.rule(CxxGrammarImpl.enumeratorDefinition).mock();
+    g.rule(CxxGrammarImpl.enumeratorDefinition).mock(); //@toto deprecated
 
     assertThat(p).matches("enumeratorDefinition");
     assertThat(p).matches("enumeratorDefinition , enumeratorDefinition");
@@ -388,7 +386,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void enumeratorDefinition() {
     p.setRootRule(g.rule(CxxGrammarImpl.enumeratorDefinition));
 
-    g.rule(CxxGrammarImpl.enumerator).mock();
+    g.rule(CxxGrammarImpl.enumerator).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.constantExpression).mock();
 
     assertThat(p).matches("enumerator");
@@ -406,7 +404,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void usingDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.usingDeclaration));
 
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
+    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.unqualifiedId).mock();
 
     assertThat(p).matches("using nestedNameSpecifier unqualifiedId ;");
@@ -425,7 +423,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void linkageSpecification() {
     p.setRootRule(g.rule(CxxGrammarImpl.linkageSpecification));
 
-    g.rule(CxxGrammarImpl.declaration).mock();
+    g.rule(CxxGrammarImpl.declaration).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.declarationSeq).mock();
 
     assertThat(p).matches("extern \"foo\" { declarationSeq }");
@@ -436,7 +434,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void propertyDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.cliPropertyDefinition));
 
-    g.rule(CxxGrammarImpl.cliAttributes).mock();
+    g.rule(CxxGrammarImpl.cliAttributes).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.cliPropertyModifiers).mock();
     g.rule(CxxGrammarImpl.declarator).mock();
     g.rule(CxxGrammarImpl.cliPropertyIndexes).mock();
@@ -462,7 +460,7 @@ public class DeclarationsTest extends ParserBaseTest {
   public void accessorSpecificationDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.cliAccessorSpecification));
 
-    g.rule(CxxGrammarImpl.cliAccessorDeclaration).mock();
+    g.rule(CxxGrammarImpl.cliAccessorDeclaration).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.accessSpecifier).mock();
 
     assertThat(p).matches("");
@@ -471,16 +469,16 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("accessSpecifier : cliAccessorDeclaration");
     assertThat(p).matches("accessSpecifier : cliAccessorDeclaration cliAccessorDeclaration");
   }
+
   @Test
   public void eventDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.cliEventDefinition));
 
-    g.rule(CxxGrammarImpl.cliAttributes).mock();
+    g.rule(CxxGrammarImpl.cliAttributes).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.cliEventModifiers).mock();
     g.rule(CxxGrammarImpl.cliEventType).mock();
     g.rule(CxxGrammarImpl.cliAccessorSpecification).mock();
 
-    
     assertThat(p).matches("event cliEventType myEvent ;");
     assertThat(p).matches("cliEventModifiers event cliEventType myEvent ;");
     assertThat(p).matches("cliAttributes cliEventModifiers event cliEventType myEvent ;");
@@ -489,11 +487,12 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("cliEventModifiers event cliEventType myEvent { cliAccessorSpecification }");
     assertThat(p).matches("cliAttributes cliEventModifiers event cliEventType myEvent { cliAccessorSpecification }");
   }
+
   @Test
   public void eventTypeDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.cliEventType));
 
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
+    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.typeName).mock();
     g.rule(CxxGrammarImpl.templateId).mock();
 
@@ -505,11 +504,12 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("nestedNameSpecifier template templateId ^");
     assertThat(p).matches(":: nestedNameSpecifier template templateId ^");
   }
+
   @Test
   public void cliAttributesDefinition() {
     p.setRootRule(g.rule(CxxGrammarImpl.cliAttributes));
-    
-    g.rule(CxxGrammarImpl.typeName).mock();
+
+    g.rule(CxxGrammarImpl.typeName).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.cliAttributeTarget).mock();
     g.rule(CxxGrammarImpl.cliPositionArgumentList).mock();
 
@@ -517,8 +517,9 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("[ cliAttributeTarget : typeName ]");
     assertThat(p).matches("[ cliAttributeTarget : typeName, typeName ]");
     assertThat(p).matches("[ cliAttributeTarget : typeName, typeName (cliPositionArgumentList) ]");
-    
+
   }
+
   @Test
   public void cliAttributesDefinition_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.cliAttributes));
@@ -538,7 +539,7 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("[property:Attr]");
     assertThat(p).matches("[returnvalue:Attr]");
     assertThat(p).matches("[struct:Attr]");
-    
+
     assertThat(p).matches("[returnvalue:Attr(x)]");
     assertThat(p).matches("[AttributeUsage( AttributeTargets::All )]");
     assertThat(p).matches("[AttributeUsage(AttributeTargets::Class | AttributeTargets::Method)]");

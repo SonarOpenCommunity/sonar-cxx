@@ -31,7 +31,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import javax.annotation.Nullable;
 import java.util.regex.Pattern;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "FileName",

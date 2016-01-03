@@ -39,8 +39,9 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
  * {@inheritDoc}
  */
 public class CxxVeraxxSensor extends CxxReportSensor {
+
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
-  private RulesProfile profile;
+  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
@@ -66,19 +67,19 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws javax.xml.stream.XMLStreamException
-  {
+    throws javax.xml.stream.XMLStreamException {
     CxxUtils.LOG.info("Parsing 'Vera++' format");
-    
+
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**
          * {@inheritDoc}
          */
+        @Override
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
-          try{
+          try {
             rootCursor.advance();
-          } catch(com.ctc.wstx.exc.WstxEOFException eofExc){
+          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
             throw new EmptyReportException();
           }
 
@@ -95,7 +96,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String source = errorCursor.getAttrValue("source");
 
                 saveUniqueViolation(project, context, CxxVeraxxRuleRepository.KEY,
-                                    name, line, source, message);
+                  name, line, source, message);
               } else {
                 if (CxxUtils.LOG.isDebugEnabled()) {
                   CxxUtils.LOG.debug("Error in file '{}', with message '{}'",

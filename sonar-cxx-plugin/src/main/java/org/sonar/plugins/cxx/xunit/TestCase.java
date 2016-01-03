@@ -22,19 +22,20 @@ package org.sonar.plugins.cxx.xunit;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
- * Represents a unit test case. Has a couple of data items like name,
- * status, time etc. associated. Reports testcase details in sonar-conform XML
+ * Represents a unit test case. Has a couple of data items like name, status,
+ * time etc. associated. Reports testcase details in sonar-conform XML
  */
 public class TestCase {
+
   private static final String STATUS_OK = "ok";
   private static final String STATUS_ERROR = "error";
   private static final String STATUS_FAILURE = "failure";
   private static final String STATUS_SKIPPED = "skipped";
 
-  private String name;
+  private final String name;
   private String status = STATUS_OK;
-  private String stackTrace;
-  private String errorMessage;
+  private final String stackTrace;
+  private final String errorMessage;
   private int time = 0;
   private String classname = null;
   private String tcFilename = null;
@@ -43,20 +44,22 @@ public class TestCase {
 
   /**
    * Constructs a testcase instance out of following parameters
-   * @params name       The name of this testcase
-   * @params time       The execution time in milliseconds
-   * @params status     The execution status of the testcase
-   * @params stack      The stack trace occurred while executing of this testcase;
-   *                    pass "" if the testcase passed/skipped.
-   * @params msg        The error message accosiated with this testcase of the execution
-   *                    was errouneous; pass "" if not.
-   * @params classname  The name of the class this testcase is implemented by
+   *
+   * @params name The name of this testcase
+   * @params time The execution time in milliseconds
+   * @params status The execution status of the testcase
+   * @params stack The stack trace occurred while executing of this testcase;
+   * pass "" if the testcase passed/skipped.
+   * @params msg The error message accosiated with this testcase of the
+   * execution was errouneous; pass "" if not.
+   * @params classname The name of the class this testcase is implemented by
    * @params tcFilename The path of the file which implements the testcase
-   * @params tsName     The name of the testssuite this testcase is in.
-   * @params tsFilename The path of the file which implements the testssuite this testcase is in.
+   * @params tsName The name of the testssuite this testcase is in.
+   * @params tsFilename The path of the file which implements the testssuite
+   * this testcase is in.
    */
   public TestCase(String name, int time, String status, String stack, String msg,
-                  String classname, String tcFilename, String tsName, String tsFilename) {
+    String classname, String tcFilename, String tsName, String tsFilename) {
     this.name = name;
     this.time = time;
     this.stackTrace = stack;
@@ -72,7 +75,7 @@ public class TestCase {
    * Returns the name of the class which is implementing this testcase
    */
   public String getClassname() {
-    return classname != null? classname : tsName;
+    return classname != null ? classname : tsName;
   }
 
   /**
@@ -120,21 +123,21 @@ public class TestCase {
   public String getDetails() {
     StringBuilder details = new StringBuilder();
     details.append("<testcase status=\"")
-        .append(status)
-        .append("\" time=\"")
-        .append(time)
-        .append("\" name=\"")
-        .append(name)
-        .append("\"");
+      .append(status)
+      .append("\" time=\"")
+      .append(time)
+      .append("\" name=\"")
+      .append(name)
+      .append("\"");
     if (isError() || isFailure()) {
       details.append(">")
-          .append(isError() ? "<error message=\"" : "<failure message=\"")
-          .append(StringEscapeUtils.escapeXml(errorMessage))
-          .append("\"><![CDATA[")
-          .append(StringEscapeUtils.escapeXml(stackTrace))
-          .append("]]>")
-          .append(isError() ? "</error>" : "</failure>")
-          .append("</testcase>");
+        .append(isError() ? "<error message=\"" : "<failure message=\"")
+        .append(StringEscapeUtils.escapeXml(errorMessage))
+        .append("\"><![CDATA[")
+        .append(StringEscapeUtils.escapeXml(stackTrace))
+        .append("]]>")
+        .append(isError() ? "</error>" : "</failure>")
+        .append("</testcase>");
     } else {
       details.append("/>");
     }

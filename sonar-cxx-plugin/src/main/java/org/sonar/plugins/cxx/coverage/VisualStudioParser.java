@@ -37,14 +37,14 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  */
 public class VisualStudioParser extends CxxCoverageParser {
 
-  public VisualStudioParser(final String baseDir)
-  {
+  public VisualStudioParser(final String baseDir) {
     super(baseDir);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException {
     CxxUtils.LOG.info("Parsing 'Visual Studio' format");
@@ -53,6 +53,7 @@ public class VisualStudioParser extends CxxCoverageParser {
       /**
        * {@inheritDoc}
        */
+      @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance();
         collectModuleMeasures(rootCursor.descendantElementCursor("module"), coverageData);

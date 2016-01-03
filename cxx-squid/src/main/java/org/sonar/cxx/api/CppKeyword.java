@@ -26,6 +26,7 @@ import com.sonar.sslr.api.TokenType;
  * C++ Standard, Section 16 "Preprocessing directives"
  */
 public enum CppKeyword implements TokenType {
+
   IF("#if"),
   IFDEF("#ifdef"),
   IFNDEF("#ifndef"),
@@ -38,7 +39,6 @@ public enum CppKeyword implements TokenType {
   LINE("#line"),
   ERROR("#error"),
   PRAGMA("#pragma"),
-
   // extensions
   WARNING("#warning"),
   INCLUDE_NEXT("#include_next");
@@ -49,14 +49,17 @@ public enum CppKeyword implements TokenType {
     this.value = value;
   }
 
+  @Override
   public String getName() {
     return name();
   }
 
+  @Override
   public String getValue() {
     return value;
   }
 
+  @Override
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
   }

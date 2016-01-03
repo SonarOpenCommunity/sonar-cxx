@@ -27,12 +27,12 @@ import java.util.Arrays;
 import org.junit.Test;
 
 public class SourceCodeProviderTest {
-  private SourceCodeProvider codeProvider = new SourceCodeProvider();
-  private File expected = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
+
+  private final SourceCodeProvider codeProvider = new SourceCodeProvider();
+  private final File expected = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
 
   // ////////////////////////////////////////////////////////////////////////////
   // Behaviour in the absolute path case
-
   @Test
   public void getting_file_with_abspath() {
     // lookup with absolute pathes should ignore the value of current
@@ -50,14 +50,12 @@ public class SourceCodeProviderTest {
 
   // ////////////////////////////////////////////////////////////////////////////
   // Relpathes, standard behaviour: equal for quoted and angle cases
-
   // We have following cases here:
   // Include string form | Include root form |
   // | absolute | relative |
   // simple | 1 | 2 |
   // -------------------------------------------
   // rel. path | 3 | 4 |
-
   @Test
   public void getting_file_relpath_case1() {
     String baseDir = new File("src/test").getAbsolutePath();
@@ -109,7 +107,6 @@ public class SourceCodeProviderTest {
   // ////////////////////////////////////////////////////////////////////////////
   // Special behaviour in the quoted case
   // Lookup in the current directory. Has to fail for the angle case
-
   @Test
   public void getting_file_with_filename_and_cwd() {
     String cwd = new File("src/test/resources/codeprovider").getAbsolutePath();

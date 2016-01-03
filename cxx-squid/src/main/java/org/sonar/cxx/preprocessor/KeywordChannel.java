@@ -65,31 +65,30 @@ public class KeywordChannel extends Channel<Lexer> {
       TokenType keywordType = keywordsMap.get(potentialKeyword);
       if (keywordType != null) {
         Token token = tokenBuilder
-            .setType(keywordType)
-            .setValueAndOriginalValue(potentialKeyword)
-            .setURI(lexer.getURI())
-            .setLine(code.getPreviousCursor().getLine())
-            .setColumn(code.getPreviousCursor().getColumn())
-            .build();
+          .setType(keywordType)
+          .setValueAndOriginalValue(potentialKeyword)
+          .setURI(lexer.getURI())
+          .setLine(code.getPreviousCursor().getLine())
+          .setColumn(code.getPreviousCursor().getColumn())
+          .build();
 
         lexer.addToken(token);
-      }
-      else {
+      } else {
         // if its not a keyword, then it is a sequence of a hash followed by an identifier
         lexer.addToken(tokenBuilder
-            .setType(HASH)
-            .setValueAndOriginalValue(HASH.getValue())
-            .setURI(lexer.getURI())
-            .setLine(code.getPreviousCursor().getLine())
-            .setColumn(code.getPreviousCursor().getColumn())
-            .build());
+          .setType(HASH)
+          .setValueAndOriginalValue(HASH.getValue())
+          .setURI(lexer.getURI())
+          .setLine(code.getPreviousCursor().getLine())
+          .setColumn(code.getPreviousCursor().getColumn())
+          .build());
         lexer.addToken(tokenBuilder
-            .setType(IDENTIFIER)
-            .setValueAndOriginalValue(identifier)
-            .setURI(lexer.getURI())
-            .setLine(code.getPreviousCursor().getLine())
-            .setColumn(code.getPreviousCursor().getColumn())
-            .build());
+          .setType(IDENTIFIER)
+          .setValueAndOriginalValue(identifier)
+          .setURI(lexer.getURI())
+          .setLine(code.getPreviousCursor().getLine())
+          .setColumn(code.getPreviousCursor().getColumn())
+          .build());
       }
 
       return true;

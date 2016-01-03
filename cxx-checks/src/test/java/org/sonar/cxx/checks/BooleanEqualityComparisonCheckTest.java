@@ -36,14 +36,14 @@ public class BooleanEqualityComparisonCheckTest {
   public void detected() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/BooleanEqualityComparisonCheck.cc"), new BooleanEqualityComparisonCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
-    .next().atLine(12).withMessage("Remove the unnecessary boolean comparison to simplify this expression.")
-    .next().atLine(13)
-    .next().atLine(14)
-    .next().atLine(15)
-    .next().atLine(16)
-    .next().atLine(17)
-    .next().atLine(18)
-    .next().atLine(19);
+      .next().atLine(12).withMessage("Remove the unnecessary boolean comparison to simplify this expression.")
+      .next().atLine(13)
+      .next().atLine(14)
+      .next().atLine(15)
+      .next().atLine(16)
+      .next().atLine(17)
+      .next().atLine(18)
+      .next().atLine(19);
   }
 
 }

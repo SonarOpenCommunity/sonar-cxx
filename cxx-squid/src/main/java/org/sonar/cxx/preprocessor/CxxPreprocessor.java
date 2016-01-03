@@ -145,8 +145,8 @@ public class CxxPreprocessor extends Preprocessor {
 
   private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
   private Parser<Grammar> pplineParser = null;
-  private final MapChain<String, Macro> macros = new MapChain<String, Macro>();
-  private final Set<File> analysedFiles = new HashSet<File>();
+  private final MapChain<String, Macro> macros = new MapChain<>();
+  private final Set<File> analysedFiles = new HashSet<>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
@@ -201,7 +201,7 @@ public class CxxPreprocessor extends Preprocessor {
   private final Multimap<String, Include> missingIncludeFiles = HashMultimap.create();
 
   private State currentFileState = new State(null);
-  private final Deque<State> globalStateStack = new LinkedList<State>();
+  private final Deque<State> globalStateStack = new LinkedList<>();
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
     this(context, new CxxConfiguration());

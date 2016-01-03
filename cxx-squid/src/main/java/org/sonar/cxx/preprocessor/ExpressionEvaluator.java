@@ -32,11 +32,12 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
 
 public final class ExpressionEvaluator {
+
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
   public static final Logger LOG = LoggerFactory.getLogger("Evaluator");
 
-  private Parser<Grammar> parser;
-  private CxxPreprocessor preprocessor;
+  private final Parser<Grammar> parser;
+  private final CxxPreprocessor preprocessor;
 
   public ExpressionEvaluator(CxxConfiguration conf, CxxPreprocessor preprocessor) {
     parser = CppParser.createConstantExpressionParser(conf);
@@ -62,7 +63,7 @@ public final class ExpressionEvaluator {
       } else {
         LOG.warn("Error evaluating expression '{}', assuming 0", constExpr);
       }
-      
+
       return BigInteger.ZERO;
     }
 
@@ -105,7 +106,7 @@ public final class ExpressionEvaluator {
     if ("bool".equals(nodeType)) {
       return evalBool(exprAst.getTokenValue());
     }
-    return evalToInt(exprAst.getChild(0));
+    return evalToInt(exprAst.getChild(0)); //@todo deprecated
   }
 
   private BigInteger evalComplexAst(AstNode exprAst) {
@@ -173,9 +174,9 @@ public final class ExpressionEvaluator {
   // ////////////// logical expressions ///////////////////////////
   BigInteger evalLogicalOrExpression(AstNode exprAst) {
     int noChildren = exprAst.getNumberOfChildren();
-    boolean result = eval(exprAst.getChild(0));
-    for(int i = 2; i < noChildren && result != true; i+=2){
-      AstNode operand = exprAst.getChild(i);
+    boolean result = eval(exprAst.getChild(0)); //@toto deprecated
+    for (int i = 2; i < noChildren && result != true; i += 2) {
+      AstNode operand = exprAst.getChild(i); //@toto deprecated
       result = result || eval(operand);
     }
 
@@ -184,9 +185,9 @@ public final class ExpressionEvaluator {
 
   BigInteger evalLogicalAndExpression(AstNode exprAst) {
     int noChildren = exprAst.getNumberOfChildren();
-    boolean result = eval(exprAst.getChild(0));
-    for(int i = 2; i < noChildren && result != false; i+=2){
-      AstNode operand = exprAst.getChild(i);
+    boolean result = eval(exprAst.getChild(0)); //@toto deprecated
+    for (int i = 2; i < noChildren && result != false; i += 2) {
+      AstNode operand = exprAst.getChild(i); //@toto deprecated
       result = result && eval(operand);
     }
 
@@ -194,9 +195,9 @@ public final class ExpressionEvaluator {
   }
 
   BigInteger evalEqualityExpression(AstNode exprAst) {
-    String operator = exprAst.getChild(1).getTokenValue();
-    AstNode lhs = exprAst.getChild(0);
-    AstNode rhs = exprAst.getChild(2);
+    String operator = exprAst.getChild(1).getTokenValue(); //@toto deprecated
+    AstNode lhs = exprAst.getChild(0); //@toto deprecated
+    AstNode rhs = exprAst.getChild(2); //@toto deprecated
     boolean result;
     if ("==".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) == 0;
@@ -207,9 +208,9 @@ public final class ExpressionEvaluator {
     }
 
     int noChildren = exprAst.getNumberOfChildren();
-    for(int i = 4; i < noChildren; i+=2){
-      operator = exprAst.getChild(i-1).getTokenValue();
-      rhs = exprAst.getChild(i);
+    for (int i = 4; i < noChildren; i += 2) {
+      operator = exprAst.getChild(i - 1).getTokenValue(); //@toto deprecated
+      rhs = exprAst.getChild(i); //@toto deprecated
       if ("==".equals(operator)) {
         result = result == eval(rhs);
       } else if ("!=".equals(operator)) {
@@ -223,9 +224,9 @@ public final class ExpressionEvaluator {
   }
 
   BigInteger evalRelationalExpression(AstNode exprAst) {
-    String operator = exprAst.getChild(1).getTokenValue();
-    AstNode lhs = exprAst.getChild(0);
-    AstNode rhs = exprAst.getChild(2);
+    String operator = exprAst.getChild(1).getTokenValue(); //@toto deprecated
+    AstNode lhs = exprAst.getChild(0); //@toto deprecated
+    AstNode rhs = exprAst.getChild(2); //@toto deprecated
     boolean result;
     if ("<".equals(operator)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) < 0;
@@ -241,9 +242,9 @@ public final class ExpressionEvaluator {
 
     BigInteger resultAsInt;
     int noChildren = exprAst.getNumberOfChildren();
-    for(int i = 4; i < noChildren; i+=2){
-      operator = exprAst.getChild(i-1).getTokenValue();
-      rhs = exprAst.getChild(i);
+    for (int i = 4; i < noChildren; i += 2) {
+      operator = exprAst.getChild(i - 1).getTokenValue(); //@toto deprecated
+      rhs = exprAst.getChild(i); //@toto deprecated
 
       resultAsInt = result ? BigInteger.ONE : BigInteger.ZERO;
       if ("<".equals(operator)) {
@@ -265,9 +266,9 @@ public final class ExpressionEvaluator {
   // ///////////////// bitwise expressions ///////////////////////
   BigInteger evalAndExpression(AstNode exprAst) {
     int noChildren = exprAst.getNumberOfChildren();
-    BigInteger result = evalToInt(exprAst.getChild(0));
-    for(int i = 2; i < noChildren; i+=2){
-      AstNode operand = exprAst.getChild(i);
+    BigInteger result = evalToInt(exprAst.getChild(0)); //@toto deprecated
+    for (int i = 2; i < noChildren; i += 2) {
+      AstNode operand = exprAst.getChild(i); //@toto deprecated
       result = result.and(evalToInt(operand));
     }
 
@@ -276,9 +277,9 @@ public final class ExpressionEvaluator {
 
   BigInteger evalInclusiveOrExpression(AstNode exprAst) {
     int noChildren = exprAst.getNumberOfChildren();
-    BigInteger result = evalToInt(exprAst.getChild(0));
-    for(int i = 2; i < noChildren; i+=2){
-      AstNode operand = exprAst.getChild(i);
+    BigInteger result = evalToInt(exprAst.getChild(0)); //@toto deprecated
+    for (int i = 2; i < noChildren; i += 2) {
+      AstNode operand = exprAst.getChild(i); //@toto deprecated
       result = result.or(evalToInt(operand));
     }
 
@@ -287,9 +288,9 @@ public final class ExpressionEvaluator {
 
   BigInteger evalExclusiveOrExpression(AstNode exprAst) {
     int noChildren = exprAst.getNumberOfChildren();
-    BigInteger result = evalToInt(exprAst.getChild(0));
-    for(int i = 2; i < noChildren; i+=2){
-      AstNode operand = exprAst.getChild(i);
+    BigInteger result = evalToInt(exprAst.getChild(0)); //@toto deprecated
+    for (int i = 2; i < noChildren; i += 2) {
+      AstNode operand = exprAst.getChild(i); //@toto deprecated
       result = result.xor(evalToInt(operand));
     }
 
@@ -300,8 +301,8 @@ public final class ExpressionEvaluator {
   BigInteger evalUnaryExpression(AstNode exprAst) {
     // only 'unary-operator cast-expression' production is allowed in #if-context
 
-    String operator = exprAst.getChild(0).getTokenValue();
-    AstNode operand = exprAst.getChild(1);
+    String operator = exprAst.getChild(0).getTokenValue(); //@toto deprecated
+    AstNode operand = exprAst.getChild(1); //@toto deprecated
     if ("+".equals(operator)) {
       return evalToInt(operand);
     } else if ("-".equals(operator)) {
@@ -312,8 +313,7 @@ public final class ExpressionEvaluator {
     } else if ("~".equals(operator)) {
       //todo: need more information (signed/unsigned, data type length) to invert bits in all cases correct
       return evalToInt(operand).not().and(UINT64_MAX);
-    }
-    else {
+    } else {
       throw new EvaluationException("Unknown unary operator  '" + operator + "'");
     }
   }
@@ -321,12 +321,12 @@ public final class ExpressionEvaluator {
   BigInteger evalShiftExpression(AstNode exprAst) {
     String operator;
     AstNode rhs;
-    BigInteger result = evalToInt(exprAst.getChild(0));
+    BigInteger result = evalToInt(exprAst.getChild(0)); //@toto deprecated
     int noChildren = exprAst.getNumberOfChildren();
 
-    for(int i = 2; i < noChildren; i+=2){
-      operator = exprAst.getChild(i-1).getTokenValue();
-      rhs = exprAst.getChild(i);
+    for (int i = 2; i < noChildren; i += 2) {
+      operator = exprAst.getChild(i - 1).getTokenValue(); //@toto deprecated
+      rhs = exprAst.getChild(i); //@toto deprecated
 
       if ("<<".equals(operator)) {
         //todo: limit to UINT64_MAX?
@@ -344,12 +344,12 @@ public final class ExpressionEvaluator {
   BigInteger evalAdditiveExpression(AstNode exprAst) {
     String operator;
     AstNode rhs;
-    BigInteger result = evalToInt(exprAst.getChild(0));
+    BigInteger result = evalToInt(exprAst.getChild(0)); //@toto deprecated
     int noChildren = exprAst.getNumberOfChildren();
 
-    for(int i = 2; i < noChildren; i+=2){
-      operator = exprAst.getChild(i-1).getTokenValue();
-      rhs = exprAst.getChild(i);
+    for (int i = 2; i < noChildren; i += 2) {
+      operator = exprAst.getChild(i - 1).getTokenValue(); //@toto deprecated
+      rhs = exprAst.getChild(i); //@toto deprecated
 
       if ("+".equals(operator)) {
         result = result.add(evalToInt(rhs));
@@ -366,12 +366,12 @@ public final class ExpressionEvaluator {
   BigInteger evalMultiplicativeExpression(AstNode exprAst) {
     String operator;
     AstNode rhs;
-    BigInteger result = evalToInt(exprAst.getChild(0));
+    BigInteger result = evalToInt(exprAst.getChild(0)); //@toto deprecated
     int noChildren = exprAst.getNumberOfChildren();
 
-    for(int i = 2; i < noChildren; i+=2){
-      operator = exprAst.getChild(i-1).getTokenValue();
-      rhs = exprAst.getChild(i);
+    for (int i = 2; i < noChildren; i += 2) {
+      operator = exprAst.getChild(i - 1).getTokenValue(); //@toto deprecated
+      rhs = exprAst.getChild(i); //@toto deprecated
 
       if ("*".equals(operator)) {
         result = result.multiply(evalToInt(rhs));
@@ -389,27 +389,26 @@ public final class ExpressionEvaluator {
 
   BigInteger evalConditionalExpression(AstNode exprAst) {
     if (exprAst.getNumberOfChildren() == 5) {
-        AstNode decisionOperand = exprAst.getChild(0);
-        AstNode trueCaseOperand = exprAst.getChild(2);
-        AstNode falseCaseOperand = exprAst.getChild(4);
-        return eval(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
-    }
-    else {
-        AstNode decisionOperand = exprAst.getChild(0);
-        AstNode falseCaseOperand = exprAst.getChild(3);
-        BigInteger decision = evalToInt(decisionOperand);
-        return decision.compareTo(BigInteger.ZERO) != 0 ? decision : evalToInt(falseCaseOperand);
+      AstNode decisionOperand = exprAst.getChild(0); //@toto deprecated
+      AstNode trueCaseOperand = exprAst.getChild(2); //@toto deprecated
+      AstNode falseCaseOperand = exprAst.getChild(4); //@toto deprecated
+      return eval(decisionOperand) ? evalToInt(trueCaseOperand) : evalToInt(falseCaseOperand);
+    } else {
+      AstNode decisionOperand = exprAst.getChild(0); //@toto deprecated
+      AstNode falseCaseOperand = exprAst.getChild(3); //@toto deprecated
+      BigInteger decision = evalToInt(decisionOperand);
+      return decision.compareTo(BigInteger.ZERO) != 0 ? decision : evalToInt(falseCaseOperand);
     }
   }
 
   BigInteger evalPrimaryExpression(AstNode exprAst) {
     // case "( expression )"
-    return evalToInt(exprAst.getChild(1));
+    return evalToInt(exprAst.getChild(1)); //@toto deprecated
   }
 
   BigInteger evalDefinedExpression(AstNode exprAst) {
     int posOfMacroName = exprAst.getNumberOfChildren() == 2 ? 1 : 2;
-    String macroName = exprAst.getChild(posOfMacroName).getTokenValue();
+    String macroName = exprAst.getChild(posOfMacroName).getTokenValue(); //@toto deprecated
     String value = preprocessor.valueOf(macroName);
 
     LOG.trace("expanding '{}' to '{}'", macroName, value);
@@ -418,26 +417,24 @@ public final class ExpressionEvaluator {
   }
 
   BigInteger evalFunctionlikeMacro(AstNode exprAst) {
-    String macroName = exprAst.getChild(0).getTokenValue();
+    String macroName = exprAst.getChild(0).getTokenValue(); //@toto deprecated
     List<Token> tokens = exprAst.getTokens();
     List<Token> restTokens = tokens.subList(1, tokens.size());
     String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
 
     LOG.trace("expanding '{}' to '{}'", macroName, value);
-    if(value == null){
+    if (value == null) {
       LOG.warn("Undefined functionlike macro '{}' assuming 0", macroName);
     }
 
     return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
   }
 
-  String stripSuffix(String number)
-  {
+  String stripSuffix(String number) {
     return number.replaceAll("[LlUu]", "");
   }
 
-  BigInteger decode(String number)
-  {
+  BigInteger decode(String number) {
     int radix = 10;
     if (number.length() > 2) {
       if (number.charAt(0) == '0') {

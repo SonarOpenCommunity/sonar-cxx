@@ -32,7 +32,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
   public void lambdaExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.lambdaExpression));
 
-    g.rule(CxxGrammarImpl.lambdaIntroducer).mock();
+    g.rule(CxxGrammarImpl.lambdaIntroducer).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.lambdaDeclarator).mock();
     g.rule(CxxGrammarImpl.compoundStatement).mock();
 
@@ -49,7 +49,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
     assertThat(p).matches("[] ( ) noexcept { }");
     assertThat(p).matches("[] ( ) throw(X,Y) { }");
     assertThat(p).matches("[] ( ) mutable noexcept { }");
-    assertThat(p).matches("[] ( ) mutable throw(X,Y) { }");    
+    assertThat(p).matches("[] ( ) mutable throw(X,Y) { }");
     assertThat(p).matches("[] (int n) { }");
     assertThat(p).matches("[&] ( ) { }");
     assertThat(p).matches("[&foo] (int n) { }");
@@ -149,7 +149,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
     assertThat(p).matches("( parameterDeclarationClause ) mutable exceptionSpecification"); // complex 1
     assertThat(p).matches("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq"); // complex 2
     assertThat(p).matches("( parameterDeclarationClause ) mutable exceptionSpecification attributeSpecifierSeq trailingReturnType"); // complex
-                                                                                                                                    // 3
+    // 3
     assertThat(p).matches("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq"); // complex 4
     assertThat(p).matches("( parameterDeclarationClause ) exceptionSpecification attributeSpecifierSeq trailingReturnType"); // complex 5
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq trailingReturnType"); // complex 6

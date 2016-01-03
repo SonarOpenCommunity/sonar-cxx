@@ -28,14 +28,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The source code provider is responsible for locating source files
- * and getting their content. A source file can be specified both as
- * an absolute and as a relative file system path. In the latter case
- * the scanner searches a list of directories (known to him) for a
- * file with such a name.
+ * The source code provider is responsible for locating source files and getting
+ * their content. A source file can be specified both as an absolute and as a
+ * relative file system path. In the latter case the scanner searches a list of
+ * directories (known to him) for a file with such a name.
  */
 public class SourceCodeProvider {
-  private List<File> includeRoots = new LinkedList<File>();
+
+  private final List<File> includeRoots = new LinkedList<>();
   public static final Logger LOG = LoggerFactory.getLogger("SourceCodeProvider");
 
   public void setIncludeRoots(List<String> includeRoots, String baseDir) {
@@ -55,8 +55,7 @@ public class SourceCodeProvider {
       if (includeRoot.isDirectory()) {
         LOG.debug("storing include root: '{}'", includeRoot);
         this.includeRoots.add(includeRoot);
-      }
-      else {
+      } else {
         LOG.warn("the include root '{}' doesn't exist", includeRoot.getAbsolutePath());
       }
     }
@@ -69,8 +68,7 @@ public class SourceCodeProvider {
       if (file.isFile()) {
         result = file;
       }
-    }
-    else {
+    } else {
       // This seems to be an established convention:
       // The special behavior in the quoted case is to look up relative to the
       // current directory.

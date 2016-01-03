@@ -42,6 +42,7 @@ public class CxxTokenizer implements Tokenizer {
     this.charset = charset;
   }
 
+  @Override
   public final void tokenize(SourceCode source, Tokens cpdTokens) {
     Lexer lexer = CxxLexer.create(new CxxConfiguration(charset));
     String fileName = source.getFileName();

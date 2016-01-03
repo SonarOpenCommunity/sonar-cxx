@@ -29,7 +29,7 @@ import java.io.File;
 
 public class FileNameCheckTest {
 
-  private FileNameCheck check = new FileNameCheck();
+  private final FileNameCheck check = new FileNameCheck();
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 

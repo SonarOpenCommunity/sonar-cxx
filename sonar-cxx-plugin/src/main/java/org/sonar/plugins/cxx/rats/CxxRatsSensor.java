@@ -38,9 +38,10 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public final class CxxRatsSensor extends CxxReportSensor {
+
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
-  private RulesProfile profile;
+  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
@@ -66,12 +67,10 @@ public final class CxxRatsSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
-      throws org.jdom.JDOMException, java.io.IOException
-  {
+    throws org.jdom.JDOMException, java.io.IOException {
     CxxUtils.LOG.info("Parsing 'RATS' format");
-    
-    try
-    {
+
+    try {
       SAXBuilder builder = new SAXBuilder(false);
       Element root = builder.build(report).getRootElement();
       @SuppressWarnings("unchecked")
@@ -91,7 +90,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
           for (Element lineElem : lines) {
             String line = lineElem.getTextTrim();
             saveUniqueViolation(project, context, CxxRatsRuleRepository.KEY,
-                fileName, line, type, message);
+              fileName, line, type, message);
           }
         }
       }

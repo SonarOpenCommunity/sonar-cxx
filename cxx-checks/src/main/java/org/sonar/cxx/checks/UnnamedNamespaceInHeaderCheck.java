@@ -30,7 +30,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "UnnamedNamespaceInHeader",
@@ -51,8 +51,6 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
     // ToDo use cxx.suffixes.headers ?? No API
     //   settings.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY)
   }
-
-
 
   @Override
   public void visitNode(AstNode node) {

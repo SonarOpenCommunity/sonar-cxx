@@ -28,29 +28,29 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class MissingNewLineAtEndOfFileCheckTest {
 
-  private MissingNewLineAtEndOfFileCheck check = new MissingNewLineAtEndOfFileCheck();
+  private final MissingNewLineAtEndOfFileCheck check = new MissingNewLineAtEndOfFileCheck();
 
   @Test
   public void test() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/MissingNewLineAtEndOfFile.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().withMessage("Add a new line at the end of this file.")
-        .noMore();
+      .next().withMessage("Add a new line at the end of this file.")
+      .noMore();
   }
 
   @Test
   public void test2() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/EmptyFile.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().withMessage("Add a new line at the end of this file.")
-        .noMore();
+      .next().withMessage("Add a new line at the end of this file.")
+      .noMore();
   }
 
   @Test
   public void test3() {
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/NonEmptyFile.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .noMore();
+      .noMore();
   }
 
 }

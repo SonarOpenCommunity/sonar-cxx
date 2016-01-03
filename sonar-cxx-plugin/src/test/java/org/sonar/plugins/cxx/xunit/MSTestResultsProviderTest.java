@@ -40,8 +40,9 @@ import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 import com.google.common.collect.ImmutableList;
 
 public class MSTestResultsProviderTest {
+
   private Project project;
-  private SensorContext context;  
+  private SensorContext context;
   private MSTestResultsAggregator resultsAggregator;
   private MSTestResultsImportSensor sensor;
 
@@ -50,7 +51,7 @@ public class MSTestResultsProviderTest {
     new DefaultFileSystem();
     project = TestUtils.mockProject();
     context = mock(SensorContext.class);
-    }
+  }
 
   @Test
   public void should_execute_on_project() {
@@ -81,14 +82,14 @@ public class MSTestResultsProviderTest {
     when(project.isRoot()).thenReturn(false);
 
     resultsAggregator = mock(MSTestResultsAggregator.class);
-    
+
     UnitTestResults results = mock(UnitTestResults.class);
     when(results.tests()).thenReturn(1.0);
     when(results.passedPercentage()).thenCallRealMethod();
     when(results.skipped()).thenReturn(0.0);
     when(results.failed()).thenReturn(1.0);
     when(results.errors()).thenReturn(0.0);
-    
+
     when(resultsAggregator.aggregate(Mockito.any(UnitTestResults.class))).thenReturn(results);
     sensor = new MSTestResultsImportSensor(resultsAggregator);
     sensor.analyse(project, context);
@@ -96,4 +97,3 @@ public class MSTestResultsProviderTest {
     verify(context, Mockito.atLeastOnce()).saveMeasure(Mockito.any(Metric.class), Mockito.anyDouble());
   }
 }
-

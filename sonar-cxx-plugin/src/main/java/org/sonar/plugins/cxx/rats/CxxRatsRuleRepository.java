@@ -28,6 +28,7 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  * {@inheritDoc}
  */
 public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
+
   public static final String KEY = "rats";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.rats.customRules";
   private static final String NAME = "RATS";

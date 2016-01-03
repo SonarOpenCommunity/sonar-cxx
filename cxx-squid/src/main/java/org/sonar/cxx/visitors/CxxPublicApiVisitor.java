@@ -49,12 +49,12 @@ import com.sonar.sslr.api.Token;
  * This visitor should be applied only on header files.<br>
  * Currently, no filtering is applied using preprocessing directive.<br>
  * <p>
- * Limitation: only "in front of the declaration" comments and inline 
- * comments (for members) are considered. Documenting public API by name 
- * (\struct Foo for instance) in other files is not supported. 
+ * Limitation: only "in front of the declaration" comments and inline comments
+ * (for members) are considered. Documenting public API by name (\struct Foo for
+ * instance) in other files is not supported.
  *
  * @see <a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html">
- *      Doxygen Manual: Documenting the code</a>
+ * Doxygen Manual: Documenting the code</a>
  *
  * @author Ludovic Cintrat
  *
@@ -63,46 +63,47 @@ import com.sonar.sslr.api.Token;
 // @Rule(key = "UndocumentedApi", description =
 // "All public APIs should be documented", priority = Priority.MINOR)
 public class CxxPublicApiVisitor<GRAMMAR extends Grammar> extends
-        AbstractCxxPublicApiVisitor<Grammar> {
+  AbstractCxxPublicApiVisitor<Grammar> {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger("CxxPublicApiVisitor");
+  private static final Logger LOG = LoggerFactory
+    .getLogger("CxxPublicApiVisitor");
 
-    private final MetricDef undocumented;
-    private final MetricDef api;
+  private final MetricDef undocumented;
+  private final MetricDef api;
 
-    public interface PublicApiHandler {
-        void onPublicApi(AstNode node, String id, List<Token> comments);
-    };
+  public interface PublicApiHandler {
 
-    private PublicApiHandler handler;
+    void onPublicApi(AstNode node, String id, List<Token> comments);
+  };
 
-    public CxxPublicApiVisitor(MetricDef publicDocumentedApi,
-            MetricDef publicUndocumentedApi) {
-        super();
-        api = publicDocumentedApi;
-        undocumented = publicUndocumentedApi;
+  private PublicApiHandler handler;
+
+  public CxxPublicApiVisitor(MetricDef publicDocumentedApi,
+    MetricDef publicUndocumentedApi) {
+    super();
+    api = publicDocumentedApi;
+    undocumented = publicUndocumentedApi;
+  }
+
+  @Override
+  protected void onPublicApi(AstNode node, String id, List<Token> comments) {
+    boolean commented = !comments.isEmpty();
+
+    LOG.debug("node: {} line: {} id: '{}' documented: {}",
+      new Object[]{node.getType(), node.getTokenLine(), id, commented});
+
+    if (handler != null) {
+      handler.onPublicApi(node, id, comments);
     }
 
-    @Override
-    protected void onPublicApi(AstNode node, String id, List<Token> comments) {
-        boolean commented = !comments.isEmpty();
-
-        LOG.debug("node: {} line: {} id: '{}' documented: {}",
-          new Object[]{node.getType(), node.getTokenLine(), id, commented});
-
-        if (handler != null) {
-            handler.onPublicApi(node, id, comments);
-        }
-
-        if (!commented) {
-            getContext().peekSourceCode().add(undocumented, 1);
-        }
-
-        getContext().peekSourceCode().add(api, 1);
+    if (!commented) {
+      getContext().peekSourceCode().add(undocumented, 1);
     }
 
-    public void setHandler(PublicApiHandler handler) {
-        this.handler = handler;
-    }
+    getContext().peekSourceCode().add(api, 1);
+  }
+
+  public void setHandler(PublicApiHandler handler) {
+    this.handler = handler;
+  }
 }

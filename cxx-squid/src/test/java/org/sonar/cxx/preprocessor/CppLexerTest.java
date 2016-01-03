@@ -34,7 +34,7 @@ import com.sonar.sslr.impl.Lexer;
 
 public class CppLexerTest {
 
-  private static Lexer lexer = CppLexer.create();
+  private final static Lexer lexer = CppLexer.create();
 
   @Test
   public void cpp_keywords() {

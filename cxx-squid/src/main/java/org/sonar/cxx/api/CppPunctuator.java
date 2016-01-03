@@ -26,6 +26,7 @@ import com.sonar.sslr.api.TokenType;
  * C++ Standard, 2.13 Operators and punctuators
  */
 public enum CppPunctuator implements TokenType {
+
   // Basic arithmetic operators
   PLUS("+"),
   MINUS("-"),
@@ -35,7 +36,6 @@ public enum CppPunctuator implements TokenType {
   INCR("++"),
   DECR("--"),
   ASSIGN("="),
-
   // Comparison/relational operators
   EQ("=="),
   NOT_EQ("!="),
@@ -43,12 +43,10 @@ public enum CppPunctuator implements TokenType {
   GT(">"),
   LT_EQ("<="),
   GT_EQ(">="),
-
   // Logical operators
   NOT("!"),
   AND("&&"),
   OR("||"),
-
   // Bitwise Operators
   BW_NOT("~"),
   BW_AND("&"),
@@ -56,7 +54,6 @@ public enum CppPunctuator implements TokenType {
   BW_XOR("ˆ"),
   BW_LSHIFT("<<"),
   BW_RSHIFT(">>"),
-
   // Compound assignment operators
   PLUS_ASSIGN("+="),
   MINUS_ASSIGN("-="),
@@ -68,13 +65,11 @@ public enum CppPunctuator implements TokenType {
   BW_XOR_ASSIGN("ˆ="),
   BW_LSHIFT_ASSIGN("<<="),
   BW_RSHIFT_ASSIGN(">>="),
-
   // Member and pointer operators
   ARROW("->"),
   DOT("."),
   DOT_STAR(".*"),
   ARROW_STAR("->*"),
-
   // Delimiters
   SEMICOLON(";"),
   COLON(":"),
@@ -86,13 +81,11 @@ public enum CppPunctuator implements TokenType {
   CURLBR_RIGHT("}"),
   SQBR_LEFT("["),
   SQBR_RIGHT("]"),
-
   // Other operators
   QUEST("?"),
   ELLIPSIS("..."),
   HASH("#"),
   HASHHASH("##"),
-
   // Trigraphs etc.
   LT_COLON("<:"),
   GT_COLON(":>"),
@@ -100,10 +93,8 @@ public enum CppPunctuator implements TokenType {
   GT_MOD("%>"),
   MOD_COLON("%:"),
   MOD_COLON_MOD_COLON("%:%:"),
-
   NEW("new"),
   DELETE("delete"),
-
   // Aliases
   AL_AND("and"),
   AL_AND_EQ("and_eq"),
@@ -123,14 +114,17 @@ public enum CppPunctuator implements TokenType {
     this.value = word;
   }
 
+  @Override
   public String getName() {
     return name();
   }
 
+  @Override
   public String getValue() {
     return value;
   }
 
+  @Override
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return false;
   }

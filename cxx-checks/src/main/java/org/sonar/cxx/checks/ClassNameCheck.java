@@ -32,7 +32,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.regex.Pattern;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "ClassName",

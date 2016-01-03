@@ -63,7 +63,7 @@ public class CxxCppCheckSensorTest {
   @Test
   public void shouldReportCorrectViolations() {
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-      "cppcheck-reports/cppcheck-result-*.xml");   
+      "cppcheck-reports/cppcheck-result-*.xml");
     sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");

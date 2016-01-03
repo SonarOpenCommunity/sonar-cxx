@@ -41,7 +41,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;
+import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 
 @Rule(
   key = "CommentedCode",
@@ -60,6 +60,7 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
 
   private static class CxxRecognizer implements LanguageFootprint {
 
+    @Override
     public Set<Detector> getDetectors() {
       Set<Detector> detectors = Sets.newHashSet();
 
@@ -73,20 +74,21 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
 
   }
 
+  @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
-      if (trivia.isComment() &&
-          !trivia.getToken().getOriginalValue().startsWith("///") &&
-          !trivia.getToken().getOriginalValue().startsWith("//!") &&
-          !trivia.getToken().getOriginalValue().startsWith("/**") &&
-          !trivia.getToken().getOriginalValue().startsWith("/*!")) {
+      if (trivia.isComment()
+        && !trivia.getToken().getOriginalValue().startsWith("///")
+        && !trivia.getToken().getOriginalValue().startsWith("//!")
+        && !trivia.getToken().getOriginalValue().startsWith("/**")
+        && !trivia.getToken().getOriginalValue().startsWith("/*!")) {
         String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(
-            trivia.getToken().getOriginalValue()));
+          trivia.getToken().getOriginalValue()));
 
         for (int lineOffset = 0; lineOffset < lines.length; lineOffset++) {
           if (codeRecognizer.isLineOfCode(lines[lineOffset])) {
             getContext().createLineViolation(this, "Remove this commented out code.",
-                trivia.getToken().getLine() + lineOffset);
+              trivia.getToken().getLine() + lineOffset);
             break;
           }
         }

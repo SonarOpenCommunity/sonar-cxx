@@ -36,9 +36,9 @@ public class XunitReportParserTest {
   String pathPrefix = "/org/sonar/plugins/cxx/reports-project/xunit-reports/";
 
   @Test
-  public void testParse() throws javax.xml.stream.XMLStreamException{
+  public void testParse() throws javax.xml.stream.XMLStreamException {
 
-    Map<String, Integer> ioMap = new TreeMap<String, Integer>();
+    Map<String, Integer> ioMap = new TreeMap<>();
     ioMap.put("xunit-result-2.xml", 5);
     ioMap.put("xunit-result-SAMPLE_with_fileName.xml", 3);
     ioMap.put("xunit-result-SAMPLE.xml", 3);
@@ -51,7 +51,7 @@ public class XunitReportParserTest {
       parser = new StaxParser(parserHandler, false);
       File report = TestUtils.loadResource(pathPrefix + entry.getKey());
       parser.parse(report);
-      assertEquals((int)entry.getValue(), parserHandler.getTestCases().size());
+      assertEquals((int) entry.getValue(), parserHandler.getTestCases().size());
     }
   }
 

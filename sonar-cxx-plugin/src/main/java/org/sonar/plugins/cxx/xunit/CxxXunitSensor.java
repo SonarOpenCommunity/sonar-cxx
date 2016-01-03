@@ -64,19 +64,19 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.api.batch.fs.InputFile;
 
-
 /**
  * {@inheritDoc}
  */
 public class CxxXunitSensor extends CxxReportSensor {
+
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   public static final String PROVIDE_DETAILS_KEY = "sonar.cxx.xunit.provideDetails";
   private static final double PERCENT_BASE = 100d;
 
   private String xsltURL = null;
-  private Map<String, String> classDeclTable = new TreeMap<>();
-  private Map<String, String> classImplTable = new TreeMap<>();
+  private final Map<String, String> classDeclTable = new TreeMap<>();
+  private final Map<String, String> classImplTable = new TreeMap<>();
   private int tcTotal = 0;
   private int tcSkipped = 0;
 
@@ -95,7 +95,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
-    
+
   /**
    * {@inheritDoc}
    */
@@ -103,7 +103,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   public Class<?> dependsUponCoverageSensors() {
     return CoverageExtension.class;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -124,7 +124,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @Override
   public void analyse(Project project, SensorContext context) {
-    try{
+    try {
       List<File> reports = getReports(settings, fs.baseDir(), REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
         XunitReportParser parserHandler = new XunitReportParser();
@@ -146,8 +146,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         } else {
           simpleMode(project, context, testcases);
         }
-      }
-      else{
+      } else {
         CxxUtils.LOG.debug("No reports found, nothing to process");
       }
     } catch (Exception e) {
@@ -164,8 +163,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   private void simpleMode(final Project project, final SensorContext context, List<TestCase> testcases)
     throws javax.xml.stream.XMLStreamException,
     java.io.IOException,
-    javax.xml.transform.TransformerException
-  {
+    javax.xml.transform.TransformerException {
     CxxUtils.LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
 
     double testsCount = 0.0;
@@ -196,8 +194,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       context.saveMeasure(project, CoreMetrics.TEST_ERRORS, testsErrors);
       context.saveMeasure(project, CoreMetrics.TEST_FAILURES, testsFailures);
       context.saveMeasure(project, CoreMetrics.TEST_EXECUTION_TIME, testsTime);
-    }
-    else{
+    } else {
       CxxUtils.LOG.debug("The reports contain no testcases");
     }
   }
@@ -206,12 +203,11 @@ public class CxxXunitSensor extends CxxReportSensor {
     throws
     javax.xml.stream.XMLStreamException,
     java.io.IOException,
-    javax.xml.transform.TransformerException
-  {
+    javax.xml.transform.TransformerException {
     CxxUtils.LOG.info("Processing in 'detailled mode' i.e. with provideDetails=true");
 
     String sonarTests = settings.getString("sonar.tests");
-    if (sonarTests == null || "".equals(sonarTests)){
+    if (sonarTests == null || "".equals(sonarTests)) {
       CxxUtils.LOG.error("The property 'sonar.tests' is unset. Please set it to proceed");
       return;
     }
@@ -222,12 +218,11 @@ public class CxxXunitSensor extends CxxReportSensor {
       saveTestMetrics(context, testFile);
     }
     CxxUtils.LOG.info("Summary: testcases processed = {}, skipped = {}", tcTotal, tcSkipped);
-    if (tcSkipped > 0){
+    if (tcSkipped > 0) {
       CxxUtils.LOG.warn("Some testcases had to be skipped, check the relevant parts of your setup "
-                        + "(sonar.tests, sonar.test.exclusions, sonar.test.inclusions)");
+        + "(sonar.tests, sonar.test.exclusions, sonar.test.inclusions)");
     }
   }
-
 
   private Collection<TestFile> lookupTestFiles(Project project, SensorContext context, List<TestCase> testcases) {
     HashMap<String, TestFile> testFileMap = new HashMap<>();
@@ -252,7 +247,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       } else {
         tcSkipped++;
         CxxUtils.LOG.warn("... no input file found, the testcase '{}' has to be skipped",
-                          tc.getFullname());
+          tc.getFullname());
       }
     }
 
@@ -260,8 +255,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   }
 
   File transformReport(File report)
-      throws java.io.IOException, javax.xml.transform.TransformerException
-  {
+    throws java.io.IOException, javax.xml.transform.TransformerException {
     File transformed = report;
     if (xsltURL != null && report.length() > 0) {
       CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
@@ -299,7 +293,6 @@ public class CxxXunitSensor extends CxxReportSensor {
     context.saveMeasure(inputFile, CoreMetrics.TEST_FAILURES, (double) testFile.getFailures());
     context.saveMeasure(inputFile, CoreMetrics.TEST_EXECUTION_TIME, (double) testFile.getTime());
 
-
     if (testsRun > 0) {
       double testsPassed = testsRun - testFile.getErrors() - testFile.getFailures();
       double successDensity = testsPassed * PERCENT_BASE / testsRun;
@@ -318,17 +311,17 @@ public class CxxXunitSensor extends CxxReportSensor {
 
     InputFile inputFile = null;
     String filepath = tc.getFilename();
-    if (filepath != null){
+    if (filepath != null) {
       CxxUtils.LOG.debug("Performing the 'filename'-based lookup using the value '{}'", filepath);
       return lookupInSonar(filepath);
     }
 
-    if(classDeclTable.isEmpty() && classImplTable.isEmpty()){
+    if (classDeclTable.isEmpty() && classImplTable.isEmpty()) {
       buildLookupTables();
     }
 
     String classname = tc.getClassname();
-    if (classname != null){
+    if (classname != null) {
       filepath = lookupFilePath(classname);
       CxxUtils.LOG.debug("Performing AST-based lookup, determined file path: '{}'", filepath);
       inputFile = lookupInSonar(filepath);
@@ -345,7 +338,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   String lookupFilePath(String key) {
     String path = classImplTable.get(key);
-    if(path == null){
+    if (path == null) {
       path = classDeclTable.get(key);
     }
 
@@ -355,8 +348,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   void buildLookupTables() {
     FilePredicates predicates = fs.predicates();
     Iterable<File> files = fs.files(predicates.and(
-        predicates.hasType(org.sonar.api.batch.fs.InputFile.Type.TEST),
-        predicates.hasLanguage(CxxLanguage.KEY)));
+      predicates.hasType(org.sonar.api.batch.fs.InputFile.Type.TEST),
+      predicates.hasLanguage(CxxLanguage.KEY)));
 
     CxxConfiguration cxxConf = new CxxConfiguration(fs.encoding());
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());

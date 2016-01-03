@@ -99,7 +99,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
             String line = errorCursor.getAttrValue("line");
             String id = errorCursor.getAttrValue("number");
             String msg = errorCursor.getAttrValue("desc");
-            
+
             if (isInputValid(file, line, id, msg)) {
               //remap MISRA IDs. Only Unique rules for MISRA 2004 and 2008 has been created in the rule repository
               if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
@@ -113,9 +113,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 new Object[]{file, line, id, msg});
             }
           }
-        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e);
-        } catch (com.ctc.wstx.exc.WstxEOFException e) {
+        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException | com.ctc.wstx.exc.WstxEOFException e) {
           CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e);
         }
       }

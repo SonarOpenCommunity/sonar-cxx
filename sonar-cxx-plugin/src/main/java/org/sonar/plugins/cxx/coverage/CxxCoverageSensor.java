@@ -59,7 +59,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
   public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
 
-  private List<CoverageParser> parsers = new LinkedList<>();
+  private final List<CoverageParser> parsers = new LinkedList<>();
 
   /**
    * {@inheritDoc}

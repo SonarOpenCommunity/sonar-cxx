@@ -25,10 +25,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Represents a stack frame. Overwrites equality. Has a string serialization that
- * resembles the valgrind output in textual mode.
+ * Represents a stack frame. Overwrites equality. Has a string serialization
+ * that resembles the valgrind output in textual mode.
  */
 class ValgrindFrame {
+
   private String ip = "???";
   private String obj = "";
   private String fn = "???";
@@ -37,8 +38,8 @@ class ValgrindFrame {
   private String line = "";
 
   /**
-   * Constucts a stack frame with given attributes. Its perfectly valid if some of them
-   * are empty or dont carry meaningfull information.
+   * Constucts a stack frame with given attributes. Its perfectly valid if some
+   * of them are empty or dont carry meaningfull information.
    */
   public ValgrindFrame(String ip, String obj, String fn, String dir, String file, String line) {
     if (ip != null) {
@@ -66,8 +67,8 @@ class ValgrindFrame {
     StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
     if (isLocationKnown()) {
       builder.append(" (")
-          .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))
-          .append(")");
+        .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))
+        .append(")");
     }
 
     return builder.toString();
@@ -88,12 +89,12 @@ class ValgrindFrame {
   @Override
   public int hashCode() {
     return new HashCodeBuilder()
-        .append(obj)
-        .append(fn)
-        .append(dir)
-        .append(file)
-        .append(line)
-        .toHashCode();
+      .append(obj)
+      .append(fn)
+      .append(dir)
+      .append(file)
+      .append(line)
+      .toHashCode();
   }
 
   String getPath() {

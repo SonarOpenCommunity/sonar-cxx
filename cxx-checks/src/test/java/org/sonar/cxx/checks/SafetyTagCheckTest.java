@@ -60,6 +60,6 @@ public class SafetyTagCheckTest {
     file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck_SAFETY.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
-    }
+  }
 
 }

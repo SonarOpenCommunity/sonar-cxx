@@ -70,12 +70,11 @@ import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 import com.sonar.sslr.api.Grammar;
 
-
-
 /**
  * {@inheritDoc}
  */
 public final class CxxSquidSensor implements Sensor {
+
   private static final Number[] FUNCTIONS_DISTRIB_BOTTOM_LIMITS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
 
@@ -89,33 +88,34 @@ public final class CxxSquidSensor implements Sensor {
   private FileSystem fs;
   private ResourcePerspectives resourcePerspectives;
   private final FilePredicate mainFilePredicate;
-  
+
   /**
    * {@inheritDoc}
    */
   public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings settings,
-                        FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
-      this(resourcePerspectives, settings, fs, checkFactory, rules, null);
+    FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
+    this(resourcePerspectives, settings, fs, checkFactory, rules, null);
   }
-  
+
   /**
    * {@inheritDoc}
    */
   public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings settings,
-                        FileSystem fs, CheckFactory checkFactory, ActiveRules rules,
-                        @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
+    FileSystem fs, CheckFactory checkFactory, ActiveRules rules,
+    @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
-        .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
-        .addCustomChecks(customRulesDefinition);
+      .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
+      .addCustomChecks(customRulesDefinition);
     this.rules = rules;
     this.settings = new CxxSettings(settings);
     this.fs = fs;
     this.resourcePerspectives = resourcePerspectives;
     FilePredicates predicates = fs.predicates();
     this.mainFilePredicate = predicates.and(predicates.hasType(InputFile.Type.MAIN),
-                                            predicates.hasLanguage(CxxLanguage.KEY));
+      predicates.hasLanguage(CxxLanguage.KEY));
   }
 
+  @Override
   public boolean shouldExecuteOnProject(Project project) {
     return fs.hasFiles(mainFilePredicate);
   }
@@ -123,20 +123,21 @@ public final class CxxSquidSensor implements Sensor {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void analyse(Project project, SensorContext context) {
     this.project = project;
     this.context = context;
 
-    List<SquidAstVisitor<Grammar>> visitors = new ArrayList<SquidAstVisitor<Grammar>>((Collection) checks.all());
+    List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     this.scanner = CxxAstScanner.create(createConfiguration(this.fs, this.settings),
-                                        visitors.toArray(new SquidAstVisitor[visitors.size()]));
+      visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     scanner.scanFiles(Lists.newArrayList(fs.files(mainFilePredicate)));
 
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }
-  
+
   <P extends Perspective<?>> P perspective(Class<P> clazz, @Nullable InputFile file) {
     if (file == null) {
       throw new IllegalArgumentException("Cannot get " + clazz.getCanonicalName() + "for a null file");
@@ -152,7 +153,7 @@ public final class CxxSquidSensor implements Sensor {
     CxxConfiguration cxxConf = new CxxConfiguration(fs, resourcePerspectives);
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = settings.getStringLines(CxxPlugin.DEFINES_KEY);
-    if(lines.length > 0){
+    if (lines.length > 0) {
       cxxConf.setDefines(Arrays.asList(lines));
     }
     cxxConf.setIncludeDirectories(settings.getStringArray(CxxPlugin.INCLUDE_DIRECTORIES_KEY));
@@ -161,13 +162,13 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setCFilesPatterns(settings.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
     cxxConf.setMissingIncludeWarningsEnabled(settings.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
-    
-    String filePaths = settings.getString(CxxCompilerSensor.REPORT_PATH_KEY);    
+
+    String filePaths = settings.getString(CxxCompilerSensor.REPORT_PATH_KEY);
     if (filePaths != null && !"".equals(filePaths)) {
       List<File> reports = CxxReportSensor.getReports(settings, fs.baseDir(), CxxCompilerSensor.REPORT_PATH_KEY);
       cxxConf.setCompilationPropertiesWithBuildLog(reports,
-                                                   settings.getString(CxxCompilerSensor.PARSER_KEY_DEF),
-                                                   settings.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
+        settings.getString(CxxCompilerSensor.PARSER_KEY_DEF),
+        settings.getString(CxxCompilerSensor.REPORT_CHARSET_DEF));
     }
 
     return cxxConf;
@@ -235,8 +236,9 @@ public final class CxxSquidSensor implements Sensor {
             .line(message.getLine())
             .message(message.getText(Locale.ENGLISH))
             .build();
-          if (issuable.addIssue(issue))
+          if (issuable.addIssue(issue)) {
             violationsCount++;
+          }
         }
       }
       return violationsCount;
@@ -250,4 +252,3 @@ public final class CxxSquidSensor implements Sensor {
   }
 
 }
-

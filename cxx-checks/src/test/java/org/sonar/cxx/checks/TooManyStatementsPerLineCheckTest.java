@@ -21,7 +21,7 @@ package org.sonar.cxx.checks;
 
 import java.io.File;
 
-import junit.framework.Assert;
+import junit.framework.Assert; //todo deprecated
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -36,13 +36,13 @@ public class TooManyStatementsPerLineCheckTest {
     check.excludeCaseBreak = false;
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyStatementsPerLine.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
-        .next().atLine(20)
-        .next().atLine(23)
-        .next().atLine(27)
-        .next().atLine(29)
-        .next().atLine(31)
-        .noMore();
+      .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
+      .next().atLine(20)
+      .next().atLine(23)
+      .next().atLine(27)
+      .next().atLine(29)
+      .next().atLine(31)
+      .noMore();
   }
 
   @Test
@@ -57,12 +57,12 @@ public class TooManyStatementsPerLineCheckTest {
     check.excludeCaseBreak = true;
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyStatementsPerLine.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
-        .next().atLine(20)
-        .next().atLine(23)
-        .next().atLine(27)
-        .next().atLine(31)
-        .noMore();
+      .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
+      .next().atLine(20)
+      .next().atLine(23)
+      .next().atLine(27)
+      .next().atLine(31)
+      .noMore();
   }
 
 }

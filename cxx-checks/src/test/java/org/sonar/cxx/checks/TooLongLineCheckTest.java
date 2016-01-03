@@ -28,16 +28,16 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class TooLongLineCheckTest {
 
-  private TooLongLineCheck check = new TooLongLineCheck();
+  private final TooLongLineCheck check = new TooLongLineCheck();
 
   @Test
   public void test() {
     check.maximumLineLength = 20;
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineLength.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-        .next().atLine(5).withMessage("Split this 28 characters long line (which is greater than 20 authorized).")
-        .next().atLine(6)
-        .noMore();
+      .next().atLine(5).withMessage("Split this 28 characters long line (which is greater than 20 authorized).")
+      .next().atLine(6)
+      .noMore();
   }
 
 }

@@ -39,7 +39,7 @@ import com.sonar.sslr.api.Grammar;
 public class CxxChecks {
 
   private final CheckFactory checkFactory;
-  private Set<Checks<SquidAstVisitor<Grammar>>> checksByRepository = new HashSet<>();
+  private final Set<Checks<SquidAstVisitor<Grammar>>> checksByRepository = new HashSet<>();
 
   private CxxChecks(CheckFactory checkFactory) {
     this.checkFactory = checkFactory;
@@ -91,7 +91,7 @@ public class CxxChecks {
     }
     return null;
   }
-  
+
   @VisibleForTesting
   public Set<Checks<SquidAstVisitor<Grammar>>> getChecks() {
     return checksByRepository;

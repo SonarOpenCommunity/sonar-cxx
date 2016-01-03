@@ -56,13 +56,13 @@ import com.sonar.sslr.impl.ast.AstXmlPrinter;
  * Function arguments are not counted since they can be documented in function
  * documentation and this visitor does not parse Doxygen comments.<br>
  * This visitor should be applied only on header files.<br>
- * Currently, no filtering is applied using preprocessing directive,
- * e.g <code>#define DLLEXPORT</code>.<br>
+ * Currently, no filtering is applied using preprocessing directive, e.g
+ * <code>#define DLLEXPORT</code>.<br>
  * <p>
  * Limitation: only "in front of the declaration" comments are considered.
  *
  * @see <a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html">
- *      Doxygen Manual: Documenting the code</a>
+ * Doxygen Manual: Documenting the code</a>
  *
  * @author Ludovic Cintrat
  *
@@ -71,659 +71,654 @@ import com.sonar.sslr.impl.ast.AstXmlPrinter;
 // @Rule(key = "UndocumentedApi", description =
 // "All public APIs should be documented", priority = Priority.MINOR)
 public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
-        extends SquidCheck<Grammar> implements AstAndTokenVisitor {
+  extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
-    abstract protected void onPublicApi(AstNode node, String id,
-            List<Token> comments);
+  abstract protected void onPublicApi(AstNode node, String id,
+    List<Token> comments);
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger("AbstractCxxPublicApiVisitor");
+  private static final Logger LOG = LoggerFactory
+    .getLogger("AbstractCxxPublicApiVisitor");
 
-    private static final boolean DEBUG = false;
-    /**
-     * Dump the AST of the file if true.
-     */
-    private static final boolean DUMP = false;
+  private static final boolean DEBUG = false;
+  /**
+   * Dump the AST of the file if true.
+   */
+  private static final boolean DUMP = false;
 
-    private static final String UNNAMED_CLASSIFIER_ID = "<unnamed class>";
-    private static final String UNNAMED_ENUM_ID       = "<unnamed enumeration>";
+  private static final String UNNAMED_CLASSIFIER_ID = "<unnamed class>";
+  private static final String UNNAMED_ENUM_ID = "<unnamed enumeration>";
 
-    public interface PublicApiHandler {
-        void onPublicApi(AstNode node, String id, List<Token> comments);
-    };
+  public interface PublicApiHandler {
 
-    private List<String> headerFileSuffixes;
+    void onPublicApi(AstNode node, String id, List<Token> comments);
+  };
 
-    private boolean skipFile = true;
+  private List<String> headerFileSuffixes;
 
-    @Override
-    public void init() {
-        subscribeTo(CxxGrammarImpl.classSpecifier);
-        subscribeTo(CxxGrammarImpl.memberDeclaration);
-        subscribeTo(CxxGrammarImpl.functionDefinition);
-        subscribeTo(CxxGrammarImpl.enumSpecifier);
-        subscribeTo(CxxGrammarImpl.initDeclaratorList);
-        subscribeTo(CxxGrammarImpl.aliasDeclaration);
+  private boolean skipFile = true;
+
+  @Override
+  public void init() {
+    subscribeTo(CxxGrammarImpl.classSpecifier);
+    subscribeTo(CxxGrammarImpl.memberDeclaration);
+    subscribeTo(CxxGrammarImpl.functionDefinition);
+    subscribeTo(CxxGrammarImpl.enumSpecifier);
+    subscribeTo(CxxGrammarImpl.initDeclaratorList);
+    subscribeTo(CxxGrammarImpl.aliasDeclaration);
+  }
+
+  @Override
+  public void visitFile(AstNode astNode) {
+    logDebug("API File: " + getContext().getFile().getName());
+
+    logDebug("Header file suffixes: " + headerFileSuffixes);
+
+    skipFile = true;
+
+    if (headerFileSuffixes != null) {
+      for (String suffix : headerFileSuffixes) {
+        if (getContext().getFile().getName().endsWith(suffix)) {
+          skipFile = false;
+          break;
+        }
+      }
     }
 
-    @Override
-    public void visitFile(AstNode astNode) {
-        logDebug("API File: " + getContext().getFile().getName());
-
-        logDebug("Header file suffixes: " + headerFileSuffixes);
-
-        skipFile = true;
-
-        if (headerFileSuffixes != null)
-            for (String suffix : headerFileSuffixes) {
-                if (getContext().getFile().getName().endsWith(suffix)) {
-                    skipFile = false;
-                    break;
-                }
-            }
-
-        if (DUMP) {
-            System.out.println(AstXmlPrinter.print(astNode));
-        }
-
+    if (DUMP) {
+      System.out.println(AstXmlPrinter.print(astNode));
     }
 
-    public void visitToken(Token token) {
+  }
+
+  @Override
+  public void visitToken(Token token) {
+  }
+
+  @Override
+  public void visitNode(AstNode astNode) {
+    if (skipFile) {
+      return;
     }
 
-    @Override
-    public void visitNode(AstNode astNode) {
-        if (skipFile)
-            return;
+    logDebug("***** Node: " + astNode);
 
-        logDebug("***** Node: " + astNode);
+    switch ((CxxGrammarImpl) astNode.getType()) {
+      case classSpecifier:
+        visitClassSpecifier(astNode);
+        break;
+      case memberDeclaration:
+        visitMemberDeclaration(astNode);
+        break;
+      case functionDefinition:
+        visitFunctionDefinition(astNode);
+        break;
+      case enumSpecifier:
+        visitEnumSpecifier(astNode);
+        break;
+      case initDeclaratorList:
+        visitDeclaratorList(astNode);
+        break;
+      case aliasDeclaration:
+        visitAliasDeclaration(astNode);
+        break;
+      default:
+        // should not happen
+        LOG.error("Visiting unknown node: {}", astNode.getType());
+        break;
+    }
+  }
 
-        switch ((CxxGrammarImpl) astNode.getType()) {
-        case classSpecifier:
-            visitClassSpecifier(astNode);
-            break;
-        case memberDeclaration:
-            visitMemberDeclaration(astNode);
-            break;
-        case functionDefinition:
-            visitFunctionDefinition(astNode);
-            break;
-        case enumSpecifier:
-            visitEnumSpecifier(astNode);
-            break;
-        case initDeclaratorList:
-            visitDeclaratorList(astNode);
-            break;
-        case aliasDeclaration:
-            visitAliasDeclaration(astNode);
-            break;
-        default:
-            // should not happen
-            LOG.error("Visiting unknown node: {}", astNode.getType());
-            break;
-        }
+  private void visitPublicApi(AstNode node, String id, List<Token> comments) {
+    List<Token> doxygenComments = new ArrayList<>();
+
+    for (Token token : comments) {
+      String comment = token.getValue();
+      if (isDoxygenInlineComment(comment)
+        || isDoxygenCommentBlock(comment)) {
+        doxygenComments.add(token);
+        logDebug("Doc: " + comment.replace("\r\n", ""));
+      }
     }
 
-    private void visitPublicApi(AstNode node, String id, List<Token> comments) {
-        List<Token> doxygenComments = new ArrayList<Token>();
+    logDebug("Public API: " + id);
+    onPublicApi(node, id, doxygenComments);
+  }
 
-        for (Token token : comments) {
-            String comment = token.getValue();
-            if (isDoxygenInlineComment(comment)
-                    || isDoxygenCommentBlock(comment)) {
-                doxygenComments.add(token);
-                logDebug("Doc: " + comment.replace("\r\n", ""));
-            }
-        }
+  private void visitDeclaratorList(AstNode declaratorList) {
 
-        logDebug("Public API: " + id);
-        onPublicApi(node, id, doxygenComments);
+    // do not handle declaration in function body
+    AstNode functionBody = declaratorList
+      .getFirstAncestor(CxxGrammarImpl.functionBody);
+
+    if (functionBody != null) {
+      return;
     }
 
-    private void visitDeclaratorList(AstNode declaratorList) {
-
-        // do not handle declaration in function body
-        AstNode functionBody = declaratorList
-                .getFirstAncestor(CxxGrammarImpl.functionBody);
-
-        if (functionBody != null) {
-            return;
-        }
-
-        // ignore friend declarations
-        if (isFriendDeclaration(declaratorList)) {
-            return;
-        }
-
-        AstNode declaration = declaratorList
-                .getFirstAncestor(CxxGrammarImpl.declaration);
-
-        List<AstNode> declarators = declaratorList
-                .getChildren(CxxGrammarImpl.initDeclarator);
-
-        if (declarators.size() == 1) {
-            // a special handling is needed in case of single declarator
-            // because documentation may be located on different places
-            // depending on the declaration
-            visitSingleDeclarator(declaration, declarators.get(0));
-        } else {
-            // with several declarators, documentation should be located
-            // on each declarator
-            for (AstNode declarator : declarators) {
-                visitDeclarator(declarator, declarator);
-            }
-        }
+    // ignore friend declarations
+    if (isFriendDeclaration(declaratorList)) {
+      return;
     }
 
-    private boolean isFriendDeclaration(AstNode declaratorList) {
-        AstNode simpleDeclNode = declaratorList
-                .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
+    AstNode declaration = declaratorList
+      .getFirstAncestor(CxxGrammarImpl.declaration);
 
-        if (simpleDeclNode == null) {
-            LOG.warn("No simple declaration found for declarator list at {}",
-                    declaratorList.getTokenLine());
-            return false;
-        }
+    List<AstNode> declarators = declaratorList
+      .getChildren(CxxGrammarImpl.initDeclarator);
 
-        AstNode simpleDeclSpecifierSeq = simpleDeclNode
-                .getFirstChild(CxxGrammarImpl.simpleDeclSpecifierSeq);
+    if (declarators.size() == 1) {
+      // a special handling is needed in case of single declarator
+      // because documentation may be located on different places
+      // depending on the declaration
+      visitSingleDeclarator(declaration, declarators.get(0));
+    } else {
+      // with several declarators, documentation should be located
+      // on each declarator
+      for (AstNode declarator : declarators) {
+        visitDeclarator(declarator, declarator);
+      }
+    }
+  }
 
-        if (simpleDeclSpecifierSeq == null) {
-            return false;
-        }
+  private boolean isFriendDeclaration(AstNode declaratorList) {
+    AstNode simpleDeclNode = declaratorList
+      .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
 
-        List<AstNode> declSpecifiers = simpleDeclSpecifierSeq
-                .getChildren(CxxGrammarImpl.declSpecifier);
-
-        for (AstNode declSpecifier : declSpecifiers) {
-            AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
-            if (friendNode != null) {
-                return true;
-            }
-        }
-
-        return false;
+    if (simpleDeclNode == null) {
+      LOG.warn("No simple declaration found for declarator list at {}",
+        declaratorList.getTokenLine());
+      return false;
     }
 
-    private void visitSingleDeclarator(AstNode declaration,
-            AstNode declarator) {
+    AstNode simpleDeclSpecifierSeq = simpleDeclNode
+      .getFirstChild(CxxGrammarImpl.simpleDeclSpecifierSeq);
 
-        AstNode docNode;
-
-        AstNode params = declaration
-                .getFirstDescendant(CxxGrammarImpl.parametersAndQualifiers);
-
-        // in case of function declaration,
-        // the docNode is set on the declaration node
-        if (params != null) {
-            docNode = declaration;
-        }
-        else {
-            AstNode classSpecifier = declaration
-                    .getFirstDescendant(CxxGrammarImpl.classSpecifier);
-
-            // if a class is specified on the same declaration,
-            // e.g. 'struct {} a;'
-            // the documentation node is set on the declarator
-            if (classSpecifier != null) {
-                docNode = declarator;
-            }
-            else {
-                docNode = declaration;
-            }
-        }
-
-        visitDeclarator(declarator, docNode);
+    if (simpleDeclSpecifierSeq == null) {
+      return false;
     }
 
-    private void visitDeclarator(AstNode declarator, AstNode docNode) {
-        // look for block documentation
-        List<Token> comments = getBlockDocumentation(docNode);
+    List<AstNode> declSpecifiers = simpleDeclSpecifierSeq
+      .getChildren(CxxGrammarImpl.declSpecifier);
 
-        // documentation may be inlined
-        if (comments.isEmpty()) {
-            comments = getDeclaratorInlineComment(docNode);
-        }
-
-        AstNode declaratorId = declarator
-                .getFirstDescendant(CxxGrammarImpl.declaratorId);
-
-        if (declaratorId == null) {
-            LOG.error("null declaratorId: {}", AstXmlPrinter.print(declarator));
-        } else {
-            visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
-        }
+    for (AstNode declSpecifier : declSpecifiers) {
+      AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
+      if (friendNode != null) {
+        return true;
+      }
     }
 
-    private void visitClassSpecifier(AstNode classSpecifier) {
+    return false;
+  }
 
-        // check if this is a template specification to adjust
-        // documentation node
-        AstNode template = classSpecifier
-                .getFirstAncestor(CxxGrammarImpl.templateDeclaration);
-        AstNode docNode = (template != null) ? template : classSpecifier;
+  private void visitSingleDeclarator(AstNode declaration,
+    AstNode declarator) {
 
-        // narrow the identifier search scope to classHead
-        AstNode classHead = classSpecifier
-                .getFirstDescendant(CxxGrammarImpl.classHead);
+    AstNode docNode;
 
-        if (classHead == null) {
-            LOG.warn("classSpecifier does not embed a classHead at line " +
-                    classSpecifier.getTokenLine());
-            return;
-        }
+    AstNode params = declaration
+      .getFirstDescendant(CxxGrammarImpl.parametersAndQualifiers);
 
-        // look for the specifier id
-        AstNode id = classHead.getFirstDescendant(CxxGrammarImpl.className);
+    // in case of function declaration,
+    // the docNode is set on the declaration node
+    if (params != null) {
+      docNode = declaration;
+    } else {
+      AstNode classSpecifier = declaration
+        .getFirstDescendant(CxxGrammarImpl.classSpecifier);
 
-        AstNode idNode;
-        String idName;
-
-        // check if this is an unnamed specifier
-        if (id == null) {
-            idNode = classSpecifier;
-            idName = UNNAMED_CLASSIFIER_ID;
-        }
-        else {
-            idNode = id;
-            idName = id.getTokenValue();
-        }
-
-        if (!isPublicApiMember(classSpecifier)) {
-            logDebug(idName + " not in public API");
-        }
-        else {
-            visitPublicApi(idNode, idName, getBlockDocumentation(docNode));
-        }
+      // if a class is specified on the same declaration,
+      // e.g. 'struct {} a;'
+      // the documentation node is set on the declarator
+      if (classSpecifier != null) {
+        docNode = declarator;
+      } else {
+        docNode = declaration;
+      }
     }
 
-    private void visitMemberDeclaration(AstNode memberDeclaration) {
+    visitDeclarator(declarator, docNode);
+  }
 
-        AstNode declaratorList = memberDeclaration
-                .getFirstDescendant(CxxGrammarImpl.memberDeclaratorList);
+  private void visitDeclarator(AstNode declarator, AstNode docNode) {
+    // look for block documentation
+    List<Token> comments = getBlockDocumentation(docNode);
 
-        if (!isPublicApiMember(memberDeclaration)) {
-            // if not part of the API, nothing to measure
-            return;
-        }
-
-        AstNode subclassSpecifier = memberDeclaration
-                .getFirstDescendant(CxxGrammarImpl.classSpecifier);
-
-        if (subclassSpecifier != null) {
-            // sub classes are handled by subscription
-            return;
-        }
-
-        AstNode functionDef = memberDeclaration
-                .getFirstDescendant(CxxGrammarImpl.functionDefinition);
-
-        if (functionDef != null) {
-            // functionDef are handled by subscription
-            return;
-        }
-
-        if (declaratorList != null) {
-            List<AstNode> declarators = declaratorList
-                    .getChildren(CxxGrammarImpl.memberDeclarator);
-
-            // if only one declarator, the doc should be placed before the
-            // memberDeclaration, or inlined
-            if (declarators.size() == 1) {
-                visitMemberDeclarator(memberDeclaration);
-            }
-            // if several declarators, doc should be placed before each
-            // declarator, or inlined
-            else {
-                for (AstNode declarator : declarators) {
-                    visitMemberDeclarator(declarator);
-                }
-            }
-        }
+    // documentation may be inlined
+    if (comments.isEmpty()) {
+      comments = getDeclaratorInlineComment(docNode);
     }
 
-    private void visitFunctionDefinition(AstNode functionDef) {
-        if (isPublicApiMember(functionDef)) {
-            // filter out deleted and defaulted methods
-            AstNode functionBodyNode = functionDef
-                    .getFirstChild(CxxGrammarImpl.functionBody);
+    AstNode declaratorId = declarator
+      .getFirstDescendant(CxxGrammarImpl.declaratorId);
 
-            if (functionBodyNode != null) {
-                if (isDefaultOrDeleteFunctionBody(functionBodyNode)) {
-                    return;
-                }
-            }
+    if (declaratorId == null) {
+      LOG.error("null declaratorId: {}", AstXmlPrinter.print(declarator));
+    } else {
+      visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
+    }
+  }
 
-            visitMemberDeclarator(functionDef);
-        }
+  private void visitClassSpecifier(AstNode classSpecifier) {
+
+    // check if this is a template specification to adjust
+    // documentation node
+    AstNode template = classSpecifier
+      .getFirstAncestor(CxxGrammarImpl.templateDeclaration);
+    AstNode docNode = (template != null) ? template : classSpecifier;
+
+    // narrow the identifier search scope to classHead
+    AstNode classHead = classSpecifier
+      .getFirstDescendant(CxxGrammarImpl.classHead);
+
+    if (classHead == null) {
+      LOG.warn("classSpecifier does not embed a classHead at line "
+        + classSpecifier.getTokenLine());
+      return;
     }
 
-    private boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
-        boolean defaultOrDelete = false;
-        List<AstNode> functionBody = functionBodyNode.getChildren();
+    // look for the specifier id
+    AstNode id = classHead.getFirstDescendant(CxxGrammarImpl.className);
 
-        // look for exact sub AST
-        if (functionBody.size() == 3) {
-            if (functionBody.get(0).is(CxxPunctuator.ASSIGN)
-                    && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+    AstNode idNode;
+    String idName;
 
-                AstNode bodyType = functionBody.get(1);
-
-                if (bodyType.is(CxxKeyword.DELETE)
-                        || bodyType.is(CxxKeyword.DEFAULT)) {
-                    defaultOrDelete = true;
-                }
-            }
-        }
-
-        return defaultOrDelete;
+    // check if this is an unnamed specifier
+    if (id == null) {
+      idNode = classSpecifier;
+      idName = UNNAMED_CLASSIFIER_ID;
+    } else {
+      idNode = id;
+      idName = id.getTokenValue();
     }
-    
-    /**
-     * Find documentation node, associated documentation,
-     * identifier of a <em>public</em> member declarator and visit it
-     * as a public API. 
-     * @param node the <em>public</em> member declarator to visit
-     */
-    private void visitMemberDeclarator(AstNode node) {
 
-        AstNode container = node.getFirstAncestor(
-                CxxGrammarImpl.templateDeclaration,
-                CxxGrammarImpl.classSpecifier);
+    if (!isPublicApiMember(classSpecifier)) {
+      logDebug(idName + " not in public API");
+    } else {
+      visitPublicApi(idNode, idName, getBlockDocumentation(docNode));
+    }
+  }
 
-        AstNode docNode;
+  private void visitMemberDeclaration(AstNode memberDeclaration) {
 
-        if (container == null
-                || container.getType() == CxxGrammarImpl.classSpecifier) {
-            docNode = node;
-        } else {
-            docNode = container;
+    AstNode declaratorList = memberDeclaration
+      .getFirstDescendant(CxxGrammarImpl.memberDeclaratorList);
+
+    if (!isPublicApiMember(memberDeclaration)) {
+      // if not part of the API, nothing to measure
+      return;
+    }
+
+    AstNode subclassSpecifier = memberDeclaration
+      .getFirstDescendant(CxxGrammarImpl.classSpecifier);
+
+    if (subclassSpecifier != null) {
+      // sub classes are handled by subscription
+      return;
+    }
+
+    AstNode functionDef = memberDeclaration
+      .getFirstDescendant(CxxGrammarImpl.functionDefinition);
+
+    if (functionDef != null) {
+      // functionDef are handled by subscription
+      return;
+    }
+
+    if (declaratorList != null) {
+      List<AstNode> declarators = declaratorList
+        .getChildren(CxxGrammarImpl.memberDeclarator);
+
+      // if only one declarator, the doc should be placed before the
+      // memberDeclaration, or inlined
+      if (declarators.size() == 1) {
+        visitMemberDeclarator(memberDeclaration);
+      } // if several declarators, doc should be placed before each
+      // declarator, or inlined
+      else {
+        for (AstNode declarator : declarators) {
+          visitMemberDeclarator(declarator);
         }
+      }
+    }
+  }
 
-        // look for block documentation
-        List<Token> comments = getBlockDocumentation(docNode);
+  private void visitFunctionDefinition(AstNode functionDef) {
+    if (isPublicApiMember(functionDef)) {
+      // filter out deleted and defaulted methods
+      AstNode functionBodyNode = functionDef
+        .getFirstChild(CxxGrammarImpl.functionBody);
 
-        // documentation may be inlined
-        if (comments.isEmpty()) {
-            comments = getDeclaratorInlineComment(node);
+      if (functionBodyNode != null) {
+        if (isDefaultOrDeleteFunctionBody(functionBodyNode)) {
+          return;
         }
+      }
 
-        // find the identifier to present to concrete visitors
-        String id = null;
-        AstNode idNode = null;
+      visitMemberDeclarator(functionDef);
+    }
+  }
 
-        // first look for an operator function id
-        idNode = node.getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
+  private boolean isDefaultOrDeleteFunctionBody(AstNode functionBodyNode) {
+    boolean defaultOrDelete = false;
+    List<AstNode> functionBody = functionBodyNode.getChildren();
+
+    // look for exact sub AST
+    if (functionBody.size() == 3) {
+      if (functionBody.get(0).is(CxxPunctuator.ASSIGN)
+        && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+
+        AstNode bodyType = functionBody.get(1);
+
+        if (bodyType.is(CxxKeyword.DELETE)
+          || bodyType.is(CxxKeyword.DEFAULT)) {
+          defaultOrDelete = true;
+        }
+      }
+    }
+
+    return defaultOrDelete;
+  }
+
+  /**
+   * Find documentation node, associated documentation, identifier of a
+   * <em>public</em> member declarator and visit it as a public API.
+   *
+   * @param node the <em>public</em> member declarator to visit
+   */
+  private void visitMemberDeclarator(AstNode node) {
+
+    AstNode container = node.getFirstAncestor(
+      CxxGrammarImpl.templateDeclaration,
+      CxxGrammarImpl.classSpecifier);
+
+    AstNode docNode;
+
+    if (container == null
+      || container.getType() == CxxGrammarImpl.classSpecifier) {
+      docNode = node;
+    } else {
+      docNode = container;
+    }
+
+    // look for block documentation
+    List<Token> comments = getBlockDocumentation(docNode);
+
+    // documentation may be inlined
+    if (comments.isEmpty()) {
+      comments = getDeclaratorInlineComment(node);
+    }
+
+    // find the identifier to present to concrete visitors
+    String id = null;
+    AstNode idNode = null;
+
+    // first look for an operator function id
+    idNode = node.getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
+
+    if (idNode != null) {
+      id = getOperatorId(idNode);
+    } else {
+      // look for a declarator id
+      idNode = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
+
+      if (idNode != null) {
+        id = idNode.getTokenValue();
+      } else {
+        // look for an identifier (e.g in bitfield declaration)
+        idNode = node.getFirstDescendant(GenericTokenType.IDENTIFIER);
 
         if (idNode != null) {
-            id = getOperatorId(idNode);
+          id = idNode.getTokenValue();
+        } else {
+          LOG.error("Unsupported declarator at {}", node.getTokenLine());
         }
-        else {
-            // look for a declarator id
-            idNode = node.getFirstDescendant(CxxGrammarImpl.declaratorId);
-
-            if (idNode != null) {
-                id = idNode.getTokenValue();
-            }
-            else {
-                // look for an identifier (e.g in bitfield declaration)
-                idNode = node.getFirstDescendant(GenericTokenType.IDENTIFIER);
-
-                if (idNode != null) {
-                    id = idNode.getTokenValue();
-                }
-                else {
-                    LOG.error("Unsupported declarator at {}", node.getTokenLine());
-                }
-            }
-        }
-
-        if (idNode != null && id != null) {
-            visitPublicApi(idNode, id, comments);
-        }
+      }
     }
 
-    private void visitAliasDeclaration(AstNode aliasDeclNode) {
-        if (isPublicApiMember(aliasDeclNode)) {
-            logDebug("AliasDeclaration");
+    if (idNode != null && id != null) {
+      visitPublicApi(idNode, id, comments);
+    }
+  }
 
-            AstNode aliasDeclIdNode = aliasDeclNode
-                    .getFirstDescendant(GenericTokenType.IDENTIFIER);
+  private void visitAliasDeclaration(AstNode aliasDeclNode) {
+    if (isPublicApiMember(aliasDeclNode)) {
+      logDebug("AliasDeclaration");
 
-            if (aliasDeclIdNode == null) {
-                LOG.error("No identifier found at {}", aliasDeclNode.getTokenLine());
-            }
-            else {
-                // look for block documentation
-                List<Token> comments = getBlockDocumentation(aliasDeclNode);
+      AstNode aliasDeclIdNode = aliasDeclNode
+        .getFirstDescendant(GenericTokenType.IDENTIFIER);
 
-                // documentation may be inlined
-                if (comments.isEmpty()) {
-                    comments = getDeclaratorInlineComment(aliasDeclNode);
-                }
+      if (aliasDeclIdNode == null) {
+        LOG.error("No identifier found at {}", aliasDeclNode.getTokenLine());
+      } else {
+        // look for block documentation
+        List<Token> comments = getBlockDocumentation(aliasDeclNode);
 
-                visitPublicApi(aliasDeclNode, aliasDeclIdNode.getTokenValue(),
-                        comments);
-            }
+        // documentation may be inlined
+        if (comments.isEmpty()) {
+          comments = getDeclaratorInlineComment(aliasDeclNode);
         }
+
+        visitPublicApi(aliasDeclNode, aliasDeclIdNode.getTokenValue(),
+          comments);
+      }
+    }
+  }
+
+  private void visitEnumSpecifier(AstNode enumSpecifierNode) {
+    AstNode enumIdNode = enumSpecifierNode.getFirstDescendant(
+      GenericTokenType.IDENTIFIER);
+
+    String enumId = (enumIdNode == null)
+      ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
+
+    if (!isPublicApiMember(enumSpecifierNode)) {
+      logDebug(enumId + " not in public API");
+      return;
     }
 
-    private void visitEnumSpecifier(AstNode enumSpecifierNode) {
-        AstNode enumIdNode = enumSpecifierNode.getFirstDescendant(
-                GenericTokenType.IDENTIFIER);
+    visitPublicApi(
+      enumSpecifierNode, enumId,
+      getBlockDocumentation(enumSpecifierNode));
 
-        String enumId = (enumIdNode == null)?
-                UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
+    // deal with enumeration values
+    AstNode enumeratorList = enumSpecifierNode
+      .getFirstDescendant(CxxGrammarImpl.enumeratorList);
 
-        if (!isPublicApiMember(enumSpecifierNode)) {
-            logDebug(enumId + " not in public API");
-            return;
-        }
+    if (enumeratorList != null) {
+      for (AstNode definition : enumeratorList
+        .getChildren(CxxGrammarImpl.enumeratorDefinition)) {
 
-        visitPublicApi(
-                enumSpecifierNode, enumId,
-                getBlockDocumentation(enumSpecifierNode));
+        // look for block documentation
+        List<Token> comments = getBlockDocumentation(definition);
 
-        // deal with enumeration values
-        AstNode enumeratorList = enumSpecifierNode
-                .getFirstDescendant(CxxGrammarImpl.enumeratorList);
+        // look for inlined doc
+        if (comments.isEmpty()) {
+          AstNode next = definition.getNextAstNode();
 
-        if (enumeratorList != null) {
-            for (AstNode definition : enumeratorList
-                    .getChildren(CxxGrammarImpl.enumeratorDefinition)) {
-
-                // look for block documentation
-                List<Token> comments = getBlockDocumentation(definition);
-
-                // look for inlined doc
-                if (comments.isEmpty()) {
-                    AstNode next = definition.getNextAstNode();
-
-                    // inline documentation may be on the next definition token
-                    // or next curly brace
-                    if (next != null) {
-                        // discard COMMA
-                        if (next.getToken().getType() == CxxPunctuator.COMMA) {
-                            next = next.getNextAstNode();
-                        }
-
-                        comments = getInlineDocumentation(next.getToken(),
-                                definition.getTokenLine());
-                    }
-                }
-
-                visitPublicApi(
-                        definition,
-                        definition.getFirstDescendant(
-                                GenericTokenType.IDENTIFIER).getTokenValue(),
-                        comments);
-            }
-        }
-    }
-
-    // XXX may go to a utility class
-    private String getOperatorId(AstNode operatorFunctionId) {
-
-        StringBuilder builder = new StringBuilder(
-                operatorFunctionId.getTokenValue());
-        AstNode operator = operatorFunctionId
-                .getFirstDescendant(CxxGrammarImpl.operator);
-
-        if (operator != null) {
-
-            AstNode opNode = operator.getFirstChild();
-            while (opNode != null) {
-                builder.append(opNode.getTokenValue());
-                opNode = opNode.getNextSibling();
-            }
-        }
-
-        return builder.toString();
-    }
-
-    private static List<Token> getDeclaratorInlineComment(AstNode declarator) {
-        List<Token> comments;
-
-        // inline comments are attached to the next AST node (not sibling,
-        // because the last attribute inline comment is attached to the next
-        // node of the parent)
-        AstNode next = declarator.getNextAstNode();
-
-        // inline documentation may be on the next definition token
-        // or next curly brace
-        if (next != null) {
-            // discard COMMA and SEMICOLON
-            if (next.getToken().getType() == CxxPunctuator.COMMA
-                    || next.getToken().getType() == CxxPunctuator.SEMICOLON) {
-                next = next.getNextAstNode();
+          // inline documentation may be on the next definition token
+          // or next curly brace
+          if (next != null) {
+            // discard COMMA
+            if (next.getToken().getType() == CxxPunctuator.COMMA) {
+              next = next.getNextAstNode();
             }
 
             comments = getInlineDocumentation(next.getToken(),
-                    declarator.getTokenLine());
+              definition.getTokenLine());
+          }
+        }
+
+        visitPublicApi(
+          definition,
+          definition.getFirstDescendant(
+            GenericTokenType.IDENTIFIER).getTokenValue(),
+          comments);
+      }
+    }
+  }
+
+  // XXX may go to a utility class
+  private String getOperatorId(AstNode operatorFunctionId) {
+
+    StringBuilder builder = new StringBuilder(
+      operatorFunctionId.getTokenValue());
+    AstNode operator = operatorFunctionId
+      .getFirstDescendant(CxxGrammarImpl.operator);
+
+    if (operator != null) {
+
+      AstNode opNode = operator.getFirstChild();
+      while (opNode != null) {
+        builder.append(opNode.getTokenValue());
+        opNode = opNode.getNextSibling();
+      }
+    }
+
+    return builder.toString();
+  }
+
+  private static List<Token> getDeclaratorInlineComment(AstNode declarator) {
+    List<Token> comments;
+
+    // inline comments are attached to the next AST node (not sibling,
+    // because the last attribute inline comment is attached to the next
+    // node of the parent)
+    AstNode next = declarator.getNextAstNode();
+
+    // inline documentation may be on the next definition token
+    // or next curly brace
+    if (next != null) {
+      // discard COMMA and SEMICOLON
+      if (next.getToken().getType() == CxxPunctuator.COMMA
+        || next.getToken().getType() == CxxPunctuator.SEMICOLON) {
+        next = next.getNextAstNode();
+      }
+
+      comments = getInlineDocumentation(next.getToken(),
+        declarator.getTokenLine());
+    } else {
+      // could happen on parse error ?
+      comments = new ArrayList<>();
+    }
+
+    return comments;
+  }
+
+  private static boolean isPublicApiMember(AstNode node) {
+    AstNode access = node;
+
+    // retrieve the accessSpecifier
+    do {
+      access = access.getPreviousAstNode();
+    } while (access != null
+      && access.getType() != CxxGrammarImpl.accessSpecifier);
+
+    if (access != null) {
+      return access.getToken().getType() == CxxKeyword.PUBLIC
+        || access.getToken().getType() == CxxKeyword.PROTECTED;
+    } else {
+      AstNode classSpecifier = node
+        .getFirstAncestor(CxxGrammarImpl.classSpecifier);
+
+      if (classSpecifier != null) {
+
+        AstNode enclosingSpecifierNode = classSpecifier
+          .getFirstDescendant(CxxKeyword.STRUCT,
+            CxxKeyword.CLASS, CxxKeyword.ENUM);
+
+        if (enclosingSpecifierNode != null) {
+          switch ((CxxKeyword) enclosingSpecifierNode.getToken()
+            .getType()) {
+            case STRUCT:
+              // struct members have public access, thus access level
+              // is the access level of the enclosing classSpecifier
+              return isPublicApiMember(classSpecifier);
+            case CLASS:
+              // default access in classes is private
+              return false;
+            default:
+              LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(), enclosingSpecifierNode.getTokenLine());
+              return false;
+          }
         } else {
-            // could happen on parse error ?
-            comments = new ArrayList<Token>();
+          LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
+          return false;
         }
+      }
 
-        return comments;
+      // global member
+      return true;
     }
+  }
 
-    private static boolean isPublicApiMember(AstNode node) {
-        AstNode access = node;
+  /**
+   * Check if inline Doxygen documentation is attached to the given token at
+   * specified line
+   *
+   * @param token the token to inspect
+   * @param line line of the inlined documentation
+   * @return true if documentation is found for specified line, false otherwise
+   */
+  private static List<Token> getInlineDocumentation(Token token, int line) {
+    List<Token> comments = new ArrayList<>();
 
-        // retrieve the accessSpecifier
-        do {
-            access = access.getPreviousAstNode();
-        } while (access != null
-                && access.getType() != CxxGrammarImpl.accessSpecifier);
-
-        if (access != null) {
-            return access.getToken().getType() == CxxKeyword.PUBLIC
-                    || access.getToken().getType() == CxxKeyword.PROTECTED;
-        } else {
-            AstNode classSpecifier = node
-                    .getFirstAncestor(CxxGrammarImpl.classSpecifier);
-
-            if (classSpecifier != null) {
-
-                AstNode enclosingSpecifierNode = classSpecifier
-                        .getFirstDescendant(CxxKeyword.STRUCT,
-                                CxxKeyword.CLASS, CxxKeyword.ENUM);
-
-                if (enclosingSpecifierNode != null) {
-                    switch ((CxxKeyword) enclosingSpecifierNode.getToken()
-                            .getType()) {
-                    case STRUCT:
-                        // struct members have public access, thus access level
-                        // is the access level of the enclosing classSpecifier
-                        return isPublicApiMember(classSpecifier);
-                    case CLASS:
-                        // default access in classes is private
-                        return false;
-                    default:
-                        LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(), enclosingSpecifierNode.getTokenLine());
-                        return false;
-                    }
-                } else {
-                    LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
-                    return false;
-                }
+    for (Trivia trivia : token.getTrivia()) {
+      if (trivia.isComment()) {
+        Token triviaToken = trivia.getToken();
+        if (triviaToken != null) {
+          if (triviaToken.getLine() == line) {
+            if (isDoxygenInlineComment(triviaToken.getValue())) {
+              comments.add(triviaToken);
+              LOG.trace("Inline doc: " + triviaToken.getValue());
             }
-
-            // global member
-            return true;
+          }
         }
+      }
     }
+    return comments;
+  }
 
-    /**
-     * Check if inline Doxygen documentation is attached to the given token at
-     * specified line
-     *
-     * @param token
-     *            the token to inspect
-     * @param line
-     *            line of the inlined documentation
-     * @return true if documentation is found for specified line, false
-     *         otherwise
-     */
-    private static List<Token> getInlineDocumentation(Token token, int line) {
-        List<Token> comments = new ArrayList<Token>();
+  private static List<Token> getBlockDocumentation(AstNode node) {
+    List<Token> commentTokens = new ArrayList<>();
 
-        for (Trivia trivia : token.getTrivia()) {
-            if (trivia.isComment()) {
-                Token triviaToken = trivia.getToken();
-                if (triviaToken != null)
-                    if (triviaToken.getLine() == line) {
-                        if (isDoxygenInlineComment(triviaToken.getValue())) {
-                            comments.add(triviaToken);
-                            LOG.trace("Inline doc: " + triviaToken.getValue());
-                        }
-                    }
-            }
+    Token token = node.getToken();
+    for (Trivia trivia : token.getTrivia()) {
+      if (trivia.isComment()) {
+        Token triviaToken = trivia.getToken();
+        if (triviaToken != null) {
+          String comment = triviaToken.getValue();
+          LOG.trace("Doc: {}\n", comment);
+          if (isDoxygenCommentBlock(comment)
+            && !isDoxygenInlineComment(comment)) {
+            commentTokens.add(triviaToken);
+          }
         }
-        return comments;
+      }
     }
 
-    private static List<Token> getBlockDocumentation(AstNode node) {
-        List<Token> commentTokens = new ArrayList<Token>();
+    return commentTokens;
+  }
 
-        Token token = node.getToken();
-        for (Trivia trivia : token.getTrivia()) {
-            if (trivia.isComment()) {
-                Token triviaToken = trivia.getToken();
-                if (triviaToken != null) {
-                    String comment = triviaToken.getValue();
-                    LOG.trace("Doc: {}\n", comment);
-                    if (isDoxygenCommentBlock(comment)
-                            && !isDoxygenInlineComment(comment))
-                        commentTokens.add(triviaToken);
-                }
-            }
-        }
+  private static boolean isDoxygenInlineComment(String comment) {
 
-        return commentTokens;
+    return comment.startsWith("/*!<") || comment.startsWith("/**<")
+      || comment.startsWith("//!<") || comment.startsWith("///<");
+  }
+
+  private static boolean isDoxygenCommentBlock(String comment) {
+
+    return comment.startsWith("/**") || comment.startsWith("/*!")
+      || comment.startsWith("///") || comment.startsWith("//!");
+  }
+
+  private void logDebug(String msg) {
+    if (DEBUG) {
+      LOG.debug(msg);
     }
+  }
 
-    private static boolean isDoxygenInlineComment(String comment) {
-
-        return comment.startsWith("/*!<") || comment.startsWith("/**<")
-                || comment.startsWith("//!<") || comment.startsWith("///<");
-    }
-
-    private static boolean isDoxygenCommentBlock(String comment) {
-
-        return comment.startsWith("/**") || comment.startsWith("/*!")
-                || comment.startsWith("///") || comment.startsWith("//!");
-    }
-
-    private void logDebug(String msg) {
-        if (DEBUG)
-            LOG.debug(msg);
-    }
-
-    public AbstractCxxPublicApiVisitor<GRAMMAR> withHeaderFileSuffixes(
-            List<String> headerFileSuffixes) {
-        this.headerFileSuffixes = headerFileSuffixes;
-        return this;
-    }
+  public AbstractCxxPublicApiVisitor<GRAMMAR> withHeaderFileSuffixes(
+    List<String> headerFileSuffixes) {
+    this.headerFileSuffixes = headerFileSuffixes;
+    return this;
+  }
 }

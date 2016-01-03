@@ -25,6 +25,7 @@ import org.sonar.sslr.channel.CodeReader;
 import com.sonar.sslr.impl.Lexer;
 
 public class BackslashChannel extends Channel<Lexer> {
+
   @Override
   public boolean consume(CodeReader code, Lexer output) {
     char ch = (char) code.peek();

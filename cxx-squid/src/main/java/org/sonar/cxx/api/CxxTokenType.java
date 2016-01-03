@@ -23,6 +23,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.TokenType;
 
 public enum CxxTokenType implements TokenType {
+
   NUMBER,
   STRING,
   CHARACTER,
@@ -36,14 +37,17 @@ public enum CxxTokenType implements TokenType {
   PREPROCESSOR_ENDIF,
   WS; // whitespace
 
+  @Override
   public String getName() {
     return name();
   }
 
+  @Override
   public String getValue() {
     return name();
   }
 
+  @Override
   public boolean hasToBeSkippedFromAst(AstNode node) {
     return this == WS;
   }

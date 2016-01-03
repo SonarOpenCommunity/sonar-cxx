@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.sonar.squid.recognizer.Detector;
 
 public class CxxLanguageFootprintTest {
+
   @Test
   public void shouldProvideTokenizers() {
     Set<Detector> detectors = (new CxxLanguageFootprint()).getDetectors();
