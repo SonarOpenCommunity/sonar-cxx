@@ -133,7 +133,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void template() {
-    testFile("src/test/resources/metrics/template.h", 3, 2, true);
+    testFile("src/test/resources/metrics/template.h", 5, 2, true);
   }
 
   @Test
