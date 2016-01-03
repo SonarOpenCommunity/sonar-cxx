@@ -30,7 +30,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
-import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
+import org.sonar.squidbridge.annotations.SqaleLinearRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.annotations.Tags;
 
@@ -45,7 +45,7 @@ import org.sonar.squidbridge.annotations.Tags;
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)
-@SqaleConstantRemediation("5min")
+@SqaleLinearRemediation(coeff= "120min" , effortToFixDescription = "extract problematic methods and move it to separate package")
 public class CycleBetweenPackagesCheck extends SquidCheck<Grammar> {
 
   public static final String RULE_KEY = "CycleBetweenPackages";
