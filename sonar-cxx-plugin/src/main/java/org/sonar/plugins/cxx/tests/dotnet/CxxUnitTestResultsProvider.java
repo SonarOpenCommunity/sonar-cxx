@@ -17,32 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx.xunit;
+package org.sonar.plugins.cxx.tests.dotnet;
 
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.dotnet.tests.UnitTestConfiguration;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsAggregator;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 
-public class MSTestResultsProvider {
+public class CxxUnitTestResultsProvider {
 
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportsPaths";
-  private static final UnitTestConfiguration UNIT_TEST_CONF = new UnitTestConfiguration(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY);
-
-  private MSTestResultsProvider() {
+  public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.nunit.reportsPaths";
+  private static final UnitTestConfiguration UNIT_TEST_CONF = new UnitTestConfiguration(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY, NUNIT_TEST_RESULTS_PROPERTY_KEY);
+  
+  private CxxUnitTestResultsProvider() {
   }
 
-  public static class MSTestResultsAggregator extends UnitTestResultsAggregator {
+  public static class CxxUnitTestResultsAggregator extends UnitTestResultsAggregator {
 
-    public MSTestResultsAggregator(Settings settings) {
+    public CxxUnitTestResultsAggregator(Settings settings) {
       super(UNIT_TEST_CONF, settings);
     }
 
   }
 
-  public static class MSTestResultsImportSensor extends UnitTestResultsImportSensor {
-
-    public MSTestResultsImportSensor(MSTestResultsAggregator unitTestResultsAggregator) {
+  public static class CxxUnitTestResultsImportSensor extends UnitTestResultsImportSensor {
+    
+    public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator) {
       super(unitTestResultsAggregator);
     }
 
