@@ -429,8 +429,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(nestedNameSpecifier).is(
       b.firstOf(
-        b.sequence(b.optional("::"), typeName, "::"),
-        b.sequence(b.optional("::"), namespaceName, "::"),
+        "::",
+        b.sequence(typeName, "::"),
+        b.sequence(namespaceName, "::"),
         b.sequence(decltypeSpecifier, "::")
         ),
       b.zeroOrMore(
@@ -470,12 +471,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(postfixExpression).is(
       b.firstOf(
+            b.sequence(typenameSpecifier, "::", CxxKeyword.TYPEID ),
+            b.sequence(simpleTypeSpecifier, "::", CxxKeyword.TYPEID ),
             b.sequence(simpleTypeSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"),
             b.sequence(simpleTypeSpecifier, bracedInitList),
-            b.sequence(simpleTypeSpecifier, "::", "typeid"),
             b.sequence(typenameSpecifier, b.optional(cudaKernel), "(", b.optional(expressionList), ")"),
             b.sequence(typenameSpecifier, bracedInitList),
-            b.sequence(typenameSpecifier, "::", "typeid"),
 
             primaryExpression,
 
@@ -483,8 +484,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
             b.sequence(CxxKeyword.STATIC_CAST, typeIdEnclosed, "(", expression, ")"),
             b.sequence(CxxKeyword.REINTERPRET_CAST, typeIdEnclosed, "(", expression, ")"),
             b.sequence(CxxKeyword.CONST_CAST, typeIdEnclosed, "(", expression, ")"),
-            b.sequence("typeid", "(", expression, ")"),
-            b.sequence("typeid", "(", typeId, ")")
+            b.sequence(CxxKeyword.TYPEID, "(", expression, ")"),
+            b.sequence(CxxKeyword.TYPEID, "(", typeId, ")")
+
+
         ),
 
         // postfixExpression [ expression ]
@@ -502,6 +505,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         b.zeroOrMore(
         b.firstOf(
             b.sequence("[", expression, "]"),
+            b.sequence("[", bracedInitList, "]"),
             b.sequence("(", b.optional(expressionList), ")"),
             b.sequence(b.firstOf(".", "->"),
                 b.firstOf(b.sequence(b.optional(CxxKeyword.TEMPLATE), idExpression),
@@ -645,9 +649,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(statement).is(
       b.firstOf(
-        b.sequence(b.optional(attributeSpecifierSeq), compoundStatement),
         labeledStatement,
         b.sequence(b.optional(attributeSpecifierSeq), expressionStatement),
+        b.sequence(b.optional(attributeSpecifierSeq), compoundStatement),
         b.sequence(b.optional(attributeSpecifierSeq), ifStatement),
         b.sequence(b.optional(attributeSpecifierSeq), switchStatement),
         b.sequence(b.optional(attributeSpecifierSeq), iterationStatement),
@@ -853,9 +857,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         CxxKeyword.FLOAT, CxxKeyword.DOUBLE, 
         CxxKeyword.VOID, CxxKeyword.AUTO,
         decltypeSpecifier,
-        b.sequence(b.optional("::"), b.optional(nestedNameSpecifier), typeName),
-//        b.sequence(b.optional(b.firstOf(nestedNameSpecifier,"::")), typeName)
-        b.sequence(b.optional("::"), b.optional(nestedNameSpecifier), CxxKeyword.TEMPLATE, simpleTemplateId)
+        b.sequence(b.optional(nestedNameSpecifier), typeName),
+        b.sequence(nestedNameSpecifier, CxxKeyword.TEMPLATE, simpleTemplateId)
         )
       );
 
@@ -868,7 +871,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
           )
         );
 
-    b.rule(decltypeSpecifier).is(CxxKeyword.DECLTYPE, "(", expression, ")");
+    b.rule(decltypeSpecifier).is(
+        b.firstOf(
+            b.sequence(CxxKeyword.DECLTYPE, "(", expression, ")"),
+            b.sequence(CxxKeyword.DECLTYPE, "(", CxxKeyword.AUTO, ")")
+            ));
 
     b.rule(elaboratedTypeSpecifier).is(
       b.firstOf(
@@ -1557,8 +1564,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(typenameSpecifier).is(
-        CxxKeyword.TYPENAME, nestedNameSpecifier,
-        b.firstOf(b.sequence(b.optional(CxxKeyword.TEMPLATE), simpleTemplateId), IDENTIFIER));
+        b.firstOf(
+            b.sequence(CxxKeyword.TYPENAME, nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), simpleTemplateId),
+            b.sequence(CxxKeyword.TYPENAME, nestedNameSpecifier, IDENTIFIER),
+            IDENTIFIER)
+        );
 
     b.rule(explicitInstantiation).is(b.optional(CxxKeyword.EXTERN), CxxKeyword.TEMPLATE, declaration);
 
