@@ -14,8 +14,8 @@ env:
   
 matrix:
     fast_finished: true
-    allow_failures:
-        - env: SONARHOME=/tmp/sonarqube-5.4
+#    allow_failures:
+#        - env: SONARHOME=/tmp/sonarqube-5.4
 
 before_install:
         - cat /etc/hosts # optionally check the content *before*
