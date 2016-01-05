@@ -18,7 +18,10 @@ matrix:
         - env: SONARHOME=/tmp/sonarqube-5.3-RC2
 
 before_install:
+        - cat /etc/hosts # optionally check the content *before*
         - sudo hostname "$(hostname | cut -c1-63)"
+        - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
+        - cat /etc/hosts # optionally check the content *after*
         - travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
         - travis_retry sudo apt-get -qq update
         - travis_retry sudo apt-get -qq install boost1.55
