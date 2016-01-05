@@ -128,13 +128,13 @@ public final class CxxAstScanner {
         }
         String functionName = sb.toString();
         sb.setLength(0);
-        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.originalNamespaceDefinition);
+        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
         while (namespace != null) {
           if (sb.length() > 0) {
             sb.insert(0, "::");
           }
           sb.insert(0, namespace.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue());
-          namespace = namespace.getFirstAncestor(CxxGrammarImpl.originalNamespaceDefinition);
+          namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
         }
         String namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
         SourceFunction function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
@@ -182,8 +182,6 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.STATEMENTS)
       .subscribeTo(CxxGrammarImpl.statement)
-      .subscribeTo(CxxGrammarImpl.switchBlockStatementGroups)
-      .subscribeTo(CxxGrammarImpl.switchBlockStatementGroup)
       .build());
 
     AstNodeType[] complexityAstNodeType = new AstNodeType[]{

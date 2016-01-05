@@ -27,6 +27,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
+import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
@@ -45,7 +46,7 @@ public class MissingCurlyBracesCheck extends SquidCheck<Grammar> {
   @Override
   public void init() {
     subscribeTo(
-      CxxGrammarImpl.ifStatement,
+      CxxGrammarImpl.selectionStatement,
       CxxGrammarImpl.iterationStatement);
   }
 
@@ -56,11 +57,11 @@ public class MissingCurlyBracesCheck extends SquidCheck<Grammar> {
       getContext().createLineViolation(this, "Missing curly brace.", astNode);
     }
 
-    if (astNode.is(CxxGrammarImpl.ifStatement)) {
+    if (isIfStatement(astNode)) {
       AstNode elseClause = astNode.getFirstChild(CxxKeyword.ELSE);
       if (elseClause != null) {
         statement = elseClause.getNextSibling();
-        if (!statement.getFirstChild().is(CxxGrammarImpl.compoundStatement) && !statement.getFirstChild().is(CxxGrammarImpl.ifStatement)) {
+        if (!statement.getFirstChild().is(CxxGrammarImpl.compoundStatement) && !isIfStatement(statement.getFirstChild())) {
           getContext().createLineViolation(this, "Missing curly brace.", elseClause);
         }
       }

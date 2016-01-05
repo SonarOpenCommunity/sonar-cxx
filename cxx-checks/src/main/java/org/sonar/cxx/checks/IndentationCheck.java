@@ -37,16 +37,19 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import org.sonar.api.server.rule.RulesDefinition;
+import static org.sonar.cxx.checks.utils.CheckUtils.isIdentifierLabel;
+import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
+import static org.sonar.cxx.checks.utils.CheckUtils.isSwitchStatement;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.cxx.tag.Tag;
 
 @Rule(
-  key = "Indentation",
-  name = "Source code should be correctly indented",
-  tags = {Tag.CONVENTION},
-  priority = Priority.MAJOR)
+        key = "Indentation",
+        name = "Source code should be correctly indented",
+        tags = {Tag.CONVENTION},
+        priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("5min")
@@ -54,13 +57,13 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   private static final AstNodeType[] BLOCK_TYPES = new AstNodeType[]{
     CxxGrammarImpl.statementSeq,
-    CxxGrammarImpl.switchBlockStatementGroups,
-    CxxGrammarImpl.switchBlockStatementGroup,
+    //    CxxGrammarImpl.switchBlockStatementGroups,
+    //    CxxGrammarImpl.switchBlockStatementGroup,
     CxxGrammarImpl.declarationSeq,
     CxxGrammarImpl.classSpecifier,
     CxxGrammarImpl.enumeratorList,
     CxxGrammarImpl.iterationStatement,
-    CxxGrammarImpl.ifStatement
+    CxxGrammarImpl.selectionStatement
   };
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
@@ -68,48 +71,47 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     CxxGrammarImpl.emptyStatement,
     CxxGrammarImpl.declaration,
     CxxGrammarImpl.memberDeclaration,
-    CxxGrammarImpl.enumeratorDefinition,
-    CxxGrammarImpl.switchLabelStatement
+    CxxGrammarImpl.enumeratorDefinition, //CxxGrammarImpl.switchLabelStatement
   };
 
   private static final int DEFAULT_INDENTATION_LEVEL = 2;
 
   @RuleProperty(
-    key = "indentationLevel",
-    description = "Number of spaces of an indentation level",
-    defaultValue = "" + DEFAULT_INDENTATION_LEVEL)
+          key = "indentationLevel",
+          description = "Number of spaces of an indentation level",
+          defaultValue = "" + DEFAULT_INDENTATION_LEVEL)
   public int indentationLevel = DEFAULT_INDENTATION_LEVEL;
 
   private static final int DEFAULT_TAB_WIDTH = 8;
 
   @RuleProperty(
-    key = "tabWidth",
-    description = "Number of spaces in a 'tab' character",
-    defaultValue = "" + DEFAULT_TAB_WIDTH)
+          key = "tabWidth",
+          description = "Number of spaces in a 'tab' character",
+          defaultValue = "" + DEFAULT_TAB_WIDTH)
   public int tabWidth = DEFAULT_TAB_WIDTH;
 
   private static final boolean DEFAULT_INDENT_NAMESPACE = true;
 
   @RuleProperty(
-    key = "indentNamespace",
-    description = "Indicate if the content of the namespace should be indented",
-    defaultValue = "" + DEFAULT_INDENT_NAMESPACE)
+          key = "indentNamespace",
+          description = "Indicate if the content of the namespace should be indented",
+          defaultValue = "" + DEFAULT_INDENT_NAMESPACE)
   boolean indentNamespace = DEFAULT_INDENT_NAMESPACE;
 
   private static final boolean DEFAULT_INDENT_LINKAGE_SPEC = false;
 
   @RuleProperty(
-    key = "indentLinkageSpecification",
-    description = "Indicate if the content of a linkage specification block should be indented",
-    defaultValue = "" + DEFAULT_INDENT_LINKAGE_SPEC)
+          key = "indentLinkageSpecification",
+          description = "Indicate if the content of a linkage specification block should be indented",
+          defaultValue = "" + DEFAULT_INDENT_LINKAGE_SPEC)
   boolean indentLinkageSpecification = DEFAULT_INDENT_LINKAGE_SPEC;
 
   private static final boolean DEFAULT_INDENT_SWITCH_CASE = true;
 
   @RuleProperty(
-    key = "indentSwitchCase",
-    description = "Indicate if cases in switch should be indented",
-    defaultValue = "" + DEFAULT_INDENT_SWITCH_CASE)
+          key = "indentSwitchCase",
+          description = "Indicate if cases in switch should be indented",
+          defaultValue = "" + DEFAULT_INDENT_SWITCH_CASE)
   boolean indentSwitchCase = DEFAULT_INDENT_SWITCH_CASE;
 
   private int expectedLevel;
@@ -163,7 +165,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
     return column;
   }
 
-  private Stack<Integer> blockLevels = new Stack<Integer>();
+  private final Stack<Integer> blockLevels = new Stack<>();
 
   /**
    * Check if the node is a conditional block. i.e. verify if the node is a
@@ -173,9 +175,9 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
   private boolean isConditionalBlock(AstNode node) {
     if (node.is(CxxGrammarImpl.statementSeq)) {
       node = node.getParent() //compoundStatement
-        .getParent() //statement
-        .getParent();
-      return node.is(CxxGrammarImpl.ifStatement) || node.is(CxxGrammarImpl.iterationStatement);
+              .getParent() //statement
+              .getParent();
+      return isIfStatement(node) || node.is(CxxGrammarImpl.iterationStatement);
     }
     return false;
   }
@@ -194,19 +196,22 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.ifStatement) || node.is(CxxGrammarImpl.iterationStatement)) {
+    if (isIfStatement(node) || node.is(CxxGrammarImpl.iterationStatement)) {
       blockLevels.push(expectedLevel);
-      if (!node.getParent().getParent().is(CxxGrammarImpl.ifStatement) || isLineFirstStatement(node)) //do not indent if this condition block is a direct child of another one, and not on his own line: e.g. "else if ()"
+      if (!isIfStatement(node.getParent().getParent()) || isLineFirstStatement(node)) //do not indent if this condition block is a direct child of another one, and not on his own line: e.g. "else if ()"
       {
         expectedLevel += indentationLevel;
       }
       isBlockAlreadyReported = false;
     } else if (node.is(BLOCK_TYPES)) {
       blockLevels.push(expectedLevel);
-      if (!isConditionalBlock(node) && //do not further indent conditional block, the if/for/... statement already incremented the indentation
-        (indentNamespace || !node.is(CxxGrammarImpl.namespaceBlock)) && //do not indent inside namespace
-        (indentLinkageSpecification || !isLinkageSpecificationBlock(node)) && //do not indent inside linkage specification block
-        (indentSwitchCase || !node.is(CxxGrammarImpl.switchBlockStatementGroups))) { //do not indent 'case' and 'default' inside switch statement
+      if (!isConditionalBlock(node)
+              && //do not further indent conditional block, the if/for/... statement already incremented the indentation
+              (indentNamespace || !node.is(CxxGrammarImpl.namespaceBody)) // @todo: namespaceBody
+              && //do not indent inside namespace
+              (indentLinkageSpecification || !isLinkageSpecificationBlock(node))
+              && //do not indent inside linkage specification block
+              (indentSwitchCase || !node.is(CxxGrammarImpl.compoundStatement))) { //do not indent 'case' and 'default' inside switch statement //@todo compoundStatement
         expectedLevel += indentationLevel;
         isBlockAlreadyReported = false;
       }
@@ -236,16 +241,16 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
    * @return The indent level.
    */
   public int getExpectedNodeLevel(AstNode node) {
-    if (node.is(CxxGrammarImpl.statement) && node.getFirstChild().is(CxxGrammarImpl.labeledStatement)) {
+    if (node.is(CxxGrammarImpl.statement) && isIdentifierLabel(node.getFirstChild())) {
       //Label should be at the beginning of the line
       return 0;
     }
     if (node.is(CxxGrammarImpl.statement) && node.getFirstChild().is(CxxGrammarImpl.compoundStatement)
-      && (node.getParent().is(CxxGrammarImpl.iterationStatement) || node.getParent().is(CxxGrammarImpl.ifStatement))) {
+            && (node.getParent().is(CxxGrammarImpl.iterationStatement) || isIfStatement(node.getParent()))) {
       //Compound statements inside condition/loops should be at the same indent level as the if/else/loop keyword
       return expectedLevel - indentationLevel;
     }
-    if (node.is(CxxGrammarImpl.switchLabelStatement)) {
+    if (isSwitchStatement(node)) {
       //Switch label statements are visited after we enter the switchBlockStatementGroup, so indent has already been incremented
       return expectedLevel - indentationLevel;
     }

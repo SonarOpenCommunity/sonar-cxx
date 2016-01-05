@@ -31,6 +31,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
+import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
@@ -47,7 +48,7 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.ifStatement);
+    subscribeTo(CxxGrammarImpl.selectionStatement);
   }
 
   @Override
@@ -77,7 +78,7 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
   @Nullable
   private static AstNode getEnclosingIfStatement(AstNode node) {
     AstNode grandParent = node.getParent().getParent();
-    if (grandParent.is(CxxGrammarImpl.ifStatement)) {
+    if (isIfStatement(grandParent)) {
       return grandParent;
     } else if (!grandParent.is(CxxGrammarImpl.statementSeq)) {
       return null;
@@ -89,7 +90,7 @@ public class CollapsibleIfCandidateCheck extends SquidCheck<Grammar> {
     }
 
     AstNode enclosingStatement = statement.getParent();
-    return enclosingStatement.is(CxxGrammarImpl.ifStatement) ? enclosingStatement : null;
+    return isIfStatement(enclosingStatement) ? enclosingStatement : null;
   }
 
   private static boolean hasSingleTrueStatement(AstNode node) {

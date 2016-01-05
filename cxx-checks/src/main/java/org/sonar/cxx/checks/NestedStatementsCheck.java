@@ -36,6 +36,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.List;
 import java.util.Set;
+import org.sonar.cxx.api.CxxKeyword;
+import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 
 @Rule(
   key = "NestedStatements",
@@ -49,8 +51,7 @@ import java.util.Set;
 public class NestedStatementsCheck extends SquidCheck<Grammar> {
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
-    CxxGrammarImpl.ifStatement,
-    CxxGrammarImpl.switchStatement,
+    CxxGrammarImpl.selectionStatement,
     CxxGrammarImpl.tryBlock,
     CxxGrammarImpl.iterationStatement
   };
@@ -113,7 +114,6 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
    * @return True if the given node is the 'if' in an 'else if' construct.
    */
   private boolean isElseIf(AstNode node) {
-    return node.getType() == CxxGrammarImpl.ifStatement
-      && node.getParent().getPreviousAstNode().getType().toString().equals(ELSE_TOKEN);
+    return isIfStatement(node) && node.getParent().getPreviousAstNode().getType()==CxxKeyword.ELSE;
   }
 }
