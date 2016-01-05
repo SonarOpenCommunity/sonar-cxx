@@ -104,8 +104,8 @@ public class CxxVCppBuildLogParser {
         if (line.trim().endsWith("Platform=x64")) {
           platform = "x64";
         }
-
-        if (line.contains("\\bin\\CL.exe") || line.contains("\\bin\\x86_amd64\\CL.exe")) {
+        // match "VC\bin\CL.exe", "VC\bin\amd64\CL.exe", "VC\bin\x86_amd64\CL.exe"
+        if (line.matches("^.*\\\\VC\\\\bin\\\\.*CL.exe\\x20.*$")) {
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
           try {
@@ -186,12 +186,17 @@ public class CxxVCppBuildLogParser {
     try {
       File includeRoot = new File(element.replace("\"", ""));
       String includePath;
+      Path p = Paths.get(project);
       if (!includeRoot.isAbsolute()) {
+        // handle path without drive information but represent absolute path
+        File pseudoAbsolute = new File(p.getRoot().toString(), includeRoot.toString());
+        if (pseudoAbsolute.exists()) {
+          includeRoot = new File(p.getRoot().toString(), includeRoot.getPath());
+        } else {
         includeRoot = new File(project, includeRoot.getPath());
+        }
+      } 
         includePath = includeRoot.getCanonicalPath();
-      } else {
-        includePath = includeRoot.getCanonicalPath();
-      }
       if (!includesPerUnit.contains(includePath)) {
         includesPerUnit.add(includePath);
       }
