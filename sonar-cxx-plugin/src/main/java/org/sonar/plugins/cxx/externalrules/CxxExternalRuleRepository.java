@@ -29,7 +29,6 @@ import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.squidbridge.rules.SqaleXmlLoader;
 import org.sonar.plugins.cxx.utils.CxxSqaleXmlLoader;
-import org.sonar.plugins.cxx.CxxSettings;
 
 /**
  * Loads the external rules configuration file.
@@ -39,13 +38,13 @@ public class CxxExternalRuleRepository implements RulesDefinition {
   public static final String KEY = "other";
   public static final String RULES_KEY = "sonar.cxx.other.rules";
   public static final String SQALES_KEY = "sonar.cxx.other.sqales";
-  public final CxxSettings settings;
+  public final Settings settings;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private static final String NAME = "Other";
 
   public CxxExternalRuleRepository(RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
     this.xmlRuleLoader = xmlRuleLoader;
-    this.settings = new CxxSettings(settings);
+    this.settings = settings;
   }
 
   @Override

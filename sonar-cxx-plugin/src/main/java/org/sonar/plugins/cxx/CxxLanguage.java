@@ -33,7 +33,6 @@ public class CxxLanguage extends AbstractLanguage {
   public static final String DEFAULT_C_FILES = "*.c,*.C";
   public static final String KEY = "c++";
 
-  private CxxSettings settings;
   private final String[] sourceSuffixes;
   private final String[] headerSuffixes;
   private final String[] fileSuffixes;
@@ -43,9 +42,8 @@ public class CxxLanguage extends AbstractLanguage {
    */
   public CxxLanguage(Settings settings) {
     super(KEY, "c++");
-    this.settings = new CxxSettings(settings);
-    sourceSuffixes = createStringArray(this.settings.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
-    headerSuffixes = createStringArray(this.settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
+    sourceSuffixes = createStringArray(settings.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
+    headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);
   }
 

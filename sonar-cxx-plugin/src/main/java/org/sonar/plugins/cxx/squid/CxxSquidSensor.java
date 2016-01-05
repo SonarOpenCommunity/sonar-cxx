@@ -58,7 +58,6 @@ import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
-import org.sonar.plugins.cxx.CxxSettings;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
@@ -84,7 +83,7 @@ public final class CxxSquidSensor implements Sensor {
   private Project project;
   private SensorContext context;
   private AstScanner<Grammar> scanner;
-  private CxxSettings settings;
+  private Settings settings;
   private FileSystem fs;
   private ResourcePerspectives resourcePerspectives;
   private final FilePredicate mainFilePredicate;
@@ -107,7 +106,7 @@ public final class CxxSquidSensor implements Sensor {
       .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
       .addCustomChecks(customRulesDefinition);
     this.rules = rules;
-    this.settings = new CxxSettings(settings);
+    this.settings = settings;
     this.fs = fs;
     this.resourcePerspectives = resourcePerspectives;
     FilePredicates predicates = fs.predicates();

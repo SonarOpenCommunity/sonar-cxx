@@ -30,7 +30,6 @@ import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.CxxSettings;
 import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 /**
@@ -39,7 +38,7 @@ import org.sonar.squidbridge.rules.SqaleXmlLoader;
 public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
   private final ServerFileSystem fileSystem;
-  public final CxxSettings settings;
+  public final Settings settings;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   protected final String repositoryKey;
   protected final String repositoryName;
@@ -54,7 +53,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     this.repositoryKey = key;
     this.repositoryName = name;
     this.customRepositoryKey = customKey;
-    this.settings = new CxxSettings(settings);
+    this.settings = settings;
   }
 
   @Override
