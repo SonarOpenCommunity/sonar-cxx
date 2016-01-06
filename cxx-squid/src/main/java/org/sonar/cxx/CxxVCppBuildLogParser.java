@@ -45,13 +45,13 @@ public class CxxVCppBuildLogParser {
 
   private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxVCppBuildLogParser");
 
-  private final HashMap<String, Set<String>> uniqueIncludes;
+  private final HashMap<String, List<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;
 
   private VSVersion platformToolset = VSVersion.V120;
   private String platform = "Win32";
 
-  public CxxVCppBuildLogParser(HashMap<String, Set<String>> uniqueIncludesIn,
+  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn,
     HashMap<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
@@ -65,7 +65,7 @@ public class CxxVCppBuildLogParser {
       LOG.debug("build log parser baseDir='{}'", baseDir);
       Path currentProjectPath = Paths.get(baseDir);
 
-      Set<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OverallIncludeKey);
+      List<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OverallIncludeKey);
 
       while ((line = br.readLine()) != null) {
         if (line.startsWith("  INCLUDE=")) { // handle environment includes 
@@ -116,7 +116,7 @@ public class CxxVCppBuildLogParser {
             }
 
             if (!uniqueIncludes.containsKey(fileElement)) {
-              uniqueIncludes.put(fileElement, new HashSet<String>());
+              uniqueIncludes.put(fileElement, new ArrayList<String>());
             }
 
             parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
@@ -181,7 +181,7 @@ public class CxxVCppBuildLogParser {
 
   private void ParseInclude(String element, String project, String fileElement) {
 
-    Set<String> includesPerUnit = uniqueIncludes.get(fileElement);
+    List<String> includesPerUnit = uniqueIncludes.get(fileElement);
 
     try {
       File includeRoot = new File(element.replace("\"", ""));
