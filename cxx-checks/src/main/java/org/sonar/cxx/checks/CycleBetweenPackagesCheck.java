@@ -32,7 +32,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleLinearRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 /**
  * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which
@@ -41,7 +41,7 @@ import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 @Rule(
   key = "CycleBetweenPackages",
   name = "Avoid cyclic dependency between packages",
-  tags = {Tags.CONVENTION},
+  tags = {Tag.CONVENTION},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)

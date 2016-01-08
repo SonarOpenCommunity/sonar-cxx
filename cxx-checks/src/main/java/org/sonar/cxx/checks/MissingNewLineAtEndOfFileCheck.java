@@ -31,12 +31,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "MissingNewLineAtEndOfFile",
   name = "Files should contain an empty new line at the end",
-  tags = {Tags.CONVENTION},
+  tags = {Tag.CONVENTION},
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)

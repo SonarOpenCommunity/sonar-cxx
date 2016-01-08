@@ -32,7 +32,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 /**
  * Companion of {@link org.sonar.plugins.cxx.squid.DependencyAnalyzer} which
@@ -41,7 +41,7 @@ import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
 @Rule(
   key = "DuplicatedInclude",
   name = "Avoid including the same file multiple times",
-  tags = {Tags.PREPROCESSOR},
+  tags = {Tag.PREPROCESSOR},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)

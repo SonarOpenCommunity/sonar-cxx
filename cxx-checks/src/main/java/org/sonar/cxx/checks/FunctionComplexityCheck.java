@@ -33,12 +33,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "FunctionComplexity",
   name = "Functions should not be too complex",
-  tags = {Tags.BRAIN_OVERLOAD},
+  tags = {Tag.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)

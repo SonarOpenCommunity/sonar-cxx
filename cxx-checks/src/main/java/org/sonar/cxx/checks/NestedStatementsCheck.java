@@ -31,7 +31,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.List;
@@ -40,7 +40,7 @@ import java.util.Set;
 @Rule(
   key = "NestedStatements",
   name = "Control flow statements \"if\", \"switch\", \"try\" and iterators should not be nested too deeply",
-  tags = {Tags.BRAIN_OVERLOAD},
+  tags = {Tag.BRAIN_OVERLOAD},
   priority = Priority.MAJOR
 )
 @ActivatedByDefault

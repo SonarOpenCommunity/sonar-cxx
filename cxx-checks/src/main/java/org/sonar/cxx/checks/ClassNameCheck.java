@@ -32,14 +32,13 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.regex.Pattern;
 import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "ClassName",
   priority = Priority.MINOR,
   name = "Class names should comply with a naming convention",
-  tags = Tags.CONVENTION
-)
+  tags = {Tag.CONVENTION})
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("5min")
 @ActivatedByDefault

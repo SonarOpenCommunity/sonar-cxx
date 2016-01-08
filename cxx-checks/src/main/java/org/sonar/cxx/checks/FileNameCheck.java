@@ -31,14 +31,13 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import javax.annotation.Nullable;
 import java.util.regex.Pattern;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "FileName",
   priority = Priority.MINOR,
   name = "File names should comply with a naming convention",
-  tags = Tags.CONVENTION
-)
+  tags = {Tag.CONVENTION})
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("10min")
 public class FileNameCheck extends SquidCheck<Grammar> {

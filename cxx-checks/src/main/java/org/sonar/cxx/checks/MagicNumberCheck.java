@@ -36,12 +36,12 @@ import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "MagicNumber",
   name = "Magic number should not be used",
-  tags = {Tags.CONVENTION},
+  tags = {Tag.CONVENTION},
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)

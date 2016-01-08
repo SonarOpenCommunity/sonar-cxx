@@ -30,15 +30,14 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 @Rule(
   key = "MethodName",
   priority = Priority.MAJOR,
   name = "Method names should comply with a naming convention",
-  tags = Tags.CONVENTION
-)
+  tags = {Tag.CONVENTION})
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("10min")
 @ActivatedByDefault

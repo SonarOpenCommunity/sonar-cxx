@@ -35,12 +35,12 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags;  //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "HardcodedAccount",
   name = "Do not hard code sensitive data in programs",
-  tags = {Tags.CERT, Tags.SECURITY},
+  tags = {Tag.CERT, Tag.SECURITY},
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_CHANGEABILITY)
