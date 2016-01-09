@@ -29,7 +29,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.checks.ChecksHelper;
 import org.sonar.squidbridge.checks.SquidCheck;
@@ -38,8 +38,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
   key = "ClassComplexity",
   priority = Priority.MAJOR,
   name = "Classes should not be too complex",
-  tags = Tags.BRAIN_OVERLOAD
-)
+  tags = {Tag.BRAIN_OVERLOAD})
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
 @SqaleLinearWithOffsetRemediation(
   coeff = "1min",

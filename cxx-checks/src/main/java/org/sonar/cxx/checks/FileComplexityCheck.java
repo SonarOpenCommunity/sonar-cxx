@@ -29,12 +29,12 @@ import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.squidbridge.annotations.Tags; //@todo deprecated
+import org.sonar.cxx.tag.Tag;
 
 @Rule(
   key = "FileComplexity",
   name = "Files should not be too complex",
-  tags = {Tags.BRAIN_OVERLOAD},
+  tags = {Tag.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
 //@ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)

@@ -28,6 +28,7 @@ import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.squidbridge.checks.SquidCheck;
+import org.sonar.cxx.tag.Tag;
 
 import com.sonar.sslr.api.Grammar;
 
@@ -65,7 +66,7 @@ public class CustomCxxRulesDefinitionTest {
     key = RULE_KEY,
     name = RULE_NAME,
     description = "desc",
-    tags = {"bug"})
+    tags = {Tag.BUG})
   public class MyCustomRule extends SquidCheck<Grammar> {
 
     @RuleProperty(
