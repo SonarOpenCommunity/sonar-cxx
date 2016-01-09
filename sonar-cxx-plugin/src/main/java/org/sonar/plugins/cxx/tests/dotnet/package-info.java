@@ -22,6 +22,6 @@
  * Package with sensor to evaluate Unit Test specific report files.
  */
 @ParametersAreNonnullByDefault
-package org.sonar.plugins.cxx.xunit;
+package org.sonar.plugins.cxx.tests.dotnet;
 
 import javax.annotation.ParametersAreNonnullByDefault;

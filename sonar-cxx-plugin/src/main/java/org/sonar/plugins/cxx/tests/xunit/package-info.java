@@ -17,17 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.plugins.cxx;
 
-import static org.junit.Assert.assertEquals;
+/**
+ * Package with sensor to evaluate Unit Test specific report files.
+ */
+@ParametersAreNonnullByDefault
+package org.sonar.plugins.cxx.tests.xunit;
 
-import org.junit.Test;
-
-public class CxxPluginTest {
-
-  @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(64, plugin.getExtensions().size());
-  }
-}
+import javax.annotation.ParametersAreNonnullByDefault;
