@@ -2209,7 +2209,7 @@ Member variable is not initialized in the constructor.
     <name>Shifting by a negative value</name>
     <description>
 <![CDATA[<p>
-Shifting by a negative value is undefined behaviour.
+Shifting a negative value is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
 ]]>
@@ -2452,7 +2452,7 @@ Shifting by a negative value is undefined behaviour.
       Dangerous iterator comparison using operator &lt;.
     </name>
     <description>
-      Dangerous iterator comparison using operator&lt; on a STL container.
+      Dangerous iterator comparison using operator&lt; on iterator.
     </description>
   </rule>
 
@@ -3174,6 +3174,31 @@ Either the condition is redundant or there is possible null pointer dereference:
     <name>int result is returned as long value (potential truncation)</name>
     <description>
       int result is returned as long value. If the return value is long to avoid loss of information, then you have loss of information.
+    </description>
+  </rule>
+  <!-- ########### New in cppcheck 1.72 ########### -->
+  <rule>
+    <key>assignBoolToFloat</key>
+    <configkey>assignBoolToFloat</configkey>
+    <name>Boolean value assigned to floating point variable</name>
+    <description>
+      Boolean value assigned to floating point variable.
+    </description>
+  </rule>
+  <rule>
+    <key>invalidTestForOverflow</key>
+    <configkey>invalidTestForOverflow</configkey>
+    <name>Invalid test for overflow (undefined behavior)</name>
+    <description>
+      Invalid test for overflow &apos;x + u &lt; x&apos;. Condition is always false unless there is overflow, and overflow is UB.
+    </description>
+  </rule>
+  <rule>
+    <key>unknownEvaluationOrder</key>
+    <configkey>unknownEvaluationOrder</configkey>
+    <name>Expression depends on order of evaluation (side effects)</name>
+    <description>
+      Expression &apos;x = x++;&apos; depends on order of evaluation of side effects.
     </description>
   </rule>
  </rules>
