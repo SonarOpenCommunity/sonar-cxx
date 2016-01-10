@@ -38,7 +38,6 @@ public class CxxProjectBuilderTest {
   public void setUp() {
     // setting values to expand
     System.setProperty("cxx.test.key1", "value");
-    System.setProperty("cxx.test.path1", "C:\\test\\reports\\a.xml");
   }
 
   @Test
@@ -68,12 +67,4 @@ public class CxxProjectBuilderTest {
     assertThat(value).isEqualTo("value, ${undefined}, xxx");
   }
 
-  @Test
-  public void replaceStringBackslash() {
-    projectDefinition.setProperty("key4", "${cxx.test.path1}");
-    context = new ProjectBuilderContext(new ProjectReactor(projectDefinition));
-    projectBuilder.build(context);
-    String value = context.projectReactor().getRoot().getProperties().getProperty("key4");
-    assertThat(value).isEqualTo("C:/test/reports/a.xml");
-  }
 }

@@ -397,6 +397,7 @@ public final class CxxPlugin extends SonarPlugin {
   @Override
   public List getExtensions() {
     List<Object> l = new ArrayList<>();
+    l.add(CxxProjectBuilder.class);
     l.add(CxxLanguage.class);
     l.add(CxxMetrics.class);
     l.add(CxxSquidSensor.class);

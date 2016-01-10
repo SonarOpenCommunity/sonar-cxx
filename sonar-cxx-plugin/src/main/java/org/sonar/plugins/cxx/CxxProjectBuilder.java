@@ -36,6 +36,7 @@ public class CxxProjectBuilder extends ProjectBuilder {
 
   public CxxProjectBuilder() {
     super();
+    LOG.debug("using CxxProjectBuilder");
   }
 
   /**
@@ -43,8 +44,6 @@ public class CxxProjectBuilder extends ProjectBuilder {
    *
    * - format for placeholder is ${xxx}
    * - supported are environment variables, Java system properties and SonarQube properties
-   * - backslashes in values from environment variables and Java
-   *   system properties are replaced with slashes to support Windows paths
    */
   @Override
   public void build(Context context) {
@@ -57,14 +56,12 @@ public class CxxProjectBuilder extends ProjectBuilder {
     for (Map.Entry<String, String> entry : envMap.entrySet()) {
       String key = entry.getKey();
       String value = entry.getValue();
-      value = value.replace("\\", "/");
       vars.put(key, value);
     }
 
     Properties props = System.getProperties();
     for (String key : props.stringPropertyNames()) {
       String value = props.getProperty(key);
-      value = value.replace("\\", "/");
       vars.put(key, value);
     }
 
