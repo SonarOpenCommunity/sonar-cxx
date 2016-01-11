@@ -80,6 +80,19 @@ public class CxxProjectBuilder extends ProjectBuilder {
         LOG.debug("property expansion: key '{}'; value '{}' => '{}'", new Object[]{key, oldValue, newValue});
       }
     }
+    
+    // add list of available property keys
+    if (LOG.isDebugEnabled()) {
+      StringBuilder sb = new StringBuilder("analysis parameters:\n");
+      for (String key : props.stringPropertyNames()) {
+        sb.append("   ");
+        sb.append(key);
+        sb.append("=");
+        sb.append(props.getProperty(key));
+        sb.append("\n");
+      }
+      LOG.debug(sb.toString());
+    }
   }
 
   /**
