@@ -75,7 +75,13 @@ Feature: Importing Cppcheck reports
               """
          AND the number of violations fed is 0
 
-
+   Scenario: The reports and issues in the reports have absolute paths
+     GIVEN the project "cppcheck_with_absolute_paths_project"
+     WHEN I run "sonar-runner -X"
+     THEN the analysis finishes successfully
+         AND the server log (if locatable) contains no error/warning messages
+         AND the number of violations fed is 6
+         
    # This doesnt work. We dont support reports outside of the projects directory,
    # although there is no good reason for that(??)
    #

@@ -50,8 +50,8 @@ before_script:
 script:
         - mvn install -DskipTests=true
         - mvn test
-        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin behave
-
+        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave
+        
 after_failure:
         - cat $SONARHOME/logs/sonar.log
         - find . -name "*.log" | xargs cat
