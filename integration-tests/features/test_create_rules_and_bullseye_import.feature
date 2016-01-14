@@ -15,6 +15,7 @@ Feature: GoogleTestWithBullseyeAndVsProject
         and rule "cpplint_tekla_custom_include_files_0" is created based on "other:CustomRuleTemplate" in repository "other"
       WHEN I run "sonar-runner -X"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -50,14 +51,11 @@ Feature: GoogleTestWithBullseyeAndVsProject
                # violations
                | violations               | 19    |
                # coverage statistics
-               | coverage                 | 88.9  |
+               #| coverage                 | 83  | -> jump from 88.9 to 83 in sonar 5.x. enable once 5.x LTS is here
                | line_coverage            | 100   |
                | branch_coverage          | 50    |
-               # design/tangles
-               | package_tangle_index     | 0     |
-               | package_tangles          | 0     |
                # test execution statistics
-               | test_success_density     | 50    |
+               #| test_success_density     | 50    | -> enable when this is restored in core
                | test_failures            | 1     |
                | test_errors              | 0     |
                | tests                    | 2     |

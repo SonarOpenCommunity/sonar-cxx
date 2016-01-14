@@ -6,6 +6,7 @@ Feature: cpp-multimodule-project
       GIVEN the project "cpp-multimodule-project"
       WHEN I run "sonar-runner -X"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -43,11 +44,11 @@ Feature: cpp-multimodule-project
                | complexity               | 7     |
                | function_complexity      | 1.4   |
                | file_complexity          | 0.9   |
-               | class_complexity         | 6     |
+               #| class_complexity         | 7     | -> to enable when 5.x LTS is released, changes in core makes the value from 6 to 7 in 5.x
                # violations
                | violations               | 28    |
                # test execution statistics
-               | test_success_density     | 33.3  |
+               #| test_success_density     | 33.3  | -> enable when this is restored in core
                | test_failures            | 2     |
                | skipped_tests            | 1     |
                | test_errors              | 0     |

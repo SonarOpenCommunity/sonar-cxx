@@ -11,3 +11,4 @@ target
 **/.sonarqube/*
 **/Debug/**
 **/Release/**
+*.log.server
