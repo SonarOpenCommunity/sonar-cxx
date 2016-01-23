@@ -17,16 +17,11 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.checks;
 
-import static org.fest.assertions.Assertions.assertThat;
+/**
+ * Package with Squid based checks for cxx community plug-in.
+ */
+@ParametersAreNonnullByDefault
+package org.sonar.cxx.checks.naming;
 
-import org.junit.Test;
-
-public class CheckListTest {
-
-  @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(44);
-  }
-}
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -17,7 +17,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.checks;
+package org.sonar.cxx.checks.naming;
 
 import org.junit.Test;
 import org.sonar.squidbridge.api.SourceFile;
@@ -26,18 +26,18 @@ import org.sonar.cxx.CxxAstScanner;
 
 import java.io.File;
 
-public class FunctionNameCheckTest {
+public class MethodNameCheckTest {
 
   @Test
   public void test() throws Exception {
-    FunctionNameCheck check = new FunctionNameCheck();
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionName.cc"), check);
+    MethodNameCheck check = new MethodNameCheck();
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/MethodName.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(8).withMessage(
-        "Rename function \"Badly_Named_Function\" to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")
-      .next().atLine(12).withMessage(
-        "Rename function \"too_long_function_name_because_it_has_more_than_30_characters\" "
-        + "to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")
+      .next().atLine(9).withMessage(
+        "Rename method \"Badly_Named_Method\" to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      .next().atLine(10).withMessage(
+        "Rename method \"TooLongMethodNameBecauseItHasMoreThan30Characters\" "
+        + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
       .noMore();
   }
 
