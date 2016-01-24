@@ -350,7 +350,7 @@ public final class CxxPlugin extends SonarPlugin {
       PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
-        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics' for supported formats."
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>here</a> for supported formats."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
