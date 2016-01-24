@@ -20,8 +20,12 @@
 package org.sonar.cxx.checks;
 
 import java.util.List;
-
 import com.google.common.collect.ImmutableList;
+
+import org.sonar.cxx.checks.naming.ClassNameCheck;
+import org.sonar.cxx.checks.naming.FileNameCheck;
+import org.sonar.cxx.checks.naming.FunctionNameCheck;
+import org.sonar.cxx.checks.naming.MethodNameCheck;
 
 public final class CheckList {
 
@@ -73,7 +77,12 @@ public final class CheckList {
       UseCorrectIncludeCheck.class,
       XPathCheck.class,
       BooleanEqualityComparisonCheck.class,
-      NestedStatementsCheck.class
+      NestedStatementsCheck.class,
+      // name checks
+      ClassNameCheck.class,
+      FileNameCheck.class,
+      FunctionNameCheck.class,
+      MethodNameCheck.class
     );
   }
 

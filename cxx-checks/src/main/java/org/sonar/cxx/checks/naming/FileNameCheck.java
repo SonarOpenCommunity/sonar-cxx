@@ -17,33 +17,33 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
  */
-package org.sonar.cxx.checks;
+package org.sonar.cxx.checks.naming;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.util.regex.Pattern;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.cxx.parser.CxxGrammarImpl;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
-import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
+import javax.annotation.Nullable;
+import java.util.regex.Pattern;
+import org.sonar.cxx.tag.Tag;
+
 @Rule(
-  key = "MethodName",
-  priority = Priority.MAJOR,
-  name = "Method names should comply with a naming convention",
+  key = "FileName",
+  priority = Priority.MINOR,
+  name = "File names should comply with a naming convention",
   tags = {Tag.CONVENTION})
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("10min")
-@ActivatedByDefault
-public class MethodNameCheck extends SquidCheck<Grammar> {
+public class FileNameCheck extends SquidCheck<Grammar> {
 
-  private static final String DEFAULT = "^[A-Z][A-Za-z0-9]{2,30}$";
+  private static final String DEFAULT = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
+  private static final String MESSAGE = "Rename this file to match this regular expression: \"%s\".";
 
   @RuleProperty(
     key = "format",
@@ -54,19 +54,16 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
   @Override
   public void init() {
     pattern = Pattern.compile(format);
-    subscribeTo(CxxGrammarImpl.functionDefinition);
   }
 
   @Override
-  public void visitNode(AstNode astNode) {
-    AstNode nameNode = astNode.getFirstDescendant(CxxGrammarImpl.className);
-    if (nameNode != null) {
-      if (astNode.getFirstAncestor(CxxGrammarImpl.memberDeclaration) != null) {
-        String name = nameNode.getTokenValue();
-        if (!pattern.matcher(name).matches()) {
-          getContext().createLineViolation(this,
-            "Rename method \"{0}\" to match the regular expression {1}.", nameNode, name, format);
-        }
+  public void visitFile(@Nullable AstNode astNode) {
+    String fileName = getContext().getFile().getName();
+    int dotIndex = fileName.lastIndexOf(".");
+    if (dotIndex > 0) {
+      String moduleName = fileName.substring(0, dotIndex);
+      if (!pattern.matcher(moduleName).matches()) {
+        getContext().createFileViolation(this, String.format(MESSAGE, format));
       }
     }
   }
