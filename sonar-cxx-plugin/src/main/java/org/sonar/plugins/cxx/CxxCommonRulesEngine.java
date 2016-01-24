@@ -19,8 +19,8 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.commonrules.api.CommonRulesEngine;
-import org.sonar.commonrules.api.CommonRulesRepository;
+import org.sonar.squidbridge.commonrules.api.CommonRulesEngine; //@todo deprecated
+import org.sonar.squidbridge.commonrules.api.CommonRulesRepository; //@todo deprecated
 
 public class CxxCommonRulesEngine extends CommonRulesEngine {
 
