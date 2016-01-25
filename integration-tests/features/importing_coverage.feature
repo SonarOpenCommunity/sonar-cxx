@@ -10,10 +10,10 @@ Feature: Importing coverage data
 
       WHEN I run sonar-runner with following options:
           """
-          -Dsonar.cxx.coverage.reportPath=ut-coverage.xml
-          -Dsonar.cxx.coverage.itReportPath=it-coverage.xml
-          -Dsonar.cxx.coverage.overallReportPath=overall-coverage.xml
-          -Dsonar.cxx.coverage.forceZeroCoverage=False
+          -X -e -Dsonar.cxx.coverage.reportPath=ut-coverage.xml
+          -X -e -Dsonar.cxx.coverage.itReportPath=it-coverage.xml
+          -X -e -Dsonar.cxx.coverage.overallReportPath=overall-coverage.xml
+          -X -e -Dsonar.cxx.coverage.forceZeroCoverage=False
           """
 
       THEN the analysis finishes successfully
@@ -40,10 +40,10 @@ Feature: Importing coverage data
 
       WHEN I run sonar-runner with following options:
           """
-          -Dsonar.cxx.coverage.reportPath=ut-coverage.xml
-          -Dsonar.cxx.coverage.itReportPath=it-coverage.xml
-          -Dsonar.cxx.coverage.overallReportPath=overall-coverage.xml
-          -Dsonar.cxx.coverage.forceZeroCoverage=True
+          -X -e -Dsonar.cxx.coverage.reportPath=ut-coverage.xml
+          -X -e -Dsonar.cxx.coverage.itReportPath=it-coverage.xml
+          -X -e -Dsonar.cxx.coverage.overallReportPath=overall-coverage.xml
+          -X -e -Dsonar.cxx.coverage.forceZeroCoverage=True
           """
 
       THEN the analysis finishes successfully
@@ -77,10 +77,10 @@ Feature: Importing coverage data
 
       WHEN I run sonar-runner with following options:
           """
-          -Dsonar.cxx.coverage.reportPath=dummy.xml
-          -Dsonar.cxx.coverage.itReportPath=dummy.xml
-          -Dsonar.cxx.coverage.overallReportPath=dummy.xml
-          -Dsonar.cxx.coverage.forceZeroCoverage=True
+          -X -e -Dsonar.cxx.coverage.reportPath=dummy.xml
+          -X -e -Dsonar.cxx.coverage.itReportPath=dummy.xml
+          -X -e -Dsonar.cxx.coverage.overallReportPath=dummy.xml
+          -X -e -Dsonar.cxx.coverage.forceZeroCoverage=True
           """
 
       THEN the analysis finishes successfully

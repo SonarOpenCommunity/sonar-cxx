@@ -5,7 +5,7 @@ Feature: Smoketest
 
   Scenario: Smoketest
       GIVEN the project "smoketest_project"
-      WHEN I run "sonar-runner"
+      WHEN I run "sonar-runner -X -e"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """

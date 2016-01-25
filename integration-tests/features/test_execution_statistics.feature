@@ -54,7 +54,7 @@ Feature: Providing test execution numbers
 
       GIVEN the project "googletest_project"
 
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=gtest_without_fixture.xml"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=gtest_without_fixture.xml"
 
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
@@ -81,7 +81,7 @@ Feature: Providing test execution numbers
       in the AST'-approach. This doesn't work for all testcases, though
 
       GIVEN the project "googletest_project"
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
@@ -108,7 +108,7 @@ Feature: Providing test execution numbers
       see above... this is the case where it doesnt work
 
       GIVEN the project "googletest_project"
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
@@ -133,7 +133,7 @@ Feature: Providing test execution numbers
       Importing in detailled mode isnt possible unless sonar.tests is set
 
       GIVEN the project "googletest_project"
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true -Dsonar.tests="
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true -Dsonar.tests="
       THEN the analysis finishes successfully
           AND the analysis log contains a line matching:
               """
@@ -155,7 +155,7 @@ Feature: Providing test execution numbers
       correct source code files.
 
       GIVEN the project "googletest_project"
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath>"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=<reportpath>"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
@@ -208,7 +208,7 @@ Feature: Providing test execution numbers
 
    Scenario: googletest report is invalid
        GIVEN the project "googletest_project"
-       WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
+       WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
        THEN the analysis breaks
            AND the analysis log contains a line matching:
                """
@@ -229,7 +229,7 @@ Feature: Providing test execution numbers
 
       GIVEN the project "boosttest_project"
 
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_simple-test_suite.xml"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=btest_test_simple-test_suite.xml"
 
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
@@ -254,7 +254,7 @@ Feature: Providing test execution numbers
 
       GIVEN the project "boosttest_project"
 
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
 
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
@@ -280,7 +280,7 @@ Feature: Providing test execution numbers
 
       GIVEN the project "boosttest_project"
 
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.xsltURL=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.tests=cxx-xunit -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.xsltURL=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.tests=cxx-xunit -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
 
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
@@ -305,7 +305,7 @@ Feature: Providing test execution numbers
 
       GIVEN the project "boosttest_project"
 
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
@@ -340,7 +340,7 @@ Feature: Providing test execution numbers
 
       GIVEN the project "boosttest_project"
 
-      WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
+      WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """
@@ -370,7 +370,7 @@ Feature: Providing test execution numbers
 
         GIVEN the project "boosttest_project"
 
-        WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.includeDirectories=/usr/include"
+        WHEN I run "sonar-runner -X -e -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.includeDirectories=/usr/include"
         THEN the analysis finishes successfully
             AND the analysis log contains no error/warning messages except those matching:
               """

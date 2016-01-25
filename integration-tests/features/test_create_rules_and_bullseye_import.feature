@@ -13,7 +13,7 @@ Feature: GoogleTestWithBullseyeAndVsProject
         and rule "cpplint_whitespace_parens_5" is created based on "other:CustomRuleTemplate" in repository "other"
         and rule "cpplint_whitespace_line_length_1" is created based on "other:CustomRuleTemplate" in repository "other"
         and rule "cpplint_tekla_custom_include_files_0" is created based on "other:CustomRuleTemplate" in repository "other"
-      WHEN I run "sonar-runner -X"
+      WHEN I run "sonar-runner -X -e"
       THEN the analysis finishes successfully
           AND the analysis log contains no error/warning messages except those matching:
               """

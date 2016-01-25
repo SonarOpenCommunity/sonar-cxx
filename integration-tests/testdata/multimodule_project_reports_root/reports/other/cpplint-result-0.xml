@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+<error file="./cli/main.cc" line="0" id="cpplint.legal/copyright-0" severity="warning" msg="No copyright message found.  You should have a line: Copyright [year] &lt;Copyright Owner&gt;"/>
+<error file="./cli/main.cc" line="1" id="cpplint.readability/streams-0" severity="warning" msg="Streams are highly discouraged."/>
+</results>

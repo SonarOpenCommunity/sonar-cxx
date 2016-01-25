@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+    <error file="./lib/component2.cc" line="16" id="unusedVariable" severity="style" msg="Unused variable: x"/>
+    <error file="./lib/component2.cc" line="36" id="unreadVariable" severity="style" msg="Variable &apos;i&apos; is assigned a value that is never used."/>
+    <error file="./lib/component1.cc" line="17" id="unusedVariable" severity="style" msg="Unused variable: x"/>
+    <error file="./lib/component1.cc" line="37" id="unreadVariable" severity="style" msg="Variable &apos;i&apos; is assigned a value that is never used."/>
+    <error file="./lib/component2.cc" line="46" id="deallocDealloc" severity="error" msg="Deallocating a deallocated pointer: ip"/>
+    <error file="./lib/component1.cc" line="47" id="deallocDealloc" severity="error" msg="Deallocating a deallocated pointer: ip"/>
+    <error file="./lib/component2.cc" line="46" id="doubleFree" severity="error" msg="Memory pointed to by &apos;ip&apos; is freed twice."/>
+    <error file="./lib/component2.cc" line="31" id="uninitvar" severity="error" msg="Uninitialized variable: a"/>
+    <error file="./lib/component1.cc" line="47" id="doubleFree" severity="error" msg="Memory pointed to by &apos;ip&apos; is freed twice."/>
+    <error file="./lib/component1.cc" line="32" id="uninitvar" severity="error" msg="Uninitialized variable: a"/>
+    <error id="missingInclude" severity="style" msg="Cppcheck cannot find all the include files (use --check-config for details)"/>
+</results>

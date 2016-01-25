@@ -211,18 +211,15 @@ def step_impl(context):
     assert_measures(context.project, exp_measures)
 
 
-def assert_measures(project, measures):
-    metrics_to_query = measures.keys()
-    url = (SONAR_URL + "/api/resources?resource=" + project + "&metrics="
-           + ",".join(metrics_to_query))
-
-    print(BRIGHT + "\nGet measures with query : " + url + RESET_ALL)
-    
+def assert_measures(project, measures):    
     try:
-        
+        url = (SONAR_URL + "/api/resources?resource=" + project)
+        metrics_to_query = measures.keys()
+        url = (SONAR_URL + "/api/resources?resource=" + project + "&metrics="
+               + ",".join(metrics_to_query))
 
+        print(BRIGHT + "\nGet measures with query : " + url + RESET_ALL)
                
-        
         response = requests.get(url)
         got_measures = {}
         json_measures = json.loads(response.text)[0].get("msr", None)

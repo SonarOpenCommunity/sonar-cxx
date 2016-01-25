@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results>
+<error file="./lib/component1.cc" line="0" id="cpplint.legal/copyright-0" severity="warning" msg="No copyright message found.  You should have a line: Copyright [year] &lt;Copyright Owner&gt;"/>
+<error file="./lib/component1.cc" line="1" id="cpplint.readability/streams-0" severity="warning" msg="Streams are highly discouraged."/>
+<error file="./lib/component1.cc" line="4" id="cpplint.whitespace/end_of_line-0" severity="warning" msg="Line ends in whitespace.  Consider deleting these extra spaces."/>
+<error file="./lib/component1.cc" line="11" id="cpplint.whitespace/braces-0" severity="warning" msg="Missing space before {"/>
+<error file="./lib/component1.cc" line="13" id="cpplint.whitespace/end_of_line-0" severity="warning" msg="Line ends in whitespace.  Consider deleting these extra spaces."/>
+<error file="./lib/component1.cc" line="18" id="cpplint.whitespace/comments-0" severity="warning" msg="At least two spaces is best between code and comments"/>
+<error file="./lib/component1.cc" line="18" id="cpplint.whitespace/comments-1" severity="warning" msg="Should have a space between // and comment"/>
+<error file="./lib/component1.cc" line="24" id="cpplint.whitespace/braces-0" severity="warning" msg="Missing space before {"/>
+<error file="./lib/component1.cc" line="28" id="cpplint.whitespace/end_of_line-0" severity="warning" msg="Line ends in whitespace.  Consider deleting these extra spaces."/>
+<error file="./lib/component1.cc" line="29" id="cpplint.whitespace/end_of_line-0" severity="warning" msg="Line ends in whitespace.  Consider deleting these extra spaces."/>
+<error file="./lib/component1.cc" line="32" id="cpplint.whitespace/parens-5" severity="warning" msg="Missing space before ( in if("/>
+<error file="./lib/component1.cc" line="48" id="cpplint.whitespace/end_of_line-0" severity="warning" msg="Line ends in whitespace.  Consider deleting these extra spaces."/>
+</results>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.0">
+<file name="./lib/component1.cc">
+<error line="1" severity="warning" message="no copyright notice found" source="T013"/>
+<error line="4" severity="warning" message="trailing whitespace" source="L001"/>
+<error line="21" severity="warning" message="closing curly bracket not in the same line or column" source="T011"/>
+<error line="28" severity="warning" message="trailing whitespace" source="L001"/>
+<error line="32" severity="warning" message="keyword 'if' not followed by a single space" source="T008"/>
+<error line="32" severity="warning" message="full block {} expected in the control structure" source="T019"/>
+<error line="52" severity="warning" message="closing curly bracket not in the same line or column" source="T011"/>
+</file>
+</checkstyle>

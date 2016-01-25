@@ -54,4 +54,4 @@ script:
         
 after_failure:
         - cat $SONARHOME/logs/sonar.log
-        - find . -name "*.log" | xargs cat
+        - find . -name "*_proj*.log" | xargs cat
