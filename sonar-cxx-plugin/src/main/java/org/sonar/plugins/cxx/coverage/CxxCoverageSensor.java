@@ -159,15 +159,24 @@ public class CxxCoverageSensor extends CxxReportSensor {
         Collection<Measure> measures = entry.getValue().createMeasures();
         CxxUtils.LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
         for (Measure measure : measures) {
+          Measure convertedMeasure = measure;
           switch (ctype) {
             case IT_COVERAGE:
-              measure = convertToItMeasure(measure);
+              convertedMeasure = convertToItMeasure(convertedMeasure);
               break;
             case OVERALL_COVERAGE:
-              measure = convertForOverall(measure);
+              convertedMeasure = convertForOverall(measure);
               break;
           }
-          context.saveMeasure(cxxFile, measure);
+          try
+          {
+            context.saveMeasure(cxxFile, convertedMeasure);
+          } catch(Exception ex) {
+            CxxUtils.LOG.error("Saving cov measure '{}' = '{}' failed", measure.getMetricKey(), measure.getValue());
+            CxxUtils.LOG.error("Obtained '{}' = '{}' failed", convertedMeasure.getMetricKey(), convertedMeasure.getData());
+            CxxUtils.LOG.error("Ctype : '{}'     Exception '{}'", ctype, ex.getMessage());
+            throw ex;
+          }            
         }
       } else {
         CxxUtils.LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);

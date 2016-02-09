@@ -17,6 +17,7 @@ Feature: Importing coverage data
           """
 
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -47,6 +48,7 @@ Feature: Importing coverage data
           """
 
       THEN the analysis finishes successfully
+          AND the analysis in server has completed      
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -84,6 +86,7 @@ Feature: Importing coverage data
           """
 
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
