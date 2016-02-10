@@ -10,12 +10,14 @@ env:
         - SONARHOME=/tmp/sonarqube-5.1.2
 #       - SONARHOME=/tmp/sonarqube-5.2
         - SONARHOME=/tmp/sonarqube-5.3
+        - SONARHOME=/tmp/sonarqube-5.4-RC1
   
 matrix:
     fast_finished: true
     allow_failures:
 #       - env: SONARHOME=/tmp/sonarqube-5.2
         - env: SONARHOME=/tmp/sonarqube-5.3
+        - env: SONARHOME=/tmp/sonarqube-5.4-RC1
 
 before_install:
         - cat /etc/hosts # optionally check the content *before*
@@ -38,6 +40,8 @@ install:
 #       - unzip -qq sonarqube-5.2.zip   
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.3.zip
         - unzip -qq sonarqube-5.3.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.4-RC1.zip
+        - unzip -qq sonarqube-5.4-RC1.zip		
         - travis_retry wget -q http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
         - unzip -qq sonar-runner-dist-2.4.zip
         - cd -
