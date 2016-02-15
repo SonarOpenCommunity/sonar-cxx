@@ -20,11 +20,16 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
+import javax.annotation.Nullable;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -142,25 +147,40 @@ public abstract class CxxReportSensor implements Sensor {
     return value;
   }
 
-  public static List<File> getReports(Settings settings,
-    File moduleBaseDir,
-    String reportPathPropertyKey) {
+  public static List<File> getReports(Settings settings, final File moduleBaseDir,
+      String reportPathPropertyKey) {
 
-    String[] reportPaths = settings.getStringArray(reportPathPropertyKey);
     List<File> reports = new ArrayList<>();
-    if (reportPaths.length > 0) {
-      for (String reportPath : reportPaths) {
-        reportPath = FilenameUtils.normalize(reportPath);
-        File singleFile = new File(reportPath);
-        if (singleFile.exists()) {
-          reports.add(singleFile);
-        } else {
-          CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
-          CxxUtils.GetReportForBaseDirAndPattern(moduleBaseDir.getPath(), reportPath, reports);
-          if (reports.isEmpty()) {
-            CxxUtils.LOG.warn("Cannot find a report for '{}={}'", reportPathPropertyKey, reportPath);
+
+    List<String> includes = Arrays.asList(settings.getStringArray(reportPathPropertyKey));
+    if (!includes.isEmpty()) {
+      includes = Lists.transform(includes, new Function<String, String>() {
+        @Override
+        public String apply(@Nullable String path) {
+          if (path == null){
+            return null;
           }
+          path = FilenameUtils.normalize(path);
+          if (new File(path).isAbsolute()) {
+            return path;
+          }
+          return FilenameUtils.normalize(moduleBaseDir.getAbsolutePath() + File.separator + path);
         }
+      });
+
+      CxxUtils.LOG.debug("Normalized report includes to '{}'", includes);
+
+      DirectoryScanner directoryScanner = new DirectoryScanner();
+      directoryScanner.setIncludes(includes.toArray(new String[includes.size()]));
+      directoryScanner.scan();
+
+      for (String found : directoryScanner.getIncludedFiles()) {
+        CxxUtils.LOG.debug("Adding report '{}'", found);
+        reports.add(new File(found));
+      }
+
+      if (reports.isEmpty()) {
+        CxxUtils.LOG.warn("Cannot find a report for '{}'", reportPathPropertyKey);
       }
     } else {
       CxxUtils.LOG.error("Undefined report path value for key '{}'", reportPathPropertyKey);

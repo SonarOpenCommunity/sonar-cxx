@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +40,8 @@ import org.sonar.api.config.Settings;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxReportSensor_getReports_Test {
+
+  private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
 
   private class CxxReportSensorImpl extends CxxReportSensor {
 
@@ -64,21 +67,24 @@ public class CxxReportSensor_getReports_Test {
   @Test
   public void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
     Settings settings = new Settings();
-    final String property = "sonar.cxx.cppcheck.reportPath";
     List<String[]> examples = new LinkedList<>();
 
-    //                          "pattern",      "matches",         "matches not"
-    examples.add(new String[]{"A.ext", "A.ext", "dir/B.ext"});        // relative
-    examples.add(new String[]{"dir/A.ext", "dir/A.ext", "A.ext, dir/B.ext"}); // relative with subdir
+    //                        "pattern",      "matches",   "matches not"
+    // relative
+    examples.add(new String[]{"A.ext",        "A.ext",     "dir/B.ext"});
+    examples.add(new String[]{"dir/A.ext",    "dir/A.ext", "A.ext,dir/B.ext"});
+    examples.add(new String[]{"dir/../A.ext", "A.ext",     "B.ext,dir/A.ext"});
+    examples.add(new String[]{"./A.ext",      "A.ext",     "B.ext"});
+    // empty
+    examples.add(new String[]{"", "", ""});
+    // question mark glob
+    examples.add(new String[]{"A?.ext",       "AA.ext,AB.ext", "B.ext"});
+    // multi-char glob
+    examples.add(new String[]{"A*.ext",       "A.ext,AAA.ext", "B.ext"});
+    // multi-dir glob
+    examples.add(new String[]{"**/A.ext",     "A.ext,dir/A.ext,dir/subdir/A.ext", "B.ext,dir/B.ext"});
+    examples.add(new String[]{"dir/**/A.ext", "dir/A.ext,dir/subdir/A.ext",       "A.ext,dir/B.ext,dir/subdir/B.ext"});
 
-    examples.add(new String[]{"dir/../A.ext", "A.ext", "B.ext, dir/A.ext"}); // relative with subdir
-    examples.add(new String[]{"./A.ext", "A.ext", "B.ext"});            // relative with leading dot
-
-    examples.add(new String[]{"A?.ext", "AA.ext,AB.ext", "B.ext"});            // containing question mark
-    examples.add(new String[]{"A*.ext", "A.ext,AAA.ext", "B.ext"});            // containing question mark
-    examples.add(new String[]{"", "", ""});                 // empty
-
-    // absolutes paths are covered in CxxUtilsTest
     String pattern, match, allpaths;
     List<File> reports;
     for (String[] example : examples) {
@@ -86,9 +92,9 @@ public class CxxReportSensor_getReports_Test {
       match = example[1];
       allpaths = StringUtils.join(Arrays.copyOfRange(example, 1, 3), ",");
       setupExample(allpaths);
-      settings.setProperty(property, pattern);
+      settings.setProperty(REPORT_PATH_KEY, pattern);
 
-      reports = sensor.getReports(settings, base.getRoot(), property);
+      reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
 
       assertMatch(reports, match, example[0]);
       deleteExample(base.getRoot());
@@ -119,5 +125,91 @@ public class CxxReportSensor_getReports_Test {
     Set<File> expectedSet = new TreeSet<>(expectedFiles);
 
     assertEquals("Failed for pattern: " + pattern, expectedSet, realSet);
+  }
+
+  @Test
+  public void testAbsoluteInsideBasedir() throws IOException {
+    File absReportFile = new File(base.getRoot(), "path/to/report.xml").getAbsoluteFile();
+    FileUtils.touch(absReportFile);
+
+    Settings settings = new Settings();
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+
+    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(1, reports.size());
+  }
+
+  @Test
+  public void testAbsoluteOutsideBasedir() {
+    File absReportsProject = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project").getAbsoluteFile();
+    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
+
+    Settings settings = new Settings();
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+
+    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(1, reports.size());
+  }
+
+  @Test
+  public void testAbsoluteOutsideBasedirWithGlobbing() {
+    File absReportsProject = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project").getAbsoluteFile();
+    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
+
+    Settings settings = new Settings();
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
+
+    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(2, reports.size());
+  }
+
+  @Test
+  public void testAbsoluteOutsideBasedirAndRelative() throws IOException {
+    File absReportsProject = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project").getAbsoluteFile();
+    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
+
+    String relativeReport = "path/to/report.xml";
+    FileUtils.touch(new File(base.getRoot(), relativeReport));
+
+    Settings settings = new Settings();
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);
+
+    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(2, reports.size());
+  }
+
+  @Test
+  public void testAbsoluteOutsideBasedirWithGlobbingAndRelativeWithGlobbing() throws IOException {
+    File absReportsProject = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project").getAbsoluteFile();
+    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
+
+    FileUtils.touch(new File(base.getRoot(), "report.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
+
+    Settings settings = new Settings();
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
+
+    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(7, reports.size());
+  }
+
+  @Test
+  public void testAbsoluteOutsideBasedirWithGlobbingAndNestedRelativeWithGlobbing() throws IOException {
+    File absReportsProject = TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project").getAbsoluteFile();
+    File absReportFile = new File(absReportsProject, "cppcheck-reports/cppcheck-result-SAMPLE-*.xml");
+
+    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
+
+    Settings settings = new Settings();
+    settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
+
+    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(6, reports.size());
   }
 }
