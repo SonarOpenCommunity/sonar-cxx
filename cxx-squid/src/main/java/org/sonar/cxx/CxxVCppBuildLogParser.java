@@ -68,7 +68,7 @@ public class CxxVCppBuildLogParser {
       List<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OverallIncludeKey);
 
       while ((line = br.readLine()) != null) {
-        if (line.startsWith("  INCLUDE=")) { // handle environment includes 
+        if (line.trim().startsWith("INCLUDE=")) { // handle environment includes 
           String[] includes = line.split("=")[1].split(";");
           for (String include : includes) {
             if (!overallIncludes.contains(include)) {
@@ -79,8 +79,12 @@ public class CxxVCppBuildLogParser {
 
           // get base path of project to make 
         // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
-        if (line.startsWith("Target \"ClCompile\" in file")) {
-          currentProjectPath = Paths.get(line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "")).getParent();
+        if (line.contains("Target \"ClCompile\" in file")) {
+          String pathProject = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");
+          if (pathProject.endsWith(":")) {
+            pathProject = pathProject.substring(0, pathProject.length() - 2);
+          }
+          currentProjectPath = Paths.get(pathProject).getParent();
           if (currentProjectPath == null) {
             currentProjectPath = Paths.get(baseDir);
           }
@@ -104,8 +108,8 @@ public class CxxVCppBuildLogParser {
         if (line.trim().endsWith("Platform=x64")) {
           platform = "x64";
         }
-        // match "VC\bin\CL.exe", "VC\bin\amd64\CL.exe", "VC\bin\x86_amd64\CL.exe"
-        if (line.matches("^.*\\\\VC\\\\bin\\\\.*CL.exe\\x20.*$")) {
+        // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
+        if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
           try {

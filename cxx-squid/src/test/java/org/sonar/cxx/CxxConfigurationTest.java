@@ -209,6 +209,18 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines).as("_M_IX86");
     Assertions.assertThat(defines).as("_M_IX86_FP");
   }
+  
+  @Test
+  public void shouldHandleBuildLog() {
+    CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
+    List<File> files = new ArrayList<>();
+    files.add(new File("src/test/resources/compiler/ParallelBuildLog.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(15);
+    assertThat(config.getDefines().size()).isEqualTo(30);
+  }  
 
   private void ValidateDefaultAsserts(List<String> defines) {
     Assertions.assertThat(defines).as("_INTEGRAL_MAX_BITS");
