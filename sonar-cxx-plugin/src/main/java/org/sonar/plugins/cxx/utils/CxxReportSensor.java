@@ -25,9 +25,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
-import javax.annotation.Nullable;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
@@ -152,24 +149,30 @@ public abstract class CxxReportSensor implements Sensor {
 
     List<File> reports = new ArrayList<>();
 
-    List<String> includes = Arrays.asList(settings.getStringArray(reportPathPropertyKey));
-    if (!includes.isEmpty()) {
-      includes = Lists.transform(includes, new Function<String, String>() {
-        @Override
-        public String apply(@Nullable String path) {
-          if (path == null){
-            return null;
-          }
-          path = FilenameUtils.normalize(path);
-          if (new File(path).isAbsolute()) {
-            return path;
-          }
-          return FilenameUtils.normalize(moduleBaseDir.getAbsolutePath() + File.separator + path);
+    List<String> reportPaths = Arrays.asList(settings.getStringArray(reportPathPropertyKey));
+    if (!reportPaths.isEmpty()) {
+      List<String> includes = new ArrayList<>();
+      for (String reportPath : reportPaths) {
+        // Normalization can return null if path is null, is invalid, or is a path with back-ticks outside known directory structure
+        String normalizedPath = FilenameUtils.normalize(reportPath);
+        if (normalizedPath != null && new File(normalizedPath).isAbsolute()) {
+          includes.add(normalizedPath);
+          continue;
         }
-      });
+
+        // Prefix with absolute module base dir, attempt normalization again -- can still get null here
+        normalizedPath = FilenameUtils.normalize(moduleBaseDir.getAbsolutePath() + File.separator + reportPath);
+        if (normalizedPath != null) {
+          includes.add(normalizedPath);
+          continue;
+        }
+
+        CxxUtils.LOG.debug("Not a valid report path '{}'", reportPath);
+      }
 
       CxxUtils.LOG.debug("Normalized report includes to '{}'", includes);
 
+      // Includes array cannot contain null elements
       DirectoryScanner directoryScanner = new DirectoryScanner();
       directoryScanner.setIncludes(includes.toArray(new String[includes.size()]));
       directoryScanner.scan();

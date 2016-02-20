@@ -31,11 +31,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -43,26 +41,8 @@ public class CxxReportSensor_getReports_Test {
 
   private static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
 
-  private class CxxReportSensorImpl extends CxxReportSensor {
-
-    public CxxReportSensorImpl(Settings settings, FileSystem fs) {
-      super(settings, fs);
-    }
-  };
-
   @Rule
   public TemporaryFolder base = new TemporaryFolder();
-
-  private CxxReportSensor sensor;
-  private Settings settings;
-  private FileSystem fs;
-
-  @Before
-  public void init() {
-    settings = new Settings();
-    fs = TestUtils.mockFileSystem();
-    sensor = new CxxReportSensorImpl(settings, fs);
-  }
 
   @Test
   public void getReports_patternMatching() throws java.io.IOException, java.lang.InterruptedException {
@@ -74,6 +54,7 @@ public class CxxReportSensor_getReports_Test {
     examples.add(new String[]{"A.ext",        "A.ext",     "dir/B.ext"});
     examples.add(new String[]{"dir/A.ext",    "dir/A.ext", "A.ext,dir/B.ext"});
     examples.add(new String[]{"dir/../A.ext", "A.ext",     "B.ext,dir/A.ext"});
+    examples.add(new String[]{"./A.ext",      "A.ext",     "B.ext"});
     examples.add(new String[]{"./A.ext",      "A.ext",     "B.ext"});
     // empty
     examples.add(new String[]{"", "", ""});
@@ -94,7 +75,7 @@ public class CxxReportSensor_getReports_Test {
       setupExample(allpaths);
       settings.setProperty(REPORT_PATH_KEY, pattern);
 
-      reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+      reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
 
       assertMatch(reports, match, example[0]);
       deleteExample(base.getRoot());
@@ -135,7 +116,7 @@ public class CxxReportSensor_getReports_Test {
     Settings settings = new Settings();
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
-    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(1, reports.size());
   }
 
@@ -147,7 +128,7 @@ public class CxxReportSensor_getReports_Test {
     Settings settings = new Settings();
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
-    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(1, reports.size());
   }
 
@@ -159,7 +140,7 @@ public class CxxReportSensor_getReports_Test {
     Settings settings = new Settings();
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString());
 
-    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(2, reports.size());
   }
 
@@ -174,7 +155,7 @@ public class CxxReportSensor_getReports_Test {
     Settings settings = new Settings();
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + "," + relativeReport);
 
-    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(2, reports.size());
   }
 
@@ -188,11 +169,14 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
     FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
     FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
+    FileUtils.touch(new File(base.getRoot(), "some/reports/a"));
+    FileUtils.touch(new File(base.getRoot(), "some/reports/b"));
+
 
     Settings settings = new Settings();
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",**/*.xml");
 
-    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(7, reports.size());
   }
 
@@ -205,11 +189,42 @@ public class CxxReportSensor_getReports_Test {
     FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
     FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
     FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
+    FileUtils.touch(new File(base.getRoot(), "some/reports/a.xml"));
+    FileUtils.touch(new File(base.getRoot(), "some/reports/b.xml"));
 
     Settings settings = new Settings();
     settings.setProperty(REPORT_PATH_KEY, absReportFile.toString() + ",path/**/*.xml");
 
-    List<File> reports = sensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
     assertEquals(6, reports.size());
+  }
+
+  @Test
+  public void testRelativeBackticksOutsideBasedirThenBackInside() throws IOException {
+    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/a/report.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/1.xml"));
+    FileUtils.touch(new File(base.getRoot(), "path/to/some/reports/2.xml"));
+
+    Settings settings = new Settings();
+    settings.setProperty(REPORT_PATH_KEY, "../" + base.getRoot().getName() + "/path/**/*.xml");
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(4, reports.size());
+  }
+
+  @Test
+  public void testRelativeExcessiveBackticks() throws IOException {
+    FileUtils.touch(new File(base.getRoot(), "path/to/supercoolreport.xml"));
+
+    Settings settings = new Settings();
+    // Might be valid if java.io.tmpdir is nested excessively deep -- not likely
+    settings.setProperty(REPORT_PATH_KEY, "../../../../../../../../../../../../../../../../../../../../../../../../" +
+        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../" +
+        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../" +
+        "../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../*.xml");
+
+    List<File> reports = CxxReportSensor.getReports(settings, base.getRoot(), REPORT_PATH_KEY);
+    assertEquals(0, reports.size());
   }
 }
