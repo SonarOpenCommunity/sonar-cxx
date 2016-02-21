@@ -23,6 +23,7 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.AstNode;
@@ -34,7 +35,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "BooleanEqualityComparison",
   name = "Literal boolean values should not be used in condition expressions",
-  priority = Priority.MINOR)
+  priority = Priority.MINOR,
+  tags = {Tag.CONVENTION})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
 @SqaleConstantRemediation("5min")

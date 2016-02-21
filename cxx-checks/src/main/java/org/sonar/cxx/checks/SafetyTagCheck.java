@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.google.common.base.Strings;
 import com.sonar.sslr.api.AstAndTokenVisitor;
@@ -40,7 +41,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "SafetyTag",
   name = "Risk mitigation implementation shall be defined in separate file",
-  priority = Priority.BLOCKER)
+  priority = Priority.BLOCKER,
+  tags = {Tag.CONVENTION})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)
 @SqaleConstantRemediation("5min")
