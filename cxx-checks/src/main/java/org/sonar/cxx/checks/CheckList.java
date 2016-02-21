@@ -78,6 +78,8 @@ public final class CheckList {
       XPathCheck.class,
       BooleanEqualityComparisonCheck.class,
       NestedStatementsCheck.class,
+      TooManyParametersCheck.class,
+      TooManyLinesOfCodeInFunctionCheck.class,
       // name checks
       ClassNameCheck.class,
       FileNameCheck.class,
