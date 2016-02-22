@@ -24,6 +24,7 @@ import java.util.List;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -39,7 +40,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "SwitchLastCaseIsDefault",
   name = "Switch statements should end with a default case",
-  priority = Priority.MAJOR)
+  priority = Priority.MAJOR,
+  tags = {Tag.PITFALL})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.LOGIC_RELIABILITY)
 @SqaleConstantRemediation("5min")

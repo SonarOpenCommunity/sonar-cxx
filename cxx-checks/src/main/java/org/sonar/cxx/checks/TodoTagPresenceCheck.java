@@ -21,6 +21,7 @@ package org.sonar.cxx.checks;
 
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
@@ -33,7 +34,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "TodoTagPresence",
   name = "TODO tags should be handled",
-  priority = Priority.INFO)
+  priority = Priority.INFO,
+  tags = {Tag.BAD_PRACTICE})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
 @SqaleConstantRemediation("20min")

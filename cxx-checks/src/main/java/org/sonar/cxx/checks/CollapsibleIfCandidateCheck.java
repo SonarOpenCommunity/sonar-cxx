@@ -25,6 +25,7 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 import com.sonar.sslr.api.AstNode;
@@ -37,7 +38,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "CollapsibleIfCandidate",
   name = "Collapsible 'if' statements should be merged",
-  priority = Priority.MAJOR)
+  priority = Priority.MAJOR,
+  tags = {Tag.BRAIN_OVERLOAD})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.DATA_RELIABILITY)
 @SqaleConstantRemediation("5min")

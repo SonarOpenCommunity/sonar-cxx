@@ -33,10 +33,11 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.cxx.tag.Tag;
 
 
+
 @Rule(
   key = "UsingNamespaceInHeader",
   name = "Using namespace directives are not allowed in header files",
-  tags = {Tag.CONVENTION},
+  tags = {Tag.CONVENTION, Tag.PITFALL, Tag.BAD_PRACTICE},
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_RELIABILITY)

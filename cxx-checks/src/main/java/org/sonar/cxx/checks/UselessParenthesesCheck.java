@@ -22,6 +22,7 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -33,7 +34,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "UselessParentheses",
   name = "Useless parentheses around expressions should be removed to prevent any misunderstanding",
-  priority = Priority.MAJOR)
+  priority = Priority.MAJOR,
+  tags = {Tag.CONFUSING})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("1min")

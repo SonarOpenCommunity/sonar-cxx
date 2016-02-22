@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.cxx.visitors.AbstractCxxPublicApiVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -66,7 +67,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 @Rule(
   key = "UndocumentedApi",
   name = "Public APIs should be documented",
-  priority = Priority.MINOR)
+  priority = Priority.MINOR,
+  tags = {Tag.CONVENTION})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_CHANGEABILITY)
 @SqaleConstantRemediation("5min")
