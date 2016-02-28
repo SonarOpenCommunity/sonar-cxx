@@ -90,9 +90,11 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
     List<AstNode> cases = Lists.newArrayList();
     AstNode seq = node.getFirstDescendant(CxxGrammarImpl.statementSeq);
 
-    for (AstNode stmt : seq.getChildren(CxxGrammarImpl.statement)) {
-      for (AstNode label : stmt.getChildren(CxxGrammarImpl.labeledStatement)) {
-        cases.add(label);
+    if (seq != null) {
+      for (AstNode stmt : seq.getChildren(CxxGrammarImpl.statement)) {
+        for (AstNode label : stmt.getChildren(CxxGrammarImpl.labeledStatement)) {
+          cases.add(label);
+        }
       }
     }
 
