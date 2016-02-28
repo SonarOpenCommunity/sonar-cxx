@@ -19,14 +19,25 @@
  */
 package org.sonar.cxx.checks;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
-public class CheckListTest {
+import java.io.File;
+
+public class TooManyParametersCheckTest {
 
   @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(46);
+  public void test() {
+    TooManyParametersCheck check = new TooManyParametersCheck();
+    check.setMax(3);
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyParameters.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(11)
+      .next().atLine(16)
+      .next().atLine(64)
+      .noMore(); 
   }
+
 }

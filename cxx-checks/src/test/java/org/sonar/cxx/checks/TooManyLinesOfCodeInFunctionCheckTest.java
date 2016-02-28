@@ -19,14 +19,22 @@
  */
 package org.sonar.cxx.checks;
 
-import static org.fest.assertions.Assertions.assertThat;
-
+import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.junit.Test;
+import org.sonar.cxx.CxxAstScanner;
+import org.sonar.squidbridge.api.SourceFile;
+import org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck;
+import java.io.File;
 
-public class CheckListTest {
+public class TooManyLinesOfCodeInFunctionCheckTest {
+  private TooManyLinesOfCodeInFunctionCheck check = new TooManyLinesOfCodeInFunctionCheck();
 
   @Test
-  public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(46);
+  public void test() {
+    check.setMax(7);
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionLength.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages())
+        .next().atLine(21)
+        .noMore();
   }
 }
