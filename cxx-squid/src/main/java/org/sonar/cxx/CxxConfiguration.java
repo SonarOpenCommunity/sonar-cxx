@@ -100,6 +100,13 @@ public class CxxConfiguration extends SquidConfiguration {
       }
     }
   }
+  
+  public void addOverallDefine(String define) {
+    Set<String> overallDefs = uniqueDefines.get(OverallDefineKey);
+    if (!overallDefs.contains(define)) {
+      overallDefs.add(define);
+    }
+  }  
 
   public void setDefines(String[] defines) {
     if (defines != null) {
@@ -130,6 +137,14 @@ public class CxxConfiguration extends SquidConfiguration {
       }
     }
   }
+  
+  public void addOverallIncludeDirectory(String includeDirectory) {
+    List<String> overallIncludes = uniqueIncludes.get(OverallIncludeKey);
+    if (!overallIncludes.contains(includeDirectory)) {
+      LOG.debug("setIncludeDirectories() adding dir '{}'", includeDirectory);
+      overallIncludes.add(includeDirectory);
+    }
+  }  
 
   public void setIncludeDirectories(String[] includeDirectories) {
     if (includeDirectories != null) {

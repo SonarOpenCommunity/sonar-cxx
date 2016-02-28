@@ -52,7 +52,7 @@ public class TooManyLinesOfCodeInFileCheck extends SquidCheck<Grammar> {
     defaultValue = "" + DEFAULT_MAXIMUM)
   private int max = DEFAULT_MAXIMUM;
 
-  public void SetMax(int max) {
+  public void setMax(int max) {
     this.max = max;
   }
 
