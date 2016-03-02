@@ -38,17 +38,12 @@ import org.slf4j.LoggerFactory;
 
 public class CxxVCppBuildLogParser {
 
-  private enum VSVersion {
-
-    V100, V110, V120, V140
-  };
-
   private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxVCppBuildLogParser");
 
   private final HashMap<String, List<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;
 
-  private VSVersion platformToolset = VSVersion.V120;
+  private String platformToolset = "V120";
   private String platform = "Win32";
 
   public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn,
@@ -56,7 +51,30 @@ public class CxxVCppBuildLogParser {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
+  
+  public void setPlatform(String platform) {
+    this.platform = platform;
+  }
 
+  /**
+   *
+   * @param platformToolset
+   */
+  public void setPlatformToolset(String platformToolset) {
+    this.platformToolset = platformToolset;
+  }
+  
+  /**
+   * Can be used to creat a list of includes, defines and options for a single line
+   * If it follows the format of Vcpp
+   * @param line
+   * @param projectPath
+   * @param compilationFile
+   */
+  public void parseVCppLine(String line, String projectPath, String compilationFile) {
+    this.parseVCppCompilerCLLine(line, projectPath, compilationFile);
+  }
+  
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
 
     try {
@@ -91,13 +109,13 @@ public class CxxVCppBuildLogParser {
         }
 
         if (line.contains("\\V100\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V100;
+          platformToolset = "V100";
         } else if (line.contains("\\V110\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V110;
+          platformToolset = "V110";
         } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V120;
+          platformToolset = "V120";
         } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V140;
+          platformToolset = "V140";
         }
 
           // 1>Task "Message"
@@ -130,7 +148,6 @@ public class CxxVCppBuildLogParser {
             LOG.error("Bug in parser, please report: '{}' - '{}'", ex.getMessage(), data + " @ " + currentProjectPath);
             LOG.error("StackTrace: '{}'", ex.getStackTrace());
           }
-
         }
       }
       br.close();
@@ -163,13 +180,13 @@ public class CxxVCppBuildLogParser {
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.140).aspx
     ParseCommonCompilerOptions(line, fileElement);
 
-    if (platformToolset.equals(VSVersion.V100)) {
+    if (platformToolset.equals("V100")) {
       ParseV100CompilerOptions(line, fileElement);
-    } else if (platformToolset.equals(VSVersion.V110)) {
+    } else if (platformToolset.equals("V110")) {
       ParseV110CompilerOptions(line, fileElement);
-    } else if (platformToolset.equals(VSVersion.V120)) {
+    } else if (platformToolset.equals("V120")) {
       ParseV120CompilerOptions(line, fileElement);
-    } else if (platformToolset.equals(VSVersion.V140)) {
+    } else if (platformToolset.equals("V140")) {
       ParseV140CompilerOptions(line, fileElement);
     }
   }

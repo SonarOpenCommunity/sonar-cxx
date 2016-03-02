@@ -122,7 +122,7 @@ def analyseloglines(lines, toignore=None):
             badlines.append(line)
             errors += 1
         elif isSonarWarning(line, toingore_re):
-            if "JOURNAL_FLUSHER" not in line:
+            if "JOURNAL_FLUSHER" not in line and "high disk watermark" not in line and "shards will be relocated away from this node" not in line:
                 sys.stdout.write("found warning '%s'" % line)
                 badlines.append(line)
                 warnings += 1
