@@ -32,8 +32,7 @@ public class StatementTest extends ParserBaseTest {
     g.rule(CxxGrammarImpl.labeledStatement).mock(); //@toto deprecated
     g.rule(CxxGrammarImpl.expressionStatement).mock();
     g.rule(CxxGrammarImpl.compoundStatement).mock();
-    g.rule(CxxGrammarImpl.ifStatement).mock();
-    g.rule(CxxGrammarImpl.switchStatement).mock();
+    g.rule(CxxGrammarImpl.selectionStatement).mock();
     g.rule(CxxGrammarImpl.iterationStatement).mock();
     g.rule(CxxGrammarImpl.jumpStatement).mock();
     g.rule(CxxGrammarImpl.declarationStatement).mock();
@@ -44,8 +43,7 @@ public class StatementTest extends ParserBaseTest {
     assertThat(p).matches("expressionStatement");
     assertThat(p).matches("attributeSpecifierSeq expressionStatement");
     assertThat(p).matches("attributeSpecifierSeq compoundStatement");
-    assertThat(p).matches("attributeSpecifierSeq ifStatement");
-    assertThat(p).matches("attributeSpecifierSeq switchStatement");
+    assertThat(p).matches("attributeSpecifierSeq selectionStatement");
     assertThat(p).matches("attributeSpecifierSeq iterationStatement");
     assertThat(p).matches("attributeSpecifierSeq jumpStatement");
     assertThat(p).matches("declarationStatement");
@@ -89,7 +87,14 @@ public class StatementTest extends ParserBaseTest {
 
     assertThat(p).matches("foo : statement");
     assertThat(p).matches("attributeSpecifierSeq foo : statement");
+    assertThat(p).matches("case constantExpression : statement");
+    assertThat(p).matches("attributeSpecifierSeq case constantExpression : statement");
+    assertThat(p).matches("default : statement");
+    assertThat(p).matches("attributeSpecifierSeq default : statement");
 
+    // EXTENSION: gcc's case range
+    assertThat(p).matches("case constantExpression ... constantExpression : statement");
+    assertThat(p).matches("attributeSpecifierSeq case constantExpression ... constantExpression : statement");
   }
 
   @Test
@@ -103,38 +108,20 @@ public class StatementTest extends ParserBaseTest {
   }
 
   @Test
-  public void ifStatement() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ifStatement));
+  public void selectionStatement() {
+    p.setRootRule(g.rule(CxxGrammarImpl.selectionStatement));
 
     g.rule(CxxGrammarImpl.statement).mock();
     g.rule(CxxGrammarImpl.condition).mock();
 
     assertThat(p).matches("if ( condition ) statement");
     assertThat(p).matches("if ( condition ) statement else statement");
+    assertThat(p).matches("switch ( condition ) statement");
   }
-
-  @Test
-  public void switchStatement() {
-    p.setRootRule(g.rule(CxxGrammarImpl.switchStatement));
-
-    g.rule(CxxGrammarImpl.statement).mock();
-    g.rule(CxxGrammarImpl.condition).mock();
-
-    assertThat(p).matches("switch ( condition ) { case constantExpression : statement }");
-    assertThat(p).matches("switch ( condition ) { case constantExpression : break; }");
-    assertThat(p).matches("switch ( condition ) { case constantExpression : continue; }");
-    assertThat(p).matches("switch ( condition ) { case constantExpression : ; }");
-    assertThat(p).matches("switch ( condition ) { default : statement }");
-    assertThat(p).matches("switch ( condition ) { default : ; }");
-    assertThat(p).matches("switch ( condition ) { default : break; }");
-    assertThat(p).matches("switch ( condition ) { case constantExpression : statement break; default : break; }");
-    // EXTENSION: gcc's case range
-    assertThat(p).matches("switch ( condition ) { case constantExpression ... constantExpression : break; }");
-  }
-
+ 
   @Test
   public void switchStatement_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.switchStatement));
+    p.setRootRule(g.rule(CxxGrammarImpl.selectionStatement));
 
     assertThat(p).matches("switch (0) { default : break; }");
     assertThat(p).matches("switch (0) { {default : break;} }");
@@ -142,7 +129,7 @@ public class StatementTest extends ParserBaseTest {
 
   @Test
   public void ifStatement_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.ifStatement));
+    p.setRootRule(g.rule(CxxGrammarImpl.selectionStatement));
 
     assertThat(p).matches("if (usedColors[(Color)c]) {}");
   }

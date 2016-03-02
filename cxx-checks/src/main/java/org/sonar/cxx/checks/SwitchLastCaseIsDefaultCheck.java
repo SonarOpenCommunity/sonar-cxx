@@ -33,6 +33,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
+import static org.sonar.cxx.checks.utils.CheckUtils.isSwitchStatement;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
@@ -48,7 +49,7 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
-    CxxGrammarImpl.switchStatement
+    CxxGrammarImpl.selectionStatement
   };
 
   private static final String MISSING_DEFAULT_CASE_MESSAGE = "Add a default case to this switch.";
@@ -69,26 +70,29 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    List<AstNode> switchCases = getSwitchCases(node);
-    int defaultCaseIndex = Iterables.indexOf(switchCases, DEFAULT_CASE_NODE_FILTER);
+    if (isSwitchStatement(node)) {
+      List<AstNode> switchCases = getSwitchCases(node);
+      int defaultCaseIndex = Iterables.indexOf(switchCases, DEFAULT_CASE_NODE_FILTER);
 
-    if (defaultCaseIndex == -1) {
-      getContext().createLineViolation(this, MISSING_DEFAULT_CASE_MESSAGE, node);
-    } else {
-      AstNode defaultCase = Iterables.get(switchCases, defaultCaseIndex);
+      if (defaultCaseIndex == -1) {
+        getContext().createLineViolation(this, MISSING_DEFAULT_CASE_MESSAGE, node);
+      } else {
+        AstNode defaultCase = Iterables.get(switchCases, defaultCaseIndex);
 
-      if (!defaultCase.equals(Iterables.getLast(switchCases))) {
-        getContext().createLineViolation(this, DEFAULT_CASE_IS_NOT_LAST_MESSAGE, defaultCase);
+        if (!defaultCase.equals(Iterables.getLast(switchCases))) {
+          getContext().createLineViolation(this, DEFAULT_CASE_IS_NOT_LAST_MESSAGE, defaultCase);
+        }
       }
     }
   }
 
   private List<AstNode> getSwitchCases(AstNode node) {
     List<AstNode> cases = Lists.newArrayList();
+    AstNode seq = node.getFirstDescendant(CxxGrammarImpl.statementSeq);
 
-    for (AstNode stmtGroups : node.getChildren(CxxGrammarImpl.switchBlockStatementGroups)) {
-      for (AstNode stmtGroup : stmtGroups.getChildren(CxxGrammarImpl.switchBlockStatementGroup)) {
-        for (AstNode label : stmtGroup.getChildren(CxxGrammarImpl.switchLabelStatement)) {
+    if (seq != null) {
+      for (AstNode stmt : seq.getChildren(CxxGrammarImpl.statement)) {
+        for (AstNode label : stmt.getChildren(CxxGrammarImpl.labeledStatement)) {
           cases.add(label);
         }
       }

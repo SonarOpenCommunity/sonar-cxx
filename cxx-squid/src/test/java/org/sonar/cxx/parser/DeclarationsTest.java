@@ -22,6 +22,9 @@ package org.sonar.cxx.parser;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
+import static org.sonar.cxx.parser.CxxGrammarImpl.namedNamespaceDefinition;
+import static org.sonar.cxx.parser.CxxGrammarImpl.nestedNamespaceDefinition;
+import static org.sonar.cxx.parser.CxxGrammarImpl.unnamedNamespaceDefinition;
 
 public class DeclarationsTest extends ParserBaseTest {
 
@@ -394,6 +397,30 @@ public class DeclarationsTest extends ParserBaseTest {
   }
 
   @Test
+  public void namespaceDefinition() {
+    p.setRootRule(g.rule(CxxGrammarImpl.namespaceDefinition));
+
+    g.rule(CxxGrammarImpl.namedNamespaceDefinition).mock();
+    g.rule(CxxGrammarImpl.unnamedNamespaceDefinition).mock();
+    g.rule(CxxGrammarImpl.nestedNamespaceDefinition).mock();
+        
+    assertThat(p)
+        .matches("namedNamespaceDefinition")
+        .matches("unnamedNamespaceDefinition")
+        .matches("nestedNamespaceDefinition");
+  }
+  
+  @Test
+  public void enclosingNamespaceSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enclosingNamespaceSpecifier));
+        
+    assertThat(p)
+        .matches("IDENTIFIER")
+        .matches("IDENTIFIER :: IDENTIFIER")
+        .matches("IDENTIFIER :: IDENTIFIER :: IDENTIFIER");
+  }
+  
+  @Test
   public void namespaceDefinition_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.namespaceDefinition));
 
@@ -409,7 +436,6 @@ public class DeclarationsTest extends ParserBaseTest {
 
     assertThat(p).matches("using nestedNameSpecifier unqualifiedId ;");
     assertThat(p).matches("using typename nestedNameSpecifier unqualifiedId ;");
-    assertThat(p).matches("using :: unqualifiedId ;");
   }
 
   @Test

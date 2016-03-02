@@ -27,6 +27,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.AbstractOneStatementPerLineCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.TokenType;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
@@ -75,17 +76,24 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
 
   /**
    * Exclude 'break' statement if it is on the same line as the switch label
-   * (case: or default:). i.e. the break statement is on the same line as it's
-   * "switchBlockStatementGroup" ancestor.
    */
   private boolean isBreakStatementExcluded(AstNode astNode) {
-    if (!excludeCaseBreak || astNode.getToken().getType() != CxxKeyword.BREAK) {
-      return false;
+    boolean exclude = false;
+    if (excludeCaseBreak && astNode.getToken().getType() == CxxKeyword.BREAK) {
+      for (AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.statement);
+        statement != null;
+        statement = statement.getPreviousSibling()) {
+        if (astNode.getTokenLine() != statement.getTokenLine()) {
+          break;
+        }
+        TokenType type = statement.getToken().getType();
+        if (type == CxxKeyword.CASE || type == CxxKeyword.DEFAULT) {
+          exclude = true;
+          break;
+        }
+      }
     }
-
-    AstNode switchGroup = astNode.getFirstAncestor(CxxGrammarImpl.switchBlockStatementGroup);
-    return switchGroup != null
-      && switchGroup.getTokenLine() == astNode.getTokenLine();
+    return exclude;
   }
 
   /**

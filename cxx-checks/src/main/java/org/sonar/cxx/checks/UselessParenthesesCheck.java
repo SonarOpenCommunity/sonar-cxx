@@ -27,6 +27,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
+import static org.sonar.cxx.checks.utils.CheckUtils.isParenthesisedExpression;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
@@ -43,14 +44,12 @@ public class UselessParenthesesCheck extends SquidCheck<Grammar> {
 
   @Override
   public void init() {
-    subscribeTo(CxxGrammarImpl.par_expression);
+    subscribeTo(CxxGrammarImpl.primaryExpression);
   }
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.par_expression)
-      && node.getParent().is(CxxGrammarImpl.expression)
-      && !node.isCopyBookOrGeneratedNode()) {
+    if (isParenthesisedExpression(node)) {
       getContext().createLineViolation(this, "Remove those useless parentheses.", node);
     }
   }
