@@ -62,7 +62,8 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
   public void visitNode(AstNode astNode) {
     AstNode nameNode = astNode.getFirstDescendant(CxxGrammarImpl.className);
     if (nameNode != null) {
-      if (astNode.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null) {
+      
+      if (astNode.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null) {        
         String name = nameNode.getTokenValue();
         if (!pattern.matcher(name).matches()) {
           getContext().createLineViolation(this,
