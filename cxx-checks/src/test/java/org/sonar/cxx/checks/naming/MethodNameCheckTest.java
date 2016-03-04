@@ -38,6 +38,12 @@ public class MethodNameCheckTest {
       .next().atLine(10).withMessage(
         "Rename method \"TooLongMethodNameBecauseItHasMoreThan30Characters\" "
         + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")
+      .next().atLine(12).withMessage(
+        "Rename method \"Badly_Named_Method_2\" "
+        + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")   
+      .next().atLine(21).withMessage(
+        "Rename method \"Badly_Named_Method_3\" "
+        + "to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")                 
       .noMore();
   }
 

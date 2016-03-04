@@ -14,4 +14,7 @@ void too_long_function_name_because_it_has_more_than_30_characters() {
 
 class MyClass {
    void too_long_function_name_because_it_has_more_than_30_characters() {}
+   void too_long_function_name_because_it_has_more_than_30_characters_2();
 };
+
+void MyClass::too_long_function_name_because_it_has_more_than_30_characters_2() {}
