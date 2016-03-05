@@ -32,7 +32,7 @@ compilers. For example in 32-bit Windows and linux they are same width, but in 6
 they are of different width. In worst case you end up assigning 64-bit address to 32-bit integer. The safe
 way is to store addresses only in pointer types (or typedefs like uintptr_t).
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
 </p>
      ]]>
@@ -50,7 +50,7 @@ compilers. For example in 32-bit Windows and linux they are same width, but in 6
 they are of different width. In worst case you end up assigning 64-bit integer to 32-bit pointer. The safe
 way is to store addresses only in pointer types (or typedefs like uintptr_t).
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
 </p>
      ]]>
@@ -75,7 +75,7 @@ way is to store addresses only in pointer types (or typedefs like uintptr_t).
     <li>the function ends. The address is invalid after the function ends and it</li>
     <li>might 'leak' from the function through the parameter</li>
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
 </p>
      ]]>
@@ -92,7 +92,7 @@ way is to store addresses only in pointer types (or typedefs like uintptr_t).
 <p>
 Address of an auto-variable returned.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
 </p>
      ]]>
@@ -109,7 +109,7 @@ Address of an auto-variable returned.
 <p>
 Pointer to local array variable returned.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
 </p>
      ]]>
@@ -126,7 +126,7 @@ Pointer to local array variable returned.
 <p>
 Reference to auto variable returned.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
 </p>
      ]]>
@@ -143,7 +143,7 @@ Reference to auto variable returned.
 <p>
 Reference to temporary returned.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
 </p>
      ]]>
@@ -160,7 +160,7 @@ Reference to temporary returned.
 <p>
 Address of an auto-variable returned.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
 </p>
      ]]>
@@ -176,13 +176,9 @@ Address of an auto-variable returned.
 <![CDATA[<p>
 Array index out of bounds.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a>
-</p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
-</p>
-<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a>
-</p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a></p>
 ]]>
 </description>
     <tag>bug</tag>
@@ -198,7 +194,7 @@ Array index out of bounds.
 <p>
 Buffer is accessed out-of-bounds.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
 </p>
      ]]>
@@ -214,11 +210,8 @@ Buffer is accessed out-of-bounds.
 <![CDATA[<p>
 Index is out of bounds: Supplied size is larger than actual size.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a>
-</p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
-</p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -248,11 +241,8 @@ assumes buffer is null-terminated.
 <![CDATA[<p>
 Negative array index is always out of bounds.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a>
-</p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/786.html" target="_blank">CWE-786: Access of Memory Location Before Start of Buffer</a>
-</p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/786.html" target="_blank">CWE-786: Access of Memory Location Before Start of Buffer</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -268,7 +258,7 @@ Negative array index is always out of bounds.
 <p>
 Buffer overrun possible for long command line arguments.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a>
 </p>
      ]]>
@@ -291,7 +281,7 @@ From chapter 6.5.6 in the C specification:\n"
  or one past the last element of the array object,
  the evaluation shall not produce an overflow; otherwise, the behavior is undefined."</i>
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -308,9 +298,7 @@ From chapter 6.5.6 in the C specification:\n"
 Array index is used before limits check.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -328,7 +316,7 @@ The <code>struct</code> or <code>class</code> 'classname' does not have a constr
 Member variables of builtin types are left uninitialized when the class is instantiated.
 That may cause bugs or undefined behavior.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -345,9 +333,7 @@ That may cause bugs or undefined behavior.
 Uninitialized variable.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -363,7 +349,7 @@ Uninitialized variable.
 <p>
 Member variable is not assigned a value in the assignment '::operator='.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -380,7 +366,7 @@ Member variable is not assigned a value in the assignment '::operator='.
 <p>
 Unused private function.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -397,7 +383,7 @@ Unused private function.
 Usage of the functions from the memset-family on classes should be avoided because it leads to undefined behavior in a number of
 cases (e.g. when the class contains a virtual method). Use constructors or init-routines to initialize your members instead
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
 </p>
 ]]>
@@ -422,7 +408,7 @@ className &className::operator=(..)
 For safety reasons it might be better to not fix this message. If you think that safety is always more important than conformance then please ignore/suppress this message. 
 For more details about this topic, see the book "Effective C++" by Scott Meyers.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -438,7 +424,7 @@ For more details about this topic, see the book "Effective C++" by Scott Meyers.
 <p>
 Suspicious pointer subtraction. Did you intend to write '->'?
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -454,7 +440,7 @@ Suspicious pointer subtraction. Did you intend to write '->'?
 <p>
 'operator=' should return reference to self.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -471,7 +457,7 @@ Suspicious pointer subtraction. Did you intend to write '->'?
 'operator=' should check for assignment to self to ensure that each block of dynamically
 allocated memory is owned and managed by only one instance of the class.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -521,7 +507,7 @@ allocated memory is owned and managed by only one instance of the class.
 <p>
  Mismatching assignment and comparison, comparison is always true or false.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -539,7 +525,7 @@ Expression is always true or false.
 Check carefully constants and operators used, these errors might be hard to spot sometimes.
 In case of complex expression it might help to split it to separate expressions.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -555,7 +541,7 @@ In case of complex expression it might help to split it to separate expressions.
 <p>
 Expression is always false because 'else if' condition matches previous condition.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -571,7 +557,7 @@ Expression is always false because 'else if' condition matches previous conditio
 <p>
 Memory leak.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a>
 </p>
 ]]>
@@ -588,7 +574,7 @@ Memory leak.
 <p>
 Resource leak.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/775.html" target="_blank">CWE-775: Missing Release of File Descriptor or Handle after Effective Lifetime</a>
 </p>
 ]]>
@@ -605,7 +591,7 @@ Resource leak.
 <p>
 Deallocating a deallocated pointer.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a>
 </p>
 ]]>
@@ -622,7 +608,7 @@ Deallocating a deallocated pointer.
 <p>
 Dereferencing variable after it is deallocated / released.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/416.html" target="_blank">CWE-416: Use After Free</a>
 </p>
 ]]>
@@ -639,7 +625,7 @@ Dereferencing variable after it is deallocated / released.
 <p>
 The allocated size is not a multiple of the underlying type&apos;s size.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a>
 </p>
 ]]>
@@ -656,7 +642,7 @@ The allocated size is not a multiple of the underlying type&apos;s size.
 <p>
 Mismatching allocation and deallocation.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
 </p>
 ]]>
@@ -673,7 +659,7 @@ Mismatching allocation and deallocation.
 <p>
 Common realloc mistake: variable nulled but not freed upon failure.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a>
 </p>
 ]]>
@@ -1060,9 +1046,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
 Possible null pointer dereference.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -1299,7 +1283,7 @@ Possible null pointer dereference.
 <p>
 Boolean value assigned to pointer.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/587.html" target="_blank">CWE-587: Assignment of a Fixed Address to a Pointer</a>
 </p>
      ]]>
@@ -1317,7 +1301,7 @@ Boolean value assigned to pointer.
 Undefined behavior: variable is used as parameter and destination in s[n]printf(). From Single UNIX Specification: "If
 copying takes place between objects that overlap as a result of a call to sprintf() or snprintf(), the results are undefined".
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
 </p>
 ]]>
@@ -1350,9 +1334,7 @@ copying takes place between objects that overlap as a result of a call to sprint
 Division by zero.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=624" target="_blank">INT33-C. Ensure that division and remainder operations do not result in divide-by-zero errors</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/369.html" target="_blank">CWE-369: Divide By Zero</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/369.html" target="_blank">CWE-369: Divide By Zero</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -1393,7 +1375,7 @@ Division by zero.
 <p>
 Instance destroyed immediately.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a>
 </p>
 ]]>
@@ -1483,7 +1465,7 @@ Instance destroyed immediately.
 <p>
 Unusual pointer arithmetic.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
 </p>
 ]]>
@@ -1542,7 +1524,7 @@ Assert statements are removed from release builds so the code inside
 assert statement is not executed. If the code is needed also in release
 builds, this is a bug.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -1567,7 +1549,7 @@ builds, this is a bug.
 <p>
 Logical disjunction always evaluates to true or false . Did you intend to use '&&' or '||' instead?
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a>
 </p>
 <p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a>
@@ -1609,7 +1591,7 @@ Comparison operators have higher precedence than bitwise operators.
 Please clarify the condition with parentheses.</li
 </ul>
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -1634,7 +1616,7 @@ Please clarify the condition with parentheses.</li
 The operand of a postfix increment operator may be of type bool but it is deprecated by C++ Standard (Annex D-1) 
 and the operand is always set to true. You should assign it the value 'true' instead.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -1708,7 +1690,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
 <p>
 Invalid iterator.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1725,7 +1707,7 @@ Invalid iterator.
 <p>
 Same iterator is used with two different containers.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1742,7 +1724,7 @@ Same iterator is used with two different containers.
 <p>
 Iterators of different containers are used together
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1760,7 +1742,7 @@ Iterators of different containers are used together
 Dereferenced iterator an already erased iterator.
 Dereferencing or comparing it with another iterator is invalid operation.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1777,7 +1759,7 @@ Dereferencing or comparing it with another iterator is invalid operation.
 <p>
 When <code>i==foo.size()</code> foo[i] or foo.at(i) is out of bounds.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
 </p>
 ]]>
@@ -1794,7 +1776,7 @@ When <code>i==foo.size()</code> foo[i] or foo.at(i) is out of bounds.
 <p>
 Iterators may get invalid after push_back|push_front|insert.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1810,7 +1792,7 @@ Iterators may get invalid after push_back|push_front|insert.
 <p>
 Invalid pointer after push_back / push_front.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1855,7 +1837,7 @@ Invalid pointer after push_back / push_front.
 <p>
 Dangerous usage of c_str(). The returned value by c_str() is invalid after this call.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1899,7 +1881,7 @@ You can randomly lose access to pointers if you store 'auto_ptr' pointers in a c
 An element of container must be able to be copied but 'auto_ptr' does not fulfill this requirement. You should consider to use 'shared_ptr' or 'unique_ptr'.
 It is suitable for use in containers, because they no longer copy their values, they move them.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1916,7 +1898,7 @@ It is suitable for use in containers, because they no longer copy their values, 
 Object pointed by an 'auto_ptr' is destroyed using operator 'delete'. This means that you should only use 'auto_ptr' for pointers obtained with operator 'new'.
 This excludes arrays, which are allocated by operator 'new[]' and must be deallocated by operator 'delete[]'.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -1933,9 +1915,7 @@ This excludes arrays, which are allocated by operator 'new[]' and must be deallo
 Dangerous usage of variable (strncpy doesn't always 0-terminate it).
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/676.html" target="_blank">CWE-676: Use of Potentially Dangerous Function</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/676.html" target="_blank">CWE-676: Use of Potentially Dangerous Function</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -1951,9 +1931,7 @@ Dangerous usage of variable (strncpy doesn't always 0-terminate it).
 Data is allocated but not initialized.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -2129,9 +2107,8 @@ Possible buffer overflow if strlen(source) is larger than or equal to sizeof(des
 The source buffer is larger than or equal the destination buffer so there is the potential for overflowing the destination buffer.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
@@ -2147,7 +2124,7 @@ The source buffer is larger than or equal the destination buffer so there is the
 Address of the function parameter 'varname' becomes invalid after the function exits because
 function parameters are stored on the stack which is freed when the function exits. Thus the returned value is invalid.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
 </p>
      ]]>
@@ -2190,7 +2167,7 @@ function parameters are stored on the stack which is freed when the function exi
 <p>
 BOOST_FOREACH caches the end() iterator. It's undefined behavior if you modify the container inside.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
      ]]>
@@ -2207,7 +2184,7 @@ BOOST_FOREACH caches the end() iterator. It's undefined behavior if you modify t
 <p>
 Comparison of a boolean expression with an integer other than 0 or 1.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -2310,7 +2287,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
 <p>
 Memory or resource handle is freed twice.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a>
 </p>
 ]]>
@@ -2438,7 +2415,7 @@ Memory or resource handle is freed twice.
 <p>
 Wrong number of parameters given to printf().
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/685.html" target="_blank">CWE-685: Function Call With Incorrect Number of Arguments</a>
 </p>
 ]]>
@@ -2456,11 +2433,8 @@ Wrong number of parameters given to printf().
 <![CDATA[<p>
 Member variable is not initialized in the constructor.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a>
-</p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cert</tag>
@@ -2476,7 +2450,7 @@ Member variable is not initialized in the constructor.
 <p>
 Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is always true.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -2501,7 +2475,7 @@ Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is
 <p>
 Class Base which is inherited by class Derived does not have a virtual destructor.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/404.html" target="_blank">CWE-404: Improper Resource Shutdown or Release</a>
 </p>
 ]]>
@@ -2517,7 +2491,7 @@ Class Base which is inherited by class Derived does not have a virtual destructo
 <p>
 Memory allocated inside the called function is not freed by the caller function.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/772.html" target="_blank">CWE-772: Missing Release of Resource after Effective Lifetime</a>
 </p>
 ]]>
@@ -2575,7 +2549,7 @@ platforms and compilers. For example in 32-bit Windows and Linux they are same w
 and Linux they are of different width. In worst case you end up casting 64-bit integer down to 32-bit pointer.
 The safe way is to always return a pointer.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
 </p>
      ]]>
@@ -2591,7 +2565,7 @@ The safe way is to always return a pointer.
 <p>
 Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behavior.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -2607,7 +2581,7 @@ Read and write operations without a call to a positioning function (fseek, fsetp
 <p>
 Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '||'?
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -2624,7 +2598,7 @@ Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '|
 <p>
 Assignment of function parameter has no effect outside the function.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/672.html" target="_blank">CWE-672: Operation on a Resource after Expiration or Release</a>
 </p>
 ]]>
@@ -2641,7 +2615,7 @@ Assignment of function parameter has no effect outside the function.
 <p>
 Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/687.html" target="_blank">CWE-687: Function Call With Incorrectly Specified Argument Value</a>
 </p>
 ]]>
@@ -2666,7 +2640,7 @@ Width 'parameter' given in format string (no. 'symbol' ) doesn't match destinati
 <p>
 Comparison of modulo result is predetermined.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -2698,7 +2672,7 @@ Comparison of modulo result is predetermined.
 <p>
 Read operation on a file that was opened only for writing.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -2730,7 +2704,7 @@ Read operation on a file that was opened only for writing.
 <p>
 Used file that is not opened.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/910.html" target="_blank">CWE-910: Use of Expired File Descriptor</a>
 </p>
 ]]>
@@ -2749,7 +2723,7 @@ When an object of a class is created, the constructors of all member variables a
 in the order the variables are declared, even if you don't explicitly write them to the initialization list.
 You could avoid assigning 'symbol' a value by passing the value to the constructor in the initialization list.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -2765,7 +2739,7 @@ You could avoid assigning 'symbol' a value by passing the value to the construct
 <p>
 Write operation on a file that was opened only for reading.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -2855,9 +2829,7 @@ Write operation on a file that was opened only for reading.
 Shifting a negative value is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -2909,7 +2881,7 @@ Shifting a negative value is undefined behaviour.
 <p>
 Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -2930,7 +2902,7 @@ different platforms and compilers. For example in 32-bit Windows and Linux they 
 64-bit Windows and Linux they are of different width. In worst case you end up casting 64-bit address down
 to 32-bit integer. The safe way is to always return an integer.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
 </p>
      ]]>
@@ -2946,7 +2918,7 @@ to 32-bit integer. The safe way is to always return an integer.
 <p>
 The variable 'expression' is of type 'bool' and comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -2964,7 +2936,7 @@ The variable 'expression' is of type 'bool' and comparing 'bool' value using rel
 The return type of function 'expression1' and function 'expression2' is 'bool' and result is of type 'bool'. 
 Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -2982,7 +2954,7 @@ Comparing 'bool' value using relational (<, >, <= or >=) operator could cause un
 The return type of function 'expression1' and function 'expression2' is 'bool' and result is of type 'bool'.
 Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -2999,7 +2971,7 @@ Comparing 'bool' value using relational (<, >, <= or >=) operator could cause un
 <p>
 Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -3031,7 +3003,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
 <p>
 'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -3047,7 +3019,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
 <p>
 Opposite conditions in nested 'if' blocks lead to a dead code block.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -3108,7 +3080,7 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
 <p>
 The array 'varname' is too small, the function 'functionName' expects a bigger one.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -3141,7 +3113,7 @@ The array 'varname' is too small, the function 'functionName' expects a bigger o
 Memory for class instance allocated with malloc(), but class provides constructors.
 This is unsafe, since no constructor is called and class members remain uninitialized. Consider using 'new' instead.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
 </p>
 ]]>
@@ -3162,7 +3134,7 @@ This is unsafe, since no constructor is called and class members remain uninitia
 Memory for class instance allocated with malloc(), but class provides constructors.
 This is unsafe, since no constructor is called and class members remain uninitialized. Consider using 'new' instead.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
 </p>
 ]]>
@@ -3186,7 +3158,7 @@ Z = X & 0x1;
 </code>
 results => Z=0
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -3219,7 +3191,7 @@ Dangerous iterator comparison using 'operator<' on iterator.
 This is dangerous since the order of items in the container is not guaranteed. 
 One should use 'operator!=' instead to compare iterators.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -3249,9 +3221,7 @@ One should use 'operator!=' instead to compare iterators.
 Missing initialization for a struct member.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -3270,7 +3240,7 @@ Missing initialization for a struct member.
 <p>
 Assignment of function parameter has no effect outside the function. Did you forget dereferencing it?
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -3313,7 +3283,7 @@ Assignment of function parameter has no effect outside the function. Did you for
 <p>
 A buffer must have size of 2 integers if used as parameter of pipe().
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a>
 </p>
 ]]>
@@ -3431,7 +3401,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
 <p>
  A subclass defines a member variable which is already defined in its parent class.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -3501,7 +3471,7 @@ Assert statements are removed from release builds so the code inside
 assert statement is not executed. If the code is needed also in release
 builds, this is a bug.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -3519,7 +3489,7 @@ builds, this is a bug.
 Converting pointer arithmetic result to bool. The boolean result is always true unless there is pointer arithmetic overflow, 
 and overflow is undefined behaviour. Probably a dereference is forgotten.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a>
 </p>
      ]]>
@@ -3536,11 +3506,8 @@ and overflow is undefined behaviour. Probably a dereference is forgotten.
 Return value of allocation function is not used.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=445" target="_blank">MEM31-C. Free dynamically allocated memory when no longer needed</a></p>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a>
-</p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/771.html" target="_blank">CWE-771: Missing Reference to Active Allocated Resource</a>
-</p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/771.html" target="_blank">CWE-771: Missing Reference to Active Allocated Resource</a></p>
 ]]>
     </description>
     <tag>cert</tag>
@@ -3555,7 +3522,7 @@ Return value of allocation function is not used.
 <p>
 A function gets passed an invalid argument.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
 </p>
 ]]>
@@ -3571,7 +3538,7 @@ A function gets passed an invalid argument.
 <p>
 A function gets passed an invalid argument. A non-boolean value is required.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
 </p>
 ]]>
@@ -3590,7 +3557,7 @@ A function gets passed an invalid argument. A non-boolean value is required.
 Memory allocation size have to be greater or equal to 0.
 Negative allocation size has no specified behaviour.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a>
 </p>
      ]]>
@@ -3672,9 +3639,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
 The array access using this index may be out of bounds.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a></p>
 ]]>
 </description>
     <tag>bug</tag>
@@ -3708,7 +3673,7 @@ The array access using this index may be out of bounds.
 <p>
 Pointer &apos;pointer&apos; is dead if it has been assigned &apos;&amp;x&apos; at line 0.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/825.html" target="_blank">CWE-825: Expired Pointer Dereference</a>
 </p>
 ]]>
@@ -3756,7 +3721,7 @@ This is not portable because memset() sets each byte of a block of memory to a s
 the actual representation of a floating-point value is implementation defined.
 <i>Note: In case of an IEEE754-1985 compatible implementation setting all bits to zero results in the value 0.0.</i>
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
 </p>
 ]]>
@@ -3772,7 +3737,7 @@ the actual representation of a floating-point value is implementation defined.
 <p>
 Using "memfunc" on class that contains a reference.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
 </p>
 ]]>
@@ -3788,7 +3753,7 @@ Using "memfunc" on class that contains a reference.
 <p>
 Member variable 'var' is initialized by itself.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
 </p>
 ]]>
@@ -3805,9 +3770,7 @@ Member variable 'var' is initialized by itself.
 Shifting 32-bit value by 64 bits is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
-<h2>CWE Documentation</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
 ]]>
     </description>
     <tag>bug</tag>
@@ -3847,7 +3810,7 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
 <p>
 Assignment of function parameter has no effect outside the function.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
      ]]>
@@ -3864,7 +3827,7 @@ Assignment of function parameter has no effect outside the function.
 <p>
 va_list 'vl' was opened but not closed by va_end().
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -3881,7 +3844,7 @@ va_list 'vl' was opened but not closed by va_end().
 <p>
 va_list 'vl' used before va_start() was called.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -3897,7 +3860,7 @@ va_list 'vl' used before va_start() was called.
 <p>
 Using reference &apos;arg1&apos; as parameter for va_start() results in undefined behaviour.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
 </p>
 ]]>
@@ -3914,7 +3877,7 @@ Using reference &apos;arg1&apos; as parameter for va_start() results in undefine
 <p>
 va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
 </p>
 ]]>
@@ -3973,7 +3936,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
 <p>
 No <code>return</code> statement in non-void function causes undefined behavior.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
@@ -3990,7 +3953,7 @@ No <code>return</code> statement in non-void function causes undefined behavior.
 <p>
 'operator=' should either return reference to 'this'instance or be declared private and left unimplemented.
 </p>
-<h2>CWE Documentation</h2>
+<h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
 </p>
 ]]>
