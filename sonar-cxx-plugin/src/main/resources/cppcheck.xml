@@ -25,66 +25,148 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <configkey>AssignmentAddressToInteger</configkey>
     <name>Assigning an address value to an integer (int/long/etc.) type is not portable</name>
     <description>
-      Assigning an address value to an integer (int/long/etc.) type is
-      not portable.
+      <![CDATA[
+<p>
+Assigning a pointer to an integer (int/long/etc) is not portable across different platforms and
+compilers. For example in 32-bit Windows and linux they are same width, but in 64-bit Windows and linux
+they are of different width. In worst case you end up assigning 64-bit address to 32-bit integer. The safe
+way is to store addresses only in pointer types (or typedefs like uintptr_t).
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>AssignmentIntegerToAddress</key>
     <configkey>AssignmentIntegerToAddress</configkey>
     <name>Assigning an integer (int/long/etc) to a pointer is not portable</name>
-    <description>
-      Assigning an integer (int/long/etc) to a pointer is not portable.
+    <description><![CDATA[
+<p>
+Assigning an integer (int/long/etc) to a pointer is not portable across different platforms and
+compilers. For example in 32-bit Windows and linux they are same width, but in 64-bit Windows and linux
+they are of different width. In worst case you end up assigning 64-bit integer to 32-bit pointer. The safe
+way is to store addresses only in pointer types (or typedefs like uintptr_t).
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>autoVariables</key>
     <configkey>autoVariables</configkey>
     <name>Assigning address of local auto-variable to a function parameter</name>
     <description>
-      Assigning address of local auto-variable to a function
-      parameter.
+<![CDATA[
+<p>
+
+    Dangerous assignment - the function parameter is assigned the address of a local
+    auto-variable. Local auto-variables are reserved from the stack which
+    is freed when the function ends. So the pointer to a local variable is invalid after the function ends
+</p>
+<p>
+    <li>Function parameter is assigned the address of a local auto-variable.</li>
+    <li>Local auto-variables are reserved from the stack which is freed when</li>
+    <li>the function ends. The address is invalid after the function ends and it</li>
+    <li>might 'leak' from the function through the parameter</li>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>returnAddressOfAutoVariable</key>
     <configkey>returnAddressOfAutoVariable</configkey>
     <name>Return of the address of an auto-variable</name>
     <description>
-      Return of the address of an auto-variable.
+      <![CDATA[
+<p>
+Address of an auto-variable returned.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>returnLocalVariable</key>
     <configkey>returnLocalVariable</configkey>
     <name>Returning pointer to local array variable</name>
     <description>
-      Returning pointer to local array variable.
+<![CDATA[
+<p>
+Pointer to local array variable returned.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>returnReference</key>
     <configkey>returnReference</configkey>
     <name>Returning reference to auto variable</name>
     <description>
-      Returning reference to auto variable.
+<![CDATA[
+<p>
+Reference to auto variable returned.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>returnTempReference</key>
     <configkey>returnTempReference</configkey>
     <name>Returning reference to temporary</name>
     <description>
-      Returning reference to temporary.
+<![CDATA[
+<p>
+Reference to temporary returned.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>autovarInvalidDeallocation</key>
     <configkey>autovarInvalidDeallocation</configkey>
     <name>Deallocating auto-variable is invalid</name>
     <description>
-      Deallocating auto-variable is invalid.
+<![CDATA[
+<p>
+Address of an auto-variable returned.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>arrayIndexOutOfBounds</key>
@@ -94,19 +176,35 @@ Follow these steps to make your custom Custom rules available in SonarQube:
 <![CDATA[<p>
 Array index out of bounds.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
+</p>
+<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a>
+</p>
 ]]>
 </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>bufferAccessOutOfBounds</key>
     <configkey>bufferAccessOutOfBounds</configkey>
     <name>Buffer access out-of-bounds</name>
     <description>
-      Buffer access out-of-bounds.
+<![CDATA[
+<p>
+Buffer is accessed out-of-bounds.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>outOfBounds</key>
@@ -116,19 +214,30 @@ Array index out of bounds.
 <![CDATA[<p>
 Index is out of bounds: Supplied size is larger than actual size.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
-  </rule>
+    <tag>cwe</tag>
+    </rule>
   <rule>
     <key>terminateStrncpy</key>
     <configkey>terminateStrncpy</configkey>
     <name>The buffer may not be zero-terminated after the call to strncpy()</name>
     <description>
-      The buffer may not be zero-terminated after the call to
-      strncpy().
+<![CDATA[
+<p>
+The buffer 'varname' may not be null-terminated after the call to strncpy().
+If the source string's size fits or exceeds the given size, strncpy() does not add a 
+zero at the end of the buffer. This causes bugs later in the code if the code 
+assumes buffer is null-terminated.
+</p>
+     ]]>
     </description>
   </rule>
   <rule>
@@ -139,28 +248,55 @@ Index is out of bounds: Supplied size is larger than actual size.
 <![CDATA[<p>
 Negative array index is always out of bounds.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/786.html" target="_blank">CWE-786: Access of Memory Location Before Start of Buffer</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>insecureCmdLineArgs</key>
     <configkey>insecureCmdLineArgs</configkey>
     <name>Buffer overrun possible for long cmd-line args</name>
     <description>
-      Buffer overrun possible for long cmd-line args.
+<![CDATA[
+<p>
+Buffer overrun possible for long command line arguments.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>pointerOutOfBounds</key>
     <configkey>pointerOutOfBounds</configkey>
-    <name>Array pointer out of bounds</name>
+    <name>Undefined behaviour, pointer arithmetic 'expr' or index is out of bounds</name>
     <description>
-      Undefined behavior: pointer arithmetic result does not point
-      into or just past the end of the array.
+<![CDATA[
+<p>
+Undefined behaviour, pointer arithmetic 'expr' or index is out of bounds.
+From chapter 6.5.6 in the C specification:\n"
+<i>"When an expression that has integer type is added to or subtracted from a pointer, .."</i>
+ and then 
+<i>"If both the pointer operand and the result point to elements of the same array object,
+ or one past the last element of the array object,
+ the evaluation shall not produce an overflow; otherwise, the behavior is undefined."</i>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -172,18 +308,33 @@ Negative array index is always out of bounds.
 Array index is used before limits check.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
-  </rule>
+    <tag>cwe</tag>
+    </rule>
   <rule>
     <key>noConstructor</key>
     <configkey>noConstructor</configkey>
     <name>Class does not have a constructor</name>
     <description>
-      Class does not have a constructor.
+<![CDATA[
+<p>
+The <code>struct</code> or <code>class</code> 'classname' does not have a constructor although it has private member variables.
+Member variables of builtin types are left uninitialized when the class is instantiated.
+That may cause bugs or undefined behavior.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>uninitvar</key>
@@ -194,70 +345,138 @@ Array index is used before limits check.
 Uninitialized variable.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>operatorEqVarError</key>
     <configkey>operatorEqVarError</configkey>
     <name>Member variable is not assigned a value in the assignment operator</name>
     <description>
-      Member variable is not assigned a value in the assignment
-      operator.
+<![CDATA[
+<p>
+Member variable is not assigned a value in the assignment '::operator='.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>unusedPrivateFunction</key>
     <configkey>unusedPrivateFunction</configkey>
     <name>Unused private function</name>
     <description>
-      Unused private function.
+<![CDATA[
+<p>
+Unused private function.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>memsetClass</key>
     <configkey>memsetClass</configkey>
     <name>Invalid usage of memset|memmove|memcpy on classes</name>
     <description>
-      Usage of the functions from the memset-family on classes should
-      be avoided because it leads to undefined behavior in a number of
-      cases (e.g. when the class contains a virtual method). Use
-      constructors or init-routines to initialize your members instead.
-    </description>
+<![CDATA[
+<p>
+Usage of the functions from the memset-family on classes should be avoided because it leads to undefined behavior in a number of
+cases (e.g. when the class contains a virtual method). Use constructors or init-routines to initialize your members instead
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
+</p>
+]]>
+  </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>operatorEq</key>
     <configkey>operatorEq</configkey>
     <name>'class::operator=' should return 'class &amp;'</name>
     <description>
-      'class::operator=' should return 'class &amp;'.
+<![CDATA[
+<p>
+The 'className::operator=' does not conform to standard C/C++ behaviour. To conform to standard C/C++ behaviour, return a reference to self (such as: 
+<code>
+className &className::operator=(..) 
+{ 
+  .. 
+  return *this; 
+}
+</code>
+For safety reasons it might be better to not fix this message. If you think that safety is always more important than conformance then please ignore/suppress this message. 
+For more details about this topic, see the book "Effective C++" by Scott Meyers.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>thisSubtraction</key>
     <configkey>thisSubtraction</configkey>
     <name>Suspicious pointer subtraction</name>
     <description>
-      Suspicious pointer subtraction
+<![CDATA[
+<p>
+Suspicious pointer subtraction. Did you intend to write '->'?
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>operatorEqRetRefThis</key>
     <configkey>operatorEqRetRefThis</configkey>
     <name>'operator=' should return reference to self</name>
     <description>
-      'operator=' should return reference to self.
+<![CDATA[
+<p>
+'operator=' should return reference to self.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>operatorEqToSelf</key>
     <configkey>operatorEqToSelf</configkey>
     <name>'operator=' should check for assignment to self</name>
     <description>
-      'operator=' should check for assignment to self.
+<![CDATA[
+<p>
+'operator=' should check for assignment to self to ensure that each block of dynamically
+allocated memory is owned and managed by only one instance of the class.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>exceptThrowInDestructor</key>
@@ -296,84 +515,171 @@ Uninitialized variable.
   <rule>
     <key>assignIfError</key>
     <configkey>assignIfError</configkey>
-    <name>Mismatching assignment and comparison, comparison is always false</name>
+    <name>Mismatching assignment and comparison, comparison is always true or false</name>
     <description>
-      Mismatching assignment and comparison, comparison is always
-      false.
+<![CDATA[
+<p>
+ Mismatching assignment and comparison, comparison is always true or false.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>comparisonError</key>
     <configkey>comparisonError</configkey>
-    <name>Expression is always false</name>
+    <name>Expression is always true or false</name>
     <description>
-      Expression is always false.
+<![CDATA[
+<p>
+Expression is always true or false.
+Check carefully constants and operators used, these errors might be hard to spot sometimes.
+In case of complex expression it might help to split it to separate expressions.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>multiCondition</key>
     <configkey>multiCondition</configkey>
     <name>'else if' condition matches previous condition</name>
     <description>
-      'else if' condition matches previous condition.
+<![CDATA[
+<p>
+Expression is always false because 'else if' condition matches previous condition.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>memleak</key>
     <configkey>memleak</configkey>
     <name>Memory leak</name>
     <description>
-      Memory leak.
+<![CDATA[
+<p>
+Memory leak.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>resourceLeak</key>
     <configkey>resourceLeak</configkey>
     <name>Resource leak</name>
     <description>
-      Resource leak.
+<![CDATA[
+<p>
+Resource leak.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/775.html" target="_blank">CWE-775: Missing Release of File Descriptor or Handle after Effective Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>deallocDealloc</key>
     <configkey>deallocDealloc</configkey>
     <name>Deallocating a deallocated pointer</name>
     <description>
-      Deallocating a deallocated pointer.
+<![CDATA[
+<p>
+Deallocating a deallocated pointer.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>deallocuse</key>
     <configkey>deallocuse</configkey>
     <name>Dereferencing variable after it is deallocated / released</name>
     <description>
-      Dereferencing variable after it is deallocated / released.
+<![CDATA[
+<p>
+Dereferencing variable after it is deallocated / released.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/416.html" target="_blank">CWE-416: Use After Free</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>mismatchSize</key>
     <configkey>mismatchSize</configkey>
     <name>The given size is mismatching</name>
     <description>
-      The allocated size is not a multiple of the underlying type&apos;s size.
+<![CDATA[
+<p>
+The allocated size is not a multiple of the underlying type&apos;s size.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>mismatchAllocDealloc</key>
     <configkey>mismatchAllocDealloc</configkey>
     <name>Mismatching allocation and deallocation</name>
     <description>
-      Mismatching allocation and deallocation.
+<![CDATA[
+<p>
+Mismatching allocation and deallocation.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>memleakOnRealloc</key>
     <configkey>memleakOnRealloc</configkey>
     <name>Common realloc mistake: variable nulled but not freed upon failure</name>
     <description>
-      Common realloc mistake: variable nulled but not freed upon
-      failure.
+<![CDATA[
+<p>
+Common realloc mistake: variable nulled but not freed upon failure.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>nonreentrantFunctionscrypt</key>
@@ -754,11 +1060,15 @@ Uninitialized variable.
 Possible null pointer dereference.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
-  </rule>
+    <tag>cwe</tag>
+    </rule>
   <rule>
     <key>obsoleteFunctionsbcmp</key>
     <configkey>obsoleteFunctionsbcmp</configkey>
@@ -985,20 +1295,34 @@ Possible null pointer dereference.
     <configkey>assignBoolToPointer</configkey>
     <name>Assigning bool value to pointer (converting bool value to address)</name>
     <description>
-      Assigning bool value to pointer (converting bool value to
-      address).
+<![CDATA[
+<p>
+Boolean value assigned to pointer.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/587.html" target="_blank">CWE-587: Assignment of a Fixed Address to a Pointer</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>sprintfOverlappingData</key>
     <configkey>sprintfOverlappingData</configkey>
     <name>Undefined behavior: variable is used as parameter and destination in s[n]printf()</name>
     <description>
-      Undefined behavior: variable is used as parameter and
-      destination in s[n]printf(). From Single UNIX Specification: "If
-      copying takes place between objects that overlap as a result of a call
-      to sprintf() or snprintf(), the results are undefined".
+<![CDATA[
+<p>
+Undefined behavior: variable is used as parameter and destination in s[n]printf(). From Single UNIX Specification: "If
+copying takes place between objects that overlap as a result of a call to sprintf() or snprintf(), the results are undefined".
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -1026,10 +1350,14 @@ Possible null pointer dereference.
 Division by zero.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=624" target="_blank">INT33-C. Ensure that division and remainder operations do not result in divide-by-zero errors</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/369.html" target="_blank">CWE-369: Divide By Zero</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>wrongmathcall</key>
@@ -1061,8 +1389,16 @@ Division by zero.
     <configkey>unusedScopedObject</configkey>
     <name>Instance destroyed immediately</name>
     <description>
-      Instance destroyed immediately.
+<![CDATA[
+<p>
+Instance destroyed immediately.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>sizeofwithsilentarraypointer</key>
@@ -1143,8 +1479,16 @@ Division by zero.
     <configkey>strPlusChar</configkey>
     <name>Unusual pointer arithmetic</name>
     <description>
-      Unusual pointer arithmetic.
+<![CDATA[
+<p>
+Unusual pointer arithmetic.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>sizeofsizeof</key>
@@ -1191,8 +1535,20 @@ Division by zero.
     <configkey>assignmentInAssert</configkey>
     <name>Assert statement modifies variable</name>
     <description>
-      Assert statement modifies variable.
+      <![CDATA[
+<p>
+Variable 'varname' is modified insert assert statement.
+Assert statements are removed from release builds so the code inside
+assert statement is not executed. If the code is needed also in release
+builds, this is a bug.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>invalidscanf</key>
@@ -1205,11 +1561,20 @@ Division by zero.
   <rule>
     <key>incorrectLogicOperator</key>
     <configkey>incorrectLogicOperator</configkey>
-    <name>Suspicious use of the '||' logic operator</name>
+    <name>Suspicious use of the '&amp;&amp;' or '||' logic operator</name>
     <description>
-      Logical disjunction always evaluates to true. Did you
-      intend to use &amp;&amp; instead?
+<![CDATA[
+<p>
+Logical disjunction always evaluates to true or false . Did you intend to use '&&' or '||' instead?
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a>
+</p>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>memsetZeroBytes</key>
@@ -1232,9 +1597,24 @@ Division by zero.
     <configkey>clarifyCondition</configkey>
     <name>Suspicious condition (assignment+comparison)</name>
     <description>
-      Suspicious condition (assignment+comparison), it can be
-      clarified with parentheses.
+<![CDATA[
+<p>
+<ul>
+<li>Suspicious condition (assignment+comparison), it can be clarified with parentheses.</li
+<li>Suspicious expression. Boolean result is used in bitwise operation. The operator '!'
+and the comparison operators have higher precedence than bitwise operators.
+It is recommended that the expression is clarified with parentheses.</li
+<li>Suspicious condition (bitwise operator + comparison).
+Comparison operators have higher precedence than bitwise operators.
+Please clarify the condition with parentheses.</li
+</ul>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>incorrectStringCompare</key>
@@ -1249,9 +1629,17 @@ Division by zero.
     <configkey>incrementboolean</configkey>
     <name>Suspicious use of the postfix '++' operator on a boolean</name>
     <description>
-      The use of a variable of type bool with the ++ postfix operator
-      is always true and deprecated by the C++ Standard.
+<![CDATA[
+<p>
+The operand of a postfix increment operator may be of type bool but it is deprecated by C++ Standard (Annex D-1) 
+and the operand is always set to true. You should assign it the value 'true' instead.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>comparisonOfBoolWithInt</key>
@@ -1316,56 +1704,118 @@ Division by zero.
     <configkey>invalidIterator1</configkey>
     <name>Invalid iterator</name>
     <description>
-      Invalid iterator.
+<![CDATA[
+<p>
+Invalid iterator.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>iterators</key>
     <configkey>iterators</configkey>
     <name>Same iterator is used with two different containers</name>
     <description>
-      Same iterator is used with two different containers.
+<![CDATA[
+<p>
+Same iterator is used with two different containers.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>mismatchingContainers</key>
     <configkey>mismatchingContainers</configkey>
     <name>Mismatching containers</name>
     <description>
-      Mismatching containers.
+<![CDATA[
+<p>
+Iterators of different containers are used together
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>eraseDereference</key>
     <configkey>eraseDereference</configkey>
     <name>Dereferenced iterator an already erased iterator</name>
     <description>
-      Dereferenced iterator an already erased iterator.
+<![CDATA[
+<p>
+Dereferenced iterator an already erased iterator.
+Dereferencing or comparing it with another iterator is invalid operation.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>stlOutOfBounds</key>
     <configkey>stlOutOfBounds</configkey>
     <name>When i==foo.size(), foo[i] is out of bounds</name>
     <description>
-      When i==foo.size(), foo[i] is out of bounds.
+<![CDATA[
+<p>
+When <code>i==foo.size()</code> foo[i] or foo.at(i) is out of bounds.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>invalidIterator2</key>
     <configkey>invalidIterator2</configkey>
     <name>Iterators may get invalid after push_back|push_front|insert</name>
     <description>
-      Iterators may get invalid after push_back|push_front|insert.
+<![CDATA[
+<p>
+Iterators may get invalid after push_back|push_front|insert.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>invalidPointer</key>
     <configkey>invalidPointer</configkey>
     <name>Invalid pointer after push_back / push_front</name>
     <description>
-      Invalid pointer after push_back / push_front.
+<![CDATA[
+<p>
+Invalid pointer after push_back / push_front.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>stlBoundries</key>
@@ -1401,9 +1851,16 @@ Division by zero.
     <configkey>stlcstr</configkey>
     <name>Dangerous usage of c_str(). The returned value by c_str() is invalid after this call</name>
     <description>
-      Dangerous usage of c_str(). The returned value by c_str() is
-      invalid after this call.
+<![CDATA[
+<p>
+Dangerous usage of c_str(). The returned value by c_str() is invalid after this call.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>stlSize</key>
@@ -1436,20 +1893,35 @@ Division by zero.
     <configkey>useAutoPointerContainer</configkey>
     <name>Don't store 'auto-ptr' in a STL container</name>
     <description>
-      You can randomly lose access to pointers if you store 'auto_ptr'
-      pointers in a container because the copy-semantics of 'auto_ptr' are
-      not compatible with containers.
+<![CDATA[
+<p>
+You can randomly lose access to pointers if you store 'auto_ptr' pointers in a container because the copy-semantics of 'auto_ptr' are not compatible with containers.
+An element of container must be able to be copied but 'auto_ptr' does not fulfill this requirement. You should consider to use 'shared_ptr' or 'unique_ptr'.
+It is suitable for use in containers, because they no longer copy their values, they move them.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>useAutoPointerArray</key>
     <configkey>useAutoPointerArray</configkey>
     <name>Usage of 'auto_ptr' for pointers obtained with operator 'new[]'</name>
     <description>
-      Object pointed by an 'auto_ptr' is destroyed using operator
-      'delete'. Calling 'delete' an an pointer obtained with 'new[]' leads
-      to undefined behavior.
+<![CDATA[
+<p>
+Object pointed by an 'auto_ptr' is destroyed using operator 'delete'. This means that you should only use 'auto_ptr' for pointers obtained with operator 'new'.
+This excludes arrays, which are allocated by operator 'new[]' and must be deallocated by operator 'delete[]'.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -1461,10 +1933,14 @@ Division by zero.
 Dangerous usage of variable (strncpy doesn't always 0-terminate it).
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/676.html" target="_blank">CWE-676: Use of Potentially Dangerous Function</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>uninitdata</key>
@@ -1475,10 +1951,14 @@ Dangerous usage of variable (strncpy doesn't always 0-terminate it).
 Data is allocated but not initialized.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>unusedFunction</key>
@@ -1646,20 +2126,34 @@ Data is allocated but not initialized.
     <description>
 <![CDATA[<p>
 Possible buffer overflow if strlen(source) is larger than or equal to sizeof(destination).
+The source buffer is larger than or equal the destination buffer so there is the potential for overflowing the destination buffer.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
-]]>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>returnAddressOfFunctionParameter</key>
     <configkey>returnAddressOfFunctionParameter</configkey>
     <name>Return the address of a function parameter</name>
     <description>
-      Return the address of a function parameter.
+<![CDATA[
+<p>
+Address of the function parameter 'varname' becomes invalid after the function exits because
+function parameters are stored on the stack which is freed when the function exits. Thus the returned value is invalid.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.52 ########### -->
@@ -1692,9 +2186,16 @@ Possible buffer overflow if strlen(source) is larger than or equal to sizeof(des
     <configkey>boostForeachError</configkey>
     <name>Invalid usage of BOOST_FOREACH</name>
     <description>
-      BOOST_FOREACH caches the end() iterator. It's undefined behavior
-      if you modify the container.
+<![CDATA[
+<p>
+BOOST_FOREACH caches the end() iterator. It's undefined behavior if you modify the container inside.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -1702,9 +2203,16 @@ Possible buffer overflow if strlen(source) is larger than or equal to sizeof(des
     <configkey>compareBoolExpressionWithInt</configkey>
     <name>Comparison of a boolean expression with an integer other than 0 or 1</name>
     <description>
-      Comparison of a boolean expression with an integer other than 0
-      or 1.
+<![CDATA[
+<p>
+Comparison of a boolean expression with an integer other than 0 or 1.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>coutCerrMisusage</key>
@@ -1798,8 +2306,17 @@ Possible buffer overflow if strlen(source) is larger than or equal to sizeof(des
     <configkey>doubleFree</configkey>
     <name>Memory is freed twice</name>
     <description>
-      Memory is freed twice.
+<![CDATA[
+<p>
+Memory or resource handle is freed twice.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>invalidPrintfArgType_s</key>
@@ -1917,8 +2434,17 @@ Possible buffer overflow if strlen(source) is larger than or equal to sizeof(des
     <configkey>wrongPrintfScanfArgNum</configkey>
     <name>Wrong number of parameters given to printf()</name>
     <description>
-      Wrong number of parameters given to printf().
+<![CDATA[
+<p>
+Wrong number of parameters given to printf().
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/685.html" target="_blank">CWE-685: Function Call With Incorrect Number of Arguments</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.54 ########### -->
@@ -1930,19 +2456,32 @@ Possible buffer overflow if strlen(source) is larger than or equal to sizeof(des
 <![CDATA[<p>
 Member variable is not initialized in the constructor.
 </p><h2>References</h2>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
 ]]>
     </description>
     <tag>cert</tag>
     <tag>bug</tag>
-  </rule>
+    <tag>cwe</tag>
+    </rule>
   <rule>
     <key>redundantCondition</key>
     <configkey>redundantCondition</configkey>
     <name>Redundant condition is always true</name>
     <description>
-      Redundant condition: If x &gt; 11 the condition x &gt; 10 is always true.
+<![CDATA[
+<p>
+Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is always true.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -1958,16 +2497,33 @@ Member variable is not initialized in the constructor.
     <configkey>virtualDestructor</configkey>
     <name>Base classes should have virtual destructors</name>
     <description>
-      Class Base which is inherited by class Derived does not have a virtual destructor
+<![CDATA[
+<p>
+Class Base which is inherited by class Derived does not have a virtual destructor.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/404.html" target="_blank">CWE-404: Improper Resource Shutdown or Release</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>leakNoVarFunctionCall</key>
     <configkey>leakNoVarFunctionCall</configkey>
     <name>Memory leak across function calls</name>
     <description>
-      Memory allocated inside the called function is not freed by the caller function.
+<![CDATA[
+<p>
+Memory allocated inside the called function is not freed by the caller function.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/772.html" target="_blank">CWE-772: Missing Release of Resource after Effective Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>stlcstrReturn</key>
@@ -2012,24 +2568,51 @@ Member variable is not initialized in the constructor.
     <configkey>CastIntegerToAddressAtReturn</configkey>
     <name>Returning an integer in a function with pointer return type is not portable</name>
     <description>
-      Returning an integer in a function with pointer return type is not portable.
+      <![CDATA[
+<p>
+Returning an integer (int/long/etc) in a function with pointer return type is not portable across different
+platforms and compilers. For example in 32-bit Windows and Linux they are same width, but in 64-bit Windows
+and Linux they are of different width. In worst case you end up casting 64-bit integer down to 32-bit pointer.
+The safe way is to always return a pointer.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>IOWithoutPositioning</key>
     <configkey>IOWithoutPositioning</configkey>
     <name>Read and write operations without a call to a positioning function</name>
     <description>
-      Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behavior.
+<![CDATA[
+<p>
+Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behavior.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>bitwiseOnBoolean</key>
     <configkey>bitwiseOnBoolean</configkey>
     <name>Boolean variable is used in bitwise operation</name>
     <description>
-      Boolean variable is used in bitwise operation.
+<![CDATA[
+<p>
+Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '||'?
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>deallocret</key>
@@ -2037,7 +2620,16 @@ Member variable is not initialized in the constructor.
     <name>Returning/dereferencing variable after it is deallocated / released</name>
     <description>
       Returning/dereferencing variable after it is deallocated / released.
+<![CDATA[
+<p>
+Assignment of function parameter has no effect outside the function.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/672.html" target="_blank">CWE-672: Operation on a Resource after Expiration or Release</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -2045,8 +2637,17 @@ Member variable is not initialized in the constructor.
     <configkey>invalidScanfFormatWidth</configkey>
     <name>wrong width for scanf parameter</name>
     <description>
-      Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
+<![CDATA[
+<p>
+Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/687.html" target="_blank">CWE-687: Function Call With Incorrectly Specified Argument Value</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>leakconfiguration</key>
@@ -2061,8 +2662,16 @@ Member variable is not initialized in the constructor.
     <configkey>moduloAlwaysTrueFalse</configkey>
     <name>Comparison of modulo result is predetermined</name>
     <description>
-      Comparison of modulo result is predetermined.
+<![CDATA[
+<p>
+Comparison of modulo result is predetermined.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>pointerSize</key>
@@ -2085,8 +2694,16 @@ Member variable is not initialized in the constructor.
     <configkey>readWriteOnlyFile</configkey>
     <name>Read operation on a file that was opened only for writing</name>
     <description>
-      Read operation on a file that was opened only for writing.
+<![CDATA[
+<p>
+Read operation on a file that was opened only for writing.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>redundantBitwiseOperationInSwitch</key>
@@ -2109,25 +2726,51 @@ Member variable is not initialized in the constructor.
     <configkey>useClosedFile</configkey>
     <name>Used file that is not opened</name>
     <description>
-      Used file that is not opened.
+<![CDATA[
+<p>
+Used file that is not opened.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/910.html" target="_blank">CWE-910: Use of Expired File Descriptor</a>
+</p>
+]]>
     </description>
-  </rule>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    </rule>
   <rule>
     <key>useInitializationList</key>
     <configkey>useInitializationList</configkey>
     <name>member variable shall be initialized using constructor</name>
     <description>
-      When an object of a class is created, the constructors of all member variables are called consecutively in the order the variables are declared, even if you don't explicitly write them to the initialization list.
-      You could avoid assigning 'symbol' a value by passing the value to the constructor in the initialization list.
+<![CDATA[
+<p>
+When an object of a class is created, the constructors of all member variables are called consecutively
+in the order the variables are declared, even if you don't explicitly write them to the initialization list.
+You could avoid assigning 'symbol' a value by passing the value to the constructor in the initialization list.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>writeReadOnlyFile</key>
     <configkey>writeReadOnlyFile</configkey>
     <name>Write operation on a file that was opened only for reading</name>
     <description>
-      Write operation on a file that was opened only for reading.
+<![CDATA[
+<p>
+Write operation on a file that was opened only for reading.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.56 ########### -->
@@ -2212,10 +2855,14 @@ Member variable is not initialized in the constructor.
 Shifting a negative value is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>unknownPattern</key>
@@ -2258,8 +2905,16 @@ Shifting a negative value is undefined behaviour.
       Too many #ifdef configurations - cppcheck only checks 12 configurations
     </name>
     <description>
-      Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
+<![CDATA[
+<p>
+Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.57 ########### -->
@@ -2268,40 +2923,88 @@ Shifting a negative value is undefined behaviour.
     <configkey>CastAddressToIntegerAtReturn</configkey>
     <name>Returning an address value in a function with integer return type is not portable</name>
     <description>
-      Returning an address value in a function with integer return type is not portable.
+      <![CDATA[
+<p>
+Returning an address value in a function with integer (int/long/etc) return type is not portable across
+different platforms and compilers. For example in 32-bit Windows and Linux they are same width, but in
+64-bit Windows and Linux they are of different width. In worst case you end up casting 64-bit address down
+to 32-bit integer. The safe way is to always return an integer.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>comparisonOfBoolWithBoolError</key>
     <configkey>comparisonOfBoolWithBoolError</configkey>
     <name>Comparison of a variable having boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
     <description>
-      Comparison of a variable having boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+<![CDATA[
+<p>
+The variable 'expression' is of type 'bool' and comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>comparisonOfFuncReturningBoolError</key>
     <configkey>comparisonOfFuncReturningBoolError</configkey>
     <name>Comparison of a function returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
     <description>
-      Comparison of a function returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+<![CDATA[
+<p>
+The return type of function 'expression1' and function 'expression2' is 'bool' and result is of type 'bool'. 
+Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>comparisonOfTwoFuncsReturningBoolError</key>
     <configkey>comparisonOfTwoFuncsReturningBoolError</configkey>
     <name>Comparison of two functions returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator</name>
     <description>
-      Comparison of two functions returning boolean value using relational (&lt;, &gt;, &lt;= or &gt;=) operator.
+<![CDATA[
+<p>
+The return type of function 'expression1' and function 'expression2' is 'bool' and result is of type 'bool'.
+Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>copyCtorPointerCopying</key>
     <configkey>copyCtorPointerCopying</configkey>
     <name>Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory</name>
     <description>
-      Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory.
+<![CDATA[
+<p>
+Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>invalidFree</key>
@@ -2324,16 +3027,33 @@ Shifting a negative value is undefined behaviour.
     <configkey>noCopyConstructor</configkey>
     <name>'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory</name>
     <description>
-      'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
+<![CDATA[
+<p>
+'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>oppositeInnerCondition</key>
     <configkey>oppositeInnerCondition</configkey>
     <name>Opposite conditions in nested 'if' blocks lead to a dead code block</name>
     <description>
-      Opposite conditions in nested 'if' blocks lead to a dead code block.
+<![CDATA[
+<p>
+Opposite conditions in nested 'if' blocks lead to a dead code block.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>redundantAssignment</key>
@@ -2384,8 +3104,17 @@ Shifting a negative value is undefined behaviour.
       Passing too small array as argument.
     </name>
     <description>
-      The array is too small, the function expects a bigger array.
+<![CDATA[
+<p>
+The array 'varname' is too small, the function 'functionName' expects a bigger one.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.59 ########### -->
@@ -2404,11 +3133,21 @@ Shifting a negative value is undefined behaviour.
     <key>mallocOnClassError</key>
     <configkey>mallocOnClassError</configkey>
     <name>
-      Bad memory allocation for class containing std::string.
+       Memory for class instance allocated with malloc(), but class provides constructors.
     </name>
     <description>
-      Memory for class instance allocated with malloc(), but class contains a std::string.
+<![CDATA[
+<p>
+Memory for class instance allocated with malloc(), but class provides constructors.
+This is unsafe, since no constructor is called and class members remain uninitialized. Consider using 'new' instead.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
 
   <rule>
@@ -2418,8 +3157,17 @@ Shifting a negative value is undefined behaviour.
       Memory for class instance allocated with malloc(), but class provides constructors.
     </name>
     <description>
-      Memory for class instance allocated with malloc(), but class provides constructors.
+<![CDATA[
+<p>
+Memory for class instance allocated with malloc(), but class provides constructors.
+This is unsafe, since no constructor is called and class members remain uninitialized. Consider using 'new' instead.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
 
   <rule>
@@ -2429,8 +3177,21 @@ Shifting a negative value is undefined behaviour.
       Mismatching bitmasks.
     </name>
     <description>
-      Mismatching bitmasks. Result is always 0 (X = Y &amp; 0xf0; Z = X &amp; 0x1; =&gt; Z=0).
+<![CDATA[
+<p>
+Mismatching bitmasks. Result is always 0
+<code>
+X = Y & 0xf0; 
+Z = X & 0x1;
+</code>
+results => Z=0
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
 
   <rule>
@@ -2452,8 +3213,18 @@ Shifting a negative value is undefined behaviour.
       Dangerous iterator comparison using operator &lt;.
     </name>
     <description>
-      Dangerous iterator comparison using operator&lt; on iterator.
+<![CDATA[
+<p>
+Dangerous iterator comparison using 'operator<' on iterator.
+This is dangerous since the order of items in the container is not guaranteed. 
+One should use 'operator!=' instead to compare iterators.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
 
   <rule>
@@ -2478,10 +3249,14 @@ Shifting a negative value is undefined behaviour.
 Missing initialization for a struct member.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=482" target="_blank">EXP33-C. Do not read uninitialized memory</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/908.html" target="_blank">CWE-908: Use of Uninitialized Resource</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
 
   <rule>
@@ -2491,8 +3266,17 @@ Missing initialization for a struct member.
       Effectless function parameter assignment.
     </name>
     <description>
-      Assignment of function parameter has no effect outside the function. Did you forget dereferencing it?
+<![CDATA[
+<p>
+Assignment of function parameter has no effect outside the function. Did you forget dereferencing it?
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
 
   <rule>
@@ -2525,8 +3309,16 @@ Missing initialization for a struct member.
       A buffer must have size of 2 integers if used as parameter of pipe().
     </name>
     <description>
-      A buffer must have size of 2 integers if used as parameter of pipe().
+<![CDATA[
+<p>
+A buffer must have size of 2 integers if used as parameter of pipe().
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
 
   <rule>
@@ -2635,8 +3427,16 @@ Missing initialization for a struct member.
       Redefinition of a member variable in a subclass.
     </name>
     <description>
-      A subclass defines a member variable which is already defined in its parent class.
+<![CDATA[
+<p>
+ A subclass defines a member variable which is already defined in its parent class.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>invalidScanfArgType_int</key>
@@ -2694,16 +3494,37 @@ Either the condition is useless or there is division by zero.
     <configkey>assertWithSideEffect</configkey>
     <name>Assert with side effect</name>
     <description>
-      Assert statement calls a function which may have desired side effects.
+      <![CDATA[
+<p>
+Non-pure function: 'functionName' is called inside assert statement.
+Assert statements are removed from release builds so the code inside
+assert statement is not executed. If the code is needed also in release
+builds, this is a bug.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>pointerArithBool</key>
     <configkey>pointerArithBool</configkey>
     <name>Pointer arithmetic conversion</name>
     <description>
-      Converting pointer arithmetic result to bool. The bool is always true unless there is undefined behaviour.
+<![CDATA[
+<p>
+Converting pointer arithmetic result to bool. The boolean result is always true unless there is pointer arithmetic overflow, 
+and overflow is undefined behaviour. Probably a dereference is forgotten.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -2715,26 +3536,47 @@ Either the condition is useless or there is division by zero.
 Return value of allocation function is not used.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=445" target="_blank">MEM31-C. Free dynamically allocated memory when no longer needed</a></p>
-<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a></p>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/771.html" target="_blank">CWE-771: Missing Reference to Active Allocated Resource</a>
+</p>
 ]]>
     </description>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>invalidFunctionArg</key>
     <configkey>invalidFunctionArg</configkey>
     <name>Invalid function argument</name>
     <description>
-      A function gets passed an invalid argument.
+<![CDATA[
+<p>
+A function gets passed an invalid argument.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>invalidFunctionArgBool</key>
     <configkey>invalidFunctionArgBool</configkey>
     <name>Invalid function bool argument</name>
     <description>
-      A function gets passed an invalid argument. A non-boolean value is required.
+<![CDATA[
+<p>
+A function gets passed an invalid argument. A non-boolean value is required.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
 
   <!-- ########### New in cppcheck 1.64 ########### -->
@@ -2743,8 +3585,18 @@ Return value of allocation function is not used.
     <configkey>negativeMemoryAllocationSize</configkey>
     <name>Memory allocation is negative</name>
     <description>
-      Memory allocation size have to be greater or equal to 0.
+<![CDATA[
+<p>
+Memory allocation size have to be greater or equal to 0.
+Negative allocation size has no specified behaviour.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>memsetFloat</key>
@@ -2820,10 +3672,14 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
 The array access using this index may be out of bounds.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a>
+</p>
 ]]>
 </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>charLiteralWithCharPtrCompare</key>
@@ -2848,8 +3704,16 @@ The array access using this index may be out of bounds.
     <configkey>deadpointer</configkey>
     <name>Dead pointer usage</name>
     <description>
-      Pointer &apos;pointer&apos; is dead if it has been assigned &apos;&amp;x&apos; at line 0.
+<![CDATA[
+<p>
+Pointer &apos;pointer&apos; is dead if it has been assigned &apos;&amp;x&apos; at line 0.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/825.html" target="_blank">CWE-825: Expired Pointer Dereference</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>ignoredReturnValue</key>
@@ -2885,24 +3749,52 @@ Return value of function malloc() is not used.
     <configkey>memsetClassFloat</configkey>
     <name>memset is used on class which contains a floating point number</name>
     <description>
-      Using memset() on class which contains a floating point number.
+<![CDATA[
+<p>
+Using memset() on class which contains a floating point number.
+This is not portable because memset() sets each byte of a block of memory to a specific value and
+the actual representation of a floating-point value is implementation defined.
+<i>Note: In case of an IEEE754-1985 compatible implementation setting all bits to zero results in the value 0.0.</i>
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>memsetClassReference</key>
     <configkey>memsetClassReference</configkey>
     <name>Using memory function on class that contains references</name>
     <description>
-      Using &apos;memfunc&apos; on class that contains a reference.
+<![CDATA[
+<p>
+Using "memfunc" on class that contains a reference.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>selfInitialization</key>
     <configkey>selfInitialization</configkey>
     <name>Member variable is initialized by itself.</name>
     <description>
-      Member variable &apos;var&apos; is initialized by itself.
+<![CDATA[
+<p>
+Member variable 'var' is initialized by itself.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>shiftTooManyBits</key>
@@ -2913,10 +3805,14 @@ Return value of function malloc() is not used.
 Shifting 32-bit value by 64 bits is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=4385" target="_blank">INT34-C. Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand</a></p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
+</p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>signConversion</key>
@@ -2947,32 +3843,66 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <configkey>uselessAssignmentArg</configkey>
     <name>Assignment of function parameter has no effect outside the function</name>
     <description>
-      Assignment of function parameter has no effect outside the function.
+<![CDATA[
+<p>
+Assignment of function parameter has no effect outside the function.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+     ]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>va_end_missing</key>
     <configkey>va_end_missing</configkey>
     <name>va_list not closed by va_end()</name>
     <description>
-      va_list &apos;vl&apos; was opened but not closed by va_end().
+<![CDATA[
+<p>
+va_list 'vl' was opened but not closed by va_end().
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
+    <tag>bug</tag>
   </rule>
   <rule>
     <key>va_list_usedBeforeStarted</key>
     <configkey>va_list_usedBeforeStarted</configkey>
     <name>va_list used before va_start() call</name>
     <description>
-      va_list &apos;vl&apos; used before va_start() was called.
+<![CDATA[
+<p>
+va_list 'vl' used before va_start() was called.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>va_start_referencePassed</key>
     <configkey>va_start_referencePassed</configkey>
     <name>Using reference as parameter for va_start() is undefined behaviour</name>
     <description>
-      Using reference &apos;arg1&apos; as parameter for va_start() results in undefined behaviour.
+<![CDATA[
+<p>
+Using reference &apos;arg1&apos; as parameter for va_start() results in undefined behaviour.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -2980,9 +3910,18 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <configkey>va_start_subsequentCalls</configkey>
     <name>va_start() or va_copy() called without va_end() inbetween</name>
     <description>
-      va_start() or va_copy() called subsequently on &apos;vl&apos; without va_end() inbetween.
+<![CDATA[
+<p>
+va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
+</p>
+]]>
     </description>
-  </rule>
+    <tag>cwe</tag>
+    <tag>bug</tag>
+    </rule>
   <rule>
     <key>va_start_wrongParameter</key>
     <configkey>va_start_wrongParameter</configkey>
@@ -3030,8 +3969,16 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <configkey>operatorEqMissingReturnStatement</configkey>
     <name>Missing &apos;return&apos; statement in non-void function causes undefined behavior</name>
     <description>
-      No &apos;return&apos; statement in non-void function causes undefined behavior.
+<![CDATA[
+<p>
+No <code>return</code> statement in non-void function causes undefined behavior.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
   </rule>
   <rule>
@@ -3039,8 +3986,16 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <configkey>operatorEqShouldBeLeftUnimplemented</configkey>
     <name>&apos;operator=&apos; should either return reference to &apos;this&apos;</name>
     <description>
-      &apos;operator=&apos; should either return reference to &apos;this&apos; instance or be declared private and left unimplemented.
+<![CDATA[
+<p>
+'operator=' should either return reference to 'this'instance or be declared private and left unimplemented.
+</p>
+<h2>CWE Documentation</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
+</p>
+]]>
     </description>
+    <tag>cwe</tag>
   </rule>
   <rule>
     <key>redundantPointerOp</key>
@@ -3201,8 +4156,32 @@ Either the condition is redundant or there is possible null pointer dereference:
       Expression &apos;x = x++;&apos; depends on order of evaluation of side effects.
     </description>
   </rule>
+  <!-- ########### New in cppcheck 1.73 ########### -->
+  <rule>
+    <key>signedCharArrayIndex</key>
+    <configkey>signedCharArrayIndex</configkey>
+    <name>Signed 'char' type used as array index</name>
+    <description>
+      Signed 'char' type used as array index. If the value can be greater than 127 there will be a buffer underflow because of sign extension.
+    </description>
+  </rule>
+  <rule>
+    <key>unknownSignCharArrayIndex</key>
+    <configkey>unknownSignCharArrayIndex</configkey>
+    <name>'char' type used as array index</name>
+    <description>
+      'char' type used as array index. Values greater that 127 will be treated depending on whether 'char' is signed or unsigned on target platform.
+    </description>
+  </rule>
+  <rule>
+    <key>unusedLabelSwitch</key>
+    <configkey>unusedLabelSwitch</configkey>
+    <name>Label is not used. </name>
+    <description>
+      Label is not used.
+    </description>
+  </rule>
  </rules>
-
 
 <!-- ########### Deprecated as of 1.63 ########### -->
 <!-- tooBigSleepTime -->
