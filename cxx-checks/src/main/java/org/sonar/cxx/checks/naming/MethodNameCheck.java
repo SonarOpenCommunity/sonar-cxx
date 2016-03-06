@@ -59,16 +59,31 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode astNode) {
-    AstNode nameNode = astNode.getFirstDescendant(CxxGrammarImpl.className);
-    if (nameNode != null) {
-      if (astNode.getFirstAncestor(CxxGrammarImpl.memberDeclaration) != null) {
-        String name = nameNode.getTokenValue();
-        if (!pattern.matcher(name).matches()) {
+    AstNode declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
+    if (isMethodDefinition(declId)) {
+      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
+      if (idNode != null) {
+        String identifier = idNode.getTokenValue();
+        if (!pattern.matcher(identifier).matches()) {
           getContext().createLineViolation(this,
-            "Rename method \"{0}\" to match the regular expression {1}.", nameNode, name, format);
+                  "Rename method \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
         }
       }
     }
+  }
+
+  private boolean isMethodDefinition(AstNode declId) {
+    boolean isMethod = false;
+    if (declId != null) {
+      // method inside of class
+      if (declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) != null) {
+        isMethod = true;
+        // a nested name - method outside of class
+      } else if (declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier)) {
+        isMethod = true;
+      }
+    }
+    return isMethod;
   }
 
 }

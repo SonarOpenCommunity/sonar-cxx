@@ -60,16 +60,31 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode astNode) {
-    AstNode nameNode = astNode.getFirstDescendant(CxxGrammarImpl.className);
-    if (nameNode != null) {
-      if (astNode.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null) {
-        String name = nameNode.getTokenValue();
-        if (!pattern.matcher(name).matches()) {
+    AstNode declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
+    if (isFunctionDefinition(declId)) {
+      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
+      if (idNode != null) {
+        String identifier = idNode.getTokenValue();
+        if (!pattern.matcher(identifier).matches()) {
           getContext().createLineViolation(this,
-            "Rename function \"{0}\" to match the regular expression {1}.", nameNode, name, format);
+                  "Rename function \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
         }
       }
     }
+  }
+
+  private boolean isFunctionDefinition(AstNode declId) {
+    boolean isFunction = false;
+    if (declId != null) {
+      // not method inside of class
+      if (declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null) {
+        // not a nested name - not method outside of class
+        if (!declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier)) {
+          isFunction = true;
+        }
+      }
+    }
+    return isFunction;
   }
 
 }

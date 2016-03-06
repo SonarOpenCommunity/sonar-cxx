@@ -5,7 +5,24 @@ void fn_name_ok() {
 }
 
 class MyClass {
-   void IsOk() {}
-   void Badly_Named_Method() {}
-   void TooLongMethodNameBecauseItHasMoreThan30Characters() {}
+   void IsOk1();
+   void IsOk2() {}
+
+   void Badly_Named_Method1();
+   void Badly_Named_Method2() {} // error
+
+   void TooLongMethodNameBecauseItHasMoreThan30Characters1();
+   void TooLongMethodNameBecauseItHasMoreThan30Characters2() {} // error
 };
+
+void MyClass::IsOk1()
+{
+}
+
+void MyClass::Badly_Named_Method1() // error
+{
+}
+
+void MyClass::TooLongMethodNameBecauseItHasMoreThan30Characters1() // error
+{
+}
