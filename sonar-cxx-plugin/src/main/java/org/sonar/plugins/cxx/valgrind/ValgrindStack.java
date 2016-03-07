@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 class ValgrindStack {
 
-  private List<ValgrindFrame> frames = new ArrayList<>();
+  private final List<ValgrindFrame> frames = new ArrayList<>();
 
   /**
    * Adds a stack frame to this call stack
@@ -87,6 +87,7 @@ class ValgrindStack {
   }
 
   private boolean isInside(String path, String folder) {
-    return "".equals(path) ? false : path.startsWith(folder);
+    return (path == null || "".equals(path)) ? false : path.startsWith(folder);
   }
+  
 }
