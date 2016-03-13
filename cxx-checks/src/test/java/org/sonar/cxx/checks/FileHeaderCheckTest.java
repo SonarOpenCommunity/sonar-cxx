@@ -112,7 +112,7 @@ public class FileHeaderCheckTest {
     check.headerFormat = "// copyright \\d\\d\\d";
     check.isRegularExpression = true;
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex1.cc"), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");;
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
     // Check that the regular expression is compiled once
     check = new FileHeaderCheck();
     file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex1.cc"), check);
@@ -123,7 +123,7 @@ public class FileHeaderCheckTest {
     check.isRegularExpression = true;
 
     file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex2.cc"), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");;
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d{4}\\r?\\n// mycompany";
@@ -135,7 +135,18 @@ public class FileHeaderCheckTest {
     check.headerFormat = "// copyright \\d{4}\\n// mycompany";
     check.isRegularExpression = true;
     file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex4.cc"), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");;
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
+
+    check = new FileHeaderCheck();
+    check.headerFormat = "^(?=.*?\\bCopyright\\b)(?=.*?\\bVendor\\b)(?=.*?\\d{4}(-\\d{4})?).*$";
+    check.isRegularExpression = true;
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex5.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).noMore();
+
+    check = new FileHeaderCheck();
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex6.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
+    
   }
 
   @Test
