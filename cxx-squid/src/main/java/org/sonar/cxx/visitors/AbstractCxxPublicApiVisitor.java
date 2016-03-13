@@ -88,6 +88,8 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   private static final String UNNAMED_CLASSIFIER_ID = "<unnamed class>";
   private static final String UNNAMED_ENUM_ID = "<unnamed enumeration>";
 
+  private static final String TOKEN_OVERRIDE = "override";
+
   public interface PublicApiHandler {
 
     void onPublicApi(AstNode node, String id, List<Token> comments);
@@ -418,6 +420,20 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     return defaultOrDelete;
   }
 
+  private boolean isOverriddenMethod(AstNode memberDeclarator) {
+    List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.cliFunctionModifier);
+
+    for (AstNode modifier : modifiers) {
+      AstNode modifierId = modifier.getFirstChild();
+
+      if (TOKEN_OVERRIDE.equals(modifierId.getTokenValue())) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /**
    * Find documentation node, associated documentation, identifier of a
    * <em>public</em> member declarator and visit it as a public API.
@@ -429,6 +445,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     AstNode container = node.getFirstAncestor(
       CxxGrammarImpl.templateDeclaration,
       CxxGrammarImpl.classSpecifier);
+
+    if (isOverriddenMethod(node)) {
+      // assume that ancestor method is documented
+      // and do not count as public API
+      return;
+    }
 
     AstNode docNode;
 
