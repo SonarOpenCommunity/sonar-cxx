@@ -284,7 +284,8 @@ public final class CxxPlugin extends SonarPlugin {
       .build(),
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_REGEX_DEF)
       .name("Custom matcher")
-      .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, message. For advanced usages. Leave empty to use parser's default.")
+      .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, message. For advanced usages. Leave empty to use parser's default."
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>this page</a> for details regarding the different regular expression that can be use per compiler.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(4)
