@@ -31,7 +31,7 @@ public class TooManyLinesOfCodeInFunctionCheckTest {
 
   @Test
   public void test() {
-    check.setMax(7);
+    check.setMax(6);
     SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionLength.cc"), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
         .next().atLine(21)
