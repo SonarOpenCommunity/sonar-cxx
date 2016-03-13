@@ -35,11 +35,16 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
+import org.sonar.squidbridge.api.AnalysisException;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Rule(
   key = "FileHeader",
   name = "Copyright and license headers should be defined in all source files",
-  priority = Priority.BLOCKER)
+  priority = Priority.BLOCKER,
+  tags = {})
 @ActivatedByDefault
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("5min")
@@ -47,7 +52,8 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
   private static final String DEFAULT_HEADER_FORMAT = "";
-
+  private static final String MESSAGE = "Add or update the header of this file.";
+  
   @RuleProperty(
     key = "headerFormat",
     description = "Expected copyright and license header (plain text)",
@@ -55,8 +61,15 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     defaultValue = DEFAULT_HEADER_FORMAT)
   public String headerFormat = DEFAULT_HEADER_FORMAT;
 
+  @RuleProperty(
+    key = "isRegularExpression",
+    description = "Whether the headerFormat is a regular expression",
+    defaultValue = "false")
+  public boolean isRegularExpression = false;
+
   private Charset charset;
   private String[] expectedLines;
+  private Pattern searchPattern = null;
 
   @Override
   public void setCharset(Charset charset) {
@@ -65,22 +78,48 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
 
   @Override
   public void init() {
-    expectedLines = headerFormat.split("(?:\r)?\n|\r");
+    if (isRegularExpression) {
+      if (searchPattern == null) {
+        try {
+          searchPattern = Pattern.compile(headerFormat, Pattern.DOTALL);
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("[" + getClass().getSimpleName() + "] Unable to compile the regular expression: " + headerFormat, e);
+        }
+      }
+    } else {
+      expectedLines = headerFormat.split("(?:\r)?\n|\r");
+    }
   }
 
   @Override
   public void visitFile(AstNode astNode) {
-    List<String> lines;
-    try {
-      lines = Files.readLines(getContext().getFile(), charset);
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
+    if (isRegularExpression) {
+      String fileContent;
+      try {
+        fileContent = Files.toString(getContext().getFile(), charset);
+      } catch (IOException e) {
+        throw new AnalysisException(e);
+      }
+      checkRegularExpression(fileContent);
+    } else {    List<String> lines;
+      try {
+        lines = Files.readLines(getContext().getFile(), charset);
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
 
-    if (!matches(expectedLines, lines)) {
-      getContext().createFileViolation(this, "Add or update the header of this file.");
+      if (!matches(expectedLines, lines)) {
+        getContext().createFileViolation(this, MESSAGE);
+      }
     }
   }
+
+    private void checkRegularExpression(String fileContent) {
+      Matcher matcher = searchPattern.matcher(fileContent);
+      if (!matcher.find() || matcher.start() != 0) {
+        getContext().createFileViolation(this, MESSAGE);
+      }
+    }
 
   private static boolean matches(String[] expectedLines, List<String> lines) {
     boolean result;
@@ -102,5 +141,5 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
 
     return result;
   }
-
 }
+
