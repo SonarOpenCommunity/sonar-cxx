@@ -56,7 +56,9 @@ protected:
 	 protectedMethod doc
 	 */
 	virtual void protectedMethod();
-	 
+
+	virtual void overriddenMethod() override; // no doc is OK, it could come from ancestor
+
 	/**
 	  protectedStruct doc
 	*/
