@@ -21,12 +21,17 @@ package org.sonar.cxx.checks;
 
 import java.io.File;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
 public class FileHeaderCheckTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void test() {
@@ -100,5 +105,60 @@ public class FileHeaderCheckTest {
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }
+
+  @Test
+  public void regex() {
+    FileHeaderCheck check = new FileHeaderCheck();
+    check.headerFormat = "// copyright \\d\\d\\d";
+    check.isRegularExpression = true;
+    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex1.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
+    // Check that the regular expression is compiled once
+    check = new FileHeaderCheck();
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex1.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
+
+    check = new FileHeaderCheck();
+    check.headerFormat = "// copyright \\d{4}\\n// mycompany";
+    check.isRegularExpression = true;
+
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex2.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
+
+    check = new FileHeaderCheck();
+    check.headerFormat = "// copyright \\d{4}\\r?\\n// mycompany";
+    check.isRegularExpression = true;
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex3.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).noMore();
+
+    check = new FileHeaderCheck();
+    check.headerFormat = "// copyright \\d{4}\\n// mycompany";
+    check.isRegularExpression = true;
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex4.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
+
+    check = new FileHeaderCheck();
+    check.headerFormat = "^(?=.*?\\bCopyright\\b)(?=.*?\\bVendor\\b)(?=.*?\\d{4}(-\\d{4})?).*$";
+    check.isRegularExpression = true;
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex5.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).noMore();
+
+    check = new FileHeaderCheck();
+    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex6.cc"), check);
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
+    
+  }
+
+  @Test
+  public void should_fail_with_bad_regular_expression() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("[" + FileHeaderCheck.class.getSimpleName() + "] Unable to compile the regular expression: *");
+
+    FileHeaderCheck check = new FileHeaderCheck();
+    check.headerFormat = "*";
+    check.isRegularExpression = true;
+    check.init();
+  }
+
 
 }
