@@ -92,6 +92,22 @@ public class CxxSquidSensorTest {
   }
 
   @Test
+  public void testComplexitySquidMetrics() {
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/complexity-project");
+    setUpSensor(baseDir, Arrays.asList(new File(".")));
+
+    sensor.analyse(project, context);
+
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(22.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.CLASSES), eq(2.0));
+    
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(38.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY_IN_CLASSES), eq(10.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY_IN_FUNCTIONS), eq(38.0));
+  }  
+  
+  @Test
   public void testReplacingOfExtenalMacros() {
     settings.setProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/external-macro-project");

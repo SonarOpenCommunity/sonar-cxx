@@ -39,7 +39,7 @@ Feature: Smoketest
                | complexity               | 7     |
                | function_complexity      | 1.4   |
                | file_complexity          | 0.9   |
-               #| class_complexity         | 7     |  -> to enable when 5.x LTS is released, changes in core makes the value from 6 to 7 in 5.x
+               | class_complexity         | 6     |
                # violations
                | violations               | 12    |
                # coverage statistics
