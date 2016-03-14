@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.codehaus.sonar-plugins.cxx</groupId>
         <artifactId>cxx</artifactId>
-        <version>0.9.5-SNAPSHOT</version>
+        <version>0.9.5-RC2</version>
     </parent>
     <artifactId>cxx-lint</artifactId>
     <name>Cxx :: Lint</name>
