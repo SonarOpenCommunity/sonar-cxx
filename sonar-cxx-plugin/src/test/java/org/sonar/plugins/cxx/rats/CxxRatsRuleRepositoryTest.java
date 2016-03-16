@@ -39,6 +39,6 @@ public class CxxRatsRuleRepositoryTest {
     def.define(context);
 
     RulesDefinition.Repository repo = context.repository(CxxRatsRuleRepository.KEY);
-    assertThat(repo.rules()).hasSize(301);
+    assertThat(repo.rules()).hasSize(303);
   }
 }
