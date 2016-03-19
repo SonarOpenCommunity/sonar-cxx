@@ -104,6 +104,26 @@
       <name>Chris Bagwell</name>
       <email>chris@cnpbagwell.com</email>
     </developer>
+       <developer>
+      <id>mjdetullio</id>
+      <name>Matthew DeTullio</name>
+      <email></email>
+    </developer>
+    <developer>
+      <id>felipebz</id>
+      <name>Felipe Zorzo</name>
+      <email></email>
+    </developer>
+    <developer>
+      <id>selltc</id>
+      <name></name>
+      <email></email>
+    </developer>
+    <developer>
+      <id>wichtounet</id>
+      <name>Baptiste Wicht</name>
+      <email></email>
+    </developer>
   </developers>
 
   <modules>
