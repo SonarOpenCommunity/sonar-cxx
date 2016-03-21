@@ -63,6 +63,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
     addCompilerParser(new CxxCompilerVcParser());
     addCompilerParser(new CxxCompilerGccParser());
+    addCompilerParser(new CxxCompilerGccMakeParser());
   }
 
   /**
