@@ -65,6 +65,6 @@ on_failure:
   - ps: Get-ChildItem cxx-squid\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem *_project_.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem *.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem C:\sonarqube-5.3\sonarqube-5.3\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   
