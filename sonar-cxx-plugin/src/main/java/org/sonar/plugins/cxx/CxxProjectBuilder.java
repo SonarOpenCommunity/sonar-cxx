@@ -49,8 +49,6 @@ public class CxxProjectBuilder extends ProjectBuilder {
   public void build(Context context) {
     super.build(context);
 
-    ProjectDefinition definition = context.projectReactor().getRoot();
-
     // collect all properties
     Map<String, String> envMap = System.getenv();
     for (Map.Entry<String, String> entry : envMap.entrySet()) {
@@ -65,33 +63,28 @@ public class CxxProjectBuilder extends ProjectBuilder {
       vars.put(key, value);
     }
 
-    props = definition.getProperties();
-    for (String key : props.stringPropertyNames()) {
-      String value = props.getProperty(key);
-      vars.put(key, value);
+    for (ProjectDefinition definition : context.projectReactor().getProjects()) {
+      props = definition.getProperties();
+      for (String key : props.stringPropertyNames()) {
+        String value = props.getProperty(key);
+        vars.put(key, value);
+      }
     }
 
     // replace placeholders
-    for (String key : props.stringPropertyNames()) {
-      String oldValue = props.getProperty(key);
-      String newValue = expandVariables(oldValue);
-      if (!oldValue.equals(newValue)) {
-        definition.setProperty(key, newValue);
-        LOG.debug("property expansion: key '{}'; value '{}' => '{}'", new Object[]{key, oldValue, newValue});
-      }
-    }
-    
-    // add list of available property keys
-    if (LOG.isDebugEnabled()) {
-      StringBuilder sb = new StringBuilder("analysis parameters:\n");
+    for (ProjectDefinition definition : context.projectReactor().getProjects()) {
+      props = definition.getProperties();
       for (String key : props.stringPropertyNames()) {
-        sb.append("   ");
-        sb.append(key);
-        sb.append("=");
-        sb.append(props.getProperty(key));
-        sb.append("\n");
+        String oldValue = props.getProperty(key);
+        String newValue = expandVariables(oldValue);
+        if (!oldValue.equals(newValue)) {
+          definition.setProperty(key, newValue);
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("property expansion: project '{}'; key '{}'; value '{}' => '{}'",
+                    new Object[]{definition.getKey(), key, oldValue, newValue});
+          }
+        }
       }
-      LOG.debug(sb.toString());
     }
   }
 
