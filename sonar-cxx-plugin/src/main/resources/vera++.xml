@@ -1,10 +1,9 @@
 <rules>
-  <rule key="CustomRuleTemplate">
-    <cardinality>MULTIPLE</cardinality>
-    <priority>MAJOR</priority>
-    <name><![CDATA[Template for custom Custom rules]]></name>
-    <description>
-      <![CDATA[
+    <rule>
+        <key>CustomRuleTemplate</key>
+        <cardinality>MULTIPLE</cardinality>
+        <name><![CDATA[Template for custom Custom rules]]></name>
+        <description><![CDATA[
 <p>
 Follow these steps to make your custom Custom rules available in SonarQube:
 </p>
@@ -16,22 +15,25 @@ Follow these steps to make your custom Custom rules available in SonarQube:
   </ol>
   <li>Relaunch an analysis on your projects, et voilà, your custom rules are executed!</li>
 </ol>
-      ]]>
-    </description>
-  </rule>
+]]></description>
+        <severity>INFO</severity>
+    </rule>
   <rule>
     <key>F001</key>
-    <configKey>F001</configKey>
     <name>(CR) detected in isolation</name>
     <description>
       As a commonly accepted practice, line breaks are denoted by a
       single '\n' (LF) character or by two characters "\r\n" (CRLF).
       A single appearance of '\r' (CR) is discouraged.
     </description>
+    <internalKey>F001</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>F002</key>
-    <configKey>F002</configKey>
     <name>File names should be well formed</name>
     <description>
       The source file names should be well-formed in the sense of
@@ -40,10 +42,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       underscore. In addition, directory names should not contain dots
       and file names can have only one dot.
     </description>
+    <internalKey>F002</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>L001</key>
-    <configKey>L001</configKey>
     <name>Avoid trailing whitespace</name>
     <description>
       Trailing whitespace is any whitespace character (space or tab)
@@ -55,38 +61,54 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       the amount of whitespace is identical to the indent in the
       previous line.
     </description>
+    <internalKey>L001</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>L002</key>
-    <configKey>L002</configKey>
     <name>Don't use tab characters</name>
     <description>
       Horizontal tabs are not consistently handled by editors and
       tools. Avoiding them ensures that the intended formatting of the
       code is preserved.
     </description>
+    <internalKey>L002</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>L003</key>
-    <configKey>L003</configKey>
     <name>No leading and no trailing empty lines</name>
     <description>
       Leading and trailing empty lines confuse users of various tools
       (like head and tail) and artificially influence some source code
       metrics.
     </description>
+    <internalKey>L003</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>L004</key>
-    <configKey>L004</configKey>
     <name>Line too long</name>
     <description>
       The source code line should not exceed some reasonable length.
     </description>
+    <internalKey>L004</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>L005</key>
-    <configKey>L005</configKey>
     <name>Too many consecutive empty lines</name>
     <description>
       The empty lines (if any) help to introduce more "light" in the
@@ -95,19 +117,27 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Lines containing only whitespace are considered to be empty in
       this context.
     </description>
+    <internalKey>L005</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>L006</key>
-    <configKey>L006</configKey>
     <name>Source file is too long</name>
     <description>
       The source file should not exceed a reasonable length.
       Long source files can indicate an opportunity for refactoring.
     </description>
+    <internalKey>L006</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T001</key>
-    <configKey>T001</configKey>
     <name>One-line comments should not have forced continuation</name>
     <description>
       The one-line comment is a comment that starts with //.
@@ -123,10 +153,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       change the meaning of the program without being visible in the
       code.
     </description>
+    <internalKey>T001</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T002</key>
-    <configKey>T002</configKey>
     <name>Reserved name used for macro</name>
     <description>
       The C++ Standard reserves some forms of names for language
@@ -143,78 +177,110 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Apart from the use of underscore in macro names, preprocessor
       macros should not be used to redefine language keywords.
     </description>
+    <internalKey>T002</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T003</key>
-    <configKey>T003</configKey>
     <name>Keyword not followed by a single space</name>
     <description>
       The keywords "case", "class", "delete", "enum", "explicit",
       "extern", "goto", "new", "struct", "union" and "using"
       should be followed by a single space for better readability.
     </description>
+    <internalKey>T003</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T004</key>
-    <configKey>T004</configKey>
     <name>Keyword not immediately followed by a colon</name>
     <description>
       The keywords "default", "private", "protected" and "public"
       should be immediately followed by a colon, unless used in the
       list of base classes.
     </description>
+    <internalKey>T004</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T005</key>
-    <configKey>T005</configKey>
     <name>Keyword not immediately followed by a semicolon</name>
     <description>
       The break and continue keywords should be immediately followed
       by a semicolon, with no other tokens in between.
     </description>
+    <internalKey>T005</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T006</key>
-    <configKey>T006</configKey>
     <name>Keyword not immediately followed by a semicolon or a single space</name>
     <description>
       The return and throw keywords should be immediately followed by
       a semicolon or a single space. An exception to this rule is
       allowed for exception specifications.
     </description>
+    <internalKey>T006</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T007</key>
-    <configKey>T007</configKey>
     <name>Semicolon is isolated from other tokens</name>
     <description>
       The semicolon should not stand isolated by whitespace or
       comments from the rest of the code. As an exception from this
       rule, semicolons surrounded by spaces are allowed in for loops:
     </description>
+    <internalKey>T007</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T008</key>
-    <configKey>T008</configKey>
     <name>Keyword not followed by a single space</name>
     <description>
       Keywords catch, for, if, switch and while should be followed by
       a single space and then an opening left parenthesis.
     </description>
+    <internalKey>T008</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T009</key>
-    <configKey>T009</configKey>
     <name>Wrong spacing around comma</name>
     <description>
       A comma, whether used as operator or in various lists, should
       not be preceded by whitespace on its left side, but should be
       followed by whitespace on its right side:
     </description>
+    <internalKey>T009</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T010</key>
-    <configKey>T010</configKey>
     <name>Identifiers should not be composed of only 'l' and 'O'</name>
     <description>
       The characters 'l' (which is lowercase 'L') and 'O' (which is
@@ -222,10 +288,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       identifier, because this would make them visually similar to
       numeric literals.
     </description>
+    <internalKey>T010</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T011</key>
-    <configKey>T011</configKey>
     <name>Opening/closing curly bracket mistake</name>
     <description>
       Corresponding curly brackets should be either in the same line
@@ -233,20 +303,28 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       scopes, but allows concise style of one-line definitions and
       empty blocks.
     </description>
+    <internalKey>T011</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T012</key>
-    <configKey>T012</configKey>
     <name>Negation operator used in its short form</name>
     <description>
       The negation operator (exclamation mark) reduces readability of
       the code due to its terseness. Prefer explicit logical
       comparisons or alternative tokens for increased readability:
     </description>
+    <internalKey>T012</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T013</key>
-    <configKey>T013</configKey>
     <name>No copyright notice found</name>
     <description>
       The copyright notice is required by man coding standards and
@@ -256,10 +334,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       This rule verifies that at least one comment in the source file
       contains the "copyright" word.
     </description>
+    <internalKey>T013</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T014</key>
-    <configKey>T014</configKey>
     <name>No reference to the Boost Software License found</name>
     <description>
       The Boost Software License should be referenced in the source
@@ -269,27 +351,39 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       project that choose to use the Boost license. It is therefore
       not part of the default profile.
     </description>
+    <internalKey>T014</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T015</key>
-    <configKey>T015</configKey>
     <name>Incorrect HTML links</name>
     <description>
       The links embedded in comments and string literals should have
       correct form and should reference existing files.
     </description>
+    <internalKey>T015</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T016</key>
-    <configKey>T016</configKey>
+    <internalKey>T016</internalKey>
     <name>Min/max potential macro substitution problem</name>
     <description>
       The calls to min and max functions should be protected against accidental macro substitution.
     </description>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T017</key>
-    <configKey>T017</configKey>
     <name>Unnamed namespace not allowed in header file</name>
     <description>
       Unnamed namespaces are not allowed in header files.
@@ -302,10 +396,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       Use named namespaces in header files. Unnamed namespaces are
       allowed in implementation files only.
     </description>
+    <internalKey>T017</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T018</key>
-    <configKey>T018</configKey>
     <name>Using namespace not allowed in header file</name>
     <description>
       Using namespace directives are not allowed in header files.
@@ -320,10 +418,14 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       inline function definition), but for the sake of consistency
       this is also discouraged.
     </description>
+    <internalKey>T018</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
   <rule>
     <key>T019</key>
-    <configKey>T019</configKey>
     <name>Full block {} expected in the control structure</name>
     <description>
       Control structures managed by 'for', 'if' and 'while' constructs can
@@ -332,5 +434,10 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       allows to avoid common pitfalls and makes the code visually more
       uniform.
     </description>
+    <internalKey>T019</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
   </rule>
 </rules>

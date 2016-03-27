@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="rules">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="rule">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="key" type="xs:string"/>
+                            <!--
+                            <xs:element minOccurs="0" name="configkey" type="xs:string" />
+                            -->
+                            <xs:element name="cardinality" minOccurs="0" maxOccurs="1" >
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="SINGLE"/>
+                                        <xs:enumeration value="MULTIPLE"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                           </xs:element>
+                            <!--
+                            <xs:element minOccurs="0" name="priority" type="xs:string" />
+                            -->
+                            <xs:element name="name" type="xs:string" />
+                            <xs:element name="description" type="xs:string" />
+                            <xs:element name="descriptionFormat" minOccurs="0" maxOccurs="1">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="HTML" />
+                                        <xs:enumeration value="MARKDOWN"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="tag" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                            <xs:element name="internalKey" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                            <xs:element name="severity" >
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="BLOCKER"/>
+                                        <xs:enumeration value="CRITICAL"/>
+                                        <xs:enumeration value="MAJOR"/>
+                                        <xs:enumeration value="MINOR"/>
+                                        <xs:enumeration value="INFO"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="type" minOccurs="0" maxOccurs="1">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="BUG"/>
+                                        <xs:enumeration value="CODE_SMELL"/>
+                                        <xs:enumeration value="VULNERABILITY"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="remediationFunction" minOccurs="0" maxOccurs="1" >
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="LINEAR"/>
+                                        <xs:enumeration value="LINEAR_OFFSET"/>
+                                        <xs:enumeration value="CONSTANT_ISSUE"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="remediationFunctionBaseEffort" type="xs:string" minOccurs="0" maxOccurs="1" />
+                            <xs:element name="remediationFunctionGapMultiplier" type="xs:string" minOccurs="0" maxOccurs="1" />
+                            <xs:element name="gapDescription" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                            <xs:element name="param"  minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="key" type="xs:string"/>
+                                        <xs:element name="description" type="xs:string"/>
+                                        <xs:element name="defaultValue" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <!--
+                        <xs:attribute name="key" type="xs:string" use="required" />
+                        <xs:attribute name="description" type="xs:string" use="required" />
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="severity" type="xs:string" use="required" />
+                        -->
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
