@@ -287,7 +287,7 @@ def step_impl(context):
 @when(u'I run sonar-runner with following options')
 def step_impl(context):
     arguments = [line for line in context.text.split("\n") if line != '']
-    command = "sonar-runner " + " ".join(arguments)
+    command = "sonar-runner -Dsonar.login=admin -Dsonar.password=admin -X " + " ".join(arguments)
     _run_command(context, command)
 
 
