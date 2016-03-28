@@ -79,10 +79,8 @@ public class CxxProjectBuilder extends ProjectBuilder {
         String newValue = expandVariables(oldValue);
         if (!oldValue.equals(newValue)) {
           definition.setProperty(key, newValue);
-          if (LOG.isDebugEnabled()) {
             LOG.debug("property expansion: project '{}'; key '{}'; value '{}' => '{}'",
                     new Object[]{definition.getKey(), key, oldValue, newValue});
-          }
         }
       }
     }
