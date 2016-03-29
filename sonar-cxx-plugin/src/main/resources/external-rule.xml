@@ -1,7 +1,8 @@
 <rules>
-  <rule key="CustomRuleTemplate">
+  <rule>
+    <key>CustomRuleTemplate</key>
     <cardinality>MULTIPLE</cardinality>
-    <priority>MAJOR</priority>
+
     <name><![CDATA[Template for custom Custom rules]]></name>
     <description>
       <![CDATA[
@@ -18,5 +19,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
 </ol>
       ]]>
     </description>
+    <severity>MAJOR</severity>
   </rule>
 </rules>
