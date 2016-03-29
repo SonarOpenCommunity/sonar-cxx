@@ -16,12 +16,12 @@ install:
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonar-runner-dist.zip", "C:\sonar-runner")
       }
-      if (!(Test-Path -Path "C:\sonarqube-5.3" )) {
+      if (!(Test-Path -Path "C:\sonarqube-5.4" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.3.zip',
-          'C:\sonarqube-5.3.zip'
+          'https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.4.zip',
+          'C:\sonarqube-5.4.zip'
         )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-5.3.zip", "C:\sonarqube-5.3")
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonarqube-5.4.zip", "C:\sonarqube-5.4")
       }
   - ps: |
       If ($env:Platform -Match "x86") {
@@ -38,7 +38,7 @@ install:
         $env:LANG_PLATFORM="-x64"
       }	  
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-runner\sonar-runner-2.4\bin;%PATH%
-  - cmd: SET SONARHOME=C:\sonarqube-5.3\sonarqube-5.3
+  - cmd: SET SONARHOME=C:\sonarqube-5.4\sonarqube-5.4
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
   
@@ -66,5 +66,5 @@ on_failure:
   - ps: Get-ChildItem cxx-checks\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem *.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem C:\sonarqube-5.3\sonarqube-5.3\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem C:\sonarqube-5.4\sonarqube-5.4\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   
