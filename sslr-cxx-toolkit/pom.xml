@@ -11,10 +11,6 @@
 
   <name>Cxx :: SSLR Toolkit</name>
 
-  <properties>
-    <license.owner>Waleri Enns and CONTACT Software GmbH</license.owner>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.sonarsource.sslr</groupId>
