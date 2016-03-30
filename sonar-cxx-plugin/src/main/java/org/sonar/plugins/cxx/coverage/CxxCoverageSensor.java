@@ -179,7 +179,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           }            
         }
       } else {
-        CxxUtils.LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);
+        CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
       }
     }
   }

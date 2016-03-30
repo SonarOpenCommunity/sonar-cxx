@@ -48,8 +48,7 @@ public class CoberturaParser extends CxxCoverageParser {
   @Override
   public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.info("Parsing 'Cobertura' format");
-
+    CxxUtils.LOG.debug("Parsing 'Cobertura' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
