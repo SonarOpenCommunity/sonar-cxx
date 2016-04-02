@@ -23,13 +23,13 @@
         <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-check-api</artifactId>
-            <version>4.5.2</version>
+            <version>4.5.4</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-plugin-api</artifactId>
-            <version>4.5.2</version>
+            <version>4.5.4</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -68,7 +68,7 @@
       <descriptorRef>jar-with-dependencies</descriptorRef>
       
     </descriptorRefs>
-    <finalName>cxx-lint-${version}</finalName>
+    <finalName>cxx-lint-${project.version}</finalName>
     <appendAssemblyId>false</appendAssemblyId>
   </configuration>
   <executions>

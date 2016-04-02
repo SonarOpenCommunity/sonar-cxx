@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>24</version>
+    <version>31</version>
   </parent>
 
   <groupId>org.codehaus.sonar-plugins.cxx</groupId>
@@ -17,7 +17,7 @@
   <url>https://github.com/SonarOpenCommunity/sonar-cxx</url>
   <inceptionYear>2011</inceptionYear>
   <organization>
-    <name>Waleri Enns</name>
+    <name>SonarOpenCommunity</name>
   </organization>
   <licenses>
     <license>
@@ -150,9 +150,11 @@
   </ciManagement>
 
   <properties>
-    <license.title>Sonar C++ Plugin (Community) </license.title>
+    <license.title>Sonar C++ Plugin (Community)</license.title>
+    <license.owner>SonarOpenCommunity</license.owner>
+    <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>4.5.2</sonar.version>
+    <sonar.version>4.5.4</sonar.version>
     <sslr.version>1.21</sslr.version>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>

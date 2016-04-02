@@ -17,7 +17,6 @@
   <url>https://github.com/SonarOpenCommunity/sonar-cxx/wiki</url>
 
   <properties>
-    <license.owner>Neticoa SAS France</license.owner>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
   </properties>
 
