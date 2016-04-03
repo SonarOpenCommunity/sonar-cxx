@@ -2,10 +2,8 @@ language: java
 
 jdk:
         - oraclejdk8
-        - openjdk7
 
 env:
-        - SONARHOME=/tmp/sonarqube-5.3
         - SONARHOME=/tmp/sonarqube-5.4
   
 matrix:
