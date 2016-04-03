@@ -26,8 +26,8 @@ install:
         - unzip -qq sonarqube-5.3.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.4.zip
         - unzip -qq sonarqube-5.4.zip		
-        - travis_retry wget -q http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip
-        - unzip -qq sonar-runner-dist-2.4.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.5.1.zip
+        - unzip -qq sonar-scanner-2.5.1.zip
         - cd -
 
 before_script:
@@ -38,7 +38,7 @@ before_script:
 script:
         - mvn install -DskipTests=true
         - mvn test
-        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-runner-2.4/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture
+        - RAILS_ENV=production PATH=$PATH:/tmp/sonar-scanner-2.5.1/bin TestDataFolder=~/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata behave --no-capture
         
 after_failure:
         - cat $SONARHOME/logs/sonar.log
