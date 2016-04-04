@@ -89,6 +89,11 @@
       <artifactId>logback-classic</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.codehaus.sonar.dotnet.fxcop</groupId>
+    	<artifactId>sonar-fxcop-library</artifactId>
+    	<version>1.4-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
