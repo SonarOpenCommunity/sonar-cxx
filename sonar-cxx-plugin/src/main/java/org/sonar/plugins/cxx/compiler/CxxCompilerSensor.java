@@ -132,7 +132,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
         if (isInputValid(w.filename, w.line, w.id, w.msg)) {
           saveUniqueViolation(project, context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg);
         } else {
-          CxxUtils.LOG.warn("C-Compiler warning: {}", w.msg);
+          CxxUtils.LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
         }
       }
     } catch (java.io.FileNotFoundException|java.lang.IllegalArgumentException e) {
@@ -141,7 +141,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
   }
 
   private boolean isInputValid(String file, String line, String id, String msg) {
-    return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
-      && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+    return !StringUtils.isEmpty(id);
   }
 }
