@@ -26,6 +26,7 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.plugins.cxx.CxxFxCopProvider.CxxFxCopSensor;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
@@ -405,6 +406,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxLanguage.class);
     l.add(CxxMetrics.class);
     l.add(CxxSquidSensor.class);
+    l.add(CxxFxCopSensor.class);
     l.add(CxxCpdMapping.class);
     l.add(CxxRatsRuleRepository.class);
     l.add(CxxRatsSensor.class);
