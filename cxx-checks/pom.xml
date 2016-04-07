@@ -5,16 +5,12 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>0.9.5-SNAPSHOT</version>
+    <version>0.9.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>cxx-checks</artifactId>
 
   <name>Cxx :: Checks</name>
-
-  <properties>
-    <license.owner>Waleri Enns and CONTACT Software GmbH</license.owner>
-  </properties>
 
   <dependencies>
     <dependency>

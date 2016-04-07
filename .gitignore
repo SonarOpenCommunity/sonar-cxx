@@ -1,6 +1,8 @@
 target
 .project
 .classpath
+.idea/
+*.iml
 *.prefs
 .sonar
 *.log
@@ -11,3 +13,7 @@ target
 **/.sonarqube/*
 **/Debug/**
 **/Release/**
+*.log.server
+
+nbactions.xml
+nb-configuration.xml

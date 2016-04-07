@@ -1,7 +1,7 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
- * sonarqube@googlegroups.com
+ * Copyright (C) 2010-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,9 +13,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.plugins.cxx.squid;
 
@@ -65,6 +65,7 @@ import org.sonar.squidbridge.api.CheckMessage;
 import org.sonar.squidbridge.api.SourceCode;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceFunction;
+import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 import com.sonar.sslr.api.Grammar;
@@ -183,8 +184,8 @@ public final class CxxSquidSensor implements Sensor {
       InputFile inputFile = fs.inputFile(fs.predicates().is(ioFile));
 
       saveMeasures(inputFile, squidFile);
+      saveFunctionAndClassComplexityDistribution(inputFile, squidFile);
       saveFilesComplexityDistribution(inputFile, squidFile);
-      saveFunctionsComplexityDistribution(inputFile, squidFile);
       violationsCount += saveViolations(inputFile, squidFile);
       dependencyAnalyzer.addFile(inputFile, CxxParser.getIncludedFiles(ioFile));
     }
@@ -207,19 +208,37 @@ public final class CxxSquidSensor implements Sensor {
     context.saveMeasure(inputFile, CoreMetrics.PUBLIC_API, squidFile.getDouble(CxxMetric.PUBLIC_API));
     context.saveMeasure(inputFile, CoreMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getDouble(CxxMetric.PUBLIC_UNDOCUMENTED_API));
   }
+  
+  private void saveFunctionAndClassComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
+    double complexityInFunctions = 0;
+    double complexityInClasses = 0;
 
-  private void saveFunctionsComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
-    Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceFunction.class));
     RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION, FUNCTIONS_DISTRIB_BOTTOM_LIMITS);
+    Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceFunction.class));
     for (SourceCode squidFunction : squidFunctionsInFile) {
-      complexityDistribution.add(squidFunction.getDouble(CxxMetric.COMPLEXITY));
+      double functionComplexity = squidFunction.getDouble(CxxMetric.COMPLEXITY);
+      complexityInFunctions += functionComplexity;
+      if (squidFunction.getKey().contains("::")) {
+        complexityInClasses += functionComplexity;
+      }
+      complexityDistribution.add(functionComplexity);
     }
     context.saveMeasure(inputFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+
+    Collection<SourceCode> classes = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceClass.class));
+    for (SourceCode squidClass : classes) {
+      double classComplexity = squidClass.getDouble(CxxMetric.COMPLEXITY);
+      complexityInClasses += classComplexity;
+    }
+
+    context.saveMeasure(inputFile, CoreMetrics.COMPLEXITY_IN_CLASSES, complexityInClasses);
+    context.saveMeasure(inputFile, CoreMetrics.COMPLEXITY_IN_FUNCTIONS, complexityInFunctions);
   }
 
   private void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
     RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION, FILES_DISTRIB_BOTTOM_LIMITS);
-    complexityDistribution.add(squidFile.getDouble(CxxMetric.COMPLEXITY));
+    double complexity = squidFile.getDouble(CxxMetric.COMPLEXITY);
+    complexityDistribution.add(complexity);
     context.saveMeasure(inputFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
   }
 

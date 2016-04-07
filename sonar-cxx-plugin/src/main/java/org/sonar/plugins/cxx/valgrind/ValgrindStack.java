@@ -1,7 +1,7 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
- * sonarqube@googlegroups.com
+ * Copyright (C) 2010-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,9 +13,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.plugins.cxx.valgrind;
 
@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 class ValgrindStack {
 
-  private List<ValgrindFrame> frames = new ArrayList<>();
+  private final List<ValgrindFrame> frames = new ArrayList<>();
 
   /**
    * Adds a stack frame to this call stack
@@ -87,6 +87,7 @@ class ValgrindStack {
   }
 
   private boolean isInside(String path, String folder) {
-    return "".equals(path) ? false : path.startsWith(folder);
+    return (path == null || "".equals(path)) ? false : path.startsWith(folder);
   }
+  
 }

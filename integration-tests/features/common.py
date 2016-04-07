@@ -21,15 +21,74 @@
 
 import re
 import os
+import sys
+import requests
+from requests.auth import HTTPBasicAuth
+import json
+import time
 
 SONAR_ERROR_RE = re.compile(".* ERROR .*")
 SONAR_WARN_RE = re.compile(".* WARN .*")
 SONAR_WARN_TO_IGNORE_RE = re.compile(".*H2 database should.*|.*Starting search|.*Starting web")
 RELPATH_LOG = "logs/sonar.log"
 
+RED = ""
+YELLOW = ""
+GREEN = ""
+RESET = ""
+RESET_ALL = ""
+BRIGHT = ""
+
+SONAR_URL = "http://localhost:9000"
+
 def sonarlog(sonarhome):
     return os.path.join(sonarhome, RELPATH_LOG)
 
+def ensureComputeEngineHasFinishedOk(logpath):
+    urlForChecking = ""
+    
+    print(BRIGHT + "    Read Log : " + logpath + RESET_ALL)
+    
+    try:
+        with open(logpath, "r") as log:
+            lines = log.readlines()
+            urlForChecking = getUrlForChecking(lines)
+    except IOError, e:
+        badlines.append(str(e) + "\n")
+        
+        
+    print(BRIGHT + "     Get Analysis In Background : " + urlForChecking + RESET_ALL)
+
+    if urlForChecking == "":
+        return ""
+        
+    status = ""
+    while True:
+        time.sleep(1)
+        response = requests.get(urlForChecking)
+        task = json.loads(response.text).get("task", None)
+        print(BRIGHT + "     CURRENT STATUS : " + task["status"] + RESET_ALL)
+        if task["status"] == "IN_PROGRESS" or task["status"] == "PENDING":
+            continue
+            
+        if task["status"] == "SUCCESS":
+            break
+            
+        if task["status"] == "FAILED":
+            status = "BACKGROUND TASK AS FAILED. CHECK SERVER : " + logpath + ".server"
+            break
+        
+    serverlogurl = urlForChecking.replace("task?id", "logs?taskId")
+    r = requests.get(serverlogurl, auth=HTTPBasicAuth('admin', 'admin'),timeout=10)
+
+    writepath = logpath + ".server"
+    f = open(writepath, 'w')
+    f.write(r.text)
+    f.close()
+    
+#    print(BRIGHT + " LOG SERVER : " + r.text + RESET_ALL)
+    return status
+    
 def analyselog(logpath, toignore=None):
     badlines = []
     errors = warnings = 0
@@ -43,7 +102,17 @@ def analyselog(logpath, toignore=None):
 
     return badlines, errors, warnings
 
-
+def getUrlForChecking(lines):
+    urlForChecking = ""
+    for line in lines:        
+        if "INFO: More about the report processing at" in line:
+            urlForChecking = line.split("INFO: More about the report processing at")[1].strip()
+            
+        if "INFO  - More about the report processing at" in line:
+            urlForChecking = line.split("INFO  - More about the report processing at")[1].strip()
+            
+    return urlForChecking
+    
 def analyseloglines(lines, toignore=None):
     badlines = []
     errors = warnings = 0
@@ -53,8 +122,11 @@ def analyseloglines(lines, toignore=None):
             badlines.append(line)
             errors += 1
         elif isSonarWarning(line, toingore_re):
-            badlines.append(line)
-            warnings += 1
+            if "JOURNAL_FLUSHER" not in line and "high disk watermark" not in line and "shards will be relocated away from this node" not in line:
+                sys.stdout.write("found warning '%s'" % line)
+                badlines.append(line)
+                warnings += 1
+            
     return badlines, errors, warnings
 
 

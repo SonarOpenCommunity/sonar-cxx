@@ -7,6 +7,7 @@ Feature: Smoketest
       GIVEN the project "smoketest_project"
       WHEN I run "sonar-runner"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -51,11 +52,8 @@ Feature: Smoketest
                | overall_coverage         | 41.2  |
                | overall_line_coverage    | 39.5  |
                | overall_branch_coverage  | 50    |
-               # design/tangles
-               | package_tangle_index     | 66.7  |
-               | package_tangles          | 1     |
                # test execution statistics
-               | test_success_density     | 50    |
+               #| test_success_density     | 50    | -> enable when this is restored in core
                | test_failures            | 2     |
                | test_errors              | 0     |
                | tests                    | 4     |

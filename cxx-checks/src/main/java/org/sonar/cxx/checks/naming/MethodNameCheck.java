@@ -1,23 +1,23 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.checks;
+package org.sonar.cxx.checks.naming;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -59,16 +59,31 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode astNode) {
-    AstNode nameNode = astNode.getFirstDescendant(CxxGrammarImpl.className);
-    if (nameNode != null) {
-      if (astNode.getFirstAncestor(CxxGrammarImpl.memberDeclaration) != null) {
-        String name = nameNode.getTokenValue();
-        if (!pattern.matcher(name).matches()) {
+    AstNode declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
+    if (isMethodDefinition(declId)) {
+      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
+      if (idNode != null) {
+        String identifier = idNode.getTokenValue();
+        if (!pattern.matcher(identifier).matches()) {
           getContext().createLineViolation(this,
-            "Rename method \"{0}\" to match the regular expression {1}.", nameNode, name, format);
+                  "Rename method \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
         }
       }
     }
+  }
+
+  private boolean isMethodDefinition(AstNode declId) {
+    boolean isMethod = false;
+    if (declId != null) {
+      // method inside of class
+      if (declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) != null) {
+        isMethod = true;
+        // a nested name - method outside of class
+      } else if (declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier)) {
+        isMethod = true;
+      }
+    }
+    return isMethod;
   }
 
 }

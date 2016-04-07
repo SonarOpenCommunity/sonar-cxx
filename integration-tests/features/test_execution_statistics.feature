@@ -57,6 +57,7 @@ Feature: Providing test execution numbers
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=gtest_without_fixture.xml"
 
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -69,7 +70,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 0     |
               | skipped_tests        | 0     |
-              | test_success_density | 100   |
+              # | test_success_density | 100   | -> enable when this is restored in core
               | test_execution_time  | 0     |
 
 
@@ -83,6 +84,7 @@ Feature: Providing test execution numbers
       GIVEN the project "googletest_project"
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -110,6 +112,7 @@ Feature: Providing test execution numbers
       GIVEN the project "googletest_project"
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -135,9 +138,10 @@ Feature: Providing test execution numbers
       GIVEN the project "googletest_project"
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true -Dsonar.tests="
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains a line matching:
               """
-              .*ERROR - The property 'sonar.tests' is unset. Please set it to proceed
+              .*ERROR.*The property 'sonar.tests' is unset. Please set it to proceed
               """
           AND the test related metrics have following values: <values>
 
@@ -157,6 +161,7 @@ Feature: Providing test execution numbers
       GIVEN the project "googletest_project"
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath>"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -169,7 +174,7 @@ Feature: Providing test execution numbers
                | test_failures        | 0     |
                | test_errors          | 0     |
                | skipped_tests        | 0     |
-               | test_success_density | 100   |
+               #| test_success_density | 100   |  -> enable when this is restored in core
                | test_execution_time  | 0     |
 
       Examples:
@@ -183,6 +188,7 @@ Feature: Providing test execution numbers
       GIVEN the project "googletest_project"
       WHEN I run "sonar-runner -Dsonar.cxx.xunit.reportPath=<reportpath>"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -197,7 +203,7 @@ Feature: Providing test execution numbers
               | test_failures        | None  |
               | test_errors          | None  |
               | skipped_tests        | None  |
-              | test_success_density | None  |
+              #| test_success_density | None  |  -> enable when this is restored in core
               | test_execution_time  | None  |
 
       Examples:
@@ -212,7 +218,7 @@ Feature: Providing test execution numbers
        THEN the analysis breaks
            AND the analysis log contains a line matching:
                """
-               ERROR.*Cannot feed the data into SonarQube, details: .*
+               .*ERROR.*Cannot feed the data into SonarQube, details: .*
                """
 
   # =================
@@ -232,6 +238,7 @@ Feature: Providing test execution numbers
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_simple-test_suite.xml"
 
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -242,7 +249,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 0     |
               | skipped_tests        | 0     |
-              | test_success_density | 100   |
+              #| test_success_density | 100   | -> enable when this is restored in core
               | test_execution_time  | 0     |
 
 
@@ -257,6 +264,7 @@ Feature: Providing test execution numbers
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
 
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -267,7 +275,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 4     |
               | skipped_tests        | 0     |
-              | test_success_density | 0     |
+              #| test_success_density | 0     | -> enable when this is restored in core
               | test_execution_time  | 3     |
 
               
@@ -283,6 +291,7 @@ Feature: Providing test execution numbers
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.xsltURL=boosttest-1.x-to-junit-dummy-1.0.xsl -Dsonar.tests=cxx-xunit -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml"
 
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -293,7 +302,7 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 4     |
               | skipped_tests        | 0     |
-              | test_success_density | 0     |
+              #| test_success_density | 0     | -> enable when this is restored in core
               | test_execution_time  | 3     |
               
               
@@ -307,6 +316,7 @@ Feature: Providing test execution numbers
 
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -342,6 +352,7 @@ Feature: Providing test execution numbers
 
       WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -369,9 +380,11 @@ Feature: Providing test execution numbers
         Test if plugin is able to handle this.
 
         GIVEN the project "boosttest_project"
+            and platform is not "Windows"
 
         WHEN I run "sonar-runner -X -Dsonar.cxx.xunit.reportPath=btest_test_nested-test_suite.xml -Dsonar.cxx.xunit.provideDetails=true -Dsonar.cxx.includeDirectories=/usr/include"
         THEN the analysis finishes successfully
+            AND the analysis in server has completed
             AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
@@ -383,5 +396,5 @@ Feature: Providing test execution numbers
               | test_failures        | 0     |
               | test_errors          | 4     |
               | skipped_tests        | 0     |
-              | test_success_density | 0     |
+              #| test_success_density | 0     | -> enable when this is restored in core
               | test_execution_time  | 3     |

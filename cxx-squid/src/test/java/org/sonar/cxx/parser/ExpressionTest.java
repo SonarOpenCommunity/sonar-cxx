@@ -1,21 +1,21 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.parser;
 
@@ -34,16 +34,30 @@ public class ExpressionTest extends ParserBaseTest {
     g.rule(CxxGrammarImpl.compoundStatement).mock();
     g.rule(CxxGrammarImpl.idExpression).mock();
     g.rule(CxxGrammarImpl.lambdaExpression).mock();
-
+    g.rule(CxxGrammarImpl.foldExpression).mock();
+    
     assertThat(p)
       .matches("LITERAL")
       .matches("this")
       .matches("( expression )")
       .matches("idExpression")
       .matches("lambdaExpression")
-      .matches("( compoundStatement )");
+      .matches("foldExpression");
   }
 
+  @Test
+  public void foldExpression() {
+    p.setRootRule(g.rule(CxxGrammarImpl.foldExpression));
+
+    g.rule(CxxGrammarImpl.castExpression).mock();
+    g.rule(CxxGrammarImpl.foldOperator).mock();
+    
+    assertThat(p)
+      .matches("( castExpression foldOperator ... )")
+      .matches("( ... foldOperator castExpression )")
+      .matches("( castExpression foldOperator ... foldOperator castExpression )");
+  }
+  
   @Test
   public void primaryExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
@@ -94,19 +108,11 @@ public class ExpressionTest extends ParserBaseTest {
   public void qualifiedId() {
     p.setRootRule(g.rule(CxxGrammarImpl.qualifiedId));
 
-    g.rule(CxxGrammarImpl.LITERAL).mock();
     g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
     g.rule(CxxGrammarImpl.unqualifiedId).mock();
-    g.rule(CxxGrammarImpl.operatorFunctionId).mock();
-    g.rule(CxxGrammarImpl.literalOperatorId).mock();
-    g.rule(CxxGrammarImpl.templateId).mock();
 
     assertThat(p).matches("nestedNameSpecifier unqualifiedId");
     assertThat(p).matches("nestedNameSpecifier template unqualifiedId");
-    assertThat(p).matches(":: foo");
-    assertThat(p).matches(":: operatorFunctionId");
-    assertThat(p).matches(":: literalOperatorId");
-    assertThat(p).matches(":: templateId");
   }
 
   @Test
@@ -216,7 +222,6 @@ public class ExpressionTest extends ParserBaseTest {
     assertThat(p).matches("nestedNameSpecifier typeName :: ~ typeName");
     assertThat(p).matches("nestedNameSpecifier template simpleTemplateId :: ~ typeName");
     assertThat(p).matches("~ typeName");
-    assertThat(p).matches("nestedNameSpecifier ~ typeName");
     assertThat(p).matches("~ decltypeSpecifier");
   }
 
@@ -540,13 +545,21 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void castExpression_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.castExpression));
-
-    assertThat(p).matches("(istream_iterator<string>(cin))");
+    
+    assertThat(p).matches("(int)c");
+    assertThat(p).matches("(unsigned int)c");
+    assertThat(p).matches("(const char*)c");
     assertThat(p).matches("(Color)c");
     assertThat(p).matches("CDB::mask");
+    assertThat(p).matches("(istream_iterator<string>(cin))");
+    assertThat(p).matches("(int (*const [])(unsigned int, ...))f");
 
     // C-COMPATIBILITY: C99 compound literals
     assertThat(p).matches("(Point){ 400, 200 }");
+    assertThat(p).matches("(struct Point){ 400, 200 }");
+    assertThat(p).matches("(struct foo) {x + y, 'a', 0}");    
     assertThat(p).matches("(int []){ 1, 2, 4, 8 }");
+    assertThat(p).matches("(int [3]) {1}");
+    assertThat(p).matches("(const float []){1e0, 1e1, 1e2}");
   }
 }

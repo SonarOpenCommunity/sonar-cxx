@@ -1,21 +1,21 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.visitors;
 
@@ -87,6 +87,8 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   private static final String UNNAMED_CLASSIFIER_ID = "<unnamed class>";
   private static final String UNNAMED_ENUM_ID = "<unnamed enumeration>";
+
+  private static final String TOKEN_OVERRIDE = "override";
 
   public interface PublicApiHandler {
 
@@ -418,6 +420,20 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     return defaultOrDelete;
   }
 
+  private boolean isOverriddenMethod(AstNode memberDeclarator) {
+    List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.cliFunctionModifier);
+
+    for (AstNode modifier : modifiers) {
+      AstNode modifierId = modifier.getFirstChild();
+
+      if (TOKEN_OVERRIDE.equals(modifierId.getTokenValue())) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /**
    * Find documentation node, associated documentation, identifier of a
    * <em>public</em> member declarator and visit it as a public API.
@@ -429,6 +445,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     AstNode container = node.getFirstAncestor(
       CxxGrammarImpl.templateDeclaration,
       CxxGrammarImpl.classSpecifier);
+
+    if (isOverriddenMethod(node)) {
+      // assume that ancestor method is documented
+      // and do not count as public API
+      return;
+    }
 
     AstNode docNode;
 

@@ -10,6 +10,7 @@ Feature: Importing Cppcheck reports
     GIVEN the project "cppcheck_project"
     WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
     THEN the analysis finishes successfully
+         AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
          AND the analysis log contains no error/warning messages except those matching:
               """
@@ -27,10 +28,11 @@ Feature: Importing Cppcheck reports
      GIVEN the project "cppcheck_project"
      WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=empty.xml"
      THEN the analysis finishes successfully
+         AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
          BUT the analysis log contains a line matching
               """
-              .*WARN.*The report '.*' seems to be empty, ignoring.
+              .*INFO.*The report '.*' seems to be empty, ignoring.
               """
          AND the number of violations fed is 0
 
@@ -39,6 +41,7 @@ Feature: Importing Cppcheck reports
      GIVEN the project "cppcheck_project"
      WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=rule_unknown.xml"
      THEN the analysis finishes successfully
+         AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
          BUT the analysis log contains a line matching
               """
@@ -51,10 +54,11 @@ Feature: Importing Cppcheck reports
      GIVEN the project "cppcheck_project"
      WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
      THEN the analysis finishes successfully
+         AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
          BUT the analysis log contains a line matching
               """
-              .*ERROR - Report .* cannot be parsed
+              .*ERROR.*Report .* cannot be parsed
               """
          AND the number of violations fed is <violations>
 
@@ -68,14 +72,23 @@ Feature: Importing Cppcheck reports
      GIVEN the project "cppcheck_project"
      WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=relative-to-src.xml"
      THEN the analysis finishes successfully
+         AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
          BUT the analysis log contains a line matching
               """
-              .*WARN.* Cannot find the file .* skipping violations
+              .*INFO.*Cannot find the file .* skipping violations
               """
          AND the number of violations fed is 0
 
-
+   Scenario: The reports and issues in the reports have absolute paths
+     GIVEN the project "cppcheck_with_absolute_paths_project"
+        and platform is not "Windows"
+     WHEN I run "sonar-runner -X"
+     THEN the analysis finishes successfully
+         AND the analysis in server has completed
+         AND the server log (if locatable) contains no error/warning messages
+         AND the number of violations fed is 6
+         
    # This doesnt work. We dont support reports outside of the projects directory,
    # although there is no good reason for that(??)
    #
@@ -84,6 +97,7 @@ Feature: Importing Cppcheck reports
    #       AND a report outside the projects directory, e.g. "/tmp/cppcheck-v1.xml"
    #   WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=/tmp/cppcheck-v1.xml"
    #   THEN the analysis finishes successfully
+   #       AND the analysis in server has completed
    #       AND the server log (if locatable) contains no error/warning messages
    #       AND the analysis log contains no error/warning messages
    #       AND the number of violations fed is 7

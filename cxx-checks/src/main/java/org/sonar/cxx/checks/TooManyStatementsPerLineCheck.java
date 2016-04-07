@@ -1,21 +1,21 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.checks;
 
@@ -27,6 +27,7 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.AbstractOneStatementPerLineCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+import com.sonar.sslr.api.TokenType;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
@@ -75,17 +76,24 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
 
   /**
    * Exclude 'break' statement if it is on the same line as the switch label
-   * (case: or default:). i.e. the break statement is on the same line as it's
-   * "switchBlockStatementGroup" ancestor.
    */
   private boolean isBreakStatementExcluded(AstNode astNode) {
-    if (!excludeCaseBreak || astNode.getToken().getType() != CxxKeyword.BREAK) {
-      return false;
+    boolean exclude = false;
+    if (excludeCaseBreak && astNode.getToken().getType() == CxxKeyword.BREAK) {
+      for (AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.statement);
+        statement != null;
+        statement = statement.getPreviousSibling()) {
+        if (astNode.getTokenLine() != statement.getTokenLine()) {
+          break;
+        }
+        TokenType type = statement.getToken().getType();
+        if (type == CxxKeyword.CASE || type == CxxKeyword.DEFAULT) {
+          exclude = true;
+          break;
+        }
+      }
     }
-
-    AstNode switchGroup = astNode.getFirstAncestor(CxxGrammarImpl.switchBlockStatementGroup);
-    return switchGroup != null
-      && switchGroup.getTokenLine() == astNode.getTokenLine();
+    return exclude;
   }
 
   /**
