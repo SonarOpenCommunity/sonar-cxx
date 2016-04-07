@@ -36,8 +36,6 @@ import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
-import com.google.common.annotations.VisibleForTesting;
-
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team
  * edition or 2010/2012/2013 premium edition)
