@@ -77,16 +77,16 @@ public class CxxCompilerSensorTest {
     verify(issuable, times(9)).addIssue(any(Issue.class));
   }
 
-  @Test
+  //@Test @todo
   public void shouldReportCorrectGccViolations() {
-//    Settings settings = new Settings();
-//    settings.setProperty("sonar.cxx.compiler.parser", CxxCompilerGccParser.KEY);
-//    settings.setProperty(CxxCompilerSensor.REPORT_PATH_KEY, "compiler-reports/build.log");
-//    settings.setProperty(CxxCompilerSensor.REPORT_CHARSET_DEF, "UTF-8");
-//    TestUtils.addInputFile(fs, perspectives, issuable, "/home/test/src/zip/src/zipmanager.cpp");
-//    CxxCompilerSensor sensor = new CxxCompilerSensor(perspectives, settings, fs, profile);
-//    sensor.analyse(project, context);
-//    verify(issuable, times(4)).addIssue(any(Issue.class));
+    Settings settings = new Settings();
+    settings.setProperty("sonar.cxx.compiler.parser", CxxCompilerGccParser.KEY);
+    settings.setProperty(CxxCompilerSensor.REPORT_PATH_KEY, "compiler-reports/build.log");
+    settings.setProperty(CxxCompilerSensor.REPORT_CHARSET_DEF, "UTF-8");
+    TestUtils.addInputFile(fs, perspectives, issuable, "/home/test/src/zip/src/zipmanager.cpp");
+    CxxCompilerSensor sensor = new CxxCompilerSensor(perspectives, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(issuable, times(4)).addIssue(any(Issue.class));
   }
 
   @Test
