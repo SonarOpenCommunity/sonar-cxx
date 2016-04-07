@@ -141,7 +141,7 @@ Feature: Providing test execution numbers
           AND the analysis in server has completed
           AND the analysis log contains a line matching:
               """
-              .*ERROR - The property 'sonar.tests' is unset. Please set it to proceed
+              .*ERROR.*The property 'sonar.tests' is unset. Please set it to proceed
               """
           AND the test related metrics have following values: <values>
 
@@ -218,7 +218,7 @@ Feature: Providing test execution numbers
        THEN the analysis breaks
            AND the analysis log contains a line matching:
                """
-               ERROR.*Cannot feed the data into SonarQube, details: .*
+               .*ERROR.*Cannot feed the data into SonarQube, details: .*
                """
 
   # =================

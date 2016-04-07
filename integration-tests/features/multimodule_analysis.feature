@@ -12,13 +12,13 @@ Feature: cpp-multimodule-project
               .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
-              .*WARN  - Cannot find the file '.*', skipping violations
+              .*WARN-*Cannot find the file '.*', skipping violations
               .*WARN.*to create a dependency with .*
-              .*WARN  - the include root '.*' doesn't exist
-              .*WARN  - .* cannot find the sources for .*
-              .*WARN  - SCM provider autodetection failed.*
+              .*WARN.*the include root '.*' doesn't exist
+              .*WARN.* cannot find the sources for .*
+              .*WARN.*SCM provider autodetection failed.*
               .*WARN.*Cannot find a report for '.*'
-              .*WARN.*- File access Failed '.*'
+              .*WARN.*File access Failed '.*'
               .*ERROR.*Invalid report baseDir '.*'
               .*ERROR.*Using module base failed to find Path '.*'
               """

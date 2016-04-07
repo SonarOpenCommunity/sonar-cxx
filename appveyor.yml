@@ -11,7 +11,7 @@ install:
       }
       if (!(Test-Path -Path "C:\sonar-runner" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'http://repo1.maven.org/maven2/org/codehaus/sonar/runner/sonar-runner-dist/2.4/sonar-runner-dist-2.4.zip',
+          'https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.5.1.zip',
           'C:\sonar-runner-dist.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sonar-runner-dist.zip", "C:\sonar-runner")
@@ -37,7 +37,7 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }	  
-  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-runner\sonar-runner-2.4\bin;%PATH%
+  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-runner\sonar-scanner-2.5.1\bin;%PATH%
   - cmd: SET SONARHOME=C:\sonarqube-5.4\sonarqube-5.4
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
