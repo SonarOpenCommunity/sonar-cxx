@@ -36,6 +36,8 @@ import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
+import com.google.common.annotations.VisibleForTesting;
+
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team
  * edition or 2010/2012/2013 premium edition)
@@ -75,7 +77,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   /**
    * Get the compiler parser to use.
    */
-  private CompilerParser getCompilerParser() {
+  protected CompilerParser getCompilerParser() {
     String parserKey = getStringProperty(PARSER_KEY_DEF, DEFAULT_PARSER_DEF);
     CompilerParser parser = parsers.get(parserKey);
     if (parser == null) {
@@ -128,11 +130,10 @@ public class CxxCompilerSensor extends CxxReportSensor {
     try {
       parser.processReport(project, context, report, reportCharset, reportRegEx, warnings);
       for (CompilerParser.Warning w : warnings) {
-        // get filename from file system - e.g. VC writes case insensitive file name to html
-        if (isInputValid(w.filename, w.line, w.id, w.msg)) {
+        if (isInputValid(w)) {
           saveUniqueViolation(project, context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg);
         } else {
-          CxxUtils.LOG.warn("C-Compiler warning: {}", w.msg);
+          CxxUtils.LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
         }
       }
     } catch (java.io.FileNotFoundException|java.lang.IllegalArgumentException e) {
@@ -140,8 +141,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
     }
   }
 
-  private boolean isInputValid(String file, String line, String id, String msg) {
-    return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(line)
-      && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+  private boolean isInputValid(CompilerParser.Warning warning) {
+    return !StringUtils.isEmpty(warning.id);
   }
 }

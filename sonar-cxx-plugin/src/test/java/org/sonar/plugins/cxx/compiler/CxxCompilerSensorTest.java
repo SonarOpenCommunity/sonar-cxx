@@ -31,11 +31,20 @@ import org.sonar.plugins.cxx.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 
+import org.junit.Assert;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.xml.stream.XMLStreamException;
 
 public class CxxCompilerSensorTest {
 
@@ -92,5 +101,26 @@ public class CxxCompilerSensorTest {
     sensor.analyse(project, context);
     verify(issuable, times(9)).addIssue(any(Issue.class));
   }
-
+  
+  
+  @Test
+  public void shouldReportWarningsWithoutFileAndLineInformation() {
+    Settings settings = new Settings();
+    List<CompilerParser.Warning> warnings = Arrays.asList(
+        new CompilerParser.Warning("filename1", "line1", "id1", "msg2"),
+        new CompilerParser.Warning("filename1", null, "id2", "msg1"),
+        new CompilerParser.Warning(null, null, "id3", "msg1"),
+        new CompilerParser.Warning(null, null, "id4", null)
+        );
+    
+    MockCxxCompilerSensor sensor = new MockCxxCompilerSensor(perspectives, settings, fs, profile, warnings);
+    try {
+      sensor.processReport(project, context, null);
+    } catch (XMLStreamException e) {
+      Assert.fail(e.getMessage());
+    }
+    
+    Assert.assertTrue(warnings.containsAll(sensor.savedWarnings));
+    Assert.assertTrue(sensor.savedWarnings.containsAll(warnings));
+  }
 }

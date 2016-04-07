@@ -21,6 +21,8 @@ package org.sonar.plugins.cxx.compiler;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
+
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
@@ -73,6 +75,29 @@ public interface CompilerParser {
       this.id = id;
       this.msg = msg;
     }
+    
+    @Override 
+    public boolean equals(Object other) {
+      //check for self-comparison
+      if ( this == other ) {
+        return true;
+      }
+
+      if ( !(other instanceof Warning) ) {
+        return false;
+      }
+      
+      //cast to native object is now safe
+      Warning otherW = (Warning)other;
+      return this.hashCode() == otherW.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(filename) ^ Objects.hashCode(line) ^ Objects.hashCode(id) ^ Objects.hashCode(msg);
+    }
+    
+    
   }
 
   void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings)
