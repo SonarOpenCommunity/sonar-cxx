@@ -1,27 +1,30 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.parser;
 
 import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
+import static org.sonar.cxx.parser.CxxGrammarImpl.namedNamespaceDefinition;
+import static org.sonar.cxx.parser.CxxGrammarImpl.nestedNamespaceDefinition;
+import static org.sonar.cxx.parser.CxxGrammarImpl.unnamedNamespaceDefinition;
 
 public class DeclarationsTest extends ParserBaseTest {
 
@@ -394,6 +397,30 @@ public class DeclarationsTest extends ParserBaseTest {
   }
 
   @Test
+  public void namespaceDefinition() {
+    p.setRootRule(g.rule(CxxGrammarImpl.namespaceDefinition));
+
+    g.rule(CxxGrammarImpl.namedNamespaceDefinition).mock();
+    g.rule(CxxGrammarImpl.unnamedNamespaceDefinition).mock();
+    g.rule(CxxGrammarImpl.nestedNamespaceDefinition).mock();
+        
+    assertThat(p)
+        .matches("namedNamespaceDefinition")
+        .matches("unnamedNamespaceDefinition")
+        .matches("nestedNamespaceDefinition");
+  }
+  
+  @Test
+  public void enclosingNamespaceSpecifier() {
+    p.setRootRule(g.rule(CxxGrammarImpl.enclosingNamespaceSpecifier));
+        
+    assertThat(p)
+        .matches("IDENTIFIER")
+        .matches("IDENTIFIER :: IDENTIFIER")
+        .matches("IDENTIFIER :: IDENTIFIER :: IDENTIFIER");
+  }
+  
+  @Test
   public void namespaceDefinition_reallife() {
     p.setRootRule(g.rule(CxxGrammarImpl.namespaceDefinition));
 
@@ -409,7 +436,6 @@ public class DeclarationsTest extends ParserBaseTest {
 
     assertThat(p).matches("using nestedNameSpecifier unqualifiedId ;");
     assertThat(p).matches("using typename nestedNameSpecifier unqualifiedId ;");
-    assertThat(p).matches("using :: unqualifiedId ;");
   }
 
   @Test

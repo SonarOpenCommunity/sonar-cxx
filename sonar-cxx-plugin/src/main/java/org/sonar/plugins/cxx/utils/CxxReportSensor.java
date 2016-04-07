@@ -1,7 +1,7 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
- * sonarqube@googlegroups.com
+ * Copyright (C) 2010-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,18 +13,20 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.plugins.cxx.utils;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -142,25 +144,46 @@ public abstract class CxxReportSensor implements Sensor {
     return value;
   }
 
-  public static List<File> getReports(Settings settings,
-    File moduleBaseDir,
-    String reportPathPropertyKey) {
+  public static List<File> getReports(Settings settings, final File moduleBaseDir,
+      String reportPathPropertyKey) {
 
-    String[] reportPaths = settings.getStringArray(reportPathPropertyKey);
     List<File> reports = new ArrayList<>();
-    if (reportPaths.length > 0) {
+
+    List<String> reportPaths = Arrays.asList(settings.getStringArray(reportPathPropertyKey));
+    if (!reportPaths.isEmpty()) {
+      List<String> includes = new ArrayList<>();
       for (String reportPath : reportPaths) {
-        reportPath = FilenameUtils.normalize(reportPath);
-        File singleFile = new File(reportPath);
-        if (singleFile.exists()) {
-          reports.add(singleFile);
-        } else {
-          CxxUtils.LOG.debug("Using pattern '{}' to find reports", reportPath);
-          CxxUtils.GetReportForBaseDirAndPattern(moduleBaseDir.getPath(), reportPath, reports);
-          if (reports.isEmpty()) {
-            CxxUtils.LOG.warn("Cannot find a report for '{}={}'", reportPathPropertyKey, reportPath);
-          }
+        // Normalization can return null if path is null, is invalid, or is a path with back-ticks outside known directory structure
+        String normalizedPath = FilenameUtils.normalize(reportPath);
+        if (normalizedPath != null && new File(normalizedPath).isAbsolute()) {
+          includes.add(normalizedPath);
+          continue;
         }
+
+        // Prefix with absolute module base dir, attempt normalization again -- can still get null here
+        normalizedPath = FilenameUtils.normalize(moduleBaseDir.getAbsolutePath() + File.separator + reportPath);
+        if (normalizedPath != null) {
+          includes.add(normalizedPath);
+          continue;
+        }
+
+        CxxUtils.LOG.debug("Not a valid report path '{}'", reportPath);
+      }
+
+      CxxUtils.LOG.debug("Normalized report includes to '{}'", includes);
+
+      // Includes array cannot contain null elements
+      DirectoryScanner directoryScanner = new DirectoryScanner();
+      directoryScanner.setIncludes(includes.toArray(new String[includes.size()]));
+      directoryScanner.scan();
+
+      for (String found : directoryScanner.getIncludedFiles()) {
+        CxxUtils.LOG.debug("Adding report '{}'", found);
+        reports.add(new File(found));
+      }
+
+      if (reports.isEmpty()) {
+        CxxUtils.LOG.warn("Cannot find a report for '{}'", reportPathPropertyKey);
       }
     } else {
       CxxUtils.LOG.error("Undefined report path value for key '{}'", reportPathPropertyKey);

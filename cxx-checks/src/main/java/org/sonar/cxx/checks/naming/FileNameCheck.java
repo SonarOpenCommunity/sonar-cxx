@@ -1,23 +1,23 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.checks;
+package org.sonar.cxx.checks.naming;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -25,26 +25,25 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.checks.SquidCheck;
 
+import javax.annotation.Nullable;
 import java.util.regex.Pattern;
-import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 
 @Rule(
-  key = "ClassName",
+  key = "FileName",
   priority = Priority.MINOR,
-  name = "Class names should comply with a naming convention",
+  name = "File names should comply with a naming convention",
   tags = {Tag.CONVENTION})
 @SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
-@SqaleConstantRemediation("5min")
-@ActivatedByDefault
-public class ClassNameCheck extends SquidCheck<Grammar> {
+@SqaleConstantRemediation("10min")
+public class FileNameCheck extends SquidCheck<Grammar> {
 
-  private static final String DEFAULT = "^[A-Z_][a-zA-Z0-9]+$";
+  private static final String DEFAULT = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
+  private static final String MESSAGE = "Rename this file to match this regular expression: \"%s\".";
 
   @RuleProperty(
     key = "format",
@@ -55,17 +54,16 @@ public class ClassNameCheck extends SquidCheck<Grammar> {
   @Override
   public void init() {
     pattern = Pattern.compile(format);
-    subscribeTo(CxxGrammarImpl.classSpecifier);
   }
 
   @Override
-  public void visitNode(AstNode astNode) {
-    AstNode nameNode = astNode.getFirstDescendant(CxxGrammarImpl.className);
-    if (nameNode != null) {
-      String className = nameNode.getTokenValue();
-      if (!pattern.matcher(className).matches()) {
-        getContext().createLineViolation(this,
-          "Rename class \"{0}\" to match the regular expression {1}.", astNode, className, format);
+  public void visitFile(@Nullable AstNode astNode) {
+    String fileName = getContext().getFile().getName();
+    int dotIndex = fileName.lastIndexOf(".");
+    if (dotIndex > 0) {
+      String moduleName = fileName.substring(0, dotIndex);
+      if (!pattern.matcher(moduleName).matches()) {
+        getContext().createFileViolation(this, String.format(MESSAGE, format));
       }
     }
   }

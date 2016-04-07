@@ -1,7 +1,7 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
- * sonarqube@googlegroups.com
+ * Copyright (C) 2010-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,9 +13,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.plugins.cxx;
 
@@ -49,8 +49,6 @@ public class CxxProjectBuilder extends ProjectBuilder {
   public void build(Context context) {
     super.build(context);
 
-    ProjectDefinition definition = context.projectReactor().getRoot();
-
     // collect all properties
     Map<String, String> envMap = System.getenv();
     for (Map.Entry<String, String> entry : envMap.entrySet()) {
@@ -65,19 +63,27 @@ public class CxxProjectBuilder extends ProjectBuilder {
       vars.put(key, value);
     }
 
-    props = definition.getProperties();
-    for (String key : props.stringPropertyNames()) {
-      String value = props.getProperty(key);
-      vars.put(key, value);
+    for (ProjectDefinition definition : context.projectReactor().getProjects()) {
+      props = definition.getProperties();
+      for (String key : props.stringPropertyNames()) {
+        String value = props.getProperty(key);
+        vars.put(key, value);
+      }
     }
 
     // replace placeholders
-    for (String key : props.stringPropertyNames()) {
-      String oldValue = props.getProperty(key);
-      String newValue = expandVariables(oldValue);
-      if (!oldValue.equals(newValue)) {
-        definition.setProperty(key, newValue);
-        LOG.debug("property expansion: key '{}'; value '{}' => '{}'", new Object[]{key, oldValue, newValue});
+    for (ProjectDefinition definition : context.projectReactor().getProjects()) {
+      props = definition.getProperties();
+      for (String key : props.stringPropertyNames()) {
+        String oldValue = props.getProperty(key);
+        String newValue = expandVariables(oldValue);
+        if (!oldValue.equals(newValue)) {
+          definition.setProperty(key, newValue);
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("property expansion: project '{}'; key '{}'; value '{}' => '{}'",
+                    new Object[]{definition.getKey(), key, oldValue, newValue});
+          }
+        }
       }
     }
   }

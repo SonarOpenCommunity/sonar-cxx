@@ -1,21 +1,21 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx;
 
@@ -38,17 +38,12 @@ import org.slf4j.LoggerFactory;
 
 public class CxxVCppBuildLogParser {
 
-  private enum VSVersion {
-
-    V100, V110, V120, V140
-  };
-
   private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxVCppBuildLogParser");
 
   private final HashMap<String, List<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;
 
-  private VSVersion platformToolset = VSVersion.V120;
+  private String platformToolset = "V120";
   private String platform = "Win32";
 
   public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn,
@@ -56,7 +51,30 @@ public class CxxVCppBuildLogParser {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
+  
+  public void setPlatform(String platform) {
+    this.platform = platform;
+  }
 
+  /**
+   *
+   * @param platformToolset
+   */
+  public void setPlatformToolset(String platformToolset) {
+    this.platformToolset = platformToolset;
+  }
+  
+  /**
+   * Can be used to creat a list of includes, defines and options for a single line
+   * If it follows the format of Vcpp
+   * @param line
+   * @param projectPath
+   * @param compilationFile
+   */
+  public void parseVCppLine(String line, String projectPath, String compilationFile) {
+    this.parseVCppCompilerCLLine(line, projectPath, compilationFile);
+  }
+  
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
 
     try {
@@ -68,7 +86,7 @@ public class CxxVCppBuildLogParser {
       List<String> overallIncludes = uniqueIncludes.get(CxxConfiguration.OverallIncludeKey);
 
       while ((line = br.readLine()) != null) {
-        if (line.startsWith("  INCLUDE=")) { // handle environment includes 
+        if (line.trim().startsWith("INCLUDE=")) { // handle environment includes 
           String[] includes = line.split("=")[1].split(";");
           for (String include : includes) {
             if (!overallIncludes.contains(include)) {
@@ -79,21 +97,25 @@ public class CxxVCppBuildLogParser {
 
           // get base path of project to make 
         // Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "D:\Development\SonarQube\cxx\sonar-cxx\integration-tests\testdata\googletest_bullseye_vs_project\PathHandling.Test\PathHandling.Test.vcxproj" (target "_ClCompile" depends on it):
-        if (line.startsWith("Target \"ClCompile\" in file")) {
-          currentProjectPath = Paths.get(line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "")).getParent();
+        if (line.contains("Target \"ClCompile\" in file")) {
+          String pathProject = line.split("\" from project \"")[1].split("\\s+")[0].replace("\"", "");
+          if (pathProject.endsWith(":")) {
+            pathProject = pathProject.substring(0, pathProject.length() - 2);
+          }
+          currentProjectPath = Paths.get(pathProject).getParent();
           if (currentProjectPath == null) {
             currentProjectPath = Paths.get(baseDir);
           }
         }
 
         if (line.contains("\\V100\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 10.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V100;
+          platformToolset = "V100";
         } else if (line.contains("\\V110\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 11.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V110;
+          platformToolset = "V110";
         } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V120;
+          platformToolset = "V120";
         } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")) {
-          platformToolset = VSVersion.V140;
+          platformToolset = "V140";
         }
 
           // 1>Task "Message"
@@ -104,8 +126,8 @@ public class CxxVCppBuildLogParser {
         if (line.trim().endsWith("Platform=x64")) {
           platform = "x64";
         }
-        // match "VC\bin\CL.exe", "VC\bin\amd64\CL.exe", "VC\bin\x86_amd64\CL.exe"
-        if (line.matches("^.*\\\\VC\\\\bin\\\\.*CL.exe\\x20.*$")) {
+        // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
+        if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
           try {
@@ -126,7 +148,6 @@ public class CxxVCppBuildLogParser {
             LOG.error("Bug in parser, please report: '{}' - '{}'", ex.getMessage(), data + " @ " + currentProjectPath);
             LOG.error("StackTrace: '{}'", ex.getStackTrace());
           }
-
         }
       }
       br.close();
@@ -159,13 +180,13 @@ public class CxxVCppBuildLogParser {
     // https://msdn.microsoft.com/en-us/library/vstudio/b0084kay(v=vs.140).aspx
     ParseCommonCompilerOptions(line, fileElement);
 
-    if (platformToolset.equals(VSVersion.V100)) {
+    if (platformToolset.equals("V100")) {
       ParseV100CompilerOptions(line, fileElement);
-    } else if (platformToolset.equals(VSVersion.V110)) {
+    } else if (platformToolset.equals("V110")) {
       ParseV110CompilerOptions(line, fileElement);
-    } else if (platformToolset.equals(VSVersion.V120)) {
+    } else if (platformToolset.equals("V120")) {
       ParseV120CompilerOptions(line, fileElement);
-    } else if (platformToolset.equals(VSVersion.V140)) {
+    } else if (platformToolset.equals("V140")) {
       ParseV140CompilerOptions(line, fileElement);
     }
   }

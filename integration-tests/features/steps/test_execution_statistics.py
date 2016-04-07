@@ -23,11 +23,12 @@ import os
 import re
 import json
 import requests
+import platform
 from   requests.auth import HTTPBasicAuth
 import subprocess
 import shutil
 from behave import given, when, then, model
-from common import analyselog, build_regexp, sonarlog, analyseloglines
+from common import analyselog, build_regexp, sonarlog, analyseloglines, ensureComputeEngineHasFinishedOk
 
 RED = ""
 YELLOW = ""
@@ -63,7 +64,17 @@ def step_impl(context, project):
     for key, name in data.iteritems():
         if name == "Sonar way - c++":
             context.profile_key = key
-    
+
+@given(u'platform is not "{plat}"')
+def step_impl(context, plat):
+    if platform.system() == plat:
+        context.scenario.skip(reason='scenario meant to run only in specified platform')
+        
+@given(u'platform is "{plat}"')
+def step_impl(context, plat):
+    if platform.system() != plat:
+        context.scenario.skip(reason='scenario meant to run only in specified platform')        
+
 @given(u'rule "{rule}" is enabled')
 def step_impl(context, rule):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
@@ -114,6 +125,9 @@ def step_impl(context, command):
 def step_impl(context):
     assert context.rc == 0, "Exit code is %i, but should be zero" % context.rc
 
+@then(u'the analysis in server has completed')
+def step_impl(context):
+    assert ensureComputeEngineHasFinishedOk(context.log) == "", ("Analysis in Background Task Failed")
 
 @then(u'the analysis log contains no error/warning messages except those matching')
 def step_impl(context):

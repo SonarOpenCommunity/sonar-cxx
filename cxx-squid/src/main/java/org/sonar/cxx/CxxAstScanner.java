@@ -1,21 +1,21 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx;
 
@@ -128,13 +128,13 @@ public final class CxxAstScanner {
         }
         String functionName = sb.toString();
         sb.setLength(0);
-        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.originalNamespaceDefinition);
+        AstNode namespace = astNode.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
         while (namespace != null) {
           if (sb.length() > 0) {
             sb.insert(0, "::");
           }
           sb.insert(0, namespace.getFirstDescendant(GenericTokenType.IDENTIFIER).getTokenValue());
-          namespace = namespace.getFirstAncestor(CxxGrammarImpl.originalNamespaceDefinition);
+          namespace = namespace.getFirstAncestor(CxxGrammarImpl.namedNamespaceDefinition); // todo: check if working with nested-namespace-definition
         }
         String namespaceName = sb.length() > 0 ? sb.toString() + "::" : "";
         SourceFunction function = new SourceFunction(intersectingConcatenate(namespaceName, functionName)
@@ -182,8 +182,6 @@ public final class CxxAstScanner {
     builder.withSquidAstVisitor(CounterVisitor.<Grammar>builder()
       .setMetricDef(CxxMetric.STATEMENTS)
       .subscribeTo(CxxGrammarImpl.statement)
-      .subscribeTo(CxxGrammarImpl.switchBlockStatementGroups)
-      .subscribeTo(CxxGrammarImpl.switchBlockStatementGroup)
       .build());
 
     AstNodeType[] complexityAstNodeType = new AstNodeType[]{

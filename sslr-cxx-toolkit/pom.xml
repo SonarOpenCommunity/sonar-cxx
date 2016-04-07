@@ -4,21 +4,18 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
-    <version>0.9.5-SNAPSHOT</version>
+    <version>0.9.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>sslr-cxx-toolkit</artifactId>
 
   <name>Cxx :: SSLR Toolkit</name>
 
-  <properties>
-    <license.owner>Waleri Enns and CONTACT Software GmbH</license.owner>
-  </properties>
-
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.sonar.sslr</groupId>
+      <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-toolkit</artifactId>
+      <version>${sslr.version}</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -72,11 +69,11 @@
             <configuration>
               <includes>
                 <include>${project.groupId}:cxx-squid</include>
-                <include>org.codehaus.sonar.sslr:sslr-core</include>
-                <include>org.codehaus.sonar.sslr:sslr-xpath</include>
+                <include>org.sonarsource.sslr:sslr-core</include>
+                <include>org.sonarsource.sslr:sslr-xpath</include>
                 <include>jaxen:jaxen</include>
-                <include>org.codehaus.sonar.sslr:sslr-toolkit</include>
-                <include>org.codehaus.sonar.sslr-squid-bridge:sslr-squid-bridge</include>
+                <include>org.sonarsource.sslr:sslr-toolkit</include>
+                <include>org.sonarsource.sslr-squid-bridge:sslr-squid-bridge</include>
                 <include>org.codehaus.sonar:sonar-colorizer</include>
                 <include>org.codehaus.sonar:sonar-squid</include>
                 <include>org.codehaus.sonar:sonar-channel</include>
@@ -111,7 +108,7 @@
             <configuration>
               <rules>
                 <requireFilesSize>
-                  <maxsize>4200000</maxsize>
+                  <maxsize>4300000</maxsize>
                   <minsize>3100000</minsize>
                   <files>
                     <file>${project.build.directory}/${project.build.finalName}.jar</file>

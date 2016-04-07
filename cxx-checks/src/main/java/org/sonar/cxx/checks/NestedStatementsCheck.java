@@ -1,21 +1,21 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.checks;
 
@@ -36,6 +36,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.List;
 import java.util.Set;
+import org.sonar.cxx.api.CxxKeyword;
+import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 
 @Rule(
   key = "NestedStatements",
@@ -49,8 +51,7 @@ import java.util.Set;
 public class NestedStatementsCheck extends SquidCheck<Grammar> {
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
-    CxxGrammarImpl.ifStatement,
-    CxxGrammarImpl.switchStatement,
+    CxxGrammarImpl.selectionStatement,
     CxxGrammarImpl.tryBlock,
     CxxGrammarImpl.iterationStatement
   };
@@ -113,7 +114,6 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
    * @return True if the given node is the 'if' in an 'else if' construct.
    */
   private boolean isElseIf(AstNode node) {
-    return node.getType() == CxxGrammarImpl.ifStatement
-      && node.getParent().getPreviousAstNode().getType().toString().equals(ELSE_TOKEN);
+    return isIfStatement(node) && node.getParent().getPreviousAstNode().getType()==CxxKeyword.ELSE;
   }
 }

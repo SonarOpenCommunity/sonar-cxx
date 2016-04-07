@@ -1,7 +1,7 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
- * sonarqube@googlegroups.com
+ * Copyright (C) 2010-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,9 +13,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.plugins.cxx.squid;
 
@@ -91,6 +91,22 @@ public class CxxSquidSensorTest {
     verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMMENT_LINES), eq(15.0));
   }
 
+  @Test
+  public void testComplexitySquidMetrics() {
+    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/complexity-project");
+    setUpSensor(baseDir, Arrays.asList(new File(".")));
+
+    sensor.analyse(project, context);
+
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(22.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.CLASSES), eq(2.0));
+    
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(38.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY_IN_CLASSES), eq(10.0));
+    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY_IN_FUNCTIONS), eq(38.0));
+  }  
+  
   @Test
   public void testReplacingOfExtenalMacros() {
     settings.setProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");

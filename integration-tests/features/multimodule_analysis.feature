@@ -6,18 +6,19 @@ Feature: cpp-multimodule-project
       GIVEN the project "cpp-multimodule-project"
       WHEN I run "sonar-runner -X"
       THEN the analysis finishes successfully
+          AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:
               """
               .*WARN.*Unable to get a valid mac address, will use a dummy address
               .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
               .*WARN.*cannot find the sources for '#include <iostream>'
-              .*WARN  - Cannot find the file '.*', skipping violations
+              .*WARN-*Cannot find the file '.*', skipping violations
               .*WARN.*to create a dependency with .*
-              .*WARN  - the include root '.*' doesn't exist
-              .*WARN  - .* cannot find the sources for .*
-              .*WARN  - SCM provider autodetection failed.*
+              .*WARN.*the include root '.*' doesn't exist
+              .*WARN.* cannot find the sources for .*
+              .*WARN.*SCM provider autodetection failed.*
               .*WARN.*Cannot find a report for '.*'
-              .*WARN.*- File access Failed '.*'
+              .*WARN.*File access Failed '.*'
               .*ERROR.*Invalid report baseDir '.*'
               .*ERROR.*Using module base failed to find Path '.*'
               """
@@ -47,7 +48,7 @@ Feature: cpp-multimodule-project
                # violations
                | violations               | 28    |
                # test execution statistics
-               | test_success_density     | 33.3  |
+               #| test_success_density     | 33.3  | -> enable when this is restored in core
                | test_failures            | 2     |
                | skipped_tests            | 1     |
                | test_errors              | 0     |

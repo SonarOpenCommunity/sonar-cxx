@@ -1,7 +1,7 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010 Neticoa SAS France
- * sonarqube@googlegroups.com
+ * Copyright (C) 2010-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,9 +13,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.plugins.cxx.coverage;
 
@@ -159,15 +159,24 @@ public class CxxCoverageSensor extends CxxReportSensor {
         Collection<Measure> measures = entry.getValue().createMeasures();
         CxxUtils.LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
         for (Measure measure : measures) {
+          Measure convertedMeasure = measure;
           switch (ctype) {
             case IT_COVERAGE:
-              measure = convertToItMeasure(measure);
+              convertedMeasure = convertToItMeasure(convertedMeasure);
               break;
             case OVERALL_COVERAGE:
-              measure = convertForOverall(measure);
+              convertedMeasure = convertForOverall(measure);
               break;
           }
-          context.saveMeasure(cxxFile, measure);
+          try
+          {
+            context.saveMeasure(cxxFile, convertedMeasure);
+          } catch(Exception ex) {
+            CxxUtils.LOG.error("Saving cov measure '{}' = '{}' failed", measure.getMetricKey(), measure.getValue());
+            CxxUtils.LOG.error("Obtained '{}' = '{}' failed", convertedMeasure.getMetricKey(), convertedMeasure.getData());
+            CxxUtils.LOG.error("Ctype : '{}'     Exception '{}'", ctype, ex.getMessage());
+            throw ex;
+          }            
         }
       } else {
         CxxUtils.LOG.warn("Cannot find the file '{}', ignoring coverage measures", filePath);

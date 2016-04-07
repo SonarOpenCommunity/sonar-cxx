@@ -1,21 +1,21 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011 Waleri Enns and CONTACT Software GmbH
- * sonarqube@googlegroups.com
- *
+ * Copyright (C) 2011-2016 SonarOpenCommunity
+ * http://github.com/SonarOpenCommunity/sonar-cxx
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx;
 
@@ -100,6 +100,13 @@ public class CxxConfiguration extends SquidConfiguration {
       }
     }
   }
+  
+  public void addOverallDefine(String define) {
+    Set<String> overallDefs = uniqueDefines.get(OverallDefineKey);
+    if (!overallDefs.contains(define)) {
+      overallDefs.add(define);
+    }
+  }  
 
   public void setDefines(String[] defines) {
     if (defines != null) {
@@ -130,6 +137,14 @@ public class CxxConfiguration extends SquidConfiguration {
       }
     }
   }
+  
+  public void addOverallIncludeDirectory(String includeDirectory) {
+    List<String> overallIncludes = uniqueIncludes.get(OverallIncludeKey);
+    if (!overallIncludes.contains(includeDirectory)) {
+      LOG.debug("setIncludeDirectories() adding dir '{}'", includeDirectory);
+      overallIncludes.add(includeDirectory);
+    }
+  }  
 
   public void setIncludeDirectories(String[] includeDirectories) {
     if (includeDirectories != null) {
