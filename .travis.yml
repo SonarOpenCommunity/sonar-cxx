@@ -25,7 +25,7 @@ install:
         - cd /tmp
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.4.zip
         - unzip -qq sonarqube-5.4.zip
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/:sonarqube-5.5-RC1.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.5-RC1.zip
         - unzip -qq sonarqube-5.5-RC1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.5.1.zip
         - unzip -qq sonar-scanner-2.5.1.zip
