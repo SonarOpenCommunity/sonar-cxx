@@ -70,8 +70,8 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final Project project, final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("Parsing 'other' format");
-
+    CxxUtils.LOG.debug("Parsing 'other' format");
+    
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
 
       /**

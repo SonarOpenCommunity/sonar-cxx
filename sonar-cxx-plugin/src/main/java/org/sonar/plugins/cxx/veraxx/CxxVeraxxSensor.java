@@ -68,8 +68,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("Parsing 'Vera++' format");
-
+    CxxUtils.LOG.debug("Parsing 'Vera++' format");
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**
@@ -87,7 +86,6 @@ public class CxxVeraxxSensor extends CxxReportSensor {
           while (fileCursor.getNext() != null) {
             String name = fileCursor.getAttrValue("name");
 
-            CxxUtils.LOG.info("Vera++ processes file = {}", name);
             SMInputCursor errorCursor = fileCursor.childElementCursor("error");
             while (errorCursor.getNext() != null) {
               if (!"error".equals(name)) {

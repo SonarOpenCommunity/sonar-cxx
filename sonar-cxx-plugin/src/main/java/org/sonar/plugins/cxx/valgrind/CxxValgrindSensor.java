@@ -65,7 +65,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("Parsing 'Valgrind' format");
+    CxxUtils.LOG.debug("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
     saveErrors(project, context, parser.processReport(project, context, report));
   }

@@ -133,7 +133,6 @@ public final class CxxSquidSensor implements Sensor {
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     scanner.scanFiles(Lists.newArrayList(fs.files(mainFilePredicate)));
-
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }

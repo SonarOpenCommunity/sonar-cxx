@@ -30,6 +30,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
+import org.sonar.cxx.preprocessor.CxxPreprocessor.MismatchException;
 
 public final class ExpressionEvaluator {
 
@@ -144,7 +145,8 @@ public final class ExpressionEvaluator {
     } else if ("functionlikeMacro".equals(nodeType)) {
       return evalFunctionlikeMacro(exprAst);
     } else {
-      throw new EvaluationException("Unknown expression type '" + nodeType + "'");
+      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" + exprAst.getToken() + "', assuming 0");
+      return BigInteger.ZERO;
     }
   }
 
@@ -421,13 +423,13 @@ public final class ExpressionEvaluator {
     List<Token> tokens = exprAst.getTokens();
     List<Token> restTokens = tokens.subList(1, tokens.size());
     String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
-
-    LOG.trace("expanding '{}' to '{}'", macroName, value);
-    if (value == null) {
-      LOG.warn("Undefined functionlike macro '{}' assuming 0", macroName);
+      
+    if (value == null || "".equals(value)) {
+      LOG.error("Undefined functionlike macro '{}' assuming 0", macroName);
+      return BigInteger.ZERO;
     }
-
-    return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
+    
+    return evalToInt(value, exprAst);
   }
 
   String stripSuffix(String number) {
