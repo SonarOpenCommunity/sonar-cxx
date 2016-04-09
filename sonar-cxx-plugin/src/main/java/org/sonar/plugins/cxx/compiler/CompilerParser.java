@@ -70,10 +70,18 @@ public interface CompilerParser {
     public final String msg;
 
     Warning(String filename, String line, String id, String msg) {
-      this.filename = filename;
-      this.line = line;
-      this.id = id;
-      this.msg = msg;
+      this.filename = getValueOrDefault(filename, "");
+      this.line = getValueOrDefault(line, "");
+      this.id = getValueOrDefault(id, "");
+      this.msg = getValueOrDefault(msg, "");
+    }
+    
+    private static String getValueOrDefault(String value, String defaultValue) {
+      return isNotNullOrEmpty(value) ? value : defaultValue;
+    }
+    
+    private static boolean isNotNullOrEmpty(String str) {
+      return str != null && !str.isEmpty();
     }
     
     @Override 
