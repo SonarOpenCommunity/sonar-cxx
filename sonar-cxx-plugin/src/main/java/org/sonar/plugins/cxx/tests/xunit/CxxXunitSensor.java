@@ -184,19 +184,25 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
     testsCount -= testsSkipped;
 
-    if (testsCount > 0) {
-      double testsPassed = testsCount - testsErrors - testsFailures;
-      double successDensity = testsPassed * PERCENT_BASE / testsCount;
-      context.saveMeasure(project, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(successDensity));
+    try
+    {
+      if (testsCount > 0) {
+        double testsPassed = testsCount - testsErrors - testsFailures;
+        double successDensity = testsPassed * PERCENT_BASE / testsCount;
+        context.saveMeasure(project, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(successDensity));
 
-      context.saveMeasure(project, CoreMetrics.TESTS, testsCount);
-      context.saveMeasure(project, CoreMetrics.SKIPPED_TESTS, testsSkipped);
-      context.saveMeasure(project, CoreMetrics.TEST_ERRORS, testsErrors);
-      context.saveMeasure(project, CoreMetrics.TEST_FAILURES, testsFailures);
-      context.saveMeasure(project, CoreMetrics.TEST_EXECUTION_TIME, testsTime);
-    } else {
-      CxxUtils.LOG.debug("The reports contain no testcases");
+        context.saveMeasure(project, CoreMetrics.TESTS, testsCount);
+        context.saveMeasure(project, CoreMetrics.SKIPPED_TESTS, testsSkipped);
+        context.saveMeasure(project, CoreMetrics.TEST_ERRORS, testsErrors);
+        context.saveMeasure(project, CoreMetrics.TEST_FAILURES, testsFailures);
+        context.saveMeasure(project, CoreMetrics.TEST_EXECUTION_TIME, testsTime);
+      } else {
+        CxxUtils.LOG.debug("The reports contain no testcases");
+      }      
+    } catch(Exception ex) {
+      CxxUtils.LOG.error("Failed to save measures : ", ex.getMessage());
     }
+
   }
 
   private void detailledMode(final Project project, final SensorContext context, List<TestCase> testcases)
