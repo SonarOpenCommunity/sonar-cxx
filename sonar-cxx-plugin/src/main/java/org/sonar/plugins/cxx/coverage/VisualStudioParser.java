@@ -87,6 +87,12 @@ public class VisualStudioParser extends CxxCoverageParser {
     SMInputCursor sourceFile = sourceFiles.childElementCursor("source_file");
     while (sourceFile.getNext() != null) {
       String id = sourceFile.getAttrValue("id");
+      
+      if (!coverageData.containsKey(id)) {
+        // source_file without any covered lines
+        continue;
+      }
+      
       String normalPath = CxxUtils.normalizePath(sourceFile.getAttrValue("path"));
       CoverageMeasuresBuilder builder = coverageData.remove(id);
       if (normalPath != null) {
