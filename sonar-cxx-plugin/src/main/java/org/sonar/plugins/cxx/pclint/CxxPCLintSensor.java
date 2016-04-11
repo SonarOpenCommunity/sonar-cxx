@@ -78,8 +78,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.info("Parsing 'PC-Lint' format");
-
+    CxxUtils.LOG.debug("Parsing 'PC-Lint' format");
+    
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}

@@ -47,8 +47,7 @@ public class VisualStudioParser extends CxxCoverageParser {
   @Override
   public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.info("Parsing 'Visual Studio' format");
-
+    CxxUtils.LOG.debug("Parsing 'Visual Studio' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}

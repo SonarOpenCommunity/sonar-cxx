@@ -103,19 +103,22 @@ public abstract class CxxReportSensor implements Sensor {
     try {
       List<File> reports = getReports(settings, fs.baseDir(), reportPathKey());
       violationsCount = 0;
-
+      
       for (File report : reports) {
+        int prevViolationsCount = violationsCount;
         CxxUtils.LOG.info("Processing report '{}'", report);
         try {
-          int prevViolationsCount = violationsCount;
           processReport(project, context, report);
-          CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
-            violationsCount - prevViolationsCount);
+          CxxUtils.LOG.debug("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+             violationsCount - prevViolationsCount);
         } catch (EmptyReportException e) {
           CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
         }
       }
 
+      CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+        violationsCount);
+          
       if (metric != null) {
         Measure measure = new Measure(metric);
         measure.setIntValue(violationsCount);
@@ -177,13 +180,16 @@ public abstract class CxxReportSensor implements Sensor {
       directoryScanner.setIncludes(includes.toArray(new String[includes.size()]));
       directoryScanner.scan();
 
-      for (String found : directoryScanner.getIncludedFiles()) {
-        CxxUtils.LOG.debug("Adding report '{}'", found);
+      String [] includeFiles = directoryScanner.getIncludedFiles();
+      CxxUtils.LOG.info("Scanner found '{}' report files", includeFiles.length);
+      for (String found : includeFiles) {        
         reports.add(new File(found));
       }
 
       if (reports.isEmpty()) {
         CxxUtils.LOG.warn("Cannot find a report for '{}'", reportPathPropertyKey);
+      } else {
+        CxxUtils.LOG.info("Parser will parse '{}' report files", reports.size());
       }
     } else {
       CxxUtils.LOG.error("Undefined report path value for key '{}'", reportPathPropertyKey);

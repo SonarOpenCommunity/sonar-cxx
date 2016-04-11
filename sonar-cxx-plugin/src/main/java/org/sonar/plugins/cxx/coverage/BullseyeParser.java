@@ -57,8 +57,7 @@ public class BullseyeParser extends CxxCoverageParser {
   @Override
   public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.info("Parsing 'Bullseye' format");
-
+    CxxUtils.LOG.debug("Parsing 'Bullseye' format");
     StaxParser topLevelparser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}

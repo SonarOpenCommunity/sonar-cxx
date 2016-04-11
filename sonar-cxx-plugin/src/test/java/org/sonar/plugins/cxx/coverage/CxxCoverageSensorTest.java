@@ -38,6 +38,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
+import org.sonar.plugins.cxx.CxxPlugin;
+import org.sonar.plugins.cxx.CxxPlugin.CxxCoverageAggregator;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxCoverageSensorTest {
@@ -69,7 +71,7 @@ public class CxxCoverageSensorTest {
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageAggregator());
     sensor.analyse(project, context);
     verify(context, times(33)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
@@ -87,14 +89,14 @@ public class CxxCoverageSensorTest {
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "sources/application/main.cpp");
     TestUtils.addInputFile(fs, perspectives, issuable, "builds/Unix Makefiles/COVERAGE/tests/moc_SAMPLE-test.cxx");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageAggregator());
     sensor.analyse(project, context);
     verify(context, times(99)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
 
   @Test
   public void shouldReportNoCoverageSaved() {
-    sensor = new CxxCoverageSensor(new Settings(), fs);
+    sensor = new CxxCoverageSensor(new Settings(), fs, new CxxCoverageAggregator());
     when(context.getResource((InputFile) anyObject())).thenReturn(null);
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((InputFile) anyObject(), any(Measure.class));
@@ -104,7 +106,7 @@ public class CxxCoverageSensorTest {
   public void shouldNotCrashWhenProcessingReportsContainingBigNumberOfHits() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageAggregator());
     sensor.analyse(project, context);
   }
 
@@ -112,7 +114,7 @@ public class CxxCoverageSensorTest {
   public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageAggregator());
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
@@ -121,7 +123,7 @@ public class CxxCoverageSensorTest {
   public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
     Settings settings = new Settings();
     settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml");
-    sensor = new CxxCoverageSensor(settings, fs);
+    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageAggregator());
     sensor.analyse(project, context);
     verify(context, times(0)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
