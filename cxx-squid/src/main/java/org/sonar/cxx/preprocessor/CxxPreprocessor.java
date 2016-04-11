@@ -575,8 +575,6 @@ public class CxxPreprocessor extends Preprocessor {
       } finally {
         currentFileState = globalStateStack.pop();
       }
-    } else {
-      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[]{filename, token.getLine(), includedFile});
     }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
@@ -748,7 +746,7 @@ public class CxxPreprocessor extends Preprocessor {
 
       rest = match(rest, ")");
     } catch (MismatchException me) {
-      LOG.error("{}", me);
+      LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
       return 0;
     }
 
@@ -757,6 +755,7 @@ public class CxxPreprocessor extends Preprocessor {
 
   private List<Token> match(List<Token> tokens, String str) throws MismatchException {
     if (!tokens.get(0).getValue().equals(str)) {
+      LOG.error("Mismatch: expected '" + str + "' got: '" + tokens.get(0).getValue() + "'");
       throw new MismatchException("Mismatch: expected '" + str + "' got: '"
         + tokens.get(0).getValue() + "'");
     }

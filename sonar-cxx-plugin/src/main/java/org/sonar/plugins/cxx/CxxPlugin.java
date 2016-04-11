@@ -52,6 +52,9 @@ import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTest
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 
 import com.google.common.collect.ImmutableList;
+import org.sonar.api.config.Settings;
+import org.sonar.plugins.cxx.coverage.CxxCoverageCache;
+import org.sonar.plugins.dotnet.tests.CoverageAggregator;
 
 /**
  * {@inheritDoc}
@@ -407,6 +410,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxRatsSensor.class);
     l.add(CxxXunitSensor.class);
     l.add(CxxCoverageSensor.class);
+    l.add(CxxCoverageAggregator.class);
     l.add(CxxCppCheckRuleRepository.class);
     l.add(CxxCppCheckSensor.class);
     l.add(CxxPCLintRuleRepository.class);
@@ -436,6 +440,12 @@ public final class CxxPlugin extends SonarPlugin {
     return l;
   }
 
+  public static class CxxCoverageAggregator extends CxxCoverageCache {
+    public CxxCoverageAggregator() {
+      super();
+    }
+  }
+  
   @Override
   public String toString() {
     return getClass().getSimpleName();

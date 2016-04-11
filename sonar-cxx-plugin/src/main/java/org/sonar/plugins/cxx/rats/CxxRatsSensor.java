@@ -68,8 +68,8 @@ public final class CxxRatsSensor extends CxxReportSensor {
   @Override
   protected void processReport(final Project project, final SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException {
-    CxxUtils.LOG.info("Parsing 'RATS' format");
-
+    CxxUtils.LOG.debug("Parsing 'RATS' format");
+    
     try {
       SAXBuilder builder = new SAXBuilder(false);
       Element root = builder.build(report).getRootElement();
