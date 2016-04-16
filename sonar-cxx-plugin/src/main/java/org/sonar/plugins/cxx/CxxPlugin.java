@@ -52,8 +52,11 @@ import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTest
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 
 import com.google.common.collect.ImmutableList;
+
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.cxx.coverage.CxxCoverageCache;
+import org.sonar.plugins.cxx.drmemory.CxxDrMemoryRuleRepository;
+import org.sonar.plugins.cxx.drmemory.CxxDrMemorySensor;
 import org.sonar.plugins.dotnet.tests.CoverageAggregator;
 
 /**
@@ -177,6 +180,14 @@ public final class CxxPlugin extends SonarPlugin {
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(4)
+      .build(),
+      PropertyDefinition.builder(CxxDrMemorySensor.REPORT_PATH_KEY)
+      .name("Dr Memory report(s)")
+      .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
+        + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(5)
       .build(),
       PropertyDefinition.builder(CxxPCLintSensor.REPORT_PATH_KEY)
       .name("PC-lint report(s)")
@@ -415,6 +426,8 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxCppCheckSensor.class);
     l.add(CxxPCLintRuleRepository.class);
     l.add(CxxPCLintSensor.class);
+    l.add(CxxDrMemoryRuleRepository.class);
+    l.add(CxxDrMemorySensor.class);
     l.add(CxxCompilerVcRuleRepository.class);
     l.add(CxxCompilerGccRuleRepository.class);
     l.add(CxxCompilerSensor.class);
