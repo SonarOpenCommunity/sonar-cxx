@@ -34,7 +34,6 @@ import org.sonar.plugins.cxx.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
-import org.sonar.plugins.cxx.utils.EmptyReportException;
 
 /**
  * Dr. Memory is a memory monitoring tool capable of identifying memory-related
@@ -77,8 +76,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
 
 	@Override
 	protected void processReport(final Project project,
-			final SensorContext context, File report)
-			throws javax.xml.stream.XMLStreamException {
+			final SensorContext context, File report) {
 		CxxUtils.LOG.debug("Parsing 'Dr Memory' format");
 
 		try {
@@ -98,8 +96,13 @@ public class CxxDrMemorySensor extends CxxReportSensor {
 
 				}
 			}
-		} catch (IOException e1) {
-			throw new EmptyReportException();
+		} catch (IOException e) {
+			String msg = new StringBuilder()
+		        .append("Cannot feed the data into sonar, details: '")
+		        .append(e)
+		        .append("'")
+		        .toString();
+		      throw new IllegalStateException(msg, e);
 		}
 	}
 
