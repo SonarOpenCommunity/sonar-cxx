@@ -24,7 +24,7 @@ An unaddressable access is an access to an invalid memory address. Examples incl
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -48,7 +48,7 @@ In order to avoid false positives, Dr. Memory does not report the use of uniniti
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -68,7 +68,7 @@ Whenever a pointer that does not refer to a valid malloc region is passed to fre
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -88,7 +88,7 @@ On Windows, Dr. Memory identifies common errors in using the Windows GDI API
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>20min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>20min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -109,7 +109,7 @@ The type of handle (kernel, user, or GDI) is listed along with the callstack whe
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -129,7 +129,7 @@ Dr. Memory reports warnings about unusual memory-related conditions that an appl
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -149,7 +149,7 @@ Dr. Memory detects a possible memory leak
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
   <rule>
@@ -169,7 +169,7 @@ Dr. Memory detects a memory leak
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription></gapDescription>
   </rule>
  </rules>
