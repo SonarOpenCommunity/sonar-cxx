@@ -47,7 +47,6 @@ import org.sonar.squidbridge.indexer.QueryByType;
 import org.sonar.squidbridge.metrics.CommentsVisitor;
 import org.sonar.squidbridge.metrics.ComplexityVisitor;
 import org.sonar.squidbridge.metrics.CounterVisitor;
-import org.sonar.squidbridge.metrics.LinesVisitor;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
@@ -167,7 +166,6 @@ public final class CxxAstScanner {
       .build());
 
     /* Metrics */
-    builder.withSquidAstVisitor(new LinesVisitor<>(CxxMetric.LINES));
     builder.withSquidAstVisitor(new CxxLinesOfCodeVisitor<>(CxxMetric.LINES_OF_CODE));
     builder.withSquidAstVisitor(new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
       CxxMetric.PUBLIC_UNDOCUMENTED_API)

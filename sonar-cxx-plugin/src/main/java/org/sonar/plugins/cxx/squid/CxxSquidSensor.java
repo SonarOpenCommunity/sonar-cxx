@@ -199,7 +199,6 @@ public final class CxxSquidSensor implements Sensor {
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile) {
     context.saveMeasure(inputFile, CoreMetrics.FILES, squidFile.getDouble(CxxMetric.FILES));
-    context.saveMeasure(inputFile, CoreMetrics.LINES, squidFile.getDouble(CxxMetric.LINES));
     context.saveMeasure(inputFile, CoreMetrics.NCLOC, squidFile.getDouble(CxxMetric.LINES_OF_CODE));
     context.saveMeasure(inputFile, CoreMetrics.STATEMENTS, squidFile.getDouble(CxxMetric.STATEMENTS));
     context.saveMeasure(inputFile, CoreMetrics.FUNCTIONS, squidFile.getDouble(CxxMetric.FUNCTIONS));
