@@ -17,17 +17,23 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.drmemory;
 
-import static org.junit.Assert.assertEquals;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.sonar.plugins.cxx.drmemory.DrMemoryParser.DrMemoryError;
 
-public class CxxPluginTest {
+public class DrMemoryParserTest {
 
-  @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(69, plugin.getExtensions().size());
-  }
+	@Test
+	public void shouldParseTheWholeFile() throws IOException {
+		ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("org/sonar/plugins/cxx/reports-project/drmemory-reports/results.txt").getFile());
+        List<DrMemoryError> drMemoryErrors = DrMemoryParser.parse(file);
+        Assert.assertEquals(733, drMemoryErrors.size());
+	}
 }

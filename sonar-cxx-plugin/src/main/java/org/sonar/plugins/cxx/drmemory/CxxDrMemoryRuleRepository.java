@@ -17,17 +17,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.drmemory;
 
-import static org.junit.Assert.assertEquals;
+import org.sonar.api.config.Settings;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
-import org.junit.Test;
+/**
+ * {@inheritDoc}
+ */
+public final class CxxDrMemoryRuleRepository extends CxxAbstractRuleRepository {
 
-public class CxxPluginTest {
+  public static final String KEY = "drmemory";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.drmemory.customRules";
+  private static final String NAME = "Dr Memory";
 
-  @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(69, plugin.getExtensions().size());
+  /**
+   * {@inheritDoc}
+   */
+  public CxxDrMemoryRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    super(fileSystem, xmlRuleLoader, settings, KEY, NAME, CUSTOM_RULES_KEY);
+  }
+
+  @Override
+  protected String fileName() {
+    return "/drmemory.xml";
   }
 }

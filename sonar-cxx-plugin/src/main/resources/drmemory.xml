@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<rules>    
+  <rule>
+    <key>UnadressableAccess</key>
+    <name>An unaddressable access is an access to an invalid memory address</name>
+    <description>
+      <![CDATA[
+<p>
+Dr. Memory considers any read or write of a memory location that was not allocated as an "unaddressable access". An allocation is:
+<br/>
+A call to mmap (or mremap) (or Windows equivalents VirtualAlloc or MapViewOfFile) outside of a heap or stack region.
+A call to malloc (or calloc or realloc, or Windows equivalents HeapAlloc or HeapReAlloc or the Local or Global versions) inside of a heap region
+ An extension of the stack in a stack region, either via raw instructions or via alloca.
+<br/>
+An unaddressable access is an access to an invalid memory address. Examples include a buffer overflow, reading off the end of an array, reading or writing to memory that has been freed (often referred to as a "use-after-free" error), reading beyond the top of the stack, etc.
+<br/>
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_unaddr.html" target="_blank">Unaddressable Access</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>UnadressableAccess</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+  <rule>
+    <key>UninitializedRead</key>
+    <name>The application reads from addressable memory that has not been written to since it was allocated</name>
+    <description>
+      <![CDATA[
+<p>
+If the application reads from addressable memory that has not been written to since it was allocated, Dr. Memory reports an "uninitialized read" error.
+In order to avoid false positives, Dr. Memory does not report the use of uninitialized memory until something "meaningful" is done with that memory,
+ such as a comparison or conditional branch or passing it to a system call. Variables or fields smaller than a word are often initialized without their
+ containing word (variables and fields are typically word-aligned) being initialized. When these variables or fields are then copied,
+ the uninitialized portion of each word is technically being read as an uninitialized value, but reporting such reads as errors would result in far too many errors.
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_uninit.html" target="_blank">Uninitialized Read</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>UninitializedRead</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+  <rule>
+    <key>InvalidHeapArgument</key>
+    <name>A pointer that does not refer to a valid malloc region is passed to free() or other malloc-related routines</name>
+    <description>
+      <![CDATA[
+<p>
+Whenever a pointer that does not refer to a valid malloc region is passed to free() or other malloc-related routines, Dr. Memory reports an "invalid heap argument" error.
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_invarg.html" target="_blank">Invalid Heap Argument</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>InvalidHeapArgument</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+  <rule>
+    <key>GdiUsageError</key>
+    <name>On Windows, Dr. Memory identifies common errors in using the Windows GDI API</name>
+    <description>
+      <![CDATA[
+<p>
+On Windows, Dr. Memory identifies common errors in using the Windows GDI API
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_gdi.html" target="_blank">GDI Usage Errors</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>GdiUsageError</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>20min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+  <rule>
+    <key>HandleLeak</key>
+    <name>Dr. Memory identifies Windows handles that are left open and reports them as handle leaks</name>
+    <description>
+      <![CDATA[
+<p>
+Dr. Memory identifies Windows handles that are left open and reports them as handle leaks.
+The type of handle (kernel, user, or GDI) is listed along with the callstack where it was opened.
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_handle.html" target="_blank">Handle Leaks</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>HandleLeak</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+  <rule>
+    <key>DrMemoryWarning</key>
+    <name>Dr. Memory reports warnings about unusual memory-related conditions that an application developer might like to know about</name>
+    <description>
+      <![CDATA[
+<p>
+Dr. Memory reports warnings about unusual memory-related conditions that an application developer might like to know about.
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_warning.html" target="_blank">Warning</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>DrMemoryWarning</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+  <rule>
+    <key>PossibleMemoryLeak</key>
+    <name>Dr. Memory detects a possible memory leak</name>
+    <description>
+      <![CDATA[
+<p>
+Dr. Memory detects a possible memory leak
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_leaks.html" target="_blank">Memory Leaks</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>PossibleMemoryLeak</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+  <rule>
+    <key>MemoryLeak</key>
+    <name>Dr. Memory detects a memory leak</name>
+    <description>
+      <![CDATA[
+<p>
+Dr. Memory detects a memory leak
+</p>
+<h2>References</h2>
+<p><a href="http://drmemory.org/docs/page_leaks.html" target="_blank">Memory Leaks</a>
+</p>
+     ]]>
+    </description>
+    <internalKey>MemoryLeak</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
+    <gapDescription></gapDescription>
+  </rule>
+ </rules>
+
+

@@ -17,17 +17,33 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.drmemory;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+
+import java.util.List;
 
 import org.junit.Test;
+import org.sonar.api.config.Settings;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinition.Rule;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxPluginTest {
+public class CxxDrMemoryRuleRepositoryTest {
 
   @Test
-  public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(69, plugin.getExtensions().size());
+  public void createRulesTest() {
+    CxxDrMemoryRuleRepository def = new CxxDrMemoryRuleRepository(
+      mock(ServerFileSystem.class),
+      new RulesDefinitionXmlLoader(), new Settings());
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxDrMemoryRuleRepository.KEY);
+    List<Rule> rules = repo.rules();
+	assertEquals(8, rules.size());
   }
 }

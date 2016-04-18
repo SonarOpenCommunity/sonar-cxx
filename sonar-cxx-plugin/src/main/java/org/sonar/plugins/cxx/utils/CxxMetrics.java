@@ -75,6 +75,11 @@ public class CxxMetrics implements Metrics {
     .setQualitative(true)
     .setDomain("C++")
     .create();
+  public static final Metric DRMEMORY = new Metric.Builder("CXX-DRMEMORY", "Dr Memory errors", Metric.ValueType.INT)
+    .setDirection(Metric.DIRECTION_WORST)
+	.setQualitative(true)
+	.setDomain("C++")
+	.create();
 
   @Override
   public List<Metric> getMetrics() {
@@ -88,6 +93,7 @@ public class CxxMetrics implements Metrics {
     list.add(SQUID);
     list.add(VALGRIND);
     list.add(VERAXX);
+    list.add(DRMEMORY);
     return list;
   }
 }
