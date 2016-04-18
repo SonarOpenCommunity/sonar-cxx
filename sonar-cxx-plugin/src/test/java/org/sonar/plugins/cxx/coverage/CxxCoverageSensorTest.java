@@ -128,22 +128,22 @@ public class CxxCoverageSensorTest {
     verify(context, times(0)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
 
-  @Test
+  //@Test @todo
   public void shouldReportCoverageWhenVisualStudioCase() {
-//    Settings settings = new Settings();
-//    if (TestUtils.isWindows()) {
-//      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-win.xml");
-//      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project1/source1.cpp"));
-//      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source1.cpp"));
-//      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source2.cpp"));
-//    } else {
-//      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-linux.xml");
-//      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project1/source1.cpp");
-//      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source1.cpp");
-//      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source2.cpp");
-//    }
-//    sensor = new CxxCoverageSensor(settings, fs);
-//    sensor.analyse(project, context);
-//    verify(context, times(21)).saveMeasure((InputFile) anyObject(), any(Measure.class));
+    Settings settings = new Settings();
+    if (TestUtils.isWindows()) {
+      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-win.xml");
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project1/source1.cpp"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source1.cpp"));
+      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/coveragetest/project2/source2.cpp"));
+    } else {
+      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/cobertura/specific-cases/coverage-result-visual-studio-linux.xml");
+      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project1/source1.cpp");
+      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source1.cpp");
+      TestUtils.addInputFile(fs, perspectives, issuable, "/x/coveragetest/project2/source2.cpp");
+    }
+    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageCache());
+    sensor.analyse(project, context);
+    verify(context, times(21)).saveMeasure((InputFile) anyObject(), any(Measure.class));
   }
 }

@@ -186,7 +186,7 @@ public final class CxxSquidSensor implements Sensor {
       saveFunctionAndClassComplexityDistribution(inputFile, squidFile);
       saveFilesComplexityDistribution(inputFile, squidFile);
       violationsCount += saveViolations(inputFile, squidFile);
-      dependencyAnalyzer.addFile(inputFile, CxxParser.getIncludedFiles(ioFile));
+      //### @todo dependencyAnalyzer.addFile(inputFile, CxxParser.getIncludedFiles(ioFile));
     }
 
     Measure measure = new Measure(CxxMetrics.SQUID);

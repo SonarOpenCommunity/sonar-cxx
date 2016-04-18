@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx;
 
+import java.io.File;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -31,7 +32,7 @@ public class CxxCommonRulesDecoratorTest {
 
   @Test
   public void test_declaration() throws Exception {
-    CxxCommonRulesDecorator decorator = new CxxCommonRulesDecorator(new DefaultFileSystem(null), mock(CheckFactory.class), mock(ResourcePerspectives.class));
+    CxxCommonRulesDecorator decorator = new CxxCommonRulesDecorator(new DefaultFileSystem(new File("")), mock(CheckFactory.class), mock(ResourcePerspectives.class));
     assertThat(decorator.language()).isEqualTo(CxxLanguage.KEY);
   }
 }

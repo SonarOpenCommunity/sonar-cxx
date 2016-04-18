@@ -27,7 +27,6 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
@@ -41,7 +40,6 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.resources.Project;
-import org.sonar.api.resources.ProjectFileSystem;
 import org.sonar.api.resources.Resource;
 import org.sonar.api.rule.RuleKey;
 
@@ -95,10 +93,7 @@ public class TestUtils {
    * @return mocked project
    */
   public static Project mockProject(File baseDir) {
-    ProjectFileSystem fileSystem = mock(ProjectFileSystem.class); //todo deprecated
-    when(fileSystem.getBasedir()).thenReturn(baseDir);
-    Project project = mock(Project.class);
-    when(project.getFileSystem()).thenReturn(fileSystem); //todo deprecated
+    Project project = mock(Project.class);    
     return project;
   }
 
@@ -109,7 +104,17 @@ public class TestUtils {
    * @return mocked filesystem
    */
   public static DefaultFileSystem mockFileSystem(File baseDir) {
-    return mockFileSystem(baseDir, Arrays.asList(new File(".")), null);
+    return mockFileSystem(baseDir, null, null);
+  }
+
+  /**
+   * Mocks the filesystem given the root directory of the project
+   *
+   * @param baseDir project root directory
+   * @return mocked filesystem
+   */
+  public static DefaultFileSystem mockFileSystem() {
+    return mockFileSystem(TestUtils.loadResource("/org/sonar/plugins/cxx/reports-project"), Arrays.asList(new File(".")), null);
   }
 
   /**
@@ -126,58 +131,41 @@ public class TestUtils {
     List<File> testDirs) {
     DefaultFileSystem fs = new DefaultFileSystem(baseDir);
     fs.setEncoding(Charset.forName("UTF-8"));
-    scanDirs(fs, baseDir, sourceDirs, Type.MAIN);
-    scanDirs(fs, baseDir, testDirs, Type.TEST);
+    scanDirs(fs, sourceDirs, Type.MAIN);
+    scanDirs(fs, testDirs, Type.TEST);
     return fs;
-  }
-
-  /**
-   * Returns the default filesystem mock
-   */
-  public static DefaultFileSystem mockFileSystem() {
-    return mockFileSystem(loadResource("/org/sonar/plugins/cxx/reports-project"));
   }
 
   public static CxxLanguage mockCxxLanguage() {
     return new CxxLanguage(new Settings());
   }
 
-  public static void addInputFile(DefaultFileSystem fs,
+  public static DefaultInputFile addInputFile(DefaultFileSystem fs,
     ResourcePerspectives perspectives,
     Issuable issuable,
     String path) {
-    DefaultInputFile inputFile = null;
     File file = new File(path);
     if (file.isAbsolute()) {
-      if (upperCaseRoot && isWindows()) {
-        // workaround: on some Windows system drive letter can be upper or lower case
-        StringBuilder temp = new StringBuilder(path);
-        temp.setCharAt(0, Character.toUpperCase(temp.charAt(0)));
-        path = temp.toString();
-      }
-      inputFile = new DefaultInputFile(path);
-      inputFile.setAbsolutePath(path);
-    } else {
-      inputFile = new DefaultInputFile(path);
-      inputFile.setAbsolutePath(new java.io.File(fs.baseDir(), path).getAbsolutePath());
+      throw new IllegalArgumentException("DefaultInputFile accepts only relative paths to DefaultFileSystem: " + path);
     }
+    DefaultInputFile inputFile = new DefaultInputFile("foo", path);
     inputFile.setType(InputFile.Type.MAIN);
     inputFile.setLanguage(CxxLanguage.KEY);
     inputFile.setLines(1);
     when(perspectives.as(Issuable.class, inputFile)).thenReturn(issuable);
     fs.add(inputFile);
+    return inputFile;
   }
 
   public static boolean isWindows() {
-    return (OS.indexOf("win") >= 0);
+    return OS.contains("win");
   }
 
-  private static void scanDirs(DefaultFileSystem fs, File baseDir, List<File> dirs, Type ftype) {
+  private static void scanDirs(DefaultFileSystem fs, List<File> dirs, Type ftype) {
     if (dirs == null) {
       return;
     }
 
-    List<InputFile> result = new ArrayList<>();
     String[] suffixes = mockCxxLanguage().getFileSuffixes();
     String[] includes = new String[suffixes.length];
     for (int i = 0; i < includes.length; ++i) {
@@ -188,12 +176,11 @@ public class TestUtils {
     scanner.setIncludes(includes);
     String relpath;
     for (File dir : dirs) {
-      scanner.setBasedir(new File(baseDir, dir.getPath()));
+      scanner.setBasedir(new File(fs.baseDir(), dir.getPath()));
       scanner.scan();
       for (String path : scanner.getIncludedFiles()) {
         relpath = new File(dir, path).getPath();
-        fs.add(new DefaultInputFile(relpath)
-          .setAbsolutePath(new File(baseDir, relpath).getAbsolutePath())
+        fs.add(new DefaultInputFile("foo", relpath)
           .setLanguage(CxxLanguage.KEY)
           .setType(ftype));
       }

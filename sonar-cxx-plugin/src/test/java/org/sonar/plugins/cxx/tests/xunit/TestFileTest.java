@@ -35,7 +35,7 @@ public class TestFileTest {
 
   @Before
   public void setUp() {
-    InputFile inputFile = new DefaultInputFile("test.cpp");
+    InputFile inputFile = new DefaultInputFile("foo", "test.cpp");
     testFile = new TestFile(inputFile);
   }
 

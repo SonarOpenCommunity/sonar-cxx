@@ -39,6 +39,7 @@ import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 import org.sonar.plugins.dotnet.tests.WildcardPatternFileProvider;
 
 import com.google.common.collect.ImmutableList;
+import java.io.File;
 
 public class CxxUnitTestResultsProviderTest {
 
@@ -50,7 +51,7 @@ public class CxxUnitTestResultsProviderTest {
 
   @Before
   public void setUp() {
-    new DefaultFileSystem(null);
+    new DefaultFileSystem(new File(""));
     project = TestUtils.mockProject();
     context = mock(SensorContext.class);
   }
