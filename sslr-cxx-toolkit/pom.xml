@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+    <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
     <version>0.9.6-SNAPSHOT</version>
   </parent>
@@ -23,7 +23,7 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
+      <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -31,7 +31,6 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -74,17 +73,17 @@
                 <include>jaxen:jaxen</include>
                 <include>org.sonarsource.sslr:sslr-toolkit</include>
                 <include>org.sonarsource.sslr-squid-bridge:sslr-squid-bridge</include>
-                <include>org.codehaus.sonar:sonar-colorizer</include>
-                <include>org.codehaus.sonar:sonar-squid</include>
-                <include>org.codehaus.sonar:sonar-channel</include>
-                <include>org.codehaus.sonar:sonar-plugin-api</include>
+                <include>org.sonarsource.sonarqube:sonar-colorizer</include>
+                <include>org.sonarsource.sonarqube:sonar-squid</include>
+                <include>org.sonarsource.sonarqube:sonar-channel</include>
+                <include>org.sonarsource.sonarqube:sonar-plugin-api</include>
                 <include>org.slf4j:slf4j-api</include>
                 <include>org.slf4j:jcl-over-slf4j</include>
                 <include>ch.qos.logback:logback-classic</include>
                 <include>ch.qos.logback:logback-core</include>
                 <include>commons-io:commons-io</include>
                 <include>commons-lang:commons-lang</include>
-                <include>com.google.guava:guava</include>                
+                <include>com.google.guava:guava</include>
               </includes>
               <rules>
                 <keep>
@@ -108,8 +107,8 @@
             <configuration>
               <rules>
                 <requireFilesSize>
-                  <maxsize>4300000</maxsize>
-                  <minsize>3100000</minsize>
+                  <maxsize>8500000</maxsize>
+                  <minsize>7000000</minsize>
                   <files>
                     <file>${project.build.directory}/${project.build.finalName}.jar</file>
                   </files>

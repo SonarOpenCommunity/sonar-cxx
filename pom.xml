@@ -8,7 +8,7 @@
     <version>32</version>
   </parent>
 
-  <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+  <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
   <artifactId>cxx</artifactId>
   <version>0.9.6-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -104,7 +104,7 @@
       <name>Chris Bagwell</name>
       <email>chris@cnpbagwell.com</email>
     </developer>
-       <developer>
+    <developer>
       <id>mjdetullio</id>
       <name>Matthew DeTullio</name>
       <email></email>
@@ -129,7 +129,7 @@
   <modules>
     <module>cxx-squid</module>
     <module>cxx-checks</module>
-    <module>cxx-lint</module>    
+    <module>cxx-lint</module>
     <module>sonar-cxx-plugin</module>
     <module>sslr-cxx-toolkit</module>
   </modules>
@@ -154,7 +154,7 @@
     <license.owner>SonarOpenCommunity</license.owner>
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <sonar.version>5.1</sonar.version>
+    <sonar.version>5.6-RC2</sonar.version>
     <sslr.version>1.21</sslr.version>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
@@ -167,21 +167,21 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.codehaus.sonar</groupId>
+        <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-plugin-api</artifactId>
         <version>${sonar.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar</groupId>
+        <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-deprecated</artifactId>
         <version>${sonar.version}</version>
-      </dependency>      
+      </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar</groupId>
+        <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-testing-harness</artifactId>
         <version>${sonar.version}</version>
       </dependency>
-     
+
       <dependency>
         <groupId>org.sonarsource.sslr</groupId>
         <artifactId>sslr-core</artifactId>
@@ -204,7 +204,7 @@
         </exclusions>
       </dependency>
 
-       <dependency>
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.12</version>
@@ -214,12 +214,12 @@
         <artifactId>fest-assert</artifactId>
         <version>1.4</version>
       </dependency>
-       <dependency>
+      <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-all</artifactId>
         <version>1.10.16</version>
       </dependency>
-       <dependency>
+      <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
         <version>1.0.13</version>
@@ -234,7 +234,7 @@
         <artifactId>slf4j-api</artifactId>
         <version>1.6.2</version>
       </dependency>
-      
+
       <dependency>
         <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
@@ -246,9 +246,9 @@
         <version>1.0</version>
       </dependency>
       <dependency>
-      <groupId>org.codehaus.sonar.dotnet.tests</groupId>
-      <artifactId>sonar-dotnet-tests-library</artifactId>
-      <version>1.2</version>
+        <groupId>org.sonarsource.dotnet</groupId>
+        <artifactId>sonar-dotnet-tests-library</artifactId>
+        <version>1.3.2</version>
       </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>

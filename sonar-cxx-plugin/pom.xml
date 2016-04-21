@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.codehaus.sonar-plugins.cxx</groupId>
+    <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
     <artifactId>cxx</artifactId>
     <version>0.9.6-SNAPSHOT</version>
   </parent>
@@ -22,20 +22,21 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
+      <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.sonar</groupId>
       <artifactId>sonar-deprecated</artifactId>
+      <version>5.1</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar.dotnet.tests</groupId>
+      <groupId>org.sonarsource.dotnet</groupId>
       <artifactId>sonar-dotnet-tests-library</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>cxx-squid</artifactId>
@@ -46,13 +47,13 @@
       <artifactId>cxx-checks</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-project</artifactId>
@@ -60,11 +61,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.sonar</groupId>
+      <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-testing-harness</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
@@ -76,7 +77,6 @@
     <dependency>
       <groupId>org.codehaus.sonar.common-rules</groupId>
       <artifactId>sonar-common-rules</artifactId>
-      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -89,13 +89,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>cxx-lint</artifactId>
-        <version>${project.version}</version>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-lint</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
+      <version>1.0</version>
     </dependency>
   </dependencies>
 
- <build>
+  <build>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -113,4 +118,5 @@
       </resource>
     </resources>
   </build>
+
 </project>
