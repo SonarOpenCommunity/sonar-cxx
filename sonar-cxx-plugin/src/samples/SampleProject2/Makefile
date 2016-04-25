@@ -53,4 +53,4 @@ sonar_coverage:
 
 # Parse collected data and feed it into sonar
 sonar_sonar:
-	sonar-runner -X
+	sonar-scanner -X

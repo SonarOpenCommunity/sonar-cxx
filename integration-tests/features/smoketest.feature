@@ -5,7 +5,7 @@ Feature: Smoketest
 
   Scenario: Smoketest
       GIVEN the project "smoketest_project"
-      WHEN I run "sonar-runner"
+      WHEN I run "sonar-scanner"
       THEN the analysis finishes successfully
           AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:

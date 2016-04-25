@@ -19,7 +19,7 @@ with your code.
 It assumes following software to be installed:
 - gcc
 - make
-- java, sonar-runner
+- java, sonar-scanner
 - cppcheck
 - valgrind
 - Python, gcovr.py

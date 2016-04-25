@@ -8,7 +8,7 @@ Feature: Importing coverage data
   Scenario: Importing coverage reports
       GIVEN the project "coverage_project"
 
-      WHEN I run sonar-runner with following options:
+      WHEN I run sonar-scanner with following options:
           """
           -Dsonar.cxx.coverage.reportPath=ut-coverage.xml
           -Dsonar.cxx.coverage.itReportPath=it-coverage.xml
@@ -39,7 +39,7 @@ Feature: Importing coverage data
   Scenario: Importing coverage reports zeroing coverage for untouched files
       GIVEN the project "coverage_project"
 
-      WHEN I run sonar-runner with following options:
+      WHEN I run sonar-scanner with following options:
           """
           -Dsonar.cxx.coverage.reportPath=ut-coverage.xml
           -Dsonar.cxx.coverage.itReportPath=it-coverage.xml
@@ -77,7 +77,7 @@ Feature: Importing coverage data
 
       GIVEN the project "coverage_project"
 
-      WHEN I run sonar-runner with following options:
+      WHEN I run sonar-scanner with following options:
           """
           -Dsonar.cxx.coverage.reportPath=dummy.xml
           -Dsonar.cxx.coverage.itReportPath=dummy.xml

@@ -22,4 +22,4 @@ cppcheck_relative_to_src:
 	cd src; cppcheck -v --enable=all --xml --xml-version=1 . -I. 2> ../relative-to-src.xml; cd -
 
 sonar_sonar:
-	sonar-runner -X
+	sonar-scanner -X
