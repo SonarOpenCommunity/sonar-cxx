@@ -7,7 +7,7 @@ Feature: cpp-multimodule-project
       GIVEN the project "cpp-multimodule-project-2"
           and platform is not "Windows"
       
-      WHEN I run "sonar-runner -X"
+      WHEN I run "sonar-scanner -X"
       THEN the analysis finishes successfully
           AND the analysis in server has completed
           AND the analysis log contains no error/warning messages except those matching:

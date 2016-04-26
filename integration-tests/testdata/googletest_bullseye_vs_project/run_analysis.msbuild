@@ -18,6 +18,6 @@
         <!-- this is just a ack to make the bulleye report relative so that i can be used in other environments -->
         <Exec Command="sed -b -i 's/e:\/Development\/SonarQube\/cxx\/sonar-cxx\/integration-tests\/testdata\/googletest_bullseye_vs_project\//.\//g' sonarcpp\bullseye-coverage-results\bullseyecoverage-result-0.xml" ContinueOnError="WarnAndContinue"/>
         <Exec Command="cov01 -0" ContinueOnError="WarnAndContinue"/>
-        <Exec Command="sonar-runner -X" ContinueOnError="WarnAndContinue"/>
+        <Exec Command="sonar-scanner -X" ContinueOnError="WarnAndContinue"/>
     </Target>
 </Project>

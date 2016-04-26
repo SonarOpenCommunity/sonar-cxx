@@ -8,7 +8,7 @@ Feature: Importing Cppcheck reports
 
   Scenario Outline: Importing Cppcheck report(s)
     GIVEN the project "cppcheck_project"
-    WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
+    WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
     THEN the analysis finishes successfully
          AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
@@ -26,7 +26,7 @@ Feature: Importing Cppcheck reports
 
    Scenario: The reports are missing
      GIVEN the project "cppcheck_project"
-     WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=empty.xml"
+     WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=empty.xml"
      THEN the analysis finishes successfully
          AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
@@ -39,7 +39,7 @@ Feature: Importing Cppcheck reports
    @wip
    Scenario: The report mentions an unknown rule
      GIVEN the project "cppcheck_project"
-     WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=rule_unknown.xml"
+     WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=rule_unknown.xml"
      THEN the analysis finishes successfully
          AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
@@ -52,7 +52,7 @@ Feature: Importing Cppcheck reports
 
    Scenario Outline: The reports are invalid
      GIVEN the project "cppcheck_project"
-     WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
+     WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
      THEN the analysis finishes successfully
          AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
@@ -70,7 +70,7 @@ Feature: Importing Cppcheck reports
 
    Scenario: The reports use paths relative to directories listed in sonar.sources
      GIVEN the project "cppcheck_project"
-     WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=relative-to-src.xml"
+     WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=relative-to-src.xml"
      THEN the analysis finishes successfully
          AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
@@ -83,7 +83,7 @@ Feature: Importing Cppcheck reports
    Scenario: The reports and issues in the reports have absolute paths
      GIVEN the project "cppcheck_with_absolute_paths_project"
         and platform is not "Windows"
-     WHEN I run "sonar-runner -X"
+     WHEN I run "sonar-scanner -X"
      THEN the analysis finishes successfully
          AND the analysis in server has completed
          AND the server log (if locatable) contains no error/warning messages
@@ -95,7 +95,7 @@ Feature: Importing Cppcheck reports
    # Scenario: The reports are outside the project directory
    #   GIVEN the project "cppcheck_project"
    #       AND a report outside the projects directory, e.g. "/tmp/cppcheck-v1.xml"
-   #   WHEN I run "sonar-runner -X -Dsonar.cxx.cppcheck.reportPath=/tmp/cppcheck-v1.xml"
+   #   WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=/tmp/cppcheck-v1.xml"
    #   THEN the analysis finishes successfully
    #       AND the analysis in server has completed
    #       AND the server log (if locatable) contains no error/warning messages
