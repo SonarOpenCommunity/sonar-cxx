@@ -743,19 +743,20 @@ public class CxxPreprocessor extends Preprocessor {
           break;
         }
       } while (true);
-
+    } catch (MismatchException me) {
+      LOG.debug("Mismatch: expected ','got: '" + rest.get(0).getValue() + "'");
+    }
+    try {
       rest = match(rest, ")");
     } catch (MismatchException me) {
       LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
       return 0;
     }
-
     return tokens.size() - rest.size();
   }
 
   private List<Token> match(List<Token> tokens, String str) throws MismatchException {
     if (!tokens.get(0).getValue().equals(str)) {
-      LOG.error("Mismatch: expected '" + str + "' got: '" + tokens.get(0).getValue() + "'");
       throw new MismatchException("Mismatch: expected '" + str + "' got: '"
         + tokens.get(0).getValue() + "'");
     }
