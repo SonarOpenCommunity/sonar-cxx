@@ -33,8 +33,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 
-import org.apache.commons.lang.StringUtils;
 import static org.apache.commons.io.FilenameUtils.wildcardMatchOnSystem;
 
 import org.slf4j.Logger;
@@ -727,11 +727,11 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   }
 
   private String serialize(List<Token> tokens, String spacer) {
-    List<String> values = new LinkedList<>();
+    StringJoiner js = new StringJoiner(spacer);
     for (Token t : tokens) {
-      values.add(t.getValue());
+      js.add(t.getValue());
     }
-    return StringUtils.join(values, spacer);
+    return js.toString();
   }
 
   private int matchArguments(List<Token> tokens, List<Token> arguments) {

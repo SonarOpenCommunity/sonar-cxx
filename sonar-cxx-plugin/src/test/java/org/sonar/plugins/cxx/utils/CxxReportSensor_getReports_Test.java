@@ -71,7 +71,7 @@ public class CxxReportSensor_getReports_Test {
     for (String[] example : examples) {
       pattern = example[0];
       match = example[1];
-      allpaths = StringUtils.join(Arrays.copyOfRange(example, 1, 3), ",");
+      allpaths = String.join(",", Arrays.copyOfRange(example, 1, 3));
       setupExample(allpaths);
       settings.setProperty(REPORT_PATH_KEY, pattern);
 
