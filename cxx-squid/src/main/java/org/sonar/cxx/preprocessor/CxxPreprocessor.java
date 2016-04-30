@@ -102,16 +102,19 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   static class MismatchException extends Exception {
+    private static final long serialVersionUID = 1960113363232807009L;
 
-    private final String why;
-
-    MismatchException(String why) {
-      this.why = why;
+    MismatchException(String message) {
+      super(message);
     }
-
-    @Override
-    public String toString() {
-      return why;
+    MismatchException(Throwable cause) {
+      super(cause);
+    }
+    MismatchException(String message, Throwable cause) {
+      super(message, cause);
+    }
+    MismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+      super(message, cause, enableSuppression, writableStackTrace);;
     }
   }
 
@@ -252,7 +255,7 @@ public class CxxPreprocessor extends Preprocessor {
         if (!"".equals(define)) {
           Macro macro = parseMacroDefinition("#define " + define);
           if (macro != null) {
-            LOG.info("storing external macro: '{}'", macro);
+            LOG.debug("storing external macro: '{}'", macro);
             macros.put(macro.name, macro);
           }
         }
@@ -576,6 +579,9 @@ public class CxxPreprocessor extends Preprocessor {
         currentFileState = globalStateStack.pop();
       }
     }
+//    else {
+//      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
+//    }
 
     return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>());
   }
@@ -743,21 +749,21 @@ public class CxxPreprocessor extends Preprocessor {
           break;
         }
       } while (true);
-
+    } catch (MismatchException me) {}
+    try {
       rest = match(rest, ")");
     } catch (MismatchException me) {
       LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
       return 0;
     }
-
     return tokens.size() - rest.size();
   }
 
   private List<Token> match(List<Token> tokens, String str) throws MismatchException {
     if (!tokens.get(0).getValue().equals(str)) {
-      LOG.error("Mismatch: expected '" + str + "' got: '" + tokens.get(0).getValue() + "'");
       throw new MismatchException("Mismatch: expected '" + str + "' got: '"
-        + tokens.get(0).getValue() + "'");
+          + tokens.get(0).getValue() + "'" + " [" + tokens.get(0).getURI() + "("
+          + tokens.get(0).getLine() + "," + tokens.get(0).getColumn() + ")]");
     }
     return tokens.subList(1, tokens.size());
   }
