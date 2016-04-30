@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.checks;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
@@ -60,7 +59,7 @@ public class UnnamedNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   }
 
   private boolean isHeader(String name) {
-    String[] suffixes = StringUtils.split(DEFAULT_NAME_SUFFIX, ",");
+    String[] suffixes = DEFAULT_NAME_SUFFIX.split(",");
     for (String suff : suffixes) {
       if (name.endsWith(suff)) {
         return true;

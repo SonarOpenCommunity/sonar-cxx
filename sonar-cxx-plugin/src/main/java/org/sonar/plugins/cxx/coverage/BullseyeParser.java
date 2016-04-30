@@ -27,7 +27,6 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
@@ -167,7 +166,7 @@ public class BullseyeParser extends CxxCoverageParser {
           fileName += iterator.next() + File.separator;
         }
 
-        fileName = StringUtils.chop(fileName);
+        fileName = fileName.substring(0, fileName.length()-1);
 
         if ((new File(fileName)).isAbsolute()) {
           refPath = "";

@@ -24,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -82,7 +81,13 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
     }
     for (int i = 0; i < lines.size(); i++) {
       String line = lines.get(i);
-      int length = line.length() + StringUtils.countMatches(line, "\t") * (tabWidth - 1);
+      int length = 0;
+      for (char c : line.toCharArray()) {
+        if (c == '\t') {
+          ++length;
+        }
+      }
+      length = line.length() + length * (tabWidth - 1);
       if (length > maximumLineLength) {
         getContext().createLineViolation(this, "Split this {0} characters long line (which is greater than {1} authorized).", i + 1, length, maximumLineLength);
       }

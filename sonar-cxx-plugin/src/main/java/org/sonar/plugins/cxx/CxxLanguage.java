@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.api.config.Settings;
 
@@ -85,7 +84,7 @@ public class CxxLanguage extends AbstractLanguage {
 
   private String[] createStringArray(String[] values, String defaultValues) {
     if (values == null || values.length == 0) {
-      return StringUtils.split(defaultValues, ",");
+      return defaultValues.split(",");
     }
     return values;
   }

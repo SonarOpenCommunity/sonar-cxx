@@ -26,7 +26,6 @@ import java.util.Locale;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.ElementFilter;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
@@ -121,7 +120,7 @@ public class XunitReportParser implements XmlStreamHandler {
     double time = 0.0;
     try {
       String sTime = testCaseCursor.getAttrValue("time");
-      if (!StringUtils.isEmpty(sTime)) {
+      if (sTime != null && !sTime.isEmpty()) {
         Double tmp = ParsingUtils.parseNumber(sTime, Locale.ENGLISH);
         if (!Double.isNaN(tmp)) {
           time = ParsingUtils.scaleValue(tmp * 1000, 3);

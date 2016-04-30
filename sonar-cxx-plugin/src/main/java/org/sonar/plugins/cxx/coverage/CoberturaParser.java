@@ -21,10 +21,11 @@ package org.sonar.plugins.cxx.coverage;
 
 import java.io.File;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
@@ -98,9 +99,13 @@ public class CoberturaParser extends CxxCoverageParser {
 
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");
-      if (StringUtils.equals(isBranch, "true") && StringUtils.isNotBlank(text)) {
-        String[] conditions = StringUtils.split(StringUtils.substringBetween(text, "(", ")"), "/");
-        builder.setConditions(lineId, Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));
+      if ("true".equals(isBranch) && text != null && !text.trim().isEmpty()) {
+        Pattern p = Pattern.compile("\\((.*?)\\)");
+        Matcher m = p.matcher(text);
+        if (m.find()) {
+          String[] conditions = m.group(1).split("/");
+          builder.setConditions(lineId, Integer.parseInt(conditions[1]), Integer.parseInt(conditions[0]));
+        }
       }
     }
   }

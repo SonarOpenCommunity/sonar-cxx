@@ -19,11 +19,12 @@
  */
 package org.sonar.cxx.checks;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -53,20 +54,24 @@ public class CommentContainsPatternChecker {
     description = "The violation message")
   private final String message;
 
+  private Pattern p;
+
   public CommentContainsPatternChecker(SquidCheck<?> check, String pattern, String message) {
     this.check = check;
     this.pattern = pattern;
     this.message = message;
+    p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
   }
 
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
       String comment = trivia.getToken().getOriginalValue();
-      if (StringUtils.containsIgnoreCase(comment, pattern)) {
+      if (indexOfIgnoreCase(comment) != -1) {
         String[] lines = comment.split("\r\n?|\n");
 
         for (int i = 0; i < lines.length; i++) {
-          if (StringUtils.containsIgnoreCase(lines[i], pattern) && !isLetterAround(lines[i], pattern)) {
+          int start = indexOfIgnoreCase(lines[i]);
+          if (start != -1 && !isLetterAround(lines[i], start)) {
             check.getContext().createLineViolation(check, message, trivia.getToken().getLine() + i);
           }
         }
@@ -74,8 +79,12 @@ public class CommentContainsPatternChecker {
     }
   }
 
-  private boolean isLetterAround(String line, String pattern) {
-    int start = StringUtils.indexOfIgnoreCase(line, pattern);
+  private int indexOfIgnoreCase(String str) {
+    Matcher m = p.matcher(str);
+    return m.find() ? m.start() : -1;
+  }
+
+  private boolean isLetterAround(String line, int start) {
     int end = start + pattern.length();
 
     boolean pre = start > 0 ? Character.isLetter(line.charAt(start - 1)) : false;

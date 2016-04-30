@@ -21,7 +21,6 @@ package org.sonar.plugins.cxx.externalrules;
 
 import java.io.StringReader;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -50,7 +49,7 @@ public class CxxExternalRuleRepository implements RulesDefinition {
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
     for (String ruleDefs : settings.getStringArray(RULES_KEY)) {
-      if (StringUtils.isNotBlank(ruleDefs)) {
+      if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
         } catch (Exception ex) {
