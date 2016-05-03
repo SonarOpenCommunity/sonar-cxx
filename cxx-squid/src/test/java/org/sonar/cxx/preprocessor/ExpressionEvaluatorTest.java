@@ -50,8 +50,18 @@ public class ExpressionEvaluatorTest {
     assertTrue(evaluator.eval("0xAA"));
     assertTrue(evaluator.eval("0XAA"));
     assertTrue(evaluator.eval("1L"));
+    assertTrue(evaluator.eval("01L"));
     assertTrue(evaluator.eval("1u"));
+    assertTrue(evaluator.eval("1000000000UL"));
     assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFF"));
+    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFui64"));
+    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFLL"));
+    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFuLL"));
+    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFll"));
+    assertTrue(evaluator.eval("0xFFFFFFFFFFFFFFFFull"));
+    assertTrue(evaluator.eval("0xffffffffffffffffui64"));
+    assertTrue(evaluator.eval("0xffffffffffffffffi64"));
+    assertTrue(evaluator.eval("0x7FFFFFL"));
 
     assertFalse(evaluator.eval("0"));
     assertFalse(evaluator.eval("0x0"));
