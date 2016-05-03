@@ -113,17 +113,24 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 new Object[]{file, line, id, msg});
             }
           }
-        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException | com.ctc.wstx.exc.WstxEOFException e) {
-          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", e);
+        } catch (com.ctc.wstx.exc.WstxUnexpectedCharException 
+                | com.ctc.wstx.exc.WstxEOFException
+                | com.ctc.wstx.exc.WstxIOException e) {
+          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", CxxUtils.getStackTrace(e));
         }
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
+        try {
         if (StringUtils.isEmpty(file) || (Integer.valueOf(line) == 0)) {
           // issue for project or file level
           return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
         }
         return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        } catch (java.lang.NumberFormatException e) {
+          CxxUtils.LOG.error("Ignore number error from PC-lint report '{}'", CxxUtils.getStackTrace(e));
+        }
+        return false;
       }
 
       /**

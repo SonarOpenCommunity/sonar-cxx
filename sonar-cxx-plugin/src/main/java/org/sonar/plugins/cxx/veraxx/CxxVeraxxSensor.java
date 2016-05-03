@@ -109,7 +109,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
       parser.parse(report);
     } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-      CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", e);
+      CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
     }
   }
 }
