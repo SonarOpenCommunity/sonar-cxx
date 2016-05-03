@@ -206,24 +206,28 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       + "MACRO(\"error\", EMPTY);"))
       .equals("printf ( \"error\" ) ; EOF"));
 
+    assert (serialize(p.parse(
+        "#define MACRO(s, ...) printf(s, __VA_ARGS__)\n"
+        + "MACRO(\"error\");"))
+        .equals("printf ( \"error\" ) ; EOF"));
+
     // without whitespace after the parameter list
     assert (serialize(p.parse(
       "#define foo(a...);\n"
       + "foo(a, b)"))
       .equals("; EOF"));
 
-    // with more params and without whitespace after the parameter list
+    // with more parameters and without whitespace after the parameter list
     assert (serialize(p.parse(
       "#define foo(a, b...);\n"
       + "foo(a, b, c)"))
       .equals("; EOF"));
 
-    // FIXME: can this actually be swallowed by GCC?? My experiments showed the opposite, so far...
-    // GNU CPP: Vou are allowed to leave the variable argument out entirely
-    // assert (serialize(p.parse(
-    //   "#define eprintf(format, ...) fprintf (stderr, format, __VA_ARGS__)\n"
-    //   + "eprintf(\"success!\");"))
-    //   .equals("fprintf ( stderr , \"success!\" , ) ; EOF"));
+    // GNU CPP: You are allowed to leave the variable argument out entirely
+     assert (serialize(p.parse(
+       "#define eprintf(format, ...) fprintf (stderr, format, __VA_ARGS__)\n"
+       + "eprintf(\"success!\");"))
+       .equals("fprintf ( stderr , \"success!\" ) ; EOF"));
     // GNU CPP: special meaning of token paste operator - if variable argument is left out then the comma before the ‘##’ will be deleted.
     assert (serialize(p.parse(
       "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"

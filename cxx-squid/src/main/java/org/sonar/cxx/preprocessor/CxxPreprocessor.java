@@ -62,6 +62,7 @@ import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.COMMA;
 import static org.sonar.cxx.api.CppPunctuator.LT;
+import static org.sonar.cxx.api.CppPunctuator.BR_RIGHT;
 import static org.sonar.cxx.api.CppPunctuator.HASHHASH;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
@@ -155,6 +156,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
   private CxxConfiguration conf;
+  private static final String variadicParameter = "__VA_ARGS__";
 
   public static class Include {
 
@@ -881,7 +883,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
             }
           }
 
-          if (newValue.isEmpty() && "__VA_ARGS__".equals(curr.getValue())) {
+          if (newValue.isEmpty() && variadicParameter.equals(curr.getValue())) {
             // the Visual C++ implementation will suppress a trailing comma
             // if no arguments are passed to the ellipsis
             for (int n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
@@ -908,6 +910,19 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       }
     }
 
+    // drop COMMA from sequence COMMA "," BR ")"
+	if (newTokens.size() > 2 && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT) {
+		for (int n = newTokens.size() - 2; n != 0; n--) {
+			if (newTokens.get(n).getType() == WS) {
+				newTokens.remove(n);
+			} else if (newTokens.get(n).getType() == COMMA) {
+				newTokens.remove(n);
+				break;
+			} else {
+				break;
+			}
+		}
+	}
     return newTokens;
   }
 
@@ -1062,7 +1077,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         .setLine(vaargs.getToken().getLine())
         .setColumn(vaargs.getToken().getColumn())
         .setURI(vaargs.getToken().getURI())
-        .setValueAndOriginalValue("__VA_ARGS__")
+        .setValueAndOriginalValue(variadicParameter)
         .setType(IDENTIFIER)
         .setGeneratedCode(true)
         .build()
