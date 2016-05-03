@@ -9905,6 +9905,67 @@ see also:</p>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>C26400</key>
+    <name>C26400: Do not dereference an invalid pointer (lifetimes rule).</name>
+    <description><![CDATA[<p>
+Never dereference a null or invalid Pointer.
+see also:</p>
+<p><a href="https://blogs.msdn.microsoft.com/vcblog/2016/03/31/c-core-guidelines-checkers-preview-of-the-lifetime-safety-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2016/03/31/c-core-guidelines-checkers-preview-of-the-lifetime-safety-checker/</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/docs/Lifetimes%20I%20and%20II%20-%20v0.9.1.pdf" target="_blank">Lifetimes I and II - v0.9.1.pdf</a></p>
+]]>
+    </description>
+    <internalKey>C26400</internalKey>
+    <severity>BLOCKER</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>10min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>C26481</key>
+    <name>C26481: Don’t use pointer arithmetic. Use span instead.</name>
+    <description><![CDATA[<p>
+Pointers should only refer to single objects, and pointer arithmetic is fragile and easy to get wrong. <i>span</i> is a bounds-checked, safe type for accessing arrays of data.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-arithmetic" target="_blank">Core Guideline - Bounds.1: Don't use pointer arithmetic. Use  span  instead</a></p>
+]]>
+    </description>
+    <internalKey>C26481</internalKey>
+    <severity>CRITICAL</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>C26494</key>
+    <name>C26494: Always initialize an object.</name>
+    <description><![CDATA[<p>
+Before a variable has been initialized, it does not contain a deterministic valid value of its type. It could contain any arbitrary bit pattern, which could be different on each call.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-init" target="_blank">Core Guideline - Type.5: Don't use a variable before it has been initialized</a></p>
+]]>
+    </description>
+    <internalKey>C26494</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
+    <key>C26495</key>
+    <name>C26495: No array to pointer decay.</name>
+    <description><![CDATA[<p>
+Pointers should not be used as arrays. <i>span</i> is a bounds-checked, safe alternative to using pointers to access arrays.
+see also:</p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-decay" target="_blank">Core Guideline - Bounds.3: No array-to-pointer decay</a></p>
+]]>
+    </description>
+    <internalKey>C26485</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+  </rule>
+  <rule>
     <key>C28020</key>
     <name>C28020: The expression &lt;expr&gt; is not true at this call</name>
     <description><![CDATA[<p>
