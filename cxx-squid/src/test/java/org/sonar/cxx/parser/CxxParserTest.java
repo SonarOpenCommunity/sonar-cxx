@@ -59,10 +59,10 @@ public class CxxParserTest extends ParserBaseTest {
 
   @Test
   public void testParsingInCCompatMode() {
-    // The C-compatibility replaces c++ keywords, which arent keywords in C,
+    // The C-compatibility replaces c++ keywords, which aren't keywords in C,
     // with non-keyword-strings via the preprocessor.
     // This mode works if such a file causes parsing errors when the mode
-    // is swithed off and doesnt, if the mode is switched on.
+    // is switched off and doesn't, if the mode is switched on.
 
     File cfile = (File) listFiles(cCompatibilityFiles, new String[]{"c"}).toArray()[0];
 
@@ -85,7 +85,7 @@ public class CxxParserTest extends ParserBaseTest {
   public void testParseErrorRecovery() {
     // The error recovery works, if:
     // - a syntacticly incorrect file causes a parse error when recovery is disabled
-    // - but doesnt cause such an error if we run with default settings
+    // - but doesn't cause such an error if we run with default settings
 
     try {
       p.parse(erroneousSources);
@@ -95,7 +95,7 @@ public class CxxParserTest extends ParserBaseTest {
 
     conf.setErrorRecoveryEnabled(true);
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
-    p.parse(erroneousSources); //<-- this shouldnt throw now
+    p.parse(erroneousSources); //<-- this shouldn't throw now
   }
 
   private Collection<File> listFiles(String[] dirs, String[] extensions) {
