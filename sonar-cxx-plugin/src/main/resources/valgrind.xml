@@ -32,7 +32,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>MismatchedFree</key>
@@ -49,7 +49,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -64,7 +64,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -80,7 +80,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -93,7 +93,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -109,7 +109,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -122,7 +122,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -136,7 +136,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -149,7 +149,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -163,7 +163,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -176,7 +176,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -194,7 +194,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -210,7 +210,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -227,7 +227,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -243,6 +243,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 </rules>
