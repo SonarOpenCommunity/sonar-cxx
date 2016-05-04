@@ -164,7 +164,7 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("cccc", GenericTokenType.IDENTIFIER));
   }
 
-  //@Test
+  //@Test @todo
   public void hashhash_arguments_with_whitespace_before_comma() {
     // The blank behind FOO finds its way into the expansion.
     // This leads to expression evaluation errors. Found in boost.
@@ -181,7 +181,7 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("yes", GenericTokenType.IDENTIFIER));
   }
 
-  //@Test
+  //@Test @todo
   public void expanding_hashhash_operator_sampleFromCPPStandard() {
     // TODO: think about implementing this behavior. This is a sample from the standard, which is
     // not working yet. Because the current implementation throws away all 'irrelevant'
@@ -660,7 +660,7 @@ public class CxxLexerWithPreprocessingTest {
     assertThat(tokens, hasToken("case2", GenericTokenType.IDENTIFIER));
   }
 
-  //@Test
+  //@Test @todo
   public void hashhash_operator_problem() {
     // Corresponds to the Jira Issue SONARPLUGINS-3055.
     // The problem here is that 0x##n is splitted into

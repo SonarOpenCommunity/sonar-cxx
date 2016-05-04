@@ -21,7 +21,7 @@ package org.sonar.cxx.checks;
 
 import java.io.File;
 
-import junit.framework.Assert; //todo deprecated
+import junit.framework.Assert; //@todo deprecated Assert
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -48,7 +48,7 @@ public class TooManyStatementsPerLineCheckTest {
   @Test
   public void testDefaultExcludeCaseBreak() {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
-    Assert.assertEquals(check.excludeCaseBreak, false);
+    Assert.assertEquals(check.excludeCaseBreak, false); //@todo deprecated Assert
   }
 
   @Test

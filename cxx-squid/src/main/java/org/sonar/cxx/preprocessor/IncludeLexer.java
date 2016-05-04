@@ -34,11 +34,11 @@ public final class IncludeLexer {
   private IncludeLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) {
+  public static Lexer create(Preprocessor... preprocessors) { //@toto deprecated Preprocessor
     return create(new CxxConfiguration(), preprocessors);
   }
 
-  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
+  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) { //@toto deprecated Preprocessor
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
@@ -47,7 +47,7 @@ public final class IncludeLexer {
       .withChannel(commentRegexp("/\\*", ANY_CHAR + "*?", "\\*/"))
       .withChannel(new BlackHoleChannel(".*"));
 
-    for (Preprocessor preprocessor : preprocessors) {
+    for (Preprocessor preprocessor : preprocessors) { //@toto deprecated Preprocessor
       builder.withPreprocessor(preprocessor);
     }
 

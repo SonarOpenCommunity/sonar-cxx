@@ -65,7 +65,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
       InputStream xmlStream = getClass().getResourceAsStream(fileName());
       xmlLoader.load(repository, xmlStream, "UTF-8");
 
-      for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) { //@todo getExtensions: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) { //@todo deprecated getExtensions: see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
         try {
           FileReader reader = new FileReader(userExtensionXml);
           xmlRuleLoader.load(repository, reader);

@@ -82,7 +82,7 @@ public class DsmSerializer {
   }
 
   private void serializeCell(int y, int x) {
-    DsmCell cell = dsm.getCell(x, y);
+    DsmCell cell = dsm.getCell(x, y); //@todo deprecated getCell
     json.append('{');
     if (cell.getEdge() != null && cell.getWeight() > 0) {
       json.append("\"i\":");

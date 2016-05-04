@@ -81,7 +81,7 @@ public class DependencyAnalyzer {
   }
 
   public void addFile(InputFile inputFile, Collection<CxxPreprocessor.Include> includedFiles) {
-    File sonarFile = File.fromIOFile(inputFile.file(), project); //@todo fromIOFile: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+    File sonarFile = File.fromIOFile(inputFile.file(), project); //@todo deprecated fromIOFile: see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
     //Store the directory and file
     Directory sonarDir = sonarFile.getParent();
     packagesGraph.addVertex(sonarDir);
@@ -90,7 +90,7 @@ public class DependencyAnalyzer {
     //Build the dependency graph
     Map<String, Integer> firstIncludeLine = new HashMap<>();
     for (CxxPreprocessor.Include include : includedFiles) {
-      File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project); //@todo fromIOFile: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project); //@todo deprecated fromIOFile: http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
       String includedFilePath = includedFile != null ? includedFile.getPath() : include.getPath();
       Integer prevIncludeLine = firstIncludeLine.put(includedFilePath, include.getLine());
       if (prevIncludeLine != null) {
@@ -110,7 +110,7 @@ public class DependencyAnalyzer {
         }
       } else if (includedFile == null) {
         CxxUtils.LOG.warn("Unable to find resource '{}' to create a dependency with '{}'", include.getPath(), sonarFile.getKey());
-      } else if (context.isIndexed(includedFile, false)) { //@todo deprecated
+      } else if (context.isIndexed(includedFile, false)) { //@todo deprecated isIndexed
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());
         filesGraph.addEdge(fileEdge);
@@ -166,13 +166,13 @@ public class DependencyAnalyzer {
       new Object[]{project.getKey(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(packagesGraph.getEdges(packages))});
 
     saveViolations(feedbackEdges, packagesGraph);
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_CYCLES, cycles.size());
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_FEEDBACK_EDGES, feedbackEdges.size());
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_TANGLES, tangles);
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_EDGES_WEIGHT, getEdgesWeight(packagesGraph.getEdges(packages)));
+    savePositiveMeasure(project, CoreMetrics.PACKAGE_CYCLES, cycles.size()); //@todo deprecated PACKAGE_CYCLES
+    savePositiveMeasure(project, CoreMetrics.PACKAGE_FEEDBACK_EDGES, feedbackEdges.size()); //@todo deprecated PACKAGE_FEEDBACK_EDGES
+    savePositiveMeasure(project, CoreMetrics.PACKAGE_TANGLES, tangles); //@todo deprecated PACKAGE_TANGLES
+    savePositiveMeasure(project, CoreMetrics.PACKAGE_EDGES_WEIGHT, getEdgesWeight(packagesGraph.getEdges(packages))); //@todo deprecated PACKAGE_EDGES_WEIGHT
 
     String dsmJson = serializeDsm(packages, feedbackEdges);
-    Measure dsmMeasure = new Measure(CoreMetrics.DEPENDENCY_MATRIX, dsmJson)
+    Measure dsmMeasure = new Measure(CoreMetrics.DEPENDENCY_MATRIX, dsmJson) //@todo deprecated DEPENDENCY_MATRIX
       .setPersistenceMode(PersistenceMode.DATABASE);
     context.saveMeasure(project, dsmMeasure);
   }
@@ -200,7 +200,7 @@ public class DependencyAnalyzer {
     savePositiveMeasure(dir, CoreMetrics.FILE_EDGES_WEIGHT, getEdgesWeight(filesGraph.getEdges(files)));
 
     String dsmJson = serializeDsm(files, feedbackEdges);
-    context.saveMeasure(dir, new Measure(CoreMetrics.DEPENDENCY_MATRIX, dsmJson));
+    context.saveMeasure(dir, new Measure(CoreMetrics.DEPENDENCY_MATRIX, dsmJson)); //@todo deprecated DEPENDENCY_MATRIX
   }
 
   private void saveViolations(Set<Edge> feedbackEdges, DirectedGraph<Directory, DirectoryEdge> packagesGraph) {
