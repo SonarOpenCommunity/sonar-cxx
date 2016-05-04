@@ -23,7 +23,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 
-import org.sonar.squidbridge.commonrules.api.CommonRulesRepository; //@todo deprecated
+import org.sonar.squidbridge.commonrules.api.CommonRulesRepository; //@todo deprecated CommonRulesRepository
 import org.sonar.squidbridge.commonrules.internal.CommonRulesConstants;
 
 /**
@@ -41,7 +41,7 @@ public class CxxCommonRulesEngineTest {
   @Test
   public void enable_common_rules() {
     CxxCommonRulesEngine provider = new CxxCommonRulesEngine();
-    CommonRulesRepository repo = provider.newRepository();
+    CommonRulesRepository repo = provider.newRepository(); //@todo deprecated CommonRulesRepository
     assertThat(repo.enabledRuleKeys()).containsOnly(
       CommonRulesConstants.RULE_INSUFFICIENT_COMMENT_DENSITY,
       CommonRulesConstants.RULE_DUPLICATED_BLOCKS,

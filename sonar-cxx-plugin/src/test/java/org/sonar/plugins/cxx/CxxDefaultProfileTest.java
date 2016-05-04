@@ -31,7 +31,7 @@ import org.sonar.api.profiles.AnnotationProfileParser;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.RuleFinder; //@todo deprecated RuleFinder
 import org.sonar.api.utils.ValidationMessages;
 
 public class CxxDefaultProfileTest {
@@ -40,8 +40,8 @@ public class CxxDefaultProfileTest {
   public void shouldCreateDefaultProfile() {
     ValidationMessages validation = ValidationMessages.create();
 
-    RuleFinder ruleFinder = ruleFinder();
-    CxxDefaultProfile definition = new CxxDefaultProfile(new XMLProfileParser(ruleFinder), new AnnotationProfileParser(ruleFinder));
+    RuleFinder ruleFinder = ruleFinder(); //@todo deprecated RuleFinder
+    CxxDefaultProfile definition = new CxxDefaultProfile(new XMLProfileParser(ruleFinder), new AnnotationProfileParser(ruleFinder)); //@todo deprecated XMLProfileParser
     RulesProfile profile = definition.createProfile(validation);
 
     assertThat(profile.getLanguage()).isEqualTo(CxxLanguage.KEY);
@@ -49,8 +49,8 @@ public class CxxDefaultProfileTest {
     assertThat(validation.hasErrors()).isFalse();
   }
 
-  static RuleFinder ruleFinder() {
-    return when(mock(RuleFinder.class).findByKey(anyString(), anyString())).thenAnswer(new Answer<Rule>() {
+  static RuleFinder ruleFinder() { //@todo deprecated RuleFinder
+    return when(mock(RuleFinder.class).findByKey(anyString(), anyString())).thenAnswer(new Answer<Rule>() { //@todo deprecated RuleFinder
       @Override
       public Rule answer(InvocationOnMock invocation) {
         Object[] arguments = invocation.getArguments();

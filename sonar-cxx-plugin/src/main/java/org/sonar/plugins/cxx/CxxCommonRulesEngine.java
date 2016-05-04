@@ -19,17 +19,17 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.squidbridge.commonrules.api.CommonRulesEngine; //@todo deprecated
-import org.sonar.squidbridge.commonrules.api.CommonRulesRepository; //@todo deprecated
+import org.sonar.squidbridge.commonrules.api.CommonRulesEngine; //@todo deprecated CommonRulesEngine
+import org.sonar.squidbridge.commonrules.api.CommonRulesRepository; //@todo deprecated CommonRulesRepository
 
-public class CxxCommonRulesEngine extends CommonRulesEngine {
+public class CxxCommonRulesEngine extends CommonRulesEngine { //@todo deprecated CommonRulesEngine
 
   public CxxCommonRulesEngine() {
     super(CxxLanguage.KEY);
   }
 
   @Override
-  protected void doEnableRules(CommonRulesRepository repository) {
+  protected void doEnableRules(CommonRulesRepository repository) { //@todo deprecated CommonRulesRepository
     repository
       .enableDuplicatedBlocksRule()
       .enableSkippedUnitTestsRule()

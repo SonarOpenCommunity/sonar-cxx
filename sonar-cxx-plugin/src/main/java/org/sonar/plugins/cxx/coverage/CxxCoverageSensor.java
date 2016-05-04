@@ -229,8 +229,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
     CoverageType ctype) {
 
     Resource resource = context.getResource(inputFile);
-    Measure ncloc = context.getMeasure(resource, CoreMetrics.NCLOC);
-    Measure stmts = context.getMeasure(resource, CoreMetrics.STATEMENTS);
+    Measure ncloc = context.getMeasure(resource, CoreMetrics.NCLOC);  //@todo deprecated getMeasure
+    Measure stmts = context.getMeasure(resource, CoreMetrics.STATEMENTS);  //@todo deprecated getMeasure
     if (ncloc != null && stmts != null
       && ncloc.getValue() > 0 && stmts.getValue() > 0) {
       String coverageKind = "unit test ";

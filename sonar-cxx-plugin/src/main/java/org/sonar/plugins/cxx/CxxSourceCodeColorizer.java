@@ -20,13 +20,13 @@
 package org.sonar.plugins.cxx;
 
 import com.google.common.collect.ImmutableSet;
-import org.sonar.api.web.CodeColorizerFormat; //@toto deprecated
-import org.sonar.colorizer.CDocTokenizer; //@toto deprecated
-import org.sonar.colorizer.CppDocTokenizer; //@toto deprecated
-import org.sonar.colorizer.KeywordsTokenizer; //@toto deprecated
-import org.sonar.colorizer.LiteralTokenizer; //@toto deprecated
-import org.sonar.colorizer.RegexpTokenizer; //@toto deprecated
-import org.sonar.colorizer.Tokenizer; //@toto deprecated
+import org.sonar.api.web.CodeColorizerFormat; //@toto deprecated CodeColorizerFormat
+import org.sonar.colorizer.CDocTokenizer; //@toto deprecated CDocTokenizer
+import org.sonar.colorizer.CppDocTokenizer; //@toto deprecated CppDocTokenizer
+import org.sonar.colorizer.KeywordsTokenizer; //@toto deprecated KeywordsTokenizer
+import org.sonar.colorizer.LiteralTokenizer; //@toto deprecated LiteralTokenizer
+import org.sonar.colorizer.RegexpTokenizer; //@toto deprecated RegexpTokenizer
+import org.sonar.colorizer.Tokenizer; //@toto deprecated Tokenizer
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,14 +119,14 @@ public class CxxSourceCodeColorizer extends CodeColorizerFormat {
   }
 
   @Override
-  public List<Tokenizer> getTokenizers() {
-    List<Tokenizer> tokenizers = new ArrayList<Tokenizer>();
-    tokenizers.add(new CDocTokenizer("<span class=\"cd\">", SPAN));
-    tokenizers.add(new CppDocTokenizer("<span class=\"cppd\">", SPAN));
-    tokenizers.add(new KeywordsTokenizer("<span class=\"k\">", SPAN, KEYWORDS));
-    tokenizers.add(new LiteralTokenizer("<span class=\"s\">", SPAN));
-    tokenizers.add(new RegexpTokenizer("<span class=\"j\">", SPAN, "#[^\\n\\r]*+"));
-    tokenizers.add(new RegexpTokenizer("<span class=\"c\">", SPAN, "[+-]?[0-9]++(\\.[0-9]*+)?"));
+  public List<Tokenizer> getTokenizers() { //@todo deprecated Tokenizer
+    List<Tokenizer> tokenizers = new ArrayList<Tokenizer>(); //@todo deprecated Tokenizer
+    tokenizers.add(new CDocTokenizer("<span class=\"cd\">", SPAN)); //@todo deprecated CDocTokenizer
+    tokenizers.add(new CppDocTokenizer("<span class=\"cppd\">", SPAN)); //@todo deprecated CppDocTokenizer
+    tokenizers.add(new KeywordsTokenizer("<span class=\"k\">", SPAN, KEYWORDS)); //@todo deprecated KeywordsTokenizer
+    tokenizers.add(new LiteralTokenizer("<span class=\"s\">", SPAN)); //@todo deprecated LiteralTokenizer
+    tokenizers.add(new RegexpTokenizer("<span class=\"j\">", SPAN, "#[^\\n\\r]*+")); //@todo deprecated RegexpTokenizer
+    tokenizers.add(new RegexpTokenizer("<span class=\"c\">", SPAN, "[+-]?[0-9]++(\\.[0-9]*+)?")); //@todo deprecated RegexpTokenizer
     return tokenizers;
   }
 

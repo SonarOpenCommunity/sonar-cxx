@@ -22,9 +22,9 @@ package org.sonar.plugins.cxx;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.squidbridge.commonrules.api.CommonRulesDecorator;
+import org.sonar.squidbridge.commonrules.api.CommonRulesDecorator; //@todo deprecated CommonRulesDecorator
 
-public class CxxCommonRulesDecorator extends CommonRulesDecorator {
+public class CxxCommonRulesDecorator extends CommonRulesDecorator { //@todo deprecated CommonRulesDecorator
 
   public CxxCommonRulesDecorator(FileSystem fs, CheckFactory checkFactory, ResourcePerspectives resourcePerspectives) {
     super(CxxLanguage.KEY, fs, checkFactory, resourcePerspectives);

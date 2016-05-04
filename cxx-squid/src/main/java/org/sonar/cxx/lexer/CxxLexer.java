@@ -46,7 +46,7 @@ public final class CxxLexer {
   private CxxLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) {
+  public static Lexer create(Preprocessor... preprocessors) { //@toto deprecated Preprocessor
     return create(new CxxConfiguration(), preprocessors);
   }
 
@@ -55,7 +55,7 @@ public final class CxxLexer {
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))"; // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
 
-  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) {
+  public static Lexer create(CxxConfiguration conf, Preprocessor... preprocessors) { //@toto deprecated Preprocessor
     Lexer.Builder builder = Lexer.builder()
       .withCharset(conf.getCharset())
       .withFailIfNoChannelToConsumeOneCharacter(true)
@@ -91,7 +91,7 @@ public final class CxxLexer {
       .withChannel(new PunctuatorChannel(CxxPunctuator.values()))
       .withChannel(new UnknownCharacterChannel());
 
-    for (Preprocessor preprocessor : preprocessors) {
+    for (Preprocessor preprocessor : preprocessors) { //@toto deprecated Preprocessor
       builder.withPreprocessor(preprocessor);
     }
 

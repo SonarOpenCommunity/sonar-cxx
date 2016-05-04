@@ -49,7 +49,7 @@ public class CxxValgrindRuleRepositoryTest {
     ServerFileSystem filesystem = mock(ServerFileSystem.class);
     ArrayList<File> extensionFile = new ArrayList<>();
     extensionFile.add(TestUtils.loadResource("/org/sonar/plugins/cxx/rules-repository/CustomRulesOldFormat.xml"));
-    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo getExtensions has been deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+    when(filesystem.getExtensions(CxxValgrindRuleRepository.KEY, "xml")).thenReturn(extensionFile); //@todo deprecated getExtensions: see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 
     CxxValgrindRuleRepository def = new CxxValgrindRuleRepository(filesystem, new RulesDefinitionXmlLoader(), new Settings());
     RulesDefinition.Context context = new RulesDefinition.Context();
