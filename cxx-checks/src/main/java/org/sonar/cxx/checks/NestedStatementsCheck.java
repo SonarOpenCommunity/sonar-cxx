@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.checks;
 
-import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
@@ -36,6 +35,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 import org.sonar.cxx.api.CxxKeyword;
 import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 
@@ -64,7 +64,7 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
     description = "Maximum allowed control flow statement nesting depth.")
   public int max = DEFAULT_MAX;
 
-  private final Set<AstNode> checkedNodes = Sets.newHashSet();
+  private final Set<AstNode> checkedNodes = new HashSet<>();
   private int nestingLevel = 0;
 
   @Override

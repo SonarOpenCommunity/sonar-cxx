@@ -19,8 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
+import java.util.ArrayList;
 import java.util.List;
-import com.google.common.collect.ImmutableList;
+import java.util.Arrays;
 
 import org.sonar.cxx.checks.naming.ClassNameCheck;
 import org.sonar.cxx.checks.naming.FileNameCheck;
@@ -37,7 +38,7 @@ public final class CheckList {
   }
 
   public static List<Class> getChecks() {
-    return ImmutableList.<Class>of(
+    return new ArrayList<Class>(Arrays.asList(
       CollapsibleIfCandidateCheck.class,
       CommentedCodeCheck.class,
       CommentRegularExpressionCheck.class,
@@ -85,7 +86,7 @@ public final class CheckList {
       FileNameCheck.class,
       FunctionNameCheck.class,
       MethodNameCheck.class
-    );
+    ));
   }
 
 }

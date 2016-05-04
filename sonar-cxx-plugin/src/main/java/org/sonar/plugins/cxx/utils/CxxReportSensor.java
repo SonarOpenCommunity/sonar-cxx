@@ -221,7 +221,7 @@ public abstract class CxxReportSensor implements Sensor {
     Issuable issuable = null;
     int lineNr = 0;
     // handles file="" situation -- file level
-    if ((filename != null) && (filename.length() > 0)) {
+    if ((filename != null) && (!filename.isEmpty())) {
       String root = fs.baseDir().getAbsolutePath();
       String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {

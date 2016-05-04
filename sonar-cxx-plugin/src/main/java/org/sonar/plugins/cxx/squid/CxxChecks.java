@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
 
 import javax.annotation.Nullable;
 
@@ -33,7 +34,6 @@ import org.sonar.plugins.cxx.api.CustomCxxRulesDefinition;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Lists;
 import com.sonar.sslr.api.Grammar;
 
 public class CxxChecks {
@@ -61,7 +61,7 @@ public class CxxChecks {
   public CxxChecks addCustomChecks(@Nullable CustomCxxRulesDefinition[] customRulesDefinitions) {
     if (customRulesDefinitions != null) {
       for (CustomCxxRulesDefinition rulesDefinition : customRulesDefinitions) {
-        addChecks(rulesDefinition.repositoryKey(), Lists.newArrayList(rulesDefinition.checkClasses()));
+        addChecks(rulesDefinition.repositoryKey(), new ArrayList<>(Arrays.asList(rulesDefinition.checkClasses())));
       }
     }
 

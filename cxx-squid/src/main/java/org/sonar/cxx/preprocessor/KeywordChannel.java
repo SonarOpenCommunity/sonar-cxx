@@ -23,32 +23,30 @@ import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import static org.sonar.cxx.api.CppPunctuator.HASH;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.sonar.sslr.channel.Channel;
 import org.sonar.sslr.channel.CodeReader;
 
-import com.google.common.collect.ImmutableMap;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.impl.Lexer;
 
 public class KeywordChannel extends Channel<Lexer> {
 
-  private final Map<String, TokenType> keywordsMap;
+  private final Map<String, TokenType> keywordsMap = new HashMap<>();
   private final StringBuilder tmpBuilder = new StringBuilder();
   private final Matcher matcher;
   private final Token.Builder tokenBuilder = Token.builder();
 
   public KeywordChannel(String regexp, TokenType[]... keywordSets) {
-    ImmutableMap.Builder<String, TokenType> keywordsMapBuilder = ImmutableMap.builder();
     for (TokenType[] keywords : keywordSets) {
       for (TokenType keyword : keywords) {
-        keywordsMapBuilder.put(keyword.getValue(), keyword);
+        keywordsMap.put(keyword.getValue(), keyword);
       }
     }
-    this.keywordsMap = keywordsMapBuilder.build();
     matcher = Pattern.compile(regexp).matcher("");
   }
 

@@ -24,7 +24,7 @@ import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Arrays;
 
 public abstract class CustomCxxRulesDefinition implements RulesDefinition, BatchExtension {
 
@@ -35,7 +35,7 @@ public abstract class CustomCxxRulesDefinition implements RulesDefinition, Batch
 
     // Load metadata from check classes' annotations
     new AnnotationBasedRulesDefinition(repo, CxxLanguage.KEY).addRuleClasses(false,
-      ImmutableList.copyOf(checkClasses()));
+      Arrays.asList(checkClasses()));
 
     repo.done();
   }

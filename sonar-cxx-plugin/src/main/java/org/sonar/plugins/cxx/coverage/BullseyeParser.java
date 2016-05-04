@@ -242,7 +242,7 @@ public class BullseyeParser extends CxxCoverageParser {
   }
 
   private String ensureRefPathIsCorrect(String refPath) {
-    if (refPath == null || refPath.length() == 0 || refPath.endsWith(File.separator)) {
+    if (refPath == null || refPath.isEmpty() || refPath.endsWith(File.separator)) {
       return refPath;
     }
 

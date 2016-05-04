@@ -19,16 +19,15 @@
  */
 package org.sonar.cxx.checks;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Objects;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.base.Strings;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -69,9 +68,9 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
   @Override
   public void init() {
     String regEx = getRegularExpression();
-    checkNotNull(regEx, "getRegularExpression() should not return null");
+    Objects.requireNonNull(regEx, "getRegularExpression() should not return null");
 
-    if (!Strings.isNullOrEmpty(regEx)) {
+    if (null != regEx && !regEx.isEmpty()) {
       try {
         IP = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {

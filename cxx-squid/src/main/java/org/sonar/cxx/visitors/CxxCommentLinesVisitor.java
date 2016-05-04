@@ -20,13 +20,13 @@
 package org.sonar.cxx.visitors;
 
 import java.util.Set;
+import java.util.HashSet;
 
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.SourceCode;
 
-import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -35,7 +35,7 @@ import com.sonar.sslr.api.Trivia;
 
 public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
-  private final Set<Integer> comments = Sets.newHashSet();
+  private final Set<Integer> comments = new HashSet<>();
   private boolean seenFirstToken;
 
   @Override

@@ -21,6 +21,7 @@ package org.sonar.plugins.cxx;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 import org.sonar.api.PropertyType;
 import org.sonar.api.SonarPlugin;
@@ -50,14 +51,9 @@ import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider;
 import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsAggregator;
 import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsImportSensor;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
-
-import com.google.common.collect.ImmutableList;
-
-import org.sonar.api.config.Settings;
 import org.sonar.plugins.cxx.coverage.CxxCoverageCache;
 import org.sonar.plugins.cxx.drmemory.CxxDrMemoryRuleRepository;
 import org.sonar.plugins.cxx.drmemory.CxxDrMemorySensor;
-import org.sonar.plugins.dotnet.tests.CoverageAggregator;
 
 /**
  * {@inheritDoc}
@@ -75,7 +71,7 @@ public final class CxxPlugin extends SonarPlugin {
 
   private static List<PropertyDefinition> generalProperties() {
     String subcateg = "(1) General";
-    return ImmutableList.of(
+    return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
       .defaultValue(CxxLanguage.DEFAULT_SOURCE_SUFFIXES)
       .name("Source files suffixes")
@@ -141,12 +137,12 @@ public final class CxxPlugin extends SonarPlugin {
       .type(PropertyType.BOOLEAN)
       .index(8)
       .build()
-    );
+    ));
   }
 
   private static List<PropertyDefinition> codeAnalysisProperties() {
     String subcateg = "(2) Code analysis";
-    return ImmutableList.of(
+    return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(CxxCppCheckSensor.REPORT_PATH_KEY)
       .name("Cppcheck report(s)")
       .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to projects root."
@@ -255,12 +251,12 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .index(12)
       .build()
-    );
+    ));
   }
 
   private static List<PropertyDefinition> compilerWarningsProperties() {
     String subcateg = "(4) Compiler warnings";
-    return ImmutableList.of(
+    return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(CxxCompilerSensor.REPORT_PATH_KEY)
       .name("Compiler report(s)")
       .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
@@ -311,12 +307,12 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .index(6)
       .build()
-    );
+    ));
   }
 
   private static List<PropertyDefinition> testingAndCoverageProperties() {
     String subcateg = "(3) Testing & Coverage";
-    return ImmutableList.of(
+    return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(CxxCoverageSensor.REPORT_PATH_KEY)
       .name("Unit test coverage report(s)")
       .description("Path to a report containing unit test coverage data, relative to projects root."
@@ -395,7 +391,7 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(9)
       .build()
-    );
+    ));
   }
 
   /**

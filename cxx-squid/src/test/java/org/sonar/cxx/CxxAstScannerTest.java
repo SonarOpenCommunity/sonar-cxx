@@ -22,15 +22,15 @@ package org.sonar.cxx;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
-
 import org.junit.Test;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.squidbridge.indexer.QueryByType;
 
-import com.google.common.collect.ImmutableList;
 import com.sonar.sslr.api.Grammar;
 
 public class CxxAstScannerTest {
@@ -38,8 +38,10 @@ public class CxxAstScannerTest {
   @Test
   public void files() {
     AstScanner<Grammar> scanner = CxxAstScanner.create(new CxxConfiguration());
-    scanner.scanFiles(ImmutableList.of(new File("src/test/resources/metrics/trivial.cc"),
-      new File("src/test/resources/metrics/classes.cc")));
+    scanner.scanFiles(new ArrayList<>(Arrays.asList(
+      new File("src/test/resources/metrics/trivial.cc"),
+      new File("src/test/resources/metrics/classes.cc")))
+    );
     SourceProject project = (SourceProject) scanner.getIndex().search(new QueryByType(SourceProject.class)).iterator().next();
     assertThat(project.getInt(CxxMetric.FILES)).isEqualTo(2);
   }

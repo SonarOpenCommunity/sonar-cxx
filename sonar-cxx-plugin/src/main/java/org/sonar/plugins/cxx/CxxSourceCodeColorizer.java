@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import com.google.common.collect.ImmutableSet;
 import org.sonar.api.web.CodeColorizerFormat; //@toto deprecated CodeColorizerFormat
 import org.sonar.colorizer.CDocTokenizer; //@toto deprecated CDocTokenizer
 import org.sonar.colorizer.CppDocTokenizer; //@toto deprecated CppDocTokenizer
@@ -29,12 +28,14 @@ import org.sonar.colorizer.RegexpTokenizer; //@toto deprecated RegexpTokenizer
 import org.sonar.colorizer.Tokenizer; //@toto deprecated Tokenizer
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class CxxSourceCodeColorizer extends CodeColorizerFormat {
 
-  private static final Set<String> KEYWORDS = ImmutableSet.of(
+  private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
     "abstract",
     "as",
     "base",
@@ -111,7 +112,7 @@ public class CxxSourceCodeColorizer extends CodeColorizerFormat {
     "virtual",
     "void",
     "volatile",
-    "while");
+    "while"));
   private static final String SPAN = "</span>";
 
   public CxxSourceCodeColorizer() {

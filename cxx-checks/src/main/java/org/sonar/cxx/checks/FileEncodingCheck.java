@@ -26,10 +26,10 @@ import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.nio.charset.CharsetEncoder;
+import java.nio.file.Files;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
 
@@ -50,19 +50,11 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
 
   @Override
   public void visitFile(AstNode astNode) {
-    List<String> lines;
     try {
-      lines = Files.readLines(getContext().getFile(), charset);
+      Files.readAllLines(getContext().getFile().toPath(), charset);
     } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
-    CharsetEncoder encoder = Charset.forName(charset.name()).newEncoder();
-    for (String line : lines) {
-      if (!encoder.canEncode(line)) {
-        getContext().createFileViolation(this, "Not all characters of the file can be encoded with the predefined charset " + charset.name() + ".");
-        break;
-      }
+      getContext().createFileViolation(this, "Not all characters of the file can be encoded with the predefined charset " + charset.name() + ".");
     }
   }
-
+  
 }

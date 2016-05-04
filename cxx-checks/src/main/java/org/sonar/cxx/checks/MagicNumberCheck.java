@@ -19,16 +19,15 @@
  */
 package org.sonar.cxx.checks;
 
-import java.util.Collections;
 import java.util.Set;
+import java.util.Arrays;
+import java.util.HashSet;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableSet;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -56,12 +55,17 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
     defaultValue = DEFAULT_EXCEPTIONS)
   public String exceptions = DEFAULT_EXCEPTIONS;
 
-  private Set<String> exceptionsSet = Collections.emptySet();
+  private final Set<String> exceptionsSet = new HashSet<>();
 
   @Override
   public void init() {
     subscribeTo(CxxTokenType.NUMBER);
-    exceptionsSet = ImmutableSet.copyOf(Splitter.on(',').omitEmptyStrings().trimResults().split(exceptions));
+    for (String magicNumber : Arrays.asList(exceptions.split(","))) {
+      magicNumber = magicNumber.trim();
+      if (!magicNumber.isEmpty()) {
+        exceptionsSet.add(magicNumber);
+      }
+    }
   }
 
   @Override
