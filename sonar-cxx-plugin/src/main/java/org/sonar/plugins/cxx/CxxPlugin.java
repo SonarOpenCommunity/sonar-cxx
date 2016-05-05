@@ -254,15 +254,6 @@ public final class CxxPlugin extends SonarPlugin {
       .multiValues(true)
       .subCategory(subcateg)
       .index(12)
-      .build(),
-      PropertyDefinition.builder(CxxExternalRuleRepository.SQALES_KEY)
-      .name("External SQALE characteristics")
-      .description("SQALE characteristics for 'external' code analysers. Use one value per rule set."
-        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
-      .type(PropertyType.TEXT)
-      .multiValues(true)
-      .subCategory(subcateg)
-      .index(13)
       .build()
     );
   }
