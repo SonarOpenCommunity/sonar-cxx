@@ -9918,7 +9918,7 @@ see also:</p>
     <severity>BLOCKER</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>10min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26481</key>
@@ -9933,7 +9933,7 @@ see also:</p>
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26494</key>
@@ -9948,7 +9948,7 @@ see also:</p>
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26495</key>
@@ -9963,7 +9963,7 @@ see also:</p>
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C28020</key>
