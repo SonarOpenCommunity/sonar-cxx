@@ -56,36 +56,6 @@ public class CxxExternalRuleRepositoryTest {
     + "    </rule>\n"
     + "</rules>";
 
-  String sqale2 = "<?xml version=\"1.0\"?>\n"
-    + "<sqale>\n"
-    + "  <chc>\n"
-    + "    <key>PORTABILITY</key>\n"
-    + "    <name>Portability</name>\n"
-    + "    <chc>\n"
-    + "      <key>COMPILER_RELATED_PORTABILITY</key>\n"
-    + "      <name>Compiler related portability</name>\n"
-    + "      <chc>\n"
-    + "        <rule-repo>other</rule-repo>\n"
-    + "        <rule-key>key</rule-key>\n"
-    + "        <prop>\n"
-    + "          <key>remediationFunction</key>\n"
-    + "          <txt>linear_offset</txt>\n"
-    + "        </prop>\n"
-    + "        <prop>\n"
-    + "          <key>remediationFactor</key>\n"
-    + "          <val>5</val>\n"
-    + "          <txt>mn</txt>\n"
-    + "        </prop>\n"
-    + "        <prop>\n"
-    + "          <key>offset</key>\n"
-    + "          <val>10</val>\n"
-    + "          <txt>mn</txt>\n"
-    + "        </prop>\n"
-    + "      </chc>\n"
-    + "    </chc>\n"
-    + "  </chc>\n"
-    + "</sqale>";
-
   @Test
   public void verifyTemplateRuleIsFound() {
     CxxExternalRuleRepository def = new CxxExternalRuleRepository(
@@ -130,7 +100,6 @@ public class CxxExternalRuleRepositoryTest {
   public void verifyRuleValuesTest() {
     Settings settings = new Settings();
     settings.appendProperty(CxxExternalRuleRepository.RULES_KEY, profile2);
-    settings.appendProperty(CxxExternalRuleRepository.SQALES_KEY, sqale2);
     CxxExternalRuleRepository def = new CxxExternalRuleRepository(
       new RulesDefinitionXmlLoader(), settings);
 
@@ -147,12 +116,5 @@ public class CxxExternalRuleRepositoryTest {
     assertThat(rule.internalKey()).isEqualTo("configKey");
     assertThat(rule.htmlDescription()).isEqualTo("description");
 
-    // from sqale.xml
-    assertThat(rule.debtSubCharacteristic()).isEqualTo("COMPILER_RELATED_PORTABILITY");
-    DebtRemediationFunction remediationFunction = rule.debtRemediationFunction();
-    assertThat(remediationFunction).isNotNull();
-    assertThat(remediationFunction.type()).isEqualTo(Type.LINEAR_OFFSET);
-    assertThat(remediationFunction.coefficient()).isEqualTo("5min");
-    assertThat(remediationFunction.offset()).isEqualTo("10min");
   }
 }

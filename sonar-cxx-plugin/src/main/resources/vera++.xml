@@ -30,7 +30,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>F002</key>
@@ -46,7 +46,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>L001</key>
@@ -65,7 +65,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>L002</key>
@@ -79,7 +79,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>L003</key>
@@ -93,7 +93,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>L004</key>
@@ -105,7 +105,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>L005</key>
@@ -121,7 +121,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>L006</key>
@@ -134,7 +134,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T001</key>
@@ -157,7 +157,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T002</key>
@@ -181,7 +181,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T003</key>
@@ -195,7 +195,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T004</key>
@@ -209,7 +209,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T005</key>
@@ -222,7 +222,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T006</key>
@@ -236,7 +236,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T007</key>
@@ -250,7 +250,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T008</key>
@@ -263,7 +263,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T009</key>
@@ -277,7 +277,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T010</key>
@@ -292,7 +292,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T011</key>
@@ -307,7 +307,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T012</key>
@@ -321,7 +321,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T013</key>
@@ -338,7 +338,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T014</key>
@@ -355,7 +355,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T015</key>
@@ -368,7 +368,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T016</key>
@@ -380,7 +380,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T017</key>
@@ -400,7 +400,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T018</key>
@@ -422,7 +422,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>T019</key>
@@ -438,6 +438,6 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>1min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
 </rules>

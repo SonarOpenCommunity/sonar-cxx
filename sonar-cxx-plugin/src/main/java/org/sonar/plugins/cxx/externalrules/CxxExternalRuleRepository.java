@@ -62,17 +62,6 @@ public class CxxExternalRuleRepository implements RulesDefinition {
       }
     }
 
-    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
-    for (String sqaleDefs : settings.getStringArray(SQALES_KEY)) {
-      if (StringUtils.isNotBlank(sqaleDefs)) {
-        try {
-          CxxSqaleXmlLoader.load(repository, new StringReader(sqaleDefs));
-        } catch (Exception ex) {
-          CxxUtils.LOG.info("Cannot load SQALE XML '{}'", ex);
-        }
-      }
-    }
-
     repository.done();
   }
 
