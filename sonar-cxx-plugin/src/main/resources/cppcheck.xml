@@ -42,7 +42,7 @@ way is to store addresses only in pointer types (or typedefs like uintptr_t).
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription>store addresses in pointer types</gapDescription>
   </rule>
   <rule>
@@ -65,7 +65,7 @@ way is to store addresses only in pointer types (or typedefs like uintptr_t).
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>15min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>15min</remediationFunctionGapMultiplier>
     <gapDescription>store addresses in pointer types</gapDescription>
   </rule>
   <rule>
@@ -96,7 +96,7 @@ way is to store addresses only in pointer types (or typedefs like uintptr_t).
     <severity>MAJOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     <gapDescription>auto-variable is not available after function returns</gapDescription>
   </rule>
   <rule>
@@ -118,7 +118,7 @@ Address of an auto-variable returned.
     <severity>MAJOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
     <gapDescription>auto-variable is not available after function returns</gapDescription>
   </rule>
   <rule>
@@ -140,7 +140,7 @@ Pointer to local array variable returned.
     <severity>MAJOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>returnReference</key>
@@ -161,7 +161,7 @@ Reference to auto variable returned.
     <severity>MAJOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>returnTempReference</key>
@@ -182,7 +182,7 @@ Reference to temporary returned.
     <severity>MAJOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>autovarInvalidDeallocation</key>
@@ -203,7 +203,7 @@ Address of an auto-variable returned.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>arrayIndexOutOfBounds</key>
@@ -224,7 +224,7 @@ Array index out of bounds.
     <severity>MAJOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>bufferAccessOutOfBounds</key>
@@ -245,7 +245,7 @@ Buffer is accessed out-of-bounds.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>outOfBounds</key>
@@ -265,7 +265,7 @@ Index is out of bounds: Supplied size is larger than actual size.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>terminateStrncpy</key>
@@ -284,7 +284,7 @@ assumes buffer is null-terminated.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>negativeIndex</key>
@@ -304,7 +304,7 @@ Negative array index is always out of bounds.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>insecureCmdLineArgs</key>
@@ -325,7 +325,7 @@ Buffer overrun possible for long command line arguments.
     <severity>MAJOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>pointerOutOfBounds</key>
@@ -352,7 +352,7 @@ From chapter 6.5.6 in the C specification:\n"
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>arrayIndexThenCheck</key>
@@ -372,7 +372,7 @@ Array index is used before limits check.
     <severity>MINOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>noConstructor</key>
@@ -395,7 +395,7 @@ That may cause bugs or undefined behavior.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uninitvar</key>
@@ -415,7 +415,7 @@ Uninitialized variable.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>operatorEqVarError</key>
@@ -436,7 +436,7 @@ Member variable is not assigned a value in the assignment '::operator='.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedPrivateFunction</key>
@@ -456,7 +456,7 @@ Unused private function.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memsetClass</key>
@@ -477,7 +477,7 @@ cases (e.g. when the class contains a virtual method). Use constructors or init-
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>operatorEq</key>
@@ -506,7 +506,7 @@ For more details about this topic, see the book "Effective C++" by Scott Meyers.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>thisSubtraction</key>
@@ -526,7 +526,7 @@ Suspicious pointer subtraction. Did you intend to write '->'?
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>operatorEqRetRefThis</key>
@@ -546,7 +546,7 @@ Suspicious pointer subtraction. Did you intend to write '->'?
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>operatorEqToSelf</key>
@@ -567,7 +567,7 @@ allocated memory is owned and managed by only one instance of the class.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>exceptThrowInDestructor</key>
@@ -579,7 +579,7 @@ allocated memory is owned and managed by only one instance of the class.
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>exceptDeallocThrow</key>
@@ -591,7 +591,7 @@ allocated memory is owned and managed by only one instance of the class.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>exceptRethrowCopy</key>
@@ -604,7 +604,7 @@ allocated memory is owned and managed by only one instance of the class.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>catchExceptionByValue</key>
@@ -616,7 +616,7 @@ allocated memory is owned and managed by only one instance of the class.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>assignIfError</key>
@@ -636,7 +636,7 @@ allocated memory is owned and managed by only one instance of the class.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>comparisonError</key>
@@ -658,7 +658,7 @@ In case of complex expression it might help to split it to separate expressions.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>multiCondition</key>
@@ -678,7 +678,7 @@ Expression is always false because 'else if' condition matches previous conditio
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memleak</key>
@@ -699,7 +699,7 @@ Memory leak.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>resourceLeak</key>
@@ -720,7 +720,7 @@ Resource leak.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>deallocDealloc</key>
@@ -741,7 +741,7 @@ Deallocating a deallocated pointer.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>deallocuse</key>
@@ -762,7 +762,7 @@ Dereferencing variable after it is deallocated / released.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>mismatchSize</key>
@@ -783,7 +783,7 @@ The allocated size is not a multiple of the underlying type&apos;s size.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>mismatchAllocDealloc</key>
@@ -804,7 +804,7 @@ Mismatching allocation and deallocation.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memleakOnRealloc</key>
@@ -825,7 +825,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionscrypt</key>
@@ -839,7 +839,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsctermid</key>
@@ -853,7 +853,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsecvt</key>
@@ -867,7 +867,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsfcvt</key>
@@ -881,7 +881,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsfgetgrent</key>
@@ -895,7 +895,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsfgetpwent</key>
@@ -909,7 +909,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsfgetspent</key>
@@ -923,7 +923,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgcvt</key>
@@ -937,7 +937,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetgrent</key>
@@ -951,7 +951,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetgrgid</key>
@@ -965,7 +965,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetgrnam</key>
@@ -979,7 +979,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgethostbyaddr</key>
@@ -993,7 +993,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgethostbyname</key>
@@ -1007,7 +1007,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgethostbyname2</key>
@@ -1021,7 +1021,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgethostent</key>
@@ -1035,7 +1035,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetlogin</key>
@@ -1049,7 +1049,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetnetbyaddr</key>
@@ -1063,7 +1063,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetnetbyname</key>
@@ -1077,7 +1077,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetnetgrent</key>
@@ -1091,7 +1091,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetprotobyname</key>
@@ -1105,7 +1105,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetpwent</key>
@@ -1119,7 +1119,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetpwnam</key>
@@ -1133,7 +1133,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetpwuid</key>
@@ -1147,7 +1147,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetrpcbyname</key>
@@ -1161,7 +1161,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetrpcbynumber</key>
@@ -1175,7 +1175,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetrpcent</key>
@@ -1189,7 +1189,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetservbyname</key>
@@ -1203,7 +1203,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetservbyport</key>
@@ -1217,7 +1217,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetservent</key>
@@ -1231,7 +1231,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetspent</key>
@@ -1245,7 +1245,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgetspnam</key>
@@ -1259,7 +1259,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsgmtime</key>
@@ -1273,7 +1273,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionslocaltime</key>
@@ -1287,7 +1287,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsreaddir</key>
@@ -1301,7 +1301,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsstrtok</key>
@@ -1315,7 +1315,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionstempnam</key>
@@ -1329,7 +1329,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nonreentrantFunctionsttyname</key>
@@ -1343,7 +1343,7 @@ Common realloc mistake: variable nulled but not freed upon failure.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nullPointer</key>
@@ -1363,7 +1363,7 @@ Possible null pointer dereference.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsbcmp</key>
@@ -1376,7 +1376,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsbcopy</key>
@@ -1389,7 +1389,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsbsd_signal</key>
@@ -1402,7 +1402,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsbzero</key>
@@ -1415,7 +1415,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsecvt</key>
@@ -1428,7 +1428,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsfcvt</key>
@@ -1441,7 +1441,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsftime</key>
@@ -1453,7 +1453,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsgcvt</key>
@@ -1466,7 +1466,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsgetcontext</key>
@@ -1480,7 +1480,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsgethostbyaddr</key>
@@ -1493,7 +1493,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsgethostbyname</key>
@@ -1506,7 +1506,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsgets</key>
@@ -1519,7 +1519,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsgetwd</key>
@@ -1532,7 +1532,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsindex</key>
@@ -1545,7 +1545,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsmakecontext</key>
@@ -1559,7 +1559,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionspthread_attr_getstackaddr</key>
@@ -1573,7 +1573,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionspthread_attr_setstackaddr</key>
@@ -1587,7 +1587,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsrindex</key>
@@ -1600,7 +1600,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsscalbln</key>
@@ -1613,7 +1613,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsswapcontext</key>
@@ -1627,7 +1627,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsualarm</key>
@@ -1641,7 +1641,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsusleep</key>
@@ -1654,7 +1654,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsvfork</key>
@@ -1667,7 +1667,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionswcswcs</key>
@@ -1680,7 +1680,7 @@ Possible null pointer dereference.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>assignBoolToPointer</key>
@@ -1701,7 +1701,7 @@ Boolean value assigned to pointer.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sprintfOverlappingData</key>
@@ -1723,7 +1723,7 @@ copying takes place between objects that overlap as a result of a call to sprint
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>staticStringCompare</key>
@@ -1735,7 +1735,7 @@ copying takes place between objects that overlap as a result of a call to sprint
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>udivError</key>
@@ -1747,7 +1747,7 @@ copying takes place between objects that overlap as a result of a call to sprint
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>zerodiv</key>
@@ -1767,7 +1767,7 @@ Division by zero.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>wrongmathcall</key>
@@ -1780,7 +1780,7 @@ Division by zero.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>fflushOnInputStream</key>
@@ -1792,7 +1792,7 @@ Division by zero.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>functionConst</key>
@@ -1804,7 +1804,7 @@ Division by zero.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedScopedObject</key>
@@ -1824,7 +1824,7 @@ Instance destroyed immediately.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeofwithsilentarraypointer</key>
@@ -1836,7 +1836,7 @@ Instance destroyed immediately.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeofwithnumericparameter</key>
@@ -1849,7 +1849,7 @@ Instance destroyed immediately.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>cstyleCast</key>
@@ -1861,7 +1861,7 @@ Instance destroyed immediately.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>dangerousUsageStrtol</key>
@@ -1873,7 +1873,7 @@ Instance destroyed immediately.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>passedByValue</key>
@@ -1885,7 +1885,7 @@ Instance destroyed immediately.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>constStatement</key>
@@ -1897,7 +1897,7 @@ Instance destroyed immediately.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>charArrayIndex</key>
@@ -1909,7 +1909,7 @@ Instance destroyed immediately.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>charBitOp</key>
@@ -1922,7 +1922,7 @@ Instance destroyed immediately.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>variableScope</key>
@@ -1934,7 +1934,7 @@ Instance destroyed immediately.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>strPlusChar</key>
@@ -1954,7 +1954,7 @@ Unusual pointer arithmetic.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeofsizeof</key>
@@ -1966,7 +1966,7 @@ Unusual pointer arithmetic.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeofCalculation</key>
@@ -1978,7 +1978,7 @@ Unusual pointer arithmetic.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantAssignInSwitch</key>
@@ -1990,7 +1990,7 @@ Unusual pointer arithmetic.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>switchCaseFallThrough</key>
@@ -2002,7 +2002,7 @@ Unusual pointer arithmetic.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>selfAssignment</key>
@@ -2014,7 +2014,7 @@ Unusual pointer arithmetic.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>assignmentInAssert</key>
@@ -2038,7 +2038,7 @@ builds, this is a bug.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidscanf</key>
@@ -2050,7 +2050,7 @@ builds, this is a bug.
     <severity>MINOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>incorrectLogicOperator</key>
@@ -2072,7 +2072,7 @@ Logical disjunction always evaluates to true or false . Did you intend to use '&
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memsetZeroBytes</key>
@@ -2084,7 +2084,7 @@ Logical disjunction always evaluates to true or false . Did you intend to use '&
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>clarifyCalculation</key>
@@ -2096,7 +2096,7 @@ Logical disjunction always evaluates to true or false . Did you intend to use '&
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>clarifyCondition</key>
@@ -2124,7 +2124,7 @@ Please clarify the condition with parentheses.</li
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>incorrectStringCompare</key>
@@ -2136,7 +2136,7 @@ Please clarify the condition with parentheses.</li
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>incrementboolean</key>
@@ -2157,7 +2157,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>comparisonOfBoolWithInt</key>
@@ -2169,7 +2169,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>duplicateIf</key>
@@ -2181,7 +2181,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>duplicateBranch</key>
@@ -2193,7 +2193,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>duplicateExpression</key>
@@ -2205,7 +2205,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>duplicateBreak</key>
@@ -2218,7 +2218,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unsignedLessThanZero</key>
@@ -2230,7 +2230,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unsignedPositive</key>
@@ -2243,7 +2243,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidIterator1</key>
@@ -2264,7 +2264,7 @@ Invalid iterator.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>iterators</key>
@@ -2285,7 +2285,7 @@ Same iterator is used with two different containers.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>mismatchingContainers</key>
@@ -2306,7 +2306,7 @@ Iterators of different containers are used together
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>eraseDereference</key>
@@ -2328,7 +2328,7 @@ Dereferencing or comparing it with another iterator is invalid operation.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlOutOfBounds</key>
@@ -2349,7 +2349,7 @@ When <code>i==foo.size()</code> foo[i] or foo.at(i) is out of bounds.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidIterator2</key>
@@ -2370,7 +2370,7 @@ Iterators may get invalid after push_back|push_front|insert.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPointer</key>
@@ -2390,7 +2390,7 @@ Invalid pointer after push_back / push_front.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlBoundries</key>
@@ -2403,7 +2403,7 @@ Invalid pointer after push_back / push_front.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlIfFind</key>
@@ -2416,7 +2416,7 @@ Invalid pointer after push_back / push_front.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlIfStrFind</key>
@@ -2431,7 +2431,7 @@ Invalid pointer after push_back / push_front.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlcstr</key>
@@ -2451,7 +2451,7 @@ Dangerous usage of c_str(). The returned value by c_str() is invalid after this 
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlSize</key>
@@ -2464,7 +2464,7 @@ Dangerous usage of c_str(). The returned value by c_str() is invalid after this 
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantIfRemove</key>
@@ -2476,7 +2476,7 @@ Dangerous usage of c_str(). The returned value by c_str() is invalid after this 
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>useAutoPointerCopy</key>
@@ -2489,7 +2489,7 @@ Dangerous usage of c_str(). The returned value by c_str() is invalid after this 
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>useAutoPointerContainer</key>
@@ -2511,7 +2511,7 @@ It is suitable for use in containers, because they no longer copy their values, 
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>useAutoPointerArray</key>
@@ -2533,7 +2533,7 @@ This excludes arrays, which are allocated by operator 'new[]' and must be deallo
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uninitstring</key>
@@ -2553,7 +2553,7 @@ Dangerous usage of variable (strncpy doesn't always 0-terminate it).
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uninitdata</key>
@@ -2573,7 +2573,7 @@ Data is allocated but not initialized.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedFunction</key>
@@ -2585,7 +2585,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedVariable</key>
@@ -2597,7 +2597,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedAllocatedMemory</key>
@@ -2609,7 +2609,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unreadVariable</key>
@@ -2621,7 +2621,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unassignedVariable</key>
@@ -2633,7 +2633,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedStructMember</key>
@@ -2645,7 +2645,7 @@ Data is allocated but not initialized.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>postfixOperator</key>
@@ -2660,7 +2660,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>syntaxError</key>
@@ -2672,7 +2672,7 @@ Data is allocated but not initialized.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>cppcheckError</key>
@@ -2685,7 +2685,7 @@ Data is allocated but not initialized.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unnecessaryForwardDeclaration</key>
@@ -2697,7 +2697,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>variableHidingEnum</key>
@@ -2709,7 +2709,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>variableHidingTypedef</key>
@@ -2721,7 +2721,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unnecessaryQualification</key>
@@ -2734,7 +2734,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>missingInclude</key>
@@ -2747,7 +2747,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>preprocessorErrorDirective</key>
@@ -2759,7 +2759,7 @@ Data is allocated but not initialized.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>publicAllocationError</key>
@@ -2771,7 +2771,7 @@ Data is allocated but not initialized.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeArgumentAsChar</key>
@@ -2783,7 +2783,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- ########### New in cppcheck 1.51 ########### -->
   <rule>
@@ -2796,7 +2796,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>initializerList</key>
@@ -2808,7 +2808,7 @@ Data is allocated but not initialized.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>possibleBufferAccessOutOfBounds</key>
@@ -2829,7 +2829,7 @@ The source buffer is larger than or equal the destination buffer so there is the
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>returnAddressOfFunctionParameter</key>
@@ -2851,7 +2851,7 @@ function parameters are stored on the stack which is freed when the function exi
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.52 ########### -->
@@ -2865,7 +2865,7 @@ function parameters are stored on the stack which is freed when the function exi
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>complexPatternError</key>
@@ -2877,7 +2877,7 @@ function parameters are stored on the stack which is freed when the function exi
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>missingPercentCharacter</key>
@@ -2889,7 +2889,7 @@ function parameters are stored on the stack which is freed when the function exi
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>boostForeachError</key>
@@ -2910,7 +2910,7 @@ BOOST_FOREACH caches the end() iterator. It's undefined behavior if you modify t
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>compareBoolExpressionWithInt</key>
@@ -2930,7 +2930,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>coutCerrMisusage</key>
@@ -2942,7 +2942,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>incorrectStringBooleanError</key>
@@ -2955,7 +2955,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stringCompare</key>
@@ -2967,7 +2967,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlcstrthrow</key>
@@ -2979,7 +2979,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unreachableCode</key>
@@ -2992,7 +2992,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uselessCallsCompare</key>
@@ -3004,7 +3004,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uselessCallsSwap</key>
@@ -3017,7 +3017,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uselessCallsSubstr</key>
@@ -3029,7 +3029,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>wrongcctypecall</key>
@@ -3043,7 +3043,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.53 ########### -->
@@ -3057,7 +3057,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>doubleFree</key>
@@ -3078,7 +3078,7 @@ Memory or resource handle is freed twice.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPrintfArgType_s</key>
@@ -3090,7 +3090,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPrintfArgType_n</key>
@@ -3102,7 +3102,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPrintfArgType_p</key>
@@ -3114,7 +3114,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPrintfArgType_int</key>
@@ -3126,7 +3126,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPrintfArgType_sint</key>
@@ -3138,7 +3138,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPrintfArgType_float</key>
@@ -3150,7 +3150,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidScanfArgType</key>
@@ -3163,7 +3163,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsasctime</key>
@@ -3176,7 +3176,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsasctime_r</key>
@@ -3189,7 +3189,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsrand_r</key>
@@ -3202,7 +3202,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionstmpnam</key>
@@ -3215,7 +3215,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionstmpnam_r</key>
@@ -3228,7 +3228,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsutime</key>
@@ -3241,7 +3241,7 @@ Memory or resource handle is freed twice.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>wrongPrintfScanfArgNum</key>
@@ -3262,7 +3262,7 @@ Wrong number of parameters given to printf().
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.54 ########### -->
@@ -3284,7 +3284,7 @@ Member variable is not initialized in the constructor.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantCondition</key>
@@ -3305,7 +3305,7 @@ Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPointerCast</key>
@@ -3317,7 +3317,7 @@ Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>virtualDestructor</key>
@@ -3337,7 +3337,7 @@ Class Base which is inherited by class Derived does not have a virtual destructo
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>leakNoVarFunctionCall</key>
@@ -3358,7 +3358,7 @@ Memory allocated inside the called function is not freed by the caller function.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlcstrReturn</key>
@@ -3370,7 +3370,7 @@ Memory allocated inside the called function is not freed by the caller function.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stlcstrParam</key>
@@ -3382,7 +3382,7 @@ Memory allocated inside the called function is not freed by the caller function.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.54 ########### -->
@@ -3397,7 +3397,7 @@ Memory allocated inside the called function is not freed by the caller function.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>strncatUsage</key>
@@ -3410,7 +3410,7 @@ Memory allocated inside the called function is not freed by the caller function.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.55 ########### -->
@@ -3435,7 +3435,7 @@ The safe way is to always return a pointer.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>IOWithoutPositioning</key>
@@ -3455,7 +3455,7 @@ Read and write operations without a call to a positioning function (fseek, fsetp
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>bitwiseOnBoolean</key>
@@ -3475,7 +3475,7 @@ Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '|
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>deallocret</key>
@@ -3497,7 +3497,7 @@ Assignment of function parameter has no effect outside the function.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidScanfFormatWidth</key>
@@ -3518,7 +3518,7 @@ Width 'parameter' given in format string (no. 'symbol' ) doesn't match destinati
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>leakconfiguration</key>
@@ -3530,7 +3530,7 @@ Width 'parameter' given in format string (no. 'symbol' ) doesn't match destinati
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>moduloAlwaysTrueFalse</key>
@@ -3550,7 +3550,7 @@ Comparison of modulo result is predetermined.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>pointerSize</key>
@@ -3562,7 +3562,7 @@ Comparison of modulo result is predetermined.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>possibleReadlinkBufferOverrun</key>
@@ -3574,7 +3574,7 @@ Comparison of modulo result is predetermined.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>readWriteOnlyFile</key>
@@ -3594,7 +3594,7 @@ Read operation on a file that was opened only for writing.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantBitwiseOperationInSwitch</key>
@@ -3606,7 +3606,7 @@ Read operation on a file that was opened only for writing.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>suspiciousSemicolon</key>
@@ -3618,7 +3618,7 @@ Read operation on a file that was opened only for writing.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>useClosedFile</key>
@@ -3639,7 +3639,7 @@ Used file that is not opened.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>useInitializationList</key>
@@ -3661,7 +3661,7 @@ You could avoid assigning 'symbol' a value by passing the value to the construct
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>writeReadOnlyFile</key>
@@ -3681,7 +3681,7 @@ Write operation on a file that was opened only for reading.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.56 ########### -->
@@ -3695,7 +3695,7 @@ Write operation on a file that was opened only for reading.
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>comparisonOfBoolWithInvalidComparator</key>
@@ -3707,7 +3707,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>functionStatic</key>
@@ -3719,7 +3719,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>incompleteArrayFill</key>
@@ -3731,7 +3731,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidPrintfArgType_uint</key>
@@ -3743,7 +3743,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>literalWithCharPtrCompare</key>
@@ -3755,7 +3755,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>pointerLessThanZero</key>
@@ -3767,7 +3767,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>pointerPositive</key>
@@ -3779,7 +3779,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantCopyLocalConst</key>
@@ -3791,7 +3791,7 @@ Write operation on a file that was opened only for reading.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>shiftNegative</key>
@@ -3811,7 +3811,7 @@ Shifting a negative value is undefined behaviour.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unknownPattern</key>
@@ -3823,7 +3823,7 @@ Shifting a negative value is undefined behaviour.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uselessCallsEmpty</key>
@@ -3835,7 +3835,7 @@ Shifting a negative value is undefined behaviour.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uselessCallsRemove</key>
@@ -3847,7 +3847,7 @@ Shifting a negative value is undefined behaviour.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>ConfigurationNotChecked</key>
@@ -3861,7 +3861,7 @@ Shifting a negative value is undefined behaviour.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>toomanyconfigs</key>
@@ -3883,7 +3883,7 @@ Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --f
     <severity>INFO</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.57 ########### -->
@@ -3908,7 +3908,7 @@ to 32-bit integer. The safe way is to always return an integer.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>comparisonOfBoolWithBoolError</key>
@@ -3929,7 +3929,7 @@ The variable 'expression' is of type 'bool' and comparing 'bool' value using rel
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>comparisonOfFuncReturningBoolError</key>
@@ -3951,7 +3951,7 @@ Comparing 'bool' value using relational (<, >, <= or >=) operator could cause un
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>comparisonOfTwoFuncsReturningBoolError</key>
@@ -3973,7 +3973,7 @@ Comparing 'bool' value using relational (<, >, <= or >=) operator could cause un
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>copyCtorPointerCopying</key>
@@ -3993,7 +3993,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidFree</key>
@@ -4005,7 +4005,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidLengthModifierError</key>
@@ -4017,7 +4017,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>noCopyConstructor</key>
@@ -4037,7 +4037,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>oppositeInnerCondition</key>
@@ -4058,7 +4058,7 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantAssignment</key>
@@ -4070,7 +4070,7 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantCopyInSwitch</key>
@@ -4082,7 +4082,7 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantNextPrevious</key>
@@ -4094,7 +4094,7 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unsafeClassCanLeak</key>
@@ -4106,7 +4106,7 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantCopy</key>
@@ -4118,7 +4118,7 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.58 ########### -->
@@ -4143,7 +4143,7 @@ The array 'varname' is too small, the function 'functionName' expects a bigger o
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.59 ########### -->
@@ -4159,7 +4159,7 @@ The array 'varname' is too small, the function 'functionName' expects a bigger o
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4184,7 +4184,7 @@ This is unsafe, since no constructor is called and class members remain uninitia
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4208,7 +4208,7 @@ This is unsafe, since no constructor is called and class members remain uninitia
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4236,7 +4236,7 @@ results => Z=0
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4252,7 +4252,7 @@ results => Z=0
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4277,7 +4277,7 @@ One should use 'operator!=' instead to compare iterators.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4292,7 +4292,7 @@ One should use 'operator!=' instead to compare iterators.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4315,7 +4315,7 @@ Missing initialization for a struct member.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4339,7 +4339,7 @@ Assignment of function parameter has no effect outside the function. Did you for
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4355,7 +4355,7 @@ Assignment of function parameter has no effect outside the function. Did you for
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4371,7 +4371,7 @@ Assignment of function parameter has no effect outside the function. Did you for
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4394,7 +4394,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <rule>
@@ -4407,7 +4407,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.60 ########### -->
@@ -4423,7 +4423,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.61 ########### -->
@@ -4440,7 +4440,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>commaSeparatedReturn</key>
@@ -4454,7 +4454,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nanInArithmeticExpression</key>
@@ -4469,7 +4469,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeofDereferencedVoidPointer</key>
@@ -4484,7 +4484,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeofVoid</key>
@@ -4499,7 +4499,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>wrongPrintfScanfParameterPositionError</key>
@@ -4514,7 +4514,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsctime_r</key>
@@ -4528,7 +4528,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.62 ########### -->
@@ -4552,7 +4552,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidScanfArgType_int</key>
@@ -4565,7 +4565,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidScanfArgType_float</key>
@@ -4578,7 +4578,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidScanfArgType_s</key>
@@ -4591,7 +4591,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>comparisonFunctionIsAlwaysTrueOrFalse</key>
@@ -4604,7 +4604,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>zerodivcond</key>
@@ -4622,7 +4622,7 @@ Either the condition is useless or there is division by zero.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.63 ########### -->
@@ -4648,7 +4648,7 @@ builds, this is a bug.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>pointerArithBool</key>
@@ -4670,7 +4670,7 @@ and overflow is undefined behaviour. Probably a dereference is forgotten.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>leakReturnValNotUsed</key>
@@ -4690,7 +4690,7 @@ Return value of allocation function is not used.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidFunctionArg</key>
@@ -4710,7 +4710,7 @@ A function gets passed an invalid argument.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidFunctionArgBool</key>
@@ -4730,7 +4730,7 @@ A function gets passed an invalid argument. A non-boolean value is required.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
 
   <!-- ########### New in cppcheck 1.64 ########### -->
@@ -4754,7 +4754,7 @@ Negative allocation size has no specified behaviour.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memsetFloat</key>
@@ -4766,7 +4766,7 @@ Negative allocation size has no specified behaviour.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memsetValueOutOfRange</key>
@@ -4784,7 +4784,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
     <!-- ########### New in cppcheck 1.65 ########### -->
   <rule>
@@ -4798,7 +4798,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>exceptThrowInNoThrowFunction</key>
@@ -4810,7 +4810,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>exceptThrowInAttributeNoThrowFunction</key>
@@ -4822,7 +4822,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>exceptThrowInDeclspecNoThrowFunction</key>
@@ -4834,7 +4834,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>seekOnAppendedFile</key>
@@ -4846,7 +4846,7 @@ The 2nd memset() argument doesn't fit into an 'unsigned char'.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
     <!-- ########### New in cppcheck 1.66 ########### -->
   <rule>
@@ -4867,7 +4867,7 @@ The array access using this index may be out of bounds.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>charLiteralWithCharPtrCompare</key>
@@ -4879,7 +4879,7 @@ The array access using this index may be out of bounds.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionasctime</key>
@@ -4892,7 +4892,7 @@ The array access using this index may be out of bounds.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
     <!-- ########### New in cppcheck 1.67 ########### -->
   <rule>
@@ -4913,7 +4913,7 @@ Pointer &apos;pointer&apos; is dead if it has been assigned &apos;&amp;x&apos; a
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>ignoredReturnValue</key>
@@ -4930,7 +4930,7 @@ Return value of function malloc() is not used.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>integerOverflow</key>
@@ -4942,7 +4942,7 @@ Return value of function malloc() is not used.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidscanf_libc</key>
@@ -4954,7 +4954,7 @@ Return value of function malloc() is not used.
     <severity>MINOR</severity>
     <type>VULNERABILITY</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memsetClassFloat</key>
@@ -4977,7 +4977,7 @@ the actual representation of a floating-point value is implementation defined.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>memsetClassReference</key>
@@ -4997,7 +4997,7 @@ Using "memfunc" on class that contains a reference.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>selfInitialization</key>
@@ -5018,7 +5018,7 @@ Member variable 'var' is initialized by itself.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>shiftTooManyBits</key>
@@ -5038,7 +5038,7 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>signConversion</key>
@@ -5050,7 +5050,7 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>sizeofDivisionMemfunc</key>
@@ -5062,7 +5062,7 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unpreciseMathCall</key>
@@ -5074,7 +5074,7 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>uselessAssignmentArg</key>
@@ -5095,7 +5095,7 @@ Assignment of function parameter has no effect outside the function.
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>va_end_missing</key>
@@ -5116,7 +5116,7 @@ va_list 'vl' was opened but not closed by va_end().
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>va_list_usedBeforeStarted</key>
@@ -5136,7 +5136,7 @@ va_list 'vl' used before va_start() was called.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>va_start_referencePassed</key>
@@ -5157,7 +5157,7 @@ Using reference &apos;arg1&apos; as parameter for va_start() results in undefine
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>va_start_subsequentCalls</key>
@@ -5178,7 +5178,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>va_start_wrongParameter</key>
@@ -5190,7 +5190,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unmatchedSuppression</key>
@@ -5202,7 +5202,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
     <!-- ########### New in cppcheck 1.69 Dev ########### -->
   <rule>
@@ -5216,7 +5216,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>noExplicitConstructor</key>
@@ -5228,7 +5228,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>noExplicitCopyMoveConstructor</key>
@@ -5240,7 +5240,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>operatorEqMissingReturnStatement</key>
@@ -5261,7 +5261,7 @@ No <code>return</code> statement in non-void function causes undefined behavior.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>operatorEqShouldBeLeftUnimplemented</key>
@@ -5281,7 +5281,7 @@ No <code>return</code> statement in non-void function causes undefined behavior.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>redundantPointerOp</key>
@@ -5293,7 +5293,7 @@ No <code>return</code> statement in non-void function causes undefined behavior.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>throwInNoexceptFunction</key>
@@ -5305,7 +5305,7 @@ No <code>return</code> statement in non-void function causes undefined behavior.
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>useAutoPointerMalloc</key>
@@ -5317,7 +5317,7 @@ No <code>return</code> statement in non-void function causes undefined behavior.
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- ########### New in cppcheck 1.70 release ########### -->
   <rule>
@@ -5336,7 +5336,7 @@ Declaration of array &apos;identifier&apos; with negative size is undefined beha
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>badBitmaskCheck</key>
@@ -5349,7 +5349,7 @@ Declaration of array &apos;identifier&apos; with negative size is undefined beha
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>knownConditionTrueFalse</key>
@@ -5362,7 +5362,7 @@ Declaration of array &apos;identifier&apos; with negative size is undefined beha
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nullPointerDefaultArg</key>
@@ -5380,7 +5380,7 @@ Possible null pointer dereference if the default parameter value is used: pointe
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>nullPointerRedundantCheck</key>
@@ -5398,7 +5398,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MINOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>obsoleteFunctionsalloca</key>
@@ -5410,7 +5410,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>raceAfterInterlockedDecrement</key>
@@ -5422,7 +5422,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedLabel</key>
@@ -5434,7 +5434,7 @@ Either the condition is redundant or there is possible null pointer dereference:
    <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>stringLiteralWrite</key>
@@ -5447,7 +5447,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>CRITICAL</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>truncLongCastAssignment</key>
@@ -5459,7 +5459,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>truncLongCastReturn</key>
@@ -5471,7 +5471,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- ########### New in cppcheck 1.72 ########### -->
   <rule>
@@ -5484,7 +5484,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>invalidTestForOverflow</key>
@@ -5496,7 +5496,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MAJOR</severity>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unknownEvaluationOrder</key>
@@ -5508,7 +5508,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <!-- ########### New in cppcheck 1.73 ########### -->
   <rule>
@@ -5521,7 +5521,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unknownSignCharArrayIndex</key>
@@ -5533,7 +5533,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>unusedLabelSwitch</key>
@@ -5545,7 +5545,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
-    <remediationFunctionBaseEffort>5min</remediationFunctionBaseEffort>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
  </rules>
 

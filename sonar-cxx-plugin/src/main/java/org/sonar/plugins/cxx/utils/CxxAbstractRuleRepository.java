@@ -81,7 +81,6 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     }
 
     //i18nLoader.load(repository); //@todo?
-    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
     repository.done();
   }
 

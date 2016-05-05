@@ -39,7 +39,6 @@ public class CxxRuleRepository implements RulesDefinition {
       rule.setInternalKey(rule.key());
     }
 
-    SqaleXmlLoader.load(repository, "/com/sonar/sqale/cxx-model.xml");
     repository.done();
   }
 }
