@@ -4,13 +4,12 @@ jdk:
         - oraclejdk8
 
 env:
-        - SONARHOME=/tmp/sonarqube-5.4
         - SONARHOME=/tmp/sonarqube-5.5
   
 matrix:
     fast_finished: true
-    allow_failures:
-        - env: SONARHOME=/tmp/sonarqube-5.5
+#    allow_failures:
+#        - env: SONARHOME=/tmp/sonarqube-5.5
 
 before_install:
         - cat /etc/hosts # optionally check the content *before*
@@ -23,8 +22,6 @@ before_install:
         
 install:
         - cd /tmp
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.4.zip
-        - unzip -qq sonarqube-5.4.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.5.zip
         - unzip -qq sonarqube-5.5.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.6.zip
