@@ -443,7 +443,7 @@ public final class ExpressionEvaluator {
     int radix = 10;
     if (number.length() > 2) {
       if (number.charAt(0) == '0') {
-          radix = 8; // 0...
+        radix = 8; // 0...
         try {
           Pattern p = Pattern.compile(HEX_REGEX);
           Matcher m = p.matcher(number);
