@@ -400,6 +400,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
   PreprocessorAction handleIfLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
     if (!currentFileState.skipPreprocessorDirectives) {
+      currentFileState.conditionWasTrue = false;
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: handling #if line '{}'",
           new Object[]{filename, token.getLine(), token.getValue()});
@@ -432,7 +433,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
     // Handling of an elif line is similar to handling of an if line but doesn't increase the nesting level
     if (currentFileState.conditionalInclusionCounter == 0) {
-      if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) { //the preceeding clauses had been evaluated to false
+      if (currentFileState.skipPreprocessorDirectives && !currentFileState.conditionWasTrue) { //the preceding clauses had been evaluated to false
         try {
           if (LOG.isTraceEnabled()) {
             LOG.trace("[{}:{}]: handling #elif line '{}'",
@@ -1128,6 +1129,9 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
+      }
 
       boolean parseError = false;
       AstNode includeBodyAst = null;

@@ -24,18 +24,24 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.preprocessor.SourceCodeProvider;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest extends ParserBaseTest {
 
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "examples", "cli", "cuda"};
+  String[] preprocessorFiles = {"preprocessor"};
   String[] cCompatibilityFiles = {"c-compat"};
   String rootDir = "src/test/resources/parser";
   File erroneousSources = null;
@@ -51,6 +57,21 @@ public class CxxParserTest extends ParserBaseTest {
   @Test
   public void testParsingOnDiverseSourceFiles() {
     Collection<File> files = listFiles(goodFiles, new String[]{"cc", "cpp", "hpp"});
+    for (File file : files) {
+      p.parse(file);
+      CxxParser.finishedParsing(file);
+    }
+  }
+
+  @Test
+  public void testPreproccessorParsingOnDiverseSourceFiles() {
+    conf = new CxxConfiguration();
+    conf.setErrorRecoveryEnabled(false);
+    String baseDir = new File("src/test").getAbsolutePath();
+    conf.setBaseDir(baseDir);
+    conf.setIncludeDirectories(Arrays.asList("resources"));
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    Collection<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp"});
     for (File file : files) {
       p.parse(file);
       CxxParser.finishedParsing(file);
