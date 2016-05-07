@@ -24,8 +24,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.mockito.Mockito;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.Project;
@@ -37,9 +41,6 @@ import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTest
 import org.sonar.plugins.dotnet.tests.UnitTestResults;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 import org.sonar.plugins.dotnet.tests.WildcardPatternFileProvider;
-
-import com.google.common.collect.ImmutableList;
-import java.io.File;
 
 public class CxxUnitTestResultsProviderTest {
 
@@ -71,7 +72,7 @@ public class CxxUnitTestResultsProviderTest {
   @Test
   public void should_not_analyze_on_reactor_project() {
     when(project.isRoot()).thenReturn(false);
-    when(project.getModules()).thenReturn(ImmutableList.of(mock(Project.class)));
+    when(project.getModules()).thenReturn(new ArrayList<>(Collections.singletonList(mock(Project.class))));
 
     resultsAggregator = mock(CxxUnitTestResultsAggregator.class);
     sensor = new CxxUnitTestResultsImportSensor(resultsAggregator);

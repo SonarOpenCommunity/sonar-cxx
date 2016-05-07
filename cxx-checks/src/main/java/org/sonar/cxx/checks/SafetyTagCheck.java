@@ -19,16 +19,15 @@
  */
 package org.sonar.cxx.checks;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Objects;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.base.Strings;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
@@ -87,9 +86,9 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
   @Override
   public void init() {
     String regEx = getRegularExpression();
-    checkNotNull(regEx, "getRegularExpression() should not return null");
+    Objects.requireNonNull(regEx, "getRegularExpression() should not return null");
 
-    if (!Strings.isNullOrEmpty(regEx)) {
+    if (null != regEx && !regEx.isEmpty()) {
       try {
         pattern = Pattern.compile(regEx, Pattern.DOTALL);
       } catch (RuntimeException e) {

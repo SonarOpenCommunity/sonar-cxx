@@ -20,15 +20,17 @@
 package org.sonar.cxx.checks;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.charset.Charset;
 import java.util.List;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
+
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.RuleProperty;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
@@ -66,7 +68,7 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
   public void visitFile(AstNode astNode) {
     List<String> lines;
     try {
-      lines = Files.readLines(getContext().getFile(), charset);
+      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }

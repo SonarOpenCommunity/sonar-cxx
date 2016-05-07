@@ -20,7 +20,6 @@
 package org.sonar.cxx.preprocessor;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import java.io.File;
@@ -57,6 +56,7 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import java.util.Collections;
 
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
@@ -231,7 +231,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         throw new RuntimeException(e);
       }
 
-      macros.put(entry.getKey(), new Macro(entry.getKey(), null, Lists.newArrayList(bodyToken), false));
+      macros.put(entry.getKey(), new Macro(entry.getKey(), null, Collections.singletonList(bodyToken), false));
     }
   }
 
@@ -328,7 +328,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         lineAst = pplineParser.parse(token.getValue()).getFirstChild();
       } catch (com.sonar.sslr.api.RecognitionException re) {
         LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
-        return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
       }
 
       AstNodeType lineKind = lineAst.getType();
@@ -346,7 +346,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       }
 
       if (currentFileState.skipPreprocessorDirectives) {
-        return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
       }
 
       if (lineKind == defineLine) {
@@ -359,12 +359,12 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
       // Ignore all other preprocessor directives (which are not handled explicitly)
       // and strip them from the stream
-      return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+      return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
     }
 
     if (ttype != EOF) {
       if (currentFileState.skipPreprocessorDirectives) {
-        return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+        return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
       }
 
       if (ttype != STRING && ttype != NUMBER) {
@@ -426,7 +426,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       currentFileState.conditionalInclusionCounter++;
     }
 
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   PreprocessorAction handleElIfLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
@@ -463,7 +463,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       }
     }
 
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
@@ -484,7 +484,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       currentFileState.conditionalInclusionCounter++;
     }
 
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   PreprocessorAction handleElseLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
@@ -503,7 +503,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       }
     }
 
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   PreprocessorAction handleEndifLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
@@ -519,7 +519,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       currentFileState.conditionWasTrue = false;
     }
 
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   PreprocessorAction handleDefineLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
@@ -533,7 +533,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       macros.put(macro.name, macro);
     }
 
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   private void parseIncludeLine(String includeLine, String filename) {
@@ -585,13 +585,13 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 //      LOG.debug("[{}:{}]: skipping already included file '{}'", new Object[] {filename, token.getLine(), includedFile});
 //    }
 
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   PreprocessorAction handleUndefLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
     String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
     macros.removeLowPrio(macroName);
-    return new PreprocessorAction(1, Lists.newArrayList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
+    return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
   PreprocessorAction handleIdentifiersAndKeywords(List<Token> tokens, Token curr, String filename) { //@todo: deprecated PreprocessorAction
@@ -661,7 +661,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
         ppaction = new PreprocessorAction( //@todo: deprecated PreprocessorAction
           tokensConsumed,
-          Lists.newArrayList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
+           Collections.singletonList(Trivia.createSkippedText(tokens.subList(0, tokensConsumed))),
           replTokens);
       }
     }

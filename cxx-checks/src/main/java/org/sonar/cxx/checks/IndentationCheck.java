@@ -20,9 +20,11 @@
 package org.sonar.cxx.checks;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Stack;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -30,12 +32,12 @@ import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
+
 import org.sonar.api.server.rule.RulesDefinition;
 import static org.sonar.cxx.checks.utils.CheckUtils.isIdentifierLabel;
 import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
@@ -146,7 +148,7 @@ public class IndentationCheck extends SquidCheck<Grammar> implements CxxCharsetA
   private int getTabColumn(Token token) {
     if (fileLines == null) {
       try {
-        fileLines = Files.readLines(getContext().getFile(), charset);
+        fileLines = Files.readAllLines(getContext().getFile().toPath(), charset);
       } catch (IOException e) {
         throw new IllegalStateException(e);
       }

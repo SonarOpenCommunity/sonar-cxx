@@ -20,7 +20,6 @@
 package org.sonar.cxx.toolkit;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import org.slf4j.Logger;
@@ -42,6 +41,8 @@ import org.sonar.squidbridge.SquidAstVisitorContextImpl;
 import org.sonar.squidbridge.api.SourceProject;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CxxConfigurationModel extends AbstractConfigurationModel {
@@ -57,7 +58,7 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
 
   @Override
   public List<ConfigurationProperty> getProperties() {
-    return ImmutableList.of(charsetProperty);
+    return Collections.singletonList(charsetProperty);
   }
 
   @Override
@@ -74,12 +75,13 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
 
   @Override
   public List<Tokenizer> doGetTokenizers() {
-    return ImmutableList.of(
+    return Arrays.asList(
       new StringTokenizer("<span class=\"s\">", "</span>"),
       new CDocTokenizer("<span class=\"cd\">", "</span>"),
       new JavadocTokenizer("<span class=\"cppd\">", "</span>"),
       new CppDocTokenizer("<span class=\"cppd\">", "</span>"),
-      new KeywordsTokenizer("<span class=\"k\">", "</span>", CxxKeyword.keywordValues()));
+      new KeywordsTokenizer("<span class=\"k\">", "</span>", CxxKeyword.keywordValues())
+    );
   }
 
   @VisibleForTesting

@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import com.google.common.collect.Lists;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -53,7 +51,6 @@ import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.plugins.cxx.api.CustomCxxRulesDefinition;
 import org.sonar.cxx.checks.CheckList;
-import org.sonar.cxx.parser.CxxParser;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.CxxPlugin;
@@ -132,7 +129,12 @@ public final class CxxSquidSensor implements Sensor {
     this.scanner = CxxAstScanner.create(createConfiguration(this.fs, this.settings),
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    scanner.scanFiles(Lists.newArrayList(fs.files(mainFilePredicate)));
+    List<File> files = new ArrayList<>();
+    for(File file : fs.files(mainFilePredicate)) {
+      files.add(file);
+    }
+    scanner.scanFiles(files);
+    
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles);
   }

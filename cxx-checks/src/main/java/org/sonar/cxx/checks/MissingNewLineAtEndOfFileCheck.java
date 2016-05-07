@@ -24,7 +24,6 @@ import java.io.RandomAccessFile;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.io.Closeables;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -45,16 +44,14 @@ public class MissingNewLineAtEndOfFileCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitFile(AstNode astNode) {
-    RandomAccessFile randomAccessFile = null;
     try {
-      randomAccessFile = new RandomAccessFile(getContext().getFile(), "r");
-      if (!endsWithNewline(randomAccessFile)) {
-        getContext().createFileViolation(this, "Add a new line at the end of this file.");
+      try (RandomAccessFile randomAccessFile = new RandomAccessFile(getContext().getFile(), "r")) {
+        if (!endsWithNewline(randomAccessFile)) {
+          getContext().createFileViolation(this, "Add a new line at the end of this file.");
+        }
       }
     } catch (IOException e) {
       throw new IllegalStateException(e);
-    } finally {
-      Closeables.closeQuietly(randomAccessFile);
     }
   }
 

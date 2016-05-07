@@ -20,14 +20,13 @@
 package org.sonar.cxx.checks;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
@@ -73,13 +72,13 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
   }
 
   private Pattern pattern = null;
-  private final Map<String, Integer> firstOccurrence = Maps.newHashMap();
-  private final Map<String, Integer> literalsOccurrences = Maps.newHashMap();
+  private final Map<String, Integer> firstOccurrence = new HashMap<>();
+  private final Map<String, Integer> literalsOccurrences = new HashMap<>();
 
   @Override
   public void init() {
     subscribeTo(CHECKED_TYPES);
-    if (!Strings.isNullOrEmpty(regularExpression)) {
+    if (null != regularExpression && !regularExpression.isEmpty()) {
       try {
         pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
       } catch (RuntimeException e) {

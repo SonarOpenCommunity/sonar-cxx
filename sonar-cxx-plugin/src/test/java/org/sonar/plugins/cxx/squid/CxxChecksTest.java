@@ -23,6 +23,9 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
@@ -34,7 +37,6 @@ import org.sonar.plugins.cxx.api.CustomCxxRulesDefinition;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
 
-import com.google.common.collect.ImmutableList;
 import com.sonar.sslr.api.Grammar;
 
 public class CxxChecksTest {
@@ -64,7 +66,7 @@ public class CxxChecksTest {
   @Test
   public void shouldReturnDefaultChecks() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
-    checks.addChecks(DEFAULT_REPOSITORY_KEY, ImmutableList.<Class>of(MyRule.class));
+    checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<Class>(Collections.singletonList(MyRule.class)));
 
     SquidAstVisitor<Grammar> defaultCheck = check(checks, DEFAULT_REPOSITORY_KEY, DEFAULT_RULE_KEY);
 
@@ -98,7 +100,7 @@ public class CxxChecksTest {
   @Test
   public void shouldNotReturnRuleKeyIfCheckDoesNotExists() {
     CxxChecks checks = CxxChecks.createCxxCheck(checkFactory);
-    checks.addChecks(DEFAULT_REPOSITORY_KEY, ImmutableList.<Class>of(MyRule.class));
+    checks.addChecks(DEFAULT_REPOSITORY_KEY, new ArrayList<Class>(Collections.singletonList(MyRule.class)));
     assertThat(checks.ruleKey(new MyCustomRule())).isNull();
   }
 

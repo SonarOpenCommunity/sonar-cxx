@@ -21,13 +21,13 @@ package org.sonar.cxx.checks;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.HashMap;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.collect.Maps;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -48,8 +48,8 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
   private static final int MINIMAL_LITERAL_LENGTH = 7;
   private static final String[] ALLOWED_LITERAL_NAMES = {"nullptr"};
 
-  private final Map<String, Integer> firstOccurrence = Maps.newHashMap();
-  private final Map<String, Integer> literalsOccurrences = Maps.newHashMap();
+  private final Map<String, Integer> firstOccurrence = new HashMap<>();
+  private final Map<String, Integer> literalsOccurrences = new HashMap<>();
 
   @RuleProperty(
     key = "minimalLiteralLength",

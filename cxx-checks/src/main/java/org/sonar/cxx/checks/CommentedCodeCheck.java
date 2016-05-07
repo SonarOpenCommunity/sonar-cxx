@@ -20,6 +20,7 @@
 package org.sonar.cxx.checks;
 
 import java.util.Set;
+import java.util.HashSet;
 import java.util.regex.Pattern;
 
 import org.sonar.check.Priority;
@@ -32,7 +33,6 @@ import org.sonar.squidbridge.recognizer.Detector;
 import org.sonar.squidbridge.recognizer.EndWithDetector;
 import org.sonar.squidbridge.recognizer.KeywordsDetector;
 import org.sonar.squidbridge.recognizer.LanguageFootprint;
-import com.google.common.collect.Sets;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
@@ -62,7 +62,7 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
 
     @Override
     public Set<Detector> getDetectors() {
-      Set<Detector> detectors = Sets.newHashSet();
+      Set<Detector> detectors = new HashSet<>();
 
       detectors.add(new EndWithDetector(0.95, '}', ';', '{'));
       detectors.add(new KeywordsDetector(0.7, "||", "&&"));

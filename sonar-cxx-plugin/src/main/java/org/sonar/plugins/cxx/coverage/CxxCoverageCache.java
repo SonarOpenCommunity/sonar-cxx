@@ -19,16 +19,16 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import com.google.common.collect.Maps;
+import java.util.HashMap;
 import java.util.Map;
 import org.sonar.api.BatchExtension;
 import org.sonar.api.measures.CoverageMeasuresBuilder;
 
 public class CxxCoverageCache implements BatchExtension {
 
-  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheUnit = Maps.newHashMap();
-  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheIntegration = Maps.newHashMap();
-  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheOverall = Maps.newHashMap();
+  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheUnit = new HashMap<>();
+  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheIntegration = new HashMap<>();
+  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheOverall = new HashMap<>();
   
   public CxxCoverageCache() {
   }

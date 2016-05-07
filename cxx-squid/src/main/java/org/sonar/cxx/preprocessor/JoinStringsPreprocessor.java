@@ -21,10 +21,10 @@ package org.sonar.cxx.preprocessor;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.sonar.cxx.api.CxxTokenType;
 
-import com.google.common.collect.Lists;
 import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.PreprocessorAction; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Token;
@@ -51,7 +51,7 @@ public class JoinStringsPreprocessor extends Preprocessor { //@toto deprecated P
       }
 
       if (numberOfStrings > 1) {
-        List<Token> tokensToInject = Lists.newArrayList();
+        List<Token> tokensToInject = new ArrayList<>();
         tokensToInject.add(
           Token.builder()
           .setLine(token.getLine())

@@ -20,15 +20,15 @@
 package org.sonar.cxx.checks;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
-import com.google.common.base.Strings;
-import com.google.common.io.Files;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.api.server.rule.RulesDefinition;
@@ -57,7 +57,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
 
   @Override
   public void init() {
-    if (!Strings.isNullOrEmpty(regularExpression)) {
+    if (null != regularExpression && !regularExpression.isEmpty()) {
       try {
         pattern = Pattern.compile(regularExpression, Pattern.DOTALL);
       } catch (RuntimeException e) {
@@ -70,7 +70,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
   public void visitFile(AstNode astNode) {
     List<String> lines;
     try {
-      lines = Files.readLines(getContext().getFile(), charset);
+      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
