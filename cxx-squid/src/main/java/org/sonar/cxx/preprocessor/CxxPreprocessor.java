@@ -62,6 +62,7 @@ import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
 import static org.sonar.cxx.api.CppPunctuator.COMMA;
 import static org.sonar.cxx.api.CppPunctuator.LT;
+import static org.sonar.cxx.api.CppPunctuator.BR_RIGHT;
 import static org.sonar.cxx.api.CppPunctuator.HASHHASH;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
@@ -155,6 +156,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
   private CxxConfiguration conf;
+  private static final String variadicParameter = "__VA_ARGS__";
 
   public static class Include {
 
@@ -834,7 +836,8 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
           newTokens.add(curr);
         } else if (index == arguments.size()) {
           // EXTENSION: GCC's special meaning of token paste operator
-          // If variable argument is left out then the comma before the paste operator will be deleted
+          // If variable argument is left out then the comma before the paste
+          // operator will be deleted
           int j = i;
           while (j > 0 && body.get(j - 1).getType() == WS) {
             j--;
@@ -847,8 +850,9 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
             j--;
           }
           if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
-            newTokens.remove(newTokens.size() - 1 + j - i); //remove the comma
-            newTokens.remove(newTokens.size() - 1 + k - i); //remove the paste operator
+            newTokens.remove(newTokens.size() - 1 + j - i); // remove the comma
+            newTokens.remove(newTokens.size() - 1 + k - i); // remove the paste
+                                                            // operator
           }
         } else if (index < arguments.size()) {
           // token pasting operator?
@@ -872,16 +876,18 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
             tokenPastingRightOp = false;
           } else {
             if (i > 0 && "#".equals(body.get(i - 1).getValue())) {
-              // If the token is a macro, the macro is not expanded - the macro name is converted into a string.
+              // If the token is a macro, the macro is not expanded - the macro
+              // name is converted into a string.
               newTokens.remove(newTokens.size() - 1);
               newValue = encloseWithQuotes(quote(replacement.getValue()));
             } else {
-              // otherwise the arguments have to be fully expanded before expanding the body of the macro
+              // otherwise the arguments have to be fully expanded before
+              // expanding the body of the macro
               newValue = serialize(expandMacro("", replacement.getValue()));
             }
           }
 
-          if (newValue.isEmpty() && "__VA_ARGS__".equals(curr.getValue())) {
+          if (newValue.isEmpty() && variadicParameter.equals(curr.getValue())) {
             // the Visual C++ implementation will suppress a trailing comma
             // if no arguments are passed to the ellipsis
             for (int n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
@@ -895,19 +901,27 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
               }
             }
           } else {
-            newTokens.add(Token.builder()
-              .setLine(replacement.getLine())
-              .setColumn(replacement.getColumn())
-              .setURI(replacement.getURI())
-              .setValueAndOriginalValue(newValue)
-              .setType(replacement.getType())
-              .setGeneratedCode(true)
-              .build());
+            newTokens.add(Token.builder().setLine(replacement.getLine()).setColumn(replacement.getColumn())
+                .setURI(replacement.getURI()).setValueAndOriginalValue(newValue).setType(replacement.getType())
+                .setGeneratedCode(true).build());
           }
         }
       }
     }
 
+    // drop COMMA from sequence COMMA "," BR ")"
+    if (newTokens.size() > 2 && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT) {
+      for (int n = newTokens.size() - 2; n != 0; n--) {
+        if (newTokens.get(n).getType() == WS) {
+          newTokens.remove(n);
+        } else if (newTokens.get(n).getType() == COMMA) {
+          newTokens.remove(n);
+          break;
+        } else {
+          break;
+        }
+      }
+    }
     return newTokens;
   }
 
@@ -1062,7 +1076,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         .setLine(vaargs.getToken().getLine())
         .setColumn(vaargs.getToken().getColumn())
         .setURI(vaargs.getToken().getURI())
-        .setValueAndOriginalValue("__VA_ARGS__")
+        .setValueAndOriginalValue(variadicParameter)
         .setType(IDENTIFIER)
         .setGeneratedCode(true)
         .build()

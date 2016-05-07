@@ -21,6 +21,8 @@ package org.sonar.cxx.preprocessor;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,7 @@ import org.sonar.cxx.preprocessor.CxxPreprocessor.MismatchException;
 public final class ExpressionEvaluator {
 
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
+  private static final String HEX_REGEX = "0[xX]([0-9A-Fa-f]+)(ui64)?";
   public static final Logger LOG = LoggerFactory.getLogger("Evaluator");
 
   private final Parser<Grammar> parser;
@@ -156,7 +159,7 @@ public final class ExpressionEvaluator {
   }
 
   BigInteger evalNumber(String intValue) {
-    // the if expressions arent allowed to contain floats
+    // the if expressions aren't allowed to contain floats
     BigInteger number;
     try {
       number = decode(intValue);
@@ -440,11 +443,16 @@ public final class ExpressionEvaluator {
     int radix = 10;
     if (number.length() > 2) {
       if (number.charAt(0) == '0') {
-        if (number.charAt(1) == 'x' || number.charAt(1) == 'X') {
-          radix = 16; // 0x...
-          number = number.substring(2);
-        } else {
-          radix = 8; // 0...
+        radix = 8; // 0...
+        try {
+          Pattern p = Pattern.compile(HEX_REGEX);
+          Matcher m = p.matcher(number);
+          if (m.find()) {
+            radix = 16;
+            number = m.group(1);
+          }
+        } catch (java.lang.IllegalStateException e) {
+          // ignore "No match found"
         }
       }
     }

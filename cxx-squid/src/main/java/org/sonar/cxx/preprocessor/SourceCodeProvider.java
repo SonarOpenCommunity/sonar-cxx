@@ -80,8 +80,8 @@ public class SourceCodeProvider {
       }
 
       // The standard behavior: lookup relative to to the include roots.
-      // The quoted case falls back to this, if its special handling wasnt
-      // successul (as forced by the Standard).
+      // The quoted case falls back to this, if its special handling wasn't
+      // successful (as forced by the Standard).
       if (result == null) {
         for (File folder : includeRoots) {
           File abspath = new File(folder.getPath(), filename);

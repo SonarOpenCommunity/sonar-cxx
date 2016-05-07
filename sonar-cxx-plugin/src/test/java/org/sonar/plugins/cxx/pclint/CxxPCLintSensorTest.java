@@ -65,7 +65,7 @@ public class CxxPCLintSensorTest {
     TestUtils.addInputFile(fs, perspectives, issuable, "ZipManager.cpp");
     CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
-    verify(issuable, times(14)).addIssue(any(Issue.class));
+    verify(issuable, times(16)).addIssue(any(Issue.class));
   }
 
   @Test

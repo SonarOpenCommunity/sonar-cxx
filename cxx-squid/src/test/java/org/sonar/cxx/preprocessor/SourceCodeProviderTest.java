@@ -32,11 +32,11 @@ public class SourceCodeProviderTest {
   private final File expected = new File(new File("src/test/resources/codeprovider/source.hh").getAbsolutePath());
 
   // ////////////////////////////////////////////////////////////////////////////
-  // Behaviour in the absolute path case
+  // Behavior in the absolute path case
   @Test
   public void getting_file_with_abspath() {
-    // lookup with absolute pathes should ignore the value of current
-    // working directory and should work the same in the quouted and
+    // lookup with absolute paths should ignore the value of current
+    // working directory and should work the same in the quoted and
     // unquoted case
 
     String path = expected.getAbsolutePath();
@@ -49,7 +49,7 @@ public class SourceCodeProviderTest {
   }
 
   // ////////////////////////////////////////////////////////////////////////////
-  // Relpathes, standard behaviour: equal for quoted and angle cases
+  // Relpathes, standard behavior: equal for quoted and angle cases
   // We have following cases here:
   // Include string form | Include root form |
   // | absolute | relative |
@@ -105,7 +105,7 @@ public class SourceCodeProviderTest {
   }
 
   // ////////////////////////////////////////////////////////////////////////////
-  // Special behaviour in the quoted case
+  // Special behavior in the quoted case
   // Lookup in the current directory. Has to fail for the angle case
   @Test
   public void getting_file_with_filename_and_cwd() {

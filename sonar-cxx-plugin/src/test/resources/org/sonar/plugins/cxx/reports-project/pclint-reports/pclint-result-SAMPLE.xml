@@ -16,4 +16,6 @@
 <issue file ="" line = "0" number = "1960" desc = "Violates MISRA C++ 2008 Required Rule 0-1-8, Void return type for function without external side-effects: ATL::AtlThrowImpl(long)"/>
 <issue file ="" line = "0" number = "974" desc = "Worst case function for stack usage: 'CreateZipFile' calls a non-deterministic function: 'FileManager::CreateZipFile'. See +stack for a full report."/>
 <issue file =".\ZipManager.cpp" line = "0" number = "9022" desc = "unparenthesized macro parameter in definition of macro '__identifier'"/>
+<issue file ="" line = "0" number = "457" desc = "Function 'classA::threadA(void)' of thread 'classA::startThreadA(void *)' has an unprotected write access to variable 'nStep_' which is used by function 'classA::ThreadA(void)' of thread 'classA::startThreadA(void *)'"/>
+<issue file ="" line = "0" number = "457" desc = "Function 'Logger::write()' of thread 'classA::startThreadA(void *)' has an unprotected write access to variable '_Stderr' which is used by function 'logger::Logger::write(const char *, enum logger::logginglevel::Enum)' of thread 'classA::startThreadA(void *)'"/>
 </doc>
