@@ -1,14 +1,7 @@
 
 
 // BOOST_PP_STRINGIZE(boost/mpl/aux_/preprocessed/AUX778076_PREPROCESSED_HEADER)'
-// INFO: [D:\Workspaces\harmonIC\boost\include\boost\mpl\list.hpp:36]: cannot parse included filename: BOOST_PP_STRINGIZE(boost/mpl/list/list20.hpp)'
-// INFO: [D:\Workspaces\harmonIC\boost\include\boost\mpl\list.hpp:36]: cannot find the sources for '#   include BOOST_PP_STRINGIZE(boost/mpl/list/AUX778076_LIST_HEADER)'
-// INFO: [D:\Workspaces\harmonIC\boost\include\boost\mpl\vector.hpp:36]: cannot parse included filename: BOOST_PP_STRINGIZE(boost/mpl/vector/vector20.hpp)'
-// INFO: [D:\Workspaces\harmonIC\boost\include\boost\mpl\vector.hpp:36]: cannot find the sources for '#   include BOOST_PP_STRINGIZE(boost/mpl/vector/AUX778076_VECTOR_HEADER)'
-
 // ERROR: Undefined functionlike macro 'BOOST_PP_ARRAY_SIZE' assuming 0
-// INFO: [D:\Workspaces\harmonIC\boost\include\boost\mpl\aux_\include_preprocessed.hpp:37]: cannot parse included filename: BOOST_PP_STRINGIZE(boost/mpl/aux_/preprocessed/BOOST_MPL_CFG_COMPILER_DIR/or.hpp)'
-// INFO: [D:\Workspaces\harmonIC\boost\include\boost\mpl\aux_\include_preprocessed.hpp:37]: cannot find the sources for '#   include BOOST_PP_STRINGIZE(boost/mpl/aux_/preprocessed/AUX778076_PREPROCESSED_HEADER)'
 
 //#define _MSC_VER 1900
 #define _MSC_VER 1600
