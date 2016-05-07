@@ -242,14 +242,6 @@ import org.sonar.plugins.cxx.drmemory.CxxDrMemorySensor;
     type = PropertyType.TEXT,
     multiValues = true
   ),
-  @Property(
-    category = "(2) Code analysis",
-    key = CxxExternalRuleRepository.SQALES_KEY,
-    name = "External SQALE characteristics",
-    description = "SQALE characteristics for 'external' code analysers. Use one value per rule set. See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.",
-    type = PropertyType.TEXT,
-    multiValues = true
-  ),
 
   /**
    * Testing & Coverage
