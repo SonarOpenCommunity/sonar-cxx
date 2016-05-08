@@ -24,13 +24,11 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.StringReader;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 /**
  * {@inheritDoc}
@@ -76,7 +74,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
     }
 
     String customRules = settings.getString(this.customRepositoryKey);
-    if (StringUtils.isNotBlank(customRules)) {
+    if (customRules != null && !customRules.trim().isEmpty()) {
       xmlRuleLoader.load(repository, new StringReader(customRules));
     }
 

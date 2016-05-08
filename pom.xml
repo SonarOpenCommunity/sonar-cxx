@@ -161,6 +161,7 @@
     <sonar.pluginName>C++ (Community)</sonar.pluginName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sonar.language>java</sonar.language>
+    <animal.sniffer.skip>true</animal.sniffer.skip>
   </properties>
 
   <dependencyManagement>

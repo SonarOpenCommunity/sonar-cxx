@@ -30,7 +30,6 @@ import java.util.TreeSet;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -71,7 +70,7 @@ public class CxxReportSensor_getReports_Test {
     for (String[] example : examples) {
       pattern = example[0];
       match = example[1];
-      allpaths = StringUtils.join(Arrays.copyOfRange(example, 1, 3), ",");
+      allpaths = String.join(",", Arrays.copyOfRange(example, 1, 3));
       setupExample(allpaths);
       settings.setProperty(REPORT_PATH_KEY, pattern);
 
@@ -85,9 +84,12 @@ public class CxxReportSensor_getReports_Test {
   }
 
   private void setupExample(String pathes) throws java.io.IOException {
-    String[] parsedPaths = StringUtils.split(pathes, ",");
+    String[] parsedPaths = pathes.split(",");
     for (String path : parsedPaths) {
-      FileUtils.touch(new File(base.getRoot(), path.trim()));
+      path = path.trim();
+      if (!path.isEmpty()) {
+        FileUtils.touch(new File(base.getRoot(), path));
+      }
     }
   }
 
@@ -96,10 +98,13 @@ public class CxxReportSensor_getReports_Test {
   }
 
   private void assertMatch(List<File> real, String expected, String pattern) {
-    String[] parsedPaths = StringUtils.split(expected, ",");
+    String[] parsedPaths = expected.split(",");
     List<File> expectedFiles = new LinkedList<>();
     for (String path : parsedPaths) {
-      expectedFiles.add(new File(base.getRoot(), path));
+      path = path.trim();
+      if (!path.isEmpty()) {
+        expectedFiles.add(new File(base.getRoot(), path));
+      }
     }
 
     Set<File> realSet = new TreeSet<>(real);

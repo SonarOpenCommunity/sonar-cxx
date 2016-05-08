@@ -23,7 +23,6 @@ import java.io.File;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
@@ -109,8 +108,8 @@ public class CppcheckParserV2 implements CppcheckParser {
       }
 
       private String createMsg(String inconclusive, String msg) {
-        if (!StringUtils.isEmpty(msg)) {
-          if (!StringUtils.isEmpty(inconclusive) && "true".equals(inconclusive)) {
+        if (msg != null && !msg.isEmpty()) {
+          if ("true".equals(inconclusive)) {
             return "[inconclusive] " + msg;
           }
         }
@@ -118,7 +117,7 @@ public class CppcheckParserV2 implements CppcheckParser {
       }
 
       private boolean isInputValid(String file, String line, String id, String msg) {
-        return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+        return id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
       }
     });
 

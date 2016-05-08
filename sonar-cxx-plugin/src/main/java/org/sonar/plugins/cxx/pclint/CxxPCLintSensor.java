@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
@@ -122,11 +121,11 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
       private boolean isInputValid(String file, String line, String id, String msg) {
         try {
-        if (StringUtils.isEmpty(file) || (Integer.valueOf(line) == 0)) {
-          // issue for project or file level
-          return !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
-        }
-        return !StringUtils.isEmpty(file) && !StringUtils.isEmpty(id) && !StringUtils.isEmpty(msg);
+          if (file == null || file.isEmpty() || (Integer.valueOf(line) == 0)) {
+            // issue for project or file level
+            return id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
+          }
+          return !file.isEmpty() && id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
         } catch (java.lang.NumberFormatException e) {
           CxxUtils.LOG.error("Ignore number error from PC-lint report '{}'", CxxUtils.getStackTrace(e));
         }

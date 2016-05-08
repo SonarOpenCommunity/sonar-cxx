@@ -24,9 +24,7 @@ import static org.sonar.sslr.tests.Assertions.assertThat;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-
 import com.sonar.sslr.api.AstNode;
 
 public class PreprocessorDirectivesTest extends ParserBaseTest {
@@ -34,7 +32,7 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
   private String serialize(AstNode root) {
     List<String> values = new LinkedList<>();
     iterate(root, values);
-    String s = StringUtils.join(values, " ");
+    String s = String.join(" ", values);
     return s;
   }
 

@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.component.ResourcePerspectives;
@@ -108,7 +107,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
    */
   public String getParserStringProperty(String name, String def) {
     String s = getStringProperty(name, "");
-    if (StringUtils.isEmpty(s)) {
+    if (s == null || s.isEmpty()) {
       return def;
     }
     return s;
@@ -140,6 +139,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
   }
 
   private boolean isInputValid(CompilerParser.Warning warning) {
-    return !StringUtils.isEmpty(warning.id);
+    return warning != null && !warning.toString().isEmpty();
   }
 }
