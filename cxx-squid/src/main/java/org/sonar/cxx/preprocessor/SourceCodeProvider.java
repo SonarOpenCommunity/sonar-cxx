@@ -77,6 +77,10 @@ public class SourceCodeProvider {
         if (abspath.isFile()) {
           result = abspath;
         }
+        else {
+          // fall back to use include paths instead of local folder
+          result = null;
+        }
       }
 
       // The standard behavior: lookup relative to to the include roots.
