@@ -64,7 +64,7 @@ public class CxxProjectBuilder extends ProjectBuilder {
     }
 
     for (ProjectDefinition definition : context.projectReactor().getProjects()) {
-      props = definition.getProperties(); //@toto deprecated getProperties
+      props = definition.getProperties(); //@todo deprecated getProperties
       for (String key : props.stringPropertyNames()) {
         String value = props.getProperty(key);
         vars.put(key, value);
@@ -73,7 +73,7 @@ public class CxxProjectBuilder extends ProjectBuilder {
 
     // replace placeholders
     for (ProjectDefinition definition : context.projectReactor().getProjects()) {
-      props = definition.getProperties(); //@toto deprecated getProperties
+      props = definition.getProperties(); //@todo deprecated getProperties
       for (String key : props.stringPropertyNames()) {
         String oldValue = props.getProperty(key);
         String newValue = expandVariables(oldValue);

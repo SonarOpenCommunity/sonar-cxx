@@ -53,7 +53,7 @@ public class CxxChecks {
   public CxxChecks addChecks(String repositoryKey, List<Class> checkClass) {
     checksByRepository.add(checkFactory
       .<SquidAstVisitor<Grammar>>create(repositoryKey)
-      .addAnnotatedChecks(checkClass));
+      .addAnnotatedChecks(checkClass)); //@todo deprecated addAnnotatedChecks
 
     return this;
   }

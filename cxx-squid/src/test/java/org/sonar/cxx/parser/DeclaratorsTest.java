@@ -29,7 +29,7 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void initDeclaratorList() {
     p.setRootRule(g.rule(CxxGrammarImpl.initDeclaratorList));
 
-    g.rule(CxxGrammarImpl.initDeclarator).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.initDeclarator).mock(); //@todo deprecated
 
     assertThat(p).matches("initDeclarator");
     assertThat(p).matches("initDeclarator , initDeclarator");

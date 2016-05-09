@@ -30,7 +30,7 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -54,7 +54,7 @@ public class BullseyeParser extends CxxCoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
+  public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
     CxxUtils.LOG.debug("Parsing 'Bullseye' format");
     StaxParser topLevelparser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -83,7 +83,7 @@ public class BullseyeParser extends CxxCoverageParser {
     parser.parse(report);
   }
 
-  private void collectCoverageLeafNodes(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
+  private void collectCoverageLeafNodes(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
@@ -94,11 +94,11 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private void recTreeTopWalk(File fileName, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
+  private void recTreeTopWalk(File fileName, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
-      CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
+      CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create(); //@todo deprecated CoverageMeasuresBuilder
 
       funcWalk(child, fileMeasuresBuilderIn);
 
@@ -109,7 +109,7 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private void collectCoverage2(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData)
+  private void collectCoverage2(String refPath, SMInputCursor folder, final Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
@@ -123,7 +123,7 @@ public class BullseyeParser extends CxxCoverageParser {
     }
   }
 
-  private void probWalk(SMInputCursor prob, CoverageMeasuresBuilder fileMeasuresBuilderIn) throws XMLStreamException {
+  private void probWalk(SMInputCursor prob, CoverageMeasuresBuilder fileMeasuresBuilderIn) throws XMLStreamException { //@todo deprecated CoverageMeasuresBuilder
     String line = prob.getAttrValue("line");
     String kind = prob.getAttrValue("kind");
     String event = prob.getAttrValue("event");
@@ -134,7 +134,7 @@ public class BullseyeParser extends CxxCoverageParser {
     prevLine = line;
   }
 
-  private void funcWalk(SMInputCursor func, CoverageMeasuresBuilder fileMeasuresBuilderIn) throws XMLStreamException {
+  private void funcWalk(SMInputCursor func, CoverageMeasuresBuilder fileMeasuresBuilderIn) throws XMLStreamException { //@todo deprecated CoverageMeasuresBuilder
     SMInputCursor prob = func.childElementCursor();
     while (prob.getNext() != null) {
       probWalk(prob, fileMeasuresBuilderIn);
@@ -142,14 +142,14 @@ public class BullseyeParser extends CxxCoverageParser {
     saveConditions(fileMeasuresBuilderIn);
   }
 
-  private void fileWalk(SMInputCursor file, CoverageMeasuresBuilder fileMeasuresBuilderIn) throws XMLStreamException {
+  private void fileWalk(SMInputCursor file, CoverageMeasuresBuilder fileMeasuresBuilderIn) throws XMLStreamException { //@todo deprecated CoverageMeasuresBuilder
     SMInputCursor func = file.childElementCursor();
     while (func.getNext() != null) {
       funcWalk(func, fileMeasuresBuilderIn);
     }
   }
 
-  private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData)
+  private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
 
     refPath = ensureRefPathIsCorrect(refPath);
@@ -171,7 +171,7 @@ public class BullseyeParser extends CxxCoverageParser {
         if ((new File(fileName)).isAbsolute()) {
           refPath = "";
         }
-        CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create();
+        CoverageMeasuresBuilder fileMeasuresBuilderIn = CoverageMeasuresBuilder.create(); //@todo deprecated CoverageMeasuresBuilder
         fileWalk(child, fileMeasuresBuilderIn);
         String normalPath = CxxUtils.normalizePath(refPath + fileName);
         if (normalPath != null) {

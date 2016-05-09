@@ -37,14 +37,14 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.component.Perspective;
+import org.sonar.api.component.Perspective; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.PersistenceMode;
-import org.sonar.api.measures.RangeDistributionBuilder;
+import org.sonar.api.measures.RangeDistributionBuilder; //@todo deprecated
 import org.sonar.api.resources.Project;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
@@ -139,7 +139,7 @@ public final class CxxSquidSensor implements Sensor {
     save(squidSourceFiles);
   }
 
-  <P extends Perspective<?>> P perspective(Class<P> clazz, @Nullable InputFile file) {
+  <P extends Perspective> P perspective(Class<P> clazz, @Nullable InputFile file) { //@todo deprecated Perspective
     if (file == null) {
       throw new IllegalArgumentException("Cannot get " + clazz.getCanonicalName() + "for a null file");
     }
@@ -214,7 +214,7 @@ public final class CxxSquidSensor implements Sensor {
     double complexityInFunctions = 0;
     double complexityInClasses = 0;
 
-    RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION, FUNCTIONS_DISTRIB_BOTTOM_LIMITS);
+    RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION, FUNCTIONS_DISTRIB_BOTTOM_LIMITS); //@todo deprecated RangeDistributionBuilder
     Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceFunction.class));
     for (SourceCode squidFunction : squidFunctionsInFile) {
       double functionComplexity = squidFunction.getDouble(CxxMetric.COMPLEXITY);
@@ -237,7 +237,7 @@ public final class CxxSquidSensor implements Sensor {
   }
 
   private void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
-    RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION, FILES_DISTRIB_BOTTOM_LIMITS);
+    RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION, FILES_DISTRIB_BOTTOM_LIMITS); //@todo deprecated RangeDistributionBuilder
     double complexity = squidFile.getDouble(CxxMetric.COMPLEXITY);
     complexityDistribution.add(complexity);
     context.saveMeasure(inputFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
@@ -252,8 +252,8 @@ public final class CxxSquidSensor implements Sensor {
         for (CheckMessage message : messages) {
           Issue issue = issuable.newIssueBuilder()
             .ruleKey(checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()))
-            .line(message.getLine())
-            .message(message.getText(Locale.ENGLISH))
+            .line(message.getLine()) //@todo deprecated line
+            .message(message.getText(Locale.ENGLISH)) //@todo deprecated message
             .build();
           if (issuable.addIssue(issue)) {
             violationsCount++;

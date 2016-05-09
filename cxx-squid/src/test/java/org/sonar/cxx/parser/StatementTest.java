@@ -29,7 +29,7 @@ public class StatementTest extends ParserBaseTest {
   public void statement() {
     p.setRootRule(g.rule(CxxGrammarImpl.statement));
 
-    g.rule(CxxGrammarImpl.labeledStatement).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.labeledStatement).mock(); //@todo deprecated
     g.rule(CxxGrammarImpl.expressionStatement).mock();
     g.rule(CxxGrammarImpl.compoundStatement).mock();
     g.rule(CxxGrammarImpl.selectionStatement).mock();

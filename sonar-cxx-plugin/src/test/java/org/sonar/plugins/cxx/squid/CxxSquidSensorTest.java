@@ -177,10 +177,10 @@ public class CxxSquidSensorTest {
 
     sensor.analyse(project, context);
 
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(1.0));
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(1.0));
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(1.0));
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), eq(2.0));
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(1.0)); //@todo deprecated FILE_CYCLES
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(1.0)); //@todo deprecated FILE_FEEDBACK_EDGES
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(1.0)); //@todo deprecated FILE_TANGLES
+    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), eq(2.0)); //@todo deprecated FILE_EDGES_WEIGHT
 
     verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_CYCLES), eq(0.0)); //@todo deprecated PACKAGE_CYCLES
     verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_FEEDBACK_EDGES), eq(0.0)); //@todo deprecated PACKAGE_FEEDBACK_EDGES
@@ -195,10 +195,10 @@ public class CxxSquidSensorTest {
 
     sensor.analyse(project, context);
 
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(0.0));
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(0.0));
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(0.0));
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), anyDouble()); //0 for package1, 1 for package2
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(0.0)); //@todo deprecated FILE_CYCLES
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(0.0)); //@todo deprecated FILE_FEEDBACK_EDGES
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(0.0)); //@todo deprecated FILE_TANGLES
+    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), anyDouble()); //0 for package1, 1 for package2 //@todo deprecated FILE_EDGES_WEIGHT
 
     verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_CYCLES), eq(1.0)); //@todo deprecated PACKAGE_CYCLES
     verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_FEEDBACK_EDGES), eq(1.0)); //@todo deprecated PACKAGE_FEEDBACK_EDGES

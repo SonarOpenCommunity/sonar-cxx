@@ -29,7 +29,7 @@ public class TemplatesTest extends ParserBaseTest {
   public void templateDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.templateDeclaration));
 
-    g.rule(CxxGrammarImpl.templateParameterList).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.templateParameterList).mock(); //@todo deprecated
     g.rule(CxxGrammarImpl.declaration).mock();
 
     assertThat(p).matches("template < templateParameterList > declaration");

@@ -32,7 +32,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
   public void lambdaExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.lambdaExpression));
 
-    g.rule(CxxGrammarImpl.lambdaIntroducer).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.lambdaIntroducer).mock(); //@todo deprecated
     g.rule(CxxGrammarImpl.lambdaDeclarator).mock();
     g.rule(CxxGrammarImpl.compoundStatement).mock();
 

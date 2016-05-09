@@ -53,8 +53,8 @@ public class TestUtils {
     Issuable.IssueBuilder issueBuilder = mock(Issuable.IssueBuilder.class);
     when(issueBuilder.build()).thenReturn(issue);
     when(issueBuilder.ruleKey((RuleKey) anyObject())).thenReturn(issueBuilder);
-    when(issueBuilder.line((Integer) anyObject())).thenReturn(issueBuilder);
-    when(issueBuilder.message((String) anyObject())).thenReturn(issueBuilder);
+    when(issueBuilder.line((Integer) anyObject())).thenReturn(issueBuilder); //@todo deprecated line
+    when(issueBuilder.message((String) anyObject())).thenReturn(issueBuilder); //@todo deprecated message
     Issuable issuable = mock(Issuable.class);
     when(issuable.newIssueBuilder()).thenReturn(issueBuilder);
     when(issuable.addIssue((Issue) anyObject())).thenReturn(Boolean.TRUE);

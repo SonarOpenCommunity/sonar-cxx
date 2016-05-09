@@ -21,7 +21,7 @@ package org.sonar.plugins.cxx;
 
 import java.nio.charset.Charset;
 
-import net.sourceforge.pmd.cpd.Tokenizer;
+import net.sourceforge.pmd.cpd.Tokenizer; //@todo deprecated
 
 import org.sonar.api.batch.AbstractCpdMapping;
 import org.sonar.api.resources.Language;
@@ -38,7 +38,7 @@ public class CxxCpdMapping extends AbstractCpdMapping {
   }
 
   @Override
-  public Tokenizer getTokenizer() {
+  public Tokenizer getTokenizer() { //@todo deprecated Tokenizer
     return new CxxTokenizer(charset);
   }
 

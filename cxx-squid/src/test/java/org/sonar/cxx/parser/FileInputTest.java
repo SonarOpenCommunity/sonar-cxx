@@ -29,7 +29,7 @@ public class FileInputTest extends ParserBaseTest {
   public void translationUnit() {
     p.setRootRule(g.rule(CxxGrammarImpl.translationUnit));
 
-    g.rule(CxxGrammarImpl.declaration).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.declaration).mock(); //@todo deprecated
 
     assertThat(p)
       .matches("declaration")

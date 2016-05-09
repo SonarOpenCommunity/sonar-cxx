@@ -29,7 +29,7 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated
 import org.sonar.api.resources.Project;
 import org.sonar.api.utils.StaxParser;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -47,7 +47,7 @@ public class CoberturaParser extends CxxCoverageParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
+  public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
     CxxUtils.LOG.debug("Parsing 'Cobertura' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -63,21 +63,21 @@ public class CoberturaParser extends CxxCoverageParser {
     parser.parse(report);
   }
 
-  private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasuresBuilder> coverageData)
+  private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
     while (pack.getNext() != null) {
       collectFileMeasures(pack.descendantElementCursor("class"), coverageData);
     }
   }
 
-  private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasuresBuilder> coverageData)
+  private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException {
     while (clazz.getNext() != null) {
       String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), baseDir);
       if (normalPath != null) {
-        CoverageMeasuresBuilder builder = coverageData.get(normalPath);
+        CoverageMeasuresBuilder builder = coverageData.get(normalPath); //@todo deprecated CoverageMeasuresBuilder
         if (builder == null) {
-          builder = CoverageMeasuresBuilder.create();
+          builder = CoverageMeasuresBuilder.create(); //@todo deprecated CoverageMeasuresBuilder
           coverageData.put(normalPath, builder);
         }
         collectFileData(clazz, builder);
@@ -85,7 +85,7 @@ public class CoberturaParser extends CxxCoverageParser {
     }
   }
 
-  private void collectFileData(SMInputCursor clazz, CoverageMeasuresBuilder builder) throws XMLStreamException {
+  private void collectFileData(SMInputCursor clazz, CoverageMeasuresBuilder builder) throws XMLStreamException { //@todo deprecated CoverageMeasuresBuilder
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
     while (line.getNext() != null) {
       int lineId = Integer.parseInt(line.getAttrValue("number"));

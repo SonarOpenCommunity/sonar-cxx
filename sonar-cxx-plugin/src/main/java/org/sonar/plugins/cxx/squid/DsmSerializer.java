@@ -21,7 +21,7 @@ package org.sonar.plugins.cxx.squid;
 
 import java.util.Map;
 
-import org.sonar.api.design.Dependency;
+import org.sonar.api.design.Dependency; //@todo deprecated
 import org.sonar.api.resources.Resource;
 import org.sonar.graph.Dsm;
 import org.sonar.graph.DsmCell;
