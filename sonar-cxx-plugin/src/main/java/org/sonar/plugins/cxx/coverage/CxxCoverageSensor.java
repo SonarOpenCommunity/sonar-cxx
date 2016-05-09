@@ -34,7 +34,7 @@ import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated CoverageMeasuresBuilder
 import org.sonar.api.measures.Measure;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.PropertiesBuilder;

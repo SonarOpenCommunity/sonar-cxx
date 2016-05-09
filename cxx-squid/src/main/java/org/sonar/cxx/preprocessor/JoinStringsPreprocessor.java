@@ -29,10 +29,10 @@ import com.sonar.sslr.api.Preprocessor; //@todo: deprecated, see http://javadocs
 import com.sonar.sslr.api.PreprocessorAction; //@todo: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
 import com.sonar.sslr.api.Token;
 
-public class JoinStringsPreprocessor extends Preprocessor { //@toto deprecated Preprocessor
+public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated Preprocessor
 
   @Override
-  public PreprocessorAction process(List<Token> tokens) { //@toto deprecated PreprocessorAction
+  public PreprocessorAction process(List<Token> tokens) { //@todo deprecated PreprocessorAction
     Token token = tokens.get(0);
 
     if (token.getType() == CxxTokenType.STRING) {
@@ -61,12 +61,12 @@ public class JoinStringsPreprocessor extends Preprocessor { //@toto deprecated P
           .setValueAndOriginalValue("\"" + stripQuotes(token.getValue()) + sb.toString() + "\"")
           .build()
         );
-        return new PreprocessorAction(numberOfStrings, Collections.EMPTY_LIST, tokensToInject); //@toto deprecated PreprocessorAction
+        return new PreprocessorAction(numberOfStrings, Collections.EMPTY_LIST, tokensToInject); //@todo deprecated PreprocessorAction
       }
 
-      return PreprocessorAction.NO_OPERATION; //@toto deprecated PreprocessorAction
+      return PreprocessorAction.NO_OPERATION; //@todo deprecated PreprocessorAction
     }
-    return PreprocessorAction.NO_OPERATION; //@toto deprecated PreprocessorAction
+    return PreprocessorAction.NO_OPERATION; //@todo deprecated PreprocessorAction
   }
 
   private String stripQuotes(String str) {

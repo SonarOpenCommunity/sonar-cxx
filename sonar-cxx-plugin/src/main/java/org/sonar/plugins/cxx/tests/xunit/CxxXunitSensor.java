@@ -40,7 +40,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.sonar.api.batch.CoverageExtension;
+import org.sonar.api.batch.CoverageExtension; //@todo deprecated
 import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
@@ -101,7 +101,7 @@ public class CxxXunitSensor extends CxxReportSensor {
    */
   @DependsUpon
   public Class<?> dependsUponCoverageSensors() {
-    return CoverageExtension.class;
+    return CoverageExtension.class; //@todo deprecated CoverageExtension
   }
 
   /**
@@ -304,7 +304,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       double successDensity = testsPassed * PERCENT_BASE / testsRun;
       context.saveMeasure(inputFile, CoreMetrics.TEST_SUCCESS_DENSITY, ParsingUtils.scaleValue(successDensity));
     }
-    context.saveMeasure(inputFile, new Measure(CoreMetrics.TEST_DATA, testFile.getDetails()));
+    context.saveMeasure(inputFile, new Measure(CoreMetrics.TEST_DATA, testFile.getDetails())); //@todo deprecated TEST_DATA
   }
 
   private InputFile lookupFile(Project project, SensorContext context, TestCase tc) {

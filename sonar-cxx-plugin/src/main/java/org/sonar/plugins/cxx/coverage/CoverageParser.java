@@ -25,7 +25,7 @@ import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import org.sonar.api.batch.SensorContext;
 
-import org.sonar.api.measures.CoverageMeasuresBuilder;
+import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated
 import org.sonar.api.resources.Project;
 
 /**
@@ -41,6 +41,6 @@ public interface CoverageParser {
    * @param coverageData A Map mapping source file names to coverage measures.
    * Has to be used to store the results into.
    */
-  void processReport(final Project project, final SensorContext context, File report, Map<String, CoverageMeasuresBuilder> coverageData)
+  void processReport(final Project project, final SensorContext context, File report, Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
     throws XMLStreamException;
 }

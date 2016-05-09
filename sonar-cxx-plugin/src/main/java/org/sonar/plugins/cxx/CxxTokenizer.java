@@ -23,10 +23,10 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import net.sourceforge.pmd.cpd.SourceCode;
-import net.sourceforge.pmd.cpd.TokenEntry;
-import net.sourceforge.pmd.cpd.Tokenizer;
-import net.sourceforge.pmd.cpd.Tokens;
+import net.sourceforge.pmd.cpd.SourceCode; //@todo deprecated
+import net.sourceforge.pmd.cpd.TokenEntry; //@todo deprecated
+import net.sourceforge.pmd.cpd.Tokenizer; //@todo deprecated
+import net.sourceforge.pmd.cpd.Tokens; //@todo deprecated
 
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.lexer.CxxLexer;
@@ -43,7 +43,7 @@ public class CxxTokenizer implements Tokenizer {
   }
 
   @Override
-  public final void tokenize(SourceCode source, Tokens cpdTokens) {
+  public final void tokenize(SourceCode source, Tokens cpdTokens) { //@todo deprecated SourceCode
     Lexer lexer = CxxLexer.create(new CxxConfiguration(charset));
     String fileName = source.getFileName();
     List<Token> tokens = lexer.lex(new File(fileName));

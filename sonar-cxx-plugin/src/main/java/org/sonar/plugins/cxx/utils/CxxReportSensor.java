@@ -246,9 +246,9 @@ public abstract class CxxReportSensor implements Sensor {
   private void addIssue(Issuable issuable, int lineNr, RuleKey rule, String msg) {
     Issuable.IssueBuilder issueBuilder = issuable.newIssueBuilder()
       .ruleKey(rule)
-      .message(msg);
+      .message(msg); //@todo deprecated message
     if (lineNr > 0) {
-      issueBuilder = issueBuilder.line(lineNr);
+      issueBuilder = issueBuilder.line(lineNr); //@todo deprecated line
     }
     Issue issue = issueBuilder.build();
     try {

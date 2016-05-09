@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.api;
 
-import org.sonar.api.BatchExtension;
+import org.sonar.api.BatchExtension; //@todo deprecated
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 import java.util.Arrays;
 
-public abstract class CustomCxxRulesDefinition implements RulesDefinition, BatchExtension {
+public abstract class CustomCxxRulesDefinition implements RulesDefinition, BatchExtension { //@todo deprecated BatchExtension
 
   @Override
   public void define(RulesDefinition.Context context) {

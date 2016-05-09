@@ -29,7 +29,7 @@ import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.component.ResourcePerspectives;
-import org.sonar.api.design.Dependency;
+import org.sonar.api.design.Dependency; //@todo deprecated
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.CoreMetrics;
@@ -67,7 +67,7 @@ public class DependencyAnalyzer {
 
   private final DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<>();
   private final DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<>();
-  private final Map<Edge, Dependency> dependencyIndex = new HashMap<>();
+  private final Map<Edge, Dependency> dependencyIndex = new HashMap<>();  //@todo deprecated Dependency
   private final Multimap<Directory, File> directoryFiles = HashMultimap.create();
 
   public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, ActiveRules rules) {
@@ -98,8 +98,8 @@ public class DependencyAnalyzer {
         if ((issuable != null) && (duplicateIncludeRule != null)) {
           Issue issue = issuable.newIssueBuilder()
             .ruleKey(duplicateIncludeRule.ruleKey())
-            .line(include.getLine())
-            .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".")
+            .line(include.getLine()) //@todo deprecated line
+            .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".") //@todo deprecated message
             .build();
           if (issuable.addIssue(issue)) {
             violationsCount++;
@@ -141,11 +141,11 @@ public class DependencyAnalyzer {
     for (Directory dir : packages) {
       //Save dependencies (cross-directories, including cross-directory file dependencies)
       for (DirectoryEdge edge : packagesGraph.getOutgoingEdges(dir)) {
-        Dependency dependency = new Dependency(dir, edge.getTo())
+        Dependency dependency = new Dependency(dir, edge.getTo()) //@todo deprecated Dependency
           .setUsage("references")
           .setWeight(edge.getWeight())
           .setParent(null);
-        context.saveDependency(dependency);
+        context.saveDependency(dependency); //@todo deprecated saveDependency
         dependencyIndex.put(edge, dependency);
 
         for (FileEdge subEdge : edge.getRootEdges()) {
@@ -194,10 +194,10 @@ public class DependencyAnalyzer {
     CxxUtils.LOG.info("Directory: '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
       new Object[]{dir.getKey(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(filesGraph.getEdges(files))});
 
-    savePositiveMeasure(dir, CoreMetrics.FILE_CYCLES, cycles.size());
-    savePositiveMeasure(dir, CoreMetrics.FILE_FEEDBACK_EDGES, feedbackEdges.size());
-    savePositiveMeasure(dir, CoreMetrics.FILE_TANGLES, tangles);
-    savePositiveMeasure(dir, CoreMetrics.FILE_EDGES_WEIGHT, getEdgesWeight(filesGraph.getEdges(files)));
+    savePositiveMeasure(dir, CoreMetrics.FILE_CYCLES, cycles.size()); //@todo deprecated FILE_CYCLES
+    savePositiveMeasure(dir, CoreMetrics.FILE_FEEDBACK_EDGES, feedbackEdges.size()); //@todo deprecated FILE_FEEDBACK_EDGES
+    savePositiveMeasure(dir, CoreMetrics.FILE_TANGLES, tangles); //@todo deprecated FILE_TANGLES
+    savePositiveMeasure(dir, CoreMetrics.FILE_EDGES_WEIGHT, getEdgesWeight(filesGraph.getEdges(files))); //@todo deprecated FILE_EDGES_WEIGHT
 
     String dsmJson = serializeDsm(files, feedbackEdges);
     context.saveMeasure(dir, new Measure(CoreMetrics.DEPENDENCY_MATRIX, dsmJson)); //@todo deprecated DEPENDENCY_MATRIX
@@ -217,8 +217,8 @@ public class DependencyAnalyzer {
           if ((issuable != null) && (fromFile != null) && (toFile != null)) {
             Issue issue = issuable.newIssueBuilder()
               .ruleKey(cycleBetweenPackagesRule.ruleKey())
-              .line(subEdge.getLine())
-              .message("Remove the dependency from file \"" + fromFile.getLongName()
+              .line(subEdge.getLine()) //@todo deprecated line
+              .message("Remove the dependency from file \"" + fromFile.getLongName() //@todo deprecated message
                 + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")
               .effortToFix((double) subEdge.getWeight())
               .build();
@@ -238,11 +238,11 @@ public class DependencyAnalyzer {
 
   private void saveFileEdge(FileEdge edge, Dependency parent) {
     if (!dependencyIndex.containsKey(edge)) {
-      Dependency dependency = new Dependency(edge.getFrom(), edge.getTo())
+      Dependency dependency = new Dependency(edge.getFrom(), edge.getTo()) //@todo deprecated Dependency
         .setUsage("includes")
         .setWeight(edge.getWeight())
         .setParent(parent);
-      context.saveDependency(dependency);
+      context.saveDependency(dependency); //@todo deprecated saveDependency
       dependencyIndex.put(edge, dependency);
     }
   }

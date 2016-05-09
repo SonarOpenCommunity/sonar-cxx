@@ -66,7 +66,7 @@ public class ExceptionHandlingTest extends ParserBaseTest {
   public void noexceptSpecification() {
     p.setRootRule(g.rule(CxxGrammarImpl.noexceptSpecification));
 
-    g.rule(CxxGrammarImpl.constantExpression).mock(); //@toto deprecated
+    g.rule(CxxGrammarImpl.constantExpression).mock(); //@todo deprecated
 
     assertThat(p).matches("noexcept");
     assertThat(p).matches("noexcept ( constantExpression )");

@@ -26,9 +26,9 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import net.sourceforge.pmd.cpd.SourceCode;
-import net.sourceforge.pmd.cpd.TokenEntry;
-import net.sourceforge.pmd.cpd.Tokens;
+import net.sourceforge.pmd.cpd.SourceCode; //@todo deprecated
+import net.sourceforge.pmd.cpd.TokenEntry; //@todo deprecated
+import net.sourceforge.pmd.cpd.Tokens; //@todo deprecated
 
 import org.junit.Test;
 
@@ -37,11 +37,11 @@ public class CxxTokenizerTest {
   @Test
   public void shouldWorkOnValidInput() throws URISyntaxException {
     File file = new File(getClass().getResource("codechunks-project/code_chunks.cc").toURI());
-    SourceCode source = new SourceCode(new SourceCode.FileCodeLoader(file, "key"));
-    Tokens cpdTokens = new Tokens();
+    SourceCode source = new SourceCode(new SourceCode.FileCodeLoader(file, "key")); //@todo deprecated SourceCode
+    Tokens cpdTokens = new Tokens(); //@todo deprecated Tokens
     CxxTokenizer tokenizer = new CxxTokenizer(Charset.forName("UTF-8"));
     tokenizer.tokenize(source, cpdTokens);
-    List<TokenEntry> list = cpdTokens.getTokens();
+    List<TokenEntry> list = cpdTokens.getTokens(); //@todo deprecated TokenEntry
     assertThat(list.size()).isEqualTo(371);
   }
 

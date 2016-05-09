@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.api.web.CodeColorizerFormat; //@toto deprecated CodeColorizerFormat
-import org.sonar.colorizer.CDocTokenizer; //@toto deprecated CDocTokenizer
-import org.sonar.colorizer.CppDocTokenizer; //@toto deprecated CppDocTokenizer
-import org.sonar.colorizer.KeywordsTokenizer; //@toto deprecated KeywordsTokenizer
-import org.sonar.colorizer.LiteralTokenizer; //@toto deprecated LiteralTokenizer
-import org.sonar.colorizer.RegexpTokenizer; //@toto deprecated RegexpTokenizer
-import org.sonar.colorizer.Tokenizer; //@toto deprecated Tokenizer
+import org.sonar.api.web.CodeColorizerFormat; //@todo deprecated CodeColorizerFormat
+import org.sonar.colorizer.CDocTokenizer; //@todo deprecated CDocTokenizer
+import org.sonar.colorizer.CppDocTokenizer; //@todo deprecated CppDocTokenizer
+import org.sonar.colorizer.KeywordsTokenizer; //@todo deprecated KeywordsTokenizer
+import org.sonar.colorizer.LiteralTokenizer; //@todo deprecated LiteralTokenizer
+import org.sonar.colorizer.RegexpTokenizer; //@todo deprecated RegexpTokenizer
+import org.sonar.colorizer.Tokenizer; //@todo deprecated Tokenizer
 
 import java.util.ArrayList;
 import java.util.Arrays;
