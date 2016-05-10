@@ -88,9 +88,14 @@
       <artifactId>logback-classic</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>cxx-lint</artifactId>
+        <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
-  <build>
+ <build>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
