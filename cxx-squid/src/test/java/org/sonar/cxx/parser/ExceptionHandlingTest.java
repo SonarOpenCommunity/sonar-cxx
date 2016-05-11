@@ -29,10 +29,10 @@ public class ExceptionHandlingTest extends ParserBaseTest {
   public void exceptionDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.exceptionDeclaration));
 
-    g.rule(CxxGrammarImpl.typeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.declarator).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.abstractDeclarator).mock();
+    mockRule(CxxGrammarImpl.typeSpecifierSeq);
+    mockRule(CxxGrammarImpl.declarator);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.abstractDeclarator);
 
     assertThat(p).matches("...");
 
@@ -54,7 +54,7 @@ public class ExceptionHandlingTest extends ParserBaseTest {
   public void typeIdList() {
     p.setRootRule(g.rule(CxxGrammarImpl.typeIdList));
 
-    g.rule(CxxGrammarImpl.typeId).mock();
+    mockRule(CxxGrammarImpl.typeId);
 
     assertThat(p).matches("typeId");
     assertThat(p).matches("typeId ...");
@@ -66,7 +66,7 @@ public class ExceptionHandlingTest extends ParserBaseTest {
   public void noexceptSpecification() {
     p.setRootRule(g.rule(CxxGrammarImpl.noexceptSpecification));
 
-    g.rule(CxxGrammarImpl.constantExpression).mock(); //@todo deprecated
+    mockRule(CxxGrammarImpl.constantExpression);
 
     assertThat(p).matches("noexcept");
     assertThat(p).matches("noexcept ( constantExpression )");

@@ -29,8 +29,8 @@ public class TemplatesTest extends ParserBaseTest {
   public void templateDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.templateDeclaration));
 
-    g.rule(CxxGrammarImpl.templateParameterList).mock(); //@todo deprecated
-    g.rule(CxxGrammarImpl.declaration).mock();
+    mockRule(CxxGrammarImpl.templateParameterList);
+    mockRule(CxxGrammarImpl.declaration);
 
     assertThat(p).matches("template < templateParameterList > declaration");
   }
@@ -53,7 +53,7 @@ public class TemplatesTest extends ParserBaseTest {
   public void templateParameterList() {
     p.setRootRule(g.rule(CxxGrammarImpl.templateParameterList));
 
-    g.rule(CxxGrammarImpl.templateParameter).mock();
+    mockRule(CxxGrammarImpl.templateParameter);
 
     assertThat(p).matches("templateParameter");
     assertThat(p).matches("templateParameter , templateParameter");
@@ -63,9 +63,9 @@ public class TemplatesTest extends ParserBaseTest {
   public void typeParameter() {
     p.setRootRule(g.rule(CxxGrammarImpl.typeParameter));
 
-    g.rule(CxxGrammarImpl.typeId).mock();
-    g.rule(CxxGrammarImpl.templateParameterList).mock();
-    g.rule(CxxGrammarImpl.idExpression).mock();
+    mockRule(CxxGrammarImpl.typeId);
+    mockRule(CxxGrammarImpl.templateParameterList);
+    mockRule(CxxGrammarImpl.idExpression);
 
     assertThat(p).matches("class");
     assertThat(p).matches("class T");
@@ -104,10 +104,10 @@ public class TemplatesTest extends ParserBaseTest {
   public void templateId() {
     p.setRootRule(g.rule(CxxGrammarImpl.templateId));
 
-    g.rule(CxxGrammarImpl.simpleTemplateId).mock();
-    g.rule(CxxGrammarImpl.operatorFunctionId).mock();
-    g.rule(CxxGrammarImpl.templateArgumentList).mock();
-    g.rule(CxxGrammarImpl.literalOperatorId).mock();
+    mockRule(CxxGrammarImpl.simpleTemplateId);
+    mockRule(CxxGrammarImpl.operatorFunctionId);
+    mockRule(CxxGrammarImpl.templateArgumentList);
+    mockRule(CxxGrammarImpl.literalOperatorId);
 
     assertThat(p).matches("simpleTemplateId");
     assertThat(p).matches("operatorFunctionId < >");
@@ -127,7 +127,7 @@ public class TemplatesTest extends ParserBaseTest {
   public void templateArgumentList() {
     p.setRootRule(g.rule(CxxGrammarImpl.templateArgumentList));
 
-    g.rule(CxxGrammarImpl.templateArgument).mock();
+    mockRule(CxxGrammarImpl.templateArgument);
 
     assertThat(p).matches("templateArgument");
     assertThat(p).matches("templateArgument ...");
@@ -139,8 +139,8 @@ public class TemplatesTest extends ParserBaseTest {
   public void typenameSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.typenameSpecifier));
 
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
-    g.rule(CxxGrammarImpl.simpleTemplateId).mock();
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.simpleTemplateId);
 
     assertThat(p).matches("typename nestedNameSpecifier foo");
 

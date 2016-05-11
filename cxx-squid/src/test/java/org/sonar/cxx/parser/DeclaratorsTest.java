@@ -29,7 +29,7 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void initDeclaratorList() {
     p.setRootRule(g.rule(CxxGrammarImpl.initDeclaratorList));
 
-    g.rule(CxxGrammarImpl.initDeclarator).mock(); //@todo deprecated
+    mockRule(CxxGrammarImpl.initDeclarator);
 
     assertThat(p).matches("initDeclarator");
     assertThat(p).matches("initDeclarator , initDeclarator");
@@ -55,10 +55,10 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void declarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.declarator));
 
-    g.rule(CxxGrammarImpl.ptrDeclarator).mock();
-    g.rule(CxxGrammarImpl.noptrDeclarator).mock();
-    g.rule(CxxGrammarImpl.parametersAndQualifiers).mock();
-    g.rule(CxxGrammarImpl.trailingReturnType).mock();
+    mockRule(CxxGrammarImpl.ptrDeclarator);
+    mockRule(CxxGrammarImpl.noptrDeclarator);
+    mockRule(CxxGrammarImpl.parametersAndQualifiers);
+    mockRule(CxxGrammarImpl.trailingReturnType);
 
     assertThat(p).matches("ptrDeclarator");
     assertThat(p).matches("noptrDeclarator parametersAndQualifiers trailingReturnType");
@@ -82,11 +82,11 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void noptrDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.noptrDeclarator));
 
-    g.rule(CxxGrammarImpl.declaratorId).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.parametersAndQualifiers).mock();
-    g.rule(CxxGrammarImpl.constantExpression).mock();
-    g.rule(CxxGrammarImpl.ptrDeclarator).mock();
+    mockRule(CxxGrammarImpl.declaratorId);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.parametersAndQualifiers);
+    mockRule(CxxGrammarImpl.constantExpression);
+    mockRule(CxxGrammarImpl.ptrDeclarator);
 
     assertThat(p).matches("declaratorId");
     assertThat(p).matches("declaratorId attributeSpecifierSeq");
@@ -110,11 +110,11 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void parametersAndQualifiers() {
     p.setRootRule(g.rule(CxxGrammarImpl.parametersAndQualifiers));
 
-    g.rule(CxxGrammarImpl.parameterDeclarationClause).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.cvQualifierSeq).mock();
-    g.rule(CxxGrammarImpl.refQualifier).mock();
-    g.rule(CxxGrammarImpl.exceptionSpecification).mock();
+    mockRule(CxxGrammarImpl.parameterDeclarationClause);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.cvQualifierSeq);
+    mockRule(CxxGrammarImpl.refQualifier);
+    mockRule(CxxGrammarImpl.exceptionSpecification);
 
     assertThat(p).matches("( parameterDeclarationClause )");
     assertThat(p).matches("( parameterDeclarationClause ) attributeSpecifierSeq");
@@ -135,8 +135,8 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void ptrDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.ptrDeclarator));
 
-    g.rule(CxxGrammarImpl.noptrDeclarator).mock();
-    g.rule(CxxGrammarImpl.ptrOperator).mock();
+    mockRule(CxxGrammarImpl.noptrDeclarator);
+    mockRule(CxxGrammarImpl.ptrOperator);
 
     assertThat(p).matches("noptrDeclarator");
     assertThat(p).matches("ptrOperator noptrDeclarator");
@@ -155,9 +155,9 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void ptrOperator() {
     p.setRootRule(g.rule(CxxGrammarImpl.ptrOperator));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.cvQualifierSeq).mock();
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.cvQualifierSeq);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
 
     assertThat(p).matches("*");
     assertThat(p).matches("* attributeSpecifierSeq");
@@ -182,7 +182,7 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void cvQualifierSeq() {
     p.setRootRule(g.rule(CxxGrammarImpl.cvQualifierSeq));
 
-    g.rule(CxxGrammarImpl.cvQualifier).mock();
+    mockRule(CxxGrammarImpl.cvQualifier);
 
     assertThat(p).matches("cvQualifier");
     assertThat(p).matches("cvQualifier cvQualifier");
@@ -192,9 +192,9 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void declaratorId() {
     p.setRootRule(g.rule(CxxGrammarImpl.declaratorId));
 
-    g.rule(CxxGrammarImpl.idExpression).mock();
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock();
-    g.rule(CxxGrammarImpl.className).mock();
+    mockRule(CxxGrammarImpl.idExpression);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.className);
 
     assertThat(p).matches("idExpression");
     assertThat(p).matches("... idExpression");
@@ -226,11 +226,11 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void abstractDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.abstractDeclarator));
 
-    g.rule(CxxGrammarImpl.ptrAbstractDeclarator).mock();
-    g.rule(CxxGrammarImpl.noptrAbstractDeclarator).mock();
-    g.rule(CxxGrammarImpl.parametersAndQualifiers).mock();
-    g.rule(CxxGrammarImpl.trailingReturnType).mock();
-    g.rule(CxxGrammarImpl.abstractPackDeclarator).mock();
+    mockRule(CxxGrammarImpl.ptrAbstractDeclarator);
+    mockRule(CxxGrammarImpl.noptrAbstractDeclarator);
+    mockRule(CxxGrammarImpl.parametersAndQualifiers);
+    mockRule(CxxGrammarImpl.trailingReturnType);
+    mockRule(CxxGrammarImpl.abstractPackDeclarator);
 
     assertThat(p).matches("ptrAbstractDeclarator");
     assertThat(p).matches("parametersAndQualifiers trailingReturnType");
@@ -242,8 +242,8 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void ptrAbstractDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.ptrAbstractDeclarator));
 
-    g.rule(CxxGrammarImpl.noptrAbstractDeclarator).mock();
-    g.rule(CxxGrammarImpl.ptrOperator).mock();
+    mockRule(CxxGrammarImpl.noptrAbstractDeclarator);
+    mockRule(CxxGrammarImpl.ptrOperator);
 
     assertThat(p).matches("ptrOperator");
     assertThat(p).matches("ptrOperator ptrOperator");
@@ -256,10 +256,10 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void noptrAbstractDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.noptrAbstractDeclarator));
 
-    g.rule(CxxGrammarImpl.parametersAndQualifiers).mock();
-    g.rule(CxxGrammarImpl.constantExpression).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.ptrAbstractDeclarator).mock();
+    mockRule(CxxGrammarImpl.parametersAndQualifiers);
+    mockRule(CxxGrammarImpl.constantExpression);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.ptrAbstractDeclarator);
 
     assertThat(p).matches("parametersAndQualifiers");
     assertThat(p).matches("( ptrAbstractDeclarator ) parametersAndQualifiers");
@@ -276,8 +276,8 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void abstractPackDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.abstractPackDeclarator));
 
-    g.rule(CxxGrammarImpl.noptrAbstractPackDeclarator).mock();
-    g.rule(CxxGrammarImpl.ptrOperator).mock();
+    mockRule(CxxGrammarImpl.noptrAbstractPackDeclarator);
+    mockRule(CxxGrammarImpl.ptrOperator);
 
     assertThat(p).matches("noptrAbstractPackDeclarator");
     assertThat(p).matches("ptrOperator noptrAbstractPackDeclarator");
@@ -288,9 +288,9 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void noptrAbstractPackDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.noptrAbstractPackDeclarator));
 
-    g.rule(CxxGrammarImpl.parametersAndQualifiers).mock();
-    g.rule(CxxGrammarImpl.constantExpression).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
+    mockRule(CxxGrammarImpl.parametersAndQualifiers);
+    mockRule(CxxGrammarImpl.constantExpression);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
 
     assertThat(p).matches("...");
     assertThat(p).matches("... parametersAndQualifiers");
@@ -303,7 +303,7 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void parameterDeclarationList() {
     p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclarationList));
 
-    g.rule(CxxGrammarImpl.parameterDeclaration).mock();
+    mockRule(CxxGrammarImpl.parameterDeclaration);
 
     assertThat(p).matches("parameterDeclaration");
     assertThat(p).matches("parameterDeclaration , parameterDeclaration");
@@ -321,7 +321,7 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void parameterDeclarationClause() {
     p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclarationClause));
 
-    g.rule(CxxGrammarImpl.parameterDeclarationList).mock();
+    mockRule(CxxGrammarImpl.parameterDeclarationList);
 
     assertThat(p).matches("");
     assertThat(p).matches("parameterDeclarationList");
@@ -342,11 +342,11 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void parameterDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.parameterDeclaration));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.parameterDeclSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.declarator).mock();
-    g.rule(CxxGrammarImpl.initializerClause).mock();
-    g.rule(CxxGrammarImpl.abstractDeclarator).mock();
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.parameterDeclSpecifierSeq);
+    mockRule(CxxGrammarImpl.declarator);
+    mockRule(CxxGrammarImpl.initializerClause);
+    mockRule(CxxGrammarImpl.abstractDeclarator);
 
     assertThat(p).matches("parameterDeclSpecifierSeq declarator");
     assertThat(p).matches("attributeSpecifierSeq parameterDeclSpecifierSeq declarator");
@@ -384,11 +384,11 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void functionDefinition() {
     p.setRootRule(g.rule(CxxGrammarImpl.functionDefinition));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.functionDeclSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.declarator).mock();
-    g.rule(CxxGrammarImpl.virtSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.functionBody).mock();
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.functionDeclSpecifierSeq);
+    mockRule(CxxGrammarImpl.declarator);
+    mockRule(CxxGrammarImpl.virtSpecifierSeq);
+    mockRule(CxxGrammarImpl.functionBody);
 
     assertThat(p).matches("declarator functionBody");
     assertThat(p).matches("attributeSpecifierSeq declarator functionBody");
@@ -424,9 +424,9 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void functionBody() {
     p.setRootRule(g.rule(CxxGrammarImpl.functionBody));
 
-    g.rule(CxxGrammarImpl.compoundStatement).mock();
-    g.rule(CxxGrammarImpl.ctorInitializer).mock();
-    g.rule(CxxGrammarImpl.functionTryBlock).mock();
+    mockRule(CxxGrammarImpl.compoundStatement);
+    mockRule(CxxGrammarImpl.ctorInitializer);
+    mockRule(CxxGrammarImpl.functionTryBlock);
 
     assertThat(p).matches("compoundStatement");
     assertThat(p).matches("ctorInitializer compoundStatement");
@@ -470,9 +470,9 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void initializerClause() {
     p.setRootRule(g.rule(CxxGrammarImpl.initializerClause));
 
-    g.rule(CxxGrammarImpl.assignmentExpression).mock();
-    g.rule(CxxGrammarImpl.initializerList).mock();
-    g.rule(CxxGrammarImpl.constantExpression).mock();
+    mockRule(CxxGrammarImpl.assignmentExpression);
+    mockRule(CxxGrammarImpl.initializerList);
+    mockRule(CxxGrammarImpl.constantExpression);
 
     assertThat(p).matches("{}");
     assertThat(p).matches("{ initializerList }");
@@ -496,7 +496,7 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void initializerList() {
     p.setRootRule(g.rule(CxxGrammarImpl.initializerList));
 
-    g.rule(CxxGrammarImpl.initializerClause).mock();
+    mockRule(CxxGrammarImpl.initializerClause);
 
     assertThat(p).matches("initializerClause");
     assertThat(p).matches("initializerClause ...");
@@ -515,7 +515,7 @@ public class DeclaratorsTest extends ParserBaseTest {
   public void bracedInitList() {
     p.setRootRule(g.rule(CxxGrammarImpl.bracedInitList));
 
-    g.rule(CxxGrammarImpl.initializerList).mock();
+    mockRule(CxxGrammarImpl.initializerList);
 
     assertThat(p).matches("{}");
     assertThat(p).matches("{ initializerList }");

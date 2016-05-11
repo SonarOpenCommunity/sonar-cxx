@@ -36,7 +36,7 @@ public class SpecialMemberFunctionsTest extends ParserBaseTest {
   public void memInitializerList() {
     p.setRootRule(g.rule(CxxGrammarImpl.memInitializerList));
 
-    g.rule(CxxGrammarImpl.memInitializer).mock(); //@todo deprecated
+    mockRule(CxxGrammarImpl.memInitializer);
 
     assertThat(p).matches("memInitializer");
     assertThat(p).matches("memInitializer ...");
@@ -48,9 +48,9 @@ public class SpecialMemberFunctionsTest extends ParserBaseTest {
   public void memInitializer() {
     p.setRootRule(g.rule(CxxGrammarImpl.memInitializer));
 
-    g.rule(CxxGrammarImpl.memInitializerId).mock();
-    g.rule(CxxGrammarImpl.expressionList).mock();
-    g.rule(CxxGrammarImpl.bracedInitList).mock();
+    mockRule(CxxGrammarImpl.memInitializerId);
+    mockRule(CxxGrammarImpl.expressionList);
+    mockRule(CxxGrammarImpl.bracedInitList);
 
     assertThat(p).matches("memInitializerId ( )");
     assertThat(p).matches("memInitializerId ( expressionList )");

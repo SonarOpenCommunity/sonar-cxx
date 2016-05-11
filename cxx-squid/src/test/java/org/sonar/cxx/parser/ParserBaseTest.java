@@ -26,6 +26,8 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import org.sonar.sslr.grammar.GrammarRuleKey;
+import org.sonar.sslr.grammar.GrammarRuleBuilder;
 
 public class ParserBaseTest {
 
@@ -38,5 +40,9 @@ public class ParserBaseTest {
     conf.setErrorRecoveryEnabled(false);
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
     g = p.getGrammar();
+  }
+  
+  void mockRule(GrammarRuleKey key) {
+    g.rule(key).mock(); //@todo deprecated
   }
 }

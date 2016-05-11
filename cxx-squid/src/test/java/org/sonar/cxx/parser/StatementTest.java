@@ -29,15 +29,15 @@ public class StatementTest extends ParserBaseTest {
   public void statement() {
     p.setRootRule(g.rule(CxxGrammarImpl.statement));
 
-    g.rule(CxxGrammarImpl.labeledStatement).mock(); //@todo deprecated
-    g.rule(CxxGrammarImpl.expressionStatement).mock();
-    g.rule(CxxGrammarImpl.compoundStatement).mock();
-    g.rule(CxxGrammarImpl.selectionStatement).mock();
-    g.rule(CxxGrammarImpl.iterationStatement).mock();
-    g.rule(CxxGrammarImpl.jumpStatement).mock();
-    g.rule(CxxGrammarImpl.declarationStatement).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.tryBlock).mock();
+    mockRule(CxxGrammarImpl.labeledStatement);
+    mockRule(CxxGrammarImpl.expressionStatement);
+    mockRule(CxxGrammarImpl.compoundStatement);
+    mockRule(CxxGrammarImpl.selectionStatement);
+    mockRule(CxxGrammarImpl.iterationStatement);
+    mockRule(CxxGrammarImpl.jumpStatement);
+    mockRule(CxxGrammarImpl.declarationStatement);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.tryBlock);
 
     assertThat(p).matches("labeledStatement");
     assertThat(p).matches("expressionStatement");
@@ -81,9 +81,9 @@ public class StatementTest extends ParserBaseTest {
   public void labeledStatement() {
     p.setRootRule(g.rule(CxxGrammarImpl.labeledStatement));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.statement).mock();
-    g.rule(CxxGrammarImpl.constantExpression).mock();
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.statement);
+    mockRule(CxxGrammarImpl.constantExpression);
 
     assertThat(p).matches("foo : statement");
     assertThat(p).matches("attributeSpecifierSeq foo : statement");
@@ -101,7 +101,7 @@ public class StatementTest extends ParserBaseTest {
   public void statementSeq() {
     p.setRootRule(g.rule(CxxGrammarImpl.statementSeq));
 
-    g.rule(CxxGrammarImpl.statement).mock();
+    mockRule(CxxGrammarImpl.statement);
 
     assertThat(p).matches("statement");
     assertThat(p).matches("statement statement");
@@ -111,8 +111,8 @@ public class StatementTest extends ParserBaseTest {
   public void selectionStatement() {
     p.setRootRule(g.rule(CxxGrammarImpl.selectionStatement));
 
-    g.rule(CxxGrammarImpl.statement).mock();
-    g.rule(CxxGrammarImpl.condition).mock();
+    mockRule(CxxGrammarImpl.statement);
+    mockRule(CxxGrammarImpl.condition);
 
     assertThat(p).matches("if ( condition ) statement");
     assertThat(p).matches("if ( condition ) statement else statement");
@@ -138,12 +138,12 @@ public class StatementTest extends ParserBaseTest {
   public void condition() {
     p.setRootRule(g.rule(CxxGrammarImpl.condition));
 
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.expression).mock();
-    g.rule(CxxGrammarImpl.declarator).mock();
-    g.rule(CxxGrammarImpl.conditionDeclSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.initializerClause).mock();
-    g.rule(CxxGrammarImpl.bracedInitList).mock();
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.declarator);
+    mockRule(CxxGrammarImpl.conditionDeclSpecifierSeq);
+    mockRule(CxxGrammarImpl.initializerClause);
+    mockRule(CxxGrammarImpl.bracedInitList);
 
     assertThat(p).matches("expression");
     assertThat(p).matches("conditionDeclSpecifierSeq declarator = initializerClause");
@@ -165,12 +165,12 @@ public class StatementTest extends ParserBaseTest {
   public void iterationStatement() {
     p.setRootRule(g.rule(CxxGrammarImpl.iterationStatement));
 
-    g.rule(CxxGrammarImpl.condition).mock();
-    g.rule(CxxGrammarImpl.statement).mock();
-    g.rule(CxxGrammarImpl.expression).mock();
-    g.rule(CxxGrammarImpl.forInitStatement).mock();
-    g.rule(CxxGrammarImpl.forRangeDeclaration).mock();
-    g.rule(CxxGrammarImpl.forRangeInitializer).mock();
+    mockRule(CxxGrammarImpl.condition);
+    mockRule(CxxGrammarImpl.statement);
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.forInitStatement);
+    mockRule(CxxGrammarImpl.forRangeDeclaration);
+    mockRule(CxxGrammarImpl.forRangeInitializer);
 
     assertThat(p).matches("while ( condition ) statement");
     assertThat(p).matches("do statement while ( expression ) ;");
@@ -226,9 +226,9 @@ public class StatementTest extends ParserBaseTest {
   public void forRangeDeclaration() {
     p.setRootRule(g.rule(CxxGrammarImpl.forRangeDeclaration));
 
-    g.rule(CxxGrammarImpl.forRangeDeclSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.declarator).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
+    mockRule(CxxGrammarImpl.forRangeDeclSpecifierSeq);
+    mockRule(CxxGrammarImpl.declarator);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
 
     assertThat(p).matches("forRangeDeclSpecifierSeq declarator");
     assertThat(p).matches("attributeSpecifierSeq forRangeDeclSpecifierSeq declarator");
@@ -238,8 +238,8 @@ public class StatementTest extends ParserBaseTest {
   public void forRangeInitializer() {
     p.setRootRule(g.rule(CxxGrammarImpl.forRangeInitializer));
 
-    g.rule(CxxGrammarImpl.expression).mock();
-    g.rule(CxxGrammarImpl.bracedInitList).mock();
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.bracedInitList);
 
     assertThat(p).matches("expression");
     assertThat(p).matches("bracedInitList");
@@ -249,8 +249,8 @@ public class StatementTest extends ParserBaseTest {
   public void jumpStatement() {
     p.setRootRule(g.rule(CxxGrammarImpl.jumpStatement));
 
-    g.rule(CxxGrammarImpl.expression).mock();
-    g.rule(CxxGrammarImpl.bracedInitList).mock();
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.bracedInitList);
 
     assertThat(p).matches("break ;");
     assertThat(p).matches("continue ;");
