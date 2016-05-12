@@ -32,9 +32,9 @@ public class LamdaExpressionsTest extends ParserBaseTest {
   public void lambdaExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.lambdaExpression));
 
-    g.rule(CxxGrammarImpl.lambdaIntroducer).mock(); //@todo deprecated
-    g.rule(CxxGrammarImpl.lambdaDeclarator).mock();
-    g.rule(CxxGrammarImpl.compoundStatement).mock();
+    mockRule(CxxGrammarImpl.lambdaIntroducer);
+    mockRule(CxxGrammarImpl.lambdaDeclarator);
+    mockRule(CxxGrammarImpl.compoundStatement);
 
     assertThat(p).matches("lambdaIntroducer compoundStatement");
     assertThat(p).matches("lambdaIntroducer lambdaDeclarator compoundStatement");
@@ -72,7 +72,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
   @Test
   public void lambdaIntroducer() {
     p.setRootRule(g.rule(CxxGrammarImpl.lambdaIntroducer));
-    g.rule(CxxGrammarImpl.lambdaCapture).mock();
+    mockRule(CxxGrammarImpl.lambdaCapture);
 
     assertThat(p).matches("[]");
     assertThat(p).matches("[lambdaCapture]");
@@ -93,8 +93,8 @@ public class LamdaExpressionsTest extends ParserBaseTest {
   @Test
   public void lambdaCapture() {
     p.setRootRule(g.rule(CxxGrammarImpl.lambdaCapture));
-    g.rule(CxxGrammarImpl.captureDefault).mock();
-    g.rule(CxxGrammarImpl.captureList).mock();
+    mockRule(CxxGrammarImpl.captureDefault);
+    mockRule(CxxGrammarImpl.captureList);
 
     assertThat(p).matches("captureDefault");
     assertThat(p).matches("captureList");
@@ -125,7 +125,7 @@ public class LamdaExpressionsTest extends ParserBaseTest {
   @Test
   public void captureList() {
     p.setRootRule(g.rule(CxxGrammarImpl.captureList));
-    g.rule(CxxGrammarImpl.capture).mock();
+    mockRule(CxxGrammarImpl.capture);
 
     assertThat(p).matches("capture"); // or 1, optional out
     assertThat(p).matches("capture ..."); // or 1, optional in
@@ -136,10 +136,10 @@ public class LamdaExpressionsTest extends ParserBaseTest {
   @Test
   public void lambdaDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.lambdaDeclarator));
-    g.rule(CxxGrammarImpl.parameterDeclarationClause).mock();
-    g.rule(CxxGrammarImpl.exceptionSpecification).mock();
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock();
-    g.rule(CxxGrammarImpl.trailingReturnType).mock();
+    mockRule(CxxGrammarImpl.parameterDeclarationClause);
+    mockRule(CxxGrammarImpl.exceptionSpecification);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.trailingReturnType);
 
     assertThat(p).matches("( parameterDeclarationClause ) "); // all opt out
     assertThat(p).matches("( parameterDeclarationClause ) mutable"); // mutable in

@@ -29,12 +29,12 @@ public class ExpressionTest extends ParserBaseTest {
   public void primaryExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.primaryExpression));
 
-    g.rule(CxxGrammarImpl.LITERAL).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.expression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.compoundStatement).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.idExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.lambdaExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.foldExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.LITERAL);
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.compoundStatement);
+    mockRule(CxxGrammarImpl.idExpression);
+    mockRule(CxxGrammarImpl.lambdaExpression);
+    mockRule(CxxGrammarImpl.foldExpression);
     
     assertThat(p)
       .matches("LITERAL")
@@ -49,8 +49,8 @@ public class ExpressionTest extends ParserBaseTest {
   public void foldExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.foldExpression));
 
-    g.rule(CxxGrammarImpl.castExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.foldOperator).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.castExpression);
+    mockRule(CxxGrammarImpl.foldOperator);
     
     assertThat(p)
       .matches("( castExpression foldOperator ... )")
@@ -81,12 +81,12 @@ public class ExpressionTest extends ParserBaseTest {
   public void unqualifiedId() {
     p.setRootRule(g.rule(CxxGrammarImpl.unqualifiedId));
 
-    g.rule(CxxGrammarImpl.operatorFunctionId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.conversionFunctionId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.literalOperatorId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.className).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.decltypeSpecifier).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.templateId).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.operatorFunctionId);
+    mockRule(CxxGrammarImpl.conversionFunctionId);
+    mockRule(CxxGrammarImpl.literalOperatorId);
+    mockRule(CxxGrammarImpl.className);
+    mockRule(CxxGrammarImpl.decltypeSpecifier);
+    mockRule(CxxGrammarImpl.templateId);
 
     assertThat(p).matches("foo");
     assertThat(p).matches("operatorFunctionId");
@@ -108,8 +108,8 @@ public class ExpressionTest extends ParserBaseTest {
   public void qualifiedId() {
     p.setRootRule(g.rule(CxxGrammarImpl.qualifiedId));
 
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.unqualifiedId).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.unqualifiedId);
 
     assertThat(p).matches("nestedNameSpecifier unqualifiedId");
     assertThat(p).matches("nestedNameSpecifier template unqualifiedId");
@@ -126,10 +126,10 @@ public class ExpressionTest extends ParserBaseTest {
   public void nestedNameSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.nestedNameSpecifier));
 
-    g.rule(CxxGrammarImpl.typeName).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.namespaceName).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.decltypeSpecifier).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.simpleTemplateId).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.typeName);
+    mockRule(CxxGrammarImpl.namespaceName);
+    mockRule(CxxGrammarImpl.decltypeSpecifier);
+    mockRule(CxxGrammarImpl.simpleTemplateId);
 
     assertThat(p).matches(":: typeName ::");
     assertThat(p).matches("typeName ::");
@@ -144,18 +144,18 @@ public class ExpressionTest extends ParserBaseTest {
   public void postfixExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.postfixExpression));
 
-    g.rule(CxxGrammarImpl.primaryExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.simpleTypeSpecifier).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.expressionList).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.typenameSpecifier).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.bracedInitList).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.primaryExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.expression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.idExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.typeId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.deleteExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.pseudoDestructorName).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.cudaKernel).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.primaryExpression);
+    mockRule(CxxGrammarImpl.simpleTypeSpecifier);
+    mockRule(CxxGrammarImpl.expressionList);
+    mockRule(CxxGrammarImpl.typenameSpecifier);
+    mockRule(CxxGrammarImpl.bracedInitList);
+    mockRule(CxxGrammarImpl.primaryExpression);
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.idExpression);
+    mockRule(CxxGrammarImpl.typeId);
+    mockRule(CxxGrammarImpl.deleteExpression);
+    mockRule(CxxGrammarImpl.pseudoDestructorName);
+    mockRule(CxxGrammarImpl.cudaKernel);
 
     assertThat(p).matches("primaryExpression");
     assertThat(p).matches("primaryExpression [ expression ]");
@@ -213,10 +213,10 @@ public class ExpressionTest extends ParserBaseTest {
   public void pseudoDestructorName() {
     p.setRootRule(g.rule(CxxGrammarImpl.pseudoDestructorName));
 
-    g.rule(CxxGrammarImpl.typeName).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.nestedNameSpecifier).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.simpleTemplateId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.decltypeSpecifier).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.typeName);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
+    mockRule(CxxGrammarImpl.simpleTemplateId);
+    mockRule(CxxGrammarImpl.decltypeSpecifier);
 
     assertThat(p).matches("typeName :: ~ typeName");
     assertThat(p).matches("nestedNameSpecifier typeName :: ~ typeName");
@@ -229,13 +229,13 @@ public class ExpressionTest extends ParserBaseTest {
   public void unaryExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.unaryExpression));
 
-    g.rule(CxxGrammarImpl.postfixExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.castExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.unaryOperator).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.typeId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.noexceptExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.newExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.deleteExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.postfixExpression);
+    mockRule(CxxGrammarImpl.castExpression);
+    mockRule(CxxGrammarImpl.unaryOperator);
+    mockRule(CxxGrammarImpl.typeId);
+    mockRule(CxxGrammarImpl.noexceptExpression);
+    mockRule(CxxGrammarImpl.newExpression);
+    mockRule(CxxGrammarImpl.deleteExpression);
 
     assertThat(p).matches("postfixExpression");
     assertThat(p).matches("sizeof postfixExpression");
@@ -253,10 +253,10 @@ public class ExpressionTest extends ParserBaseTest {
   public void newExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.newExpression));
 
-    g.rule(CxxGrammarImpl.newPlacement).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.newTypeId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.newInitializer).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.typeId).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.newPlacement);
+    mockRule(CxxGrammarImpl.newTypeId);
+    mockRule(CxxGrammarImpl.newInitializer);
+    mockRule(CxxGrammarImpl.typeId);
 
     assertThat(p).matches(":: new newPlacement newTypeId newInitializer");
     assertThat(p).matches(":: new newPlacement ( typeId ) newInitializer");
@@ -275,8 +275,8 @@ public class ExpressionTest extends ParserBaseTest {
   public void newDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.newDeclarator));
 
-    g.rule(CxxGrammarImpl.ptrOperator).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.noptrNewDeclarator).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.ptrOperator);
+    mockRule(CxxGrammarImpl.noptrNewDeclarator);
 
     assertThat(p).matches("ptrOperator ptrOperator noptrNewDeclarator");
     assertThat(p).matches("ptrOperator ptrOperator");
@@ -289,9 +289,9 @@ public class ExpressionTest extends ParserBaseTest {
   public void noptrNewDeclarator() {
     p.setRootRule(g.rule(CxxGrammarImpl.noptrNewDeclarator));
 
-    g.rule(CxxGrammarImpl.expression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.attributeSpecifierSeq).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.constantExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.constantExpression);
 
     assertThat(p).matches("[ expression ]");
     assertThat(p).matches("[ expression ] attributeSpecifierSeq");
@@ -303,8 +303,8 @@ public class ExpressionTest extends ParserBaseTest {
   public void newInitializer() {
     p.setRootRule(g.rule(CxxGrammarImpl.newInitializer));
 
-    g.rule(CxxGrammarImpl.expressionList).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.bracedInitList).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.expressionList);
+    mockRule(CxxGrammarImpl.bracedInitList);
 
     assertThat(p).matches("(  )");
     assertThat(p).matches("( expressionList )");
@@ -315,7 +315,7 @@ public class ExpressionTest extends ParserBaseTest {
   public void deleteExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.deleteExpression));
 
-    g.rule(CxxGrammarImpl.castExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.castExpression);
 
     assertThat(p).matches(":: delete castExpression");
     assertThat(p).matches(":: delete [ ] castExpression");
@@ -324,7 +324,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void expression() {
     p.setRootRule(g.rule(CxxGrammarImpl.expression));
-    g.rule(CxxGrammarImpl.assignmentExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.assignmentExpression);
 
     assertThat(p).matches("assignmentExpression");
     assertThat(p).matches("assignmentExpression, assignmentExpression");
@@ -356,11 +356,11 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void assignmentExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.assignmentExpression));
-    g.rule(CxxGrammarImpl.conditionalExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.logicalOrExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.assignmentOperator).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.initializerClause).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.throwExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.conditionalExpression);
+    mockRule(CxxGrammarImpl.logicalOrExpression);
+    mockRule(CxxGrammarImpl.assignmentOperator);
+    mockRule(CxxGrammarImpl.initializerClause);
+    mockRule(CxxGrammarImpl.throwExpression);
 
     assertThat(p).matches("conditionalExpression");
     assertThat(p).matches("logicalOrExpression assignmentOperator initializerClause");
@@ -380,7 +380,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void logicalOrExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.logicalOrExpression));
-    g.rule(CxxGrammarImpl.logicalAndExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.logicalAndExpression);
 
     assertThat(p).matches("logicalAndExpression");
     assertThat(p).matches("logicalAndExpression || logicalAndExpression");
@@ -397,9 +397,9 @@ public class ExpressionTest extends ParserBaseTest {
   public void conditionalExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.conditionalExpression));
 
-    g.rule(CxxGrammarImpl.logicalOrExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.expression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.assignmentExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.logicalOrExpression);
+    mockRule(CxxGrammarImpl.expression);
+    mockRule(CxxGrammarImpl.assignmentExpression);
 
     assertThat(p).matches("logicalOrExpression");
     assertThat(p).matches("logicalOrExpression ? expression : assignmentExpression");
@@ -409,7 +409,7 @@ public class ExpressionTest extends ParserBaseTest {
   public void constantExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.constantExpression));
 
-    g.rule(CxxGrammarImpl.conditionalExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.conditionalExpression);
 
     assertThat(p).matches("conditionalExpression");
   }
@@ -424,7 +424,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void logicalAndExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.logicalAndExpression));
-    g.rule(CxxGrammarImpl.inclusiveOrExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.inclusiveOrExpression);
 
     assertThat(p).matches("inclusiveOrExpression");
     assertThat(p).matches("inclusiveOrExpression && inclusiveOrExpression");
@@ -433,7 +433,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void inclusiveOrExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.inclusiveOrExpression));
-    g.rule(CxxGrammarImpl.exclusiveOrExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.exclusiveOrExpression);
 
     assertThat(p).matches("exclusiveOrExpression");
     assertThat(p).matches("exclusiveOrExpression | exclusiveOrExpression");
@@ -442,7 +442,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void exclusiveOrExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.exclusiveOrExpression));
-    g.rule(CxxGrammarImpl.andExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.andExpression);
 
     assertThat(p).matches("andExpression");
     assertThat(p).matches("andExpression ^ andExpression");
@@ -451,7 +451,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void andExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.andExpression));
-    g.rule(CxxGrammarImpl.equalityExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.equalityExpression);
 
     assertThat(p).matches("equalityExpression");
     assertThat(p).matches("equalityExpression & equalityExpression");
@@ -460,7 +460,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void equalityExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.equalityExpression));
-    g.rule(CxxGrammarImpl.relationalExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.relationalExpression);
 
     assertThat(p).matches("relationalExpression");
     assertThat(p).matches("relationalExpression == relationalExpression");
@@ -470,7 +470,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void relationalExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.relationalExpression));
-    g.rule(CxxGrammarImpl.shiftExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.shiftExpression);
 
     assertThat(p).matches("shiftExpression");
     assertThat(p).matches("shiftExpression < shiftExpression");
@@ -482,7 +482,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void shiftExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.shiftExpression));
-    g.rule(CxxGrammarImpl.additiveExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.additiveExpression);
 
     assertThat(p).matches("additiveExpression");
     assertThat(p).matches("additiveExpression << additiveExpression");
@@ -492,7 +492,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void additiveExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.additiveExpression));
-    g.rule(CxxGrammarImpl.multiplicativeExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.multiplicativeExpression);
 
     assertThat(p).matches("multiplicativeExpression");
     assertThat(p).matches("multiplicativeExpression + multiplicativeExpression");
@@ -502,7 +502,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void multiplicativeExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.multiplicativeExpression));
-    g.rule(CxxGrammarImpl.pmExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.pmExpression);
 
     assertThat(p).matches("pmExpression");
     assertThat(p).matches("pmExpression * pmExpression");
@@ -520,7 +520,7 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void pmExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.pmExpression));
-    g.rule(CxxGrammarImpl.castExpression).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.castExpression);
 
     assertThat(p).matches("castExpression");
     assertThat(p).matches("castExpression .* castExpression");
@@ -530,9 +530,9 @@ public class ExpressionTest extends ParserBaseTest {
   @Test
   public void castExpression() {
     p.setRootRule(g.rule(CxxGrammarImpl.pmExpression));
-    g.rule(CxxGrammarImpl.unaryExpression).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.typeId).mock(); //@todo deprecated mock
-    g.rule(CxxGrammarImpl.bracedInitList).mock(); //@todo deprecated mock
+    mockRule(CxxGrammarImpl.unaryExpression);
+    mockRule(CxxGrammarImpl.typeId);
+    mockRule(CxxGrammarImpl.bracedInitList);
 
     assertThat(p).matches("unaryExpression");
     assertThat(p).matches("(typeId) unaryExpression");
