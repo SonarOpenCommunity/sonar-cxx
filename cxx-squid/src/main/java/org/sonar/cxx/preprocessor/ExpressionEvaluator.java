@@ -29,10 +29,13 @@ import org.slf4j.LoggerFactory;
 import org.sonar.cxx.CxxConfiguration;
 
 import com.sonar.sslr.api.AstNode;
+import com.sonar.sslr.api.AstNodeType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
-import org.sonar.cxx.preprocessor.CxxPreprocessor.MismatchException;
+import org.sonar.cxx.api.CxxTokenType;
+import com.sonar.sslr.api.GenericTokenType;
+import org.sonar.cxx.api.CppPunctuator;
 
 public final class ExpressionEvaluator {
 
@@ -90,75 +93,77 @@ public final class ExpressionEvaluator {
   private BigInteger evalLeaf(AstNode exprAst) {
     // Evaluation of leafs
     //
-    String nodeType = exprAst.getName();
-    if ("NUMBER".equals(nodeType)) {
+    AstNodeType nodeType = exprAst.getType();
+
+    if (CxxTokenType.NUMBER == nodeType) {
       return evalNumber(exprAst.getTokenValue());
-    } else if ("CHARACTER".equals(nodeType)) {
+    } else if (CxxTokenType.CHARACTER == nodeType) {
       return evalCharacter(exprAst.getTokenValue());
-    } else if ("IDENTIFIER".equals(nodeType)) {
+    } else if (GenericTokenType.IDENTIFIER == nodeType) {
       String value = preprocessor.valueOf(exprAst.getTokenValue());
       return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
     } else {
-      throw new EvaluationException("Unknown expression type '" + nodeType + "'");
+      throw new EvaluationException("Unknown expression type '" + nodeType.toString() + "'");
     }
   }
 
   private BigInteger evalOneChildAst(AstNode exprAst) {
     // Evaluation of booleans and 'pass-through's
     //
-    String nodeType = exprAst.getName();
-    if ("bool".equals(nodeType)) {
+    AstNodeType nodeType = exprAst.getType();
+    if (CppGrammar.bool == nodeType) {
       return evalBool(exprAst.getTokenValue());
     }
     return evalToInt(exprAst.getFirstChild());
   }
 
   private BigInteger evalComplexAst(AstNode exprAst) {
+
     // More complex expressions with more than one child
     //
-    String nodeType = exprAst.getName();
-    if ("unaryExpression".equals(nodeType)) {
+    AstNodeType nodeType = exprAst.getType();
+    if (CppGrammar.unaryExpression == nodeType) {
       return evalUnaryExpression(exprAst);
-    } else if ("conditionalExpression".equals(nodeType)) {
+    } else if (CppGrammar.conditionalExpression == nodeType) {
       return evalConditionalExpression(exprAst);
-    } else if ("logicalOrExpression".equals(nodeType)) {
+    } else if (CppGrammar.logicalOrExpression == nodeType) {
       return evalLogicalOrExpression(exprAst);
-    } else if ("logicalAndExpression".equals(nodeType)) {
+    } else if (CppGrammar.logicalAndExpression == nodeType) {
       return evalLogicalAndExpression(exprAst);
-    } else if ("inclusiveOrExpression".equals(nodeType)) {
+    } else if (CppGrammar.inclusiveOrExpression == nodeType) {
       return evalInclusiveOrExpression(exprAst);
-    } else if ("exclusiveOrExpression".equals(nodeType)) {
+    } else if (CppGrammar.exclusiveOrExpression == nodeType) {
       return evalExclusiveOrExpression(exprAst);
-    } else if ("andExpression".equals(nodeType)) {
+    } else if (CppGrammar.andExpression == nodeType) {
       return evalAndExpression(exprAst);
-    } else if ("equalityExpression".equals(nodeType)) {
+    } else if (CppGrammar.equalityExpression == nodeType) {
       return evalEqualityExpression(exprAst);
-    } else if ("relationalExpression".equals(nodeType)) {
+    } else if (CppGrammar.relationalExpression == nodeType) {
       return evalRelationalExpression(exprAst);
-    } else if ("shiftExpression".equals(nodeType)) {
+    } else if (CppGrammar.shiftExpression == nodeType) {
       return evalShiftExpression(exprAst);
-    } else if ("additiveExpression".equals(nodeType)) {
+    } else if (CppGrammar.additiveExpression == nodeType) {
       return evalAdditiveExpression(exprAst);
-    } else if ("multiplicativeExpression".equals(nodeType)) {
+    } else if (CppGrammar.multiplicativeExpression == nodeType) {
       return evalMultiplicativeExpression(exprAst);
-    } else if ("primaryExpression".equals(nodeType)) {
+    } else if (CppGrammar.primaryExpression == nodeType) {
       return evalPrimaryExpression(exprAst);
-    } else if ("definedExpression".equals(nodeType)) {
+    } else if (CppGrammar.definedExpression == nodeType) {
       return evalDefinedExpression(exprAst);
-    } else if ("functionlikeMacro".equals(nodeType)) {
+    } else if (CppGrammar.functionlikeMacro == nodeType) {
       return evalFunctionlikeMacro(exprAst);
     } else {
-      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" + exprAst.getToken() + "', assuming 0");
+      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType.toString() + "' for AstExt '" + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
   }
 
   // ///////////////// Primitives //////////////////////
-  BigInteger evalBool(String boolValue) {
+  private static BigInteger evalBool(String boolValue) {
     return "true".equalsIgnoreCase(boolValue) ? BigInteger.ONE : BigInteger.ZERO;
   }
 
-  BigInteger evalNumber(String intValue) {
+  private static BigInteger evalNumber(String intValue) {
     // the if expressions aren't allowed to contain floats
     BigInteger number;
     try {
@@ -171,23 +176,23 @@ public final class ExpressionEvaluator {
     return number;
   }
 
-  BigInteger evalCharacter(String charValue) {
+  private static BigInteger evalCharacter(String charValue) {
     // TODO: replace this simplification by something more sane
     return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
   }
 
-  AstNode getNextOperand(AstNode node) {
-    if( node != null) {
+  private static AstNode getNextOperand(AstNode node) {
+    if (node != null) {
       node = node.getNextSibling();
-      if( node != null) {
-         node = node.getNextSibling();
+      if (node != null) {
+        node = node.getNextSibling();
       }
     }
     return node;
   }
-  
+
   // ////////////// logical expressions ///////////////////////////
-  BigInteger evalLogicalOrExpression(AstNode exprAst) {
+  private BigInteger evalLogicalOrExpression(AstNode exprAst) {
     AstNode operand = exprAst.getFirstChild();
     boolean result = eval(operand);
 
@@ -198,7 +203,7 @@ public final class ExpressionEvaluator {
     return result ? BigInteger.ONE : BigInteger.ZERO;
   }
 
-  BigInteger evalLogicalAndExpression(AstNode exprAst) {
+  private BigInteger evalLogicalAndExpression(AstNode exprAst) {
     AstNode operand = exprAst.getFirstChild();
     boolean result = eval(operand);
 
@@ -209,71 +214,71 @@ public final class ExpressionEvaluator {
     return result ? BigInteger.ONE : BigInteger.ZERO;
   }
 
-  BigInteger evalEqualityExpression(AstNode exprAst) {
+  private BigInteger evalEqualityExpression(AstNode exprAst) {
     AstNode lhs = exprAst.getFirstChild();
-    AstNode op = lhs.getNextSibling();
-    AstNode rhs = op.getNextSibling();
-    String operator = op.getTokenValue();
+    AstNode operator = lhs.getNextSibling();
+    AstNode rhs = operator.getNextSibling();
+    AstNodeType operatorType = operator.getType();
 
     boolean result;
-    if ("==".equals(operator)) {
+    if (CppPunctuator.EQ == operatorType) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) == 0;
-    } else if ("!=".equals(operator)) {
+    } else if (CppPunctuator.NOT_EQ == operatorType) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) != 0;
     } else {
-      throw new EvaluationException("Unknown equality operator '" + operator + "'");
+      throw new EvaluationException("Unknown equality operator '" + operatorType.toString() + "'");
     }
 
-    while ((op = rhs.getNextSibling()) != null) {
-      operator = op.getTokenValue();
-      rhs = op.getNextSibling();
-      if ("==".equals(operator)) {
+    while ((operator = rhs.getNextSibling()) != null) {
+      operatorType = operator.getType();
+      rhs = operator.getNextSibling();
+      if (CppPunctuator.EQ == operatorType) {
         result = result == eval(rhs);
-      } else if ("!=".equals(operator)) {
+      } else if (CppPunctuator.NOT_EQ == operatorType) {
         result = result != eval(rhs);
       } else {
-        throw new EvaluationException("Unknown equality operator '" + operator + "'");
+        throw new EvaluationException("Unknown equality operator '" + operatorType.toString() + "'");
       }
     }
 
     return result ? BigInteger.ONE : BigInteger.ZERO;
   }
 
-  BigInteger evalRelationalExpression(AstNode exprAst) {
+  private BigInteger evalRelationalExpression(AstNode exprAst) {
     AstNode lhs = exprAst.getFirstChild();
-    AstNode op = lhs.getNextSibling();
-    AstNode rhs = op.getNextSibling();
-    String operator = op.getTokenValue();
+    AstNode operator = lhs.getNextSibling();
+    AstNode rhs = operator.getNextSibling();
+    AstNodeType operatorType = operator.getType();
 
     boolean result;
-    if ("<".equals(operator)) {
+    if (CppPunctuator.LT == operatorType) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) < 0;
-    } else if (">".equals(operator)) {
+    } else if (CppPunctuator.GT == operatorType) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) > 0;
-    } else if ("<=".equals(operator)) {
+    } else if (CppPunctuator.LT_EQ == operatorType) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) <= 0;
-    } else if (">=".equals(operator)) {
+    } else if (CppPunctuator.GT_EQ == operatorType) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) >= 0;
     } else {
-      throw new EvaluationException("Unknown relational operator '" + operator + "'");
+      throw new EvaluationException("Unknown relational operator '" + operatorType.toString() + "'");
     }
 
     BigInteger resultAsInt;
-    while ((op = rhs.getNextSibling()) != null) {
-      operator = op.getTokenValue();
-      rhs = op.getNextSibling();
+    while ((operator = rhs.getNextSibling()) != null) {
+      operatorType = operator.getType();
+      rhs = operator.getNextSibling();
 
       resultAsInt = result ? BigInteger.ONE : BigInteger.ZERO;
-      if ("<".equals(operator)) {
+      if (CppPunctuator.LT == operatorType) {
         result = resultAsInt.compareTo(evalToInt(rhs)) < 0;
-      } else if (">".equals(operator)) {
+      } else if (CppPunctuator.GT == operatorType) {
         result = resultAsInt.compareTo(evalToInt(rhs)) > 0;
-      } else if ("<=".equals(operator)) {
+      } else if (CppPunctuator.LT_EQ == operatorType) {
         result = resultAsInt.compareTo(evalToInt(rhs)) <= 0;
-      } else if (">=".equals(operator)) {
+      } else if (CppPunctuator.GT_EQ == operatorType) {
         result = resultAsInt.compareTo(evalToInt(rhs)) >= 0;
       } else {
-        throw new EvaluationException("Unknown relational operator '" + operator + "'");
+        throw new EvaluationException("Unknown relational operator '" + operatorType.toString() + "'");
       }
     }
 
@@ -281,7 +286,7 @@ public final class ExpressionEvaluator {
   }
 
   // ///////////////// bitwise expressions ///////////////////////
-  BigInteger evalAndExpression(AstNode exprAst) {
+  private BigInteger evalAndExpression(AstNode exprAst) {
     AstNode operand = exprAst.getFirstChild();
     BigInteger result = evalToInt(operand);
 
@@ -292,7 +297,7 @@ public final class ExpressionEvaluator {
     return result;
   }
 
-  BigInteger evalInclusiveOrExpression(AstNode exprAst) {
+  private BigInteger evalInclusiveOrExpression(AstNode exprAst) {
     AstNode operand = exprAst.getFirstChild();
     BigInteger result = evalToInt(operand);
 
@@ -303,10 +308,10 @@ public final class ExpressionEvaluator {
     return result;
   }
 
-  BigInteger evalExclusiveOrExpression(AstNode exprAst) {
+  private BigInteger evalExclusiveOrExpression(AstNode exprAst) {
     AstNode operand = exprAst.getFirstChild();
     BigInteger result = evalToInt(operand);
-    
+
     while ((operand = getNextOperand(operand)) != null) {
       result = result.xor(evalToInt(operand));
     }
@@ -315,94 +320,94 @@ public final class ExpressionEvaluator {
   }
 
   // ///////////////// other ... ///////////////////
-  BigInteger evalUnaryExpression(AstNode exprAst) {
+  private BigInteger evalUnaryExpression(AstNode exprAst) {
     // only 'unary-operator cast-expression' production is allowed in #if-context
 
-    AstNode op = exprAst.getFirstChild();
-    AstNode operand = op.getNextSibling();
-    String operator = op.getTokenValue();
-    
-    if ("+".equals(operator)) {
+    AstNode operator = exprAst.getFirstChild();
+    AstNode operand = operator.getNextSibling();
+    AstNodeType operatorType = operator.getFirstChild().getType();
+
+    if (CppPunctuator.PLUS == operatorType) {
       return evalToInt(operand);
-    } else if ("-".equals(operator)) {
+    } else if (CppPunctuator.MINUS == operatorType) {
       return evalToInt(operand).negate();
-    } else if ("!".equals(operator)) {
+    } else if (CppPunctuator.NOT == operatorType) {
       boolean result = !eval(operand);
       return result ? BigInteger.ONE : BigInteger.ZERO;
-    } else if ("~".equals(operator)) {
+    } else if (CppPunctuator.BW_NOT == operatorType) {
       //todo: need more information (signed/unsigned, data type length) to invert bits in all cases correct
       return evalToInt(operand).not().and(UINT64_MAX);
     } else {
-      throw new EvaluationException("Unknown unary operator  '" + operator + "'");
+      throw new EvaluationException("Unknown unary operator  '" + operatorType.toString() + "'");
     }
   }
 
-  BigInteger evalShiftExpression(AstNode exprAst) {
+  private BigInteger evalShiftExpression(AstNode exprAst) {
     AstNode rhs = exprAst.getFirstChild();
-    AstNode op;
+    AstNode operator;
     BigInteger result = evalToInt(rhs);
 
-    while ((op = rhs.getNextSibling()) != null) {
-      String operator = op.getTokenValue();
-      rhs = op.getNextSibling();
+    while ((operator = rhs.getNextSibling()) != null) {
+      AstNodeType operatorType = operator.getType();
+      rhs = operator.getNextSibling();
 
-      if ("<<".equals(operator)) {
+      if (CppPunctuator.BW_LSHIFT == operatorType) {
         result = result.shiftLeft(evalToInt(rhs).intValue()).and(UINT64_MAX);
-      } else if (">>".equals(operator)) {
+      } else if (CppPunctuator.BW_RSHIFT == operatorType) {
         result = result.shiftRight(evalToInt(rhs).intValue());
       } else {
-        throw new EvaluationException("Unknown shift operator '" + operator + "'");
+        throw new EvaluationException("Unknown shift operator '" + operatorType.toString() + "'");
       }
     }
 
     return result;
   }
 
-  BigInteger evalAdditiveExpression(AstNode exprAst) {
+  private BigInteger evalAdditiveExpression(AstNode exprAst) {
     AstNode rhs = exprAst.getFirstChild();
-    AstNode op;
+    AstNode operator;
     BigInteger result = evalToInt(rhs);
 
-    while ((op = rhs.getNextSibling()) != null) {
-      String operator = op.getTokenValue();
-      rhs = op.getNextSibling();
+    while ((operator = rhs.getNextSibling()) != null) {
+      AstNodeType operatorType = operator.getType();
+      rhs = operator.getNextSibling();
 
-      if ("+".equals(operator)) {
+      if (CppPunctuator.PLUS == operatorType) {
         result = result.add(evalToInt(rhs));
-      } else if ("-".equals(operator)) {
+      } else if (CppPunctuator.MINUS == operatorType) {
         result = result.subtract(evalToInt(rhs));
       } else {
-        throw new EvaluationException("Unknown additive operator '" + operator + "'");
+        throw new EvaluationException("Unknown additive operator '" + operatorType.toString() + "'");
       }
     }
 
     return result;
   }
 
-  BigInteger evalMultiplicativeExpression(AstNode exprAst) {
+  private BigInteger evalMultiplicativeExpression(AstNode exprAst) {
     AstNode rhs = exprAst.getFirstChild();
-    AstNode op;
+    AstNode operator;
     BigInteger result = evalToInt(rhs);
 
-    while ((op = rhs.getNextSibling()) != null) {
-      String operator = op.getTokenValue();
-      rhs = op.getNextSibling();
+    while ((operator = rhs.getNextSibling()) != null) {
+      AstNodeType operatorType = operator.getType();
+      rhs = operator.getNextSibling();
 
-      if ("*".equals(operator)) {
+      if (CppPunctuator.MUL == operatorType) {
         result = result.multiply(evalToInt(rhs));
-      } else if ("/".equals(operator)) {
+      } else if (CppPunctuator.DIV == operatorType) {
         result = result.divide(evalToInt(rhs));
-      } else if ("%".equals(operator)) {
+      } else if (CppPunctuator.MODULO == operatorType) {
         result = result.mod(evalToInt(rhs));
       } else {
-        throw new EvaluationException("Unknown multiplicative operator '" + operator + "'");
+        throw new EvaluationException("Unknown multiplicative operator '" + operatorType.toString() + "'");
       }
     }
 
     return result;
   }
 
-  BigInteger evalConditionalExpression(AstNode exprAst) {
+  private BigInteger evalConditionalExpression(AstNode exprAst) {
     if (exprAst.getNumberOfChildren() == 5) {
       AstNode decisionOperand = exprAst.getFirstChild();
       AstNode operator = decisionOperand.getNextSibling();
@@ -420,13 +425,13 @@ public final class ExpressionEvaluator {
     }
   }
 
-  BigInteger evalPrimaryExpression(AstNode exprAst) {
+  private BigInteger evalPrimaryExpression(AstNode exprAst) {
     // case "( expression )"
     AstNode caseNode = exprAst.getFirstChild();
     return evalToInt(caseNode.getNextSibling());
   }
 
-  BigInteger evalDefinedExpression(AstNode exprAst) {
+  private BigInteger evalDefinedExpression(AstNode exprAst) {
     AstNode child = exprAst.getFirstChild();
 
     if (exprAst.getNumberOfChildren() != 2) {
@@ -440,25 +445,25 @@ public final class ExpressionEvaluator {
     return value == null ? BigInteger.ZERO : BigInteger.ONE;
   }
 
-  BigInteger evalFunctionlikeMacro(AstNode exprAst) {
+  private BigInteger evalFunctionlikeMacro(AstNode exprAst) {
     String macroName = exprAst.getFirstChild().getTokenValue();
     List<Token> tokens = exprAst.getTokens();
     List<Token> restTokens = tokens.subList(1, tokens.size());
     String value = preprocessor.expandFunctionLikeMacro(macroName, restTokens);
-      
+
     if (value == null || "".equals(value)) {
       LOG.error("Undefined functionlike macro '{}' assuming 0", macroName);
       return BigInteger.ZERO;
     }
-    
+
     return evalToInt(value, exprAst);
   }
 
-  String stripSuffix(String number) {
+  public static String stripSuffix(String number) {
     return number.replaceAll("[LlUu]", "");
   }
 
-  BigInteger decode(String number) {
+  private static BigInteger decode(String number) {
     int radix = 10;
     if (number.length() > 2) {
       if (number.charAt(0) == '0') {
