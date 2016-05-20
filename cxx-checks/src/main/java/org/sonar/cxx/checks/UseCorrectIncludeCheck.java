@@ -20,10 +20,11 @@
 package org.sonar.cxx.checks;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import com.google.common.io.Files;
 
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
@@ -70,7 +71,7 @@ public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCh
   public void visitFile(AstNode astNode) {
     List<String> lines;
     try {
-      lines = Files.readAllLines(getContext().getFile().toPath(), charset);
+      lines = Files.readLines(getContext().getFile(), charset);
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
