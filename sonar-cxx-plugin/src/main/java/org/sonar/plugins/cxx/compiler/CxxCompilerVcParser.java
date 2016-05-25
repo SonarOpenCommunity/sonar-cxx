@@ -19,11 +19,14 @@
  */
 package org.sonar.plugins.cxx.compiler;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Project;
 
@@ -81,22 +84,37 @@ public class CxxCompilerVcParser implements CompilerParser {
   public void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
     CxxUtils.LOG.info("Parsing 'Visual C++' format ({})", charset);
 
-    Scanner scanner = new Scanner(report, charset);
-    Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
+    Pattern p = Pattern.compile(reportRegEx, Pattern.LITERAL);
     CxxUtils.LOG.info("Using pattern : '{}'", p);
-    MatchResult matchres = null;
-    while (scanner.findWithinHorizon(p, 0) != null) {
-      matchres = scanner.match();
-      String filename = matchres.group(1);
-      String line = matchres.group(2);
-      String id = matchres.group(3);
-      String msg = matchres.group(4);
-      CxxUtils.LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
-        new Object[]{filename, line, id, msg});
-      warnings.add(new Warning(filename, line, id, msg));
-    }
-    scanner.close();
+    try (BufferedReader br = new BufferedReader(new FileReader(report))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        
+              
+        if (line.contains(": warning") || line.contains(": error")) {
+            try
+            {
+                CxxUtils.LOG.debug("Recover issue from following line : {}", line);
+                // 7:5>e:\buildagent1\work\dd624fc8274443d9\solids\libsolid_kernel\euler.cpp(879): warning C4706: assignment within conditional expression
+                String[] elements = line.split("\\):");
+                String filename = elements[0].substring(elements[0].indexOf(">") + 1, elements[0].indexOf("(")).trim();
+                String lineid = elements[0].substring(elements[0].indexOf("(") + 1);
+                String remdata = elements[1].trim();
+                String id = remdata.substring(remdata.indexOf(" ") + 1, remdata.indexOf(":"));
+                String msg = remdata.substring(remdata.indexOf(":") + 1).trim();
+                CxxUtils.LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
+                  new Object[]{filename, lineid, id, msg});
+                warnings.add(new Warning(filename, lineid, id, msg));                
+            } catch (Exception ex) {
+                CxxUtils.LOG.info("Failed to parse line : '{}'", ex.getMessage());
+            }
+
+          }        
+        }       
+    } catch (Exception ex){ CxxUtils.LOG.info("Failed to parse buildlog : '{}'", ex.getMessage()); }
+    
   }
+
 
   @Override
   public String toString() {

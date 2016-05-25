@@ -58,7 +58,10 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String IT_REPORT_PATH_KEY = "sonar.cxx.coverage.itReportPath";
   public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
   public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
-
+  public static final String IGNORE_INVALID_UNIT_COV_MEASURES = "sonar.cxx.coverage.ignoreInvalidUnitMeasures";
+  public static final String IGNORE_INVALID_IT_COV_MEASURES = "sonar.cxx.coverage.ignoreInvalidItMeasures";
+  public static final String IGNORE_INVALID_OVERALL_COV_MEASURES = "sonar.cxx.coverage.ignoreInvalidOverallMeasures";
+  
   private final List<CoverageParser> parsers = new LinkedList<>();
   private final CxxCoverageCache cache;
 
@@ -181,10 +184,31 @@ public class CxxCoverageSensor extends CxxReportSensor {
           {
             context.saveMeasure(cxxFile, convertedMeasure);
           } catch(Exception ex) {
-            CxxUtils.LOG.error("Saving cov measure '{}' = '{}' failed", measure.getMetricKey(), measure.getValue());
-            CxxUtils.LOG.error("Obtained '{}' = '{}' failed", convertedMeasure.getMetricKey(), convertedMeasure.getData());
+
+            CxxUtils.LOG.error("Saving   '{}' = '{}'", measure.getMetricKey(), measure.getValue());
+            CxxUtils.LOG.error("       cov measure data = '{}' ", measure.getMetricKey(), measure.getData());
+            CxxUtils.LOG.error("Obtained '{}' = '{}'", convertedMeasure.getMetricKey(), convertedMeasure.getValue());
+            CxxUtils.LOG.error("       cov measure data = '{}'", convertedMeasure.getMetricKey(), convertedMeasure.getData());
             CxxUtils.LOG.error("Ctype : '{}'     Exception '{}'", ctype, ex.getMessage());
-            throw ex;
+            
+            boolean ignoreMeasure = false;
+            switch (ctype) {
+              case UT_COVERAGE:
+                ignoreMeasure = settings.getBoolean(IGNORE_INVALID_UNIT_COV_MEASURES);
+                break;
+              case IT_COVERAGE:
+                ignoreMeasure = settings.getBoolean(IGNORE_INVALID_IT_COV_MEASURES);
+                break;
+              case OVERALL_COVERAGE:
+                ignoreMeasure = settings.getBoolean(IGNORE_INVALID_OVERALL_COV_MEASURES);
+                break;
+            }        
+            
+            if (!ignoreMeasure) {
+              throw ex;
+            } else {
+              CxxUtils.LOG.warn("Invalid measure ignored, continue analysis");    
+            }            
           }            
         }
       } else {
