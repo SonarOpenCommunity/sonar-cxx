@@ -25,7 +25,7 @@ Feature: Smoketest
                | statements               | 36    |
                | classes                  | 1     |
                | files                    | 8     |
-               | directories              | 5     |
+               | directories              | 4     |
                | functions                | 5     |
                # comments / documentation
                | comment_lines_density    | 30    |
