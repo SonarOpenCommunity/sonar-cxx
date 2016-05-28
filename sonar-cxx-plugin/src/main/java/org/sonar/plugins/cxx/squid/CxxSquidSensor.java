@@ -177,7 +177,6 @@ public final class CxxSquidSensor implements Sensor {
 
   private void save(Collection<SourceCode> squidSourceFiles) {
     int violationsCount = 0;
-    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(resourcePerspectives, project, context, rules);
 
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
@@ -188,13 +187,11 @@ public final class CxxSquidSensor implements Sensor {
       saveFunctionAndClassComplexityDistribution(inputFile, squidFile);
       saveFilesComplexityDistribution(inputFile, squidFile);
       violationsCount += saveViolations(inputFile, squidFile);
-      //### @todo dependencyAnalyzer.addFile(inputFile, CxxParser.getIncludedFiles(ioFile));
     }
 
     Measure measure = new Measure(CxxMetrics.SQUID);
     measure.setIntValue(violationsCount);
     context.saveMeasure(measure);
-    dependencyAnalyzer.save();
   }
 
   private void saveMeasures(InputFile inputFile, SourceFile squidFile) {
