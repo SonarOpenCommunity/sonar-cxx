@@ -28,7 +28,12 @@ public class CxxUnitTestResultsProvider {
 
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportsPaths";
   public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.nunit.reportsPaths";
-  private static final UnitTestConfiguration UNIT_TEST_CONF = new UnitTestConfiguration(VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY, NUNIT_TEST_RESULTS_PROPERTY_KEY);
+  public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.xunit.reportsPaths";
+  
+  private static final UnitTestConfiguration UNIT_TEST_CONF = new UnitTestConfiguration(
+          VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY,
+          NUNIT_TEST_RESULTS_PROPERTY_KEY,
+          XUNIT_TEST_RESULTS_PROPERTY_KEY);
   
   private CxxUnitTestResultsProvider() {
   }

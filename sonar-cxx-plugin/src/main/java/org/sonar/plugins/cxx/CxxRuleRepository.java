@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.cxx;
 
+import java.util.List;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
-import org.sonar.squidbridge.rules.SqaleXmlLoader;
 
 public class CxxRuleRepository implements RulesDefinition {
 
@@ -33,12 +33,10 @@ public class CxxRuleRepository implements RulesDefinition {
     NewRepository repository = context.
       createRepository(CheckList.REPOSITORY_KEY, CxxLanguage.KEY).
       setName(REPOSITORY_NAME);
-    AnnotationBasedRulesDefinition.load(repository, CxxLanguage.KEY, CheckList.getChecks());
-    for (NewRule rule : repository.rules()) {
-      //FIXME: set internal key to key to ensure rule templates works properly : should be removed when SONAR-6162 is fixed.
-      rule.setInternalKey(rule.key());
-    }
-
+    List<Class> checks = CheckList.getChecks();
+        
+    AnnotationBasedRulesDefinition.load(repository, CxxLanguage.KEY, checks);
+    
     repository.done();
   }
 }
