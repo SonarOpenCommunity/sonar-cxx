@@ -4,7 +4,7 @@ jdk:
         - oraclejdk8
 
 env:
-        - SONARHOME=/tmp/sonarqube-5.6-RC2
+        - SONARHOME=/tmp/sonarqube-5.6
   
 matrix:
     fast_finished: true
@@ -22,8 +22,8 @@ before_install:
         
 install:
         - cd /tmp
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.6-RC2.zip
-        - unzip -qq sonarqube-5.6-RC2.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.6.zip
+        - unzip -qq sonarqube-5.6.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.6.zip
         - unzip -qq sonar-scanner-2.6.zip
         - cd -
