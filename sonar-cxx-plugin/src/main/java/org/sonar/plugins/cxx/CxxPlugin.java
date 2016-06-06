@@ -390,7 +390,34 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(9)
-      .build()
+      .build(),
+      PropertyDefinition.builder(CxxCoverageSensor.IGNORE_INVALID_UNIT_COV_MEASURES)
+      .name("Ignore invalid unit test coverage measures")
+      .description("If 'True' then when a measure is not able to be added to database it will be ignored but analysis will proceed.")
+      .defaultValue("False")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(10)
+      .build(),
+      PropertyDefinition.builder(CxxCoverageSensor.IGNORE_INVALID_IT_COV_MEASURES)
+      .name("Ignore invalid integration test coverage measures")
+      .description("If 'True' then when a measure is not able to be added to database it will be ignored but analysis will proceed.")
+      .defaultValue("False")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(11)
+      .build(),
+      PropertyDefinition.builder(CxxCoverageSensor.IGNORE_INVALID_OVERALL_COV_MEASURES)
+      .name("Ignore invalid overall test coverage measures")
+      .description("If 'True' then when a measure is not able to be added to database it will be ignored but analysis will proceed.")
+      .defaultValue("False")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(12)
+      .build() 
     ));
   }
 
