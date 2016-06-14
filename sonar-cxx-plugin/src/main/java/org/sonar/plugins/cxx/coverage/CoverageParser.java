@@ -23,10 +23,10 @@ import java.io.File;
 import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 
 import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated
-import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Project; //@todo deprecated
 
 /**
  * The interface a coverage report parser has to implement in order to be used

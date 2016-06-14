@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Arrays;
 
 import org.sonar.api.PropertyType;
-import org.sonar.api.SonarPlugin;
+import org.sonar.api.SonarPlugin; //@todo deprecated
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;

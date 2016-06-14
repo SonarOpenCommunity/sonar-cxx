@@ -24,22 +24,22 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
 
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.design.Dependency; //@todo deprecated
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Measure; //@todo deprecated
 import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.PersistenceMode;
-import org.sonar.api.resources.Directory;
-import org.sonar.api.resources.File;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
+import org.sonar.api.measures.PersistenceMode; //@todo deprecated
+import org.sonar.api.resources.Directory; //@todo deprecated
+import org.sonar.api.resources.File; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;

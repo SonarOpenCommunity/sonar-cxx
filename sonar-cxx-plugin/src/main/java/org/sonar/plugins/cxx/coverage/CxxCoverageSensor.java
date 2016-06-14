@@ -28,18 +28,18 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated CoverageMeasuresBuilder
-import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Measure; //@todo deprecated
 import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.PropertiesBuilder;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
+import org.sonar.api.measures.PropertiesBuilder; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;

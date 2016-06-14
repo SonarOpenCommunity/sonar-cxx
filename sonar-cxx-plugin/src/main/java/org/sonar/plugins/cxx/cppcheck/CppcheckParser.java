@@ -21,11 +21,11 @@ package org.sonar.plugins.cxx.cppcheck;
 
 import java.io.File;
 
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
 
 public interface CppcheckParser {
 
-  void processReport(final Project project, SensorContext context, File report)
+  void processReport(final Project project, SensorContext context, File report) //@todo deprecated Project, SensorContext
     throws javax.xml.stream.XMLStreamException;
 }

@@ -23,8 +23,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
 
 /**
  * The interface a compiler parser has to implement in order to be used by

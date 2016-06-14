@@ -23,7 +23,7 @@ import java.nio.charset.Charset;
 
 import net.sourceforge.pmd.cpd.Tokenizer; //@todo deprecated
 
-import org.sonar.api.batch.AbstractCpdMapping;
+import org.sonar.api.batch.AbstractCpdMapping; //@todo deprecated
 import org.sonar.api.resources.Language;
 import org.sonar.api.batch.fs.FileSystem;
 

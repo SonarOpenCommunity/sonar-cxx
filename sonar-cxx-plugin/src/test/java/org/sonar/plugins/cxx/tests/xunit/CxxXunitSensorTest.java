@@ -34,18 +34,18 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxXunitSensorTest {
 
   private CxxXunitSensor sensor;
-  private SensorContext context;
-  private Project project;
+  private SensorContext context; //@todo deprecated
+  private Project project; //@todo deprecated
   private FileSystem fs;
   private Settings settings;
 
@@ -54,7 +54,7 @@ public class CxxXunitSensorTest {
     project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
     settings = new Settings();
-    context = mock(SensorContext.class);
+    context = mock(SensorContext.class); //@todo deprecated
     sensor = new CxxXunitSensor(settings, fs);
   }
 

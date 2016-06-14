@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.sonar.api.resources.Directory;
+import org.sonar.api.resources.Directory; //@todo deprecated
 import org.sonar.graph.Edge;
 
 class DirectoryEdge implements Edge<Directory> {

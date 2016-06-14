@@ -23,11 +23,11 @@ import java.io.File;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
 
 import org.sonar.api.config.Settings;
-import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxReportSensorTest {
@@ -44,7 +44,7 @@ public class CxxReportSensorTest {
     }
 
     @Override
-    public void analyse(Project p, SensorContext sc) {
+    public void analyse(Project p, SensorContext sc) { //@todo deprecated Project, SensorContext
     }
   };
 
