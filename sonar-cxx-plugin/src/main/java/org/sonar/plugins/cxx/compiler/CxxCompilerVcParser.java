@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
 
 import org.sonar.plugins.cxx.utils.CxxUtils;
 

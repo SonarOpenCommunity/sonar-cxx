@@ -25,7 +25,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 
 public class CxxCommonRulesDecoratorTest {

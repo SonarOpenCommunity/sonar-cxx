@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 import org.junit.Before;
@@ -39,10 +39,10 @@ import static org.mockito.Mockito.verify;
 
 public class CxxPCLintSensorTest {
 
-  private SensorContext context;
-  private Project project;
+  private SensorContext context; //@todo deprecated
+  private Project project; //@todo deprecated
   private RulesProfile profile;
-  private ResourcePerspectives perspectives;
+  private ResourcePerspectives perspectives; //@todo deprecated
   private Issuable issuable;
   private DefaultFileSystem fs;
 

@@ -28,24 +28,24 @@ import java.util.Locale;
 
 import javax.annotation.Nullable;
 
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.Sensor; //@todo deprecated
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.batch.fs.FilePredicate;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.component.Perspective; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.measures.PersistenceMode;
+import org.sonar.api.measures.Measure; //@todo deprecated
+import org.sonar.api.measures.PersistenceMode; //@todo deprecated
 import org.sonar.api.measures.RangeDistributionBuilder; //@todo deprecated
-import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;

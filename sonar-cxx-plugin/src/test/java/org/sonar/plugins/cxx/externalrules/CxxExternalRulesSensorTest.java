@@ -19,14 +19,14 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 import org.junit.Before;
@@ -40,8 +40,8 @@ import static org.mockito.Mockito.mock;
 public class CxxExternalRulesSensorTest {
 
   private CxxExternalRulesSensor sensor;
-  private SensorContext context;
-  private Project project;
+  private SensorContext context; //@todo deprecated
+  private Project project; //@todo deprecated
   private RulesProfile profile;
   private Settings settings;
   private DefaultFileSystem fs;
@@ -55,7 +55,7 @@ public class CxxExternalRulesSensorTest {
     perspectives = TestUtils.mockPerspectives(issuable);
     fs = TestUtils.mockFileSystem();
     profile = mock(RulesProfile.class);
-    context = mock(SensorContext.class);
+    context = mock(SensorContext.class); //@todo deprecated
     settings = new Settings();
   }
 

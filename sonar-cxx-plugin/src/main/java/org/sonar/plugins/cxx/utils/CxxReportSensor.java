@@ -27,17 +27,17 @@ import java.util.ArrayList;
 import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
-import org.sonar.api.batch.Sensor;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.Sensor; //@todo deprecated
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
-import org.sonar.api.measures.Measure;
+import org.sonar.api.measures.Measure; //@todo deprecated
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.api.rule.RuleKey;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.api.config.Settings;

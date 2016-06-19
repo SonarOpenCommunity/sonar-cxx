@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Project;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.measures.Measure; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.issue.Issuable;
 import org.sonar.plugins.cxx.TestUtils;
 

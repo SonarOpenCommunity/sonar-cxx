@@ -32,8 +32,8 @@ import org.junit.Test;
 
 import org.mockito.Mockito;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.Project;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsAggregator;

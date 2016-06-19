@@ -19,13 +19,13 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Project;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.measures.Measure; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.issue.Issuable;
 import org.sonar.plugins.cxx.TestUtils;
 
@@ -42,11 +42,11 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 public class CxxBullseyeCoverageSensorTest {
 
   private CxxCoverageSensor sensor;
-  private SensorContext context;
-  private Project project;
+  private SensorContext context; //@todo deprecated
+  private Project project; //@todo deprecated
   private DefaultFileSystem fs;
   private Issuable issuable;
-  private ResourcePerspectives perspectives;
+  private ResourcePerspectives perspectives; //@todo deprecated
 
   @Before
   public void setUp() {
@@ -54,7 +54,7 @@ public class CxxBullseyeCoverageSensorTest {
     issuable = TestUtils.mockIssuable();
     perspectives = TestUtils.mockPerspectives(issuable);
     fs = TestUtils.mockFileSystem();
-    context = mock(SensorContext.class);
+    context = mock(SensorContext.class); //@todo deprecated
   }
 
   //@Test @todo
@@ -91,7 +91,7 @@ public class CxxBullseyeCoverageSensorTest {
     }
     sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageCache());
     sensor.analyse(project, context);
-    verify(context, times(90)).saveMeasure((InputFile) anyObject(), any(Measure.class));
+    verify(context, times(90)).saveMeasure((InputFile) anyObject(), any(Measure.class)); //@todo deprecated Measure
   }
 
   //@Test @todo
@@ -112,7 +112,7 @@ public class CxxBullseyeCoverageSensorTest {
     }
     sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageCache());
     sensor.analyse(project, context);
-    verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class));
+    verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class)); //@todo deprecated Measure
   }
 
   //@Test @todo
@@ -133,6 +133,6 @@ public class CxxBullseyeCoverageSensorTest {
     }
     sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageCache());
     sensor.analyse(project, context);
-    verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class));
+    verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class)); //@todo deprecated Measure
   }
 }

@@ -27,20 +27,20 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 public class ValgrindReportParserTest {
 
-  private Project project;
-  private SensorContext context;
+  private Project project; //@todo deprecated
+  private SensorContext context; //@todo deprecated
   private ValgrindReportParser parser;
 
   @Before
   public void setUp() {
     project = TestUtils.mockProject();
-    context = mock(SensorContext.class);
+    context = mock(SensorContext.class); //@todo deprecated
     parser = new ValgrindReportParser();
   }
 

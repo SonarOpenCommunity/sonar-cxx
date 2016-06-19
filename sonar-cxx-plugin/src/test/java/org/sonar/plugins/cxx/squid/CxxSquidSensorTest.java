@@ -35,19 +35,19 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.ActiveRules;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.resources.Directory;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
+import org.sonar.api.resources.Directory; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.source.Highlightable;
+import org.sonar.api.source.Highlightable; //@todo deprecated
 import org.sonar.api.batch.fs.InputFile;
 
 public class CxxSquidSensorTest {

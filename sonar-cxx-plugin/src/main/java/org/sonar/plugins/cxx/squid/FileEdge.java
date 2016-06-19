@@ -19,7 +19,7 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.sonar.api.resources.File;
+import org.sonar.api.resources.File; //@todo deprecated
 import org.sonar.graph.Edge;
 
 class FileEdge implements Edge<File> {

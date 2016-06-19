@@ -42,15 +42,15 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.sonar.api.batch.CoverageExtension; //@todo deprecated
 import org.sonar.api.batch.DependsUpon;
-import org.sonar.api.batch.SensorContext;
+import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.FilePredicates;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure;
-import org.sonar.api.resources.Project;
+import org.sonar.api.measures.Measure; //@todo deprecated
+import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.StaxParser;
+import org.sonar.api.utils.StaxParser; //@todo deprecated
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.plugins.cxx.CxxLanguage;

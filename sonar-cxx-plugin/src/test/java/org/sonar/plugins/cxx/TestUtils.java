@@ -35,12 +35,12 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
 import org.sonar.api.issue.Issue;
-import org.sonar.api.resources.Project;
-import org.sonar.api.resources.Resource;
+import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.api.rule.RuleKey;
 
 public class TestUtils {
@@ -61,9 +61,9 @@ public class TestUtils {
     return issuable;
   }
 
-  public static ResourcePerspectives mockPerspectives(Issuable issuable) {
-    ResourcePerspectives perspectives = mock(ResourcePerspectives.class);
-    when(perspectives.as((Class) anyObject(), (Resource) anyObject())).thenReturn(issuable);
+  public static ResourcePerspectives mockPerspectives(Issuable issuable) { //@todo deprecated ResourcePerspectives
+    ResourcePerspectives perspectives = mock(ResourcePerspectives.class); //@todo deprecated ResourcePerspectives
+    when(perspectives.as((Class) anyObject(), (Resource) anyObject())).thenReturn(issuable); //@todo deprecated Resource
     return perspectives;
   }
 
@@ -82,7 +82,7 @@ public class TestUtils {
   /**
    * Creates a default project mock
    */
-  public static Project mockProject() {
+  public static Project mockProject() { //@todo deprecated Project
     return mockProject(loadResource("/org/sonar/plugins/cxx/reports-project"));
   }
 
@@ -92,8 +92,8 @@ public class TestUtils {
    * @param baseDir project root directory
    * @return mocked project
    */
-  public static Project mockProject(File baseDir) {
-    Project project = mock(Project.class);    
+  public static Project mockProject(File baseDir) { //@todo deprecated Project
+    Project project = mock(Project.class); //@todo deprecated Project
     return project;
   }
 
@@ -141,7 +141,7 @@ public class TestUtils {
   }
 
   public static DefaultInputFile addInputFile(DefaultFileSystem fs,
-    ResourcePerspectives perspectives,
+    ResourcePerspectives perspectives, //@todo deprecated ResourcePerspectives
     Issuable issuable,
     String path) {
     File file = new File(path);
