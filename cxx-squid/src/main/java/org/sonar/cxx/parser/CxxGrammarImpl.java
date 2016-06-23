@@ -1751,7 +1751,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(dynamicExceptionSpecification).is(CxxKeyword.THROW, "(", b.optional(typeIdList), ")"); // C++
 
-    b.rule(typeIdList).is(typeId, b.optional("..."), b.zeroOrMore(",", typeId, b.optional("..."))); // C++
+    b.rule(typeIdList).is(
+        b.firstOf(
+          b.sequence(typeId, b.optional("..."), b.zeroOrMore(",", typeId, b.optional("..."))), // C++ 
+          "..."// Microsoft extension
+        )
+      ); 
 
     b.rule(noexceptSpecification).is(
       b.firstOf(
