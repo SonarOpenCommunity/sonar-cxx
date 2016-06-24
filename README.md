@@ -25,8 +25,11 @@ adds C++ support to this platform.
 
 
 ## Alternatives:
-That's not the only choice when if you're after C++ support in SonarQube: there is also 
-the commercial [C++ plugin from SonarSource](http://www.sonarsource.com/products/plugins/languages/cpp/). 
+That's not the only choice when you are looking for C++ support in SonarQube there is also
+* the commercial [C/C++ plugin from SonarSource](http://www.sonarsource.com/products/plugins/languages/cpp/).
+* the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin)
+* the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin)
+
 Choose whatever fits your needs.
 
 ## Subscribe
