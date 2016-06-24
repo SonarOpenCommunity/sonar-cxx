@@ -48,6 +48,7 @@ public class ExceptionHandlingTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.exceptionSpecification));
 
     assertThat(p).matches("throw()");
+    assertThat(p).matches("throw(...)");
   }
 
   @Test
@@ -60,6 +61,7 @@ public class ExceptionHandlingTest extends ParserBaseTest {
     assertThat(p).matches("typeId ...");
     assertThat(p).matches("typeId , typeId");
     assertThat(p).matches("typeId , typeId ...");
+    assertThat(p).matches("...");
   }
 
   @Test
