@@ -1,0 +1,13 @@
+make[1]: Entering directory '/home/test/src/zip'
+make[2]: Entering directory '/home/test/src/zip/src'
+zipmanager.cpp: In function 'int unzip(char *, int)'
+../src/zipmanager.cpp:141:10: warning: conversion to 'unsigned char' from 'unsigned int' may alter its value [-Wconversion]
+zipmanager.cpp:222:9: warning: enumeration value 'Type_Deflate' not handled in switch [-Wswitch-enum]
+zipmanager.cpp:268:15: warning: enumeration value 'Type_Deflate' not handled in switch [-Wswitch-enum]
+zipmanager.cpp: In member function 'bool getRatio(int*) const':
+zipmanager.cpp:271:75: warning: comparing floating point with == or != is unsafe [-Wfloat-equal]
+make[2]: Leaving directory '/home/test/src/zip/src'
+make[1]: Leaving directory '/home/test/src/zip'
+make: Entering directory '/home/test/src/test'
+make: Nothing to be done for 'all'.
+make: Leaving directory '/home/test/src/test'

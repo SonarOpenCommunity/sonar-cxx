@@ -28,6 +28,7 @@ import org.sonar.api.issue.Issue;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -84,6 +85,19 @@ public class CxxCompilerSensorTest {
     settings.setProperty(CxxCompilerSensor.REPORT_PATH_KEY, "compiler-reports/build.log");
     settings.setProperty(CxxCompilerSensor.REPORT_CHARSET_DEF, "UTF-8");
     TestUtils.addInputFile(fs, perspectives, issuable, "/home/test/src/zip/src/zipmanager.cpp");
+    CxxCompilerSensor sensor = new CxxCompilerSensor(perspectives, settings, fs, profile);
+    sensor.analyse(project, context);
+    verify(issuable, times(4)).addIssue(any(Issue.class));
+  }
+
+  @Test
+  public void shouldReportCorrectGccMakeViolations() {
+    Settings settings = new Settings();
+    String fullpath = CxxUtils.normalizePath("/home/test/src/zip/src/zipmanager.cpp");
+    settings.setProperty("sonar.cxx.compiler.parser", CxxCompilerGccMakeParser.KEY);
+    settings.setProperty(CxxCompilerSensor.REPORT_PATH_KEY, "compiler-reports/build_make.log");
+    settings.setProperty(CxxCompilerSensor.REPORT_CHARSET_DEF, "UTF-8");
+    TestUtils.addInputFile(fs, perspectives, issuable, fullpath);
     CxxCompilerSensor sensor = new CxxCompilerSensor(perspectives, settings, fs, profile);
     sensor.analyse(project, context);
     verify(issuable, times(4)).addIssue(any(Issue.class));

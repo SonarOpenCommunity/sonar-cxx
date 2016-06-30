@@ -29,6 +29,7 @@ import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
+import org.sonar.plugins.cxx.compiler.CxxCompilerGccMakeParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
 import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
@@ -269,8 +270,8 @@ public final class CxxPlugin extends SonarPlugin {
       .defaultValue(CxxCompilerSensor.DEFAULT_PARSER_DEF)
       .name("Format")
       .type(PropertyType.SINGLE_SELECT_LIST)
-      .options(CxxCompilerVcParser.KEY, CxxCompilerGccParser.KEY)
-      .description("The format of the warnings file. Currently supported are Visual C++ and GCC.")
+      .options(CxxCompilerVcParser.KEY, CxxCompilerGccParser.KEY, CxxCompilerGccMakeParser.KEY)
+      .description("The format of the warnings file. Currently supported are Visual C++, GCC and GCC+MAKE.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(2)
