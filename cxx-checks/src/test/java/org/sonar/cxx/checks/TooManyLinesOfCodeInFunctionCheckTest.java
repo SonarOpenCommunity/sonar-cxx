@@ -18,21 +18,31 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.sonar.cxx.checks;
-
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
-import org.sonar.cxx.checks.TooManyLinesOfCodeInFunctionCheck;
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class TooManyLinesOfCodeInFunctionCheckTest {
   private TooManyLinesOfCodeInFunctionCheck check = new TooManyLinesOfCodeInFunctionCheck();
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     check.setMax(6);
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionLength.cc"), check);
+    String fileName = "src/test/resources/checks/FunctionLength.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);     
     CheckMessagesVerifier.verify(file.getCheckMessages())
         .next().atLine(21)
         .noMore();

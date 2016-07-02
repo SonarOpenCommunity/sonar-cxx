@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxConfiguration;
 
 import com.sonar.sslr.api.AstNode;
@@ -41,7 +41,7 @@ public final class ExpressionEvaluator {
 
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
   private static final String HEX_REGEX = "0[xX]([0-9A-Fa-f]+)(ui64)?";
-  public static final Logger LOG = LoggerFactory.getLogger("Evaluator");
+  public static final Logger LOG = Loggers.get("Evaluator");
 
   private final Parser<Grammar> parser;
   private final CxxPreprocessor preprocessor;

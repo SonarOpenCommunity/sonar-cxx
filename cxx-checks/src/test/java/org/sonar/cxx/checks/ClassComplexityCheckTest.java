@@ -25,15 +25,27 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.cxx.CxxAstScanner;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class ClassComplexityCheckTest {
-
+  
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     ClassComplexityCheck check = new ClassComplexityCheck();
     check.setMaximumClassComplexityThreshold(5);
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/ClassComplexity.cc"), check);
+    String fileName = "src/test/resources/checks/ClassComplexity.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(9).withMessage("Class has a complexity of 10 which is greater than 5 authorized.")
       .noMore();

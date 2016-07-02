@@ -176,15 +176,23 @@
 
   <dependencyManagement>
     <dependencies>
+
       <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-plugin-api</artifactId>
         <version>${sonar.version}</version>
       </dependency>
+      
       <dependency>
-        <groupId>org.sonarsource.sonarqube</groupId>
-        <artifactId>sonar-deprecated</artifactId>
-        <version>${sonar.version}</version>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>1.3.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
       </dependency>
       <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>
@@ -211,6 +219,18 @@
             <groupId>org.codehaus.sonar.sslr</groupId>
             <artifactId>sslr-core</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-plugin-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.codehaus.sonar.sslr</groupId>
+            <artifactId>sslr-xpath</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
 
@@ -235,16 +255,16 @@
         <version>1.0.13</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.sonar.common-rules</groupId>
-        <artifactId>sonar-common-rules</artifactId>
-        <version>1.2</version>
-      </dependency>
-      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>1.6.2</version>
+        <scope>test</scope>
       </dependency>
-
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-project</artifactId>
+        <version>2.0.7</version>
+      </dependency>
       <dependency>
         <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
@@ -258,7 +278,7 @@
       <dependency>
         <groupId>org.sonarsource.dotnet</groupId>
         <artifactId>sonar-dotnet-tests-library</artifactId>
-        <version>1.3.2</version>
+        <version>1.4</version>
       </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>

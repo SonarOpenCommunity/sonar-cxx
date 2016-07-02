@@ -30,6 +30,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +43,9 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.CxxAstScanner;
@@ -245,10 +249,19 @@ public class CxxLint {
     }
 
     System.out.println("Analyse with : " + visitors.size() + " checks");
+    
+    String fileName = new File(fileToAnalyse).getName();
+    SensorContextTester sensorContext = SensorContextTester.create(new File(fileToAnalyse).getParentFile().toPath());
+    String content = new String(Files.readAllBytes(new File(fileToAnalyse).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
     SourceFile file = CxxAstScanner.scanSingleFileConfig(
-            new File(fileToAnalyse),
+            cxxFile,
             configuration,
+            sensorContext,
             visitors.toArray(new SquidAstVisitor[visitors.size()]));
+    
     for (CheckMessage message : file.getCheckMessages()) {
       String key = KeyData.get(message.getCheck().getClass().getCanonicalName());      
       // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]

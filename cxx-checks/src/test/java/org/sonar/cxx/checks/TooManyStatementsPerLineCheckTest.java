@@ -20,10 +20,15 @@
 package org.sonar.cxx.checks;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import static org.fest.assertions.Assertions.assertThat;
 
-import junit.framework.Assert; //@todo deprecated Assert
-
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -31,10 +36,18 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class TooManyStatementsPerLineCheckTest {
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyStatementsPerLine.cc"), check);
+    
+    String fileName = "src/test/resources/checks/TooManyStatementsPerLine.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)
@@ -48,14 +61,20 @@ public class TooManyStatementsPerLineCheckTest {
   @Test
   public void testDefaultExcludeCaseBreak() {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
-    Assert.assertEquals(check.excludeCaseBreak, false); //@todo deprecated Assert
+    assertThat(check.excludeCaseBreak).isFalse();
   }
 
   @Test
-  public void testExcludeCaseBreak() {
+  public void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyStatementsPerLine.cc"), check);
+    String fileName = "src/test/resources/checks/TooManyStatementsPerLine.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)

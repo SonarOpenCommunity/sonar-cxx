@@ -25,13 +25,23 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.sonar.cxx.CxxAstScanner;
 
 import java.io.File;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class MethodNameCheckTest {
 
   @Test
   public void test() throws Exception {
     MethodNameCheck check = new MethodNameCheck();
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/MethodName.cc"), check);
+    String fileName = "src/test/resources/checks/MethodName.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage(
         "Rename method \"Badly_Named_Method2\" to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")

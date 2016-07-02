@@ -21,12 +21,7 @@ package org.codehaus.sonarplugins.cxx.cxxlint;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -40,7 +35,7 @@ public class CxxLintTest {
    * Test of main method, of class CxxLint.
    */
   @Test
-  public void runsToolWithoutSettingsWithoutExceptions() {
+  public void runsToolWithoutSettingsWithoutExceptions() throws IllegalAccessException, IOException, Exception {
     ClassLoader classLoader = getClass().getClassLoader();
 	File fileToAnalyse = new File(classLoader.getResource("PathHandle.cpp").getFile());
     
@@ -48,12 +43,8 @@ public class CxxLintTest {
     args[0] = "-f";
     args[1] = fileToAnalyse.getAbsolutePath();
     
-    try {
-      CxxLint.main(args);
-      assertTrue(true);
-    } catch (Exception ex) {
-      assertTrue("Exception Found: " + ex.getMessage(), false);
-    }
+    CxxLint.main(args);
+    assertTrue(true);
   }  
   
   /**

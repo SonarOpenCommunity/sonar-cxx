@@ -34,11 +34,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 public class CxxVCppBuildLogParser {
 
-  private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxVCppBuildLogParser");
+  private static final Logger LOG = Loggers.get("CxxVCppBuildLogParser");
 
   private final HashMap<String, List<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;

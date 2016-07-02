@@ -52,7 +52,7 @@ public class TestFileTest {
   @Test
   public void addingTestCaseShouldIncrementStatistics() {
     int testBefore = testFile.getTests();
-    int timeBefore = testFile.getTime();
+    long timeBefore = testFile.getTime();
 
     final int EXEC_TIME = 10;
     testFile.addTestCase(new TestCase("name", EXEC_TIME, "status", "stack", "msg",

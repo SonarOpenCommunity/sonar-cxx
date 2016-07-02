@@ -19,8 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -35,37 +33,13 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.InputFile.Type;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.resources.Resource; //@todo deprecated
-import org.sonar.api.rule.RuleKey;
 
 public class TestUtils {
 
   private final static String OS = System.getProperty("os.name").toLowerCase();
   private final static boolean upperCaseRoot = Character.isUpperCase(System.getProperty("java.home").charAt(0));
-
-  public static Issuable mockIssuable() {
-    Issue issue = mock(Issue.class);
-    Issuable.IssueBuilder issueBuilder = mock(Issuable.IssueBuilder.class);
-    when(issueBuilder.build()).thenReturn(issue);
-    when(issueBuilder.ruleKey((RuleKey) anyObject())).thenReturn(issueBuilder);
-    when(issueBuilder.line((Integer) anyObject())).thenReturn(issueBuilder); //@todo deprecated line
-    when(issueBuilder.message((String) anyObject())).thenReturn(issueBuilder); //@todo deprecated message
-    Issuable issuable = mock(Issuable.class);
-    when(issuable.newIssueBuilder()).thenReturn(issueBuilder);
-    when(issuable.addIssue((Issue) anyObject())).thenReturn(Boolean.TRUE);
-    return issuable;
-  }
-
-  public static ResourcePerspectives mockPerspectives(Issuable issuable) { //@todo deprecated ResourcePerspectives
-    ResourcePerspectives perspectives = mock(ResourcePerspectives.class); //@todo deprecated ResourcePerspectives
-    when(perspectives.as((Class) anyObject(), (Resource) anyObject())).thenReturn(issuable); //@todo deprecated Resource
-    return perspectives;
-  }
 
   public static File loadResource(String resourceName) {
     URL resource = TestUtils.class.getResource(resourceName);
@@ -77,24 +51,6 @@ public class TestUtils {
     }
 
     return resourceAsFile;
-  }
-
-  /**
-   * Creates a default project mock
-   */
-  public static Project mockProject() { //@todo deprecated Project
-    return mockProject(loadResource("/org/sonar/plugins/cxx/reports-project"));
-  }
-
-  /**
-   * Creates a project mock given its root directory
-   *
-   * @param baseDir project root directory
-   * @return mocked project
-   */
-  public static Project mockProject(File baseDir) { //@todo deprecated Project
-    Project project = mock(Project.class); //@todo deprecated Project
-    return project;
   }
 
   /**
@@ -138,23 +94,6 @@ public class TestUtils {
 
   public static CxxLanguage mockCxxLanguage() {
     return new CxxLanguage(new Settings());
-  }
-
-  public static DefaultInputFile addInputFile(DefaultFileSystem fs,
-    ResourcePerspectives perspectives, //@todo deprecated ResourcePerspectives
-    Issuable issuable,
-    String path) {
-    File file = new File(path);
-    if (file.isAbsolute()) {
-      throw new IllegalArgumentException("DefaultInputFile accepts only relative paths to DefaultFileSystem: " + path);
-    }
-    DefaultInputFile inputFile = new DefaultInputFile("foo", path);
-    inputFile.setType(InputFile.Type.MAIN);
-    inputFile.setLanguage(CxxLanguage.KEY);
-    inputFile.setLines(1);
-    when(perspectives.as(Issuable.class, inputFile)).thenReturn(issuable);
-    fs.add(inputFile);
-    return inputFile;
   }
 
   public static boolean isWindows() {

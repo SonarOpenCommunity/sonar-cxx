@@ -20,8 +20,13 @@
 package org.sonar.cxx.checks;
 
 import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -29,10 +34,17 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class WrongIncludeCheckTest {
 
   @Test
-  public void check() {
+  public void check() throws UnsupportedEncodingException, IOException {
     UseCorrectIncludeCheck check = new UseCorrectIncludeCheck();
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UseCorrectIncludeCheck.cc"), check);
+    String fileName = "src/test/resources/checks/UseCorrectIncludeCheck.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("Do not use relative path for #include directive.")
       .next().atLine(3)

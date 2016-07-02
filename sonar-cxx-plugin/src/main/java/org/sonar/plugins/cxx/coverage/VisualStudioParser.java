@@ -26,26 +26,23 @@ import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated CoverageMeasuresBuilder
-import org.sonar.api.resources.Project;
-import org.sonar.api.utils.StaxParser;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
  * {@inheritDoc}
  */
 public class VisualStudioParser extends CxxCoverageParser {
 
-  public VisualStudioParser(final String baseDir) {
-    super(baseDir);
+  public VisualStudioParser() {
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData)
+  public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     CxxUtils.LOG.debug("Parsing 'Visual Studio' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -61,14 +58,14 @@ public class VisualStudioParser extends CxxCoverageParser {
     parser.parse(report);
   }
 
-  private void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasuresBuilder> coverageData)
+  private void collectModuleMeasures(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (module.getNext() != null) {
       handleModuleItems(module, coverageData);
     }
   }
 
-  private void handleModuleItems(SMInputCursor module, Map<String, CoverageMeasuresBuilder> coverageData)
+  private void handleModuleItems(SMInputCursor module, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor child = module.childElementCursor();
     while (child.getNext() != null) {
@@ -81,20 +78,20 @@ public class VisualStudioParser extends CxxCoverageParser {
     }
   }
 
-  private void collectSourceFileMeasures(SMInputCursor sourceFiles, Map<String, CoverageMeasuresBuilder> coverageData)
+  private void collectSourceFileMeasures(SMInputCursor sourceFiles, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor sourceFile = sourceFiles.childElementCursor("source_file");
     while (sourceFile.getNext() != null) {
       String id = sourceFile.getAttrValue("id");
-      String normalPath = CxxUtils.normalizePath(sourceFile.getAttrValue("path"));
-      CoverageMeasuresBuilder builder = coverageData.remove(id);
-      if (normalPath != null) {
-        coverageData.put(normalPath, builder); // replace id with path
-      }
+      //String normalPath = CxxUtils.normalizePath(sourceFile.getAttrValue("path"));
+      CoverageMeasures builder = coverageData.remove(id);
+      //if (normalPath != null) {
+        coverageData.put(sourceFile.getAttrValue("path"), builder); // replace id with path
+      //}
     }
   }
 
-  private void collectFunctionMeasures(SMInputCursor functions, Map<String, CoverageMeasuresBuilder> coverageData)
+  private void collectFunctionMeasures(SMInputCursor functions, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     SMInputCursor function = functions.childElementCursor("function");
     while (function.getNext() != null) {
@@ -104,10 +101,10 @@ public class VisualStudioParser extends CxxCoverageParser {
     }
   }
 
-  private void collectRangeMeasures(SMInputCursor function, Map<String, CoverageMeasuresBuilder> coverageData, int conditions, int coveredConditions)
+  private void collectRangeMeasures(SMInputCursor function, Map<String, CoverageMeasures> coverageData, int conditions, int coveredConditions)
     throws XMLStreamException {
     SMInputCursor range = function.childElementCursor("ranges").advance().childElementCursor("range");
-    CoverageMeasuresBuilder builder = null;
+    CoverageMeasures builder = null;
     String lastSourceId = "";
 
     while (range.getNext() != null) {
@@ -119,7 +116,7 @@ public class VisualStudioParser extends CxxCoverageParser {
       if (!sourceId.equals(lastSourceId) || builder == null) {
         builder = coverageData.get(sourceId);
         if (builder == null) {
-          builder = CoverageMeasuresBuilder.create();
+          builder = CoverageMeasures.create();
           coverageData.put(sourceId, builder);
         }
 

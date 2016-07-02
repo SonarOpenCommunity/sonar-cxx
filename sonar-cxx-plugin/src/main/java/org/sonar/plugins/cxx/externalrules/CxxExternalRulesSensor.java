@@ -20,21 +20,18 @@
 package org.sonar.plugins.cxx.externalrules;
 
 import java.io.File;
-
 import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.utils.StaxParser; //@todo deprecated
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
  * Custom Rule Import, all static analysis are supported.
@@ -44,23 +41,12 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
 public class CxxExternalRulesSensor extends CxxReportSensor {
 
   public static final String REPORT_PATH_KEY = "sonar.cxx.other.reportPath";
-  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
    */
-  public CxxExternalRulesSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
-    super(perspectives, settings, fs, CxxMetrics.EXTERNAL);
-    this.profile = profile;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxExternalRuleRepository.KEY).isEmpty();
+  public CxxExternalRulesSensor(Settings settings) {
+    super(settings, CxxMetrics.EXTERNAL);
   }
 
   @Override
@@ -69,7 +55,12 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report) throws javax.xml.stream.XMLStreamException {
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxExternalRulesSensor");
+  }
+  
+  @Override
+  public void processReport(final SensorContext context, File report) throws XMLStreamException {
     CxxUtils.LOG.debug("Parsing 'other' format");
     
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -88,7 +79,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("id");
           String msg = errorCursor.getAttrValue("msg");
 
-          saveUniqueViolation(project, context, CxxExternalRuleRepository.KEY, file, line, id, msg);
+          saveUniqueViolation(context, CxxExternalRuleRepository.KEY, file, line, id, msg);
         }
       }
     });

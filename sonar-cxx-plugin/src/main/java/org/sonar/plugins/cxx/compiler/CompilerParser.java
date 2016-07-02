@@ -23,8 +23,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
 
 /**
  * The interface a compiler parser has to implement in order to be used by
@@ -108,6 +107,6 @@ public interface CompilerParser {
     
   }
 
-  void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings)
+  void processReport(final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings)
     throws java.io.FileNotFoundException;
 }

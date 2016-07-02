@@ -25,13 +25,24 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.sonar.cxx.CxxAstScanner;
 
 import java.io.File;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class ClassNameCheckTest {
 
   @Test
   public void test() throws Exception {
     ClassNameCheck check = new ClassNameCheck();
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/ClassName.cc"), check);
+    
+    String fileName = "src/test/resources/checks/ClassName.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage(
         "Rename class \"MyClass_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")

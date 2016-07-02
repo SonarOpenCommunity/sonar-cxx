@@ -28,24 +28,14 @@ import java.util.Locale;
 
 import javax.annotation.Nullable;
 
-import org.sonar.api.batch.Sensor; //@todo deprecated
-import org.sonar.api.batch.SensorContext; //@todo deprecated
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.batch.fs.FilePredicates;
-import org.sonar.api.batch.fs.FilePredicate;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
-import org.sonar.api.component.Perspective; //@todo deprecated
 import org.sonar.api.config.Settings;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure; //@todo deprecated
-import org.sonar.api.measures.PersistenceMode; //@todo deprecated
-import org.sonar.api.measures.RangeDistributionBuilder; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
@@ -66,92 +56,80 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 import com.sonar.sslr.api.Grammar;
+import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.batch.sensor.issue.NewIssue;
+import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.ce.measure.RangeDistributionBuilder;
+import org.sonar.api.rule.RuleKey;
+import org.sonar.cxx.parser.CxxParser;
+import org.sonar.plugins.cxx.utils.CxxUtils;
+
 
 /**
  * {@inheritDoc}
  */
 public final class CxxSquidSensor implements Sensor {
 
-  private static final Number[] FUNCTIONS_DISTRIB_BOTTOM_LIMITS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
-  private static final Number[] FILES_DISTRIB_BOTTOM_LIMITS = {0, 5, 10, 20, 30, 60, 90};
+  private static final Number[] LIMITS_COMPLEXITY_METHODS = {1, 2, 4, 6, 8, 10, 12};
+  private static final Number[] LIMITS_COMPLEXITY_FILES = {0, 5, 10, 20, 30, 60, 90};
 
   private final CxxChecks checks;
   private ActiveRules rules;
 
-  private Project project;
-  private SensorContext context;
   private AstScanner<Grammar> scanner;
   private Settings settings;
-  private FileSystem fs;
-  private ResourcePerspectives resourcePerspectives;
-  private final FilePredicate mainFilePredicate;
-
+  
+  
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings settings,
-    FileSystem fs, CheckFactory checkFactory, ActiveRules rules) {
-    this(resourcePerspectives, settings, fs, checkFactory, rules, null);
+  public CxxSquidSensor(Settings settings, CheckFactory checkFactory, ActiveRules rules) {
+    this(settings, checkFactory, rules, null);    
   }
-
+  
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(ResourcePerspectives resourcePerspectives, Settings settings,
-    FileSystem fs, CheckFactory checkFactory, ActiveRules rules,
+  public CxxSquidSensor(Settings settings, CheckFactory checkFactory, ActiveRules rules,
     @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
       .addCustomChecks(customRulesDefinition);
     this.rules = rules;
     this.settings = settings;
-    this.fs = fs;
-    this.resourcePerspectives = resourcePerspectives;
-    FilePredicates predicates = fs.predicates();
-    this.mainFilePredicate = predicates.and(predicates.hasType(InputFile.Type.MAIN),
-      predicates.hasLanguage(CxxLanguage.KEY));
   }
 
   @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return fs.hasFiles(mainFilePredicate);
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxSquidSensor");
   }
-
+  
   /**
    * {@inheritDoc}
    */
   @Override
-  public void analyse(Project project, SensorContext context) {
-    this.project = project;
-    this.context = context;
-
+  public void execute(SensorContext context) {       
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
-    this.scanner = CxxAstScanner.create(createConfiguration(this.fs, this.settings),
+    this.scanner = CxxAstScanner.create(createConfiguration(context.fileSystem(), this.settings), context,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
+    Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
+            .and(context.fileSystem().predicates()
+                    .hasLanguage(CxxLanguage.KEY), context.fileSystem().predicates()
+                            .hasType(InputFile.Type.MAIN)));
+    
     List<File> files = new ArrayList<>();
-    for(File file : fs.files(mainFilePredicate)) {
-      files.add(file);
+    for(InputFile file : inputFiles) {
+      files.add(file.file());
     }
     scanner.scanFiles(files);
     
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
-    save(squidSourceFiles);
-  }
-
-  <P extends Perspective> P perspective(Class<P> clazz, @Nullable InputFile file) { //@todo deprecated Perspective
-    if (file == null) {
-      throw new IllegalArgumentException("Cannot get " + clazz.getCanonicalName() + "for a null file");
-    }
-    P result = resourcePerspectives.as(clazz, file);
-    if (result == null) {
-      throw new IllegalStateException("Could not get " + clazz.getCanonicalName() + " for " + file);
-    }
-    return result;
+    save(squidSourceFiles, context);
   }
 
   private CxxConfiguration createConfiguration(FileSystem fs, Settings settings) {
-    CxxConfiguration cxxConf = new CxxConfiguration(fs, resourcePerspectives);
+    CxxConfiguration cxxConf = new CxxConfiguration(fs);
     cxxConf.setBaseDir(fs.baseDir().getAbsolutePath());
     String[] lines = settings.getStringLines(CxxPlugin.DEFINES_KEY);
     if (lines.length > 0) {
@@ -175,46 +153,43 @@ public final class CxxSquidSensor implements Sensor {
     return cxxConf;
   }
 
-  private void save(Collection<SourceCode> squidSourceFiles) {
+  private void save(Collection<SourceCode> squidSourceFiles, SensorContext context) {
     int violationsCount = 0;
-    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(resourcePerspectives, project, context, rules);
+    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(context, rules);
 
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
       File ioFile = new File(squidFile.getKey());
-      InputFile inputFile = fs.inputFile(fs.predicates().is(ioFile));
+      InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(ioFile));
 
-      saveMeasures(inputFile, squidFile);
-      saveFunctionAndClassComplexityDistribution(inputFile, squidFile);
-      saveFilesComplexityDistribution(inputFile, squidFile);
-      violationsCount += saveViolations(inputFile, squidFile);
-      //### @todo dependencyAnalyzer.addFile(inputFile, CxxParser.getIncludedFiles(ioFile));
+      saveMeasures(inputFile, squidFile, context);
+      saveFunctionAndClassComplexityDistribution(inputFile, squidFile, context);
+      saveFilesComplexityDistribution(inputFile, squidFile, context);
+      violationsCount += saveViolations(inputFile, squidFile, context);
+      dependencyAnalyzer.addFile(inputFile, CxxParser.getIncludedFiles(ioFile), context);
     }
 
-    Measure measure = new Measure(CxxMetrics.SQUID);
-    measure.setIntValue(violationsCount);
-    context.saveMeasure(measure);
-    dependencyAnalyzer.save();
+    context.<Integer>newMeasure().forMetric(CxxMetrics.SQUID).on(context.module()).withValue(violationsCount).save();
+    dependencyAnalyzer.save(context);
   }
 
-  private void saveMeasures(InputFile inputFile, SourceFile squidFile) {
-    context.saveMeasure(inputFile, CoreMetrics.FILES, squidFile.getDouble(CxxMetric.FILES));
-    context.saveMeasure(inputFile, CoreMetrics.LINES, squidFile.getDouble(CxxMetric.LINES));
-    context.saveMeasure(inputFile, CoreMetrics.NCLOC, squidFile.getDouble(CxxMetric.LINES_OF_CODE));
-    context.saveMeasure(inputFile, CoreMetrics.STATEMENTS, squidFile.getDouble(CxxMetric.STATEMENTS));
-    context.saveMeasure(inputFile, CoreMetrics.FUNCTIONS, squidFile.getDouble(CxxMetric.FUNCTIONS));
-    context.saveMeasure(inputFile, CoreMetrics.CLASSES, squidFile.getDouble(CxxMetric.CLASSES));
-    context.saveMeasure(inputFile, CoreMetrics.COMPLEXITY, squidFile.getDouble(CxxMetric.COMPLEXITY));
-    context.saveMeasure(inputFile, CoreMetrics.COMMENT_LINES, squidFile.getDouble(CxxMetric.COMMENT_LINES));
-    context.saveMeasure(inputFile, CoreMetrics.PUBLIC_API, squidFile.getDouble(CxxMetric.PUBLIC_API));
-    context.saveMeasure(inputFile, CoreMetrics.PUBLIC_UNDOCUMENTED_API, squidFile.getDouble(CxxMetric.PUBLIC_UNDOCUMENTED_API));
+  private void saveMeasures(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+    context.<Integer>newMeasure().forMetric(CoreMetrics.FILES).on(inputFile).withValue(squidFile.getInt(CxxMetric.FILES)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.NCLOC).on(inputFile).withValue(squidFile.getInt(CxxMetric.LINES_OF_CODE)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.STATEMENTS).on(inputFile).withValue(squidFile.getInt(CxxMetric.STATEMENTS)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.FUNCTIONS).on(inputFile).withValue(squidFile.getInt(CxxMetric.FUNCTIONS)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.CLASSES).on(inputFile).withValue(squidFile.getInt(CxxMetric.CLASSES)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY).on(inputFile).withValue(squidFile.getInt(CxxMetric.COMPLEXITY)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.COMMENT_LINES).on(inputFile).withValue(squidFile.getInt(CxxMetric.COMMENT_LINES)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.PUBLIC_API).on(inputFile).withValue(squidFile.getInt(CxxMetric.PUBLIC_API)).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.PUBLIC_UNDOCUMENTED_API).on(inputFile).withValue(squidFile.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).save();       
   }
   
-  private void saveFunctionAndClassComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
-    double complexityInFunctions = 0;
-    double complexityInClasses = 0;
+  private void saveFunctionAndClassComplexityDistribution(InputFile inputFile, SourceFile squidFile, SensorContext context) {
+    int complexityInFunctions = 0;
+    int complexityInClasses = 0;
 
-    RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION, FUNCTIONS_DISTRIB_BOTTOM_LIMITS); //@todo deprecated RangeDistributionBuilder
+    RangeDistributionBuilder methodComplexityDistribution = new RangeDistributionBuilder(LIMITS_COMPLEXITY_METHODS);
     Collection<SourceCode> squidFunctionsInFile = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceFunction.class));
     for (SourceCode squidFunction : squidFunctionsInFile) {
       double functionComplexity = squidFunction.getDouble(CxxMetric.COMPLEXITY);
@@ -222,9 +197,10 @@ public final class CxxSquidSensor implements Sensor {
       if (squidFunction.getKey().contains("::")) {
         complexityInClasses += functionComplexity;
       }
-      complexityDistribution.add(functionComplexity);
+      methodComplexityDistribution.add(functionComplexity);
     }
-    context.saveMeasure(inputFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+    
+    context.<String>newMeasure().forMetric(CoreMetrics.FUNCTION_COMPLEXITY_DISTRIBUTION).on(inputFile).withValue(methodComplexityDistribution.build()).save();
 
     Collection<SourceCode> classes = scanner.getIndex().search(new QueryByParent(squidFile), new QueryByType(SourceClass.class));
     for (SourceCode squidClass : classes) {
@@ -232,42 +208,56 @@ public final class CxxSquidSensor implements Sensor {
       complexityInClasses += classComplexity;
     }
 
-    context.saveMeasure(inputFile, CoreMetrics.COMPLEXITY_IN_CLASSES, complexityInClasses);
-    context.saveMeasure(inputFile, CoreMetrics.COMPLEXITY_IN_FUNCTIONS, complexityInFunctions);
+    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_CLASSES).on(inputFile).withValue(complexityInClasses).save();
+    context.<Integer>newMeasure().forMetric(CoreMetrics.COMPLEXITY_IN_FUNCTIONS).on(inputFile).withValue(complexityInFunctions).save();
   }
 
-  private void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile) {
-    RangeDistributionBuilder complexityDistribution = new RangeDistributionBuilder(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION, FILES_DISTRIB_BOTTOM_LIMITS); //@todo deprecated RangeDistributionBuilder
+  private void saveFilesComplexityDistribution(InputFile inputFile, SourceFile squidFile, SensorContext context) {    
+    RangeDistributionBuilder fileComplexityDistribution = new RangeDistributionBuilder(LIMITS_COMPLEXITY_FILES);
     double complexity = squidFile.getDouble(CxxMetric.COMPLEXITY);
-    complexityDistribution.add(complexity);
-    context.saveMeasure(inputFile, complexityDistribution.build().setPersistenceMode(PersistenceMode.MEMORY));
+    fileComplexityDistribution.add(complexity);    
+    context.<String>newMeasure().forMetric(CoreMetrics.FILE_COMPLEXITY_DISTRIBUTION).on(inputFile).withValue(fileComplexityDistribution.build()).save();
   }
 
-  private int saveViolations(InputFile inputFile, SourceFile squidFile) {
+  private int saveViolations(InputFile inputFile, SourceFile squidFile, SensorContext sensorContext) {
     Collection<CheckMessage> messages = squidFile.getCheckMessages();
     int violationsCount = 0;
     if (messages != null) {
-      Issuable issuable = resourcePerspectives.as(Issuable.class, inputFile);
-      if (issuable != null) {
-        for (CheckMessage message : messages) {
-          Issue issue = issuable.newIssueBuilder()
-            .ruleKey(checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()))
-            .line(message.getLine()) //@todo deprecated line
-            .message(message.getText(Locale.ENGLISH)) //@todo deprecated message
-            .build();
-          if (issuable.addIssue(issue)) {
-            violationsCount++;
+      for (CheckMessage message : messages) {
+        try
+        {
+          int line = 1;
+          if (message.getLine() != null && message.getLine() > 0) {
+           line = message.getLine();
           }
+          
+          NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
+          NewIssueLocation location = newIssue.newLocation()
+            .on(inputFile)
+            .at(inputFile.selectLine(line))
+            .message(message.getText(Locale.ENGLISH));
+
+          newIssue.at(location);
+          newIssue.save();
+        
+        } catch (Exception ex) {
+          CxxUtils.LOG.info("Line '{}'", message.getLine());
+          CxxUtils.LOG.info("InputFile'{}'", inputFile);
+          CxxUtils.LOG.info("Error'{}'", ex.getMessage());
+          CxxUtils.LOG.info("Error '{}'", ex.getStackTrace());
+          throw ex;
         }
+
+        // @todo - this will add a issue regardless of the save
+        violationsCount++;     
       }
-      return violationsCount;
     }
-    return 0;
+
+    return violationsCount;
   }
 
   @Override
   public String toString() {
     return getClass().getSimpleName();
   }
-
 }

@@ -22,6 +22,7 @@ package org.sonar.cxx.preprocessor;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -132,7 +133,7 @@ public class SourceCodeProviderTest {
   }
 
   @Test
-  public void getting_source_code() {
+  public void getting_source_code() throws IOException {
     assertEquals("source code", codeProvider.getSourceCode(expected));
   }
 }

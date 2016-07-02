@@ -24,12 +24,10 @@ import java.util.List;
 
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -41,32 +39,26 @@ public final class CxxRatsSensor extends CxxReportSensor {
 
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
-  private final RulesProfile profile;
-
+  
   /**
    * {@inheritDoc}
    */
-  public CxxRatsSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
-    super(perspectives, settings, fs, CxxMetrics.RATS);
-    this.profile = profile;
+  public CxxRatsSensor(Settings settings) {
+    super(settings, CxxMetrics.RATS);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxRatsRuleRepository.KEY).isEmpty();
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxRatsSensor");
   }
-
+  
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report)
+  protected void processReport(final SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException {
     CxxUtils.LOG.debug("Parsing 'RATS' format");
     
@@ -89,7 +81,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
           List<Element> lines = file.getChildren("line");
           for (Element lineElem : lines) {
             String line = lineElem.getTextTrim();
-            saveUniqueViolation(project, context, CxxRatsRuleRepository.KEY,
+            saveUniqueViolation(context, CxxRatsRuleRepository.KEY,
               fileName, line, type, message);
           }
         }

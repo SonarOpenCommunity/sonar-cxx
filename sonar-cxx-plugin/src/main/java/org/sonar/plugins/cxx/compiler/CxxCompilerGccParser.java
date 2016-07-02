@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.Project;
+import org.sonar.api.batch.sensor.SensorContext;
 
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -78,7 +77,7 @@ public class CxxCompilerGccParser implements CompilerParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final Project project, final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
+  public void processReport(final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
     CxxUtils.LOG.info("Parsing '{}' format", KEY);
 
     Scanner scanner = new Scanner(report, charset);

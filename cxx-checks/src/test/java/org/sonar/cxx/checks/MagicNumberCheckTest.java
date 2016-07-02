@@ -20,9 +20,15 @@
 package org.sonar.cxx.checks;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
@@ -33,9 +39,17 @@ public class MagicNumberCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void test() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/magicNumber.cc"), new MagicNumberCheck());
-
+  public void test() throws UnsupportedEncodingException, IOException {
+    
+    String fileName = "src/test/resources/checks/magicNumber.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, new MagicNumberCheck());  
+    
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage("Extract this magic number '0.85' into a constant, variable declaration or an enum.")
       .next().atLine(16)
@@ -45,12 +59,18 @@ public class MagicNumberCheckTest {
   }
 
   @Test
-  public void custom() {
+  public void custom() throws UnsupportedEncodingException, IOException {
     MagicNumberCheck check = new MagicNumberCheck();
     check.exceptions = "0.85 , 1,,";
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/magicNumber.cc"), check);
-
+    String fileName = "src/test/resources/checks/magicNumber.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
+        
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17)
       .next().atLine(20)

@@ -20,8 +20,13 @@
 package org.sonar.cxx.checks;
 
 import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -31,17 +36,31 @@ public class TooManyLinesOfCodeInFileCheckTest {
   private final TooManyLinesOfCodeInFileCheck check = new TooManyLinesOfCodeInFileCheck();
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     check.setMax(1);
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/complexity.cc"), check);
+    String fileName = "src/test/resources/checks/complexity.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("This file has 22 lines of code, which is greater than 1 authorized. Split it into smaller files.")
       .noMore();
   }
 
   @Test
-  public void test2() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/complexity.cc"), check);
+  public void test2() throws UnsupportedEncodingException, IOException {
+    String fileName = "src/test/resources/checks/complexity.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check); 
+        
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

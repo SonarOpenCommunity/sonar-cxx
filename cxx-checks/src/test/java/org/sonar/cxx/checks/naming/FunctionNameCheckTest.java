@@ -25,13 +25,24 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.sonar.cxx.CxxAstScanner;
 
 import java.io.File;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class FunctionNameCheckTest {
 
   @Test
   public void test() throws Exception {
     FunctionNameCheck check = new FunctionNameCheck();
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionName.cc"), check);
+    
+    String fileName = "src/test/resources/checks/FunctionName.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(8).withMessage(
         "Rename function \"Badly_Named_Function\" to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")

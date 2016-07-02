@@ -22,9 +22,10 @@ package org.sonar.plugins.cxx;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import org.sonar.api.Plugin;
+import org.sonar.api.Plugin.Context;
 
 import org.sonar.api.PropertyType;
-import org.sonar.api.SonarPlugin; //@todo deprecated
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
@@ -58,7 +59,7 @@ import org.sonar.plugins.cxx.drmemory.CxxDrMemorySensor;
 /**
  * {@inheritDoc}
  */
-public final class CxxPlugin extends SonarPlugin {
+public final class CxxPlugin implements Plugin {
 
   static final String SOURCE_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.sources";
   public static final String HEADER_FILE_SUFFIXES_KEY = "sonar.cxx.suffixes.headers";
@@ -340,16 +341,6 @@ public final class CxxPlugin extends SonarPlugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-      PropertyDefinition.builder(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
-      .name("Assign zero line coverage to source files without coverage report(s)")
-      .description("If 'True', assign zero line coverage to source files without coverage report(s),"
-        + "which results in a more realistic overall Technical Debt value.")
-      .defaultValue("True")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .type(PropertyType.BOOLEAN)
-      .index(4)
-      .build(),
       PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
@@ -366,16 +357,6 @@ public final class CxxPlugin extends SonarPlugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(6)
-      .build(),
-      PropertyDefinition.builder(CxxXunitSensor.PROVIDE_DETAILS_KEY)
-      .name("Provide test execution details")
-      .description("If 'True', tries to assign testcases in report to test resources in SonarQube, "
-        + "thus making the drillown to details possible")
-      .defaultValue("False")
-      .subCategory(subcateg)
-      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .type(PropertyType.BOOLEAN)
-      .index(7)
       .build(),
       PropertyDefinition.builder(CxxUnitTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
       .name("Visual Studio Test Reports Paths")
@@ -398,7 +379,7 @@ public final class CxxPlugin extends SonarPlugin {
    * {@inheritDoc}
    */
   @Override
-  public List getExtensions() {
+  public void define(Context context) {
     List<Object> l = new ArrayList<>();
     l.add(CxxProjectBuilder.class);
     l.add(CxxLanguage.class);
@@ -424,8 +405,6 @@ public final class CxxPlugin extends SonarPlugin {
     l.add(CxxValgrindRuleRepository.class);
     l.add(CxxValgrindSensor.class);
     l.add(CxxDefaultProfile.class);
-    l.add(CxxCommonRulesEngine.class);
-    l.add(CxxCommonRulesDecorator.class);
     l.add(CxxExternalRulesSensor.class);
     l.add(CxxExternalRuleRepository.class);
     l.add(CxxRuleRepository.class);
@@ -438,7 +417,7 @@ public final class CxxPlugin extends SonarPlugin {
     l.addAll(testingAndCoverageProperties());
     l.addAll(compilerWarningsProperties());
 
-    return l;
+    context.addExtensions(l);
   }
 
   public static class CxxCoverageAggregator extends CxxCoverageCache {

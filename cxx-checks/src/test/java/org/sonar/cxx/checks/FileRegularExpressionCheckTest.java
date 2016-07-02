@@ -20,9 +20,15 @@
 package org.sonar.cxx.checks;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
@@ -31,21 +37,28 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class FileRegularExpressionCheckTest {
 
   @Test
-  public void fileRegExWithoutFilePattern() {
+  public void fileRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegEx.cc"), cxxConfig, check);
+    String fileName = "src/test/resources/checks/FileRegEx.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);    
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
   }
 
   @Test
-  public void fileRegExInvertWithoutFilePattern() {
+  public void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
@@ -53,28 +66,40 @@ public class FileRegularExpressionCheckTest {
     check.invertRegularExpression = true;
     check.message = "Found no 'stdafx.h' in file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegExInvert.cc"), cxxConfig, check);
+    String fileName = "src/test/resources/checks/FileRegExInvert.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
   }
 
   @Test
-  public void fileRegExCodingErrorActionReplace() {
+  public void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("US-ASCII");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegEx.cc"), cxxConfig, check);
+    String fileName = "src/test/resources/checks/FileRegEx.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "US-ASCII");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
   }
 
   @Test
-  public void fileRegExWithFilePattern() {
+  public void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
@@ -82,14 +107,22 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegEx.cc"), cxxConfig, check);
+    String fileName = "src/test/resources/checks/FileRegEx.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
+
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
   }
 
   @Test
-  public void fileRegExInvertWithFilePatternInvert() {
+  public void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
@@ -99,7 +132,15 @@ public class FileRegularExpressionCheckTest {
     check.invertRegularExpression = true;
     check.message = "Found no '#include \"stdafx.h\"' in a file with not '.h' file extension!";
 
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/FileRegExInvert.cc"), cxxConfig, check);
+    String fileName = "src/test/resources/checks/FileRegExInvert.cc";
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
+
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();

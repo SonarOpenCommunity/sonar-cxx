@@ -27,19 +27,14 @@ import java.util.ArrayList;
 import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
-import org.sonar.api.batch.Sensor; //@todo deprecated
-import org.sonar.api.batch.SensorContext; //@todo deprecated
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.measures.Measure; //@todo deprecated
 import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.api.rule.RuleKey;
-import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.api.batch.sensor.issue.NewIssue;
+import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.Settings;
 
 /**
@@ -48,67 +43,42 @@ import org.sonar.api.config.Settings;
  */
 public abstract class CxxReportSensor implements Sensor {
 
-  private ResourcePerspectives perspectives;
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<String> uniqueIssues = new HashSet<>();
   private final Metric metric;
   private int violationsCount;
 
-  protected FileSystem fs;
   protected Settings settings;
-
-  /**
-   * Use this constructor if you dont have to save violations aka issues
-   *
-   * @param settings the Settings object used to access the configuration
-   * properties
-   * @param fs file system access layer
-   */
-  protected CxxReportSensor(Settings settings, FileSystem fs) {
-    this(null, settings, fs, null);
-  }
 
   /**
    * Use this constructor if your sensor implementation saves violations aka
    * issues
    *
-   * @param perspectives used to create issuables
    * @param settings the Settings object used to access the configuration
    * properties
    * @param fs file system access layer
    * @param metric this metrics will be used to save a measure of the overall
    * issue count. Pass 'null' to skip this.
    */
-  protected CxxReportSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, Metric metric) {
+  protected CxxReportSensor(Settings settings, Metric metric) {
     this.settings = settings;
-    this.fs = fs;
     this.metric = metric;
-    this.perspectives = perspectives;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return fs.hasFiles(fs.predicates().hasLanguage(CxxLanguage.KEY))
-      && settings.hasKey(reportPathKey());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void analyse(Project project, SensorContext context) {
+  public void execute(SensorContext context) {
     try {
-      List<File> reports = getReports(settings, fs.baseDir(), reportPathKey());
+      List<File> reports = getReports(settings, context.fileSystem().baseDir(), reportPathKey());
       violationsCount = 0;
       
       for (File report : reports) {
         int prevViolationsCount = violationsCount;
         CxxUtils.LOG.info("Processing report '{}'", report);
         try {
-          processReport(project, context, report);
+          processReport(context, report);
           CxxUtils.LOG.debug("{} processed = {}", metric == null ? "Issues" : metric.getName(),
              violationsCount - prevViolationsCount);
         } catch (EmptyReportException e) {
@@ -120,9 +90,11 @@ public abstract class CxxReportSensor implements Sensor {
         violationsCount);
           
       if (metric != null) {
-        Measure measure = new Measure(metric);
-        measure.setIntValue(violationsCount);
-        context.saveMeasure(measure);
+        context.<Integer>newMeasure()
+                .forMetric(metric)
+                .on(context.module())
+                .withValue(violationsCount)
+                .save(); 
       }
     } catch (Exception e) {
       String msg = new StringBuilder()
@@ -192,7 +164,7 @@ public abstract class CxxReportSensor implements Sensor {
         CxxUtils.LOG.info("Parser will parse '{}' report files", reports.size());
       }
     } else {
-      CxxUtils.LOG.error("Undefined report path value for key '{}'", reportPathPropertyKey);
+      CxxUtils.LOG.info("Undefined report path value for key '{}'", reportPathPropertyKey);
     }
 
     return reports;
@@ -200,12 +172,18 @@ public abstract class CxxReportSensor implements Sensor {
 
   /**
    * Saves code violation only if unique. Compares file, line, ruleId and msg.
+     * @param sensorContext
+     * @param ruleRepoKey
+     * @param file
+     * @param line
+     * @param ruleId
+     * @param msg
    */
-  public void saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey,
-    String file, String line, String ruleId, String msg) {
+  public void saveUniqueViolation(SensorContext sensorContext, String ruleRepoKey, String file,
+          String line, String ruleId, String msg) {
 
     if (uniqueIssues.add(file + line + ruleId + msg)) { // StringBuilder is slower
-      saveViolation(project, context, ruleRepoKey, file, line, ruleId, msg);
+      saveViolation(sensorContext, ruleRepoKey, file, line, ruleId, msg);
     }
   }
 
@@ -216,47 +194,44 @@ public abstract class CxxReportSensor implements Sensor {
    * according parameters ('file' = null for project level, 'line' = null for
    * file-level)
    */
-  private void saveViolation(Project project, SensorContext context, String ruleRepoKey,
-    String filename, String line, String ruleId, String msg) {
-    Issuable issuable = null;
-    int lineNr = 0;
+  private void saveViolation(SensorContext sensorContext, String ruleRepoKey, String filename, String line,
+          String ruleId, String msg) {
+      
     // handles file="" situation -- file level
     if ((filename != null) && (!filename.isEmpty())) {
-      String root = fs.baseDir().getAbsolutePath();
+      String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
       String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
-        InputFile inputFile = fs.inputFile(fs.predicates().is(new File(normalPath)));
+        InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(normalPath));
         if (inputFile != null) {
-          lineNr = getLineAsInt(line, inputFile.lines());
-          issuable = perspectives.as(Issuable.class, inputFile);
+          try {
+            int lines = inputFile.lines();
+            int lineNr = getLineAsInt(line, lines);
+            NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(ruleRepoKey, ruleId));
+            NewIssueLocation location = newIssue.newLocation()
+              .on(inputFile)
+              .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1))
+              .message(msg);
+
+            newIssue.at(location);
+            newIssue.save();
+          } catch (Exception ex) {
+            CxxUtils.LOG.warn("Cannot save issue '{}', skipping issue", ex.getMessage());
+          }
         } else {
           CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
           notFoundFiles.add(normalPath);
         }
       }
     } else { // project level
-      issuable = perspectives.as(Issuable.class, (Resource) project);
-    }
+      
+        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(ruleRepoKey, ruleId));
+        NewIssueLocation location = newIssue.newLocation()
+          .on(sensorContext.module())
+          .message(msg);
 
-    if (issuable != null) {
-      addIssue(issuable, lineNr, RuleKey.of(ruleRepoKey, ruleId), msg);
-    }
-  }
-
-  private void addIssue(Issuable issuable, int lineNr, RuleKey rule, String msg) {
-    Issuable.IssueBuilder issueBuilder = issuable.newIssueBuilder()
-      .ruleKey(rule)
-      .message(msg); //@todo deprecated message
-    if (lineNr > 0) {
-      issueBuilder = issueBuilder.line(lineNr); //@todo deprecated line
-    }
-    Issue issue = issueBuilder.build();
-    try {
-      if (issuable.addIssue(issue)) {
-        violationsCount++;
-      }
-    } catch (org.sonar.api.utils.MessageException me) {
-      CxxUtils.LOG.error("Could not add the issue, details: '{}'", me.toString());
+        newIssue.at(location);
+        newIssue.save();          
     }
   }
 
@@ -278,7 +253,7 @@ public abstract class CxxReportSensor implements Sensor {
     return lineNr;
   }
 
-  protected void processReport(final Project project, final SensorContext context, File report)
+  protected void processReport(final SensorContext context, File report)
     throws Exception {
   }
 

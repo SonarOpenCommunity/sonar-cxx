@@ -19,6 +19,7 @@
  */
 package org.sonar.plugins.cxx.tests.dotnet;
 
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.plugins.dotnet.tests.UnitTestConfiguration;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsAggregator;
@@ -39,17 +40,16 @@ public class CxxUnitTestResultsProvider {
   }
 
   public static class CxxUnitTestResultsAggregator extends UnitTestResultsAggregator {
-
+    
     public CxxUnitTestResultsAggregator(Settings settings) {
       super(UNIT_TEST_CONF, settings);
     }
-
   }
 
   public static class CxxUnitTestResultsImportSensor extends UnitTestResultsImportSensor {
     
-    public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator) {
-      super(unitTestResultsAggregator);
+    public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
+      super(unitTestResultsAggregator, projectDef);
     }
 
   }

@@ -19,34 +19,56 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import java.lang.annotation.Annotation;
-import java.util.HashMap;
-import java.util.Map;
-import org.sonar.api.batch.BatchSide;
-
 /**
  *
  * @author jocs
  */
-@BatchSide
-public class CxxCoverageCache {
+class CoverageMeasure {
 
-  private final static Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
-  private final static Map<String, Map<String, CoverageMeasures>> CACHE_IT = new HashMap<>();
-  private final static Map<String, Map<String, CoverageMeasures>> CACHE_OVERALL = new HashMap<>();
+  private int hits;
+
+  public enum CoverageType
+  {
+    LINE,
+    CONDITION
+  }
   
-  public CxxCoverageCache() {
+  private final CoverageType type;
+  private final int line;
+  private int conditions;  
+  private int coveredConditions;
+
+  CoverageMeasure(CoverageType coverageType, int line) {
+    this.type = coverageType;
+    this.line = line;
   }
 
-  public Map<String, Map<String, CoverageMeasures>> unitCoverageCache() {
-    return CACHE_UNIT;
+  int getHits() {
+    return this.hits;
   }
 
-  public Map<String, Map<String, CoverageMeasures>> integrationCoverageCache() {
-    return CACHE_IT;
+  int getConditions() {
+    return this.conditions;
   }
 
-  public Map<String, Map<String, CoverageMeasures>> overallCoverageCache() {
-    return CACHE_OVERALL;
+  int getCoveredConditions() {
+    return this.coveredConditions;
+  }
+
+  void setHits(int lineId, int i) {
+    this.hits += i;
+  }
+
+  void setConditions(int totalConditions, int coveredConditions) {
+    this.coveredConditions = coveredConditions;
+    this.conditions = totalConditions;
+  }
+  
+  CoverageType getType() {
+    return this.type;
+  }
+  
+  int getLine() {
+    return this.line;
   }
 }

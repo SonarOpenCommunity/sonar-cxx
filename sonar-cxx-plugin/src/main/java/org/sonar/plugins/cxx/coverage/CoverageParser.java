@@ -23,10 +23,7 @@ import java.io.File;
 import java.util.Map;
 
 import javax.xml.stream.XMLStreamException;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-
-import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
 
 /**
  * The interface a coverage report parser has to implement in order to be used
@@ -37,10 +34,12 @@ public interface CoverageParser {
   /**
    * Parses the given report and stores the results in the according builder
    *
-   * @param xmlFile The report to parse
+   * @param context
+   * @param report
    * @param coverageData A Map mapping source file names to coverage measures.
    * Has to be used to store the results into.
+   * @throws javax.xml.stream.XMLStreamException
    */
-  void processReport(final Project project, final SensorContext context, File report, Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
+  void processReport(final SensorContext context, File report, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException;
 }

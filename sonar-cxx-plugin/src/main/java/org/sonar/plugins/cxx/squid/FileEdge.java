@@ -19,16 +19,16 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import org.sonar.api.resources.File; //@todo deprecated
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.graph.Edge;
 
-class FileEdge implements Edge<File> {
+class FileEdge implements Edge<InputFile> {
 
-  private final File from;
-  private final File to;
+  private final InputFile from;
+  private final InputFile to;
   private final int line;
 
-  public FileEdge(File from, File to, int line) {
+  public FileEdge(InputFile from, InputFile to, int line) {
     this.from = from;
     this.to = to;
     this.line = line;
@@ -40,12 +40,12 @@ class FileEdge implements Edge<File> {
   }
 
   @Override
-  public File getFrom() {
+  public InputFile getFrom() {
     return from;
   }
 
   @Override
-  public File getTo() {
+  public InputFile getTo() {
     return to;
   }
 

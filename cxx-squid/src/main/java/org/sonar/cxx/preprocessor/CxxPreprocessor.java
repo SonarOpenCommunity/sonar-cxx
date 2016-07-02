@@ -21,7 +21,6 @@ package org.sonar.cxx.preprocessor;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-
 import java.io.File;
 
 import java.util.ArrayList;
@@ -35,10 +34,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 
-import static org.apache.commons.io.FilenameUtils.wildcardMatchOnSystem;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.AstNodeType;
@@ -56,7 +53,9 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
+import java.io.IOException;
 import java.util.Collections;
+import java.util.logging.Level;
 
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
@@ -147,7 +146,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     public boolean isVariadic;
   }
 
-  private static final Logger LOG = LoggerFactory.getLogger("CxxPreprocessor");
+  private static final Logger LOG = Loggers.get("CxxPreprocessor");
   private Parser<Grammar> pplineParser = null;
   private final MapChain<String, Macro> macros = new MapChain<>();
   private final Set<File> analysedFiles = new HashSet<>();
@@ -288,7 +287,8 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
   private boolean isCFile(String filePath) {
     for (String pattern : cFilesPatterns) {
-      if (wildcardMatchOnSystem(filePath, pattern)) {
+      String regex = pattern.replace("?", ".?").replace("*", ".*?");
+      if (filePath.matches(regex)) {
         if (LOG.isTraceEnabled()) {
           LOG.trace("Parse '{}' as C file, matches '{}' pattern", filePath, pattern);
         }
@@ -578,6 +578,8 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
       try {
         IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
+      } catch (IOException ex) {
+        LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex.getMessage());
       } finally {
         currentFileState = globalStateStack.pop();
       }

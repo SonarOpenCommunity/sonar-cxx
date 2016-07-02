@@ -25,12 +25,10 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
@@ -43,28 +41,16 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  */
 public class CxxCppCheckSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.cppcheck.reportPath";
-
-  private final RulesProfile profile;
+  
   private final List<CppcheckParser> parsers = new LinkedList<>();
 
   /**
    * {@inheritDoc}
    */
-  public CxxCppCheckSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs,
-      RulesProfile profile) {
-    super(perspectives, settings, fs, CxxMetrics.CPPCHECK);
-    this.profile = profile;
+  public CxxCppCheckSensor(Settings settings) {
+    super(settings, CxxMetrics.CPPCHECK);
     parsers.add(new CppcheckParserV2(this));
     parsers.add(new CppcheckParserV1(this));
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxCppCheckRuleRepository.KEY).isEmpty();
   }
 
   @Override
@@ -73,13 +59,18 @@ public class CxxCppCheckSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report)
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxCppCheckSensor");
+  }
+  
+  @Override
+  protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     boolean parsed = false;
 
     for (CppcheckParser parser : parsers) {
       try {
-        parser.processReport(project, context, report);
+        parser.processReport(context, report);
         CxxUtils.LOG.info("Added report '{}' (parsed by: {})", report, parser);
         parsed = true;
         break;

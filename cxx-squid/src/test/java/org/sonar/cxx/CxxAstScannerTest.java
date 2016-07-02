@@ -32,12 +32,25 @@ import org.sonar.squidbridge.api.SourceProject;
 import org.sonar.squidbridge.indexer.QueryByType;
 
 import com.sonar.sslr.api.Grammar;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class CxxAstScannerTest {
 
   @Test
-  public void files() {
-    AstScanner<Grammar> scanner = CxxAstScanner.create(new CxxConfiguration());
+  public void files() throws UnsupportedEncodingException, IOException {
+    
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/trivial.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/trivial.cc").initMetadata(content));
+    String content2 = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/classes.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/classes.cc").initMetadata(content2));
+    
+    AstScanner<Grammar> scanner = CxxAstScanner.create(new CxxConfiguration(), sensorContext);
     scanner.scanFiles(new ArrayList<>(Arrays.asList(
       new File("src/test/resources/metrics/trivial.cc"),
       new File("src/test/resources/metrics/classes.cc")))
@@ -47,51 +60,92 @@ public class CxxAstScannerTest {
   }
 
   @Test
-  public void comments() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/comments.cc"));
+  public void comments() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/comments.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/comments.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/comments.cc"));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.COMMENT_LINES)).isEqualTo(6);
     assertThat(file.getNoSonarTagLines()).contains(8).hasSize(1);
   }
 
   @Test
-  public void lines() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
+  public void lines() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/classes.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/classes.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/classes.cc"));
+
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.LINES)).isEqualTo(7);
   }
 
   @Test
-  public void lines_of_code() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
+  public void lines_of_code() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/classes.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/classes.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/classes.cc"));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.LINES_OF_CODE)).isEqualTo(5);
   }
 
   @Test
-  public void statements() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/statements.cc"));
+  public void statements() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/statements.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/statements.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/statements.cc"));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.STATEMENTS)).isEqualTo(4);
   }
 
   @Test
-  public void functions() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/functions.cc"));
+  public void functions() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/functions.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/functions.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/functions.cc"));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
   }
 
   @Test
-  public void classes() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/classes.cc"));
+  public void classes() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/classes.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/classes.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/classes.cc"));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.CLASSES)).isEqualTo(2);
   }
 
   @Test
-  public void complexity() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/metrics/complexity.cc"));
+  public void complexity() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/complexity.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/complexity.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/complexity.cc"));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.COMPLEXITY)).isEqualTo(14);
   }
 
   @Test
-  public void error_recovery_declaration() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/parser/bad/error_recovery_declaration.cc"));
+  public void error_recovery_declaration() throws UnsupportedEncodingException, IOException {
+    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
+    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/parser/bad/error_recovery_declaration.cc").toPath()), "UTF-8");
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/parser/bad/error_recovery_declaration.cc").initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/parser/bad/error_recovery_declaration.cc"));
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext);
     assertThat(file.getInt(CxxMetric.FUNCTIONS)).isEqualTo(2);
   }
 }

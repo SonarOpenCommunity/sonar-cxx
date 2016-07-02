@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import java.util.List;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
@@ -32,11 +31,8 @@ public class CxxRuleRepository implements RulesDefinition {
   public void define(Context context) {
     NewRepository repository = context.
       createRepository(CheckList.REPOSITORY_KEY, CxxLanguage.KEY).
-      setName(REPOSITORY_NAME);
-    List<Class> checks = CheckList.getChecks();
-        
-    AnnotationBasedRulesDefinition.load(repository, CxxLanguage.KEY, checks);
-    
+      setName(REPOSITORY_NAME);        
+    new AnnotationBasedRulesDefinition(repository, CxxLanguage.KEY).addRuleClasses(false, CheckList.getChecks());    
     repository.done();
   }
 }

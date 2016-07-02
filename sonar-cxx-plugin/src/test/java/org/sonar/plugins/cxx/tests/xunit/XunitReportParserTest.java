@@ -26,8 +26,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.junit.Test;
-import org.sonar.api.utils.StaxParser; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.plugins.cxx.utils.StaxParser;
 
 public class XunitReportParserTest {
 
