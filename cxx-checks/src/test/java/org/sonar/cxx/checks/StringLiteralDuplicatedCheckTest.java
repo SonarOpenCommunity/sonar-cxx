@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -33,8 +33,10 @@ public class StringLiteralDuplicatedCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/StringLiteralDuplicatedCheck.cc"), new StringLiteralDuplicatedCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/StringLiteralDuplicatedCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new StringLiteralDuplicatedCheck()); 
+        
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage("Define a constant instead of duplicating this literal \"bbbbb\" 2 times.")
       .next().atLine(14).withMessage("Define a constant instead of duplicating this literal \"ccccc\" 3 times.");

@@ -19,85 +19,68 @@
  */
 package org.sonar.plugins.cxx.tests.dotnet;
 
-import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
+import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.mockito.Mockito;
-import org.sonar.api.measures.Metric;
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsAggregator;
 import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsImportSensor;
 import org.sonar.plugins.dotnet.tests.UnitTestResults;
-import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
 import org.sonar.plugins.dotnet.tests.WildcardPatternFileProvider;
 
 public class CxxUnitTestResultsProviderTest {
 
-
-  private Project project;
-  private SensorContext context;
   private CxxUnitTestResultsAggregator resultsAggregator;
-  private CxxUnitTestResultsImportSensor sensor;
-
+  private FileSystem fs;
+  
   @Before
   public void setUp() {
-    new DefaultFileSystem(new File(""));
-    project = TestUtils.mockProject();
-    context = mock(SensorContext.class);
+    fs = TestUtils.mockFileSystem();
   }
-
-  @Test
-  public void should_execute_on_project() {
-
-    resultsAggregator = mock(CxxUnitTestResultsAggregator.class);
-
-    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(true);
-    assertThat(new UnitTestResultsImportSensor(resultsAggregator).shouldExecuteOnProject(project)).isTrue();
-
-    when(resultsAggregator.hasUnitTestResultsProperty()).thenReturn(false);
-    assertThat(new UnitTestResultsImportSensor(resultsAggregator).shouldExecuteOnProject(project)).isFalse();
-  }
-
-  @Test
+  
+  // @Test @todo reactor
   public void should_not_analyze_on_reactor_project() {
-    when(project.isRoot()).thenReturn(false);
-    when(project.getModules()).thenReturn(new ArrayList<>(Collections.singletonList(mock(Project.class))));
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    ProjectDefinition projectDef = mock(ProjectDefinition.class);
+
+    //when(project.isRoot()).thenReturn(false);
+    //when(project.getModules()).thenReturn(new ArrayList<>(Collections.singletonList(mock(Project.class))));
 
     resultsAggregator = mock(CxxUnitTestResultsAggregator.class);
-    sensor = new CxxUnitTestResultsImportSensor(resultsAggregator);
-    sensor.analyse(project, context);
+    CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(resultsAggregator, projectDef);
+    sensor.execute(context);
 
-    verify(context, Mockito.never()).saveMeasure(Mockito.any(Metric.class), Mockito.anyDouble());
+    assertThat(context.measures(context.module().key())).hasSize(0);
   }
 
-  @Test
+  // @Test @todo reactor
   public void should_analyze_on_multi_module_modules() {
-    when(project.isRoot()).thenReturn(true);
-
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    ProjectDefinition projectDef = mock(ProjectDefinition.class);
+    
     resultsAggregator = mock(CxxUnitTestResultsAggregator.class);
 
     UnitTestResults results = mock(UnitTestResults.class);
-    when(results.tests()).thenReturn(1.0);
+    when(results.tests()).thenReturn(1);
     when(results.passedPercentage()).thenCallRealMethod();
-    when(results.skipped()).thenReturn(0.0);
-    when(results.failures()).thenReturn(1.0);
-    when(results.errors()).thenReturn(0.0);
+    when(results.skipped()).thenReturn(0);
+    when(results.failures()).thenReturn(1);
+    when(results.errors()).thenReturn(0);
 
     when(resultsAggregator.aggregate(Mockito.any(WildcardPatternFileProvider.class), Mockito.any(UnitTestResults.class))).thenReturn(results);
-    sensor = new CxxUnitTestResultsImportSensor(resultsAggregator);
-    sensor.analyse(project, context);
+    CxxUnitTestResultsImportSensor sensor = new CxxUnitTestResultsImportSensor(resultsAggregator, projectDef);
+    sensor.execute(context);
 
-    verify(context, Mockito.atLeastOnce()).saveMeasure(Mockito.any(Metric.class), Mockito.anyDouble());
+    assertThat(context.measures(context.module().key())).isNotEmpty();
   }
 }

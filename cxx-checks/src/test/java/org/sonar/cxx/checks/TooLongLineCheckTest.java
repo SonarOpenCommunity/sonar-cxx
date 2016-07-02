@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
@@ -31,9 +31,11 @@ public class TooLongLineCheckTest {
   private final TooLongLineCheck check = new TooLongLineCheck();
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     check.maximumLineLength = 20;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineLength.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineLength.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+        
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(5).withMessage("Split this 28 characters long line (which is greater than 20 authorized).")
       .next().atLine(6)

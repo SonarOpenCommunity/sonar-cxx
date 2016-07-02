@@ -19,53 +19,35 @@
  */
 package org.sonar.plugins.cxx.drmemory;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.Settings;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxDrMemorySensorTest {
 
-  private CxxDrMemorySensor sensor;
-  private SensorContext context;
-  private Project project;
-  private RulesProfile profile;
-  private Settings settings;
+  private Settings settings = new Settings();
   private DefaultFileSystem fs;
-  private Issuable issuable;
-  private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
-    project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    issuable = TestUtils.mockIssuable();
-    perspectives = TestUtils.mockPerspectives(issuable);
-    profile = mock(RulesProfile.class);
-    settings = new Settings();
-    sensor = new CxxDrMemorySensor(perspectives, settings, fs, profile);
-    context = mock(SensorContext.class);
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
       "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    sensor = new CxxDrMemorySensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    CxxDrMemorySensor sensor = new CxxDrMemorySensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(1);
   }
 }

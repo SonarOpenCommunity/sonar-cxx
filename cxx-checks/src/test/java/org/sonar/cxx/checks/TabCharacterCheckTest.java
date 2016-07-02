@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
@@ -31,18 +31,23 @@ public class TabCharacterCheckTest {
   private final TabCharacterCheck check = new TabCharacterCheck();
 
   @Test
-  public void fileWithTabsOneMessagePerFile() {
+  public void fileWithTabsOneMessagePerFile() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TabCharacter.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+        
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Replace all tab characters in this file by sequences of white-spaces.")
       .noMore();
   }
 
   @Test
-  public void fileWithTabsOneMessagePerLine() {
+  public void fileWithTabsOneMessagePerLine() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = true;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TabCharacter.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Replace all tab characters in this line by sequences of white-spaces.")
       .next().atLine(4)
@@ -50,9 +55,11 @@ public class TabCharacterCheckTest {
   }
 
   @Test
-  public void fileWithoutTabs() {
+  public void fileWithoutTabs() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/NonEmptyFile.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

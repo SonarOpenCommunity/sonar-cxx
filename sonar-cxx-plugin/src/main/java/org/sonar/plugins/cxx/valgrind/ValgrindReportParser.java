@@ -25,10 +25,9 @@ import java.util.Set;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.utils.StaxParser; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
+import org.sonar.plugins.cxx.utils.StaxParser;
 
 class ValgrindReportParser {
 
@@ -38,7 +37,7 @@ class ValgrindReportParser {
   /**
    * Parses given valgrind report
    */
-  public Set<ValgrindError> processReport(final Project project, final SensorContext context, File report)
+  public Set<ValgrindError> processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     ValgrindReportStreamHandler streamHandler = new ValgrindReportStreamHandler();
     new StaxParser(streamHandler).parse(report);

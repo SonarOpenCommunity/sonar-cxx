@@ -19,127 +19,49 @@
  */
 package org.sonar.plugins.cxx.tests.xunit;
 
-import static org.hamcrest.core.AnyOf.anyOf;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-import java.util.Arrays;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxXunitSensorTest {
 
-  private CxxXunitSensor sensor;
-  private SensorContext context; //@todo deprecated
-  private Project project; //@todo deprecated
   private FileSystem fs;
-  private Settings settings;
 
   @Before
   public void setUp() {
-    project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    settings = new Settings();
-    context = mock(SensorContext.class); //@todo deprecated
-    sensor = new CxxXunitSensor(settings, fs);
-  }
-
-  @Test
-  public void shouldFindTheSourcesOfTheTestfiles() {
-    Settings settings = new Settings();
-    settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-report.xml");
-
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/finding-sources-project");
-    fs = TestUtils.mockFileSystem(baseDir, Arrays.asList(new File("src")),
-      Arrays.asList(new File("tests1"), new File("tests2")));
-
-    sensor = new CxxXunitSensor(settings, fs);
-    sensor.buildLookupTables();
-
-    // case 1:
-    // the testcase file resides: directly under the test directory
-    // the testcase file contains: only one class
-    // the report mentions: the class name
-    assertEquals(sensor.lookupFilePath("TestClass1"), new File(baseDir, "tests1/Test1.cc").getPath());
-
-    // case 2:
-    // the testcase file resides: in a subdirectory
-    // the testcase file contains: a couple of classes
-    // the report mentions: the class name
-    assertEquals(sensor.lookupFilePath("TestClass2"), new File(baseDir, "tests1/subdir/Test2.cc").getPath());
-
-    // case 3:
-    // the testcase file resides: in second directory
-    // the testcase file contains: the class in a namespace
-    // the report mentions: the class name only
-    assertEquals(sensor.lookupFilePath("TestClass3"), new File(baseDir, "tests2/Test3.cc").getPath());
-
-    // case 4:
-    // the testcase file resides: somewhere
-    // the testcase file contains: the class is implemented via a header and impl. file
-    // the report mentions: the class name
-    assertEquals(sensor.lookupFilePath("TestClass4"), new File(baseDir, "tests2/Test4.cc").getPath());
-
-    // case 5:
-    // the testcase file resides: somewhere
-    // the testcase file contains: class A and class B
-    // the report mentions: the class A and class B
-    
-    // TODO: DOESNT WORK for now, to make it work we have to aggregate the
-    // TestClass5_A report with the TestClass5_B report and save the results
-    // in context of Test5.cc
-    // assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_A"));
-    // assertEquals(new File(baseDir, "tests1/Test5.cc").getPath(), sensor.lookupFilePath("TestClass5_B"));
-    
-    // case 6:
-    // the testcase file resides: somewhere
-    // the testcase file contains: a class A, distributed across a
-    //                             a header (definition) and two *.cc files
-    // the report mentions: the class name
-    assertThat(sensor.lookupFilePath("TestClass6"),
-      anyOf(is(new File(baseDir, "tests1/Test6.hh").getPath()),
-        is(new File(baseDir, "tests1/Test6_A.cc").getPath()),
-        is(new File(baseDir, "tests1/Test6_B.cc").getPath())));
-
-    // case 7:
-    // the boost test framework way
-    // the testcase file contains: testuite is a namespace, testcase a struct
-    // the report mentions: the class name is a qualified name
-    assertEquals(sensor.lookupFilePath("my_test_suite::my_test"), new File(baseDir, "tests1/Test7.cc").getPath());
   }
 
   @Test
   public void shouldReportNothingWhenNoReportFound() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "notexistingpath");
-    sensor = new CxxXunitSensor(settings, fs);
+    CxxXunitSensor sensor = new CxxXunitSensor(settings);
 
-    sensor.analyse(project, context);
+    sensor.execute(context);
 
-    verify(context, times(0)).saveMeasure(eq(CoreMetrics.TESTS), any(Double.class));
+    assertThat(context.measures(context.module().key())).hasSize(0);
   }
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowWhenGivenInvalidTime() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.REPORT_PATH_KEY, "xunit-reports/invalid-time-xunit-report.xml");
-    sensor = new CxxXunitSensor(settings, fs);
+    CxxXunitSensor sensor = new CxxXunitSensor(settings);
 
-    sensor.analyse(project, context);
+    sensor.execute(context);
   }
 
   @Test(expected = java.net.MalformedURLException.class)
@@ -148,7 +70,7 @@ public class CxxXunitSensorTest {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "whatever");
 
-    sensor = new CxxXunitSensor(settings, fs);
+    CxxXunitSensor sensor = new CxxXunitSensor(settings);
 
     sensor.transformReport(cppunitReport());
   }
@@ -159,7 +81,7 @@ public class CxxXunitSensorTest {
     Settings settings = new Settings();
     settings.setProperty(CxxXunitSensor.XSLT_URL_KEY, "cppunit-1.x-to-junit-1.0.xsl");
 
-    sensor = new CxxXunitSensor(settings, fs);
+    CxxXunitSensor sensor = new CxxXunitSensor(settings);
     File reportBefore = cppunitReport();
 
     File reportAfter = sensor.transformReport(reportBefore);

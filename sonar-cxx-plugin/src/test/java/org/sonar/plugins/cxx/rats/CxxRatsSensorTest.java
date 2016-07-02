@@ -19,50 +19,36 @@
  */
 package org.sonar.plugins.cxx.rats;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
+import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class CxxRatsSensorTest {
 
   private CxxRatsSensor sensor;
-  private SensorContext context; //@todo deprecated
-  private Project project; //@todo deprecated
   private DefaultFileSystem fs;
-  private Issuable issuable;
-  private ResourcePerspectives perspectives; //@todo deprecated
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    project = TestUtils.mockProject();
-    issuable = TestUtils.mockIssuable();
-    perspectives = TestUtils.mockPerspectives(issuable);
     Settings settings = new Settings();
     settings.setProperty(CxxRatsSensor.REPORT_PATH_KEY, "rats-reports/rats-result-*.xml");
-    sensor = new CxxRatsSensor(perspectives, settings, fs, mock(RulesProfile.class));
-    context = mock(SensorContext.class); //@todo deprecated
+    sensor = new CxxRatsSensor(settings);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "report.c");
-    sensor.analyse(project, context);
-    verify(issuable, times(5)).addIssue(any(Issue.class));
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "report.c").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(5);
   }
 }

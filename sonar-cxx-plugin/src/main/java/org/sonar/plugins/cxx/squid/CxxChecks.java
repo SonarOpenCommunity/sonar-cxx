@@ -50,10 +50,10 @@ public class CxxChecks {
   }
 
   @SuppressWarnings("rawtypes")
-  public CxxChecks addChecks(String repositoryKey, List<Class> checkClass) {
+  public CxxChecks addChecks(String repositoryKey, Iterable<Class> checkClass) {
     checksByRepository.add(checkFactory
       .<SquidAstVisitor<Grammar>>create(repositoryKey)
-      .addAnnotatedChecks(checkClass)); //@todo deprecated addAnnotatedChecks
+      .addAnnotatedChecks(checkClass));
 
     return this;
   }

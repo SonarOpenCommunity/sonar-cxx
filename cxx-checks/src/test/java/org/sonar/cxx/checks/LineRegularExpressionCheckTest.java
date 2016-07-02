@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -29,12 +30,14 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class LineRegularExpressionCheckTest {
 
   @Test
-  public void lineRegExWithoutFilePattern() {
+  public void lineRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in line!";
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegEx.cc"), check);
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage(check.message)
       .next().atLine(3).withMessage(check.message)
@@ -42,26 +45,31 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  public void lineRegExInvertWithoutFilePattern() {
+  public void lineRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.regularExpression = "//.*";
     check.invertRegularExpression = true;
     check.message = "Found no comment in the line!";
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegExInvert.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegExInvert.cc"), check);
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage(check.message)
       .noMore();
   }
 
   @Test
-  public void lineRegExWithFilePattern1() {
+  public void lineRegExWithFilePattern1() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a .cc file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegEx.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage(check.message)
       .next().atLine(3).withMessage(check.message)
@@ -69,14 +77,16 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  public void lineRegExWithFilePatternInvert() {
+  public void lineRegExWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.xx"; // all files with not .xx file extension
     check.invertFilePattern = true;
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a not .xx file!";
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegEx.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage(check.message)
       .next().atLine(3).withMessage(check.message)
@@ -84,13 +94,15 @@ public class LineRegularExpressionCheckTest {
   }
 
   @Test
-  public void lineRegExWithFilePattern2() {
+  public void lineRegExWithFilePattern2() throws UnsupportedEncodingException, IOException {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.matchFilePattern = "/**/*.xx"; // all files with .xx file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a .xx file!";
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/LineRegEx.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

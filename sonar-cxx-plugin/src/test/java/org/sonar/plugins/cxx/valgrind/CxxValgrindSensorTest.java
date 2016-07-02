@@ -19,67 +19,57 @@
  */
 package org.sonar.plugins.cxx.valgrind;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.config.Settings;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 public class CxxValgrindSensorTest {
 
   private CxxValgrindSensor sensor;
-  private SensorContext context;
-  private Project project;
   private DefaultFileSystem fs;
-  private Issuable issuable;
-  private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
-    project = TestUtils.mockProject();
-    issuable = TestUtils.mockIssuable();
-    perspectives = TestUtils.mockPerspectives(issuable);
-    sensor = new CxxValgrindSensor(perspectives, new Settings(), fs, mock(RulesProfile.class));
-    context = mock(SensorContext.class);
+    sensor = new CxxValgrindSensor(new Settings());
   }
 
   @Test
   public void shouldNotThrowWhenGivenValidData() {
-    sensor.analyse(project, context);
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    sensor.execute(context);
   }
 
   @Test
   public void shouldSaveViolationIfErrorIsInside() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(true));
-    TestUtils.addInputFile(fs, perspectives, issuable, "dir/file");
-    sensor.saveErrors(project, context, valgrindErrors);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "dir/file").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    sensor.saveErrors(context, valgrindErrors);
+    
+    assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void shouldNotSaveViolationIfErrorIsOutside() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Set<ValgrindError> valgrindErrors = new HashSet<>();
     valgrindErrors.add(mockValgrindError(false));
-    sensor.saveErrors(project, context, valgrindErrors);
-    verify(issuable, times(0)).addIssue(any(Issue.class));
+    sensor.saveErrors(context, valgrindErrors);
+    assertThat(context.allIssues()).hasSize(0);
   }
 
   private ValgrindError mockValgrindError(boolean inside) {

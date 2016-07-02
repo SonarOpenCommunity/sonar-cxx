@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
@@ -29,10 +29,12 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class WrongIncludeCheckTest {
 
   @Test
-  public void check() {
+  public void check() throws UnsupportedEncodingException, IOException {
     UseCorrectIncludeCheck check = new UseCorrectIncludeCheck();
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UseCorrectIncludeCheck.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UseCorrectIncludeCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("Do not use relative path for #include directive.")
       .next().atLine(3)

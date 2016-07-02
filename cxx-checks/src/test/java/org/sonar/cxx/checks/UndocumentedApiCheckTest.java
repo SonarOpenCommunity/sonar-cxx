@@ -21,8 +21,8 @@ package org.sonar.cxx.checks;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -37,9 +37,9 @@ public class UndocumentedApiCheckTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File(
-      "src/test/resources/checks/UndocumentedApiCheck/no_doc.h"), new UndocumentedApiCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());  
 
     checkMessagesVerifier.verify(file.getCheckMessages()).next().atLine(6)
       .next().atLine(11).next().atLine(13).next().atLine(14).next()

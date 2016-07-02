@@ -22,9 +22,9 @@ package org.sonar.plugins.cxx.utils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class holding various, well, utilities
@@ -34,7 +34,7 @@ public final class CxxUtils {
   /**
    * Default logger.
    */
-  public static final Logger LOG = LoggerFactory.getLogger("CxxPlugin");
+  public static final Logger LOG = Loggers.get(CxxUtils.class);
 
   private CxxUtils() {
     // only static methods

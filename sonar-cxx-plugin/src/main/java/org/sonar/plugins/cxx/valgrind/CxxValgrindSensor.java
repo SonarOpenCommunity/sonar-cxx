@@ -22,39 +22,27 @@ package org.sonar.plugins.cxx.valgrind;
 import java.io.File;
 import java.util.Set;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
 public class CxxValgrindSensor extends CxxReportSensor {
-
+  public static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.valgrind.reportPath";
-  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
    */
-  public CxxValgrindSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
-    super(perspectives, settings, fs, CxxMetrics.VALGRIND);
-    this.profile = profile;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxValgrindRuleRepository.KEY).isEmpty();
+  public CxxValgrindSensor(Settings settings) {
+    super(settings, CxxMetrics.VALGRIND);
   }
 
   @Override
@@ -63,21 +51,26 @@ public class CxxValgrindSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report)
+  protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'Valgrind' format");
+    LOG.debug("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
-    saveErrors(project, context, parser.processReport(project, context, report));
+    saveErrors(context, parser.processReport(context, report));
   }
 
-  void saveErrors(Project project, SensorContext context, Set<ValgrindError> valgrindErrors) {
+  @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxValgrindSensor");
+  }
+  
+  void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {
     for (ValgrindError error : valgrindErrors) {
-      ValgrindFrame frame = error.getLastOwnFrame(fs.baseDir().getPath());
+      ValgrindFrame frame = error.getLastOwnFrame(context.fileSystem().baseDir().getPath());
       if (frame != null) {
-        saveUniqueViolation(project, context, CxxValgrindRuleRepository.KEY,
+        saveUniqueViolation(context, CxxValgrindRuleRepository.KEY,
           frame.getPath(), frame.getLine(), error.getKind(), error.toString());
       } else {
-        CxxUtils.LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
+        LOG.warn("Cannot find a project file to assign the valgrind error '{}' to", error);
       }
     }
   }

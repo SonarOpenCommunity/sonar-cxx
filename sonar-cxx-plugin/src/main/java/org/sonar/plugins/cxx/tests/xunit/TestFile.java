@@ -33,7 +33,7 @@ public class TestFile {
   private int errors = 0;
   private int skipped = 0;
   private int tests = 0;
-  private int time = 0;
+  private long time = 0;
   private int failures = 0;
   private final List<TestCase> testCases;
   private InputFile inputFile = null;
@@ -65,7 +65,7 @@ public class TestFile {
     return tests;
   }
 
-  public int getTime() {
+  public long getTime() {
     return time;
   }
 

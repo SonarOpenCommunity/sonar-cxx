@@ -19,117 +19,110 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
+import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class CxxPCLintSensorTest {
-
-  private SensorContext context; //@todo deprecated
-  private Project project; //@todo deprecated
-  private RulesProfile profile;
-  private ResourcePerspectives perspectives; //@todo deprecated
-  private Issuable issuable;
   private DefaultFileSystem fs;
 
   @Before
   public void setUp() {
-    project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    issuable = TestUtils.mockIssuable();
-    perspectives = TestUtils.mockPerspectives(issuable);
-    profile = mock(RulesProfile.class);
-    context = mock(SensorContext.class);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
+    
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-SAMPLE.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "FileZip.h");
-    TestUtils.addInputFile(fs, perspectives, issuable, "ZipManager.cpp");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(16)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "FileZip.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "FileZip.h").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "ZipManager.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(16);
   }
 
   @Test
   public void shouldReportCorrectMisra2004Violations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE1.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(29)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(29);
   }
 
   @Test
   public void shouldReportCorrectMisra2004PcLint9Violations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA2004-SAMPLE2.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(1);
   }
 
-  @Test(expected = IllegalStateException.class)
-  public void shouldThrowExceptionWhenMisra2004DescIsWrong() {
+  @Test
+  public void shouldNotSaveIssuesWhenMisra2004DescIsWrong() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
   }
 
-  @Test(expected = IllegalStateException.class)
-  public void shouldThrowExceptionWhenMisra2004RuleDoNotExist() {
+  @Test
+  public void shouldNotSaveAnythingWhenMisra2004RuleDoNotExist() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldNotRemapMisra1998Rules() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRA1998-SAMPLE.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "test.c");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void shouldReportProjectLevelViolations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-projectlevelviolation.xml");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void shouldThrowExceptionInvalidChar() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-invalid-char.xml");
-    CxxPCLintSensor sensor = new CxxPCLintSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
   }
 }

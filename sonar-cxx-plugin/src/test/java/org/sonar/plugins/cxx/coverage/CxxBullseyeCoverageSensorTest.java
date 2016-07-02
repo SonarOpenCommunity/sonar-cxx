@@ -19,120 +19,101 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.InputFile;
+import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
-import org.sonar.api.measures.Measure; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
-import org.sonar.api.issue.Issuable;
 import org.sonar.plugins.cxx.TestUtils;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxBullseyeCoverageSensorTest {
-
   private CxxCoverageSensor sensor;
-  private SensorContext context; //@todo deprecated
-  private Project project; //@todo deprecated
   private DefaultFileSystem fs;
-  private Issuable issuable;
-  private ResourcePerspectives perspectives; //@todo deprecated
 
   @Before
   public void setUp() {
-    project = TestUtils.mockProject();
-    issuable = TestUtils.mockIssuable();
-    perspectives = TestUtils.mockPerspectives(issuable);
     fs = TestUtils.mockFileSystem();
-    context = mock(SensorContext.class); //@todo deprecated
   }
 
-  //@Test @todo
+  //@Test
   public void shouldReportCorrectCoverage() {
     Settings settings = new Settings();
-    if (TestUtils.isWindows()) {
-      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-win.xml");
-      settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-win.xml");
-      settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/main.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/source_1.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/src/testclass.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/main.cpp"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("c:/home/path/TESTCOV/testclass.h"));
-    } else {
-      settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-linux.xml");
-      settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-linux.xml");
-      settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye-linux.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/main.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/source_1.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/src/testclass.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/main.cpp");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/home/path/TESTCOV/testclass.h");
-    }
-    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageCache());
-    sensor.analyse(project, context);
-    verify(context, times(90)).saveMeasure((InputFile) anyObject(), any(Measure.class)); //@todo deprecated Measure
+    
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    
+    settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
+    settings.setProperty(CxxCoverageSensor.IT_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
+    settings.setProperty(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY, "coverage-reports/bullseye/coverage-result-bullseye.xml");
+
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+
+
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "source_1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+
+    sensor = new CxxCoverageSensor(settings, new CxxCoverageCache());
+    sensor.execute(context);
+    assertThat(context.lineHits("myProjectKey:src/testclass.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
+    assertThat(context.lineHits("myProjectKey:main.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
+    assertThat(context.lineHits("myProjectKey:testclass.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
   }
 
   //@Test @todo
   public void shoulParseTopLevelFiles() {
     Settings settings = new Settings();
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test/test.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test2/test2.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/main.c"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test/test.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test2/test2.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/main.c")).setLanguage("cpp"));
     } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-linux.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/anotherincludeattop.h");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test/test.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test2/test2.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/main.c");
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/test/anotherincludeattop.h").setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/test/test/test.c").setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/test/test2/test2.c").setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/test/main.c").setLanguage("cpp"));
     }
-    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageCache());
-    sensor.analyse(project, context);
-    verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class)); //@todo deprecated Measure
+    sensor = new CxxCoverageSensor(settings, new CxxCoverageCache());
+    sensor.execute(context);
+    verify(context, times(28)).newCoverage();
   }
 
   //@Test @todo
   public void shoulCorrectlyHandleDriveLettersWithoutSlash() {
     Settings settings = new Settings();
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     if (TestUtils.isWindows()) {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-win.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/main.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas2/test2.c"));
-      TestUtils.addInputFile(fs, perspectives, issuable, CxxUtils.normalizePath("C:/anotherincludeattop.h"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/main.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas/test.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/randomfoldernamethatihopeknowmachinehas2/test2.c")).setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", CxxUtils.normalizePath("C:/anotherincludeattop.h")).setLanguage("cpp"));
     } else {
       settings.setProperty(CxxCoverageSensor.REPORT_PATH_KEY, "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-linux.xml");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/main.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test/test.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/test2/test2.c");
-      TestUtils.addInputFile(fs, perspectives, issuable, "/c/anotherincludeattop.h");
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/main.c").setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/test/test.c").setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/test2/test2.c").setLanguage("cpp"));
+      context.fileSystem().add(new DefaultInputFile("myProjectKey", "/c/anotherincludeattop.h").setLanguage("cpp"));
     }
-    sensor = new CxxCoverageSensor(settings, fs, new CxxCoverageCache());
-    sensor.analyse(project, context);
-    verify(context, times(28)).saveMeasure((InputFile) anyObject(), any(Measure.class)); //@todo deprecated Measure
+    sensor = new CxxCoverageSensor(settings, new CxxCoverageCache());
+    sensor.execute(context);
+    verify(context, times(28)).newCoverage();
   }
 }

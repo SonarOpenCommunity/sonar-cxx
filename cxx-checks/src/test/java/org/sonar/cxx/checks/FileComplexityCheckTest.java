@@ -20,8 +20,14 @@
 package org.sonar.cxx.checks;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -29,11 +35,13 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class FileComplexityCheckTest {
 
   @Test
-  public void check() {
+  public void check() throws UnsupportedEncodingException, IOException {
     FileComplexityCheck check = new FileComplexityCheck();
     check.setMax(1);
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/functions.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/functions.cc", ".");       
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().noMore();
   }

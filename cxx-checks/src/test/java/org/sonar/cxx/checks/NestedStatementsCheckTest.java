@@ -24,8 +24,8 @@ import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
-
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class NestedStatementsCheckTest {
 
@@ -33,10 +33,12 @@ public class NestedStatementsCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
+  public void detected() throws UnsupportedEncodingException, IOException {
     NestedStatementsCheck check = new NestedStatementsCheck();
     check.max = 5;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/NestedStatementsCheck.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NestedStatementsCheck.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(62)
       .next().atLine(67)

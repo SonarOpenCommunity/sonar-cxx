@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 //import org.sonar.squid.api.CheckMessage;
 import org.junit.Rule;
@@ -38,8 +39,10 @@ public class HardcodedIpCheckTest {
   private final HardcodedIpCheck check = new HardcodedIpCheck();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/HardcodedIpCheck.cc"), check);
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/HardcodedIpCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);   
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(5).withMessage("Make this IP \"0.0.0.0\" address configurable.")
       .next().atLine(6).withMessage("Make this IP \"http://192.168.0.1/admin.html\" address configurable.");
