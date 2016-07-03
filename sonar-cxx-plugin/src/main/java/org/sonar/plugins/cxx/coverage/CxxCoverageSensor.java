@@ -165,7 +165,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
       String filePath = entry.getKey();
       InputFile cxxFile = fs.inputFile(fs.predicates().hasPath(filePath));
       if (cxxFile != null) {
-        Collection<Measure> measures = entry.getValue().createMeasures();
+        CxxUtils.LOG.debug("Saving for file '{}'", filePath);
+        CoverageMeasuresBuilder builder = entry.getValue();
+        Collection<Measure> measures = builder.createMeasures();
         CxxUtils.LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
         for (Measure measure : measures) {
           Measure convertedMeasure = measure;
