@@ -19,6 +19,7 @@
  */
 package org.codehaus.sonarplugins.cxx.cxxlint;
 
+import org.sonar.cxx.cxxlint.CxxLint;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;

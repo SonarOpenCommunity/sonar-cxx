@@ -19,6 +19,11 @@
       <artifactId>cxx-checks</artifactId>
       <version>${project.version}</version>
     </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <scope>runtime</scope>
+      </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
@@ -62,7 +67,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>org.sonarsource.sonarqubeplugins.cxx.cxxlint.CxxLint</mainClass>
+              <mainClass>org.sonar.cxx.cxxlint.CxxLint</mainClass>
               <classpathPrefix>lib/</classpathPrefix>
             </manifest>
           </archive>
