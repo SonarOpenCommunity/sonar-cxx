@@ -20,14 +20,6 @@ Feature: Providing test execution numbers
   # |   when given an XSLT-sheet, which performs the X->JUnitReport
   # |   conversion (This feature should really be deprecated...)
   # |
-  # | * It supports two modes: 'simple' and the 'detailed' (switched
-  # |   via the parameter -Dsonar.cxx.xunit.provideDetails). In simple
-  # |   mode it just aggregates the measures contained in the reports
-  # |   and saves the result in the project, skipping all the testcase
-  # |   details. In detailed mode, the plugin tries to find the
-  # |   test source files where the testcases are implemented in
-  # |   and saves the measures to those input files.
-  # |
   # | * To locate the test source file for assigning, there are
   # |   two strategies:
   # |   1. If either the testcase-tag or the enclosing testsuite tag
@@ -72,85 +64,6 @@ Feature: Providing test execution numbers
               | skipped_tests        | 0     |
               # | test_success_density | 100   | -> enable when this is restored in core
               | test_execution_time  | 0     |
-
-
-  Scenario Outline: Importing unchanged googletest reports in detailed mode
-
-      Testcases in googletest reports do not know the source file they come
-      from. The plugin is able to fill this gap for a subset of testcases
-      (currently those which use a fixture) using the 'lookup the classnames
-      in the AST'-approach. This doesn't work for all testcases, though
-
-      GIVEN the project "googletest_project"
-      WHEN I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
-      THEN the analysis finishes successfully
-          AND the analysis in server has completed
-          AND the analysis log contains no error/warning messages except those matching:
-              """
-              .*WARN.*Unable to get a valid mac address, will use a dummy address
-              .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
-              .*WARN.*cannot find the sources for '#include <unistd\.h>'
-              """
-          AND the test related metrics have following values: <values>
-
-      Examples:
-                                           # tests, failure, errors, skipped,
-                                           # density, time
-      | reportpath                         | values                             |
-
-      # contains 'assignable' testcases only
-      | gtest.xml                          | 3, 2, 0, 1, 33.3, 50               |
-
-      # testcases in two testsuites which all have to be assigned to the same file
-      | gtest_two_fixtures_in_one_file.xml | 3, 1, 0, 1, 66.7, 0                |
-
-
-  Scenario Outline: Importing unchanged googletest reports in detailled mode, assigning fails
-
-      see above... this is the case where it doesnt work
-
-      GIVEN the project "googletest_project"
-      WHEN I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
-      THEN the analysis finishes successfully
-          AND the analysis in server has completed
-          AND the analysis log contains no error/warning messages except those matching:
-              """
-              .*WARN.*Unable to get a valid mac address, will use a dummy address
-              .*WARN.*cannot find the sources for '#include <gtest/gtest\.h>'
-              .*WARN.*cannot find the sources for '#include <unistd\.h>'
-              .*WARN.*no input file found, the testcase '.*' has to be skipped
-              .*WARN.*Some testcases had to be skipped, check the relevant parts of your setup.*
-              """
-          AND the test related metrics have following values: <values>
-
-      Examples:
-                                           # tests, failure, errors, skipped,
-                                           # density, time
-      | reportpath                         | values                             |
-      # no assignable testcases here
-      | gtest_without_fixture.xml          | None, None, None, None, None, None |
-
-
-  Scenario Outline: Importing unchanged googletest reports in detailled mode, sonar.tests unset
-
-      Importing in detailled mode isnt possible unless sonar.tests is set
-
-      GIVEN the project "googletest_project"
-      WHEN I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true -Dsonar.tests="
-      THEN the analysis finishes successfully
-          AND the analysis in server has completed
-          AND the analysis log contains a line matching:
-              """
-              .*ERROR.*The property 'sonar.tests' is unset. Please set it to proceed
-              """
-          AND the test related metrics have following values: <values>
-
-      Examples:
-                                           # tests, failure, errors, skipped,
-                                           # density, time
-      | reportpath                         | values                             |
-      | gtest.xml                          | None, None, None, None, None, None |
-
 
   Scenario Outline: Importing augmented test reports generated by googletest
 
@@ -305,74 +218,6 @@ Feature: Providing test execution numbers
               #| test_success_density | 0     | -> enable when this is restored in core
               | test_execution_time  | 3     |
               
-              
-  Scenario Outline: Importing unchanged boosttest reports in detailed mode (filename tag)
-
-      Testcases in boosttest reports with setting 'log_level=all' also
-      the root filename of the testcase. Plugin is able to read
-      filename tag and link corresponding test module.
-
-      GIVEN the project "boosttest_project"
-
-      WHEN I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
-      THEN the analysis finishes successfully
-          AND the analysis in server has completed
-          AND the analysis log contains no error/warning messages except those matching:
-              """
-              .*WARN.*Unable to get a valid mac address, will use a dummy address
-              """
-          AND the test related metrics have following values: <values>
-
-      Examples:
-                                           # tests, failure, errors, skipped,
-                                           # density, time
-      | reportpath                         | values                             |
-
-      # simple example
-      | btest_test_simple-all.xml          | 1, 0, 0, 0, 100, 0                 |
-
-      # with failure & errors
-      | btest_test_component1-all.xml      | 3, 1, 1, 0, 33.3, 50002            |
-
-      # with testsuite/sucess
-      | btest_test_success-all.xml         | 1, 0, 0, 0, 100, 3                 |
-
-      # with nested testsuites
-      | btest_test_nested-all.xml          | 4, 0, 4, 0, 0, 5                   |
-
- 
-  Scenario Outline: Importing unchanged boosttest reports in detailed mode (AST)
-
-      Testcases in boosttest reports with setting 'log_level=test_suite'
-      do not know the source file they come from. The plugin is able
-      to fill this gap for a subset of testcases using the
-      'lookup the namespaces in the AST'-approach.
-
-      GIVEN the project "boosttest_project"
-
-      WHEN I run "sonar-scanner -X -Dsonar.cxx.xunit.reportPath=<reportpath> -Dsonar.cxx.xunit.provideDetails=true"
-      THEN the analysis finishes successfully
-          AND the analysis in server has completed
-          AND the analysis log contains no error/warning messages except those matching:
-              """
-              .*WARN.*Unable to get a valid mac address, will use a dummy address
-              """
-          AND the test related metrics have following values: <values>
-
-      Examples:
-                                           # tests, failure, errors, skipped,
-                                           # density, time
-      | reportpath                         | values                             |
-
-      # simple example
-      | btest_test_simple-test_suite.xml   | 1, 0, 0, 0, 100, 0                 |
-
-      # with testsuite
-      | btest_test_success-test_suite.xml  | 1, 0, 0, 0, 100, 1                 |
-
-      # with nested testsuites
-      | btest_test_nested-test_suite.xml   | 4, 0, 4, 0, 0, 5                   |
-
  
   Scenario: Test with real boost test framework
 
