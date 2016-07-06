@@ -51,6 +51,7 @@ import org.sonar.check.RuleProperty;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxVCppBuildLogParser;
+import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
@@ -262,6 +263,10 @@ public class CxxLint {
             sensorContext,
             visitors.toArray(new SquidAstVisitor[visitors.size()]));
     
+   
+    System.out.println("LOC: " + file.getInt(CxxMetric.LINES_OF_CODE));   
+    System.out.println("COMPLEXITY: " + file.getInt(CxxMetric.COMPLEXITY));
+
     for (CheckMessage message : file.getCheckMessages()) {
       String key = KeyData.get(message.getCheck().getClass().getCanonicalName());      
       // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
