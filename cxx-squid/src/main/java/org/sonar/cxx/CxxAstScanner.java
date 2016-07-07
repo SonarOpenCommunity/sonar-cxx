@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx;
 
-import java.io.File;
 import java.util.Collection;
 
 import org.sonar.cxx.api.CxxKeyword;
@@ -66,10 +65,10 @@ public final class CxxAstScanner {
   /**
    * Helper method for testing checks without having to deploy them on a Sonar
    * instance.
-   * @param file
-   * @param sensorContext
-   * @param visitors
-   * @return 
+   * @param file is the file to be checked
+   * @param sensorContext new 5.6 sq api batch side context
+   * @param visitors ast checks and visitors to use
+   * @return file checked with measures and issues
    */
   public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
     return scanSingleFileConfig(file, new CxxConfiguration(), sensorContext, visitors);
@@ -77,11 +76,11 @@ public final class CxxAstScanner {
 
   /**
    * Helper method for scanning a single file
-   * @param file
-   * @param cxxConfig
-   * @param sensorContext
-   * @param visitors
-   * @return 
+   * @param file is the file to be checked
+   * @param cxxConfig the plugin configuration
+   * @param sensorContext new 5.6 sq api batch side context
+   * @param visitors ast checks and visitors to use
+   * @return file checked with measures and issues
    */
   public static SourceFile scanSingleFileConfig(InputFile file, CxxConfiguration cxxConfig, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
