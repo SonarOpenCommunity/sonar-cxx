@@ -83,11 +83,8 @@ public class VisualStudioParser extends CxxCoverageParser {
     SMInputCursor sourceFile = sourceFiles.childElementCursor("source_file");
     while (sourceFile.getNext() != null) {
       String id = sourceFile.getAttrValue("id");
-      //String normalPath = CxxUtils.normalizePath(sourceFile.getAttrValue("path"));
       CoverageMeasures builder = coverageData.remove(id);
-      //if (normalPath != null) {
-        coverageData.put(sourceFile.getAttrValue("path"), builder); // replace id with path
-      //}
+      coverageData.put(sourceFile.getAttrValue("path"), builder); // replace id with path
     }
   }
 
