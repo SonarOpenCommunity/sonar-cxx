@@ -70,7 +70,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  */
 public final class CxxSquidSensor implements Sensor {
 
-  private static final Number[] LIMITS_COMPLEXITY_METHODS = {1, 2, 4, 6, 8, 10, 12};
+  private static final Number[] LIMITS_COMPLEXITY_METHODS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] LIMITS_COMPLEXITY_FILES = {0, 5, 10, 20, 30, 60, 90};
 
   private final CxxChecks checks;
