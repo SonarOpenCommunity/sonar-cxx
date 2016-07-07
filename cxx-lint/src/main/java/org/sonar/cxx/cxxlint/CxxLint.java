@@ -30,6 +30,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,6 +68,7 @@ public class CxxLint {
     Options options = new Options();
     options.addOption("s", true, "settings file");
     options.addOption("f", true, "file to analyse - required");
+    options.addOption("e", true, "file encoding");
     return options;
   }
 
@@ -97,8 +99,8 @@ public class CxxLint {
     CommandLine parsedArgs;
     String settingsFile = "";
     String fileToAnalyse = "";
-    CxxConfiguration configuration = new CxxConfiguration();
-
+    String encodingOfFile = "UTF-8";
+    
     try {
       parsedArgs = commandlineParser.parse(CreateCommandLineOptions(), args);
       if (!parsedArgs.hasOption("f")) {
@@ -118,6 +120,11 @@ public class CxxLint {
           throw new ParseException("optional settings file given with -s, however file was not found");
         }
       }
+      
+      if (parsedArgs.hasOption("e")) {
+        encodingOfFile = parsedArgs.getOptionValue("e");
+      }
+      
     } catch (ParseException exp) {
       System.err.println("Parsing Command line Failed.  Reason: " + exp.getMessage());
       HelpFormatter formatter = new HelpFormatter();
@@ -125,6 +132,14 @@ public class CxxLint {
       throw exp;
     }
 
+    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile));
+
+    String fileName = new File(fileToAnalyse).getName();
+    SensorContextTester sensorContext = SensorContextTester.create(new File(fileToAnalyse).getParentFile().toPath());
+    String content = new String(Files.readAllBytes(new File(fileToAnalyse).toPath()), encodingOfFile);
+    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
+    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    
     HashMap<String, CheckerData> rulesData = new HashMap<>();
     if (!"".equals(settingsFile)) {
       JsonParser parser = new JsonParser();
@@ -250,28 +265,21 @@ public class CxxLint {
     }
 
     System.out.println("Analyse with : " + visitors.size() + " checks");
-    
-    String fileName = new File(fileToAnalyse).getName();
-    SensorContextTester sensorContext = SensorContextTester.create(new File(fileToAnalyse).getParentFile().toPath());
-    String content = new String(Files.readAllBytes(new File(fileToAnalyse).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
+        
     SourceFile file = CxxAstScanner.scanSingleFileConfig(
             cxxFile,
             configuration,
             sensorContext,
-            visitors.toArray(new SquidAstVisitor[visitors.size()]));
-    
-   
-    System.out.println("LOC: " + file.getInt(CxxMetric.LINES_OF_CODE));   
-    System.out.println("COMPLEXITY: " + file.getInt(CxxMetric.COMPLEXITY));
+            visitors.toArray(new SquidAstVisitor[visitors.size()]));      
 
     for (CheckMessage message : file.getCheckMessages()) {
       String key = KeyData.get(message.getCheck().getClass().getCanonicalName());      
       // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
       System.out.println(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + message.formatDefaultMessage() + " [" + key + "]");
     }
+    
+    System.out.println("LOC: " + file.getInt(CxxMetric.LINES_OF_CODE));   
+    System.out.println("COMPLEXITY: " + file.getInt(CxxMetric.COMPLEXITY));
   }
 
   private static String GetJsonStringValue(JsonParser parser, String fileContent, String id) throws JsonSyntaxException {

@@ -71,7 +71,7 @@ public final class CxxAstScanner {
    * @return file checked with measures and issues
    */
   public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
-    return scanSingleFileConfig(file, new CxxConfiguration(), sensorContext, visitors);
+    return scanSingleFileConfig(file, new CxxConfiguration(sensorContext.fileSystem().encoding()), sensorContext, visitors);
   }
 
   /**

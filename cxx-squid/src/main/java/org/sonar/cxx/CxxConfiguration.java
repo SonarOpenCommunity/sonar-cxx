@@ -52,6 +52,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private final CxxVCppBuildLogParser cxxVCppParser;
 
   public CxxConfiguration() {
+    
     uniqueIncludes.put(OverallIncludeKey, new ArrayList<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
@@ -237,5 +238,9 @@ public class CxxConfiguration extends SquidConfiguration {
         LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
       }
     }
+  }
+
+  public Charset getEncoding() {
+    return super.getCharset();
   }
 }

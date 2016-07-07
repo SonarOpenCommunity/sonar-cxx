@@ -54,6 +54,7 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Collections;
 
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
@@ -268,7 +269,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '{}'", include);
         if (!"".equals(include)) {
-          parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes");
+          parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes", conf.getEncoding());
         }
       }
     } finally {
@@ -351,7 +352,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       if (lineKind == defineLine) {
         return handleDefineLine(lineAst, token, filePath);
       } else if (lineKind == includeLine) {
-        return handleIncludeLine(lineAst, token, filePath);
+        return handleIncludeLine(lineAst, token, filePath, conf.getCharset());
       } else if (lineKind == undefLine) {
         return handleUndefLine(lineAst, token, filePath);
       }
@@ -536,12 +537,12 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
-  private void parseIncludeLine(String includeLine, String filename) {
+  private void parseIncludeLine(String includeLine, String filename, Charset charset) {
     AstNode includeAst = pplineParser.parse(includeLine);
-    handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammar.includeBodyQuoted).getToken(), filename);
+    handleIncludeLine(includeAst, includeAst.getFirstDescendant(CppGrammar.includeBodyQuoted).getToken(), filename, charset);
   }
 
-  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
+  PreprocessorAction handleIncludeLine(AstNode ast, Token token, String filename, Charset charset) { //@todo: deprecated PreprocessorAction
     //
     // Included files have to be scanned with the (only) goal of gathering macros.
     // This is done as follows:
@@ -576,7 +577,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       currentFileState = new State(includedFile);
 
       try {
-        IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile));
+        IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile, charset));
       } catch (IOException ex) {
         LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex.getMessage());
       } finally {
