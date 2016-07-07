@@ -76,8 +76,6 @@ public final class CheckList {
       UsingNamespaceInHeaderCheck.class,
       SafetyTagCheck.class,
       UseCorrectIncludeCheck.class,
-      // XPathCheck.class, this gives class not found exception in 5.6
-      // XPath no longer found in other plugins
       BooleanEqualityComparisonCheck.class,
       NestedStatementsCheck.class,
       TooManyParametersCheck.class,

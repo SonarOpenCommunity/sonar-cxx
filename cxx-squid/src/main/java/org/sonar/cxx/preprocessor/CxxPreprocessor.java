@@ -287,17 +287,13 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
   private boolean isCFile(String filePath) {
     for (String pattern : cFilesPatterns) {
-      String regex = pattern.replace("?", ".?").replace("*", ".*?");
-      if (filePath.matches(regex)) {
-        if (LOG.isTraceEnabled()) {
-          LOG.trace("Parse '{}' as C file, matches '{}' pattern", filePath, pattern);
-        }
+      String patt = pattern.replace("*", "");
+      if (filePath.endsWith(patt)) {
+          LOG.debug("Parse '{}' as C file, ends in '{}'", filePath, pattern);
         return true;
       }
     }
-    if (LOG.isTraceEnabled()) {
-      LOG.trace("Parse '{}' as C++ file", filePath);
-    }
+    LOG.debug("Parse '{}' as C++ file", filePath);
     return false;
   }
 
