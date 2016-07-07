@@ -35,7 +35,7 @@ import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
 
-  private static final Logger LOG = Loggers.get("CxxConfiguration");
+  private static final Logger LOG = Loggers.get(CxxConfiguration.class);
   public static final String OverallIncludeKey = "CxxOverallInclude";
   public static final String OverallDefineKey = "CxxOverallDefine";
 

@@ -324,7 +324,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   typeIdList,
   noexceptSpecification;
 
-  public static final Logger LOG = Loggers.get("CxxGrammarImpl");
+  public static final Logger LOG = Loggers.get(CxxGrammarImpl.class);
 
   public static Grammar create(CxxConfiguration conf) {
     LexerfulGrammarBuilder b = LexerfulGrammarBuilder.create();

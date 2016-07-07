@@ -36,6 +36,7 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
+import org.sonar.cxx.preprocessor.SourceCodeProvider;
 
 /**
  * Abstract visitor that visits public API items.<br>
@@ -76,7 +77,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   abstract protected void onPublicApi(AstNode node, String id,
     List<Token> comments);
 
-  private static final Logger LOG = Loggers.get("AbstractCxxPublicApiVisitor");
+  private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
 
   private static final boolean DEBUG = false;
   /**

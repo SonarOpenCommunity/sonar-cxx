@@ -55,7 +55,6 @@ import static com.sonar.sslr.api.GenericTokenType.EOF;
 import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.logging.Level;
 
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
@@ -146,7 +145,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     public boolean isVariadic;
   }
 
-  private static final Logger LOG = Loggers.get("CxxPreprocessor");
+  private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
   private Parser<Grammar> pplineParser = null;
   private final MapChain<String, Macro> macros = new MapChain<>();
   private final Set<File> analysedFiles = new HashSet<>();

@@ -38,7 +38,7 @@ import org.sonar.api.utils.log.Loggers;
 public class SourceCodeProvider {
 
   private final List<File> includeRoots = new LinkedList<>();
-  public static final Logger LOG = Loggers.get("SourceCodeProvider");
+  public static final Logger LOG = Loggers.get(SourceCodeProvider.class);
 
   public void setIncludeRoots(List<String> includeRoots, String baseDir) {
     for (String tmp : includeRoots) {

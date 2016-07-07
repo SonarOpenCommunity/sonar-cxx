@@ -34,7 +34,7 @@ public final class CxxUtils {
   /**
    * Default logger.
    */
-  public static final Logger LOG = Loggers.get("CxxPlugin");
+  public static final Logger LOG = Loggers.get(CxxUtils.class);
 
   private CxxUtils() {
     // only static methods

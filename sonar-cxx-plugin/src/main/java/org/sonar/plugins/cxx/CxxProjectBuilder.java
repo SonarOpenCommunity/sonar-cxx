@@ -31,7 +31,7 @@ import org.sonar.api.utils.log.Loggers;
 
 public class CxxProjectBuilder extends ProjectBuilder {
 
-  private static final Logger LOG = Loggers.get("CxxProjectBuilder");
+  private static final Logger LOG = Loggers.get(CxxProjectBuilder.class);
   private final HashMap<String, String> vars = new HashMap<>();
   private final Pattern regex = Pattern.compile("\\$\\{(.+?)\\}");
 

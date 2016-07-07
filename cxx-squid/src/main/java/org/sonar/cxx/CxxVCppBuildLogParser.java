@@ -39,7 +39,7 @@ import org.sonar.api.utils.log.Loggers;
 
 public class CxxVCppBuildLogParser {
 
-  private static final Logger LOG = Loggers.get("CxxVCppBuildLogParser");
+  private static final Logger LOG = Loggers.get(CxxVCppBuildLogParser.class);
 
   private final HashMap<String, List<String>> uniqueIncludes;
   private final HashMap<String, Set<String>> uniqueDefines;

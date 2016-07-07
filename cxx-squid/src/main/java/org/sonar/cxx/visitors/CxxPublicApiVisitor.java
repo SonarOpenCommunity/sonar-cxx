@@ -65,7 +65,7 @@ import com.sonar.sslr.api.Token;
 public class CxxPublicApiVisitor<GRAMMAR extends Grammar> extends
   AbstractCxxPublicApiVisitor<Grammar> {
 
-  private static final Logger LOG = Loggers.get("CxxPublicApiVisitor");
+  private static final Logger LOG = Loggers.get(CxxPublicApiVisitor.class);
 
   private final MetricDef undocumented;
   private final MetricDef api;

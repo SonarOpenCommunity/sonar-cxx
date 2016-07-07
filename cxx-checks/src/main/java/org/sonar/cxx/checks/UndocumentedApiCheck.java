@@ -71,7 +71,7 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 @SqaleConstantRemediation("5min")
 public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
 
-  private static final Logger LOG = Loggers.get("UndocumentedApiCheck");
+  private static final Logger LOG = Loggers.get(UndocumentedApiCheck.class);
 
   private static final List<String> DEFAULT_NAME_SUFFIX = Arrays.asList(".h",
     ".hh", ".hpp", ".H");
