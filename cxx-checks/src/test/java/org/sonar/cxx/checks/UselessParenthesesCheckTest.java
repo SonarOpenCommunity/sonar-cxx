@@ -19,14 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Rule;
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
@@ -38,13 +33,8 @@ public class UselessParenthesesCheckTest {
 
   @Test
   public void detected() throws IOException {
-    String fileName = "src/test/resources/checks/UselessParenthesesCheck.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, new UselessParenthesesCheck()); 
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UselessParenthesesCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UselessParenthesesCheck()); 
     
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(4).withMessage("Remove those useless parentheses.")

@@ -19,16 +19,11 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
@@ -39,18 +34,10 @@ public class FileRegularExpressionCheckTest {
   @Test
   public void fileRegExWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
-    Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
-
-    String fileName = "src/test/resources/checks/FileRegEx.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");       
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
@@ -66,13 +53,9 @@ public class FileRegularExpressionCheckTest {
     check.invertRegularExpression = true;
     check.message = "Found no 'stdafx.h' in file!";
 
-    String fileName = "src/test/resources/checks/FileRegExInvert.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegExInvert.cc", ".");       
     
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -86,13 +69,9 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
-    String fileName = "src/test/resources/checks/FileRegEx.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "US-ASCII");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".", "US-ASCII");
+      
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -107,15 +86,9 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
 
-    String fileName = "src/test/resources/checks/FileRegEx.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check); 
 
-    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -131,14 +104,9 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.invertRegularExpression = true;
     check.message = "Found no '#include \"stdafx.h\"' in a file with not '.h' file extension!";
-
-    String fileName = "src/test/resources/checks/FileRegExInvert.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegExInvert.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);    
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())

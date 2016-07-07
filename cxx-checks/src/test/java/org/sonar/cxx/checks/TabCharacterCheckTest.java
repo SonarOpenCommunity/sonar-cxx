@@ -19,14 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -38,13 +33,9 @@ public class TabCharacterCheckTest {
   @Test
   public void fileWithTabsOneMessagePerFile() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
-    String fileName = "src/test/resources/checks/TabCharacter.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check); 
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
         
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Replace all tab characters in this file by sequences of white-spaces.")
@@ -54,13 +45,8 @@ public class TabCharacterCheckTest {
   @Test
   public void fileWithTabsOneMessagePerLine() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = true;
-    String fileName = "src/test/resources/checks/TabCharacter.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check); 
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Replace all tab characters in this line by sequences of white-spaces.")
@@ -71,13 +57,8 @@ public class TabCharacterCheckTest {
   @Test
   public void fileWithoutTabs() throws UnsupportedEncodingException, IOException {
     check.createLineViolation = false;
-    String fileName = "src/test/resources/checks/NonEmptyFile.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check); 
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();

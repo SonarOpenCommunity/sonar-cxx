@@ -19,15 +19,10 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
 
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -39,14 +34,8 @@ public class LineRegularExpressionCheckTest {
     LineRegularExpressionCheck check = new LineRegularExpressionCheck();
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in line!";
-
-    String fileName = "src/test/resources/checks/LineRegEx.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -61,14 +50,8 @@ public class LineRegularExpressionCheckTest {
     check.regularExpression = "//.*";
     check.invertRegularExpression = true;
     check.message = "Found no comment in the line!";
-
-    String fileName = "src/test/resources/checks/LineRegExInvert.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegExInvert.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -83,13 +66,8 @@ public class LineRegularExpressionCheckTest {
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a .cc file!";
 
-    String fileName = "src/test/resources/checks/LineRegEx.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -106,14 +84,8 @@ public class LineRegularExpressionCheckTest {
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a not .xx file!";
 
-    String fileName = "src/test/resources/checks/LineRegEx.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
-
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage(check.message)
@@ -127,15 +99,9 @@ public class LineRegularExpressionCheckTest {
     check.matchFilePattern = "/**/*.xx"; // all files with .xx file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in line in a .xx file!";
-
-    String fileName = "src/test/resources/checks/LineRegEx.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
-
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();

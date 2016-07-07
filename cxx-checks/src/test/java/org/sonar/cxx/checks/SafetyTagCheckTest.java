@@ -19,14 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -38,14 +33,9 @@ public class SafetyTagCheckTest {
     SafetyTagCheck check = new SafetyTagCheck();
     check.regularExpression = "<Safetykey>.*</Safetykey>";
     check.suffix = "_SAFETY";
-
-    String fileName = "src/test/resources/checks/SafetyTagCheck.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check); 
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(21).withMessage("Source files implementing risk mitigations shall use special name suffix '_SAFETY' : <Safetykey>MyRimName</Safetykey>");
@@ -55,11 +45,8 @@ public class SafetyTagCheckTest {
     check.suffix = "_SAFETY";
 
     
-    fileName = "src/test/resources/checks/SafetyTagCheck_SAFETY.cc";
-    content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));    
-    file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
@@ -68,24 +55,16 @@ public class SafetyTagCheckTest {
     check.regularExpression = "<Safetykey>";
     check.suffix = "_SAFETY";
 
-    fileName = "src/test/resources/checks/SafetyTagCheck_SAFETY.cc";
-    content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");    
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
     check = new SafetyTagCheck();
     check.regularExpression = "@hazard";
 
-    fileName = "src/test/resources/checks/SafetyTagCheck_SAFETY.cc";
-    content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

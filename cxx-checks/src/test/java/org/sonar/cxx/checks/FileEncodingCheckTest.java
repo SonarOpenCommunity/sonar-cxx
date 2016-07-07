@@ -19,16 +19,11 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
@@ -42,13 +37,8 @@ public class FileEncodingCheckTest {
   public void testAsciiFileAsciiEncoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("US-ASCII");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
-    String fileName = "src/test/resources/checks/TabCharacter.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "US-ASCII");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", "US-ASCII");        
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
@@ -58,16 +48,9 @@ public class FileEncodingCheckTest {
   public void testAsciiFileUtf8Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-8");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
-    
-    String fileName = "src/test/resources/checks/TabCharacter.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);
-
-    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TabCharacter.cc", ".", "UTF-8");    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);
+   
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }
@@ -76,13 +59,8 @@ public class FileEncodingCheckTest {
   public void testUnicodeFileUtf16Encoding() throws UnsupportedEncodingException, IOException {
     Charset charset = Charset.forName("UTF-16");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
-    String fileName = "src/test/resources/checks/Unicode.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-16");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", "UTF-16");    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }
@@ -91,16 +69,10 @@ public class FileEncodingCheckTest {
   public void testUnicodeFileAsciiEncoding() throws IOException {
     Charset charset = Charset.forName("US-ASCII");
     CxxConfiguration cxxConfig = new CxxConfiguration(charset);
-    String fileName = "src/test/resources/checks/Unicode.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "US-ASCII");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, cxxConfig, sensorContext, check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/Unicode.cc", ".", "US-ASCII");    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Not all characters of the file can be encoded with the predefined charset " + charset.name() + ".")
       .noMore();
   }
-
 }

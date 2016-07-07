@@ -19,16 +19,11 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
 import static org.fest.assertions.Assertions.assertThat;
 
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
@@ -40,13 +35,8 @@ public class TooManyStatementsPerLineCheckTest {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
     
-    String fileName = "src/test/resources/checks/TooManyStatementsPerLine.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
@@ -68,13 +58,9 @@ public class TooManyStatementsPerLineCheckTest {
   public void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;
-    String fileName = "src/test/resources/checks/TooManyStatementsPerLine.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, check);  
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)

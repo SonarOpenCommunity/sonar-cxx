@@ -71,6 +71,7 @@ public abstract class CxxReportSensor implements Sensor {
   @Override
   public void execute(SensorContext context) {
     try {
+      CxxUtils.LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", context.fileSystem().baseDir(), reportPathKey());
       List<File> reports = getReports(settings, context.fileSystem().baseDir(), reportPathKey());
       violationsCount = 0;
       

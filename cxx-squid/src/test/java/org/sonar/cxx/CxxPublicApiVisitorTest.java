@@ -21,7 +21,6 @@ package org.sonar.cxx;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -41,10 +40,6 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class CxxPublicApiVisitorTest {
 
@@ -95,12 +90,8 @@ public class CxxPublicApiVisitorTest {
     visitor.withHeaderFileSuffixes(Arrays
       .asList(getFileExtension(fileName)));
     
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext,
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
       visitor);
 
     if (LOG.isDebugEnabled()) {
@@ -116,13 +107,8 @@ public class CxxPublicApiVisitorTest {
   @SuppressWarnings("unchecked")
   @Test
   public void test_no_matching_suffix() throws IOException {
-    // this file does contain public API
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/doxygen_example.h").toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/doxygen_example.h").initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/doxygen_example.h"));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext,
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
       new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
         CxxMetric.PUBLIC_UNDOCUMENTED_API)
       .withHeaderFileSuffixes(Arrays.asList(".hpp")));
@@ -184,12 +170,8 @@ public class CxxPublicApiVisitorTest {
 
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), "src/test/resources/metrics/public_api.h").toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", "src/test/resources/metrics/public_api.h").initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath("src/test/resources/metrics/public_api.h"));
-    
-    SourceFile file = CxxAstScanner.scanSingleFile(cxxFile, sensorContext, visitor); //
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, visitor); //
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("DOC: {} UNDOC: {}",
