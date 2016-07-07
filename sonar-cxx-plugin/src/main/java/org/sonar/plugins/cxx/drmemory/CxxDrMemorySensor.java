@@ -26,6 +26,8 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.plugins.cxx.drmemory.DrMemoryParser.DrMemoryError.Location;
@@ -44,7 +46,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * @author asylvestre
  */
 public class CxxDrMemorySensor extends CxxReportSensor {
-
+  public static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPath";
 
   /**
@@ -66,7 +68,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
 
   @Override
   protected void processReport(final SensorContext context, File report) {
-    CxxUtils.LOG.debug("Parsing 'Dr Memory' format");
+    LOG.debug("Parsing 'Dr Memory' format");
 
     try {
       for (DrMemoryError error : DrMemoryParser.parse(report)) {

@@ -24,9 +24,10 @@ import java.io.File;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -39,6 +40,8 @@ import org.sonar.plugins.cxx.utils.StaxParser;
  */
 public class CxxVeraxxSensor extends CxxReportSensor {
 
+  public static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
+  
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
 
   /**
@@ -61,7 +64,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'Vera++' format");
+    LOG.debug("Parsing 'Vera++' format");
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**
@@ -89,8 +92,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 saveUniqueViolation(context, CxxVeraxxRuleRepository.KEY,
                   name, line, source, message);
               } else {
-                if (CxxUtils.LOG.isDebugEnabled()) {
-                  CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
+                if (LOG.isDebugEnabled()) {
+                  LOG.debug("Error in file '{}', with message '{}'",
                     name + "(" + errorCursor.getAttrValue("line") + ")",
                     errorCursor.getAttrValue("message"));
                 }
@@ -102,7 +105,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
       parser.parse(report);
     } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-      CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
+      LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
     }
   }
 }

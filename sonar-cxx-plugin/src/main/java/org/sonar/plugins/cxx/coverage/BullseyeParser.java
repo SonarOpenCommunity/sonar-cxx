@@ -30,14 +30,15 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
  * {@inheritDoc}
  */
 public class BullseyeParser extends CxxCoverageParser {
-
+  public static final Logger LOG = Loggers.get(BullseyeParser.class);
   private String prevLine;
   private int totaldecisions;
   private int totalcovereddecisions;
@@ -53,7 +54,7 @@ public class BullseyeParser extends CxxCoverageParser {
   @Override
   public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'Bullseye' format");
+    LOG.debug("Parsing 'Bullseye' format");
     StaxParser topLevelparser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}

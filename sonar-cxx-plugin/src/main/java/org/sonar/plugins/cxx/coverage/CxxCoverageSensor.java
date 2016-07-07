@@ -34,15 +34,16 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
 public class CxxCoverageSensor extends CxxReportSensor {
-  
+  public static final Logger LOG = Loggers.get(CxxCoverageSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
   public static final String IT_REPORT_PATH_KEY = "sonar.cxx.coverage.itReportPath";
   public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
@@ -76,24 +77,24 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Map<String, CoverageMeasures> itCoverageMeasures = null;
     Map<String, CoverageMeasures> overallCoverageMeasures = null;
 
-    CxxUtils.LOG.debug("Coverage BaseDir '{}' ", context.fileSystem().baseDir());
+    LOG.debug("Coverage BaseDir '{}' ", context.fileSystem().baseDir());
     
     if (settings.hasKey(REPORT_PATH_KEY)) {
-      CxxUtils.LOG.debug("Parsing coverage reports");
+      LOG.debug("Parsing coverage reports");
       List<File> reports = getReports(settings, context.fileSystem().baseDir(), REPORT_PATH_KEY);
       coverageMeasures = processReports(context, reports, this.cache.unitCoverageCache());
       saveMeasures(context, coverageMeasures, CoverageType.UNIT);
     }
 
     if (settings.hasKey(IT_REPORT_PATH_KEY)) {
-      CxxUtils.LOG.debug("Parsing integration test coverage reports");
+      LOG.debug("Parsing integration test coverage reports");
       List<File> itReports = getReports(settings, context.fileSystem().baseDir(), IT_REPORT_PATH_KEY);
       itCoverageMeasures = processReports(context, itReports, this.cache.integrationCoverageCache());
       saveMeasures(context, itCoverageMeasures, CoverageType.IT);
     }
 
     if (settings.hasKey(OVERALL_REPORT_PATH_KEY)) {
-      CxxUtils.LOG.debug("Parsing overall test coverage reports");
+      LOG.debug("Parsing overall test coverage reports");
       List<File> overallReports = getReports(settings, context.fileSystem().baseDir(), OVERALL_REPORT_PATH_KEY);
       overallCoverageMeasures = processReports(context, overallReports, this.cache.overallCoverageCache());
       saveMeasures(context, overallCoverageMeasures, CoverageType.OVERALL);
@@ -115,22 +116,22 @@ public class CxxCoverageSensor extends CxxReportSensor {
             if (!measuresForReport.isEmpty()) {
               parsed = true;
               measuresTotal.putAll(measuresForReport);
-              CxxUtils.LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
+              LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
               break;
             }
           } catch (XMLStreamException e) {
-            CxxUtils.LOG.trace("Report {} cannot be parsed by {}", report, parser);
+            LOG.trace("Report {} cannot be parsed by {}", report, parser);
           }
         }
         
         if (!parsed) {
-          CxxUtils.LOG.error("Report {} cannot be parsed", report);
+          LOG.error("Report {} cannot be parsed", report);
         }
 
-        CxxUtils.LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(), cacheCov.size());
+        LOG.debug("cached measures for '{}' : current cache content data = '{}'", report.getAbsolutePath(), cacheCov.size());
         cacheCov.put(report.getAbsolutePath(), measuresTotal);  
       } else {
-        CxxUtils.LOG.debug("Processing report '{}' skipped - already in cache", report);
+        LOG.debug("Processing report '{}' skipped - already in cache", report);
         measuresTotal.putAll(cacheCov.get(report.getAbsolutePath()));
       }
     }
@@ -151,7 +152,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
                   .ofType(ctype);
       
         Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
-        CxxUtils.LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
+        LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
         for (CoverageMeasure measure : measures) {
           if(measure.getType().equals(CoverageMeasure.CoverageType.LINE)) {
             newCoverage.lineHits(measure.getLine(), measure.getHits());
@@ -165,7 +166,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
         newCoverage.save();
         
       } else {
-        CxxUtils.LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+        LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
       }       
     }
   }

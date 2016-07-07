@@ -26,7 +26,8 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
 import org.sonar.plugins.cxx.utils.StaxParser;
 
@@ -34,7 +35,7 @@ import org.sonar.plugins.cxx.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CppcheckParserV2 implements CppcheckParser {
-
+  public static final Logger LOG = Loggers.get(CppcheckParserV2.class);
   private final CxxCppCheckSensor sensor;
 
   public CppcheckParserV2(CxxCppCheckSensor sensor) {
@@ -47,7 +48,7 @@ public class CppcheckParserV2 implements CppcheckParser {
   @Override
   public void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'Cppcheck V2' format");
+    LOG.debug("Parsing 'Cppcheck V2' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -92,7 +93,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                 if (isInputValid(file, line, id, msg)) {
                   sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
                 } else {
-                  CxxUtils.LOG.warn("Skipping invalid violation: '{}'", msg);
+                  LOG.warn("Skipping invalid violation: '{}'", msg);
                 }
               }
             }

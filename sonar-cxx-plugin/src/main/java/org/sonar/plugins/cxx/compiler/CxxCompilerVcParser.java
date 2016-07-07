@@ -25,14 +25,15 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
  */
 public class CxxCompilerVcParser implements CompilerParser {
-
+  public static final Logger LOG = Loggers.get(CxxCompilerVcParser.class);
   public static final String KEY = "Visual C++";
   // search for single line with compiler warning message VS2008 - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
   public static final String DEFAULT_REGEX_DEF = "^.*[\\\\,/](.*)\\((\\d+)\\)\\x20:\\x20warning\\x20(C\\d+):(.*)$";
@@ -78,11 +79,11 @@ public class CxxCompilerVcParser implements CompilerParser {
    */
   @Override
   public void processReport(final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
-    CxxUtils.LOG.info("Parsing 'Visual C++' format ({})", charset);
+    LOG.info("Parsing 'Visual C++' format ({})", charset);
 
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
-    CxxUtils.LOG.info("Using pattern : '{}'", p);
+    LOG.info("Using pattern : '{}'", p);
     MatchResult matchres = null;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
@@ -90,7 +91,7 @@ public class CxxCompilerVcParser implements CompilerParser {
       String line = matchres.group(2);
       String id = matchres.group(3);
       String msg = matchres.group(4);
-      CxxUtils.LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
+      LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
         new Object[]{filename, line, id, msg});
       warnings.add(new Warning(filename, line, id, msg));
     }

@@ -27,6 +27,8 @@ import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
@@ -36,7 +38,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * {@inheritDoc}
  */
 public final class CxxRatsSensor extends CxxReportSensor {
-
+  public static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "sonar.cxx.rats.reportPath";
   
@@ -60,7 +62,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
   @Override
   protected void processReport(final SensorContext context, File report)
     throws org.jdom.JDOMException, java.io.IOException {
-    CxxUtils.LOG.debug("Parsing 'RATS' format");
+    LOG.debug("Parsing 'RATS' format");
     
     try {
       SAXBuilder builder = new SAXBuilder(false);
@@ -88,7 +90,7 @@ public final class CxxRatsSensor extends CxxReportSensor {
       }
     } catch (org.jdom.input.JDOMParseException e) {
       // when RATS fails the XML file might be incomplete
-      CxxUtils.LOG.error("Ignore incomplete XML output from RATS '{}'", CxxUtils.getStackTrace(e));
+      LOG.error("Ignore incomplete XML output from RATS '{}'", CxxUtils.getStackTrace(e));
     }
   }
 

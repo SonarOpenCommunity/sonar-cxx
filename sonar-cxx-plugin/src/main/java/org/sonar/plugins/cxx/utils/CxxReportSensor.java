@@ -29,20 +29,21 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 /**
  * This class is used as base for all sensors which import reports. It hosts
  * common logic such as finding the reports and saving issues in SonarQube
  */
 public abstract class CxxReportSensor implements Sensor {
-
+  public static final Logger LOG = Loggers.get(CxxReportSensor.class);
   private final Set<String> notFoundFiles = new HashSet<>();
   private final Set<String> uniqueIssues = new HashSet<>();
   private final Metric metric;
@@ -71,23 +72,23 @@ public abstract class CxxReportSensor implements Sensor {
   @Override
   public void execute(SensorContext context) {
     try {
-      CxxUtils.LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", context.fileSystem().baseDir(), reportPathKey());
+      LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", context.fileSystem().baseDir(), reportPathKey());
       List<File> reports = getReports(settings, context.fileSystem().baseDir(), reportPathKey());
       violationsCount = 0;
       
       for (File report : reports) {
         int prevViolationsCount = violationsCount;
-        CxxUtils.LOG.info("Processing report '{}'", report);
+        LOG.info("Processing report '{}'", report);
         try {
           processReport(context, report);
-          CxxUtils.LOG.debug("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+          LOG.debug("{} processed = {}", metric == null ? "Issues" : metric.getName(),
              violationsCount - prevViolationsCount);
         } catch (EmptyReportException e) {
-          CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+          LOG.warn("The report '{}' seems to be empty, ignoring.", report);
         }
       }
 
-      CxxUtils.LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
+      LOG.info("{} processed = {}", metric == null ? "Issues" : metric.getName(),
         violationsCount);
           
       if (metric != null) {
@@ -143,10 +144,10 @@ public abstract class CxxReportSensor implements Sensor {
           continue;
         }
 
-        CxxUtils.LOG.debug("Not a valid report path '{}'", reportPath);
+        LOG.debug("Not a valid report path '{}'", reportPath);
       }
 
-      CxxUtils.LOG.debug("Normalized report includes to '{}'", includes);
+      LOG.debug("Normalized report includes to '{}'", includes);
 
       // Includes array cannot contain null elements
       DirectoryScanner directoryScanner = new DirectoryScanner();
@@ -154,18 +155,18 @@ public abstract class CxxReportSensor implements Sensor {
       directoryScanner.scan();
 
       String [] includeFiles = directoryScanner.getIncludedFiles();
-      CxxUtils.LOG.info("Scanner found '{}' report files", includeFiles.length);
+      LOG.info("Scanner found '{}' report files", includeFiles.length);
       for (String found : includeFiles) {        
         reports.add(new File(found));
       }
 
       if (reports.isEmpty()) {
-        CxxUtils.LOG.warn("Cannot find a report for '{}'", reportPathPropertyKey);
+        LOG.warn("Cannot find a report for '{}'", reportPathPropertyKey);
       } else {
-        CxxUtils.LOG.info("Parser will parse '{}' report files", reports.size());
+        LOG.info("Parser will parse '{}' report files", reports.size());
       }
     } else {
-      CxxUtils.LOG.info("Undefined report path value for key '{}'", reportPathPropertyKey);
+      LOG.info("Undefined report path value for key '{}'", reportPathPropertyKey);
     }
 
     return reports;
@@ -217,10 +218,10 @@ public abstract class CxxReportSensor implements Sensor {
             newIssue.at(location);
             newIssue.save();
           } catch (Exception ex) {
-            CxxUtils.LOG.warn("Cannot save issue '{}', skipping issue", ex.getMessage());
+            LOG.warn("Cannot save issue '{}', skipping issue", ex.getMessage());
           }
         } else {
-          CxxUtils.LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
+          LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
           notFoundFiles.add(normalPath);
         }
       }
@@ -247,7 +248,7 @@ public abstract class CxxReportSensor implements Sensor {
           lineNr = maxLine;
         }
       } catch (java.lang.NumberFormatException nfe) {
-        CxxUtils.LOG.warn("Skipping invalid line number: {}", line);
+        LOG.warn("Skipping invalid line number: {}", line);
         lineNr = -1;
       }
     }

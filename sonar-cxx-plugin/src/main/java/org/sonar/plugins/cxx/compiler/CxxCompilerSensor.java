@@ -28,10 +28,11 @@ import java.util.List;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team
@@ -40,7 +41,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * @author Bert
  */
 public class CxxCompilerSensor extends CxxReportSensor {
-
+  public static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.compiler.reportPath";
   public static final String REPORT_REGEX_DEF = "sonar.cxx.compiler.regex";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.compiler.charset";
@@ -114,7 +115,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
     final List<CompilerParser.Warning> warnings = new LinkedList<>();
 
     // Iterate through the lines of the input file
-    CxxUtils.LOG.info("Scanner '{}' initialized with report '{}', CharSet= '{}'",
+    LOG.info("Scanner '{}' initialized with report '{}', CharSet= '{}'",
       new Object[]{parser.key(), report, reportCharset});
     try {
       parser.processReport(context, report, reportCharset, reportRegEx, warnings);
@@ -122,11 +123,11 @@ public class CxxCompilerSensor extends CxxReportSensor {
         if (isInputValid(w)) {
           saveUniqueViolation(context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg);
         } else {
-          CxxUtils.LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
+          LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
         }
       }
     } catch (java.io.FileNotFoundException|java.lang.IllegalArgumentException e) {
-      CxxUtils.LOG.error("processReport Exception: {} - not processed '{}'", report, e);
+      LOG.error("processReport Exception: {} - not processed '{}'", report, e);
     }
   }
 

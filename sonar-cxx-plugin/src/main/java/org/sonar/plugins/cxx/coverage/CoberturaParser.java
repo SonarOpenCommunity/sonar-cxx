@@ -29,6 +29,8 @@ import javax.xml.stream.XMLStreamException;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.StaxParser;
 
@@ -36,7 +38,7 @@ import org.sonar.plugins.cxx.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CoberturaParser extends CxxCoverageParser {
-
+  public static final Logger LOG = Loggers.get(CoberturaParser.class);
   public CoberturaParser() {
   }
 
@@ -46,7 +48,7 @@ public class CoberturaParser extends CxxCoverageParser {
   @Override
   public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'Cobertura' format");
+    LOG.debug("Parsing 'Cobertura' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -88,7 +90,7 @@ public class CoberturaParser extends CxxCoverageParser {
       int lineId = Integer.parseInt(line.getAttrValue("number"));
       long noHits = Long.parseLong(line.getAttrValue("hits"));
       if (noHits > Integer.MAX_VALUE) {
-        CxxUtils.LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
+        LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
           noHits, Integer.MAX_VALUE);
         noHits = Integer.MAX_VALUE;
       }

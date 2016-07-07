@@ -28,22 +28,13 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Metric;
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.graph.Cycle;
 import org.sonar.graph.DirectedGraph;
-import org.sonar.graph.Dsm;
-import org.sonar.graph.DsmTopologicalSorter;
 import org.sonar.graph.Edge;
 import org.sonar.graph.IncrementalCyclesAndFESSolver;
-import org.sonar.graph.MinimumFeedbackEdgeSetSolver;
-import org.sonar.plugins.cxx.utils.CxxMetrics;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -51,11 +42,12 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputDir;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 public class DependencyAnalyzer {
-
+  public static final Logger LOG = Loggers.get(DependencyAnalyzer.class);
   private final SensorContext context;
-  private int violationsCount;
   private final ActiveRule duplicateIncludeRule;
   private final ActiveRule cycleBetweenPackagesRule;
 
@@ -67,7 +59,6 @@ public class DependencyAnalyzer {
   public DependencyAnalyzer(SensorContext context, ActiveRules rules) {
     this.context = context;
     this.fs = context.fileSystem();
-    this.violationsCount = 0;
     this.duplicateIncludeRule = DuplicatedIncludeCheck.getActiveRule(rules);
     this.cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(rules);
   }
@@ -94,15 +85,12 @@ public class DependencyAnalyzer {
               .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".");
 
             newIssue.at(location);
-            newIssue.save();
-
-            violationsCount++;
-          
+            newIssue.save();          
         } catch (Exception ex) {
-            CxxUtils.LOG.debug("Rule {}", duplicateIncludeRule);
-            CxxUtils.LOG.debug("Sensor {}", sensorContext);
-            CxxUtils.LOG.debug("Include {}", include);
-            CxxUtils.LOG.debug(ex.getMessage());
+            LOG.debug("Rule {}", duplicateIncludeRule);
+            LOG.debug("Sensor {}", sensorContext);
+            LOG.debug("Include {}", include);
+            LOG.debug(ex.getMessage());
             throw ex;
         }
       } else if (includedFile == null) {
@@ -128,8 +116,8 @@ public class DependencyAnalyzer {
           edge.addRootEdge(fileEdge);
         }
       } else {
-        if (CxxUtils.LOG.isDebugEnabled()) {
-          CxxUtils.LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.path());
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.path());
         }
       }
     }
@@ -147,7 +135,7 @@ public class DependencyAnalyzer {
     Set<Edge> feedbackEdges = cycleDetector.getFeedbackEdgeSet();
     int tangles = cycleDetector.getWeightOfFeedbackEdgeSet();
 
-    CxxUtils.LOG.info("Project '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
+    LOG.info("Project '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
       new Object[]{context.module().key(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(packagesGraph.getEdges(packages))});
 
     saveViolations(feedbackEdges, packagesGraph, sensorContext);
@@ -171,8 +159,6 @@ public class DependencyAnalyzer {
                   
           newIssue.at(location);
           newIssue.save();
-
-          violationsCount++;          
         }
       }
     }

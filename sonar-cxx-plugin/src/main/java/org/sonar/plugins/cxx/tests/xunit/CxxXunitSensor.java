@@ -42,9 +42,10 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.utils.ParsingUtils;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
 import org.sonar.api.batch.sensor.SensorDescriptor;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.StaxParser;
 
@@ -52,7 +53,7 @@ import org.sonar.plugins.cxx.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CxxXunitSensor extends CxxReportSensor {
-
+  public static final Logger LOG = Loggers.get(CxxXunitSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.xunit.reportPath";
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final double PERCENT_BASE = 100d;
@@ -91,19 +92,19 @@ public class CxxXunitSensor extends CxxReportSensor {
         XunitReportParser parserHandler = new XunitReportParser();
         StaxParser parser = new StaxParser(parserHandler, false);
         for (File report : reports) {
-          CxxUtils.LOG.info("Processing report '{}'", report);
+          LOG.info("Processing report '{}'", report);
           try {
             parser.parse(transformReport(report));
           } catch (EmptyReportException e) {
-            CxxUtils.LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+            LOG.warn("The report '{}' seems to be empty, ignoring.", report);
           }
         }
         List<TestCase> testcases = parserHandler.getTestCases();
 
-        CxxUtils.LOG.info("Parsing 'xUnit' format");
+        LOG.info("Parsing 'xUnit' format");
         simpleMode(context, testcases);
       } else {
-        CxxUtils.LOG.debug("No reports found, nothing to process");
+        LOG.debug("No reports found, nothing to process");
       }
     } catch (IOException | TransformerException | XMLStreamException e) {
       String msg = new StringBuilder()
@@ -111,7 +112,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append(e)
         .append("'")
         .toString();
-      CxxUtils.LOG.error(msg);
+      LOG.error(msg);
       throw new IllegalStateException(msg, e);
     }
   }
@@ -120,7 +121,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     throws javax.xml.stream.XMLStreamException,
     java.io.IOException,
     javax.xml.transform.TransformerException {
-    CxxUtils.LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
+    LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
 
     int testsCount = 0;
     int testsSkipped = 0;
@@ -177,10 +178,10 @@ public class CxxXunitSensor extends CxxReportSensor {
            .withValue(testsTime)
            .save();
       } else {
-        CxxUtils.LOG.debug("The reports contain no testcases");
+        LOG.debug("The reports contain no testcases");
       }      
     } catch(Exception ex) {
-      CxxUtils.LOG.error("Failed to save measures : ", ex.getMessage());
+      LOG.error("Failed to save measures : ", ex.getMessage());
     }
   }
 
@@ -188,10 +189,10 @@ public class CxxXunitSensor extends CxxReportSensor {
     throws java.io.IOException, javax.xml.transform.TransformerException {
     File transformed = report;
     if (xsltURL != null && report.length() > 0) {
-      CxxUtils.LOG.debug("Transforming the report using xslt '{}'", xsltURL);
+      LOG.debug("Transforming the report using xslt '{}'", xsltURL);
       InputStream inputStream = this.getClass().getResourceAsStream("/xsl/" + xsltURL);
       if (inputStream == null) {
-        CxxUtils.LOG.debug("Transforming: try to access external XSLT via URL");
+        LOG.debug("Transforming: try to access external XSLT via URL");
         URL url = new URL(xsltURL);
         inputStream = url.openStream();
       }
@@ -207,7 +208,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       Result result = new StreamResult(transformed);
       xformer.transform(source, result);
     } else {
-      CxxUtils.LOG.debug("Transformation skipped: no xslt given");
+      LOG.debug("Transformation skipped: no xslt given");
     }
 
     return transformed;

@@ -25,14 +25,14 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.MatchResult;
 import org.sonar.api.batch.sensor.SensorContext;
-
-import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 /**
  * {@inheritDoc}
  */
 public class CxxCompilerGccParser implements CompilerParser {
-
+  public static final Logger LOG = Loggers.get(CxxCompilerGccParser.class);
   public static final String KEY = "GCC";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = message, 4=id
   public static final String DEFAULT_REGEX_DEF = "^(.*):([0-9]+):[0-9]+: warning: (.*)\\[(.*)\\]$";
@@ -78,11 +78,11 @@ public class CxxCompilerGccParser implements CompilerParser {
    */
   @Override
   public void processReport(final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
-    CxxUtils.LOG.info("Parsing '{}' format", KEY);
+    LOG.info("Parsing '{}' format", KEY);
 
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
-    CxxUtils.LOG.debug("Using pattern : '{}'", p);
+    LOG.debug("Using pattern : '{}'", p);
     MatchResult matchres = null;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
@@ -90,7 +90,7 @@ public class CxxCompilerGccParser implements CompilerParser {
       String line = matchres.group(2);
       String msg = matchres.group(3);
       String id = matchres.group(4).replaceAll("=$", "");
-      CxxUtils.LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
+      LOG.debug("Scanner-matches file='{}' line='{}' id='{}' msg={}",
         new Object[]{filename, line, id, msg});
       warnings.add(new Warning(filename, line, id, msg));
     }
