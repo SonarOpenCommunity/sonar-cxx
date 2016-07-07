@@ -224,30 +224,20 @@ public final class CxxSquidSensor implements Sensor {
     int violationsCount = 0;
     if (messages != null) {
       for (CheckMessage message : messages) {
-        try
-        {
-          int line = 1;
-          if (message.getLine() != null && message.getLine() > 0) {
-           line = message.getLine();
-          }
-          
-          NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
-          NewIssueLocation location = newIssue.newLocation()
-            .on(inputFile)
-            .at(inputFile.selectLine(line))
-            .message(message.getText(Locale.ENGLISH));
-
-          newIssue.at(location);
-          newIssue.save();
-        
-        } catch (Exception ex) {
-          CxxUtils.LOG.info("Line '{}'", message.getLine());
-          CxxUtils.LOG.info("InputFile'{}'", inputFile);
-          CxxUtils.LOG.info("Error'{}'", ex.getMessage());
-          CxxUtils.LOG.info("Error '{}'", ex.getStackTrace());
-          throw ex;
+        int line = 1;
+        if (message.getLine() != null && message.getLine() > 0) {
+         line = message.getLine();
         }
 
+        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
+        NewIssueLocation location = newIssue.newLocation()
+          .on(inputFile)
+          .at(inputFile.selectLine(line))
+          .message(message.getText(Locale.ENGLISH));
+
+        newIssue.at(location);
+        newIssue.save();
+        
         // @todo - this will add a issue regardless of the save
         violationsCount++;     
       }
