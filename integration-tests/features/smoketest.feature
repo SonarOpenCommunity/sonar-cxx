@@ -49,7 +49,7 @@ Feature: Smoketest
                | it_coverage              | 81.8  |
                | it_line_coverage         | 100.0  |
                | it_branch_coverage       | 50    |
-               | overall_coverage         | 41.2  |
+               | overall_coverage         | 81.8  |
                | overall_line_coverage    | 100.0  |
                | overall_branch_coverage  | 50    |
                # test execution statistics
