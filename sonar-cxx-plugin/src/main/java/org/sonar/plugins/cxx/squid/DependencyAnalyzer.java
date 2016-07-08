@@ -76,23 +76,14 @@ public class DependencyAnalyzer {
       String includedFilePath = includedFile != null ? includedFile.absolutePath() : include.getPath();
       Integer prevIncludeLine = firstIncludeLine.put(includedFilePath, include.getLine());
       if (prevIncludeLine != null && duplicateIncludeRule != null) {        
-        try
-        {
-            NewIssue newIssue = sensorContext.newIssue().forRule(duplicateIncludeRule.ruleKey());
-            NewIssueLocation location = newIssue.newLocation()
-              .on(sonarFile)
-              .at(sonarFile.selectLine(include.getLine() > 0 ? include.getLine() : 1))
-              .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".");
+          NewIssue newIssue = sensorContext.newIssue().forRule(duplicateIncludeRule.ruleKey());
+          NewIssueLocation location = newIssue.newLocation()
+            .on(sonarFile)
+            .at(sonarFile.selectLine(include.getLine() > 0 ? include.getLine() : 1))
+            .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".");
 
-            newIssue.at(location);
-            newIssue.save();          
-        } catch (Exception ex) {
-            LOG.debug("Rule {}", duplicateIncludeRule);
-            LOG.debug("Sensor {}", sensorContext);
-            LOG.debug("Include {}", include);
-            LOG.debug(ex.getMessage());
-            throw ex;
-        }
+          newIssue.at(location);
+          newIssue.save();          
       } else if (includedFile == null) {
         // dont warn about missing files
       } else if (context.fileSystem().hasFiles(fs.predicates().hasPath(sonarFile.absolutePath()))) {
