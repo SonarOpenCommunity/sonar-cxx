@@ -150,48 +150,44 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
     testsCount -= testsSkipped;
 
-    try
-    {
-      if (testsCount > 0) {
-        double testsPassed = testsCount - testsErrors - testsFailures;
-        double successDensity = testsPassed * PERCENT_BASE / testsCount;
-        
-        context.<Integer>newMeasure()
-           .forMetric(CoreMetrics.TESTS)
-           .on(context.module())
-           .withValue(testsCount)
-           .save();
-         context.<Integer>newMeasure()
-           .forMetric(CoreMetrics.TEST_ERRORS)
-           .on(context.module())
-           .withValue(testsErrors)
-           .save();
-         context.<Integer>newMeasure()
-           .forMetric(CoreMetrics.TEST_FAILURES)
-           .on(context.module())
-           .withValue(testsFailures)
-           .save();
-         context.<Integer>newMeasure()
-           .forMetric(CoreMetrics.SKIPPED_TESTS)
-           .on(context.module())
-           .withValue(testsSkipped)
-           .save();
-         context.<Double>newMeasure()
-           .forMetric(CoreMetrics.TEST_SUCCESS_DENSITY)
-           .on(context.module())
-           .withValue(ParsingUtils.scaleValue(successDensity))
-           .save();
-          context.<Long>newMeasure()
-           .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
-           .on(context.module())
-           .withValue(testsTime)
-           .save();
-      } else {
-        LOG.debug("The reports contain no testcases");
-      }      
-    } catch(Exception ex) {
-      LOG.error("Failed to save measures : ", ex.getMessage());
-    }
+    if (testsCount > 0) {
+      double testsPassed = testsCount - testsErrors - testsFailures;
+      double successDensity = testsPassed * PERCENT_BASE / testsCount;
+
+      context.<Integer>newMeasure()
+         .forMetric(CoreMetrics.TESTS)
+         .on(context.module())
+         .withValue(testsCount)
+         .save();
+       context.<Integer>newMeasure()
+         .forMetric(CoreMetrics.TEST_ERRORS)
+         .on(context.module())
+         .withValue(testsErrors)
+         .save();
+       context.<Integer>newMeasure()
+         .forMetric(CoreMetrics.TEST_FAILURES)
+         .on(context.module())
+         .withValue(testsFailures)
+         .save();
+       context.<Integer>newMeasure()
+         .forMetric(CoreMetrics.SKIPPED_TESTS)
+         .on(context.module())
+         .withValue(testsSkipped)
+         .save();
+       context.<Double>newMeasure()
+         .forMetric(CoreMetrics.TEST_SUCCESS_DENSITY)
+         .on(context.module())
+         .withValue(ParsingUtils.scaleValue(successDensity))
+         .save();
+        context.<Long>newMeasure()
+         .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
+         .on(context.module())
+         .withValue(testsTime)
+         .save();
+    } else {
+      LOG.debug("The reports contain no testcases");
+    }      
+
   }
 
   File transformReport(File report)
