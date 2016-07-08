@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
@@ -29,12 +29,14 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class SafetyTagCheckTest {
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     SafetyTagCheck check = new SafetyTagCheck();
     check.regularExpression = "<Safetykey>.*</Safetykey>";
     check.suffix = "_SAFETY";
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(21).withMessage("Source files implementing risk mitigations shall use special name suffix '_SAFETY' : <Safetykey>MyRimName</Safetykey>");
 
@@ -42,7 +44,10 @@ public class SafetyTagCheckTest {
     check.regularExpression = "<Safetykey>.*</Safetykey>";
     check.suffix = "_SAFETY";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck_SAFETY.cc"), check);
+    
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
@@ -50,14 +55,16 @@ public class SafetyTagCheckTest {
     check.regularExpression = "<Safetykey>";
     check.suffix = "_SAFETY";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck_SAFETY.cc"), check);
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");    
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
     check = new SafetyTagCheck();
     check.regularExpression = "@hazard";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SafetyTagCheck_SAFETY.cc"), check);
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SafetyTagCheck_SAFETY.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

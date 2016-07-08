@@ -34,6 +34,6 @@ public class CxxRuleRepositoryTest {
     new CxxRuleRepository().define(context);
 
     assertThat(context.repositories()).hasSize(1);
-    assertThat(context.repository(CheckList.REPOSITORY_KEY).rules()).hasSize(46);
+    assertThat(context.repository(CheckList.REPOSITORY_KEY).rules()).hasSize(45);
   }
 }

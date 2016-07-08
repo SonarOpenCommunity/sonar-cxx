@@ -26,11 +26,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.batch.bootstrap.ProjectBuilder;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 public class CxxProjectBuilder extends ProjectBuilder {
 
-  private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxProjectBuilder");
+  private static final Logger LOG = Loggers.get(CxxProjectBuilder.class);
   private final HashMap<String, String> vars = new HashMap<>();
   private final Pattern regex = Pattern.compile("\\$\\{(.+?)\\}");
 
@@ -64,24 +65,22 @@ public class CxxProjectBuilder extends ProjectBuilder {
     }
 
     for (ProjectDefinition definition : context.projectReactor().getProjects()) {
-      props = definition.getProperties(); //@todo deprecated getProperties
-      for (String key : props.stringPropertyNames()) {
-        String value = props.getProperty(key);
-        vars.put(key, value);
+      Map<String,String> propsDef = definition.properties();
+      for (Map.Entry<String,String> entry : propsDef.entrySet()) {
+        vars.put(entry.getKey(), entry.getValue());
       }
     }
 
     // replace placeholders
     for (ProjectDefinition definition : context.projectReactor().getProjects()) {
-      props = definition.getProperties(); //@todo deprecated getProperties
-      for (String key : props.stringPropertyNames()) {
-        String oldValue = props.getProperty(key);
-        String newValue = expandVariables(oldValue);
-        if (!oldValue.equals(newValue)) {
-          definition.setProperty(key, newValue);
+      Map<String,String> propsDef = definition.properties();
+      for (Map.Entry<String,String> entry : propsDef.entrySet()) {
+        String newValue = expandVariables(entry.getValue());
+        if (!entry.getValue().equals(newValue)) {
+          definition.setProperty(entry.getKey(), newValue);
           if (LOG.isDebugEnabled()) {
             LOG.debug("property expansion: project '{}'; key '{}'; value '{}' => '{}'",
-                    new Object[]{definition.getKey(), key, oldValue, newValue});
+                    new Object[]{definition.getKey(), entry.getKey(), entry.getValue(), newValue});
           }
         }
       }

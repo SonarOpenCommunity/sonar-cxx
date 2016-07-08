@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,119 +35,134 @@ public class FileHeaderCheckTest {
   public ExpectedException thrown = ExpectedException.none();
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     FileHeaderCheck check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2005";
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class1.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Class1.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 20\\d\\d";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class1.cc"), check);
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(null);
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2005";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class2.cc"), check);
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Class2.cc", ".");    
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(null).withMessage("Add or update the header of this file.");
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012";
-
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class2.cc"), check);
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);       
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\n// foo";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class2.cc"), check);
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\r\n// foo";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class2.cc"), check);
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\r// foo";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class2.cc"), check);
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\r\r// foo";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class2.cc"), check);
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(null);
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright 2012\n// foo\n\n\n\n\n\n\n\n\n\ngfoo";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class2.cc"), check);
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(null);
 
     check = new FileHeaderCheck();
     check.headerFormat = "/*foo http://www.example.org*/";
 
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Class3.cc"), check);
+    
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Class3.cc", ".");    
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }
 
   @Test
-  public void regex() {
+  public void regex() throws UnsupportedEncodingException, IOException {
     FileHeaderCheck check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d\\d\\d";
     check.isRegularExpression = true;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex1.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex1.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
     // Check that the regular expression is compiled once
     check = new FileHeaderCheck();
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex1.cc"), check);
+    
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d{4}\\n// mycompany";
     check.isRegularExpression = true;
-
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex2.cc"), check);
+       
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex2.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);     
     CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d{4}\\r?\\n// mycompany";
     check.isRegularExpression = true;
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex3.cc"), check);
+    
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex3.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     CheckMessagesVerifier.verify(file.getCheckMessages()).noMore();
 
     check = new FileHeaderCheck();
     check.headerFormat = "// copyright \\d{4}\\n// mycompany";
     check.isRegularExpression = true;
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex4.cc"), check);
+    
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex4.cc", ".");   
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
 
     check = new FileHeaderCheck();
     check.headerFormat = "^(?=.*?\\bCopyright\\b)(?=.*?\\bVendor\\b)(?=.*?\\d{4}(-\\d{4})?).*$";
     check.isRegularExpression = true;
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex5.cc"), check);
+       
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex5.cc", ".");
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     CheckMessagesVerifier.verify(file.getCheckMessages()).noMore();
 
     check = new FileHeaderCheck();
-    file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FileHeaderCheck/Regex6.cc"), check);
-    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");
     
+    tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileHeaderCheck/Regex6.cc", ".");    
+    file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    CheckMessagesVerifier.verify(file.getCheckMessages()).next().atLine(null).withMessage("Add or update the header of this file.");    
   }
 
   @Test

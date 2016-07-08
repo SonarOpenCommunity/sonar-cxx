@@ -24,14 +24,17 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.sonar.cxx.CxxAstScanner;
 
-import java.io.File;
+import org.sonar.cxx.checks.CxxFileTester;
+import org.sonar.cxx.checks.CxxFileTesterHelper;
 
 public class ClassNameCheckTest {
 
   @Test
   public void test() throws Exception {
     ClassNameCheck check = new ClassNameCheck();
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/ClassName.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ClassName.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage(
         "Rename class \"MyClass_WithNotCompliantName1\" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.")

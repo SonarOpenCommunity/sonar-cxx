@@ -19,200 +19,178 @@
  */
 package org.sonar.plugins.cxx.squid;
 
-import static org.mockito.Matchers.anyDouble;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyBoolean;
-
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.util.Collection;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.batch.rule.CheckFactory;
+import static org.mockito.Mockito.mock;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.rule.ActiveRules;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.resources.Directory; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
-import org.sonar.api.source.Highlightable; //@todo deprecated
-import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.batch.sensor.measure.Measure;
+import org.sonar.api.measures.Metric;
+import org.sonar.plugins.cxx.CxxLanguage;
 
 public class CxxSquidSensorTest {
 
   private CxxSquidSensor sensor;
-  private SensorContext context;
   private Settings settings;
-  private FileSystem fs;
-  private Project project;
-  private ResourcePerspectives perspectives;
-  private Highlightable highlightable;
-  private Highlightable.HighlightingBuilder builder;
-
+  
   @Before
   public void setUp() {
     settings = new Settings();
-    context = mock(SensorContext.class);
-    perspectives = mock(ResourcePerspectives.class);
-    highlightable = mock(Highlightable.class);
-    builder = mock(Highlightable.HighlightingBuilder.class);
-
-    when(context.isIndexed(any(Resource.class), anyBoolean())).thenReturn(true); //@todo isIndexed: deprecated, see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-    when(perspectives.as(eq(Highlightable.class), any(InputFile.class))).thenReturn(highlightable);
-    when(highlightable.newHighlighting()).thenReturn(builder);
+    ActiveRules rules = mock(ActiveRules.class);
+    CheckFactory checkFactory = new CheckFactory(rules);
+    sensor = new CxxSquidSensor(settings, checkFactory, rules, null);    
   }
 
   @Test
-  public void testCollectingSquidMetrics() {
+  public void testCollectingSquidMetrics() throws IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/codechunks-project");
-    setUpSensor(baseDir, Arrays.asList(new File(".")));
-
-    sensor.analyse(project, context);
-
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.LINES), eq(92.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.NCLOC), eq(54.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.STATEMENTS), eq(50.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(7.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(19.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMMENT_LINES), eq(15.0));
+    
+    SensorContextTester context = SensorContextTester.create(baseDir);    
+    
+    String fileName = "code_chunks.cc";
+    String content = new String(Files.readAllBytes(new File(baseDir, fileName).toPath()), "UTF-8");
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content).setLanguage(CxxLanguage.KEY).setType(InputFile.Type.MAIN));    
+    sensor.execute(context);
+    Collection<Measure> measures = context.measures("myProjectKey:code_chunks.cc");
+            
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(54);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(50);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(7);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(0);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY).value()).isEqualTo(19);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMMENT_LINES).value()).isEqualTo(15);
   }
 
   @Test
-  public void testComplexitySquidMetrics() {
+  public void testComplexitySquidMetrics() throws UnsupportedEncodingException, IOException {
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/complexity-project");
-    setUpSensor(baseDir, Arrays.asList(new File(".")));
 
-    sensor.analyse(project, context);
-
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(22.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.CLASSES), eq(2.0));
+    SensorContextTester context = SensorContextTester.create(baseDir);
     
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY), eq(38.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY_IN_CLASSES), eq(10.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.COMPLEXITY_IN_FUNCTIONS), eq(38.0));
+    String fileName = "complexity.cc";
+    String content = new String(Files.readAllBytes(new File(baseDir, fileName).toPath()), "UTF-8");
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content).setLanguage(CxxLanguage.KEY).setType(InputFile.Type.MAIN));
+           
+    sensor.execute(context);
+    Collection<Measure> measures = context.measures("myProjectKey:complexity.cc");
+    
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(22);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(2);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY).value()).isEqualTo(38);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY_IN_CLASSES).value()).isEqualTo(10);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.COMPLEXITY_IN_FUNCTIONS).value()).isEqualTo(38);    
   }  
   
   @Test
-  public void testReplacingOfExtenalMacros() {
+  public void testReplacingOfExtenalMacros() throws UnsupportedEncodingException, IOException {
     settings.setProperty(CxxPlugin.DEFINES_KEY, "MACRO class A{};");
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/external-macro-project");
-    setUpSensor(baseDir, Arrays.asList(new File(".")));
 
-    sensor.analyse(project, context);
+    
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    String fileName = "test.cc";
+    String content = new String(Files.readAllBytes(new File(baseDir, fileName).toPath()), "UTF-8");
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content).setLanguage(CxxLanguage.KEY).setType(InputFile.Type.MAIN));
+        
+    sensor.execute(context);
+    Collection<Measure> measures = context.measures("myProjectKey:test.cc");
 
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.LINES), eq(2.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(0.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.CLASSES), eq(1.0));
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(0);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(0);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(1);        
   }
 
   @Test
-  public void testFindingIncludedFiles() {
+  public void testFindingIncludedFiles() throws UnsupportedEncodingException, IOException {
     settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/include-directories-project");
-    setUpSensor(baseDir, Arrays.asList(new File("src")));
 
-    sensor.analyse(project, context);
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    String fileName = "src/main.cc";
+    String content = new String(Files.readAllBytes(new File(baseDir, fileName).toPath()), "UTF-8");
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content).setLanguage(CxxLanguage.KEY).setType(InputFile.Type.MAIN));
+       
+    sensor.execute(context);
+    Collection<Measure> measures = context.measures("myProjectKey:src/main.cc");
 
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.LINES), eq(29.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.NCLOC), eq(9.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.STATEMENTS), eq(0.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(9.0));
-    verify(context).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(9);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(0);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(9);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(0); 
+    
   }
 
   @Test
-  public void testForceIncludedFiles() {
+  public void testForceIncludedFiles() throws UnsupportedEncodingException, IOException {
     settings.setProperty(CxxPlugin.INCLUDE_DIRECTORIES_KEY, "include");
     settings.setProperty(CxxPlugin.FORCE_INCLUDE_FILES_KEY, "force1.hh,subfolder/force2.hh");
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/force-include-project");
-    setUpSensor(baseDir, Arrays.asList(new File("src")));
 
-    sensor.analyse(project, context);
+    
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    String fileName = "src/src1.cc";
+    String content = new String(Files.readAllBytes(new File(baseDir, fileName).toPath()), "UTF-8");
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content).setLanguage(CxxLanguage.KEY).setType(InputFile.Type.MAIN));
 
-    // These checks actually check the force include feature, since only if it works the metric values will be like follows
-    verify(context, times(2)).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FILES), eq(1.0));
-    verify(context, times(2)).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.LINES), eq(1.0));
-    verify(context, times(2)).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
-    verify(context, times(2)).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.STATEMENTS), eq(2.0));
-    verify(context, times(2)).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.FUNCTIONS), eq(1.0));
-    verify(context, times(2)).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.CLASSES), eq(0.0));
+    
+    sensor.execute(context);
+    Collection<Measure> measures = context.measures("myProjectKey:src/src1.cc");
+
+    // These checks actually check the force include feature, since only if it works the metric values will be like follows    
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FILES).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.STATEMENTS).value()).isEqualTo(2);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.FUNCTIONS).value()).isEqualTo(1);
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.CLASSES).value()).isEqualTo(0);     
   }
 
   @Test
-  public void testBehaviourOnCircularIncludes() {
+  public void testBehaviourOnCircularIncludes() throws UnsupportedEncodingException, IOException {
     // especially: when two files, both belonging to the set of
     // files to analyse, include each other, the preprocessor guards have to be disabled
     // and both have to be counted in terms of metrics
     File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");
-    setUpSensor(baseDir, Arrays.asList(new File(".")));
+    
+    SensorContextTester context = SensorContextTester.create(baseDir);
+    
+    String fileName = "test1.hh";
+    String content = new String(Files.readAllBytes(new File(baseDir, fileName).toPath()), "UTF-8");
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content).setLanguage(CxxLanguage.KEY).setType(InputFile.Type.MAIN));
 
-    sensor.analyse(project, context);
+    
+    sensor.execute(context);
+    Collection<Measure> measures = context.measures("myProjectKey:test1.hh");
 
-    verify(context, times(2)).saveMeasure((InputFile) anyObject(), eq(CoreMetrics.NCLOC), eq(1.0));
+    assertThat(GetIntegerMeasureByKey(measures, CoreMetrics.NCLOC).value()).isEqualTo(1);
   }
 
-  //@Test @todo
-  public void testCircularFileDependency() {
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-includes-project");
-    setUpSensor(baseDir, Arrays.asList(new File(".")));
 
-    sensor.analyse(project, context);
-
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(1.0)); //@todo deprecated FILE_CYCLES
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(1.0)); //@todo deprecated FILE_FEEDBACK_EDGES
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(1.0)); //@todo deprecated FILE_TANGLES
-    verify(context).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), eq(2.0)); //@todo deprecated FILE_EDGES_WEIGHT
-
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_CYCLES), eq(0.0)); //@todo deprecated PACKAGE_CYCLES
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_FEEDBACK_EDGES), eq(0.0)); //@todo deprecated PACKAGE_FEEDBACK_EDGES
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_TANGLES), eq(0.0)); //@todo deprecated PACKAGE_TANGLES
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_EDGES_WEIGHT), eq(0.0)); //@todo deprecated PACKAGE_EDGES_WEIGHT
-  }
-
-  //@Test @todo
-  public void testCircularPackageDependency() {
-    File baseDir = TestUtils.loadResource("/org/sonar/plugins/cxx/circular-packages-project");
-    setUpSensor(baseDir, Arrays.asList(new File("Package1"), new File("Package2")));
-
-    sensor.analyse(project, context);
-
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_CYCLES), eq(0.0)); //@todo deprecated FILE_CYCLES
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_FEEDBACK_EDGES), eq(0.0)); //@todo deprecated FILE_FEEDBACK_EDGES
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_TANGLES), eq(0.0)); //@todo deprecated FILE_TANGLES
-    verify(context, times(2)).saveMeasure((Directory) anyObject(), eq(CoreMetrics.FILE_EDGES_WEIGHT), anyDouble()); //0 for package1, 1 for package2 //@todo deprecated FILE_EDGES_WEIGHT
-
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_CYCLES), eq(1.0)); //@todo deprecated PACKAGE_CYCLES
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_FEEDBACK_EDGES), eq(1.0)); //@todo deprecated PACKAGE_FEEDBACK_EDGES
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_TANGLES), eq(1.0)); //@todo deprecated PACKAGE_TANGLES
-    verify(context).saveMeasure((Project) anyObject(), eq(CoreMetrics.PACKAGE_EDGES_WEIGHT), eq(3.0)); //@todo deprecated PACKAGE_EDGES_WEIGHT
-  }
-
-  private void setUpSensor(File baseDir, List<File> srcDirs) {
-    project = TestUtils.mockProject(baseDir);
-    fs = TestUtils.mockFileSystem(baseDir, srcDirs, null);
-
-    ActiveRules rules = mock(ActiveRules.class);
-    CheckFactory checkFactory = new CheckFactory(rules);
-
-    sensor = new CxxSquidSensor(perspectives, settings, fs, checkFactory, rules);
+  private Measure GetIntegerMeasureByKey(Collection<Measure> measures, Metric<Integer> metric) {
+    for (Measure measure: measures) {
+      if (measure.metric().equals(metric)) {
+        return measure;
+      }      
+    }
+    
+    return null;
   }
 }

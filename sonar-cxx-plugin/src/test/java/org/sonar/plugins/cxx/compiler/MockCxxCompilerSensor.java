@@ -31,16 +31,14 @@ import java.util.List;
 import org.junit.Assert;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
 import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
 
 public class MockCxxCompilerSensor extends CxxCompilerSensor {
 
-  private List<CompilerParser.Warning> warnings;
+  private final List<CompilerParser.Warning> warnings;
   public List<CompilerParser.Warning> savedWarnings;
 
   @Override
@@ -51,16 +49,17 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
     try {
       doAnswer(new Answer<List<CompilerParser.Warning>>() {
 
+          @Override
           public List<CompilerParser.Warning> answer(InvocationOnMock invocation)
                   throws Throwable {
               Object[] args = invocation.getArguments();
-              if (args[5] instanceof List<?>) {
-                List<CompilerParser.Warning> list = (List<CompilerParser.Warning>) args[5];
+              if (args[4] instanceof List<?>) {
+                List<CompilerParser.Warning> list = (List<CompilerParser.Warning>) args[4];
                 list.addAll(warnings);
               }
               return null;
           }
-        }).when(compileParser).processReport(any(Project.class), any(SensorContext.class), any(File.class), any(String.class),  any(String.class), any(List.class));
+        }).when(compileParser).processReport(any(SensorContext.class), any(File.class), any(String.class),  any(String.class), any(List.class));
       } catch (FileNotFoundException e) {
         Assert.fail(e.getMessage());
       }
@@ -68,15 +67,15 @@ public class MockCxxCompilerSensor extends CxxCompilerSensor {
     return compileParser;
   }
 
-  public MockCxxCompilerSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile, List<CompilerParser.Warning> warningsToProcess) {
-    super(perspectives, settings, fs, profile);
+  public MockCxxCompilerSensor(Settings settings, FileSystem fs, RulesProfile profile, List<CompilerParser.Warning> warningsToProcess) {
+    super(settings);
 
     warnings = warningsToProcess;
-    savedWarnings = new LinkedList<CompilerParser.Warning>();
+    savedWarnings = new LinkedList<>();
   }
 
   @Override
-  public void saveUniqueViolation(Project project, SensorContext context, String ruleRepoKey, String file,
+  public void saveUniqueViolation(SensorContext context, String ruleRepoKey, String file,
       String line, String ruleId, String msg) {
     
     CompilerParser.Warning w = new CompilerParser.Warning(file, line, ruleId, msg);

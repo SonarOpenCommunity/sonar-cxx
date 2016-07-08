@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -33,8 +33,11 @@ public class SwitchLastCaseIsDefaultCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/SwitchLastCaseIsDefaultCheck.cc"), new SwitchLastCaseIsDefaultCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SwitchLastCaseIsDefaultCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new SwitchLastCaseIsDefaultCheck()); 
+    
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6).withMessage("Add a default case to this switch.")
       .next().atLine(13).withMessage("Move this default to the end of the switch.")

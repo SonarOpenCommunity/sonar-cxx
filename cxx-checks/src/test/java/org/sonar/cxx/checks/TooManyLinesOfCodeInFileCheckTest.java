@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
@@ -31,17 +31,21 @@ public class TooManyLinesOfCodeInFileCheckTest {
   private final TooManyLinesOfCodeInFileCheck check = new TooManyLinesOfCodeInFileCheck();
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     check.setMax(1);
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/complexity.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/complexity.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("This file has 22 lines of code, which is greater than 1 authorized. Split it into smaller files.")
       .noMore();
   }
 
   @Test
-  public void test2() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/complexity.cc"), check);
+  public void test2() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/complexity.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+        
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

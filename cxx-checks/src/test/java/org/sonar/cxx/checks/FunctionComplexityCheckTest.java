@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -29,11 +30,12 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class FunctionComplexityCheckTest {
 
   @Test
-  public void check() {
+  public void check() throws UnsupportedEncodingException, IOException {
     FunctionComplexityCheck check = new FunctionComplexityCheck();
     check.setMax(5);
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionComplexity.cc"), check);
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionComplexity.cc", ".");      
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(13)
       .next().atLine(33)

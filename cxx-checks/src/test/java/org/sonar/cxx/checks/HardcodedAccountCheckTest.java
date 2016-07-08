@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 //import org.sonar.squid.api.CheckMessage;
 import org.junit.Rule;
@@ -38,8 +39,10 @@ public class HardcodedAccountCheckTest {
   private final HardcodedAccountCheck check = new HardcodedAccountCheck();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/HardcodedAccount.cc"), check);
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/HardcodedAccount.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6).withMessage("Do not hard code sensitive data in programs.")
       .next().atLine(8)

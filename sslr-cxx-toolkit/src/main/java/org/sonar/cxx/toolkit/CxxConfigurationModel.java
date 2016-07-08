@@ -22,8 +22,6 @@ package org.sonar.cxx.toolkit;
 import com.google.common.annotations.VisibleForTesting;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.colorizer.CDocTokenizer;
 import org.sonar.colorizer.CppDocTokenizer;
 import org.sonar.colorizer.JavadocTokenizer;
@@ -44,10 +42,12 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 public class CxxConfigurationModel extends AbstractConfigurationModel {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CxxConfigurationModel.class);
+  private static final Logger LOG = Loggers.get(CxxConfigurationModel.class);
 
   private static final String CHARSET_PROPERTY_KEY = "sonar.sourceEncoding";
 

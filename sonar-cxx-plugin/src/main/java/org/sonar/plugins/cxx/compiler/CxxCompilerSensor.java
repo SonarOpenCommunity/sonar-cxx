@@ -25,15 +25,14 @@ import java.util.Map;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team
@@ -42,7 +41,7 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * @author Bert
  */
 public class CxxCompilerSensor extends CxxReportSensor {
-
+  public static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.compiler.reportPath";
   public static final String REPORT_REGEX_DEF = "sonar.cxx.compiler.regex";
   public static final String REPORT_CHARSET_DEF = "sonar.cxx.compiler.charset";
@@ -50,16 +49,13 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.KEY;
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
 
-  private final RulesProfile profile;
   private final Map<String, CompilerParser> parsers = new HashMap<>();
 
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
-    super(perspectives, settings, fs, CxxMetrics.COMPILER);
-    this.profile = profile;
-
+  public CxxCompilerSensor(Settings settings) {
+    super(settings, CxxMetrics.COMPILER);
     addCompilerParser(new CxxCompilerVcParser());
     addCompilerParser(new CxxCompilerGccParser());
   }
@@ -73,6 +69,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   /**
    * Get the compiler parser to use.
+   * @return CompilerParser
    */
   protected CompilerParser getCompilerParser() {
     String parserKey = getStringProperty(PARSER_KEY_DEF, DEFAULT_PARSER_DEF);
@@ -83,15 +80,11 @@ public class CxxCompilerSensor extends CxxReportSensor {
     return parser;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(getCompilerParser().rulesRepositoryKey()).isEmpty();
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxCompilerSensor");
   }
-
+  
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
@@ -114,7 +107,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report)
+  protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
     final CompilerParser parser = getCompilerParser();
     final String reportCharset = getParserStringProperty(REPORT_CHARSET_DEF, parser.defaultCharset());
@@ -122,19 +115,19 @@ public class CxxCompilerSensor extends CxxReportSensor {
     final List<CompilerParser.Warning> warnings = new LinkedList<>();
 
     // Iterate through the lines of the input file
-    CxxUtils.LOG.info("Scanner '{}' initialized with report '{}', CharSet= '{}'",
+    LOG.info("Scanner '{}' initialized with report '{}', CharSet= '{}'",
       new Object[]{parser.key(), report, reportCharset});
     try {
-      parser.processReport(project, context, report, reportCharset, reportRegEx, warnings);
+      parser.processReport(context, report, reportCharset, reportRegEx, warnings);
       for (CompilerParser.Warning w : warnings) {
         if (isInputValid(w)) {
-          saveUniqueViolation(project, context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg);
+          saveUniqueViolation(context, parser.rulesRepositoryKey(), w.filename, w.line, w.id, w.msg);
         } else {
-          CxxUtils.LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
+          LOG.warn("C-Compiler warning: '{}''{}'", w.id, w.msg);
         }
       }
     } catch (java.io.FileNotFoundException|java.lang.IllegalArgumentException e) {
-      CxxUtils.LOG.error("processReport Exception: {} - not processed '{}'", report, e);
+      LOG.error("processReport Exception: {} - not processed '{}'", report, e);
     }
   }
 

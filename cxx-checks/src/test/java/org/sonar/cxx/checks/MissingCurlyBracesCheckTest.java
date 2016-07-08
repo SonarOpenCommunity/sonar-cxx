@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -31,8 +32,10 @@ public class MissingCurlyBracesCheckTest {
   private final MissingCurlyBracesCheck check = new MissingCurlyBracesCheck();
 
   @Test
-  public void test() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/MissingCurlyBraces.cc"), check);
+  public void test() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MissingCurlyBraces.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6).withMessage("Missing curly brace.")
       .next().atLine(7)

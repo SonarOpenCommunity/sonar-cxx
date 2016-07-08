@@ -28,10 +28,8 @@ import org.sonar.squidbridge.checks.AbstractOneStatementPerLineCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.TokenType;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.cxx.tag.Tag;
 
 @Rule(
@@ -40,7 +38,6 @@ import org.sonar.cxx.tag.Tag;
   tags = {Tag.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("5min")
 public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCheck<Grammar> {
 

@@ -24,14 +24,15 @@ import java.io.StringReader;
 import org.sonar.api.config.Settings;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * Loads the external rules configuration file.
  */
 public class CxxExternalRuleRepository implements RulesDefinition {
-
+  public static final Logger LOG = Loggers.get(CxxExternalRuleRepository.class);
   public static final String KEY = "other";
   public static final String RULES_KEY = "sonar.cxx.other.rules";
   public final Settings settings;
@@ -53,7 +54,7 @@ public class CxxExternalRuleRepository implements RulesDefinition {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
         } catch (Exception ex) {
-          CxxUtils.LOG.info("Cannot load rules XML '{}'", ex);
+          LOG.info("Cannot load rules XML '{}'", ex);
         }
       }
     }

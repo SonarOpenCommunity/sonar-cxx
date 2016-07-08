@@ -22,14 +22,12 @@ package org.sonar.cxx.checks.naming;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.util.regex.Pattern;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
@@ -39,7 +37,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
   name = "Function names should comply with a naming convention",
   tags = {Tag.CONVENTION}
 )
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("10min")
 @ActivatedByDefault
 public class FunctionNameCheck extends SquidCheck<Grammar> {

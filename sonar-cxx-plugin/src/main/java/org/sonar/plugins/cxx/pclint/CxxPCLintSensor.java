@@ -27,17 +27,17 @@ import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.SensorContext;
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives;
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project;
-import org.sonar.api.utils.StaxParser;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
+import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
  * PC-lint is an equivalent to pmd but for C++ The first version of the tool was
@@ -48,25 +48,14 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
  * @author Bert
  */
 public class CxxPCLintSensor extends CxxReportSensor {
-
+  public static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.pclint.reportPath";
-  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
    */
-  public CxxPCLintSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
-    super(perspectives, settings, fs, CxxMetrics.PCLINT);
-    this.profile = profile;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxPCLintRuleRepository.KEY).isEmpty();
+  public CxxPCLintSensor(Settings settings) {
+    super(settings, CxxMetrics.PCLINT);
   }
 
   @Override
@@ -75,9 +64,14 @@ public class CxxPCLintSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report)
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxPCLintSensor");
+  }
+  
+  @Override
+  protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'PC-Lint' format");
+    LOG.debug("Parsing 'PC-Lint' format");
     
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -104,18 +98,18 @@ public class CxxPCLintSensor extends CxxReportSensor {
               if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008")) {
                 id = mapMisraRulesToUniqueSonarRules(msg);
               }
-              saveUniqueViolation(project, context, CxxPCLintRuleRepository.KEY,
+              saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
                 file, line, id, msg);
             } else {
-              CxxUtils.LOG.warn("PC-lint warning ignored: {}", msg);
-              CxxUtils.LOG.debug("File: {}, Line: {}, ID: {}, msg: {}",
+              LOG.warn("PC-lint warning ignored: {}", msg);
+              LOG.debug("File: {}, Line: {}, ID: {}, msg: {}",
                 new Object[]{file, line, id, msg});
             }
           }
         } catch (com.ctc.wstx.exc.WstxUnexpectedCharException 
                 | com.ctc.wstx.exc.WstxEOFException
                 | com.ctc.wstx.exc.WstxIOException e) {
-          CxxUtils.LOG.error("Ignore XML error from PC-lint '{}'", CxxUtils.getStackTrace(e));
+          LOG.error("Ignore XML error from PC-lint '{}'", CxxUtils.getStackTrace(e));
         }
       }
 
@@ -127,7 +121,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
           }
           return !file.isEmpty() && id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
         } catch (java.lang.NumberFormatException e) {
-          CxxUtils.LOG.error("Ignore number error from PC-lint report '{}'", CxxUtils.getStackTrace(e));
+          LOG.error("Ignore number error from PC-lint report '{}'", CxxUtils.getStackTrace(e));
         }
         return false;
       }
@@ -145,7 +139,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
         if (matcher.find()) {
           String misraRule = matcher.group(1);
           String newKey = "M" + misraRule;
-          CxxUtils.LOG.debug("Remap MISRA rule {} to key {}", misraRule, newKey);
+          LOG.debug("Remap MISRA rule {} to key {}", misraRule, newKey);
           return newKey;
         }
         return "";

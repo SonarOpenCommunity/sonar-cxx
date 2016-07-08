@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,14 +28,15 @@ import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
-public class CollapsibleIfCandidateCheckTest {
-
+public class CollapsibleIfCandidateCheckTest {  
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/CollapsibleIfCandidateCheck.cc"), new CollapsibleIfCandidateCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/CollapsibleIfCandidateCheck.cc", ".");
+    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,  new CollapsibleIfCandidateCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(16).withMessage("Merge this if statement with the enclosing one.")
       .next().atLine(49)

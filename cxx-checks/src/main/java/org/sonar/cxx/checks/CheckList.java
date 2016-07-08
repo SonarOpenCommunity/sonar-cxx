@@ -76,7 +76,6 @@ public final class CheckList {
       UsingNamespaceInHeaderCheck.class,
       SafetyTagCheck.class,
       UseCorrectIncludeCheck.class,
-      XPathCheck.class,
       BooleanEqualityComparisonCheck.class,
       NestedStatementsCheck.class,
       TooManyParametersCheck.class,

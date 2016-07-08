@@ -45,7 +45,7 @@ public class CxxProjectBuilderTest {
     projectDefinition.setProperty("key1", "${cxx.test.key1}");
     context = new ProjectBuilderContext(new ProjectReactor(projectDefinition));
     projectBuilder.build(context);
-    String value = context.projectReactor().getRoot().getProperties().getProperty("key1"); //@todo deprecated getProperties
+    String value = context.projectReactor().getRoot().properties().getOrDefault("key1", "novalue");
     assertThat(value).isEqualTo("value");
   }
 
@@ -54,7 +54,7 @@ public class CxxProjectBuilderTest {
     projectDefinition.setProperty("key2", "${cxx.test.key1}, ${cxx.test.key1}");
     context = new ProjectBuilderContext(new ProjectReactor(projectDefinition));
     projectBuilder.build(context);
-    String value = context.projectReactor().getRoot().getProperties().getProperty("key2"); //@todo deprecated getProperties
+    String value = context.projectReactor().getRoot().properties().getOrDefault("key2", "novalue");
     assertThat(value).isEqualTo("value, value");
   }
 
@@ -63,7 +63,7 @@ public class CxxProjectBuilderTest {
     projectDefinition.setProperty("key3", "${cxx.test.key1}, ${undefined}, xxx");
     context = new ProjectBuilderContext(new ProjectReactor(projectDefinition));
     projectBuilder.build(context);
-    String value = context.projectReactor().getRoot().getProperties().getProperty("key3"); //@todo deprecated getProperties
+    String value = context.projectReactor().getRoot().properties().getOrDefault("key3", "novalue");
     assertThat(value).isEqualTo("value, ${undefined}, xxx");
   }
 

@@ -21,7 +21,6 @@ package org.sonar.cxx;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +38,8 @@ import org.sonar.squidbridge.api.SourceFile;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class CxxPublicApiVisitorTest {
 
@@ -64,7 +65,7 @@ public class CxxPublicApiVisitorTest {
    */
   @SuppressWarnings("unchecked")
   private void testFile(String fileName, int expectedApi, int expectedUndoc,
-    boolean checkDouble) {
+    boolean checkDouble) throws UnsupportedEncodingException, IOException {
 
     CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
       CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
@@ -88,8 +89,9 @@ public class CxxPublicApiVisitorTest {
 
     visitor.withHeaderFileSuffixes(Arrays
       .asList(getFileExtension(fileName)));
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File(fileName),
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
       visitor);
 
     if (LOG.isDebugEnabled()) {
@@ -104,10 +106,9 @@ public class CxxPublicApiVisitorTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void test_no_matching_suffix() {
-    // this file does contain public API
-    SourceFile file = CxxAstScanner.scanSingleFile(new File(
-      "src/test/resources/metrics/doxygen_example.h"),
+  public void test_no_matching_suffix() throws IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
       new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
         CxxMetric.PUBLIC_UNDOCUMENTED_API)
       .withHeaderFileSuffixes(Arrays.asList(".hpp")));
@@ -117,38 +118,38 @@ public class CxxPublicApiVisitorTest {
   }
 
   @Test
-  public void doxygen_example() {
+  public void doxygen_example() throws IOException {
     testFile("src/test/resources/metrics/doxygen_example.h", 13, 0, false);
   }
 
   @Test
-  public void to_delete() {
+  public void to_delete() throws IOException {
     testFile("src/test/resources/metrics/public_api.h", 41, 0, true);
   }
 
   @Test
-  public void no_doc() {
+  public void no_doc() throws IOException {
     testFile("src/test/resources/metrics/no_doc.h", 22, 22, true);
   }
 
   @Test
-  public void template() {
+  public void template() throws IOException {
     testFile("src/test/resources/metrics/template.h", 5, 2, true);
   }
 
   @Test
-  public void unnamed_class() {
+  public void unnamed_class() throws IOException {
     testFile("src/test/resources/metrics/unnamed_class.h", 3, 1, false);
   }
 
   @Test
-  public void unnamed_enum() {
+  public void unnamed_enum() throws IOException {
     testFile("src/test/resources/metrics/unnamed_enum.h", 1, 1, false);
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void public_api() {
+  public void public_api() throws UnsupportedEncodingException, IOException {
     CxxPublicApiVisitor<Grammar> visitor = new CxxPublicApiVisitor<>(
       CxxMetric.PUBLIC_API, CxxMetric.PUBLIC_UNDOCUMENTED_API);
 
@@ -169,8 +170,8 @@ public class CxxPublicApiVisitorTest {
 
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
-    SourceFile file = CxxAstScanner.scanSingleFile(new File(
-      "src/test/resources/metrics/public_api.h"), visitor); //
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, visitor); //
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("DOC: {} UNDOC: {}",
@@ -263,4 +264,5 @@ public class CxxPublicApiVisitorTest {
       expectedIdCommentMap.keySet().size());
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
   }
+  
 }

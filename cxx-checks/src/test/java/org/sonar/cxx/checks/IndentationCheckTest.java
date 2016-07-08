@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,8 +35,11 @@ public class IndentationCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/IndentationCheck.cc"), new IndentationCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/IndentationCheck.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new IndentationCheck());   
+    
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
             .next().atLine(5).withMessage("Make this line start at column 3.")
             .next().atLine(11)
@@ -77,11 +81,12 @@ public class IndentationCheckTest {
   }
 
   @Test
-  public void custom() {
+  public void custom() throws UnsupportedEncodingException, IOException {
     IndentationCheck check = new IndentationCheck();
-    check.indentationLevel = 4;
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/IndentationCheck.cc"), check);
+    check.indentationLevel = 4;    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/IndentationCheck.cc", ".");  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
             .next().atLine(4).withMessage("Make this line start at column 5.")
             .next().atLine(9).withMessage("Make this line start at column 9.")

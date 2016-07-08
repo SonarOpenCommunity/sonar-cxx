@@ -22,8 +22,8 @@ package org.sonar.cxx.visitors;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
@@ -36,6 +36,7 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
+import org.sonar.cxx.preprocessor.SourceCodeProvider;
 
 /**
  * Abstract visitor that visits public API items.<br>
@@ -76,8 +77,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   abstract protected void onPublicApi(AstNode node, String id,
     List<Token> comments);
 
-  private static final Logger LOG = LoggerFactory
-    .getLogger("AbstractCxxPublicApiVisitor");
+  private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
 
   private static final boolean DEBUG = false;
   /**

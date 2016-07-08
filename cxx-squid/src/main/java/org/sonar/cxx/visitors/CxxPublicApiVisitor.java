@@ -21,8 +21,8 @@ package org.sonar.cxx.visitors;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.squidbridge.measures.MetricDef;
 
 import com.sonar.sslr.api.AstNode;
@@ -65,8 +65,7 @@ import com.sonar.sslr.api.Token;
 public class CxxPublicApiVisitor<GRAMMAR extends Grammar> extends
   AbstractCxxPublicApiVisitor<Grammar> {
 
-  private static final Logger LOG = LoggerFactory
-    .getLogger("CxxPublicApiVisitor");
+  private static final Logger LOG = Loggers.get(CxxPublicApiVisitor.class);
 
   private final MetricDef undocumented;
   private final MetricDef api;

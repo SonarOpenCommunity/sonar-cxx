@@ -34,10 +34,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.api.AnalysisException;
 
 import java.util.regex.Matcher;
@@ -49,7 +47,6 @@ import java.util.regex.Pattern;
   priority = Priority.BLOCKER,
   tags = {})
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("5min")
 //similar Vera++ rule T013 "No copyright notice found"
 public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {

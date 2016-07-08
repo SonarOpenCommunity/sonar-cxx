@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,9 +34,12 @@ public class MagicNumberCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void test() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/magicNumber.cc"), new MagicNumberCheck());
-
+  public void test() throws UnsupportedEncodingException, IOException {
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/magicNumber.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new MagicNumberCheck());  
+    
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage("Extract this magic number '0.85' into a constant, variable declaration or an enum.")
       .next().atLine(16)
@@ -45,12 +49,13 @@ public class MagicNumberCheckTest {
   }
 
   @Test
-  public void custom() {
+  public void custom() throws UnsupportedEncodingException, IOException {
     MagicNumberCheck check = new MagicNumberCheck();
     check.exceptions = "0.85 , 1,,";
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/magicNumber.cc"), check);
-
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/magicNumber.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+        
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17)
       .next().atLine(20)

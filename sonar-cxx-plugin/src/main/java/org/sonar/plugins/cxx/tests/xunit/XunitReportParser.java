@@ -30,8 +30,8 @@ import org.codehaus.staxmate.in.ElementFilter;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.utils.ParsingUtils;
-import org.sonar.api.utils.StaxParser.XmlStreamHandler; //@todo deprecated StaxParser
 import org.sonar.plugins.cxx.utils.EmptyReportException;
+import org.sonar.plugins.cxx.utils.StaxParser.XmlStreamHandler;
 
 /**
  * {@inheritDoc}

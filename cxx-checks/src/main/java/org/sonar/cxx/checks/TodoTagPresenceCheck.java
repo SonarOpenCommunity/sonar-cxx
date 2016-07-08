@@ -26,10 +26,8 @@ import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstAndTokenVisitor;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 @Rule(
   key = "TodoTagPresence",
@@ -37,7 +35,6 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
   priority = Priority.INFO,
   tags = {Tag.BAD_PRACTICE})
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNDERSTANDABILITY)
 @SqaleConstantRemediation("20min")
 public class TodoTagPresenceCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 

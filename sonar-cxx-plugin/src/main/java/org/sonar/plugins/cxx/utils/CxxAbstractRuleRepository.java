@@ -28,6 +28,8 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 
 /**
@@ -35,6 +37,8 @@ import org.sonar.plugins.cxx.CxxLanguage;
  */
 public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
+  public static final Logger LOG = Loggers.get(CxxAbstractRuleRepository.class);
+  
   private final ServerFileSystem fileSystem;
   public final Settings settings;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
@@ -68,7 +72,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
           FileReader reader = new FileReader(userExtensionXml);
           xmlRuleLoader.load(repository, reader);
         } catch (Exception ex) {
-          CxxUtils.LOG.info("Cannot Load XML '{}'", ex);
+          LOG.info("Cannot Load XML '{}'", ex);
         }
       }
     }

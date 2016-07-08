@@ -22,17 +22,17 @@ package org.sonar.plugins.cxx.squid;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import org.sonar.api.batch.fs.InputDir;
 
-import org.sonar.api.resources.Directory; //@todo deprecated
 import org.sonar.graph.Edge;
 
-class DirectoryEdge implements Edge<Directory> {
+class DirectoryEdge implements Edge<InputDir> {
 
-  private final Directory from;
-  private final Directory to;
+  private final InputDir from;
+  private final InputDir to;
   private final Set<FileEdge> rootEdges;
 
-  public DirectoryEdge(Directory from, Directory to) {
+  public DirectoryEdge(InputDir from, InputDir to) {
     this.from = from;
     this.to = to;
     this.rootEdges = new HashSet<>();
@@ -52,12 +52,12 @@ class DirectoryEdge implements Edge<Directory> {
   }
 
   @Override
-  public Directory getFrom() {
+  public InputDir getFrom() {
     return from;
   }
 
   @Override
-  public Directory getTo() {
+  public InputDir getTo() {
     return to;
   }
 }

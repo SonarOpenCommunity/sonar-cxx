@@ -17,16 +17,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.codehaus.sonarplugins.cxx.cxxlint;
+package org.sonar.cxx.checks;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
-import java.util.HashMap;
-
-/**
- *
- * @author jocs
- */
-public class CheckerData {
-    public String id = "";
-    public Boolean enabled = true;
-    public HashMap<String, String> parameterData = new HashMap<String, String>();
+public class CxxFileTester {
+  public InputFile cxxFile;
+  public SensorContextTester sensorContext;  
 }

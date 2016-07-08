@@ -21,14 +21,12 @@ package org.sonar.cxx.checks;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.List;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import java.nio.charset.CharsetEncoder;
 import java.nio.file.Files;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
