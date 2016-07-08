@@ -38,13 +38,8 @@ public class ParsingErrorRecoveryCheckTest {
   public void test_syntax_error_recovery() throws UnsupportedEncodingException, IOException {
     CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(true);
-    String fileName = "src/test/resources/checks/parsingError3.cc";
-    SensorContextTester sensorContext = SensorContextTester.create(new File("."));
-    String content = new String(Files.readAllBytes(new File(sensorContext.fileSystem().baseDir(), fileName).toPath()), "UTF-8");
-    sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
-    InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
-    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(cxxFile, config, sensorContext, new ParsingErrorRecoveryCheck()); 
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError3.cc", ".");       
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, config, tester.sensorContext, new ParsingErrorRecoveryCheck()); 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("C++ Parser can't read code. Declaration is skipped.")
