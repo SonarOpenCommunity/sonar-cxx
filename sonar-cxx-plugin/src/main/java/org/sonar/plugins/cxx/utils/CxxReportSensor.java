@@ -218,7 +218,7 @@ public abstract class CxxReportSensor implements Sensor {
             newIssue.at(location);
             newIssue.save();
           } catch (Exception ex) {
-            LOG.warn("Cannot save issue '{}', skipping issue", ex.getMessage());
+            LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
           }
         } else {
           LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
