@@ -23,7 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 
@@ -121,11 +123,14 @@ public class CxxXunitSensor extends CxxReportSensor {
     throws javax.xml.stream.XMLStreamException,
     java.io.IOException,
     javax.xml.transform.TransformerException {
-    String projectName = context.settings().getString("sonar.projectName");
-    if (projectName == null || !projectName.equals(context.module().key())) {
-      LOG.debug("Runs unit test import sensor only at top level project skip : '{}'", context.module());
-      return;
+    
+    String moduleKey = context.settings().getString("sonar.moduleKey");
+    if (moduleKey != null) {
+        LOG.debug("Runs unit test import sensor only at top level project skip : Module Key = '{}'", moduleKey);
+        return;        
     }
+    
+    LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());    
     
     int testsCount = 0;
     int testsSkipped = 0;
