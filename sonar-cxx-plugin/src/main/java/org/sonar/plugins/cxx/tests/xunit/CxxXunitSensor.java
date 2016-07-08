@@ -78,7 +78,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxXunitSensor");
+    descriptor.name("CxxXunitSensor");
   }
   
   /**
@@ -121,8 +121,12 @@ public class CxxXunitSensor extends CxxReportSensor {
     throws javax.xml.stream.XMLStreamException,
     java.io.IOException,
     javax.xml.transform.TransformerException {
-    LOG.info("Processing in 'simple mode' i.e. with provideDetails=false.");
-
+    String projectName = context.settings().getString("sonar.projectName");
+    if (projectName == null || !projectName.equals(context.module().key())) {
+      LOG.debug("Runs unit test import sensor only at top level project skip : '{}'", context.module());
+      return;
+    }
+    
     int testsCount = 0;
     int testsSkipped = 0;
     int testsErrors = 0;
