@@ -87,7 +87,15 @@ public class CxxXunitSensor extends CxxReportSensor {
    * {@inheritDoc}
    */
   @Override
-  public void execute(SensorContext context) {
+  public void execute(SensorContext context) {    
+    String moduleKey = context.settings().getString("sonar.moduleKey");
+    if (moduleKey != null) {
+        LOG.debug("Runs unit test import sensor only at top level project skip : Module Key = '{}'", moduleKey);
+        return;        
+    }
+    
+    LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());    
+    
     try {
       List<File> reports = getReports(settings, context.fileSystem().baseDir(), REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
@@ -123,15 +131,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     throws javax.xml.stream.XMLStreamException,
     java.io.IOException,
     javax.xml.transform.TransformerException {
-    
-    String moduleKey = context.settings().getString("sonar.moduleKey");
-    if (moduleKey != null) {
-        LOG.debug("Runs unit test import sensor only at top level project skip : Module Key = '{}'", moduleKey);
-        return;        
-    }
-    
-    LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());    
-    
+        
     int testsCount = 0;
     int testsSkipped = 0;
     int testsErrors = 0;
