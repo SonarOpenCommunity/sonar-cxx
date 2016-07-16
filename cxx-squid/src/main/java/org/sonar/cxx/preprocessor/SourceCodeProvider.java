@@ -20,12 +20,15 @@
 package org.sonar.cxx.preprocessor;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 /**
  * The source code provider is responsible for locating source files and getting
@@ -36,7 +39,7 @@ import org.slf4j.LoggerFactory;
 public class SourceCodeProvider {
 
   private final List<File> includeRoots = new LinkedList<>();
-  public static final Logger LOG = LoggerFactory.getLogger("SourceCodeProvider");
+  public static final Logger LOG = Loggers.get(SourceCodeProvider.class);
 
   public void setIncludeRoots(List<String> includeRoots, String baseDir) {
     for (String tmp : includeRoots) {
@@ -108,16 +111,10 @@ public class SourceCodeProvider {
     return result;
   }
 
-  public String getSourceCode(File file) {
-    String code = null;
-    if (file.isFile()) {
-      try {
-        code = FileUtils.readFileToString(file);
-      } catch (java.io.IOException e) {
-        LOG.error("Cannot read contents of the file '{}'", file);
-      }
-    }
-
-    return code;
+  public String getSourceCode(File file, Charset charset)
+    throws IOException 
+  {
+    byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
+    return new String(encoded, charset);
   }
 }

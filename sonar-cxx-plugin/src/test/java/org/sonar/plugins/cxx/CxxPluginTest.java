@@ -19,15 +19,19 @@
  */
 package org.sonar.plugins.cxx;
 
-import static org.junit.Assert.assertEquals;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
+import org.sonar.api.Plugin;
+import org.sonar.api.SonarQubeVersion;
 
 public class CxxPluginTest {
 
   @Test
   public void testGetExtensions() throws Exception {
-    CxxPlugin plugin = new CxxPlugin();
-    assertEquals(68, plugin.getExtensions().size());
+   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
+   CxxPlugin plugin = new CxxPlugin();
+   plugin.define(context);
+   assertThat(context.getExtensions()).hasSize(64);
   }
 }

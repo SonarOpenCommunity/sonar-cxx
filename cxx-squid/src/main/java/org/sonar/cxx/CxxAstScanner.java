@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx;
 
-import java.io.File;
 import java.util.Collection;
 
 import org.sonar.cxx.api.CxxKeyword;
@@ -55,6 +54,8 @@ import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Parser;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.SensorContext;
 
 public final class CxxAstScanner {
 
@@ -64,20 +65,29 @@ public final class CxxAstScanner {
   /**
    * Helper method for testing checks without having to deploy them on a Sonar
    * instance.
+   * @param file is the file to be checked
+   * @param sensorContext new 5.6 sq api batch side context
+   * @param visitors ast checks and visitors to use
+   * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFile(File file, SquidAstVisitor<Grammar>... visitors) {
-    return scanSingleFileConfig(file, new CxxConfiguration(), visitors);
+  public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
+    return scanSingleFileConfig(file, new CxxConfiguration(sensorContext.fileSystem().encoding()), sensorContext, visitors);
   }
 
   /**
    * Helper method for scanning a single file
+   * @param file is the file to be checked
+   * @param cxxConfig the plugin configuration
+   * @param sensorContext new 5.6 sq api batch side context
+   * @param visitors ast checks and visitors to use
+   * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFileConfig(File file, CxxConfiguration cxxConfig, SquidAstVisitor<Grammar>... visitors) {
+  public static SourceFile scanSingleFileConfig(InputFile file, CxxConfiguration cxxConfig, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
-    AstScanner<Grammar> scanner = create(cxxConfig, visitors);
-    scanner.scanFile(file);
+    AstScanner<Grammar> scanner = create(cxxConfig, sensorContext, visitors);
+    scanner.scanFile(file.file());
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
       throw new IllegalStateException("Only one SourceFile was expected whereas " + sources.size() + " has been returned.");
@@ -85,7 +95,7 @@ public final class CxxAstScanner {
     return (SourceFile) sources.iterator().next();
   }
 
-  public static AstScanner<Grammar> create(CxxConfiguration conf, SquidAstVisitor<Grammar>... visitors) {
+  public static AstScanner<Grammar> create(CxxConfiguration conf, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
     final Parser<Grammar> parser = CxxParser.create(context, conf);
 

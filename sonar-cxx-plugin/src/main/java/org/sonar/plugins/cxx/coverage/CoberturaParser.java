@@ -28,28 +28,27 @@ import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.utils.StaxParser; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.utils.CxxUtils;
+import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
  * {@inheritDoc}
  */
 public class CoberturaParser extends CxxCoverageParser {
-
-  public CoberturaParser(final String baseDir) {
-    super(baseDir);
+  public static final Logger LOG = Loggers.get(CoberturaParser.class);
+  public CoberturaParser() {
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final Project project, final SensorContext context, File report, final Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
+  public void processReport(final SensorContext context, File report, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'Cobertura' format");
+    LOG.debug("Parsing 'Cobertura' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
        * {@inheritDoc}
@@ -57,27 +56,27 @@ public class CoberturaParser extends CxxCoverageParser {
       @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         rootCursor.advance();
-        collectPackageMeasures(rootCursor.descendantElementCursor("package"), coverageData);
+        collectPackageMeasures(context, rootCursor.descendantElementCursor("package"), coverageData);
       }
     });
     parser.parse(report);
   }
 
-  private void collectPackageMeasures(SMInputCursor pack, Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
+  private void collectPackageMeasures(final SensorContext context, SMInputCursor pack, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (pack.getNext() != null) {
-      collectFileMeasures(pack.descendantElementCursor("class"), coverageData);
+      collectFileMeasures(context, pack.descendantElementCursor("class"), coverageData);
     }
   }
 
-  private void collectFileMeasures(SMInputCursor clazz, Map<String, CoverageMeasuresBuilder> coverageData) //@todo deprecated CoverageMeasuresBuilder
+  private void collectFileMeasures(final SensorContext context, SMInputCursor clazz, Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
     while (clazz.getNext() != null) {
-      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), baseDir);
+      String normalPath = CxxUtils.normalizePathFull(clazz.getAttrValue("filename"), context.fileSystem().baseDir().getAbsolutePath());
       if (normalPath != null) {
-        CoverageMeasuresBuilder builder = coverageData.get(normalPath); //@todo deprecated CoverageMeasuresBuilder
+        CoverageMeasures builder = coverageData.get(normalPath);
         if (builder == null) {
-          builder = CoverageMeasuresBuilder.create(); //@todo deprecated CoverageMeasuresBuilder
+          builder = CoverageMeasures.create();
           coverageData.put(normalPath, builder);
         }
         collectFileData(clazz, builder);
@@ -85,13 +84,13 @@ public class CoberturaParser extends CxxCoverageParser {
     }
   }
 
-  private void collectFileData(SMInputCursor clazz, CoverageMeasuresBuilder builder) throws XMLStreamException { //@todo deprecated CoverageMeasuresBuilder
+  private void collectFileData(SMInputCursor clazz, CoverageMeasures builder) throws XMLStreamException {
     SMInputCursor line = clazz.childElementCursor("lines").advance().childElementCursor("line");
     while (line.getNext() != null) {
       int lineId = Integer.parseInt(line.getAttrValue("number"));
       long noHits = Long.parseLong(line.getAttrValue("hits"));
       if (noHits > Integer.MAX_VALUE) {
-        CxxUtils.LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
+        LOG.warn("Truncating the actual number of hits ({}) to the maximum number supported by Sonar ({})",
           noHits, Integer.MAX_VALUE);
         noHits = Integer.MAX_VALUE;
       }

@@ -19,91 +19,78 @@
  */
 package org.sonar.plugins.cxx.cppcheck;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
+import java.io.File;
+import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.any;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
 public class CxxCppCheckSensorTest {
 
-  private CxxCppCheckSensor sensor;
-  private SensorContext context;
-  private Project project;
-  private RulesProfile profile;
   private Settings settings;
   private DefaultFileSystem fs;
-  private Issuable issuable;
-  private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {
-    project = TestUtils.mockProject();
     fs = TestUtils.mockFileSystem();
-    issuable = TestUtils.mockIssuable();
-    perspectives = TestUtils.mockPerspectives(issuable);
-    profile = mock(RulesProfile.class);
     settings = new Settings();
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
-    context = mock(SensorContext.class);
   }
 
   @Test
   public void shouldReportCorrectViolations() {
-    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
-      "cppcheck-reports/cppcheck-result-*.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");
-    sensor.analyse(project, context);
-    verify(issuable, times(9)).addIssue(any(Issue.class));
+    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject"));
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, fs.baseDir().getAbsolutePath() + 
+      "/cppcheck-reports/cppcheck-result-*.xml");
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(9);
   }
 
   @Test
   public void shouldReportProjectLevelViolationsV1() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(3)).addIssue(any(Issue.class));
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(3);
   }
 
   @Test
   public void shouldReportProjectLevelViolationsV2() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(3)).addIssue(any(Issue.class));
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(3);
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(0)).addIssue(any(Issue.class));
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV2() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
-    sensor = new CxxCppCheckSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(0)).addIssue(any(Issue.class));
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
   }
 }

@@ -10,7 +10,7 @@
         </function>
       </functions>
       <source_files>
-        <source_file id="0" path="/x/coveragetest/project1/source1.cpp" checksum_type="MD5" checksum="026C9CDA50569DAD988498724697DC05">
+        <source_file id="0" path="project1/source1.cpp" checksum_type="MD5" checksum="026C9CDA50569DAD988498724697DC05">
         </source_file>
       </source_files>                    
     </module>  
@@ -52,9 +52,9 @@
         </function>
       </functions>
       <source_files>
-        <source_file id="0" path="/x/coveragetest/project2/source1.cpp" checksum_type="MD5" checksum="026C9CDA50569DAD988498724697DC05">
+        <source_file id="0" path="project2/source1.cpp" checksum_type="MD5" checksum="026C9CDA50569DAD988498724697DC05">
         </source_file>
-        <source_file id="1" path="/x/coveragetest/project2/source2.cpp" checksum_type="MD5" checksum="CEE3C0E3780C054D7C404DE46917FB6B">
+        <source_file id="1" path="project2/source2.cpp" checksum_type="MD5" checksum="CEE3C0E3780C054D7C404DE46917FB6B">
         </source_file>        
       </source_files>
     </module>

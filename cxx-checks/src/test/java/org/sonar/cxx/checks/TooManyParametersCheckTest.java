@@ -24,15 +24,19 @@ import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class TooManyParametersCheckTest {
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     TooManyParametersCheck check = new TooManyParametersCheck();
     check.setMax(3);
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyParameters.cc"), check);
+    
+
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyParameters.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);       
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(11)
       .next().atLine(16)

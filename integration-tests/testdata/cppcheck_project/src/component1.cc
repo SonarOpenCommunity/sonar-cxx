@@ -1,6 +1,9 @@
 #include \
     "component1.hh"
 
+#include "component1.hh"
+#include "component1.hh"
+#include "component1.hh"
 /**
  * Does something
  *

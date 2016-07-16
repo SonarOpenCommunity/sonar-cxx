@@ -24,14 +24,17 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 import org.sonar.cxx.CxxAstScanner;
 
-import java.io.File;
+import org.sonar.cxx.checks.CxxFileTester;
+import org.sonar.cxx.checks.CxxFileTesterHelper;
 
 public class FunctionNameCheckTest {
 
   @Test
   public void test() throws Exception {
     FunctionNameCheck check = new FunctionNameCheck();
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/FunctionName.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionName.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(8).withMessage(
         "Rename function \"Badly_Named_Function\" to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")

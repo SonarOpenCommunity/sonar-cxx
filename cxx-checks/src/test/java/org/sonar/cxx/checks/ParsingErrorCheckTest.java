@@ -22,8 +22,13 @@ package org.sonar.cxx.checks;
 import static org.hamcrest.Matchers.containsString;
 
 import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.api.SourceFile;
@@ -32,20 +37,26 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class ParsingErrorCheckTest {
 
   @Test
-  public void test_syntax_error_recognition() {
+  public void test_syntax_error_recognition() throws UnsupportedEncodingException, IOException {
     CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(false);
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/parsingError1.cc"), config, new ParsingErrorCheck());
+        
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError1.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, config, tester.sensorContext, new ParsingErrorCheck()); 
+        
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(4).withMessageThat(containsString("Parse error"))
       .noMore();
   }
 
   @Test
-  public void test_syntax_error_pperror() {
+  public void test_syntax_error_pperror() throws UnsupportedEncodingException, IOException {
     CxxConfiguration config = new CxxConfiguration();
     config.setErrorRecoveryEnabled(false);
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(new File("src/test/resources/checks/parsingError2.cc"), config, new ParsingErrorCheck());
+        
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/parsingError2.cc", ".");        
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, config, tester.sensorContext, new ParsingErrorCheck()); 
+        
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessageThat(containsString("Parse error"))
       .noMore();

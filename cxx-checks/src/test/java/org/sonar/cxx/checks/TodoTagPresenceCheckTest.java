@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -33,8 +33,10 @@ public class TodoTagPresenceCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TodoTagPresenceCheck.cc"), new TodoTagPresenceCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TodoTagPresenceCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new TodoTagPresenceCheck()); 
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(3).withMessage("Complete the task associated to this TODO comment.")
       .next().atLine(7)

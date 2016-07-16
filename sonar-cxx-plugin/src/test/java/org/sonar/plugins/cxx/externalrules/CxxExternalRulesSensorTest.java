@@ -19,107 +19,101 @@
  */
 package org.sonar.plugins.cxx.externalrules;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
+import java.io.File;
+import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
 import org.sonar.api.config.Settings;
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
 import org.sonar.plugins.cxx.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.mock;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 public class CxxExternalRulesSensorTest {
 
   private CxxExternalRulesSensor sensor;
-  private SensorContext context; //@todo deprecated
-  private Project project; //@todo deprecated
-  private RulesProfile profile;
   private Settings settings;
   private DefaultFileSystem fs;
-  private Issuable issuable;
-  private ResourcePerspectives perspectives;
 
   @Before
   public void setUp() {    
-    project = TestUtils.mockProject();
-    issuable = TestUtils.mockIssuable();
-    perspectives = TestUtils.mockPerspectives(issuable);
     fs = TestUtils.mockFileSystem();
-    profile = mock(RulesProfile.class);
-    context = mock(SensorContext.class); //@todo deprecated
     settings = new Settings();
   }
 
   @Test
   public void shouldReportCorrectViolations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-ok.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/utils.cpp");  
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(2)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    sensor = new CxxExternalRulesSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(2);
   }
 
   @Test
   public void shouldReportFileLevelViolations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-filelevelviolation.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    sensor = new CxxExternalRulesSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void shouldReportProjectLevelViolations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY,
                          "externalrules-reports/externalrules-result-projectlevelviolation.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    sensor = new CxxExternalRulesSensor(settings);
+    sensor.execute(context);
+        assertThat(context.allIssues()).hasSize(1);
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test(expected = IllegalStateException.class)  
   public void shouldThrowExceptionWhenReportEmpty() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-empty.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(0)).addIssue(any(Issue.class));
+    sensor = new CxxExternalRulesSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test
   public void shouldReportNoViolationsIfNoReportFound() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/noreport.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(0)).addIssue(any(Issue.class));
+    sensor = new CxxExternalRulesSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
   }
 
   @Test(expected = IllegalStateException.class)
   public void shouldThrowInCaseOfATrashyReport() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-result-invalid.xml");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
+    sensor = new CxxExternalRulesSensor(settings);
+    sensor.execute(context);
   }
 
   @Test
   public void shouldReportOnlyOneViolationAndRemoveDuplicates() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings = new Settings();
     settings.setProperty(CxxExternalRulesSensor.REPORT_PATH_KEY, "externalrules-reports/externalrules-with-duplicates.xml");
-    TestUtils.addInputFile(fs, perspectives, issuable, "sources/utils/code_chunks.cpp");
-    sensor = new CxxExternalRulesSensor(perspectives, settings, fs, profile);
-    sensor.analyse(project, context);
-    verify(issuable, times(1)).addIssue(any(Issue.class));
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    sensor = new CxxExternalRulesSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(1);
   }
 }

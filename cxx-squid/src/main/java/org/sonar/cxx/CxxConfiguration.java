@@ -28,14 +28,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives;
 import org.sonar.squidbridge.api.SquidConfiguration;
 
 public class CxxConfiguration extends SquidConfiguration {
 
-  private static final org.slf4j.Logger LOG = LoggerFactory.getLogger("CxxConfiguration");
+  private static final Logger LOG = Loggers.get(CxxConfiguration.class);
   public static final String OverallIncludeKey = "CxxOverallInclude";
   public static final String OverallDefineKey = "CxxOverallDefine";
 
@@ -48,12 +48,11 @@ public class CxxConfiguration extends SquidConfiguration {
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
-  private ResourcePerspectives perspectives;
-  private FileSystem fs;
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 
   public CxxConfiguration() {
+    
     uniqueIncludes.put(OverallIncludeKey, new ArrayList<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
@@ -68,17 +67,6 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public CxxConfiguration(FileSystem fs) {
     super(fs.encoding());
-    this.fs = fs;
-    uniqueIncludes.put(OverallIncludeKey, new ArrayList<String>());
-    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
-    cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
-  }
-
-  public CxxConfiguration(FileSystem fs,
-    ResourcePerspectives perspectivesIn) {
-    super(fs.encoding());
-    this.fs = fs;
-    perspectives = perspectivesIn;
     uniqueIncludes.put(OverallIncludeKey, new ArrayList<String>());
     uniqueDefines.put(OverallDefineKey, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
@@ -250,5 +238,9 @@ public class CxxConfiguration extends SquidConfiguration {
         LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
       }
     }
+  }
+
+  public Charset getEncoding() {
+    return super.getCharset();
   }
 }

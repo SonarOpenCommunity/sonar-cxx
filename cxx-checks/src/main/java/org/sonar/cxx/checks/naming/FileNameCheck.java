@@ -21,12 +21,10 @@ package org.sonar.cxx.checks.naming;
 
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 import javax.annotation.Nullable;
@@ -38,7 +36,6 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR,
   name = "File names should comply with a naming convention",
   tags = {Tag.CONVENTION})
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("10min")
 public class FileNameCheck extends SquidCheck<Grammar> {
 

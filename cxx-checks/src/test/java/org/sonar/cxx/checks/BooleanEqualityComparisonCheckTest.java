@@ -19,7 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,13 +29,14 @@ import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
 
 public class BooleanEqualityComparisonCheckTest {
-
+  
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/BooleanEqualityComparisonCheck.cc"), new BooleanEqualityComparisonCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/BooleanEqualityComparisonCheck.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new BooleanEqualityComparisonCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage("Remove the unnecessary boolean comparison to simplify this expression.")
       .next().atLine(13)

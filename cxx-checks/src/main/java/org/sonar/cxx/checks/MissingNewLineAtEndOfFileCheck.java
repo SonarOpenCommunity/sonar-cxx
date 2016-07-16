@@ -26,10 +26,8 @@ import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.cxx.tag.Tag;
 
 @Rule(
@@ -38,7 +36,6 @@ import org.sonar.cxx.tag.Tag;
   tags = {Tag.CONVENTION},
   priority = Priority.MINOR)
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("1min")
 public class MissingNewLineAtEndOfFileCheck extends SquidCheck<Grammar> {
 

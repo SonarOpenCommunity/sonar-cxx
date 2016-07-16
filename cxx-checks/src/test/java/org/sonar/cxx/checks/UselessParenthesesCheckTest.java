@@ -19,8 +19,7 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -33,8 +32,10 @@ public class UselessParenthesesCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UselessParenthesesCheck.cc"), new UselessParenthesesCheck());
+  public void detected() throws IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UselessParenthesesCheck.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UselessParenthesesCheck()); 
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(4).withMessage("Remove those useless parentheses.")
       .next().atLine(5);

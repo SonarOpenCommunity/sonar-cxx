@@ -24,110 +24,91 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.ActiveRule;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
-import org.sonar.api.design.Dependency; //@todo deprecated
-import org.sonar.api.issue.Issuable;
-import org.sonar.api.issue.Issue;
-import org.sonar.api.measures.CoreMetrics;
-import org.sonar.api.measures.Measure; //@todo deprecated
-import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.PersistenceMode; //@todo deprecated
-import org.sonar.api.resources.Directory; //@todo deprecated
-import org.sonar.api.resources.File; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.resources.Resource; //@todo deprecated
 import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
 import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import org.sonar.cxx.preprocessor.CxxPreprocessor;
 import org.sonar.graph.Cycle;
 import org.sonar.graph.DirectedGraph;
-import org.sonar.graph.Dsm;
-import org.sonar.graph.DsmTopologicalSorter;
 import org.sonar.graph.Edge;
 import org.sonar.graph.IncrementalCyclesAndFESSolver;
-import org.sonar.graph.MinimumFeedbackEdgeSetSolver;
-import org.sonar.plugins.cxx.utils.CxxMetrics;
-import org.sonar.plugins.cxx.utils.CxxUtils;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputDir;
+import org.sonar.api.batch.sensor.issue.NewIssue;
+import org.sonar.api.batch.sensor.issue.NewIssueLocation;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 public class DependencyAnalyzer {
-
-  private final Project project;
+  public static final Logger LOG = Loggers.get(DependencyAnalyzer.class);
   private final SensorContext context;
-  private final ResourcePerspectives perspectives;
-  private int violationsCount;
   private final ActiveRule duplicateIncludeRule;
   private final ActiveRule cycleBetweenPackagesRule;
 
-  private final DirectedGraph<File, FileEdge> filesGraph = new DirectedGraph<>();
-  private final DirectedGraph<Directory, DirectoryEdge> packagesGraph = new DirectedGraph<>();
-  private final Map<Edge, Dependency> dependencyIndex = new HashMap<>();  //@todo deprecated Dependency
-  private final Multimap<Directory, File> directoryFiles = HashMultimap.create();
+  private final DirectedGraph<InputFile, FileEdge> filesGraph = new DirectedGraph<>();
+  private final DirectedGraph<InputDir, DirectoryEdge> packagesGraph = new DirectedGraph<>();
+  private final Multimap<InputDir, InputFile> directoryFiles = HashMultimap.create();
+  private final FileSystem fs;
 
-  public DependencyAnalyzer(ResourcePerspectives perspectives, Project project, SensorContext context, ActiveRules rules) {
-    this.project = project;
+  public DependencyAnalyzer(SensorContext context, ActiveRules rules) {
     this.context = context;
-    this.perspectives = perspectives;
-
-    this.violationsCount = 0;
+    this.fs = context.fileSystem();
     this.duplicateIncludeRule = DuplicatedIncludeCheck.getActiveRule(rules);
     this.cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(rules);
   }
 
-  public void addFile(InputFile inputFile, Collection<CxxPreprocessor.Include> includedFiles) {
-    File sonarFile = File.fromIOFile(inputFile.file(), project); //@todo deprecated fromIOFile: see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+  public void addFile(InputFile sonarFile, Collection<CxxPreprocessor.Include> includedFiles, SensorContext sensorContext) {
     //Store the directory and file
-    Directory sonarDir = sonarFile.getParent();
+    InputDir sonarDir = this.fs.inputDir(sonarFile.path().getParent().toFile());
     packagesGraph.addVertex(sonarDir);
     directoryFiles.put(sonarDir, sonarFile);
 
     //Build the dependency graph
     Map<String, Integer> firstIncludeLine = new HashMap<>();
     for (CxxPreprocessor.Include include : includedFiles) {
-      File includedFile = File.fromIOFile(new java.io.File(include.getPath()), project); //@todo deprecated fromIOFile: http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
-      String includedFilePath = includedFile != null ? includedFile.getPath() : include.getPath();
+      InputFile includedFile = fs.inputFile(fs.predicates().hasPath(include.getPath()));
+      String includedFilePath = includedFile != null ? includedFile.absolutePath() : include.getPath();
       Integer prevIncludeLine = firstIncludeLine.put(includedFilePath, include.getLine());
-      if (prevIncludeLine != null) {
-        Issuable issuable = perspectives.as(Issuable.class, sonarFile);
-        if ((issuable != null) && (duplicateIncludeRule != null)) {
-          Issue issue = issuable.newIssueBuilder()
-            .ruleKey(duplicateIncludeRule.ruleKey())
-            .line(include.getLine()) //@todo deprecated line
-            .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".") //@todo deprecated message
-            .build();
-          if (issuable.addIssue(issue)) {
-            violationsCount++;
-          }
-        } else {
-          CxxUtils.LOG.warn("Already created edge from '{}' (line {} to '{}', previous edge from line {}",
-            new Object[]{sonarFile.getKey(), include.getLine(), includedFilePath, prevIncludeLine});
-        }
+      if (prevIncludeLine != null && duplicateIncludeRule != null) {        
+          NewIssue newIssue = sensorContext.newIssue().forRule(duplicateIncludeRule.ruleKey());
+          NewIssueLocation location = newIssue.newLocation()
+            .on(sonarFile)
+            .at(sonarFile.selectLine(include.getLine() > 0 ? include.getLine() : 1))
+            .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".");
+
+          newIssue.at(location);
+          newIssue.save();          
       } else if (includedFile == null) {
-        CxxUtils.LOG.warn("Unable to find resource '{}' to create a dependency with '{}'", include.getPath(), sonarFile.getKey());
-      } else if (context.isIndexed(includedFile, false)) { //@todo deprecated isIndexed
+        // dont warn about missing files
+      } else if (context.fileSystem().hasFiles(fs.predicates().hasPath(sonarFile.absolutePath()))) {
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());
-        filesGraph.addEdge(fileEdge);
+
+        if (!filesGraph.hasEdge(sonarFile, includedFile)) {
+          filesGraph.addEdge(fileEdge);
+        }        
 
         //Add the dependency in the packages graph, if the directories are different
-        Directory includedDir = includedFile.getParent();
+        InputDir includedDir = this.fs.inputDir(includedFile.path().getParent().toFile());
         if (!sonarDir.equals(includedDir)) {
           DirectoryEdge edge = packagesGraph.getEdge(sonarDir, includedDir);
           if (edge == null) {
             edge = new DirectoryEdge(sonarDir, includedDir);
-            packagesGraph.addEdge(edge);
+            if (packagesGraph.hasEdge(sonarDir, includedDir)) {
+              packagesGraph.addEdge(edge);
+            }            
           }
           edge.addRootEdge(fileEdge);
         }
       } else {
-        if (CxxUtils.LOG.isDebugEnabled()) {
-          CxxUtils.LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.getName());
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Skipping dependency to file '{}', because it is'nt part of this project", includedFile.path());
         }
       }
     }
@@ -136,114 +117,41 @@ public class DependencyAnalyzer {
   /**
    * Perform the analysis and save the results.
    */
-  public void save() {
-    final Collection<Directory> packages = packagesGraph.getVertices();
-    for (Directory dir : packages) {
-      //Save dependencies (cross-directories, including cross-directory file dependencies)
-      for (DirectoryEdge edge : packagesGraph.getOutgoingEdges(dir)) {
-        Dependency dependency = new Dependency(dir, edge.getTo()) //@todo deprecated Dependency
-          .setUsage("references")
-          .setWeight(edge.getWeight())
-          .setParent(null);
-        context.saveDependency(dependency); //@todo deprecated saveDependency
-        dependencyIndex.put(edge, dependency);
+  public void save(SensorContext sensorContext) {
+    final Collection<InputDir> packages = packagesGraph.getVertices();
 
-        for (FileEdge subEdge : edge.getRootEdges()) {
-          saveFileEdge(subEdge, dependency);
-        }
-      }
 
-      //Save file dependencies (inside directory) & directory metrics
-      saveDirectory(dir);
-    }
-
-    IncrementalCyclesAndFESSolver<Directory> cycleDetector = new IncrementalCyclesAndFESSolver<>(packagesGraph, packages);
+    IncrementalCyclesAndFESSolver<InputDir> cycleDetector = new IncrementalCyclesAndFESSolver<>(packagesGraph, packages);
     Set<Cycle> cycles = cycleDetector.getCycles();
     Set<Edge> feedbackEdges = cycleDetector.getFeedbackEdgeSet();
     int tangles = cycleDetector.getWeightOfFeedbackEdgeSet();
 
-    CxxUtils.LOG.info("Project '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
-      new Object[]{project.getKey(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(packagesGraph.getEdges(packages))});
+    LOG.info("Project '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
+      new Object[]{context.module().key(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(packagesGraph.getEdges(packages))});
 
-    saveViolations(feedbackEdges, packagesGraph);
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_CYCLES, cycles.size()); //@todo deprecated PACKAGE_CYCLES
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_FEEDBACK_EDGES, feedbackEdges.size()); //@todo deprecated PACKAGE_FEEDBACK_EDGES
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_TANGLES, tangles); //@todo deprecated PACKAGE_TANGLES
-    savePositiveMeasure(project, CoreMetrics.PACKAGE_EDGES_WEIGHT, getEdgesWeight(packagesGraph.getEdges(packages))); //@todo deprecated PACKAGE_EDGES_WEIGHT
-
-    String dsmJson = serializeDsm(packages, feedbackEdges);
-    Measure dsmMeasure = new Measure(CoreMetrics.DEPENDENCY_MATRIX, dsmJson) //@todo deprecated DEPENDENCY_MATRIX
-      .setPersistenceMode(PersistenceMode.DATABASE);
-    context.saveMeasure(project, dsmMeasure);
+    saveViolations(feedbackEdges, packagesGraph, sensorContext);
   }
 
-  private void saveDirectory(Directory dir) {
-    final Collection<File> files = directoryFiles.get(dir);
-    for (File file : files) {
-      for (FileEdge edge : filesGraph.getOutgoingEdges(file)) {
-        saveFileEdge(edge, null);
-      }
-    }
-
-    IncrementalCyclesAndFESSolver<File> cycleDetector = new IncrementalCyclesAndFESSolver<>(filesGraph, files);
-    Set<Cycle> cycles = cycleDetector.getCycles();
-    MinimumFeedbackEdgeSetSolver solver = new MinimumFeedbackEdgeSetSolver(cycles);
-    Set<Edge> feedbackEdges = solver.getEdges();
-    int tangles = solver.getWeightOfFeedbackEdgeSet();
-
-    CxxUtils.LOG.info("Directory: '{}' Cycles:{} Feedback cycles:{} Tangles:{} Weight:{}",
-      new Object[]{dir.getKey(), cycles.size(), feedbackEdges.size(), tangles, getEdgesWeight(filesGraph.getEdges(files))});
-
-    savePositiveMeasure(dir, CoreMetrics.FILE_CYCLES, cycles.size()); //@todo deprecated FILE_CYCLES
-    savePositiveMeasure(dir, CoreMetrics.FILE_FEEDBACK_EDGES, feedbackEdges.size()); //@todo deprecated FILE_FEEDBACK_EDGES
-    savePositiveMeasure(dir, CoreMetrics.FILE_TANGLES, tangles); //@todo deprecated FILE_TANGLES
-    savePositiveMeasure(dir, CoreMetrics.FILE_EDGES_WEIGHT, getEdgesWeight(filesGraph.getEdges(files))); //@todo deprecated FILE_EDGES_WEIGHT
-
-    String dsmJson = serializeDsm(files, feedbackEdges);
-    context.saveMeasure(dir, new Measure(CoreMetrics.DEPENDENCY_MATRIX, dsmJson)); //@todo deprecated DEPENDENCY_MATRIX
-  }
-
-  private void saveViolations(Set<Edge> feedbackEdges, DirectedGraph<Directory, DirectoryEdge> packagesGraph) {
+  private void saveViolations(Set<Edge> feedbackEdges, DirectedGraph<InputDir, DirectoryEdge> packagesGraph, SensorContext sensorContext) {
     if (cycleBetweenPackagesRule != null) {
       for (Edge feedbackEdge : feedbackEdges) {
-        Directory fromPackage = (Directory) feedbackEdge.getFrom();
-        Directory toPackage = (Directory) feedbackEdge.getTo();
+        InputDir fromPackage = (InputDir) feedbackEdge.getFrom();
+        InputDir toPackage = (InputDir) feedbackEdge.getTo();
         DirectoryEdge edge = packagesGraph.getEdge(fromPackage, toPackage);
         for (FileEdge subEdge : edge.getRootEdges()) {
-          Resource fromFile = subEdge.getFrom();
-          Resource toFile = subEdge.getTo();
-          Issuable issuable = perspectives.as(Issuable.class, fromFile);
-          // If resource cannot be obtained, then silently ignore, because anyway warning will be printed by method addFile
-          if ((issuable != null) && (fromFile != null) && (toFile != null)) {
-            Issue issue = issuable.newIssueBuilder()
-              .ruleKey(cycleBetweenPackagesRule.ruleKey())
-              .line(subEdge.getLine()) //@todo deprecated line
-              .message("Remove the dependency from file \"" + fromFile.getLongName() //@todo deprecated message
-                + "\" to file \"" + toFile.getLongName() + "\" to break a package cycle.")
-              .effortToFix((double) subEdge.getWeight())
-              .build();
-            if (issuable.addIssue(issue)) {
-              violationsCount++;
-            }
-          }
+          InputFile fromFile = subEdge.getFrom();
+          InputFile toFile = subEdge.getTo();
+          
+          NewIssue newIssue = sensorContext.newIssue().forRule(duplicateIncludeRule.ruleKey());
+          NewIssueLocation location = newIssue.newLocation()
+            .on(fromFile)
+            .at(fromFile.selectLine(1))
+            .message("Remove the dependency from file \"" + fromFile + "\" to file \"" + toFile + "\" to break a package cycle.");
+                  
+          newIssue.at(location);
+          newIssue.save();
         }
       }
-    }
-    if (cycleBetweenPackagesRule != null || duplicateIncludeRule != null) {
-      Measure measure = new Measure(CxxMetrics.DEPENDENCIES);
-      measure.setIntValue(violationsCount);
-      context.saveMeasure(measure);
-    }
-  }
-
-  private void saveFileEdge(FileEdge edge, Dependency parent) {
-    if (!dependencyIndex.containsKey(edge)) {
-      Dependency dependency = new Dependency(edge.getFrom(), edge.getTo()) //@todo deprecated Dependency
-        .setUsage("includes")
-        .setWeight(edge.getWeight())
-        .setParent(parent);
-      context.saveDependency(dependency); //@todo deprecated saveDependency
-      dependencyIndex.put(edge, dependency);
     }
   }
 
@@ -254,17 +162,4 @@ public class DependencyAnalyzer {
     }
     return total;
   }
-
-  private String serializeDsm(Collection<? extends Resource> vertices, Set<Edge> feedbackEdges) {
-    Dsm<? extends Resource> dsm = new Dsm(packagesGraph, vertices, feedbackEdges);
-    DsmTopologicalSorter.sort(dsm);
-    return DsmSerializer.serialize(dsm, dependencyIndex);
-  }
-
-  private void savePositiveMeasure(Resource sonarResource, Metric metric, double value) {
-    if (value >= 0.0) {
-      context.saveMeasure(sonarResource, metric, value);
-    }
-  }
-
 }

@@ -4,7 +4,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
 <coverage branch-rate="0.5" line-rate="0.27397260274" timestamp="1335184370" version="gcovr 2.5-prerelease (r2774)">
   <sources>
     <source>
-      /home/wenns/src/sonar-plugins/cxx/src/samples/SampleProject
+      .
     </source>
   </sources>
   <packages>
@@ -12,47 +12,10 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
       <classes>
         <class branch-rate="0.0" complexity="0.0" filename="sources/utils/code_chunks.cpp" line-rate="0.0" name="code_chunks_cpp">
           <lines>
-            <line branch="false" hits="0" number="17"/>
-            <line branch="false" hits="0" number="20"/>
-            <line branch="false" hits="0" number="22"/>
-            <line branch="false" hits="0" number="23"/>
-            <line branch="false" hits="0" number="24"/>
-            <line branch="false" hits="0" number="25"/>
-            <line branch="false" hits="0" number="26"/>
-            <line branch="false" hits="0" number="27"/>
-            <line branch="false" hits="0" number="28"/>
-            <line branch="false" hits="0" number="29"/>
-            <line branch="false" hits="0" number="30"/>
-            <line branch="false" hits="0" number="31"/>
-            <line branch="false" hits="0" number="32"/>
-            <line branch="false" hits="0" number="33"/>
-            <line branch="false" hits="0" number="34"/>
-            <line branch="false" hits="0" number="35"/>
-            <line branch="false" hits="0" number="36"/>
-            <line branch="false" hits="0" number="37"/>
-            <line branch="false" hits="0" number="38"/>
-            <line branch="false" hits="0" number="39"/>
-            <line branch="false" hits="0" number="40"/>
-            <line branch="false" hits="0" number="43"/>
-            <line branch="false" hits="0" number="44"/>
-            <line branch="false" hits="0" number="45"/>
-            <line branch="false" hits="0" number="46"/>
-            <line branch="false" hits="0" number="47"/>
-            <line branch="false" hits="0" number="48"/>
-            <line branch="false" hits="0" number="49"/>
-            <line branch="false" hits="0" number="50"/>
-            <line branch="false" hits="0" number="51"/>
-            <line branch="false" hits="0" number="52"/>
-            <line branch="false" hits="0" number="53"/>
-            <line branch="false" hits="0" number="54"/>
-            <line branch="false" hits="0" number="55"/>
-            <line branch="false" hits="0" number="56"/>
-            <line branch="false" hits="0" number="57"/>
-            <line branch="false" hits="0" number="58"/>
-            <line branch="false" hits="0" number="59"/>
-            <line branch="false" hits="0" number="60"/>
-            <line branch="false" hits="0" number="61"/>
-            <line branch="false" hits="0" number="85"/>
+            <line branch="false" hits="1" number="1"/>
+            <line branch="false" hits="1" number="2"/>
+            <line branch="false" hits="4" number="3"/>
+            <line branch="false" hits="1" number="4"/>
           </lines>
         </class>
         <class branch-rate="0.0" complexity="0.0" filename="sources/utils/utils.cpp" line-rate="0.0" name="utils_cpp">
@@ -67,7 +30,7 @@ SYSTEM 'http://cobertura.sourceforge.net/xml/coverage-03.dtd'>
       <classes>
         <class branch-rate="0.0" complexity="0.0" filename="sources/application/main.cpp" line-rate="0.0" name="main_cpp">
           <lines>
-            <line branch="false" hits="0" number="8"/>
+            <line branch="false" hits="8" number="8"/>
             <line branch="false" hits="0" number="3"/>
             <line branch="false" hits="0" number="5"/>
             <line branch="false" hits="0" number="7"/>

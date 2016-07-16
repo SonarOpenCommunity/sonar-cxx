@@ -19,29 +19,34 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
-import org.sonar.api.BatchExtension; //@todo deprecated
-import org.sonar.api.measures.CoverageMeasuresBuilder; //@todo deprecated
+import org.sonar.api.batch.BatchSide;
 
-public class CxxCoverageCache implements BatchExtension {
+/**
+ *
+ * @author jocs
+ */
+@BatchSide
+public class CxxCoverageCache {
 
-  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheUnit = new HashMap<>(); //@todo deprecated CoverageMeasuresBuilder
-  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheIntegration = new HashMap<>(); //@todo deprecated CoverageMeasuresBuilder
-  private final static Map<String, Map<String, CoverageMeasuresBuilder>> cacheOverall = new HashMap<>(); //@todo deprecated CoverageMeasuresBuilder
+  private final static Map<String, Map<String, CoverageMeasures>> CACHE_UNIT = new HashMap<>();
+  private final static Map<String, Map<String, CoverageMeasures>> CACHE_IT = new HashMap<>();
+  private final static Map<String, Map<String, CoverageMeasures>> CACHE_OVERALL = new HashMap<>();
   
   public CxxCoverageCache() {
   }
 
-  public Map<String, Map<String, CoverageMeasuresBuilder>> unitCoverageCache() { //@todo deprecated CoverageMeasuresBuilder
-    return cacheUnit;
+  public Map<String, Map<String, CoverageMeasures>> unitCoverageCache() {
+    return CACHE_UNIT;
   }
 
-  public Map<String, Map<String, CoverageMeasuresBuilder>> integrationCoverageCache() { //@todo deprecated CoverageMeasuresBuilder
-    return cacheIntegration;
+  public Map<String, Map<String, CoverageMeasures>> integrationCoverageCache() {
+    return CACHE_IT;
   }
 
-  public Map<String, Map<String, CoverageMeasuresBuilder>> overallCoverageCache() { //@todo deprecated CoverageMeasuresBuilder
-    return cacheOverall;
+  public Map<String, Map<String, CoverageMeasures>> overallCoverageCache() {
+    return CACHE_OVERALL;
   }
 }

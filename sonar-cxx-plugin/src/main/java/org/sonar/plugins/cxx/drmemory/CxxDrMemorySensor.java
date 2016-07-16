@@ -22,13 +22,13 @@ package org.sonar.plugins.cxx.drmemory;
 import java.io.File;
 import java.io.IOException;
 
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.drmemory.DrMemoryParser.DrMemoryError;
 import org.sonar.plugins.cxx.drmemory.DrMemoryParser.DrMemoryError.Location;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
@@ -46,70 +46,60 @@ import org.sonar.plugins.cxx.utils.CxxUtils;
  * @author asylvestre
  */
 public class CxxDrMemorySensor extends CxxReportSensor {
+  public static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
+  public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPath";
 
-	public static final String REPORT_PATH_KEY = "sonar.cxx.drmemory.reportPath";
-	private final RulesProfile profile;
+  /**
+   * {@inheritDoc}
+  */
+  public CxxDrMemorySensor(Settings settings) {
+    super(settings, CxxMetrics.DRMEMORY);
+  }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public CxxDrMemorySensor(ResourcePerspectives perspectives,
-			Settings settings, FileSystem fs, RulesProfile profile) {
-		super(perspectives, settings, fs, CxxMetrics.DRMEMORY);
-		this.profile = profile;
-	}
+  @Override
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxDrMemorySensor");
+  }
+  
+  @Override
+  protected String reportPathKey() {
+    return REPORT_PATH_KEY;
+  }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean shouldExecuteOnProject(Project project) {
-		return super.shouldExecuteOnProject(project)
-				&& !profile.getActiveRulesByRepository(
-						CxxDrMemoryRuleRepository.KEY).isEmpty();
-	}
+  @Override
+  protected void processReport(final SensorContext context, File report) {
+    LOG.debug("Parsing 'Dr Memory' format");
 
-	@Override
-	protected String reportPathKey() {
-		return REPORT_PATH_KEY;
-	}
+    try {
+      for (DrMemoryError error : DrMemoryParser.parse(report)) {
+        if (error.stackTrace.isEmpty()) {
+          saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
+                  null, null,
+                  error.type.getId(), error.message);
+        }
+        for (Location errorLocation : error.stackTrace) {
+          if (isFileInAnalysis(context, errorLocation)) {
+            saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
+                    errorLocation.file,	errorLocation.line.toString(),
+                    error.type.getId(), error.message);
+            break;
+          }
+        }
+      }
+    } catch (IOException e) {
+      String msg = new StringBuilder()
+        .append("Cannot feed the data into sonar, details: '")
+        .append(e)
+        .append("'")
+        .toString();
+      throw new IllegalStateException(msg, e);
+    }
+  }
 
-	@Override
-	protected void processReport(final Project project,
-			final SensorContext context, File report) {
-		CxxUtils.LOG.debug("Parsing 'Dr Memory' format");
-
-		try {
-			for (DrMemoryError error : DrMemoryParser.parse(report)) {
-				if (error.stackTrace.isEmpty()) {
-					saveUniqueViolation(project, context, CxxDrMemoryRuleRepository.KEY,
-							null, null,
-							error.type.getId(), error.message);
-				}
-				for (Location errorLocation : error.stackTrace) {
-					if (isFileInAnalysis(errorLocation)) {
-						saveUniqueViolation(project, context, CxxDrMemoryRuleRepository.KEY,
-								errorLocation.file,	errorLocation.line.toString(),
-								error.type.getId(), error.message);
-						break;
-					}
-
-				}
-			}
-		} catch (IOException e) {
-			String msg = new StringBuilder()
-		        .append("Cannot feed the data into sonar, details: '")
-		        .append(e)
-		        .append("'")
-		        .toString();
-		      throw new IllegalStateException(msg, e);
-		}
-	}
-
-	private boolean isFileInAnalysis(Location errorLocation) {
-		String root = fs.baseDir().getAbsolutePath();
-		String normalPath = CxxUtils.normalizePathFull(errorLocation.file, root);
-		InputFile inputFile = fs.inputFile(fs.predicates().is(new File(normalPath)));
-		return inputFile != null;
-	}
+  private boolean isFileInAnalysis(SensorContext context, Location errorLocation) {
+    String root = context.fileSystem().baseDir().getAbsolutePath();
+    String normalPath = CxxUtils.normalizePathFull(errorLocation.file, root);
+    InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(new File(normalPath)));
+    return inputFile != null;
+  }
 }

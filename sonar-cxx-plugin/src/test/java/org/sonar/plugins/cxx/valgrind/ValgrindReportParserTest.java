@@ -26,49 +26,50 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.mock;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.resources.Project; //@todo deprecated
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.plugins.cxx.TestUtils;
 
 public class ValgrindReportParserTest {
 
-  private Project project; //@todo deprecated
-  private SensorContext context; //@todo deprecated
   private ValgrindReportParser parser;
+  private DefaultFileSystem fs;
 
   @Before
   public void setUp() {
-    project = TestUtils.mockProject();
-    context = mock(SensorContext.class); //@todo deprecated
     parser = new ValgrindReportParser();
+    fs = TestUtils.mockFileSystem();
   }
 
   @Test
   public void shouldParseCorrectNumberOfErrors() throws javax.xml.stream.XMLStreamException {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     File report = TestUtils.loadResource("reports-project/valgrind-reports/valgrind-result-SAMPLE.xml");
-    Set<ValgrindError> valgrindErrors = parser.processReport(project, context, report);
+    Set<ValgrindError> valgrindErrors = parser.processReport(context, report);
     assertEquals(valgrindErrors.size(), 6);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_1() throws javax.xml.stream.XMLStreamException {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     // error contains no kind-tag
     File report = TestUtils.loadResource("reports-project/valgrind-reports/incorrect-valgrind-result_1.xml");
-    parser.processReport(project, context, report);
+    parser.processReport(context, report);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_2() throws javax.xml.stream.XMLStreamException {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     // error contains no what- or xwhat-tag
     File report = TestUtils.loadResource("reports-project/valgrind-reports/incorrect-valgrind-result_2.xml");
-    parser.processReport(project, context, report);
+    parser.processReport(context, report);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_3() throws javax.xml.stream.XMLStreamException {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     // error contains no stack-tag
     File report = TestUtils.loadResource("reports-project/valgrind-reports/incorrect-valgrind-result_3.xml");
-    parser.processReport(project, context, report);
+    parser.processReport(context, report);
   }
 }

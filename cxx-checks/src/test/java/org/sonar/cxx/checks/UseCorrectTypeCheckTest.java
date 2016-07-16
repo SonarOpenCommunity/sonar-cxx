@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -33,8 +33,10 @@ public class UseCorrectTypeCheckTest {
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
   @Test
-  public void detected() {
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UseCorrectTypesCheck.cc"), new UseCorrectTypeCheck());
+  public void detected() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UseCorrectTypesCheck.cc", ".");    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UseCorrectTypeCheck()); 
+    
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(7).withMessage("Use the correct type instead of NULL (1 times).")
       .next().atLine(10).withMessage("Use the correct type instead of WORD (1 times).")

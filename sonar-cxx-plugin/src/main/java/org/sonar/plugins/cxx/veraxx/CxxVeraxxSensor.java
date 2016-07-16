@@ -23,41 +23,32 @@ import java.io.File;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.SensorContext; //@todo deprecated
-import org.sonar.api.batch.fs.FileSystem;
-import org.sonar.api.component.ResourcePerspectives; //@todo deprecated
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.config.Settings;
-import org.sonar.api.profiles.RulesProfile;
-import org.sonar.api.resources.Project; //@todo deprecated
-import org.sonar.api.utils.StaxParser; //@todo deprecated
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.utils.CxxMetrics;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.EmptyReportException;
+import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
  * {@inheritDoc}
  */
 public class CxxVeraxxSensor extends CxxReportSensor {
 
+  public static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);
+  
   public static final String REPORT_PATH_KEY = "sonar.cxx.vera.reportPath";
-  private final RulesProfile profile;
 
   /**
    * {@inheritDoc}
    */
-  public CxxVeraxxSensor(ResourcePerspectives perspectives, Settings settings, FileSystem fs, RulesProfile profile) {
-    super(perspectives, settings, fs, CxxMetrics.VERAXX);
-    this.profile = profile;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean shouldExecuteOnProject(Project project) {
-    return super.shouldExecuteOnProject(project)
-      && !profile.getActiveRulesByRepository(CxxVeraxxRuleRepository.KEY).isEmpty();
+  public CxxVeraxxSensor(Settings settings) {
+    super(settings, CxxMetrics.VERAXX);
   }
 
   @Override
@@ -66,9 +57,14 @@ public class CxxVeraxxSensor extends CxxReportSensor {
   }
 
   @Override
-  protected void processReport(final Project project, final SensorContext context, File report)
+  public void describe(SensorDescriptor descriptor) {
+    descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxVeraxxSensor");
+  }
+  
+  @Override
+  protected void processReport(final SensorContext context, File report)
     throws javax.xml.stream.XMLStreamException {
-    CxxUtils.LOG.debug("Parsing 'Vera++' format");
+    LOG.debug("Parsing 'Vera++' format");
     try {
       StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
         /**
@@ -93,11 +89,11 @@ public class CxxVeraxxSensor extends CxxReportSensor {
                 String message = errorCursor.getAttrValue("message");
                 String source = errorCursor.getAttrValue("source");
 
-                saveUniqueViolation(project, context, CxxVeraxxRuleRepository.KEY,
+                saveUniqueViolation(context, CxxVeraxxRuleRepository.KEY,
                   name, line, source, message);
               } else {
-                if (CxxUtils.LOG.isDebugEnabled()) {
-                  CxxUtils.LOG.debug("Error in file '{}', with message '{}'",
+                if (LOG.isDebugEnabled()) {
+                  LOG.debug("Error in file '{}', with message '{}'",
                     name + "(" + errorCursor.getAttrValue("line") + ")",
                     errorCursor.getAttrValue("message"));
                 }
@@ -109,7 +105,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
       parser.parse(report);
     } catch (com.ctc.wstx.exc.WstxUnexpectedCharException e) {
-      CxxUtils.LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
+      LOG.error("Ignore XML error from Veraxx '{}'", CxxUtils.getStackTrace(e));
     }
   }
 }

@@ -26,9 +26,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.checks.AbstractFileComplexityCheck;
 import org.sonar.squidbridge.measures.MetricDef;
 import com.sonar.sslr.api.Grammar;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.SqaleLinearWithOffsetRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import org.sonar.cxx.tag.Tag;
 
 @Rule(
@@ -37,7 +35,6 @@ import org.sonar.cxx.tag.Tag;
   tags = {Tag.BRAIN_OVERLOAD},
   priority = Priority.MAJOR)
 //@ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.UNIT_TESTABILITY)
 @SqaleLinearWithOffsetRemediation(
   coeff = "1min",
   offset = "30min",

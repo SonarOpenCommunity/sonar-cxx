@@ -19,9 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
-import junit.framework.Assert; //@todo deprecated Assert
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
@@ -31,10 +31,13 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class TooManyStatementsPerLineCheckTest {
 
   @Test
-  public void test() {
+  public void test() throws UnsupportedEncodingException, IOException {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = false;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyStatementsPerLine.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)
@@ -48,14 +51,16 @@ public class TooManyStatementsPerLineCheckTest {
   @Test
   public void testDefaultExcludeCaseBreak() {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
-    Assert.assertEquals(check.excludeCaseBreak, false); //@todo deprecated Assert
+    assertThat(check.excludeCaseBreak).isFalse();
   }
 
   @Test
-  public void testExcludeCaseBreak() {
+  public void testExcludeCaseBreak() throws UnsupportedEncodingException, IOException {
     TooManyStatementsPerLineCheck check = new TooManyStatementsPerLineCheck();
     check.excludeCaseBreak = true;
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/TooManyStatementsPerLine.cc"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)

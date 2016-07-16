@@ -19,8 +19,8 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
-
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
@@ -29,10 +29,12 @@ import org.sonar.squidbridge.checks.CheckMessagesVerifier;
 public class UsingNamespaceInHeaderCheckTest {
 
   @Test
-  public void check() {
+  public void check() throws UnsupportedEncodingException, IOException {
     UsingNamespaceInHeaderCheck check = new UsingNamespaceInHeaderCheck();
-
-    SourceFile file = CxxAstScanner.scanSingleFile(new File("src/test/resources/checks/UsingNamespaceInHeader.h"), check);
+    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UsingNamespaceInHeader.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(11).withMessage("Using namespace are not allowed in header files.")
       .noMore();

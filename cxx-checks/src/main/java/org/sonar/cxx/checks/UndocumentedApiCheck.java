@@ -21,8 +21,8 @@ package org.sonar.cxx.checks;
 
 import java.util.Arrays;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.tag.Tag;
@@ -30,10 +30,8 @@ import org.sonar.cxx.visitors.AbstractCxxPublicApiVisitor;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 
 /**
  * Check that generates issue for undocumented API items.<br>
@@ -70,12 +68,10 @@ import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
   priority = Priority.MINOR,
   tags = {Tag.CONVENTION})
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.ARCHITECTURE_CHANGEABILITY)
 @SqaleConstantRemediation("5min")
 public class UndocumentedApiCheck extends AbstractCxxPublicApiVisitor<Grammar> {
 
-  private static final Logger LOG = LoggerFactory
-    .getLogger("UndocumentedApiCheck");
+  private static final Logger LOG = Loggers.get(UndocumentedApiCheck.class);
 
   private static final List<String> DEFAULT_NAME_SUFFIX = Arrays.asList(".h",
     ".hh", ".hpp", ".H");
