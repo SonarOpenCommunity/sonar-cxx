@@ -53,7 +53,6 @@ public final class CheckList {
       FunctionComplexityCheck.class,
       HardcodedAccountCheck.class,
       HardcodedIpCheck.class,
-      IndentationCheck.class,
       MagicNumberCheck.class,
       MissingCurlyBracesCheck.class,
       MissingIncludeFileCheck.class,
