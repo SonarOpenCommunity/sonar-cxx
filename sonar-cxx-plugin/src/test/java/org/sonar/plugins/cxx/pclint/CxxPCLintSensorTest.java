@@ -19,6 +19,8 @@
  */
 package org.sonar.plugins.cxx.pclint;
 
+import java.util.ArrayList;
+
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
@@ -29,6 +31,7 @@ import org.junit.Test;
 
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.batch.sensor.issue.Issue;
 
 public class CxxPCLintSensorTest {
   private DefaultFileSystem fs;
@@ -72,6 +75,20 @@ public class CxxPCLintSensorTest {
     CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
+  }
+
+  @Test
+  public void shouldReportCorrectMisraCppViolations() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    Settings settings = new Settings();
+    settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/pclint-result-MISRACPP.xml");
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(2);
+    ArrayList<Issue> issuesList = new ArrayList<Issue>(context.allIssues());
+    assertThat(issuesList.get(0).ruleKey().rule()).isEqualTo("M5-0-19");
+    assertThat(issuesList.get(1).ruleKey().rule()).isEqualTo("M18-4-1");
   }
 
   @Test

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<result>
+<issue file =".\test.c" line = "4" number = "1960" desc = "Violates MISRA C++ 2008 Required Rule 5-0-19, More than two pointer indirection levels used for type: 'struct _wireSAFEARRAY ***"/>
+<issue file =".\test.c" line = "10" number = "586" desc = "operator 'new' is deprecated. [MISRA C++ Rule 18-4-1]"/>
+</result>
