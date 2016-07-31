@@ -410,7 +410,6 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxRuleRepository.class);
     l.add(CxxUnitTestResultsAggregator.class);
     l.add(CxxUnitTestResultsImportSensor.class);
-    l.add(CxxSourceCodeColorizer.class);
 
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
