@@ -17,21 +17,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
 
-import static org.fest.assertions.Assertions.assertThat;
+/**
+ * Package to highlight cxx source code in the frontend
+ */
+@ParametersAreNonnullByDefault
+package org.sonar.plugins.cxx.highlighter;
 
-import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeVersion;
-
-public class CxxPluginTest {
-
-  @Test
-  public void testGetExtensions() throws Exception {
-   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
-   CxxPlugin plugin = new CxxPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(63);
-  }
-}
+import javax.annotation.ParametersAreNonnullByDefault;
