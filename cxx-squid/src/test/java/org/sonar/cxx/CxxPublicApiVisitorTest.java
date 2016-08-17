@@ -2,17 +2,17 @@
  * Sonar C++ Plugin (Community)
  * Copyright (C) 2011-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -89,7 +89,7 @@ public class CxxPublicApiVisitorTest {
 
     visitor.withHeaderFileSuffixes(Arrays
       .asList(getFileExtension(fileName)));
-    
+
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
       visitor);
@@ -134,7 +134,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void template() throws IOException {
-    testFile("src/test/resources/metrics/template.h", 5, 2, true);
+    testFile("src/test/resources/metrics/template.h", 9, 4, true);
   }
 
   @Test
@@ -170,7 +170,7 @@ public class CxxPublicApiVisitorTest {
 
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
-    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".");    
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".");
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, visitor); //
 
     if (LOG.isDebugEnabled()) {
@@ -264,5 +264,5 @@ public class CxxPublicApiVisitorTest {
       expectedIdCommentMap.keySet().size());
     assertThat(file.getInt(CxxMetric.PUBLIC_UNDOCUMENTED_API)).isEqualTo(0);
   }
-  
+
 }

@@ -1,13 +1,29 @@
 /**
  testClass
 */
-template<T>
+template<typename T>
 class testClass
 {
 public:
 	void publicMethod();
-	
+
 	int publicAttr;
+
+    // Issue #928 (should be marked undocumented)
+    using type = void;
+};
+
+template<typename Second>
+struct second_struct {
+    /*!
+     * \brief Issue #928 (should be marked documented)
+     */
+    using alpha = float;
+
+    /*!
+     * \brief Issue #928 (should be marked documented)
+     */
+    using beta = double;
 };
 
 /*!
