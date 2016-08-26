@@ -302,7 +302,8 @@ def wait_for_sonar(timeout, criteria):
 
 def is_webui_up():
     try:
-        return urllib.urlopen(SONAR_URL).getcode() == 200
+        urllib.urlopen(SONAR_URL)
+        return True
     except IOError:
         return False
 
