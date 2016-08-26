@@ -160,7 +160,7 @@ def start_sonar(sonarhome):
     sys.stdout.flush()
     now = time.time()
     start_script(sonarhome)
-    if not wait_for_sonar(60, is_webui_up):
+    if not wait_for_sonar(120, is_webui_up):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
@@ -181,14 +181,14 @@ def stop_sonar(sonarhome):
             command = ["cmd", "/c", os.path.join(sonarhome, "bin", "windows-x86-64", "UninstallNTService.bat")]
             check_call(command, stdout=PIPE, shell=os.name == "nt")
             
-        if not wait_for_sonar(30, is_webui_down):
+        if not wait_for_sonar(60, is_webui_down):
             sys.stdout.write(RED + "FAILED\n" + RESET)
             return False
 
     sys.stdout.write(INDENT + "stopping SonarQube ... ")
     sys.stdout.flush()
     rc = check_call(stop_script(sonarhome))
-    if rc != 0 or not wait_for_sonar(30, is_webui_down):
+    if rc != 0 or not wait_for_sonar(60, is_webui_down):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
