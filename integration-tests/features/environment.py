@@ -160,7 +160,7 @@ def start_sonar(sonarhome):
     sys.stdout.flush()
     now = time.time()
     start_script(sonarhome)
-    if not wait_for_sonar(50, is_webui_up):
+    if not wait_for_sonar(60, is_webui_up):
         sys.stdout.write(RED + "FAILED\n" + RESET)
         return False
 
