@@ -511,11 +511,19 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       if (aliasDeclIdNode == null) {
         LOG.error("No identifier found at {}", aliasDeclNode.getTokenLine());
       } else {
-        // check if this is a template specification to adjust
+        // Check if this is a template specification to adjust
         // documentation node
-        AstNode template = aliasDeclNode
-            .getFirstAncestor(CxxGrammarImpl.templateDeclaration);
-        AstNode docNode = (template != null) ? template : aliasDeclNode;
+        AstNode container = aliasDeclNode.getFirstAncestor(
+          CxxGrammarImpl.templateDeclaration,
+          CxxGrammarImpl.classSpecifier);
+
+        AstNode docNode;
+        if (container == null
+          || container.getType() == CxxGrammarImpl.classSpecifier) {
+          docNode = aliasDeclNode;
+        } else {
+          docNode = container;
+        }
 
         // look for block documentation
         List<Token> comments = getBlockDocumentation(docNode);
