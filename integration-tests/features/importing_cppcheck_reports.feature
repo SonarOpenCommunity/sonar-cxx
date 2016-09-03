@@ -32,7 +32,7 @@ Feature: Importing Cppcheck reports
          AND the server log (if locatable) contains no error/warning messages
          BUT the analysis log contains a line matching
               """
-              .*INFO.*The report '.*' seems to be empty, ignoring.
+              .*WARN.*The report '.*' seems to be empty, ignoring.
               """
          AND the number of violations fed is 0
 
@@ -76,7 +76,7 @@ Feature: Importing Cppcheck reports
          AND the server log (if locatable) contains no error/warning messages
          BUT the analysis log contains a line matching
               """
-              .*INFO.*Cannot find the file .* skipping violations
+              .*WARN.*Cannot find the file .* skipping violations
               """
          AND the number of violations fed is 0
 
