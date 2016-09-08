@@ -217,6 +217,7 @@ public abstract class CxxReportSensor implements Sensor {
 
             newIssue.at(location);
             newIssue.save();
+            violationsCount++;
           } catch (Exception ex) {
             LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
           }
@@ -233,7 +234,8 @@ public abstract class CxxReportSensor implements Sensor {
           .message(msg);
 
         newIssue.at(location);
-        newIssue.save();          
+        newIssue.save();
+        violationsCount++;
     }
   }
 
