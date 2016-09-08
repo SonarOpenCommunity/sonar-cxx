@@ -385,7 +385,6 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxLanguage.class);
     l.add(CxxMetrics.class);
     l.add(CxxSquidSensor.class);
-    l.add(CxxCpdMapping.class);
     l.add(CxxRatsRuleRepository.class);
     l.add(CxxRatsSensor.class);
     l.add(CxxXunitSensor.class);

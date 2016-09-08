@@ -62,6 +62,7 @@ import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.ce.measure.RangeDistributionBuilder;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.parser.CxxParser;
+import org.sonar.plugins.cxx.cpd.CxxCpdVisitor;
 import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
 
 
@@ -111,6 +112,7 @@ public final class CxxSquidSensor implements Sensor {
   public void execute(SensorContext context) {       
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighter(context));
+    visitors.add(new CxxCpdVisitor(context));
     this.scanner = CxxAstScanner.create(createConfiguration(context.fileSystem(), this.settings), context,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
