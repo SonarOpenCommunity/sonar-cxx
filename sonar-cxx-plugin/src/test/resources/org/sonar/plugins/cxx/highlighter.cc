@@ -10,6 +10,7 @@
 // PREPROCESS_DIRECTIVE
 //
 #include "highlighter.h"
+#include <fstream>
 
 #ifdef _TEST
 #   define VALUE 1
@@ -54,6 +55,7 @@ const char* str1 = "hello\tworld\r\n";
 //
 void func()
 {
+   const std::regex RegexEscape(R"([.^$|()\[\]{}*+?\\])");
    auto str = "test"; // comment
    // comment
    auto iii = 0;
