@@ -23,6 +23,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
@@ -38,7 +41,7 @@ import org.sonar.plugins.cxx.CxxLanguage;
 public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
   public static final Logger LOG = Loggers.get(CxxAbstractRuleRepository.class);
-  
+
   private final ServerFileSystem fileSystem;
   public final Settings settings;
   private final RulesDefinitionXmlLoader xmlRuleLoader;
@@ -67,7 +70,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
       InputStream xmlStream = getClass().getResourceAsStream(fileName());
       xmlLoader.load(repository, xmlStream, "UTF-8");
 
-      for (File userExtensionXml : fileSystem.getExtensions(repositoryKey, "xml")) { //@todo deprecated getExtensions: see http://javadocs.sonarsource.org/4.5.2/apidocs/deprecated-list.html
+      for (File userExtensionXml : getExtensions(repositoryKey, "xml")) {
         try {
           FileReader reader = new FileReader(userExtensionXml);
           xmlRuleLoader.load(repository, reader);
@@ -82,8 +85,20 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
       xmlRuleLoader.load(repository, new StringReader(customRules));
     }
 
-    //i18nLoader.load(repository); //@todo?
     repository.done();
+  }
+
+  public List<File> getExtensions(String dirName, String... suffixes) {
+    File dir = new File(fileSystem.getHomeDir(), "extensions/rules/" + dirName);
+    List<File> files = new ArrayList<>();
+    if (dir.exists() && dir.isDirectory()) {
+      if (suffixes != null && suffixes.length > 0) {
+        files.addAll(FileUtils.listFiles(dir, suffixes, false));
+      } else {
+        files.addAll(FileUtils.listFiles(dir, null, false));
+      }
+    }
+    return files;
   }
 
   protected abstract String fileName();
