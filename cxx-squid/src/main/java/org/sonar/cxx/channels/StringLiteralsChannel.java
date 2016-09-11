@@ -89,30 +89,35 @@ public class StringLiteralsChannel extends Channel<Lexer> {
 
   private boolean readRawString(CodeReader code) {
     // "delimiter( raw_character* )delimiter"
+    char charAt;
     index++;
-    while (code.charAt(index) != '(') { // delimiter
-      if (code.charAt(index) == EOF) {
+    while ((charAt = code.charAt(index)) != '(') { // delimiter in front of (
+      if (charAt == EOF) {
         return false;
       }
-      sb.append(code.charAt(index));
+      sb.append(charAt);
       index++;
     }
     String delimiter = sb.toString();
     do {
       sb.setLength(0);
-      while (code.charAt(index) != ')') { // raw_character*
-        if (code.charAt(index) == EOF) {
+      while ((charAt = code.charAt(index)) != ')') { // raw_character*
+        if (charAt == EOF) {
           return false;
         }
         index++;
       }
       index++;
-      while (code.charAt(index) != '"') { // delimiter
-        if (code.charAt(index) == EOF) {
+      while ((charAt = code.charAt(index)) != '"') { // delimiter after )
+        if (charAt == EOF) {
           return false;
         }
-        sb.append(code.charAt(index));
+        sb.append(charAt);
         index++;
+        
+        if( sb.length() > delimiter.length() ) {
+          break;
+        }
       }
     } while (!sb.toString().equals(delimiter));
     sb.setLength(0);

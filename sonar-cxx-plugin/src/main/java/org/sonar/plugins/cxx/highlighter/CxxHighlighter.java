@@ -31,11 +31,15 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.highlighting.NewHighlighting;
 import org.sonar.api.batch.sensor.highlighting.TypeOfText;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.cxx.api.CxxTokenType;
 import org.sonar.cxx.api.CxxKeyword;
 
 public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
+
+  private static final Logger LOG = Loggers.get(CxxHighlighter.class);
 
   private NewHighlighting newHighlighting;
   private final SensorContext context;
@@ -88,7 +92,7 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
   private class PreprocessorDirectiveLocation extends TokenLocation {
 
     private final Pattern r = Pattern.compile("^[ \t]*#[ \t]*\\w+");
-     
+
     PreprocessorDirectiveLocation(Token token) {
       super(token);
       Matcher m = r.matcher(token.getValue());
@@ -99,7 +103,7 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
       }
     }
   }
-  
+
   public CxxHighlighter(SensorContext context) {
     this.context = context;
   }
@@ -142,7 +146,12 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
   }
 
   private void highlight(TokenLocation location, TypeOfText typeOfText) {
-    newHighlighting.highlight(location.startLine(), location.startLineOffset(), location.endLine(), location.endLineOffset(), typeOfText);
+    try {
+      newHighlighting.highlight(location.startLine(), location.startLineOffset(), location.endLine(), location.endLineOffset(), typeOfText);
+    } catch (Exception e) {
+      // ignore hightlight errors: parsing errors could lead to wrong loacation data
+      LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), location.startLine(), location.startLineOffset());
+    }
   }
 
 }

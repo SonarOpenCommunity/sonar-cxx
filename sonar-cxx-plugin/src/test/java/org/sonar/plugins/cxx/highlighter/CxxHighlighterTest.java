@@ -71,6 +71,7 @@ public class CxxHighlighterTest {
 
     checkOnRange(49, 19, 7, TypeOfText.STRING);  // "hello"
     checkOnRange(50, 19, 18, TypeOfText.STRING); // "hello\tworld\r\n"
+    checkOnRange(73, 32, 24, TypeOfText.STRING); // R"([.^$|()\[\]{}*+?\\])"
   }
 
   @Test

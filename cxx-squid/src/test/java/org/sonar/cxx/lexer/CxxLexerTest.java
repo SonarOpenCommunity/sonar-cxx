@@ -466,6 +466,10 @@ public class CxxLexerTest {
     assertThat("raw string: complex example",
       lexer.lex("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\""),
       hasToken("R\"X*X(A C++11 raw string literal can be specified like this: R\"(This is my raw string)\" )X*X\"", CxxTokenType.STRING));
+    
+    assertThat("raw string: regex sample",
+      lexer.lex("R\"([.^$|()\\[\\]{}*+?\\\\])\""),
+      hasToken("R\"([.^$|()\\[\\]{}*+?\\\\])\"", CxxTokenType.STRING));
   }
 
   @Test
