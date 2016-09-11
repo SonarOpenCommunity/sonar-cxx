@@ -17,34 +17,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
 
-import java.nio.charset.Charset;
+/**
+ * Package with visitor to define tokens used by CPD algorithm on files.
+ */
+@ParametersAreNonnullByDefault
+package org.sonar.plugins.cxx.cpd;
 
-import net.sourceforge.pmd.cpd.Tokenizer; //@todo deprecated
-
-import org.sonar.api.batch.AbstractCpdMapping; //@todo deprecated
-import org.sonar.api.resources.Language;
-import org.sonar.api.batch.fs.FileSystem;
-
-public class CxxCpdMapping extends AbstractCpdMapping {
-
-  private final CxxLanguage language;
-  private final Charset charset;
-
-  public CxxCpdMapping(CxxLanguage language, FileSystem fs) {
-    this.language = language;
-    this.charset = fs.encoding();
-  }
-
-  @Override
-  public Tokenizer getTokenizer() { //@todo deprecated Tokenizer
-    return new CxxTokenizer(charset);
-  }
-
-  @Override
-  public Language getLanguage() {
-    return language;
-  }
-
-}
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -36,8 +36,8 @@ Feature: cpp-multimodule-project
                | comment_lines_density    | 30    |
                | comment_lines            | 24    |
                # duplications
-               | duplicated_lines_density | 57.3  |
-               | duplicated_lines         | 86    |
+               | duplicated_lines_density | 56.0  |
+               | duplicated_lines         | 84    |
                | duplicated_blocks        | 2     |
                | duplicated_files         | 2     |
                # complexity
