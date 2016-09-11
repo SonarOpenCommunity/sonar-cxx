@@ -68,4 +68,9 @@ void func()
    }
 }
 
+void test1()
+{
+   const std::regex RegexEscape(R"([.^$|()\[\]{}*+?\\])"); // raw string literal
+}
+
 /* EOF */
