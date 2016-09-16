@@ -138,6 +138,11 @@ public class CxxPublicApiVisitorTest {
   }
 
   @Test
+  public void alias_function_template() throws IOException {
+    testFile("src/test/resources/metrics/alias_in_template_func.h", 4, 3, false);
+  }
+
+  @Test
   public void unnamed_class() throws IOException {
     testFile("src/test/resources/metrics/unnamed_class.h", 3, 1, false);
   }
