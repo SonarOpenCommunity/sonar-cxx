@@ -36,12 +36,14 @@ install:
         $env:MSBuildDir="C:/Program Files/MSBuild/14.0/Bin/msbuild.exe"
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
-      }	  
-  - cmd: SET PATH=%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-2.6.1\bin;%PATH%
+      }
+  - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-2.6.1\bin;%PATH%
+  - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
+  - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET SONARHOME=C:\sonarqube\sonarqube-5.6.1
   - cmd: SET TestDataFolder=C:\projects\sonar-cxx\integration-tests\testdata
   - cmd: SET
-  
+
 build_script:
   - dir
   # SONAR-7154 : workaround
@@ -56,6 +58,7 @@ build_script:
   - mvn clean install
   - C:\Python27\Scripts\behave.exe --no-capture
 cache:
+  - C:\maven\
   - C:\Users\appveyor\.m2
 artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
@@ -66,4 +69,3 @@ on_failure:
   - ps: Get-ChildItem sonar-cxx-plugin\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem *.log | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem C:\sonarqube\sonarqube-5.6.1\logs\* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  
