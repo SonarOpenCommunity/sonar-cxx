@@ -49,7 +49,7 @@ public class CxxCpdVisitorTest {
     context = SensorContextTester.create(new File(dir));
     context.fileSystem().add(inputFile);
 
-    CxxCpdVisitor cxxCpdVisitor = new CxxCpdVisitor(context);
+    CxxCpdVisitor cxxCpdVisitor = new CxxCpdVisitor(context, true, true);
     CxxAstScanner.scanSingleFile(inputFile, context, cxxCpdVisitor);
   }
 
