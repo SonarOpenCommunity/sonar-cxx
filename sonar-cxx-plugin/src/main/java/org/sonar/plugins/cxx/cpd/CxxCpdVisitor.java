@@ -38,11 +38,15 @@ import org.sonar.cxx.api.CxxTokenType;
 public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
   private final SensorContext sensorContext;
+  private final Boolean ignoreLiterals;
+  private final Boolean ignoreIdentifiers;
   private InputFile inputFile;
   private NewCpdTokens cpdTokens;
 
-  public CxxCpdVisitor(SensorContext sensorContext) {
-    this.sensorContext = sensorContext;
+  public CxxCpdVisitor(SensorContext sensorContext, Boolean ignoreLiterals, Boolean ignoreIdentifiers) {
+    this.sensorContext = sensorContext;    
+    this.ignoreLiterals = ignoreLiterals;
+    this.ignoreIdentifiers = ignoreIdentifiers;
   }
 
   @Override
@@ -61,14 +65,14 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   public void visitToken(Token token) {
     if (!token.isGeneratedCode()) {
       String text;
-      if (token.getType().equals(CxxTokenType.NUMBER)) {
-        text = "_N";
-      } else if (token.getType().equals(CxxTokenType.STRING)) {
-        text = "_S";
-      } else if (token.getType().equals(CxxTokenType.CHARACTER)) {
-        text = "_C";
-      } else if (token.getType().equals(GenericTokenType.IDENTIFIER)) {
+      if (ignoreIdentifiers && token.getType().equals(GenericTokenType.IDENTIFIER)) {
         text = "_I";
+      } else if (ignoreLiterals && token.getType().equals(CxxTokenType.NUMBER)) {
+        text = "_N";
+      } else if (ignoreLiterals && token.getType().equals(CxxTokenType.STRING)) {
+        text = "_S";
+      } else if (ignoreLiterals && token.getType().equals(CxxTokenType.CHARACTER)) {
+        text = "_C";
       } else if (token.getType().equals(GenericTokenType.EOF)) {
         return;
       } else {

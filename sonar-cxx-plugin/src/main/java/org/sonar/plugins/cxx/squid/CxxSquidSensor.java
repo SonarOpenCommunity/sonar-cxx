@@ -112,8 +112,8 @@ public final class CxxSquidSensor implements Sensor {
   public void execute(SensorContext context) {       
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighter(context));
-    visitors.add(new CxxCpdVisitor(context));
-    this.scanner = CxxAstScanner.create(createConfiguration(context.fileSystem(), this.settings), context,
+    visitors.add(new CxxCpdVisitor(context, settings.getBoolean(CxxPlugin.CPD_IGNORE_LITERALS_KEY), settings.getBoolean(CxxPlugin.CPD_IGNORE_IDENTIFIERS_KEY)));
+    this.scanner = CxxAstScanner.create(createConfiguration(context.fileSystem(), settings), context,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
     Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
