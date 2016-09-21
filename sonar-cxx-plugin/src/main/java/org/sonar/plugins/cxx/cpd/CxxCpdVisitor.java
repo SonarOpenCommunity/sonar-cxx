@@ -33,9 +33,13 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.TextRange;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxTokenType;
 
 public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
+
+  private static final Logger LOG = Loggers.get(CxxCpdVisitor.class);
 
   private final SensorContext sensorContext;
   private final Boolean ignoreLiterals;
@@ -44,7 +48,7 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   private NewCpdTokens cpdTokens;
 
   public CxxCpdVisitor(SensorContext sensorContext, Boolean ignoreLiterals, Boolean ignoreIdentifiers) {
-    this.sensorContext = sensorContext;    
+    this.sensorContext = sensorContext;
     this.ignoreLiterals = ignoreLiterals;
     this.ignoreIdentifiers = ignoreIdentifiers;
   }
@@ -79,8 +83,13 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
         text = token.getValue();
       }
 
-      TextRange range = inputFile.newRange(token.getLine(), token.getColumn(), token.getLine(), token.getColumn() + token.getValue().length());
-      cpdTokens.addToken(range, text);
+      try {
+        TextRange range = inputFile.newRange(token.getLine(), token.getColumn(), token.getLine(), token.getColumn() + token.getValue().length());
+        cpdTokens.addToken(range, text);
+      } catch (Exception e) {
+        // ignore range errors: parsing errors could lead to wrong location data
+        LOG.debug("CPD error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), token.getLine(), token.getColumn());
+      }
     }
   }
 
