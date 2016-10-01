@@ -37,6 +37,7 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 
 /**
@@ -163,8 +164,16 @@ public class CxxCoverageSensor extends CxxReportSensor {
           }                             
         }
         
-        newCoverage.save();
-        
+        try
+        {
+          newCoverage.save();
+        } catch(Exception ex) {
+          LOG.error("Cannot save measure '{}' : '{}', ignoring measure", filePath, ex.getMessage());
+          if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+            LOG.info("Recovery is disabled, failing analysis.");
+            throw ex;
+          }
+        }        
       } else {
         LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
       }       
