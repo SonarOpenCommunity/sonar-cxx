@@ -13,6 +13,8 @@ This check finds conversion from integer type like ``int`` to ``std::string`` or
 ``std::wstring`` using ``boost::lexical_cast``, and replace it with calls to
 ``std::to_string`` and ``std::to_wstring``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cert-dcl50-cpp</key>
@@ -21,6 +23,8 @@ This check finds conversion from integer type like ``int`` to ``std::string`` or
 This check flags all function definitions (but not declarations) of C-style
 variadic functions.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cert-env33-c</key>
@@ -31,6 +35,8 @@ execute a command processor. It does not flag calls to ``system()`` with a null
 pointer argument, as such a call checks for the presence of a command processor
 but does not actually attempt to execute a command.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cert-err34-c</key>
@@ -41,6 +47,8 @@ verify the validity of the conversion, such as ``atoi()`` or ``scanf()``. It
 does not flag calls to ``strtol()``, or other, related conversion functions that
 do perform better error checking.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cert-err52-cpp</key>
@@ -48,30 +56,35 @@ do perform better error checking.
   <description><![CDATA[
 This check flags all call expressions involving ``setjmp()`` and ``longjmp()``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cert-err58-cpp</key>
   <name>cert-err58-cpp</name>
   <description><![CDATA[
-This check flags all ``static`` or ``thread_local`` variable declarations where
-the constructor for the object may throw an exception.
+This check flags all ``static`` or ``thread_local`` variable declarations where the constructor for the object may throw an exception.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cert-err60-cpp</key>
   <name>cert-err60-cpp</name>
   <description><![CDATA[
-This check flags all throw expressions where the exception object is not nothrow
-copy constructible.
+This check flags all throw expressions where the exception object is not nothrow copy constructible.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cert-flp30-c</key>
   <name>cert-flp30-c</name>
   <description><![CDATA[
-This check flags ``for`` loops where the induction expression has a
-floating-point type.
+This check flags ``for`` loops where the induction expression has a floating-point type.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-interfaces-global-init</key>
@@ -80,6 +93,8 @@ floating-point type.
 This check flags initializers of globals that access extern objects,
 and therefore can lead to order-of-initialization problems.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-bounds-array-to-pointer-decay</key>
@@ -87,6 +102,8 @@ and therefore can lead to order-of-initialization problems.
   <description><![CDATA[
 This check flags all array to pointer decays.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-bounds-constant-array-index</key>
@@ -97,6 +114,8 @@ This check flags all array subscript expressions on static arrays and
 are out of bounds (for ``std::array``). For out-of-bounds checking of static
 arrays, see the clang-diagnostic-array-bounds check.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-bounds-pointer-arithmetic</key>
@@ -105,6 +124,8 @@ arrays, see the clang-diagnostic-array-bounds check.
 This check flags all usage of pointer arithmetic, because it could lead to an
 invalid pointer. Subtraction of two pointers is not flagged by this check.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-type-const-cast</key>
@@ -112,6 +133,8 @@ invalid pointer. Subtraction of two pointers is not flagged by this check.
   <description><![CDATA[
 This check flags all uses of ``const_cast`` in C++ code.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-type-cstyle-cast</key>
@@ -120,6 +143,8 @@ This check flags all uses of ``const_cast`` in C++ code.
 This check flags all use of C-style casts that perform a ``static_cast``
 downcast, ``const_cast``, or ``reinterpret_cast``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-type-member-init</key>
@@ -132,6 +157,8 @@ user-provided default constructors containing at least one such
 type. If these fields aren't initialized, the constructor will leave
 some of the memory in an undefined state.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-type-reinterpret-cast</key>
@@ -139,6 +166,8 @@ some of the memory in an undefined state.
   <description><![CDATA[
 This check flags all uses of ``reinterpret_cast`` in C++ code.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-type-static-cast-downcast</key>
@@ -148,6 +177,8 @@ This check flags all usages of ``static_cast``, where a base class is casted to
 a derived class. In those cases, a fixit is provided to convert the cast to a
 ``dynamic_cast``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-type-union-access</key>
@@ -156,14 +187,17 @@ a derived class. In those cases, a fixit is provided to convert the cast to a
 This check flags all access to members of unions. Passing unions as a whole is
 not flagged.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>cppcoreguidelines-pro-type-vararg</key>
   <name>cppcoreguidelines-pro-type-vararg</name>
   <description><![CDATA[
-This check flags all calls to c-style vararg functions and all use of
-``va_arg``.
+This check flags all calls to c-style vararg functions and all use of ``va_arg``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-build-explicit-make-pair</key>
@@ -171,13 +205,17 @@ This check flags all calls to c-style vararg functions and all use of
   <description><![CDATA[
 Check that ``make_pair``'s template arguments are deduced.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-build-namespaces</key>
   <name>google-build-namespaces</name>
   <description><![CDATA[
-`cert-dcl59-cpp` redirects here as an alias for this check.
+Finds anonymous namespaces in headers.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-build-using-namespace</key>
@@ -185,6 +223,8 @@ Check that ``make_pair``'s template arguments are deduced.
   <description><![CDATA[
 Finds ``using namespace`` directives.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-default-arguments</key>
@@ -192,6 +232,8 @@ Finds ``using namespace`` directives.
   <description><![CDATA[
 Checks that default arguments are not given for virtual methods.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-explicit-constructor</key>
@@ -199,6 +241,8 @@ Checks that default arguments are not given for virtual methods.
   <description><![CDATA[
 Checks that all single-argument constructors are explicit.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-global-names-in-headers</key>
@@ -207,6 +251,8 @@ Checks that all single-argument constructors are explicit.
 Flag global namespace pollution in header files.
 Right now it only triggers on ``using`` declarations and directives.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-readability-casting</key>
@@ -214,6 +260,8 @@ Right now it only triggers on ``using`` declarations and directives.
   <description><![CDATA[
 Finds usages of C-style casts.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-readability-namespace-comments</key>
@@ -221,6 +269,8 @@ Finds usages of C-style casts.
   <description><![CDATA[
 Checks that long namespaces have a closing comment.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-readability-redundant-smartptr-get</key>
@@ -228,6 +278,8 @@ Checks that long namespaces have a closing comment.
   <description><![CDATA[
 Find and remove redundant calls to smart pointer's ``.get()`` method.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-readability-todo</key>
@@ -235,6 +287,8 @@ Find and remove redundant calls to smart pointer's ``.get()`` method.
   <description><![CDATA[
 Finds TODO comments without a username or bug number.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-runtime-int</key>
@@ -243,6 +297,8 @@ Finds TODO comments without a username or bug number.
 Finds uses of ``short``, ``long`` and ``long long`` and suggest replacing them
 with ``u?intXX(_t)?``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-runtime-member-string-references</key>
@@ -250,6 +306,8 @@ with ``u?intXX(_t)?``.
   <description><![CDATA[
 Finds members of type ``const string&``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-runtime-memset</key>
@@ -257,6 +315,8 @@ Finds members of type ``const string&``.
   <description><![CDATA[
 Finds calls to ``memset`` with a literal zero in the length argument.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>google-runtime-operator</key>
@@ -264,6 +324,8 @@ Finds calls to ``memset`` with a literal zero in the length argument.
   <description><![CDATA[
 Finds overloads of unary ``operator &``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>google-runtime-references</key>
@@ -271,20 +333,26 @@ Finds overloads of unary ``operator &``.
   <description><![CDATA[
 Checks the usage of non-constant references in function parameters.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>llvm-header-guard</key>
   <name>llvm-header-guard</name>
   <description><![CDATA[
-TODO: add docs
+Finds and fixes header guards that do not adhere to LLVM style.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>llvm-include-order</key>
   <name>llvm-include-order</name>
   <description><![CDATA[
-Checks the correct order of ``#includes``.
+Checks the correct order of ``#includes`` according to LLVM style.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>llvm-namespace-comment</key>
@@ -292,6 +360,8 @@ Checks the correct order of ``#includes``.
   <description><![CDATA[
 Checks that long namespaces have a closing comment.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>llvm-twine-local</key>
@@ -300,6 +370,8 @@ Checks that long namespaces have a closing comment.
 Looks for local ``Twine`` variables which are prone to use after frees and
 should be generally avoided.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-argument-comment</key>
@@ -307,6 +379,8 @@ should be generally avoided.
   <description><![CDATA[
 Checks that argument comments match parameter names.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-assert-side-effect</key>
@@ -314,6 +388,8 @@ Checks that argument comments match parameter names.
   <description><![CDATA[
 Finds ``assert()`` with side effect.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-bool-pointer-implicit-conversion</key>
@@ -322,6 +398,8 @@ Finds ``assert()`` with side effect.
 Checks for conditions based on implicit conversion from a ``bool`` pointer to
 ``bool``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-dangling-handle</key>
@@ -332,6 +410,8 @@ Detect dangling references in value handlers like
 These dangling references can come from constructing handles from temporary
 values, where the temporary is destroyed soon after the handle is created.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>misc-definitions-in-headers</key>
@@ -341,6 +421,8 @@ Finds non-extern non-inline function and variable definitions in header files,
 which can lead to potential ODR violations in case these headers are included
 from multiple translation units.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-fold-init-type</key>
@@ -348,6 +430,8 @@ from multiple translation units.
   <description><![CDATA[
 The check flags type mismatches in folds like ``std::accumulate`` that might result in loss of precision.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-forward-declaration-namespace</key>
@@ -355,13 +439,21 @@ The check flags type mismatches in folds like ``std::accumulate`` that might res
   <description><![CDATA[
 Checks if an unused forward declaration is in a wrong namespace.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>misc-inaccurate-erase</key>
   <name>misc-inaccurate-erase</name>
   <description><![CDATA[
 Checks for inaccurate use of the ``erase()`` method.
+
+Algorithms like remove() do not actually remove any element from the container but return an iterator to the first
+redundant element at the end of the container. These redundant elements must be removed using the ``erase()`` method.
+This check warns when not all of the elements will be removed due to using an inappropriate overload.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>misc-incorrect-roundings</key>
@@ -369,6 +461,8 @@ Checks for inaccurate use of the ``erase()`` method.
   <description><![CDATA[
 Checks the usage of patterns known to produce incorrect rounding.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>misc-inefficient-algorithm</key>
@@ -376,6 +470,8 @@ Checks the usage of patterns known to produce incorrect rounding.
   <description><![CDATA[
 Warns on inefficient use of STL algorithms on associative containers.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-macro-parentheses</key>
@@ -383,6 +479,8 @@ Warns on inefficient use of STL algorithms on associative containers.
   <description><![CDATA[
 Finds macros that can have unexpected behaviour due to missing parentheses.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-macro-repeated-side-effects</key>
@@ -390,6 +488,8 @@ Finds macros that can have unexpected behaviour due to missing parentheses.
   <description><![CDATA[
 Checks for repeated argument with side effects in macros.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-misplaced-const</key>
@@ -400,6 +500,8 @@ pointer type rather than to the pointee, because such constructs are often
 misleading to developers because the ``const`` applies to the pointer rather
 than the pointee.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-misplaced-widening-cast</key>
@@ -410,20 +512,31 @@ type. If the intention of the cast is to avoid loss of precision then the cast
 is misplaced, and there can be loss of precision. Otherwise the cast is
 ineffective.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-move-const-arg</key>
   <name>misc-move-const-arg</name>
   <description><![CDATA[
 The check warns
+   * if std::move() is called with a constant argument,
+   * if std::move() is called with an argument of a trivially-copyable type,
+   * if the result of std::move() is passed as a const reference argument.
+In all three cases, the check will suggest a fix that removes the std::move().
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-move-constructor-init</key>
   <name>misc-move-constructor-init</name>
   <description><![CDATA[
-"cert-oop11-cpp" redirects here as an alias for this check.
+The check flags user-defined move constructors that have a ctor-initializer initializing a member or base class through a copy constructor instead of a move constructor.
+It also flags constructor arguments that are passed by value, have a non-deleted move-constructor and are assigned to a class field by copy construction.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-multiple-statement-macro</key>
@@ -432,13 +545,19 @@ The check warns
 Detect multiple statement macros that are used in unbraced conditionals.
 Only the first statement of the macro will be inside the conditional and the other ones will be executed unconditionally.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-new-delete-overloads</key>
   <name>misc-new-delete-overloads</name>
   <description><![CDATA[
-`cert-dcl54-cpp` redirects here as an alias for this check.
+The check flags overloaded operator ``new()`` and operator ``delete()`` functions that do not have a corresponding free store
+function defined within the same scope. For instance, the check will flag a class implementation of a non-placement operator ``new()``
+when the class does not also define a non-placement operator ``delete()`` function as well.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>misc-noexcept-move-constructor</key>
@@ -448,13 +567,17 @@ The check flags user-defined move constructors and assignment operators not
 marked with ``noexcept`` or marked with ``noexcept(expr)`` where ``expr``
 evaluates to ``false`` (but is not a ``false`` literal itself).
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-non-copyable-objects</key>
   <name>misc-non-copyable-objects</name>
   <description><![CDATA[
-`cert-fio38-c` redirects here as an alias for this check.
+The check flags dereferences and non-pointer declarations of objects that are not meant to be passed by value, such as C FILE objects or POSIX ``pthread_mutex_t`` objects.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-pointer-and-integral-operation</key>
@@ -464,6 +587,8 @@ Looks for operation involving pointers and integral types. A common mistake is
 to forget to dereference a pointer. These errors may be detected when a pointer
 object is compare to an object with integral type.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-redundant-expression</key>
@@ -471,6 +596,8 @@ object is compare to an object with integral type.
   <description><![CDATA[
 Detect redundant expressions which are typically errors due to copy-paste.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-sizeof-container</key>
@@ -479,6 +606,8 @@ Detect redundant expressions which are typically errors due to copy-paste.
 The check finds usages of ``sizeof`` on expressions of STL container types. Most
 likely the user wanted to use ``.size()`` instead.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-sizeof-expression</key>
@@ -486,13 +615,17 @@ likely the user wanted to use ``.size()`` instead.
   <description><![CDATA[
 The check finds usages of ``sizeof`` expressions which are most likely errors.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-static-assert</key>
   <name>misc-static-assert</name>
   <description><![CDATA[
-`cert-dcl03-c` redirects here as an alias for this check.
+Replaces ``assert()`` with ``static_assert()`` if the condition is evaluatable at compile time.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-string-constructor</key>
@@ -500,6 +633,8 @@ The check finds usages of ``sizeof`` expressions which are most likely errors.
   <description><![CDATA[
 Finds string constructors that are suspicious and probably errors.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-string-integer-assignment</key>
@@ -507,8 +642,10 @@ Finds string constructors that are suspicious and probably errors.
   <description><![CDATA[
 The check finds assignments of an integer to ``std::basic_string<CharT>``
 (``std::string``, ``std::wstring``, etc.). The source of the problem is the
-following assignment operator of ``std::basic_string<CharT>``:
+following assignment operator of ``std::basic_string<CharT>``: ``basic_string& operator=( CharT ch );``
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-string-literal-with-embedded-nul</key>
@@ -517,6 +654,8 @@ following assignment operator of ``std::basic_string<CharT>``:
 Finds occurences of string literal with embedded NUL character and validates
 their usage.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-suspicious-missing-comma</key>
@@ -526,6 +665,8 @@ String literals placed side-by-side are concatenated at translation phase 6
 (after the preprocessor). This feature is used to represent long string
 literal on multiple lines.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-suspicious-semicolon</key>
@@ -537,14 +678,19 @@ the code. More specifically, it looks for ``if``, ``while``, ``for`` and
 context of the code (e.g. indentation) in an attempt to determine whether that
 is intentional.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-suspicious-string-compare</key>
   <name>misc-suspicious-string-compare</name>
   <description><![CDATA[
 Find suspicious usage of runtime string comparison functions.
-This check is valid in C and C++.
+Checks for calls with implicit comparator and proposed to explicitly add it.
+Checks that compare function results (i,e, strcmp) are compared to valid constant.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-swapped-arguments</key>
@@ -552,13 +698,17 @@ This check is valid in C and C++.
   <description><![CDATA[
 Finds potentially swapped arguments by looking at implicit conversions.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-throw-by-value-catch-by-reference</key>
   <name>misc-throw-by-value-catch-by-reference</name>
   <description><![CDATA[
-"cert-err61-cpp" redirects here as an alias for this check.
+Finds violations of the rule "Throw by value, catch by reference" presented for example in "C++ Coding Standards" by H. Sutter and A. Alexandrescu.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-unconventional-assign-operator</key>
@@ -567,6 +717,8 @@ Finds potentially swapped arguments by looking at implicit conversions.
 Finds declarations of assign operators with the wrong return and/or argument
 types and definitions with good return type but wrong ``return`` statements.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-undelegated-constructor</key>
@@ -575,6 +727,8 @@ types and definitions with good return type but wrong ``return`` statements.
 Finds creation of temporary objects in constructors that look like a
 function call to another constructor of the same class.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-uniqueptr-reset-release</key>
@@ -582,6 +736,8 @@ function call to another constructor of the same class.
   <description><![CDATA[
 Find and replace ``unique_ptr::reset(release())`` with ``std::move()``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-unused-alias-decls</key>
@@ -589,14 +745,17 @@ Find and replace ``unique_ptr::reset(release())`` with ``std::move()``.
   <description><![CDATA[
 Finds unused namespace alias declarations.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-unused-parameters</key>
   <name>misc-unused-parameters</name>
   <description><![CDATA[
-Finds unused parameters and fixes them, so that `-Wunused-parameter` can be
-turned on.
+Finds unused parameters.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-unused-raii</key>
@@ -604,6 +763,8 @@ turned on.
   <description><![CDATA[
 Finds temporaries that look like RAII objects.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-unused-using-decls</key>
@@ -611,6 +772,8 @@ Finds temporaries that look like RAII objects.
   <description><![CDATA[
 Finds unused ``using`` declarations.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>misc-virtual-near-miss</key>
@@ -619,6 +782,8 @@ Finds unused ``using`` declarations.
 Warn if a function is a near miss (ie. the name is very similar and the function
 signiture is the same) to a virtual function from a base class.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-avoid-bind</key>
@@ -627,6 +792,8 @@ signiture is the same) to a virtual function from a base class.
 The check finds uses of ``std::bind`` and replaces simple uses with lambdas.
 Lambdas will use value-capture where required.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-deprecated-headers</key>
@@ -636,6 +803,8 @@ Some headers from C library were deprecated in C++ and are no longer welcome in
 C++ codebases. For more details refer to the C++ 14 Standard [depr.c.headers]
 section.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-loop-convert</key>
@@ -644,6 +813,8 @@ section.
 This check converts ``for(...; ...; ...)`` loops to use the new range-based
 loops in C++11.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-make-shared</key>
@@ -653,6 +824,8 @@ This check finds the creation of ``std::shared_ptr`` objects by explicitly
 calling the constructor and a ``new`` expression, and replaces it with a call
 to ``std::make_shared``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-make-unique</key>
@@ -662,6 +835,8 @@ This check finds the creation of ``std::unique_ptr`` objects by explicitly
 calling the constructor and a ``new`` expression, and replaces it with a call
 to ``std::make_unique``, introduced in C++14.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-pass-by-value</key>
@@ -673,6 +848,8 @@ argument directly by value, instead of by const-reference, and then copy. This
 check allows the compiler to take care of choosing the best way to construct
 the copy.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-raw-string-literal</key>
@@ -681,6 +858,8 @@ the copy.
 This check selectively replaces string literals containing escaped characters
 with raw string literals.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-redundant-void-arg</key>
@@ -688,6 +867,8 @@ with raw string literals.
   <description><![CDATA[
 Find and remove redundant ``void`` argument lists.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-replace-auto-ptr</key>
@@ -698,6 +879,8 @@ This check replaces the uses of the deprecated class ``std::auto_ptr`` by
 by the copy-constructor and the assignment operator, is changed to match
 ``std::unique_ptr`` usage by using explicit calls to ``std::move()``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-shrink-to-fit</key>
@@ -706,6 +889,8 @@ by the copy-constructor and the assignment operator, is changed to match
 Replace copy and swap tricks on shrinkable containers with the
 ``shrink_to_fit()`` method call.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-use-auto</key>
@@ -714,6 +899,8 @@ Replace copy and swap tricks on shrinkable containers with the
 This check is responsible for using the ``auto`` type specifier for variable
 declarations to *improve code readability and maintainability*.  For example:
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-use-bool-literals</key>
@@ -721,6 +908,8 @@ declarations to *improve code readability and maintainability*.  For example:
   <description><![CDATA[
 Finds integer literals which are cast to ``bool``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-use-default</key>
@@ -731,6 +920,8 @@ default;``.  The explicitly defaulted function declarations enable more
 opportunities in optimization, because the compiler might treat explicitly
 defaulted functions as trivial.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-use-emplace</key>
@@ -743,8 +934,10 @@ results in less verbose and potentially more efficient code.
 Right now the check doesn't support ``push_front`` and ``insert``.
 It also doesn't support ``insert`` functions for associative containers
 because replacing ``insert`` with ``emplace`` may result in
-`speed regression <http://htmlpreview.github.io/?https://github.com/HowardHinnant/papers/blob/master/insert_vs_emplace.html>`_, but it might get support with some addition flag in the future.
+`speed regression, but it might get support with some addition flag in the future.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-use-nullptr</key>
@@ -753,6 +946,8 @@ because replacing ``insert`` with ``emplace`` may result in
 The check converts the usage of null pointer constants (eg. ``NULL``, ``0``)
 to use the new C++11 ``nullptr`` keyword.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-use-override</key>
@@ -760,6 +955,8 @@ to use the new C++11 ``nullptr`` keyword.
   <description><![CDATA[
 Use C++11's ``override`` and remove ``virtual`` where applicable.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>modernize-use-using</key>
@@ -767,6 +964,8 @@ Use C++11's ``override`` and remove ``virtual`` where applicable.
   <description><![CDATA[
 Use C++11's ``using`` instead of ``typedef``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>performance-faster-string-find</key>
@@ -776,6 +975,8 @@ Optimize calls to ``std::string::find()`` and friends when the needle passed is
 a single character string literal.
 The character literal overload is more efficient.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>performance-for-range-copy</key>
@@ -784,6 +985,8 @@ The character literal overload is more efficient.
 Finds C++11 for ranges where the loop variable is copied in each iteration but
 it would suffice to obtain it by const reference.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>performance-implicit-cast-in-loop</key>
@@ -795,6 +998,8 @@ iterator.
 This means that an implicit cast has been added, which can for example result in
 expensive deep copies.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>performance-unnecessary-copy-initialization</key>
@@ -804,6 +1009,8 @@ Finds local variable declarations that are initialized using the copy
 constructor of a non-trivially-copyable type but it would suffice to obtain a
 const reference.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>performance-unnecessary-value-param</key>
@@ -812,6 +1019,8 @@ const reference.
 Flags value parameter declarations of expensive to copy types that are copied
 for each invocation but it would suffice to pass them by const reference.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-avoid-const-params-in-decls</key>
@@ -824,9 +1033,11 @@ Checks whether a function declaration has parameters that are top level const.
   <key>readability-braces-around-statements</key>
   <name>readability-braces-around-statements</name>
   <description><![CDATA[
-`google-readability-braces-around-statements` redirects here as an alias for
+Checks that bodies of ``if`` statements and loops (``for``, ``do while``, and ``while``) are inside braces.
 this check.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-container-size-empty</key>
@@ -843,6 +1054,8 @@ Checks whether a call to the ``size()`` method can be replaced with a call to
 Checks that constructors and assignment operators marked as ``= default`` are
 not actually deleted by the compiler.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-else-after-return</key>
@@ -850,13 +1063,17 @@ not actually deleted by the compiler.
   <description><![CDATA[
 Flags the usages of ``else`` after ``return``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-function-size</key>
   <name>readability-function-size</name>
   <description><![CDATA[
-`google-readability-function-size` redirects here as an alias for this check.
+Checks for large functions based on various metrics.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-identifier-naming</key>
@@ -864,6 +1081,8 @@ Flags the usages of ``else`` after ``return``.
   <description><![CDATA[
 Checks for identifiers naming style mismatch.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-implicit-bool-cast</key>
@@ -874,6 +1093,8 @@ booleans. Depending on use case, it may simply help with readability of the code
 or in some cases, point to potential bugs which remain unnoticed due to implicit
 conversions.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-inconsistent-declaration-parameter-name</key>
@@ -881,6 +1102,8 @@ conversions.
   <description><![CDATA[
 Find function declarations which differ in parameter names.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-named-parameter</key>
@@ -888,6 +1111,8 @@ Find function declarations which differ in parameter names.
   <description><![CDATA[
 Find functions with unnamed arguments.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-redundant-control-flow</key>
@@ -897,13 +1122,17 @@ This check looks for procedures (functions returning no value) with ``return``
 statements at the end of the function.  Such ``return`` statements are
 redundant.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-redundant-smartptr-get</key>
   <name>readability-redundant-smartptr-get</name>
   <description><![CDATA[
-Find and remove redundant calls to smart pointer's ``.get()`` method.
+Find redundant calls to smart pointer's ``.get()`` method.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-redundant-string-cstr</key>
@@ -911,6 +1140,8 @@ Find and remove redundant calls to smart pointer's ``.get()`` method.
   <description><![CDATA[
 Finds unnecessary calls to ``std::string::c_str()``.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-redundant-string-init</key>
@@ -918,6 +1149,8 @@ Finds unnecessary calls to ``std::string::c_str()``.
   <description><![CDATA[
 Finds unnecessary string initializations.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-simplify-boolean-expr</key>
@@ -926,6 +1159,8 @@ Finds unnecessary string initializations.
 Looks for boolean expressions involving boolean constants and simplifies
 them to use the appropriate boolean expression directly.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-static-definition-in-anonymous-namespace</key>
@@ -933,6 +1168,8 @@ them to use the appropriate boolean expression directly.
   <description><![CDATA[
 Finds static function and variable definitions in anonymous namespace.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>readability-uniqueptr-delete-release</key>
@@ -941,6 +1178,8 @@ Finds static function and variable definitions in anonymous namespace.
 Replace ``delete <unique_ptr>.release()`` with ``<unique_ptr> = nullptr``.
 The latter is shorter, simpler and does not require use of raw pointer APIs.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.CallAndMessage</key>
@@ -948,6 +1187,8 @@ The latter is shorter, simpler and does not require use of raw pointer APIs.
   <description><![CDATA[
 Check for logical errors for function calls and Objective-C message expressions (e.g., uninitialized arguments, null function pointers).
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.DivideZero</key>
@@ -955,6 +1196,8 @@ Check for logical errors for function calls and Objective-C message expressions 
   <description><![CDATA[
 Check for division by zero.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.NonNullParamChecker</key>
@@ -962,6 +1205,8 @@ Check for division by zero.
   <description><![CDATA[
 Check for null pointers passed as arguments to a function whose arguments are marked with the ``nonnull`` attribute.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.NullDereference</key>
@@ -969,6 +1214,8 @@ Check for null pointers passed as arguments to a function whose arguments are ma
   <description><![CDATA[
 Check for dereferences of null pointers.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.StackAddressEscape</key>
@@ -976,6 +1223,8 @@ Check for dereferences of null pointers.
   <description><![CDATA[
 Check that addresses of stack memory do not escape the function.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.UndefinedBinaryOperatorResult</key>
@@ -983,6 +1232,8 @@ Check that addresses of stack memory do not escape the function.
   <description><![CDATA[
 Check for undefined results of binary operators.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.VLASize</key>
@@ -990,6 +1241,8 @@ Check for undefined results of binary operators.
   <description><![CDATA[
 Check for declarations of VLA of undefined or zero size.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.uninitialized.ArraySubscript</key>
@@ -997,6 +1250,8 @@ Check for declarations of VLA of undefined or zero size.
   <description><![CDATA[
 Check for uninitialized values used as array subscripts.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.uninitialized.Assign</key>
@@ -1004,6 +1259,8 @@ Check for uninitialized values used as array subscripts.
   <description><![CDATA[
 Check for assigning uninitialized values.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.uninitialized.Branch</key>
@@ -1011,6 +1268,8 @@ Check for assigning uninitialized values.
   <description><![CDATA[
 Check for uninitialized values used as branch conditions.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.uninitialized.CapturedBlockVariable</key>
@@ -1018,6 +1277,8 @@ Check for uninitialized values used as branch conditions.
   <description><![CDATA[
 Check for blocks that capture uninitialized values.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-core.uninitialized.UndefReturn</key>
@@ -1025,6 +1286,8 @@ Check for blocks that capture uninitialized values.
   <description><![CDATA[
 Check for uninitialized values being returned to the caller.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-cplusplus.NewDelete</key>
@@ -1032,6 +1295,8 @@ Check for uninitialized values being returned to the caller.
   <description><![CDATA[
 Check for double-free, use-after-free and offset problems involving C++ ``delete``.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-deadcode.DeadStores</key>
@@ -1039,6 +1304,8 @@ Check for double-free, use-after-free and offset problems involving C++ ``delete
   <description><![CDATA[
 Check for values stored to variables that are never read afterwards.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>clang-analyzer-osx.API</key>
@@ -1046,6 +1313,8 @@ Check for values stored to variables that are never read afterwards.
   <description><![CDATA[
 Check for proper uses of various Apple APIs.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-osx.SecKeychainAPI</key>
@@ -1053,6 +1322,8 @@ Check for proper uses of various Apple APIs.
   <description><![CDATA[
 Check for improper uses of the Security framework's Keychain APIs.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-osx.coreFoundation.CFError</key>
@@ -1060,6 +1331,8 @@ Check for improper uses of the Security framework's Keychain APIs.
   <description><![CDATA[
 Check usage of ``CFErrorRef*`` parameters.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-osx.coreFoundation.CFNumber</key>
@@ -1067,6 +1340,8 @@ Check usage of ``CFErrorRef*`` parameters.
   <description><![CDATA[
 Check for improper uses of ``CFNumberCreate``.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-osx.coreFoundation.CFRetainRelease</key>
@@ -1074,6 +1349,8 @@ Check for improper uses of ``CFNumberCreate``.
   <description><![CDATA[
 Check for null arguments to ``CFRetain``, ``CFRelease``, ``CFMakeCollectable``.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-osx.coreFoundation.containers.OutOfBounds</key>
@@ -1081,6 +1358,8 @@ Check for null arguments to ``CFRetain``, ``CFRelease``, ``CFMakeCollectable``.
   <description><![CDATA[
 Checks for index out-of-bounds when using ``CFArray`` API.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-osx.coreFoundation.containers.PointerSizedValues</key>
@@ -1088,6 +1367,8 @@ Checks for index out-of-bounds when using ``CFArray`` API.
   <description><![CDATA[
 Warns if ``CFArray``, ``CFDictionary``, ``CFSet`` are created with non-pointer-size values.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.FloatLoopCounter</key>
@@ -1095,6 +1376,8 @@ Warns if ``CFArray``, ``CFDictionary``, ``CFSet`` are created with non-pointer-s
   <description><![CDATA[
 Warn on using a floating point value as a loop counter (CERT: FLP30-C, FLP30-CPP).
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.UncheckedReturn</key>
@@ -1103,6 +1386,8 @@ Warn on using a floating point value as a loop counter (CERT: FLP30-C, FLP30-CPP
 Warn on uses of functions whose return values must be always checked
 (setuid, setgid, seteuid, setegid, setreuid, setregid).
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.getpw</key>
@@ -1110,6 +1395,8 @@ Warn on uses of functions whose return values must be always checked
   <description><![CDATA[
 Warn on uses of the ``getpw`` function.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.gets</key>
@@ -1117,6 +1404,8 @@ Warn on uses of the ``getpw`` function.
   <description><![CDATA[
 Warn on uses of the ``gets`` function.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.mkstemp</key>
@@ -1124,6 +1413,8 @@ Warn on uses of the ``gets`` function.
   <description><![CDATA[
 Warn when ``mktemp``, ``mkstemp``, ``mkstemps`` or ``mkdtemp`` is passed fewer than 6 X's in the format string.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.mktemp</key>
@@ -1131,6 +1422,8 @@ Warn when ``mktemp``, ``mkstemp``, ``mkstemps`` or ``mkdtemp`` is passed fewer t
   <description><![CDATA[
 Warn on uses of the ``mktemp`` function.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.rand</key>
@@ -1138,6 +1431,8 @@ Warn on uses of the ``mktemp`` function.
   <description><![CDATA[
 Warn on uses of inferior random number generating functions (only if ``arc4random`` function is available).
   ]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.strcpy</key>
@@ -1145,6 +1440,8 @@ Warn on uses of inferior random number generating functions (only if ``arc4rando
   <description><![CDATA[
 Warn on uses of the ``strcpy`` and ``strcat`` functions.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
 </rule>
 <rule>
   <key>clang-analyzer-security.insecureAPI.vfork</key>
@@ -1152,6 +1449,8 @@ Warn on uses of the ``strcpy`` and ``strcat`` functions.
   <description><![CDATA[
 Warn on uses of the vfork function.
   ]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
 </rule>
 <rule>
   <key>clang-analyzer-unix.API</key>
@@ -1160,6 +1459,8 @@ Warn on uses of the vfork function.
 Check calls to various UNIX/POSIX functions
 (open, pthread_once, calloc, malloc, realloc, alloca).
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-unix.Malloc</key>
@@ -1167,6 +1468,8 @@ Check calls to various UNIX/POSIX functions
   <description><![CDATA[
 Check for memory leaks, double free, and use-after-free and offset problems involving ``malloc``.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-unix.MallocSizeof</key>
@@ -1174,6 +1477,8 @@ Check for memory leaks, double free, and use-after-free and offset problems invo
   <description><![CDATA[
 Check for dubious ``malloc``, ``calloc`` or ``realloc`` arguments involving sizeof.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-unix.MismatchedDeallocator</key>
@@ -1181,6 +1486,8 @@ Check for dubious ``malloc``, ``calloc`` or ``realloc`` arguments involving size
   <description><![CDATA[
 Check for mismatched deallocators (e.g. passing a pointer allocating with ``new`` to ``free()``).
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-unix.cstring.BadSizeArg</key>
@@ -1188,6 +1495,8 @@ Check for mismatched deallocators (e.g. passing a pointer allocating with ``new`
   <description><![CDATA[
 Check the size argument passed to ``strncat`` for common erroneous patterns. Use -Wno-strncat-size compiler option to mute other strncat-related compiler warnings.
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 <rule>
   <key>clang-analyzer-unix.cstring.NullArg</key>
@@ -1196,5 +1505,7 @@ Check the size argument passed to ``strncat`` for common erroneous patterns. Use
 Check for null pointers being passed as arguments to C string functions
 (strlen, strnlen, strcpy, strncpy, strcat, strncat, strcmp, strncmp, strcasecmp, strncasecmp).
   ]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
 </rule>
 </rules>
