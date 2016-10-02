@@ -1,0 +1,1200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  C and C++ rules from
+  * http://clang.llvm.org/extra/clang-tidy/checks/list.html
+  * http://clang-analyzer.llvm.org/available_checks.html
+-->
+<rules>
+<rule>
+  <key>boost-use-to-string</key>
+  <name>boost-use-to-string</name>
+  <description><![CDATA[
+This check finds conversion from integer type like ``int`` to ``std::string`` or
+``std::wstring`` using ``boost::lexical_cast``, and replace it with calls to
+``std::to_string`` and ``std::to_wstring``.
+  ]]></description>
+</rule>
+<rule>
+  <key>cert-dcl50-cpp</key>
+  <name>cert-dcl50-cpp</name>
+  <description><![CDATA[
+This check flags all function definitions (but not declarations) of C-style
+variadic functions.
+  ]]></description>
+</rule>
+<rule>
+  <key>cert-env33-c</key>
+  <name>cert-env33-c</name>
+  <description><![CDATA[
+This check flags calls to ``system()``, ``popen()``, and ``_popen()``, which
+execute a command processor. It does not flag calls to ``system()`` with a null
+pointer argument, as such a call checks for the presence of a command processor
+but does not actually attempt to execute a command.
+  ]]></description>
+</rule>
+<rule>
+  <key>cert-err34-c</key>
+  <name>cert-err34-c</name>
+  <description><![CDATA[
+This check flags calls to string-to-number conversion functions that do not
+verify the validity of the conversion, such as ``atoi()`` or ``scanf()``. It
+does not flag calls to ``strtol()``, or other, related conversion functions that
+do perform better error checking.
+  ]]></description>
+</rule>
+<rule>
+  <key>cert-err52-cpp</key>
+  <name>cert-err52-cpp</name>
+  <description><![CDATA[
+This check flags all call expressions involving ``setjmp()`` and ``longjmp()``.
+  ]]></description>
+</rule>
+<rule>
+  <key>cert-err58-cpp</key>
+  <name>cert-err58-cpp</name>
+  <description><![CDATA[
+This check flags all ``static`` or ``thread_local`` variable declarations where
+the constructor for the object may throw an exception.
+  ]]></description>
+</rule>
+<rule>
+  <key>cert-err60-cpp</key>
+  <name>cert-err60-cpp</name>
+  <description><![CDATA[
+This check flags all throw expressions where the exception object is not nothrow
+copy constructible.
+  ]]></description>
+</rule>
+<rule>
+  <key>cert-flp30-c</key>
+  <name>cert-flp30-c</name>
+  <description><![CDATA[
+This check flags ``for`` loops where the induction expression has a
+floating-point type.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-interfaces-global-init</key>
+  <name>cppcoreguidelines-interfaces-global-init</name>
+  <description><![CDATA[
+This check flags initializers of globals that access extern objects,
+and therefore can lead to order-of-initialization problems.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-bounds-array-to-pointer-decay</key>
+  <name>cppcoreguidelines-pro-bounds-array-to-pointer-decay</name>
+  <description><![CDATA[
+This check flags all array to pointer decays.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-bounds-constant-array-index</key>
+  <name>cppcoreguidelines-pro-bounds-constant-array-index</name>
+  <description><![CDATA[
+This check flags all array subscript expressions on static arrays and
+``std::arrays`` that either do not have a constant integer expression index or
+are out of bounds (for ``std::array``). For out-of-bounds checking of static
+arrays, see the clang-diagnostic-array-bounds check.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-bounds-pointer-arithmetic</key>
+  <name>cppcoreguidelines-pro-bounds-pointer-arithmetic</name>
+  <description><![CDATA[
+This check flags all usage of pointer arithmetic, because it could lead to an
+invalid pointer. Subtraction of two pointers is not flagged by this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-const-cast</key>
+  <name>cppcoreguidelines-pro-type-const-cast</name>
+  <description><![CDATA[
+This check flags all uses of ``const_cast`` in C++ code.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-cstyle-cast</key>
+  <name>cppcoreguidelines-pro-type-cstyle-cast</name>
+  <description><![CDATA[
+This check flags all use of C-style casts that perform a ``static_cast``
+downcast, ``const_cast``, or ``reinterpret_cast``.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-member-init</key>
+  <name>cppcoreguidelines-pro-type-member-init</name>
+  <description><![CDATA[
+The check flags user-defined constructor definitions that do not
+initialize all fields that would be left in an undefined state by
+default construction, e.g. builtins, pointers and record types without
+user-provided default constructors containing at least one such
+type. If these fields aren't initialized, the constructor will leave
+some of the memory in an undefined state.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-reinterpret-cast</key>
+  <name>cppcoreguidelines-pro-type-reinterpret-cast</name>
+  <description><![CDATA[
+This check flags all uses of ``reinterpret_cast`` in C++ code.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-static-cast-downcast</key>
+  <name>cppcoreguidelines-pro-type-static-cast-downcast</name>
+  <description><![CDATA[
+This check flags all usages of ``static_cast``, where a base class is casted to
+a derived class. In those cases, a fixit is provided to convert the cast to a
+``dynamic_cast``.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-union-access</key>
+  <name>cppcoreguidelines-pro-type-union-access</name>
+  <description><![CDATA[
+This check flags all access to members of unions. Passing unions as a whole is
+not flagged.
+  ]]></description>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-vararg</key>
+  <name>cppcoreguidelines-pro-type-vararg</name>
+  <description><![CDATA[
+This check flags all calls to c-style vararg functions and all use of
+``va_arg``.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-build-explicit-make-pair</key>
+  <name>google-build-explicit-make-pair</name>
+  <description><![CDATA[
+Check that ``make_pair``'s template arguments are deduced.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-build-namespaces</key>
+  <name>google-build-namespaces</name>
+  <description><![CDATA[
+`cert-dcl59-cpp` redirects here as an alias for this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-build-using-namespace</key>
+  <name>google-build-using-namespace</name>
+  <description><![CDATA[
+Finds ``using namespace`` directives.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-default-arguments</key>
+  <name>google-default-arguments</name>
+  <description><![CDATA[
+Checks that default arguments are not given for virtual methods.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-explicit-constructor</key>
+  <name>google-explicit-constructor</name>
+  <description><![CDATA[
+Checks that all single-argument constructors are explicit.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-global-names-in-headers</key>
+  <name>google-global-names-in-headers</name>
+  <description><![CDATA[
+Flag global namespace pollution in header files.
+Right now it only triggers on ``using`` declarations and directives.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-readability-casting</key>
+  <name>google-readability-casting</name>
+  <description><![CDATA[
+Finds usages of C-style casts.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-readability-namespace-comments</key>
+  <name>google-readability-namespace-comments</name>
+  <description><![CDATA[
+Checks that long namespaces have a closing comment.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-readability-redundant-smartptr-get</key>
+  <name>google-readability-redundant-smartptr-get</name>
+  <description><![CDATA[
+Find and remove redundant calls to smart pointer's ``.get()`` method.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-readability-todo</key>
+  <name>google-readability-todo</name>
+  <description><![CDATA[
+Finds TODO comments without a username or bug number.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-runtime-int</key>
+  <name>google-runtime-int</name>
+  <description><![CDATA[
+Finds uses of ``short``, ``long`` and ``long long`` and suggest replacing them
+with ``u?intXX(_t)?``.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-runtime-member-string-references</key>
+  <name>google-runtime-member-string-references</name>
+  <description><![CDATA[
+Finds members of type ``const string&``.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-runtime-memset</key>
+  <name>google-runtime-memset</name>
+  <description><![CDATA[
+Finds calls to ``memset`` with a literal zero in the length argument.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-runtime-operator</key>
+  <name>google-runtime-operator</name>
+  <description><![CDATA[
+Finds overloads of unary ``operator &``.
+  ]]></description>
+</rule>
+<rule>
+  <key>google-runtime-references</key>
+  <name>google-runtime-references</name>
+  <description><![CDATA[
+Checks the usage of non-constant references in function parameters.
+  ]]></description>
+</rule>
+<rule>
+  <key>llvm-header-guard</key>
+  <name>llvm-header-guard</name>
+  <description><![CDATA[
+TODO: add docs
+  ]]></description>
+</rule>
+<rule>
+  <key>llvm-include-order</key>
+  <name>llvm-include-order</name>
+  <description><![CDATA[
+Checks the correct order of ``#includes``.
+  ]]></description>
+</rule>
+<rule>
+  <key>llvm-namespace-comment</key>
+  <name>llvm-namespace-comment</name>
+  <description><![CDATA[
+Checks that long namespaces have a closing comment.
+  ]]></description>
+</rule>
+<rule>
+  <key>llvm-twine-local</key>
+  <name>llvm-twine-local</name>
+  <description><![CDATA[
+Looks for local ``Twine`` variables which are prone to use after frees and
+should be generally avoided.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-argument-comment</key>
+  <name>misc-argument-comment</name>
+  <description><![CDATA[
+Checks that argument comments match parameter names.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-assert-side-effect</key>
+  <name>misc-assert-side-effect</name>
+  <description><![CDATA[
+Finds ``assert()`` with side effect.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-bool-pointer-implicit-conversion</key>
+  <name>misc-bool-pointer-implicit-conversion</name>
+  <description><![CDATA[
+Checks for conditions based on implicit conversion from a ``bool`` pointer to
+``bool``.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-dangling-handle</key>
+  <name>misc-dangling-handle</name>
+  <description><![CDATA[
+Detect dangling references in value handlers like
+``std::experimental::string_view``.
+These dangling references can come from constructing handles from temporary
+values, where the temporary is destroyed soon after the handle is created.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-definitions-in-headers</key>
+  <name>misc-definitions-in-headers</name>
+  <description><![CDATA[
+Finds non-extern non-inline function and variable definitions in header files,
+which can lead to potential ODR violations in case these headers are included
+from multiple translation units.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-fold-init-type</key>
+  <name>misc-fold-init-type</name>
+  <description><![CDATA[
+The check flags type mismatches in folds like ``std::accumulate`` that might result in loss of precision.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-forward-declaration-namespace</key>
+  <name>misc-forward-declaration-namespace</name>
+  <description><![CDATA[
+Checks if an unused forward declaration is in a wrong namespace.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-inaccurate-erase</key>
+  <name>misc-inaccurate-erase</name>
+  <description><![CDATA[
+Checks for inaccurate use of the ``erase()`` method.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-incorrect-roundings</key>
+  <name>misc-incorrect-roundings</name>
+  <description><![CDATA[
+Checks the usage of patterns known to produce incorrect rounding.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-inefficient-algorithm</key>
+  <name>misc-inefficient-algorithm</name>
+  <description><![CDATA[
+Warns on inefficient use of STL algorithms on associative containers.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-macro-parentheses</key>
+  <name>misc-macro-parentheses</name>
+  <description><![CDATA[
+Finds macros that can have unexpected behaviour due to missing parentheses.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-macro-repeated-side-effects</key>
+  <name>misc-macro-repeated-side-effects</name>
+  <description><![CDATA[
+Checks for repeated argument with side effects in macros.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-misplaced-const</key>
+  <name>misc-misplaced-const</name>
+  <description><![CDATA[
+This check diagnoses when a ``const`` qualifier is applied to a ``typedef`` to a
+pointer type rather than to the pointee, because such constructs are often
+misleading to developers because the ``const`` applies to the pointer rather
+than the pointee.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-misplaced-widening-cast</key>
+  <name>misc-misplaced-widening-cast</name>
+  <description><![CDATA[
+This check will warn when there is a cast of a calculation result to a bigger
+type. If the intention of the cast is to avoid loss of precision then the cast
+is misplaced, and there can be loss of precision. Otherwise the cast is
+ineffective.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-move-const-arg</key>
+  <name>misc-move-const-arg</name>
+  <description><![CDATA[
+The check warns
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-move-constructor-init</key>
+  <name>misc-move-constructor-init</name>
+  <description><![CDATA[
+"cert-oop11-cpp" redirects here as an alias for this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-multiple-statement-macro</key>
+  <name>misc-multiple-statement-macro</name>
+  <description><![CDATA[
+Detect multiple statement macros that are used in unbraced conditionals.
+Only the first statement of the macro will be inside the conditional and the other ones will be executed unconditionally.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-new-delete-overloads</key>
+  <name>misc-new-delete-overloads</name>
+  <description><![CDATA[
+`cert-dcl54-cpp` redirects here as an alias for this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-noexcept-move-constructor</key>
+  <name>misc-noexcept-move-constructor</name>
+  <description><![CDATA[
+The check flags user-defined move constructors and assignment operators not
+marked with ``noexcept`` or marked with ``noexcept(expr)`` where ``expr``
+evaluates to ``false`` (but is not a ``false`` literal itself).
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-non-copyable-objects</key>
+  <name>misc-non-copyable-objects</name>
+  <description><![CDATA[
+`cert-fio38-c` redirects here as an alias for this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-pointer-and-integral-operation</key>
+  <name>misc-pointer-and-integral-operation</name>
+  <description><![CDATA[
+Looks for operation involving pointers and integral types. A common mistake is
+to forget to dereference a pointer. These errors may be detected when a pointer
+object is compare to an object with integral type.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-redundant-expression</key>
+  <name>misc-redundant-expression</name>
+  <description><![CDATA[
+Detect redundant expressions which are typically errors due to copy-paste.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-sizeof-container</key>
+  <name>misc-sizeof-container</name>
+  <description><![CDATA[
+The check finds usages of ``sizeof`` on expressions of STL container types. Most
+likely the user wanted to use ``.size()`` instead.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-sizeof-expression</key>
+  <name>misc-sizeof-expression</name>
+  <description><![CDATA[
+The check finds usages of ``sizeof`` expressions which are most likely errors.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-static-assert</key>
+  <name>misc-static-assert</name>
+  <description><![CDATA[
+`cert-dcl03-c` redirects here as an alias for this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-string-constructor</key>
+  <name>misc-string-constructor</name>
+  <description><![CDATA[
+Finds string constructors that are suspicious and probably errors.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-string-integer-assignment</key>
+  <name>misc-string-integer-assignment</name>
+  <description><![CDATA[
+The check finds assignments of an integer to ``std::basic_string<CharT>``
+(``std::string``, ``std::wstring``, etc.). The source of the problem is the
+following assignment operator of ``std::basic_string<CharT>``:
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-string-literal-with-embedded-nul</key>
+  <name>misc-string-literal-with-embedded-nul</name>
+  <description><![CDATA[
+Finds occurences of string literal with embedded NUL character and validates
+their usage.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-suspicious-missing-comma</key>
+  <name>misc-suspicious-missing-comma</name>
+  <description><![CDATA[
+String literals placed side-by-side are concatenated at translation phase 6
+(after the preprocessor). This feature is used to represent long string
+literal on multiple lines.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-suspicious-semicolon</key>
+  <name>misc-suspicious-semicolon</name>
+  <description><![CDATA[
+Finds most instances of stray semicolons that unexpectedly alter the meaning of
+the code. More specifically, it looks for ``if``, ``while``, ``for`` and
+``for-range`` statements whose body is a single semicolon, and then analyzes the
+context of the code (e.g. indentation) in an attempt to determine whether that
+is intentional.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-suspicious-string-compare</key>
+  <name>misc-suspicious-string-compare</name>
+  <description><![CDATA[
+Find suspicious usage of runtime string comparison functions.
+This check is valid in C and C++.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-swapped-arguments</key>
+  <name>misc-swapped-arguments</name>
+  <description><![CDATA[
+Finds potentially swapped arguments by looking at implicit conversions.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-throw-by-value-catch-by-reference</key>
+  <name>misc-throw-by-value-catch-by-reference</name>
+  <description><![CDATA[
+"cert-err61-cpp" redirects here as an alias for this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-unconventional-assign-operator</key>
+  <name>misc-unconventional-assign-operator</name>
+  <description><![CDATA[
+Finds declarations of assign operators with the wrong return and/or argument
+types and definitions with good return type but wrong ``return`` statements.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-undelegated-constructor</key>
+  <name>misc-undelegated-constructor</name>
+  <description><![CDATA[
+Finds creation of temporary objects in constructors that look like a
+function call to another constructor of the same class.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-uniqueptr-reset-release</key>
+  <name>misc-uniqueptr-reset-release</name>
+  <description><![CDATA[
+Find and replace ``unique_ptr::reset(release())`` with ``std::move()``.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-unused-alias-decls</key>
+  <name>misc-unused-alias-decls</name>
+  <description><![CDATA[
+Finds unused namespace alias declarations.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-unused-parameters</key>
+  <name>misc-unused-parameters</name>
+  <description><![CDATA[
+Finds unused parameters and fixes them, so that `-Wunused-parameter` can be
+turned on.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-unused-raii</key>
+  <name>misc-unused-raii</name>
+  <description><![CDATA[
+Finds temporaries that look like RAII objects.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-unused-using-decls</key>
+  <name>misc-unused-using-decls</name>
+  <description><![CDATA[
+Finds unused ``using`` declarations.
+  ]]></description>
+</rule>
+<rule>
+  <key>misc-virtual-near-miss</key>
+  <name>misc-virtual-near-miss</name>
+  <description><![CDATA[
+Warn if a function is a near miss (ie. the name is very similar and the function
+signiture is the same) to a virtual function from a base class.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-avoid-bind</key>
+  <name>modernize-avoid-bind</name>
+  <description><![CDATA[
+The check finds uses of ``std::bind`` and replaces simple uses with lambdas.
+Lambdas will use value-capture where required.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-deprecated-headers</key>
+  <name>modernize-deprecated-headers</name>
+  <description><![CDATA[
+Some headers from C library were deprecated in C++ and are no longer welcome in
+C++ codebases. For more details refer to the C++ 14 Standard [depr.c.headers]
+section.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-loop-convert</key>
+  <name>modernize-loop-convert</name>
+  <description><![CDATA[
+This check converts ``for(...; ...; ...)`` loops to use the new range-based
+loops in C++11.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-make-shared</key>
+  <name>modernize-make-shared</name>
+  <description><![CDATA[
+This check finds the creation of ``std::shared_ptr`` objects by explicitly
+calling the constructor and a ``new`` expression, and replaces it with a call
+to ``std::make_shared``.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-make-unique</key>
+  <name>modernize-make-unique</name>
+  <description><![CDATA[
+This check finds the creation of ``std::unique_ptr`` objects by explicitly
+calling the constructor and a ``new`` expression, and replaces it with a call
+to ``std::make_unique``, introduced in C++14.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-pass-by-value</key>
+  <name>modernize-pass-by-value</name>
+  <description><![CDATA[
+With move semantics added to the language and the standard library updated with
+move constructors added for many types it is now interesting to take an
+argument directly by value, instead of by const-reference, and then copy. This
+check allows the compiler to take care of choosing the best way to construct
+the copy.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-raw-string-literal</key>
+  <name>modernize-raw-string-literal</name>
+  <description><![CDATA[
+This check selectively replaces string literals containing escaped characters
+with raw string literals.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-redundant-void-arg</key>
+  <name>modernize-redundant-void-arg</name>
+  <description><![CDATA[
+Find and remove redundant ``void`` argument lists.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-replace-auto-ptr</key>
+  <name>modernize-replace-auto-ptr</name>
+  <description><![CDATA[
+This check replaces the uses of the deprecated class ``std::auto_ptr`` by
+``std::unique_ptr`` (introduced in C++11). The transfer of ownership, done
+by the copy-constructor and the assignment operator, is changed to match
+``std::unique_ptr`` usage by using explicit calls to ``std::move()``.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-shrink-to-fit</key>
+  <name>modernize-shrink-to-fit</name>
+  <description><![CDATA[
+Replace copy and swap tricks on shrinkable containers with the
+``shrink_to_fit()`` method call.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-use-auto</key>
+  <name>modernize-use-auto</name>
+  <description><![CDATA[
+This check is responsible for using the ``auto`` type specifier for variable
+declarations to *improve code readability and maintainability*.  For example:
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-use-bool-literals</key>
+  <name>modernize-use-bool-literals</name>
+  <description><![CDATA[
+Finds integer literals which are cast to ``bool``.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-use-default</key>
+  <name>modernize-use-default</name>
+  <description><![CDATA[
+This check replaces default bodies of special member functions with ``=
+default;``.  The explicitly defaulted function declarations enable more
+opportunities in optimization, because the compiler might treat explicitly
+defaulted functions as trivial.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-use-emplace</key>
+  <name>modernize-use-emplace</name>
+  <description><![CDATA[
+The check flags insertions to an STL-style container done by calling the
+``push_back`` method with an explicitly-constructed temporary of the container
+element type. In this case, the corresponding ``emplace_back`` method
+results in less verbose and potentially more efficient code.
+Right now the check doesn't support ``push_front`` and ``insert``.
+It also doesn't support ``insert`` functions for associative containers
+because replacing ``insert`` with ``emplace`` may result in
+`speed regression <http://htmlpreview.github.io/?https://github.com/HowardHinnant/papers/blob/master/insert_vs_emplace.html>`_, but it might get support with some addition flag in the future.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-use-nullptr</key>
+  <name>modernize-use-nullptr</name>
+  <description><![CDATA[
+The check converts the usage of null pointer constants (eg. ``NULL``, ``0``)
+to use the new C++11 ``nullptr`` keyword.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-use-override</key>
+  <name>modernize-use-override</name>
+  <description><![CDATA[
+Use C++11's ``override`` and remove ``virtual`` where applicable.
+  ]]></description>
+</rule>
+<rule>
+  <key>modernize-use-using</key>
+  <name>modernize-use-using</name>
+  <description><![CDATA[
+Use C++11's ``using`` instead of ``typedef``.
+  ]]></description>
+</rule>
+<rule>
+  <key>performance-faster-string-find</key>
+  <name>performance-faster-string-find</name>
+  <description><![CDATA[
+Optimize calls to ``std::string::find()`` and friends when the needle passed is
+a single character string literal.
+The character literal overload is more efficient.
+  ]]></description>
+</rule>
+<rule>
+  <key>performance-for-range-copy</key>
+  <name>performance-for-range-copy</name>
+  <description><![CDATA[
+Finds C++11 for ranges where the loop variable is copied in each iteration but
+it would suffice to obtain it by const reference.
+  ]]></description>
+</rule>
+<rule>
+  <key>performance-implicit-cast-in-loop</key>
+  <name>performance-implicit-cast-in-loop</name>
+  <description><![CDATA[
+This warning appears in a range-based loop with a loop variable of const ref
+type where the type of the variable does not match the one returned by the
+iterator.
+This means that an implicit cast has been added, which can for example result in
+expensive deep copies.
+  ]]></description>
+</rule>
+<rule>
+  <key>performance-unnecessary-copy-initialization</key>
+  <name>performance-unnecessary-copy-initialization</name>
+  <description><![CDATA[
+Finds local variable declarations that are initialized using the copy
+constructor of a non-trivially-copyable type but it would suffice to obtain a
+const reference.
+  ]]></description>
+</rule>
+<rule>
+  <key>performance-unnecessary-value-param</key>
+  <name>performance-unnecessary-value-param</name>
+  <description><![CDATA[
+Flags value parameter declarations of expensive to copy types that are copied
+for each invocation but it would suffice to pass them by const reference.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-avoid-const-params-in-decls</key>
+  <name>readability-avoid-const-params-in-decls</name>
+  <description><![CDATA[
+Checks whether a function declaration has parameters that are top level const.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-braces-around-statements</key>
+  <name>readability-braces-around-statements</name>
+  <description><![CDATA[
+`google-readability-braces-around-statements` redirects here as an alias for
+this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-container-size-empty</key>
+  <name>readability-container-size-empty</name>
+  <description><![CDATA[
+Checks whether a call to the ``size()`` method can be replaced with a call to
+``empty()``.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-deleted-default</key>
+  <name>readability-deleted-default</name>
+  <description><![CDATA[
+Checks that constructors and assignment operators marked as ``= default`` are
+not actually deleted by the compiler.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-else-after-return</key>
+  <name>readability-else-after-return</name>
+  <description><![CDATA[
+Flags the usages of ``else`` after ``return``.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-function-size</key>
+  <name>readability-function-size</name>
+  <description><![CDATA[
+`google-readability-function-size` redirects here as an alias for this check.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-identifier-naming</key>
+  <name>readability-identifier-naming</name>
+  <description><![CDATA[
+Checks for identifiers naming style mismatch.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-implicit-bool-cast</key>
+  <name>readability-implicit-bool-cast</name>
+  <description><![CDATA[
+This check can be used to find implicit conversions between built-in types and
+booleans. Depending on use case, it may simply help with readability of the code,
+or in some cases, point to potential bugs which remain unnoticed due to implicit
+conversions.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-inconsistent-declaration-parameter-name</key>
+  <name>readability-inconsistent-declaration-parameter-name</name>
+  <description><![CDATA[
+Find function declarations which differ in parameter names.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-named-parameter</key>
+  <name>readability-named-parameter</name>
+  <description><![CDATA[
+Find functions with unnamed arguments.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-redundant-control-flow</key>
+  <name>readability-redundant-control-flow</name>
+  <description><![CDATA[
+This check looks for procedures (functions returning no value) with ``return``
+statements at the end of the function.  Such ``return`` statements are
+redundant.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-redundant-smartptr-get</key>
+  <name>readability-redundant-smartptr-get</name>
+  <description><![CDATA[
+Find and remove redundant calls to smart pointer's ``.get()`` method.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-redundant-string-cstr</key>
+  <name>readability-redundant-string-cstr</name>
+  <description><![CDATA[
+Finds unnecessary calls to ``std::string::c_str()``.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-redundant-string-init</key>
+  <name>readability-redundant-string-init</name>
+  <description><![CDATA[
+Finds unnecessary string initializations.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-simplify-boolean-expr</key>
+  <name>readability-simplify-boolean-expr</name>
+  <description><![CDATA[
+Looks for boolean expressions involving boolean constants and simplifies
+them to use the appropriate boolean expression directly.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-static-definition-in-anonymous-namespace</key>
+  <name>readability-static-definition-in-anonymous-namespace</name>
+  <description><![CDATA[
+Finds static function and variable definitions in anonymous namespace.
+  ]]></description>
+</rule>
+<rule>
+  <key>readability-uniqueptr-delete-release</key>
+  <name>readability-uniqueptr-delete-release</name>
+  <description><![CDATA[
+Replace ``delete <unique_ptr>.release()`` with ``<unique_ptr> = nullptr``.
+The latter is shorter, simpler and does not require use of raw pointer APIs.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.CallAndMessage</key>
+  <name>clang-analyzer-core.CallAndMessage</name>
+  <description><![CDATA[
+Check for logical errors for function calls and Objective-C message expressions (e.g., uninitialized arguments, null function pointers).
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.DivideZero</key>
+  <name>clang-analyzer-core.DivideZero</name>
+  <description><![CDATA[
+Check for division by zero.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.NonNullParamChecker</key>
+  <name>clang-analyzer-core.NonNullParamChecker</name>
+  <description><![CDATA[
+Check for null pointers passed as arguments to a function whose arguments are marked with the ``nonnull`` attribute.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.NullDereference</key>
+  <name>clang-analyzer-core.NullDereference</name>
+  <description><![CDATA[
+Check for dereferences of null pointers.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.StackAddressEscape</key>
+  <name>clang-analyzer-core.StackAddressEscape</name>
+  <description><![CDATA[
+Check that addresses of stack memory do not escape the function.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.UndefinedBinaryOperatorResult</key>
+  <name>clang-analyzer-core.UndefinedBinaryOperatorResult</name>
+  <description><![CDATA[
+Check for undefined results of binary operators.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.VLASize</key>
+  <name>clang-analyzer-core.VLASize</name>
+  <description><![CDATA[
+Check for declarations of VLA of undefined or zero size.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.ArraySubscript</key>
+  <name>clang-analyzer-core.uninitialized.ArraySubscript</name>
+  <description><![CDATA[
+Check for uninitialized values used as array subscripts.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.Assign</key>
+  <name>clang-analyzer-core.uninitialized.Assign</name>
+  <description><![CDATA[
+Check for assigning uninitialized values.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.Branch</key>
+  <name>clang-analyzer-core.uninitialized.Branch</name>
+  <description><![CDATA[
+Check for uninitialized values used as branch conditions.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.CapturedBlockVariable</key>
+  <name>clang-analyzer-core.uninitialized.CapturedBlockVariable</name>
+  <description><![CDATA[
+Check for blocks that capture uninitialized values.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.UndefReturn</key>
+  <name>clang-analyzer-core.uninitialized.UndefReturn</name>
+  <description><![CDATA[
+Check for uninitialized values being returned to the caller.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-cplusplus.NewDelete</key>
+  <name>clang-analyzer-cplusplus.NewDelete</name>
+  <description><![CDATA[
+Check for double-free, use-after-free and offset problems involving C++ ``delete``.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-deadcode.DeadStores</key>
+  <name>clang-analyzer-deadcode.DeadStores</name>
+  <description><![CDATA[
+Check for values stored to variables that are never read afterwards.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.API</key>
+  <name>clang-analyzer-osx.API</name>
+  <description><![CDATA[
+Check for proper uses of various Apple APIs.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.SecKeychainAPI</key>
+  <name>clang-analyzer-osx.SecKeychainAPI</name>
+  <description><![CDATA[
+Check for improper uses of the Security framework's Keychain APIs.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.CFError</key>
+  <name>clang-analyzer-osx.coreFoundation.CFError</name>
+  <description><![CDATA[
+Check usage of ``CFErrorRef*`` parameters.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.CFNumber</key>
+  <name>clang-analyzer-osx.coreFoundation.CFNumber</name>
+  <description><![CDATA[
+Check for improper uses of ``CFNumberCreate``.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.CFRetainRelease</key>
+  <name>clang-analyzer-osx.coreFoundation.CFRetainRelease</name>
+  <description><![CDATA[
+Check for null arguments to ``CFRetain``, ``CFRelease``, ``CFMakeCollectable``.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.containers.OutOfBounds</key>
+  <name>clang-analyzer-osx.coreFoundation.containers.OutOfBounds</name>
+  <description><![CDATA[
+Checks for index out-of-bounds when using ``CFArray`` API.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.containers.PointerSizedValues</key>
+  <name>clang-analyzer-osx.coreFoundation.containers.PointerSizedValues</name>
+  <description><![CDATA[
+Warns if ``CFArray``, ``CFDictionary``, ``CFSet`` are created with non-pointer-size values.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.FloatLoopCounter</key>
+  <name>clang-analyzer-security.FloatLoopCounter</name>
+  <description><![CDATA[
+Warn on using a floating point value as a loop counter (CERT: FLP30-C, FLP30-CPP).
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.UncheckedReturn</key>
+  <name>clang-analyzer-security.insecureAPI.UncheckedReturn</name>
+  <description><![CDATA[
+Warn on uses of functions whose return values must be always checked
+(setuid, setgid, seteuid, setegid, setreuid, setregid).
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.getpw</key>
+  <name>clang-analyzer-security.insecureAPI.getpw</name>
+  <description><![CDATA[
+Warn on uses of the ``getpw`` function.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.gets</key>
+  <name>clang-analyzer-security.insecureAPI.gets</name>
+  <description><![CDATA[
+Warn on uses of the ``gets`` function.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.mkstemp</key>
+  <name>clang-analyzer-security.insecureAPI.mkstemp</name>
+  <description><![CDATA[
+Warn when ``mktemp``, ``mkstemp``, ``mkstemps`` or ``mkdtemp`` is passed fewer than 6 X's in the format string.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.mktemp</key>
+  <name>clang-analyzer-security.insecureAPI.mktemp</name>
+  <description><![CDATA[
+Warn on uses of the ``mktemp`` function.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.rand</key>
+  <name>clang-analyzer-security.insecureAPI.rand</name>
+  <description><![CDATA[
+Warn on uses of inferior random number generating functions (only if ``arc4random`` function is available).
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.strcpy</key>
+  <name>clang-analyzer-security.insecureAPI.strcpy</name>
+  <description><![CDATA[
+Warn on uses of the ``strcpy`` and ``strcat`` functions.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.vfork</key>
+  <name>clang-analyzer-security.insecureAPI.vfork</name>
+  <description><![CDATA[
+Warn on uses of the vfork function.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.API</key>
+  <name>clang-analyzer-unix.API</name>
+  <description><![CDATA[
+Check calls to various UNIX/POSIX functions
+(open, pthread_once, calloc, malloc, realloc, alloca).
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.Malloc</key>
+  <name>clang-analyzer-unix.Malloc</name>
+  <description><![CDATA[
+Check for memory leaks, double free, and use-after-free and offset problems involving ``malloc``.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.MallocSizeof</key>
+  <name>clang-analyzer-unix.MallocSizeof</name>
+  <description><![CDATA[
+Check for dubious ``malloc``, ``calloc`` or ``realloc`` arguments involving sizeof.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.MismatchedDeallocator</key>
+  <name>clang-analyzer-unix.MismatchedDeallocator</name>
+  <description><![CDATA[
+Check for mismatched deallocators (e.g. passing a pointer allocating with ``new`` to ``free()``).
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.cstring.BadSizeArg</key>
+  <name>clang-analyzer-unix.cstring.BadSizeArg</name>
+  <description><![CDATA[
+Check the size argument passed to ``strncat`` for common erroneous patterns. Use -Wno-strncat-size compiler option to mute other strncat-related compiler warnings.
+  ]]></description>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.cstring.NullArg</key>
+  <name>clang-analyzer-unix.cstring.NullArg</name>
+  <description><![CDATA[
+Check for null pointers being passed as arguments to C string functions
+(strlen, strnlen, strcpy, strncpy, strcat, strncat, strcmp, strncmp, strcasecmp, strncasecmp).
+  ]]></description>
+</rule>
+</rules>

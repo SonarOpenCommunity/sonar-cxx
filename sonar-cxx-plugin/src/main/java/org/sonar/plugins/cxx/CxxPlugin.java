@@ -28,6 +28,8 @@ import org.sonar.api.Plugin.Context;
 import org.sonar.api.PropertyType;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.plugins.cxx.clangtidy.CxxClangTidyRuleRepository;
+import org.sonar.plugins.cxx.clangtidy.CxxClangTidySensor;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
 import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
@@ -254,6 +256,14 @@ public final class CxxPlugin implements Plugin {
       .multiValues(true)
       .subCategory(subcateg)
       .index(12)
+      .build(),
+      PropertyDefinition.builder(CxxClangTidySensor.REPORT_PATH_KEY)
+      .name("Clang-tidy analyzer report(s)")
+      .description("Path to clang-tidy reports, relative to projects root."
+        + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(13)
       .build()
     ));
   }
@@ -445,6 +455,8 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxRuleRepository.class);
     l.add(CxxUnitTestResultsAggregator.class);
     l.add(CxxUnitTestResultsImportSensor.class);
+    l.add(CxxClangTidyRuleRepository.class);
+    l.add(CxxClangTidySensor.class);
 
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
