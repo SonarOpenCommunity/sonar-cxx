@@ -910,7 +910,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     }
 
     // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__    
-    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT && newTokens.get(newTokens.size() - 2).getType() == HASH) {
+    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType() == HASH && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT) {
       for (int n = newTokens.size() - 2; n != 0; n--) {
         if (newTokens.get(n).getType() == WS) {
           newTokens.remove(n);
