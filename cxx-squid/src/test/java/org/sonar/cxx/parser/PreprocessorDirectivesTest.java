@@ -231,6 +231,19 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
       "#define eprintf(format, ...) fprintf (stderr, format, ##__VA_ARGS__)\n"
       + "eprintf(\"success!\");"))
       .equals("fprintf ( stderr , \"success!\" ) ; EOF"));
+
+    // C++11: see  syntax 4 at http://en.cppreference.com/w/cpp/preprocessor/replace
+    assert (serialize(p.parse(
+      "#define showlist(...) puts(#__VA_ARGS__)\n"
+      + "showlist();"))
+      .equals("puts ( \"\" ) ; EOF"));
+
+    // C++11: see  syntax 3 at http://en.cppreference.com/w/cpp/preprocessor/replace
+    assert (serialize(p.parse(
+      "#define showlist(...) puts(#__VA_ARGS__)\n"
+      + "showlist(1, \"x\", int);"))
+      .equals("puts ( \"1,\\\"x\\\",int\" ) ; EOF"));
+
   }
 
   @Test

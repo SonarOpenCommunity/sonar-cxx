@@ -63,6 +63,7 @@ import static org.sonar.cxx.api.CppPunctuator.COMMA;
 import static org.sonar.cxx.api.CppPunctuator.LT;
 import static org.sonar.cxx.api.CppPunctuator.BR_RIGHT;
 import static org.sonar.cxx.api.CppPunctuator.HASHHASH;
+import static org.sonar.cxx.api.CppPunctuator.HASH;
 import static org.sonar.cxx.api.CxxTokenType.NUMBER;
 import static org.sonar.cxx.api.CxxTokenType.PREPROCESSOR;
 import static org.sonar.cxx.api.CxxTokenType.STRING;
@@ -908,6 +909,22 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       }
     }
 
+    // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__    
+    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType() == HASH && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT) {
+      for (int n = newTokens.size() - 2; n != 0; n--) {
+        if (newTokens.get(n).getType() == WS) {
+          newTokens.remove(n);
+        } else if (newTokens.get(n).getType() == HASH) {
+          newTokens.remove(n);
+          newTokens.add(n, Token.builder().setLine(newTokens.get(n).getLine()).setColumn(newTokens.get(n).getColumn())
+          .setURI(newTokens.get(n).getURI()).setValueAndOriginalValue("\"\"").setType(STRING)
+          .setGeneratedCode(true).build());
+          break;
+        } else {
+          break;
+        }
+      }
+    }
     // drop COMMA from sequence COMMA "," BR ")"
     if (newTokens.size() > 2 && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT) {
       for (int n = newTokens.size() - 2; n != 0; n--) {
@@ -1140,7 +1157,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       }
 
       if (parseError || includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null) {
-        LOG.warn("[{}:{}]: cannot parse included filename: {}'",
+        LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
           new Object[]{currFileName, token.getLine(), expandedIncludeBody});
         return null;
       }
