@@ -485,7 +485,11 @@ public class DeclaratorsTest extends ParserBaseTest {
     assertThat(p).matches("[constantExpression] = {}");
     assertThat(p).matches("[constantExpression] = { initializerList }");
     assertThat(p).matches("[constantExpression] = assignmentExpression");
-
+    assertThat(p).matches(".a.b = {}");
+    assertThat(p).matches("[constantExpression][constantExpression] = {}");
+    assertThat(p).matches("[constantExpression][constantExpression].a = {}");
+    assertThat(p).matches("[constantExpression][constantExpression].a.b = {}");
+    
     // C-COMPATIBILITY: EXTENSION: gcc's designated initializers range
     assertThat(p).matches("[constantExpression ... constantExpression] = {}");
     assertThat(p).matches("[constantExpression ... constantExpression] = { initializerList }");

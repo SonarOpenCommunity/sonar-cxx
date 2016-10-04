@@ -1263,10 +1263,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(initializerClause).is(
       b.sequence(
         // C-COMPATIBILITY: C99 designated initializers
-        b.optional(b.firstOf(b.sequence(".", IDENTIFIER, "="),
-            // EXTENSION: gcc's designated initializers range
-            b.sequence("[", constantExpression, "...", constantExpression, "]", "="),
-            b.sequence("[", constantExpression, "]", "="))),
+        b.optional(
+          b.firstOf(
+            b.sequence(b.zeroOrMore("[", constantExpression, "]"), b.zeroOrMore(".", IDENTIFIER), "="), // C99
+            b.sequence("[", constantExpression, "...", constantExpression, "]", "=") // EXTENSION: gcc's designated initializers range
+          )
+        ),
         b.firstOf(
           assignmentExpression, // C++
           bracedInitList // C++

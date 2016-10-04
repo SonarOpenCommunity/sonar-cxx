@@ -24,8 +24,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,7 +32,6 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
-import org.sonar.cxx.preprocessor.SourceCodeProvider;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest extends ParserBaseTest {
@@ -42,7 +39,7 @@ public class CxxParserTest extends ParserBaseTest {
   String errSources = "/parser/bad/error_recovery_declaration.cc";
   String[] goodFiles = {"own", "examples", "cli", "cuda"};
   String[] preprocessorFiles = {"preprocessor"};
-  String[] cCompatibilityFiles = {"c-compat"};
+  String[] cCompatibilityFiles = {"C", "C99"};
   String rootDir = "src/test/resources/parser";
   File erroneousSources = null;
 
