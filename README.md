@@ -8,7 +8,7 @@
 [SonarQube](https://www.sonarqube.org) is an open platform to manage code quality. This plugin
 adds C++ support to this platform.
 
-This plugin is free software; you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.de.html) as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+This plugin is free software; you can redistribute it and/or modify it under the terms of the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl-3.0.en.html) as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
 ## Quickstart
 1. Setup a SonarQube instance
