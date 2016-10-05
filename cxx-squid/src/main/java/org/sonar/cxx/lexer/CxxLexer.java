@@ -51,7 +51,7 @@ public final class CxxLexer {
   }
 
   private static final String EXP = "([Ee][+-]?+[0-9_]([']?+[0-9_]++)*+)";
-  //private static final String INTEGER_SUFFIX = "(((U|u)(LL|ll|L|l)?)|((LL|ll|L|l)(u|U)?))";  
+  //private static final String INTEGER_SUFFIX = "(((U|u)(i64|LL|ll|L|l)?)|((i64|LL|ll|L|l)(u|U)?))";  
   //private static final String FLOAT_SUFFIX = "(f|l|F|L)";
   private static final String UD_SUFFIX = "([_a-zA-Z]([_a-zA-Z0-9]*+))"; // ud-suffix: identifier (including INTEGER_SUFFIX, FLOAT_SUFFIX)
 

@@ -21,8 +21,6 @@ package org.sonar.cxx.preprocessor;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -40,7 +38,6 @@ import org.sonar.cxx.api.CppPunctuator;
 public final class ExpressionEvaluator {
 
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
-  private static final String HEX_REGEX = "0[xX]([0-9A-Fa-f]+)(ui64)?";
   public static final Logger LOG = Loggers.get(ExpressionEvaluator.class);
 
   private final Parser<Grammar> parser;
@@ -459,28 +456,74 @@ public final class ExpressionEvaluator {
     return evalToInt(value, exprAst);
   }
 
-  public static String stripSuffix(String number) {
-    return number.replaceAll("[LlUu]", "");
-  }
+  public static BigInteger decode(String number) {
 
-  private static BigInteger decode(String number) {
+    // This fuction is only responsible for providing a string and a radix to BigInteger.
+    // The lexer ensures that the number has a valid format.
+    
     int radix = 10;
+    int begin = 0;
     if (number.length() > 2) {
       if (number.charAt(0) == '0') {
-        radix = 8; // 0...
-        try {
-          Pattern p = Pattern.compile(HEX_REGEX);
-          Matcher m = p.matcher(number);
-          if (m.find()) {
-            radix = 16;
-            number = m.group(1);
-          }
-        } catch (java.lang.IllegalStateException e) {
-          // ignore "No match found"
+        switch (number.charAt(1)) {
+          case 'x':
+          case 'X':
+            radix = 16; // 0x...
+            begin = 2;
+            break;
+          case 'b':
+          case 'B':
+            radix = 2; // 0b...
+            begin = 2;
+            break;
+          default:
+            radix = 8; // 0...
+            break;
         }
       }
     }
 
-    return new BigInteger(stripSuffix(number), radix);
+    StringBuilder sb = new StringBuilder(number.length());
+    Boolean suffix = false;
+    for (int index = begin; index < number.length() && !suffix; index++) {
+      char c = number.charAt(index);
+      switch (c) {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+
+        case 'a':
+        case 'b':
+        case 'c':
+        case 'd':
+        case 'e':
+        case 'f':
+
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+        case 'F':
+          sb.append(c);
+          break;
+
+        case '\'': // ignore digit separator
+          break;
+          
+        default: // suffix
+          suffix = true;
+          break;
+      }
+    }
+
+    return new BigInteger(sb.toString(), radix);
   }
 }
