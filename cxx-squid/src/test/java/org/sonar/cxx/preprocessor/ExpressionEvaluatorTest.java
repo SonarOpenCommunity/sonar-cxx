@@ -19,6 +19,7 @@
  */
 package org.sonar.cxx.preprocessor;
 
+import java.math.BigInteger;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -317,11 +318,29 @@ public class ExpressionEvaluatorTest {
   }
 
   @Test
-  public void stripping_suffix_from_numbers() {
-    assertEquals(evaluator.stripSuffix("1L"), "1");
-    assertEquals(evaluator.stripSuffix("1l"), "1");
-    assertEquals(evaluator.stripSuffix("1U"), "1");
-    assertEquals(evaluator.stripSuffix("1u"), "1");
+  public void decode_numbers() {
+    assertEquals(ExpressionEvaluator.decode("1"), new BigInteger("1", 10));
+    assertEquals(ExpressionEvaluator.decode("067"), new BigInteger("67", 8));
+    assertEquals(ExpressionEvaluator.decode("0b11"), new BigInteger("11", 2));
+    assertEquals(ExpressionEvaluator.decode("0xab"), new BigInteger("ab", 16));
+
+    assertEquals(ExpressionEvaluator.decode("1L"), new BigInteger("1", 10));
+    assertEquals(ExpressionEvaluator.decode("1l"), new BigInteger("1", 10));
+    assertEquals(ExpressionEvaluator.decode("1U"), new BigInteger("1", 10));
+    assertEquals(ExpressionEvaluator.decode("1u"), new BigInteger("1", 10));
+    
+    assertEquals(ExpressionEvaluator.decode("1ul"), new BigInteger("1", 10));
+    assertEquals(ExpressionEvaluator.decode("1ll"), new BigInteger("1", 10));
+    assertEquals(ExpressionEvaluator.decode("1i64"), new BigInteger("1", 10));
+    assertEquals(ExpressionEvaluator.decode("1ui64"), new BigInteger("1", 10));
+    
+    assertEquals(ExpressionEvaluator.decode("067ll"), new BigInteger("67", 8));
+    assertEquals(ExpressionEvaluator.decode("0b11ul"), new BigInteger("11", 2));
+    assertEquals(ExpressionEvaluator.decode("0xabui64"), new BigInteger("ab", 16));
+    
+    assertEquals(ExpressionEvaluator.decode("1'234"), new BigInteger("1234", 10));
+    assertEquals(ExpressionEvaluator.decode("0b1111'0000'1111"), new BigInteger("111100001111", 2));
+    assertEquals(ExpressionEvaluator.decode("0xAAAA'bbbb"), new BigInteger("AAAAbbbb", 16));
   }
 
   @Test(expected = EvaluationException.class)
