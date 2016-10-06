@@ -82,14 +82,24 @@ public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {
     AstNode seq = node.getFirstDescendant(CxxGrammarImpl.statementSeq);
 
     if (seq != null) {
-      for (AstNode stmt : seq.getChildren(CxxGrammarImpl.statement)) {
-        for (AstNode label : stmt.getChildren(CxxGrammarImpl.labeledStatement)) {
-          cases.add(label);
-        }
-      }
+      getSwitchCases(cases, seq);
     }
 
     return cases;
+  }
+
+  private void getSwitchCases(List<AstNode> result, AstNode node) {
+    if (isSwitchStatement(node)) {
+      return;
+    }
+    if (node.is(CxxGrammarImpl.labeledStatement)) {
+      result.add(node);
+    }
+    if (node.hasChildren()) {
+      for (AstNode child : node.getChildren()) {
+        getSwitchCases(result, child);
+      }
+    }
   }
 
 }

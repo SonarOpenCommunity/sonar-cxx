@@ -53,5 +53,13 @@ class A {
               break;
           }
       }
+
+      switch (var) {
+        case 0:
+          return 0;
+        case 1: /* fallthrough */
+        default:
+          return -1;
+      }
     }
 };
