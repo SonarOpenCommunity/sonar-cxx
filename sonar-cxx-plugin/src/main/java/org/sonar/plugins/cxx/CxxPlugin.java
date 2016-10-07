@@ -123,7 +123,7 @@ public final class CxxPlugin implements Plugin {
       .index(6)
       .build(),
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
-      .defaultValue("False")
+      .defaultValue("True")
       .name("Parse error recovery")
       .description("Enables/disables the parse error recovery (experimental).")
       .subCategory(subcateg)
