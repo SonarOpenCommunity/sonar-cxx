@@ -50,7 +50,7 @@ public class UndocumentedApiCheckTest {
       .next().atLine(19) // member variable
       .next().atLine(21) // member variable
       .next().atLine(23) // public inline method
-      .next().atLine(26) // public template method
+      .next().atLine(25) // public template method
       .next().atLine(29) // protected method
       .next().atLine(51) // public member variable
       .next().atLine(55) // struct
@@ -84,11 +84,51 @@ public class UndocumentedApiCheckTest {
       .next().atLine(123) // enum member
       .next().atLine(124) // enum member
       .next().atLine(127) // class OverrideInClassTest
-      .next().atLine(138); // struct OverrideInStructTest
-    //.next().atLine(143); // @todo struct ComplexOverrideTest
+      .next().atLine(138) // struct OverrideInStructTest      
+      .next().atLine(143) // struct ComplexOverrideInStruct
+      .next().atLine(148) // struct ComplexOverrideInClass      
+      .next().atLine(154) // aliasDeclarartion1
+      .next().atLine(156) // aliasDeclarartion2
+      .next().atLine(161); // class ClassWithFriend
 
     for (CheckMessage msg : file.getCheckMessages()) {
       assertThat(msg.formatDefaultMessage()).isNotEmpty();
     }
   }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void docStyle1() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+
+    StringBuilder errors = new StringBuilder();
+    for (CheckMessage msg : file.getCheckMessages()) {
+      errors.append("Line: ");
+      errors.append(msg.getLine());
+      errors.append("; ");
+      errors.append(msg.formatDefaultMessage());
+      errors.append("\r\n");
+    }
+
+    assert errors.length() == 0 : errors;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void docStyle2() throws UnsupportedEncodingException, IOException {
+    CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+
+    StringBuilder errors = new StringBuilder();
+    for (CheckMessage msg : file.getCheckMessages()) {
+      errors.append("Line: ");
+      errors.append(msg.getLine());
+      errors.append("; ");
+      errors.append(msg.formatDefaultMessage());
+      errors.append("\r\n");
+    }
+    assert errors.length() == 0 : errors;
+  }
+
 }

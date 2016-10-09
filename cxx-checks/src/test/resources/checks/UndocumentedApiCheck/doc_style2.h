@@ -3,29 +3,39 @@
 
 #define EXPORT
 
+/** doc */
 class testClass
 {
     void defaultMethod();
 
 public:
-    void publicMethod();
 
+    void publicMethod(); ///< doc
+
+    /** doc */
     enum classEnum {
-        classEnumValue
+        classEnumValue ///< doc
     }
 
     enumVar;
 
+    /** doc */
     EXPORT int publicAttribute;
 
-    int inlineCommentedAttr;
+    int inlineCommentedAttr;  ///< doc
 
+    /** doc */
     void inlinePublicMethod() {};
 
+    /** doc */
     template <class T>
     void templateMethod();
 
+    int attr1, ///< doc 
+        attr2; ///< doc
+
 protected:
+    /** doc */
     virtual void protectedMethod();
 
 private:
@@ -48,82 +58,100 @@ private:
     };
 
 public:
+    /** doc */
     int inlineCommentedLastAttr;
 };
 
 
+/** doc */
 struct testStruct {
-    int testField;
+    int testField; ///< doc
 };
 
+/** doc */
 extern int globalVar;
 
+/** doc */
 void testFunction();
 
+/** doc */
 enum emptyEnum
 {};
 
+/** doc */
 enum testEnum
 {
-    enum_val
+    enum_val ///< doc
 };
 
+/** doc */
 enum testEnumWithType : int
 {
-    enum_val
+    enum_val ///< doc
 };
 
+/** doc */
 enum class testScopedEnum
 {
-    enum_val
+    enum_val ///< doc
 };
 
+/** doc */
 union testUnion
 {
 
 };
 
+/** doc */
 template<T>
 struct tmplStruct
 {};
 
+/** doc */
 void func() {
     for (int i = 0; i < 10; i++) {}
 }
 
+/** doc */
 typedef int int32;
 
+/** doc */
 typedef struct
 {
-    int a;
-    float b;
+    int a; ///< doc
+    float b; ///< doc
 } typedefStruct;
 
+/** doc */
 typedef class
 {
 public:
-    int a;
-    float b;
+    int a; ///< doc
+    float b; ///< doc
 } typedefClass;
 
+/** doc */
 typedef union
 {
-    int a;
-    float b;
+    int a; ///< doc
+    float b; ///< doc
 } typedefUnion;
 
+/** doc */
 typedef enum
 {
-    A,
-    B
+    A, ///< doc
+    B ///< doc
 } typedefEnum;
 
+/** doc */
 typedef enum class
 {
-    A,
-    B
+    A, ///< doc
+    B ///< doc
 } typedefEnumClass;
 
+/** doc */
 class OverrideInClassTest
 {
     virtual void defaultMethod() override;
@@ -135,29 +163,35 @@ private:
     virtual void privateMethod() override;
 };
 
+/** doc */
 struct OverrideInStructTest
 {
     virtual void defaultMethod() override;
 };
 
+/** doc */
 struct ComplexOverrideInStruct
 {
     virtual AAA::BBB::CCC* method() const noexcept override;
 };
 
+/** doc */
 class ComplexOverrideInClass
 {
 public:
     virtual AAA::BBB::CCC* method() const noexcept override;
 };
 
+/** doc */
 using aliasDeclarartion1 = void;
 
+/** doc */
 template <typename T> using aliasDeclarartion2 = whatever<T>;
 
 friend class friendClass;
 template<typename S> friend S& operator<<(S&, A const&);
 
+/** doc */
 class ClassWithFriend {
 public:
     template<typename S> friend S& operator<<(S&, A const&);

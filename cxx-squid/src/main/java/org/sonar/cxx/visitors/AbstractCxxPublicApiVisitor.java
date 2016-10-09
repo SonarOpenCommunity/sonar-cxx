@@ -196,13 +196,21 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return;
     }
 
+    // do not handle member declarations here
+    AstNode memberDeclaration = declaratorList
+      .getFirstAncestor(CxxGrammarImpl.memberDeclaration);
+
+    if (memberDeclaration != null) {
+      return;
+    }
+    
     // ignore classSpefifier typedefs (classSpefifier at classSpefifier)
-    if( isClassSpefifierTypedef(declaratorList)) {
+    if (isTypedef(declaratorList)) {
       return;
     }
     
     // ignore friend declarations
-    if (isFriendDeclaration(declaratorList)) {
+    if (isFriendDeclarationList(declaratorList)) {
       return;
     }
 
@@ -226,7 +234,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
-  private boolean isClassSpefifierTypedef(AstNode declaratorList) {
+  private boolean isTypedef(AstNode declaratorList) {
     AstNode simpleDeclSpezifierSeq = declaratorList.getPreviousSibling();
     if (simpleDeclSpezifierSeq != null) {
       AstNode firstDeclSpecifier = simpleDeclSpezifierSeq.getFirstChild(CxxGrammarImpl.declSpecifier);
@@ -246,7 +254,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     return false;
   }
   
-  private boolean isFriendDeclaration(AstNode declaratorList) {
+  private boolean isFriendDeclarationList(AstNode declaratorList) {
     AstNode simpleDeclNode = declaratorList
       .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
 
@@ -324,14 +332,32 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
+  private AstNode getTypedefNode(AstNode classSpecifier) {
+    AstNode declSpecifier = classSpecifier.getFirstAncestor(CxxGrammarImpl.declSpecifier);
+    if (declSpecifier != null) {
+      declSpecifier = declSpecifier.getPreviousSibling();
+      if (declSpecifier != null) {
+        AstNode typedef = declSpecifier.getFirstChild();
+        if (typedef != null && typedef.getToken().getType() == CxxKeyword.TYPEDEF) {
+          return typedef;
+        }
+      }
+    }
+    return null;
+  }
+  
   private void visitClassSpecifier(AstNode classSpecifier) {
 
-    // check if this is a template specification to adjust
-    // documentation node
-    AstNode template = classSpecifier
-      .getFirstAncestor(CxxGrammarImpl.templateDeclaration);
-    AstNode docNode = (template != null) ? template : classSpecifier;
-
+    // check if this is a template specification to adjust documentation node
+    AstNode docNode = classSpecifier.getFirstAncestor(CxxGrammarImpl.templateDeclaration);
+    if (docNode == null) {
+      // check if this is a typedef to adjust documentation node
+      docNode = getTypedefNode(classSpecifier);
+      if (docNode == null) {
+        docNode = classSpecifier;
+      }
+    }
+    
     // narrow the identifier search scope to classHead
     AstNode classHead = classSpecifier
       .getFirstDescendant(CxxGrammarImpl.classHead);
@@ -366,8 +392,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   private void visitMemberDeclaration(AstNode memberDeclaration) {
 
-    AstNode declaratorList = memberDeclaration
-      .getFirstDescendant(CxxGrammarImpl.memberDeclaratorList);
+    // check if this is a template specification to adjust documentation node
+    AstNode templateDeclaration = memberDeclaration.getFirstDescendant(CxxGrammarImpl.templateDeclaration);
+    AstNode declaratorList = null;
+    if (templateDeclaration == null) {
+      declaratorList = memberDeclaration.getFirstDescendant(CxxGrammarImpl.memberDeclaratorList);
+    }
 
     if (!isPublicApiMember(memberDeclaration)) {
       // if not part of the API, nothing to measure
@@ -390,7 +420,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return;
     }
 
-    if (declaratorList != null) {
+    if (templateDeclaration != null) {
+      visitTemplateDeclaration(templateDeclaration);
+    } else if (declaratorList != null) {
       List<AstNode> declarators = declaratorList
         .getChildren(CxxGrammarImpl.memberDeclarator);
 
@@ -408,6 +440,46 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
+  private boolean isFriendMemberDeclaration(AstNode memberDeclaration) {
+    AstNode simpleDeclNode = memberDeclaration
+      .getFirstDescendant(CxxGrammarImpl.simpleDeclaration);
+
+    if (simpleDeclNode == null) {
+      LOG.warn("No simple declaration found for declarator list at {}",
+        memberDeclaration.getTokenLine());
+      return false;
+    }
+
+    AstNode simpleDeclSpecifierSeq = simpleDeclNode
+      .getFirstChild(CxxGrammarImpl.simpleDeclSpecifierSeq);
+
+    if (simpleDeclSpecifierSeq == null) {
+      return false;
+    }
+
+    List<AstNode> declSpecifiers = simpleDeclSpecifierSeq
+      .getChildren(CxxGrammarImpl.declSpecifier);
+
+    for (AstNode declSpecifier : declSpecifiers) {
+      AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
+      if (friendNode != null) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+    
+  private void visitTemplateDeclaration(AstNode templateDeclaration) {
+
+    if (isFriendMemberDeclaration(templateDeclaration.getParent())) {
+      return;
+    }
+
+    List<Token> comments = getBlockDocumentation(templateDeclaration);
+    visitPublicApi(templateDeclaration, templateDeclaration.getTokenValue(), comments);
+  }
+  
   private void visitFunctionDefinition(AstNode functionDef) {
     if (isPublicApiMember(functionDef)) {
       // filter out deleted and defaulted methods
@@ -446,7 +518,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   }
 
   private boolean isOverriddenMethod(AstNode memberDeclarator) {
-    List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.cliFunctionModifier);
+    List<AstNode> modifiers = memberDeclarator.getDescendants(CxxGrammarImpl.virtSpecifier);
 
     for (AstNode modifier : modifiers) {
       AstNode modifierId = modifier.getFirstChild();
@@ -585,9 +657,15 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return;
     }
 
+    // deal with typedef enum: documentation is on typedef node
+    AstNode docNode = getTypedefNode(enumSpecifierNode);
+    if (docNode == null) {
+      docNode = enumSpecifierNode;
+    }
+      
     visitPublicApi(
       enumSpecifierNode, enumId,
-      getBlockDocumentation(enumSpecifierNode));
+      getBlockDocumentation(docNode));
 
     // deal with enumeration values
     AstNode enumeratorList = enumSpecifierNode

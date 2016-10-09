@@ -1113,7 +1113,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       "(", parameterDeclarationClause, ")", // C++
       b.optional(attributeSpecifierSeq), // C++ todo wrong position
       b.optional(cvQualifierSeq), // C++
-      b.optional(cliFunctionModifiers), // CLI
+      b.optional(cliFunctionModifiers), // C++/CLI
       b.optional(refQualifier), // C++
       b.optional(exceptionSpecification), // C++
       b.optional(trailingReturnType) // todo wrong?
@@ -1385,19 +1385,13 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(memberDeclaratorList).is(memberDeclarator, b.zeroOrMore(",", memberDeclarator)); // C++
 
-    b.rule(memberDeclarator).is( // todo
+    b.rule(memberDeclarator).is( // C++
       b.firstOf(
         b.sequence(declarator, braceOrEqualInitializer), // todo braceOrEqualInitializer is optional
-        b.sequence(b.optional(IDENTIFIER), b.optional(attributeSpecifierSeq), ":", constantExpression),
-        b.sequence(declarator, b.optional(cliFunctionModifiers), b.optional(virtSpecifierSeq), b.optional(pureSpecifier)),
+        b.sequence(b.optional(IDENTIFIER), b.optional(attributeSpecifierSeq), ":", constantExpression), // C++
+        b.sequence(declarator, b.optional(virtSpecifierSeq), b.optional(cliFunctionModifiers), b.optional(pureSpecifier)), // C++
         declarator
       )
-    );
-
-    b.rule(cliFunctionModifiers).is(b.oneOrMore(cliFunctionModifier));
-
-    b.rule(cliFunctionModifier).is(
-      b.firstOf("abstract", CxxKeyword.NEW, "sealed", "override")
     );
 
     b.rule(virtSpecifierSeq).is(b.oneOrMore(virtSpecifier)); // C++
@@ -1407,6 +1401,12 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(pureSpecifier).is(b.sequence("=", "0")); // C++
+    
+    b.rule(cliFunctionModifiers).is(b.oneOrMore(cliFunctionModifier)); // C++/CLI
+
+    b.rule(cliFunctionModifier).is(
+      b.firstOf("abstract", CxxKeyword.NEW, "sealed") // C++/CLI
+    );
   }
 
   // A.9 Derived classes
