@@ -33,9 +33,8 @@ they are of different width. In worst case you end up assigning 64-bit address t
 way is to store addresses only in pointer types (or typedefs like uintptr_t).
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>AssignmentAddressToInteger</internalKey>
@@ -56,9 +55,8 @@ they are of different width. In worst case you end up assigning 64-bit integer t
 way is to store addresses only in pointer types (or typedefs like uintptr_t).
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>AssignmentIntegerToAddress</internalKey>
@@ -86,9 +84,8 @@ way is to store addresses only in pointer types (or typedefs like uintptr_t).
     <li>might 'leak' from the function through the parameter</li>
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -108,9 +105,8 @@ way is to store addresses only in pointer types (or typedefs like uintptr_t).
 Address of an auto-variable returned.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -130,9 +126,8 @@ Address of an auto-variable returned.
 Pointer to local array variable returned.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -151,9 +146,8 @@ Pointer to local array variable returned.
 Reference to auto variable returned.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -172,9 +166,8 @@ Reference to auto variable returned.
 Reference to temporary returned.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -193,9 +186,8 @@ Reference to temporary returned.
 Address of an auto-variable returned.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -235,9 +227,8 @@ Array index out of bounds.
 Buffer is accessed out-of-bounds.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -277,9 +268,11 @@ The buffer 'varname' may not be null-terminated after the call to strncpy().
 If the source string's size fits or exceeds the given size, strncpy() does not add a 
 zero at the end of the buffer. This causes bugs later in the code if the code 
 assumes buffer is null-terminated.
-</p>
-     ]]>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/170.html" target="_blank">CWE-170: Improper Null Termination</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>terminateStrncpy</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -315,9 +308,8 @@ Negative array index is always out of bounds.
 Buffer overrun possible for long command line arguments.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/119.html" target="_blank">CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer</a></p>
+]]>
     </description>
     <internalKey>insecureCmdLineArgs</internalKey>
     <tag>cwe</tag>
@@ -334,7 +326,7 @@ Buffer overrun possible for long command line arguments.
 <![CDATA[
 <p>
 Undefined behaviour, pointer arithmetic 'expr' or index is out of bounds.
-From chapter 6.5.6 in the C specification:\n"
+From chapter 6.5.6 in the C specification:
 <i>"When an expression that has integer type is added to or subtracted from a pointer, .."</i>
  and then 
 <i>"If both the pointer operand and the result point to elements of the same array object,
@@ -342,9 +334,8 @@ From chapter 6.5.6 in the C specification:\n"
  the evaluation shall not produce an overflow; otherwise, the behavior is undefined."</i>
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -385,9 +376,8 @@ Member variables of builtin types are left uninitialized when the class is insta
 That may cause bugs or undefined behavior.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -426,9 +416,8 @@ Uninitialized variable.
 Member variable is not assigned a value in the assignment '::operator='.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -447,9 +436,8 @@ Member variable is not assigned a value in the assignment '::operator='.
 Unused private function.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>unusedPrivateFunction</internalKey>
@@ -468,8 +456,7 @@ Usage of the functions from the memset-family on classes should be avoided becau
 cases (e.g. when the class contains a virtual method). Use constructors or init-routines to initialize your members instead
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a></p>
 ]]>
   </description>
     <tag>cwe</tag>
@@ -497,8 +484,7 @@ For safety reasons it might be better to not fix this message. If you think that
 For more details about this topic, see the book "Effective C++" by Scott Meyers.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -517,8 +503,7 @@ For more details about this topic, see the book "Effective C++" by Scott Meyers.
 Suspicious pointer subtraction. Did you intend to write '->'?
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -537,8 +522,7 @@ Suspicious pointer subtraction. Did you intend to write '->'?
 'operator=' should return reference to self.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -558,8 +542,7 @@ Suspicious pointer subtraction. Did you intend to write '->'?
 allocated memory is owned and managed by only one instance of the class.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -627,8 +610,7 @@ allocated memory is owned and managed by only one instance of the class.
  Mismatching assignment and comparison, comparison is always true or false.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -649,8 +631,7 @@ Check carefully constants and operators used, these errors might be hard to spot
 In case of complex expression it might help to split it to separate expressions.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -669,8 +650,7 @@ In case of complex expression it might help to split it to separate expressions.
 Expression is always false because 'else if' condition matches previous condition.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -689,8 +669,7 @@ Expression is always false because 'else if' condition matches previous conditio
 Memory leak.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -710,8 +689,7 @@ Memory leak.
 Resource leak.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/775.html" target="_blank">CWE-775: Missing Release of File Descriptor or Handle after Effective Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/775.html" target="_blank">CWE-775: Missing Release of File Descriptor or Handle after Effective Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -731,8 +709,7 @@ Resource leak.
 Deallocating a deallocated pointer.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -752,8 +729,7 @@ Deallocating a deallocated pointer.
 Dereferencing variable after it is deallocated / released.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/416.html" target="_blank">CWE-416: Use After Free</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/416.html" target="_blank">CWE-416: Use After Free</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -773,8 +749,7 @@ Dereferencing variable after it is deallocated / released.
 The allocated size is not a multiple of the underlying type&apos;s size.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -794,8 +769,7 @@ The allocated size is not a multiple of the underlying type&apos;s size.
 Mismatching allocation and deallocation.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -815,8 +789,7 @@ Mismatching allocation and deallocation.
 Common realloc mistake: variable nulled but not freed upon failure.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/401.html" target="_blank">CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -1691,9 +1664,8 @@ Possible null pointer dereference.
 Boolean value assigned to pointer.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/587.html" target="_blank">CWE-587: Assignment of a Fixed Address to a Pointer</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/587.html" target="_blank">CWE-587: Assignment of a Fixed Address to a Pointer</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -1711,10 +1683,8 @@ Boolean value assigned to pointer.
 <p>
 Undefined behavior: variable is used as parameter and destination in s[n]printf(). From Single UNIX Specification: "If
 copying takes place between objects that overlap as a result of a call to sprintf() or snprintf(), the results are undefined".
-</p>
-<h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
-</p>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -1730,7 +1700,15 @@ copying takes place between objects that overlap as a result of a call to sprint
     <name>Unnecessary comparison of static strings</name>
     <description>
       Unnecessary comparison of static strings.
+<![CDATA[
+<p>
+Unnecessary comparison of static strings.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+]]>      
     </description>
+    <tag>cwe</tag>
     <internalKey>staticStringCompare</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -1773,9 +1751,14 @@ Division by zero.
     <key>wrongmathcall</key>
     <name>Passing value to () leads to undefined result</name>
     <description>
-      Passing value &apos;#&apos; to #() leads to implementation-defined result.
+<![CDATA[<p>
+Passing value "#" to #() leads to implementation-defined result.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>wrongmathcall</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -1815,8 +1798,7 @@ Division by zero.
 Instance destroyed immediately.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -1830,8 +1812,15 @@ Instance destroyed immediately.
     <key>sizeofwithsilentarraypointer</key>
     <name>Using sizeof on array given as function argument returns the size of pointer</name>
     <description>
-      Using &apos;sizeof&apos; for array given as function argument returns the size of pointer.
+<![CDATA[
+<p>
+Using 'sizeof' for array given as function argument returns the size of pointer.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/467.html" target="_blank">CWE-467: Use of sizeof() on a Pointer Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>sizeofwithsilentarraypointer</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -1842,9 +1831,16 @@ Instance destroyed immediately.
     <key>sizeofwithnumericparameter</key>
     <name>Using sizeof with a numeric constant as function argument might not be what you intended</name>
     <description>
-      Using sizeof with a numeric constant as function argument might
-      not be what you intended.
+      Using sizeof with a numeric constant as function argument might not be what you intended.
+<![CDATA[
+<p>
+Using sizeof with a numeric constant as function argument might not be what you intended.
+</p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>sizeofwithnumericparameter</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -1878,9 +1874,14 @@ Instance destroyed immediately.
   <rule>
     <key>passedByValue</key>
     <name>Function parameter should be passed by reference</name>
-    <description>
-      Function parameter should be passed by reference.
+    <description>    
+<![CDATA[<p>
+Function parameter should be passed by reference.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>passedByValue</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -1945,8 +1946,7 @@ Instance destroyed immediately.
 Unusual pointer arithmetic.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -1960,8 +1960,14 @@ Unusual pointer arithmetic.
     <key>sizeofsizeof</key>
     <name>Calling sizeof for 'sizeof'</name>
     <description>
-      Calling sizeof for 'sizeof'.
-    </description>
+<![CDATA[<p>
+Calling sizeof for 'sizeof looks like a suspicious code and most likely there should be just one 'sizeof'.
+The current code is equivalent to 'sizeof(size_t)'
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
+      </description>
+    <tag>cwe</tag>
     <internalKey>sizeofsizeof</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -1972,8 +1978,13 @@ Unusual pointer arithmetic.
     <key>sizeofCalculation</key>
     <name>Found calculation inside sizeof()</name>
     <description>
-      Found calculation inside sizeof().
+<![CDATA[<p>
+Found calculation inside sizeof().
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>      
     </description>
+    <tag>cwe</tag>
     <internalKey>sizeofCalculation</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -2008,8 +2019,13 @@ Unusual pointer arithmetic.
     <key>selfAssignment</key>
     <name>Redundant assignment to itself</name>
     <description>
-      Redundant assignment to itself.
+<![CDATA[<p>
+Redundant assignment to itself.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>      
     </description>
+    <tag>cwe</tag>
     <internalKey>selfAssignment</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -2028,9 +2044,8 @@ assert statement is not executed. If the code is needed also in release
 builds, this is a bug.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -2042,9 +2057,9 @@ builds, this is a bug.
   </rule>
   <rule>
     <key>invalidscanf</key>
-    <name>scanf without field width limits can crash with huge input data</name>
+    <name>scanf() without field width limits can crash with huge input data</name>
     <description>
-      scanf without field width limits can crash with huge input data.
+      scanf() without field width limits can crash with huge input data.
     </description>
     <internalKey>invalidscanf</internalKey>
     <severity>MINOR</severity>
@@ -2061,10 +2076,8 @@ builds, this is a bug.
 Logical disjunction always evaluates to true or false . Did you intend to use '&&' or '||' instead?
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a>
-</p>
-<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2078,8 +2091,15 @@ Logical disjunction always evaluates to true or false . Did you intend to use '&
     <key>memsetZeroBytes</key>
     <name>Effectless memset() call</name>
     <description>
-      memset() called to fill 0 bytes.
+<![CDATA[<p>
+memset() called to fill 0 bytes.
+The second and third arguments might be inverted.
+The function memset ( void * ptr, int value, size_t num ) sets the first num bytes of the block of memory pointed by ptr to the specified value.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/687.html" target="_blank">CWE-687: Function Call With Incorrectly Specified Argument Value</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>memsetZeroBytes</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2090,8 +2110,14 @@ Logical disjunction always evaluates to true or false . Did you intend to use '&
     <key>clarifyCalculation</key>
     <name>Clarify calculation precedence for + and ?</name>
     <description>
-      Clarify calculation precedence for + and ?
+<![CDATA[<p>
+Clarify calculation precedence for + and ?
+Suspicious calculation. Please use parentheses to clarify the code.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/783.html" target="_blank">CWE-783: Operator Precedence Logic Error</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>clarifyCalculation</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2115,8 +2141,7 @@ Please clarify the condition with parentheses.</li
 </ul>
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2130,8 +2155,13 @@ Please clarify the condition with parentheses.</li
     <key>incorrectStringCompare</key>
     <name>Mismatch of the string literal and length argument for substr()</name>
     <description>
-      String literal doesn't match length argument for substr().
+<![CDATA[<p>
+String literal doesn't match length argument for substr().
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>incorrectStringCompare</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2148,9 +2178,8 @@ The operand of a postfix increment operator may be of type bool but it is deprec
 and the operand is always set to true. You should assign it the value 'true' instead.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>incrementboolean</internalKey>
@@ -2187,8 +2216,15 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <key>duplicateBranch</key>
     <name>Redundant 'if' and 'else' branches</name>
     <description>
-      Found duplicate branches for if and else.
+<![CDATA[<p>
+Found duplicate branches for if and else.
+Finding the same code in an 'if' and related 'else' branch is suspicious and might indicate a cut and paste or logic error.
+Please examine this code carefully to determine if it is correct.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>duplicateBranch</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -2200,7 +2236,15 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <name>Same expression on both sides of '&amp;&amp;'</name>
     <description>
       Same expression on both sides of '&amp;&amp;'.
+<![CDATA[<p>
+Same expression on both sides of '&&' or '||'.
+Finding the same expression on both sides of an operator is suspicious and might 
+indicate a cut and paste or logic error. Please examine this code carefully to determine if it is correct.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>duplicateExpression</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -2211,9 +2255,14 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <key>duplicateBreak</key>
     <name>Consecutive return, break, continue, goto or throw statements are unnecessary</name>
     <description>
-      Consecutive return, break, continue, goto or throw statements
-      are unnecessary.
+<![CDATA[<p>
+Consecutive return, break, continue, goto or throw statements are unnecessary.
+The second statement can never be executed, and so should be removed.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/561.html" target="_blank">CWE-561: Dead Code</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>duplicateBreak</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2224,8 +2273,14 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <key>unsignedLessThanZero</key>
     <name>Checking if unsigned variable is less than zero</name>
     <description>
-      Checking if unsigned variable is less than zero.
+<![CDATA[<p>
+Checking if unsigned variable is less than zero.
+The unsigned variable 'varname' will never be negative so it is either pointless or an error to check if it is
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unsignedLessThanZero</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -2236,9 +2291,13 @@ and the operand is always set to true. You should assign it the value 'true' ins
     <key>unsignedPositive</key>
     <name>An unsigned variable can't be negative so it is unnecessary to test it</name>
     <description>
-      An unsigned variable can't be negative so it is unnecessary to
-      test it.
+<![CDATA[<p>
+An unsigned variable can't be negative so it is unnecessary to test it.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unsignedPositive</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -2254,8 +2313,7 @@ and the operand is always set to true. You should assign it the value 'true' ins
 Invalid iterator.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2275,8 +2333,7 @@ Invalid iterator.
 Same iterator is used with two different containers.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2296,8 +2353,7 @@ Same iterator is used with two different containers.
 Iterators of different containers are used together
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2318,8 +2374,7 @@ Dereferenced iterator an already erased iterator.
 Dereferencing or comparing it with another iterator is invalid operation.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2339,8 +2394,7 @@ Dereferencing or comparing it with another iterator is invalid operation.
 When <code>i==foo.size()</code> foo[i] or foo.at(i) is out of bounds.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2360,8 +2414,7 @@ When <code>i==foo.size()</code> foo[i] or foo.at(i) is out of bounds.
 Iterators may get invalid after push_back|push_front|insert.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2381,8 +2434,7 @@ Iterators may get invalid after push_back|push_front|insert.
 Invalid pointer after push_back / push_front.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2409,9 +2461,13 @@ Invalid pointer after push_back / push_front.
     <key>stlIfFind</key>
     <name>Suspicious condition. The result of find is an iterator, but it is not properly checked</name>
     <description>
-      Suspicious condition. The result of find is an iterator, but it
-      is not properly checked.
+<![CDATA[<p>
+Suspicious condition. The result of find is an iterator, but it is not properly checked.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>stlIfFind</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2422,11 +2478,15 @@ Invalid pointer after push_back / push_front.
     <key>stlIfStrFind</key>
     <name>Suspicious checking of string::find() return value</name>
     <description>
-      Inefficient usage of string::find in condition. string::find
-      will return '0' if the string is found at position '0'. If this is
-      what you want to check then string::compare is a faster alternative
-      because it doesn't scan through the string.
+<![CDATA[<p>
+Inefficient usage of string::find() in condition; string::compare() would be faster.
+Either inefficient or wrong usage of string::find(). string::compare() will be faster if string::find's result is compared with 0, because it will not scan the whole 
+string. If your intention is to check that there are no findings in the string, you should compare with std::string::npos
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/597.html" target="_blank">CWE-597: Use of Wrong Operator in String Comparison</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>stlIfStrFind</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2442,8 +2502,7 @@ Invalid pointer after push_back / push_front.
 Dangerous usage of c_str(). The returned value by c_str() is invalid after this call.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2457,9 +2516,14 @@ Dangerous usage of c_str(). The returned value by c_str() is invalid after this 
     <key>stlSize</key>
     <name>Prefer .empty() to .size() == 0 for emptiness checking</name>
     <description>
-      Possible inefficient checking for emptiness. Using .empty()
-      instead of .size() can be faster.
+
+<![CDATA[<p>
+Possible inefficient checking for emptiness. Using .empty() instead of .size() can be faster.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>stlSize</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2470,8 +2534,15 @@ Dangerous usage of c_str(). The returned value by c_str() is invalid after this 
     <key>redundantIfRemove</key>
     <name>Redundant checking of STL container element</name>
     <description>
-      Redundant checking of STL container element.
+.
+<![CDATA[<p>
+Redundant checking of STL container element.
+It is safe to call the remove method on a non-existing element.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>redundantIfRemove</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2482,9 +2553,14 @@ Dangerous usage of c_str(). The returned value by c_str() is invalid after this 
     <key>useAutoPointerCopy</key>
     <name>Be careful when using 'auto_ptr' copy</name>
     <description>
-      Copy 'auto_ptr' pointer to another do not create two equal
-      objects since one has lost its ownership of the pointer.
+<![CDATA[<p>
+Copying 'auto_ptr' pointer to another does not create two equal objects since one has lost its ownership of the pointer.
+'std::auto_ptr' has semantics of strict ownership, meaning that the 'auto_ptr' instance is the sole entity responsible for the object's lifetime. If an 'auto_ptr' is copied, the source looses the reference.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>useAutoPointerCopy</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2502,8 +2578,7 @@ An element of container must be able to be copied but 'auto_ptr' does not fulfil
 It is suitable for use in containers, because they no longer copy their values, they move them.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2523,8 +2598,7 @@ Object pointed by an 'auto_ptr' is destroyed using operator 'delete'. This means
 This excludes arrays, which are allocated by operator 'new[]' and must be deallocated by operator 'delete[]'.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -2579,8 +2653,13 @@ Data is allocated but not initialized.
     <key>unusedFunction</key>
     <name>Unused function</name>
     <description>
-      The function is never used.
+<![CDATA[<p>
+The function is never used.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/561.html" target="_blank">CWE-561: Dead Code</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unusedFunction</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2591,8 +2670,13 @@ Data is allocated but not initialized.
     <key>unusedVariable</key>
     <name>Unused variable</name>
     <description>
+<![CDATA[<p>
       Unused variable.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unusedVariable</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2603,8 +2687,13 @@ Data is allocated but not initialized.
     <key>unusedAllocatedMemory</key>
     <name>Variable is allocated memory that is never used</name>
     <description>
-      Variable is allocated memory that is never used.
+<![CDATA[<p>
+Variable is allocated memory that is never used.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unusedAllocatedMemory</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2615,8 +2704,13 @@ Data is allocated but not initialized.
     <key>unreadVariable</key>
     <name>Unused value</name>
     <description>
-      Variable is assigned a value that is never used.
+<![CDATA[<p>
+Variable is assigned a value that is never used.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unreadVariable</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2627,8 +2721,13 @@ Data is allocated but not initialized.
     <key>unassignedVariable</key>
     <name>Variable is not assigned a value</name>
     <description>
-      Variable is not assigned a value.
+<![CDATA[<p>
+Variable is not assigned a value.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unassignedVariable</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2639,8 +2738,13 @@ Data is allocated but not initialized.
     <key>unusedStructMember</key>
     <name>Unused struct or union member</name>
     <description>
-      Struct or union member is never used.
+<![CDATA[<p>
+Struct or union member is never used.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/563.html" target="_blank">CWE-563: Assignment to Variable without Use ('Unused Variable')</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unusedStructMember</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -2651,11 +2755,14 @@ Data is allocated but not initialized.
     <key>postfixOperator</key>
     <name>Prefer prefix ++/-- operators for non-primitive types</name>
     <description>
-      Pre-increment/decrement can be more efficient than
-      post-increment/decrement. Post-increment/decrement usually involves
-      keeping a copy of the previous value around and adds a little extra
-      code.
+<![CDATA[<p>
+Pre-increment/decrement can be more efficient than post-increment/decrement. Post-increment/decrement usually involves
+keeping a copy of the previous value around and adds a little extra code.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>postfixOperator</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2777,8 +2884,13 @@ Data is allocated but not initialized.
     <key>sizeArgumentAsChar</key>
     <name>The size argument is given as a char constant</name>
     <description>
-      The size argument is given as a char constant.
+<![CDATA[<p>
+The size argument is given as a char constant.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>sizeArgumentAsChar</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2790,8 +2902,14 @@ Data is allocated but not initialized.
     <key>bufferNotZeroTerminated</key>
     <name>Buffer is not zero-terminated</name>
     <description>
-      A buffer is not zero-terminated after a call to a function.
+<![CDATA[<p>
+A buffer is not zero-terminated after a call to a function.
+This will cause bugs later in the code if the code assumes the buffer is null-terminated.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/170.html" target="_blank">CWE-170: Improper Null Termination</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>bufferNotZeroTerminated</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2802,8 +2920,16 @@ Data is allocated but not initialized.
     <key>initializerList</key>
     <name>Member variable is in wrong order in the initializer list</name>
     <description>
-      Member variable is in wrong order in the initializer list.
+<![CDATA[<p>
+Member variable is in wrong order in the initializer list.
+Member variable 'classname::varname' is in the wrong place in the initializer list.
+Members are initialized in the order they are declared, not in the order they are in the initializer list.
+Keeping the initializer list in the same order that the members were declared prevents order dependent initialization errors.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>initializerList</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2841,9 +2967,8 @@ Address of the function parameter 'varname' becomes invalid after the function e
 function parameters are stored on the stack which is freed when the function exits. Thus the returned value is invalid.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/562.html" target="_blank">CWE-562: Return of Stack Variable Address</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -2900,9 +3025,8 @@ function parameters are stored on the stack which is freed when the function exi
 BOOST_FOREACH caches the end() iterator. It's undefined behavior if you modify the container inside.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -2921,9 +3045,8 @@ BOOST_FOREACH caches the end() iterator. It's undefined behavior if you modify t
 Comparison of a boolean expression with an integer other than 0 or 1.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>compareBoolExpressionWithInt</internalKey>
@@ -2936,8 +3059,13 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <key>coutCerrMisusage</key>
     <name>Invalid usage of output stream: '&lt;&lt; std::cout'</name>
     <description>
-      Invalid usage of output stream: '&lt;&lt; std::cout'.
+<![CDATA[<p>
+Invalid usage of output stream: '<< std::cout'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>coutCerrMisusage</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -2948,9 +3076,14 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <key>incorrectStringBooleanError</key>
     <name>Suspicious comparison of boolean with a string literal</name>
     <description>
-      A boolean comparison with the string literal is always true.
+<![CDATA[<p>
+A boolean comparison with the string literal is always true.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>incorrectStringBooleanError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -2961,8 +3094,13 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <key>stringCompare</key>
     <name>Comparison of identical string variables</name>
     <description>
-      Comparison of identical string variables.
+<![CDATA[<p>
+Comparison of identical string variables.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-571: Expression is Always True</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>stringCompare</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2985,9 +3123,13 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <key>unreachableCode</key>
     <name>Statements following return, break, continue, goto or throw will never be executed</name>
     <description>
-      Statements following return, break, continue, goto or throw will
-      never be executed.
+<![CDATA[<p>
+Statements following return, break, continue, goto or throw will never be executed.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/561.html" target="_blank">CWE-561: Dead Code</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unreachableCode</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -2998,8 +3140,13 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <key>uselessCallsCompare</key>
     <name>It is inefficient to call 'str.find(str)' as it always returns 0</name>
     <description>
-      It is inefficient to call 'str.find(str)' as it always returns 0.
+<![CDATA[<p>
+It is inefficient to call 'str.find(str)' as it always returns 0.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>uselessCallsCompare</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3010,9 +3157,15 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <key>uselessCallsSwap</key>
     <name>It is inefficient to swap a object with itself by calling 'str.swap(str)'</name>
     <description>
-      It is inefficient to swap a object with itself by calling
-      'str.swap(str)'.
+<![CDATA[<p>
+It is inefficient to swap a object with itself by calling 'str.swap(str)'.
+The 'swap()' function has no logical effect when given itself as parameter ('varname.swap('varname')).
+As it is currently the code is inefficient. Is the object or the parameter wrong here?"
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>uselessCallsSwap</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3023,8 +3176,13 @@ Comparison of a boolean expression with an integer other than 0 or 1.
     <key>uselessCallsSubstr</key>
     <name>Function 'substr' useless call. Function create copy of the 'str' object</name>
     <description>
-      Useless call of function 'substr' because it returns a copy of the object. Use operator= instead.
+<![CDATA[<p>
+Useless call of function 'substr' because it returns a copy of the object. Use operator= instead.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>uselessCallsSubstr</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3068,8 +3226,7 @@ Comparison of a boolean expression with an integer other than 0 or 1.
 Memory or resource handle is freed twice.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/415.html" target="_blank">CWE-415: Double Free</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3085,7 +3242,13 @@ Memory or resource handle is freed twice.
     <name>Invalid printf argument type (character pointer required)</name>
     <description>
       Invalid printf argument type (character pointer required).
+<![CDATA[<p>
+Invalid printf argument type (character pointer required).
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_s</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3096,8 +3259,13 @@ Memory or resource handle is freed twice.
     <key>invalidPrintfArgType_n</key>
     <name>Invalid printf argument type (integer pointer required)</name>
     <description>
-      Invalid printf argument type (integer pointer required).
+<![CDATA[<p>
+Invalid printf argument type (integer pointer required).
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_n</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3108,8 +3276,13 @@ Memory or resource handle is freed twice.
     <key>invalidPrintfArgType_p</key>
     <name>Invalid printf argument type (integer or pointer required)</name>
     <description>
-      Invalid printf argument type (integer or pointer required).
+<![CDATA[<p>
+Invalid printf argument type (integer or pointer required).
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_p</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3120,8 +3293,13 @@ Memory or resource handle is freed twice.
     <key>invalidPrintfArgType_int</key>
     <name>Invalid printf argument type (integer required)</name>
     <description>
-      Invalid printf argument type (integer required).
+<![CDATA[<p>
+Invalid printf argument type (integer required).
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_int</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3132,8 +3310,13 @@ Memory or resource handle is freed twice.
     <key>invalidPrintfArgType_sint</key>
     <name>Invalid printf argument type (signed integer required)</name>
     <description>
-      Invalid printf argument type (signed integer required).
+<![CDATA[<p>
+Invalid printf argument type (signed integer required).
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_sint</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3144,8 +3327,13 @@ Memory or resource handle is freed twice.
     <key>invalidPrintfArgType_float</key>
     <name>Invalid printf argument type (floating point number required)</name>
     <description>
-      Invalid printf argument type (floating point number required).
+<![CDATA[<p>
+Invalid printf argument type (floating point number required).
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_float</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3252,8 +3440,7 @@ Memory or resource handle is freed twice.
 Wrong number of parameters given to printf().
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/685.html" target="_blank">CWE-685: Function Call With Incorrect Number of Arguments</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/685.html" target="_blank">CWE-685: Function Call With Incorrect Number of Arguments</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3295,8 +3482,7 @@ Member variable is not initialized in the constructor.
 Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is always true.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3328,8 +3514,7 @@ Redundant condition: If <code>x > 11</code> the condition <code>x > 10</code> is
 Class Base which is inherited by class Derived does not have a virtual destructor.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/404.html" target="_blank">CWE-404: Improper Resource Shutdown or Release</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/404.html" target="_blank">CWE-404: Improper Resource Shutdown or Release</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3348,8 +3533,7 @@ Class Base which is inherited by class Derived does not have a virtual destructo
 Memory allocated inside the called function is not freed by the caller function.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/772.html" target="_blank">CWE-772: Missing Release of Resource after Effective Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/772.html" target="_blank">CWE-772: Missing Release of Resource after Effective Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3364,8 +3548,14 @@ Memory allocated inside the called function is not freed by the caller function.
     <key>stlcstrReturn</key>
     <name>Redundant c_str()-conversion in functions return</name>
     <description>
-      Returning the result of c_str() in a function that returns std::string is slow and redundant.
+<![CDATA[<p>
+Returning the result of c_str() in a function that returns std::string is slow and redundant.
+The conversion from const char* as returned by c_str() to std::string creates an unnecessary string copy. Solve that by directly returning the string.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704: Incorrect Type Conversion or Cast</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>stlcstrReturn</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3376,8 +3566,13 @@ Memory allocated inside the called function is not freed by the caller function.
     <key>stlcstrParam</key>
     <name>Redundant c_str()-conversion in parameter passing</name>
     <description>
-      Passing the result of c_str() to a function that takes std::string as argument 0 is slow and redundant.
-    </description>
+<![CDATA[<p>
+Passing the result of c_str() to a function that takes std::string as argument 0 is slow and redundant.
+The conversion from const char* as returned by c_str() to std::string creates an unnecessary string copy. Solve that by directly returning the string.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704: Incorrect Type Conversion or Cast</a></p>
+]]>    </description>
+    <tag>cwe</tag>
     <internalKey>stlcstrParam</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3390,9 +3585,14 @@ Memory allocated inside the called function is not freed by the caller function.
     <key>StlMissingComparison</key>
     <name>Missing bounds check for extra iterator increment in loop</name>
     <description>
-      Missing bounds check for extra iterator increment in loop. The iterator incrementing is suspicious - it is incremented at line 'line-number-1' and then at line 'line-number-2'
-      The loop might unintentionally skip an element in the container. There is no comparison between these increments to prevent that the iterator is incremented beyond the end.
+<![CDATA[<p>
+Missing bounds check for extra iterator increment in loop. The iterator incrementing is suspicious - it is incremented at line 'line-number-1' and then at line 'line-number-2'
+The loop might unintentionally skip an element in the container. There is no comparison between these increments to prevent that the iterator is incremented beyond the end.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/834.html" target="_blank">CWE-834: Excessive Iteration</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>StlMissingComparison</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -3426,9 +3626,8 @@ and Linux they are of different width. In worst case you end up casting 64-bit i
 The safe way is to always return a pointer.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>CastIntegerToAddressAtReturn</internalKey>
@@ -3446,8 +3645,7 @@ The safe way is to always return a pointer.
 Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behavior.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3466,9 +3664,8 @@ Read and write operations without a call to a positioning function (fseek, fsetp
 Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '||'?
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>bitwiseOnBoolean</internalKey>
@@ -3487,8 +3684,7 @@ Boolean variable 'varname' is used in bitwise operation. Did you mean '&&' or '|
 Assignment of function parameter has no effect outside the function.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/672.html" target="_blank">CWE-672: Operation on a Resource after Expiration or Release</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/672.html" target="_blank">CWE-672: Operation on a Resource after Expiration or Release</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3508,8 +3704,7 @@ Assignment of function parameter has no effect outside the function.
 Width 'parameter' given in format string (no. 'symbol' ) doesn't match destination buffer.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/687.html" target="_blank">CWE-687: Function Call With Incorrectly Specified Argument Value</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/687.html" target="_blank">CWE-687: Function Call With Incorrectly Specified Argument Value</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3541,8 +3736,7 @@ Width 'parameter' given in format string (no. 'symbol' ) doesn't match destinati
 Comparison of modulo result is predetermined.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3556,8 +3750,14 @@ Comparison of modulo result is predetermined.
     <key>pointerSize</key>
     <name>Using size of pointer variable instead of size of its data</name>
     <description>
-      Using size of pointer variable instead of size of its data.
+<![CDATA[<p>
+Using size of pointer variable instead of size of its data.
+This is likely to lead to a buffer overflow. You probably intend to write 'sizeof(*varname)'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/467.html" target="_blank">CWE-467: Use of sizeof() on a Pointer Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>pointerSize</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3585,8 +3785,7 @@ Comparison of modulo result is predetermined.
 Read operation on a file that was opened only for writing.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3612,8 +3811,13 @@ Read operation on a file that was opened only for writing.
     <key>suspiciousSemicolon</key>
     <name>Suspicious use of ; at the end of 'if/for/while' statement</name>
     <description>
-      Suspicious use of ; at the end of 'if/for/while' statement.
+<![CDATA[<p>
+Suspicious use of ; at the end of 'if/for/while' statement.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>suspiciousSemicolon</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3629,8 +3833,7 @@ Read operation on a file that was opened only for writing.
 Used file that is not opened.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/910.html" target="_blank">CWE-910: Use of Expired File Descriptor</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/910.html" target="_blank">CWE-910: Use of Expired File Descriptor</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3652,8 +3855,7 @@ in the order the variables are declared, even if you don't explicitly write them
 You could avoid assigning 'symbol' a value by passing the value to the constructor in the initialization list.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3672,8 +3874,7 @@ You could avoid assigning 'symbol' a value by passing the value to the construct
 Write operation on a file that was opened only for reading.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3689,8 +3890,13 @@ Write operation on a file that was opened only for reading.
     <key>clarifyStatement</key>
     <name>Check statement and clarify behavior</name>
     <description>
-      A statement like '*A++;' might not do what you intended. 'operator*' is executed before postfix 'operator++'. Thus, the dereference is meaningless. Did you intend to write '(*A)++;'?
+<![CDATA[<p>
+A statement like '*A++;' might not do what you intended. 'operator*' is executed before postfix 'operator++'. Thus, the dereference is meaningless. Did you intend to write '(*A)++;'?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/783.html" target="_blank">CWE-783: Operator Precedence Logic Error</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>clarifyStatement</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
@@ -3725,8 +3931,14 @@ Write operation on a file that was opened only for reading.
     <key>incompleteArrayFill</key>
     <name>Array 'buffer' is filled incompletely</name>
     <description>
-      Array 'buffer' is filled incompletely.
+<![CDATA[<p>
+Array 'buffer' is filled incompletely. Did you forget to multiply the size given to 'function()' with 'sizeof(*buffer)'?
+The array 'buffer' is filled incompletely. The function 'function()' needs the size given in bytes, but an element of the given array is larger than one byte.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>incompleteArrayFill</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3737,8 +3949,13 @@ Write operation on a file that was opened only for reading.
     <key>invalidPrintfArgType_uint</key>
     <name>Invalid printf argument type (unsigned integer required)</name>
     <description>
-      Invalid printf argument type (unsigned integer required)
+<![CDATA[<p>
+Invalid printf argument type (unsigned integer required)
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidPrintfArgType_uint</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3749,8 +3966,14 @@ Write operation on a file that was opened only for reading.
     <key>literalWithCharPtrCompare</key>
     <name>String literal compared with a variable</name>
     <description>
-      String literal compared with a variable.
+<![CDATA[<p>
+String literal compared with a variable.
+Char literal compared with pointer 'var'. Did you intend to dereference it?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/595.html" target="_blank">CWE-595: Comparison of Object References Instead of Object Contents</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>literalWithCharPtrCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3761,8 +3984,13 @@ Write operation on a file that was opened only for reading.
     <key>pointerLessThanZero</key>
     <name>A pointer can not be negative so it is either pointless or an error to check if it is</name>
     <description>
-      A pointer can not be negative so it is either pointless or an error to check if it is.
+<![CDATA[<p>
+A pointer can not be negative so it is either pointless or an error to check if it is.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>pointerLessThanZero</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3773,8 +4001,13 @@ Write operation on a file that was opened only for reading.
     <key>pointerPositive</key>
     <name>A pointer can not be negative so it is either pointless or an error to check if it is not</name>
     <description>
-      A pointer can not be negative so it is either pointless or an error to check if it is not.
+<![CDATA[<p>
+A pointer can not be negative so it is either pointless or an error to check if it is not..
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>pointerPositive</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -3829,8 +4062,13 @@ Shifting a negative value is undefined behaviour.
     <key>uselessCallsEmpty</key>
     <name>Useless call of function 'empty()'</name>
     <description>
-      Useless call of function 'empty()'. Did you intend to call 'clear()' instead?
+<![CDATA[<p>
+Useless call of function 'empty()'. Did you intend to call 'clear()' instead?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>uselessCallsEmpty</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3841,8 +4079,15 @@ Shifting a negative value is undefined behaviour.
     <key>uselessCallsRemove</key>
     <name>Return value of std::remove() ignored</name>
     <description>
-      Return value of std::remove() ignored.
+<![CDATA[<p>
+Return value of std::remove() ignored.
+This function returns an iterator to the end of the range containing those elements that should be kept. 
+Elements past new end remain valid but with unspecified values. Use the erase method of the container to delete them.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>uselessCallsRemove</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -3874,8 +4119,7 @@ Shifting a negative value is undefined behaviour.
 Too many #ifdef configurations - cppcheck only checks 12 configurations. Use --force to check all configurations. For more details, use --enable=information.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -3899,9 +4143,8 @@ different platforms and compilers. For example in 32-bit Windows and Linux they 
 to 32-bit integer. The safe way is to always return an integer.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>CastAddressToIntegerAtReturn</internalKey>
@@ -3919,8 +4162,7 @@ to 32-bit integer. The safe way is to always return an integer.
 The variable 'expression' is of type 'bool' and comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
      ]]>
     </description>
     <tag>cwe</tag>
@@ -3941,9 +4183,8 @@ The return type of function 'expression1' and function 'expression2' is 'bool' a
 Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -3963,9 +4204,8 @@ The return type of function 'expression1' and function 'expression2' is 'bool' a
 Comparing 'bool' value using relational (<, >, <= or >=) operator could cause unexpected results.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -3984,9 +4224,8 @@ Comparing 'bool' value using relational (<, >, <= or >=) operator could cause un
 Value of pointer 'varname', which points to allocated memory, is copied in copy constructor instead of allocating new memory.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>copyCtorPointerCopying</internalKey>
@@ -4011,8 +4250,13 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
     <key>invalidLengthModifierError</key>
     <name>'modifier' in format string is a length modifier and cannot be used without a conversion specifier</name>
     <description>
-      'modifier' in format string is a length modifier and cannot be used without a conversion specifier.
+<![CDATA[<p>
+'modifier' in format string is a length modifier and cannot be used without a conversion specifier.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704: Incorrect Type Conversion or Cast</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidLengthModifierError</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -4028,9 +4272,8 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
 'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <internalKey>noCopyConstructor</internalKey>
@@ -4048,8 +4291,7 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
 Opposite conditions in nested 'if' blocks lead to a dead code block.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4133,9 +4375,8 @@ Opposite conditions in nested 'if' blocks lead to a dead code block.
 The array 'varname' is too small, the function 'functionName' expects a bigger one.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -4174,8 +4415,7 @@ Memory for class instance allocated with malloc(), but class provides constructo
 This is unsafe, since no constructor is called and class members remain uninitialized. Consider using 'new' instead.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4199,8 +4439,7 @@ Memory for class instance allocated with malloc(), but class provides constructo
 This is unsafe, since no constructor is called and class members remain uninitialized. Consider using 'new' instead.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4227,8 +4466,7 @@ Z = X & 0x1;
 results => Z=0
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4268,8 +4506,7 @@ This is dangerous since the order of items in the container is not guaranteed.
 One should use 'operator!=' instead to compare iterators.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4329,9 +4566,8 @@ Missing initialization for a struct member.
 Assignment of function parameter has no effect outside the function. Did you forget dereferencing it?
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -4348,9 +4584,53 @@ Assignment of function parameter has no effect outside the function. Did you for
       Passing NULL after the last typed argument to a variadic function leads to undefined behavior.
     </name>
     <description>
-      Passing NULL after the last typed argument to a variadic function leads to undefined behavior.
+<![CDATA[<p>
+Passing NULL after the last typed argument to a variadic function leads to undefined behavior.
+The C99 standard, in section 7.15.1.1, states that if the type used by va_arg() is not compatible with the type of the actual next argument (as promoted according to the default argument promotions), the behavior is undefined.
+The value of the NULL macro is an implementation-defined null pointer constant (7.17), which can be any integer constant expression with the value 0, or such an expression casted to (void*) (6.3.2.3). This includes values like 0, 0L, or even 0LL.
+To reproduce you might be able to use this little code example on 64bit platforms. If the output includes "ERROR", the sentinel had only 4 out of 8 bytes initialized to zero and was not detected as the final argument to stop argument processing via va_arg().
+Changing the 0 to (void*)0 or 0L will make the "ERROR" output go away.
+
+#include <stdarg.h>
+#include <stdio.h>
+
+void f(char *s, ...) {
+va_list ap;
+    va_start(ap,s);
+    for (;;) {
+        char *p = va_arg(ap,char*);
+        printf(\"%018p, %s\\n\", p, (long)p & 255 ? p : \"\");
+        if(!p) break;
+    }
+    va_end(ap);
+}
+
+void g() {
+    char *s2 = \"x\";
+    char *s3 = \"ERROR\";
+
+    // changing 0 to 0L for the 7th argument (which is intended to act as sentinel) makes the error go away on x86_64
+    f(\"first\", s2, s2, s2, s2, s2, 0, s3, (char*)0);
+}
+
+void h() {
+    int i;
+    volatile unsigned char a[1000];
+    for (i = 0; i<sizeof(a); i++)
+        a[i] = -1;
+}
+
+int main() {
+    h();
+    g();
+    return 0;
+}"
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>varFuncNullUB</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -4385,8 +4665,7 @@ Assignment of function parameter has no effect outside the function. Did you for
 A buffer must have size of 2 integers if used as parameter of pipe().
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4417,8 +4696,14 @@ A buffer must have size of 2 integers if used as parameter of pipe().
       Possible dereference of an invalid iterator
     </name>
     <description>
-      Possible dereference of an invalid iterator
+<![CDATA[<p>
+Possible dereference of an invalid iterator
+Make sure to check that the iterator is valid before dereferencing it - not after.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/825.html" target="_blank">CWE-825: Expired Pointer Dereference</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>derefInvalidIterator</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -4433,9 +4718,15 @@ A buffer must have size of 2 integers if used as parameter of pipe().
       Undefined pointer calculation behavior
     </name>
     <description>
-      When using void pointers in calculations, the behavior is undefined.
+<![CDATA[<p>
+When using void pointers in calculations, the behavior is undefined.
+Arithmetic operations on 'void *' is a GNU C extension, which defines the 'sizeof(void)' to be 1.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/467.html" target="_blank">CWE-467: Use of sizeof() on a Pointer Type</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>arithOperationsOnVoidPointer</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -4448,8 +4739,20 @@ A buffer must have size of 2 integers if used as parameter of pipe().
       Usage of comma in return statements
     </name>
     <description>
-      Do not use the comma in return statements: it can be easily be misread as a ';'.
+
+<![CDATA[<p>
+Do not use the comma in return statements: it can be easily be misread as a ';'.
+Comma is used in return statement. When comma is used in a return statement it can easily be misread as a semicolon.
+For example in the code below the value of 'b' is returned if the condition is true, but it is easy to think that 'a+1' is returned:
+   if (x)
+    return a + 1,
+    b++;
+However it can be useful to use comma in macros. Cppcheck does not warn when such a macro is then used in a return statement, it is less likely such code is misunderstood.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>commaSeparatedReturn</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -4462,8 +4765,13 @@ A buffer must have size of 2 integers if used as parameter of pipe().
       Using NaN/Inf in a computation.
     </name>
     <description>
-      Using NaN/Inf in a computation.
+<![CDATA[<p>
+Using NaN/Inf in a computation.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/369.html" target="_blank">CWE-369: Divide By Zero</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
     <internalKey>nanInArithmeticExpression</internalKey>
     <severity>MINOR</severity>
@@ -4477,8 +4785,13 @@ A buffer must have size of 2 integers if used as parameter of pipe().
       Usage of 'sizeof' on dereferenced void pointer.
     </name>
     <description>
-      The behavior of 'sizeof(void)' is not covered by the ISO C standard.
+<![CDATA[<p>
+The behavior of 'sizeof(void)' is not covered by the ISO C standard.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
     <internalKey>sizeofDereferencedVoidPointer</internalKey>
     <severity>MINOR</severity>
@@ -4492,8 +4805,14 @@ A buffer must have size of 2 integers if used as parameter of pipe().
       Behavior of 'sizeof(void)' is undefined
     </name>
     <description>
-      Behavior of 'sizeof(void)' is not covered by the ISO C standard.
+<![CDATA[<p>
+Behavior of 'sizeof(void)' is not covered by the ISO C standard.
+A value for 'sizeof(void)' is defined only as part of a GNU C extension, which defines 'sizeof(void)' to be 1.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
     <internalKey>sizeofVoid</internalKey>
     <severity>MINOR</severity>
@@ -4507,8 +4826,13 @@ A buffer must have size of 2 integers if used as parameter of pipe().
       printf: referencing parameter 2 while 1 arguments given.
     </name>
     <description>
-      printf: referencing parameter 2 while 1 arguments given.
+<![CDATA[<p>
+printf: referencing parameter 2 while 1 arguments given.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/685.html" target="_blank">CWE-685: Function Call With Incorrect Number of Arguments</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
     <internalKey>wrongPrintfScanfParameterPositionError</internalKey>
     <severity>MAJOR</severity>
@@ -4543,8 +4867,7 @@ A buffer must have size of 2 integers if used as parameter of pipe().
  A subclass defines a member variable which is already defined in its parent class.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4558,9 +4881,14 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <key>invalidScanfArgType_int</key>
     <name>Mismatch in string format: 'unsigned int *' vs 'DWORD *'</name>
     <description>
-      The format string requires 'unsigned int *' but the argument type is 'DWORD * {aka unsigned long *}'
+<![CDATA[<p>
+The format string requires 'unsigned int *' but the argument type is 'DWORD * {aka unsigned long *}'
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>invalidScanfArgType_int</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -4571,9 +4899,14 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <key>invalidScanfArgType_float</key>
     <name>Mismatch in string format: 'float *' vs Unknown.</name>
     <description>
-      %f in format string requires 'float *' but the argument type is Unknown.
+<![CDATA[<p>
+%f in format string requires 'float *' but the argument type is Unknown.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>invalidScanfArgType_float</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -4584,9 +4917,14 @@ A buffer must have size of 2 integers if used as parameter of pipe().
     <key>invalidScanfArgType_s</key>
     <name>Mismatch in string format: 'char *' vs Unknown.</name>
     <description>
-      %s in format string requires a 'char *' but the argument type is Unknown.
+<![CDATA[<p>
+%s in format string requires a 'char *' but the argument type is Unknown.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>invalidScanfArgType_s</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -4638,8 +4976,7 @@ assert statement is not executed. If the code is needed also in release
 builds, this is a bug.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
      ]]>
     </description>
     <tag>cwe</tag>
@@ -4660,9 +4997,8 @@ Converting pointer arithmetic result to bool. The boolean result is always true 
 and overflow is undefined behaviour. Probably a dereference is forgotten.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -4701,8 +5037,7 @@ Return value of allocation function is not used.
 A function gets passed an invalid argument.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4721,8 +5056,7 @@ A function gets passed an invalid argument.
 A function gets passed an invalid argument. A non-boolean value is required.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4744,9 +5078,8 @@ Memory allocation size have to be greater or equal to 0.
 Negative allocation size has no specified behaviour.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/131.html" target="_blank">CWE-131: Incorrect Calculation of Buffer Size</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -4776,10 +5109,12 @@ Negative allocation size has no specified behaviour.
 The 2nd memset() argument doesn't fit into an 'unsigned char'.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=325" target="_blank">INT31-C. Ensure that integer conversions do not result in lost or misinterpreted data</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/686.html" target="_blank">CWE-686: Function Call With Incorrect Argument Type</a></p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
     <internalKey>memsetValueOutOfRange</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -4873,8 +5208,13 @@ The array access using this index may be out of bounds.
     <key>charLiteralWithCharPtrCompare</key>
     <name>Char literal compared with pointer</name>
     <description>
-      Char literal compared with a pointer. Did you intend to dereference it?
+<![CDATA[<p>
+Char literal compared with a pointer. Did you intend to dereference it?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/595.html" target="_blank">CWE-595: Comparison of Object References Instead of Object Contents</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>charLiteralWithCharPtrCompare</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -4904,8 +5244,7 @@ The array access using this index may be out of bounds.
 Pointer &apos;pointer&apos; is dead if it has been assigned &apos;&amp;x&apos; at line 0.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/825.html" target="_blank">CWE-825: Expired Pointer Dereference</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/825.html" target="_blank">CWE-825: Expired Pointer Dereference</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4923,9 +5262,11 @@ Pointer &apos;pointer&apos; is dead if it has been assigned &apos;&amp;x&apos; a
 Return value of function malloc() is not used.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=17924853" target="_blank">EXP12-C. Do not ignore values returned by functions</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/252.html" target="_blank">CWE-252: Unchecked Return Value</a></p>
 ]]>
 </description>
     <tag>cert</tag>
+    <tag>cwe</tag>
     <internalKey>ignoredReturnValue</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -4968,8 +5309,7 @@ the actual representation of a floating-point value is implementation defined.
 <i>Note: In case of an IEEE754-1985 compatible implementation setting all bits to zero results in the value 0.0.</i>
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -4988,8 +5328,7 @@ the actual representation of a floating-point value is implementation defined.
 Using "memfunc" on class that contains a reference.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/590.html" target="_blank">CWE-590: Free of Memory not on the Heap</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5008,8 +5347,7 @@ Using "memfunc" on class that contains a reference.
 Member variable 'var' is initialized by itself.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/665.html" target="_blank">CWE-665: Improper Initialization</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5044,8 +5382,13 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <key>signConversion</key>
     <name>Suspicious sign conversion of var in calculation</name>
     <description>
-      Suspicious code: sign conversion of var in calculation, even though var can have a negative value.
+<![CDATA[<p>
+Suspicious code: sign conversion of var in calculation, even though var can have a negative value.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/195.html" target="_blank">CWE-195: Signed to Unsigned Conversion Error</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>signConversion</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -5056,8 +5399,13 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <key>sizeofDivisionMemfunc</key>
     <name>Suspicious calculation of memset() bytes size</name>
     <description>
-      Division by result of sizeof(). memset() expects a size in bytes, did you intend to multiply instead?
+<![CDATA[<p>
+Division by result of sizeof(). memset() expects a size in bytes, did you intend to multiply instead?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>sizeofDivisionMemfunc</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -5068,8 +5416,13 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
     <key>unpreciseMathCall</key>
     <name>Avoid loss of precision for expression</name>
     <description>
-      Expression &apos;1 - erf(x)&apos; can be replaced by &apos;erfc(x)&apos; to avoid loss of precision.
+<![CDATA[<p>
+Expression '1 - erf(x)' can be replaced by 'erfc(x)' to avoid loss of precision.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unpreciseMathCall</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -5085,9 +5438,8 @@ Shifting 32-bit value by 64 bits is undefined behaviour.
 Assignment of function parameter has no effect outside the function.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
-     ]]>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>cwe</tag>
     <tag>bug</tag>
@@ -5106,8 +5458,7 @@ Assignment of function parameter has no effect outside the function.
 va_list 'vl' was opened but not closed by va_end().
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5127,8 +5478,7 @@ va_list 'vl' was opened but not closed by va_end().
 va_list 'vl' used before va_start() was called.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5147,8 +5497,7 @@ va_list 'vl' used before va_start() was called.
 Using reference &apos;arg1&apos; as parameter for va_start() results in undefined behaviour.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5168,8 +5517,7 @@ Using reference &apos;arg1&apos; as parameter for va_start() results in undefine
 va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/664.html" target="_blank">CWE-664: Improper Control of a Resource Through its Lifetime</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5184,8 +5532,13 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <key>va_start_wrongParameter</key>
     <name>Given argument to va_start() is not last one</name>
     <description>
-      &apos;arg1&apos; given to va_start() is not last named argument of the function. Did you intend to pass &apos;arg2&apos;?.
+<![CDATA[<p>
+'arg1' given to va_start() is not last named argument of the function. Did you intend to pass 'arg2'?.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/688.html" target="_blank">CWE-688: Function Call With Incorrect Variable or Reference as Argument</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>va_start_wrongParameter</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -5209,9 +5562,15 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <key>duplicateExpressionTernary</key>
     <name>Same expression in both branches of ternary operator</name>
     <description>
-      Same expression in both branches of ternary operator.
+<![CDATA[<p>
+Same expression in both branches of ternary operator.
+Finding the same expression in both branches of ternary operator is suspicious as the same code is executed regardless of the condition.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>duplicateExpressionTernary</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -5222,8 +5581,13 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
     <key>noExplicitConstructor</key>
     <name>Class has a constructor with 1 argument that is not explicit</name>
     <description>
-      Class &apos;classname&apos; has a constructor with 1 argument that is not explicit.
+<![CDATA[<p>
+Class 'classname' has a constructor with 1 argument that is not explicit.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>noExplicitConstructor</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -5251,8 +5615,7 @@ va_start() or va_copy() called subsequently on 'vl' without va_end() inbetween.
 No <code>return</code> statement in non-void function causes undefined behavior.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5272,8 +5635,7 @@ No <code>return</code> statement in non-void function causes undefined behavior.
 'operator=' should either return reference to 'this'instance or be declared private and left unimplemented.
 </p>
 <h2>References</h2>
-<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a>
-</p>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>cwe</tag>
@@ -5287,8 +5649,13 @@ No <code>return</code> statement in non-void function causes undefined behavior.
     <key>redundantPointerOp</key>
     <name>Redundant pointer operation on varname</name>
     <description>
-      Redundant pointer operation on varname - it&apos;s already a pointer.
+<![CDATA[<p>
+Redundant pointer operation on varname - it's already a pointer.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>redundantPointerOp</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -5311,8 +5678,13 @@ No <code>return</code> statement in non-void function causes undefined behavior.
     <key>useAutoPointerMalloc</key>
     <name>Object pointed by an &apos;auto_ptr&apos; is destroyed using operator &apos;delete&apos;</name>
     <description>
-      Object pointed by an &apos;auto_ptr&apos; is destroyed using operator &apos;delete&apos;. You should not use &apos;auto_ptr&apos; for pointers obtained with function &apos;malloc&apos;.
+<![CDATA[<p>
+Object pointed by an 'auto_ptr' is destroyed using operator 'delete'. You should not use 'auto_ptr' for pointers obtained with function 'malloc'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/762.html" target="_blank">CWE-762: Mismatched Memory Management Routines</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>useAutoPointerMalloc</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -5328,10 +5700,12 @@ No <code>return</code> statement in non-void function causes undefined behavior.
 Declaration of array &apos;identifier&apos; with negative size is undefined behaviour.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=2681" target="_blank">ARR32-C. Ensure size arguments for variable length arrays are in a valid range</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
     <internalKey>negativeArraySize</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -5342,9 +5716,14 @@ Declaration of array &apos;identifier&apos; with negative size is undefined beha
     <key>badBitmaskCheck</key>
     <name>Result of operator &apos;|&apos; is always true if one operand is non-zero</name>
     <description>
-      Result of operator &apos;|&apos; is always true if one operand is non-zero. Did you intend to use &apos;&amp;&apos;?
+<![CDATA[<p>
+Result of operator '|' is always true if one operand is non-zero. Did you intend to use '&'?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>badBitmaskCheck</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -5355,9 +5734,15 @@ Declaration of array &apos;identifier&apos; with negative size is undefined beha
     <key>knownConditionTrueFalse</key>
     <name>Condition &apos;x&apos; is always true</name>
     <description>
-      Condition &apos;x&apos; is always true.
+<![CDATA[<p>
+Condition 'x' is always true.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/571.html" target="_blank">CWE-571: Expression is Always True</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>knownConditionTrueFalse</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -5372,8 +5757,10 @@ Declaration of array &apos;identifier&apos; with negative size is undefined beha
 Possible null pointer dereference if the default parameter value is used: pointer.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
     <tag>cert</tag>
     <internalKey>nullPointerDefaultArg</internalKey>
@@ -5390,10 +5777,12 @@ Possible null pointer dereference if the default parameter value is used: pointe
 Either the condition is redundant or there is possible null pointer dereference: pointer.
 </p><h2>References</h2>
 <p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a></p>
 ]]>
     </description>
     <tag>bug</tag>
     <tag>cert</tag>
+    <tag>cwe</tag>
     <internalKey>nullPointerRedundantCheck</internalKey>
     <severity>MINOR</severity>
     <type>BUG</type>
@@ -5406,6 +5795,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <description>
       Obsolete function &apos;alloca&apos; called. In C99 and later it is recommended to use a variable length array instead.
     </description>
+    <tag>cwe</tag>
     <internalKey>obsoleteFunctionsalloca</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -5418,6 +5808,7 @@ Either the condition is redundant or there is possible null pointer dereference:
     <description>
       Race condition: non-interlocked access after InterlockedDecrement(). Use InterlockedDecrement() return value instead.
     </description>
+    <tag>cwe</tag>
     <internalKey>raceAfterInterlockedDecrement</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
@@ -5428,10 +5819,15 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>unusedLabel</key>
     <name>Label &apos;identifier&apos; is not used</name>
     <description>
-      Label &apos;identifier&apos; is not used.
+<![CDATA[<p>
+Label 'identifier' is not used.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
-     <internalKey>unusedLabel</internalKey>
-   <severity>MINOR</severity>
+    <tag>cwe</tag>
+    <internalKey>unusedLabel</internalKey>
+    <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
@@ -5440,9 +5836,14 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>stringLiteralWrite</key>
     <name>Modifying string literal directly or indirectly is undefined behaviour</name>
     <description>
-      Modifying string literal directly or indirectly is undefined behaviour.
+<![CDATA[<p>
+Modifying string literal directly or indirectly is undefined behaviour.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>stringLiteralWrite</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
@@ -5453,8 +5854,14 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>truncLongCastAssignment</key>
     <name>int result is assigned to long variable (potential truncation)</name>
     <description>
-      int result is assigned to long variable. If the variable is long to avoid loss of information, then you have loss of information.
+<![CDATA[<p>
+int result is assigned to long variable. If the variable is long to avoid loss of information, then you have loss of information.
+To avoid loss of information you must cast a calculation operand to long, for example 'l = a * b;' => 'l = (long)a * b;'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/197.html" target="_blank">CWE-197: Numeric Truncation Error</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>truncLongCastAssignment</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -5465,8 +5872,14 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>truncLongCastReturn</key>
     <name>int result is returned as long value (potential truncation)</name>
     <description>
-      int result is returned as long value. If the return value is long to avoid loss of information, then you have loss of information.
+<![CDATA[<p>
+int result is returned as long value. If the return value is long to avoid loss of information, then you have loss of information.
+To avoid loss of information you must cast a calculation operand to long, for example 'return a*b;' => 'return (long)a*b'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/197.html" target="_blank">CWE-197: Numeric Truncation Error</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>truncLongCastReturn</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
@@ -5478,8 +5891,13 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>assignBoolToFloat</key>
     <name>Boolean value assigned to floating point variable</name>
     <description>
-      Boolean value assigned to floating point variable.
+<![CDATA[<p>
+Boolean value assigned to floating point variable.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/704.html" target="_blank">CWE-704: Incorrect Type Conversion or Cast</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>assignBoolToFloat</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -5490,8 +5908,13 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>invalidTestForOverflow</key>
     <name>Invalid test for overflow (undefined behavior)</name>
     <description>
-      Invalid test for overflow &apos;x + u &lt; x&apos;. Condition is always false unless there is overflow, and overflow is UB.
+<![CDATA[<p>
+Invalid test for overflow 'x + u < x'. Condition is always false unless there is overflow, and overflow is UB.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/570.html" target="_blank">CWE-570: Expression is Always False</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>invalidTestForOverflow</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -5502,8 +5925,13 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>unknownEvaluationOrder</key>
     <name>Expression depends on order of evaluation (side effects)</name>
     <description>
-      Expression &apos;x = x++;&apos; depends on order of evaluation of side effects.
+<![CDATA[<p>
+Expression &apos;x = x++;&apos; depends on order of evaluation of side effects.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/768.html" target="_blank">CWE-768: Incorrect Short Circuit Evaluation</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unknownEvaluationOrder</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -5515,8 +5943,13 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>signedCharArrayIndex</key>
     <name>Signed 'char' type used as array index</name>
     <description>
-      Signed 'char' type used as array index. If the value can be greater than 127 there will be a buffer underflow because of sign extension.
+<![CDATA[<p>
+Signed 'char' type used as array index. If the value can be greater than 127 there will be a buffer underflow because of sign extension.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/128.html" target="_blank">CWE-128: Wrap-around Error</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>signedCharArrayIndex</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -5527,8 +5960,13 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>unknownSignCharArrayIndex</key>
     <name>'char' type used as array index</name>
     <description>
+<![CDATA[<p>
       'char' type used as array index. Values greater that 127 will be treated depending on whether 'char' is signed or unsigned on target platform.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unknownSignCharArrayIndex</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -5539,15 +5977,126 @@ Either the condition is redundant or there is possible null pointer dereference:
     <key>unusedLabelSwitch</key>
     <name>Label is not used. </name>
     <description>
-      Label is not used.
+<![CDATA[<p>
+Label is not used.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>unusedLabelSwitch</internalKey>
     <severity>MINOR</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
- </rules>
+  <!-- ########### New in cppcheck 1.76 ########### -->
+  <!-- this warnings is not reported by "cppcheck -errorlist" -->
+  <rule>
+    <key>leakUnsafeArgAlloc</key>
+    <name>Unsafe allocation. If 'funcName()' throws, memory could be leaked</name>
+    <description>
+<![CDATA[<p>
+Unsafe allocation. If 'funcName()' throws, memory could be leaked. Use 'factoryFunc<objType>()' instead.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>leakUnsafeArgAlloc</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>suspiciousCase</key>
+    <name>Found suspicious case label in switch()</name>
+    <description>
+<![CDATA[<p>
+Found suspicious case label in switch(). Operator 'operatorString' probably doesn't work as intended.
+Using an operator like 'operatorString' in a case label is suspicious. Did you intend to use a bitwise operator, multiple case labels or if/else instead?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>suspiciousCase</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>suspiciousEqualityComparison</key>
+    <name>Found suspicious case label in switch()</name>
+    <description>
+<![CDATA[<p>
+Found suspicious case label in switch(). Operator 'operatorString' probably doesn't work as intended.
+Using an operator like 'operatorString' in a case label is suspicious. Did you intend to use a bitwise operator, multiple case labels or if/else instead?
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/482.html" target="_blank">CWE-482: Comparing instead of Assigning</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>suspiciousEqualityComparison</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>multiplySizeof</key>
+    <name>Multiplying sizeof() with sizeof()</name>
+    <description>
+<![CDATA[<p>
+Multiplying sizeof() with sizeof() indicates a logic error.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>multiplySizeof</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>divideSizeof</key>
+    <name>Division of result of sizeof() on pointer type</name>
+    <description>
+<![CDATA[<p>
+Division of result of sizeof() on pointer type. sizeof() returns the size of the pointer not the size of the memory area it points to.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>divideSizeof</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>reademptycontainer</key>
+    <name>Reading from empty STL container</name>
+    <description>
+<![CDATA[<p>
+Reading from empty STL container.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>reademptycontainer</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>  
+</rules>
 
 <!-- ########### Deprecated as of 1.63 ########### -->
 <!-- tooBigSleepTime -->
