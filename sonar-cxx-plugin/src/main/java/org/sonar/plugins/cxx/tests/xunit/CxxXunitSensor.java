@@ -164,7 +164,7 @@ public class CxxXunitSensor extends CxxReportSensor {
            .withValue(testsCount)
            .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure Test : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
         if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
           LOG.info("Recovery is disabled, failing analysis.");
           throw ex;
@@ -179,7 +179,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsErrors)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure Test : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
         if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
           LOG.info("Recovery is disabled, failing analysis.");
           throw ex;
@@ -194,7 +194,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsFailures)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure Test : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
         if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
           LOG.info("Recovery is disabled, failing analysis.");
           throw ex;
@@ -209,7 +209,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsSkipped)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure Test : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
         if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
           LOG.info("Recovery is disabled, failing analysis.");
           throw ex;
@@ -224,7 +224,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(ParsingUtils.scaleValue(successDensity))
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure Test : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
         if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
           LOG.info("Recovery is disabled, failing analysis.");
           throw ex;
@@ -239,7 +239,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsTime)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure Test : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
         if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
           LOG.info("Recovery is disabled, failing analysis.");
           throw ex;
