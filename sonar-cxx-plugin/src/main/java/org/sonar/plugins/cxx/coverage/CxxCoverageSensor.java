@@ -156,11 +156,29 @@ public class CxxCoverageSensor extends CxxReportSensor {
         LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
         for (CoverageMeasure measure : measures) {
           if(measure.getType().equals(CoverageMeasure.CoverageType.LINE)) {
-            newCoverage.lineHits(measure.getLine(), measure.getHits());
+            try
+            {
+              newCoverage.lineHits(measure.getLine(), measure.getHits());
+            } catch(Exception ex) {
+              LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
+              if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+                LOG.info("Recovery is disabled, failing analysis.");
+                throw ex;
+              }
+            }            
           }
           
           if(measure.getType().equals(CoverageMeasure.CoverageType.CONDITION)) {
-            newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
+            try
+            {
+              newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
+            } catch(Exception ex) {
+              LOG.error("Cannot save Conditions Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
+              if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+                LOG.info("Recovery is disabled, failing analysis.");
+                throw ex;
+              }
+            }                         
           }                             
         }
         
