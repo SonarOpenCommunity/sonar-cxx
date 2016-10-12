@@ -49,6 +49,8 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
+import org.sonar.plugins.cxx.CxxPlugin;
+import static org.sonar.plugins.cxx.coverage.CxxCoverageSensor.LOG;
 import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
@@ -154,40 +156,98 @@ public class CxxXunitSensor extends CxxReportSensor {
       double testsPassed = testsCount - testsErrors - testsFailures;
       double successDensity = testsPassed * PERCENT_BASE / testsCount;
 
-      context.<Integer>newMeasure()
-         .forMetric(CoreMetrics.TESTS)
-         .on(context.module())
-         .withValue(testsCount)
-         .save();
+      try
+      {
+        context.<Integer>newMeasure()
+           .forMetric(CoreMetrics.TESTS)
+           .on(context.module())
+           .withValue(testsCount)
+           .save();
+      } catch(Exception ex) {
+        LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
+        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+          LOG.info("Recovery is disabled, failing analysis.");
+          throw ex;
+        }
+      }       
+
+      try
+      {
        context.<Integer>newMeasure()
          .forMetric(CoreMetrics.TEST_ERRORS)
          .on(context.module())
          .withValue(testsErrors)
          .save();
+      } catch(Exception ex) {
+        LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
+        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+          LOG.info("Recovery is disabled, failing analysis.");
+          throw ex;
+        }
+      } 
+      
+      try
+      {
        context.<Integer>newMeasure()
          .forMetric(CoreMetrics.TEST_FAILURES)
          .on(context.module())
          .withValue(testsFailures)
          .save();
+      } catch(Exception ex) {
+        LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
+        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+          LOG.info("Recovery is disabled, failing analysis.");
+          throw ex;
+        }
+      } 
+      
+      try
+      {
        context.<Integer>newMeasure()
          .forMetric(CoreMetrics.SKIPPED_TESTS)
          .on(context.module())
          .withValue(testsSkipped)
          .save();
+      } catch(Exception ex) {
+        LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
+        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+          LOG.info("Recovery is disabled, failing analysis.");
+          throw ex;
+        }
+      } 
+
+      try
+      {
        context.<Double>newMeasure()
          .forMetric(CoreMetrics.TEST_SUCCESS_DENSITY)
          .on(context.module())
          .withValue(ParsingUtils.scaleValue(successDensity))
          .save();
+      } catch(Exception ex) {
+        LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
+        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+          LOG.info("Recovery is disabled, failing analysis.");
+          throw ex;
+        }
+      }       
+
+      try
+      {
         context.<Long>newMeasure()
          .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
          .on(context.module())
          .withValue(testsTime)
          .save();
+      } catch(Exception ex) {
+        LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
+        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+          LOG.info("Recovery is disabled, failing analysis.");
+          throw ex;
+        }
+      }       
     } else {
       LOG.debug("The reports contain no testcases");
     }      
-
   }
 
   File transformReport(File report)
