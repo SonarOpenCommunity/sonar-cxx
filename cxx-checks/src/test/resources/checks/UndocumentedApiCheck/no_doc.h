@@ -20,8 +20,11 @@ public:
 	 
 	int inlineCommentedAttr; 
 
-	void inlinePublicMethod();
-	 
+	void inlinePublicMethod() {};
+	
+    template <class T>
+    void templateMethod();
+ 
 protected:
 	virtual void protectedMethod();
 	 
@@ -65,6 +68,16 @@ enum testEnum
   enum_val
 };
 
+enum testEnumWithType : int
+{
+  enum_val
+};
+
+enum class testScopedEnum
+{
+  enum_val
+};
+
 union testUnion
 {
 
@@ -77,3 +90,58 @@ struct tmplStruct
 void func() {
   for (int i = 0; i < 10; i++) {}
 }
+
+typedef int int32;
+
+typedef struct
+{
+  int a;
+  float b;
+} typedefStruct;
+
+typedef class
+{
+public:
+  int a;
+  float b;
+} typedefClass;
+
+typedef union
+{
+  int a;
+  float b;
+} typedefUnion;
+
+typedef enum
+{
+  A,
+  B
+} typedefEnum;
+
+typedef enum class
+{
+  A,
+  B
+} typedefEnumClass;
+
+class OverrideInClassTest
+{
+  virtual void defaultMethod() override;
+public:
+  virtual void publicMethod() override;
+protected:
+  virtual void protectedMethod() override;
+private:
+ virtual void privateMethod() override;
+};
+
+struct OverrideInStructTest
+{
+  virtual void defaultMethod() override;
+};
+
+//@todo
+//struct ComplexOverrideTest
+//{
+//  virtual AAA::BBB::CCC* AAA_CALL method() const noexcept override;
+//};

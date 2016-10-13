@@ -39,15 +39,53 @@ public class UndocumentedApiCheckTest {
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
 
-    checkMessagesVerifier.verify(file.getCheckMessages()).next().atLine(6)
-      .next().atLine(11).next().atLine(13).next().atLine(14).next()
-      .atLine(17).next().atLine(19).next().atLine(21).next()
-      .atLine(23).next().atLine(26).next().atLine(48).next()
-      .atLine(52).next().atLine(53).next().atLine(56).next()
-      .atLine(58).next().atLine(60).next().atLine(63).next()
-      .atLine(65).next().atLine(68).next().atLine(74).next().atLine(77);
+    checkMessagesVerifier.verify(file.getCheckMessages())
+      .next().atLine(6) // class
+      .next().atLine(11) // public method
+      .next().atLine(13) // enum
+      .next().atLine(14) // enumerator
+      .next().atLine(17) // enum value
+      .next().atLine(19) // member variable
+      .next().atLine(21) // member variable
+      .next().atLine(23) // public inline method
+      .next().atLine(26) // public template method
+      .next().atLine(29) // protected method
+      .next().atLine(51) // public member variable
+      .next().atLine(55) // struct
+      .next().atLine(56) // struct member
+      .next().atLine(59) // forward declaration
+      .next().atLine(61) // fuction declaration
+      .next().atLine(63) // global emptyEnum
+      .next().atLine(66) // global testEnum
+      .next().atLine(68) // global enum value
+      .next().atLine(71) // global testEnumWithType
+      .next().atLine(73) // global enum value
+      .next().atLine(76) // global testScopedEnum
+      .next().atLine(78) // global enum value
+      .next().atLine(81) // global union
+      .next().atLine(87) // template
+      .next().atLine(90) // function definition
+      .next().atLine(94) // typedef
+      .next().atLine(96) // typedef struct
+      .next().atLine(98) // struct member
+      .next().atLine(99) // struct member
+      .next().atLine(102) // typedef class
+      .next().atLine(105) // class member
+      .next().atLine(106) // class member
+      .next().atLine(109) // typedef union
+      .next().atLine(111) // union member
+      .next().atLine(112) // union member
+      .next().atLine(115) // typedef enum
+      .next().atLine(117) // enum member
+      .next().atLine(118) // enum member
+      .next().atLine(121) // typedef enum class
+      .next().atLine(123) // enum member
+      .next().atLine(124) // enum member
+      .next().atLine(127) // class OverrideInClassTest
+      .next().atLine(138); // struct OverrideInStructTest
+    //.next().atLine(143); // @todo struct ComplexOverrideTest
 
     for (CheckMessage msg : file.getCheckMessages()) {
       assertThat(msg.formatDefaultMessage()).isNotEmpty();

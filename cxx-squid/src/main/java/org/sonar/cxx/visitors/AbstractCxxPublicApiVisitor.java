@@ -36,7 +36,6 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
-import org.sonar.cxx.preprocessor.SourceCodeProvider;
 
 /**
  * Abstract visitor that visits public API items.<br>
@@ -45,6 +44,7 @@ import org.sonar.cxx.preprocessor.SourceCodeProvider;
  * <li>classes/structures</li>
  * <li>class members (public and protected)</li>
  * <li>structure members</li>
+ * <li>union members</li>
  * <li>enumerations</li>
  * <li>enumeration values</li>
  * <li>typedefs</li>
@@ -196,6 +196,11 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return;
     }
 
+    // ignore classSpefifier typedefs (classSpefifier at classSpefifier)
+    if( isClassSpefifierTypedef(declaratorList)) {
+      return;
+    }
+    
     // ignore friend declarations
     if (isFriendDeclaration(declaratorList)) {
       return;
@@ -221,6 +226,26 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
+  private boolean isClassSpefifierTypedef(AstNode declaratorList) {
+    AstNode simpleDeclSpezifierSeq = declaratorList.getPreviousSibling();
+    if (simpleDeclSpezifierSeq != null) {
+      AstNode firstDeclSpecifier = simpleDeclSpezifierSeq.getFirstChild(CxxGrammarImpl.declSpecifier);
+      if (firstDeclSpecifier != null && firstDeclSpecifier.getToken().getType() == CxxKeyword.TYPEDEF) {
+        AstNode classSpefifier = firstDeclSpecifier.getNextSibling();
+        if (classSpefifier != null) {
+          switch ((CxxKeyword) classSpefifier.getToken().getType()) {
+            case STRUCT:
+            case CLASS:
+            case UNION:
+            case ENUM:
+              return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+  
   private boolean isFriendDeclaration(AstNode declaratorList) {
     AstNode simpleDeclNode = declaratorList
       .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
@@ -667,14 +692,15 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       if (classSpecifier != null) {
 
         AstNode enclosingSpecifierNode = classSpecifier
-          .getFirstDescendant(CxxKeyword.STRUCT,
-            CxxKeyword.CLASS, CxxKeyword.ENUM);
+          .getFirstDescendant(CxxKeyword.STRUCT, CxxKeyword.CLASS,
+            CxxKeyword.ENUM, CxxKeyword.UNION);
 
         if (enclosingSpecifierNode != null) {
           switch ((CxxKeyword) enclosingSpecifierNode.getToken()
             .getType()) {
             case STRUCT:
-              // struct members have public access, thus access level
+            case UNION:
+              // struct and union members have public access, thus access level
               // is the access level of the enclosing classSpecifier
               return isPublicApiMember(classSpecifier);
             case CLASS:
