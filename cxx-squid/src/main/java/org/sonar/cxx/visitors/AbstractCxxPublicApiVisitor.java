@@ -34,6 +34,7 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.ast.AstXmlPrinter;
 
@@ -241,12 +242,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       if (firstDeclSpecifier != null && firstDeclSpecifier.getToken().getType() == CxxKeyword.TYPEDEF) {
         AstNode classSpefifier = firstDeclSpecifier.getNextSibling();
         if (classSpefifier != null) {
-          switch ((CxxKeyword) classSpefifier.getToken().getType()) {
-            case STRUCT:
-            case CLASS:
-            case UNION:
-            case ENUM:
-              return true;
+          TokenType type = classSpefifier.getToken().getType();
+          if (type == CxxKeyword.STRUCT
+            || type == CxxKeyword.CLASS
+            || type == CxxKeyword.UNION
+            || type == CxxKeyword.ENUM) {
+            return true;
           }
         }
       }
@@ -774,19 +775,19 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
             CxxKeyword.ENUM, CxxKeyword.UNION);
 
         if (enclosingSpecifierNode != null) {
-          switch ((CxxKeyword) enclosingSpecifierNode.getToken()
-            .getType()) {
-            case STRUCT:
-            case UNION:
-              // struct and union members have public access, thus access level
-              // is the access level of the enclosing classSpecifier
-              return isPublicApiMember(classSpecifier);
-            case CLASS:
-              // default access in classes is private
-              return false;
-            default:
-              LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(), enclosingSpecifierNode.getTokenLine());
-              return false;
+          TokenType type = enclosingSpecifierNode.getToken().getType();
+          if (type == CxxKeyword.STRUCT || type == CxxKeyword.UNION) {
+            // struct and union members have public access, thus access level
+            // is the access level of the enclosing classSpecifier
+            return isPublicApiMember(classSpecifier);
+
+          } else if (type == CxxKeyword.CLASS) {
+            // default access in classes is private
+            return false;
+
+          } else {
+            LOG.error("isPublicApiMember unhandled case: {} at {}", enclosingSpecifierNode.getType(), enclosingSpecifierNode.getTokenLine());
+            return false;
           }
         } else {
           LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
