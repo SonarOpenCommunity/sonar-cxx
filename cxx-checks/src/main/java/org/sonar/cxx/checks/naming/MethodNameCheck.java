@@ -22,6 +22,7 @@ package org.sonar.cxx.checks.naming;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import java.util.regex.Pattern;
+import javax.annotation.Nullable;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -56,31 +57,69 @@ public class MethodNameCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode astNode) {
-    AstNode declId = astNode.getFirstDescendant(CxxGrammarImpl.declaratorId);
-    if (isMethodDefinition(declId)) {
-      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
-      if (idNode != null) {
-        String identifier = idNode.getTokenValue();
-        if (!pattern.matcher(identifier).matches()) {
-          getContext().createLineViolation(this,
-                  "Rename method \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
-        }
+    AstNode idNode = getMethodName(astNode);
+    if (idNode != null) {
+      String identifier = idNode.getTokenValue();
+      if (!pattern.matcher(identifier).matches()) {
+        getContext().createLineViolation(this,
+          "Rename method \"{0}\" to match the regular expression {1}.", idNode, identifier, format);
       }
     }
   }
 
-  private boolean isMethodDefinition(AstNode declId) {
-    boolean isMethod = false;
+  private @Nullable AstNode getMethodName(AstNode functionDefinition) {
+    AstNode declId = functionDefinition.getFirstDescendant(CxxGrammarImpl.declaratorId);
+    AstNode result = null;
     if (declId != null) {
       // method inside of class
-      if (declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) != null) {
-        isMethod = true;
+      result = getInsideMemberDeclaration(declId);
+      if (result == null) {
         // a nested name - method outside of class
-      } else if (declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier)) {
-        isMethod = true;
+        result = getOutsideMemberDeclaration(declId);
       }
     }
-    return isMethod;
+    return result;
+  }
+
+  private @Nullable AstNode getInsideMemberDeclaration(AstNode declId) {
+    AstNode result = null;
+    if (declId.hasAncestor(CxxGrammarImpl.memberDeclaration)) {
+      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
+      if (idNode != null) {
+        AstNode classSpecifier = declId.getFirstAncestor(CxxGrammarImpl.classSpecifier);
+        if (classSpecifier != null) {
+          AstNode classHeadName = classSpecifier.getFirstDescendant(CxxGrammarImpl.classHeadName);
+          if (classHeadName != null) {
+            AstNode className = classHeadName.getLastChild(CxxGrammarImpl.className);
+            if (className != null) {
+              // if class name is equal to method name then it is a ctor or dtor
+              if (!className.getTokenValue().equals(idNode.getTokenValue())) {
+                result = idNode;
+              }
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  private @Nullable AstNode getOutsideMemberDeclaration(AstNode declId) {
+    AstNode nestedNameSpecifier = declId.getFirstDescendant(CxxGrammarImpl.nestedNameSpecifier);
+    AstNode result = null;
+    if (nestedNameSpecifier != null) {
+      AstNode idNode = declId.getLastChild(CxxGrammarImpl.className);
+      if (idNode != null) {
+        AstNode className = nestedNameSpecifier.getFirstDescendant(CxxGrammarImpl.className);
+        if (className != null) {
+          // if class name is equal to method name then it is a ctor or dtor
+          if (!className.getTokenValue().equals(idNode.getTokenValue())) {
+            result = idNode;
+          }
+        }
+      }
+    }
+    return result;
   }
 
 }
