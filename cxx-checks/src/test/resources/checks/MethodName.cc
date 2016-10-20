@@ -26,3 +26,24 @@ void MyClass::Badly_Named_Method1() // error
 void MyClass::TooLongMethodNameBecauseItHasMoreThan30Characters1() // error
 {
 }
+
+// ignore Ctor and Dtor
+
+class My_Class {
+  
+  My_Class();
+  My_Class() {} // not an error
+  
+  ~My_Class();
+  ~My_Class() {} // not an error
+};
+
+My_Class::My_Class() // not an error
+{
+}
+
+test::My_Class::~My_Class() // not an error
+{
+}
+
+// EOF
