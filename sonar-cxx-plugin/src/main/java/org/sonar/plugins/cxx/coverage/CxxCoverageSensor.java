@@ -39,6 +39,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 
 /**
  * {@inheritDoc}
@@ -161,10 +162,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
               newCoverage.lineHits(measure.getLine(), measure.getHits());
             } catch(Exception ex) {
               LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
-              if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-                LOG.info("Recovery is disabled, failing analysis.");
-                throw ex;
-              }
+              CxxUtils.ValidateRecovery(ex, settings);
             }            
           }
           
@@ -174,10 +172,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
               newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
             } catch(Exception ex) {
               LOG.error("Cannot save Conditions Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
-              if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-                LOG.info("Recovery is disabled, failing analysis.");
-                throw ex;
-              }
+              CxxUtils.ValidateRecovery(ex, settings);
             }                         
           }                             
         }
@@ -187,10 +182,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           newCoverage.save();
         } catch(Exception ex) {
           LOG.error("Cannot save measure '{}' : '{}', ignoring measure", filePath, ex.getMessage());
-          if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-            LOG.info("Recovery is disabled, failing analysis.");
-            throw ex;
-          }
+          CxxUtils.ValidateRecovery(ex, settings);
         }        
       } else {
         LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);

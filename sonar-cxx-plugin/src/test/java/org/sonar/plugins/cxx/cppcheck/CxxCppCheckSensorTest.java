@@ -30,6 +30,7 @@ import org.junit.Test;
 
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 public class CxxCppCheckSensorTest {
 
@@ -47,6 +48,7 @@ public class CxxCppCheckSensorTest {
     SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject"));
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY, fs.baseDir().getAbsolutePath() + 
       "/cppcheck-reports/cppcheck-result-*.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
@@ -59,6 +61,7 @@ public class CxxCppCheckSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V1.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(3);
@@ -69,6 +72,7 @@ public class CxxCppCheckSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-projectlevelviolation-V2.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(3);
@@ -79,6 +83,7 @@ public class CxxCppCheckSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V1.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
@@ -89,8 +94,19 @@ public class CxxCppCheckSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
       "cppcheck-reports/cppcheck-result-SAMPLE-V2.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
+  
+  @Test(expected=IllegalStateException.class)
+  public void shouldThrowExceptionWhenRecoveryIsDisabled() {
+    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+    settings.setProperty(CxxCppCheckSensor.REPORT_PATH_KEY,
+      "cppcheck-reports/cppcheck-result-empty.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "False");
+    CxxCppCheckSensor sensor = new CxxCppCheckSensor(settings);
+    sensor.execute(context);
+  }  
 }

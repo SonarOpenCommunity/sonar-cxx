@@ -51,6 +51,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
 import org.sonar.plugins.cxx.CxxPlugin;
 import static org.sonar.plugins.cxx.coverage.CxxCoverageSensor.LOG;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.StaxParser;
 
 /**
@@ -165,10 +166,7 @@ public class CxxXunitSensor extends CxxReportSensor {
            .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
-        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-          LOG.info("Recovery is disabled, failing analysis.");
-          throw ex;
-        }
+        CxxUtils.ValidateRecovery(ex, settings);
       }       
 
       try
@@ -180,10 +178,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
-        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-          LOG.info("Recovery is disabled, failing analysis.");
-          throw ex;
-        }
+        CxxUtils.ValidateRecovery(ex, settings);
       } 
       
       try
@@ -195,10 +190,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
-        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-          LOG.info("Recovery is disabled, failing analysis.");
-          throw ex;
-        }
+        CxxUtils.ValidateRecovery(ex, settings);
       } 
       
       try
@@ -210,10 +202,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
-        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-          LOG.info("Recovery is disabled, failing analysis.");
-          throw ex;
-        }
+        CxxUtils.ValidateRecovery(ex, settings);
       } 
 
       try
@@ -225,10 +214,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
-        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-          LOG.info("Recovery is disabled, failing analysis.");
-          throw ex;
-        }
+        CxxUtils.ValidateRecovery(ex, settings);
       }       
 
       try
@@ -240,15 +226,14 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
-        if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
-          LOG.info("Recovery is disabled, failing analysis.");
-          throw ex;
-        }
+        CxxUtils.ValidateRecovery(ex, settings);
       }       
     } else {
       LOG.debug("The reports contain no testcases");
     }      
   }
+
+
 
   File transformReport(File report)
     throws java.io.IOException, javax.xml.transform.TransformerException {

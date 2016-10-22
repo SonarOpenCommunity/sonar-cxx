@@ -22,8 +22,10 @@ package org.sonar.plugins.cxx.utils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 
 /**
@@ -81,5 +83,12 @@ public final class CxxUtils {
     final PrintWriter pw = new PrintWriter(sw, true);
     throwable.printStackTrace(pw);
     return sw.getBuffer().toString();
+  }
+  
+  public static void ValidateRecovery(Exception ex, Settings settings) throws IllegalStateException {
+    if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
+      LOG.info("Recovery is disabled, failing analysis : '{}'", ex.toString());
+      throw new IllegalStateException(ex.getMessage(), ex.getCause());
+    }
   }
 }

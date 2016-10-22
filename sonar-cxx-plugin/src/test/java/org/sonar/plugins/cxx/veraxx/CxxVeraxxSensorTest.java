@@ -29,6 +29,7 @@ import org.junit.Test;
 
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 public class CxxVeraxxSensorTest {
 
@@ -40,6 +41,7 @@ public class CxxVeraxxSensorTest {
     fs = TestUtils.mockFileSystem();
     Settings settings = new Settings();
     settings.setProperty(CxxVeraxxSensor.REPORT_PATH_KEY, "vera++-reports/vera++-result-*.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     sensor = new CxxVeraxxSensor(settings);
   }
 

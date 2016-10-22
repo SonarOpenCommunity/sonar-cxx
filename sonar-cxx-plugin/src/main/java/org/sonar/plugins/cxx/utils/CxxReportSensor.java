@@ -84,7 +84,8 @@ public abstract class CxxReportSensor implements Sensor {
           LOG.debug("{} processed = {}", metric == null ? "Issues" : metric.getName(),
              violationsCount - prevViolationsCount);
         } catch (EmptyReportException e) {
-          LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+          LOG.error("The report '{}' seems to be empty.", report);
+          CxxUtils.ValidateRecovery(e, settings);
         }
       }
 
@@ -220,6 +221,7 @@ public abstract class CxxReportSensor implements Sensor {
             violationsCount++;
           } catch (Exception ex) {
             LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
+            CxxUtils.ValidateRecovery(ex, settings);
           }
         } else {
           LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
@@ -227,7 +229,7 @@ public abstract class CxxReportSensor implements Sensor {
         }
       }
     } else { // project level
-      
+      try {
         NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(ruleRepoKey, ruleId));
         NewIssueLocation location = newIssue.newLocation()
           .on(sensorContext.module())
@@ -236,6 +238,10 @@ public abstract class CxxReportSensor implements Sensor {
         newIssue.at(location);
         newIssue.save();
         violationsCount++;
+      } catch (Exception ex) {
+        LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
+        CxxUtils.ValidateRecovery(ex, settings);
+      }
     }
   }
 
@@ -251,6 +257,7 @@ public abstract class CxxReportSensor implements Sensor {
         }
       } catch (java.lang.NumberFormatException nfe) {
         LOG.warn("Skipping invalid line number: {}", line);
+        CxxUtils.ValidateRecovery(nfe, settings);
         lineNr = -1;
       }
     }

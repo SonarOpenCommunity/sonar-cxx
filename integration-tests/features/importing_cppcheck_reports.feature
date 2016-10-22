@@ -32,7 +32,7 @@ Feature: Importing Cppcheck reports
          AND the server log (if locatable) contains no error/warning messages
          BUT the analysis log contains a line matching
               """
-              .*WARN.*The report '.*' seems to be empty, ignoring.
+              .*ERROR.*The report '.*' seems to be empty.
               """
          AND the number of violations fed is 0
 
