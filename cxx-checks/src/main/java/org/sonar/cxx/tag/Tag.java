@@ -1,18 +1,18 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -31,10 +31,10 @@ public final class Tag {
   public static final String PITFALL = "pitfall";
   public static final String PREPROCESSOR = "preprocessor";
   public static final String UNUSED = "unused";
-  // tags not used 
   public static final String BAD_PRACTICE = "bad-practice";
-  public static final String CLUMSY = "clumsy";
   public static final String CONFUSING = "confusing";
+  // tags not used
+  public static final String CLUMSY = "clumsy";
   public static final String CWE = "cwe";
   public static final String DENIAL_OF_SERVICE = "denial-of-service";
   public static final String DESIGN = "design";

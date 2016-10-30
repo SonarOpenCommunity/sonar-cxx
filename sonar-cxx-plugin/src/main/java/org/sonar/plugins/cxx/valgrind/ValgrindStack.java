@@ -46,7 +46,7 @@ class ValgrindStack {
     StringBuilder res = new StringBuilder();
     for (ValgrindFrame frame : frames) {
       res.append(frame);
-      res.append("\n");
+      res.append('\n');
     }
     return res.toString();
   }

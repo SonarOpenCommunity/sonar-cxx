@@ -1,18 +1,18 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -22,6 +22,7 @@ package org.sonar.cxx.checks;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.io.Files;
 
@@ -47,7 +48,7 @@ import org.sonar.cxx.tag.Tag;
 //similar Vera++ rule T002
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
-  private static String[] keywords = null;
+  private static String[] keywords;
   private Charset charset;
 
   @Override
@@ -74,7 +75,7 @@ public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharse
         } else if (name.contains("__")) {
           getContext().createLineViolation(this, "Reserved name used for macro (contains two consecutive underscores)", nr);
         } else {
-          name = name.toLowerCase();
+          name = name.toLowerCase(Locale.ENGLISH );
           for (String keyword : keywords) {
             if (name.equals(keyword)) {
               getContext().createLineViolation(this, "Reserved name used for macro (keyword or alternative token redefined)", nr);

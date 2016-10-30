@@ -87,7 +87,7 @@ public class CxxCompilerVcParser implements CompilerParser {
     MatchResult matchres = null;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
-      String filename = matchres.group(1);
+      String filename = matchres.group(1).trim();
       String line = matchres.group(2);
       String id = matchres.group(3);
       String msg = matchres.group(4);

@@ -30,13 +30,13 @@ import org.sonar.api.batch.fs.InputFile;
  */
 public class TestFile {
 
-  private int errors = 0;
-  private int skipped = 0;
-  private int tests = 0;
-  private long time = 0;
-  private int failures = 0;
+  private int errors;
+  private int skipped;
+  private int tests;
+  private long time;
+  private int failures;
   private final List<TestCase> testCases;
-  private InputFile inputFile = null;
+  private InputFile inputFile;
 
   /**
    * Creates a test file instance which corresponds and represents the passed

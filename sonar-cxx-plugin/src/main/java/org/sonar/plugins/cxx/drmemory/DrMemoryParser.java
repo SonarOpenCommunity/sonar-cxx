@@ -102,7 +102,7 @@ public class DrMemoryParser {
 					if (locationMatcher.find()) {
 						Location location = new Location(); 
 						location.file =  locationMatcher.group( 1 );
-						location.line = Integer.parseInt(locationMatcher.group( 2 ));
+						location.line = Integer.valueOf(locationMatcher.group( 2 ));
 						error.stackTrace.add(location);
 					}
 				}
@@ -118,8 +118,9 @@ public class DrMemoryParser {
 	private static DrMemoryErrorType extractErrorType(String title) {
 		String cleanedTitle = clean(title);
 		for (DrMemoryErrorType drMemoryErrorType : DrMemoryErrorType.values()) {
-			if (cleanedTitle.startsWith(drMemoryErrorType.getTitle()))
+			if (cleanedTitle.startsWith(drMemoryErrorType.getTitle())) {
 				return drMemoryErrorType;
+		    }
 		}
 		return DrMemoryErrorType.UNRECOGNIZED;
 	}
@@ -145,7 +146,7 @@ public class DrMemoryParser {
 					sb.setLength( 0 );
 					
 				} else {
-					sb.append( line + "\n" );
+					sb.append( line + '\n' );
 				}
 			}			
 			

@@ -62,7 +62,7 @@ public class CxxXunitSensor extends CxxReportSensor {
   public static final String XSLT_URL_KEY = "sonar.cxx.xunit.xsltURL";
   private static final double PERCENT_BASE = 100d;
 
-  private String xsltURL = null;
+  private String xsltURL;
 
   static Pattern classNameOnlyMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
   static Pattern qualClassNameMatchingPattern = Pattern.compile("((?:\\w*::)*?(\\w+?))::\\w+?:\\d+$");

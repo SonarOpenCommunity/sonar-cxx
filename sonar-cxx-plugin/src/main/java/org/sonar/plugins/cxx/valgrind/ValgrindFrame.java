@@ -68,7 +68,7 @@ class ValgrindFrame {
     if (isLocationKnown()) {
       builder.append(" (")
         .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))
-        .append(")");
+        .append(')');
     }
 
     return builder.toString();

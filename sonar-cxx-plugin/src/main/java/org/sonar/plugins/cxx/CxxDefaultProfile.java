@@ -54,7 +54,7 @@ public class CxxDefaultProfile extends ProfileDefinition {
       profile.addActiveRule(activeRule);
     }
 
-    profile.setDefaultProfile(true);
+    profile.setDefaultProfile(Boolean.TRUE);
     return profile;
   }
 }

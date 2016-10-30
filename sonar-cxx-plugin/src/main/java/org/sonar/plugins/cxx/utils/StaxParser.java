@@ -42,20 +42,20 @@ public class StaxParser {
   private boolean isoControlCharsAwareParser;
 
   /**
-   * Stax parser for a given stream handler and iso control chars set awarness to off
+   * Stax parser for a given stream handler and ISO control chars set awareness to off
    *
-   * @param streamHandler the xml stream handler
+   * @param streamHandler the XML stream handler
    */
   public StaxParser(XmlStreamHandler streamHandler) {
     this(streamHandler, false);
   }
 
   /**
-   * Stax parser for a given stream handler and iso control chars set awarness to on.
-   * The iso control chars in the xml file will be replaced by simple spaces, usefull for
+   * Stax parser for a given stream handler and ISO control chars set awareness to on.
+   * The ISO control chars in the XML file will be replaced by simple spaces, useful for
    * potentially bogus XML files to parse, this has a small perfs overhead so use it only when necessary
    *
-   * @param streamHandler              the xml stream handler
+   * @param streamHandler              the XML stream handler
    * @param isoControlCharsAwareParser true or false
    */
   public StaxParser(XmlStreamHandler streamHandler, boolean isoControlCharsAwareParser) {
@@ -66,9 +66,9 @@ public class StaxParser {
       wstxInputfactory.configureForLowMemUsage();
       wstxInputfactory.getConfig().setUndeclaredEntityResolver(new UndeclaredEntitiesXMLResolver());
     }
-    xmlFactory.setProperty(XMLInputFactory.IS_VALIDATING, false);
-    xmlFactory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-    xmlFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, false);
+    xmlFactory.setProperty(XMLInputFactory.IS_VALIDATING, Boolean.FALSE);
+    xmlFactory.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
+    xmlFactory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.FALSE);
     this.isoControlCharsAwareParser = isoControlCharsAwareParser;
     inf = new SMInputFactory(xmlFactory);
   }

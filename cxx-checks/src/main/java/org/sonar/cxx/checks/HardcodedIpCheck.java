@@ -1,18 +1,18 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -53,7 +53,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
 // IPv4 with port number
 //  (?:^|\s)([a-z]{3,6}(?=://))?(://)?((?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.(?:25[0-5]|2[0-4]\d|[01]?\d\d?))(?::(\d{2,5}))?(?:\s|$)
   private static final String DEFAULT_REGULAR_EXPRESSION = "^.*((?<![\\d|\\.])(?:\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b\\.){3}\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b(?!\\d|\\.)).*$";
-  private static Matcher IP = null;
+  private static Matcher IP;
 
   @RuleProperty(
     key = "regularExpression",
@@ -70,7 +70,7 @@ public class HardcodedIpCheck extends SquidCheck<Grammar> {
     String regEx = getRegularExpression();
     Objects.requireNonNull(regEx, "getRegularExpression() should not return null");
 
-    if (null != regEx && !regEx.isEmpty()) {
+    if (!regEx.isEmpty()) {
       try {
         IP = Pattern.compile(regEx).matcher("");
       } catch (RuntimeException e) {

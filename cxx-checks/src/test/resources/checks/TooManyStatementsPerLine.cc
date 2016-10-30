@@ -94,3 +94,9 @@ template <typename RBM, typename Trainer>
 void update_normal(RBM& rbm, Trainer& t) {
     using rbm_t = RBM; // OK
 }
+
+void testme()
+{
+// empty expression statement should not create an issue
+if(parameterSet->GetParameter<unsigned int>("OutputWidth", m_OutputSize0)); 
+}

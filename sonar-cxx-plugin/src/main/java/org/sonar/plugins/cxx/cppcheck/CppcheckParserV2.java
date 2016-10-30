@@ -84,6 +84,10 @@ public class CppcheckParserV2 implements CppcheckParser {
                   file = locationCursor.getAttrValue("file");
                   line = locationCursor.getAttrValue("line");
 
+                  if (file != null) {
+                    file = file.replace('\\','/');
+                  }
+
                   if ("*".equals(file)) { // findings on project level
                     file = null;
                     line = null;
