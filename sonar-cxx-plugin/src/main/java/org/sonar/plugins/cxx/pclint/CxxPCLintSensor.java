@@ -115,7 +115,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
       private boolean isInputValid(String file, String line, String id, String msg) {
         try {
-          if (file == null || file.isEmpty() || (Integer.valueOf(line) == 0)) {
+          if (file == null || file.isEmpty() || (Integer.parseInt(line) == 0)) {
             // issue for project or file level
             return id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
           }

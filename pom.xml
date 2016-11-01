@@ -20,7 +20,7 @@
 
   <name>Cxx</name>
   <url>https://github.com/SonarOpenCommunity/sonar-cxx</url>
-  <inceptionYear>2011</inceptionYear>
+  <inceptionYear>2010</inceptionYear>
   <organization>
     <name>SonarOpenCommunity</name>
   </organization>
@@ -112,22 +112,22 @@
     <developer>
       <id>mjdetullio</id>
       <name>Matthew DeTullio</name>
-      <email></email>
+      <email/>
     </developer>
     <developer>
       <id>felipebz</id>
       <name>Felipe Zorzo</name>
-      <email></email>
+      <email/>
     </developer>
     <developer>
       <id>selltc</id>
-      <name></name>
-      <email></email>
+      <name/>
+      <email/>
     </developer>
     <developer>
       <id>wichtounet</id>
       <name>Baptiste Wicht</name>
-      <email></email>
+      <email/>
     </developer>
     <developer>
       <id>arnaudsylvestre</id>
@@ -137,7 +137,7 @@
     <developer>
       <id>BobSilent</id>
       <name>BobSilent</name>
-      <email></email>
+      <email/>
     </developer>	
   </developers>
 
@@ -190,7 +190,6 @@
         <artifactId>sonar-plugin-api</artifactId>
         <version>${sonar.version}</version>
       </dependency>
-      
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-io</artifactId>
@@ -268,7 +267,7 @@
       <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.0.13</version>
+        <version>1.1.7</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -304,6 +303,7 @@
     </dependencies>
   </dependencyManagement>
   <build>
+    <!-- To define the plugin version in your parent POM -->
     <pluginManagement>
       <plugins>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
@@ -336,7 +336,20 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.16</version>
         </plugin>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>3.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
+    <!-- To use the plugin goals in your POM or parent POM -->
+    <plugins>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>3.0</version>
+      </plugin>
+    </plugins>      
   </build>
 </project>

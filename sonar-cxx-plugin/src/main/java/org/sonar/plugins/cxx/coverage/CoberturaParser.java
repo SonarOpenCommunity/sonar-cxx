@@ -98,7 +98,7 @@ public class CoberturaParser extends CxxCoverageParser {
 
       String isBranch = line.getAttrValue("branch");
       String text = line.getAttrValue("condition-coverage");
-      if ("true".equals(isBranch) && text != null && !text.trim().isEmpty()) {
+      if (text != null && "true".equals(isBranch) && !text.trim().isEmpty()) {
         Pattern p = Pattern.compile("\\((.*?)\\)");
         Matcher m = p.matcher(text);
         if (m.find()) {

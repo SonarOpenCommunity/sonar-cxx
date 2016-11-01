@@ -55,6 +55,20 @@ class A {
       }
 
       switch (var) {
+        case '0':
+          printf("Uses fallthrough");
+          int var2 = 1;
+          break;
+        case 1:
+        case 2:
+        default:
+          printf("Shall not create an issue");
+          break;
+      }	 
+    }
+    
+
+      switch (var) {
         case 0:
           return 0;
         case 1: /* fallthrough */

@@ -68,13 +68,7 @@ public class CxxProjectBuilder extends ProjectBuilder {
       Map<String,String> propsDef = definition.properties();
       for (Map.Entry<String,String> entry : propsDef.entrySet()) {
         vars.put(entry.getKey(), entry.getValue());
-      }
-    }
-
     // replace placeholders
-    for (ProjectDefinition definition : context.projectReactor().getProjects()) {
-      Map<String,String> propsDef = definition.properties();
-      for (Map.Entry<String,String> entry : propsDef.entrySet()) {
         String newValue = expandVariables(entry.getValue());
         if (!entry.getValue().equals(newValue)) {
           definition.setProperty(entry.getKey(), newValue);

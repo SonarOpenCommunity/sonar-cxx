@@ -1,18 +1,18 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -120,6 +120,10 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   }
 
   class Macro {
+    public String name;
+    public List<Token> params;
+    public List<Token> body;
+    public boolean isVariadic;
 
     public Macro(String name, List<Token> params, List<Token> body, boolean variadic) {
       this.name = name;
@@ -136,19 +140,16 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     }
 
     public boolean checkArgumentsCount(int count) {
-      return isVariadic == true
+      return isVariadic
         ? count >= params.size() - 1
         : count == params.size();
     }
 
-    public String name;
-    public List<Token> params;
-    public List<Token> body;
-    public boolean isVariadic;
+
   }
 
   private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
-  private Parser<Grammar> pplineParser = null;
+  private Parser<Grammar> pplineParser;
   private final MapChain<String, Macro> macros = new MapChain<>();
   private final Set<File> analysedFiles = new HashSet<>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
@@ -156,7 +157,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
   private CxxConfiguration conf;
-  private static final String variadicParameter = "__VA_ARGS__";
+  private static final String VARIADICPARAMETER = "__VA_ARGS__";
 
   public static class Include {
 
@@ -298,7 +299,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     return false;
   }
 
-  private File currentContextFile = null;
+  private File currentContextFile;
 
   @Override
   public PreprocessorAction process(List<Token> tokens) { //@todo: deprecated PreprocessorAction
@@ -655,7 +656,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
           LOG.trace("[{}:{}]: replacing '" + curr.getValue()
             + (tokensConsumed == 1
               ? ""
-              : serialize(tokens.subList(1, tokensConsumed))) + "' -> '" + serialize(replTokens) + "'",
+              : serialize(tokens.subList(1, tokensConsumed))) + "' -> '" + serialize(replTokens) + '\'',
             filename, curr.getLine());
         }
 
@@ -828,11 +829,9 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
-          if (tokenPastingRightOp) {
-            if (curr.getType() != WS && curr.getType() != HASHHASH) {
+          if (tokenPastingRightOp && curr.getType() != WS &&  curr.getType() != HASHHASH) {
               tokenPastingRightOp = false;
             }
-          }
           newTokens.add(curr);
         } else if (index == arguments.size()) {
           // EXTENSION: GCC's special meaning of token paste operator
@@ -887,7 +886,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
             }
           }
 
-          if (newValue.isEmpty() && variadicParameter.equals(curr.getValue())) {
+          if (newValue.isEmpty() && VARIADICPARAMETER.equals(curr.getValue())) {
             // the Visual C++ implementation will suppress a trailing comma
             // if no arguments are passed to the ellipsis
             for (int n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
@@ -947,7 +946,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     Iterator<Token> it = tokens.iterator();
     while (it.hasNext()) {
       Token curr = it.next();
-      if ("##".equals(curr.getValue())) {
+      if (curr.getValue() == "##") {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
         newTokens.add(Token.builder()
@@ -1092,7 +1091,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         .setLine(vaargs.getToken().getLine())
         .setColumn(vaargs.getToken().getColumn())
         .setURI(vaargs.getToken().getURI())
-        .setValueAndOriginalValue(variadicParameter)
+        .setValueAndOriginalValue(VARIADICPARAMETER)
         .setType(IDENTIFIER)
         .setGeneratedCode(true)
         .build()

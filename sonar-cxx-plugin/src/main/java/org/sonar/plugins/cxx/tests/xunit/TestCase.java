@@ -36,11 +36,11 @@ public class TestCase {
   private String status = STATUS_OK;
   private final String stackTrace;
   private final String errorMessage;
-  private int time = 0;
-  private String classname = null;
-  private String tcFilename = null;
-  private String tsName = null;
-  private String tsFilename = null;
+  private int time;
+  private String classname;
+  private String tcFilename;
+  private String tsName;
+  private String tsFilename;
 
   /**
    * Constructs a testcase instance out of following parameters
@@ -128,9 +128,9 @@ public class TestCase {
       .append(time)
       .append("\" name=\"")
       .append(name)
-      .append("\"");
+      .append('\"');
     if (isError() || isFailure()) {
-      details.append(">")
+      details.append('>')
         .append(isError() ? "<error message=\"" : "<failure message=\"")
         .append(StringEscapeUtils.escapeXml(errorMessage))
         .append("\"><![CDATA[")

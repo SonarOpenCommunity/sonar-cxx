@@ -69,6 +69,10 @@ public class CppcheckParserV1 implements CppcheckParser {
             String id = errorCursor.getAttrValue("id");
             String msg = errorCursor.getAttrValue("msg");
 
+            if (file != null) {
+              file = file.replace('\\','/');
+            }
+
             if ("*".equals(file)) { // findings on project level
               file = null;
               line = null;

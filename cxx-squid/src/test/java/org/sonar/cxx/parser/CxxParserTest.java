@@ -1,18 +1,18 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -66,9 +66,20 @@ public class CxxParserTest extends ParserBaseTest {
     conf.setErrorRecoveryEnabled(false);
     String baseDir = new File("src/test").getAbsolutePath();
     conf.setBaseDir(baseDir);
-    conf.setIncludeDirectories(Arrays.asList("resources"));
+    conf.setIncludeDirectories(Arrays.asList(
+        "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\INCLUDE",
+        "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\ATLMFC\\INCLUDE",
+        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\ucrt",
+        "C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\include\\um",
+        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\shared",
+        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\um",
+        "C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.10586.0\\winrt",
+        "C:\\Workspaces\\boost\\boost_1_61_0",
+        "resources",
+        "resources\\parser\\preprocessor")
+        );
     p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
-    Collection<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp"});
+    Collection<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
     for (File file : files) {
       p.parse(file);
       CxxParser.finishedParsing(file);

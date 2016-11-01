@@ -90,11 +90,9 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
   }
 
   private class PreprocessorDirectiveLocation extends TokenLocation {
-
-    private final Pattern r = Pattern.compile("^[ \t]*#[ \t]*\\w+");
-
     PreprocessorDirectiveLocation(Token token) {
       super(token);
+      Pattern r = Pattern.compile("^[ \t]*#[ \t]*\\w+");
       Matcher m = r.matcher(token.getValue());
       if (m.find()) {
         endLineOffset = startLineOffset + (m.end() - m.start());
@@ -127,9 +125,7 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
         highlight(new TokenLocation(token), TypeOfText.CONSTANT);
       } else if (token.getType() instanceof CxxKeyword) {
         highlight(new TokenLocation(token), TypeOfText.KEYWORD);
-      } else if (token.getType().equals(CxxTokenType.STRING)) {
-        highlight(new TokenLocation(token), TypeOfText.STRING);
-      } else if (token.getType().equals(CxxTokenType.CHARACTER)) {
+      } else if (token.getType().equals(CxxTokenType.STRING) || token.getType().equals(CxxTokenType.CHARACTER)) {
         highlight(new TokenLocation(token), TypeOfText.STRING);
       }
 

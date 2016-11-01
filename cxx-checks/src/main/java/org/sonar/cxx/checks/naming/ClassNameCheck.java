@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  * 
  * This program is free software; you can redistribute it and/or
@@ -47,7 +47,7 @@ public class ClassNameCheck extends SquidCheck<Grammar> {
     key = "format",
     defaultValue = "" + DEFAULT)
   public String format = DEFAULT;
-  private Pattern pattern = null;
+  private Pattern pattern;
 
   @Override
   public void init() {

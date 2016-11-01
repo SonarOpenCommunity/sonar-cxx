@@ -1,18 +1,18 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -100,7 +100,7 @@ public final class ExpressionEvaluator {
       String value = preprocessor.valueOf(exprAst.getTokenValue());
       return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
     } else {
-      throw new EvaluationException("Unknown expression type '" + nodeType.toString() + "'");
+      throw new EvaluationException("Unknown expression type '" + nodeType + "'");
     }
   }
 
@@ -150,7 +150,7 @@ public final class ExpressionEvaluator {
     } else if (CppGrammar.functionlikeMacro == nodeType) {
       return evalFunctionlikeMacro(exprAst);
     } else {
-      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType.toString() + "' for AstExt '" + exprAst.getToken() + "', assuming 0");
+      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
   }
@@ -275,7 +275,7 @@ public final class ExpressionEvaluator {
       } else if (CppPunctuator.GT_EQ == operatorType) {
         result = resultAsInt.compareTo(evalToInt(rhs)) >= 0;
       } else {
-        throw new EvaluationException("Unknown relational operator '" + operatorType.toString() + "'");
+        throw new EvaluationException("Unknown relational operator '" + operatorType + "'");
       }
     }
 
@@ -335,7 +335,7 @@ public final class ExpressionEvaluator {
       //todo: need more information (signed/unsigned, data type length) to invert bits in all cases correct
       return evalToInt(operand).not().and(UINT64_MAX);
     } else {
-      throw new EvaluationException("Unknown unary operator  '" + operatorType.toString() + "'");
+      throw new EvaluationException("Unknown unary operator  '" + operatorType + "'");
     }
   }
 
@@ -353,7 +353,7 @@ public final class ExpressionEvaluator {
       } else if (CppPunctuator.BW_RSHIFT == operatorType) {
         result = result.shiftRight(evalToInt(rhs).intValue());
       } else {
-        throw new EvaluationException("Unknown shift operator '" + operatorType.toString() + "'");
+        throw new EvaluationException("Unknown shift operator '" + operatorType + "'");
       }
     }
 
@@ -374,7 +374,7 @@ public final class ExpressionEvaluator {
       } else if (CppPunctuator.MINUS == operatorType) {
         result = result.subtract(evalToInt(rhs));
       } else {
-        throw new EvaluationException("Unknown additive operator '" + operatorType.toString() + "'");
+        throw new EvaluationException("Unknown additive operator '" + operatorType + "'");
       }
     }
 
@@ -397,7 +397,7 @@ public final class ExpressionEvaluator {
       } else if (CppPunctuator.MODULO == operatorType) {
         result = result.mod(evalToInt(rhs));
       } else {
-        throw new EvaluationException("Unknown multiplicative operator '" + operatorType.toString() + "'");
+        throw new EvaluationException("Unknown multiplicative operator '" + operatorType + "'");
       }
     }
 
@@ -484,7 +484,7 @@ public final class ExpressionEvaluator {
     }
 
     StringBuilder sb = new StringBuilder(number.length());
-    Boolean suffix = false;
+    boolean suffix = false;
     for (int index = begin; index < number.length() && !suffix; index++) {
       char c = number.charAt(index);
       switch (c) {

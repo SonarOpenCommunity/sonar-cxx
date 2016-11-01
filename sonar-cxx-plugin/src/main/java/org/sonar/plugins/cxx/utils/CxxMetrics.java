@@ -32,52 +32,52 @@ public class CxxMetrics implements Metrics {
 
   public static final Metric COMPILER = new Metric.Builder("CXX-COMPILER", "C++ compiler Warnings", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric CPPCHECK = new Metric.Builder("CXX-CPPCHECK", "CppCheck Errors", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric EXTERNAL = new Metric.Builder("CXX-EXTERNAL", "External C++ rules violations", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric PCLINT = new Metric.Builder("CXX-PCLINT", "PC-Lint errors", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric RATS = new Metric.Builder("CXX-RATS", "RATS issues", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric SQUID = new Metric.Builder("CXX-SQUID", "C++ checks", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric VALGRIND = new Metric.Builder("CXX-VALGRIND", "Valgrind errors", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric VERAXX = new Metric.Builder("CXX-VERAXX", "Vera++ rule violations", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric DEPENDENCIES = new Metric.Builder("CXX-DEPENDENCIES", "Cyclic dependency violations", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-    .setQualitative(true)
+    .setQualitative(Boolean.TRUE)
     .setDomain("C++")
     .create();
   public static final Metric DRMEMORY = new Metric.Builder("CXX-DRMEMORY", "Dr Memory errors", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
-	.setQualitative(true)
+	.setQualitative(Boolean.TRUE)
 	.setDomain("C++")
 	.create();
 

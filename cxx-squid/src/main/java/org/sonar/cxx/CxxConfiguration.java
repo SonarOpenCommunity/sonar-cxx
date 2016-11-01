@@ -1,18 +1,18 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 3 of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -36,10 +36,10 @@ import org.sonar.squidbridge.api.SquidConfiguration;
 public class CxxConfiguration extends SquidConfiguration {
 
   private static final Logger LOG = Loggers.get(CxxConfiguration.class);
-  public static final String OverallIncludeKey = "CxxOverallInclude";
-  public static final String OverallDefineKey = "CxxOverallDefine";
+  public static final String OVERALLINCLUDEKEY = "CxxOverallInclude";
+  public static final String OVERALLDEFINEKEY = "CxxOverallDefine";
 
-  private boolean ignoreHeaderComments = false;
+  private boolean ignoreHeaderComments;
   private final HashMap<String, List<String>> uniqueIncludes = new HashMap<>();
   private final HashMap<String, Set<String>> uniqueDefines = new HashMap<>();
   private List<String> forceIncludeFiles = new ArrayList<>();
@@ -53,22 +53,22 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public CxxConfiguration() {
     
-    uniqueIncludes.put(OverallIncludeKey, new ArrayList<String>());
-    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
+    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
   public CxxConfiguration(Charset encoding) {
     super(encoding);
-    uniqueIncludes.put(OverallIncludeKey, new ArrayList<String>());
-    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
+    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
   public CxxConfiguration(FileSystem fs) {
     super(fs.encoding());
-    uniqueIncludes.put(OverallIncludeKey, new ArrayList<String>());
-    uniqueDefines.put(OverallDefineKey, new HashSet<String>());
+    uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
+    uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
@@ -81,7 +81,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setDefines(List<String> defines) {
-    Set<String> overallDefs = uniqueDefines.get(OverallDefineKey);
+    Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
     for (String define : defines) {
       if (!overallDefs.contains(define)) {
         overallDefs.add(define);
@@ -90,7 +90,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
   
   public void addOverallDefine(String define) {
-    Set<String> overallDefs = uniqueDefines.get(OverallDefineKey);
+    Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
     if (!overallDefs.contains(define)) {
       overallDefs.add(define);
     }
@@ -117,7 +117,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setIncludeDirectories(List<String> includeDirectories) {
-    List<String> overallIncludes = uniqueIncludes.get(OverallIncludeKey);
+    List<String> overallIncludes = uniqueIncludes.get(OVERALLINCLUDEKEY);
     for (String include : includeDirectories) {
       if (!overallIncludes.contains(include)) {
         LOG.debug("setIncludeDirectories() adding dir '{}'", include);
@@ -127,7 +127,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
   
   public void addOverallIncludeDirectory(String includeDirectory) {
-    List<String> overallIncludes = uniqueIncludes.get(OverallIncludeKey);
+    List<String> overallIncludes = uniqueIncludes.get(OVERALLINCLUDEKEY);
     if (!overallIncludes.contains(includeDirectory)) {
       LOG.debug("setIncludeDirectories() adding dir '{}'", includeDirectory);
       overallIncludes.add(includeDirectory);
@@ -189,7 +189,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setCFilesPatterns(String[] cFilesPatterns) {
-    if (this.cFilesPatterns != null) {
+    if (cFilesPatterns != null) {
       this.cFilesPatterns = Arrays.asList(cFilesPatterns);
     }
   }
@@ -229,8 +229,9 @@ public class CxxConfiguration extends SquidConfiguration {
         if (LOG.isDebugEnabled()) {
           LOG.debug("Parse build log  file '{}'", buildLog.getAbsolutePath());
         }
-        if (fileFormat.equals("Visual C++")) {
+        if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
+          LOG.info("Parse build log '"+ buildLog.getAbsolutePath() +"' added includes: '"+ uniqueIncludes.size() +"', added defines: '" + uniqueDefines.size() + "'");
         }
 
         LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());

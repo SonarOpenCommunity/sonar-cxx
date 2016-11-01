@@ -31,3 +31,10 @@ class MissingCurlyBraces {
         } while (condition);
     }
 };
+
+void testme()
+{
+// empty expression statement should not create an issue
+if(parameterSet->GetParameter<unsigned int>("OutputWidth", m_OutputSize0)); 
+}
+
