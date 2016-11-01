@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  * 
  * This program is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.junit.Rule;
+import org.junit.Test;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.squidbridge.api.SourceFile;
 import org.sonar.squidbridge.checks.CheckMessagesVerifierRule;
@@ -32,7 +33,7 @@ public class CommentedCodeCheckTest {
   @Rule
   public CheckMessagesVerifierRule checkMessagesVerifier = new CheckMessagesVerifierRule();
 
-  // @Test
+  @Test
   public void test() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/commentedCode.cc", ".");       
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new CommentedCodeCheck());
