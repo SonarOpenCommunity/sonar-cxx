@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2011-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2016 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  * 
  * This program is free software; you can redistribute it and/or
@@ -78,7 +78,9 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
         && !trivia.getToken().getOriginalValue().startsWith("///")
         && !trivia.getToken().getOriginalValue().startsWith("//!")
         && !trivia.getToken().getOriginalValue().startsWith("/**")
-        && !trivia.getToken().getOriginalValue().startsWith("/*!")) {
+        && !trivia.getToken().getOriginalValue().startsWith("/*!")
+        && !trivia.getToken().getOriginalValue().startsWith("/*@")
+        && !trivia.getToken().getOriginalValue().startsWith("//@")) {
         String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(
           trivia.getToken().getOriginalValue()));
 
