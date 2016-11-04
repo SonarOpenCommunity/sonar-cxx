@@ -71,6 +71,7 @@ public final class CxxPlugin implements Plugin {
   public static final String FORCE_INCLUDE_FILES_KEY = "sonar.cxx.forceIncludes";
   public static final String C_FILES_PATTERNS_KEY = "sonar.cxx.cFilesPatterns";
   public static final String MISSING_INCLUDE_WARN = "sonar.cxx.missingIncludeWarnings";
+  public static final String JSON_COMPILATION_DATABASE_KEY = "sonar.cxx.jsonCompilationDatabase";
   public static final String CPD_IGNORE_LITERALS_KEY = "sonar.cxx.cpd.ignoreLiterals";
   public static final String CPD_IGNORE_IDENTIFIERS_KEY = "sonar.cxx.cpd.ignoreIdentifiers";
       
@@ -142,6 +143,13 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
       .index(8)
+      .build(),
+      PropertyDefinition.builder(CxxPlugin.JSON_COMPILATION_DATABASE_KEY)
+      .subCategory(subcateg)
+      .name("JSON Compilation Database")
+      .description("JSON Compilation Database file to use as specification for what defines and includes should be used for source files.")
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(9)
       .build()
     ));
   }

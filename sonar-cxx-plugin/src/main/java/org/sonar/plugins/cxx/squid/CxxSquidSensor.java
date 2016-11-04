@@ -20,6 +20,7 @@
 package org.sonar.plugins.cxx.squid;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.annotation.Nullable;
+import javax.xml.stream.XMLStreamException;
 
 import org.sonar.api.batch.sensor.Sensor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -55,6 +57,9 @@ import org.sonar.squidbridge.api.SourceFunction;
 import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sonar.sslr.api.Grammar;
 import java.util.HashMap;
 import java.util.Map;
@@ -159,6 +164,19 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setCFilesPatterns(settings.getStringArray(CxxPlugin.C_FILES_PATTERNS_KEY));
     cxxConf.setHeaderFileSuffixes(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
     cxxConf.setMissingIncludeWarningsEnabled(settings.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
+    cxxConf.setJsonCompilationDatabaseFile(settings.getString(CxxPlugin.JSON_COMPILATION_DATABASE_KEY));
+
+    if (cxxConf.getJsonCompilationDatabaseFile() != null) {
+      try {
+        new org.sonar.plugins.cxx.utils.JsonCompilationDatabase(cxxConf, new File(cxxConf.getJsonCompilationDatabaseFile()));
+      } catch (JsonParseException e) {
+        e.printStackTrace();
+      } catch (JsonMappingException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
 
     String filePaths = settings.getString(CxxCompilerSensor.REPORT_PATH_KEY);
     if (filePaths != null && !"".equals(filePaths)) {

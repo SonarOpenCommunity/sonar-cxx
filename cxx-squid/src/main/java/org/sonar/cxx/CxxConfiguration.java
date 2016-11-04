@@ -49,7 +49,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
-  private String specFile = null;
+  private String jsonCompilationDatabaseFile = null;
   private CxxCompilationUnitSettings globalCompilationUnitSettings = null;
   private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
@@ -220,12 +220,12 @@ public class CxxConfiguration extends SquidConfiguration {
     return this.missingIncludeWarningsEnabled;
   }
 
-  public String getSpecFile() {
-	return specFile;
+  public String getJsonCompilationDatabaseFile() {
+	return jsonCompilationDatabaseFile;
   }
 
-  public void setSpecFile(String specFile) {
-    this.specFile = specFile;
+  public void setJsonCompilationDatabaseFile(String jsonCompilationDatabaseFile) {
+    this.jsonCompilationDatabaseFile = jsonCompilationDatabaseFile;
   }
 
   public CxxCompilationUnitSettings getGlobalCompilationUnitSettings() {
