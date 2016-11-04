@@ -131,17 +131,23 @@ public final class CxxSquidSensor implements Sensor {
     visitors.add(new FileLinesVisitor(fileLinesContextFactory, context.fileSystem(), linesOfCode));
     visitors.add(new CxxCpdVisitor(context, settings.getBoolean(CxxPlugin.CPD_IGNORE_LITERALS_KEY), settings.getBoolean(CxxPlugin.CPD_IGNORE_IDENTIFIERS_KEY)));
     
-    this.scanner = CxxAstScanner.create(createConfiguration(context.fileSystem(), settings), context,
+    CxxConfiguration cxxConf = createConfiguration(context.fileSystem(), settings);
+    this.scanner = CxxAstScanner.create(cxxConf, context,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
-    Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
-            .and(context.fileSystem().predicates()
-                    .hasLanguage(CxxLanguage.KEY), context.fileSystem().predicates()
-                            .hasType(InputFile.Type.MAIN)));
-    
-    List<File> files = new ArrayList<>();
-    for(InputFile file : inputFiles) {
-      files.add(file.file());
+    List<File> files;
+    if (cxxConf.isScanOnlySpecifiedSources()) {
+      files = cxxConf.getCompilationUnitSourceFiles();
+    } else {
+      Iterable<InputFile> inputFiles = context.fileSystem().inputFiles(context.fileSystem().predicates()
+              .and(context.fileSystem().predicates()
+                      .hasLanguage(CxxLanguage.KEY), context.fileSystem().predicates()
+                              .hasType(InputFile.Type.MAIN)));
+
+      files = new ArrayList<>();
+      for(InputFile file : inputFiles) {
+        files.add(file.file());
+      }
     }
     scanner.scanFiles(files);
     
@@ -165,6 +171,7 @@ public final class CxxSquidSensor implements Sensor {
     cxxConf.setHeaderFileSuffixes(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY));
     cxxConf.setMissingIncludeWarningsEnabled(settings.getBoolean(CxxPlugin.MISSING_INCLUDE_WARN));
     cxxConf.setJsonCompilationDatabaseFile(settings.getString(CxxPlugin.JSON_COMPILATION_DATABASE_KEY));
+    cxxConf.setScanOnlySpecifiedSources(settings.getBoolean(CxxPlugin.SCAN_ONLY_SPECIFIED_SOURCES_KEY));
 
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
       try {

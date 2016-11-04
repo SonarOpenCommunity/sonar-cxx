@@ -50,6 +50,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
   private String jsonCompilationDatabaseFile = null;
+  private boolean scanOnlySpecifiedSources = false;
   private CxxCompilationUnitSettings globalCompilationUnitSettings = null;
   private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
@@ -226,6 +227,14 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public void setJsonCompilationDatabaseFile(String jsonCompilationDatabaseFile) {
     this.jsonCompilationDatabaseFile = jsonCompilationDatabaseFile;
+  }
+
+  public boolean isScanOnlySpecifiedSources() {
+    return scanOnlySpecifiedSources;
+  }
+
+  public void setScanOnlySpecifiedSources(boolean scanOnlySpecifiedSources) {
+    this.scanOnlySpecifiedSources = scanOnlySpecifiedSources;
   }
 
   public CxxCompilationUnitSettings getGlobalCompilationUnitSettings() {
