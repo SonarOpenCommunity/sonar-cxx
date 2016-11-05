@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.issue.Issue;
+import org.sonar.plugins.cxx.CxxPlugin;
 
 public class CxxPCLintSensorTest {
   private DefaultFileSystem fs;
@@ -96,6 +97,7 @@ public class CxxPCLintSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-desc.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
     CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
     sensor.execute(context);
@@ -107,6 +109,7 @@ public class CxxPCLintSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     Settings settings = new Settings();
     settings.setProperty(CxxPCLintSensor.REPORT_PATH_KEY, "pclint-reports/incorrect-pclint-MISRA2004-rule-do-not-exist.xml");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "test.c").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
     CxxPCLintSensor sensor = new CxxPCLintSensor(settings);
     sensor.execute(context);
