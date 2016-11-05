@@ -84,7 +84,7 @@ public abstract class CxxReportSensor implements Sensor {
           LOG.debug("{} processed = {}", metric == null ? "Issues" : metric.getName(),
              violationsCount - prevViolationsCount);
         } catch (EmptyReportException e) {
-          LOG.error("The report '{}' seems to be empty.", report);
+          LOG.warn("The report '{}' seems to be empty, ignoring.", report);
           CxxUtils.ValidateRecovery(e, settings);
         }
       }
