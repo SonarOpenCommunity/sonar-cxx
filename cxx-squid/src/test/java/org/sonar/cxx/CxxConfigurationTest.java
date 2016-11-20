@@ -84,7 +84,7 @@ public class CxxConfigurationTest {
     ValidateDefaultAsserts(defines);
     Assertions.assertThat(defines.contains("_OPENMP 200203")).isTrue();
     Assertions.assertThat(defines.contains("_WIN32")).isTrue();
-    Assertions.assertThat(defines.contains("_M_IX86")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
     Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
     Assertions.assertThat(defines.contains("_WCHAR_T_DEFINED 1")).isTrue();
     Assertions.assertThat(defines.contains("_NATIVE_WCHAR_T_DEFINED 1")).isTrue();
@@ -123,7 +123,7 @@ public class CxxConfigurationTest {
     Assertions.assertThat(defines.contains("_Wp64")).isTrue();
     Assertions.assertThat(defines.contains("_WIN32")).isTrue();
     Assertions.assertThat(defines.contains("_WIN64")).isTrue();
-    Assertions.assertThat(defines.contains("_M_X64")).isTrue();
+    Assertions.assertThat(defines.contains("_M_X64 100")).isTrue();
     Assertions.assertThat(defines.contains("_M_IX86")).isFalse();
     Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
   }
@@ -141,7 +141,7 @@ public class CxxConfigurationTest {
     assertThat(defines.size()).isEqualTo(12 + 6);
     ValidateDefaultAsserts(defines);
     Assertions.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    Assertions.assertThat(defines.contains("_M_IX86")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
     Assertions.assertThat(defines.contains("_WIN32")).isTrue();
     Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
   }
@@ -156,11 +156,11 @@ public class CxxConfigurationTest {
 
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     List<String> defines = config.getDefines();
-    assertThat(defines.size()).isEqualTo(13 + 6);
+    assertThat(defines.size()).isEqualTo(13 + 5);
     ValidateDefaultAsserts(defines);
     Assertions.assertThat(defines.contains("__cplusplus_winrt 201009")).isTrue();
     Assertions.assertThat(defines.contains("_CPPUNWIND")).isTrue();
-    Assertions.assertThat(defines.contains("_M_IX86")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
     Assertions.assertThat(defines.contains("_WIN32")).isTrue();
     Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_VER 1700")).isTrue();
@@ -180,13 +180,13 @@ public class CxxConfigurationTest {
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 6);
     ValidateDefaultAsserts(defines);
-    Assertions.assertThat(defines.contains("__AVX2__")).isTrue();
-    Assertions.assertThat(defines.contains("__AVX__")).isTrue();
+    Assertions.assertThat(defines.contains("__AVX2__ 1")).isTrue();
+    Assertions.assertThat(defines.contains("__AVX__ 1")).isTrue();
     Assertions.assertThat(defines.contains("__cplusplus_winrt 201009")).isTrue();
     Assertions.assertThat(defines.contains("_CPPUNWIND")).isTrue();
     Assertions.assertThat(defines.contains("_M_ARM_FP")).isTrue();
     Assertions.assertThat(defines.contains("_WIN32")).isTrue();
-    Assertions.assertThat(defines.contains("_M_IX86")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
     Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_VER 1800")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_FULL_VER 180031101")).isTrue();
@@ -205,18 +205,57 @@ public class CxxConfigurationTest {
     List<String> defines = config.getDefines();
     assertThat(defines.size()).isEqualTo(15 + 6);
     ValidateDefaultAsserts(defines);
-    Assertions.assertThat(defines.contains("__AVX2__")).isTrue();
-    Assertions.assertThat(defines.contains("__AVX__")).isTrue();
+    Assertions.assertThat(defines.contains("__AVX2__ 1")).isTrue();
+    Assertions.assertThat(defines.contains("__AVX__ 1")).isTrue();
     Assertions.assertThat(defines.contains("__cplusplus_winrt 201009")).isTrue();
     Assertions.assertThat(defines.contains("_CPPUNWIND")).isTrue();
     Assertions.assertThat(defines.contains("_M_ARM_FP")).isTrue();
-    Assertions.assertThat(defines.contains("_M_IX86")).isTrue();
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();
     Assertions.assertThat(defines.contains("_M_IX86_FP 2")).isTrue();
     Assertions.assertThat(defines.contains("_MSC_VER 1900")).isTrue();
-    Assertions.assertThat(defines.contains("_MSC_FULL_VER 190022816")).isTrue();
-    Assertions.assertThat(defines.contains("_ATL_VER 0x0C00")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_FULL_VER 190024215")).isTrue();
+    Assertions.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
   }
-  
+
+  @Test
+  public void shouldHandleSpecificV141x86OptionsCorrectly() {
+    CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
+    List<File> files = new ArrayList<>();
+    files.add(new File("src/test/resources/compiler/platformToolsetv141x86.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = config.getDefines();
+    assertThat(defines.size()).isEqualTo(15 + 12);
+    ValidateDefaultAsserts(defines);
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isTrue();    
+    Assertions.assertThat(defines.contains("__cplusplus 199711L")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
+    // check atldef.h for _ATL_VER
+    Assertions.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+  }
+
+  @Test
+  public void shouldHandleSpecificV141x64OptionsCorrectly() {
+    CxxConfiguration config = new CxxConfiguration();
+    config.setBaseDir(".");
+    List<File> files = new ArrayList<>();
+    files.add(new File("src/test/resources/compiler/platformToolsetv141x64.txt"));
+    config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
+
+    assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
+    List<String> defines = config.getDefines();
+    assertThat(defines.size()).isEqualTo(15 + 14);
+    ValidateDefaultAsserts(defines);
+    Assertions.assertThat(defines.contains("_M_IX86 600")).isFalse();
+    Assertions.assertThat(defines.contains("__cplusplus 199711L")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_VER 1910")).isTrue();
+    Assertions.assertThat(defines.contains("_MSC_FULL_VER 191024629")).isTrue();
+    // check atldef.h for _ATL_VER
+    Assertions.assertThat(defines.contains("_ATL_VER 0x0E00")).isTrue();
+  }
   @Test
   public void shouldHandleBuildLog() {
     CxxConfiguration config = new CxxConfiguration();

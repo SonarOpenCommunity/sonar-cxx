@@ -1,0 +1,38 @@
+Build started 11/20/2016 10:00:15 AM.
+Project "C:\visual studio 2017\Projects\test_VS2017\test_VS2017.sln" on node 1 (rebuild target(s)).
+ValidateSolutionConfiguration:
+  Building solution configuration "Release|x64".
+Project "C:\visual studio 2017\Projects\test_VS2017\test_VS2017.sln" (1) is building "C:\visual studio 2017\Projects\test_VS2017\test_VS2017\test_VS2017.vcxproj" (2) on node 1 (Rebuild target(s)).
+_PrepareForClean:
+  Deleting file "x64\Release\test_VS2017.tlog\test_VS2017.lastbuildstate".
+InitializeBuildStatus:
+  Touching "x64\Release\test_VS2017.tlog\unsuccessfulbuild".
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.10.24629\bin\HostX86\x64\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:classic /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yc"stdafx.h" /Fp"x64\Release\test_VS2017.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc141.pdb" /Gd /TP /errorReport:queue stdafx.cpp
+  stdafx.cpp
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.10.24629\bin\HostX86\x64\CL.exe /c /Zi /nologo /W3 /WX- /diagnostics:classic /O2 /Oi /GL /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Yu"stdafx.h" /Fp"x64\Release\test_VS2017.pch" /Fo"x64\Release\\" /Fd"x64\Release\vc141.pdb" /Gd /TP /errorReport:queue test_VS2017.cpp
+  test_VS2017.cpp
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\10\bin\x86\rc.exe /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /nologo /fo"x64\Release\test_VS2017.res" test_VS2017.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.10.24629\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\visual studio 2017\Projects\test_VS2017\x64\Release\test_VS2017.exe" /INCREMENTAL:NO /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\\Common7\IDE\VC\VCTargets\..\..\..\..\VC\Tools\MSVC\14.10.24629\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\visual studio 2017\Projects\test_VS2017\x64\Release\test_VS2017.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\visual studio 2017\Projects\test_VS2017\x64\Release\test_VS2017.lib" /MACHINE:X64 x64\Release\test_VS2017.res
+  x64\Release\stdafx.obj
+  x64\Release\test_VS2017.obj
+  Generating code
+  All 118 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  test_VS2017.vcxproj -> C:\visual studio 2017\Projects\test_VS2017\x64\Release\test_VS2017.exe
+  test_VS2017.vcxproj -> C:\visual studio 2017\Projects\test_VS2017\x64\Release\test_VS2017.pdb (Full PDB)
+FinalizeBuildStatus:
+  Deleting file "x64\Release\test_VS2017.tlog\unsuccessfulbuild".
+  Touching "x64\Release\test_VS2017.tlog\test_VS2017.lastbuildstate".
+Done Building Project "C:\visual studio 2017\Projects\test_VS2017\test_VS2017\test_VS2017.vcxproj" (Rebuild target(s)).
+
+Done Building Project "C:\visual studio 2017\Projects\test_VS2017\test_VS2017.sln" (rebuild target(s)).
+
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:11.23
