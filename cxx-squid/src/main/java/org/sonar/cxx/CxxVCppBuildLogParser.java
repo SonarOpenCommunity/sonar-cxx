@@ -117,16 +117,20 @@ public class CxxVCppBuildLogParser {
           platformToolset = "V110";
         } else if (line.contains("\\V120\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 12.0\\VC\\bin\\CL.exe")) {
           platformToolset = "V120";
-        } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe")) {
+        } else if (line.contains("\\V140\\Microsoft.CppBuild.targets") || 
+                   line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\CL.exe") ||
+                   line.contains("Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\cl.exe")) {
           platformToolset = "V140";
+        } else if (line.contains("\\V141\\Microsoft.CppBuild.targets") || 
+                   line.matches("^.*VC\\\\Tools\\\\MSVC\\\\14.10.*\\\\bin\\\\HostX..\\\\x..\\\\CL.exe.*$")) {
+          platformToolset = "V141";
         }
-
           // 1>Task "Message"
         // 1>  Configuration=Debug
         // 1>Done executing task "Message".
         // 1>Task "Message"
         //1>  Platform=Win32         
-        if (line.trim().endsWith("Platform=x64")) {
+        if (line.trim().endsWith("Platform=x64") || line.trim().matches("Building solution configuration \".*\\|x64\".")) {
           platform = "x64";
         }
         // match "bin\CL.exe", "bin\amd64\CL.exe", "bin\x86_amd64\CL.exe"
@@ -191,6 +195,8 @@ public class CxxVCppBuildLogParser {
       ParseV120CompilerOptions(line, fileElement);
     } else if ("V140".equals(platformToolset)) {
       ParseV140CompilerOptions(line, fileElement);
+    } else if ("V141".equals(platformToolset)) {
+      ParseV141CompilerOptions(line, fileElement);
     }
   }
 
@@ -238,6 +244,12 @@ public class CxxVCppBuildLogParser {
     if (!definesPerUnit.contains(macro)) {
       definesPerUnit.add(macro);
     }
+  }
+
+  private boolean existMacro(String macroElem, String file) {
+    Set<String> definesPerUnit = uniqueDefines.get(file);
+    String macro = macroElem.replace('=', ' ');
+    return definesPerUnit.contains(macro);
   }
 
   private void ParseCommonCompilerOptions(String line, String fileElement) {
@@ -288,11 +300,13 @@ public class CxxVCppBuildLogParser {
     if (line.contains("/arch:SSE")) {
       addMacro("_M_IX86_FP=1", fileElement);
     }
-    if (line.contains("/arch:AVX")) {
-      addMacro("__AVX__", fileElement);
+    //arch:ARMv7VE or /arch:VFPv4
+    if (line.contains("/arch:ARMv7VE")) {
+      addMacro("_M_ARM=7", fileElement);
+      addMacro("_M_ARM_ARMV7VE=1", fileElement);
     }
-    if (line.contains("/arch:AVX2")) {
-      addMacro("__AVX2__", fileElement);
+    if (line.contains("/arch:VFPv4")) {
+      addMacro("_M_ARM=7", fileElement);
     }
     // WinCE and WinRT
     // see https://en.wikipedia.org/wiki/ARM_architecture
@@ -314,7 +328,7 @@ public class CxxVCppBuildLogParser {
 
     //_CHAR_UNSIGNED Default char type is unsigned. Defined when /J is specified.
     if (line.contains("/J ")) {
-      addMacro("_CHAR_UNSIGNED", fileElement);
+      addMacro("_CHAR_UNSIGNED=1", fileElement);
     }
 
     //_CPPRTTI Defined for code compiled with /GR (Enable Run-Time Type Information).
@@ -410,14 +424,14 @@ public class CxxVCppBuildLogParser {
       addMacro("_WIN32", fileElement);
       // This is not defined for x86 processors.
       addMacro("_WIN64", fileElement);
-      addMacro("_M_X64", fileElement);
+      addMacro("_M_X64=100", fileElement);
       addMacro("_M_IA64", fileElement);
       addMacro("_M_AMD64", fileElement);
-    } else if ("Win32".equals(platform) || line.contains("/D WIN32")) {
+    } else if ("Win32".equals(platform)) {
       // Defined for compilations that target x86 processors. 
       addMacro("_WIN32", fileElement);
       //This is not defined for x64 processors.
-      addMacro("_M_IX86", fileElement);
+      addMacro("_M_IX86=600", fileElement);
     }
     // VC++ 17.0, 18.0, 19.0
     // _CPPUNWIND Defined for code compiled by using one of the /EH (Exception Handling Model) flags.
@@ -426,6 +440,15 @@ public class CxxVCppBuildLogParser {
       || line.contains("/EHsc ")
       || line.contains("/EHac ")) {
       addMacro("_CPPUNWIND", fileElement);
+    }
+    if (line.contains("/favor:ATOM") && (existMacro("_M_X64 100", fileElement) || existMacro("_M_IX86 600", fileElement))) {
+      addMacro("__ATOM__=1", fileElement);
+    }
+    if (line.contains("/arch:AVX") && (existMacro("_M_X64 100", fileElement) || existMacro("_M_IX86 600", fileElement))) {
+      addMacro("__AVX__=1", fileElement);
+    }
+    if (line.contains("/arch:AVX2") && (existMacro("_M_X64 100", fileElement) || existMacro("_M_IX86 600", fileElement))) {
+      addMacro("__AVX2__=1", fileElement);
     }
   }
 
@@ -458,7 +481,7 @@ public class CxxVCppBuildLogParser {
     addMacro("_MSC_VER=1700", fileElement);
     // VS2012 Update 4
     addMacro("_MSC_FULL_VER=1700610301", fileElement);
-    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2013, _MFC_VER is defined as 0x0C00.
+    //_MFC_VER Defines the MFC version (see afxver_.h)
     addMacro("_MFC_VER=0x0B00", fileElement);
     addMacro("_ATL_VER=0x0B00", fileElement);
   }
@@ -473,7 +496,7 @@ public class CxxVCppBuildLogParser {
     addMacro("_MSC_VER=1800", fileElement);
     // VS2013 Update 4
     addMacro("_MSC_FULL_VER=180031101", fileElement);
-    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2013, _MFC_VER is defined as 0x0C00.
+    //_MFC_VER Defines the MFC version (see afxver_.h)
     addMacro("_MFC_VER=0x0C00", fileElement);
     addMacro("_ATL_VER=0x0C00", fileElement);
   }
@@ -486,11 +509,26 @@ public class CxxVCppBuildLogParser {
       addMacro(CPPWINRTVERSION, fileElement);
     }
     addMacro("_MSC_VER=1900", fileElement);
-    // VS2015 RC
-    addMacro("_MSC_FULL_VER=190022816", fileElement);
-    //_MFC_VER Defines the MFC version. For example, in Visual Studio 2013, _MFC_VER is defined as 0x0C00.
-    addMacro("_MFC_VER=0x0C00", fileElement);
-    addMacro("_ATL_VER=0x0C00", fileElement);
+    // VS2015 Update 3 V19.00.24215.1
+    addMacro("_MSC_FULL_VER=190024215", fileElement);
+    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MFC_VER=0x0E00", fileElement);
+    addMacro("_ATL_VER=0x0E00", fileElement);
   }
+
+  private void ParseV141CompilerOptions(String line, String fileElement) {
+    // VC++ V19.1 - VS2017 (V15.0)
+    addMacro(CPPVERSION, fileElement);
+    // __cplusplus_winrt Defined when you use the /ZW option to compile. The value of __cplusplus_winrt is 201009.
+    if (line.contains("/ZW ")) {
+      addMacro(CPPWINRTVERSION, fileElement);
+    }
+    addMacro("_MSC_VER=1910", fileElement);
+    // VS2017 RC
+    addMacro("_MSC_FULL_VER=191024629", fileElement);
+    //_MFC_VER Defines the MFC version (see afxver_.h)
+    addMacro("_MFC_VER=0x0E00", fileElement);
+    addMacro("_ATL_VER=0x0E00", fileElement);
+  }  
 }
 
