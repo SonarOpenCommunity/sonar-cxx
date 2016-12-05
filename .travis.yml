@@ -20,7 +20,7 @@ addons:
      hosts:
         - myshorthost
      hostname: myshorthost
-  
+ 
 before_install:
         - cat /etc/hosts # optionally check the content
         - travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
