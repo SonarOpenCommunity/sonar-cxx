@@ -8,7 +8,7 @@ env:
         - SONARHOME=/tmp/sonarqube-6.0
         - SONARHOME=/tmp/sonarqube-6.1
         - SONARHOME=/tmp/sonarqube-6.2-RC2
-  
+
 matrix:
     fast_finished: true
     allow_failures:
