@@ -2,6 +2,7 @@ version: '{build}'
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
+      Remove-Item -Recurse -Force "C:\maven"
       if (!(Test-Path -Path "C:\maven" )) {
         (new-object System.Net.WebClient).DownloadFile(
           'http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip',
@@ -37,6 +38,7 @@ install:
         $env:VCVARS_PLATFORM="amd64"
         $env:LANG_PLATFORM="-x64"
       }
+  - cmd: SET    
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;%JAVA_HOME%\bin;C:\sonar-scanner\sonar-scanner-2.8\bin;%PATH%
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: SET MAVEN_HOME=C:\maven\apache-maven-3.2.5
@@ -58,7 +60,6 @@ build_script:
   - mvn clean install
   - C:\Python27\Scripts\behave.exe --no-capture
 cache:
-  - C:\maven\
   - C:\Users\appveyor\.m2
 artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
