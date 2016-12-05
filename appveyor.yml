@@ -2,14 +2,16 @@ version: '{build}'
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
-      Remove-Item -Recurse -Force "C:\maven"
-      if (!(Test-Path -Path "C:\maven" )) {
-        (new-object System.Net.WebClient).DownloadFile(
-          'http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip',
-          'C:\maven-bin.zip'
-        )
-        [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
+      if ((Test-Path -Path "C:\maven" )) {
+        Remove-Item -Recurse -Force "C:\maven"
       }
+            
+      (new-object System.Net.WebClient).DownloadFile(
+        'http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip',
+        'C:\maven-bin.zip'
+      )
+      [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\maven-bin.zip", "C:\maven")
+
       if (!(Test-Path -Path "C:\sonar-scanner" )) {
         (new-object System.Net.WebClient).DownloadFile(
           'https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.8.zip',
