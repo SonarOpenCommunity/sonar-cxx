@@ -343,6 +343,15 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
+      PropertyDefinition.builder(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
+      .defaultValue("False")
+      .name("Enable Force Zero Coverage")
+      .description("Set files without coverage reports to zero coverage. Default is 'False'.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .type(PropertyType.BOOLEAN)
+      .index(4)
+      .build(),      
       PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
@@ -350,7 +359,7 @@ public final class CxxPlugin implements Plugin {
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(5)
+      .index(6)
       .build(),
       PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
       .name("XSLT transformer")
@@ -358,22 +367,22 @@ public final class CxxPlugin implements Plugin {
         + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(6)
+      .index(7)
       .build(),
       PropertyDefinition.builder(CxxUnitTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
       .name("Visual Studio Test Reports Paths")
       .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(8)
+      .index(9)
       .build(),
       PropertyDefinition.builder(CxxUnitTestResultsProvider.NUNIT_TEST_RESULTS_PROPERTY_KEY)
       .name("Nunit Test Reports Paths")
       .description("Example: \"nunit.xml\", \"nunit1.xml,nunit2.xml\" or \"C:/nunit.xml\"")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
-      .index(9)
-      .build()
+      .index(10)
+      .build()      
     ));
   }
 

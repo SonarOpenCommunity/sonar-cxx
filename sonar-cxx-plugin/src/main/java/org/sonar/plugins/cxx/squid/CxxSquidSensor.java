@@ -56,14 +56,21 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 import com.sonar.sslr.api.Grammar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.ce.measure.RangeDistributionBuilder;
+import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.parser.CxxParser;
+import org.sonar.plugins.cxx.CxxPlugin.CxxCoverageAggregator;
+import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
 import org.sonar.plugins.cxx.cpd.CxxCpdVisitor;
 import org.sonar.plugins.cxx.highlighter.CxxHighlighter;
+import org.sonar.plugins.cxx.metrics.FileLinesVisitor;
 
 
 /**
@@ -74,6 +81,7 @@ public final class CxxSquidSensor implements Sensor {
   private static final Number[] LIMITS_COMPLEXITY_METHODS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] LIMITS_COMPLEXITY_FILES = {0, 5, 10, 20, 30, 60, 90};
 
+  private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
   private ActiveRules rules;
 
@@ -84,18 +92,19 @@ public final class CxxSquidSensor implements Sensor {
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(Settings settings, CheckFactory checkFactory, ActiveRules rules) {
-    this(settings, checkFactory, rules, null);    
+  public CxxSquidSensor(Settings settings, FileLinesContextFactory fileLinesContextFactory, CheckFactory checkFactory, ActiveRules rules) {
+    this(settings, fileLinesContextFactory, checkFactory, rules, null);    
   }
   
   /**
    * {@inheritDoc}
    */
-  public CxxSquidSensor(Settings settings, CheckFactory checkFactory, ActiveRules rules,
+  public CxxSquidSensor(Settings settings, FileLinesContextFactory fileLinesContextFactory, CheckFactory checkFactory, ActiveRules rules,
     @Nullable CustomCxxRulesDefinition[] customRulesDefinition) {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
       .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
       .addCustomChecks(customRulesDefinition);
+    this.fileLinesContextFactory = fileLinesContextFactory;
     this.rules = rules;
     this.settings = settings;
   }
@@ -110,9 +119,13 @@ public final class CxxSquidSensor implements Sensor {
    */
   @Override
   public void execute(SensorContext context) {       
+    Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
+        
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighter(context));
+    visitors.add(new FileLinesVisitor(fileLinesContextFactory, context.fileSystem(), linesOfCode));
     visitors.add(new CxxCpdVisitor(context, settings.getBoolean(CxxPlugin.CPD_IGNORE_LITERALS_KEY), settings.getBoolean(CxxPlugin.CPD_IGNORE_IDENTIFIERS_KEY)));
+    
     this.scanner = CxxAstScanner.create(createConfiguration(context.fileSystem(), settings), context,
       visitors.toArray(new SquidAstVisitor[visitors.size()]));
 
@@ -126,6 +139,8 @@ public final class CxxSquidSensor implements Sensor {
       files.add(file.file());
     }
     scanner.scanFiles(files);
+    
+    (new CxxCoverageSensor(settings, new CxxCoverageAggregator())).execute(context, linesOfCode);
     
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles, context);

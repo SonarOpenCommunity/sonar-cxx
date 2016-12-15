@@ -19,6 +19,9 @@
  */
 package org.sonar.plugins.cxx.coverage;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
@@ -29,6 +32,7 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
@@ -54,8 +58,11 @@ public class CxxCoverageSensorTest {
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    
+    Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
     sensor = new CxxCoverageSensor(settings, new CxxCoverageAggregator());
-    sensor.execute(context);
+    sensor.execute(context, linesOfCode);
+    
     assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isEqualTo(1);
     assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 3)).isEqualTo(4);
     assertThat(context.lineHits("myProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 2)).isEqualTo(0);
@@ -127,8 +134,9 @@ public class CxxCoverageSensorTest {
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "project2/source1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "project2/source2.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
 
+    Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
     sensor = new CxxCoverageSensor(settings, new CxxCoverageCache());
-    sensor.execute(context);
+    sensor.execute(context, linesOfCode);
     assertThat(context.lineHits("myProjectKey:project1/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(0);
     assertThat(context.lineHits("myProjectKey:project2/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
     assertThat(context.lineHits("myProjectKey:project2/source2.cpp", CoverageType.UNIT, 4)).isEqualTo(1);

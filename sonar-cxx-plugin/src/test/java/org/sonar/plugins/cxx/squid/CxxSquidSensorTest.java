@@ -28,7 +28,9 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.rule.ActiveRules;
@@ -39,6 +41,8 @@ import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.TestUtils;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.batch.sensor.measure.Measure;
+import org.sonar.api.measures.FileLinesContext;
+import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.plugins.cxx.CxxLanguage;
 
@@ -52,7 +56,10 @@ public class CxxSquidSensorTest {
     settings = new Settings();
     ActiveRules rules = mock(ActiveRules.class);
     CheckFactory checkFactory = new CheckFactory(rules);
-    sensor = new CxxSquidSensor(settings, checkFactory, rules, null);    
+    FileLinesContextFactory fileLinesContextFactory = mock(FileLinesContextFactory.class);
+    FileLinesContext fileLinesContext = mock(FileLinesContext.class);
+    when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
+    sensor = new CxxSquidSensor(settings, fileLinesContextFactory, checkFactory, rules, null);    
   }
 
   @Test
