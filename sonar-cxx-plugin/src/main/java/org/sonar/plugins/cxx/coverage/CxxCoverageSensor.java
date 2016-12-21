@@ -25,8 +25,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import javax.annotation.Nullable;
 
 import javax.xml.stream.XMLStreamException;
+import org.sonar.api.batch.fs.FilePredicates;
+import org.sonar.api.batch.fs.FileSystem;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
@@ -37,7 +41,6 @@ import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.CxxPlugin;
 import org.sonar.plugins.cxx.utils.CxxReportSensor;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 
@@ -49,6 +52,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   public static final String REPORT_PATH_KEY = "sonar.cxx.coverage.reportPath";
   public static final String IT_REPORT_PATH_KEY = "sonar.cxx.coverage.itReportPath";
   public static final String OVERALL_REPORT_PATH_KEY = "sonar.cxx.coverage.overallReportPath";
+  public static final String FORCE_ZERO_COVERAGE_KEY = "sonar.cxx.coverage.forceZeroCoverage";
   
   private final List<CoverageParser> parsers = new LinkedList<>();
   private final CxxCoverageCache cache;
@@ -72,8 +76,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
   /**
    * {@inheritDoc}
    */
-  @Override
-  public void execute(SensorContext context) {
+  public void execute(SensorContext context, Map<InputFile, Set<Integer>> linesOfCode) {
 
     Map<String, CoverageMeasures> coverageMeasures = null;
     Map<String, CoverageMeasures> itCoverageMeasures = null;
@@ -100,6 +103,66 @@ public class CxxCoverageSensor extends CxxReportSensor {
       List<File> overallReports = getReports(settings, context.fileSystem().baseDir(), OVERALL_REPORT_PATH_KEY);
       overallCoverageMeasures = processReports(context, overallReports, this.cache.overallCoverageCache());
       saveMeasures(context, overallCoverageMeasures, CoverageType.OVERALL);
+    }
+    
+    if (settings.getBoolean(FORCE_ZERO_COVERAGE_KEY)) {
+      LOG.debug("Zeroing coverage information for untouched files");
+      zeroMeasuresWithoutReports(context, coverageMeasures, itCoverageMeasures, overallCoverageMeasures, linesOfCode);
+    }
+  }
+
+  private void zeroMeasuresWithoutReports(
+    SensorContext context,
+    Map<String, CoverageMeasures> coverageMeasures,
+    Map<String, CoverageMeasures> itCoverageMeasures,
+    Map<String, CoverageMeasures> overallCoverageMeasures,
+    Map<InputFile, Set<Integer>> linesOfCode
+  ) {
+    FileSystem fileSystem = context.fileSystem();
+    FilePredicates p = fileSystem.predicates();
+    Iterable<InputFile> inputFiles = fileSystem.inputFiles(p.and(p.hasType(InputFile.Type.MAIN), p.hasLanguage(CxxLanguage.KEY)));
+
+    for (InputFile inputFile : inputFiles) {
+      Set<Integer> linesOfCodeForFile = linesOfCode.get(inputFile);
+      String file = CxxUtils.normalizePath(inputFile.absolutePath());
+
+      if (coverageMeasures != null && !coverageMeasures.containsKey(file)) {
+        saveZeroValueForResource(inputFile, context, CoverageType.UNIT, linesOfCodeForFile);
+      }
+
+      if (itCoverageMeasures != null && !itCoverageMeasures.containsKey(file)) {
+        saveZeroValueForResource(inputFile, context, CoverageType.IT, linesOfCodeForFile);
+      }
+
+      if (overallCoverageMeasures != null && !overallCoverageMeasures.containsKey(file)) {
+        saveZeroValueForResource(inputFile, context, CoverageType.OVERALL, linesOfCodeForFile);
+      }
+    }
+  }
+  
+  private void saveZeroValueForResource(InputFile inputFile, SensorContext context, CoverageType ctype, @Nullable Set<Integer> linesOfCode) {
+    if (linesOfCode != null) {
+      LOG.debug("Zeroing {} coverage measures for file '{}'", ctype, inputFile.relativePath());
+
+      NewCoverage newCoverage = context.newCoverage()
+        .onFile(inputFile)
+        .ofType(ctype);
+
+      for (Integer line : linesOfCode) {
+        try {
+          newCoverage.lineHits(line, 0);
+        } catch (Exception ex) {
+          LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", inputFile.relativePath(), line, ex.getMessage());
+          CxxUtils.ValidateRecovery(ex, settings);
+        }
+      }
+
+      try {
+        newCoverage.save();
+      } catch (Exception ex) {
+        LOG.error("Cannot save measure '{}' : '{}', ignoring measure", inputFile.relativePath(), ex.getMessage());
+        CxxUtils.ValidateRecovery(ex, settings);
+      }
     }
   }
 
