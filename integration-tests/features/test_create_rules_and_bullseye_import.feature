@@ -4,6 +4,7 @@ Feature: GoogleTestWithBullseyeAndVsProject
   Custom rules are created using Rest API, after test ends rules are deleted.
   Bullseye reports need to be created before running the test.
 
+  @SqApi56 @SqApi62
   Scenario: GoogleTestWithBullseyeAndVsProject
       GIVEN the project "googletest_bullseye_vs_project"
         and rule "rats:getenv" is enabled

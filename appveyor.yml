@@ -60,7 +60,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install behave
   - C:\Python27\Scripts\pip.exe install colorama
   - mvn clean install
-  - C:\Python27\Scripts\behave.exe --no-capture
+  - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56
 cache:
   - C:\Users\appveyor\.m2
 artifacts:

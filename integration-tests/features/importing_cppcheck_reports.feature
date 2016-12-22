@@ -6,6 +6,7 @@ Feature: Importing Cppcheck reports
      work with them, filter them etc. and derive metrics from them.
 
 
+  @SqApi56 @SqApi62
   Scenario Outline: Importing Cppcheck report(s)
     GIVEN the project "cppcheck_project"
     WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
@@ -24,6 +25,7 @@ Feature: Importing Cppcheck reports
       | cppcheck-v2.xml | 6          | # XML version 2
 
 
+   @SqApi56 @SqApi62      
    Scenario: The reports are missing
      GIVEN the project "cppcheck_project"
      WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=empty.xml"
@@ -50,6 +52,7 @@ Feature: Importing Cppcheck reports
          AND the number of violations fed is 0
 
 
+   @SqApi56 @SqApi62
    Scenario Outline: The reports are invalid
      GIVEN the project "cppcheck_project"
      WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=<reportpath>"
@@ -68,6 +71,7 @@ Feature: Importing Cppcheck reports
       | wrongly_encoded.xml | 0          |
 
 
+   @SqApi56 @SqApi62   
    Scenario: The reports use paths relative to directories listed in sonar.sources
      GIVEN the project "cppcheck_project"
      WHEN I run "sonar-scanner -X -Dsonar.cxx.cppcheck.reportPath=relative-to-src.xml"
@@ -80,6 +84,8 @@ Feature: Importing Cppcheck reports
               """
          AND the number of violations fed is 0
 
+         
+   @SqApi56 @SqApi62         
    Scenario: The reports and issues in the reports have absolute paths
      GIVEN the project "cppcheck_with_absolute_paths_project"
         and platform is not "Windows"

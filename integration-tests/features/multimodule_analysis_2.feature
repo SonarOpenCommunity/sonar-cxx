@@ -2,6 +2,7 @@ Feature: cpp-multimodule-project
 
   Test multimodule project with reports at root of the project
 
+  @SqApi56 @SqApi62
   Scenario: cpp-multimodule-project-2
   
       GIVEN the project "cpp-multimodule-project-2"
