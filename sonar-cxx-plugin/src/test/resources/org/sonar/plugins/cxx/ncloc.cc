@@ -45,4 +45,22 @@ void func5()
    int sum = ADD(a, b);
 }
 
+// declaration
+void func6();
+
+// inline
+class MyClass {
+public:
+   MyClass();
+   int method1();
+   
+   int method2()
+   {
+      // comment
+      for(int iii=0; iii<NUMBER; ++iii) {
+         h1 += iii; // comment
+      }
+   }
+};
+
 /* EOF */

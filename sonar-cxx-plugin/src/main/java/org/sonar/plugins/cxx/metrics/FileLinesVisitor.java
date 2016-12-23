@@ -35,6 +35,7 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 /**
@@ -49,6 +50,10 @@ public class FileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAnd
   private Set<Integer> linesOfComments = Sets.newHashSet();
   private final FileSystem fileSystem;
   private final Map<InputFile, Set<Integer>> allLinesOfCode;
+  private int isWithinFunctionDefinition = 0;
+  private final Set<String> ignoreToken = Sets.newHashSet(
+    "{", "}", "(", ")", "[", "]"
+  );
 
   public FileLinesVisitor(FileLinesContextFactory fileLinesContextFactory, FileSystem fileSystem, Map<InputFile, Set<Integer>> linesOfCode) {
     this.fileLinesContextFactory = fileLinesContextFactory;
@@ -57,12 +62,21 @@ public class FileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAnd
   }
 
   @Override
+  public void init() {
+    subscribeTo(CxxGrammarImpl.functionDefinition);
+  }
+
+  @Override
   public void visitToken(Token token) {
     if (token.getType().equals(GenericTokenType.EOF)) {
       return;
     }
 
-    linesOfCode.add(token.getLine());
+    if (isWithinFunctionDefinition != 0) {
+      if (!ignoreToken.contains(token.getType().getValue())) {
+        linesOfCode.add(token.getLine());
+      }
+    }
 
     List<Trivia> trivias = token.getTrivia();
     for (Trivia trivia : trivias) {
@@ -70,6 +84,16 @@ public class FileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAnd
         linesOfComments.add(trivia.getToken().getLine());
       }
     }
+  }
+
+  @Override
+  public void visitNode(AstNode node) {
+    isWithinFunctionDefinition++;
+  }
+
+  @Override
+  public void leaveNode(AstNode node) {
+    isWithinFunctionDefinition--;
   }
 
   @Override
