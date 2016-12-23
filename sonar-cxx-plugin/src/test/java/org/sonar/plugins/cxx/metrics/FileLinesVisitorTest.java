@@ -59,11 +59,12 @@ public class FileLinesVisitorTest {
 
     assertThat(linesOfCode).hasSize(1);
     assertThat(linesOfCode.get(inputFile)).containsOnly(
-      8, 9, 10, 11,
-      14, 15, 16, 17, 18, 19,
-      21, 22, 23, 24, 25, 26, 27,
-      31, 32, 34, 35, 36, 37,
-      42, 43, 44, 45, 46
+      8, 10,
+      14, 16, 17, 18,
+      21, 22, 23, 26,
+      31, 34, 35,
+      42, 44, 45,
+      57, 60, 61
     );
   }
 
