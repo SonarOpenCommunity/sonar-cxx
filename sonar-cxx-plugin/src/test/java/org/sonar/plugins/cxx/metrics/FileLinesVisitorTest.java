@@ -64,7 +64,7 @@ public class FileLinesVisitorTest {
       21, 22, 23, 26,
       31, 34, 35,
       42, 44, 45,
-      57, 60, 61
+      60, 63, 64
     );
   }
 

@@ -34,7 +34,9 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.cxx.api.CxxKeyword;
 import org.sonar.cxx.api.CxxMetric;
+import org.sonar.cxx.api.CxxPunctuator;
 import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.squidbridge.SquidAstVisitor;
 
@@ -88,12 +90,42 @@ public class FileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAnd
 
   @Override
   public void visitNode(AstNode node) {
-    isWithinFunctionDefinition++;
+    if (!isDefaultOrDeleteFunctionBody(node)) {
+      isWithinFunctionDefinition++;
+    }
   }
 
   @Override
   public void leaveNode(AstNode node) {
-    isWithinFunctionDefinition--;
+    if (!isDefaultOrDeleteFunctionBody(node)) {
+      isWithinFunctionDefinition--;
+    }
+  }
+
+  private boolean isDefaultOrDeleteFunctionBody(AstNode functionDef) {
+    AstNode functionBodyNode = functionDef
+      .getFirstChild(CxxGrammarImpl.functionBody);
+    boolean defaultOrDelete = false;
+
+    if (functionBodyNode != null) {
+      List<AstNode> functionBody = functionBodyNode.getChildren();
+
+      // look for exact sub AST
+      if (functionBody.size() == 3) {
+        if (functionBody.get(0).is(CxxPunctuator.ASSIGN)
+          && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
+
+          AstNode bodyType = functionBody.get(1);
+
+          if (bodyType.is(CxxKeyword.DELETE)
+            || bodyType.is(CxxKeyword.DEFAULT)) {
+            defaultOrDelete = true;
+          }
+        }
+      }
+    }
+
+    return defaultOrDelete;
   }
 
   @Override
