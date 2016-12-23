@@ -52,6 +52,9 @@ void func6();
 class MyClass {
 public:
    MyClass();
+   MyClass(const MyClass&) = delete;
+   MyClass& operator=(const MyClass&) = default;
+
    int method1();
    
    int method2()
