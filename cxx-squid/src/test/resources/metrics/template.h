@@ -34,3 +34,11 @@ using intrinsic_type = typename intrinsic_traits<T>::intrinsic_type;
 
 template <typename T>
 using inline_intrinsic_type = typename intrinsic_traits<T>::intrinsic_type; ///< issue #736
+
+/**
+ * @brief cascaded templateDeclaration doc (issue #1000)
+ */
+template <class U>
+template <class T>
+void TestClass::functionTest();
+

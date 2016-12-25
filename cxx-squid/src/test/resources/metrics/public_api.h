@@ -177,3 +177,4 @@ struct {
 } testUnnamedStructVar; ///< testUnnamedStructVar doc
 
 int lastVar; ///< lastVar doc
+
