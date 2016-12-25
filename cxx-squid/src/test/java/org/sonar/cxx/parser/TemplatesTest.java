@@ -142,9 +142,10 @@ public class TemplatesTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.simpleTemplateId);
 
-    assertThat(p).matches("typename nestedNameSpecifier foo");
-
+    assertThat(p).matches("typename nestedNameSpecifier IDENTIFIER");
     assertThat(p).matches("typename nestedNameSpecifier simpleTemplateId");
     assertThat(p).matches("typename nestedNameSpecifier template simpleTemplateId");
+    assertThat(p).matches("typename IDENTIFIER");
+    assertThat(p).matches("IDENTIFIER");
   }
 }
