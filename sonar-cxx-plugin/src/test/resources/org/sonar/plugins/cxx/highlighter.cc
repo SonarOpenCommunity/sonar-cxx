@@ -73,4 +73,9 @@ void test1()
    const std::regex RegexEscape(R"([.^$|()\[\]{}*+?\\])"); // raw string literal
 }
 
+void test2(const char* sourceFilename)
+{
+   Warning() << "Failed to open file " << sourceFilename << " for reading";
+}
+
 /* EOF */
