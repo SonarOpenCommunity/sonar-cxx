@@ -1674,6 +1674,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(CxxKeyword.TYPENAME, nestedNameSpecifier, b.optional(CxxKeyword.TEMPLATE), simpleTemplateId), // C++
         b.sequence(CxxKeyword.TYPENAME, nestedNameSpecifier, IDENTIFIER), // C++
+        b.sequence(CxxKeyword.TYPENAME, IDENTIFIER), // todo
         IDENTIFIER // todo
       )
     );
