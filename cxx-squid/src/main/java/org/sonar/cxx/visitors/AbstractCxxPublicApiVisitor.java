@@ -315,21 +315,28 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   }
 
   private void visitDeclarator(AstNode declarator, AstNode docNode) {
-    // look for block documentation
-    List<Token> comments = getBlockDocumentation(docNode);
 
-    // documentation may be inlined
-    if (comments.isEmpty()) {
-      comments = getDeclaratorInlineComment(docNode);
-    }
-
-    AstNode declaratorId = declarator
-      .getFirstDescendant(CxxGrammarImpl.declaratorId);
-
-    if (declaratorId == null) {
-      LOG.error("null declaratorId: {}", AstXmlPrinter.print(declarator));
+    // check if this is a template specification to adjust documentation node
+    AstNode templateDeclaration = declarator.getFirstAncestor(CxxGrammarImpl.templateDeclaration);
+    if (templateDeclaration != null) {
+      visitTemplateDeclaration(templateDeclaration);
     } else {
-      visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
+      // look for block documentation
+      List<Token> comments = getBlockDocumentation(docNode);
+
+      // documentation may be inlined
+      if (comments.isEmpty()) {
+        comments = getDeclaratorInlineComment(docNode);
+      }
+
+      AstNode declaratorId = declarator
+        .getFirstDescendant(CxxGrammarImpl.declaratorId);
+
+      if (declaratorId == null) {
+        LOG.error("null declaratorId: {}", AstXmlPrinter.print(declarator));
+      } else {
+        visitPublicApi(declaratorId, declaratorId.getTokenValue(), comments);
+      }
     }
   }
 
@@ -477,7 +484,18 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return;
     }
 
-    List<Token> comments = getBlockDocumentation(templateDeclaration);
+    // handle cascaded template declarations
+    AstNode node = templateDeclaration;
+    List<Token> comments;
+    do {
+      comments = getBlockDocumentation(node);
+      if (!comments.isEmpty()) {
+        templateDeclaration = node;
+        break;
+      }
+      node = node.getFirstAncestor(CxxGrammarImpl.templateDeclaration);
+    } while (node != null);
+    
     visitPublicApi(templateDeclaration, templateDeclaration.getTokenValue(), comments);
   }
   
