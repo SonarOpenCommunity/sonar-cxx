@@ -67,7 +67,13 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (!isConstexpr(node) && !isConst(node) && !isExcluded(node) && !isInEnum(node) && !isArrayInitializer(node) && !isGenerated(node)) {
+    if (!isConstexpr(node)
+      && !isConst(node)
+      && !isExcluded(node)
+      && !isInEnum(node)
+      && !isArrayInitializer(node)
+      && !isGenerated(node)
+      && !isNullPtr(node)) {
       getContext().createLineViolation(this, "Extract this magic number '" + node.getTokenOriginalValue()
         + "' into a constant, variable declaration or an enum.", node);
     }
@@ -120,6 +126,10 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
 
   private boolean isGenerated(AstNode node) {
     return node.getToken().isGeneratedCode();
+  }
+  
+  private boolean isNullPtr(AstNode node) {
+    return "nullptr".equals(node.getTokenValue());
   }
 
 }
