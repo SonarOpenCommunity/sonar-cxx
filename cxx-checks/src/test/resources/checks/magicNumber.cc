@@ -61,3 +61,20 @@ class TestClass {
     static const int c1 = 30; // Compliant
     int c2 = 31;              // Non-Compliant
 };
+
+// issue #986
+void testNullPtr()
+{
+   const char* txt1 = nullptr; // Compliant
+   char* txt2 = nullptr; // Compliant
+   txt2 = nullptr; // Compliant
+   SetPtr(nullptr); // Compliant
+}
+
+void testBoolValues()
+{
+   bool b1 = true; // Compliant
+   bool b2 = false; // Compliant
+   b2 = true; // Compliant
+   SetBool(true); // Compliant
+}
