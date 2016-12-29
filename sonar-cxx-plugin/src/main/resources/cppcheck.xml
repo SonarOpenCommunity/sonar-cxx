@@ -4265,11 +4265,11 @@ Value of pointer 'varname', which points to allocated memory, is copied in copy 
   </rule>
   <rule>
     <key>noCopyConstructor</key>
-    <name>'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory</name>
+    <name>class 'name' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory</name>
     <description>
 <![CDATA[
 <p>
-'classname' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
+class 'name' does not have a copy constructor which is recommended since the class contains a pointer to allocated memory.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
@@ -6095,7 +6095,93 @@ Reading from empty STL container.
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule>  
+  </rule>
+  <!-- ########### New in cppcheck 1.77 ########### -->
+  <rule>
+    <key>nullPointerArithmetic</key>
+    <name>Overflow in pointer arithmetic, NULL pointer is subtracted</name>
+    <description>
+<![CDATA[<p>
+Overflow in pointer arithmetic, NULL pointer is subtracted.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/682.html" target="_blank">CWE-682: Incorrect Calculation</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>nullPointerArithmetic</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>shiftNegativeLHS</key>
+    <name>Shifting a negative value is technically undefined behavior</name>
+    <description>
+<![CDATA[<p>
+Shifting a negative value is technically undefined behavior.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/758.html" target="_blank">CWE-758: Reliance on Undefined, Unspecified, or Implementation-Defined Behavior</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>shiftNegativeLHS</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>accessMoved</key>
+    <name>Access of moved variable &apos;name&apos;</name>
+    <description>
+<![CDATA[<p>
+Access of moved variable 'name'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/672.html" target="_blank">CWE-672: Operation on a Resource after Expiration or Release</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>accessMoved</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>accessForwarded</key>
+    <name>Access of forwarded variable &apos;name&apos;</name>
+    <description>
+<![CDATA[<p>
+Access of forwarded variable 'name'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/672.html" target="_blank">CWE-672: Operation on a Resource after Expiration or Release</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>accessForwarded</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>floatConversionOverflow</key>
+    <name>Undefined behaviour: float (1e+100) conversion overflow</name>
+    <description>
+<![CDATA[<p>
+Undefined behaviour: float (1e+100) conversion overflow.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/190.html" target="_blank">CWE-190: Integer Overflow or Wraparound</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>floatConversionOverflow</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule> 
 </rules>
 
 <!-- ########### Deprecated as of 1.63 ########### -->
