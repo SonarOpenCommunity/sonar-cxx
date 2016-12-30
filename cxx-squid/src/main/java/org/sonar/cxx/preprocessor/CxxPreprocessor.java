@@ -245,6 +245,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     this.conf = conf;
 
     codeProvider = sourceCodeProvider;
+    codeProvider.setHeadearSuffixes(conf.getHeaderFileSuffixes());
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
 
     pplineParser = CppParser.create(conf);
