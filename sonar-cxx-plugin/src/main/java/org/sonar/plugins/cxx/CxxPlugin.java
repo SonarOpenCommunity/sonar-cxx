@@ -125,7 +125,8 @@ public final class CxxPlugin implements Plugin {
       PropertyDefinition.builder(CxxPlugin.ERROR_RECOVERY_KEY)
       .defaultValue("True")
       .name("Parse error recovery")
-      .description("Enables/disables the parse error recovery (experimental).")
+      .description("Defines mode for error handling of report files and parsing errors. `False' (strict) breaks after an error or 'True' (tolerant) continues."
+        + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Supported-configuration-properties#sonarcxxerrorrecoveryenabled'>sonar.cxx.errorRecoveryEnabled</a> for a complete description.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)
