@@ -65,6 +65,34 @@ public class SourceCodeProvider {
   }
 
   public File getSourceCodeFile(String filename, String cwd, boolean quoted) {
+    
+    if (filename.contains(".")) {
+      return getSourceCodeFileWithExtension(filename, cwd, quoted);
+    }
+    
+    // lets try -> h, hpp and and special case .hh
+    String filenameWithExtension = filename + ".h";
+    File returnFile = getSourceCodeFileWithExtension(filenameWithExtension, cwd, quoted);
+    if (returnFile != null) {
+      return returnFile;
+    }
+    
+    filenameWithExtension = filename + ".hpp";
+    returnFile = getSourceCodeFileWithExtension(filenameWithExtension, cwd, quoted);
+    if (returnFile != null) {
+      return returnFile;
+    }
+    
+    filenameWithExtension = filename + ".hh";
+    returnFile = getSourceCodeFileWithExtension(filenameWithExtension, cwd, quoted);
+    if (returnFile != null) {
+      return returnFile;
+    }
+    
+    return null;               
+  }
+  
+  private File getSourceCodeFileWithExtension(String filename, String cwd, boolean quoted) {
     File result = null;
     File file = new File(filename);
     if (file.isAbsolute()) {

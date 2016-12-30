@@ -118,6 +118,14 @@ public class SourceCodeProviderTest {
   }
 
   @Test
+  public void getting_file_with_filename_and_cwd_no_extension() {
+    String cwd = new File("src/test/resources/codeprovider").getAbsolutePath();
+    String path = "source";
+    assertEquals(expected, codeProvider.getSourceCodeFile(path, cwd, true));
+    assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
+  }
+  
+  @Test
   public void getting_file_with_relpath_and_cwd() {
     String cwd = new File("src/test/resources").getAbsolutePath();
     String path = "codeprovider/source.hh";
