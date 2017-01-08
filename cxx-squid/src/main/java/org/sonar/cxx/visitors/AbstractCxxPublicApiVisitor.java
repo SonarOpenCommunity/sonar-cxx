@@ -484,6 +484,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return;
     }
 
+    String id = templateDeclaration.getFirstDescendant(CxxGrammarImpl.className)
+      .getTokenValue();
+
     // handle cascaded template declarations
     AstNode node = templateDeclaration;
     List<Token> comments;
@@ -496,7 +499,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       node = node.getFirstAncestor(CxxGrammarImpl.templateDeclaration);
     } while (node != null);
     
-    visitPublicApi(templateDeclaration, templateDeclaration.getTokenValue(), comments);
+    visitPublicApi(templateDeclaration, id, comments);
   }
   
   private void visitFunctionDefinition(AstNode functionDef) {
@@ -558,27 +561,30 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
    */
   private void visitMemberDeclarator(AstNode node) {
 
-    AstNode container = node.getFirstAncestor(
-      CxxGrammarImpl.templateDeclaration,
-      CxxGrammarImpl.classSpecifier);
-
     if (isOverriddenMethod(node)) {
       // assume that ancestor method is documented
       // and do not count as public API
       return;
     }
 
-    AstNode docNode;
+    AstNode container = node.getFirstAncestor(
+      CxxGrammarImpl.templateDeclaration,
+      CxxGrammarImpl.classSpecifier);
+    
+    AstNode docNode = node;
+    List<Token> comments;
 
-    if (container == null
-      || container.getType() == CxxGrammarImpl.classSpecifier) {
-      docNode = node;
-    } else {
-      docNode = container;
+    if (container == null || container.getType() == CxxGrammarImpl.classSpecifier) {
+      comments = getBlockDocumentation(docNode);
+    } else { // template
+      do {
+        comments = getBlockDocumentation(container);
+        if (!comments.isEmpty()) {
+          break;
+        }
+        container = container.getFirstAncestor(CxxGrammarImpl.templateDeclaration);
+      } while (container != null);
     }
-
-    // look for block documentation
-    List<Token> comments = getBlockDocumentation(docNode);
 
     // documentation may be inlined
     if (comments.isEmpty()) {
@@ -772,7 +778,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   private static boolean isPublicApiMember(AstNode node) {
     AstNode access = node;
-
+    
     // retrieve the accessSpecifier
     do {
       access = access.getPreviousAstNode();
@@ -810,10 +816,10 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         } else {
           LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
           return false;
-        }
+        }    
       }
-
-      // global member
+    
+      // method or function outside of class
       return true;
     }
   }

@@ -178,3 +178,7 @@ struct {
 
 int lastVar; ///< lastVar doc
 
+/**
+ * globalFuncDef doc
+ */
+void globalFuncDef() {}

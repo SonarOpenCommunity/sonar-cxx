@@ -42,3 +42,25 @@ template <class U>
 template <class T>
 void TestClass::functionTest();
 
+/**
+ * @brief issue #1025
+ */
+template <class U>
+class TestClass2 {
+public:
+
+   /**
+    * @brief DOCUMENTATION FUNCTION
+    */
+   template <class T>
+   void functionTest2();
+};
+
+/**
+ * @brief DOCUMENTATION
+ */
+template <class U>
+template <class T>
+void TestClass2::functionTest2()
+{
+}
