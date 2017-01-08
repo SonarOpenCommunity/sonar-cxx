@@ -62,7 +62,7 @@ public enum CppPunctuator implements TokenType {
   MODULO_ASSIGN("%="),
   BW_AND_ASSIGN("&="),
   BW_OR_ASSIGN("|="),
-  BW_XOR_ASSIGN("ˆ="),
+  BW_XOR_ASSIGN("^="),
   BW_LSHIFT_ASSIGN("<<="),
   BW_RSHIFT_ASSIGN(">>="),
   // Member and pointer operators
