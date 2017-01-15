@@ -87,3 +87,18 @@ char* tostring2(int value)
     }
     return "undefined";
 }
+
+// CPD should ignore declarations
+class A {
+public:
+   virtual void a();
+   virtual void b();
+   virtual void c();
+};
+
+class B : public A {
+public:
+   virtual void a();
+   virtual void b();
+   virtual void c();
+};
