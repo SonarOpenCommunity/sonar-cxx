@@ -36,6 +36,7 @@ import org.sonar.api.batch.sensor.cpd.NewCpdTokens;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.api.CxxTokenType;
+import org.sonar.cxx.parser.CxxGrammarImpl;
 
 public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
@@ -46,11 +47,17 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   private final Boolean ignoreIdentifiers;
   private InputFile inputFile;
   private NewCpdTokens cpdTokens;
+  private int isFunctionDefinition = 0;
 
   public CxxCpdVisitor(SensorContext sensorContext, Boolean ignoreLiterals, Boolean ignoreIdentifiers) {
     this.sensorContext = sensorContext;
     this.ignoreLiterals = ignoreLiterals;
     this.ignoreIdentifiers = ignoreIdentifiers;
+  }
+
+  @Override
+  public void init() {
+    subscribeTo(CxxGrammarImpl.functionDefinition);
   }
 
   @Override
@@ -66,8 +73,18 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
   }
 
   @Override
+  public void visitNode(AstNode node) {
+    isFunctionDefinition++;
+  }
+
+  @Override
+  public void leaveNode(AstNode node) {
+    isFunctionDefinition--;
+  }
+
+  @Override
   public void visitToken(Token token) {
-    if (!token.isGeneratedCode()) {
+    if (isFunctionDefinition > 0 && !token.isGeneratedCode()) {
       String text;
       if (ignoreIdentifiers && token.getType().equals(GenericTokenType.IDENTIFIER)) {
         text = "_I";

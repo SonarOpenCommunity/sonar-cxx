@@ -400,9 +400,9 @@ public final class CxxPlugin implements Plugin {
       .index(1)
       .build(),
       PropertyDefinition.builder(CxxPlugin.CPD_IGNORE_IDENTIFIERS_KEY)
-      .defaultValue("True")
+      .defaultValue("False")
       .name("Ignores identifier value differences when evaluating a duplicate block")
-      .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, methods names, and so forth. Default is 'True'.")
+      .description("Ignores identifier value differences when evaluating a duplicate block e.g. variable names, methods names, and so forth. Default is 'False'.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .type(PropertyType.BOOLEAN)

@@ -58,29 +58,29 @@ public class CxxCpdVisitorTest {
     List<TokensLine> cpdTokenLines = context.cpdTokens("moduleKey:" + inputFile.file().getName());
     assertThat(cpdTokenLines).hasSize(75);
 
-    // bits unixtime1(bits ld, bits ex)
-    TokensLine firstTokensLine = cpdTokenLines.get(0);
-    assertThat(firstTokensLine.getValue()).isEqualTo("_I_I(_I_I,_I_I)");
-    assertThat(firstTokensLine.getStartLine()).isEqualTo(2);
-    assertThat(firstTokensLine.getStartUnit()).isEqualTo(1);
-    assertThat(firstTokensLine.getEndLine()).isEqualTo(2);
-    assertThat(firstTokensLine.getEndUnit()).isEqualTo(9);
-
     // ld &= 0xFF;
-    TokensLine secondTokensLine = cpdTokenLines.get(2);
-    assertThat(secondTokensLine.getValue()).isEqualTo("_I&=_N;");
-    assertThat(secondTokensLine.getStartLine()).isEqualTo(4);
-    assertThat(secondTokensLine.getStartUnit()).isEqualTo(11);
-    assertThat(secondTokensLine.getEndLine()).isEqualTo(4);
-    assertThat(secondTokensLine.getEndUnit()).isEqualTo(14);
+    TokensLine firstTokensLine = cpdTokenLines.get(2);
+    assertThat(firstTokensLine.getValue()).isEqualTo("_I&=_N;");
+    assertThat(firstTokensLine.getStartLine()).isEqualTo(4);
+    assertThat(firstTokensLine.getStartUnit()).isEqualTo(10);
+    assertThat(firstTokensLine.getEndLine()).isEqualTo(4);
+    assertThat(firstTokensLine.getEndUnit()).isEqualTo(13);
+
+    // if (xosfile_read_stamped_no_path(fn, &ob, 1, 1, 1, 1, 1)) return 1;
+    TokensLine secondTokensLine = cpdTokenLines.get(48);
+    assertThat(secondTokensLine.getValue()).isEqualTo("if(_I(_I,&_I,_N,_N,_N,_N,_N))return_N;");
+    assertThat(secondTokensLine.getStartLine()).isEqualTo(60);
+    assertThat(secondTokensLine.getStartUnit()).isEqualTo(283);
+    assertThat(secondTokensLine.getEndLine()).isEqualTo(60);
+    assertThat(secondTokensLine.getEndUnit()).isEqualTo(305);
 
     // case 3: return "three";
     TokensLine thirdTokensLine = cpdTokenLines.get(71);
     assertThat(thirdTokensLine.getValue()).isEqualTo("case_N:return_S;");
     assertThat(thirdTokensLine.getStartLine()).isEqualTo(86);
-    assertThat(thirdTokensLine.getStartUnit()).isEqualTo(388);
+    assertThat(thirdTokensLine.getStartUnit()).isEqualTo(381);
     assertThat(thirdTokensLine.getEndLine()).isEqualTo(86);
-    assertThat(thirdTokensLine.getEndUnit()).isEqualTo(393);
+    assertThat(thirdTokensLine.getEndUnit()).isEqualTo(386);
   }
 
 }
