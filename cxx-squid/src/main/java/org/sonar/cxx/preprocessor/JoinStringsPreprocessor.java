@@ -38,28 +38,36 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
     if (token.getType() == CxxTokenType.STRING) {
 
       // Joining string literals (C++ Standard, "2.2 Phases of translation, Phase 6")
+      StringBuilder newStr = null;
       int numberOfStrings = 1;
-      StringBuilder sb = new StringBuilder();
 
       for (;;) {
         Token nextToken = tokens.get(numberOfStrings);
         if (nextToken.getType() != CxxTokenType.STRING) {
+          if (newStr != null) {
+            newStr.append("\"");
+          }
           break;
         }
-        sb.append(stripQuotes(nextToken.getValue()));
+        if (newStr == null) {
+          newStr = new StringBuilder();
+          newStr.append("\"");
+          newStr.append(stripQuotes(token.getValue()));
+        }
+        newStr.append(stripQuotes(nextToken.getValue()));
         numberOfStrings++;
       }
 
-      if (numberOfStrings > 1) {
+      if (newStr != null) {
         List<Token> tokensToInject = new ArrayList<>();
         tokensToInject.add(
           Token.builder()
-          .setLine(token.getLine())
-          .setColumn(token.getColumn())
-          .setURI(token.getURI())
-          .setType(CxxTokenType.STRING)
-          .setValueAndOriginalValue("\"" + stripQuotes(token.getValue()) + sb.toString() + "\"")
-          .build()
+            .setLine(token.getLine())
+            .setColumn(token.getColumn())
+            .setURI(token.getURI())
+            .setType(CxxTokenType.STRING)
+            .setValueAndOriginalValue(newStr.toString())
+            .build()
         );
         return new PreprocessorAction(numberOfStrings, Collections.EMPTY_LIST, tokensToInject); //@todo deprecated PreprocessorAction
       }
@@ -70,6 +78,6 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
   }
 
   private String stripQuotes(String str) {
-    return str.substring(1, str.length() - 1);
+    return str.substring(str.indexOf('"') + 1, str.lastIndexOf('"'));
   }
 }
