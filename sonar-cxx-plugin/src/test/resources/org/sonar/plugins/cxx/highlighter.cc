@@ -78,4 +78,17 @@ void test2(const char* sourceFilename)
    Warning() << "Failed to open file " << sourceFilename << " for reading";
 }
 
+void test3()
+{
+   const char     *t1 = "...";   // UTF-8 encoded
+   const char     *t2 = u8"..."; // UTF-8 encoded   
+   const wchar_t  *t3 = L"...";  // Wide string
+   const char16_t *t4 = u"...";  // UTF-16 encoded
+   const char32_t *t5 = U"...";  //  UTF-32 encoded
+   
+   const char     *t6 = "hello" " world";
+   const wchar_t  *t7 = u"" "hello world";
+   const wchar_t  *t8 = /*comment1*/ u"" /*comment2*/ "hello world" /*comment3*/; // issue #996
+}
+
 /* EOF */

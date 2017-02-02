@@ -73,6 +73,17 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
     public int endLineOffset() {
       return endLineOffset;
     }
+
+    public boolean overlaps(TokenLocation other) {
+      if (other != null) {
+        return !(startLineOffset() > other.endLineOffset()
+          || other.startLineOffset() > endLineOffset()
+          || startLine() > other.endLine()
+          || other.startLine() > endLine());
+      }
+      return false;
+    }
+
   }
 
   private class CommentLocation extends TokenLocation {
@@ -90,6 +101,7 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
   }
 
   private class PreprocessorDirectiveLocation extends TokenLocation {
+
     PreprocessorDirectiveLocation(Token token) {
       super(token);
       Pattern r = Pattern.compile("^[ \t]*#[ \t]*\\w+");
@@ -115,39 +127,48 @@ public class CxxHighlighter extends SquidAstVisitor<Grammar> implements AstAndTo
 
   @Override
   public void leaveFile(@Nullable AstNode astNode) {
-    newHighlighting.save();
+    try {
+      newHighlighting.save();
+    } catch (IllegalStateException e) {
+      // ignore hightlight errors: parsing errors could lead to wrong loacation data
+      LOG.debug("Highligthing error in file: {}, error: {}", getContext().getFile().getAbsoluteFile(), e);
+    }
   }
 
   @Override
   public void visitToken(Token token) {
     if (!token.isGeneratedCode()) {
+      TokenLocation last = null;
       if (token.getType().equals(CxxTokenType.NUMBER)) {
-        highlight(new TokenLocation(token), TypeOfText.CONSTANT);
+        last = highlight(last, new TokenLocation(token), TypeOfText.CONSTANT);
       } else if (token.getType() instanceof CxxKeyword) {
-        highlight(new TokenLocation(token), TypeOfText.KEYWORD);
+        last = highlight(last, new TokenLocation(token), TypeOfText.KEYWORD);
       } else if (token.getType().equals(CxxTokenType.STRING) || token.getType().equals(CxxTokenType.CHARACTER)) {
-        highlight(new TokenLocation(token), TypeOfText.STRING);
+        last = highlight(last, new TokenLocation(token), TypeOfText.STRING);
       }
 
       for (Trivia trivia : token.getTrivia()) {
         if (trivia.isComment()) {
-          highlight(new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
+          highlight(last, new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
         } else if (trivia.isSkippedText()) {
           if (trivia.getToken().getType() == CxxTokenType.PREPROCESSOR) {
-            highlight(new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
+            highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
           }
         }
       }
     }
   }
 
-  private void highlight(TokenLocation location, TypeOfText typeOfText) {
+  private TokenLocation highlight(TokenLocation last, TokenLocation current, TypeOfText typeOfText) {
     try {
-      newHighlighting.highlight(location.startLine(), location.startLineOffset(), location.endLine(), location.endLineOffset(), typeOfText);
+      if (!current.overlaps(last)) {
+        newHighlighting.highlight(current.startLine(), current.startLineOffset(), current.endLine(), current.endLineOffset(), typeOfText);
+      }
     } catch (Exception e) {
       // ignore hightlight errors: parsing errors could lead to wrong loacation data
-      LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), location.startLine(), location.startLineOffset());
+      LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), current.startLine(), current.startLineOffset());
     }
+    return current;
   }
 
 }

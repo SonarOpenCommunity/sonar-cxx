@@ -72,6 +72,15 @@ public class CxxHighlighterTest {
     checkOnRange(49, 19, 7, TypeOfText.STRING);  // "hello"
     checkOnRange(50, 19, 18, TypeOfText.STRING); // "hello\tworld\r\n"
     checkOnRange(73, 32, 24, TypeOfText.STRING); // R"([.^$|()\[\]{}*+?\\])"
+    
+    checkOnRange(83, 24, 5, TypeOfText.STRING); // "..."
+    checkOnRange(84, 24, 7, TypeOfText.STRING); // u8"..."
+    checkOnRange(85, 24, 6, TypeOfText.STRING); // L"..."
+    checkOnRange(86, 24, 6, TypeOfText.STRING); // u"..."
+    checkOnRange(87, 24, 6, TypeOfText.STRING); // U"..."
+    
+    checkOnRange(89, 24, 13, TypeOfText.STRING); // "hello" " world"
+    checkOnRange(90, 24, 13, TypeOfText.STRING); // u"" "hello world"
   }
 
   @Test
@@ -84,20 +93,17 @@ public class CxxHighlighterTest {
   @Test
   public void comment() throws Exception {
 
-    check(1, 0, TypeOfText.COMMENT);
-    /*\r\n comment\r\n*/
+    check(1, 0, TypeOfText.COMMENT); /*\r\n comment\r\n*/
     check(3, 1, TypeOfText.COMMENT);
 
     checkOnRange(5, 0, 2, TypeOfText.COMMENT);   //
-    checkOnRange(6, 0, 10, TypeOfText.COMMENT);   // comment
+    checkOnRange(6, 0, 10, TypeOfText.COMMENT);  // comment
     checkOnRange(7, 0, 2, TypeOfText.COMMENT);   //
 
     checkOnRange(57, 22, 10, TypeOfText.COMMENT); // comment
     checkOnRange(58, 3, 10, TypeOfText.COMMENT);  // comment
-    checkOnRange(61, 3, 13, TypeOfText.COMMENT);
-    /* comment */
-    checkOnRange(64, 20, 13, TypeOfText.COMMENT);
-    /* comment */
+    checkOnRange(61, 3, 13, TypeOfText.COMMENT);  /* comment */
+    checkOnRange(64, 20, 13, TypeOfText.COMMENT); /* comment */
   }
 
   @Test
@@ -133,7 +139,7 @@ public class CxxHighlighterTest {
     
     checkOnRange(20, 0, 7, TypeOfText.PREPROCESS_DIRECTIVE); // #define
   }
-  
+    
   /**
    * Checks the highlighting of a range of columns. The first column of a line
    * has index 0. The range is the columns of the token.
