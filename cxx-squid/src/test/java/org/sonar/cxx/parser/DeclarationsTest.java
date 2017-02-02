@@ -536,10 +536,12 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.cliAttributes));
 
     mockRule(CxxGrammarImpl.typeName);
+    mockRule(CxxGrammarImpl.nestedNameSpecifier);
     mockRule(CxxGrammarImpl.cliAttributeTarget);
     mockRule(CxxGrammarImpl.cliPositionArgumentList);
 
     assertThat(p).matches("[ typeName ]");
+    assertThat(p).matches("[ nestedNameSpecifier typeName ]");
     assertThat(p).matches("[ cliAttributeTarget : typeName ]");
     assertThat(p).matches("[ cliAttributeTarget : typeName, typeName ]");
     assertThat(p).matches("[ cliAttributeTarget : typeName, typeName (cliPositionArgumentList) ]");
@@ -570,5 +572,7 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("[AttributeUsage( AttributeTargets::All )]");
     assertThat(p).matches("[AttributeUsage(AttributeTargets::Class | AttributeTargets::Method)]");
     assertThat(p).matches("[ AnotherAttr( gcnew array<Object ^> { 3.14159, \"pi\" }, var1 = gcnew array<Object ^> { \"a\", \"b\" } ) ]");
+    assertThat(p).matches("[System::Diagnostics::DebuggerNonUserCodeAttribute]");
+    assertThat(p).matches("[System::CodeDom::Compiler::GeneratedCodeAttribute(L\"System.Data.Design.TypedDataSetGenerator\", L\"4.0.0.0\")]");      
   }
 }
