@@ -28,10 +28,13 @@ import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
+import com.sonar.sslr.api.TokenType;
+import java.util.List;
+import org.sonar.cxx.api.CxxPunctuator;
 
 public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
-  private SquidAstVisitorContext<?> context;
+  private final SquidAstVisitorContext<?> context;
 
   public CxxParseErrorLoggerVisitor(SquidAstVisitorContext<?> context) {
     this.context = context;
@@ -44,14 +47,43 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar> extends SquidAs
 
   @Override
   public void visitNode(AstNode node) {
-    AstNode identifierAst = node.getFirstChild(GenericTokenType.IDENTIFIER);
-    if (identifierAst != null) {
-      CxxGrammarImpl.LOG.warn("[{}:{}]: syntax error, skip '{}'",
-        new Object[]{context.getFile(), node.getToken().getLine(), identifierAst.getTokenValue()});
+    List<AstNode> children = node.getChildren();
+    StringBuilder sb = new StringBuilder();
+    int identifierLine = -1;
+
+    for (AstNode child : children) {
+      sb.append(child.getTokenValue());
+      TokenType type = child.getToken().getType();
+
+      if (type == GenericTokenType.IDENTIFIER) {
+        // save position of last identifier for message
+        identifierLine = child.getTokenLine();
+        sb.append(' ');
+      } else if (type == CxxPunctuator.CURLBR_LEFT) {
+        // part with CURLBR_LEFT is typically an ignored declaration
+        if (identifierLine != -1) {
+          CxxGrammarImpl.LOG.warn("[{}:{}]: skip declarartion: {}",
+            new Object[]{context.getFile(), identifierLine, sb.toString()});
+          sb.setLength(0);
+          identifierLine = -1;
+        }
+      } else if (type == CxxPunctuator.CURLBR_RIGHT) {
+        sb.setLength(0);
+        identifierLine = -1;
+      } else {
+        sb.append(' ');
+      }
+    }
+
+    if (identifierLine != -1 && sb.length() > 0) {
+      // part without CURLBR_LEFT is typically a syntax error
+      CxxGrammarImpl.LOG.warn("[{}:{}]:    syntax error: {}",
+        new Object[]{context.getFile(), identifierLine, sb.toString()});
     }
   }
 
   @Override
   public void visitToken(Token token) {
   }
+
 }
