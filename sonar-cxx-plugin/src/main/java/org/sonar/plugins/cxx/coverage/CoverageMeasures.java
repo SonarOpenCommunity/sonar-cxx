@@ -53,7 +53,7 @@ class CoverageMeasures {
 
   void setConditions(int lineId, int totalConditions, int coveredConditions) {
     if (measuresConditions.containsKey(lineId)) {
-      CoverageMeasure existentData = measuresLines.get(lineId);
+      CoverageMeasure existentData = measuresConditions.get(lineId);
       existentData.setConditions(totalConditions, coveredConditions);
     } else {
       CoverageMeasure newLineHit = new CoverageMeasure(CoverageMeasure.CoverageType.CONDITION, lineId);
