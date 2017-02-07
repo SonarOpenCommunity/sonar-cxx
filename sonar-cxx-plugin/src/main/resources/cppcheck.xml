@@ -6181,7 +6181,141 @@ Undefined behaviour: float (1e+100) conversion overflow.
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
-  </rule> 
+  </rule>
+  <!-- ########### add missing rules which seems not to be part of cppcheck errorlist ########### -->
+  <rule>
+    <key>asctimeCalled</key>
+    <name>Obsolete function 'asctime' called</name>
+    <description>
+<![CDATA[<p>
+Obsolete function 'asctime' called. It is recommended to use 'strftime' instead.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>asctimeCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>gethostbynameCalled</key>
+    <name>Obsolescent function 'gethostbyname' called</name>
+    <description>
+<![CDATA[<p>
+Obsolescent function 'gethostbyname' called. It is recommended to use 'getaddrinfo' instead.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>gethostbynameCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>localtimeCalled</key>
+    <name>Non reentrant function 'localtime' called</name>
+    <description>
+<![CDATA[<p>
+Non reentrant function 'localtime' called. For threadsafe applications it is recommended to use the reentrant replacement function 'localtime_r'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>localtimeCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>strtokCalled</key>
+    <name>Non reentrant function 'strtok' called</name>
+    <description>
+<![CDATA[<p>
+Non reentrant function 'strtok' called. For threadsafe applications it is recommended to use the reentrant replacement function 'strtok_r'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>strtokCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>tmpnamCalled</key>
+    <name>Obsolescent function 'tmpnam' called</name>
+    <description>
+<![CDATA[<p>
+Obsolescent function 'tmpnam' called. It is recommended to use 'tmpfile', 'mkstemp' or 'mkdtemp' instead.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/477.html" target="_blank">CWE-477: Use of Obsolete Functions</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>tmpnamCalled</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>unhandledExceptionSpecification</key>
+    <name>Unhandled exception specification</name>
+    <description>
+<![CDATA[<p>
+Unhandled exception specification when calling function 'fname'. Either use a try/catch around the function call, or add a exception specification for 'fname' also.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/703.html" target="_blank">CWE-703: Improper Check or Handling of Exceptional Conditions</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>unhandledExceptionSpecification</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>purgedConfiguration</key>
+    <name>The configuration 'MACRO' was not checked because its code equals another one</name>
+    <description>
+<![CDATA[<p>
+The configuration 'MACRO' was not checked because its code equals another one.
+</p>
+]]>
+    </description>
+    <internalKey>purgedConfiguration</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>internalError</key>
+    <name>Internal Cppcheck tool error</name>
+    <description>
+<![CDATA[<p>
+Internal Cppcheck tool error. Create an issue on the Cppcheck issue tracker.
+</p><h2>References</h2>
+<p><a href="http://trac.cppcheck.net/" target="_blank">Cppcheck development</a></p>
+]]>
+    </description>
+    <internalKey>internalError</internalKey>
+    <severity>INFO</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
 </rules>
 
 <!-- ########### Deprecated as of 1.63 ########### -->
