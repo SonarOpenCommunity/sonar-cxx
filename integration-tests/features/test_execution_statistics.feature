@@ -132,7 +132,7 @@ Feature: Providing test execution numbers
    @SqApi56 @SqApi62
    Scenario: googletest report is invalid
        GIVEN the project "googletest_project"
-       WHEN I run "sonar-scanner -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
+       WHEN I run "sonar-scanner -Dsonar.cxx.errorRecoveryEnabled=false -Dsonar.cxx.xunit.reportPath=invalid_report.xml"
        THEN the analysis breaks
            AND the analysis log contains a line matching:
                """

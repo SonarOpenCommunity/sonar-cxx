@@ -153,7 +153,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           newCoverage.lineHits(line, 0);
         } catch (Exception ex) {
           LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", inputFile.relativePath(), line, ex.getMessage());
-          CxxUtils.ValidateRecovery(ex, settings);
+          CxxUtils.validateRecovery(ex, settings);
         }
       }
 
@@ -161,7 +161,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
         newCoverage.save();
       } catch (Exception ex) {
         LOG.error("Cannot save measure '{}' : '{}', ignoring measure", inputFile.relativePath(), ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       }
     }
   }
@@ -225,7 +225,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
               newCoverage.lineHits(measure.getLine(), measure.getHits());
             } catch(Exception ex) {
               LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
-              CxxUtils.ValidateRecovery(ex, settings);
+              CxxUtils.validateRecovery(ex, settings);
             }            
           }
           
@@ -235,7 +235,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
               newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
             } catch(Exception ex) {
               LOG.error("Cannot save Conditions Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
-              CxxUtils.ValidateRecovery(ex, settings);
+              CxxUtils.validateRecovery(ex, settings);
             }                         
           }                             
         }
@@ -245,7 +245,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
           newCoverage.save();
         } catch(Exception ex) {
           LOG.error("Cannot save measure '{}' : '{}', ignoring measure", filePath, ex.getMessage());
-          CxxUtils.ValidateRecovery(ex, settings);
+          CxxUtils.validateRecovery(ex, settings);
         }        
       } else {
         LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);

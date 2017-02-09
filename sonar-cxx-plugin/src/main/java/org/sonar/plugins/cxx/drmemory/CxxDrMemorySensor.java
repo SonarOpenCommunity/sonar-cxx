@@ -92,7 +92,8 @@ public class CxxDrMemorySensor extends CxxReportSensor {
         .append(e)
         .append("'")
         .toString();
-      throw new IllegalStateException(msg, e);
+      LOG.error(msg);
+      CxxUtils.validateRecovery(e, settings);
     }
   }
 

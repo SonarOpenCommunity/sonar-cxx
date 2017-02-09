@@ -85,7 +85,7 @@ public final class CxxUtils {
     return sw.getBuffer().toString();
   }
   
-  public static void ValidateRecovery(Exception ex, Settings settings) throws IllegalStateException {
+  public static void validateRecovery(Exception ex, Settings settings) throws IllegalStateException {
     if (!settings.getBoolean(CxxPlugin.ERROR_RECOVERY_KEY)) {
       LOG.info("Recovery is disabled, failing analysis : '{}'", ex.toString());
       throw new IllegalStateException(ex.getMessage(), ex.getCause());
