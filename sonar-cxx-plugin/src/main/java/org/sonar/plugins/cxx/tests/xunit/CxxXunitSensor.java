@@ -23,9 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 
@@ -48,9 +46,6 @@ import org.sonar.plugins.cxx.utils.EmptyReportException;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
-import org.sonar.plugins.cxx.CxxLanguage;
-import org.sonar.plugins.cxx.CxxPlugin;
-import static org.sonar.plugins.cxx.coverage.CxxCoverageSensor.LOG;
 import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.cxx.utils.StaxParser;
 
@@ -126,7 +121,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         .append("'")
         .toString();
       LOG.error(msg);
-      throw new IllegalStateException(msg, e);
+      CxxUtils.validateRecovery(e, settings);
     }
   }
 
@@ -166,7 +161,7 @@ public class CxxXunitSensor extends CxxReportSensor {
            .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       }       
 
       try
@@ -178,7 +173,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       } 
       
       try
@@ -190,7 +185,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       } 
       
       try
@@ -202,7 +197,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       } 
 
       try
@@ -214,7 +209,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       }       
 
       try
@@ -226,7 +221,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .save();
       } catch(Exception ex) {
         LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       }       
     } else {
       LOG.debug("The reports contain no testcases");

@@ -85,7 +85,7 @@ public abstract class CxxReportSensor implements Sensor {
              violationsCount - prevViolationsCount);
         } catch (EmptyReportException e) {
           LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-          CxxUtils.ValidateRecovery(e, settings);
+          CxxUtils.validateRecovery(e, settings);
         }
       }
 
@@ -105,7 +105,8 @@ public abstract class CxxReportSensor implements Sensor {
         .append(e)
         .append("'")
         .toString();
-      throw new IllegalStateException(msg, e);
+      LOG.error(msg);
+      CxxUtils.validateRecovery(e, settings);
     }
   }
 
@@ -221,7 +222,7 @@ public abstract class CxxReportSensor implements Sensor {
             violationsCount++;
           } catch (Exception ex) {
             LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
-            CxxUtils.ValidateRecovery(ex, settings);
+            CxxUtils.validateRecovery(ex, settings);
           }
         } else {
           LOG.warn("Cannot find the file '{}', skipping violations", normalPath);
@@ -240,7 +241,7 @@ public abstract class CxxReportSensor implements Sensor {
         violationsCount++;
       } catch (Exception ex) {
         LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
-        CxxUtils.ValidateRecovery(ex, settings);
+        CxxUtils.validateRecovery(ex, settings);
       }
     }
   }
@@ -257,7 +258,7 @@ public abstract class CxxReportSensor implements Sensor {
         }
       } catch (java.lang.NumberFormatException nfe) {
         LOG.warn("Skipping invalid line number: {}", line);
-        CxxUtils.ValidateRecovery(nfe, settings);
+        CxxUtils.validateRecovery(nfe, settings);
         lineNr = -1;
       }
     }
