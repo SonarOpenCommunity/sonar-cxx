@@ -20,7 +20,11 @@
 package org.sonar.plugins.cxx.tests.dotnet;
 
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
+import org.sonar.plugins.cxx.utils.CxxUtils;
 import org.sonar.plugins.dotnet.tests.UnitTestConfiguration;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsAggregator;
 import org.sonar.plugins.dotnet.tests.UnitTestResultsImportSensor;
@@ -30,27 +34,44 @@ public class CxxUnitTestResultsProvider {
   public static final String VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.vstest.reportsPaths";
   public static final String NUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.nunit.reportsPaths";
   public static final String XUNIT_TEST_RESULTS_PROPERTY_KEY = "sonar.cxx.xunit.reportsPaths";
-  
+
   private static final UnitTestConfiguration UNIT_TEST_CONF = new UnitTestConfiguration(
-          VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY,
-          NUNIT_TEST_RESULTS_PROPERTY_KEY,
-          XUNIT_TEST_RESULTS_PROPERTY_KEY);
-  
+    VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY,
+    NUNIT_TEST_RESULTS_PROPERTY_KEY,
+    XUNIT_TEST_RESULTS_PROPERTY_KEY);
+
   private CxxUnitTestResultsProvider() {
   }
 
   public static class CxxUnitTestResultsAggregator extends UnitTestResultsAggregator {
-    
+
     public CxxUnitTestResultsAggregator(Settings settings) {
       super(UNIT_TEST_CONF, settings);
     }
   }
 
   public static class CxxUnitTestResultsImportSensor extends UnitTestResultsImportSensor {
-    
+
+    public static final Logger LOG = Loggers.get(CxxUnitTestResultsImportSensor.class);
+
     public CxxUnitTestResultsImportSensor(CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
       super(unitTestResultsAggregator, projectDef);
     }
 
+    @Override
+    public void execute(SensorContext context) {
+      try {
+        super.execute(context);
+      } catch (Exception e) {
+        String msg = new StringBuilder()
+          .append("Cannot feed the data into SonarQube, details: '")
+          .append(e)
+          .append("'")
+          .toString();
+        LOG.error(msg);
+        CxxUtils.validateRecovery(e, context.settings());
+      }
+    }
   }
+
 }
