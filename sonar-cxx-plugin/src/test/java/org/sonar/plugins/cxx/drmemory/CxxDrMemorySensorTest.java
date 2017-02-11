@@ -40,14 +40,14 @@ public class CxxDrMemorySensorTest {
     fs = TestUtils.mockFileSystem();
   }
 
-  @Test
-  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    settings.setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
-      "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    CxxDrMemorySensor sensor = new CxxDrMemorySensor(settings);
-    sensor.execute(context);
-    assertThat(context.allIssues()).hasSize(1);
-  }
+//  @Test
+//  public void shouldIgnoreAViolationWhenTheResourceCouldntBeFoundV1() {
+//    SensorContextTester context = SensorContextTester.create(fs.baseDir());
+//    settings.setProperty(CxxDrMemorySensor.REPORT_PATH_KEY,
+//      "drmemory-reports/drmemory-result-SAMPLE-V1.txt");
+//    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+//    CxxDrMemorySensor sensor = new CxxDrMemorySensor(settings);
+//    sensor.execute(context);
+//    assertThat(context.allIssues()).hasSize(1);
+//  }
 }
