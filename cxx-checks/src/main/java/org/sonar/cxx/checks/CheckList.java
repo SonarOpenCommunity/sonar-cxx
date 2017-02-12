@@ -83,7 +83,9 @@ public final class CheckList {
       ClassNameCheck.class,
       FileNameCheck.class,
       FunctionNameCheck.class,
-      MethodNameCheck.class
+      MethodNameCheck.class,
+      // XPath
+      XPathCheck.class
     ));
   }
 
