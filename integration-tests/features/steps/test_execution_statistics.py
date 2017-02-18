@@ -244,7 +244,7 @@ def assert_measures(project, measures):
     except requests.exceptions.ConnectionError as e:
         assert False, "cannot query the metrics, details: %s -> url %s" % str(e) % url
     except:
-        assert False, "cannot parse the response, details: url %s, response %s, exception %s" % url % str(response.text) % str(sys.exc_info()[0])
+        assert False, "cannot parse the response, details: %s" % str(sys.exc_info()[0])
 
     assert diff == "", "\n" + diff
 
