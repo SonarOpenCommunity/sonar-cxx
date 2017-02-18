@@ -24,6 +24,7 @@ import re
 import json
 import requests
 import platform
+import sys
 from   requests.auth import HTTPBasicAuth
 import subprocess
 import shutil
@@ -87,7 +88,7 @@ def step_impl(context, rule):
         if response.status_code != requests.codes.ok:
             assert False, "cannot change status of rule: %s" % str(response.text)
 
-    except requests.exceptions.ConnectionError, e:
+    except requests.exceptions.ConnectionError as e:
         assert False, "cannot change status of rule, details: %s" % str(e)
         
 @given(u'rule "{rule}" is created based on "{templaterule}" in repository "{repository}"')
@@ -103,7 +104,7 @@ def step_impl(context, rule, templaterule, repository):
         if response.status_code != requests.codes.ok:
             assert False, "cannot change status of rule: %s" % str(response.text)
             
-    except requests.exceptions.ConnectionError, e:
+    except requests.exceptions.ConnectionError as e:
         assert False, "cannot change status of rule, details: %s" % str(e)
 
     try:
@@ -113,7 +114,7 @@ def step_impl(context, rule, templaterule, repository):
         if response.status_code != requests.codes.ok:
             assert False, "cannot change status of rule: %s" % str(response.text)
 
-    except requests.exceptions.ConnectionError, e:
+    except requests.exceptions.ConnectionError as e:
         assert False, "cannot change status of rule, details: %s" % str(e)            
         
 @when(u'I run "{command}"')
@@ -149,7 +150,7 @@ def step_impl(context, rule):
         if response.status_code != requests.codes.ok:
             assert False, "cannot delete rule: %s" % str(response.text)
             
-    except requests.exceptions.ConnectionError, e:
+    except requests.exceptions.ConnectionError as e:
         assert False, "cannot delete rule, details: %s" % str(e)
          
 @then(u'the analysis log contains no error/warning messages')
@@ -233,10 +234,6 @@ def assert_measures(project, measures):
     print(BRIGHT + "\nGet measures with query : " + url + RESET_ALL)
     
     try:
-        
-
-               
-        
         response = requests.get(url)
         got_measures = {}
         json_measures = json.loads(response.text)[0].get("msr", None)
@@ -244,8 +241,10 @@ def assert_measures(project, measures):
             got_measures = _gotMeasuresToDict(json_measures)
 
         diff = _diffMeasures(measures, got_measures)
-    except requests.exceptions.ConnectionError, e:
+    except requests.exceptions.ConnectionError as e:
         assert False, "cannot query the metrics, details: %s -> url %s" % str(e) % url
+    except:
+        assert False, "cannot parse the response, details: %s" % str(sys.exc_info()[0])
 
     assert diff == "", "\n" + diff
 
