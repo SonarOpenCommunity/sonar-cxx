@@ -5,12 +5,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-     <!--
-     When updating to parent 37 or above, check if <version.sonar-packaging.plugin> defined in the new
-     parent is 1.17 or above. If it is, remove the temporary override of <version.sonar-packaging.plugin>
-     below in this file.
-    -->
-    <version>36</version>
+    <version>39</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
@@ -170,8 +165,6 @@
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     <sonar.version>5.6</sonar.version>
-    <!-- Temporary override of plugin version 1.16 inherited from parent 36 -->
-    <version.sonar-packaging.plugin>1.17</version.sonar-packaging.plugin>
     <sslr.version>1.21</sslr.version>
     <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
     <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
