@@ -57,8 +57,10 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
 
   private static final String ELSE_TOKEN = "ELSE";
 
-  @RuleProperty(defaultValue = "" + DEFAULT_MAX,
-    description = "Maximum allowed control flow statement nesting depth.")
+  @RuleProperty(
+    key = "max",
+    description = "Maximum allowed control flow statement nesting depth.",
+    defaultValue = "" + DEFAULT_MAX)
   public int max = DEFAULT_MAX;
 
   private final Set<AstNode> checkedNodes = new HashSet<>();

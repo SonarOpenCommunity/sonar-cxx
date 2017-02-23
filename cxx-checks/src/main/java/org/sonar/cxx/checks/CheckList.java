@@ -45,6 +45,7 @@ public final class CheckList {
       CycleBetweenPackagesCheck.class,
       DuplicatedIncludeCheck.class,
       FileComplexityCheck.class,
+      ClassComplexityCheck.class,
       FileHeaderCheck.class,
       FileEncodingCheck.class,
       FileRegularExpressionCheck.class,
