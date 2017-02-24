@@ -222,10 +222,15 @@ public class CxxLint {
         
         // get check from list
         Class check = GetRuleFromChecks(checkDefined, checks);
+        if (check == null) {
+            continue;
+        }
+        
         Rule rule = (Rule) check.getAnnotation(Rule.class);
         if (rule == null) {
           continue;
         }
+
         
         SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
         KeyData.put(check.getCanonicalName(), rule.key());
