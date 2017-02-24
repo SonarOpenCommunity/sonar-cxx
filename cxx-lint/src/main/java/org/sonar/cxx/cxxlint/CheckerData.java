@@ -27,6 +27,7 @@ import java.util.HashMap;
  */
 public class CheckerData {
     public String id = "";
+    public String templateId = "";
     public boolean enabled = true;
     public HashMap<String, String> parameterData = new HashMap<String, String>();
 }
