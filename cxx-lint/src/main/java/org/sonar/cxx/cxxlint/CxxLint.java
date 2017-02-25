@@ -30,12 +30,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Proxy;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.apache.commons.cli.CommandLine;
@@ -56,6 +58,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
+import org.sonar.squidbridge.api.CodeCheck;
 import org.sonar.squidbridge.api.SourceFile;
 
 /**
@@ -209,8 +212,6 @@ public class CxxLint {
 
     List<Class> checks = CheckList.getChecks();
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>();
-    HashMap<String, String> KeyData = new HashMap<String, String>();
-
     
     if (!parsedArgs.hasOption("s")) {
       for (Class check : checks) {
@@ -225,15 +226,21 @@ public class CxxLint {
         if (check == null) {
             continue;
         }
-        
-        Rule rule = (Rule) check.getAnnotation(Rule.class);
-        if (rule == null) {
-          continue;
-        }
 
-        
+        // and update the key according with profile
+        // this ensures the template rules have correct key
         SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
-        KeyData.put(check.getCanonicalName(), rule.key());
+        for (Annotation a : check.getAnnotations()) {
+          try {
+            Rule rule = (Rule) a;
+            if (rule != null) {
+              changeAnnotationValue(a, "key", checkDefined.id);
+              break;
+            }            
+          } catch (Exception ex) {
+            break;
+          }
+        }
         
         for (Field f : check.getDeclaredFields()) {
           for (Annotation a : f.getAnnotations()) {
@@ -281,13 +288,54 @@ public class CxxLint {
             visitors.toArray(new SquidAstVisitor[visitors.size()]));      
 
     for (CheckMessage message : file.getCheckMessages()) {
-      String key = KeyData.get(message.getCheck().getClass().getCanonicalName());      
+      Object check = message.getCheck();
+      String key = "";      
+      for (Annotation a : check.getClass().getAnnotations()) {        
+        try {
+          Rule rule = (Rule) a;        
+          if (rule != null) {
+            key = rule.key();
+            break;
+          }           
+        } catch(Exception ex) {
+        }
+     }
+        
       // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
       System.out.println(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + message.formatDefaultMessage() + " [" + key + "]");
     }
     
     System.out.println("LOC: " + file.getInt(CxxMetric.LINES_OF_CODE));   
     System.out.println("COMPLEXITY: " + file.getInt(CxxMetric.COMPLEXITY));
+  }
+
+  /**
+   * Changes the annotation value for the given key of the given annotation to newValue and returns
+   * the previous value.
+   * from: http://stackoverflow.com/questions/14268981/modify-a-class-definitions-annotation-string-parameter-at-runtime
+   */
+  @SuppressWarnings("unchecked")
+  public static Object changeAnnotationValue(Annotation annotation, String key, Object newValue){
+      Object handler = Proxy.getInvocationHandler(annotation);
+      Field f;
+      try {
+          f = handler.getClass().getDeclaredField("memberValues");
+      } catch (NoSuchFieldException | SecurityException e) {
+          throw new IllegalStateException(e);
+      }
+      f.setAccessible(true);
+      Map<String, Object> memberValues;
+      try {
+          memberValues = (Map<String, Object>) f.get(handler);
+      } catch (IllegalArgumentException | IllegalAccessException e) {
+          throw new IllegalStateException(e);
+      }
+      Object oldValue = memberValues.get(key);
+      if (oldValue == null || oldValue.getClass() != newValue.getClass()) {
+          throw new IllegalArgumentException();
+      }
+      memberValues.put(key,newValue);
+      return oldValue;
   }
 
   private static String GetJsonStringValue(JsonParser parser, String fileContent, String id) throws JsonSyntaxException {
