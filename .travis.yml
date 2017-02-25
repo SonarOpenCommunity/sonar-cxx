@@ -4,16 +4,16 @@ jdk:
         - oraclejdk8
 
 env:
-        - SONARHOME=/tmp/sonarqube-5.6.5 SONARAPI=SqApi56
+        - SONARHOME=/tmp/sonarqube-5.6.6 SONARAPI=SqApi56
         - SONARHOME=/tmp/sonarqube-6.0   SONARAPI=SqApi56
         - SONARHOME=/tmp/sonarqube-6.1   SONARAPI=SqApi56
         - SONARHOME=/tmp/sonarqube-6.2   SONARAPI=SqApi62
-        - SONARHOME=/tmp/sonarqube-6.3.0.18587 SONARAPI=SqApi62
+        - SONARHOME=/tmp/sonarqube-6.3.0.18800 SONARAPI=SqApi62
         
 matrix:
     fast_finished: true
     allow_failures:
-        - env: SONARHOME=/tmp/sonarqube-6.3.0.18587
+        - env: SONARHOME=/tmp/sonarqube-6.3.0.18800
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
@@ -30,16 +30,16 @@ before_install:
         
 install:
         - cd /tmp
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.6.5.zip
-        - unzip -qq sonarqube-5.6.5.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.6.6.zip
+        - unzip -qq sonarqube-5.6.6.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.0.zip
         - unzip -qq sonarqube-6.0.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.1.zip
         - unzip -qq sonarqube-6.1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.2.zip
         - unzip -qq sonarqube-6.2.zip
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.0.18587.zip
-        - unzip -qq sonarqube-6.3.0.18587.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.0.18800.zip
+        - unzip -qq sonarqube-6.3.0.18800.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.8.zip
         - unzip -qq sonar-scanner-2.8.zip
         - cd -
