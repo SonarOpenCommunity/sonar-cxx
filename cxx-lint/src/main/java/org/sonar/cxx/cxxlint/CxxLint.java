@@ -140,7 +140,7 @@ public class CxxLint {
     sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
     InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    HashMap<String, CheckerData> rulesData = new HashMap<>();
+    List<CheckerData> rulesData = new ArrayList<CheckerData>();
     if (!"".equals(settingsFile)) {
       JsonParser parser = new JsonParser();
       String fileContent = readFile(settingsFile);
@@ -155,13 +155,20 @@ public class CxxLint {
         for (JsonElement rule : rules.getAsJsonArray()) {
           JsonObject data = rule.getAsJsonObject();
           String ruleId = data.get("ruleId").getAsString();
-          String enabled = data.get("status").getAsString();
-          if (rulesData.containsKey(ruleId)) {
-            continue;
+          
+          String templateKey = "";
+          try
+          {
+            templateKey = data.get("templateKeyId").getAsString();
+          } catch(Exception ex) {
           }
+          
+          String enabled = data.get("status").getAsString();
 
           CheckerData check = new CheckerData();
           check.id = ruleId;
+          check.templateId = templateKey;
+            
           check.enabled = enabled.equals("Enabled");
           JsonElement region = data.get("properties");
           if (region != null) {
@@ -171,7 +178,7 @@ public class CxxLint {
             }
           }
 
-          rulesData.put(ruleId, check);
+          rulesData.add(check);
         }
       }
       
@@ -204,68 +211,69 @@ public class CxxLint {
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>();
     HashMap<String, String> KeyData = new HashMap<String, String>();
 
-    for (Class check : checks) {
-      Rule rule = (Rule) check.getAnnotation(Rule.class);
-      if (rule == null) {
-        continue;
-      }
-
-      SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
-
-      KeyData.put(check.getCanonicalName(), rule.key());
-      
-      if (!parsedArgs.hasOption("s")) {
+    
+    if (!parsedArgs.hasOption("s")) {
+      for (Class check : checks) {
+        SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
         visitors.add(element);
-        continue;
       }
-      
-      if (!rulesData.containsKey(rule.key())) {
-        continue;
-      }
+    } else {
+      for (CheckerData checkDefined : rulesData) {
+        
+        // get check from list
+        Class check = GetRuleFromChecks(checkDefined, checks);
+        if (check == null) {
+            continue;
+        }
+        
+        Rule rule = (Rule) check.getAnnotation(Rule.class);
+        if (rule == null) {
+          continue;
+        }
 
-      CheckerData data = rulesData.get(rule.key());
-
-      if (!data.enabled) {
-        continue;
-      }
-
-      for (Field f : check.getDeclaredFields()) {
-        for (Annotation a : f.getAnnotations()) {
-          RuleProperty ruleProp = (RuleProperty) a;
-          if (ruleProp != null) {
-            if (data.parameterData.containsKey(ruleProp.key())) {
-              if (f.getType().equals(int.class)) {
-                String cleanData = data.parameterData.get(ruleProp.key());
-                int value = Integer.parseInt(cleanData);
-                if (f.toString().startsWith("public ")) {
-                  f.set(element, value);
-                } else {
-                  char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{value});
-                  stmt.execute();
+        
+        SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
+        KeyData.put(check.getCanonicalName(), rule.key());
+        
+        for (Field f : check.getDeclaredFields()) {
+          for (Annotation a : f.getAnnotations()) {
+            RuleProperty ruleProp = (RuleProperty) a;
+            if (ruleProp != null) {
+              if (checkDefined.parameterData.containsKey(ruleProp.key())) {
+                if (f.getType().equals(int.class)) {
+                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
+                  int value = Integer.parseInt(cleanData);
+                  if (f.toString().startsWith("public ")) {
+                    f.set(element, value);
+                  } else {
+                    char first = Character.toUpperCase(ruleProp.key().charAt(0));
+                    Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{value});
+                    stmt.execute();
+                  }
                 }
-              }
 
-              if (f.getType().equals(String.class)) {
-                String cleanData = data.parameterData.get(ruleProp.key());
+                if (f.getType().equals(String.class)) {
+                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
 
-                if (f.toString().startsWith("public ")) {
-                  f.set(element, cleanData);
-                } else {
-                  char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{cleanData});
-                  stmt.execute();
+                  if (f.toString().startsWith("public ")) {
+                    f.set(element, cleanData);
+                  } else {
+                    char first = Character.toUpperCase(ruleProp.key().charAt(0));
+                    Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{cleanData});
+                    stmt.execute();
+                  }
                 }
               }
             }
           }
         }
-      }
-      visitors.add(element);
+          visitors.add(element);
+      }    
     }
 
     System.out.println("Analyse with : " + visitors.size() + " checks");
-        
+
+    
     SourceFile file = CxxAstScanner.scanSingleFileConfig(
             cxxFile,
             configuration,
@@ -308,5 +316,20 @@ public class CxxLint {
         configuration.addOverallDefine(define);
       }
     }
+  }
+
+  private static Class GetRuleFromChecks(CheckerData checkDefined, List<Class> checks) {
+    for (Class check : checks) {
+      Rule rule = (Rule) check.getAnnotation(Rule.class);
+      if (rule == null) {
+        continue;
+      }
+
+      if (checkDefined.id.equals(rule.key()) || checkDefined.templateId.equals(rule.key()) && checkDefined.enabled) {
+        return check;
+      }
+    }    
+    
+    return null;
   }
 }

@@ -46,6 +46,7 @@
     {
       "ruleId": "FileName",
       "status": "Enabled",
+      "templateKeyId": "Key",
       "properties": {
         "format": "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$"
       }
