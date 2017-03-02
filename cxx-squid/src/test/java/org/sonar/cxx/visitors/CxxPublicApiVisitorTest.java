@@ -137,7 +137,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void template() throws IOException {
-    testFile("src/test/resources/metrics/template.h", 13, 4, false);
+    testFile("src/test/resources/metrics/template.h", 14, 4, false);
   }
 
   @Test
