@@ -64,3 +64,10 @@ template <class T>
 void TestClass2::functionTest2()
 {
 }
+
+/**
+ * @brief issue #1067
+ */
+struct A {
+   template<class T> class B;
+};

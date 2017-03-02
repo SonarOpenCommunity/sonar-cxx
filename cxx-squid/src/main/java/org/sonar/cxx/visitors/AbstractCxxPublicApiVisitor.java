@@ -204,12 +204,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     if (memberDeclaration != null) {
       return;
     }
-    
+
     // ignore classSpefifier typedefs (classSpefifier at classSpefifier)
     if (isTypedef(declaratorList)) {
       return;
     }
-    
+
     // ignore friend declarations
     if (isFriendDeclarationList(declaratorList)) {
       return;
@@ -254,7 +254,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
     return false;
   }
-  
+
   private boolean isFriendDeclarationList(AstNode declaratorList) {
     AstNode simpleDeclNode = declaratorList
       .getFirstAncestor(CxxGrammarImpl.simpleDeclaration);
@@ -353,7 +353,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
     return null;
   }
-  
+
   private void visitClassSpecifier(AstNode classSpecifier) {
 
     // check if this is a template specification to adjust documentation node
@@ -365,7 +365,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         docNode = classSpecifier;
       }
     }
-    
+
     // narrow the identifier search scope to classHead
     AstNode classHead = classSpecifier
       .getFirstDescendant(CxxGrammarImpl.classHead);
@@ -477,15 +477,18 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     return false;
   }
-    
+
   private void visitTemplateDeclaration(AstNode templateDeclaration) {
 
     if (isFriendMemberDeclaration(templateDeclaration.getParent())) {
       return;
     }
 
-    String id = templateDeclaration.getFirstDescendant(CxxGrammarImpl.className)
-      .getTokenValue();
+    AstNode className = templateDeclaration.getFirstDescendant(CxxGrammarImpl.className);
+    if (className == null) {
+      return;
+    }
+    String id = className.getTokenValue();
 
     // handle cascaded template declarations
     AstNode node = templateDeclaration;
@@ -498,10 +501,10 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       }
       node = node.getFirstAncestor(CxxGrammarImpl.templateDeclaration);
     } while (node != null);
-    
+
     visitPublicApi(templateDeclaration, id, comments);
   }
-  
+
   private void visitFunctionDefinition(AstNode functionDef) {
     if (isPublicApiMember(functionDef)) {
       // filter out deleted and defaulted methods
@@ -570,7 +573,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     AstNode container = node.getFirstAncestor(
       CxxGrammarImpl.templateDeclaration,
       CxxGrammarImpl.classSpecifier);
-    
+
     AstNode docNode = node;
     List<Token> comments;
 
@@ -629,8 +632,8 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       CxxGrammarImpl.classSpecifier);
 
     // An alias declaration inside a function is not part of the public API
-    if (parent != null && parent.getType() == CxxGrammarImpl.functionDefinition){
-        return;
+    if (parent != null && parent.getType() == CxxGrammarImpl.functionDefinition) {
+      return;
     }
 
     if (isPublicApiMember(aliasDeclNode)) {
@@ -687,7 +690,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     if (docNode == null) {
       docNode = enumSpecifierNode;
     }
-      
+
     visitPublicApi(
       enumSpecifierNode, enumId,
       getBlockDocumentation(docNode));
@@ -778,7 +781,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   private static boolean isPublicApiMember(AstNode node) {
     AstNode access = node;
-    
+
     // retrieve the accessSpecifier
     do {
       access = access.getPreviousAstNode();
@@ -816,9 +819,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         } else {
           LOG.error("isPublicApiMember: failed to get enclosing classSpecifier for node at {}", node.getTokenLine());
           return false;
-        }    
+        }
       }
-    
+
       // method or function outside of class
       return true;
     }
