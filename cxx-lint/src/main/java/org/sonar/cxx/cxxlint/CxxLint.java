@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2017 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -30,12 +30,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Proxy;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.apache.commons.cli.CommandLine;
@@ -56,6 +58,7 @@ import org.sonar.cxx.api.CxxMetric;
 import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
+import org.sonar.squidbridge.api.CodeCheck;
 import org.sonar.squidbridge.api.SourceFile;
 
 /**
@@ -140,7 +143,7 @@ public class CxxLint {
     sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
     InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    HashMap<String, CheckerData> rulesData = new HashMap<>();
+    List<CheckerData> rulesData = new ArrayList<CheckerData>();
     if (!"".equals(settingsFile)) {
       JsonParser parser = new JsonParser();
       String fileContent = readFile(settingsFile);
@@ -155,13 +158,20 @@ public class CxxLint {
         for (JsonElement rule : rules.getAsJsonArray()) {
           JsonObject data = rule.getAsJsonObject();
           String ruleId = data.get("ruleId").getAsString();
-          String enabled = data.get("status").getAsString();
-          if (rulesData.containsKey(ruleId)) {
-            continue;
+          
+          String templateKey = "";
+          try
+          {
+            templateKey = data.get("templateKeyId").getAsString();
+          } catch(Exception ex) {
           }
+          
+          String enabled = data.get("status").getAsString();
 
           CheckerData check = new CheckerData();
           check.id = ruleId;
+          check.templateId = templateKey;
+            
           check.enabled = enabled.equals("Enabled");
           JsonElement region = data.get("properties");
           if (region != null) {
@@ -171,7 +181,7 @@ public class CxxLint {
             }
           }
 
-          rulesData.put(ruleId, check);
+          rulesData.add(check);
         }
       }
       
@@ -202,70 +212,75 @@ public class CxxLint {
 
     List<Class> checks = CheckList.getChecks();
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>();
-    HashMap<String, String> KeyData = new HashMap<String, String>();
-
-    for (Class check : checks) {
-      Rule rule = (Rule) check.getAnnotation(Rule.class);
-      if (rule == null) {
-        continue;
-      }
-
-      SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
-
-      KeyData.put(check.getCanonicalName(), rule.key());
-      
-      if (!parsedArgs.hasOption("s")) {
+    
+    if (!parsedArgs.hasOption("s")) {
+      for (Class check : checks) {
+        SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
         visitors.add(element);
-        continue;
       }
-      
-      if (!rulesData.containsKey(rule.key())) {
-        continue;
-      }
+    } else {
+      for (CheckerData checkDefined : rulesData) {
+        
+        // get check from list
+        Class check = GetRuleFromChecks(checkDefined, checks);
+        if (check == null) {
+            continue;
+        }
 
-      CheckerData data = rulesData.get(rule.key());
-
-      if (!data.enabled) {
-        continue;
-      }
-
-      for (Field f : check.getDeclaredFields()) {
-        for (Annotation a : f.getAnnotations()) {
-          RuleProperty ruleProp = (RuleProperty) a;
-          if (ruleProp != null) {
-            if (data.parameterData.containsKey(ruleProp.key())) {
-              if (f.getType().equals(int.class)) {
-                String cleanData = data.parameterData.get(ruleProp.key());
-                int value = Integer.parseInt(cleanData);
-                if (f.toString().startsWith("public ")) {
-                  f.set(element, value);
-                } else {
-                  char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{value});
-                  stmt.execute();
+        // and update the key according with profile
+        // this ensures the template rules have correct key
+        SquidAstVisitor<Grammar> element = (SquidAstVisitor<Grammar>) check.newInstance();
+        for (Annotation a : check.getAnnotations()) {
+          try {
+            Rule rule = (Rule) a;
+            if (rule != null) {
+              changeAnnotationValue(a, "key", checkDefined.id);
+              break;
+            }            
+          } catch (Exception ex) {
+            break;
+          }
+        }
+        
+        for (Field f : check.getDeclaredFields()) {
+          for (Annotation a : f.getAnnotations()) {
+            RuleProperty ruleProp = (RuleProperty) a;
+            if (ruleProp != null) {
+              if (checkDefined.parameterData.containsKey(ruleProp.key())) {
+                if (f.getType().equals(int.class)) {
+                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
+                  int value = Integer.parseInt(cleanData);
+                  if (f.toString().startsWith("public ")) {
+                    f.set(element, value);
+                  } else {
+                    char first = Character.toUpperCase(ruleProp.key().charAt(0));
+                    Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{value});
+                    stmt.execute();
+                  }
                 }
-              }
 
-              if (f.getType().equals(String.class)) {
-                String cleanData = data.parameterData.get(ruleProp.key());
+                if (f.getType().equals(String.class)) {
+                  String cleanData = checkDefined.parameterData.get(ruleProp.key());
 
-                if (f.toString().startsWith("public ")) {
-                  f.set(element, cleanData);
-                } else {
-                  char first = Character.toUpperCase(ruleProp.key().charAt(0));
-                  Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{cleanData});
-                  stmt.execute();
+                  if (f.toString().startsWith("public ")) {
+                    f.set(element, cleanData);
+                  } else {
+                    char first = Character.toUpperCase(ruleProp.key().charAt(0));
+                    Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{cleanData});
+                    stmt.execute();
+                  }
                 }
               }
             }
           }
         }
-      }
-      visitors.add(element);
+          visitors.add(element);
+      }    
     }
 
     System.out.println("Analyse with : " + visitors.size() + " checks");
-        
+
+    
     SourceFile file = CxxAstScanner.scanSingleFileConfig(
             cxxFile,
             configuration,
@@ -273,13 +288,54 @@ public class CxxLint {
             visitors.toArray(new SquidAstVisitor[visitors.size()]));      
 
     for (CheckMessage message : file.getCheckMessages()) {
-      String key = KeyData.get(message.getCheck().getClass().getCanonicalName());      
+      Object check = message.getCheck();
+      String key = "";      
+      for (Annotation a : check.getClass().getAnnotations()) {        
+        try {
+          Rule rule = (Rule) a;        
+          if (rule != null) {
+            key = rule.key();
+            break;
+          }           
+        } catch(Exception ex) {
+        }
+     }
+        
       // E:\TSSRC\Core\Common\libtools\tool_archive.cpp(390): Warning : sscanf can be ok, but is slow and can overflow buffers.  [runtime/printf-5] [1]
       System.out.println(message.getSourceCode() + "(" + message.getLine() + "): Warning : " + message.formatDefaultMessage() + " [" + key + "]");
     }
     
     System.out.println("LOC: " + file.getInt(CxxMetric.LINES_OF_CODE));   
     System.out.println("COMPLEXITY: " + file.getInt(CxxMetric.COMPLEXITY));
+  }
+
+  /**
+   * Changes the annotation value for the given key of the given annotation to newValue and returns
+   * the previous value.
+   * from: http://stackoverflow.com/questions/14268981/modify-a-class-definitions-annotation-string-parameter-at-runtime
+   */
+  @SuppressWarnings("unchecked")
+  public static Object changeAnnotationValue(Annotation annotation, String key, Object newValue){
+      Object handler = Proxy.getInvocationHandler(annotation);
+      Field f;
+      try {
+          f = handler.getClass().getDeclaredField("memberValues");
+      } catch (NoSuchFieldException | SecurityException e) {
+          throw new IllegalStateException(e);
+      }
+      f.setAccessible(true);
+      Map<String, Object> memberValues;
+      try {
+          memberValues = (Map<String, Object>) f.get(handler);
+      } catch (IllegalArgumentException | IllegalAccessException e) {
+          throw new IllegalStateException(e);
+      }
+      Object oldValue = memberValues.get(key);
+      if (oldValue == null || oldValue.getClass() != newValue.getClass()) {
+          throw new IllegalArgumentException();
+      }
+      memberValues.put(key,newValue);
+      return oldValue;
   }
 
   private static String GetJsonStringValue(JsonParser parser, String fileContent, String id) throws JsonSyntaxException {
@@ -308,5 +364,20 @@ public class CxxLint {
         configuration.addOverallDefine(define);
       }
     }
+  }
+
+  private static Class GetRuleFromChecks(CheckerData checkDefined, List<Class> checks) {
+    for (Class check : checks) {
+      Rule rule = (Rule) check.getAnnotation(Rule.class);
+      if (rule == null) {
+        continue;
+      }
+
+      if (checkDefined.id.equals(rule.key()) || checkDefined.templateId.equals(rule.key()) && checkDefined.enabled) {
+        return check;
+      }
+    }    
+    
+    return null;
   }
 }

@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2017 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ import java.util.HashMap;
  */
 public class CheckerData {
     public String id = "";
+    public String templateId = "";
     public boolean enabled = true;
     public HashMap<String, String> parameterData = new HashMap<String, String>();
 }

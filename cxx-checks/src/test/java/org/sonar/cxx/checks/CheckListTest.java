@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2017 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -27,6 +27,6 @@ public class CheckListTest {
 
   @Test
   public void count() {
-    assertThat(CheckList.getChecks().size()).isEqualTo(44);
+    assertThat(CheckList.getChecks().size()).isEqualTo(46);
   }
 }

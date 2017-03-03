@@ -1,6 +1,6 @@
 /*
  * Sonar C++ Plugin (Community)
- * Copyright (C) 2010-2016 SonarOpenCommunity
+ * Copyright (C) 2010-2017 SonarOpenCommunity
  * http://github.com/SonarOpenCommunity/sonar-cxx
  *
  * This program is free software; you can redistribute it and/or
@@ -45,6 +45,7 @@ public final class CheckList {
       CycleBetweenPackagesCheck.class,
       DuplicatedIncludeCheck.class,
       FileComplexityCheck.class,
+      ClassComplexityCheck.class,
       FileHeaderCheck.class,
       FileEncodingCheck.class,
       FileRegularExpressionCheck.class,
@@ -83,7 +84,9 @@ public final class CheckList {
       ClassNameCheck.class,
       FileNameCheck.class,
       FunctionNameCheck.class,
-      MethodNameCheck.class
+      MethodNameCheck.class,
+      // XPath
+      XPathCheck.class
     ));
   }
 
