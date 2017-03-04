@@ -1,0 +1,3 @@
+sources\utils\code_chunks.cpp:20:5: error: use of undeclared identifier 'gets' [clang-diagnostic-error]
+    gets(buffer); //rats violation
+    ^

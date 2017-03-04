@@ -74,13 +74,18 @@ public class CxxClangTidySensor extends CxxReportSensor {
     LOG.debug("Parsing clang-tidy report");
 
     try (Scanner scanner = new Scanner(report, "UTF-8")) {
+      // E:\Development\SonarQube\cxx\sonar-cxx\sonar-cxx-plugin\src\test\resources\org\sonar\plugins\cxx\reports-project\clang-tidy-reports\..\..\cpd.cc:76:20: warning: ISO C++11 does not allow conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
+      // case 1: return "one";
+
       // <path>:<line>:<column>: <level>: <message> [<checkname>]
       Pattern p = Pattern.compile("([^:]+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]");
+      Pattern p_windows = Pattern.compile("([^:]+):([^:]+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]");
       Issue currentIssue = null;
 
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         Matcher matcher = p.matcher(line);
+        Matcher matcherWindows = p_windows.matcher(line);
         if (matcher.matches()) {
           if (currentIssue != null) {
             saveUniqueViolation(context, CxxClangTidyRuleRepository.KEY, currentIssue.path, currentIssue.line, currentIssue.check,
@@ -93,6 +98,18 @@ public class CxxClangTidySensor extends CxxReportSensor {
           currentIssue.level = m.group(4);
           currentIssue.message = m.group(5);
           currentIssue.check = m.group(6);
+        } else if(matcherWindows.matches()) {
+          if (currentIssue != null) {
+            saveUniqueViolation(context, CxxClangTidyRuleRepository.KEY, currentIssue.path, currentIssue.line, currentIssue.check,
+                currentIssue.message);
+          }
+          MatchResult m = matcherWindows.toMatchResult();
+          currentIssue = new Issue();
+          currentIssue.path = m.group(1) + ":" + m.group(2);
+          currentIssue.line = m.group(3);
+          currentIssue.level = m.group(5);
+          currentIssue.message = m.group(6);
+          currentIssue.check = m.group(7);          
         } else if (extendedIssueInformation && currentIssue != null) {
           currentIssue.message += "\n" + line;
         }
