@@ -65,5 +65,18 @@ public class CxxClangTidySensorTest {
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
+  }
+
+  @Test
+  public void invalidReportReportsNoIssues() {
+    SensorContextTester context = SensorContextTester.create(new File("src/samples/SampleProject"));
+    settings.setProperty(CxxClangTidySensor.REPORT_PATH_KEY, fs.baseDir().getAbsolutePath() + 
+      "/clang-tidy-reports/cpd.report-empty.txt");
+    settings.setProperty(CxxPlugin.ERROR_RECOVERY_KEY, "True");
+    CxxClangTidySensor sensor = new CxxClangTidySensor(settings);
+    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata(new String("asd\nasdas\nasda\n")));
+    sensor.execute(context);
+    assertThat(context.allIssues()).hasSize(0);
   }  
+  
 }

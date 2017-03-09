@@ -258,8 +258,8 @@ public final class CxxPlugin implements Plugin {
       .index(12)
       .build(),
       PropertyDefinition.builder(CxxClangTidySensor.REPORT_PATH_KEY)
-      .name("Clang-tidy analyzer report(s)")
-      .description("Path to clang-tidy reports, relative to projects root."
+      .name("Clang-Tidy analyzer report(s)")
+      .description("Path to Clang-Tidy reports, relative to projects root."
         + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)

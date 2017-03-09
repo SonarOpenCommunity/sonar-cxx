@@ -29,9 +29,9 @@ import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
  */
 public final class CxxClangTidyRuleRepository extends CxxAbstractRuleRepository {
 
-  public static final String KEY = "clangtidy";
+  public static final String KEY = "ClangTidy";
   public static final String CUSTOM_RULES_KEY = "sonar.cxx.clangtidy.customRules";
-  private static final String NAME = "clangtidy";
+  private static final String NAME = "Clang-Tidy";
 
   /**
    * {@inheritDoc}

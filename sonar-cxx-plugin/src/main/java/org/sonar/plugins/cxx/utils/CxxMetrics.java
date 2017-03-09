@@ -80,7 +80,7 @@ public class CxxMetrics implements Metrics {
 	.setQualitative(Boolean.TRUE)
 	.setDomain("C++")
 	.create();
-  public static final Metric CLANGTIDY = new Metric.Builder("CXX-CLANGTIDY", "clang-tidy checks", Metric.ValueType.INT)
+  public static final Metric CLANGTIDY = new Metric.Builder("CXX-CLANGTIDY", "Clang-Tidy checks", Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(true)
     .setDomain("C++")

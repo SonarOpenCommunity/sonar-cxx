@@ -41,17 +41,6 @@ public class CxxClangTidySensor extends CxxReportSensor {
   public static final Logger LOG = Loggers.get(CxxClangTidySensor.class);
   public static final String REPORT_PATH_KEY = "sonar.cxx.clangtidy.reportPath";
 
-  private class Issue {
-    String path;
-    String line;
-    String level;
-    String message;
-    String check;
-  }
-  
-  // Extended issue information disabled for now as this has some formatting issues in the UI (not very readable and ugly).
-  private boolean extendedIssueInformation = false;
-
   /**
    * {@inheritDoc}
    */
@@ -68,7 +57,7 @@ public class CxxClangTidySensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(CxxLanguage.KEY).name("CxxClangTidySensor");
   }
-
+  
   @Override
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing clang-tidy report");
@@ -76,50 +65,55 @@ public class CxxClangTidySensor extends CxxReportSensor {
     try (Scanner scanner = new Scanner(report, "UTF-8")) {
       // E:\Development\SonarQube\cxx\sonar-cxx\sonar-cxx-plugin\src\test\resources\org\sonar\plugins\cxx\reports-project\clang-tidy-reports\..\..\cpd.cc:76:20: warning: ISO C++11 does not allow conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
       // case 1: return "one";
-
       // <path>:<line>:<column>: <level>: <message> [<checkname>]
+      // relative paths
       Pattern p = Pattern.compile("([^:]+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]");
-      Pattern p_windows = Pattern.compile("([^:]+):([^:]+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]");
-      Issue currentIssue = null;
+      Pattern p_drive_letter = Pattern.compile("([^:]+):([^:]+):([0-9]+):([0-9]+): ([^:]+): ([^]]+) \\[([^]]+)\\]");
 
       while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        Matcher matcher = p.matcher(line);
-        Matcher matcherWindows = p_windows.matcher(line);
-        if (matcher.matches()) {
-          if (currentIssue != null) {
-            saveUniqueViolation(context, CxxClangTidyRuleRepository.KEY, currentIssue.path, currentIssue.line, currentIssue.check,
-                currentIssue.message);
-          }
-          MatchResult m = matcher.toMatchResult();
-          currentIssue = new Issue();
-          currentIssue.path = m.group(1);
-          currentIssue.line = m.group(2);
-          currentIssue.level = m.group(4);
-          currentIssue.message = m.group(5);
-          currentIssue.check = m.group(6);
-        } else if(matcherWindows.matches()) {
-          if (currentIssue != null) {
-            saveUniqueViolation(context, CxxClangTidyRuleRepository.KEY, currentIssue.path, currentIssue.line, currentIssue.check,
-                currentIssue.message);
-          }
-          MatchResult m = matcherWindows.toMatchResult();
-          currentIssue = new Issue();
-          currentIssue.path = m.group(1) + ":" + m.group(2);
-          currentIssue.line = m.group(3);
-          currentIssue.level = m.group(5);
-          currentIssue.message = m.group(6);
-          currentIssue.check = m.group(7);          
-        } else if (extendedIssueInformation && currentIssue != null) {
-          currentIssue.message += "\n" + line;
+        String line = scanner.nextLine().trim();
+        if (line.startsWith("/") || line.charAt(1) != ':') {
+          // does not start with drive letter, but can be relative path
+          CreateIssueInLineNoDriveLetter(context, line, p);
+        } else {
+          CreateIssueInLineWithDriveLetter(context, line, p_drive_letter);
         }
-      }
-      if (currentIssue != null) {
-        saveUniqueViolation(context, CxxClangTidyRuleRepository.KEY, currentIssue.path, currentIssue.line, currentIssue.check,
-            currentIssue.message);
       }
     } catch (final Exception e) {
       LOG.error("Failed to parse clang-tidy report: {}", e);
     }
   }
+  
+  private void CreateIssueInLineWithDriveLetter(SensorContext context, String line, Pattern p) {
+    Matcher matcherWindows = p.matcher(line);
+    MatchResult m = matcherWindows.toMatchResult();
+    String path = m.group(1) + ":" + m.group(2);
+    String lineId = m.group(3);
+    String message = m.group(6);
+    String check = m.group(7);          
+    saveUniqueViolation(
+            context, 
+            CxxClangTidyRuleRepository.KEY,
+            path,
+            lineId,
+            check,
+            message);  
+  }
+  
+  private void CreateIssueInLineNoDriveLetter(SensorContext context, String line, Pattern p) {
+    Matcher matcher = p.matcher(line);
+    if (matcher.matches()) {
+      MatchResult m = matcher.toMatchResult();
+      String path = m.group(1);
+      String lineId = m.group(2);
+      String message = m.group(5);
+      String check = m.group(6);
+      saveUniqueViolation(context,
+              CxxClangTidyRuleRepository.KEY,
+              path,
+              lineId,
+              check,
+              message);
+    }
+  }  
 }
