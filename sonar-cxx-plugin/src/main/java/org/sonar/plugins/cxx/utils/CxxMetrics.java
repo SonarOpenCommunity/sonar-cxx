@@ -80,6 +80,12 @@ public class CxxMetrics implements Metrics {
 	.setQualitative(Boolean.TRUE)
 	.setDomain("C++")
 	.create();
+  public static final Metric CLANGTIDY = new Metric.Builder("CXX-CLANGTIDY", "Clang-Tidy checks", Metric.ValueType.INT)
+    .setDirection(Metric.DIRECTION_WORST)
+    .setQualitative(true)
+    .setDomain("C++")
+    .create();
+
 
   @Override
   public List<Metric> getMetrics() {
@@ -94,6 +100,7 @@ public class CxxMetrics implements Metrics {
     list.add(VALGRIND);
     list.add(VERAXX);
     list.add(DRMEMORY);
+    list.add(CLANGTIDY);
     return list;
   }
 }

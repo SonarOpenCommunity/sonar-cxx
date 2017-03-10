@@ -17,21 +17,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.clangtidy;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.sonar.api.config.Settings;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.plugins.cxx.utils.CxxAbstractRuleRepository;
 
-import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeVersion;
+/**
+ * {@inheritDoc}
+ */
+public final class CxxClangTidyRuleRepository extends CxxAbstractRuleRepository {
 
-public class CxxPluginTest {
+  public static final String KEY = "ClangTidy";
+  public static final String CUSTOM_RULES_KEY = "sonar.cxx.clangtidy.customRules";
+  private static final String NAME = "Clang-Tidy";
 
-  @Test
-  public void testGetExtensions() throws Exception {
-   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
-   CxxPlugin plugin = new CxxPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(68);
+  /**
+   * {@inheritDoc}
+   */
+  public CxxClangTidyRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+    super(fileSystem, xmlRuleLoader, settings, KEY, NAME, CUSTOM_RULES_KEY);
+  }
+
+  @Override
+  protected String fileName() {
+    return "/clangtidy.xml";
   }
 }

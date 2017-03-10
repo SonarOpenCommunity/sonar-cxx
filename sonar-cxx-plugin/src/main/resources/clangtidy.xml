@@ -1,0 +1,2107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  C and C++ rules from
+  * http://clang.llvm.org/extra/clang-tidy/checks/list.html
+  * http://clang-analyzer.llvm.org/available_checks.html
+-->
+<rules>
+<rule>
+  <key>boost-use-to-string</key>
+  <name>boost-use-to-string</name>
+  <description><![CDATA[<p>
+    This check finds conversion from integer type like ``int`` to ``std::string`` or
+    ``std::wstring`` using ``boost::lexical_cast``, and replace it with calls to
+    ``std::to_string`` and ``std::to_wstring``.</p>
+        <h2>References</h2>
+        <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/boost-use-to-string.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cert-dcl50-cpp</key>
+  <name>cert-dcl50-cpp</name>
+  <description><![CDATA[<p>
+This check flags all function definitions (but not declarations) of C-style
+variadic functions.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-dcl50-cpp.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cert-env33-c</key>
+  <name>cert-env33-c</name>
+  <description><![CDATA[<p>
+This check flags calls to ``system()``, ``popen()``, and ``_popen()``, which
+execute a command processor. It does not flag calls to ``system()`` with a null
+pointer argument, as such a call checks for the presence of a command processor
+but does not actually attempt to execute a command.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-env33-c.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cert-err34-c</key>
+  <name>cert-err34-c</name>
+  <description><![CDATA[<p>
+This check flags calls to string-to-number conversion functions that do not
+verify the validity of the conversion, such as ``atoi()`` or ``scanf()``. It
+does not flag calls to ``strtol()``, or other, related conversion functions that
+do perform better error checking.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-err34-c.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cert-err52-cpp</key>
+  <name>cert-err52-cpp</name>
+  <description><![CDATA[<p>
+This check flags all call expressions involving ``setjmp()`` and ``longjmp()``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-err52-cpp.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cert-err58-cpp</key>
+  <name>cert-err58-cpp</name>
+  <description><![CDATA[<p>
+This check flags all ``static`` or ``thread_local`` variable declarations where the constructor for the object may throw an exception.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-err58-cpp.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cert-err60-cpp</key>
+  <name>cert-err60-cpp</name>
+  <description><![CDATA[<p>
+This check flags all throw expressions where the exception object is not nothrow copy constructible.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-err60-cpp.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cert-flp30-c</key>
+  <name>cert-flp30-c</name>
+  <description><![CDATA[<p>
+This check flags ``for`` loops where the induction expression has a floating-point type.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cert-flp30-c.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>cert</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-interfaces-global-init</key>
+  <name>cppcoreguidelines-interfaces-global-init</name>
+  <description><![CDATA[<p>
+This check flags initializers of globals that access extern objects,
+and therefore can lead to order-of-initialization problems.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-interfaces-global-init.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Ri-global-init" target="_blank">github</a></p>
+]]></description>
+  <tag>bad-practice</tag>
+  <tag>suspicious</tag>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-no-malloc</key>
+  <name>cppcoreguidelines-no-malloc</name>
+  <description><![CDATA[<p>
+This check handles C-Style memory management using malloc(), realloc(), calloc() and free(). 
+It warns about its use and tries to suggest the use of an appropriate RAII object. 
+Furthermore, it can be configured to check against a user-specified list of functions that are used for memory management (e.g. posix_memalign()). 
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-no-malloc.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Rr-mallocfree" target="_blank">github</a></p>
+]]></description>
+  <tag>bad-practice</tag>
+  <tag>suspicious</tag>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-bounds-array-to-pointer-decay</key>
+  <name>cppcoreguidelines-pro-bounds-array-to-pointer-decay</name>
+  <description><![CDATA[<p>
+This check flags all array to pointer decays.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-bounds-array-to-pointer-decay.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-decay" target="_blank">github</a></p>
+]]></description>
+  <tag>bad-practice</tag>
+  <tag>suspicious</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-bounds-constant-array-index</key>
+  <name>cppcoreguidelines-pro-bounds-constant-array-index</name>
+  <description><![CDATA[<p>
+This check flags all array subscript expressions on static arrays and
+``std::arrays`` that either do not have a constant integer expression index or
+are out of bounds (for ``std::array``). For out-of-bounds checking of static
+arrays, see the clang-diagnostic-array-bounds check.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-bounds-constant-array-index.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-arrayindex" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-bounds-pointer-arithmetic</key>
+  <name>cppcoreguidelines-pro-bounds-pointer-arithmetic</name>
+  <description><![CDATA[<p>
+This check flags all usage of pointer arithmetic, because it could lead to an
+invalid pointer. Subtraction of two pointers is not flagged by this check.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-bounds-pointer-arithmetic.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-arithmetic" target="_blank">github</a></p>    
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-const-cast</key>
+  <name>cppcoreguidelines-pro-type-const-cast</name>
+  <description><![CDATA[<p>
+This check flags all uses of ``const_cast`` in C++ code.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-bounds-pointer-arithmetic.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-constcast" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-cstyle-cast</key>
+  <name>cppcoreguidelines-pro-type-cstyle-cast</name>
+  <description><![CDATA[<p>
+This check flags all use of C-style casts that perform a ``static_cast``
+downcast, ``const_cast``, or ``reinterpret_cast``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-cstyle-cast.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-cstylecast" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-member-init</key>
+  <name>cppcoreguidelines-pro-type-member-init</name>
+  <description><![CDATA[<p>
+The check flags user-defined constructor definitions that do not
+initialize all fields that would be left in an undefined state by
+default construction, e.g. builtins, pointers and record types without
+user-provided default constructors containing at least one such
+type. If these fields aren't initialized, the constructor will leave
+some of the memory in an undefined state.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-member-init.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-memberinit" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-reinterpret-cast</key>
+  <name>cppcoreguidelines-pro-type-reinterpret-cast</name>
+  <description><![CDATA[<p>
+This check flags all uses of ``reinterpret_cast`` in C++ code.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-reinterpret-cast.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-reinterpretcast" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-static-cast-downcast</key>
+  <name>cppcoreguidelines-pro-type-static-cast-downcast</name>
+  <description><![CDATA[<p>
+This check flags all usages of ``static_cast``, where a base class is casted to
+a derived class. In those cases, a fixit is provided to convert the cast to a
+``dynamic_cast``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-static-cast-downcast.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-downcast" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-union-access</key>
+  <name>cppcoreguidelines-pro-type-union-access</name>
+  <description><![CDATA[<p>
+This check flags all access to members of unions. Passing unions as a whole is
+not flagged.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-union-access.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-unions" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>cppcoreguidelines-pro-type-vararg</key>
+  <name>cppcoreguidelines-pro-type-vararg</name>
+  <description><![CDATA[<p>
+This check flags all calls to c-style vararg functions and all use of ``va_arg``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines-pro-type-vararg.html" target="_blank">clang.llvm.org</a></p>
+    <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-varargs" target="_blank">github</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-build-explicit-make-pair</key>
+  <name>google-build-explicit-make-pair</name>
+  <description><![CDATA[<p>
+Check that ``make_pair``'s template arguments are deduced.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-build-explicit-make-pair.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>bad-practice</tag>
+  <tag>cpplint-style</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-build-namespaces</key>
+  <name>google-build-namespaces</name>
+  <description><![CDATA[<p>
+Finds anonymous namespaces in headers.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-build-namespaces.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-build-using-namespace</key>
+  <name>google-build-using-namespace</name>
+  <description><![CDATA[<p>
+Finds ``using namespace`` directives.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-build-using-namespace.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-default-arguments</key>
+  <name>google-default-arguments</name>
+  <description><![CDATA[<p>
+Checks that default arguments are not given for virtual methods.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-build-using-namespace.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-explicit-constructor</key>
+  <name>google-explicit-constructor</name>
+  <description><![CDATA[<p>
+Checks that all single-argument constructors are explicit.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-explicit-constructor.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-global-names-in-headers</key>
+  <name>google-global-names-in-headers</name>
+  <description><![CDATA[<p>
+Flag global namespace pollution in header files.
+Right now it only triggers on ``using`` declarations and directives.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-global-names-in-headers.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-readability-casting</key>
+  <name>google-readability-casting</name>
+  <description><![CDATA[<p>
+Finds usages of C-style casts.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-casting.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-readability-namespace-comments</key>
+  <name>google-readability-namespace-comments</name>
+  <description><![CDATA[<p>
+Checks that long namespaces have a closing comment.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-namespace-comments.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-readability-redundant-smartptr-get</key>
+  <name>google-readability-redundant-smartptr-get</name>
+  <description><![CDATA[<p>
+Find and remove redundant calls to smart pointer's ``.get()`` method.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-redundant-smartptr-get.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-readability-todo</key>
+  <name>google-readability-todo</name>
+  <description><![CDATA[<p>
+Finds TODO comments without a username or bug number.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-readability-todo.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-runtime-int</key>
+  <name>google-runtime-int</name>
+  <description><![CDATA[<p>
+Finds uses of ``short``, ``long`` and ``long long`` and suggest replacing them
+with ``u?intXX(_t)?``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-runtime-int.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-runtime-member-string-references</key>
+  <name>google-runtime-member-string-references</name>
+  <description><![CDATA[<p>
+Finds members of type ``const string&``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-runtime-member-string-references.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-runtime-memset</key>
+  <name>google-runtime-memset</name>
+  <description><![CDATA[<p>
+Finds calls to ``memset`` with a literal zero in the length argument.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-runtime-memset.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>google-runtime-operator</key>
+  <name>google-runtime-operator</name>
+  <description><![CDATA[<p>
+Finds overloads of unary ``operator &``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-runtime-operator.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>bad-practice</tag>
+   <tag>cpplint-style</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>google-runtime-references</key>
+  <name>google-runtime-references</name>
+  <description><![CDATA[<p>
+Checks the usage of non-constant references in function parameters.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/google-runtime-references.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+   <tag>cpplint-style</tag>
+   <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>llvm-header-guard</key>
+  <name>llvm-header-guard</name>
+  <description><![CDATA[<p>
+Finds and fixes header guards that do not adhere to LLVM style.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/llvm-header-guard.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>llvm-style</tag>
+  <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>llvm-include-order</key>
+  <name>llvm-include-order</name>
+  <description><![CDATA[<p>
+Checks the correct order of ``#includes`` according to LLVM style.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/llvm-include-order.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>llvm-style</tag>
+  <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>llvm-namespace-comment</key>
+  <name>llvm-namespace-comment</name>
+  <description><![CDATA[<p>
+Checks that long namespaces have a closing comment.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/llvm-namespace-comment.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>llvm-style</tag>
+  <tag>bad-practice</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>llvm-twine-local</key>
+  <name>llvm-twine-local</name>
+  <description><![CDATA[<p>
+Looks for local ``Twine`` variables which are prone to use after frees and
+should be generally avoided.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/llvm-twine-local.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <tag>llvm-style</tag>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-argument-comment</key>
+  <name>misc-argument-comment</name>
+  <description><![CDATA[<p>
+Checks that argument comments match parameter names.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-argument-comment.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-assert-side-effect</key>
+  <name>misc-assert-side-effect</name>
+  <description><![CDATA[<p>
+Finds ``assert()`` with side effect.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-assert-side-effect.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-bool-pointer-implicit-conversion</key>
+  <name>misc-bool-pointer-implicit-conversion</name>
+  <description><![CDATA[<p>
+Checks for conditions based on implicit conversion from a ``bool`` pointer to
+``bool``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-bool-pointer-implicit-conversion.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-dangling-handle</key>
+  <name>misc-dangling-handle</name>
+  <description><![CDATA[<p>
+Detect dangling references in value handlers like
+``std::experimental::string_view``.
+These dangling references can come from constructing handles from temporary
+values, where the temporary is destroyed soon after the handle is created.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-bool-pointer-implicit-conversion.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>misc-definitions-in-headers</key>
+  <name>misc-definitions-in-headers</name>
+  <description><![CDATA[<p>
+Finds non-extern non-inline function and variable definitions in header files,
+which can lead to potential ODR violations in case these headers are included
+from multiple translation units.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-definitions-in-headers.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-fold-init-type</key>
+  <name>misc-fold-init-type</name>
+  <description><![CDATA[<p>
+The check flags type mismatches in folds like ``std::accumulate`` that might result in loss of precision.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-fold-init-type.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-forward-declaration-namespace</key>
+  <name>misc-forward-declaration-namespace</name>
+  <description><![CDATA[<p>
+Checks if an unused forward declaration is in a wrong namespace.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-forward-declaration-namespace.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>misc-inaccurate-erase</key>
+  <name>misc-inaccurate-erase</name>
+  <description><![CDATA[<p>
+Checks for inaccurate use of the ``erase()`` method.
+
+Algorithms like remove() do not actually remove any element from the container but return an iterator to the first
+redundant element at the end of the container. These redundant elements must be removed using the ``erase()`` method.
+This check warns when not all of the elements will be removed due to using an inappropriate overload.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-inaccurate-erase.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>misc-incorrect-roundings</key>
+  <name>misc-incorrect-roundings</name>
+  <description><![CDATA[<p>
+Checks the usage of patterns known to produce incorrect rounding.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-incorrect-roundings.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>misc-inefficient-algorithm</key>
+  <name>misc-inefficient-algorithm</name>
+  <description><![CDATA[<p>
+Warns on inefficient use of STL algorithms on associative containers.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-inefficient-algorithm.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-macro-parentheses</key>
+  <name>misc-macro-parentheses</name>
+  <description><![CDATA[<p>
+Finds macros that can have unexpected behaviour due to missing parentheses.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-macro-parentheses.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-macro-repeated-side-effects</key>
+  <name>misc-macro-repeated-side-effects</name>
+  <description><![CDATA[<p>
+Checks for repeated argument with side effects in macros.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-macro-repeated-side-effects.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-misplaced-const</key>
+  <name>misc-misplaced-const</name>
+  <description><![CDATA[<p>
+This check diagnoses when a ``const`` qualifier is applied to a ``typedef`` to a
+pointer type rather than to the pointee, because such constructs are often
+misleading to developers because the ``const`` applies to the pointer rather
+than the pointee.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-misplaced-const.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-misplaced-widening-cast</key>
+  <name>misc-misplaced-widening-cast</name>
+  <description><![CDATA[<p>
+This check will warn when there is a cast of a calculation result to a bigger
+type. If the intention of the cast is to avoid loss of precision then the cast
+is misplaced, and there can be loss of precision. Otherwise the cast is
+ineffective.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-misplaced-widening-cast.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-move-const-arg</key>
+  <name>misc-move-const-arg</name>
+  <description><![CDATA[<p>
+The check warns
+   * if std::move() is called with a constant argument,
+   * if std::move() is called with an argument of a trivially-copyable type,
+   * if the result of std::move() is passed as a const reference argument.
+In all three cases, the check will suggest a fix that removes the std::move().
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-move-const-arg.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-move-constructor-init</key>
+  <name>misc-move-constructor-init</name>
+  <description><![CDATA[<p>
+The check flags user-defined move constructors that have a ctor-initializer initializing a member or base class through a copy constructor instead of a move constructor.
+It also flags constructor arguments that are passed by value, have a non-deleted move-constructor and are assigned to a class field by copy construction.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-move-constructor-init.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-multiple-statement-macro</key>
+  <name>misc-multiple-statement-macro</name>
+  <description><![CDATA[<p>
+Detect multiple statement macros that are used in unbraced conditionals.
+Only the first statement of the macro will be inside the conditional and the other ones will be executed unconditionally.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-multiple-statement-macro.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-new-delete-overloads</key>
+  <name>misc-new-delete-overloads</name>
+  <description><![CDATA[<p>
+The check flags overloaded operator ``new()`` and operator ``delete()`` functions that do not have a corresponding free store
+function defined within the same scope. For instance, the check will flag a class implementation of a non-placement operator ``new()``
+when the class does not also define a non-placement operator ``delete()`` function as well.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-new-delete-overloads.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>misc-noexcept-move-constructor</key>
+  <name>misc-noexcept-move-constructor</name>
+  <description><![CDATA[<p>
+The check flags user-defined move constructors and assignment operators not
+marked with ``noexcept`` or marked with ``noexcept(expr)`` where ``expr``
+evaluates to ``false`` (but is not a ``false`` literal itself).
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-noexcept-move-constructor.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-non-copyable-objects</key>
+  <name>misc-non-copyable-objects</name>
+  <description><![CDATA[<p>
+The check flags dereferences and non-pointer declarations of objects that are not meant to be passed by value, such as C FILE objects or POSIX ``pthread_mutex_t`` objects.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-non-copyable-objects.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-pointer-and-integral-operation</key>
+  <name>misc-pointer-and-integral-operation</name>
+  <description><![CDATA[<p>
+Looks for operation involving pointers and integral types. A common mistake is
+to forget to dereference a pointer. These errors may be detected when a pointer
+object is compare to an object with integral type.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-pointer-and-integral-operation.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-redundant-expression</key>
+  <name>misc-redundant-expression</name>
+  <description><![CDATA[<p>
+Detect redundant expressions which are typically errors due to copy-paste.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-redundant-expression.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-sizeof-container</key>
+  <name>misc-sizeof-container</name>
+  <description><![CDATA[<p>
+The check finds usages of ``sizeof`` on expressions of STL container types. Most
+likely the user wanted to use ``.size()`` instead.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-sizeof-container.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-sizeof-expression</key>
+  <name>misc-sizeof-expression</name>
+  <description><![CDATA[<p>
+The check finds usages of ``sizeof`` expressions which are most likely errors.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-sizeof-expression.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-static-assert</key>
+  <name>misc-static-assert</name>
+  <description><![CDATA[<p>
+Replaces ``assert()`` with ``static_assert()`` if the condition is evaluatable at compile time.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-static-assert.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-string-constructor</key>
+  <name>misc-string-constructor</name>
+  <description><![CDATA[<p>
+Finds string constructors that are suspicious and probably errors.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-string-constructor.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-string-integer-assignment</key>
+  <name>misc-string-integer-assignment</name>
+  <description><![CDATA[<p>
+The check finds assignments of an integer to ``std::basic_string<CharT>``
+(``std::string``, ``std::wstring``, etc.). The source of the problem is the
+following assignment operator of ``std::basic_string<CharT>``: ``basic_string& operator=( CharT ch );``
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-string-integer-assignment.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-string-literal-with-embedded-nul</key>
+  <name>misc-string-literal-with-embedded-nul</name>
+  <description><![CDATA[<p>
+Finds occurences of string literal with embedded NUL character and validates
+their usage.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-string-literal-with-embedded-nul.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-suspicious-missing-comma</key>
+  <name>misc-suspicious-missing-comma</name>
+  <description><![CDATA[<p>
+String literals placed side-by-side are concatenated at translation phase 6
+(after the preprocessor). This feature is used to represent long string
+literal on multiple lines.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-suspicious-missing-comma.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-suspicious-semicolon</key>
+  <name>misc-suspicious-semicolon</name>
+  <description><![CDATA[<p>
+Finds most instances of stray semicolons that unexpectedly alter the meaning of
+the code. More specifically, it looks for ``if``, ``while``, ``for`` and
+``for-range`` statements whose body is a single semicolon, and then analyzes the
+context of the code (e.g. indentation) in an attempt to determine whether that
+is intentional.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-suspicious-semicolon.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-suspicious-string-compare</key>
+  <name>misc-suspicious-string-compare</name>
+  <description><![CDATA[<p>
+Find suspicious usage of runtime string comparison functions.
+Checks for calls with implicit comparator and proposed to explicitly add it.
+Checks that compare function results (i,e, strcmp) are compared to valid constant.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-suspicious-string-compare.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-swapped-arguments</key>
+  <name>misc-swapped-arguments</name>
+  <description><![CDATA[<p>
+Finds potentially swapped arguments by looking at implicit conversions.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-swapped-arguments.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-throw-by-value-catch-by-reference</key>
+  <name>misc-throw-by-value-catch-by-reference</name>
+  <description><![CDATA[<p>
+Finds violations of the rule "Throw by value, catch by reference" presented for example in "C++ Coding Standards" by H. Sutter and A. Alexandrescu.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-throw-by-value-catch-by-reference.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-unconventional-assign-operator</key>
+  <name>misc-unconventional-assign-operator</name>
+  <description><![CDATA[<p>
+Finds declarations of assign operators with the wrong return and/or argument
+types and definitions with good return type but wrong ``return`` statements.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-unconventional-assign-operator.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-undelegated-constructor</key>
+  <name>misc-undelegated-constructor</name>
+  <description><![CDATA[<p>
+Finds creation of temporary objects in constructors that look like a
+function call to another constructor of the same class.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-undelegated-constructor.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-uniqueptr-reset-release</key>
+  <name>misc-uniqueptr-reset-release</name>
+  <description><![CDATA[<p>
+Find and replace ``unique_ptr::reset(release())`` with ``std::move()``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-uniqueptr-reset-release.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-unused-alias-decls</key>
+  <name>misc-unused-alias-decls</name>
+  <description><![CDATA[<p>
+Finds unused namespace alias declarations.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-unused-alias-decls.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-unused-parameters</key>
+  <name>misc-unused-parameters</name>
+  <description><![CDATA[<p>
+Finds unused parameters.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-unused-parameters.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-unused-raii</key>
+  <name>misc-unused-raii</name>
+  <description><![CDATA[<p>
+Finds temporaries that look like RAII objects.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-unused-raii.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-unused-using-decls</key>
+  <name>misc-unused-using-decls</name>
+  <description><![CDATA[<p>
+Finds unused ``using`` declarations.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-unused-using-decls.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>misc-virtual-near-miss</key>
+  <name>misc-virtual-near-miss</name>
+  <description><![CDATA[<p>
+Warn if a function is a near miss (ie. the name is very similar and the function
+signiture is the same) to a virtual function from a base class.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/misc-virtual-near-miss.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-avoid-bind</key>
+  <name>modernize-avoid-bind</name>
+  <description><![CDATA[<p>
+The check finds uses of ``std::bind`` and replaces simple uses with lambdas.
+Lambdas will use value-capture where required.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-avoid-bind.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-deprecated-headers</key>
+  <name>modernize-deprecated-headers</name>
+  <description><![CDATA[<p>
+Some headers from C library were deprecated in C++ and are no longer welcome in
+C++ codebases. For more details refer to the C++ 14 Standard [depr.c.headers]
+section.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-deprecated-headers.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-loop-convert</key>
+  <name>modernize-loop-convert</name>
+  <description><![CDATA[<p>
+This check converts ``for(...; ...; ...)`` loops to use the new range-based
+loops in C++11.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-loop-convert.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-make-shared</key>
+  <name>modernize-make-shared</name>
+  <description><![CDATA[<p>
+This check finds the creation of ``std::shared_ptr`` objects by explicitly
+calling the constructor and a ``new`` expression, and replaces it with a call
+to ``std::make_shared``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-make-shared.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-make-unique</key>
+  <name>modernize-make-unique</name>
+  <description><![CDATA[<p>
+This check finds the creation of ``std::unique_ptr`` objects by explicitly
+calling the constructor and a ``new`` expression, and replaces it with a call
+to ``std::make_unique``, introduced in C++14.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-make-unique.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-pass-by-value</key>
+  <name>modernize-pass-by-value</name>
+  <description><![CDATA[<p>
+With move semantics added to the language and the standard library updated with
+move constructors added for many types it is now interesting to take an
+argument directly by value, instead of by const-reference, and then copy. This
+check allows the compiler to take care of choosing the best way to construct
+the copy.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-pass-by-value.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-raw-string-literal</key>
+  <name>modernize-raw-string-literal</name>
+  <description><![CDATA[<p>
+This check selectively replaces string literals containing escaped characters
+with raw string literals.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-raw-string-literal.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-redundant-void-arg</key>
+  <name>modernize-redundant-void-arg</name>
+  <description><![CDATA[<p>
+Find and remove redundant ``void`` argument lists.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-redundant-void-arg.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-replace-auto-ptr</key>
+  <name>modernize-replace-auto-ptr</name>
+  <description><![CDATA[<p>
+This check replaces the uses of the deprecated class ``std::auto_ptr`` by
+``std::unique_ptr`` (introduced in C++11). The transfer of ownership, done
+by the copy-constructor and the assignment operator, is changed to match
+``std::unique_ptr`` usage by using explicit calls to ``std::move()``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-replace-auto-ptr.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-shrink-to-fit</key>
+  <name>modernize-shrink-to-fit</name>
+  <description><![CDATA[<p>
+Replace copy and swap tricks on shrinkable containers with the
+``shrink_to_fit()`` method call.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-shrink-to-fit.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-use-auto</key>
+  <name>modernize-use-auto</name>
+  <description><![CDATA[<p>
+This check is responsible for using the ``auto`` type specifier for variable
+declarations to *improve code readability and maintainability*.  For example:
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-auto.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-use-bool-literals</key>
+  <name>modernize-use-bool-literals</name>
+  <description><![CDATA[<p>
+Finds integer literals which are cast to ``bool``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-bool-literals.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-use-default</key>
+  <name>modernize-use-default</name>
+  <description><![CDATA[<p>
+This check replaces default bodies of special member functions with ``=
+default;``.  The explicitly defaulted function declarations enable more
+opportunities in optimization, because the compiler might treat explicitly
+defaulted functions as trivial.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-default.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-use-emplace</key>
+  <name>modernize-use-emplace</name>
+  <description><![CDATA[<p>
+The check flags insertions to an STL-style container done by calling the
+``push_back`` method with an explicitly-constructed temporary of the container
+element type. In this case, the corresponding ``emplace_back`` method
+results in less verbose and potentially more efficient code.
+Right now the check doesn't support ``push_front`` and ``insert``.
+It also doesn't support ``insert`` functions for associative containers
+because replacing ``insert`` with ``emplace`` may result in
+`speed regression, but it might get support with some addition flag in the future.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-emplace.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-use-nullptr</key>
+  <name>modernize-use-nullptr</name>
+  <description><![CDATA[<p>
+The check converts the usage of null pointer constants (eg. ``NULL``, ``0``)
+to use the new C++11 ``nullptr`` keyword.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-nullptr.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-use-override</key>
+  <name>modernize-use-override</name>
+  <description><![CDATA[<p>
+Use C++11's ``override`` and remove ``virtual`` where applicable.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-override.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>modernize-use-using</key>
+  <name>modernize-use-using</name>
+  <description><![CDATA[<p>
+Use C++11's ``using`` instead of ``typedef``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/modernize-use-using.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>performance-faster-string-find</key>
+  <name>performance-faster-string-find</name>
+  <description><![CDATA[<p>
+Optimize calls to ``std::string::find()`` and friends when the needle passed is
+a single character string literal.
+The character literal overload is more efficient.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-faster-string-find.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>performance-for-range-copy</key>
+  <name>performance-for-range-copy</name>
+  <description><![CDATA[<p>
+Finds C++11 for ranges where the loop variable is copied in each iteration but
+it would suffice to obtain it by const reference.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-for-range-copy.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>performance-implicit-cast-in-loop</key>
+  <name>performance-implicit-cast-in-loop</name>
+  <description><![CDATA[<p>
+This warning appears in a range-based loop with a loop variable of const ref
+type where the type of the variable does not match the one returned by the
+iterator.
+This means that an implicit cast has been added, which can for example result in
+expensive deep copies.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-implicit-cast-in-loop.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>performance-unnecessary-copy-initialization</key>
+  <name>performance-unnecessary-copy-initialization</name>
+  <description><![CDATA[<p>
+Finds local variable declarations that are initialized using the copy
+constructor of a non-trivially-copyable type but it would suffice to obtain a
+const reference.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-unnecessary-copy-initialization.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>performance-unnecessary-value-param</key>
+  <name>performance-unnecessary-value-param</name>
+  <description><![CDATA[<p>
+Flags value parameter declarations of expensive to copy types that are copied
+for each invocation but it would suffice to pass them by const reference.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/performance-unnecessary-value-param.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-avoid-const-params-in-decls</key>
+  <name>readability-avoid-const-params-in-decls</name>
+  <description><![CDATA[<p>
+Checks whether a function declaration has parameters that are top level const.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-avoid-const-params-in-decls.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+</rule>
+<rule>
+  <key>readability-braces-around-statements</key>
+  <name>readability-braces-around-statements</name>
+  <description><![CDATA[<p>
+Checks that bodies of ``if`` statements and loops (``for``, ``do while``, and ``while``) are inside braces.
+this check.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-braces-around-statements.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-container-size-empty</key>
+  <name>readability-container-size-empty</name>
+  <description><![CDATA[<p>
+Checks whether a call to the ``size()`` method can be replaced with a call to
+``empty()``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-container-size-empty.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+</rule>
+<rule>
+  <key>readability-deleted-default</key>
+  <name>readability-deleted-default</name>
+  <description><![CDATA[<p>
+Checks that constructors and assignment operators marked as ``= default`` are
+not actually deleted by the compiler.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-deleted-default.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-else-after-return</key>
+  <name>readability-else-after-return</name>
+  <description><![CDATA[<p>
+Flags the usages of ``else`` after ``return``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-else-after-return.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-function-size</key>
+  <name>readability-function-size</name>
+  <description><![CDATA[<p>
+Checks for large functions based on various metrics.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-function-size.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-identifier-naming</key>
+  <name>readability-identifier-naming</name>
+  <description><![CDATA[<p>
+Checks for identifiers naming style mismatch.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-identifier-naming.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-implicit-bool-cast</key>
+  <name>readability-implicit-bool-cast</name>
+  <description><![CDATA[<p>
+This check can be used to find implicit conversions between built-in types and
+booleans. Depending on use case, it may simply help with readability of the code,
+or in some cases, point to potential bugs which remain unnoticed due to implicit
+conversions.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-implicit-bool-cast.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-inconsistent-declaration-parameter-name</key>
+  <name>readability-inconsistent-declaration-parameter-name</name>
+  <description><![CDATA[<p>
+Find function declarations which differ in parameter names.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-inconsistent-declaration-parameter-name.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-named-parameter</key>
+  <name>readability-named-parameter</name>
+  <description><![CDATA[<p>
+Find functions with unnamed arguments.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-named-parameter.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-redundant-control-flow</key>
+  <name>readability-redundant-control-flow</name>
+  <description><![CDATA[<p>
+This check looks for procedures (functions returning no value) with ``return``
+statements at the end of the function.  Such ``return`` statements are
+redundant.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-control-flow.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-redundant-smartptr-get</key>
+  <name>readability-redundant-smartptr-get</name>
+  <description><![CDATA[<p>
+Find redundant calls to smart pointer's ``.get()`` method.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-smartptr-get.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-redundant-string-cstr</key>
+  <name>readability-redundant-string-cstr</name>
+  <description><![CDATA[<p>
+Finds unnecessary calls to ``std::string::c_str()``.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-string-cstr.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-redundant-string-init</key>
+  <name>readability-redundant-string-init</name>
+  <description><![CDATA[<p>
+Finds unnecessary string initializations.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-string-init.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-simplify-boolean-expr</key>
+  <name>readability-simplify-boolean-expr</name>
+  <description><![CDATA[<p>
+Looks for boolean expressions involving boolean constants and simplifies
+them to use the appropriate boolean expression directly.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-redundant-string-init.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-static-definition-in-anonymous-namespace</key>
+  <name>readability-static-definition-in-anonymous-namespace</name>
+  <description><![CDATA[<p>
+Finds static function and variable definitions in anonymous namespace.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-static-definition-in-anonymous-namespace.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>readability-uniqueptr-delete-release</key>
+  <name>readability-uniqueptr-delete-release</name>
+  <description><![CDATA[<p>
+Replace ``delete <unique_ptr>.release()`` with ``<unique_ptr> = nullptr``.
+The latter is shorter, simpler and does not require use of raw pointer APIs.
+  </p>
+    <h2>References</h2>
+
+    <p><a href="http://clang.llvm.org/extra/clang-tidy/checks/readability-uniqueptr-delete-release.html" target="_blank">clang.llvm.org</a></p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.CallAndMessage</key>
+  <name>clang-analyzer-core.CallAndMessage</name>
+  <description><![CDATA[<p>
+Check for logical errors for function calls and Objective-C message expressions (e.g., uninitialized arguments, null function pointers).
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.DivideZero</key>
+  <name>clang-analyzer-core.DivideZero</name>
+  <description><![CDATA[<p>
+Check for division by zero.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.NonNullParamChecker</key>
+  <name>clang-analyzer-core.NonNullParamChecker</name>
+  <description><![CDATA[<p>
+Check for null pointers passed as arguments to a function whose arguments are marked with the ``nonnull`` attribute.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.NullDereference</key>
+  <name>clang-analyzer-core.NullDereference</name>
+  <description><![CDATA[<p>
+Check for dereferences of null pointers.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.StackAddressEscape</key>
+  <name>clang-analyzer-core.StackAddressEscape</name>
+  <description><![CDATA[<p>
+Check that addresses of stack memory do not escape the function.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.UndefinedBinaryOperatorResult</key>
+  <name>clang-analyzer-core.UndefinedBinaryOperatorResult</name>
+  <description><![CDATA[<p>
+Check for undefined results of binary operators.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.VLASize</key>
+  <name>clang-analyzer-core.VLASize</name>
+  <description><![CDATA[<p>
+Check for declarations of VLA of undefined or zero size.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.ArraySubscript</key>
+  <name>clang-analyzer-core.uninitialized.ArraySubscript</name>
+  <description><![CDATA[<p>
+Check for uninitialized values used as array subscripts.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.Assign</key>
+  <name>clang-analyzer-core.uninitialized.Assign</name>
+  <description><![CDATA[<p>
+Check for assigning uninitialized values.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.Branch</key>
+  <name>clang-analyzer-core.uninitialized.Branch</name>
+  <description><![CDATA[<p>
+Check for uninitialized values used as branch conditions.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.CapturedBlockVariable</key>
+  <name>clang-analyzer-core.uninitialized.CapturedBlockVariable</name>
+  <description><![CDATA[<p>
+Check for blocks that capture uninitialized values.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-core.uninitialized.UndefReturn</key>
+  <name>clang-analyzer-core.uninitialized.UndefReturn</name>
+  <description><![CDATA[<p>
+Check for uninitialized values being returned to the caller.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-cplusplus.NewDelete</key>
+  <name>clang-analyzer-cplusplus.NewDelete</name>
+  <description><![CDATA[<p>
+Check for double-free, use-after-free and offset problems involving C++ ``delete``.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-deadcode.DeadStores</key>
+  <name>clang-analyzer-deadcode.DeadStores</name>
+  <description><![CDATA[<p>
+Check for values stored to variables that are never read afterwards.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.API</key>
+  <name>clang-analyzer-osx.API</name>
+  <description><![CDATA[<p>
+Check for proper uses of various Apple APIs.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.SecKeychainAPI</key>
+  <name>clang-analyzer-osx.SecKeychainAPI</name>
+  <description><![CDATA[<p>
+Check for improper uses of the Security framework's Keychain APIs.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.CFError</key>
+  <name>clang-analyzer-osx.coreFoundation.CFError</name>
+  <description><![CDATA[<p>
+Check usage of ``CFErrorRef*`` parameters.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.CFNumber</key>
+  <name>clang-analyzer-osx.coreFoundation.CFNumber</name>
+  <description><![CDATA[<p>
+Check for improper uses of ``CFNumberCreate``.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.CFRetainRelease</key>
+  <name>clang-analyzer-osx.coreFoundation.CFRetainRelease</name>
+  <description><![CDATA[<p>
+Check for null arguments to ``CFRetain``, ``CFRelease``, ``CFMakeCollectable``.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.containers.OutOfBounds</key>
+  <name>clang-analyzer-osx.coreFoundation.containers.OutOfBounds</name>
+  <description><![CDATA[<p>
+Checks for index out-of-bounds when using ``CFArray`` API.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-osx.coreFoundation.containers.PointerSizedValues</key>
+  <name>clang-analyzer-osx.coreFoundation.containers.PointerSizedValues</name>
+  <description><![CDATA[<p>
+Warns if ``CFArray``, ``CFDictionary``, ``CFSet`` are created with non-pointer-size values.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+</rule>
+<rule>
+  <key>clang-analyzer-security.FloatLoopCounter</key>
+  <name>clang-analyzer-security.FloatLoopCounter</name>
+  <description><![CDATA[<p>
+Warn on using a floating point value as a loop counter (CERT: FLP30-C, FLP30-CPP).
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <tag>cert</tag>
+  <type>CODE_SMELL</type>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.UncheckedReturn</key>
+  <name>clang-analyzer-security.insecureAPI.UncheckedReturn</name>
+  <description><![CDATA[<p>
+Warn on uses of functions whose return values must be always checked
+(setuid, setgid, seteuid, setegid, setreuid, setregid).
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>CODE_SMELL</type>
+  <tag>cwe</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.getpw</key>
+  <name>clang-analyzer-security.insecureAPI.getpw</name>
+  <description><![CDATA[<p>
+Warn on uses of the ``getpw`` function.
+  </p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
+  <tag>cwe</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.gets</key>
+  <name>clang-analyzer-security.insecureAPI.gets</name>
+  <description><![CDATA[<p>
+Warn on uses of the ``gets`` function.
+  </p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
+  <tag>cwe</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.mkstemp</key>
+  <name>clang-analyzer-security.insecureAPI.mkstemp</name>
+  <description><![CDATA[<p>
+Warn when ``mktemp``, ``mkstemp``, ``mkstemps`` or ``mkdtemp`` is passed fewer than 6 X's in the format string.
+  </p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
+  <tag>cwe</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.mktemp</key>
+  <name>clang-analyzer-security.insecureAPI.mktemp</name>
+  <description><![CDATA[<p>
+Warn on uses of the ``mktemp`` function.
+  </p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
+  <tag>cwe</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.rand</key>
+  <name>clang-analyzer-security.insecureAPI.rand</name>
+  <description><![CDATA[<p>
+Warn on uses of inferior random number generating functions (only if ``arc4random`` function is available).
+  </p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>CODE_SMELL</type>
+  <tag>bad-practice</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.strcpy</key>
+  <name>clang-analyzer-security.insecureAPI.strcpy</name>
+  <description><![CDATA[<p>
+Warn on uses of the ``strcpy`` and ``strcat`` functions.
+  </p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
+  <tag>cwe</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-security.insecureAPI.vfork</key>
+  <name>clang-analyzer-security.insecureAPI.vfork</name>
+  <description><![CDATA[<p>
+Warn on uses of the vfork function.
+  </p>
+]]></description>
+  <severity>MINOR</severity>
+  <type>VULNERABILITY</type>
+  <tag>cwe</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.API</key>
+  <name>clang-analyzer-unix.API</name>
+  <description><![CDATA[<p>
+Check calls to various UNIX/POSIX functions
+(open, pthread_once, calloc, malloc, realloc, alloca).
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <tag>bug</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.Malloc</key>
+  <name>clang-analyzer-unix.Malloc</name>
+  <description><![CDATA[<p>
+Check for memory leaks, double free, and use-after-free and offset problems involving ``malloc``.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <tag>bug</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.MallocSizeof</key>
+  <name>clang-analyzer-unix.MallocSizeof</name>
+  <description><![CDATA[<p>
+Check for dubious ``malloc``, ``calloc`` or ``realloc`` arguments involving sizeof.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <tag>bug</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.MismatchedDeallocator</key>
+  <name>clang-analyzer-unix.MismatchedDeallocator</name>
+  <description><![CDATA[<p>
+Check for mismatched deallocators (e.g. passing a pointer allocating with ``new`` to ``free()``).
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <tag>bug</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.cstring.BadSizeArg</key>
+  <name>clang-analyzer-unix.cstring.BadSizeArg</name>
+  <description><![CDATA[<p>
+Check the size argument passed to ``strncat`` for common erroneous patterns. Use -Wno-strncat-size compiler option to mute other strncat-related compiler warnings.
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <tag>bug</tag>
+</rule>
+<rule>
+  <key>clang-analyzer-unix.cstring.NullArg</key>
+  <name>clang-analyzer-unix.cstring.NullArg</name>
+  <description><![CDATA[<p>
+Check for null pointers being passed as arguments to C string functions
+(strlen, strnlen, strcpy, strncpy, strcat, strncat, strcmp, strncmp, strcasecmp, strncasecmp).
+  </p>
+]]></description>
+  <severity>MAJOR</severity>
+  <type>BUG</type>
+  <tag>bug</tag>
+</rule>
+</rules>

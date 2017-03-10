@@ -17,21 +17,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.cxx.clangtidy;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.sonar.plugins.cxx.cppcheck.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeVersion;
+import org.sonar.api.config.Settings;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinition;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 
-public class CxxPluginTest {
+public class CxxClangTidyRuleRepositoryTest {
 
   @Test
-  public void testGetExtensions() throws Exception {
-   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
-   CxxPlugin plugin = new CxxPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(68);
+  public void createRulesTest() {
+    CxxClangTidyRuleRepository def = new CxxClangTidyRuleRepository(
+      mock(ServerFileSystem.class), new RulesDefinitionXmlLoader(), new Settings());
+
+    RulesDefinition.Context context = new RulesDefinition.Context();
+    def.define(context);
+
+    RulesDefinition.Repository repo = context.repository(CxxClangTidyRuleRepository.KEY);
+    assertEquals(155, repo.rules().size());
   }
 }
