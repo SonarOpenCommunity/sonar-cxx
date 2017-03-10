@@ -85,8 +85,8 @@ public class CxxClangTidySensor extends CxxReportSensor {
   }
   
   private void CreateIssueInLineWithDriveLetter(SensorContext context, String line, Pattern p) {
-    Matcher matcherWindows = p.matcher(line);
-    MatchResult m = matcherWindows.toMatchResult();
+    Matcher absolutePathInWindows = p.matcher(line);
+    MatchResult m = absolutePathInWindows.toMatchResult();
     String path = m.group(1) + ":" + m.group(2);
     String lineId = m.group(3);
     String message = m.group(6);
