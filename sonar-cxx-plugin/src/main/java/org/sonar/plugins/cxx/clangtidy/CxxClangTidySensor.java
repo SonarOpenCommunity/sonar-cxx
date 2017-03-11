@@ -72,6 +72,7 @@ public class CxxClangTidySensor extends CxxReportSensor {
 
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine().trim();
+        if (line.length() < 2) continue;                
         if (line.startsWith("/") || line.charAt(1) != ':') {
           // does not start with drive letter, but can be relative path
           CreateIssueInLineNoDriveLetter(context, line, p);
