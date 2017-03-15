@@ -1,0 +1,37 @@
+[
+	{
+		"_comment_" : "example extension to define global defines and includes for headers and for files which are not compiled",
+		"file" : "__global__",
+		"defines" : {
+			"GLOBAL_DEFINE" : "1"
+			},
+		"includes" : [
+			"/usr/include"
+			]
+	},
+	{
+		"_comment_" : "example with command for compilation",
+		"directory" : ".",
+		"file" : "test-with-command.cpp",
+		"command" : "gcc -o test -I/usr/local/include -I /another/include/dir -DSIMPLE -DCOMMAND_DEFINE=1 -D COMMAND_SPACE_DEFINE=\" foo 'bar' zoo \" test.cpp",
+		"output" : "test"
+	},
+	{
+		"_comment_" : "example with using arguments",
+		"directory" : ".",
+		"file" : "test-with-arguments.cpp",
+		"arguments" : "-o test -I/usr/local/include -I /another/include/dir -DSIMPLE -DARG_DEFINE=1 -D ARG_SPACE_DEFINE=\" foo 'bar' zoo \" test.cpp",
+		"output" : "test"
+	},
+	{
+		"_comment_" : "example extension using defines and includes to define usage",
+		"directory" : ".",
+		"file" : "test-extension.cpp",
+		"defines" : {
+			"UNIT_DEFINE" : "1"
+			},
+		"includes" : [
+			"/usr/local/include"
+			]
+	}
+]

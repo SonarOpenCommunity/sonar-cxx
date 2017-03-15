@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -47,6 +48,7 @@ import com.sonar.sslr.api.TokenType;
 import com.sonar.sslr.api.Trivia;
 import com.sonar.sslr.impl.Parser;
 
+import org.sonar.cxx.CxxCompilationUnitSettings;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.lexer.CxxLexer;
 import org.sonar.squidbridge.SquidAstVisitorContext;
@@ -150,13 +152,16 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
   private static final Logger LOG = Loggers.get(CxxPreprocessor.class);
   private Parser<Grammar> pplineParser;
-  private final MapChain<String, Macro> macros = new MapChain<>();
+  private final MapChain<String, Macro> fixedMacros = new MapChain<>();
+  private MapChain<String, Macro> unitMacros = null;
   private final Set<File> analysedFiles = new HashSet<>();
   private SourceCodeProvider codeProvider = new SourceCodeProvider();
+  private SourceCodeProvider unitCodeProvider = null;
   private SquidAstVisitorContext<Grammar> context;
   private ExpressionEvaluator ifExprEvaluator;
   private List<String> cFilesPatterns;
   private CxxConfiguration conf;
+  private CxxCompilationUnitSettings compilationUnitSettings = null;
   private static final String VARIADICPARAMETER = "__VA_ARGS__";
 
   public static class Include {
@@ -232,7 +237,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         throw new RuntimeException(e);
       }
 
-      macros.put(entry.getKey(), new Macro(entry.getKey(), null, Collections.singletonList(bodyToken), false));
+      getMacros().put(entry.getKey(), new Macro(entry.getKey(), null, Collections.singletonList(bodyToken), false));
     }
   }
 
@@ -250,7 +255,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     pplineParser = CppParser.create(conf);
 
     try {
-      macros.setHighPrio(true);
+      getMacros().setHighPrio(true);
 
       // parse the configured defines and store into the macro library
       for (String define : conf.getDefines()) {
@@ -259,7 +264,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
           Macro macro = parseMacroDefinition("#define " + define);
           if (macro != null) {
             LOG.debug("storing external macro: '{}'", macro);
-            macros.put(macro.name, macro);
+            getMacros().put(macro.name, macro);
           }
         }
       }
@@ -275,7 +280,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
         }
       }
     } finally {
-      macros.setHighPrio(false);
+      getMacros().setHighPrio(false);
     }
   }
 
@@ -310,12 +315,78 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
     if (context.getFile() != currentContextFile) {
       currentContextFile = context.getFile();
-      if (isCFile(currentContextFile.getAbsolutePath())) {
-        //Create macros to replace C++ keywords when parsing C files
-        registerMacros(StandardDefinitions.compatibilityMacros());
-        macros.disable("__cplusplus");
+      compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
+
+      if (compilationUnitSettings != null) {
+        LOG.debug("compilation unit settings for: '{}'", filePath);
       } else {
-        macros.enable("__cplusplus");
+        compilationUnitSettings = conf.getGlobalCompilationUnitSettings();
+
+        if (compilationUnitSettings != null) {
+          LOG.debug("global compilation unit settings for: '{}'", filePath);
+        }
+      }
+
+      if (compilationUnitSettings != null) {
+        // Use compilation unit settings
+        unitCodeProvider = new SourceCodeProvider();
+        unitCodeProvider.setIncludeRoots(compilationUnitSettings.getIncludes(), conf.getBaseDir());
+
+        unitMacros = new MapChain<>();
+
+        try {
+          // Treat all global defines as high prio
+          getMacros().setHighPrio(true);
+
+          // parse the configured defines and store into the macro library
+          for (String define : conf.getDefines()) {
+            LOG.debug("parsing external macro to unit: '{}'", define);
+            if (!"".equals(define)) {
+              Macro macro = parseMacroDefinition("#define " + define);
+              if (macro != null) {
+                LOG.debug("storing external macro to unit: '{}'", macro);
+                getMacros().put(macro.name, macro);
+              }
+            }
+          }
+
+          // set standard macros
+          // using smaller set of defines as rest is provides by compilation unit settings
+          HashMap<String,String> defines = new HashMap<>();
+          defines.put("__FILE__", "\"file\"");
+          defines.put("__LINE__", "1");
+          defines.put("__DATE__", "\"??? ?? ????\"");
+          defines.put("__TIME__", "\"??:??:??\"");
+          registerMacros(defines);
+
+          // parse the configured force includes and store into the macro library
+          for (String include : conf.getForceIncludeFiles()) {
+            LOG.debug("parsing force include to unit: '{}'", include);
+            if (!"".equals(include)) {
+              parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes", conf.getEncoding());
+            }
+          }
+
+          // rest of defines comes from compilation unit settings
+          registerMacros(compilationUnitSettings.getDefines());
+        } finally {
+          getMacros().setHighPrio(false);
+        }
+
+        if (getMacro("__cplusplus") == null) {
+          //Create macros to replace C++ keywords when parsing C files
+          registerMacros(StandardDefinitions.compatibilityMacros());
+        }
+      } else {
+        // Use global settings
+        LOG.debug("global settings for: '{}'", filePath);
+        if (isCFile(currentContextFile.getAbsolutePath())) {
+          //Create macros to replace C++ keywords when parsing C files
+          registerMacros(StandardDefinitions.compatibilityMacros());
+          fixedMacros.disable("__cplusplus");
+        } else {
+          fixedMacros.enable("__cplusplus");
+        }
       }
     }
 
@@ -382,14 +453,29 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     LOG.debug("finished preprocessing '{}'", file);
 
     analysedFiles.clear();
-    macros.clearLowPrio();
+    fixedMacros.clearLowPrio();
+    unitMacros = null;
+    compilationUnitSettings = null;
+    unitCodeProvider = null;
     currentFileState.reset();
     currentContextFile = null;
   }
 
+  public SourceCodeProvider getCodeProvider() {
+    return unitCodeProvider != null ? unitCodeProvider : codeProvider;
+  }
+
+  public MapChain<String, Macro> getMacros() {
+    return unitMacros != null ? unitMacros : fixedMacros;
+  }
+
+  public Macro getMacro(String macroname) {
+    return getMacros().get(macroname);
+  }
+
   public String valueOf(String macroname) {
     String result = null;
-    Macro macro = macros.get(macroname);
+    Macro macro = getMacro(macroname);
     if (macro != null) {
       result = serialize(macro.body);
     }
@@ -467,7 +553,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
   private PreprocessorAction handleIfdefLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
     if (!currentFileState.skipPreprocessorDirectives) {
-      Macro macro = macros.get(getMacroName(ast));
+      Macro macro = getMacro(getMacroName(ast));
       TokenType tokType = ast.getToken().getType();
       if ((tokType == IFDEF && macro == null) || (tokType == IFNDEF && macro != null)) {
         if (LOG.isTraceEnabled()) {
@@ -529,7 +615,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       if (LOG.isTraceEnabled()) {
         LOG.trace("[{}:{}]: storing macro: '{}'", new Object[]{filename, token.getLine(), macro});
       }
-      macros.put(macro.name, macro);
+      getMacros().put(macro.name, macro);
     }
 
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
@@ -575,7 +661,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       currentFileState = new State(includedFile);
 
       try {
-        IncludeLexer.create(this).lex(codeProvider.getSourceCode(includedFile, charset));
+        IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException ex) {
         LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex.getMessage());
       } finally {
@@ -591,7 +677,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
   PreprocessorAction handleUndefLine(AstNode ast, Token token, String filename) { //@todo: deprecated PreprocessorAction
     String macroName = ast.getFirstDescendant(IDENTIFIER).getTokenValue();
-    macros.removeLowPrio(macroName);
+    getMacros().removeLowPrio(macroName);
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
 
@@ -603,7 +689,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     //
 
     PreprocessorAction ppaction = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
-    Macro macro = macros.get(curr.getValue());
+    Macro macro = getMacro(curr.getValue());
     if (macro != null) {
       List<Token> replTokens = new LinkedList<>();
       int tokensConsumed = 0;
@@ -624,7 +710,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
         // Rescanning to expand function like macros, in case it requires consuming more tokens
         List<Token> outTokens = new LinkedList<>();
-        macros.disable(macro.name);
+        getMacros().disable(macro.name);
         while (!replTokens.isEmpty()) {
           Token c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
@@ -648,7 +734,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
           }
         }
         replTokens = outTokens;
-        macros.enable(macro.name);
+        getMacros().enable(macro.name);
 
         replTokens = reallocate(replTokens, curr);
 
@@ -680,7 +766,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     List<Token> arguments = new ArrayList<>();
     int tokensConsumedMatchingArgs = matchArguments(restTokens, arguments);
 
-    Macro macro = macros.get(macroName);
+    Macro macro = getMacro(macroName);
     if (macro != null && macro.checkArgumentsCount(arguments.size())) {
       if (arguments.size() > macro.params.size()) {
         //Group all arguments into the last one
@@ -706,11 +792,11 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   private List<Token> expandMacro(String macroName, String macroExpression) {
     // C++ standard 16.3.4/2 Macro Replacement - Rescanning and further replacement
     List<Token> tokens = null;
-    macros.disable(macroName);
+    getMacros().disable(macroName);
     try {
       tokens = stripEOF(CxxLexer.create(this).lex(macroExpression));
     } finally {
-      macros.enable(macroName);
+      getMacros().enable(macroName);
     }
     return tokens;
   }
@@ -1167,7 +1253,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     if (includedFileName != null) {
       File file = getFileUnderAnalysis();
       String dir = file == null ? "" : file.getParent();
-      includedFile = codeProvider.getSourceCodeFile(includedFileName, dir, quoted);
+      includedFile = getCodeProvider().getSourceCodeFile(includedFileName, dir, quoted);
     }
 
     return includedFile;

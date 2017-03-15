@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +49,10 @@ public class CxxConfiguration extends SquidConfiguration {
   private boolean errorRecoveryEnabled = true;
   private List<String> cFilesPatterns = new ArrayList<>();
   private boolean missingIncludeWarningsEnabled = true;
+  private String jsonCompilationDatabaseFile = null;
+  private boolean scanOnlySpecifiedSources = false;
+  private CxxCompilationUnitSettings globalCompilationUnitSettings = null;
+  private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;
 
@@ -214,6 +219,49 @@ public class CxxConfiguration extends SquidConfiguration {
 
   public boolean getMissingIncludeWarningsEnabled() {
     return this.missingIncludeWarningsEnabled;
+  }
+
+  public String getJsonCompilationDatabaseFile() {
+	return jsonCompilationDatabaseFile;
+  }
+
+  public void setJsonCompilationDatabaseFile(String jsonCompilationDatabaseFile) {
+    this.jsonCompilationDatabaseFile = jsonCompilationDatabaseFile;
+  }
+
+  public boolean isScanOnlySpecifiedSources() {
+    return scanOnlySpecifiedSources;
+  }
+
+  public void setScanOnlySpecifiedSources(boolean scanOnlySpecifiedSources) {
+    this.scanOnlySpecifiedSources = scanOnlySpecifiedSources;
+  }
+
+  public CxxCompilationUnitSettings getGlobalCompilationUnitSettings() {
+    return globalCompilationUnitSettings;
+  }
+
+  public void setGlobalCompilationUnitSettings(CxxCompilationUnitSettings globalCompilationUnitSettings) {
+    this.globalCompilationUnitSettings = globalCompilationUnitSettings;
+  }
+
+  public CxxCompilationUnitSettings getCompilationUnitSettings(String filename) {
+    return compilationUnitSettings.get(filename);
+  }
+
+  public void addCompilationUnitSettings(String filename, CxxCompilationUnitSettings settings) {
+    compilationUnitSettings.put(filename, settings);
+  }
+
+  public List<File> getCompilationUnitSourceFiles() {
+    List<File> files = new ArrayList<File>();
+
+    for (Iterator<String> iter = compilationUnitSettings.keySet().iterator(); iter.hasNext(); ) {
+      String item = iter.next();
+      files.add(new File(item));
+    }
+
+    return files;
   }
 
   public void setCompilationPropertiesWithBuildLog(List<File> reports,
