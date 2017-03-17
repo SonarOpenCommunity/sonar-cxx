@@ -57,11 +57,11 @@ public class CxxParseErrorLoggerVisitorTest {
   @Test
   public void handleParseErrorTest() throws Exception {
     List<String> log = logTester.logs();
-    assertThat(log.size()).isEqualTo(7);
-    assertThat(log.get(2)).contains("skip declarartion: namespace X {");
-    assertThat(log.get(3)).contains("skip declarartion: void test :: f1 ( ) {");
-    assertThat(log.get(4)).contains("syntax error: i = unsigend int ( i + 1 )");
-    assertThat(log.get(5)).contains("skip declarartion: void test :: f3 ( ) {");
-    assertThat(log.get(6)).contains("syntax error: int i = 0 i ++");
+    assertThat(log.size()).isEqualTo(8);
+    assertThat(log.get(3)).contains("skip declarartion: namespace X {");
+    assertThat(log.get(4)).contains("skip declarartion: void test :: f1 ( ) {");
+    assertThat(log.get(5)).contains("syntax error: i = unsigend int ( i + 1 )");
+    assertThat(log.get(6)).contains("skip declarartion: void test :: f3 ( ) {");
+    assertThat(log.get(7)).contains("syntax error: int i = 0 i ++");
   }
 }

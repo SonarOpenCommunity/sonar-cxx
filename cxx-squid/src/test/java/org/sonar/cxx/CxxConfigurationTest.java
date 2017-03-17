@@ -280,4 +280,22 @@ public class CxxConfigurationTest {
 
   }
 
+  @Test
+  public void shouldGetSourceFilesList() {
+    CxxConfiguration config = new CxxConfiguration();
+
+    String [] files = new String [] { "testfile", "anotherfile", "thirdfile" };
+
+    for (String filename : files) {
+      config.addCompilationUnitSettings(filename, new CxxCompilationUnitSettings());
+    }
+
+    List <File> sourceFiles = config.getCompilationUnitSourceFiles();
+
+    assertThat(sourceFiles.size()).isEqualTo(files.length);
+
+    for (File file : sourceFiles) {
+      Assertions.assertThat(files).as(file.getName());
+    }
+  }
 }

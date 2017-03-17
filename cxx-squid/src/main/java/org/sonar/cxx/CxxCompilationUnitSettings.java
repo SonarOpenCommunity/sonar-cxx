@@ -17,21 +17,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.cxx;
+package org.sonar.cxx;
 
-import static org.fest.assertions.Assertions.assertThat;
+import java.util.List;
+import java.util.Map;
 
-import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeVersion;
+public class CxxCompilationUnitSettings {
+  private Map<String, String> defines = null;
+  private List<String> includes = null;
 
-public class CxxPluginTest {
+  public Map<String, String> getDefines() {
+    return defines;
+  }
 
-  @Test
-  public void testGetExtensions() throws Exception {
-   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
-   CxxPlugin plugin = new CxxPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(70);
+  public void setDefines(Map<String, String> defines) {
+    this.defines = defines;
+  }
+
+  public List<String> getIncludes() {
+    return includes;
+  }
+
+  public void setIncludes(List<String> includes) {
+    this.includes = includes;
   }
 }
