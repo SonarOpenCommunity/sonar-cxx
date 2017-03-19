@@ -8,12 +8,12 @@ env:
         - SONARHOME=/tmp/sonarqube-6.0   SONARAPI=SqApi56
         - SONARHOME=/tmp/sonarqube-6.1   SONARAPI=SqApi56
         - SONARHOME=/tmp/sonarqube-6.2   SONARAPI=SqApi62
-        - SONARHOME=/tmp/sonarqube-6.3-RC4 SONARAPI=SqApi62
+        - SONARHOME=/tmp/sonarqube-6.3   SONARAPI=SqApi62
 
 matrix:
     fast_finished: true
-    allow_failures:
-        - env: SONARHOME=/tmp/sonarqube-6.3-RC4
+#    allow_failures:
+#        - env: SONARHOME=/tmp/sonarqube-6.3
 
 # shorten the VM hostname with the new workaround
 # https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
@@ -38,8 +38,8 @@ install:
         - unzip -qq sonarqube-6.1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.2.zip
         - unzip -qq sonarqube-6.2.zip
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3-RC4.zip
-        - unzip -qq sonarqube-6.3-RC4.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.zip
+        - unzip -qq sonarqube-6.3.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.8.zip
         - unzip -qq sonar-scanner-2.8.zip
         - cd -
