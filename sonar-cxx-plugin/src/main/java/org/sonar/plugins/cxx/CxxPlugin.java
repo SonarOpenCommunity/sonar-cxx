@@ -282,6 +282,14 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(13)
+      .build(),
+      PropertyDefinition.builder(CxxClangTidyRuleRepository.CUSTOM_RULES_KEY)
+      .name("Clang-Tidy custom rules")
+      .description("XML definitions of custom Clang-Tidy rules, which aren't builtin into the plugin."
+        + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(14)
       .build()
     ));
   }
