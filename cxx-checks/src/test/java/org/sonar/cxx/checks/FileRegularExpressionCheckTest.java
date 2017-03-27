@@ -37,7 +37,7 @@ public class FileRegularExpressionCheckTest {
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");       
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);    
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
@@ -48,14 +48,14 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExInvertWithoutFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
     check.regularExpression = "stdafx\\.h";
     check.invertRegularExpression = true;
     check.message = "Found no 'stdafx.h' in file!";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegExInvert.cc", ".");       
     
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -65,13 +65,13 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExCodingErrorActionReplace() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("US-ASCII");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in file!";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".", "US-ASCII");
       
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
       .noMore();
@@ -81,13 +81,13 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExWithFilePattern() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
     check.matchFilePattern = "/**/*.cc"; // all files with .cc file extension
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
     check.message = "Found '#include \"stdafx.h\"' in a .cc file!";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegEx.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check); 
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check); 
 
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage(check.message)
@@ -98,7 +98,7 @@ public class FileRegularExpressionCheckTest {
   public void fileRegExInvertWithFilePatternInvert() throws UnsupportedEncodingException, IOException {
     FileRegularExpressionCheck check = new FileRegularExpressionCheck();
     Charset charset = Charset.forName("UTF-8");
-    CxxConfiguration cxxConfig = new CxxConfiguration(charset);
+    CxxConfiguration cxxConfig = new CxxConfiguration(charset, CxxFileTesterHelper.mockCxxLanguage());
     check.matchFilePattern = "/**/*.h"; // all files with not .h file extension
     check.invertFilePattern = true;
     check.regularExpression = "#include\\s+\"stdafx\\.h\"";
@@ -106,7 +106,7 @@ public class FileRegularExpressionCheckTest {
     check.message = "Found no '#include \"stdafx.h\"' in a file with not '.h' file extension!";
     
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FileRegExInvert.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFileConfig(tester.cxxFile, cxxConfig, tester.sensorContext, check);    
+    SourceFile file = CxxAstScanner.scanSingleFileConfig(CxxFileTesterHelper.mockCxxLanguage(), tester.cxxFile, cxxConfig, tester.sensorContext, check);    
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())

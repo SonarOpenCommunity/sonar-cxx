@@ -19,44 +19,54 @@
  */
 package org.sonar.plugins.cxx;
 
+import org.sonar.cxx.CxxProjectBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import javax.annotation.Nullable;
 import org.sonar.api.Plugin;
 import org.sonar.api.Plugin.Context;
 
 import org.sonar.api.PropertyType;
+import org.sonar.api.batch.bootstrap.ProjectDefinition;
+import org.sonar.api.batch.rule.ActiveRules;
+import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.config.PropertyDefinition;
+import org.sonar.api.config.Settings;
+import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.plugins.cxx.clangtidy.CxxClangTidyRuleRepository;
-import org.sonar.plugins.cxx.clangtidy.CxxClangTidySensor;
-import org.sonar.plugins.cxx.compiler.CxxCompilerGccParser;
-import org.sonar.plugins.cxx.compiler.CxxCompilerGccRuleRepository;
-import org.sonar.plugins.cxx.compiler.CxxCompilerSensor;
-import org.sonar.plugins.cxx.compiler.CxxCompilerVcParser;
-import org.sonar.plugins.cxx.compiler.CxxCompilerVcRuleRepository;
-import org.sonar.plugins.cxx.coverage.CxxCoverageSensor;
-import org.sonar.plugins.cxx.cppcheck.CxxCppCheckRuleRepository;
-import org.sonar.plugins.cxx.cppcheck.CxxCppCheckSensor;
-import org.sonar.plugins.cxx.externalrules.CxxExternalRuleRepository;
-import org.sonar.plugins.cxx.externalrules.CxxExternalRulesSensor;
-import org.sonar.plugins.cxx.pclint.CxxPCLintRuleRepository;
-import org.sonar.plugins.cxx.pclint.CxxPCLintSensor;
-import org.sonar.plugins.cxx.rats.CxxRatsRuleRepository;
-import org.sonar.plugins.cxx.rats.CxxRatsSensor;
-import org.sonar.plugins.cxx.squid.CxxSquidSensor;
-import org.sonar.plugins.cxx.valgrind.CxxValgrindRuleRepository;
-import org.sonar.plugins.cxx.valgrind.CxxValgrindSensor;
-import org.sonar.plugins.cxx.veraxx.CxxVeraxxRuleRepository;
-import org.sonar.plugins.cxx.veraxx.CxxVeraxxSensor;
-import org.sonar.plugins.cxx.tests.xunit.CxxXunitSensor;
-import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider;
-import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsAggregator;
-import org.sonar.plugins.cxx.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsImportSensor;
-import org.sonar.plugins.cxx.utils.CxxMetrics;
-import org.sonar.plugins.cxx.coverage.CxxCoverageCache;
-import org.sonar.plugins.cxx.drmemory.CxxDrMemoryRuleRepository;
-import org.sonar.plugins.cxx.drmemory.CxxDrMemorySensor;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
+import org.sonar.cxx.sensors.compiler.CxxCompilerGccParser;
+import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
+import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
+import org.sonar.cxx.sensors.compiler.CxxCompilerVcParser;
+import org.sonar.cxx.sensors.compiler.CxxCompilerVcRuleRepository;
+import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
+import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
+import org.sonar.cxx.sensors.cppcheck.CxxCppCheckRuleRepository;
+import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
+import org.sonar.cxx.sensors.drmemory.CxxDrMemoryRuleRepository;
+import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
+import org.sonar.cxx.sensors.externalrules.CxxExternalRuleRepository;
+import org.sonar.cxx.sensors.externalrules.CxxExternalRulesSensor;
+import org.sonar.cxx.sensors.pclint.CxxPCLintRuleRepository;
+import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
+import org.sonar.cxx.sensors.rats.CxxRatsRuleRepository;
+import org.sonar.cxx.sensors.rats.CxxRatsSensor;
+import org.sonar.cxx.sensors.squid.CxxSquidSensor;
+import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider;
+import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsAggregator;
+import org.sonar.cxx.sensors.tests.dotnet.CxxUnitTestResultsProvider.CxxUnitTestResultsImportSensor;
+import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
+import org.sonar.cxx.sensors.utils.CxxMetrics;
+import org.sonar.cxx.sensors.valgrind.CxxValgrindRuleRepository;
+import org.sonar.cxx.sensors.valgrind.CxxValgrindSensor;
+import org.sonar.cxx.sensors.veraxx.CxxVeraxxRuleRepository;
+import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
 
 /**
  * {@inheritDoc}
@@ -80,7 +90,7 @@ public final class CxxPlugin implements Plugin {
     String subcateg = "(1) General";
     return new ArrayList<>(Arrays.asList(
       PropertyDefinition.builder(SOURCE_FILE_SUFFIXES_KEY)
-      .defaultValue(CxxLanguage.DEFAULT_SOURCE_SUFFIXES)
+      .defaultValue(CppLanguage.DEFAULT_SOURCE_SUFFIXES)
       .name("Source files suffixes")
       .description("Comma-separated list of suffixes for source files to analyze. Leave empty to use the default.")
       .subCategory(subcateg)
@@ -88,7 +98,7 @@ public final class CxxPlugin implements Plugin {
       .index(1)
       .build(),
       PropertyDefinition.builder(HEADER_FILE_SUFFIXES_KEY)
-      .defaultValue(CxxLanguage.DEFAULT_HEADER_SUFFIXES)
+      .defaultValue(CppLanguage.DEFAULT_HEADER_SUFFIXES)
       .name("Header files suffixes")
       .description("Comma-separated list of suffixes for header files to analyze. Leave empty to use the default.")
       .subCategory(subcateg)
@@ -119,7 +129,7 @@ public final class CxxPlugin implements Plugin {
       .index(5)
       .build(),
       PropertyDefinition.builder(C_FILES_PATTERNS_KEY)
-      .defaultValue(CxxLanguage.DEFAULT_C_FILES)
+      .defaultValue(CppLanguage.DEFAULT_C_FILES)
       .name("C source files patterns")
       .description("Comma-separated list of wildcard patterns used to detect C files. When a file matches any of the patterns, it is parsed in C-compatibility mode.")
       .subCategory(subcateg)
@@ -167,7 +177,7 @@ public final class CxxPlugin implements Plugin {
   private static List<PropertyDefinition> codeAnalysisProperties() {
     String subcateg = "(2) Code analysis";
     return new ArrayList<>(Arrays.asList(
-      PropertyDefinition.builder(CxxCppCheckSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCppCheckSensor.REPORT_PATH_KEY)
       .name("Cppcheck report(s)")
       .description("Path to a <a href='http://cppcheck.sourceforge.net/'>Cppcheck</a> analysis XML report, relative to projects root."
         + " Both XML formats (version 1 and version 2) are supported."
@@ -177,7 +187,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-      PropertyDefinition.builder(CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCppCheckRuleRepository.CUSTOM_RULES_KEY)
       .name("Cppcheck custom rules")
       .description("XML definitions of custom Cppcheck rules, which are'nt builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -185,7 +195,7 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .index(2)
       .build(),
-      PropertyDefinition.builder(CxxValgrindSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxValgrindSensor.REPORT_PATH_KEY)
       .name("Valgrind report(s)")
       .description("Path to <a href='http://valgrind.org/'>Valgrind</a> report(s), relative to projects root."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -193,7 +203,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-      PropertyDefinition.builder(CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxValgrindRuleRepository.CUSTOM_RULES_KEY)
       .name("Valgrind custom rules")
       .description("XML definitions of custom Valgrind rules, which are'nt builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -201,7 +211,7 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .index(4)
       .build(),
-      PropertyDefinition.builder(CxxDrMemorySensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxDrMemorySensor.REPORT_PATH_KEY)
       .name("Dr Memory report(s)")
       .description("Path to <a href='http://drmemory.org/'>Dr. Memory</a> reports(s), relative to projects root."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -209,7 +219,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(5)
       .build(),
-      PropertyDefinition.builder(CxxPCLintSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxPCLintSensor.REPORT_PATH_KEY)
       .name("PC-lint report(s)")
       .description("Path to <a href='http://www.gimpel.com/html/pcl.htm'>PC-lint</a> reports(s), relative to projects root."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -217,7 +227,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(5)
       .build(),
-      PropertyDefinition.builder(CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxPCLintRuleRepository.CUSTOM_RULES_KEY)
       .name("PC-lint custom rules")
       .description("XML definitions of custom PC-lint rules, which are'nt builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -225,7 +235,7 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .index(6)
       .build(),
-      PropertyDefinition.builder(CxxRatsSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxRatsSensor.REPORT_PATH_KEY)
       .name("RATS report(s)")
       .description("Path to <a href='https://code.google.com/p/rough-auditing-tool-for-security/'>RATS<a/> reports(s), relative to projects root."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -233,7 +243,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(7)
       .build(),
-      PropertyDefinition.builder(CxxRatsRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxRatsRuleRepository.CUSTOM_RULES_KEY)
       .name("RATS custom rules")
       .description("XML definitions of custom RATS rules, which are'nt builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -241,7 +251,7 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .index(8)
       .build(),
-      PropertyDefinition.builder(CxxVeraxxSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxVeraxxSensor.REPORT_PATH_KEY)
       .name("Vera++ report(s)")
       .description("Path to <a href='https://bitbucket.org/verateam'>Vera++</a> reports(s), relative to projects root."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -249,7 +259,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(9)
       .build(),
-      PropertyDefinition.builder(CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxVeraxxRuleRepository.CUSTOM_RULES_KEY)
       .name("Vera++ custom rules")
       .description("XML definitions of custom Vera++ rules, which are'nt builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -257,7 +267,7 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .index(10)
       .build(),
-      PropertyDefinition.builder(CxxExternalRulesSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxExternalRulesSensor.REPORT_PATH_KEY)
       .name("External checkers report(s)")
       .description("Path to a code analysis report, which is generated by some unsupported code analyser, relative to projects root."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary."
@@ -266,7 +276,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(11)
       .build(),
-      PropertyDefinition.builder(CxxExternalRuleRepository.RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxExternalRuleRepository.RULES_KEY)
       .name("External rules")
       .description("Rule sets for 'external' code analysers. Use one value per rule set."
         + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>this page</a> for details.")
@@ -275,7 +285,7 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .index(12)
       .build(),
-      PropertyDefinition.builder(CxxClangTidySensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxClangTidySensor.REPORT_PATH_KEY)
       .name("Clang-Tidy analyzer report(s)")
       .description("Path to Clang-Tidy reports, relative to projects root."
         + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
@@ -283,7 +293,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(13)
       .build(),
-      PropertyDefinition.builder(CxxClangTidyRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxClangTidyRuleRepository.CUSTOM_RULES_KEY)
       .name("Clang-Tidy custom rules")
       .description("XML definitions of custom Clang-Tidy rules, which aren't builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -297,7 +307,7 @@ public final class CxxPlugin implements Plugin {
   private static List<PropertyDefinition> compilerWarningsProperties() {
     String subcateg = "(4) Compiler warnings";
     return new ArrayList<>(Arrays.asList(
-      PropertyDefinition.builder(CxxCompilerSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCompilerSensor.REPORT_PATH_KEY)
       .name("Compiler report(s)")
       .description("Path to compilers output (i.e. file(s) containg compiler warnings), relative to projects root."
         + " Use <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> if neccessary.")
@@ -305,17 +315,17 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-      PropertyDefinition.builder(CxxCompilerSensor.PARSER_KEY_DEF)
+      PropertyDefinition.builder("sonar.cxx." + CxxCompilerSensor.PARSER_KEY_DEF)
       .defaultValue(CxxCompilerSensor.DEFAULT_PARSER_DEF)
       .name("Format")
       .type(PropertyType.SINGLE_SELECT_LIST)
-      .options(CxxCompilerVcParser.KEY, CxxCompilerGccParser.KEY)
+      .options("sonar.cxx." + CxxCompilerVcParser.KEY, "sonar.cxx." + CxxCompilerGccParser.KEY)
       .description("The format of the warnings file. Currently supported are Visual C++ and GCC.")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(2)
       .build(),
-      PropertyDefinition.builder(CxxCompilerSensor.REPORT_CHARSET_DEF)
+      PropertyDefinition.builder("sonar.cxx." + CxxCompilerSensor.REPORT_CHARSET_DEF)
       .defaultValue(CxxCompilerSensor.DEFAULT_CHARSET_DEF)
       .name("Encoding")
       .description("The encoding to use when reading the compiler report. Leave empty to use parser's default.")
@@ -323,7 +333,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-      PropertyDefinition.builder(CxxCompilerSensor.REPORT_REGEX_DEF)
+      PropertyDefinition.builder("sonar.cxx." + CxxCompilerSensor.REPORT_REGEX_DEF)
       .name("Custom matcher")
       .description("Regular expression to identify the four groups of the compiler warning message: file, line, ID, message. For advanced usages. Leave empty to use parser's default."
         + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Compilers'>this page</a> for details regarding the different regular expression that can be use per compiler.")
@@ -331,7 +341,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(4)
       .build(),
-      PropertyDefinition.builder(CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCompilerVcRuleRepository.CUSTOM_RULES_KEY)
       .name("Custom rules for Visual C++ warnings")
       .description("XML definitions of custom rules for Visual C++ warnings, which are'nt builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -339,7 +349,7 @@ public final class CxxPlugin implements Plugin {
       .subCategory(subcateg)
       .index(5)
       .build(),
-      PropertyDefinition.builder(CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCompilerGccRuleRepository.CUSTOM_RULES_KEY)
       .name("Custom rules for GCC warnings")
       .description("XML definitions of custom rules for GCC's warnings, which are'nt builtin into the plugin."
         + " The used format is described <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Extending-the-code-analysis'>here</a>.")
@@ -353,7 +363,7 @@ public final class CxxPlugin implements Plugin {
   private static List<PropertyDefinition> testingAndCoverageProperties() {
     String subcateg = "(3) Testing & Coverage";
     return new ArrayList<>(Arrays.asList(
-      PropertyDefinition.builder(CxxCoverageSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCoverageSensor.REPORT_PATH_KEY)
       .name("Unit test coverage report(s)")
       .description("Path to a report containing unit test coverage data, relative to projects root."
         + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
@@ -362,7 +372,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(1)
       .build(),
-      PropertyDefinition.builder(CxxCoverageSensor.IT_REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCoverageSensor.IT_REPORT_PATH_KEY)
       .name("Integration test coverage report(s)")
       .description("Path to a report containing integration test coverage data, relative to projects root."
         + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
@@ -371,7 +381,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(2)
       .build(),
-      PropertyDefinition.builder(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)
       .name("Overall test coverage report(s)")
       .description("Path to a report containing overall test coverage data (i.e. test coverage gained by all tests of all kinds), relative to projects root."
         + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-code-coverage-metrics'>here</a> for supported formats."
@@ -380,7 +390,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(3)
       .build(),
-      PropertyDefinition.builder(CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxCoverageSensor.FORCE_ZERO_COVERAGE_KEY)
       .defaultValue("False")
       .name("Enable Force Zero Coverage")
       .description("Set files without coverage reports to zero coverage. Default is 'False'.")
@@ -389,7 +399,7 @@ public final class CxxPlugin implements Plugin {
       .type(PropertyType.BOOLEAN)
       .index(4)
       .build(),      
-      PropertyDefinition.builder(CxxXunitSensor.REPORT_PATH_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxXunitSensor.REPORT_PATH_KEY)
       .name("Unit test execution report(s)")
       .description("Path to unit test execution report(s), relative to projects root."
         + " See <a href='https://github.com/SonarOpenCommunity/sonar-cxx/wiki/Get-test-execution-metrics'>here</a> for supported formats."
@@ -398,7 +408,7 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(6)
       .build(),
-      PropertyDefinition.builder(CxxXunitSensor.XSLT_URL_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxXunitSensor.XSLT_URL_KEY)
       .name("XSLT transformer")
       .description("By default, the unit test execution reports are expected to be in the JUnitReport format."
         + " To import a report in an other format, set this property to an URL to a XSLT stylesheet which is able to perform the according transformation.")
@@ -406,14 +416,14 @@ public final class CxxPlugin implements Plugin {
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(7)
       .build(),
-      PropertyDefinition.builder(CxxUnitTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxUnitTestResultsProvider.VISUAL_STUDIO_TEST_RESULTS_PROPERTY_KEY)
       .name("Visual Studio Test Reports Paths")
       .description("Example: \"report.trx\", \"report1.trx,report2.trx\" or \"C:/report.trx\"")
       .subCategory(subcateg)
       .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
       .index(9)
       .build(),
-      PropertyDefinition.builder(CxxUnitTestResultsProvider.NUNIT_TEST_RESULTS_PROPERTY_KEY)
+      PropertyDefinition.builder("sonar.cxx." + CxxUnitTestResultsProvider.NUNIT_TEST_RESULTS_PROPERTY_KEY)
       .name("Nunit Test Reports Paths")
       .description("Example: \"nunit.xml\", \"nunit1.xml,nunit2.xml\" or \"C:/nunit.xml\"")
       .subCategory(subcateg)
@@ -453,37 +463,17 @@ public final class CxxPlugin implements Plugin {
   @Override
   public void define(Context context) {
     List<Object> l = new ArrayList<>();
-    l.add(CxxProjectBuilder.class);
-    l.add(CxxLanguage.class);
-    l.add(CxxMetrics.class);
-    l.add(CxxSquidSensor.class);
-    l.add(CxxRatsRuleRepository.class);
-    l.add(CxxRatsSensor.class);
-    l.add(CxxXunitSensor.class);
-    l.add(CxxCoverageSensor.class);
-    l.add(CxxCoverageAggregator.class);
-    l.add(CxxCppCheckRuleRepository.class);
-    l.add(CxxCppCheckSensor.class);
-    l.add(CxxPCLintRuleRepository.class);
-    l.add(CxxPCLintSensor.class);
-    l.add(CxxDrMemoryRuleRepository.class);
-    l.add(CxxDrMemorySensor.class);
-    l.add(CxxCompilerVcRuleRepository.class);
-    l.add(CxxCompilerGccRuleRepository.class);
-    l.add(CxxCompilerSensor.class);
-    l.add(CxxVeraxxRuleRepository.class);
-    l.add(CxxVeraxxSensor.class);
-    l.add(CxxValgrindRuleRepository.class);
-    l.add(CxxValgrindSensor.class);
-    l.add(CxxDefaultProfile.class);
-    l.add(CxxExternalRulesSensor.class);
-    l.add(CxxExternalRuleRepository.class);
-    l.add(CxxRuleRepository.class);
-    l.add(CxxUnitTestResultsAggregator.class);
-    l.add(CxxUnitTestResultsImportSensor.class);
-    l.add(CxxClangTidyRuleRepository.class);
-    l.add(CxxClangTidySensor.class);
 
+    // plugin elements
+    l.add(CxxProjectBuilder.class);
+    l.add(CppLanguage.class);
+    l.add(CxxDefaultProfile.class);
+    l.add(CxxRuleRepository.class);
+
+    // reusable elements
+    l.addAll(GetSensorsImpl());
+    
+    // properties elements
     l.addAll(generalProperties());
     l.addAll(codeAnalysisProperties());
     l.addAll(testingAndCoverageProperties());
@@ -493,12 +483,200 @@ public final class CxxPlugin implements Plugin {
     context.addExtensions(l);
   }
 
-  public static class CxxCoverageAggregator extends CxxCoverageCache {
-    public CxxCoverageAggregator() {
-      super();
+  public List<Object> GetSensorsImpl() {
+    List<Object> l = new ArrayList<>();
+
+    // utility classes
+    l.add(CxxCoverageAggregator.class);
+    l.add(CxxUnitTestResultsAggregator.class);
+        
+    // metrics    
+    l.add(CxxMetricsImp.class);
+    
+    // issue sensors
+    l.add(CxxSquidSensorImpl.class);
+    l.add(CxxRatsSensorImpl.class);    
+    l.add(CxxCppCheckSensorImpl.class);
+    l.add(CxxPCLintSensorImpl.class);
+    l.add(CxxDrMemorySensorImpl.class);
+    l.add(CxxCompilerSensorImpl.class);
+    l.add(CxxVeraxxSensorImpl.class);
+    l.add(CxxValgrindSensorImpl.class);
+    l.add(CxxClangTidySensorImpl.class);
+    l.add(CxxExternalRulesSensorImpl.class);
+
+    // test sensors
+    l.add(CxxXunitSensorImpl.class);
+    l.add(CxxUnitTestResultsImportSensorImpl.class);
+    l.add(CxxCoverageSensorImpl.class);    
+    
+    // rule provides
+    l.add(CxxRatsRuleRepositoryImpl.class);
+    l.add(CxxCppCheckRuleRepositoryImpl.class);
+    l.add(CxxPCLintRuleRepositoryImpl.class);
+    l.add(CxxDrMemoryRuleRepositoryImpl.class);
+    l.add(CxxCompilerVcRuleRepositoryImpl.class);
+    l.add(CxxCompilerGccRuleRepositoryImpl.class);
+    l.add(CxxVeraxxRuleRepositoryImpl.class);
+    l.add(CxxValgrindRuleRepositoryImpl.class);   
+    l.add(CxxExternalRuleRepositoryImpl.class);    
+    l.add(CxxClangTidyRuleRepositoryImpl.class);
+    
+    return l;
+  }
+  
+  public static class CxxMetricsImp extends CxxMetrics {
+    public CxxMetricsImp(Settings settings) {
+      super(new CppLanguage(settings));
+    }
+  }
+
+  public static class CxxRatsRuleRepositoryImpl extends CxxRatsRuleRepository {
+    public CxxRatsRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+    
+  public static class CxxCppCheckRuleRepositoryImpl extends CxxCppCheckRuleRepository {
+    public CxxCppCheckRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
     }
   }
   
+  public static class CxxPCLintRuleRepositoryImpl extends CxxPCLintRuleRepository {
+    public CxxPCLintRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxDrMemoryRuleRepositoryImpl extends CxxDrMemoryRuleRepository {
+    public CxxDrMemoryRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxCompilerVcRuleRepositoryImpl extends CxxCompilerVcRuleRepository {
+    public CxxCompilerVcRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxCompilerGccRuleRepositoryImpl extends CxxCompilerGccRuleRepository {
+    public CxxCompilerGccRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxVeraxxRuleRepositoryImpl extends CxxVeraxxRuleRepository {
+    public CxxVeraxxRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxValgrindRuleRepositoryImpl extends CxxValgrindRuleRepository {
+    public CxxValgrindRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxExternalRuleRepositoryImpl extends CxxExternalRuleRepository {
+    public CxxExternalRuleRepositoryImpl(RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxClangTidyRuleRepositoryImpl extends CxxClangTidyRuleRepository {
+    public CxxClangTidyRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxSquidSensorImpl extends CxxSquidSensor {
+    public CxxSquidSensorImpl(Settings settings,
+            FileLinesContextFactory fileLinesContextFactory,
+          CheckFactory checkFactory,
+          ActiveRules rules,
+          CxxCoverageAggregator coverageCache) {
+      super(new CppLanguage(settings), fileLinesContextFactory, checkFactory, rules, coverageCache);      
+    }
+  }
+    
+  public static class CxxRatsSensorImpl extends CxxRatsSensor {
+    public CxxRatsSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxXunitSensorImpl extends CxxXunitSensor {
+    public CxxXunitSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  }
+  
+  public static class CxxCoverageSensorImpl extends CxxCoverageSensor {
+    public CxxCoverageSensorImpl(Settings settings, CxxCoverageAggregator cache) {
+      super(cache, new CppLanguage(settings));      
+    }
+  } 
+  
+  public static class CxxCppCheckSensorImpl extends CxxCppCheckSensor {
+    public CxxCppCheckSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  } 
+  
+  public static class CxxPCLintSensorImpl extends CxxPCLintSensor {
+    public CxxPCLintSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  } 
+  
+  public static class CxxDrMemorySensorImpl extends CxxDrMemorySensor {
+    public CxxDrMemorySensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  } 
+  
+  public static class CxxCompilerSensorImpl extends CxxCompilerSensor {
+    public CxxCompilerSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  } 
+  
+  public static class CxxVeraxxSensorImpl extends CxxVeraxxSensor {
+    public CxxVeraxxSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  }  
+
+  public static class CxxValgrindSensorImpl extends CxxValgrindSensor {
+    public CxxValgrindSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  }
+            
+  public static class CxxClangTidySensorImpl extends CxxClangTidySensor {
+    public CxxClangTidySensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  }  
+  public static class CxxExternalRulesSensorImpl extends CxxExternalRulesSensor {
+    public CxxExternalRulesSensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  } 
+  public static class CxxUnitTestResultsImportSensorImpl extends CxxUnitTestResultsImportSensor {
+    public CxxUnitTestResultsImportSensorImpl(Settings settings, CxxUnitTestResultsAggregator unitTestResultsAggregator, ProjectDefinition projectDef) {
+      super(unitTestResultsAggregator, projectDef, new CppLanguage(settings));      
+    }
+  }   
+  
+  public static class CxxCoverageAggregator extends CxxCoverageCache {
+    public CxxCoverageAggregator() {                  
+      super();
+    }
+  }
+    
   @Override
   public String toString() {
     return getClass().getSimpleName();

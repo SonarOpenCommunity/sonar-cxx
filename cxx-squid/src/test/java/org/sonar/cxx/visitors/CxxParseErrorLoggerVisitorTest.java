@@ -30,6 +30,7 @@ import org.sonar.api.batch.fs.internal.FileMetadata;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.api.utils.log.LogTester;
 import org.sonar.cxx.CxxAstScanner;
+import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CxxParseErrorLoggerVisitorTest {
   
@@ -51,7 +52,7 @@ public class CxxParseErrorLoggerVisitorTest {
     context = SensorContextTester.create(new File(dir));
     context.fileSystem().add(inputFile);
 
-    CxxAstScanner.scanSingleFile(inputFile, context);
+    CxxAstScanner.scanSingleFile(inputFile, context, CxxFileTesterHelper.mockCxxLanguage());
   }
 
   @Test

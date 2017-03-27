@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>NETICOA</groupId>
+  <artifactId>SAMPLE</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>SAMPLE</name>
+  <profiles>
+
+    <profile>
+      <id>RELEASE</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>release</name>
+        </property>
+      </activation>
+      <build>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        
+        <!-- To define the plugin version in your parent POM -->
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cxx-maven-plugin</artifactId>
+              <version>0.0.5-SNAPSHOT</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cxx-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>clean</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>launch</goal>
+                </goals>
+                <configuration>
+                  <executable>rm</executable>
+                  <commandArgs>-rf "${basedir}/builds/Unix Makefiles/RELEASE"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>cmake</id>
+                <!--<phase>initialize</phase> -->
+                <!-- initialize is cmake goal default phase -->
+                <goals>
+                  <goal>cmake</goal>
+                </goals>
+                <configuration>
+                  <!-- ${basedir} is cmake projectDir default value -->
+                  <projectDir>${basedir}/sources</projectDir>
+                  <!-- ${basedir} is cmake outsourceDir default value -->
+                  <outsourceDir>${basedir}/builds/Unix Makefiles/RELEASE</outsourceDir>
+                  <generator>"Unix Makefiles"</generator>
+                  <commandArgs>-DPROJECT_TARGET="RELEASE" -DEXECUTABLE_NAME="SAMPLE" -DPROJECT_LANGUAGE="en" -DCMAKE_BUILD_TYPE="Release"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>make</id>
+                <!--<phase>compile</phase>-->
+                <!-- compile is make goal default phase -->
+                <goals>
+                  <goal>make</goal>
+                </goals>
+                <configuration>
+                  <projectDir>${basedir}/builds/Unix Makefiles/RELEASE</projectDir>
+                </configuration>
+              </execution>
+              <execution>
+                <id>unit-test</id>
+                <!--<phase>test</phase>-->
+                <!-- test is xunit goal default phase -->
+                <goals>
+                  <goal>xunit</goal>
+                </goals>
+                <configuration>
+                  <executable>sh</executable>
+                  <workingDir>${basedir}/builds/Unix Makefiles/RELEASE/bin</workingDir>
+                  <commandArgs>"${basedir}/scripts/execUnitTest.sh" ./SAMPLE-PROJECT-TESTS "${basedir}/xunit-reports/xunit-result-SAMPLE.xml"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>cppcheck</id>
+                <!--<phase>test</phase>-->
+                <!-- test is cppcheck goal default phase -->
+                <goals>
+                  <goal>cppcheck</goal>
+                </goals>
+                <configuration>
+                  <!-- We use main configuration node for sourceDir -->
+                  <!-- <sourceDirs>
+                    <sourceDir>sources/application</sourceDir>
+                    <sourceDir>sources/utils</sourceDir>
+                    <sourceDir>sources/tests</sourceDir>
+                  </sourceDirs>-->
+                  <includeDirs>
+                    <includeDir>${basedir}/builds/Unix Makefiles/RELEASE/application</includeDir>
+                  </includeDirs>
+
+                  <miscArgs>
+                    <miscArg>-j3</miscArg>
+                  </miscArgs>
+
+                  <reportIdentifier>SAMPLE</reportIdentifier>
+                </configuration>
+              </execution>
+              
+              <execution>
+                <id>veraxx</id>
+                <!--<phase>test</phase>-->
+                <!-- test is vera++ goal default phase -->
+                <goals>
+                  <goal>veraxx</goal>
+                </goals>
+                <configuration>
+                  <!-- We use main configuration node for sourceDir -->
+                  <!-- <sourceDirs>
+                    <sourceDir>sources/application</sourceDir>
+                    <sourceDir>sources/utils</sourceDir>
+                    <sourceDir>sources/tests</sourceDir>
+                  </sourceDirs> -->
+                  <reportIdentifier>SAMPLE</reportIdentifier>
+                </configuration>
+              </execution>
+            </executions>
+<!-- main configuration node is mainly used by sonar cxx sensor -->
+            <configuration>
+<!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
+<!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <sourceDirs>
+                <sourceDir>sources/application</sourceDir>
+                <sourceDir>sources/utils</sourceDir>
+                <sourceDir>sources/tests</sourceDir>
+              </sourceDirs>
+            </configuration>
+<!-- all of the following are needed by sonar-cxx plugin, but since we use default values this is not needed -->
+<!--
+              <xunit>
+                <directory>${basedir}/xunit-reports</directory>
+                <includes>
+                  <include>**/xunit-result-*.xml</include>
+                </includes>
+              </xunit>
+              <gcovr>
+                <directory>${basedir}/gcovr-reports</directory>
+                <includes>
+                  <include>**/gcovr-reports-*.xml</include>
+                </includes>
+              </gcovr>
+              <cppcheck>
+                <directory>${basedir}/cppcheck-reports</directory>
+                <includes>
+                  <include>**/cppcheck-result-*.xml</include>
+                </includes>
+                <reportsIncludeSourcePath>
+                  <include>..</include>
+                </reportsIncludeSourcePath>
+              </cppcheck>
+              
+              <veraxx>
+                <directory>${basedir}/vera++-reports</directory>
+                <includes>
+                  <include>**/vera++-result-*.xml</include>
+                </includes>
+                <reportsIncludeSourcePath>
+                  <include>..</include>
+                </reportsIncludeSourcePath>
+              </veraxx>
+              <valgrind>
+                <directory>${basedir}/valgrind-reports</directory>
+                <includes>
+                  <include>**/valgrind-result-*.xml</include>
+                </includes>
+                <reportsIncludeSourcePath>
+                  <include>..</include>
+                </reportsIncludeSourcePath>
+              </valgrind>
+            </configuration>
+-->
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>COVERAGE</id>
+      <activation>
+        <property>
+          <name>coverage</name>
+        </property>
+      </activation>
+     <build>
+        <!-- To define the plugin version in your parent POM -->
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cxx-maven-plugin</artifactId>
+              <version>0.0.5-SNAPSHOT</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cxx-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>clean</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>launch</goal>
+                </goals>
+                <configuration>
+                  <executable>rm</executable>
+                  <commandArgs>-rf "${basedir}/builds/Unix Makefiles/COVERAGE"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>cmake</id>
+                <!--<phase>initialize</phase> -->
+                <!-- initialize is cmake goal default phase -->
+                <goals>
+                  <goal>cmake</goal>
+                </goals>
+                <configuration>
+                  <!-- ${basedir} is cmake projectDir default value -->
+                  <projectDir>${basedir}/sources</projectDir>
+                  <!-- ${basedir} is cmake outsourceDir default value -->
+                  <outsourceDir>${basedir}/builds/Unix Makefiles/COVERAGE</outsourceDir>
+                  <generator>"Unix Makefiles"</generator>
+                  <commandArgs>-DPROJECT_TARGET="COVERAGE" -DEXECUTABLE_NAME="SAMPLE" -DPROJECT_LANGUAGE="en" -DCMAKE_BUILD_TYPE="Coverage"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>make</id>
+                <!--<phase>compile</phase>-->
+                <!-- compile is make goal default phase -->
+                <goals>
+                  <goal>make</goal>
+                </goals>
+                <configuration>
+                  <projectDir>${basedir}/builds/Unix Makefiles/COVERAGE</projectDir>
+                </configuration>
+              </execution>
+              <execution>
+                <id>coverage-test</id>
+                <!--<phase>test</phase>-->
+                <!-- test is coverage goal default phase -->
+                <goals>
+                  <goal>coverage</goal>
+                </goals>
+                <configuration>
+                  <!-- gcovr default args are -x -d -->
+                  <gcovrArgs>-r ${basedir} -x -d -e ".*QtCore.*" -e ".*QtGui.*" -e ".*QtTest.*" </gcovrArgs>
+                  <executable>sh</executable>
+                  <workingDir>${basedir}/builds/Unix Makefiles/COVERAGE</workingDir>
+                  <commandArgs>"${basedir}/scripts/execUnitTest.sh" ./bin/SAMPLE-PROJECT-TESTS "${basedir}/xunit-reports/xunit-result-SAMPLE.xml"</commandArgs>
+                  <reportIdentifier>SAMPLE</reportIdentifier>
+                </configuration>
+              </execution>
+              <execution>
+                <id>valgrind-test</id>
+                <!--<phase>test</phase>-->
+                <!-- test is valgrind goal default phase -->
+                <goals>
+                  <goal>valgrind</goal>
+                </goals>
+                <configuration>
+                  <workingDir>${basedir}/builds/Unix Makefiles/COVERAGE</workingDir>
+                  <instrumentedExecutablePath>${basedir}/builds/Unix Makefiles/COVERAGE/bin/SAMPLE-PROJECT-TESTS</instrumentedExecutablePath>
+                  <reportIdentifier>SAMPLE</reportIdentifier>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>cppcheck</id>
+                <!--<phase>test</phase>-->
+                <!-- test is cppcheck goal default phase -->
+                <goals>
+                  <goal>cppcheck</goal>
+                </goals>
+                <configuration>
+                  <includeDirs>
+                    <includeDir>${basedir}/builds/Unix Makefiles/COVERAGE/application</includeDir>
+                  </includeDirs>
+                  <reportIdentifier>SAMPLE</reportIdentifier>
+                </configuration>
+              </execution>
+              
+              <execution>
+                <id>veraxx</id>
+                <!--<phase>test</phase>-->
+                <!-- test is vera++ goal default phase -->
+                <goals>
+                  <goal>veraxx</goal>
+                </goals>
+                <configuration>
+                  <reportIdentifier>SAMPLE</reportIdentifier>
+                </configuration>
+              </execution>
+
+            </executions>
+<!-- main configuration node is mainly used by sonar cxx sensor -->
+            <configuration>
+<!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
+<!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <sourceDirs>
+                <sourceDir>sources/application</sourceDir>
+                <sourceDir>sources/utils</sourceDir>
+                <sourceDir>sources/tests</sourceDir>
+              </sourceDirs>
+            </configuration>
+
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>WINCOVERAGE</id>
+      <activation>
+        <property>
+          <name>wincoverage</name>
+        </property>
+      </activation>
+     <build>
+        <!-- To define the plugin version in your parent POM -->
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cxx-maven-plugin</artifactId>
+              <version>0.0.5-SNAPSHOT</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cxx-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>clean</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>launch</goal>
+                </goals>
+                <configuration>
+                  <executable>rm</executable>
+                  <commandArgs>-rf "${basedir}/builds/Unix Makefiles/COVERAGE"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>cmake</id>
+                <!--<phase>initialize</phase> -->
+                <!-- initialize is cmake goal default phase -->
+                <goals>
+                  <goal>cmake</goal>
+                </goals>
+                <configuration>
+                  <!-- ${basedir} is cmake projectDir default value -->
+                  <projectDir>${basedir}/sources</projectDir>
+                  <!-- ${basedir} is cmake outsourceDir default value -->
+                  <outsourceDir>${basedir}/builds/Unix Makefiles/COVERAGE</outsourceDir>
+                  <generator>"MinGW Makefiles"</generator>
+                  <commandArgs>-DPROJECT_TARGET="COVERAGE" -DEXECUTABLE_NAME="SAMPLE" -DPROJECT_LANGUAGE="en" -DCMAKE_BUILD_TYPE="Coverage"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>make</id>
+                <!--<phase>compile</phase>-->
+                <!-- compile is make goal default phase -->
+                <goals>
+                  <goal>make</goal>
+                </goals>
+                <configuration>
+                  <makecommandPerOS>
+                    <WindowsXP>mingw32-make</WindowsXP>
+                    <Windows7>mingw32-make</Windows7>
+                  </makecommandPerOS>
+                  <projectDir>${basedir}/builds/Unix Makefiles/COVERAGE</projectDir>
+                </configuration>
+              </execution>
+              <execution>
+                <id>coverage-test</id>
+                <!--<phase>test</phase>-->
+                <!-- test is coverage goal default phase -->
+                <goals>
+                  <goal>coverage</goal>
+                </goals>
+                <configuration>
+                  <!-- gcovr default args are -x -d -->
+                  <gcovrArgs>-r ${basedir} -x -d -e ".*QtCore.*" -e ".*QtGui.*" -e ".*QtTest.*" </gcovrArgs>
+                  <executable>bash</executable>
+                  <workingDir>${basedir}/builds/Unix Makefiles/COVERAGE</workingDir>
+                  <commandArgs>"${basedir}/scripts/execUnitTest.sh" ./bin/SAMPLE-PROJECT-TESTS "${basedir}/xunit-reports/xunit-result-SAMPLE.xml"</commandArgs>
+                  <reportIdentifier>SAMPLE</reportIdentifier>
+                </configuration>
+              </execution>
+             </executions>
+<!-- main configuration node is mainly used by sonar cxx sensor -->
+            <configuration>
+<!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
+<!-- <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <sourceDirs>
+                <sourceDir>sources/application</sourceDir>
+                <sourceDir>sources/utils</sourceDir>
+                <sourceDir>sources/tests</sourceDir>
+              </sourceDirs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+
+    <profile>
+      <id>WINRELEASE</id>
+      <activation>
+        <property>
+          <name>winrelease</name>
+        </property>
+      </activation>
+     <build>
+        <!-- To define the plugin version in your parent POM -->
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cxx-maven-plugin</artifactId>
+              <version>0.0.5-SNAPSHOT</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cxx-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>clean</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>launch</goal>
+                </goals>
+                <configuration>
+                  <executable>rm</executable>
+                  <commandArgs>-rf "${basedir}/builds/Unix Makefiles/RELEASE"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>cmake</id>
+                <!--<phase>initialize</phase> -->
+                <!-- initialize is cmake goal default phase -->
+                <goals>
+                  <goal>cmake</goal>
+                </goals>
+                <configuration>
+                  <!-- ${basedir} is cmake projectDir default value -->
+                  <projectDir>${basedir}/sources</projectDir>
+                  <!-- ${basedir} is cmake outsourceDir default value -->
+                  <outsourceDir>${basedir}/builds/Unix Makefiles/RELEASE</outsourceDir>
+                  <generator>"MinGW Makefiles"</generator>
+                  <commandArgs>-DPROJECT_TARGET="RELEASE" -DEXECUTABLE_NAME="SAMPLE" -DPROJECT_LANGUAGE="en" -DCMAKE_BUILD_TYPE="Release"</commandArgs>
+                </configuration>
+              </execution>
+              <execution>
+                <id>make</id>
+                <!--<phase>compile</phase>-->
+                <!-- compile is make goal default phase -->
+                <goals>
+                  <goal>make</goal>
+                </goals>
+                <configuration>
+                  <makecommandPerOS>
+                    <WindowsXP>mingw32-make</WindowsXP>
+                    <Windows7>mingw32-make</Windows7>
+                  </makecommandPerOS>
+                  <projectDir>${basedir}/builds/Unix Makefiles/RELEASE</projectDir>
+                </configuration>
+              </execution>
+              <execution>
+                <id>unit-test</id>
+                <!--<phase>test</phase>-->
+                <!-- test is xunit goal default phase -->
+                <goals>
+                  <goal>xunit</goal>
+                </goals>
+                <configuration>
+                  <executable>bash</executable>
+                  <workingDir>${basedir}/builds/Unix Makefiles/RELEASE/bin</workingDir>
+                  <commandArgs>"${basedir}/scripts/execUnitTest.sh" ./SAMPLE-PROJECT-TESTS "${basedir}/xunit-reports/xunit-result-SAMPLE.xml"</commandArgs>
+                </configuration>
+              </execution>
+             </executions>
+
+            <!-- main configuration node is mainly used by sonar cxx sensor -->
+            <configuration>
+              <!-- <sourceDirs> is used by cppcheck and veraxx goal to identify source files -->
+              <!--   <sourceDirs> is also used by sonar cxx sensor to identify source files -->
+              <sourceDirs>
+                <sourceDir>sources/application</sourceDir>
+                <sourceDir>sources/utils</sourceDir>
+                <sourceDir>sources/tests</sourceDir>
+              </sourceDirs>
+            </configuration>
+
+          </plugin>
+        </plugins>
+     </build>
+    </profile>
+
+  </profiles>
+  <build>
+    <!-- We have our own <configuration><sourceDirs> node inside cxx plugin configuration -->
+    <sourceDirectory>sources</sourceDirectory>
+  </build>
+  <properties>
+    <sonar.language>c++</sonar.language>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.scm.enabled>true</sonar.scm.enabled>
+    <sonar.scm.url>scm:svn:https://svn.codehaus.org/sonar-plugins/trunk/cxx/src/sample/SampleProject</sonar.scm.url>
+
+    <sonar.cxx.cppcheck.reportPath>cppcheck-reports/cppcheck-result-*.xml</sonar.cxx.cppcheck.reportPath>
+    <sonar.cxx.coverage.reportPath>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.reportPath>
+    <sonar.cxx.coverage.itReportPath>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.itReportPath>
+    <sonar.cxx.coverage.overallReportPath>gcovr-reports/gcovr-result-*.xml</sonar.cxx.coverage.overallReportPath>
+    <sonar.cxx.rats.reportPath>rats-reports/rats-result-*.xml</sonar.cxx.rats.reportPath>
+    <sonar.cxx.vera.reportPath>vera++-reports/vera++-result-*.xml</sonar.cxx.vera.reportPath>
+    <sonar.cxx.xunit.reportPath>xunit-reports/xunit-result-*.xml</sonar.cxx.xunit.reportPath>
+
+    <sonar.cxx.defines>Q_OBJECT, Q_SLOTS</sonar.cxx.defines>
+    <sonar.tests>sources/tests</sonar.tests>
+    
+    <!-- <sonar.cxx.suffixes.sources></sonar.cxx.suffixes.sources> -->
+    <!-- <sonar.cxx.suffixes.headers></sonar.cxx.suffixes.headers> -->
+    <!-- <sonar.cxx.xunit.xsltURL></sonar.cxx.xunit.xsltURL> -->
+    <!-- <sonar.cxx.valgrind.reportPath></sonar.cxx.valgrind.reportPath> -->
+  </properties>
+</project>

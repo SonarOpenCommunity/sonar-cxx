@@ -135,7 +135,7 @@ public class CxxLint {
       throw exp;
     }
 
-    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile));
+    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile), new CppLanguage());
 
     String fileName = new File(fileToAnalyse).getName();
     SensorContextTester sensorContext = SensorContextTester.create(new File(fileToAnalyse).getParentFile().toPath());
@@ -279,9 +279,9 @@ public class CxxLint {
     }
 
     System.out.println("Analyse with : " + visitors.size() + " checks");
-
     
     SourceFile file = CxxAstScanner.scanSingleFileConfig(
+            new CppLanguage(), 
             cxxFile,
             configuration,
             sensorContext,

@@ -30,9 +30,9 @@ public class CxxRuleRepository implements RulesDefinition {
   @Override
   public void define(Context context) {
     NewRepository repository = context.
-      createRepository(CheckList.REPOSITORY_KEY, CxxLanguage.KEY).
+      createRepository(CheckList.REPOSITORY_KEY, CppLanguage.KEY).
       setName(REPOSITORY_NAME);        
-    new AnnotationBasedRulesDefinition(repository, CxxLanguage.KEY).addRuleClasses(false, CheckList.getChecks());    
+    new AnnotationBasedRulesDefinition(repository, CppLanguage.KEY).addRuleClasses(false, CheckList.getChecks());    
     repository.done();
   }
 }

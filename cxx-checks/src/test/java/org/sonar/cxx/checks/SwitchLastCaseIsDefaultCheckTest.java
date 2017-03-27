@@ -35,7 +35,7 @@ public class SwitchLastCaseIsDefaultCheckTest {
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/SwitchLastCaseIsDefaultCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new SwitchLastCaseIsDefaultCheck()); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new SwitchLastCaseIsDefaultCheck()); 
     
     
     checkMessagesVerifier.verify(file.getCheckMessages())

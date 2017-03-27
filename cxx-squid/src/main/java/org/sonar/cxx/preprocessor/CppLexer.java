@@ -37,6 +37,7 @@ import com.sonar.sslr.impl.Lexer;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
+import org.sonar.cxx.CxxLanguage;
 
 public final class CppLexer {
 
@@ -48,8 +49,8 @@ public final class CppLexer {
   private CppLexer() {
   }
 
-  public static Lexer create() {
-    return create(new CxxConfiguration());
+  public static Lexer create(CxxLanguage language) {
+    return create(new CxxConfiguration(language));
   }
 
   public static Lexer create(CxxConfiguration conf) {

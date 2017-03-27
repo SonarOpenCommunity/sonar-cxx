@@ -34,7 +34,7 @@ public class UselessParenthesesCheckTest {
   @Test
   public void detected() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UselessParenthesesCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UselessParenthesesCheck()); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UselessParenthesesCheck()); 
     
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(4).withMessage("Remove those useless parentheses.")

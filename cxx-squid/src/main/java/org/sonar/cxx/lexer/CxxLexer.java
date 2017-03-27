@@ -40,14 +40,15 @@ import com.sonar.sslr.impl.channel.BlackHoleChannel;
 import com.sonar.sslr.impl.channel.IdentifierAndKeywordChannel;
 import com.sonar.sslr.impl.channel.PunctuatorChannel;
 import com.sonar.sslr.impl.channel.UnknownCharacterChannel;
+import org.sonar.cxx.CxxLanguage;
 
 public final class CxxLexer {
 
   private CxxLexer() {
   }
 
-  public static Lexer create(Preprocessor... preprocessors) { //@todo deprecated Preprocessor
-    return create(new CxxConfiguration(), preprocessors);
+  public static Lexer create(CxxLanguage language, Preprocessor... preprocessors) { //@todo deprecated Preprocessor
+    return create(new CxxConfiguration(language), preprocessors);
   }
 
   private static final String EXP = "([Ee][+-]?+[0-9_]([']?+[0-9_]++)*+)";

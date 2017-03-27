@@ -33,7 +33,7 @@ public class WrongIncludeCheckTest {
     UseCorrectIncludeCheck check = new UseCorrectIncludeCheck();
     
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UseCorrectIncludeCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage("Do not use relative path for #include directive.")

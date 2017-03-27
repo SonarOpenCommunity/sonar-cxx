@@ -32,6 +32,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.sonar.cxx.CxxConfiguration;
+import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.squidbridge.SquidAstVisitorContext;
 
 public class CxxParserTest extends ParserBaseTest {
@@ -62,7 +63,7 @@ public class CxxParserTest extends ParserBaseTest {
 
   @Test
   public void testPreproccessorParsingOnDiverseSourceFiles() {
-    conf = new CxxConfiguration();
+    conf = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     conf.setErrorRecoveryEnabled(false);
     String baseDir = new File("src/test").getAbsolutePath();
     conf.setBaseDir(baseDir);
@@ -78,7 +79,7 @@ public class CxxParserTest extends ParserBaseTest {
         "resources",
         "resources\\parser\\preprocessor")
         );
-    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
     Collection<File> files = listFiles(preprocessorFiles, new String[]{"cc", "cpp", "hpp", "h"});
     for (File file : files) {
       p.parse(file);
@@ -99,14 +100,14 @@ public class CxxParserTest extends ParserBaseTest {
     when(context.getFile()).thenReturn(cfile);
 
     conf.setCFilesPatterns(new String[]{""});
-    p = CxxParser.create(context, conf);
+    p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
     try {
       p.parse(cfile);
     } catch (com.sonar.sslr.api.RecognitionException re) {
     }
 
     conf.setCFilesPatterns(new String[]{"*.c"});
-    p = CxxParser.create(context, conf);
+    p = CxxParser.create(context, conf, CxxFileTesterHelper.mockCxxLanguage());
     p.parse(cfile);
   }
 
@@ -123,7 +124,7 @@ public class CxxParserTest extends ParserBaseTest {
     }
 
     conf.setErrorRecoveryEnabled(true);
-    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
     p.parse(erroneousSources); //<-- this shouldn't throw now
   }
 

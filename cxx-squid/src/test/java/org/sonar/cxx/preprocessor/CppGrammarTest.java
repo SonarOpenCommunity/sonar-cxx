@@ -26,12 +26,13 @@ import org.junit.Test;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 
 public class CppGrammarTest {
 
   private final Parser<Grammar> p = Parser.builder(CppGrammar.create())
-    .withLexer(CppLexer.create())
+    .withLexer(CppLexer.create(CxxFileTesterHelper.mockCxxLanguage()))
     .build();
   private final Grammar g = p.getGrammar();
 
