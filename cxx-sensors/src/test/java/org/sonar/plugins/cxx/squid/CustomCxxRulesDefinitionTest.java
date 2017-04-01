@@ -36,6 +36,7 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CustomCxxRulesDefinitionTest {
 
+  private static final CxxLanguage language = TestUtils.mockCxxLanguage();
   private static final String REPOSITORY_NAME = "Custom Rule Repository";
   private static final String REPOSITORY_KEY = "CustomRuleRepository";
 
@@ -50,7 +51,7 @@ public class CustomCxxRulesDefinitionTest {
     RulesDefinition.Repository repository = context.repository(REPOSITORY_KEY);
 
     assertThat(repository.name()).isEqualTo(REPOSITORY_NAME);
-    assertThat(repository.language()).isEqualTo("c++");
+    assertThat(repository.language()).isEqualTo(language.getKey());
     assertThat(repository.rules()).hasSize(1);
 
     RulesDefinition.Rule alertUseRule = repository.rule(RULE_KEY);
@@ -99,7 +100,7 @@ public class CustomCxxRulesDefinitionTest {
 
     @Override
     public CxxLanguage getLanguage() {
-      return TestUtils.mockCxxLanguage();
+      return language;
     }
   }
 

@@ -21,7 +21,6 @@ package org.sonar.cxx.sensors.squid;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
-import org.sonar.api.config.Settings;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
@@ -54,7 +52,6 @@ import org.sonar.squidbridge.indexer.QueryByType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sonar.sslr.api.Grammar;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -64,7 +61,6 @@ import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.ce.measure.RangeDistributionBuilder;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
-import org.sonar.api.measures.Metrics;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.parser.CxxParser;
@@ -334,11 +330,4 @@ public class CxxSquidSensor implements Sensor {
   public String toString() {
     return getClass().getSimpleName();
   }
-
-  //@Override
-  //public List<Metric> getMetrics() {
-  //  List<Metric> list = new ArrayList<>();
-  //  list.add(this.metric);
-  //  return list;   
- // }
 }
