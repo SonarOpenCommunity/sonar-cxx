@@ -61,7 +61,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxCppCheckSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CppCheckSensor");
   }
   
   @Override

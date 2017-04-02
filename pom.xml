@@ -142,6 +142,7 @@
     <module>cxx-lint</module>
     <module>cxx-sensors</module>
     <module>sonar-cxx-plugin</module>
+    <module>sonar-c-plugin</module>    
     <module>sslr-cxx-toolkit</module>
   </modules>
 
@@ -168,9 +169,7 @@
     <sonar.version>5.6</sonar.version>
     <sslr.version>1.21</sslr.version>
     <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
-    <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
-    <sonar.pluginName>C++ (Community)</sonar.pluginName>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sonar.language>java</sonar.language>
     <animal.sniffer.skip>true</animal.sniffer.skip>

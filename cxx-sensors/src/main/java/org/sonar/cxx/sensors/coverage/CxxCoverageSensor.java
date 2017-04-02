@@ -70,7 +70,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxCoverageSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CoverageSensor");
   }
   
   /**

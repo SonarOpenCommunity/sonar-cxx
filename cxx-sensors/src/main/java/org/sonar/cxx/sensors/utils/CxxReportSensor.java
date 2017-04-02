@@ -214,7 +214,11 @@ public abstract class CxxReportSensor implements Sensor {
           try {
             int lines = inputFile.lines();
             int lineNr = getLineAsInt(line, lines);
-            NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(ruleRepoKey, ruleId));
+            String repoKey = ruleRepoKey + this.language.getRepositorySuffix();
+            LOG.info("Repository to save: {}", repoKey);
+            NewIssue newIssue = sensorContext
+                    .newIssue()
+                    .forRule(RuleKey.of(repoKey, ruleId));
             NewIssueLocation location = newIssue.newLocation()
               .on(inputFile)
               .at(inputFile.selectLine(lineNr > 0 ? lineNr : 1))
@@ -234,7 +238,7 @@ public abstract class CxxReportSensor implements Sensor {
       }
     } else { // project level
       try {
-        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(ruleRepoKey, ruleId));
+        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(ruleRepoKey + this.language.getRepositorySuffix(), ruleId));
         NewIssueLocation location = newIssue.newLocation()
           .on(sensorContext.module())
           .message(msg);

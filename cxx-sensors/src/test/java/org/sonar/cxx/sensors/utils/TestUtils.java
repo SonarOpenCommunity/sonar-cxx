@@ -97,6 +97,8 @@ public class TestUtils {
     CxxLanguage language = Mockito.mock(CxxLanguage.class);
     when(language.getKey()).thenReturn("c++");
     when(language.getName()).thenReturn("c++");
+    when(language.getRepositorySuffix()).thenReturn("");
+    when(language.getRepositoryKey()).thenReturn("cxx");    
     when(language.getPropertiesKey()).thenReturn("cxx");
     when(language.IsRecoveryEnabled()).thenReturn(true);
     when(language.getFileSuffixes())

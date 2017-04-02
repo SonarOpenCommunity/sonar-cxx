@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+  <cppcheck version="1.61"/>
+  <errors>
+  <error id="unusedVariable" severity="style" msg="Unused variable: x" verbose="Unused variable: x">
+    <location file="src/component1.c" line="15"/>
+  </error>
+  <error id="unreadVariable" severity="style" msg="Variable 'i' is assigned a value that is never used." verbose="Variable 'i' is assigned a value that is never used.">
+    <location file="src/component1.c" line="35"/>
+  </error>
+  <error id="deallocDealloc" severity="error" msg="Deallocating a deallocated pointer: ip" verbose="Deallocating a deallocated pointer: ip">
+    <location file="src/component1.c" line="45"/>
+  </error>
+  <error id="doubleFree" severity="error" msg="Memory pointed to by 'ip' is freed twice." verbose="Memory pointed to by 'ip' is freed twice.">
+    <location file="src/component1.c" line="45"/>
+  </error>
+  <error id="uninitvar" severity="error" msg="Uninitialized variable: a" verbose="Uninitialized variable: a">
+    <location file="src/component1.c" line="30"/>
+  </error>
+  <error id="unusedFunction" severity="style" msg="The function 'do_valgrind_errors' is never used." verbose="The function 'do_valgrind_errors' is never used.">
+    <location file="src/component1.c" line="22"/>
+  </error>
+  </errors>
+</results>

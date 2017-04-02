@@ -1,0 +1,17 @@
+<p>
+Numbers are not self-explanatory, they only are made of a value, which does not explain their purpose.
+Moreover, if the same number should be consistently used in multiple places, using a constant will ensure that all occurrences are updated at once.
+</p>
+
+<p>The following code:</p>
+
+<pre>
+netSalary = 0.85 * grossSalary;  // Non-Compliant - where does 0.85m come from, what does it mean?
+</pre>
+
+<p>should be refactored into:</p>
+
+<pre>
+const double Rate = 0.85;        // Compliant - it's now clear what the 0.85m is
+netSalary = Rate * grossSalary;  // Compliant
+</pre>

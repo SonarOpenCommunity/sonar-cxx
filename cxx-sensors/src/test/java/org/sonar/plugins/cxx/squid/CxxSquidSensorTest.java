@@ -59,7 +59,12 @@ public class CxxSquidSensorTest {
     FileLinesContext fileLinesContext = mock(FileLinesContext.class);
     when(fileLinesContextFactory.createFor(Mockito.any(InputFile.class))).thenReturn(fileLinesContext);
     
-    sensor = new CxxSquidSensor(language, fileLinesContextFactory, checkFactory, rules, null);    
+    sensor = new CxxSquidSensor(
+            language,
+            fileLinesContextFactory,
+            checkFactory,
+            rules,
+            null);    
   }
 
   @Test

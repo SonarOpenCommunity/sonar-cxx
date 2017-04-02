@@ -1,0 +1,20 @@
+<p>The Cyclomatic Complexity is measured by the number of
+	(&amp;&amp;, ||) operators and (if, while, do-while, for, ?:, catch,
+	 case, default) statements in the body of a function.</p>
+<p>
+  Complex functions are hard to test, maintain and understand.
+  Consider breaking up complex functions into more manageable pieces
+  that call each other.
+<p>
+  Large switch-case blocks are often the cause
+  of extremely high cyclomatic complexity. In some cases this may actually
+  be okay. However, watch out for the <a href="http://c2.com/cgi/wiki?SwitchStatementsSmell">
+  Switch Statement Smell</a> where those blocks indicate a bad
+  replacement for object-oriented design and proper use of polymorphism.
+</p>
+<ul>
+<li>methods between 1 and 10 are considered simple and easy to understand and test</li>
+<li>values between 10 and 20  indicate more complex code, which may still be comprehensible; however testing becomes more difficult due to the greater number of possible branches the code can take</li>
+<li>values of 20 and above are typical of code with a very large number of potential execution paths and can only be fully grasped and tested with great difficulty and effort</li>
+<li>methods going even higher, e. g. >50, are certainly unmaintainable</li>
+</ul> 

@@ -51,10 +51,16 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
   /**
    * {@inheritDoc}
    */
-  public CxxAbstractRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, String key, String name, String customKey, CxxLanguage language) {
+  public CxxAbstractRuleRepository(
+          ServerFileSystem fileSystem,
+          RulesDefinitionXmlLoader xmlRuleLoader,
+          String key,
+          String name,
+          String customKey,
+          CxxLanguage language) {
     this.fileSystem = fileSystem;
     this.xmlRuleLoader = xmlRuleLoader;
-    this.repositoryKey = key;
+    this.repositoryKey = key + language.getRepositorySuffix();
     this.repositoryName = name;
     this.customRepositoryKey = customKey;
     this.language = language;

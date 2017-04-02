@@ -28,7 +28,7 @@ import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.cppcheck.CxxCppCheckSensor;
 import org.sonar.cxx.sensors.drmemory.CxxDrMemorySensor;
-import org.sonar.cxx.sensors.externalrules.CxxExternalRulesSensor;
+import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import org.sonar.cxx.sensors.squid.CxxSquidSensor;
@@ -50,7 +50,7 @@ public class CxxMetrics implements Metrics {
     
     this.BuildMetric(CxxCompilerSensor.KEY, "Compiler issues", language);
     this.BuildMetric(CxxCppCheckSensor.KEY, "CppCheck issues", language);
-    this.BuildMetric(CxxExternalRulesSensor.KEY, "Other tools issues", language);
+    this.BuildMetric(CxxOtherSensor.KEY, "Other tools issues", language);
     this.BuildMetric(CxxPCLintSensor.KEY, "PC-Lint issues", language);
     this.BuildMetric(CxxRatsSensor.KEY, "Rats issues", language);    
     this.BuildMetric(CxxSquidSensor.KEY, "Squid issues", language);      
