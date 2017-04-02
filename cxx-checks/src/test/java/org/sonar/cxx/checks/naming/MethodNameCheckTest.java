@@ -33,7 +33,7 @@ public class MethodNameCheckTest {
   public void test() throws Exception {
     MethodNameCheck check = new MethodNameCheck();
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MethodName.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage(
         "Rename method \"Badly_Named_Method2\" to match the regular expression ^[A-Z][A-Za-z0-9]{2,30}$.")

@@ -70,8 +70,8 @@ public final class CxxAstScanner {
    * @param visitors ast checks and visitors to use
    * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
-    return scanSingleFileConfig(file, new CxxConfiguration(sensorContext.fileSystem().encoding()), sensorContext, visitors);
+  public static SourceFile scanSingleFile(InputFile file, SensorContext sensorContext, CxxLanguage language, SquidAstVisitor<Grammar>... visitors) {
+    return scanSingleFileConfig(language, file, new CxxConfiguration(sensorContext.fileSystem().encoding(), language), sensorContext, visitors);
   }
 
   /**
@@ -82,11 +82,11 @@ public final class CxxAstScanner {
    * @param visitors ast checks and visitors to use
    * @return file checked with measures and issues
    */
-  public static SourceFile scanSingleFileConfig(InputFile file, CxxConfiguration cxxConfig, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
+  public static SourceFile scanSingleFileConfig(CxxLanguage language, InputFile file, CxxConfiguration cxxConfig, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
     if (!file.isFile()) {
       throw new IllegalArgumentException("File '" + file + "' not found.");
     }
-    AstScanner<Grammar> scanner = create(cxxConfig, sensorContext, visitors);
+    AstScanner<Grammar> scanner = create(language, cxxConfig, sensorContext, visitors);
     scanner.scanFile(file.file());
     Collection<SourceCode> sources = scanner.getIndex().search(new QueryByType(SourceFile.class));
     if (sources.size() != 1) {
@@ -95,9 +95,9 @@ public final class CxxAstScanner {
     return (SourceFile) sources.iterator().next();
   }
 
-  public static AstScanner<Grammar> create(CxxConfiguration conf, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
+  public static AstScanner<Grammar> create(CxxLanguage language, CxxConfiguration conf, SensorContext sensorContext, SquidAstVisitor<Grammar>... visitors) {
     final SquidAstVisitorContextImpl<Grammar> context = new SquidAstVisitorContextImpl<>(new SourceProject("Cxx Project"));
-    final Parser<Grammar> parser = CxxParser.create(context, conf);
+    final Parser<Grammar> parser = CxxParser.create(context, conf, language);
 
     AstScanner.Builder<Grammar> builder = AstScanner.<Grammar>builder(context).setBaseParser(parser);
 

@@ -140,6 +140,7 @@
     <module>cxx-squid</module>
     <module>cxx-checks</module>
     <module>cxx-lint</module>
+    <module>cxx-sensors</module>
     <module>sonar-cxx-plugin</module>
     <module>sslr-cxx-toolkit</module>
   </modules>

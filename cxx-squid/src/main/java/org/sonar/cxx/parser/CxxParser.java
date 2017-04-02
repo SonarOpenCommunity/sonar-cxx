@@ -32,6 +32,7 @@ import org.sonar.squidbridge.api.SourceProject;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import org.sonar.cxx.CxxLanguage;
 
 public final class CxxParser {
 
@@ -52,18 +53,17 @@ public final class CxxParser {
     return cxxpp.getMissingIncludeFiles(path);
   }
 
-  public static Parser<Grammar> create() {
+  public static Parser<Grammar> create(CxxLanguage language) {
     return create(new SquidAstVisitorContextImpl<>(new SourceProject("")),
-      new CxxConfiguration());
+      new CxxConfiguration(language), language);
   }
 
-  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context) {
-    return create(context, new CxxConfiguration());
+  public static Parser<Grammar> create(CxxLanguage language, SquidAstVisitorContext<Grammar> context) {
+    return create(context, new CxxConfiguration(language), language);
   }
 
-  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context,
-    CxxConfiguration conf) {
-    cxxpp = new CxxPreprocessor(context, conf);
+  public static Parser<Grammar> create(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf, CxxLanguage language) {
+    cxxpp = new CxxPreprocessor(context, conf, language);
     return Parser.builder(CxxGrammarImpl.create(conf))
       .withLexer(CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor()))
       .build();

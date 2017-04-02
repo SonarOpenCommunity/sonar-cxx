@@ -51,14 +51,18 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.CxxLanguage;
 
 public class CxxLexerWithPreprocessingTest {
 
   private static Lexer lexer;
+  private CxxLanguage language;
 
   public CxxLexerWithPreprocessingTest() {
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
-    lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
+    language = CxxFileTesterHelper.mockCxxLanguage();
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), language);
+    lexer = CxxLexer.create(language, cxxpp, new JoinStringsPreprocessor());
   }
 
   @Test
@@ -276,9 +280,9 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void external_define() {
-    CxxConfiguration conf = new CxxConfiguration();
-    conf.setDefines(Arrays.asList("M body"));
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
+    CxxConfiguration conf = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
+    conf.setDefines(new String[] {"M body"});
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("M");
@@ -288,9 +292,9 @@ public class CxxLexerWithPreprocessingTest {
 
   @Test
   public void external_defines_with_params() {
-    CxxConfiguration conf = new CxxConfiguration();
-    conf.setDefines(Arrays.asList("minus(a, b) a - b"));
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
+    CxxConfiguration conf = new CxxConfiguration(language);
+    conf.setDefines(new String[] {"minus(a, b) a - b"});
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("minus(1, 2)");
@@ -340,8 +344,8 @@ public class CxxLexerWithPreprocessingTest {
     SquidAstVisitorContext<Grammar> ctx = mock(SquidAstVisitorContext.class);
     when(ctx.getFile()).thenReturn(new File("/home/joe/file.cc"));
 
-    CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(), scp);
-    lexer = CxxLexer.create(pp, new JoinStringsPreprocessor());
+    CxxPreprocessor pp = new CxxPreprocessor(ctx, new CxxConfiguration(language), scp, language);
+    lexer = CxxLexer.create(language, pp, new JoinStringsPreprocessor());
 
     List<Token> tokens = lexer.lex("#include <file>\n"
       + "A");
@@ -523,7 +527,7 @@ public class CxxLexerWithPreprocessingTest {
   public void externalMacrosCannotBeOverriden() {
     CxxConfiguration conf = mock(CxxConfiguration.class);
     when(conf.getDefines()).thenReturn(Arrays.asList("name goodvalue"));
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf);
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), conf, language);
     lexer = CxxLexer.create(conf, cxxpp);
 
     List<Token> tokens = lexer.lex("#define name badvalue\n"

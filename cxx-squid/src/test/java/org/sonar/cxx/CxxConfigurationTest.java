@@ -35,7 +35,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void emptyValueShouldReturnNoDirsOrDefines() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setCompilationPropertiesWithBuildLog(new ArrayList<File>(), vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
@@ -43,7 +43,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void emptyValueShouldReturnWhenNull() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setCompilationPropertiesWithBuildLog(null, vcKey, vcCharSet);
     assertThat(config.getIncludeDirectories().size()).isEqualTo(0);
     assertThat(config.getDefines().size()).isEqualTo(0);
@@ -51,7 +51,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void emptyValueShouldUseIncludeDirsIfSet() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     String[] data = {"dir1", "dir2"};
     config.setIncludeDirectories(data);
     config.setCompilationPropertiesWithBuildLog(new ArrayList<File>(), vcKey, vcCharSet);
@@ -60,7 +60,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void correctlyCreatesConfiguration1() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/vc++13.txt"));
@@ -72,7 +72,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificCommonOptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformCommon.txt"));
@@ -96,7 +96,7 @@ public class CxxConfigurationTest {
   }
 
   public void shouldHandleSpecificCommonWin32OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformCommonWin32.txt"));
     config.setCompilationPropertiesWithBuildLog(files, vcKey, vcCharSet);
@@ -110,7 +110,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificCommonx64OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformCommonX64.txt"));
@@ -130,7 +130,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV100OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformToolsetv100.txt"));
@@ -148,7 +148,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV110OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformToolsetv110.txt"));
@@ -170,7 +170,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV120OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformToolsetv120.txt"));
@@ -195,7 +195,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV140OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformToolsetv140.txt"));
@@ -219,7 +219,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV141x86OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformToolsetv141x86.txt"));
@@ -239,7 +239,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldHandleSpecificV141x64OptionsCorrectly() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/platformToolsetv141x64.txt"));
@@ -258,7 +258,7 @@ public class CxxConfigurationTest {
   }
   @Test
   public void shouldHandleBuildLog() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     config.setBaseDir(".");
     List<File> files = new ArrayList<>();
     files.add(new File("src/test/resources/compiler/ParallelBuildLog.txt"));
@@ -282,7 +282,7 @@ public class CxxConfigurationTest {
 
   @Test
   public void shouldGetSourceFilesList() {
-    CxxConfiguration config = new CxxConfiguration();
+    CxxConfiguration config = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
 
     String [] files = new String [] { "testfile", "anotherfile", "thirdfile" };
 

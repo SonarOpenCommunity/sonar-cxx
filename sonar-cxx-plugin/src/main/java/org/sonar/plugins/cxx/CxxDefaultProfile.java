@@ -49,7 +49,7 @@ public class CxxDefaultProfile extends ProfileDefinition {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
       "default-profile.xml", messages);
     RulesProfile sonarRules = annotationProfileParser.parse(CheckList.REPOSITORY_KEY, NAME,
-      CxxLanguage.KEY, CheckList.getChecks(), messages);
+      CppLanguage.KEY, CheckList.getChecks(), messages);
     for (ActiveRule activeRule : sonarRules.getActiveRules()) {
       profile.addActiveRule(activeRule);
     }

@@ -1,9 +1,0 @@
-Compiling...
-ZipManager.cpp
-zipmanager.cpp: In function 'int unzip(char *, int)'
-zipmanager.cpp:141:10: warning: conversion to 'unsigned char' from 'unsigned int' may alter its value [-Wconversion]
-zipmanager.cpp:222:9: warning: enumeration value 'Type_Deflate' not handled in switch [-Wswitch-enum]
-zipmanager.cpp:268:15: warning: enumeration value 'Type_Deflate' not handled in switch [-Wswitch-enum]
-zipmanager.cpp: In member function 'bool getRatio(int*) const':
-zipmanager.cpp:271:75: warning: comparing floating point with == or != is unsafe [-Wfloat-equal]
-Compiling manifest to resources...

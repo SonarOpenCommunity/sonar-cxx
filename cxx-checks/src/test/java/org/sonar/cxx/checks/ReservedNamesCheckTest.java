@@ -35,7 +35,7 @@ public class ReservedNamesCheckTest {
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/ReservedNamesCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new ReservedNamesCheck()); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new ReservedNamesCheck()); 
         
 
     checkMessagesVerifier.verify(file.getCheckMessages())

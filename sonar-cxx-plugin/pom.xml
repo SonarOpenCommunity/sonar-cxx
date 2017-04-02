@@ -42,7 +42,11 @@
       <artifactId>cxx-checks</artifactId>
       <version>${project.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-sensors</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.sonarsource.sslr</groupId>
       <artifactId>sslr-testing-harness</artifactId>

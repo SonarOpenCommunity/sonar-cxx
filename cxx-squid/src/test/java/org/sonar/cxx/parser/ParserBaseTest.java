@@ -26,6 +26,7 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.sslr.grammar.GrammarRuleKey;
 import org.sonar.sslr.grammar.GrammarRuleBuilder;
 
@@ -36,9 +37,9 @@ public class ParserBaseTest {
   protected Grammar g = null;
 
   public ParserBaseTest() {
-    conf = new CxxConfiguration();
+    conf = new CxxConfiguration(CxxFileTesterHelper.mockCxxLanguage());
     conf.setErrorRecoveryEnabled(false);
-    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf);
+    p = CxxParser.create(mock(SquidAstVisitorContext.class), conf, CxxFileTesterHelper.mockCxxLanguage());
     g = p.getGrammar();
   }
   

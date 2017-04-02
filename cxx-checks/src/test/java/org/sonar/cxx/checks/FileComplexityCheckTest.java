@@ -40,7 +40,7 @@ public class FileComplexityCheckTest {
     check.setMax(1);
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/functions.cc", ".");       
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().noMore();

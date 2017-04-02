@@ -58,6 +58,7 @@ import static com.sonar.sslr.api.GenericTokenType.IDENTIFIER;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Collections;
+import org.sonar.cxx.CxxLanguage;
 
 import static org.sonar.cxx.api.CppKeyword.IFDEF;
 import static org.sonar.cxx.api.CppKeyword.IFNDEF;
@@ -80,7 +81,10 @@ import static org.sonar.cxx.preprocessor.CppGrammar.ifLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.includeLine;
 import static org.sonar.cxx.preprocessor.CppGrammar.undefLine;
 
-public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preprocessor
+public class CxxPreprocessor extends Preprocessor { 
+
+  private final CxxLanguage language;
+//@todo: deprecated Preprocessor
 
   private class State {
 
@@ -214,12 +218,12 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
   private State currentFileState = new State(null);
   private final Deque<State> globalStateStack = new LinkedList<>();
 
-  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context) {
-    this(context, new CxxConfiguration());
+  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxLanguage language) {
+    this(context, new CxxConfiguration(language), language);    
   }
 
-  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf) {
-    this(context, conf, new SourceCodeProvider());
+  public CxxPreprocessor(SquidAstVisitorContext<Grammar> context, CxxConfiguration conf, CxxLanguage language) {
+    this(context, conf, new SourceCodeProvider(), language);
   }
 
   private void registerMacros(Map<String, String> standardMacros) {
@@ -243,11 +247,13 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
 
   public CxxPreprocessor(SquidAstVisitorContext<Grammar> context,
     CxxConfiguration conf,
-    SourceCodeProvider sourceCodeProvider) {
+    SourceCodeProvider sourceCodeProvider,
+    CxxLanguage language) {
     this.context = context;
     this.ifExprEvaluator = new ExpressionEvaluator(conf, this);
     this.cFilesPatterns = conf.getCFilesPatterns();
     this.conf = conf;
+    this.language = language;
 
     codeProvider = sourceCodeProvider;
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
@@ -276,7 +282,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       for (String include : conf.getForceIncludeFiles()) {
         LOG.debug("parsing force include: '{}'", include);
         if (!"".equals(include)) {
-          parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes", conf.getEncoding());
+          parseIncludeLine("#include \"" + include + "\"", "sonar." + this.language.getPropertiesKey() + ".forceIncludes", conf.getEncoding());
         }
       }
     } finally {
@@ -363,6 +369,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
           for (String include : conf.getForceIncludeFiles()) {
             LOG.debug("parsing force include to unit: '{}'", include);
             if (!"".equals(include)) {
+              // todo -> this needs to come from language
               parseIncludeLine("#include \"" + include + "\"", "sonar.cxx.forceIncludes", conf.getEncoding());
             }
           }
@@ -661,7 +668,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
       currentFileState = new State(includedFile);
 
       try {
-        IncludeLexer.create(this).lex(getCodeProvider().getSourceCode(includedFile, charset));
+        IncludeLexer.create(this.language, this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException ex) {
         LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex.getMessage());
       } finally {
@@ -794,7 +801,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     List<Token> tokens = null;
     getMacros().disable(macroName);
     try {
-      tokens = stripEOF(CxxLexer.create(this).lex(macroExpression));
+      tokens = stripEOF(CxxLexer.create(this.language, this).lex(macroExpression));
     } finally {
       getMacros().enable(macroName);
     }
@@ -1228,7 +1235,7 @@ public class CxxPreprocessor extends Preprocessor { //@todo: deprecated Preproce
     } else if ((node = ast.getFirstDescendant(CppGrammar.includeBodyFreeform)) != null) {
       // expand and recurse
       String includeBody = serialize(stripEOF(node.getTokens()), "");
-      String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this).lex(includeBody)), "");
+      String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this.language, this).lex(includeBody)), "");
       if (LOG.isTraceEnabled()) {
         LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
       }

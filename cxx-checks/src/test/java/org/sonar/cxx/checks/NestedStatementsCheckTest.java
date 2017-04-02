@@ -37,7 +37,7 @@ public class NestedStatementsCheckTest {
     NestedStatementsCheck check = new NestedStatementsCheck();
     check.max = 5;
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NestedStatementsCheck.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
     
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(62)

@@ -34,7 +34,7 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/MissingNewLineAtEndOfFile.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Add a new line at the end of this file.")
@@ -44,7 +44,7 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @Test
   public void test2() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/EmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);     
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Add a new line at the end of this file.")
       .noMore();
@@ -53,7 +53,7 @@ public class MissingNewLineAtEndOfFileCheckTest {
   @Test
   public void test3() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/NonEmptyFile.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);     
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
   }

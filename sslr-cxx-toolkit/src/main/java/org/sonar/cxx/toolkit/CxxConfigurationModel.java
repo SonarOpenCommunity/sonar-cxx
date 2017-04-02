@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.List;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 
 public class CxxConfigurationModel extends AbstractConfigurationModel {
 
@@ -70,7 +71,8 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   public Parser<? extends Grammar> doGetParser() {
     SquidAstVisitorContext<Grammar> context
       = new SquidAstVisitorContextImpl<>(new SourceProject(""));
-    return CxxParser.create(context, getConfiguration());
+    CppLanguage language = new CppLanguage();
+    return CxxParser.create(context, getConfiguration(language), language);
   }
 
   @Override
@@ -85,8 +87,8 @@ public class CxxConfigurationModel extends AbstractConfigurationModel {
   }
 
   @VisibleForTesting
-  CxxConfiguration getConfiguration() {
-    CxxConfiguration config = new CxxConfiguration(getCharset());
+  CxxConfiguration getConfiguration(CxxLanguage language) {
+    CxxConfiguration config = new CxxConfiguration(getCharset(), language);
     config.setErrorRecoveryEnabled(false);
     return config;
   }

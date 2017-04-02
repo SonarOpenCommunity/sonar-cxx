@@ -35,7 +35,7 @@ public class LineRegularExpressionCheckTest {
     check.regularExpression = "stdafx\\.h";
     check.message = "Found 'stdafx.h' in line!";
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -51,7 +51,7 @@ public class LineRegularExpressionCheckTest {
     check.invertRegularExpression = true;
     check.message = "Found no comment in the line!";
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegExInvert.cc", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -67,7 +67,7 @@ public class LineRegularExpressionCheckTest {
     check.message = "Found '#include \"stdafx.h\"' in line in a .cc file!";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
 
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
@@ -85,7 +85,7 @@ public class LineRegularExpressionCheckTest {
     check.message = "Found '#include \"stdafx.h\"' in line in a not .xx file!";
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(2).withMessage(check.message)
@@ -101,7 +101,7 @@ public class LineRegularExpressionCheckTest {
     check.message = "Found '#include \"stdafx.h\"' in line in a .xx file!";
     
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/LineRegEx.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .noMore();
