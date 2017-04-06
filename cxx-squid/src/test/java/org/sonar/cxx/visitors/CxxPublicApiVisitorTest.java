@@ -127,7 +127,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void to_delete() throws IOException {
-    testFile("src/test/resources/metrics/public_api.h", 42, 0, true);
+    testFile("src/test/resources/metrics/public_api.h", 43, 0, true);
   }
 
   @Test
@@ -237,6 +237,7 @@ public class CxxPublicApiVisitorTest {
 //        expectedIdCommentMap.put("operator=", "operator=");
     expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
     expectedIdCommentMap.put("globalFuncDef", "globalFuncDef");
+    expectedIdCommentMap.put("linkageSpecification", "linkageSpecification");
 
     // check completeness
     for (final String id : expectedIdCommentMap.keySet()) {

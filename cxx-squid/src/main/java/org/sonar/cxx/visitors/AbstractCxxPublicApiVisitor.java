@@ -296,7 +296,13 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     // in case of function declaration,
     // the docNode is set on the declaration node
     if (params != null) {
-      docNode = declaration;
+      AstNode linkageSpecification = declaration
+        .getFirstAncestor(CxxGrammarImpl.linkageSpecification);
+      if (linkageSpecification != null) {
+        docNode = linkageSpecification; // extern "C" ...
+      } else {
+        docNode = declaration;
+      }
     } else {
       AstNode classSpecifier = declaration
         .getFirstDescendant(CxxGrammarImpl.classSpecifier);
