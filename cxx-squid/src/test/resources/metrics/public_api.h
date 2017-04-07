@@ -182,3 +182,14 @@ int lastVar; ///< lastVar doc
  * globalFuncDef doc
  */
 void globalFuncDef() {}
+
+#define EXTERN_C extern "C"
+#define EXPORT
+#define CALLCONV
+#define sint32 unsigned int
+#define bool char
+/**
+ * linkageSpecification doc.
+ * @return value doc
+ */
+EXTERN_C EXPORT sint32 CALLCONV linkageSpecification(byte* params);
