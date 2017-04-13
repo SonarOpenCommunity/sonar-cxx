@@ -33,7 +33,7 @@ public class UnnamedNamespaceInHeaderCheckTest {
     UnnamedNamespaceInHeaderCheck check = new UnnamedNamespaceInHeaderCheck();
     
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UnnamedNamespaceInHeader.h", ".");    
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
         
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().withMessage("Unnamed namespaces are not allowed in header files.");

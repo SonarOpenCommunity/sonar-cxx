@@ -34,7 +34,7 @@ public class FunctionNameCheckTest {
     FunctionNameCheck check = new FunctionNameCheck();
     
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/FunctionName.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);    
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);    
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(8).withMessage(
         "Rename function \"Badly_Named_Function\" to match the regular expression ^[a-z_][a-z0-9_]{2,30}$.")

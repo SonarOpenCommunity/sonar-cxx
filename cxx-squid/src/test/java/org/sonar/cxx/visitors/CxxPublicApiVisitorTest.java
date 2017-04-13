@@ -94,8 +94,8 @@ public class CxxPublicApiVisitorTest {
       .asList(getFileExtension(fileName)));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester(fileName, ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
-      visitor);
+    SourceFile file = CxxAstScanner.scanSingleFile(
+            tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor);
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("#API: {} UNDOC: {}",
@@ -111,7 +111,7 @@ public class CxxPublicApiVisitorTest {
   @Test
   public void test_no_matching_suffix() throws IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/doxygen_example.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(),
       new CxxPublicApiVisitor<>(CxxMetric.PUBLIC_API,
         CxxMetric.PUBLIC_UNDOCUMENTED_API)
       .withHeaderFileSuffixes(Arrays.asList(".hpp")));
@@ -127,7 +127,7 @@ public class CxxPublicApiVisitorTest {
 
   @Test
   public void to_delete() throws IOException {
-    testFile("src/test/resources/metrics/public_api.h", 42, 0, true);
+    testFile("src/test/resources/metrics/public_api.h", 43, 0, true);
   }
 
   @Test
@@ -179,7 +179,7 @@ public class CxxPublicApiVisitorTest {
     visitor.withHeaderFileSuffixes(Arrays.asList(".h"));
 
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/metrics/public_api.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, visitor); //
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), visitor); //
 
     if (LOG.isDebugEnabled()) {
       LOG.debug("DOC: {} UNDOC: {}",
@@ -237,6 +237,7 @@ public class CxxPublicApiVisitorTest {
 //        expectedIdCommentMap.put("operator=", "operator=");
     expectedIdCommentMap.put("testUnnamedStructVar", "testUnnamedStructVar");
     expectedIdCommentMap.put("globalFuncDef", "globalFuncDef");
+    expectedIdCommentMap.put("linkageSpecification", "linkageSpecification");
 
     // check completeness
     for (final String id : expectedIdCommentMap.keySet()) {

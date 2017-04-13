@@ -36,7 +36,7 @@ public class CommentedCodeCheckTest {
   @Test
   public void test() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/commentedCode.cc", ".");       
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new CommentedCodeCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new CommentedCodeCheck());
     
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(10).withMessage("Remove this commented out code.")

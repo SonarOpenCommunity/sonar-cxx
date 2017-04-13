@@ -36,7 +36,7 @@ public class TooManyStatementsPerLineCheckTest {
     check.excludeCaseBreak = false;
     
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
     
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
@@ -60,7 +60,7 @@ public class TooManyStatementsPerLineCheckTest {
     check.excludeCaseBreak = true;
     
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/TooManyStatementsPerLine.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, check);  
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check);  
     CheckMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(17).withMessage("At most one statement is allowed per line, but 2 statements were found on this line.")
       .next().atLine(20)

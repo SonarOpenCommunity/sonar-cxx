@@ -36,6 +36,8 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import com.sonar.sslr.api.GenericTokenType;
 import com.sonar.sslr.impl.Lexer;
+import org.sonar.cxx.CxxFileTesterHelper;
+import org.sonar.cxx.CxxLanguage;
 
 public class CxxLexerTest {
 
@@ -43,8 +45,9 @@ public class CxxLexerTest {
 
   @BeforeClass
   public static void init() {
-    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class));
-    lexer = CxxLexer.create(cxxpp, new JoinStringsPreprocessor());
+    CxxLanguage language = CxxFileTesterHelper.mockCxxLanguage();
+    CxxPreprocessor cxxpp = new CxxPreprocessor(mock(SquidAstVisitorContext.class), language);
+    lexer = CxxLexer.create(language, cxxpp, new JoinStringsPreprocessor());
   }
 
   /**

@@ -55,23 +55,26 @@ public class CxxConfiguration extends SquidConfiguration {
   private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;
+  private CxxLanguage language;
 
-  public CxxConfiguration() {
-    
+  public CxxConfiguration(CxxLanguage language) {
+    this.language = language;
     uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
     uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
-  public CxxConfiguration(Charset encoding) {
+  public CxxConfiguration(Charset encoding, CxxLanguage language) {
     super(encoding);
+    this.language = language;
     uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
     uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
   }
 
-  public CxxConfiguration(FileSystem fs) {
+  public CxxConfiguration(FileSystem fs, CxxLanguage language) {
     super(fs.encoding());
+    this.language = language;
     uniqueIncludes.put(OVERALLINCLUDEKEY, new ArrayList<String>());
     uniqueDefines.put(OVERALLDEFINEKEY, new HashSet<String>());
     cxxVCppParser = new CxxVCppBuildLogParser(uniqueIncludes, uniqueDefines);
@@ -85,7 +88,11 @@ public class CxxConfiguration extends SquidConfiguration {
     return ignoreHeaderComments;
   }
 
-  public void setDefines(List<String> defines) {
+  public void setDefines(String[] defines) {
+    if (defines == null) {
+      return;
+    }
+    
     Set<String> overallDefs = uniqueDefines.get(OVERALLDEFINEKEY);
     for (String define : defines) {
       if (!overallDefs.contains(define)) {
@@ -100,12 +107,6 @@ public class CxxConfiguration extends SquidConfiguration {
       overallDefs.add(define);
     }
   }  
-
-  public void setDefines(String[] defines) {
-    if (defines != null) {
-      setDefines(Arrays.asList(defines));
-    }
-  }
 
   public List<String> getDefines() {
     Set<String> allDefines = new HashSet<>();

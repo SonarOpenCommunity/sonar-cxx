@@ -30,6 +30,7 @@ That's not the only choice when you are looking for C++ support in SonarQube the
 * the commercial [C/C++ plugin from SonarSource](http://www.sonarsource.com/products/plugins/languages/cpp/).
 * the commercial [C/C++ plugin from CppDepend](http://www.cppdepend.com/sonarplugin)
 * the [Coverity plugin](https://github.com/coverity/coverity-sonar-plugin)
+* the commercial [PVS-Studio plugin](https://www.viva64.com/en/pvs-studio-download/)
 
 Choose whatever fits your needs.
 

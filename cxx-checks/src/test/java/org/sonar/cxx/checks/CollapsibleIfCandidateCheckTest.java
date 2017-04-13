@@ -36,7 +36,7 @@ public class CollapsibleIfCandidateCheckTest {
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/CollapsibleIfCandidateCheck.cc", ".");
     
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,  new CollapsibleIfCandidateCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext,  CxxFileTesterHelper.mockCxxLanguage(), new CollapsibleIfCandidateCheck());
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(16).withMessage("Merge this if statement with the enclosing one.")
       .next().atLine(49)

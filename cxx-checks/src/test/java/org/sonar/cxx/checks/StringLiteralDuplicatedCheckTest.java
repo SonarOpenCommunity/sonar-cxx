@@ -35,7 +35,7 @@ public class StringLiteralDuplicatedCheckTest {
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/StringLiteralDuplicatedCheck.cc", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new StringLiteralDuplicatedCheck()); 
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new StringLiteralDuplicatedCheck()); 
         
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(12).withMessage("Define a constant instead of duplicating this literal \"bbbbb\" 2 times.")

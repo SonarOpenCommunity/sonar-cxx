@@ -31,10 +31,11 @@ import org.sonar.cxx.api.CppPunctuator;
 
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
+import org.sonar.cxx.CxxFileTesterHelper;
 
 public class CppLexerTest {
 
-  private final static Lexer lexer = CppLexer.create();
+  private final static Lexer lexer = CppLexer.create(CxxFileTesterHelper.mockCxxLanguage());
 
   @Test
   public void cpp_keywords() {

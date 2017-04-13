@@ -26,10 +26,11 @@ import org.sonar.squidbridge.SquidAstVisitorContext;
 
 import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
+import org.sonar.cxx.CxxFileTesterHelper;
 
 public class SomethingTest {
 
-  Parser<Grammar> p = CxxParser.create(mock(SquidAstVisitorContext.class));
+  Parser<Grammar> p = CxxParser.create(CxxFileTesterHelper.mockCxxLanguage(), mock(SquidAstVisitorContext.class));
   Grammar g = p.getGrammar();
 
   @Test

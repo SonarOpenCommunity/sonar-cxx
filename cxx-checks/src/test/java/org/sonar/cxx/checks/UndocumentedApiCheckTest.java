@@ -39,7 +39,7 @@ public class UndocumentedApiCheckTest {
   @Test
   public void detected() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/no_doc.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
 
     checkMessagesVerifier.verify(file.getCheckMessages())
       .next().atLine(6) // class
@@ -100,7 +100,7 @@ public class UndocumentedApiCheckTest {
   @Test
   public void docStyle1() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style1.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
 
     StringBuilder errors = new StringBuilder();
     for (CheckMessage msg : file.getCheckMessages()) {
@@ -118,7 +118,7 @@ public class UndocumentedApiCheckTest {
   @Test
   public void docStyle2() throws UnsupportedEncodingException, IOException {
     CxxFileTester tester = CxxFileTesterHelper.CreateCxxFileTester("src/test/resources/checks/UndocumentedApiCheck/doc_style2.h", ".");
-    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, new UndocumentedApiCheck());
+    SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new UndocumentedApiCheck());
 
     StringBuilder errors = new StringBuilder();
     for (CheckMessage msg : file.getCheckMessages()) {
