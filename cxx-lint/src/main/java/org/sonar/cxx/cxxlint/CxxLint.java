@@ -55,7 +55,6 @@ import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.CxxVCppBuildLogParser;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
 import org.sonar.squidbridge.api.CodeCheck;
@@ -210,7 +209,7 @@ public class CxxLint {
       HandleVCppAdditionalOptions(platformToolset, platform, elementsOfAdditionalOptions + " ", projectFile, fileToAnalyse, configuration);
     }
 
-    List<Class> checks = CheckList.getChecks();
+    List<Class> checks = CxxCheckList.getChecks();
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>();
     
     if (!parsedArgs.hasOption("s")) {

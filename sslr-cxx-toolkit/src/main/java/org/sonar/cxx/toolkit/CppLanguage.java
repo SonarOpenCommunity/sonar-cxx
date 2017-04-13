@@ -20,6 +20,7 @@
 
 package org.sonar.cxx.toolkit;
 
+import java.util.List;
 import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 
@@ -52,4 +53,14 @@ public class CppLanguage extends CxxLanguage {
   public String getPropertiesKey() {
     return "cxx";
   }  
+
+  @Override
+  public List<Class> getChecks() {
+    return null;
+  }
+
+  @Override
+  public String getRepositoryKey() {
+    return "";
+  }
 }

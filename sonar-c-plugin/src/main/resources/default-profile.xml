@@ -1,0 +1,3052 @@
+<?xml version="1.0" encoding="ASCII"?>
+<profile>
+  <name>Sonar way</name>
+  <language>c</language>
+  <rules>
+    <!-- ##################################################  -->
+    <!-- ################# cppcheck rules #################  -->
+    <!-- ##################################################  -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>AssignmentAddressToInteger</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>AssignmentIntegerToAddress</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>autoVariables</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>returnAddressOfAutoVariable</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>returnLocalVariable</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>returnReference</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>returnTempReference</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>autovarInvalidDeallocation</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>arrayIndexOutOfBounds</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>bufferAccessOutOfBounds</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>outOfBounds</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>terminateStrncpy</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>negativeIndex</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>insecureCmdLineArgs</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>pointerOutOfBounds</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>arrayIndexThenCheck</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>noConstructor</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>operatorEqVarError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unusedPrivateFunction</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memsetClass</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>operatorEq</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>thisSubtraction</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>operatorEqRetRefThis</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>operatorEqToSelf</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>exceptThrowInDestructor</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>exceptDeallocThrow</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>exceptRethrowCopy</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>catchExceptionByValue</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>assignIfError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>comparisonError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>multiCondition</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memleak</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>resourceLeak</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>deallocDealloc</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>deallocuse</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>mismatchSize</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>mismatchAllocDealloc</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memleakOnRealloc</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionscrypt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsctermid</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsecvt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsfcvt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsfgetgrent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsfgetpwent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsfgetspent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgcvt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetgrent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetgrgid</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetgrnam</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgethostbyaddr</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgethostbyname</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgethostbyname2</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgethostent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetlogin</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetnetbyaddr</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetnetbyname</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetnetgrent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetprotobyname</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetpwent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetpwnam</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetpwuid</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetrpcbyname</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetrpcbynumber</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetrpcent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetservbyname</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetservbyport</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetservent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetspent</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgetspnam</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsgmtime</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionslocaltime</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsreaddir</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsstrtok</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionstempnam</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nonreentrantFunctionsttyname</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nullPointer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsbcmp</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsbcopy</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsbsd_signal</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsbzero</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsecvt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsfcvt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsftime</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsgcvt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsgetcontext</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsgethostbyaddr</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsgethostbyname</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsgets</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsgetwd</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsindex</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsmakecontext</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionspthread_attr_getstackaddr</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionspthread_attr_setstackaddr</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsrindex</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsscalbln</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsswapcontext</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsualarm</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsusleep</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsvfork</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionswcswcs</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>assignBoolToPointer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sprintfOverlappingData</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>staticStringCompare</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>udivError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>zerodiv</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>wrongmathcall</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>fflushOnInputStream</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>functionConst</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unusedScopedObject</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeofwithsilentarraypointer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeofwithnumericparameter</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>cstyleCast</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>dangerousUsageStrtol</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>passedByValue</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>constStatement</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>charArrayIndex</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>charBitOp</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>variableScope</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>strPlusChar</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeofsizeof</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeofCalculation</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantAssignInSwitch</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>switchCaseFallThrough</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>selfAssignment</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>assignmentInAssert</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidscanf</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>incorrectLogicOperator</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memsetZeroBytes</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>clarifyCalculation</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>clarifyCondition</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>incorrectStringCompare</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>incrementboolean</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>comparisonOfBoolWithInt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>duplicateIf</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>duplicateBranch</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>duplicateExpression</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>duplicateBreak</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unsignedLessThanZero</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unsignedPositive</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidIterator1</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>iterators</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>mismatchingContainers</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>eraseDereference</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlOutOfBounds</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidIterator2</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPointer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlBoundries</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlIfFind</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlIfStrFind</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlcstr</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlSize</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantIfRemove</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>useAutoPointerCopy</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>useAutoPointerContainer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>useAutoPointerArray</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uninitstring</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uninitdata</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uninitvar</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unusedFunction</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unusedVariable</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unusedAllocatedMemory</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unreadVariable</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unassignedVariable</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unusedStructMember</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>postfixOperator</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>syntaxError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>cppcheckError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unnecessaryForwardDeclaration</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>variableHidingEnum</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>variableHidingTypedef</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unnecessaryQualification</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>missingInclude</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>preprocessorErrorDirective</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>publicAllocationError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeArgumentAsChar</key>
+    </rule>
+    <!-- ########### New in cppcheck 1.51 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>bufferNotZeroTerminated</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>initializerList</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>possibleBufferAccessOutOfBounds</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>returnAddressOfFunctionParameter</key>
+    </rule>
+
+    <!-- ########### New in cppcheck 1.52 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>simplePatternError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>complexPatternError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>missingPercentCharacter</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>boostForeachError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>compareBoolExpressionWithInt</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>coutCerrMisusage</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>incorrectStringBooleanError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stringCompare</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlcstrthrow</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unreachableCode</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uselessCallsCompare</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uselessCallsSwap</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uselessCallsSubstr</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>wrongcctypecall</key>
+    </rule>
+    <!-- ########### New in cppcheck 1.53 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>doubleCloseDir</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>doubleFree</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPrintfArgType_s</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPrintfArgType_n</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPrintfArgType_p</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPrintfArgType_int</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPrintfArgType_sint</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPrintfArgType_float</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidScanfArgType</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsasctime_r</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsrand_r</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionstmpnam</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionstmpnam_r</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsutime</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>wrongPrintfScanfArgNum</key>
+    </rule>
+
+    <!-- ########### New in cppcheck 1.54 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uninitMemberVar</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantCondition</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPointerCast</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>virtualDestructor</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>leakNoVarFunctionCall</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlcstrReturn</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlcstrParam</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>StlMissingComparison</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>strncatUsage</key>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.55 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>CastIntegerToAddressAtReturn</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>IOWithoutPositioning</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>bitwiseOnBoolean</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>deallocret</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidScanfFormatWidth</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>moduloAlwaysTrueFalse</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>pointerSize</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>possibleReadlinkBufferOverrun</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>readWriteOnlyFile</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantBitwiseOperationInSwitch</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>suspiciousSemicolon</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>useClosedFile</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>useInitializationList</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>writeReadOnlyFile</key>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.56 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>clarifyStatement</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>comparisonOfBoolWithInvalidComparator</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>functionStatic</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>incompleteArrayFill</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidPrintfArgType_uint</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>literalWithCharPtrCompare</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>pointerLessThanZero</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>pointerPositive</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantCopyLocalConst</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>shiftNegative</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unknownPattern</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uselessCallsEmpty</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uselessCallsRemove</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>ConfigurationNotChecked</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>toomanyconfigs</key>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.57 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>CastAddressToIntegerAtReturn</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>comparisonOfBoolWithBoolError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>comparisonOfFuncReturningBoolError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>comparisonOfTwoFuncsReturningBoolError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>copyCtorPointerCopying</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidFree</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidLengthModifierError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>noCopyConstructor</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>oppositeInnerCondition</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantAssignment</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantCopyInSwitch</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantNextPrevious</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unsafeClassCanLeak</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>redundantCopy</key>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.58 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>argumentSize</key>
+    </rule>
+    <!-- ########### Missing or new in cppcheck 1.59 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>checkCastIntToCharAndBack</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>mallocOnClassError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>mallocOnClassWarning</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>mismatchingBitAnd</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>missingIncludeSystem</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stlBoundaries</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>tooBigSleepTime</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uninitStructMember</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uselessAssignmentPtrArg</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>varFuncNullUB</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>writeOutsideBufferSize</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>wrongPipeParameterSize</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>class_X_Y</key>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.60 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>derefInvalidIterator</key>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.61 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>arithOperationsOnVoidPointer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>commaSeparatedReturn</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nanInArithmeticExpression</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeofDereferencedVoidPointer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeofVoid</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>wrongPrintfScanfParameterPositionError</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsctime_r</key>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.62 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>duplInheritedMember</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidScanfArgType_int</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidScanfArgType_s</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidScanfArgType_float</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>comparisonFunctionIsAlwaysTrueOrFalse</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>zerodivcond</key>
+    </rule>
+
+    <!-- ########### Missing or new in cppcheck 1.63 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>assertWithSideEffect</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>pointerArithBool</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>leakReturnValNotUsed</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidFunctionArg</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidFunctionArgBool</key>
+    </rule>
+
+    <!-- ########### New 1.64 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>negativeMemoryAllocationSize</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memsetFloat</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memsetValueOutOfRange</key>
+    </rule>
+
+    <!-- ########### New 1.65 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>exceptThrowInNoexecptFunction</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>exceptThrowInNoThrowFunction</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>exceptThrowInAttributeNoThrowFunction</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>exceptThrowInDeclspecNoThrowFunction</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>seekOnAppendedFile</key>
+    </rule>
+
+    <!-- ########### New 1.66 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>arrayIndexOutOfBoundsCond</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>charLiteralWithCharPtrCompare</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionasctime</key>
+    </rule>
+
+    <!-- ########### New 1.67 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>deadpointer</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>ignoredReturnValue</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>integerOverflow</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>invalidscanf_libc</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memsetClassFloat</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>memsetClassReference</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>selfInitialization</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>shiftTooManyBits</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>signConversion</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>sizeofDivisionMemfunc</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unpreciseMathCall</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>uselessAssignmentArg</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>va_end_missing</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>va_list_usedBeforeStarted</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>va_start_referencePassed</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>va_start_subsequentCalls</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>va_start_wrongParameter</key>
+    </rule>
+    <!-- ########### New 1.70 ########### -->
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>negativeArraySize</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>badBitmaskCheck</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>knownConditionTrueFalse</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nullPointerDefaultArg</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>nullPointerRedundantCheck</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>obsoleteFunctionsalloca</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>raceAfterInterlockedDecrement</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>unusedLabel</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>stringLiteralWrite</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>truncLongCastAssignment</key>
+    </rule>
+    <rule>
+      <repositoryKey>cppcheck-c</repositoryKey>
+      <key>truncLongCastReturn</key>
+    </rule>
+    
+    <!-- ##############################################  -->
+    <!-- ################# rats rules #################  -->
+    <!-- ##############################################  -->
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>drand48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>erand48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>initstate</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>jrand48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lcong48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lrand48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>mrand48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>nrand48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>random</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>seed48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>setstate</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>srand</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>srand48</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strfry</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>memfrob</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>crypt</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>srandom</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>memcpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fixed size global buffer</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fixed size local buffer</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strncpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>chroot</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>gets</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>system</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>popen</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getenv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>printf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>sprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wsprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wsprintfA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wsprintfW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_snprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_snwprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lstrcpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lstrcpyA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lstrcpyW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wcscpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_mbscpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tcscpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCpyA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCpyW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lstrcat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wcscat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_mbscat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tcscat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strxfrm</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wcsxfrm</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tcsxfrm</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lstrcpyn</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCpyN</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCpyNA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCpyNW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lstrcpynW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wcsncpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_mbsncpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tcsncpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_mbsnbcat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wcsncat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tcsncat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>MultiByteToWideChar</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>WideCharToMultiByte</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrNCat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatBuff</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatBuffA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatBuffW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatN</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatNA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrCatNW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatByteSize</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatByteSizeA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatByteSizeW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatByteSize64</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatByteSize64A</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatByteSize64W</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatKBSize</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatKBSizeA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFormatKBSizeW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFromTimeInterval</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFromTimeIntervalA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>StrFromTimeIntervalW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wvnsprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wvnsprintfA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wvnsprintfW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wnsprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wnsprintfA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wnsprintfW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAddExtension</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAddExtensionA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAddExtensionW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAddBackslash</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAddBackslashA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAddBackslashW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAppend</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAppendA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathAppendW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathCanonicalize</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathCanonicalizeA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathCanonicalizeW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathCombine</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathCombineA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>PathCombineW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>LoadLibrary</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>LoadLibraryA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>LoadLibraryW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>GetExtensionVersion</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToChar</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToCharA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToCharW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToCharBuff</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToCharBuffA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToCharBuffW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToAnsi</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToAnsiA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToAnsiW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToAnsiBuff</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToAnsiBuffA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>OemToAnsiBuffW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>GetTempPath</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>GetTempPathA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>GetTempPathW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>GetTempFileName</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>GetTempFileNameA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>GetTempFileNameW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ShellExecute</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ShellExecuteA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ShellExecuteW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ShellExecuteEx</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ShellExecuteExA</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ShellExecuteExW</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wsystem</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texecl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexecl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texecle</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execle</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexecle</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texeclp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execlp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexeclp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texeclpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execlpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexeclpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texecv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexecv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texecve</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execve</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexecve</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texecvp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execvp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexecvp</key>
+    </rule>
+
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_texecvpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_execvpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wexecvpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnle</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnle</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnlp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnlp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnlp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnlpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnlpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnlpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnve</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnve</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnve</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnle</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnvp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnvp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnvp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tspawnvpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_spawnvpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_wspawnvpe</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>scanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>sscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vfscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vsprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vsscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>streadd</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strecpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strtrns</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>realpath</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>syslog</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getopt</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getopt_long</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getpass</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getchar</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fgetc</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getc</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>read</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>bcopy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fgets</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>cin</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>snprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strccpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strcadd</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_vsnprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>tmpfile</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>tmpnam</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>tempnam</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getlogin</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>cuserid</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ttyname</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>signal</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>gethostbyname</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>gethostbyaddr</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>realloc</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fork</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vfork</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_mbsnbcpy</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>CopyMemory</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>strlen</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tcslen</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_mbslen</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wcslen</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>CreateProcess</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>CreateProcessAsUser</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>CreateProcessWithLogon</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>WinExec</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>RpcImpersonateClient</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ImpersonateLoggedOnUser</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>CoImpersonateClient</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ImpersonateNamedPipeClient</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ImpersonateDdeClientWindow</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>ImpersonateSecurityContext</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>QuerySecurityContextToken</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>SetThreadToken</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>SetSecurityDescriptorDacl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>AfxLoadLibrary</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>LoadLibraryEx</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>InitializeCriticalSection</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>EnterCriticalSection</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>catgets</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>gettext</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>umask</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>AddAccessAllowedAce</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>access</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lstat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>stat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>creat</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>mknod</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>mkfifo</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>pathconf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>opendir</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>dirname</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>basename</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>scandir</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fopen</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>open</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>chmod</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>chown</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>chgrp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>rename</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>mkdir</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>mkdirp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>rmdirp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>rmdir</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>remove</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>unlink</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>link</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>lchown</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>execve</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>execl</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>execlp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>execle</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>execv</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>execvp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>freopen</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>mktemp</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vfprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vprintf</key>
+    </rule>
+
+    <!-- added from RATS 2.3 rats-c.xml -->
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_ftprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_stscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>swprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_stprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_tprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_cprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_cscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_ftscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>_vsnwprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fwprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>fwscanf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>getwd</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vfwprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vswprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>vwprintf</key>
+    </rule>
+
+    <rule>
+      <repositoryKey>rats-c</repositoryKey>
+      <key>wscanf</key>
+    </rule>
+
+
+    <!-- ##################################################  -->
+    <!-- ################# valgrind rules #################  -->
+    <!-- ##################################################  -->
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>InvalidFree</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>MismatchedFree</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>InvalidRead</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>InvalidWrite</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>InvalidJump</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>Overlap</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>InvalidMemPool</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>UninitCondition</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>UninitValue</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>SyscallParam</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>ClientCheck</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>Leak_DefinitelyLost</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>Leak_IndirectlyLost</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>Leak_PossiblyLost</key>
+    </rule>
+    <rule>
+      <repositoryKey>valgrind-c</repositoryKey>
+      <key>Leak_StillReachable</key>
+    </rule>
+
+
+    <!-- ##################################################  -->
+    <!-- ################# vera++ rules #################  -->
+    <!-- ##################################################  -->
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>F001</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>F002</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>L001</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>L002</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>L003</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>L004</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>L005</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>L006</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T001</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T002</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T003</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T004</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T005</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T006</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T007</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T008</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T009</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T010</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T011</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T012</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T013</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T014</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T015</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T016</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T017</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T018</key>
+    </rule>
+    <rule>
+      <repositoryKey>vera++-c</repositoryKey>
+      <key>T019</key>
+    </rule>
+  </rules>
+</profile>

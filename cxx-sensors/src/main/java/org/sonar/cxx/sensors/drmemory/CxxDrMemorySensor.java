@@ -57,7 +57,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxDrMemorySensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " DrMemorySensor");
   }
   
   @Override

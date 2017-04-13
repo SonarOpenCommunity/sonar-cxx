@@ -17,11 +17,19 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+package org.sonar.plugins.cxx;
 
-/**
- * Package with sensor to evaluate XML report files (other).
- */
-@ParametersAreNonnullByDefault
-package org.sonar.cxx.sensors.externalrules;
+import static org.fest.assertions.Assertions.assertThat;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.junit.Test;
+import static org.fest.assertions.Assertions.assertThat;
+import org.sonar.api.config.Settings;
+
+public class CxxCheckListTest {
+
+  @Test
+  public void count() {
+    CppLanguage checks = new CppLanguage(new Settings());
+    assertThat(checks.getChecks().size()).isEqualTo(46);
+  }
+}

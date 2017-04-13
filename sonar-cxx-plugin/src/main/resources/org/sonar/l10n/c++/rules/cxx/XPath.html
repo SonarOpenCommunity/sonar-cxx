@@ -1,0 +1,47 @@
+<p>
+This rule allows to define some homemade C++ rules with help of an XPath expression.
+</p>
+
+<p>
+Violations are created depending on the return value of the XPath expression. If the XPath expression returns:
+</p>
+<ul>
+  <li>a single or list of AST nodes, then a line violation with the given message is created for each node</li>
+  <li>a boolean, then a file violation with the given message is created only if the boolean is true</li>
+  <li>anything else, no violation is created</li>
+</ul>
+
+<p>
+matchFilePattern allows Ant-style matching patterns for the path. If no matchFilePattern is defined all files are evaluated.
+</p>
+<p>
+invertFilePattern allows to invert the matching pattern comparison. If no 'matchFilePattern' is defined all files are evaluated.
+</p>
+
+<p>
+Following rules are applied:
+</p>
+<ul>
+  <li>? matches single character</li>
+  <li>* matches zero or more characters</li>
+  <li>** matches zero or more 'directories'</li>
+  <li>use always '/' as a directory separator</li>
+  <li>there must always be a root directory</li>
+</ul>
+
+<p>
+Some examples of patterns:
+</p>
+<ul>
+  <li>/**/*.cpp - matches all .cpp files in all directories (you have to define the root directory '/'), e.g. org/Foo.cpp or org/foo/Bar.cpp or org/foo/bar/Baz.cpp</li>
+  <li>/**/test/**/Foo.cpp - matches all 'Foo.cpp' files in directories with one 'test' directory in the path, e.g. org/test/Foo.cpp or org/bar/test/bar/Foo.cpp</li>
+  <li>org/T?st.cpp - matches org/Test.cpp and also org/Tost.cpp</li>
+  <li>org/*.cpp - matches all .cpp files in the org directory, e.g. org/Foo.cpp or org/Bar.cpp</li>
+  <li>org/** - matches all files underneath the org directory, e.g. org/Foo.cpp or org/foo/bar.jsp</li>
+  <li>org/**/Test.cpp - matches all Test.cpp files underneath the org directory, e.g. org/Test.cpp or org/foo/Test.cpp or org/foo/bar/Test.cpp</li>
+  <li>org/**/*.cpp - matches all .cpp files underneath the org directory, e.g. org/Foo.cpp or org/foo/Bar.cpp or org/foo/bar/Baz.cpp</li>
+</ul>
+
+<p>
+Here is an example of an XPath expression to log a violation on each declaration : //declaration
+</p>

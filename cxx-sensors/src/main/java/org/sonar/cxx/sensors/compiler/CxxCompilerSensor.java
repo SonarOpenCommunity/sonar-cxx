@@ -82,7 +82,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxCompilerSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " CompilerSensor");
   }
   
   @Override

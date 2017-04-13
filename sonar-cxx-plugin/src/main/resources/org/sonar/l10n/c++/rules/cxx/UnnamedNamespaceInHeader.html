@@ -1,0 +1,13 @@
+<p>The typical use of unnamed namespace is to hide module-internal
+      names from the outside world. Header files are physically
+      concatenated in a single translation unit, which logically
+      merges all namespaces with the same name. Unnamed namespaces are
+      also merged in this process, which effectively undermines their
+      initial purpose.  
+</p>
+
+<p>
+      Use named namespaces in header files. Unnamed namespaces are
+      allowed in implementation files only.</li>
+</p>
+

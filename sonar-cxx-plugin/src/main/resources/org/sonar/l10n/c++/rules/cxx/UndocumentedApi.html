@@ -1,0 +1,24 @@
+<p>
+Public APIs have to be documented in order to be used by customers.<br>
+APIs documentation is typically generated using a tool, such as <a href="http://www.stack.nl/~dimitri/doxygen/index.html">Doxygen</a>.
+</p>
+
+<p>The following code illustrates a well documented class:</p>
+
+<pre>
+/**
+  class documentation
+/*
+class DocumentedClass {
+  public:
+    int commentedVar; ///< documentation
+
+    /**
+      apiMethod documentation
+     */
+    void apiMethod();
+
+  private:
+    void notInApiMethod();
+};
+</pre>

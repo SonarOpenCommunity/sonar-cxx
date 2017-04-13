@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.externalrules;
+package org.sonar.cxx.sensors.other;
 
-import org.sonar.cxx.sensors.externalrules.CxxExternalRulesSensor;
+import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.config.Settings;
@@ -32,10 +32,11 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.fest.assertions.Assertions.assertThat;
 
-public class CxxExternalRulesSensorTest {
+public class CxxOtherSensorTest {
 
-  private CxxExternalRulesSensor sensor;
+  private CxxOtherSensor sensor;
   private DefaultFileSystem fs;
 
   @Before
@@ -47,11 +48,11 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportCorrectViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRulesSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-result-ok.xml"});    
+    when(language.getStringArrayOption(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-result-ok.xml"});    
     
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxExternalRulesSensor(language);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(2);
   }
@@ -60,9 +61,9 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportFileLevelViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRulesSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-result-filelevelviolation.xml"});    
+    when(language.getStringArrayOption(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-result-filelevelviolation.xml"});    
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxExternalRulesSensor(language);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }
@@ -71,9 +72,9 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportProjectLevelViolations() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRulesSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-result-projectlevelviolation.xml"});    
+    when(language.getStringArrayOption(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-result-projectlevelviolation.xml"});    
     
-    sensor = new CxxExternalRulesSensor(language);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
         assertThat(context.allIssues()).hasSize(1);
   }
@@ -82,11 +83,11 @@ public class CxxExternalRulesSensorTest {
   public void shouldThrowExceptionWhenReportEmpty() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRulesSensor.REPORT_PATH_KEY))
+    when(language.getStringArrayOption(CxxOtherSensor.REPORT_PATH_KEY))
             .thenReturn(new String[] {"externalrules-reports/externalrules-result-empty.xml"});    
     when(language.IsRecoveryEnabled())
             .thenReturn(false);     
-    sensor = new CxxExternalRulesSensor(language);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -95,8 +96,8 @@ public class CxxExternalRulesSensorTest {
   public void shouldReportNoViolationsIfNoReportFound() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRulesSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/noreport.xml"});    
-    sensor = new CxxExternalRulesSensor(language);
+    when(language.getStringArrayOption(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/noreport.xml"});    
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(0);
   }
@@ -105,11 +106,11 @@ public class CxxExternalRulesSensorTest {
   public void shouldThrowInCaseOfATrashyReport() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRulesSensor.REPORT_PATH_KEY))
+    when(language.getStringArrayOption(CxxOtherSensor.REPORT_PATH_KEY))
             .thenReturn(new String[] {"externalrules-reports/externalrules-result-invalid.xml"});
     when(language.IsRecoveryEnabled())
             .thenReturn(false);    
-    sensor = new CxxExternalRulesSensor(language);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
   }
 
@@ -118,10 +119,10 @@ public class CxxExternalRulesSensorTest {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRulesSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-with-duplicates.xml"});    
+    when(language.getStringArrayOption(CxxOtherSensor.REPORT_PATH_KEY)).thenReturn(new String[] {"externalrules-reports/externalrules-with-duplicates.xml"});    
        
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    sensor = new CxxExternalRulesSensor(language);
+    sensor = new CxxOtherSensor(language);
     sensor.execute(context);
     assertThat(context.allIssues()).hasSize(1);
   }

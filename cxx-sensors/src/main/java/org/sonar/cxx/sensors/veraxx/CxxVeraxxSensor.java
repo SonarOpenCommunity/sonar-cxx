@@ -56,7 +56,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxVeraxxSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " VeraxxSensor");
   }
   
   @Override

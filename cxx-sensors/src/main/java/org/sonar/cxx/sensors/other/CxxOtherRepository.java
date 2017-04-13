@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.externalrules;
+package org.sonar.cxx.sensors.other;
 
 import java.io.StringReader;
 
@@ -30,22 +30,22 @@ import org.sonar.cxx.CxxLanguage;
 /**
  * Loads the external rules configuration file.
  */
-public class CxxExternalRuleRepository implements RulesDefinition {
-  public static final Logger LOG = Loggers.get(CxxExternalRuleRepository.class);
+public class CxxOtherRepository implements RulesDefinition {
+  public static final Logger LOG = Loggers.get(CxxOtherRepository.class);
   public static final String KEY = "other";
   public static final String RULES_KEY = "other.rules";
   private final RulesDefinitionXmlLoader xmlRuleLoader;
   private static final String NAME = "Other";
   private final CxxLanguage language;
 
-  public CxxExternalRuleRepository(RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
+  public CxxOtherRepository(RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
     this.xmlRuleLoader = xmlRuleLoader;
     this.language = language;
   }
 
   @Override
   public void define(Context context) {
-    NewRepository repository = context.createRepository(KEY, this.language.getKey()).setName(NAME);
+    NewRepository repository = context.createRepository(KEY + this.language.getRepositorySuffix(), this.language.getKey()).setName(NAME + this.language.getRepositorySuffix());
 
     xmlRuleLoader.load(repository, getClass().getResourceAsStream("/external-rule.xml"), "UTF-8");
     for (String ruleDefs : this.language.getStringArrayOption(RULES_KEY)) {

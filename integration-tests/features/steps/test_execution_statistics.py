@@ -76,6 +76,37 @@ def step_impl(context, plat):
     if platform.system() != plat:
         context.scenario.skip(reason='scenario meant to run only in specified platform')        
 
+@given(u'declared source extensions of language c++ are "{extensions}"')
+def step_impl(context, extensions):
+    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    
+    try:
+        
+        url = (SONAR_URL + "/api/settings/set")
+        payload = {'key': 'sonar.cxx.suffixes.sources', 'value': extensions}
+        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
+        if response.status_code != 204:
+            assert False, "cannot set source extensions: %s" % str(response.text)
+
+    except requests.exceptions.ConnectionError as e:
+        assert False, "cannot set source extensions, details: %s" % str(e)
+
+@given(u'declared header extensions of language c++ are "{extensions}"')
+def step_impl(context, extensions):
+    assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
+    
+    try:
+        
+        url = (SONAR_URL + "/api/settings/set")
+        payload = {'key': 'sonar.cxx.suffixes.headers', 'value': extensions}
+        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
+        if response.status_code != 204:
+            assert False, "cannot set header extensions: %s" % str(response.status_code)
+
+    except requests.exceptions.ConnectionError as e:
+        assert False, "cannot set header extensions, details: %s" % str(e)
+
+        
 @given(u'rule "{rule}" is enabled')
 def step_impl(context, rule):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)

@@ -58,7 +58,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxValgrindSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " ValgrindSensor");
   }
   
   void saveErrors(SensorContext context, Set<ValgrindError> valgrindErrors) {

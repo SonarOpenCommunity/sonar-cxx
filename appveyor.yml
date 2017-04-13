@@ -65,6 +65,7 @@ cache:
   - C:\Users\appveyor\.m2
 artifacts:
   - path: 'sonar-cxx-plugin\target\*.jar'
+  - path: 'sonar-c-plugin\target\*.jar'
   - path: 'sslr-cxx-toolkit\target\*.jar'
 on_failure:
   - ps: Get-ChildItem cxx-squid\target\surefire-reports\*.txt | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }

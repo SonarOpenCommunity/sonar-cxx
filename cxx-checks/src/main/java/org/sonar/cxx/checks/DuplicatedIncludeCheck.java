@@ -51,8 +51,8 @@ public class DuplicatedIncludeCheck extends SquidCheck<Grammar> {
    * @return null, if this check is inactive
    */
   @CheckForNull
-  public static ActiveRule getActiveRule(ActiveRules rules) {
-    return rules.find(RuleKey.of(CheckList.REPOSITORY_KEY, RULE_KEY));
+  public static ActiveRule getActiveRule(ActiveRules rules, String repoKey) {
+    return rules.find(RuleKey.of(repoKey, RULE_KEY));
   }
 
   @Override

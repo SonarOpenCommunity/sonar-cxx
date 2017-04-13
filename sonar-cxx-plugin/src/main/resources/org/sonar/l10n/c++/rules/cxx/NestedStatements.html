@@ -1,0 +1,36 @@
+<p>
+Nested <code>if</code>, <code>switch</code>, <code>try</code> and iterator (<code>for</code>, <code>while</code>,
+<code>do</code>) statements are a key ingredient for making what's known as "Spaghetti code". Such code is hard to read,
+refactor and therefore maintain.
+</p>
+
+<h2>Noncompliant Code Example</h2>
+
+<p>The following code snippet illustrates this rule with the default threshold of 3.</p>
+
+<pre>
+class Abc {
+  public:
+    void noncompliant( ) {
+      if (true) {
+        try {
+          if (true) {
+            for (int i = 0; i < 1; i++) {
+              printf("The enclosing block is non-compliant.");
+            }
+          }
+        } catch (...) {
+          do {
+            if (true) {
+              printf("The enclosing block is non-compliant.");
+
+              if (true) {
+                printf("The enclosing block exceeds the limit, but issues are only reported on depth = 4.");
+              }
+            }
+          } while (true);
+        }
+      }
+    }
+};
+</pre>
