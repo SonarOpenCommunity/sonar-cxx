@@ -28,14 +28,16 @@ import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.WildcardPattern;
 import org.sonar.squidbridge.annotations.NoSqale;
@@ -96,8 +98,10 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
       decoder = charset.newDecoder();
       decoder.onMalformedInput(CodingErrorAction.REPLACE);
       decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
-    } catch (Exception e) {
-      throw new IllegalStateException(e);
+    } catch (PatternSyntaxException ex) {
+      throw new IllegalStateException(ex);
+    } catch (IllegalArgumentException ex2) {
+      throw new IllegalStateException(ex2);
     }
   }
 
@@ -108,7 +112,6 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-    if (fileNode != null) {
       try {
         if (!compare(invertFilePattern, matchFile())) {
           return;
@@ -121,7 +124,6 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
         throw new IllegalStateException(e);
       }
     }
-  }
 
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
@@ -132,18 +134,11 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return true;
   }
 
-  private CharSequence fromFile(File file) throws Exception {
-    FileInputStream input = null;
-    try {
-      input = new FileInputStream(file);
+  private CharSequence fromFile(File file) throws IOException  {
+    try (FileInputStream input = new FileInputStream(file)) {
       FileChannel channel = input.getChannel();
       ByteBuffer bbuf = channel.map(FileChannel.MapMode.READ_ONLY, 0, (int) channel.size());
-      CharBuffer cbuf = decoder.decode(bbuf);
-      return cbuf;
-    } finally {
-      if (input != null) {
-        input.close();
-      }
+      return decoder.decode(bbuf);
     }
   }
 

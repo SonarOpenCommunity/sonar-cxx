@@ -44,8 +44,8 @@ import org.sonar.cxx.tag.Tag;
 @Rule(
   key = "CommentedCode",
   name = "Sections of code should not be 'commented out'",
-  tags = {Tag.UNUSED},
-  priority = Priority.BLOCKER)
+  tags = {Tag.BAD_PRACTICE},
+  priority = Priority.CRITICAL)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {

@@ -32,14 +32,14 @@ public class CheckUtils {
 
   public static boolean isIfStatement(AstNode node) {
     if (node != null && node.is(CxxGrammarImpl.selectionStatement)) {
-      return node.getToken().getType() == CxxKeyword.IF;
+      return node.getToken().getType().equals(CxxKeyword.IF);
     }
     return false;
   }
 
   public static boolean isSwitchStatement(AstNode node) {
     if (node != null && node.is(CxxGrammarImpl.selectionStatement)) {
-      return node.getToken().getType() == CxxKeyword.SWITCH;
+      return node.getToken().getType().equals(CxxKeyword.SWITCH);
     }
     return false;
   }
@@ -57,7 +57,7 @@ public class CheckUtils {
   
   public static boolean isIdentifierLabel(AstNode node) {
     if (node != null && node.is(CxxGrammarImpl.labeledStatement)) {
-      return node.getToken().getType() == GenericTokenType.IDENTIFIER;
+      return node.getToken().getType().equals(GenericTokenType.IDENTIFIER);
     }
     return false;
   }

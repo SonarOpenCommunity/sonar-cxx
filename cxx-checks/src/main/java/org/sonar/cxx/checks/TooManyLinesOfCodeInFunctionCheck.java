@@ -21,7 +21,6 @@ package org.sonar.cxx.checks;
 
 import java.util.List;
 
-import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
@@ -30,7 +29,6 @@ import org.sonar.cxx.parser.CxxGrammarImpl;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.squidbridge.annotations.SqaleSubCharacteristic;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
 import org.sonar.squidbridge.checks.SquidCheck;
@@ -40,7 +38,6 @@ import org.sonar.squidbridge.checks.SquidCheck;
       priority = Priority.MAJOR,
       tags = {Tag.BRAIN_OVERLOAD})
 @ActivatedByDefault
-@SqaleSubCharacteristic(RulesDefinition.SubCharacteristics.READABILITY)
 @SqaleConstantRemediation("1h")
 public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
   private static final int DEFAULT_MAXIMUM = 200;

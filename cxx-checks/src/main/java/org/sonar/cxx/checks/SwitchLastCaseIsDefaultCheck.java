@@ -38,7 +38,7 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
   key = "SwitchLastCaseIsDefault",
   name = "Switch statements should end with a default case",
   priority = Priority.MAJOR,
-  tags = {Tag.PITFALL})
+  tags = {Tag.BAD_PRACTICE, Tag.PITFALL})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class SwitchLastCaseIsDefaultCheck extends SquidCheck<Grammar> {

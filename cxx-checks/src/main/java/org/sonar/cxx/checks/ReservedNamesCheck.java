@@ -48,7 +48,7 @@ import org.sonar.cxx.tag.Tag;
 //similar Vera++ rule T002
 public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
 
-  private static String[] keywords;
+  private static volatile String[] keywords = null;
   private Charset charset;
 
   @Override

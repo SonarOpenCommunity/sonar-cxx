@@ -63,7 +63,7 @@ public class JsonCompilationDatabase {
       }
       absPath = cwd.resolve(commandObject.file);
 
-      if (commandObject.file.equals("__global__")) {
+      if ("__global__".equals(commandObject.file)) {
         CxxCompilationUnitSettings globalSettings = new CxxCompilationUnitSettings();
 
         parseCommandObject(globalSettings, commandObject);
@@ -100,15 +100,15 @@ public class JsonCompilationDatabase {
     String[] args = tokenizeCommandLine(cmdLine);
     boolean nextInclude = false;
     boolean nextDefine = false;
-    List<String> includes = new ArrayList<String>();
-    HashMap<String, String> defines = new HashMap<String, String>();
+    List<String> includes = new ArrayList<>();
+    HashMap<String, String> defines = new HashMap<>();
 
     // Capture defines and includes from command line
     for (String arg : args) {
-      if (nextInclude == true) {
+      if (nextInclude) {
         nextInclude = false;
         includes.add(arg);
-      } else if (nextDefine == true) {
+      } else if (nextDefine) {
         nextDefine = false;
         String[] define = arg.split("=", 2);
         if (define.length == 1) {
@@ -116,11 +116,11 @@ public class JsonCompilationDatabase {
         } else {
           defines.put(define[0], define[1]);
         }
-      } else if (arg.equals("-I")) {
+      } else if ("-I".equals(arg)) {
         nextInclude = true;
       } else if (arg.startsWith("-I")) {
         includes.add(arg.substring(2));
-      } else if (arg.equals("-D")) {
+      } else if ("-D".equals(arg)) {
         nextDefine = true;
       } else if (arg.startsWith("-D")) {
         String[] define = arg.substring(2).split("=", 2);
@@ -137,7 +137,7 @@ public class JsonCompilationDatabase {
   }
 
   private String[] tokenizeCommandLine(String cmdLine) {
-    List<String> args = new ArrayList<String>();
+    List<String> args = new ArrayList<>();
     boolean escape = false;
     char stringOpen = 0;
     StringBuffer sb = new StringBuffer();
@@ -156,13 +156,11 @@ public class JsonCompilationDatabase {
             stringOpen = '\'';
           else if (ch == '\"')
             stringOpen = '\"';
-          else if (ch == ' ') {
-            if (sb.length() > 0) {
+          else if ((ch == ' ') 
+                  && (sb.length() > 0)) {
               args.add(sb.toString());
               sb = new StringBuffer();
             }
-          }
-
           if (ch != ' ')
             sb.append(ch);
         } else {

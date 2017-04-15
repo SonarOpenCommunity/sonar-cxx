@@ -255,7 +255,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<File> getCompilationUnitSourceFiles() {
-    List<File> files = new ArrayList<File>();
+    List<File> files = new ArrayList<>();
 
     for (Iterator<String> iter = compilationUnitSettings.keySet().iterator(); iter.hasNext(); ) {
       String item = iter.next();

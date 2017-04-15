@@ -150,10 +150,9 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       for (Trivia trivia : token.getTrivia()) {
         if (trivia.isComment()) {
           highlight(last, new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
-        } else if (trivia.isSkippedText()) {
-          if (trivia.getToken().getType() == CxxTokenType.PREPROCESSOR) {
+        } else if (trivia.isSkippedText() 
+                    && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
             highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
-          }
         }
       }
     }

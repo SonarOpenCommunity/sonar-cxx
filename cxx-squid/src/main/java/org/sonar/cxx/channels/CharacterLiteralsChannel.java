@@ -41,7 +41,7 @@ public class CharacterLiteralsChannel extends Channel<Lexer> {
     int column = code.getColumnPosition();
     index = 0;
     readPrefix(code);
-    if ((ch != '\'')) {
+    if (ch != '\'') {
       return false;
     }
     if (!read(code)) {

@@ -51,7 +51,7 @@ public class UsingNamespaceInHeaderCheck extends SquidCheck<Grammar> {
   @Override
   public void visitNode(AstNode node) {
     if (isHeader(getContext().getFile().getName())
-      && node.getTokenValue().equals("using") && node.getFirstChild().getChildren().toString().contains("namespace")) {
+      && "using".equals(node.getTokenValue()) && node.getFirstChild().getChildren().toString().contains("namespace")) {
       getContext().createLineViolation(this, "Using namespace are not allowed in header files.", node);
     }
   }

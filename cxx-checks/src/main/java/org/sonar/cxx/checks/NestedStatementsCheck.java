@@ -55,8 +55,6 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
 
   private static final int DEFAULT_MAX = 3;
 
-  private static final String ELSE_TOKEN = "ELSE";
-
   @RuleProperty(
     key = "max",
     description = "Maximum allowed control flow statement nesting depth.",
@@ -99,7 +97,7 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
       nestingLevel--;
     }
 
-    // Prevent re-checking of descendent nodes
+    // Prevent re-checking of descendant nodes
     checkedNodes.addAll(watchedDescendants);
   }
 
@@ -113,6 +111,6 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
    * @return True if the given node is the 'if' in an 'else if' construct.
    */
   private boolean isElseIf(AstNode node) {
-    return isIfStatement(node) && node.getParent().getPreviousAstNode().getType()==CxxKeyword.ELSE;
+    return isIfStatement(node) && node.getParent().getPreviousAstNode().getType().equals(CxxKeyword.ELSE);
   }
 }

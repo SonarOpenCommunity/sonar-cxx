@@ -34,7 +34,7 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team
- * edition or 2010/2012/2013 premium edition)
+ * edition or 2010/2012/2013/2015/2017 premium edition)
  *
  * @author Bert
  */

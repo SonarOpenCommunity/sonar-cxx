@@ -121,7 +121,7 @@ public class CxxPreprocessor extends Preprocessor {
       super(message, cause);
     }
     MismatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-      super(message, cause, enableSuppression, writableStackTrace);;
+      super(message, cause, enableSuppression, writableStackTrace);
     }
   }
 
@@ -397,27 +397,28 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
 
-    if (ttype == PREPROCESSOR) {
+    if (ttype.equals(PREPROCESSOR)) {
 
       AstNode lineAst;
       try {
         lineAst = pplineParser.parse(token.getValue()).getFirstChild();
       } catch (com.sonar.sslr.api.RecognitionException re) {
         LOG.warn("Cannot parse '{}', ignoring...", token.getValue());
+        LOG.debug("Parser exception: '{}'", re);
         return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
       }
 
       AstNodeType lineKind = lineAst.getType();
 
-      if (lineKind == ifdefLine) {
+      if (lineKind.equals(ifdefLine)) {
         return handleIfdefLine(lineAst, token, filePath);
-      } else if (lineKind == ifLine) {
+      } else if (lineKind.equals(ifLine)) {
         return handleIfLine(lineAst, token, filePath);
-      } else if (lineKind == endifLine) {
+      } else if (lineKind.equals(endifLine)) {
         return handleEndifLine(lineAst, token, filePath);
-      } else if (lineKind == elseLine) {
+      } else if (lineKind.equals(elseLine)) {
         return handleElseLine(lineAst, token, filePath);
-      } else if (lineKind == elifLine) {
+      } else if (lineKind.equals(elifLine)) {
         return handleElIfLine(lineAst, token, filePath);
       }
 
@@ -425,11 +426,11 @@ public class CxxPreprocessor extends Preprocessor {
         return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
       }
 
-      if (lineKind == defineLine) {
+      if (lineKind.equals(defineLine)) {
         return handleDefineLine(lineAst, token, filePath);
-      } else if (lineKind == includeLine) {
+      } else if (lineKind.equals(includeLine)) {
         return handleIncludeLine(lineAst, token, filePath, conf.getCharset());
-      } else if (lineKind == undefLine) {
+      } else if (lineKind.equals(undefLine)) {
         return handleUndefLine(lineAst, token, filePath);
       }
 
@@ -438,12 +439,12 @@ public class CxxPreprocessor extends Preprocessor {
       return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
     }
 
-    if (ttype != EOF) {
+    if (!ttype.equals(EOF)) {
       if (currentFileState.skipPreprocessorDirectives) {
         return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
       }
 
-      if (ttype != STRING && ttype != NUMBER) {
+      if (!ttype.equals(STRING) && !ttype.equals(NUMBER)) {
         return handleIdentifiersAndKeywords(tokens, token, filePath);
       }
     }
@@ -562,7 +563,7 @@ public class CxxPreprocessor extends Preprocessor {
     if (!currentFileState.skipPreprocessorDirectives) {
       Macro macro = getMacro(getMacroName(ast));
       TokenType tokType = ast.getToken().getType();
-      if ((tokType == IFDEF && macro == null) || (tokType == IFNDEF && macro != null)) {
+      if ((tokType.equals(IFDEF) && macro == null) || (tokType.equals(IFNDEF) && macro != null)) {
         if (LOG.isTraceEnabled()) {
           LOG.trace("[{}:{}]: '{}' evaluated to false, skipping tokens that follow",
             new Object[]{filename, token.getLine(), token.getValue()});
@@ -721,12 +722,12 @@ public class CxxPreprocessor extends Preprocessor {
         while (!replTokens.isEmpty()) {
           Token c = replTokens.get(0);
           PreprocessorAction action = PreprocessorAction.NO_OPERATION; //@todo: deprecated PreprocessorAction
-          if (c.getType() == IDENTIFIER) {
+          if (c.getType().equals(IDENTIFIER)) {
             List<Token> rest = new ArrayList(replTokens);
             rest.addAll(tokens.subList(tokensConsumed, tokens.size()));
             action = handleIdentifiersAndKeywords(rest, c, filename);
           }
-          if (action == PreprocessorAction.NO_OPERATION) { //@todo: deprecated PreprocessorAction
+          if (action.equals(PreprocessorAction.NO_OPERATION)) { //@todo: deprecated PreprocessorAction
             replTokens.remove(0);
             outTokens.add(c);
           } else {
@@ -809,7 +810,7 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private List<Token> stripEOF(List<Token> tokens) {
-    if (tokens.get(tokens.size() - 1).getType() == EOF) {
+    if (tokens.get(tokens.size() - 1).getType().equals(EOF)) {
       return tokens.subList(0, tokens.size() - 1);
     } else {
       return tokens;
@@ -832,23 +833,23 @@ public class CxxPreprocessor extends Preprocessor {
     List<Token> rest = tokens;
     try {
       rest = match(rest, "(");
-    } catch (MismatchException me) {
+    } catch (MismatchException me) { //NOSONAR
       return 0;
     }
 
     try {
       do {
         rest = matchArgument(rest, arguments);
-        try {
+        try { //NOSONAR
           rest = match(rest, ",");
-        } catch (MismatchException me) {
+        } catch (MismatchException me) { //NOSONAR
           break;
         }
       } while (true);
-    } catch (MismatchException me) {}
+    } catch (MismatchException me) {} //NOSONAR
     try {
       rest = match(rest, ")");
-    } catch (MismatchException me) {
+    } catch (MismatchException me) { //NOSONAR
       LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
       return 0;
     }
@@ -922,7 +923,7 @@ public class CxxPreprocessor extends Preprocessor {
         Token curr = body.get(i);
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
-          if (tokenPastingRightOp && curr.getType() != WS &&  curr.getType() != HASHHASH) {
+          if (tokenPastingRightOp && !curr.getType().equals(WS) &&  !curr.getType().equals(HASHHASH)) {
               tokenPastingRightOp = false;
             }
           newTokens.add(curr);
@@ -931,14 +932,14 @@ public class CxxPreprocessor extends Preprocessor {
           // If variable argument is left out then the comma before the paste
           // operator will be deleted
           int j = i;
-          while (j > 0 && body.get(j - 1).getType() == WS) {
+          while (j > 0 && body.get(j - 1).getType().equals(WS)) {
             j--;
           }
           if (j == 0 || !"##".equals(body.get(--j).getValue())) {
             continue;
           }
           int k = j;
-          while (j > 0 && body.get(j - 1).getType() == WS) {
+          while (j > 0 && body.get(j - 1).getType().equals(WS)) {
             j--;
           }
           if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
@@ -949,7 +950,7 @@ public class CxxPreprocessor extends Preprocessor {
         } else if (index < arguments.size()) {
           // token pasting operator?
           int j = i + 1;
-          while (j < body.size() && body.get(j).getType() == WS) {
+          while (j < body.size() && body.get(j).getType().equals(WS)) {
             j++;
           }
           if (j < body.size() && "##".equals(body.get(j).getValue())) {
@@ -983,9 +984,9 @@ public class CxxPreprocessor extends Preprocessor {
             // the Visual C++ implementation will suppress a trailing comma
             // if no arguments are passed to the ellipsis
             for (int n = newTokens.size() - 1; n != 0; n = newTokens.size() - 1) {
-              if (newTokens.get(n).getType() == WS) {
+              if (newTokens.get(n).getType().equals(WS)) {
                 newTokens.remove(n);
-              } else if (newTokens.get(n).getType() == COMMA) {
+              } else if (newTokens.get(n).getType().equals(COMMA)) {
                 newTokens.remove(n);
                 break;
               } else {
@@ -1002,11 +1003,11 @@ public class CxxPreprocessor extends Preprocessor {
     }
 
     // replace # with "" if sequence HASH BR occurs for body HASH __VA_ARGS__    
-    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType() == HASH && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT) {
+    if (newTokens.size() > 3 && newTokens.get(newTokens.size() - 2).getType().equals(HASH) && newTokens.get(newTokens.size() - 1).getType().equals(BR_RIGHT)) {
       for (int n = newTokens.size() - 2; n != 0; n--) {
-        if (newTokens.get(n).getType() == WS) {
+        if (newTokens.get(n).getType().equals(WS)) {
           newTokens.remove(n);
-        } else if (newTokens.get(n).getType() == HASH) {
+        } else if (newTokens.get(n).getType().equals(HASH)) {
           newTokens.remove(n);
           newTokens.add(n, Token.builder().setLine(newTokens.get(n).getLine()).setColumn(newTokens.get(n).getColumn())
           .setURI(newTokens.get(n).getURI()).setValueAndOriginalValue("\"\"").setType(STRING)
@@ -1018,11 +1019,11 @@ public class CxxPreprocessor extends Preprocessor {
       }
     }
     // drop COMMA from sequence COMMA "," BR ")"
-    if (newTokens.size() > 2 && newTokens.get(newTokens.size() - 1).getType() == BR_RIGHT) {
+    if (newTokens.size() > 2 && newTokens.get(newTokens.size() - 1).getType().equals(BR_RIGHT)) {
       for (int n = newTokens.size() - 2; n != 0; n--) {
-        if (newTokens.get(n).getType() == WS) {
+        if (newTokens.get(n).getType().equals(WS)) {
           newTokens.remove(n);
-        } else if (newTokens.get(n).getType() == COMMA) {
+        } else if (newTokens.get(n).getType().equals(COMMA)) {
           newTokens.remove(n);
           break;
         } else {
@@ -1039,9 +1040,10 @@ public class CxxPreprocessor extends Preprocessor {
     Iterator<Token> it = tokens.iterator();
     while (it.hasNext()) {
       Token curr = it.next();
-      if (curr.getValue() == "##") {
+      if ("##".equals(curr.getValue())) {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
+        try {
         newTokens.add(Token.builder()
           .setLine(pred.getLine())
           .setColumn(pred.getColumn())
@@ -1050,6 +1052,9 @@ public class CxxPreprocessor extends Preprocessor {
           .setType(pred.getType())
           .setGeneratedCode(true)
           .build());
+        } catch (NullPointerException ex) {
+          LOG.error ("Missing data : '{}'", ex);
+        }
       } else {
         newTokens.add(curr);
       }
@@ -1061,10 +1066,10 @@ public class CxxPreprocessor extends Preprocessor {
   private Token predConcatToken(List<Token> tokens) {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
-      if (last.getType() != WS) {
+      if (!last.getType().equals(WS)) {
         if (!tokens.isEmpty()) {
           Token pred = tokens.get(tokens.size() - 1);
-          if (pred.getType() != WS && !pred.hasTrivia()) {
+          if (!pred.getType().equals(WS) && !pred.hasTrivia()) {
             // Needed to paste tokens 0 and x back together after #define N(hex) 0x ## hex
             tokens.remove(tokens.size() - 1);
             String replacement = pred.getValue() + last.getValue();
@@ -1088,7 +1093,7 @@ public class CxxPreprocessor extends Preprocessor {
     Token succ = null;
     while (it.hasNext()) {
       succ = it.next();
-      if (!"##".equals(succ.getValue()) && succ.getType() != WS) {
+      if (!"##".equals(succ.getValue()) && !succ.getType().equals(WS)) {
         break;
       }
     }

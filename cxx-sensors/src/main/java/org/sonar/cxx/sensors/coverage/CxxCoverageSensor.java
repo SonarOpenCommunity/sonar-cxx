@@ -219,7 +219,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
         Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
         LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
         for (CoverageMeasure measure : measures) {
-          if(measure.getType().equals(CoverageMeasure.CoverageType.LINE)) {
+          if(measure.getType() == CoverageMeasure.CoverageType.LINE ) {
             try
             {
               newCoverage.lineHits(measure.getLine(), measure.getHits());
@@ -229,7 +229,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             }            
           }
           
-          if(measure.getType().equals(CoverageMeasure.CoverageType.CONDITION)) {
+          if(measure.getType() == CoverageMeasure.CoverageType.CONDITION) {
             try
             {
               newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());

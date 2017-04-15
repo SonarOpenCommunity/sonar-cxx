@@ -104,7 +104,6 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-    if (fileNode != null) {
       if (compare(invertFilePattern, matchFile())) {
         List<String> lines;
         try {
@@ -120,7 +119,6 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
         }
       }
     }
-  }
 
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {

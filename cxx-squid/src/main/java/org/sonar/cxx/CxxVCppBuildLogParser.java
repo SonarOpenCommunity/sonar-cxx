@@ -151,9 +151,10 @@ public class CxxVCppBuildLogParser {
             parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
           } catch (InvalidPathException ex) {
             LOG.warn("Cannot extract information from current element: " + data + " : " + ex.getMessage());
-          } catch (NullPointerException ex) {
-            LOG.error("Bug in parser, please report: '{}' - '{}'", ex.getMessage(), data + " @ " + currentProjectPath);
             LOG.error("StackTrace: '{}'", ex.getStackTrace());
+          } catch (NullPointerException ex2) {
+            LOG.error("Bug in parser, please report: '{}' - '{}'", ex2.getMessage(), data + " @ " + currentProjectPath);
+            LOG.error("StackTrace: '{}'", ex2.getStackTrace());
           }
         }
       }

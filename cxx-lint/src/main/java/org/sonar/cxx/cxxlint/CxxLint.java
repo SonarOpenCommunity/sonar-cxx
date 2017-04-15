@@ -142,7 +142,7 @@ public class CxxLint {
     sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
     InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    List<CheckerData> rulesData = new ArrayList<CheckerData>();
+    List<CheckerData> rulesData = new ArrayList<>();
     if (!"".equals(settingsFile)) {
       JsonParser parser = new JsonParser();
       String fileContent = readFile(settingsFile);
@@ -244,8 +244,8 @@ public class CxxLint {
         for (Field f : check.getDeclaredFields()) {
           for (Annotation a : f.getAnnotations()) {
             RuleProperty ruleProp = (RuleProperty) a;
-            if (ruleProp != null) {
-              if (checkDefined.parameterData.containsKey(ruleProp.key())) {
+            if ((ruleProp != null) 
+              && (checkDefined.parameterData.containsKey(ruleProp.key()))) {
                 if (f.getType().equals(int.class)) {
                   String cleanData = checkDefined.parameterData.get(ruleProp.key());
                   int value = Integer.parseInt(cleanData);
@@ -272,7 +272,6 @@ public class CxxLint {
               }
             }
           }
-        }
           visitors.add(element);
       }    
     }
@@ -346,10 +345,10 @@ public class CxxLint {
   }
 
   private static void HandleVCppAdditionalOptions(String platformToolset, String platform, String elementsOfAdditionalOptions, String project, String fileToAnalyse, CxxConfiguration configuration) {
-    if(platformToolset.equals("V100") ||
-            platformToolset.equals("V110") ||
-            platformToolset.equals("V120") ||
-            platformToolset.equals("V140")) {
+    if("V100".equals(platformToolset) 
+      || "V110".equals(platformToolset)
+      || "V120".equals(platformToolset)
+      || "V140".equals(platformToolset)) {
       
       HashMap<String, List<String>> uniqueIncludes = new HashMap<>();
       HashMap<String, Set<String>> uniqueDefines = new HashMap<>();
