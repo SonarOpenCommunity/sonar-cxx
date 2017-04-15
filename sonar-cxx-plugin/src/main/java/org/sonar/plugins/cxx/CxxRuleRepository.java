@@ -20,19 +20,24 @@
 package org.sonar.plugins.cxx;
 
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.cxx.checks.CheckList;
+import org.sonar.cxx.CxxLanguage;
 import org.sonar.squidbridge.annotations.AnnotationBasedRulesDefinition;
 
 public class CxxRuleRepository implements RulesDefinition {
 
   private static final String REPOSITORY_NAME = "c++ SonarQube";
+  private final CxxLanguage language;
 
+  public CxxRuleRepository(CxxLanguage language) {
+    this.language = language;
+  }
+  
   @Override
   public void define(Context context) {
     NewRepository repository = context.
-      createRepository(CheckList.REPOSITORY_KEY, CppLanguage.KEY).
+      createRepository(this.language.getRepositoryKey(), CppLanguage.KEY).
       setName(REPOSITORY_NAME);        
-    new AnnotationBasedRulesDefinition(repository, CppLanguage.KEY).addRuleClasses(false, CheckList.getChecks());    
+    new AnnotationBasedRulesDefinition(repository, CppLanguage.KEY).addRuleClasses(false, this.language.getChecks());    
     repository.done();
   }
 }

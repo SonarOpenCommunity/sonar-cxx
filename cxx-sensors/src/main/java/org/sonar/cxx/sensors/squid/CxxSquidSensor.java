@@ -38,7 +38,6 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.cxx.api.CxxMetric;
-import org.sonar.cxx.checks.CheckList;
 import org.sonar.squidbridge.AstScanner;
 import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.api.CheckMessage;
@@ -126,7 +125,7 @@ public class CxxSquidSensor implements Sensor {
           @Nullable CustomCxxRulesDefinition[] customRulesDefinition,
           @Nullable CxxCoverageCache coverageCache) {
     this.checks = CxxChecks.createCxxCheck(checkFactory)
-      .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
+      .addChecks(language.getRepositoryKey(), language.getChecks())
       .addCustomChecks(customRulesDefinition);
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.rules = rules;
@@ -141,7 +140,7 @@ public class CxxSquidSensor implements Sensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxSquidSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " SquidSensor");
   }
   
   /**
@@ -225,7 +224,7 @@ public class CxxSquidSensor implements Sensor {
 
   private void save(Collection<SourceCode> squidSourceFiles, SensorContext context) {
     int violationsCount = 0;
-    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(context, rules);
+    DependencyAnalyzer dependencyAnalyzer = new DependencyAnalyzer(context, rules, this.language);
 
     for (SourceCode squidSourceFile : squidSourceFiles) {
       SourceFile squidFile = (SourceFile) squidSourceFile;
@@ -309,7 +308,9 @@ public class CxxSquidSensor implements Sensor {
          line = message.getLine();
         }
 
-        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(CheckList.REPOSITORY_KEY, checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
+        NewIssue newIssue = sensorContext
+                .newIssue()
+                .forRule(RuleKey.of(this.language.getRepositoryKey(), checks.ruleKey((SquidAstVisitor<Grammar>) message.getCheck()).rule()));
         NewIssueLocation location = newIssue.newLocation()
           .on(inputFile)
           .at(inputFile.selectLine(line))

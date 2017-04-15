@@ -25,7 +25,7 @@ import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.profiles.XMLProfileParser;
 import org.sonar.api.rules.ActiveRule;
 import org.sonar.api.utils.ValidationMessages;
-import org.sonar.cxx.checks.CheckList;
+import org.sonar.cxx.CxxLanguage;
 
 /**
  * {@inheritDoc}
@@ -35,21 +35,26 @@ public class CxxDefaultProfile extends ProfileDefinition {
   private final XMLProfileParser xmlProfileParser;
   private final AnnotationProfileParser annotationProfileParser;
   private static final String NAME = "Sonar way";
+  private final CxxLanguage lang;
 
   /**
    * {@inheritDoc}
    */
-  public CxxDefaultProfile(XMLProfileParser xmlProfileParser, AnnotationProfileParser annotationProfileParser) {
+  public CxxDefaultProfile(
+          XMLProfileParser xmlProfileParser,
+          AnnotationProfileParser annotationProfileParser,
+          CxxLanguage language) {
     this.annotationProfileParser = annotationProfileParser;
     this.xmlProfileParser = xmlProfileParser;
+    this.lang = language;
   }
 
   @Override
   public RulesProfile createProfile(ValidationMessages messages) {
     RulesProfile profile = xmlProfileParser.parseResource(getClass().getClassLoader(),
       "default-profile.xml", messages);
-    RulesProfile sonarRules = annotationProfileParser.parse(CheckList.REPOSITORY_KEY, NAME,
-      CppLanguage.KEY, CheckList.getChecks(), messages);
+    RulesProfile sonarRules = annotationProfileParser.parse(this.lang.getRepositoryKey(), NAME,
+      CppLanguage.KEY, this.lang.getChecks(), messages);
     for (ActiveRule activeRule : sonarRules.getActiveRules()) {
       profile.addActiveRule(activeRule);
     }

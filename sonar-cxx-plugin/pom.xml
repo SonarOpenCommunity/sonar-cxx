@@ -18,6 +18,8 @@
 
   <properties>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
+    <sonar.pluginClass>org.sonar.plugins.cxx.CxxPlugin</sonar.pluginClass>
+    <sonar.pluginName>C++ (Community)</sonar.pluginName>    
   </properties>
 
   <dependencies>

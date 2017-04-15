@@ -44,6 +44,7 @@ import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
+import org.sonar.cxx.CxxLanguage;
 
 public class DependencyAnalyzer {
   public static final Logger LOG = Loggers.get(DependencyAnalyzer.class);
@@ -56,11 +57,13 @@ public class DependencyAnalyzer {
   private final Multimap<InputDir, InputFile> directoryFiles = HashMultimap.create();
   private final FileSystem fs;
 
-  public DependencyAnalyzer(SensorContext context, ActiveRules rules) {
+  public DependencyAnalyzer(SensorContext context,
+          ActiveRules rules,
+          CxxLanguage language) {
     this.context = context;
     this.fs = context.fileSystem();
-    this.duplicateIncludeRule = DuplicatedIncludeCheck.getActiveRule(rules);
-    this.cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(rules);
+    this.duplicateIncludeRule = DuplicatedIncludeCheck.getActiveRule(rules, language.getRepositoryKey());
+    this.cycleBetweenPackagesRule = CycleBetweenPackagesCheck.getActiveRule(rules, language.getRepositoryKey());
   }
 
   public void addFile(InputFile sonarFile, Collection<CxxPreprocessor.Include> includedFiles, SensorContext sensorContext) {

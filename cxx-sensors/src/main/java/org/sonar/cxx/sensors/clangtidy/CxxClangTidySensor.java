@@ -54,7 +54,7 @@ public class CxxClangTidySensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxClangTidySensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " ClangTidySensor");
   }
   
   @Override

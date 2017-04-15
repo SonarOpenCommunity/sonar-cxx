@@ -1,0 +1,22 @@
+<p>
+Legacy code often use primitive types which shall be avoided or limited to platform APIs.
+C++ types shall be used instead.
+</p>
+
+<p>Avoid using the following types:</p>
+
+<pre>
+ WORD  -> use <code>unsigned short</code> instead
+ DWORD -> use <code>unsigned long</code> instead
+ BYTE  -> use <code>unsigned char</code> instead
+ FLOAT -> use <code>float</code> instead
+ BOOL  -> use <code>bool</code> instead
+</pre>
+
+<p>Avoid using macros for well known values:</p>
+
+<pre>
+ NULL  -> use <code>nullptr</code> instead
+ TRUE  -> use <code>true</code> instead
+ FALSE -> use <code>false</code> instead
+</pre>

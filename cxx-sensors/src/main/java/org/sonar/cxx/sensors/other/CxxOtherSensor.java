@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.externalrules;
+package org.sonar.cxx.sensors.other;
 
 import java.io.File;
 import javax.xml.stream.XMLStreamException;
@@ -37,15 +37,15 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  *
  * @author jorge costa
  */
-public class CxxExternalRulesSensor extends CxxReportSensor {
-  public static final Logger LOG = Loggers.get(CxxExternalRulesSensor.class);
+public class CxxOtherSensor extends CxxReportSensor {
+  public static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
   public static String KEY = "Other";
 
   /**
    * {@inheritDoc}
    */
-  public CxxExternalRulesSensor(CxxLanguage language) {
+  public CxxOtherSensor(CxxLanguage language) {
     super(language);
   }
 
@@ -56,7 +56,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxExternalRulesSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " ExternalRulesSensor");
   }
   
   @Override
@@ -79,7 +79,7 @@ public class CxxExternalRulesSensor extends CxxReportSensor {
           String id = errorCursor.getAttrValue("id");
           String msg = errorCursor.getAttrValue("msg");
 
-          saveUniqueViolation(context, CxxExternalRuleRepository.KEY, file, line, id, msg);
+          saveUniqueViolation(context, CxxOtherRepository.KEY, file, line, id, msg);
         }
       }
     });

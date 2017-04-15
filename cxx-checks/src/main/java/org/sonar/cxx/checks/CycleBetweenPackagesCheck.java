@@ -51,8 +51,8 @@ public class CycleBetweenPackagesCheck extends SquidCheck<Grammar> {
    * @return null, if this check is inactive
    */
   @CheckForNull
-  public static ActiveRule getActiveRule(ActiveRules rules) {
-    return rules.find(RuleKey.of(CheckList.REPOSITORY_KEY, RULE_KEY));
+  public static ActiveRule getActiveRule(ActiveRules rules, String repositoryKey) {
+    return rules.find(RuleKey.of(repositoryKey, RULE_KEY));
   }
 
   @Override

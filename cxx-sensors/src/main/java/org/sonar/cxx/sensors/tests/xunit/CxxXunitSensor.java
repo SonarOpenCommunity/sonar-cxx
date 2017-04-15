@@ -78,7 +78,7 @@ public class CxxXunitSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.name("CxxXunitSensor");
+    descriptor.name(language.getName() + " XunitSensor");
   }
   
   /**

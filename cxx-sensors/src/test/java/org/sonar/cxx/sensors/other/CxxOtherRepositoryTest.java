@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.cxx.sensors.externalrules;
+package org.sonar.cxx.sensors.other;
 
-import org.sonar.cxx.sensors.externalrules.CxxExternalRuleRepository;
+import org.sonar.cxx.sensors.other.CxxOtherRepository;
 import static org.fest.assertions.Assertions.assertThat;
 
 import org.junit.Test;
@@ -29,8 +29,9 @@ import org.sonar.api.server.rule.RulesDefinition.Rule;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
+import static org.fest.assertions.Assertions.assertThat;
 
-public class CxxExternalRuleRepositoryTest {
+public class CxxOtherRepositoryTest {
 
   String profile1 = "<?xml version=\"1.0\" encoding=\"ASCII\"?>\n"
     + "<rules>\n"
@@ -60,16 +61,16 @@ public class CxxExternalRuleRepositoryTest {
   @Test
   public void verifyTemplateRuleIsFound() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRuleRepository.RULES_KEY))
+    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
             .thenReturn(new String [] { null });    
     
-    CxxExternalRuleRepository def = new CxxExternalRuleRepository(
+    CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
     assertThat(repo.rules()).hasSize(1);
   }
 
@@ -77,48 +78,48 @@ public class CxxExternalRuleRepositoryTest {
   public void createNonEmptyRulesTest() {
     
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRuleRepository.RULES_KEY))
+    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
             .thenReturn(new String [] { profile1 });    
 
-    CxxExternalRuleRepository def = new CxxExternalRuleRepository(
+    CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
     assertThat(repo.rules()).hasSize(3);
   }
 
   @Test
   public void createNullRulesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRuleRepository.RULES_KEY))
+    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
             .thenReturn(new String [] { null });        
     
-    CxxExternalRuleRepository def = new CxxExternalRuleRepository(
+    CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
     assertThat(repo.rules()).hasSize(1);
   }
 
   @Test
   public void verifyRuleValuesTest() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringArrayOption(CxxExternalRuleRepository.RULES_KEY))
+    when(language.getStringArrayOption(CxxOtherRepository.RULES_KEY))
             .thenReturn(new String [] { profile2 });    
         
-    CxxExternalRuleRepository def = new CxxExternalRuleRepository(
+    CxxOtherRepository def = new CxxOtherRepository(
       new RulesDefinitionXmlLoader(), language);
 
     RulesDefinition.Context context = new RulesDefinition.Context();
     def.define(context);
 
-    RulesDefinition.Repository repo = context.repository(CxxExternalRuleRepository.KEY);
+    RulesDefinition.Repository repo = context.repository(CxxOtherRepository.KEY);
     Rule rule = repo.rule("key");
     assertThat(rule).isNotNull();
 

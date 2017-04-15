@@ -1,0 +1,43 @@
+<p>
+This rule template can be used to create rules which will be triggered when a line matches a given regular expression.
+For each match a line violation will be created.
+Additional a Ant-style matching pattern for the path can be defined.
+</p>
+
+<p>
+matchFilePattern allows Ant-style matching patterns for the path. If no 'matchFilePattern' is defined all files are evaluated.
+</p>
+<p>
+invertFilePattern allows to invert the matching pattern comparison. If no 'matchFilePattern' is defined all files are evaluated.
+</p>
+<p>
+regularExpression to search for in line. Any Java regular expression can be used.
+</p>
+<p>
+invertRegularExpression allows to invert the regular expression search of 'regularExpression'.
+</p>
+    
+<p>
+Following rules are applied:
+</p>
+<ul>
+  <li>? matches single character</li>
+  <li>* matches zero or more characters</li>
+  <li>** matches zero or more 'directories'</li>
+  <li>use always '/' as a directory separator</li>
+  <li>there must always be a root directory</li>
+</ul>
+
+<p>
+Some examples of patterns:
+</p>
+<ul>
+  <li>/**/*.cpp - matches all .cpp files in all directories (you have to define the root directory '/'), e.g. org/Foo.cpp or org/foo/Bar.cpp or org/foo/bar/Baz.cpp</li>
+  <li>/**/test/**/Foo.cpp - matches all 'Foo.cpp' files in directories with one 'test' directory in the path, e.g. org/test/Foo.cpp or org/bar/test/bar/Foo.cpp</li>
+  <li>org/T?st.cpp - matches org/Test.cpp and also org/Tost.cpp</li>
+  <li>org/*.cpp - matches all .cpp files in the org directory, e.g. org/Foo.cpp or org/Bar.cpp</li>
+  <li>org/** - matches all files underneath the org directory, e.g. org/Foo.cpp or org/foo/bar.jsp</li>
+  <li>org/**/Test.cpp - matches all Test.cpp files underneath the org directory, e.g. org/Test.cpp or org/foo/Test.cpp or org/foo/bar/Test.cpp</li>
+  <li>org/**/*.cpp - matches all .cpp files underneath the org directory, e.g. org/Foo.cpp or org/foo/Bar.cpp or org/foo/bar/Baz.cpp</li>
+</ul>
+

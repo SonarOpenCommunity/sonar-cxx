@@ -64,7 +64,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
 
   @Override
   public void describe(SensorDescriptor descriptor) {
-    descriptor.onlyOnLanguage(this.language.getKey()).name("CxxPCLintSensor");
+    descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " PCLintSensor");
   }
   
   @Override

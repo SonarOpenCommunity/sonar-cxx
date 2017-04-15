@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
+    <artifactId>cxx</artifactId>
+    <version>0.9.8-SNAPSHOT</version>
+  </parent>
+
+  
+  <artifactId>sonar-c-plugin</artifactId>
+  <packaging>sonar-plugin</packaging>
+
+  <name>Cxx :: Sonar C Plugin</name>
+  <inceptionYear>2010</inceptionYear>
+  <description>Enable analysis and reporting on c projects.</description>
+  <url>https://github.com/SonarOpenCommunity/sonar-cxx/wiki</url>
+
+  <properties>
+    <sonar.pluginClass>org.sonar.plugins.c.CPlugin</sonar.pluginClass>
+    <sonar.pluginName>C (Community)</sonar.pluginName>    
+    <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.sonarsource.dotnet</groupId>
+      <artifactId>sonar-dotnet-tests-library</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-squid</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-checks</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>cxx-sensors</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sslr</groupId>
+      <artifactId>sslr-testing-harness</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0.9</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-testing-harness</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+       <groupId>com.google.guava</groupId>
+       <artifactId>guava</artifactId>
+       <version>10.0.1</version>
+      </dependency>
+     <dependency>
+       <groupId>commons-io</groupId>
+       <artifactId>commons-io</artifactId>
+       <version>2.5</version>
+     </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.8.6</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>com/sonar/sqale/cxx-model-project*</exclude>
+          <exclude>external/*</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
+
+</project>

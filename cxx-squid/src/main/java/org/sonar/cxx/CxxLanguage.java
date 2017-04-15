@@ -21,6 +21,7 @@ package org.sonar.cxx;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
@@ -57,6 +58,13 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public abstract String[] getHeaderFileSuffixes();
   
   public abstract String getPropertiesKey();
+  
+  public abstract List<Class> getChecks();  
+  public abstract String getRepositoryKey();
+  
+  public String getRepositorySuffix() {
+    return "";
+  }
   
   public String getPluginProperty(String key) {
     return "sonar." + getPropertiesKey() + "." + key;
@@ -98,5 +106,5 @@ public abstract class CxxLanguage extends AbstractLanguage {
 
   public Metric getMetric(String metricKey) {
     return this.MetricsCache.get(metricKey);
-  }
+  } 
 }

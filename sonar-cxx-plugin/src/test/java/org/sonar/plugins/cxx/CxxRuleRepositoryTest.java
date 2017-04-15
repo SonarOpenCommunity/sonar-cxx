@@ -21,8 +21,8 @@ package org.sonar.plugins.cxx;
 
 import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Test;
+import org.sonar.api.config.Settings;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.cxx.checks.CheckList;
 
 public class CxxRuleRepositoryTest {
 
@@ -30,10 +30,10 @@ public class CxxRuleRepositoryTest {
   public void rulesTest() {
     RulesDefinition.Context context = new RulesDefinition.Context();
     assertThat(context.repositories()).isEmpty();
-
-    new CxxRuleRepository().define(context);
+    CppLanguage checks = new CppLanguage(new Settings());
+    new CxxRuleRepository(checks).define(context);
 
     assertThat(context.repositories()).hasSize(1);
-    assertThat(context.repository(CheckList.REPOSITORY_KEY).rules()).hasSize(46);
+    assertThat(context.repository(checks.getRepositoryKey()).rules()).hasSize(46);
   }
 }

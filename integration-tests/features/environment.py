@@ -42,6 +42,9 @@ BASEDIR = os.path.dirname(os.path.realpath(__file__))
 JARPATTERN1 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*SNAPSHOT.jar")
 JARPATTERN2 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*RC?.jar")
 JARPATTERN3 = os.path.join(BASEDIR, "../../sonar-cxx-plugin/target/*-?.?.?.jar")
+JARCPATTERN1 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*SNAPSHOT.jar")
+JARCPATTERN2 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*RC?.jar")
+JARCPATTERN3 = os.path.join(BASEDIR, "../../sonar-c-plugin/target/*-?.?.?.jar")
 RELPATH_PLUGINS = "extensions/plugins"
 didstartsonar = False
 
@@ -131,6 +134,8 @@ def install_plugin(sonarhome):
     pluginspath = os.path.join(sonarhome, RELPATH_PLUGINS)
     for path in glob(os.path.join(pluginspath, "sonar-cxx-plugin*.jar")):
         os.remove(path)
+    for path in glob(os.path.join(pluginspath, "sonar-c-plugin*.jar")):
+        os.remove(path)
     jpath = jarpath()
     if not jpath:
         sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n")
@@ -138,6 +143,16 @@ def install_plugin(sonarhome):
         return False
 
     copyfile(jpath, os.path.join(pluginspath, os.path.basename(jpath)))
+    
+    jcpath = jarcpath()
+    if not jcpath:
+        sys.stderr.write(RED + "FAILED: the jar file cannot be found. Make sure you build it.\n")
+        sys.stderr.flush()
+        return False
+
+    copyfile(jcpath, os.path.join(pluginspath, os.path.basename(jcpath)))
+    
+    
     sys.stdout.write(GREEN + "OK\n" + RESET)
     return True
 
@@ -151,10 +166,22 @@ def jarpath():
         return os.path.normpath(jars[0])
     jars = glob(JARPATTERN3)
     if jars:
-        return os.path.normpath(jars[0])        
+        return os.path.normpath(jars[0])
     return None
 
+def jarcpath():
+    jars = glob(JARCPATTERN1)
+    if jars:
+        return os.path.normpath(jars[0])
+    jars = glob(JARCPATTERN2)
+    if jars:
+        return os.path.normpath(jars[0])
+    jars = glob(JARCPATTERN3)
+    if jars:
+        return os.path.normpath(jars[0])
+    return None
 
+    
 def start_sonar(sonarhome):
     sys.stdout.write(INDENT + "starting SonarQube ... ")
     sys.stdout.flush()
