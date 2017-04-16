@@ -39,7 +39,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
       tags = {Tag.BRAIN_OVERLOAD})
 @ActivatedByDefault
 @SqaleConstantRemediation("1h")
-public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> {
+public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> { //NOSONAR
   private static final int DEFAULT_MAXIMUM = 200;
 
 @RuleProperty(

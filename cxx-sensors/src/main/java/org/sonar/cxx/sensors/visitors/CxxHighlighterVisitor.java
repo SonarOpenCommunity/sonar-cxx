@@ -44,7 +44,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
   private NewHighlighting newHighlighting;
   private final SensorContext context;
 
-  private class TokenLocation {
+  static private class TokenLocation {
 
     protected int startLine;
     protected int startLineOffset;
@@ -86,7 +86,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
 
   }
 
-  private class CommentLocation extends TokenLocation {
+  static private class CommentLocation extends TokenLocation {
 
     public CommentLocation(Token token) {
       super(token);
@@ -122,7 +122,9 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
   public void visitFile(@Nullable AstNode astNode) {
     newHighlighting = context.newHighlighting();
     InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(getContext().getFile().getAbsoluteFile()));
-    newHighlighting.onFile(inputFile);
+    if (inputFile != null) {
+      newHighlighting.onFile(inputFile);
+      }
   }
 
   @Override
@@ -130,7 +132,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     try {
       newHighlighting.save();
     } catch (IllegalStateException e) {
-      // ignore hightlight errors: parsing errors could lead to wrong loacation data
+      // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.debug("Highligthing error in file: {}, error: {}", getContext().getFile().getAbsoluteFile(), e);
     }
   }
@@ -163,8 +165,8 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       if (!current.overlaps(last)) {
         newHighlighting.highlight(current.startLine(), current.startLineOffset(), current.endLine(), current.endLineOffset(), typeOfText);
       }
-    } catch (Exception e) {
-      // ignore hightlight errors: parsing errors could lead to wrong loacation data
+    } catch (Exception e) { //NOSONAR
+      // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), current.startLine(), current.startLineOffset());
     }
     return current;

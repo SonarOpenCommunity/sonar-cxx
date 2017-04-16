@@ -227,7 +227,7 @@ public abstract class CxxReportSensor implements Sensor {
             newIssue.at(location);
             newIssue.save();
             violationsCount++;
-          } catch (Exception ex) {
+          } catch (Exception ex) { //NOSONAR
             LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
             CxxUtils.validateRecovery(ex, this.language);
           }
@@ -246,7 +246,7 @@ public abstract class CxxReportSensor implements Sensor {
         newIssue.at(location);
         newIssue.save();
         violationsCount++;
-      } catch (Exception ex) {
+      } catch (Exception ex) { //NOSONAR
         LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
         CxxUtils.validateRecovery(ex, this.language);
       }
@@ -273,7 +273,7 @@ public abstract class CxxReportSensor implements Sensor {
   }
 
   protected void processReport(final SensorContext context, File report)
-    throws Exception {
+    throws Exception { //NOSONAR
   }
 
   abstract protected String reportPathKey();

@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.config.Settings;
+import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
+import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;
@@ -96,7 +98,32 @@ public class CppLanguage extends CxxLanguage {
     headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);    
   }
-  
+
+  @Override
+  public int hashCode() {
+      return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+          appendSuper(super.hashCode()).
+          append(getKey()).
+          toHashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+
+    if (obj == null) {
+      return false;
+    }
+
+    if (this.getClass() == obj.getClass()) {
+      return getKey().equals(((AbstractLanguage) obj).getKey()); 
+    } else {
+      return false;
+    }
+  }
+
   @Override
   public String[] getFileSuffixes() {
     return fileSuffixes;

@@ -43,7 +43,7 @@ public class CxxMetrics implements Metrics {
   private final CxxLanguage language;
   
   public static String GetKey(String key, CxxLanguage language) {
-    return language.getPropertiesKey().toUpperCase() + "-" + key.toUpperCase();
+    return language.getPropertiesKey().toUpperCase(Locale.ENGLISH) + "-" + key.toUpperCase(Locale.ENGLISH);
   }
   
   public CxxMetrics(CxxLanguage language) {

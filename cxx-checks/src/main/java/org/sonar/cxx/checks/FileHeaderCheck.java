@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 //similar Vera++ rule T013 "No copyright notice found"
-public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
 
   private static final String DEFAULT_HEADER_FORMAT = "";
   private static final String MESSAGE = "Add or update the header of this file.";
@@ -105,7 +105,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
       List<String> lines;
       try {
         lines = Files.readLines(getContext().getFile(), charset);
-      } catch (IOException e) {
+      } catch (IOException e) { //NOSONAR
         throw new IllegalStateException(e);
       }
 

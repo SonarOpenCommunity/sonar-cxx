@@ -89,8 +89,12 @@ public interface CompilerParser {
       if ( this == other ) {
         return true;
       }
-
-      if ( !(other instanceof Warning) ) {
+      
+      if (other == null) {
+        return false;
+      }
+      
+      if ( this.getClass() != other.getClass() ) {
         return false;
       }
       

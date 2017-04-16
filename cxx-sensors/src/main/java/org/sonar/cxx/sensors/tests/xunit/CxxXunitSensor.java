@@ -97,16 +97,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     try {
       List<File> reports = getReports(this.language, context.fileSystem().baseDir(), REPORT_PATH_KEY);
       if (!reports.isEmpty()) {
-        XunitReportParser parserHandler = new XunitReportParser();
-        StaxParser parser = new StaxParser(parserHandler, false);
-        for (File report : reports) {
-          LOG.info("Processing report '{}'", report);
-          try {
-            parser.parse(transformReport(report));
-          } catch (EmptyReportException e) {
-            LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-          }
-        }
+        XunitReportParser parserHandler = parseReport(reports);
         List<TestCase> testcases = parserHandler.getTestCases();
 
         LOG.info("Parsing 'xUnit' format");
@@ -125,11 +116,30 @@ public class CxxXunitSensor extends CxxReportSensor {
     }
   }
 
-  private void simpleMode(final SensorContext context, List<TestCase> testcases)
-    throws javax.xml.stream.XMLStreamException,
-    java.io.IOException,
-    javax.xml.transform.TransformerException {
-        
+  /**
+   * @param reports
+   * @return
+   * @throws XMLStreamException
+   * @throws IOException
+   * @throws TransformerException
+   */
+  private XunitReportParser parseReport(List<File> reports)
+      throws XMLStreamException, IOException, TransformerException {
+    XunitReportParser parserHandler = new XunitReportParser();
+    StaxParser parser = new StaxParser(parserHandler, false);
+    for (File report : reports) {
+      LOG.info("Processing report '{}'", report);
+      try {
+        parser.parse(transformReport(report));
+      } catch (EmptyReportException e) { //NOSONAR
+        LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+      }
+    }
+    return parserHandler;
+  }
+
+  private void simpleMode(final SensorContext context, List<TestCase> testcases) {
+
     int testsCount = 0;
     int testsSkipped = 0;
     int testsErrors = 0;
@@ -149,7 +159,7 @@ public class CxxXunitSensor extends CxxReportSensor {
     testsCount -= testsSkipped;
 
     if (testsCount > 0) {
-      double testsPassed = testsCount - testsErrors - testsFailures;
+      double testsPassed = (double) testsCount - testsErrors - testsFailures;
       double successDensity = testsPassed * PERCENT_BASE / testsCount;
 
       try
@@ -160,7 +170,7 @@ public class CxxXunitSensor extends CxxReportSensor {
            .withValue(testsCount)
            .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TESTS : '{}', ignoring measure", ex);
         CxxUtils.validateRecovery(ex, this.language);
       }       
 
@@ -172,7 +182,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsErrors)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_ERRORS : '{}', ignoring measure", ex);
         CxxUtils.validateRecovery(ex, this.language);
       } 
       
@@ -184,7 +194,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsFailures)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_FAILURES : '{}', ignoring measure", ex);
         CxxUtils.validateRecovery(ex, this.language);
       } 
       
@@ -196,7 +206,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsSkipped)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure SKIPPED_TESTS : '{}', ignoring measure", ex);
         CxxUtils.validateRecovery(ex, this.language);
       } 
 
@@ -208,7 +218,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(ParsingUtils.scaleValue(successDensity))
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_SUCCESS_DENSITY : '{}', ignoring measure", ex);
         CxxUtils.validateRecovery(ex, this.language);
       }       
 
@@ -220,7 +230,7 @@ public class CxxXunitSensor extends CxxReportSensor {
          .withValue(testsTime)
          .save();
       } catch(Exception ex) {
-        LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex.getMessage());
+        LOG.error("Cannot save measure TEST_EXECUTION_TIME : '{}', ignoring measure", ex);
         CxxUtils.validateRecovery(ex, this.language);
       }       
     } else {

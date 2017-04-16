@@ -39,7 +39,7 @@ public class CxxRatsSensor extends CxxReportSensor {
   public static final Logger LOG = Loggers.get(CxxRatsSensor.class);
   private static final String MISSING_RATS_TYPE = "fixed size global buffer";
   public static final String REPORT_PATH_KEY = "rats.reportPath";
-  public static String KEY = "Rats";
+  public static final String KEY = "Rats";
   
   /**
    * {@inheritDoc}
@@ -94,7 +94,7 @@ public class CxxRatsSensor extends CxxReportSensor {
   }
 
   private String getVulnerabilityType(Element child) {
-    if (child != null) {
+    if (child != null) { //NOSONAR
       return child.getTextTrim();
     }
     return MISSING_RATS_TYPE;

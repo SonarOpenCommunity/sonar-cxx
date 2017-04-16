@@ -22,7 +22,7 @@ package org.sonar.cxx.preprocessor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapChain<K, V> {
+public class MapChain<K, V> { //NOSONAR
 
   private final Map<K, V> highPrioMap = new HashMap<>();
   private final Map<K, V> lowPrioMap = new HashMap<>();

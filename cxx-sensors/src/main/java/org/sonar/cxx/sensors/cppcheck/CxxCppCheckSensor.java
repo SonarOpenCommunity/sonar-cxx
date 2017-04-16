@@ -41,7 +41,7 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
 public class CxxCppCheckSensor extends CxxReportSensor {
   public static final Logger LOG = Loggers.get(CxxCppCheckSensor.class);
   public static final String REPORT_PATH_KEY = "cppcheck.reportPath";
-  public static String KEY = "CppCheck";
+  public static final String KEY = "CppCheck";
   
   private final List<CppcheckParser> parsers = new LinkedList<>();
 
@@ -77,6 +77,7 @@ public class CxxCppCheckSensor extends CxxReportSensor {
         break;
       } catch (XMLStreamException e) {
         LOG.trace("Report {} cannot be parsed by {}", report, parser);
+        LOG.debug("CppCheck exception: {}", e);
       }
     }
 

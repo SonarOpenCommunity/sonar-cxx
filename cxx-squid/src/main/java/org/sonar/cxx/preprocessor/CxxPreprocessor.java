@@ -86,7 +86,7 @@ public class CxxPreprocessor extends Preprocessor {
   private final CxxLanguage language;
 //@todo: deprecated Preprocessor
 
-  private class State {
+  static private class State {
 
     public boolean skipPreprocessorDirectives;
     public boolean conditionWasTrue;
@@ -270,7 +270,7 @@ public class CxxPreprocessor extends Preprocessor {
           Macro macro = parseMacroDefinition("#define " + define);
           if (macro != null) {
             LOG.debug("storing external macro: '{}'", macro);
-            getMacros().put(macro.name, macro);
+            getMacros().put(macro.name, macro); //NOSONAR
           }
         }
       }
@@ -351,7 +351,7 @@ public class CxxPreprocessor extends Preprocessor {
               Macro macro = parseMacroDefinition("#define " + define);
               if (macro != null) {
                 LOG.debug("storing external macro to unit: '{}'", macro);
-                getMacros().put(macro.name, macro);
+                getMacros().put(macro.name, macro); //NOSONAR
               }
             }
           }
@@ -473,11 +473,11 @@ public class CxxPreprocessor extends Preprocessor {
     return unitCodeProvider != null ? unitCodeProvider : codeProvider;
   }
 
-  public MapChain<String, Macro> getMacros() {
+  public final MapChain<String, Macro> getMacros() {
     return unitMacros != null ? unitMacros : fixedMacros;
   }
 
-  public Macro getMacro(String macroname) {
+  public final Macro getMacro(String macroname) {
     return getMacros().get(macroname);
   }
 
@@ -671,7 +671,7 @@ public class CxxPreprocessor extends Preprocessor {
       try {
         IncludeLexer.create(this.language, this).lex(getCodeProvider().getSourceCode(includedFile, charset));
       } catch (IOException ex) {
-        LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex.getMessage());
+        LOG.error("[{}: Cannot read file]: {}", includedFile.getAbsoluteFile(), ex);
       } finally {
         currentFileState = globalStateStack.pop();
       }
@@ -1249,7 +1249,7 @@ public class CxxPreprocessor extends Preprocessor {
       AstNode includeBodyAst = null;
       try {
         includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
-      } catch (com.sonar.sslr.api.RecognitionException re) {
+      } catch (com.sonar.sslr.api.RecognitionException re) {  //NOSONAR
         parseError = true;
       }
 

@@ -59,8 +59,8 @@ public class CppcheckParserV2 implements CppcheckParser {
 
         try {
           rootCursor.advance();
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-          throw new EmptyReportException();
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
+          throw new EmptyReportException(); //NOSONAR
         }
 
         try {
@@ -94,7 +94,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                   }
                 }
 
-                if (isInputValid(file, line, id, msg)) {
+                if (isInputValid(id, msg)) {
                   sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
                 } else {
                   LOG.warn("Skipping invalid violation: '{}'", msg);
@@ -102,8 +102,8 @@ public class CppcheckParserV2 implements CppcheckParser {
               }
             }
           }
-        } catch (RuntimeException e) {
-          throw new XMLStreamException();
+        } catch (RuntimeException e) {  //NOSONAR
+          throw new XMLStreamException();  //NOSONAR
         }
 
         if (!parsed) {
@@ -112,15 +112,13 @@ public class CppcheckParserV2 implements CppcheckParser {
       }
 
       private String createMsg(String inconclusive, String msg) {
-        if (msg != null && !msg.isEmpty()) {
-          if ("true".equals(inconclusive)) {
+        if ((msg != null) && !msg.isEmpty() && "true".equals(inconclusive)) {
             return "[inconclusive] " + msg;
           }
-        }
         return msg;
       }
 
-      private boolean isInputValid(String file, String line, String id, String msg) {
+      private boolean isInputValid(String id, String msg) {
         return id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
       }
     });

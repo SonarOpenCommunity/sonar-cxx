@@ -31,9 +31,6 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 
 class ValgrindReportParser {
 
-  public ValgrindReportParser() {
-  }
-
   /**
    * Parses given valgrind report
    */
@@ -47,6 +44,33 @@ class ValgrindReportParser {
   private class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
 
     Set<ValgrindError> valgrindErrors = new HashSet<>();
+    private ValgrindError parseErrorTag(SMInputCursor error)
+        throws javax.xml.stream.XMLStreamException {
+        SMInputCursor child = error.childElementCursor();
+
+        String kind = null;
+        String text = null;
+        ValgrindStack stack = null;
+        while (child.getNext() != null) {
+          String tagName = child.getLocalName();
+          if ("kind".equalsIgnoreCase(tagName)) {
+            kind = child.getElemStringValue();
+          } else if ("xwhat".equalsIgnoreCase(tagName)) {
+            text = child.childElementCursor("text").advance().getElemStringValue();
+          } else if ("what".equalsIgnoreCase(tagName)) {
+            text = child.getElemStringValue();
+          } else if ("stack".equalsIgnoreCase(tagName)) {
+            stack = parseStackTag(child);
+          }
+        }
+
+        if (text == null || kind == null || stack == null) {
+          String msg = "Valgrind error is incomplete: we require all of 'kind', '*what.text' and 'stack'";
+          child.throwStreamException(msg);
+        }
+
+        return new ValgrindError(kind, text, stack);
+      }
 
     /**
      * {@inheritDoc}
@@ -55,8 +79,8 @@ class ValgrindReportParser {
     public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
       try {
         rootCursor.advance();
-      } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-        throw new EmptyReportException();
+      } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
+        throw new EmptyReportException(); //NOSONAR
       }
 
       SMInputCursor errorCursor = rootCursor.childElementCursor("error");

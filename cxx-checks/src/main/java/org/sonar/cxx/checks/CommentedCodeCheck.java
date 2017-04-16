@@ -74,15 +74,14 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
   @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
-      if (trivia.isComment()
+      if (trivia.isComment() //NOSONAR
         && !trivia.getToken().getOriginalValue().startsWith("///")
         && !trivia.getToken().getOriginalValue().startsWith("//!")
-        && !trivia.getToken().getOriginalValue().startsWith("/**")
+        && !trivia.getToken().getOriginalValue().startsWith("/**") //NOSONAR
         && !trivia.getToken().getOriginalValue().startsWith("/*!")
-        && !trivia.getToken().getOriginalValue().startsWith("/*@")
+        && !trivia.getToken().getOriginalValue().startsWith("/*@") //NOSONAR
         && !trivia.getToken().getOriginalValue().startsWith("//@")) {
-        String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(
-          trivia.getToken().getOriginalValue()));
+        String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue())); //NOSONAR
 
         for (int lineOffset = 0; lineOffset < lines.length; lineOffset++) {
           if (codeRecognizer.isLineOfCode(lines[lineOffset])) {

@@ -57,8 +57,8 @@ public class CppcheckParserV1 implements CppcheckParser {
 
         try {
           rootCursor.advance(); // results
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-          throw new EmptyReportException();
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
+          throw new EmptyReportException(); //NOSONAR
         }
 
         try {
@@ -84,8 +84,8 @@ public class CppcheckParserV1 implements CppcheckParser {
               LOG.warn("Skipping invalid violation: '{}'", msg);
             }
           }
-        } catch (RuntimeException e) {
-          throw new XMLStreamException();
+        } catch (RuntimeException e) { //NOSONAR
+          throw new XMLStreamException(); //NOSONAR
         }
       }
 

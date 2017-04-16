@@ -39,7 +39,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 )
 @SqaleConstantRemediation("10min")
 @ActivatedByDefault
-public class FunctionNameCheck extends SquidCheck<Grammar> {
+public class FunctionNameCheck extends SquidCheck<Grammar> { //NOSONAR
 
   private static final String DEFAULT = "^[a-z_][a-z0-9_]{2,30}$";
 

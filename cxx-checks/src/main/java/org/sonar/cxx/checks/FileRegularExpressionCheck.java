@@ -49,7 +49,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -120,8 +120,8 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
         if (compare(invertRegularExpression, matcher.find())) {
           getContext().createFileViolation(this, message);
         }
-      } catch (Exception e) {
-        throw new IllegalStateException(e);
+      } catch (Exception e) { //NOSONAR
+        throw new IllegalStateException(e); 
       }
     }
 

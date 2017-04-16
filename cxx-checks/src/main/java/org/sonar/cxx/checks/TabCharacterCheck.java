@@ -45,7 +45,7 @@ import org.sonar.cxx.tag.Tag;
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 //similar Vera++ rule L002 "Don't use tab characters"
-public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
 
   private static final boolean DEFAULT_CREATE_LINE_VIOLATION = false;
 

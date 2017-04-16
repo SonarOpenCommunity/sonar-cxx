@@ -26,7 +26,7 @@ import org.sonar.sslr.channel.CodeReader;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 
-public class CharacterLiteralsChannel extends Channel<Lexer> {
+public class CharacterLiteralsChannel extends Channel<Lexer> { //NOSONAR
 
   private static final char EOF = (char) -1;
 

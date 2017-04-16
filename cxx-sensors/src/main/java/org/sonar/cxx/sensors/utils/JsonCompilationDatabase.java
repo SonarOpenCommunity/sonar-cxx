@@ -88,7 +88,7 @@ public class JsonCompilationDatabase {
     if (commandObject.defines != null || commandObject.includes != null)
       return;
 
-    String cmdLine = null;
+    String cmdLine;
 
     if (commandObject.arguments != null)
       cmdLine = commandObject.arguments;
@@ -140,7 +140,7 @@ public class JsonCompilationDatabase {
     List<String> args = new ArrayList<>();
     boolean escape = false;
     char stringOpen = 0;
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     // Tokenize command line with support for escaping
     for (char ch : cmdLine.toCharArray()) {
@@ -159,7 +159,7 @@ public class JsonCompilationDatabase {
           else if ((ch == ' ') 
                   && (sb.length() > 0)) {
               args.add(sb.toString());
-              sb = new StringBuffer();
+              sb = new StringBuilder();
             }
           if (ch != ' ')
             sb.append(ch);

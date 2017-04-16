@@ -45,7 +45,7 @@ import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 )
 @ActivatedByDefault
 @SqaleConstantRemediation("10min")
-public class NestedStatementsCheck extends SquidCheck<Grammar> {
+public class NestedStatementsCheck extends SquidCheck<Grammar> { //NOSONAR
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
     CxxGrammarImpl.selectionStatement,
