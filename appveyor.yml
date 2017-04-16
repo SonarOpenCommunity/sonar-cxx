@@ -1,4 +1,7 @@
 version: '{build}'
+environment:
+  token:
+    secure: P6Cj7IcyyNJPTG/5q2W1U4qXhRUQX8BazLcSh9Le8+Czfgmo/F/1VqY1HaMHZddu
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
