@@ -55,6 +55,7 @@ install:
 
 build_script:
   - dir
+  - echo on
   - echo %APPVEYOR_PULL_REQUEST_NUMBER%
   # SONAR-7154 : workaround
   - mkdir C:\WINDOWS\system32\config\systemprofile\AppData\Local\Temp
