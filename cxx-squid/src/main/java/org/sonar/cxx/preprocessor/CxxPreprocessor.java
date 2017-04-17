@@ -35,6 +35,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 
+import javax.annotation.Nullable;
+
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 
@@ -131,7 +133,7 @@ public class CxxPreprocessor extends Preprocessor {
     public List<Token> body;
     public boolean isVariadic;
 
-    public Macro(String name, List<Token> params, List<Token> body, boolean variadic) {
+    public Macro(String name, @Nullable List<Token> params, @Nullable List<Token> body, boolean variadic) {
       this.name = name;
       this.params = params;
       this.body = body;
