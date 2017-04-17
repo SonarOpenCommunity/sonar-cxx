@@ -66,9 +66,9 @@ build_script:
   - C:\Python27\Scripts\pip.exe install requests
   - C:\Python27\Scripts\pip.exe install behave
   - C:\Python27\Scripts\pip.exe install colorama
+  - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (ECHO SKIP ANALYSIS) ELSE (sonar-scanner -Dsonar.host.url=https://sonarqube.com -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=SonarOpenCommunity/sonar-cxx -Dsonar.github.oauth=%githubtoken% -Dsonar.language=java -Dsonar.projectKey=sonar-cxx -Dsonar.projectName=sonar-cxx -Dsonar.login=%token% -Dsonar.sources=.)
   - mvn clean install
-  - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56  
-  - sonar-scanner -Dsonar.host.url=https://sonarqube.com -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=SonarOpenCommunity/sonar-cxx -Dsonar.github.oauth=%githubtoken% -Dsonar.language=java -Dsonar.projectKey=sonar-cxx -Dsonar.projectName=sonar-cxx -Dsonar.login=%token% -Dsonar.sources=.
+  - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56
 cache:
   - C:\Users\appveyor\.m2
 artifacts:
