@@ -104,7 +104,7 @@ public class MagicNumberCheck extends SquidCheck<Grammar> {
     }
     if (decl != null) {
       for (AstNode qualifier : decl.getDescendants(CxxGrammarImpl.cvQualifier)) {
-        if (qualifier.getToken().getType() == CxxKeyword.CONST) {
+        if (qualifier.getToken().getType().equals(CxxKeyword.CONST)) {
           return true;
         }
       }

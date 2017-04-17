@@ -154,15 +154,16 @@ public class BullseyeParser extends CxxCoverageParser {
       String name = child.getAttrValue("name");
       path.add(name);
       if ("src".equalsIgnoreCase(folderChildName)) {
-        String fileName = "";
+        StringBuilder  fileName = new StringBuilder();
         Iterator<String> iterator = path.iterator();
         while (iterator.hasNext()) {
-          fileName += iterator.next() + File.separator;
+          fileName.append(iterator.next());
+          fileName.append(File.separator);
         }
 
-        fileName = fileName.substring(0, fileName.length()-1);
+        String fName = fileName.substring(0, fileName.length()-1);
 
-        if ((new File(fileName)).isAbsolute()) {
+        if ((new File(fName)).isAbsolute()) {
           refPath = "";
         }
         CoverageMeasures fileMeasuresBuilderIn = CoverageMeasures.create();

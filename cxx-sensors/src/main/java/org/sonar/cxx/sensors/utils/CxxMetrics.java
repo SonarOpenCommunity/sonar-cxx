@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
@@ -42,13 +43,13 @@ public class CxxMetrics implements Metrics {
   private final CxxLanguage language;
   
   public static String GetKey(String key, CxxLanguage language) {
-    return language.getPropertiesKey().toUpperCase() + "-" + key.toUpperCase();
+    return language.getPropertiesKey().toUpperCase(Locale.ENGLISH) + "-" + key.toUpperCase(Locale.ENGLISH);
   }
   
   public CxxMetrics(CxxLanguage language) {
     this.language = language;
     
-    this.BuildMetric(CxxCompilerSensor.KEY, "Compiler issues", language);
+    this.BuildMetric(CxxCompilerSensor.COMPILER_KEY, "Compiler issues", language);
     this.BuildMetric(CxxCppCheckSensor.KEY, "CppCheck issues", language);
     this.BuildMetric(CxxOtherSensor.KEY, "Other tools issues", language);
     this.BuildMetric(CxxPCLintSensor.KEY, "PC-Lint issues", language);
@@ -69,7 +70,7 @@ public class CxxMetrics implements Metrics {
     Metric metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.TRUE)
-    .setDomain(language.getKey().toUpperCase())
+    .setDomain(language.getKey().toUpperCase(Locale.ENGLISH))
     .create();
     
     language.SaveMetric(metric, key);    

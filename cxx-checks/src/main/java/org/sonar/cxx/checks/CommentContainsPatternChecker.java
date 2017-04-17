@@ -72,7 +72,7 @@ public class CommentContainsPatternChecker {
         for (int i = 0; i < lines.length; i++) {
           int start = indexOfIgnoreCase(lines[i]);
           if (start != -1 && !isLetterAround(lines[i], start)) {
-            check.getContext().createLineViolation(check, message, trivia.getToken().getLine() + i);
+            check.getContext().createLineViolation(check, message, trivia.getToken().getLine() + i); //NOSONAR
           }
         }
       }

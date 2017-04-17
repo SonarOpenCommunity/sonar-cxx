@@ -26,6 +26,7 @@ import java.util.Map;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.api.config.Settings;
+import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
 
 /**
  * {@inheritDoc}
@@ -47,11 +48,36 @@ public abstract class CxxLanguage extends AbstractLanguage {
     this.MetricsCache = new HashMap<>();
   }
 
+  @Override
+  public int hashCode() {
+      return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+          appendSuper(super.hashCode()).
+          append(getKey()).
+          toHashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+
+    if (obj == null) {
+      return false;
+    }
+
+    if (this.getClass() == obj.getClass()) {
+      return getKey().equals(((AbstractLanguage) obj).getKey()); 
+    } else {
+      return false;
+    }
+  }
+
   /**
    * {@inheritDoc}
    */
-  @Override
-  public abstract String[] getFileSuffixes();
+//  @Override
+//  public abstract String[] getFileSuffixes();
 
   public abstract String[] getSourceFileSuffixes();
 
@@ -61,9 +87,9 @@ public abstract class CxxLanguage extends AbstractLanguage {
   
   public abstract List<Class> getChecks();  
   public abstract String getRepositoryKey();
-  
+
   public String getRepositorySuffix() {
-    return "";
+    return ""; //NOSONAR
   }
   
   public String getPluginProperty(String key) {

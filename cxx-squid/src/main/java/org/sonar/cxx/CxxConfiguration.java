@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.squidbridge.api.SquidConfiguration;
@@ -89,7 +90,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setDefines(String[] defines) {
-    if (defines == null) {
+    if (defines == null) { //NOSONAR
       return;
     }
     
@@ -255,7 +256,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<File> getCompilationUnitSourceFiles() {
-    List<File> files = new ArrayList<File>();
+    List<File> files = new ArrayList<>();
 
     for (Iterator<String> iter = compilationUnitSettings.keySet().iterator(); iter.hasNext(); ) {
       String item = iter.next();
@@ -282,12 +283,24 @@ public class CxxConfiguration extends SquidConfiguration {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
           LOG.info("Parse build log '"+ buildLog.getAbsolutePath() +"' added includes: '"+ uniqueIncludes.size() +"', added defines: '" + uniqueDefines.size() + "'");
         }
-
-        LOG.debug("Parse build log OK: includes: '{}' defines: '{}'", uniqueIncludes.size(), uniqueDefines.size());
+        if(LOG.isDebugEnabled()) {
+          LOG.debug("Parse build log OK");
+          for (List<String> allIncludes : uniqueIncludes.values()) {
+            if (!allIncludes.isEmpty()) {
+              LOG.debug("Includes folders ({})='{}'", allIncludes.size(), allIncludes);
+            }
+          }
+          for (Set<String> allDefines : uniqueDefines.values()) {
+            if (!allDefines.isEmpty()) {
+              LOG.debug("Defines ({})='{}'", allDefines.size(), allDefines);
+            }
+          }
+        }
       } else {
         LOG.error("Compilation log not found: '{}'", buildLog.getAbsolutePath());
       }
     }
+
   }
 
   public Charset getEncoding() {

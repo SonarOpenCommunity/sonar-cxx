@@ -61,7 +61,7 @@ public final class ExpressionEvaluator {
     AstNode constExprAst = null;
     try {
       constExprAst = parser.parse(constExpr);
-    } catch (com.sonar.sslr.api.RecognitionException re) {
+    } catch (com.sonar.sslr.api.RecognitionException re) { //NOSONAR
       if (exprAst != null) {
         LOG.warn("Error evaluating expression '{}' for AstExp '{}', assuming 0", constExpr, exprAst.getToken());
       } else {
@@ -92,11 +92,11 @@ public final class ExpressionEvaluator {
     //
     AstNodeType nodeType = exprAst.getType();
 
-    if (CxxTokenType.NUMBER == nodeType) {
+    if (nodeType.equals(CxxTokenType.NUMBER)) {
       return evalNumber(exprAst.getTokenValue());
-    } else if (CxxTokenType.CHARACTER == nodeType) {
+    } else if (nodeType.equals(CxxTokenType.CHARACTER)) {
       return evalCharacter(exprAst.getTokenValue());
-    } else if (GenericTokenType.IDENTIFIER == nodeType) {
+    } else if (nodeType.equals(GenericTokenType.IDENTIFIER)) {
       String value = preprocessor.valueOf(exprAst.getTokenValue());
       return value == null ? BigInteger.ZERO : evalToInt(value, exprAst);
     } else {
@@ -108,7 +108,7 @@ public final class ExpressionEvaluator {
     // Evaluation of booleans and 'pass-through's
     //
     AstNodeType nodeType = exprAst.getType();
-    if (CppGrammar.bool == nodeType) {
+    if (nodeType.equals(CppGrammar.bool)) {
       return evalBool(exprAst.getTokenValue());
     }
     return evalToInt(exprAst.getFirstChild());
@@ -119,35 +119,35 @@ public final class ExpressionEvaluator {
     // More complex expressions with more than one child
     //
     AstNodeType nodeType = exprAst.getType();
-    if (CppGrammar.unaryExpression == nodeType) {
+    if (nodeType.equals(CppGrammar.unaryExpression)) {
       return evalUnaryExpression(exprAst);
-    } else if (CppGrammar.conditionalExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.conditionalExpression)) {
       return evalConditionalExpression(exprAst);
-    } else if (CppGrammar.logicalOrExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.logicalOrExpression)) {
       return evalLogicalOrExpression(exprAst);
-    } else if (CppGrammar.logicalAndExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.logicalAndExpression)) {
       return evalLogicalAndExpression(exprAst);
-    } else if (CppGrammar.inclusiveOrExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.inclusiveOrExpression)) {
       return evalInclusiveOrExpression(exprAst);
-    } else if (CppGrammar.exclusiveOrExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.exclusiveOrExpression)) {
       return evalExclusiveOrExpression(exprAst);
-    } else if (CppGrammar.andExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.andExpression)) {
       return evalAndExpression(exprAst);
-    } else if (CppGrammar.equalityExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.equalityExpression)) {
       return evalEqualityExpression(exprAst);
-    } else if (CppGrammar.relationalExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.relationalExpression)) {
       return evalRelationalExpression(exprAst);
-    } else if (CppGrammar.shiftExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.shiftExpression)) {
       return evalShiftExpression(exprAst);
-    } else if (CppGrammar.additiveExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.additiveExpression)) {
       return evalAdditiveExpression(exprAst);
-    } else if (CppGrammar.multiplicativeExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.multiplicativeExpression)) {
       return evalMultiplicativeExpression(exprAst);
-    } else if (CppGrammar.primaryExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.primaryExpression)) {
       return evalPrimaryExpression(exprAst);
-    } else if (CppGrammar.definedExpression == nodeType) {
+    } else if (nodeType.equals(CppGrammar.definedExpression)) {
       return evalDefinedExpression(exprAst);
-    } else if (CppGrammar.functionlikeMacro == nodeType) {
+    } else if (nodeType.equals(CppGrammar.functionlikeMacro)) {
       return evalFunctionlikeMacro(exprAst);
     } else {
       LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" + exprAst.getToken() + "', assuming 0");
@@ -194,6 +194,7 @@ public final class ExpressionEvaluator {
     boolean result = eval(operand);
 
     while ((result != true) && ((operand = getNextOperand(operand)) != null)) {
+      // Todo fix this statement  - it is always false ?!?
       result = result || eval(operand);
     }
 
@@ -205,6 +206,7 @@ public final class ExpressionEvaluator {
     boolean result = eval(operand);
 
     while ((result != false) && ((operand = getNextOperand(operand)) != null)) {
+      // Todo fix this statement  - it is always false ?!?
       result = result && eval(operand);
     }
 
@@ -218,23 +220,23 @@ public final class ExpressionEvaluator {
     AstNodeType operatorType = operator.getType();
 
     boolean result;
-    if (CppPunctuator.EQ == operatorType) {
+    if (operatorType.equals(CppPunctuator.EQ)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) == 0;
-    } else if (CppPunctuator.NOT_EQ == operatorType) {
+    } else if (operatorType.equals(CppPunctuator.NOT_EQ)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) != 0;
     } else {
-      throw new EvaluationException("Unknown equality operator '" + operatorType.toString() + "'");
+      throw new EvaluationException("Unknown equality operator '" + operatorType + "'");
     }
 
     while ((operator = rhs.getNextSibling()) != null) {
       operatorType = operator.getType();
       rhs = operator.getNextSibling();
-      if (CppPunctuator.EQ == operatorType) {
+      if (operatorType.equals(CppPunctuator.EQ)) {
         result = result == eval(rhs);
-      } else if (CppPunctuator.NOT_EQ == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.NOT_EQ)) {
         result = result != eval(rhs);
       } else {
-        throw new EvaluationException("Unknown equality operator '" + operatorType.toString() + "'");
+        throw new EvaluationException("Unknown equality operator '" + operatorType + "'");
       }
     }
 
@@ -248,16 +250,16 @@ public final class ExpressionEvaluator {
     AstNodeType operatorType = operator.getType();
 
     boolean result;
-    if (CppPunctuator.LT == operatorType) {
+    if (operatorType.equals(CppPunctuator.LT)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) < 0;
-    } else if (CppPunctuator.GT == operatorType) {
+    } else if (operatorType.equals(CppPunctuator.GT)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) > 0;
-    } else if (CppPunctuator.LT_EQ == operatorType) {
+    } else if (operatorType.equals(CppPunctuator.LT_EQ)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) <= 0;
-    } else if (CppPunctuator.GT_EQ == operatorType) {
+    } else if (operatorType.equals(CppPunctuator.GT_EQ)) {
       result = evalToInt(lhs).compareTo(evalToInt(rhs)) >= 0;
     } else {
-      throw new EvaluationException("Unknown relational operator '" + operatorType.toString() + "'");
+      throw new EvaluationException("Unknown relational operator '" + operatorType + "'");
     }
 
     BigInteger resultAsInt;
@@ -266,13 +268,13 @@ public final class ExpressionEvaluator {
       rhs = operator.getNextSibling();
 
       resultAsInt = result ? BigInteger.ONE : BigInteger.ZERO;
-      if (CppPunctuator.LT == operatorType) {
+      if (operatorType.equals(CppPunctuator.LT)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) < 0;
-      } else if (CppPunctuator.GT == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.GT)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) > 0;
-      } else if (CppPunctuator.LT_EQ == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.LT_EQ)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) <= 0;
-      } else if (CppPunctuator.GT_EQ == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.GT_EQ)) {
         result = resultAsInt.compareTo(evalToInt(rhs)) >= 0;
       } else {
         throw new EvaluationException("Unknown relational operator '" + operatorType + "'");
@@ -324,14 +326,14 @@ public final class ExpressionEvaluator {
     AstNode operand = operator.getNextSibling();
     AstNodeType operatorType = operator.getFirstChild().getType();
 
-    if (CppPunctuator.PLUS == operatorType) {
+    if (operatorType.equals(CppPunctuator.PLUS)) {
       return evalToInt(operand);
-    } else if (CppPunctuator.MINUS == operatorType) {
+    } else if (operatorType.equals(CppPunctuator.MINUS)) {
       return evalToInt(operand).negate();
-    } else if (CppPunctuator.NOT == operatorType) {
+    } else if (operatorType.equals(CppPunctuator.NOT)) {
       boolean result = !eval(operand);
       return result ? BigInteger.ONE : BigInteger.ZERO;
-    } else if (CppPunctuator.BW_NOT == operatorType) {
+    } else if (operatorType.equals(CppPunctuator.BW_NOT)) {
       //todo: need more information (signed/unsigned, data type length) to invert bits in all cases correct
       return evalToInt(operand).not().and(UINT64_MAX);
     } else {
@@ -348,9 +350,9 @@ public final class ExpressionEvaluator {
       AstNodeType operatorType = operator.getType();
       rhs = operator.getNextSibling();
 
-      if (CppPunctuator.BW_LSHIFT == operatorType) {
+      if (operatorType.equals(CppPunctuator.BW_LSHIFT)) {
         result = result.shiftLeft(evalToInt(rhs).intValue()).and(UINT64_MAX);
-      } else if (CppPunctuator.BW_RSHIFT == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.BW_RSHIFT)) {
         result = result.shiftRight(evalToInt(rhs).intValue());
       } else {
         throw new EvaluationException("Unknown shift operator '" + operatorType + "'");
@@ -369,9 +371,9 @@ public final class ExpressionEvaluator {
       AstNodeType operatorType = operator.getType();
       rhs = operator.getNextSibling();
 
-      if (CppPunctuator.PLUS == operatorType) {
+      if (operatorType.equals(CppPunctuator.PLUS)) {
         result = result.add(evalToInt(rhs));
-      } else if (CppPunctuator.MINUS == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.MINUS)) {
         result = result.subtract(evalToInt(rhs));
       } else {
         throw new EvaluationException("Unknown additive operator '" + operatorType + "'");
@@ -390,11 +392,11 @@ public final class ExpressionEvaluator {
       AstNodeType operatorType = operator.getType();
       rhs = operator.getNextSibling();
 
-      if (CppPunctuator.MUL == operatorType) {
+      if (operatorType.equals(CppPunctuator.MUL)) {
         result = result.multiply(evalToInt(rhs));
-      } else if (CppPunctuator.DIV == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.DIV)) {
         result = result.divide(evalToInt(rhs));
-      } else if (CppPunctuator.MODULO == operatorType) {
+      } else if (operatorType.equals(CppPunctuator.MODULO)) {
         result = result.mod(evalToInt(rhs));
       } else {
         throw new EvaluationException("Unknown multiplicative operator '" + operatorType + "'");

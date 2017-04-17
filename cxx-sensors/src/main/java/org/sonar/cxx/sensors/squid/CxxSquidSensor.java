@@ -61,8 +61,11 @@ import org.sonar.api.ce.measure.RangeDistributionBuilder;
 import org.sonar.api.measures.FileLinesContextFactory;
 import org.sonar.api.measures.Metric;
 import org.sonar.api.rule.RuleKey;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.parser.CxxParser;
+import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
@@ -94,8 +97,10 @@ public class CxxSquidSensor implements Sensor {
   
   private static final Number[] LIMITS_COMPLEXITY_METHODS = {1, 2, 4, 6, 8, 10, 12, 20, 30};
   private static final Number[] LIMITS_COMPLEXITY_FILES = {0, 5, 10, 20, 30, 60, 90};
-  public static String KEY = "Squid";
+  public static final String KEY = "Squid";
 
+  public static final Logger LOG = Loggers.get(CxxSquidSensor.class);
+  
   private final FileLinesContextFactory fileLinesContextFactory;
   private final CxxChecks checks;
   private ActiveRules rules;
@@ -202,12 +207,8 @@ public class CxxSquidSensor implements Sensor {
     if (cxxConf.getJsonCompilationDatabaseFile() != null) {
       try {
         new JsonCompilationDatabase(cxxConf, new File(cxxConf.getJsonCompilationDatabaseFile()));
-      } catch (JsonParseException e) {
-        e.printStackTrace();
-      } catch (JsonMappingException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (IOException ex) { //NOSONAR
+        LOG.info("Cannot access JsonCompilationDatabase: {}, ex");
       }
     }
 

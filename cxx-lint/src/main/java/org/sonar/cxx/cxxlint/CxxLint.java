@@ -25,9 +25,13 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.sonar.sslr.api.Grammar;
 import java.beans.Statement;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
@@ -74,15 +78,16 @@ public class CxxLint {
     return options;
   }
 
-  public static String readFile(String filename) throws IOException {
+  public static String readFile(String filename, Charset charset) throws IOException {
     String content = null;
     File file = new File(filename); //for ex foo.txt
-    try (FileReader reader = new FileReader(file)) {
+    try (FileInputStream input = new FileInputStream(file)) {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
       char[] chars = new char[(int) file.length()];
       reader.read(chars);
       content = new String(chars);
       reader.close();
-    } catch (IOException e) {
+    } catch (IOException e) { //NOSONAR
     }
     return content;
   }
@@ -93,8 +98,8 @@ public class CxxLint {
    * @throws java.lang.IllegalAccessException
    * @throws java.io.IOException
    */
-  public static void main(String[] args)
-          throws InstantiationException, IllegalAccessException, IOException, Exception {
+  public static void main(String[] args) 
+          throws InstantiationException, IllegalAccessException, IOException, Exception { //NOSONAR
 
     CommandLineParser commandlineParser = new DefaultParser();
     Options options = CreateCommandLineOptions();
@@ -142,10 +147,10 @@ public class CxxLint {
     sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
     InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
     
-    List<CheckerData> rulesData = new ArrayList<CheckerData>();
+    List<CheckerData> rulesData = new ArrayList<>();
     if (!"".equals(settingsFile)) {
       JsonParser parser = new JsonParser();
-      String fileContent = readFile(settingsFile);
+      String fileContent = readFile(settingsFile, Charset.forName(encodingOfFile));
       
       // get basic information
       String platformToolset = GetJsonStringValue(parser, fileContent, "platformToolset");     
@@ -162,7 +167,7 @@ public class CxxLint {
           try
           {
             templateKey = data.get("templateKeyId").getAsString();
-          } catch(Exception ex) {
+          } catch(Exception ex) { //NOSONAR
           }
           
           String enabled = data.get("status").getAsString();
@@ -171,7 +176,7 @@ public class CxxLint {
           check.id = ruleId;
           check.templateId = templateKey;
             
-          check.enabled = enabled.equals("Enabled");
+          check.enabled = "Enabled".equals(enabled);
           JsonElement region = data.get("properties");
           if (region != null) {
             for (Entry parameter : region.getAsJsonObject().entrySet()) {
@@ -199,10 +204,11 @@ public class CxxLint {
       }
       
       JsonElement additionalOptions = parser.parse(fileContent).getAsJsonObject().get("additionalOptions");
-      String elementsOfAdditionalOptions = "";
+      StringBuilder elementsOfAdditionalOptions = new StringBuilder();
       if (additionalOptions != null) {
         for (JsonElement option : additionalOptions.getAsJsonArray()) {
-          elementsOfAdditionalOptions = elementsOfAdditionalOptions + " " + option.getAsString();
+          elementsOfAdditionalOptions.append(' ');
+          elementsOfAdditionalOptions.append(option.getAsString());
         }
       }
       
@@ -236,7 +242,7 @@ public class CxxLint {
               changeAnnotationValue(a, "key", checkDefined.id);
               break;
             }            
-          } catch (Exception ex) {
+          } catch (IllegalStateException ex) { //NOSONAR
             break;
           }
         }
@@ -244,8 +250,8 @@ public class CxxLint {
         for (Field f : check.getDeclaredFields()) {
           for (Annotation a : f.getAnnotations()) {
             RuleProperty ruleProp = (RuleProperty) a;
-            if (ruleProp != null) {
-              if (checkDefined.parameterData.containsKey(ruleProp.key())) {
+            if ((ruleProp != null) 
+              && (checkDefined.parameterData.containsKey(ruleProp.key()))) {
                 if (f.getType().equals(int.class)) {
                   String cleanData = checkDefined.parameterData.get(ruleProp.key());
                   int value = Integer.parseInt(cleanData);
@@ -272,7 +278,6 @@ public class CxxLint {
               }
             }
           }
-        }
           visitors.add(element);
       }    
     }
@@ -296,7 +301,7 @@ public class CxxLint {
             key = rule.key();
             break;
           }           
-        } catch(Exception ex) {
+        } catch(Exception ex) { //NOSONAR
         }
      }
         
@@ -346,10 +351,10 @@ public class CxxLint {
   }
 
   private static void HandleVCppAdditionalOptions(String platformToolset, String platform, String elementsOfAdditionalOptions, String project, String fileToAnalyse, CxxConfiguration configuration) {
-    if(platformToolset.equals("V100") ||
-            platformToolset.equals("V110") ||
-            platformToolset.equals("V120") ||
-            platformToolset.equals("V140")) {
+    if("V100".equals(platformToolset) 
+      || "V110".equals(platformToolset)
+      || "V120".equals(platformToolset)
+      || "V140".equals(platformToolset)) {
       
       HashMap<String, List<String>> uniqueIncludes = new HashMap<>();
       HashMap<String, Set<String>> uniqueDefines = new HashMap<>();

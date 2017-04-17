@@ -22,6 +22,7 @@ package org.sonar.cxx.checks;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.parser.CxxGrammarImpl;
+import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 import com.sonar.sslr.api.AstNode;
 import com.sonar.sslr.api.Grammar;
@@ -31,6 +32,7 @@ import org.sonar.squidbridge.annotations.NoSqale;
 @Rule(
   key = "ParsingErrorRecovery",
   name = "C++ skip parser error",
+  tags = {Tag.TOOL_ERROR},  
   priority = Priority.INFO)
 @ActivatedByDefault
 @NoSqale

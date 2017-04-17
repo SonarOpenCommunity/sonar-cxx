@@ -34,7 +34,7 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
 /**
  * compiler for C++ with advanced analysis features (e.g. for VC 2008 team
- * edition or 2010/2012/2013 premium edition)
+ * edition or 2010/2012/2013/2015/2017 premium edition)
  *
  * @author Bert
  */
@@ -44,9 +44,9 @@ public class CxxCompilerSensor extends CxxReportSensor {
   public static final String REPORT_REGEX_DEF = "compiler.regex";
   public static final String REPORT_CHARSET_DEF = "compiler.charset";
   public static final String PARSER_KEY_DEF = "compiler.parser";
-  public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.KEY;
+  public static final String DEFAULT_PARSER_DEF = CxxCompilerVcParser.COMPILER_KEY;
   public static final String DEFAULT_CHARSET_DEF = "UTF-8";
-  public static final String KEY = "Compiler";
+  public static final String COMPILER_KEY = "Compiler";
 
   private final Map<String, CompilerParser> parsers = new HashMap<>();
 
@@ -137,6 +137,6 @@ public class CxxCompilerSensor extends CxxReportSensor {
   
   @Override
   protected String getSensorKey() {
-    return KEY;
+    return COMPILER_KEY;
   }  
 }

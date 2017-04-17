@@ -57,7 +57,7 @@ public class CxxCompilerSensorTest {
   // @Test @todo parsing for htm not working
   public void shouldReportACorrectVcViolations() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerVcParser.KEY);        
+    when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerVcParser.COMPILER_KEY);
     when(language.getStringArrayOption(CxxCompilerSensor.REPORT_PATH_KEY))
             .thenReturn(new String [] { fs.baseDir().getAbsolutePath() + "/compiler-reports/BuildLog.htm"});
     when(language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF)).thenReturn("UTF-16");        
@@ -78,7 +78,7 @@ public class CxxCompilerSensorTest {
       .setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerGccParser.KEY);        
+    when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerGccParser.COMPILER_KEY);
     when(language.getStringArrayOption(CxxCompilerSensor.REPORT_PATH_KEY))
             .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/build.log"});
     when(language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF)).thenReturn("UTF-8");        
@@ -92,7 +92,7 @@ public class CxxCompilerSensorTest {
   public void shouldReportBCorrectVcViolations() {
     
     CxxLanguage language = TestUtils.mockCxxLanguage();
-    when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerVcParser.KEY);        
+    when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerVcParser.COMPILER_KEY);
     when(language.getStringArrayOption(CxxCompilerSensor.REPORT_PATH_KEY))
             .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/VC-report.log"});
     when(language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF)).thenReturn("UTF-8");        

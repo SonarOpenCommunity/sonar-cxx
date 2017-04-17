@@ -33,7 +33,7 @@ import org.sonar.api.utils.log.Loggers;
  */
 public class CxxCompilerGccParser implements CompilerParser {
   public static final Logger LOG = Loggers.get(CxxCompilerGccParser.class);
-  public static final String KEY = "GCC";
+  public static final String COMPILER_KEY = "GCC";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = message, 4=id
   public static final String DEFAULT_REGEX_DEF = "^(.*):([0-9]+):[0-9]+: warning: (.*)\\[(.*)\\]$";
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
@@ -46,7 +46,7 @@ public class CxxCompilerGccParser implements CompilerParser {
    */
   @Override
   public String key() {
-    return KEY;
+    return COMPILER_KEY;
   }
 
   /**
@@ -78,12 +78,12 @@ public class CxxCompilerGccParser implements CompilerParser {
    */
   @Override
   public void processReport(final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
-    LOG.info("Parsing '{}' format", KEY);
+    LOG.info("Parsing '{}' format", COMPILER_KEY);
 
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
     LOG.debug("Using pattern : '{}'", p);
-    MatchResult matchres = null;
+    MatchResult matchres;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
       String filename = matchres.group(1).trim();

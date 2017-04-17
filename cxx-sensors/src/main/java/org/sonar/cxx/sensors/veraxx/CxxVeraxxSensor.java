@@ -40,7 +40,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
 
   public static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);  
   public static final String REPORT_PATH_KEY = "vera.reportPath";
-  public static String KEY = "Vera++";
+  public static final String KEY = "Vera++";
   
   /**
    * {@inheritDoc}
@@ -72,8 +72,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
           try {
             rootCursor.advance();
-          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-            throw new EmptyReportException();
+          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
+            throw new EmptyReportException();                  //NOSONAR
           }
 
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");

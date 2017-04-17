@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
@@ -36,7 +37,7 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 /**
  * Dr. Memory is a memory monitoring tool capable of identifying memory-related
  * programming errors such as accesses of uninitialized memory, accesses to
- * unaddressable memory (including outside of allocated heap units and heap
+ * un-addressable memory (including outside of allocated heap units and heap
  * underflow and overflow), accesses to freed memory, double frees, memory
  * leaks, and (on Windows) handle leaks, GDI API usage errors, and accesses to
  * un-reserved thread local storage slots. See also: http://drmemory.org
@@ -46,8 +47,9 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
 public class CxxDrMemorySensor extends CxxReportSensor {
   public static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   public static final String REPORT_PATH_KEY = "drmemory.reportPath";
-  public static String KEY = "DrMemory";
-
+  public static final String KEY = "DrMemory";
+  public static final String DEFAULT_CHARSET_DEF = "UTF-8";
+  
   /**
    * {@inheritDoc}
   */
@@ -55,6 +57,10 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     super(language);
   }
 
+  public String defaultCharset() {
+    return DEFAULT_CHARSET_DEF;
+  }
+  
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " DrMemorySensor");
@@ -69,8 +75,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing 'Dr Memory' format");
 
-    try {
-      for (DrMemoryError error : DrMemoryParser.parse(report)) {
+      for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
         if (error.stackTrace.isEmpty()) {
           saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
                   null, null,
@@ -85,15 +90,6 @@ public class CxxDrMemorySensor extends CxxReportSensor {
           }
         }
       }
-    } catch (IOException e) {
-      String msg = new StringBuilder()
-        .append("Cannot feed the data into sonar, details: '")
-        .append(e)
-        .append("'")
-        .toString();
-      LOG.error(msg);
-      CxxUtils.validateRecovery(e, this.language);
-    }
   }
 
   private boolean isFileInAnalysis(SensorContext context, Location errorLocation) {

@@ -28,56 +28,48 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class ValgrindReportParserTest {
 
   private ValgrindReportParser parser;
-  private DefaultFileSystem fs;
 
   @Before
   public void setUp() {
     parser = new ValgrindReportParser();
-    fs = TestUtils.mockFileSystem();
   }
 
   @Test
   public void shouldParseCorrectNumberOfErrors() throws javax.xml.stream.XMLStreamException {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());   
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "valgrind-reports/valgrind-result-SAMPLE.xml");    
-    Set<ValgrindError> valgrindErrors = parser.processReport(context, absReportFile);
+    Set<ValgrindError> valgrindErrors = parser.processReport(absReportFile);
     assertEquals(valgrindErrors.size(), 6);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_1() throws javax.xml.stream.XMLStreamException {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_1.xml");
     
     // error contains no kind-tag    
-    parser.processReport(context, absReportFile);
+    parser.processReport(absReportFile);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_2() throws javax.xml.stream.XMLStreamException {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_2.xml");
     
     // error contains no what- or xwhat-tag
-    parser.processReport(context, absReportFile);
+    parser.processReport(absReportFile);
   }
 
   @Test(expected = javax.xml.stream.XMLStreamException.class)
   public void shouldThrowWhenGivenAnIncompleteReport_3() throws javax.xml.stream.XMLStreamException {
-    SensorContextTester context = SensorContextTester.create(fs.baseDir());
     File absReportsProject = TestUtils.loadResource("/org/sonar/cxx/sensors/reports-project").getAbsoluteFile();
     File absReportFile = new File(absReportsProject, "valgrind-reports/incorrect-valgrind-result_3.xml");    
     // error contains no stack-tag
-    parser.processReport(context, absReportFile);
+    parser.processReport(absReportFile);
   }
 }

@@ -41,7 +41,7 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR)
 @RuleTemplate
 @NoSqale
-public class UseCorrectTypeCheck extends SquidCheck<Grammar> {
+public class UseCorrectTypeCheck extends SquidCheck<Grammar> { //NOSONAR
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
     CxxGrammarImpl.typeName,
