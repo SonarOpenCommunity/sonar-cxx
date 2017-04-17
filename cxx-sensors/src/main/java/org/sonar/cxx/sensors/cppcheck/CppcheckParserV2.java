@@ -46,8 +46,7 @@ public class CppcheckParserV2 implements CppcheckParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException {
+  public void processReport(final SensorContext context, File report) throws XMLStreamException {
     LOG.debug("Parsing 'Cppcheck V2' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -65,10 +64,12 @@ public class CppcheckParserV2 implements CppcheckParser {
 
         try {
           String version = rootCursor.getAttrValue("version");
+          if (version.length()>0) {
+            parsed = true;
+          }
           if ("2".equals(version)) {
             SMInputCursor errorsCursor = rootCursor.childElementCursor("errors");
             if (errorsCursor.getNext() != null) {
-              parsed = true;
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
                 String id = errorCursor.getAttrValue("id");
@@ -103,11 +104,11 @@ public class CppcheckParserV2 implements CppcheckParser {
             }
           }
         } catch (RuntimeException e) {  //NOSONAR
-          throw new XMLStreamException();  //NOSONAR
+          throw new XMLStreamException(e.getMessage());  //NOSONAR
         }
 
         if (!parsed) {
-          throw new XMLStreamException();
+          throw new XMLStreamException("Parsing of CppCheck V2 report'"+ report.getAbsolutePath() + "' failed.");
         }
       }
 
