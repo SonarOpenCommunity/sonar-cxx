@@ -3,7 +3,7 @@ environment:
   token:
     secure: P6Cj7IcyyNJPTG/5q2W1U4qXhRUQX8BazLcSh9Le8+Czfgmo/F/1VqY1HaMHZddu
   githubtoken:
-    secure: UmA3KIpDUA60Lg5bePkCzfJ9QPX9TgkTDQqzhFyH6Ld8BfdOI0RYu8HZwSfGC75D
+    secure: f72Bkv7Kb0xkwE+CXE9BH9aV8iRIilNM2XANDOffRPazDf0luuu4w2wSQNt+RRZl
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
