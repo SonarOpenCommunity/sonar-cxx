@@ -104,7 +104,7 @@ public class CppcheckParserV2 implements CppcheckParser {
             }
           }
         } catch (RuntimeException e) {  //NOSONAR
-          throw new XMLStreamException(e.getMessage());  //NOSONAR
+          throw new XMLStreamException();  //NOSONAR
         }
 
         if (!parsed) {
