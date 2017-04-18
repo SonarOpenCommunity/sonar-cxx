@@ -64,12 +64,10 @@ public class CppcheckParserV2 implements CppcheckParser {
 
         try {
           String version = rootCursor.getAttrValue("version");
-          if (version.length()>0) {
-            parsed = true;
-          }
-          if ("2".equals(version)) {
+          if ((version != null) && "2".equals(version)) {
             SMInputCursor errorsCursor = rootCursor.childElementCursor("errors");
             if (errorsCursor.getNext() != null) {
+              parsed = true;
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
                 String id = errorCursor.getAttrValue("id");
