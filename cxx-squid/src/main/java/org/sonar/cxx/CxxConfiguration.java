@@ -32,7 +32,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.squidbridge.api.SquidConfiguration;
@@ -91,8 +90,8 @@ public class CxxConfiguration extends SquidConfiguration {
     return ignoreHeaderComments;
   }
 
-  public void setDefines(String[] defines) {
-    if (defines == null) { //NOSONAR
+  public void setDefines(@Nullable String[] defines) {
+    if (defines == null) {
       return;
     }
     
