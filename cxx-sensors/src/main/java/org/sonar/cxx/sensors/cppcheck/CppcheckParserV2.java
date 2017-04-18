@@ -54,8 +54,6 @@ public class CppcheckParserV2 implements CppcheckParser {
        */
       @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
-        boolean parsed = false;
-
         try {
           rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
@@ -67,7 +65,6 @@ public class CppcheckParserV2 implements CppcheckParser {
           if ((version != null) && "2".equals(version)) {
             SMInputCursor errorsCursor = rootCursor.childElementCursor("errors");
             if (errorsCursor.getNext() != null) {
-              parsed = true;
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
                 String id = errorCursor.getAttrValue("id");
@@ -104,10 +101,6 @@ public class CppcheckParserV2 implements CppcheckParser {
         } catch (RuntimeException e) {  //NOSONAR
           LOG.debug("Cannot process CppCheck report (V2): '{}'", e);
           throw new XMLStreamException();  //NOSONAR
-        }
-
-        if (!parsed) {
-          throw new XMLStreamException("Parsing of CppCheck V2 report'"+ report.getAbsolutePath() + "' failed.");
         }
       }
 
