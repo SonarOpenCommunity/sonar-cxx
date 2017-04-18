@@ -34,7 +34,7 @@ import org.sonar.api.utils.log.Loggers;
  */
 public class CxxCompilerVcParser implements CompilerParser {
   public static final Logger LOG = Loggers.get(CxxCompilerVcParser.class);
-  public static final String KEY = "Visual C++";
+  public static final String COMPILER_KEY = "Visual C++";
   // search for single line with compiler warning message VS2008 - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
   public static final String DEFAULT_REGEX_DEF = "^.*[\\\\,/](.*)\\((\\d+)\\)\\x20:\\x20warning\\x20(C\\d+):(.*)$";
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
@@ -47,7 +47,7 @@ public class CxxCompilerVcParser implements CompilerParser {
    */
   @Override
   public String key() {
-    return KEY;
+    return COMPILER_KEY;
   }
 
   /**
@@ -84,7 +84,7 @@ public class CxxCompilerVcParser implements CompilerParser {
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
     LOG.info("Using pattern : '{}'", p);
-    MatchResult matchres = null;
+    MatchResult matchres;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
       String filename = matchres.group(1).trim();

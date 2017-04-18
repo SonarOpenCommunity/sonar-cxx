@@ -90,7 +90,11 @@ public interface CompilerParser {
         return true;
       }
 
-      if ( !(other instanceof Warning) ) {
+      if (other == null) {
+        return false;
+      }
+      
+      if ( this.getClass() != other.getClass() ) {
         return false;
       }
       
