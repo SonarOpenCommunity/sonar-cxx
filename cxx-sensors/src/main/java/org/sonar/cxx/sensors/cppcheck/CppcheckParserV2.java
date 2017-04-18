@@ -104,6 +104,7 @@ public class CppcheckParserV2 implements CppcheckParser {
             }
           }
         } catch (RuntimeException e) {  //NOSONAR
+          LOG.debug("Cannot process CppCheck report (V2): '{}'", e);
           throw new XMLStreamException();  //NOSONAR
         }
 
