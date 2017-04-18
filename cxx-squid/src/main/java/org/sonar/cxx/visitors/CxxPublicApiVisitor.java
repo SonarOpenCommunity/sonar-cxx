@@ -73,7 +73,7 @@ public class CxxPublicApiVisitor<GRAMMAR extends Grammar> extends
   public interface PublicApiHandler {
 
     void onPublicApi(AstNode node, String id, List<Token> comments);
-  };
+  }
 
   private PublicApiHandler handler;
 

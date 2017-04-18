@@ -22,6 +22,6 @@
  * Package with cxx community plug-in for SonarQube.
  */
 @ParametersAreNonnullByDefault
-package org.sonar.plugins.cxx;
+package org.sonar.plugins.c;
 
 import javax.annotation.ParametersAreNonnullByDefault;
