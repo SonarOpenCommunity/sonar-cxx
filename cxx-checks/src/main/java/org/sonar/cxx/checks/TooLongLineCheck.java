@@ -45,7 +45,7 @@ import org.sonar.cxx.tag.Tag;
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 //similar Vera++ rule L004 "Line too long"
-public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
 
   private static final int DEFAULT_MAXIMUM_LINE_LENHGTH = 160;
   private static final int DEFAULT_TAB_WIDTH = 8;

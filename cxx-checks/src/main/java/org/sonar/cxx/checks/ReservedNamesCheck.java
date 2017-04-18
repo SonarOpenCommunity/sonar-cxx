@@ -46,9 +46,9 @@ import org.sonar.cxx.tag.Tag;
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 //similar Vera++ rule T002
-public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class ReservedNamesCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
 
-  private static String[] keywords;
+  private static volatile String[] keywords = null;
   private Charset charset;
 
   @Override

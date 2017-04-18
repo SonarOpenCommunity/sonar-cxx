@@ -36,7 +36,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class XPathCheck extends AbstractXPathCheck<Grammar> {
+public class XPathCheck extends AbstractXPathCheck<Grammar> { //NOSONAR
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -80,7 +80,6 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
 
   @Override
   public void visitFile(AstNode fileNode) {
-    if (fileNode != null) {
       if (!matchFilePattern.isEmpty()) {
         WildcardPattern pattern = WildcardPattern.create(matchFilePattern);
         String path = PathUtils.sanitize(getContext().getFile().getPath());
@@ -89,7 +88,6 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> {
         }
       }
       super.visitFile(fileNode);
-    }
   }
 
   private boolean compare(boolean invert, boolean condition) {

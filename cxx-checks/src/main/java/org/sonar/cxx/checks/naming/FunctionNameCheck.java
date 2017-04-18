@@ -39,7 +39,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 )
 @SqaleConstantRemediation("10min")
 @ActivatedByDefault
-public class FunctionNameCheck extends SquidCheck<Grammar> {
+public class FunctionNameCheck extends SquidCheck<Grammar> { //NOSONAR
 
   private static final String DEFAULT = "^[a-z_][a-z0-9_]{2,30}$";
 
@@ -72,14 +72,10 @@ public class FunctionNameCheck extends SquidCheck<Grammar> {
 
   private boolean isFunctionDefinition(AstNode declId) {
     boolean isFunction = false;
-    if (declId != null) {
-      // not method inside of class
-      if (declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null) {
-        // not a nested name - not method outside of class
-        if (!declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier)) {
-          isFunction = true;
-        }
-      }
+    // not method inside of class
+    // not a nested name - not method outside of class
+    if ((declId.getFirstAncestor(CxxGrammarImpl.memberDeclaration) == null) && (!declId.hasDirectChildren(CxxGrammarImpl.nestedNameSpecifier))) {
+      isFunction = true;
     }
     return isFunction;
   }
