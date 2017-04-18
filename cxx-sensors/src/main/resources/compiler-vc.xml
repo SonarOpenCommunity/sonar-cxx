@@ -2162,9 +2162,13 @@ If a shift count is negative or too large, the behavior of the resulting image i
 An array was initialized but the last character in the array is not a null; accessing the array may produce unexpected results.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/t12y6ed4.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/t12y6ed4.aspx</a></p>
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/pages/viewpage.action?pageId=47677453" target="_blank">ARR30-C. Do not form or use out-of-bounds pointers or array subscripts</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>C4295</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -3929,9 +3933,12 @@ enum class Direction: short; //enum base is short
 Missing variadic arguments can be as big of a security concern as incorrect types, because they may cause your program to read garbage from the stack.
 </p><h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4473" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4473</a></p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>    
     <internalKey>C4473</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -3946,9 +3953,12 @@ Missing variadic arguments can be as big of a security concern as incorrect type
 Compiling this with default flags wouldn’t result in any diagnostic messages, giving you a false sense of security, but you can clearly see that there are problems here. Unfortunately, always giving a warning when a format string is not a string literal turned out to generate too many warnings on valid use cases (e.g. localization), so as a compromise we decided to provide this warning as off by default.
 </p><h2>MSDN Documentation</h2>
 <p><a href="http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4474" target="_blank">http://blogs.msdn.com/b/vcblog/archive/2015/06/22/format-specifiers-checking.aspx#C4474</a></p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>    
     <internalKey>C4474</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
@@ -6995,8 +7005,11 @@ C4996 can also occur if you use MFC or ATL functions that were deprecated for se
 C4996 can also occur when you use the marshaling library. In this case C4996 is an error, not a warning. This error will occur when you use marshal_as to convert between two data types that require a marshal_context Class. You will also receive this error when the marshaling library does not support a conversion. For more information about the marshaling library, see Overview of Marshaling in C++.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/ttcz0bys.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/ttcz0bys.aspx</a></p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/398.html" target="_blank">CWE-398: Indicator of Poor Code Quality</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>C4996</internalKey>
     <severity>MAJOR</severity>
     <type>CODE_SMELL</type>
@@ -7027,9 +7040,13 @@ This warning is reported when an uninitialized local variable is used before it 
 This warning indicates that a null pointer is being dereferenced. If the pointer value is invalid, the result is undefined.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/2ayc37ac.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/2ayc37ac.aspx</a></p>
+</p><h2>References</h2>
+<p><a href="https://www.securecoding.cert.org/confluence/display/c/EXP34-C.+Do+not+dereference+null+pointers" target="_blank">EXP34-C. Do not dereference null pointers</a></p>
+<p><a href="https://cwe.mitre.org/data/definitions/476.html" target="_blank">CWE-476: NULL Pointer Dereference</a></p>
 ]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>C6011</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
@@ -7092,8 +7109,11 @@ This warning indicates that the specified function has been called in such a way
 Most C standard library and Win32 string handling functions require and produce zero-terminated strings. A few 'counted string' functions (including strncpy, wcsncpy, _mbsncpy, _snprintf, and snwprintf) do not produce zero-terminated strings if they exactly fill their buffer. In this case, a subsequent call to a string function that expects a zero-terminated string will go beyond the end of the buffer looking for the zero. The program should make sure that the string ends with a zero. In general, you should pass a length to the 'counted string' function one smaller than the size of the buffer and then explicitly assign zero to the last character in the buffer.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/5dx7ef8x.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/5dx7ef8x.aspx</a></p>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/170.html" target="_blank">CWE-170: Improper Null Termination</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>    
     <internalKey>C6053</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
@@ -7303,9 +7323,12 @@ One common cause of this defect is using an array's size as an index into the ar
 This warning indicates that a parameter pointing to a stack buffer of known size is being passed into a function that copies more bytes into it than that size. This situation will cause a buffer overrun. This defect is likely to cause an exploitable security hole or a program crash.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/subscriptions/administration/6cb2bae4(v=vs.90)" target="_blank">https://msdn.microsoft.com/en-us/subscriptions/administration/6cb2bae4(v=vs.90)</a></p>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
     <tag>bug</tag>
+    <tag>cwe</tag>
     <internalKey>C6202</internalKey>
     <severity>CRITICAL</severity>
     <type>BUG</type>
@@ -7320,8 +7343,11 @@ This warning indicates that a parameter that points to a non-stack buffer of kno
 This defect might cause an exploitable security hole or a program crash.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/subscriptions/administration/77w7wbyc(v=vs.90)" target="_blank">https://msdn.microsoft.com/en-us/subscriptions/administration/77w7wbyc(v=vs.90)</a></p>
+<h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>
     <tag>bug</tag>
     <internalKey>C6203</internalKey>
     <severity>CRITICAL</severity>
@@ -7358,8 +7384,11 @@ This warning is generated when:
 - Both the variable type and the formal parameter type are some variety of pointer-to-wide char.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/subscriptions/downloads/e7ca7stt(v=vs.90).aspx" target="_blank">https://msdn.microsoft.com/en-us/subscriptions/downloads/e7ca7stt(v=vs.90).aspx</a></p>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/788.html" target="_blank">CWE-788: Access of Memory Location After End of Buffer</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>C6209</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
@@ -7674,8 +7703,11 @@ Objects that have null DACLs can have their security descriptors altered by mali
 Even if everyone needs access to an object, the object should be secured so that only administrators can alter its security. If only the creator needs access to an object, a DACL should not be set on the object; the system will choose an appropriate default.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/c5se1z6d.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/c5se1z6d.aspx</a></p>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>    
     <internalKey>C6248</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
@@ -7942,9 +7974,12 @@ This warning indicates a potentially incorrect cast from an ANSI string (char_t*
 This warning indicates that the application name parameter is null and there might be spaces in the executable path name. In this case, unless the executable name is "fully qualified," there is likely to be a security problem. A malicious user might insert a rogue executable with the same name earlier in the path. To correct this warning, you can specify the application name instead of passing null or if you do pass null for the application name, use quotation marks around the executable path.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/4b4tecce.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/4b4tecce.aspx</a></p>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
 ]]>
     </description>
     <tag>cert</tag>
+    <tag>cwe</tag>    
     <internalKey>C6277</internalKey>
     <severity>CRITICAL</severity>
     <type>VULNERABILITY</type>
@@ -8930,8 +8965,11 @@ This warning indicates that the writable extent of the specified buffer might be
 This warning is raised if an annotated function parameter is being passed an unexpected value. For example, passing a potentially null value to a parameter that is marked with _In_ annotation generates this warning.
 </p><h2>MSDN Documentation</h2>
 <p><a href="https://msdn.microsoft.com/en-us/library/k204dhw5.aspx" target="_blank">https://msdn.microsoft.com/en-us/library/k204dhw5.aspx</a></p>
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/475.html" target="_blank">CWE-475: Undefined Behavior for Input to API</a></p>
 ]]>
     </description>
+    <tag>cwe</tag>
     <internalKey>C6387</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
@@ -9848,6 +9886,7 @@ C26167 resembles C26117 except that the confidence level is lower. For example, 
     <name>C26400: Do not dereference an invalid pointer (lifetimes rule).</name>
     <description><![CDATA[<p>
 Never dereference a null or invalid Pointer.
+
 see also:</p>
 <p><a href="https://blogs.msdn.microsoft.com/vcblog/2016/03/31/c-core-guidelines-checkers-preview-of-the-lifetime-safety-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2016/03/31/c-core-guidelines-checkers-preview-of-the-lifetime-safety-checker/</a></p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/docs/Lifetimes%20I%20and%20II%20-%20v0.9.1.pdf" target="_blank">Lifetimes I and II - v0.9.1.pdf</a></p>
@@ -9858,6 +9897,42 @@ see also:</p>
     <type>BUG</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>10min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26461</key>
+    <name>C26461: By default, pass pointers and references to consts (const correctness).</name>
+    <description><![CDATA[<p>
+By default, pass pointers and references to consts
+<pre><code>
+// Expect 26461: The input pointer argument b in function f7 can be marked as const
+int f7(const int *a, int *b)
+{
+    return *a + *b;
+}
+ 
+struct S0
+{
+    virtual void m();
+};
+ 
+// Expect 26461 on 'p' but don't report on unnamed parameter.
+S0 f8(int *p, int *)
+{
+    (p == nullptr);
+ 
+    // Don't report on return UDT.
+    return{};
+}
+</code></pre>
+see also:</p>
+<p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
+]]>
+    </description>
+    <internalKey>C26461</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
     <key>C26481</key>
@@ -9898,9 +9973,70 @@ see also:</p>
 <p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-bounds-decay" target="_blank">Core Guideline - Bounds.3: No array-to-pointer decay</a></p>
 ]]>
     </description>
-    <internalKey>C26485</internalKey>
+    <internalKey>C26495</internalKey>
     <severity>MAJOR</severity>
     <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26496</key>
+    <name>C26496: Use const to define objects with values that do not change after construction (const correctness).</name>
+    <description><![CDATA[<p>
+Use const to define objects with values that do not change after construction
+<pre><code>
+int f5()
+{
+    // Expect 26496: Variable m is assigned only once, use const.
+    int m = 5;
+    const int a = 10;
+    if (m > a)
+        return m;
+    return a;
+}</code></pre>
+see also:</p>
+<p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
+]]>
+    </description>
+    <internalKey>C26496</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>C26497</key>
+    <name>C26497:  If a function may have to be evaluated at compile time, declare it constexpr (const correctness).</name>
+    <description><![CDATA[<p>
+ If a function may have to be evaluated at compile time, declare it constexpr
+<pre><code>
+// Expect 26497: could be marked constexpr if compile-time evaluation is desired
+int f1(int a, int b)
+{
+    return a + b;
+}
+ 
+constexpr int f2(int a, int b)
+{
+    return a + b;
+}
+ 
+void f3()
+{
+   // Compile-time evaluation
+    constexpr int m = f2(10, 20);
+     
+    // Expect 26498: This function call f2 can use constexpr if compile-time evaluation is desired.
+    const int m2 = f2(10, 20);
+}
+}</code></pre>
+see also:</p>
+<p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
+]]>
+    </description>
+    <internalKey>C26497</internalKey>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
