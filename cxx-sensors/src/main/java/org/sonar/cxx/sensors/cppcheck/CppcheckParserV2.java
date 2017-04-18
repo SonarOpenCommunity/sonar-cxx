@@ -46,7 +46,8 @@ public class CppcheckParserV2 implements CppcheckParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report) throws XMLStreamException {
+  public void processReport(final SensorContext context, File report)
+    throws javax.xml.stream.XMLStreamException {
     LOG.debug("Parsing 'Cppcheck V2' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -54,17 +55,20 @@ public class CppcheckParserV2 implements CppcheckParser {
        */
       @Override
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
+        boolean parsed = false;
+
         try {
           rootCursor.advance();
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
-          throw new EmptyReportException(); //NOSONAR
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+          throw new EmptyReportException();
         }
 
         try {
           String version = rootCursor.getAttrValue("version");
-          if ((version != null) && "2".equals(version)) {
+          if ("2".equals(version)) {
             SMInputCursor errorsCursor = rootCursor.childElementCursor("errors");
             if (errorsCursor.getNext() != null) {
+              parsed = true;
               SMInputCursor errorCursor = errorsCursor.childElementCursor("error");
               while (errorCursor.getNext() != null) {
                 String id = errorCursor.getAttrValue("id");
@@ -90,7 +94,7 @@ public class CppcheckParserV2 implements CppcheckParser {
                   }
                 }
 
-                if (isInputValid(id, msg)) {
+                if (isInputValid(file, line, id, msg)) {
                   sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
                 } else {
                   LOG.warn("Skipping invalid violation: '{}'", msg);
@@ -98,20 +102,25 @@ public class CppcheckParserV2 implements CppcheckParser {
               }
             }
           }
-        } catch (RuntimeException e) {  //NOSONAR
-          LOG.debug("Cannot process CppCheck report (V2): '{}'", e);
-          throw new XMLStreamException();  //NOSONAR
+        } catch (RuntimeException e) {
+          throw new XMLStreamException();
+        }
+
+        if (!parsed) {
+          throw new XMLStreamException();
         }
       }
 
       private String createMsg(String inconclusive, String msg) {
-        if ((msg != null) && !msg.isEmpty() && "true".equals(inconclusive)) {
+        if (msg != null && !msg.isEmpty()) {
+          if ("true".equals(inconclusive)) {
             return "[inconclusive] " + msg;
           }
+        }
         return msg;
       }
 
-      private boolean isInputValid(String id, String msg) {
+      private boolean isInputValid(String file, String line, String id, String msg) {
         return id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
       }
     });
