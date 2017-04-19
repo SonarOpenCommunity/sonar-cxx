@@ -22,6 +22,8 @@ package org.sonar.cxx.sensors.rats;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -93,7 +95,7 @@ public class CxxRatsSensor extends CxxReportSensor {
     }
   }
 
-  private String getVulnerabilityType(Element child) {
+  private String getVulnerabilityType(@Nullable Element child) {
     if (child != null) {
       return child.getTextTrim();
     }

@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.junit.Assert;
@@ -33,7 +34,7 @@ public class DrMemoryParserTest {
 	public void shouldParseTheWholeFile() throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("org/sonar/cxx/sensors/reports-project/drmemory-reports/results.txt").getFile());
-        List<DrMemoryError> drMemoryErrors = DrMemoryParser.parse(file);
+        List<DrMemoryError> drMemoryErrors = DrMemoryParser.parse(file, StandardCharsets.UTF_8.name());
         Assert.assertEquals(733, drMemoryErrors.size());
 	}
 }

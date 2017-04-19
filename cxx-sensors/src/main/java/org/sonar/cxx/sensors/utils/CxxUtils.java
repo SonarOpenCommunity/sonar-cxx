@@ -52,7 +52,7 @@ public final class CxxUtils {
     try {
       return new File(filename).getCanonicalPath();
     } catch (java.io.IOException e) {
-      LOG.error("path normalizing of '{}' failed: '{}'", filename, e.toString());
+      LOG.error("path normalizing of '{}' failed: '{}'", filename, e);
       return null;
     }
   }

@@ -40,7 +40,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class CxxOtherSensor extends CxxReportSensor {
   public static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
-  public static String KEY = "Other";
+  public static final String KEY = "Other";
 
   /**
    * {@inheritDoc}
