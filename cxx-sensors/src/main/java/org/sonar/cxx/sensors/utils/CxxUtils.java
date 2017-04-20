@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.utils;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import org.sonar.api.config.Settings;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
