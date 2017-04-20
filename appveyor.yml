@@ -1,4 +1,9 @@
 version: '{build}'
+environment:
+  token:
+    secure: P6Cj7IcyyNJPTG/5q2W1U4qXhRUQX8BazLcSh9Le8+Czfgmo/F/1VqY1HaMHZddu
+  githubtoken:
+    secure: f72Bkv7Kb0xkwE+CXE9BH9aV8iRIilNM2XANDOffRPazDf0luuu4w2wSQNt+RRZl
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -50,6 +55,8 @@ install:
 
 build_script:
   - dir
+  - echo on
+  - echo %APPVEYOR_PULL_REQUEST_NUMBER%
   # SONAR-7154 : workaround
   - mkdir C:\WINDOWS\system32\config\systemprofile\AppData\Local\Temp
   - cd C:\WINDOWS\system32\config\systemprofile\AppData\Local\
@@ -60,6 +67,7 @@ build_script:
   - C:\Python27\Scripts\pip.exe install behave
   - C:\Python27\Scripts\pip.exe install colorama
   - mvn clean install
+  - IF "%APPVEYOR_PULL_REQUEST_NUMBER%"=="" (ECHO SKIP ANALYSIS) ELSE (sonar-scanner -X -Dsonar.host.url=https://sonarqube.com -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=%APPVEYOR_PULL_REQUEST_NUMBER% -Dsonar.github.repository=SonarOpenCommunity/sonar-cxx -Dsonar.github.oauth=%githubtoken% -Dsonar.language=java -Dsonar.projectKey=sonar-cxx -Dsonar.projectName=sonar-cxx -Dsonar.login=%token% -Dsonar.sources=.)
   - C:\Python27\Scripts\behave.exe --no-capture --tags=SqApi56
 cache:
   - C:\Users\appveyor\.m2
