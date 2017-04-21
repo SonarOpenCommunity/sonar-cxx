@@ -8,7 +8,7 @@ env:
         - SONARHOME=/tmp/sonarqube-6.0   SONARAPI=SqApi56
         - SONARHOME=/tmp/sonarqube-6.1   SONARAPI=SqApi56
         - SONARHOME=/tmp/sonarqube-6.2   SONARAPI=SqApi62
-        - SONARHOME=/tmp/sonarqube-6.3   SONARAPI=SqApi62
+        - SONARHOME=/tmp/sonarqube-6.3.1 SONARAPI=SqApi62
 
 matrix:
     fast_finished: true
@@ -38,8 +38,8 @@ install:
         - unzip -qq sonarqube-6.1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.2.zip
         - unzip -qq sonarqube-6.2.zip
-        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.zip
-        - unzip -qq sonarqube-6.3.zip
+        - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.3.1.zip
+        - unzip -qq sonarqube-6.3.1.zip
         - travis_retry wget -q https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.8.zip
         - unzip -qq sonar-scanner-2.8.zip
         - cd -
