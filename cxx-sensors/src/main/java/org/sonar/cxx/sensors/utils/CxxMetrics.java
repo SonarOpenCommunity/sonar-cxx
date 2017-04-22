@@ -21,6 +21,7 @@ package org.sonar.cxx.sensors.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.sonar.api.measures.Metric;
 import org.sonar.api.measures.Metrics;
@@ -42,7 +43,7 @@ public class CxxMetrics implements Metrics {
   private final CxxLanguage language;
   
   public static String GetKey(String key, CxxLanguage language) {
-    return language.getPropertiesKey().toUpperCase() + "-" + key.toUpperCase();
+    return language.getPropertiesKey().toUpperCase(Locale.ENGLISH) + "-" + key.toUpperCase(Locale.ENGLISH);
   }
   
   public CxxMetrics(CxxLanguage language) {
@@ -69,7 +70,7 @@ public class CxxMetrics implements Metrics {
     Metric metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.TRUE)
-    .setDomain(language.getKey().toUpperCase())
+    .setDomain(language.getKey().toUpperCase(Locale.ENGLISH))
     .create();
     
     language.SaveMetric(metric, key);    

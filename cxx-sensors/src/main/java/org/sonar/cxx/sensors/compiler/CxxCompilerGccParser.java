@@ -83,7 +83,7 @@ public class CxxCompilerGccParser implements CompilerParser {
     Scanner scanner = new Scanner(report, charset);
     Pattern p = Pattern.compile(reportRegEx, Pattern.MULTILINE);
     LOG.debug("Using pattern : '{}'", p);
-    MatchResult matchres = null;
+    MatchResult matchres;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
       String filename = matchres.group(1).trim();

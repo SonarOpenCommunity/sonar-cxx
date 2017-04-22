@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,7 +52,7 @@ public class CxxVCppBuildLogParser {
   private static final String CPPVERSION = "__cplusplus=199711L";  
 
   public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn,
-    HashMap<String, Set<String>> uniqueDefinesIn) {
+      HashMap<String, Set<String>> uniqueDefinesIn) {
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
@@ -79,9 +81,8 @@ public class CxxVCppBuildLogParser {
   }
   
   public void parseVCppLog(File buildLog, String baseDir, String charsetName) {
-
-    try {
-      BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(buildLog), charsetName));
+    try (FileInputStream input = new FileInputStream(buildLog)) {
+      BufferedReader br = new BufferedReader(new InputStreamReader(input, charsetName));
       String line;
       LOG.debug("build log parser baseDir='{}'", baseDir);
       Path currentProjectPath = Paths.get(baseDir);
@@ -137,29 +138,39 @@ public class CxxVCppBuildLogParser {
         if (line.matches("^.*\\\\bin\\\\.*CL.exe\\x20.*$")) {
           String[] allElems = line.split("\\s+");
           String data = allElems[allElems.length - 1];
-          try {
-            String fileElement = Paths.get(currentProjectPath.toAbsolutePath().toString(), data).toAbsolutePath().toString();
-
-            if (!uniqueDefines.containsKey(fileElement)) {
-              uniqueDefines.put(fileElement, new HashSet<String>());
-            }
-
-            if (!uniqueIncludes.containsKey(fileElement)) {
-              uniqueIncludes.put(fileElement, new ArrayList<String>());
-            }
-
-            parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
-          } catch (InvalidPathException ex) {
-            LOG.warn("Cannot extract information from current element: " + data + " : " + ex.getMessage());
-          } catch (NullPointerException ex) {
-            LOG.error("Bug in parser, please report: '{}' - '{}'", ex.getMessage(), data + " @ " + currentProjectPath);
-            LOG.error("StackTrace: '{}'", ex.getStackTrace());
-          }
+          parseCLParameters(line, currentProjectPath, data);
         }
       }
       br.close();
     } catch (IOException ex) {
       LOG.error("Cannot parse build log", ex);
+    }
+  }
+
+  /**
+   * @param line
+   * @param currentProjectPath
+   * @param data
+   */
+  private void parseCLParameters(String line, Path currentProjectPath, String data) {
+    try {
+      String fileElement = Paths.get(currentProjectPath.toAbsolutePath().toString(), data).toAbsolutePath().toString();
+
+      if (!uniqueDefines.containsKey(fileElement)) {
+        uniqueDefines.put(fileElement, new HashSet<String>());
+      }
+
+      if (!uniqueIncludes.containsKey(fileElement)) {
+        uniqueIncludes.put(fileElement, new ArrayList<String>());
+      }
+
+      parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
+    } catch (InvalidPathException ex) {
+      LOG.warn("Cannot extract information from current element: " + data + " : " + ex.getMessage());
+      LOG.error("StackTrace: '{}'", ex);
+    } catch (NullPointerException ex2) {
+      LOG.error("Bug in parser, please report: '{}' - '{}'", ex2.getMessage(), data + " @ " + currentProjectPath);
+      LOG.error("StackTrace: '{}'", ex2);
     }
   }
 
@@ -230,7 +241,7 @@ public class CxxVCppBuildLogParser {
       if (!includesPerUnit.contains(includePath)) {
         includesPerUnit.add(includePath);
       }
-    } catch (java.io.IOException io) {
+    } catch (java.io.IOException io) { //NOSONAR
       LOG.error("Cannot parse include path using element '{}' : '{}'", element,
         io.getMessage());
     }

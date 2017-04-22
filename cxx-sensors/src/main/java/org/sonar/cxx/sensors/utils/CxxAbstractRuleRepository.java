@@ -19,10 +19,14 @@
  */
 package org.sonar.cxx.sensors.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -68,18 +72,20 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
   @Override
   public void define(Context context) {
+    Charset charset = StandardCharsets.UTF_8;
     NewRepository repository = context.createRepository(repositoryKey, this.language.getKey()).setName(repositoryName);
 
     RulesDefinitionXmlLoader xmlLoader = new RulesDefinitionXmlLoader();
     if (!"".equals(fileName())) {
       InputStream xmlStream = getClass().getResourceAsStream(fileName());
-      xmlLoader.load(repository, xmlStream, "UTF-8");
+      xmlLoader.load(repository, xmlStream, charset);
 
       for (File userExtensionXml : getExtensions(repositoryKey, "xml")) {
-        try {
-          FileReader reader = new FileReader(userExtensionXml);
+        try (FileInputStream input = new FileInputStream(userExtensionXml)) {
+
+          BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
           xmlRuleLoader.load(repository, reader);
-        } catch (Exception ex) {
+        } catch (Exception ex) { //NOSONAR
           LOG.info("Cannot Load XML '{}'", ex);
         }
       }

@@ -21,6 +21,8 @@ package org.sonar.cxx.checks;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.squidbridge.checks.SquidCheck;
@@ -61,7 +63,7 @@ public class MissingNewLineAtEndOfFileCheck extends SquidCheck<Grammar> {
     if (randomAccessFile.read(chars) < 1) {
       return false;
     }
-    String ch = new String(chars);
+    String ch = new String(chars, StandardCharsets.UTF_8);
     return "\n".equals(ch) || "\r".equals(ch);
   }
 

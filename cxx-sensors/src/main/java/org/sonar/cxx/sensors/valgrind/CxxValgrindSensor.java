@@ -35,7 +35,7 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
 public class CxxValgrindSensor extends CxxReportSensor {
   public static final Logger LOG = Loggers.get(CxxValgrindSensor.class);
   public static final String REPORT_PATH_KEY = "valgrind.reportPath";
-  public static String KEY = "Valgrind";
+  public static final String KEY = "Valgrind";
 
   /**
    * {@inheritDoc}

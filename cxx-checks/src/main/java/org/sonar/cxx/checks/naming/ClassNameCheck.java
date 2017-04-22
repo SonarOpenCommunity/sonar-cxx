@@ -39,7 +39,7 @@ import org.sonar.cxx.tag.Tag;
   tags = {Tag.CONVENTION})
 @SqaleConstantRemediation("5min")
 @ActivatedByDefault
-public class ClassNameCheck extends SquidCheck<Grammar> {
+public class ClassNameCheck extends SquidCheck<Grammar> { //NOSONAR
 
   private static final String DEFAULT = "^[A-Z_][a-zA-Z0-9]+$";
 

@@ -75,7 +75,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
    */
   private boolean isBreakStatementExcluded(AstNode astNode) {
     boolean exclude = false;
-    if (excludeCaseBreak && astNode.getToken().getType() == CxxKeyword.BREAK) {
+    if (excludeCaseBreak && astNode.getToken().getType().equals(CxxKeyword.BREAK)) {
       for (AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.statement);
         statement != null;
         statement = statement.getPreviousSibling()) {
@@ -83,7 +83,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
           break;
         }
         TokenType type = statement.getToken().getType();
-        if (type == CxxKeyword.CASE || type == CxxKeyword.DEFAULT) {
+          if (type.equals(CxxKeyword.CASE) || type.equals(CxxKeyword.DEFAULT)) {
           exclude = true;
           break;
         }

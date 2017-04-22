@@ -47,7 +47,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -104,7 +104,6 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-    if (fileNode != null) {
       if (compare(invertFilePattern, matchFile())) {
         List<String> lines;
         try {
@@ -120,7 +119,6 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
         }
       }
     }
-  }
 
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
