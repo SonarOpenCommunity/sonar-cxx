@@ -44,8 +44,8 @@ import org.sonar.cxx.tag.Tag;
 @Rule(
   key = "CommentedCode",
   name = "Sections of code should not be 'commented out'",
-  tags = {Tag.UNUSED},
-  priority = Priority.BLOCKER)
+  tags = {Tag.BAD_PRACTICE},
+  priority = Priority.CRITICAL)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
@@ -74,15 +74,14 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
   @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
-      if (trivia.isComment()
+      if (trivia.isComment() //NOSONAR
         && !trivia.getToken().getOriginalValue().startsWith("///")
         && !trivia.getToken().getOriginalValue().startsWith("//!")
-        && !trivia.getToken().getOriginalValue().startsWith("/**")
+        && !trivia.getToken().getOriginalValue().startsWith("/**") //NOSONAR
         && !trivia.getToken().getOriginalValue().startsWith("/*!")
-        && !trivia.getToken().getOriginalValue().startsWith("/*@")
+        && !trivia.getToken().getOriginalValue().startsWith("/*@") //NOSONAR
         && !trivia.getToken().getOriginalValue().startsWith("//@")) {
-        String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(
-          trivia.getToken().getOriginalValue()));
+        String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue())); //NOSONAR
 
         for (int lineOffset = 0; lineOffset < lines.length; lineOffset++) {
           if (codeRecognizer.isLineOfCode(lines[lineOffset])) {

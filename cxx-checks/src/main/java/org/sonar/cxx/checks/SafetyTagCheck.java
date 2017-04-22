@@ -42,7 +42,7 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
   tags = {Tag.CONVENTION})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor {
+public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor { //NOSONAR
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "<Safetykey>.*</Safetykey>";
   private static final String DEFAULT_MESSAGE = "Source files implementing risk mitigations shall use special name suffix";

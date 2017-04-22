@@ -35,7 +35,7 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
   public PreprocessorAction process(List<Token> tokens) { //@todo deprecated PreprocessorAction
     Token token = tokens.get(0);
 
-    if (token.getType() == CxxTokenType.STRING) {
+    if (token.getType().equals(CxxTokenType.STRING)) {
 
       // Joining string literals (C++ Standard, "2.2 Phases of translation, Phase 6")
       StringBuilder newStr = null;
@@ -43,15 +43,15 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
 
       for (;;) {
         Token nextToken = tokens.get(numberOfStrings);
-        if (nextToken.getType() != CxxTokenType.STRING) {
+        if (!nextToken.getType().equals(CxxTokenType.STRING)) {
           if (newStr != null) {
-            newStr.append("\"");
+            newStr.append('\"');
           }
           break;
         }
         if (newStr == null) {
           newStr = new StringBuilder();
-          newStr.append("\"");
+          newStr.append('\"');
           newStr.append(stripQuotes(token.getValue()));
         }
         newStr.append(stripQuotes(nextToken.getValue()));

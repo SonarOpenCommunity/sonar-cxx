@@ -28,7 +28,7 @@ import com.sonar.sslr.impl.Lexer;
 
 /**
  */
-public class StringLiteralsChannel extends Channel<Lexer> {
+public class StringLiteralsChannel extends Channel<Lexer> { //NOSONAR
 
   private static final char EOF = (char) -1;
 

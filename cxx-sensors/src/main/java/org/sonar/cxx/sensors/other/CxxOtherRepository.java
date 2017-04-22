@@ -52,7 +52,7 @@ public class CxxOtherRepository implements RulesDefinition {
       if (ruleDefs != null && !ruleDefs.trim().isEmpty()) {
         try {
           xmlRuleLoader.load(repository, new StringReader(ruleDefs));
-        } catch (Exception ex) {
+        } catch (Exception ex) { //NOSONAR
           LOG.info("Cannot load rules XML '{}'", ex);
         }
       }

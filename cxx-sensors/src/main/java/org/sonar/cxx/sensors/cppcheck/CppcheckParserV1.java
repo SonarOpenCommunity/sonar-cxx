@@ -45,8 +45,7 @@ public class CppcheckParserV1 implements CppcheckParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report)
-    throws javax.xml.stream.XMLStreamException {
+  public void processReport(final SensorContext context, File report) throws XMLStreamException {
     LOG.debug("Parsing 'Cppcheck V1' format");
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
       /**
@@ -57,8 +56,8 @@ public class CppcheckParserV1 implements CppcheckParser {
 
         try {
           rootCursor.advance(); // results
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-          throw new EmptyReportException();
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
+          throw new EmptyReportException(); //NOSONAR
         }
 
         try {
@@ -78,18 +77,18 @@ public class CppcheckParserV1 implements CppcheckParser {
               line = null;
             }
 
-            if (isInputValid(file, line, id, msg)) {
+            if (isInputValid(line, id, msg)) {
               sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
             } else {
               LOG.warn("Skipping invalid violation: '{}'", msg);
             }
           }
-        } catch (RuntimeException e) {
-          throw new XMLStreamException();
+        } catch (RuntimeException e) { //NOSONAR
+          throw new XMLStreamException(e.getMessage()); //NOSONAR
         }
       }
 
-      private boolean isInputValid(String file, String line, String id, String msg) {
+      private boolean isInputValid(String line, String id, String msg) {
         return id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
       }
     });

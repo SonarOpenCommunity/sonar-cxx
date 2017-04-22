@@ -33,7 +33,7 @@ public class DrMemoryParserTest {
 	public void shouldParseTheWholeFile() throws IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("org/sonar/cxx/sensors/reports-project/drmemory-reports/results.txt").getFile());
-        List<DrMemoryError> drMemoryErrors = DrMemoryParser.parse(file);
+        List<DrMemoryError> drMemoryErrors = DrMemoryParser.parse(file, "UTF8");
         Assert.assertEquals(733, drMemoryErrors.size());
 	}
 }

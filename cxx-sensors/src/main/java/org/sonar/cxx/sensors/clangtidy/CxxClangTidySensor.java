@@ -20,6 +20,7 @@
 package org.sonar.cxx.sensors.clangtidy;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -61,7 +62,7 @@ public class CxxClangTidySensor extends CxxReportSensor {
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing clang-tidy report");
 
-    try (Scanner scanner = new Scanner(report, "UTF-8")) {
+    try (Scanner scanner = new Scanner(report, StandardCharsets.UTF_8.name())) {
       // E:\Development\SonarQube\cxx\sonar-cxx\sonar-cxx-plugin\src\test\resources\org\sonar\plugins\cxx\reports-project\clang-tidy-reports\..\..\cpd.cc:76:20: warning: ISO C++11 does not allow conversion from string literal to 'char *' [clang-diagnostic-writable-strings]
       // <path>:<line>:<column>: <level>: <message> [<checkname>]
       // relative paths
@@ -85,7 +86,10 @@ public class CxxClangTidySensor extends CxxReportSensor {
                   message);
         }
       }
-    } catch (final Exception e) {
+    } catch (final java.io.FileNotFoundException
+                  |java.lang.IllegalArgumentException
+                  |java.lang.IllegalStateException
+                  |java.util.InputMismatchException e) {
       LOG.error("Failed to parse clang-tidy report: {}", e);
     }
   } 

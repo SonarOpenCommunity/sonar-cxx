@@ -48,7 +48,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 public class CxxPCLintSensor extends CxxReportSensor {
   public static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
-  public static String KEY = "PC-Lint";
+  public static final String KEY = "PC-Lint";
 
   /**
    * {@inheritDoc}
@@ -80,8 +80,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         try {
           rootCursor.advance();
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-          throw new EmptyReportException();
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
+          throw new EmptyReportException(); //NOSONAR
         }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue");
