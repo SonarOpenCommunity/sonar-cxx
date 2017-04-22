@@ -20,10 +20,7 @@
 package org.sonar.cxx.sensors.drmemory;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.sensor.SensorDescriptor;
@@ -46,7 +43,7 @@ import org.sonar.cxx.sensors.utils.CxxUtils;
  * @author asylvestre
  */
 public class CxxDrMemorySensor extends CxxReportSensor {
-  public static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
+  private static final Logger LOG = Loggers.get(CxxDrMemorySensor.class);
   public static final String REPORT_PATH_KEY = "drmemory.reportPath";
   public static final String KEY = "DrMemory";
   public static final String DEFAULT_CHARSET_DEF = StandardCharsets.UTF_8.name();
@@ -58,6 +55,9 @@ public class CxxDrMemorySensor extends CxxReportSensor {
     super(language);
   }
 
+  /**
+   * {@inheritDoc}
+  */
   public String defaultCharset() {
     return DEFAULT_CHARSET_DEF;
   }
@@ -66,7 +66,7 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   public void describe(SensorDescriptor descriptor) {
     descriptor.onlyOnLanguage(this.language.getKey()).name(language.getName() + " DrMemorySensor");
   }
-  
+
   @Override
   protected String reportPathKey() {
     return REPORT_PATH_KEY;
@@ -76,21 +76,21 @@ public class CxxDrMemorySensor extends CxxReportSensor {
   protected void processReport(final SensorContext context, File report) {
     LOG.debug("Parsing 'Dr Memory' format");
 
-      for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
-        if (error.stackTrace.isEmpty()) {
+    for (DrMemoryError error : DrMemoryParser.parse(report, defaultCharset())) {
+      if (error.stackTrace.isEmpty()) {
+        saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
+                null, null,
+                error.type.getId(), error.message);
+      }
+      for (Location errorLocation : error.stackTrace) {
+        if (isFileInAnalysis(context, errorLocation)) {
           saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
-                  null, null,
+                  errorLocation.file, errorLocation.line.toString(),
                   error.type.getId(), error.message);
-        }
-        for (Location errorLocation : error.stackTrace) {
-          if (isFileInAnalysis(context, errorLocation)) {
-            saveUniqueViolation(context, CxxDrMemoryRuleRepository.KEY,
-                    errorLocation.file,	errorLocation.line.toString(),
-                    error.type.getId(), error.message);
-            break;
-          }
+          break;
         }
       }
+    }
   }
 
   private boolean isFileInAnalysis(SensorContext context, Location errorLocation) {
