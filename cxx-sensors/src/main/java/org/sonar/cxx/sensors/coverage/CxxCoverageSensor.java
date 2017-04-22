@@ -113,9 +113,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
 
   private void zeroMeasuresWithoutReports(
     SensorContext context,
-    Map<String, CoverageMeasures> coverageMeasures,
-    Map<String, CoverageMeasures> itCoverageMeasures,
-    Map<String, CoverageMeasures> overallCoverageMeasures,
+    @Nullable Map<String, CoverageMeasures> coverageMeasures,
+    @Nullable Map<String, CoverageMeasures> itCoverageMeasures,
+    @Nullable Map<String, CoverageMeasures> overallCoverageMeasures,
     Map<InputFile, Set<Integer>> linesOfCode
   ) {
     FileSystem fileSystem = context.fileSystem();
@@ -152,7 +152,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
         try {
           newCoverage.lineHits(line, 0);
         } catch (Exception ex) {
-          LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", inputFile.relativePath(), line, ex.getMessage());
+          LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", inputFile.relativePath(), line, ex);
           CxxUtils.validateRecovery(ex, this.language);
         }
       }
@@ -160,7 +160,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
       try {
         newCoverage.save();
       } catch (Exception ex) {
-        LOG.error("Cannot save measure '{}' : '{}', ignoring measure", inputFile.relativePath(), ex.getMessage());
+        LOG.error("Cannot save measure '{}' : '{}', ignoring measure", inputFile.relativePath(), ex);
         CxxUtils.validateRecovery(ex, this.language);
       }
     }
@@ -184,7 +184,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
               LOG.info("Added report '{}' (parsed by: {}) to the coverage data", report, parser);
               break;
             }
-          } catch (XMLStreamException e) {
+          } catch (XMLStreamException e) { //NOSONAR
             LOG.trace("Report {} cannot be parsed by {}", report, parser);
           }
         }
@@ -224,7 +224,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             {
               newCoverage.lineHits(measure.getLine(), measure.getHits());
             } catch(Exception ex) {
-              LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
+              LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex);
               CxxUtils.validateRecovery(ex, this.language);
             }            
           }
@@ -234,7 +234,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
             {
               newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
             } catch(Exception ex) {
-              LOG.error("Cannot save Conditions Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex.getMessage());
+              LOG.error("Cannot save Conditions Hits for Line '{}' '{}' : '{}', ignoring measure", filePath, measure.getLine(), ex);
               CxxUtils.validateRecovery(ex, this.language);
             }                         
           }                             
@@ -244,7 +244,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
         {
           newCoverage.save();
         } catch(Exception ex) {
-          LOG.error("Cannot save measure '{}' : '{}', ignoring measure", filePath, ex.getMessage());
+          LOG.error("Cannot save measure '{}' : '{}', ignoring measure", filePath, ex);
           CxxUtils.validateRecovery(ex, this.language);
         }        
       } else {

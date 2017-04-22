@@ -94,7 +94,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   public interface PublicApiHandler {
 
     void onPublicApi(AstNode node, String id, List<Token> comments);
-  };
+  }
 
   private List<String> headerFileSuffixes;
 
@@ -239,14 +239,14 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     AstNode simpleDeclSpezifierSeq = declaratorList.getPreviousSibling();
     if (simpleDeclSpezifierSeq != null) {
       AstNode firstDeclSpecifier = simpleDeclSpezifierSeq.getFirstChild(CxxGrammarImpl.declSpecifier);
-      if (firstDeclSpecifier != null && firstDeclSpecifier.getToken().getType() == CxxKeyword.TYPEDEF) {
+      if (firstDeclSpecifier != null && firstDeclSpecifier.getToken().getType().equals(CxxKeyword.TYPEDEF)) {
         AstNode classSpefifier = firstDeclSpecifier.getNextSibling();
         if (classSpefifier != null) {
           TokenType type = classSpefifier.getToken().getType();
-          if (type == CxxKeyword.STRUCT
-            || type == CxxKeyword.CLASS
-            || type == CxxKeyword.UNION
-            || type == CxxKeyword.ENUM) {
+          if (type.equals(CxxKeyword.STRUCT)
+            || type.equals(CxxKeyword.CLASS)
+            || type.equals(CxxKeyword.UNION)
+            || type.equals(CxxKeyword.ENUM)) {
             return true;
           }
         }
@@ -352,7 +352,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       declSpecifier = declSpecifier.getPreviousSibling();
       if (declSpecifier != null) {
         AstNode typedef = declSpecifier.getFirstChild();
-        if (typedef != null && typedef.getToken().getType() == CxxKeyword.TYPEDEF) {
+        if (typedef != null && typedef.getToken().getType().equals(CxxKeyword.TYPEDEF)) {
           return typedef;
         }
       }
@@ -517,11 +517,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       AstNode functionBodyNode = functionDef
         .getFirstChild(CxxGrammarImpl.functionBody);
 
-      if (functionBodyNode != null) {
-        if (isDefaultOrDeleteFunctionBody(functionBodyNode)) {
-          return;
-        }
-      }
+      if ((functionBodyNode != null) && (isDefaultOrDeleteFunctionBody(functionBodyNode))){
+		  	return;
+	    }
 
       visitMemberDeclarator(functionDef);
     }
@@ -532,19 +530,17 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     List<AstNode> functionBody = functionBodyNode.getChildren();
 
     // look for exact sub AST
-    if (functionBody.size() == 3) {
-      if (functionBody.get(0).is(CxxPunctuator.ASSIGN)
+    if ((functionBody.size() == 3) 
+        && functionBody.get(0).is(CxxPunctuator.ASSIGN)
         && functionBody.get(2).is(CxxPunctuator.SEMICOLON)) {
 
-        AstNode bodyType = functionBody.get(1);
+      AstNode bodyType = functionBody.get(1);
 
-        if (bodyType.is(CxxKeyword.DELETE)
-          || bodyType.is(CxxKeyword.DEFAULT)) {
-          defaultOrDelete = true;
-        }
+      if (bodyType.is(CxxKeyword.DELETE)
+        || bodyType.is(CxxKeyword.DEFAULT)) {
+        defaultOrDelete = true;
       }
     }
-
     return defaultOrDelete;
   }
 
@@ -583,7 +579,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     AstNode docNode = node;
     List<Token> comments;
 
-    if (container == null || container.getType() == CxxGrammarImpl.classSpecifier) {
+    if (container == null || container.getType().equals(CxxGrammarImpl.classSpecifier)) {
       comments = getBlockDocumentation(docNode);
     } else { // template
       do {
@@ -602,10 +598,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     // find the identifier to present to concrete visitors
     String id = null;
-    AstNode idNode = null;
 
     // first look for an operator function id
-    idNode = node.getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
+    AstNode idNode = node.getFirstDescendant(CxxGrammarImpl.operatorFunctionId);
 
     if (idNode != null) {
       id = getOperatorId(idNode);
@@ -638,7 +633,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       CxxGrammarImpl.classSpecifier);
 
     // An alias declaration inside a function is not part of the public API
-    if (parent != null && parent.getType() == CxxGrammarImpl.functionDefinition) {
+    if (parent != null && parent.getType().equals(CxxGrammarImpl.functionDefinition)) {
       return;
     }
 
@@ -659,7 +654,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
         AstNode docNode;
         if (container == null
-          || container.getType() == CxxGrammarImpl.classSpecifier) {
+          || container.getType().equals(CxxGrammarImpl.classSpecifier)) {
           docNode = aliasDeclNode;
         } else {
           docNode = container;
@@ -720,7 +715,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
           // or next curly brace
           if (next != null) {
             // discard COMMA
-            if (next.getToken().getType() == CxxPunctuator.COMMA) {
+            if (next.getToken().getType().equals( CxxPunctuator.COMMA)) {
               next = next.getNextAstNode();
             }
 
@@ -770,8 +765,8 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     // or next curly brace
     if (next != null) {
       // discard COMMA and SEMICOLON
-      if (next.getToken().getType() == CxxPunctuator.COMMA
-        || next.getToken().getType() == CxxPunctuator.SEMICOLON) {
+      if (next.getToken().getType().equals(CxxPunctuator.COMMA)
+        || next.getToken().getType().equals(CxxPunctuator.SEMICOLON)) {
         next = next.getNextAstNode();
       }
 
@@ -792,11 +787,11 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     do {
       access = access.getPreviousAstNode();
     } while (access != null
-      && access.getType() != CxxGrammarImpl.accessSpecifier);
+      && !access.getType().equals(CxxGrammarImpl.accessSpecifier));
 
     if (access != null) {
-      return access.getToken().getType() == CxxKeyword.PUBLIC
-        || access.getToken().getType() == CxxKeyword.PROTECTED;
+      return access.getToken().getType().equals(CxxKeyword.PUBLIC)
+        || access.getToken().getType().equals( CxxKeyword.PROTECTED);
     } else {
       AstNode classSpecifier = node
         .getFirstAncestor(CxxGrammarImpl.classSpecifier);
@@ -809,12 +804,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
         if (enclosingSpecifierNode != null) {
           TokenType type = enclosingSpecifierNode.getToken().getType();
-          if (type == CxxKeyword.STRUCT || type == CxxKeyword.UNION) {
+          if (type.equals(CxxKeyword.STRUCT) || type.equals(CxxKeyword.UNION)) {
             // struct and union members have public access, thus access level
             // is the access level of the enclosing classSpecifier
             return isPublicApiMember(classSpecifier);
 
-          } else if (type == CxxKeyword.CLASS) {
+          } else if (type.equals(CxxKeyword.CLASS)) {
             // default access in classes is private
             return false;
 
@@ -847,15 +842,13 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
         Token triviaToken = trivia.getToken();
-        if (triviaToken != null) {
-          if (triviaToken.getLine() == line) {
-            if (isDoxygenInlineComment(triviaToken.getValue())) {
+        if ((triviaToken != null) 
+            && (triviaToken.getLine() == line)
+            && (isDoxygenInlineComment(triviaToken.getValue()))) {
               comments.add(triviaToken);
               LOG.trace("Inline doc: " + triviaToken.getValue());
             }
           }
-        }
-      }
     }
     return comments;
   }

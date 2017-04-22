@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.config.Settings;
+import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
+import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;
@@ -98,6 +100,32 @@ public class CppLanguage extends CxxLanguage {
   }
   
   @Override
+  public int hashCode() {
+    // two randomly chosen prime numbers
+    return new HashCodeBuilder(17, 31). 
+      appendSuper(super.hashCode()).
+      append(getKey()).
+      toHashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+
+    if (obj == null) {
+      return false;
+    }
+
+    if (this.getClass() == obj.getClass()) {
+      return getKey().equals(((CxxLanguage) obj).getKey()); 
+    } else {
+      return false;
+    }
+  }
+
+  @Override
   public String[] getFileSuffixes() {
     return fileSuffixes;
   }
@@ -113,7 +141,7 @@ public class CppLanguage extends CxxLanguage {
   }
 
   public List<Class> getChecks() {
-    return new ArrayList<Class>(Arrays.asList(
+    return new ArrayList<>(Arrays.asList(
       CollapsibleIfCandidateCheck.class,
       CommentedCodeCheck.class,
       CommentRegularExpressionCheck.class,

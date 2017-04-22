@@ -21,8 +21,11 @@ package org.sonar.cxx.sensors.drmemory;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,7 +35,7 @@ import org.sonar.cxx.sensors.drmemory.DrMemoryParser.DrMemoryError.Location;
 
 public class DrMemoryParser {	
 	
-	public static enum DrMemoryErrorType {
+	public enum DrMemoryErrorType {
 		UNADRESSABLE_ACCESS("UnadressableAccess", "UNADDRESSABLE ACCESS"),
 		UNINITIALIZE_READ("UninitializedRead", "UNINITIALIZED READ"),
 		INVALID_HEAP_ARGUMENT("InvalidHeapArgument", "INVALID HEAP ARGUMENT"),
@@ -60,8 +63,6 @@ public class DrMemoryParser {
 		}
 	}
 	
-	
-	
 	public static class DrMemoryError {
 		
 		public static class Location {
@@ -70,10 +71,9 @@ public class DrMemoryParser {
 		}
 		
 		public DrMemoryErrorType type = DrMemoryErrorType.UNRECOGNIZED;
-		public List<Location> stackTrace = new ArrayList<Location>();
+    public List<Location> stackTrace = new ArrayList<>();
 		public String message = "";
 	}
-	
 	
 	private DrMemoryParser() {
 	}
@@ -83,11 +83,11 @@ public class DrMemoryParser {
 
 	public static final int __TOP_COUNT = 4;
 	
-	public static List<DrMemoryError> parse( File file ) throws IOException {
+  public static List<DrMemoryError> parse(File file, String charset) {
 		
-		List<DrMemoryError> result = new ArrayList<DrMemoryError>();
+    List<DrMemoryError> result = new ArrayList<>();
 		
-		List<String> elements = getElements(file);
+    List<String> elements = getElements(file, charset);
 		
 		for (String element : elements) {
 			Matcher m = rx_message_finder.matcher( element );
@@ -95,7 +95,7 @@ public class DrMemoryParser {
 			if( m.find() ) {
 				DrMemoryError error = new DrMemoryError();
 				error.type =  extractErrorType(m.group(1));
-				String elementSplitted[] = element.split("\\r?\\n");
+        String[] elementSplitted = element.split("\\r?\\n");
 				error.message  = elementSplitted[0];
 				for (String elementPart : elementSplitted) {
 					Matcher locationMatcher = rx_file_finder.matcher( elementPart );
@@ -130,26 +130,25 @@ public class DrMemoryParser {
 		return title.trim();
 	}
 
+  public static List<String> getElements(File file, String charset){
 
-	public static List<String> getElements( File file ) throws IOException {
-		FileReader fr = new FileReader( file );
-		BufferedReader br = new BufferedReader( fr );
-		List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<>();
+    try (FileInputStream input = new FileInputStream(file)) {
+      BufferedReader br = new BufferedReader(new InputStreamReader(input, charset));
 		StringBuilder sb = new StringBuilder();
 		String line;
 		int cnt = 0;
+      
 		while( ( line = br.readLine() ) != null ) {
 			if( cnt > ( __TOP_COUNT ) ) {
-				
 				if( line.matches( "^\\s*$" ) ) {
 					list.add( sb.toString() );
 					sb.setLength( 0 );
-					
 				} else {
-					sb.append( line + '\n' );
+            sb.append(line);
+            sb.append('\n');
 				}
 			}			
-			
 			cnt++;
 		}
 		
@@ -158,7 +157,9 @@ public class DrMemoryParser {
 		}
 		
 		br.close();
-		
+      input.close();
+    } catch (IOException e) { //NOSONAR
+    }
 		return list;
 	}
 }

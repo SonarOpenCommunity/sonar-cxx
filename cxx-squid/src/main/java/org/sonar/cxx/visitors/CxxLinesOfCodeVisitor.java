@@ -33,7 +33,8 @@ import com.sonar.sslr.api.Token;
  * Visitor that computes the number of lines of code of a file.
  * @param <GRAMMAR>
  */
-public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
+public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> 
+		extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor {
 
   private final MetricDef metric;
   private int lastTokenLine;
@@ -55,12 +56,12 @@ public class CxxLinesOfCodeVisitor<GRAMMAR extends Grammar> extends SquidAstVisi
    */
   @Override
   public void visitToken(Token token) {
-    if (token.getType() != EOF) {
+    if (!token.getType().equals(EOF)) {
       /* Handle all the lines of the token */
       String[] tokenLines = token.getValue().split("\n", -1);
 
       int firstLineAlreadyCounted = lastTokenLine == token.getLine() ? 1 : 0;
-      getContext().peekSourceCode().add(metric, tokenLines.length - firstLineAlreadyCounted);
+      getContext().peekSourceCode().add(metric, (double) tokenLines.length - firstLineAlreadyCounted);
 
       lastTokenLine = token.getLine() + tokenLines.length - 1;
     }

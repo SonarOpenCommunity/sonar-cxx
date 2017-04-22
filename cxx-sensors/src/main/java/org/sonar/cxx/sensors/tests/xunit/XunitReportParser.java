@@ -55,8 +55,8 @@ public class XunitReportParser implements XmlStreamHandler {
     SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
     try {
       testSuiteCursor.getNext();
-    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-      throw new EmptyReportException();
+    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
+      throw new EmptyReportException(); //NOSONAR
     }
 
     do {
@@ -89,17 +89,18 @@ public class XunitReportParser implements XmlStreamHandler {
     String status = "ok";
     String stack = "";
     String msg = "";
+    final String SKIPPED_STATUS = "skipped";
 
     // Googletest-reports mark the skipped tests with status="notrun"
     String statusattr = testCaseCursor.getAttrValue("status");
     if ("notrun".equals(statusattr)) {
-      status = "skipped";
+      status = SKIPPED_STATUS;
     } else {
       SMInputCursor childCursor = testCaseCursor.childElementCursor();
       if (childCursor.getNext() != null) {
         String elementName = childCursor.getLocalName();
-        if ("skipped".equals(elementName)) {
-          status = "skipped";
+        if (SKIPPED_STATUS.equals(elementName)) {
+          status = SKIPPED_STATUS;
         } else if ("failure".equals(elementName)) {
           status = "failure";
           msg = childCursor.getAttrValue("message");

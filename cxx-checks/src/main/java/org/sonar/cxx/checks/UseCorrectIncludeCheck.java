@@ -43,7 +43,7 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor {
+public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
   private static final String DEFAULT_MESSAGE = "Use correct #include directives";

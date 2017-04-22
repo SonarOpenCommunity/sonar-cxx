@@ -44,7 +44,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
   private NewHighlighting newHighlighting;
   private final SensorContext context;
 
-  private class TokenLocation {
+  private static class TokenLocation {
 
     protected int startLine;
     protected int startLineOffset;
@@ -74,7 +74,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       return endLineOffset;
     }
 
-    public boolean overlaps(TokenLocation other) {
+    public boolean overlaps(@Nullable TokenLocation other) {
       if (other != null) {
         return !(startLineOffset() > other.endLineOffset()
           || other.startLineOffset() > endLineOffset()
@@ -86,7 +86,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
 
   }
 
-  private class CommentLocation extends TokenLocation {
+  private static class CommentLocation extends TokenLocation {
 
     public CommentLocation(Token token) {
       super(token);
@@ -122,7 +122,9 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
   public void visitFile(@Nullable AstNode astNode) {
     newHighlighting = context.newHighlighting();
     InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(getContext().getFile().getAbsoluteFile()));
+    if (inputFile != null) {
     newHighlighting.onFile(inputFile);
+  }
   }
 
   @Override
@@ -130,7 +132,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
     try {
       newHighlighting.save();
     } catch (IllegalStateException e) {
-      // ignore hightlight errors: parsing errors could lead to wrong loacation data
+      // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.debug("Highligthing error in file: {}, error: {}", getContext().getFile().getAbsoluteFile(), e);
     }
   }
@@ -150,22 +152,21 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
       for (Trivia trivia : token.getTrivia()) {
         if (trivia.isComment()) {
           highlight(last, new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
-        } else if (trivia.isSkippedText()) {
-          if (trivia.getToken().getType() == CxxTokenType.PREPROCESSOR) {
+        } else if (trivia.isSkippedText() 
+                    && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
             highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
           }
         }
       }
     }
-  }
 
   private TokenLocation highlight(TokenLocation last, TokenLocation current, TypeOfText typeOfText) {
     try {
       if (!current.overlaps(last)) {
         newHighlighting.highlight(current.startLine(), current.startLineOffset(), current.endLine(), current.endLineOffset(), typeOfText);
       }
-    } catch (Exception e) {
-      // ignore hightlight errors: parsing errors could lead to wrong loacation data
+    } catch (Exception e) { //NOSONAR
+      // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), current.startLine(), current.startLineOffset());
     }
     return current;
