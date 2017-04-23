@@ -23,6 +23,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import org.sonar.api.batch.sensor.SensorContext;
 
 /**
@@ -68,18 +70,18 @@ public interface CompilerParser {
     public final String id;
     public final String msg;
 
-    Warning(String filename, String line, String id, String msg) {
+    Warning(@Nullable String filename, @Nullable String line, @Nullable String id, @Nullable String msg) {
       this.filename = getValueOrDefault(filename, "");
       this.line = getValueOrDefault(line, "");
       this.id = getValueOrDefault(id, "");
       this.msg = getValueOrDefault(msg, "");
     }
     
-    private static String getValueOrDefault(String value, String defaultValue) {
+    private static String getValueOrDefault(@Nullable String value, String defaultValue) {
       return isNotNullOrEmpty(value) ? value : defaultValue;
     }
     
-    private static boolean isNotNullOrEmpty(String str) {
+    private static boolean isNotNullOrEmpty(@Nullable String str) {
       return str != null && !str.isEmpty();
     }
     

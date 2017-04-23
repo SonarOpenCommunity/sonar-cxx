@@ -22,6 +22,8 @@ package org.sonar.cxx.preprocessor;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxConfiguration;
@@ -38,7 +40,7 @@ import org.sonar.cxx.api.CppPunctuator;
 public final class ExpressionEvaluator {
 
   private static final BigInteger UINT64_MAX = new BigInteger("FFFFFFFFFFFFFFFF", 16);
-  public static final Logger LOG = Loggers.get(ExpressionEvaluator.class);
+  private static final Logger LOG = Loggers.get(ExpressionEvaluator.class);
 
   private final Parser<Grammar> parser;
   private final CxxPreprocessor preprocessor;
@@ -57,17 +59,17 @@ public final class ExpressionEvaluator {
     return evalToInt(constExpr).compareTo(BigInteger.ZERO) != 0;
   }
 
-  private BigInteger evalToInt(String constExpr, AstNode exprAst) {
+  private BigInteger evalToInt(String constExpr, @Nullable AstNode exprAst) {
     AstNode constExprAst = null;
     try {
       constExprAst = parser.parse(constExpr);
-    } catch (com.sonar.sslr.api.RecognitionException re) { //NOSONAR
+    } catch (com.sonar.sslr.api.RecognitionException re) {
       if (exprAst != null) {
         LOG.warn("Error evaluating expression '{}' for AstExp '{}', assuming 0", constExpr, exprAst.getToken());
       } else {
         LOG.warn("Error evaluating expression '{}', assuming 0", constExpr);
       }
-
+      LOG.debug("EvalToInt failed: {}", re);
       return BigInteger.ZERO;
     }
 
@@ -178,7 +180,7 @@ public final class ExpressionEvaluator {
     return "'\0'".equals(charValue) ? BigInteger.ZERO : BigInteger.ONE;
   }
 
-  private static AstNode getNextOperand(AstNode node) {
+  private static AstNode getNextOperand(@Nullable AstNode node) {
     if (node != null) {
       node = node.getNextSibling();
       if (node != null) {
@@ -194,7 +196,6 @@ public final class ExpressionEvaluator {
     boolean result = eval(operand);
 
     while ((result != true) && ((operand = getNextOperand(operand)) != null)) {
-      // Todo fix this statement  - it is always false ?!?
       result = result || eval(operand);
     }
 
@@ -206,7 +207,6 @@ public final class ExpressionEvaluator {
     boolean result = eval(operand);
 
     while ((result != false) && ((operand = getNextOperand(operand)) != null)) {
-      // Todo fix this statement  - it is always false ?!?
       result = result && eval(operand);
     }
 

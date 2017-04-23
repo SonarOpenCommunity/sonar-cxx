@@ -34,7 +34,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CppcheckParserV1 implements CppcheckParser {
-  public static final Logger LOG = Loggers.get(CppcheckParserV1.class);
+  private static final Logger LOG = Loggers.get(CppcheckParserV1.class);
   private final CxxCppCheckSensor sensor;
 
   public CppcheckParserV1(CxxCppCheckSensor sensor) {
@@ -72,24 +72,26 @@ public class CppcheckParserV1 implements CppcheckParser {
               file = file.replace('\\','/');
             }
 
-            if ("*".equals(file)) { // findings on project level
+            if ("*".equals(file)) {
+              // findings on project level
               file = null;
               line = null;
             }
 
-            if (isInputValid(file, line, id, msg)) {
+            if (isInputValid(id, msg)) {
               sensor.saveUniqueViolation(context, CxxCppCheckRuleRepository.KEY, file, line, id, msg);
             } else {
               LOG.warn("Skipping invalid violation: '{}'", msg);
             }
           }
-        } catch (RuntimeException e) { //NOSONAR
-          throw new XMLStreamException(e.getMessage()); //NOSONAR
+        } catch (RuntimeException e) {
+          LOG.debug("processReport failed {}", e);
+          throw new XMLStreamException();
         }
       }
 
-      private boolean isInputValid(String file, String line, String id, String msg) {
-        return id != null && !id.isEmpty() && msg != null && !msg.isEmpty();
+      private boolean isInputValid(String id, String msg) {
+        return !id.isEmpty() && msg != null && !msg.isEmpty();
       }
     });
 

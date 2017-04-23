@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -230,7 +231,7 @@ public class BullseyeParser extends CxxCoverageParser {
     return getClass().getSimpleName();
   }
 
-  private String ensureRefPathIsCorrect(String refPath) {
+  private String ensureRefPathIsCorrect(@Nullable String refPath) {
     if (refPath == null || refPath.isEmpty() || refPath.endsWith(File.separator)) {
       return refPath;
     }

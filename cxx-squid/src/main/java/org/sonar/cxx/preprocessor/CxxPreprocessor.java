@@ -95,7 +95,7 @@ public class CxxPreprocessor extends Preprocessor {
     public int conditionalInclusionCounter;
     public File includeUnderAnalysis;
 
-    public State(File includeUnderAnalysis) {
+    public State(@Nullable File includeUnderAnalysis) {
       this.skipPreprocessorDirectives = false;
       this.conditionWasTrue = false;
       this.conditionalInclusionCounter = 0;
@@ -270,10 +270,8 @@ public class CxxPreprocessor extends Preprocessor {
         LOG.debug("parsing external macro: '{}'", define);
         if (!"".equals(define)) {
           Macro macro = parseMacroDefinition("#define " + define);
-          if (macro != null) {
-            LOG.debug("storing external macro: '{}'", macro);
-            getMacros().put(macro.name, macro); //NOSONAR
-          }
+          LOG.debug("storing external macro: '{}'", macro);
+          getMacros().put(macro.name, macro);
         }
       }
 
@@ -621,12 +619,10 @@ public class CxxPreprocessor extends Preprocessor {
     // Here we have a define directive. Parse it and store the result in a dictionary.
 
     Macro macro = parseMacroDefinition(ast);
-    if (macro != null) {
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("[{}:{}]: storing macro: '{}'", new Object[]{filename, token.getLine(), macro});
-      }
-      getMacros().put(macro.name, macro);
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("[{}:{}]: storing macro: '{}'", new Object[]{filename, token.getLine(), macro});
     }
+    getMacros().put(macro.name, macro);
 
     return new PreprocessorAction(1,  Collections.singletonList(Trivia.createSkippedText(token)), new ArrayList<Token>()); //@todo: deprecated PreprocessorAction
   }
@@ -1046,7 +1042,7 @@ public class CxxPreprocessor extends Preprocessor {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
         try {
-        newTokens.add(Token.builder()
+          newTokens.add(Token.builder()
           .setLine(pred.getLine())
           .setColumn(pred.getColumn())
           .setURI(pred.getURI())
@@ -1065,6 +1061,7 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
+@Nullable
   private Token predConcatToken(List<Token> tokens) {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
@@ -1091,6 +1088,7 @@ public class CxxPreprocessor extends Preprocessor {
     return null;
   }
 
+@Nullable
   private Token succConcatToken(Iterator<Token> it) {
     Token succ = null;
     while (it.hasNext()) {
@@ -1183,18 +1181,18 @@ public class CxxPreprocessor extends Preprocessor {
       ? "objectlikeMacroDefinition".equals(ast.getName()) ? null : new LinkedList<>() : getParams(paramList);
 
     AstNode vaargs = ast.getFirstDescendant(CppGrammar.variadicparameter);
-    if (vaargs != null) {
+    if ((vaargs != null) && (macroParams != null)) {
       AstNode identifier = vaargs.getFirstChild(IDENTIFIER);
       macroParams.add(identifier == null
-        ? Token.builder()
-        .setLine(vaargs.getToken().getLine())
-        .setColumn(vaargs.getToken().getColumn())
-        .setURI(vaargs.getToken().getURI())
-        .setValueAndOriginalValue(VARIADICPARAMETER)
-        .setType(IDENTIFIER)
-        .setGeneratedCode(true)
-        .build()
-        : identifier.getToken());
+          ? Token.builder()
+          .setLine(vaargs.getToken().getLine())
+          .setColumn(vaargs.getToken().getColumn())
+          .setURI(vaargs.getToken().getURI())
+          .setValueAndOriginalValue(VARIADICPARAMETER)
+          .setType(IDENTIFIER)
+          .setGeneratedCode(true)
+          .build()
+          : identifier.getToken());
     }
 
     AstNode replList = ast.getFirstDescendant(CppGrammar.replacementList);
@@ -1206,10 +1204,8 @@ public class CxxPreprocessor extends Preprocessor {
 
   private List<Token> getParams(AstNode identListAst) {
     List<Token> params = new ArrayList<>();
-    if (identListAst != null) {
-      for (AstNode node : identListAst.getChildren(IDENTIFIER)) {
-        params.add(node.getToken());
-      }
+    for (AstNode node : identListAst.getChildren(IDENTIFIER)) {
+      params.add(node.getToken());
     }
 
     return params;
@@ -1253,7 +1249,7 @@ public class CxxPreprocessor extends Preprocessor {
         parseError = true;
       }
 
-      if (parseError || includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null) {
+      if (parseError || ((includeBodyAst != null) && includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null)) {
         LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
           new Object[]{currFileName, token.getLine(), expandedIncludeBody});
         return null;
