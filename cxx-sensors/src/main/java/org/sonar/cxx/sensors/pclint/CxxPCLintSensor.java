@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -46,7 +47,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * @author Bert
  */
 public class CxxPCLintSensor extends CxxReportSensor {
-  public static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
+  private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
   public static final String KEY = "PC-Lint";
 
@@ -112,7 +113,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
         }
       }
 
-      private boolean isInputValid(String file, String line, String id, String msg) {
+      private boolean isInputValid(@Nullable String file, @Nullable String line, @Nullable String id, @Nullable String msg) {
         try {
           if (file == null || file.isEmpty() || (Integer.parseInt(line) == 0)) {
             // issue for project or file level

@@ -20,6 +20,9 @@
 package org.sonar.cxx.sensors.valgrind;
 
 import java.io.File;
+
+import javax.annotation.Nullable;
+
 import org.apache.commons.io.FilenameUtils;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -38,10 +41,11 @@ class ValgrindFrame {
   private String line = "";
 
   /**
-   * Constucts a stack frame with given attributes. Its perfectly valid if some
-   * of them are empty or dont carry meaningfull information.
+   * Constructs a stack frame with given attributes. Its perfectly valid if some
+   * of them are empty or don't carry meaningful information.
    */
-  public ValgrindFrame(String ip, String obj, String fn, String dir, String file, String line) {
+  public ValgrindFrame(@Nullable String ip, @Nullable String obj, @Nullable String fn, @Nullable String dir, 
+                       @Nullable String file, @Nullable String line) {
     if (ip != null) {
       this.ip = ip;
     }
@@ -67,7 +71,7 @@ class ValgrindFrame {
     StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
     if (isLocationKnown()) {
       builder.append(" (")
-        .append("".equals(file) ? ("in " + obj) : (file + getLineStr()))
+        .append("".equals(file) ? ("in " + obj) : (file + getLineStr())) //NOSONAR
         .append(')');
     }
 
@@ -114,6 +118,6 @@ class ValgrindFrame {
   }
 
   private String getLineStr() {
-    return "".equals(line) ? "" : ":" + line;
+    return "".equals(line) ? "" : ":" + line; //NOSONAR
   }
 }

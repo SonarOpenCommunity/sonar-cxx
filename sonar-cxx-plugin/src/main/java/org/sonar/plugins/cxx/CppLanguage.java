@@ -204,7 +204,7 @@ public class CppLanguage extends CxxLanguage {
   }
 
   private String[] createStringArray(String[] values, String defaultValues) {
-    if (values == null || values.length == 0) {
+    if (values.length == 0) {
       return defaultValues.split(",");
     }
     return values;

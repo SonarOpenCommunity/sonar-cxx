@@ -132,7 +132,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
   }
 
   private boolean isInputValid(CompilerParser.Warning warning) {
-    return warning != null && !warning.toString().isEmpty();
+    return !warning.toString().isEmpty();
   }
   
   @Override
