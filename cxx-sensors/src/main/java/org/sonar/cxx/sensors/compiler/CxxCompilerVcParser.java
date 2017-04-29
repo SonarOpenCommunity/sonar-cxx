@@ -33,11 +33,10 @@ import org.sonar.api.utils.log.Loggers;
  * {@inheritDoc}
  */
 public class CxxCompilerVcParser implements CompilerParser {
-  public static final Logger LOG = Loggers.get(CxxCompilerVcParser.class);
+  private static final Logger LOG = Loggers.get(CxxCompilerVcParser.class);
   public static final String COMPILER_KEY = "Visual C++";
   // search for single line with compiler warning message VS2008 - order for groups: 1 = file, 2 = line, 3 = ID, 4=message
-  public static final String DEFAULT_REGEX_DEF = "^.*[\\\\,/](.*)\\((\\d+)\\)\\x20:\\x20warning\\x20(C\\d+):(.*)$";
-  // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
+  public static final String DEFAULT_REGEX_DEF = "^(.*)\\((\\d+)\\)\\x20:\\x20warning\\x20(C\\d+):(.*)$";
   // sample regex for VS2012/2013: "^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
   public static final String DEFAULT_CHARSET_DEF = "UTF-8"; // use "UTF-16" for VS2010 build log or TFS Team build log file
@@ -78,7 +77,8 @@ public class CxxCompilerVcParser implements CompilerParser {
    * {@inheritDoc}
    */
   @Override
-  public void processReport(final SensorContext context, File report, String charset, String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
+  public void processReport(final SensorContext context, File report, String charset, 
+                            String reportRegEx, List<Warning> warnings) throws java.io.FileNotFoundException {
     LOG.info("Parsing 'Visual C++' format ({})", charset);
 
     Scanner scanner = new Scanner(report, charset);
@@ -87,7 +87,7 @@ public class CxxCompilerVcParser implements CompilerParser {
     MatchResult matchres;
     while (scanner.findWithinHorizon(p, 0) != null) {
       matchres = scanner.match();
-      String filename = matchres.group(1).trim();
+      String filename = removeMPPrefix(matchres.group(1).trim());
       String line = matchres.group(2);
       String id = matchres.group(3);
       String msg = matchres.group(4);
@@ -98,6 +98,14 @@ public class CxxCompilerVcParser implements CompilerParser {
     scanner.close();
   }
 
+  private String removeMPPrefix(String fpath) {
+    // /MP (Build with Multiple Processes) will create a line prefix with the job number eg. '   42>'
+    if (fpath.matches("^\\d+>.*$")) {
+      return fpath.substring(fpath.indexOf('>')+1, fpath.length());
+    }
+    return fpath;
+  }
+  
   @Override
   public String toString() {
     return getClass().getSimpleName();
