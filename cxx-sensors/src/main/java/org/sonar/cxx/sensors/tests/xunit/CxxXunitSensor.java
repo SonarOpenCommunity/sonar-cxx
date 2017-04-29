@@ -27,14 +27,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-import javax.xml.transform.Templates;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.sonar.api.batch.sensor.SensorContext;
@@ -251,15 +245,8 @@ public class CxxXunitSensor extends CxxReportSensor {
       }
 
       Source xsl = new StreamSource(inputStream);
-      TransformerFactory factory = TransformerFactory.newInstance();
-      Templates template = factory.newTemplates(xsl);
-      Transformer xformer = template.newTransformer();
-      xformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
-      Source source = new StreamSource(report);
       transformed = new File(report.getAbsolutePath() + ".after_xslt");
-      Result result = new StreamResult(transformed);
-      xformer.transform(source, result);
+      CxxUtils.transformFile(xsl, report, transformed);
     } else {
       LOG.debug("Transformation skipped: no xslt given");
     }
