@@ -40,7 +40,6 @@ import org.sonar.cxx.CxxLanguage;
 public class TestUtils {
 
   private final static String OS = System.getProperty("os.name").toLowerCase();
-  private final static boolean upperCaseRoot = Character.isUpperCase(System.getProperty("java.home").charAt(0));
 
   public static File loadResource(String resourceName) {
     URL resource = TestUtils.class.getResource(resourceName);

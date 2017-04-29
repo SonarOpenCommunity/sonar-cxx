@@ -35,7 +35,7 @@ public class CxxCompilerGccParser implements CompilerParser {
   public static final Logger LOG = Loggers.get(CxxCompilerGccParser.class);
   public static final String COMPILER_KEY = "GCC";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = message, 4=id
-  public static final String DEFAULT_REGEX_DEF = "^(.*):([0-9]+):[0-9]+: warning: (.*)\\[(.*)\\]$";
+  public static final String DEFAULT_REGEX_DEF = "^(.*):([0-9]+):[0-9]+:\\x20warning:\\x20(.*)\\x20\\[(.*)\\]$";
   // ToDo: as long as java 7 API is not used the support of named groups for regular expression is not possible
   // sample regex: "^.*[\\\\,/](?<filename>.*)\\((?<line>[0-9]+)\\)\\x20:\\x20warning\\x20(?<id>C\\d\\d\\d\\d):(?<message>.*)$";
   // get value with e.g. scanner.match().group("filename");
