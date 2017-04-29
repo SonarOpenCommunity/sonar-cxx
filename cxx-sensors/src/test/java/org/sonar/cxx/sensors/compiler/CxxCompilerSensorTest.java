@@ -59,7 +59,7 @@ public class CxxCompilerSensorTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerGccParser.COMPILER_KEY);
     when(language.getStringArrayOption(CxxCompilerSensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/build.log"});
+            .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/build.gcclog"});
     when(language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF)).thenReturn("UTF-8");
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     context.fileSystem().add(new DefaultInputFile("myProjectKey", "src/zipmanager.cpp")
@@ -93,7 +93,7 @@ public class CxxCompilerSensorTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerVcParser.COMPILER_KEY);
     when(language.getStringArrayOption(CxxCompilerSensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/VC-report.log"});
+            .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/VC-report.vclog"});
     when(language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF)).thenReturn("UTF-8");        
     when(language.getStringOption(CxxCompilerSensor.REPORT_REGEX_DEF)).thenReturn("^.*>(?<filename>.*)\\((?<line>\\d+)\\):\\x20warning\\x20(?<id>C\\d+):(?<message>.*)$");
     
@@ -112,7 +112,7 @@ public class CxxCompilerSensorTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringOption(CxxCompilerSensor.PARSER_KEY_DEF)).thenReturn(CxxCompilerVcParser.COMPILER_KEY);
     when(language.getStringArrayOption(CxxCompilerSensor.REPORT_PATH_KEY))
-            .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/VC-report.log"});
+            .thenReturn(new String [] {fs.baseDir().getAbsolutePath() + "/compiler-reports/VC-report.vclog"});
     when(language.getStringOption(CxxCompilerSensor.REPORT_CHARSET_DEF)).thenReturn("UTF-8");        
     when(language.getStringOption(CxxCompilerSensor.REPORT_REGEX_DEF)).thenReturn("^(.*)\\((\\d+)\\):\\x20warning\\x20(C\\d+):(.*)$");
     
