@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<results>
+ <warning filename="sources/utils/code_chunks.cpp" line="1" identifier="cxxexternal-unusedFunction" message="The function 'foo' is never used"/>
+ <warning filename="sources/utils/utils.cpp" line="1" identifier="cxxexternal-unusedFunction" message="The function 'utils' is never used"/>
+</results>

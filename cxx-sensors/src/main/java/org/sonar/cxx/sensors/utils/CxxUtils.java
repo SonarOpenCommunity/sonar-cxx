@@ -25,6 +25,14 @@ import java.io.StringWriter;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 
 /**
@@ -65,13 +73,20 @@ public final class CxxUtils {
     if (targetfile.isAbsolute()) {
       filePath = normalizePath(filename);
     } else {
-      // RATS, CppCheck and Vera++ provide names like './file.cpp' - add source folder for index check
+      // RATS, CppCheck and Vera++ provide names like './file.cpp' - add input folder for index check
       filePath = normalizePath(baseDir + File.separator + filename);
     }
     return filePath;
   }
-  
-  
+
+
+  public static void transformFile(Source stylesheetFile, File input, File output) throws TransformerException {
+    TransformerFactory factory = TransformerFactory.newInstance();
+    Transformer transformer = factory.newTransformer(stylesheetFile);
+    transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+    transformer.transform(new StreamSource(input), new StreamResult(output));
+  }
+
 
   /**
    * <p>Gets the stack trace from a Throwable as a String.</p>

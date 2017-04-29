@@ -124,6 +124,23 @@ public abstract class CxxReportSensor implements Sensor {
     return value;
   }
 
+  public static String resolveFilename(final String baseDir, final String filename) {
+
+    // Normalization can return null if path is null, is invalid, or is a path with back-ticks outside known directory structure
+    String normalizedPath = FilenameUtils.normalize(filename);
+    if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
+      return normalizedPath;
+    }
+
+    // Prefix with absolute module base dir, attempt normalization again -- can still get null here
+    normalizedPath = FilenameUtils.normalize(baseDir + File.separator + filename);
+    if (normalizedPath != null) {
+      return normalizedPath;
+    }
+
+    return null;
+  }
+
   public static List<File> getReports(CxxLanguage language,
           final File moduleBaseDir,
           String genericReportKeyData) {
@@ -134,19 +151,13 @@ public abstract class CxxReportSensor implements Sensor {
       return reports;
     }
     
-    List<String> reportPaths = Arrays.asList(language.getStringArrayOption(genericReportKeyData));
+    String reportPathStrings[] = language.getStringArrayOption(genericReportKeyData);
+    List<String> reportPaths = Arrays.asList((reportPathStrings != null) ? reportPathStrings : new String[] {});
     if (!reportPaths.isEmpty()) {
       List<String> includes = new ArrayList<>();
       for (String reportPath : reportPaths) {
-        // Normalization can return null if path is null, is invalid, or is a path with back-ticks outside known directory structure
-        String normalizedPath = FilenameUtils.normalize(reportPath);
-        if (normalizedPath != null && new File(normalizedPath).isAbsolute()) {
-          includes.add(normalizedPath);
-          continue;
-        }
 
-        // Prefix with absolute module base dir, attempt normalization again -- can still get null here
-        normalizedPath = FilenameUtils.normalize(moduleBaseDir.getAbsolutePath() + File.separator + reportPath);
+        String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath);
         if (normalizedPath != null) {
           includes.add(normalizedPath);
           continue;
@@ -247,7 +258,7 @@ public abstract class CxxReportSensor implements Sensor {
         newIssue.save();
         violationsCount++;
       } catch (Exception ex) {
-        LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
+        LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue", ex.getMessage(), ruleRepoKey, ruleId);
         CxxUtils.validateRecovery(ex, this.language);
       }
     }
