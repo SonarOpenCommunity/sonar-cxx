@@ -154,8 +154,15 @@ public class CxxVCppBuildLogParser {
    * @param data
    */
   private void parseCLParameters(String line, Path currentProjectPath, String data) {
+    String path = data.replaceAll("\"", "");
+    String fileElement;
     try {
-      String fileElement = Paths.get(currentProjectPath.toAbsolutePath().toString(), data).toAbsolutePath().toString();
+      if (!path.isEmpty() && path.matches("^[a-zA-Z]:.*$")) {
+        // do not add project path if data is not a relative path
+        fileElement = Paths.get(path).toAbsolutePath().toString();
+      } else {
+        fileElement = Paths.get(currentProjectPath.toAbsolutePath().toString(), path).toAbsolutePath().toString();
+      }
 
       if (!uniqueDefines.containsKey(fileElement)) {
         uniqueDefines.put(fileElement, new HashSet<String>());
