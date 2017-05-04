@@ -87,8 +87,8 @@ public class UndocumentedApiCheckTest {
       .next().atLine(138) // struct OverrideInStructTest      
       .next().atLine(143) // struct ComplexOverrideInStruct
       .next().atLine(148) // struct ComplexOverrideInClass      
-      .next().atLine(154) // aliasDeclarartion1
-      .next().atLine(156) // aliasDeclarartion2
+      .next().atLine(154) // aliasDeclaration1
+      .next().atLine(156) // aliasDeclaration2
       .next().atLine(161); // class ClassWithFriend
 
     for (CheckMessage msg : file.getCheckMessages()) {
