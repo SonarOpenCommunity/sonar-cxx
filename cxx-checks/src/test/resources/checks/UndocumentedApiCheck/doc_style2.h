@@ -183,10 +183,10 @@ public:
 };
 
 /** doc */
-using aliasDeclarartion1 = void;
+using aliasDeclaration1 = void;
 
 /** doc */
-template <typename T> using aliasDeclarartion2 = whatever<T>;
+template <typename T> using aliasDeclaration2 = whatever<T>;
 
 friend class friendClass;
 template<typename S> friend S& operator<<(S&, A const&);
