@@ -101,11 +101,14 @@ public class CxxCpdVisitor extends SquidAstVisitor<Grammar> implements AstAndTok
       }
 
       try {
-        TextRange range = inputFile.newRange(token.getLine(), token.getColumn(), token.getLine(), token.getColumn() + token.getValue().length());
+        TextRange range = inputFile.newRange(token.getLine(), token.getColumn(),
+                                             token.getLine(), token.getColumn() + token.getValue().length());
         cpdTokens.addToken(range, text);
-      } catch (IllegalArgumentException e) { //NOSONAR
+      } catch (IllegalArgumentException|IllegalStateException e) {
         // ignore range errors: parsing errors could lead to wrong location data
-        LOG.debug("CPD error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), token.getLine(), token.getColumn());
+        LOG.warn("CPD error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), 
+                                                                  token.getLine(), token.getColumn());
+        LOG.debug("CPD error in file {} {}", getContext().getFile().getAbsoluteFile(), e);
       }
     }
   }
