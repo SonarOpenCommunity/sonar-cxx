@@ -63,7 +63,7 @@ public class CxxParseErrorLoggerVisitor<GRAMMAR extends Grammar>
       } else if (type.equals(CxxPunctuator.CURLBR_LEFT)) {
         // part with CURLBR_LEFT is typically an ignored declaration
         if (identifierLine != -1) {
-          CxxGrammarImpl.LOG.warn("[{}:{}]: skip declarartion: {}",
+          CxxGrammarImpl.LOG.warn("[{}:{}]: skip declaration: {}",
             new Object[]{context.getFile(), identifierLine, sb.toString()});
           sb.setLength(0);
           identifierLine = -1;

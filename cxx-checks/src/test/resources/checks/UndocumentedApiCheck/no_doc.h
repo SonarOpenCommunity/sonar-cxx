@@ -151,9 +151,9 @@ public:
     virtual AAA::BBB::CCC* method() const noexcept override;
 };
 
-using aliasDeclarartion1 = void;
+using aliasDeclaration1 = void;
 
-template <typename T> using aliasDeclarartion2 = whatever<T>;
+template <typename T> using aliasDeclaration2 = whatever<T>;
 
 friend class friendClass;
 template<typename S> friend S& operator<<(S&, A const&);
