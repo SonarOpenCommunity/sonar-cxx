@@ -113,10 +113,14 @@ public class StatementTest extends ParserBaseTest {
 
     mockRule(CxxGrammarImpl.statement);
     mockRule(CxxGrammarImpl.condition);
+    mockRule(CxxGrammarImpl.initStatement);
 
     assertThat(p).matches("if ( condition ) statement");
+    assertThat(p).matches("if ( initStatement condition ) statement");
     assertThat(p).matches("if ( condition ) statement else statement");
+    assertThat(p).matches("if ( initStatement condition ) statement else statement");
     assertThat(p).matches("switch ( condition ) statement");
+    assertThat(p).matches("switch ( initStatement condition ) statement");
   }
  
   @Test
@@ -168,15 +172,15 @@ public class StatementTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.condition);
     mockRule(CxxGrammarImpl.statement);
     mockRule(CxxGrammarImpl.expression);
-    mockRule(CxxGrammarImpl.forInitStatement);
+    mockRule(CxxGrammarImpl.initStatement);
     mockRule(CxxGrammarImpl.forRangeDeclaration);
     mockRule(CxxGrammarImpl.forRangeInitializer);
 
     assertThat(p).matches("while ( condition ) statement");
     assertThat(p).matches("do statement while ( expression ) ;");
-    assertThat(p).matches("for ( forInitStatement ; ) statement");
-    assertThat(p).matches("for ( forInitStatement condition ; ) statement");
-    assertThat(p).matches("for ( forInitStatement condition ; expression ) statement");
+    assertThat(p).matches("for ( initStatement ; ) statement");
+    assertThat(p).matches("for ( initStatement condition ; ) statement");
+    assertThat(p).matches("for ( initStatement condition ; expression ) statement");
     assertThat(p).matches("for ( forRangeDeclaration : forRangeInitializer ) statement");
   }
 
@@ -218,7 +222,7 @@ public class StatementTest extends ParserBaseTest {
 
   @Test
   public void forInitStatement_reallife() {
-    p.setRootRule(g.rule(CxxGrammarImpl.forInitStatement));
+    p.setRootRule(g.rule(CxxGrammarImpl.initStatement));
     assertThat(p).matches("int i=1;");
   }
 
