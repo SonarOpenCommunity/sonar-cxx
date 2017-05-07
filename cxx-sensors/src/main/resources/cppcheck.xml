@@ -6182,6 +6182,56 @@ Undefined behaviour: float (1e+100) conversion overflow.
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
+  <!-- ########### New in cppcheck 1.78 ########### -->
+  <rule>
+    <key>funcArgNamesDifferent</key>
+    <name>Function 'function' argument 2 names different: declaration 'A' definition 'B'</name>
+    <description>
+<![CDATA[<p>
+Function 'function' argument 2 names different: declaration 'A' definition 'B'.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>funcArgNamesDifferent</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>funcArgOrderDifferent</key>
+    <name>Function 'function' argument order different: declaration '' definition ''</name>
+    <description>
+<![CDATA[<p>
+Function 'function' argument order different: declaration '' definition ''.
+</p><h2>References</h2>
+<p><a href="https://cwe.mitre.org/data/definitions/683.html" target="_blank">CWE-683: Function Call With Incorrect Order of Arguments</a></p>
+]]>
+    </description>
+    <tag>cwe</tag>
+    <internalKey>funcArgOrderDifferent</internalKey>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>copyCtorAndEqOperator</key>
+    <name>The class 'class' has 'operator=' but lack of 'copy constructor'</name>
+    <description>
+<![CDATA[<p>
+The class 'class' has 'operator=' but lack of 'copy constructor'.
+</p>
+]]>
+    </description>
+    <internalKey>copyCtorAndEqOperator</internalKey>
+    <severity>MINOR</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
   <!-- ########### add missing rules which seems not to be part of cppcheck errorlist ########### -->
   <rule>
     <key>asctimeCalled</key>
