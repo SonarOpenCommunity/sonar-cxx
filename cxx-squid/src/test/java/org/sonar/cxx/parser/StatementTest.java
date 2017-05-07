@@ -116,9 +116,15 @@ public class StatementTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.initStatement);
 
     assertThat(p).matches("if ( condition ) statement");
+    assertThat(p).matches("if constexpr ( condition ) statement");
     assertThat(p).matches("if ( initStatement condition ) statement");
+    assertThat(p).matches("if constexpr ( initStatement condition ) statement");
+
     assertThat(p).matches("if ( condition ) statement else statement");
+    assertThat(p).matches("if constexpr ( condition ) statement else statement");
     assertThat(p).matches("if ( initStatement condition ) statement else statement");
+    assertThat(p).matches("if constexpr ( initStatement condition ) statement else statement");
+
     assertThat(p).matches("switch ( condition ) statement");
     assertThat(p).matches("switch ( initStatement condition ) statement");
   }
