@@ -73,7 +73,7 @@ q-char:
 
 pp-number:
    digit
-. digit
+   . digit
    pp-number digit
    pp-number identifier-nondigit
    pp-number ’ digit
