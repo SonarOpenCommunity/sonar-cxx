@@ -137,11 +137,6 @@ decl-specifier:
    friend
    typedef
    constexpr
-   inline
-
-function-specifier:
-   virtual
-   explicit
 
 type-specifier:
    simple-type-specifier

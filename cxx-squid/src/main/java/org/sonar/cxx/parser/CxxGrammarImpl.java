@@ -844,7 +844,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         functionSpecifier, // C++
         CxxKeyword.FRIEND, // C++
         CxxKeyword.TYPEDEF, // C++
-        CxxKeyword.CONSTEXPR // C++
+        CxxKeyword.CONSTEXPR, // C++
+        CxxKeyword.INLINE // C++
       )
     );
 
@@ -858,7 +859,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(storageClassSpecifier).is(
       b.firstOf(
-        CxxKeyword.REGISTER, // C++
+        CxxKeyword.REGISTER, // C++11, C++14, deprecated with C++17
         CxxKeyword.STATIC, // C++
         CxxKeyword.THREAD_LOCAL, // C++
         CxxKeyword.EXTERN, // C++
@@ -868,7 +869,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(functionSpecifier).is(
       b.firstOf(
-        CxxKeyword.INLINE, // C++
         CxxKeyword.VIRTUAL, // C++
         CxxKeyword.EXPLICIT // C++
       )
