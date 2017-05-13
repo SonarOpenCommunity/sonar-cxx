@@ -28,6 +28,7 @@ import sys
 from   requests.auth import HTTPBasicAuth
 import subprocess
 import shutil
+import time
 from behave import given, when, then, model
 from common import analyselog, build_regexp, sonarlog, analyseloglines, ensureComputeEngineHasFinishedOk
 
@@ -155,6 +156,8 @@ def step_impl(context, command):
 
 @then(u'the analysis finishes successfully')
 def step_impl(context):
+     # delays for 60 seconds
+    time.sleep(60)
     assert context.rc == 0, "Exit code is %i, but should be zero" % context.rc
 
 @then(u'the analysis in server has completed')
