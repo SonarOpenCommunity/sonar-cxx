@@ -104,7 +104,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   condition,
   selectionStatement,
   iterationStatement,
-  forInitStatement,
+  initStatement,
   forRangeDeclaration,
   forRangeInitializer,
   jumpStatement,
@@ -700,6 +700,20 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(emptyStatement).is(";"); // todo: not C++
 
+    b.rule(initStatement).is(
+      b.firstOf(
+        expressionStatement, // C++
+        simpleDeclaration // C++
+      )
+    );
+
+    b.rule(condition).is( // todo C++17
+      b.firstOf(
+        b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, b.firstOf(b.sequence("=", initializerClause), bracedInitList)), // C++
+        expression // C++ todo: wrong order
+      )
+    );
+        
     b.rule(labeledStatement).is(
       b.firstOf(
         b.sequence(b.optional(attributeSpecifierSeq), IDENTIFIER, ":", statement), // C++
@@ -717,15 +731,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(selectionStatement).is(
       b.firstOf(
-        b.sequence(CxxKeyword.IF, "(", condition, ")", statement, b.optional(CxxKeyword.ELSE, statement)), // C++
-        b.sequence(CxxKeyword.SWITCH, "(", condition, ")", statement)
-      )
-    );
-
-    b.rule(condition).is(
-      b.firstOf(
-        b.sequence(b.optional(attributeSpecifierSeq), conditionDeclSpecifierSeq, declarator, b.firstOf(b.sequence("=", initializerClause), bracedInitList)), // C++
-        expression // C++ todo: wrong order
+        b.sequence(CxxKeyword.IF, b.optional(CxxKeyword.CONSTEXPR), "(", b.optional(initStatement), condition, ")", statement, b.optional(CxxKeyword.ELSE, statement)), // C++
+        b.sequence(CxxKeyword.SWITCH, "(", b.optional(initStatement), condition, ")", statement)
       )
     );
 
@@ -741,16 +748,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.firstOf(
         b.sequence(CxxKeyword.WHILE, "(", condition, ")", statement), // C++
         b.sequence(CxxKeyword.DO, statement, CxxKeyword.WHILE, "(", expression, ")", ";"), // C++
-        b.sequence(CxxKeyword.FOR, "(", forInitStatement, b.optional(condition), ";", b.optional(expression), ")", statement), // C++
+        b.sequence(CxxKeyword.FOR, "(", initStatement, b.optional(condition), ";", b.optional(expression), ")", statement), // C++
         b.sequence(CxxKeyword.FOR, "(", forRangeDeclaration, ":", forRangeInitializer, ")", statement), // C++
         b.sequence(CxxKeyword.FOR, "each", "(", forRangeDeclaration, "in", forRangeInitializer, ")", statement) // ???
-      )
-    );
-
-    b.rule(forInitStatement).is(
-      b.firstOf(
-        expressionStatement, // C++
-        simpleDeclaration // C++
       )
     );
 

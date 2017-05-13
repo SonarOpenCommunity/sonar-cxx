@@ -1,0 +1,1257 @@
+Annex A (informative)
+
+**A.1 Keywords [gram.key]**
+
+1 New context-dependent keywords are introduced into a program by typedef (7.1.3), namespace (7.3.1),
+class (Clause 9), enumeration (7.2), and template (Clause 14) declarations.
+
+typedef-name:
+      identifier
+
+namespace-name:
+   original-namespace-name
+   namespace-alias
+
+original-namespace-name:
+   identifier
+
+namespace-alias:
+   identifier
+
+class-name:
+   identifier
+   simple-template-id
+
+enum-name:
+   identifier
+
+template-name:
+   identifier
+Note that a typedef-name naming a class is also a class-name (9.1).
+
+**A.2 Lexical conventions [gram.lex]**
+
+hex-quad:
+   hexadecimal-digit hexadecimal-digit hexadecimal-digit hexadecimal-digit
+
+universal-character-name:
+   \u hex-quad
+   \U hex-quad hex-quad
+
+preprocessing-token:
+   header-name
+   identifier
+   pp-number
+   character-literal
+   user-defined-character-literal
+   string-literal
+   user-defined-string-literal
+   preprocessing-op-or-punc
+   each non-white-space character that cannot be one of the above
+
+token:
+   identifier
+   keyword
+   literal
+   operator
+   punctuator
+
+header-name:
+   < h-char-sequence >
+   " q-char-sequence "
+
+h-char-sequence:
+   h-char
+   h-char-sequence h-char
+
+h-char:
+   any member of the source character set except new-line and >
+
+q-char-sequence:
+   q-char
+   q-char-sequence q-char
+
+q-char:
+   any member of the source character set except new-line and "
+
+pp-number:
+   digit
+   . digit
+   pp-number digit
+   pp-number identifier-nondigit
+   pp-number ’ digit
+   pp-number ’ nondigit
+   pp-number e sign
+   pp-number E sign
+   pp-number .
+
+identifier:
+   identifier-nondigit
+   identifier identifier-nondigit
+   identifier digit
+
+identifier-nondigit:
+   nondigit
+   universal-character-name
+
+nondigit: one of
+   a b c d e f g h i j k l m
+   n o p q r s t u v w x y z
+   A B C D E F G H I J K L M
+   N O P Q R S T U V W X Y Z _
+
+digit: one of
+   0 1 2 3 4 5 6 7 8 9
+
+preprocessing-op-or-punc: one of
+   { } [ ] # ## ( )
+   <: :> <% %> %: %:%: ; : ...
+   new delete ? :: . .*
+   + - * / % ^ & | ~
+   ! = < > += -= *= /= %=
+   ^= &= |= << >> >>= <<= == !=
+   <= >= && || ++ -- , ->* ->
+   and and_eq bitand bitor compl not not_eq
+   or or_eq xor xor_eq
+
+literal:
+   integer-literal
+   character-literal
+   floating-literal
+   string-literal
+   boolean-literal
+   pointer-literal
+   user-defined-literal
+
+integer-literal:
+   binary-literal integer-suffixopt
+   octal-literal integer-suffixopt
+   decimal-literal integer-suffixopt
+   hexadecimal-literal integer-suffixopt
+
+binary-literal:
+   0b binary-digit
+   0B binary-digit
+   binary-literal ’opt binary-digit
+
+octal-literal:
+   0
+   octal-literal ’opt octal-digit
+
+decimal-literal:
+   nonzero-digit
+   decimal-literal ’opt digit
+
+hexadecimal-literal:
+   0x hexadecimal-digit
+   0X hexadecimal-digit
+   hexadecimal-literal ’opt hexadecimal-digit
+
+binary-digit:
+   0
+   1
+
+octal-digit: one of
+   0 1 2 3 4 5 6 7
+
+nonzero-digit: one of
+   1 2 3 4 5 6 7 8 9
+
+hexadecimal-digit: one of
+   0 1 2 3 4 5 6 7 8 9
+   a b c d e f
+   A B C D E F
+
+integer-suffix:
+   unsigned-suffix long-suffixopt
+   unsigned-suffix long-long-suffixopt
+   long-suffix unsigned-suffixopt
+   long-long-suffix unsigned-suffixopt
+
+unsigned-suffix: one of
+   u U
+
+long-suffix: one of
+   l L
+
+long-long-suffix: one of
+   ll LL
+
+character-literal:
+   encoding-prefixopt ’ c-char-sequence ’
+
+encoding-prefix: one of
+   u8 u U L
+
+c-char-sequence:
+   c-char
+   c-char-sequence c-char
+
+c-char:
+   any member of the source character set except
+   the single-quote ’, backslash \, or new-line character
+   escape-sequence
+   universal-character-name
+
+escape-sequence:
+   simple-escape-sequence
+   octal-escape-sequence
+   hexadecimal-escape-sequence
+
+simple-escape-sequence: one of
+   \’ \" \? \\
+   \a \b \f \n \r \t \v
+
+octal-escape-sequence:
+   \ octal-digit
+   \ octal-digit octal-digit
+   \ octal-digit octal-digit octal-digit
+
+hexadecimal-escape-sequence:
+   \x hexadecimal-digit
+   hexadecimal-escape-sequence hexadecimal-digit
+
+floating-literal:
+   fractional-constant exponent-partopt floating-suffixopt
+   digit-sequence exponent-part floating-suffixopt
+
+fractional-constant:
+   digit-sequenceopt . digit-sequence
+   digit-sequence .
+
+exponent-part:
+   e signopt digit-sequence
+   E signopt digit-sequence
+
+sign: one of
+   + -
+
+digit-sequence:
+   digit
+   digit-sequence ’opt digit
+
+floating-suffix: one of
+   f l F L
+
+string-literal:
+   encoding-prefixopt " s-char-sequenceopt "
+   encoding-prefixopt R raw-string
+
+s-char-sequence:
+   s-char
+   s-char-sequence s-char
+
+s-char:
+   any member of the source character set except
+   the double-quote ", backslash \, or new-line character
+   escape-sequence
+   universal-character-name
+
+raw-string:
+   " d-char-sequenceopt ( r-char-sequenceopt ) d-char-sequenceopt "
+
+r-char-sequence:
+   r-char
+   r-char-sequence r-char
+
+r-char:
+   any member of the source character set, except
+   a right parenthesis ) followed by the initial d-char-sequence
+   (which may be empty) followed by a double quote ".
+
+d-char-sequence:
+   d-char
+   d-char-sequence d-char
+
+d-char:
+   any member of the basic source character set except:
+   space, the left parenthesis (, the right parenthesis ), the backslash \,
+   and the control characters representing horizontal tab,
+   vertical tab, form feed, and newline.
+
+boolean-literal:
+   false
+   true
+
+pointer-literal:
+   nullptr
+
+user-defined-literal:
+   user-defined-integer-literal
+   user-defined-floating-literal
+   user-defined-string-literal
+   user-defined-character-literal
+
+user-defined-integer-literal:
+   decimal-literal ud-suffix
+   octal-literal ud-suffix
+   hexadecimal-literal ud-suffix
+   binary-literal ud-suffix
+
+user-defined-floating-literal:
+   fractional-constant exponent-partopt ud-suffix
+   digit-sequence exponent-part ud-suffix
+
+user-defined-string-literal:
+   string-literal ud-suffix
+
+user-defined-character-literal:
+   character-literal ud-suffix
+
+ud-suffix:
+   identifier
+
+**A.3 Basic concepts [gram.basic]**
+
+translation-unit:
+   declaration-seqopt
+
+**A.4 Expressions [gram.expr]**
+
+primary-expression:
+   literal
+   this
+   ( expression )
+   id-expression
+   lambda-expression
+   fold-expression
+
+id-expression:
+   unqualified-id
+   qualified-id
+
+unqualified-id:
+   identifier
+   operator-function-id
+   conversion-function-id
+   literal-operator-id
+   ~ class-name
+   ~ decltype-specifier
+   template-id
+
+qualified-id:
+   nested-name-specifier templateopt unqualified-id
+
+nested-name-specifier:
+   ::
+   type-name ::
+   namespace-name ::
+   decltype-specifier ::
+   nested-name-specifier identifier ::
+   nested-name-specifier templateopt simple-template-id ::
+
+lambda-expression:
+   lambda-introducer lambda-declaratoropt compound-statement
+
+lambda-introducer:
+   [ lambda-captureopt ]
+
+lambda-capture:
+   capture-default
+   capture-list
+   capture-default , capture-list
+
+capture-default:
+   &=
+
+capture-list:
+   capture ...opt
+   capture-list , capture ...opt
+
+capture:
+   simple-capture
+   init-capture
+
+simple-capture:
+   identifier
+   & identifier
+   this
+
+init-capture:
+   identifier initializer
+   & identifier initializer
+
+lambda-declarator:
+   ( parameter-declaration-clause ) mutableopt
+   exception-specificationopt attribute-specifier-seqopt trailing-return-typeopt
+
+fold-expression:
+   ( cast-expression fold-operator ... )
+   ( ... fold-operator cast-expression )
+   ( cast-expression fold-operator ... fold-operator cast-expression )
+
+fold-operator: one of
+   + - * / % ^ & | << >>
+   += -= *= /= %= ^= &= |= <<= >>= =
+   == != < > <= >= && || , .* ->*
+
+postfix-expression:
+   primary-expression
+   postfix-expression [ expression ]
+   postfix-expression [ braced-init-list ]
+   postfix-expression ( expression-listopt )
+   simple-type-specifier ( expression-listopt )
+   typename-specifier ( expression-listopt )
+   simple-type-specifier braced-init-list
+   typename-specifier braced-init-list
+   postfix-expression . templateopt id-expression
+   postfix-expression -> templateopt id-expression
+   postfix-expression . pseudo-destructor-name
+   postfix-expression -> pseudo-destructor-name
+   postfix-expression ++
+   postfix-expression --
+   dynamic_cast < type-id > ( expression )
+   static_cast < type-id > ( expression )
+   reinterpret_cast < type-id > ( expression )
+   const_cast < type-id > ( expression )
+   typeid ( expression )
+   typeid ( type-id )
+
+expression-list:
+   initializer-list
+
+pseudo-destructor-name:
+   nested-name-specifieropt type-name :: ~ type-name
+   nested-name-specifier template simple-template-id :: ~ type-name
+   ~ type-name
+   ~ decltype-specifier
+
+unary-expression:
+   postfix-expression
+   ++ cast-expression
+   -- cast-expression
+   unary-operator cast-expression
+   sizeof unary-expression
+   sizeof ( type-id )
+   sizeof ... ( identifier )
+   alignof ( type-id )
+   noexcept-expression
+   new-expression
+   delete-expression
+
+unary-operator: one of
+   * & + - ! ~
+
+new-expression:
+   ::optnew new-placementopt new-type-id new-initializeropt
+   ::optnew new-placementopt ( type-id ) new-initializeropt
+
+new-placement:
+   ( expression-list )
+
+new-type-id:
+   type-specifier-seq new-declaratoropt
+
+new-declarator:
+   ptr-operator new-declaratoropt
+   noptr-new-declarator
+
+noptr-new-declarator:
+   [ expression ] attribute-specifier-seqopt
+   noptr-new-declarator [ constant-expression ] attribute-specifier-seqopt
+
+new-initializer:
+   ( expression-listopt )
+   braced-init-list
+
+delete-expression:
+   ::optdelete cast-expression
+   ::optdelete [ ] cast-expression
+
+noexcept-expression:
+   noexcept ( expression )
+
+cast-expression:
+   unary-expression
+   ( type-id ) cast-expression
+
+pm-expression:
+   cast-expression
+   pm-expression .* cast-expression
+   pm-expression ->* cast-expression
+
+multiplicative-expression:
+   pm-expression
+   multiplicative-expression * pm-expression
+   multiplicative-expression / pm-expression
+   multiplicative-expression % pm-expression
+
+additive-expression:
+   multiplicative-expression
+   additive-expression + multiplicative-expression
+   additive-expression - multiplicative-expression
+
+shift-expression:
+   additive-expression
+   shift-expression << additive-expression
+   shift-expression >> additive-expression
+
+relational-expression:
+   shift-expression
+   relational-expression < shift-expression
+   relational-expression > shift-expression
+   relational-expression <= shift-expression
+   relational-expression >= shift-expression
+
+equality-expression:
+   relational-expression
+   equality-expression == relational-expression
+   equality-expression != relational-expression
+
+and-expression:
+   equality-expression
+   and-expression & equality-expression
+
+exclusive-or-expression:
+   and-expression
+   exclusive-or-expression ^ and-expression
+
+inclusive-or-expression:
+   exclusive-or-expression
+   inclusive-or-expression | exclusive-or-expression
+
+logical-and-expression:
+   inclusive-or-expression
+   logical-and-expression && inclusive-or-expression
+
+logical-or-expression:
+   logical-and-expression
+   logical-or-expression || logical-and-expression
+
+conditional-expression:
+   logical-or-expression
+   logical-or-expression ? expression : assignment-expression
+
+throw-expression:
+   throw assignment-expressionopt
+
+assignment-expression:
+   conditional-expression
+   logical-or-expression assignment-operator initializer-clause
+   throw-expression
+
+assignment-operator: one of
+   = *= /= %= += -= >>= <<= &= ^= |=
+
+expression:
+   assignment-expression
+   expression , assignment-expression
+
+constant-expression:
+   conditional-expression
+
+**A.5 Statements [gram.stmt]**
+
+statement:
+   labeled-statement
+   attribute-specifier-seqopt expression-statement
+   attribute-specifier-seqopt compound-statement
+   attribute-specifier-seqopt selection-statement
+   attribute-specifier-seqopt iteration-statement
+   attribute-specifier-seqopt jump-statement
+   declaration-statement
+   attribute-specifier-seqopt try-block
+
+labeled-statement:
+   attribute-specifier-seqopt identifier : statement
+   attribute-specifier-seqoptcase constant-expression : statement
+   attribute-specifier-seqoptdefault : statement
+
+expression-statement:
+   expressionopt ;
+
+compound-statement:
+   { statement-seqopt }
+
+statement-seq:
+   statement
+   statement-seq statement
+
+selection-statement:
+   if ( condition ) statement
+   if ( condition ) statement else statement
+   switch ( condition ) statement
+
+condition:
+   expression
+   attribute-specifier-seqopt decl-specifier-seq declarator = initializer-clause
+   attribute-specifier-seqopt decl-specifier-seq declarator braced-init-list
+
+iteration-statement:
+   while ( condition ) statement
+   do statement while ( expression ) ;
+   for ( for-init-statement conditionopt ; expressionopt ) statement
+   for ( for-range-declaration : for-range-initializer ) statement
+
+for-init-statement:
+   expression-statement
+   simple-declaration
+
+for-range-declaration:
+   attribute-specifier-seqopt decl-specifier-seq declarator
+
+for-range-initializer:
+   expression
+   braced-init-list
+
+jump-statement:
+   break ;
+   continue ;
+   return expressionopt ;
+   return braced-init-list ;
+   goto identifier ;
+
+declaration-statement:
+   block-declaration
+
+**A.6 Declarations [gram.dcl]**
+
+declaration-seq:
+   declaration
+   declaration-seq declaration
+
+declaration:
+   block-declaration
+   function-definition
+   template-declaration
+   explicit-instantiation
+   explicit-specialization
+   linkage-specification
+   namespace-definition
+   empty-declaration
+   attribute-declaration
+
+block-declaration:
+   simple-declaration
+   asm-definition
+   namespace-alias-definition
+   using-declaration
+   using-directive
+   static_assert-declaration
+   alias-declaration
+   opaque-enum-declaration
+
+alias-declaration:
+   using identifier attribute-specifier-seqopt= type-id ;
+
+simple-declaration:
+   decl-specifier-seqopt init-declarator-listopt ;
+   attribute-specifier-seq decl-specifier-seqopt init-declarator-list ;
+
+static_assert-declaration:
+   static_assert ( constant-expression ) ;
+   static_assert ( constant-expression , string-literal ) ;
+
+empty-declaration:
+   ;
+
+attribute-declaration:
+   attribute-specifier-seq ;
+
+decl-specifier:
+   storage-class-specifier
+   type-specifier
+   function-specifier
+   friend
+   typedef
+   constexpr
+
+decl-specifier-seq:
+   decl-specifier attribute-specifier-seqopt
+   decl-specifier decl-specifier-seq
+
+storage-class-specifier:
+   register
+   static
+   thread_local
+   extern
+   mutable
+
+function-specifier:
+   inline
+   virtual
+   explicit
+
+typedef-name:
+   identifier
+
+type-specifier:
+   trailing-type-specifier
+   class-specifier
+   enum-specifier
+
+trailing-type-specifier:
+   simple-type-specifier
+   elaborated-type-specifier
+   typename-specifier
+   cv-qualifier
+
+type-specifier-seq:
+   type-specifier attribute-specifier-seqopt
+   type-specifier type-specifier-seq
+
+trailing-type-specifier-seq:
+   trailing-type-specifier attribute-specifier-seqopt
+   trailing-type-specifier trailing-type-specifier-seq
+
+simple-type-specifier:
+   nested-name-specifieropt type-name
+   nested-name-specifier template simple-template-id
+   char
+   char16_t
+   char32_t
+   wchar_t
+   bool
+   short
+   int
+   long
+   signed
+   unsigned
+   float
+   double
+   void
+   auto
+   decltype-specifier
+
+type-name:
+   class-name
+   enum-name
+   typedef-name
+   simple-template-id
+
+decltype-specifier:
+   decltype ( expression )
+   decltype ( auto )
+
+elaborated-type-specifier:
+   class-key attribute-specifier-seqopt nested-name-specifieropt identifier
+   class-key simple-template-id
+   class-key nested-name-specifier templateopt simple-template-id
+   enum nested-name-specifieropt identifier
+
+enum-name:
+   identifier
+
+enum-specifier:
+   enum-head { enumerator-listopt }
+   enum-head { enumerator-list , }
+
+enum-head:
+   enum-key attribute-specifier-seqopt identifieropt enum-baseopt
+   enum-key attribute-specifier-seqopt nested-name-specifier identifier
+   enum-baseopt
+
+opaque-enum-declaration:
+   enum-key attribute-specifier-seqopt identifier enum-baseopt;
+
+enum-key:
+   enum
+   enum class
+   enum struct
+
+enum-base:
+   : type-specifier-seq
+
+enumerator-list:
+   enumerator-definition
+   enumerator-list , enumerator-definition
+
+enumerator-definition:
+   enumerator
+   enumerator = constant-expression
+
+enumerator:
+   identifier attribute-specifier-seqopt
+
+namespace-name:
+   identifier
+   namespace-alias
+
+namespace-definition:
+   named-namespace-definition
+   unnamed-namespace-definition
+   nested-namespace-definition
+
+named-namespace-definition:
+   inlineopt namespace attribute-specifier-seqopt identifier { namespace-body }
+
+unnamed-namespace-definition:
+   inlineopt namespace attribute-specifier-seqopt { namespace-body }
+
+nested-namespace-definition:
+   namespace enclosing-namespace-specifier :: identifier { namespace-body }
+
+enclosing-namespace-specifier:
+   identifier
+   enclosing-namespace-specifier :: identifier
+
+namespace-body:
+   declaration-seqopt
+
+namespace-alias:
+   identifier
+
+namespace-alias-definition:
+   namespace identifier = qualified-namespace-specifier ;
+
+qualified-namespace-specifier:
+   nested-name-specifieropt namespace-name
+
+using-declaration:
+   using typenameopt nested-name-specifier unqualified-id ;
+
+using-directive:
+   attribute-specifier-seqoptusing namespace nested-name-specifieropt namespace-name ;
+
+asm-definition:
+   asm ( string-literal ) ;
+
+linkage-specification:
+   extern string-literal { declaration-seqopt }
+   extern string-literal declaration
+
+attribute-specifier-seq:
+   attribute-specifier-seqopt attribute-specifier
+
+attribute-specifier:
+   [ [ attribute-list ] ]
+   alignment-specifier
+
+alignment-specifier:
+   alignas ( type-id ...opt )
+   alignas ( constant-expression ...opt )
+
+attribute-list:
+   attributeopt
+   attribute-list , attributeopt
+   attribute ...
+   attribute-list , attribute ...
+
+attribute:
+   attribute-token attribute-argument-clauseopt
+
+attribute-token:
+   identifier
+   attribute-scoped-token
+
+attribute-scoped-token:
+   attribute-namespace :: identifier
+
+attribute-namespace:
+   identifier
+
+attribute-argument-clause:
+   ( balanced-token-seq )
+
+balanced-token-seq:
+   balanced-tokenopt
+   balanced-token-seq balanced-token
+
+balanced-token:
+   ( balanced-token-seq )
+   [ balanced-token-seq ]
+   { balanced-token-seq }
+   any token other than a parenthesis, a bracket, or a brace
+
+**A.7 Declarators [gram.decl]**
+
+init-declarator-list:
+   init-declarator
+   init-declarator-list , init-declarator
+
+init-declarator:
+   declarator initializeropt
+
+declarator:
+   ptr-declarator
+   noptr-declarator parameters-and-qualifiers trailing-return-type
+
+ptr-declarator:
+   noptr-declarator
+   ptr-operator ptr-declarator
+
+noptr-declarator:
+   declarator-id attribute-specifier-seqopt
+   noptr-declarator parameters-and-qualifiers
+   noptr-declarator [ constant-expressionopt ] attribute-specifier-seqopt
+   ( ptr-declarator )
+
+parameters-and-qualifiers:
+   ( parameter-declaration-clause ) cv-qualifier-seqopt
+   ref-qualifieropt exception-specificationopt attribute-specifier-seqopt
+
+trailing-return-type:
+   -> trailing-type-specifier-seq abstract-declaratoropt
+
+ptr-operator:
+   * attribute-specifier-seqopt cv-qualifier-seqopt
+   & attribute-specifier-seqopt
+   && attribute-specifier-seqopt
+   nested-name-specifier * attribute-specifier-seqopt cv-qualifier-seqopt
+
+cv-qualifier-seq:
+   cv-qualifier cv-qualifier-seqopt
+
+cv-qualifier:
+   const
+   volatile
+
+ref-qualifier:
+   &
+   &&
+
+declarator-id:
+   ...opt id-expression
+
+type-id:
+   type-specifier-seq abstract-declaratoropt
+
+abstract-declarator:
+   ptr-abstract-declarator
+   noptr-abstract-declaratoropt parameters-and-qualifiers trailing-return-type
+   abstract-pack-declarator
+
+ptr-abstract-declarator:
+   noptr-abstract-declarator
+   ptr-operator ptr-abstract-declaratoropt
+
+noptr-abstract-declarator:
+   noptr-abstract-declaratoropt parameters-and-qualifiers
+   noptr-abstract-declaratoropt [ constant-expressionopt ] attribute-specifier-seqopt
+   ( ptr-abstract-declarator )
+
+abstract-pack-declarator:
+   noptr-abstract-pack-declarator
+   ptr-operator abstract-pack-declarator
+
+noptr-abstract-pack-declarator:
+   noptr-abstract-pack-declarator parameters-and-qualifiers
+   noptr-abstract-pack-declarator [ constant-expressionopt ] attribute-specifier-seqopt
+   ...
+
+parameter-declaration-clause:
+   parameter-declaration-listopt ...opt
+   parameter-declaration-list , ...
+
+parameter-declaration-list:
+   parameter-declaration
+   parameter-declaration-list , parameter-declaration
+
+parameter-declaration:
+   attribute-specifier-seqopt decl-specifier-seq declarator
+   attribute-specifier-seqopt decl-specifier-seq declarator = initializer-clause
+   attribute-specifier-seqopt decl-specifier-seq abstract-declaratoropt
+   attribute-specifier-seqopt decl-specifier-seq abstract-declaratoropt = initializer-clause
+
+function-definition:
+   attribute-specifier-seqopt decl-specifier-seqopt declarator virt-specifier-seqopt function-body
+
+function-body:
+   ctor-initializeropt compound-statement
+   function-try-block
+   = default ;
+   = delete ;
+
+initializer:
+   brace-or-equal-initializer
+   ( expression-list )
+
+brace-or-equal-initializer:
+   = initializer-clause
+   braced-init-list
+
+initializer-clause:
+   assignment-expression
+   braced-init-list
+
+initializer-list:
+   initializer-clause ...opt
+   initializer-list , initializer-clause ...opt
+
+braced-init-list:
+   { initializer-list ,opt }
+   { }
+
+**A.8 Classes [gram.class]**
+
+class-name:
+   identifier
+   simple-template-id
+
+class-specifier:
+   class-head { member-specificationopt }
+
+class-head:
+   class-key attribute-specifier-seqopt class-head-name class-virt-specifieropt base-clauseopt
+   class-key attribute-specifier-seqopt base-clauseopt
+
+class-head-name:
+   nested-name-specifieropt class-name
+
+class-virt-specifier:
+   final
+
+class-key:
+   class
+   struct
+   union
+
+member-specification:
+   member-declaration member-specificationopt
+   access-specifier : member-specificationopt
+
+member-declaration:
+   attribute-specifier-seqopt decl-specifier-seqopt member-declarator-listopt ;
+   function-definition
+   using-declaration
+   static_assert-declaration
+   template-declaration
+   alias-declaration
+   empty-declaration
+
+member-declarator-list:
+   member-declarator
+   member-declarator-list , member-declarator
+
+member-declarator:
+   declarator virt-specifier-seqopt pure-specifieropt
+   declarator brace-or-equal-initializeropt
+   identifieropt attribute-specifier-seqopt : constant-expression
+
+virt-specifier-seq:
+   virt-specifier
+   virt-specifier-seq virt-specifier
+
+virt-specifier:
+   override
+   final
+
+pure-specifier:
+   = 0
+
+**A.9 Derived classes [gram.derived]**
+
+base-clause:
+   : base-specifier-list
+
+base-specifier-list:
+   base-specifier ...opt
+   base-specifier-list , base-specifier ...opt
+
+base-specifier:
+   attribute-specifier-seqopt base-type-specifier
+   attribute-specifier-seqoptvirtual access-specifieropt base-type-specifier
+   attribute-specifier-seqopt access-specifier virtualopt base-type-specifier
+
+class-or-decltype:
+   nested-name-specifieropt class-name
+   decltype-specifier
+
+base-type-specifier:
+   class-or-decltype
+
+access-specifier:
+   private
+   protected
+   public
+
+**A.10 Special member functions [gram.special]**
+
+conversion-function-id:
+   operator conversion-type-id
+
+conversion-type-id:
+   type-specifier-seq conversion-declaratoropt
+
+conversion-declarator:
+   ptr-operator conversion-declaratoropt
+
+ctor-initializer:
+   : mem-initializer-list
+
+mem-initializer-list:
+   mem-initializer ...opt
+   mem-initializer-list , mem-initializer ...opt
+
+mem-initializer:
+   mem-initializer-id ( expression-listopt )
+   mem-initializer-id braced-init-list
+
+mem-initializer-id:
+   class-or-decltype
+   identifier
+
+**A.11 Overloading [gram.over]**
+
+operator-function-id:
+   operator operator
+
+operator: one of
+   new delete new[] delete[]
+   + - * / % ^ & | ~
+   ! = < > += -= *= /= %=
+   ^= &= |= << >> >>= <<= == !=
+   <= >= && || ++ -- , ->* ->
+   ( ) [ ]
+
+literal-operator-id:
+   operator string-literal identifier
+   operator user-defined-string-literal
+
+**A.12 Templates [gram.temp]**
+
+template-declaration:
+   template < template-parameter-list > declaration
+
+template-parameter-list:
+   template-parameter
+   template-parameter-list , template-parameter
+
+template-parameter:
+   type-parameter
+   parameter-declaration
+
+type-parameter:
+   type-parameter-key ...opt identifieropt
+   type-parameter-key identifieropt = type-id
+   template < template-parameter-list > type-parameter-key ...opt identifieropt
+   template < template-parameter-list > type-parameter-key identifieropt = id-expression
+
+type-parameter-key:
+   class
+   typename
+
+simple-template-id:
+   template-name < template-argument-listopt >
+
+template-id:
+   simple-template-id
+   operator-function-id < template-argument-listopt >
+   literal-operator-id < template-argument-listopt >
+
+template-name:
+   identifier
+
+template-argument-list:
+   template-argument ...opt
+   template-argument-list , template-argument ...opt
+
+template-argument:
+   constant-expression
+   type-id
+   id-expression
+
+typename-specifier:
+   typename nested-name-specifier identifier
+   typename nested-name-specifier templateopt simple-template-id
+
+explicit-instantiation:
+   externopt template declaration
+
+explicit-specialization:
+   template < > declaration
+
+**A.13 Exception handling [gram.except]**
+
+try-block:
+   try compound-statement handler-seq
+
+function-try-block:
+   try ctor-initializeropt compound-statement handler-seq
+
+handler-seq:
+   handler handler-seqopt
+
+handler:
+   catch ( exception-declaration ) compound-statement
+
+exception-declaration:
+   attribute-specifier-seqopt type-specifier-seq declarator
+   attribute-specifier-seqopt type-specifier-seq abstract-declaratoropt
+   ...
+
+exception-specification:
+   dynamic-exception-specification
+   noexcept-specification
+
+dynamic-exception-specification:
+   throw ( type-id-listopt)
+
+type-id-list:
+   type-id ...opt
+   type-id-list , type-id ...opt
+
+noexcept-specification:
+   noexcept ( constant-expression )
+   noexcept
+
+**A.14 Preprocessing directives [gram.cpp]**
+
+preprocessing-file:
+   groupopt
+
+group:
+   group-part
+   group group-part
+
+group-part:
+   if-section
+   control-line
+   text-line
+   # non-directive
+
+if-section:
+   if-group elif-groupsopt else-groupopt endif-line
+
+if-group:
+   # if constant-expression new-line groupopt
+   # ifdef identifier new-line groupopt
+   # ifndef identifier new-line groupopt
+
+elif-groups:
+   elif-group
+   elif-groups elif-group
+
+elif-group:
+   # elif constant-expression new-line groupopt
+
+else-group:
+   # else new-line groupopt
+
+endif-line:
+   # endif new-line
+
+control-line:
+   # include pp-tokens new-line
+   # define identifier replacement-list new-line
+   # define identifier lparen identifier-listopt ) replacement-list new-line
+   # define identifier lparen ... ) replacement-list new-line
+   # define identifier lparen identifier-list, ... ) replacement-list new-line
+   # undef identifier new-line
+   # line pp-tokens new-line
+   # error pp-tokensopt new-line
+   # pragma pp-tokensopt new-line
+   # new-line
+
+text-line:
+   pp-tokensopt new-line
+
+non-directive:
+   pp-tokens new-line
+
+lparen:
+   a ( character not immediately preceded by white-space
+
+identifier-list:
+   identifier
+   identifier-list , identifier
+
+replacement-list:
+   pp-tokensopt
+
+pp-tokens:
+   preprocessing-token
+   pp-tokens preprocessing-token
+
+new-line:
+   the new-line character
