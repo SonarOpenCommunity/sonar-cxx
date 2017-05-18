@@ -5030,11 +5030,11 @@ Return value of allocation function is not used.
   </rule>
   <rule>
     <key>invalidFunctionArg</key>
-    <name>Invalid function argument</name>
+    <name>Invalid func_name() argument nr 1. The value is 0 or 1 (boolean) but the valid values are '1:4'</name>
     <description>
 <![CDATA[
 <p>
-A function gets passed an invalid argument.
+Invalid func_name() argument nr 1. The value is 0 or 1 (boolean) but the valid values are '1:4'.
 </p>
 <h2>References</h2>
 <p><a href="https://cwe.mitre.org/data/definitions/628.html" target="_blank">CWE-628: Function Call with Incorrectly Specified Arguments</a></p>
