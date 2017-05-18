@@ -185,7 +185,6 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.declSpecifier));
 
     assertThat(p).matches("register"); // a storage class
-    assertThat(p).matches("inline"); // a function specifier
     assertThat(p).matches("friend"); // a function specifier
     assertThat(p).matches("void"); // a built-in type
 
@@ -193,7 +192,8 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("friend");
     assertThat(p).matches("typedef");
     assertThat(p).matches("constexpr");
-
+    assertThat(p).matches("inline");
+ 
     // enum specifier
     assertThat(p).matches("enum foo { MONDAY=1 }");
 
