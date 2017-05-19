@@ -413,7 +413,7 @@ public class DeclarationsTest extends ParserBaseTest {
   @Test
   public void enclosingNamespaceSpecifier() {
     p.setRootRule(g.rule(CxxGrammarImpl.enclosingNamespaceSpecifier));
-        
+
     assertThat(p)
         .matches("IDENTIFIER")
         .matches("IDENTIFIER :: IDENTIFIER")
@@ -425,6 +425,7 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.namespaceDefinition));
 
     assertThat(p).matches("namespace MyLib { double readAndProcessSum (std::istream&); }");
+    assertThat(p).matches("namespace A::B::C { int i; }");
   }
 
   @Test

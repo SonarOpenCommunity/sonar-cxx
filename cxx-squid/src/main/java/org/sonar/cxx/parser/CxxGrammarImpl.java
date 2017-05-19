@@ -1004,7 +1004,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
     
     b.rule(enclosingNamespaceSpecifier).is(
-      IDENTIFIER, b.zeroOrMore(b.sequence("::", IDENTIFIER)) // C++
+      IDENTIFIER, b.zeroOrMore(b.sequence("::", IDENTIFIER, b.nextNot("{"))) // C++
     );
            
     b.rule(namespaceBody).is(b.optional(declarationSeq)); // C++
