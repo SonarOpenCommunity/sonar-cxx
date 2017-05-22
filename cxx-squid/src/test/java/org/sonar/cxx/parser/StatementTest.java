@@ -224,6 +224,9 @@ public class StatementTest extends ParserBaseTest {
 
     // CLI extension
     assertThat(p).matches("for each(String^% s in arr) { s = i++.ToString(); }");
+    
+    // C++17 structered bindings
+    assertThat(p).matches("for (const auto&[key, val] : mymap) { std::cout << key << \": \" << val << std::endl; }");
   }
 
   @Test
@@ -239,9 +242,18 @@ public class StatementTest extends ParserBaseTest {
     mockRule(CxxGrammarImpl.forRangeDeclSpecifierSeq);
     mockRule(CxxGrammarImpl.declarator);
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
+    mockRule(CxxGrammarImpl.declSpecifierSeq);
+    mockRule(CxxGrammarImpl.identifierList);
+    mockRule(CxxGrammarImpl.refQualifier);
 
     assertThat(p).matches("forRangeDeclSpecifierSeq declarator");
     assertThat(p).matches("attributeSpecifierSeq forRangeDeclSpecifierSeq declarator");
+    
+    assertThat(p).matches("declSpecifierSeq [ identifierList ]");
+    assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq [ identifierList ]");
+    assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq [ identifierList ]");
+    assertThat(p).matches("declSpecifierSeq refQualifier [ identifierList ]");
+    assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq refQualifier [ identifierList ]");
   }
 
   @Test

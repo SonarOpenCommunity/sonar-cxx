@@ -22,9 +22,6 @@ package org.sonar.cxx.parser;
 import static org.sonar.sslr.tests.Assertions.assertThat;
 
 import org.junit.Test;
-import static org.sonar.cxx.parser.CxxGrammarImpl.namedNamespaceDefinition;
-import static org.sonar.cxx.parser.CxxGrammarImpl.nestedNamespaceDefinition;
-import static org.sonar.cxx.parser.CxxGrammarImpl.unnamedNamespaceDefinition;
 
 public class DeclarationsTest extends ParserBaseTest {
 
@@ -109,16 +106,24 @@ public class DeclarationsTest extends ParserBaseTest {
     p.setRootRule(g.rule(CxxGrammarImpl.simpleDeclaration));
 
     mockRule(CxxGrammarImpl.attributeSpecifierSeq);
-    mockRule(CxxGrammarImpl.simpleDeclSpecifierSeq);
+    mockRule(CxxGrammarImpl.declSpecifierSeq);
     mockRule(CxxGrammarImpl.initDeclaratorList);
+    mockRule(CxxGrammarImpl.refQualifier);
+    mockRule(CxxGrammarImpl.identifierList);
+    mockRule(CxxGrammarImpl.initializer);
 
     assertThat(p).matches(";");
     assertThat(p).matches("initDeclaratorList ;");
-    assertThat(p).matches("simpleDeclSpecifierSeq ;");
-    assertThat(p).matches("simpleDeclSpecifierSeq initDeclaratorList ;");
+    assertThat(p).matches("declSpecifierSeq ;");
+    assertThat(p).matches("declSpecifierSeq initDeclaratorList ;");
 
     assertThat(p).matches("attributeSpecifierSeq initDeclaratorList ;");
-    assertThat(p).matches("attributeSpecifierSeq simpleDeclSpecifierSeq initDeclaratorList ;");
+    assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq initDeclaratorList ;");
+    
+    assertThat(p).matches("declSpecifierSeq [ identifierList ] initializer ;");
+    assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq [ identifierList ] initializer ;");
+    assertThat(p).matches("declSpecifierSeq refQualifier [ identifierList ] initializer ;");
+    assertThat(p).matches("attributeSpecifierSeq declSpecifierSeq refQualifier [ identifierList ] initializer ;");
   }
 
   @Test
@@ -169,6 +174,7 @@ public class DeclarationsTest extends ParserBaseTest {
     assertThat(p).matches("auto f() -> int(*)[4];");
     assertThat(p).matches("auto fpif(int) -> int(*)(int);");
 
+    assertThat(p).matches("auto[a, b] = f();");
   }
 
   @Test
