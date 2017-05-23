@@ -265,14 +265,14 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return false;
     }
 
-    AstNode simpleDeclSpecifierSeq = simpleDeclNode
-      .getFirstChild(CxxGrammarImpl.simpleDeclSpecifierSeq);
+    AstNode declSpecifierSeq = simpleDeclNode
+      .getFirstChild(CxxGrammarImpl.declSpecifierSeq);
 
-    if (simpleDeclSpecifierSeq == null) {
+    if (declSpecifierSeq == null) {
       return false;
     }
 
-    List<AstNode> declSpecifiers = simpleDeclSpecifierSeq
+    List<AstNode> declSpecifiers = declSpecifierSeq
       .getChildren(CxxGrammarImpl.declSpecifier);
 
     for (AstNode declSpecifier : declSpecifiers) {
@@ -464,14 +464,14 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return false;
     }
 
-    AstNode simpleDeclSpecifierSeq = simpleDeclNode
-      .getFirstChild(CxxGrammarImpl.simpleDeclSpecifierSeq);
+    AstNode declSpecifierSeq = simpleDeclNode
+      .getFirstChild(CxxGrammarImpl.declSpecifierSeq);
 
-    if (simpleDeclSpecifierSeq == null) {
+    if (declSpecifierSeq == null) {
       return false;
     }
 
-    List<AstNode> declSpecifiers = simpleDeclSpecifierSeq
+    List<AstNode> declSpecifiers = declSpecifierSeq
       .getChildren(CxxGrammarImpl.declSpecifier);
 
     for (AstNode declSpecifier : declSpecifiers) {

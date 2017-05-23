@@ -92,11 +92,7 @@ iteration-statement:
    do statement while ( expression ) ;
    for ( init-statement conditionopt ; expressionopt ) statement
    for ( for-range-declaration : for-range-initializer ) statement
-   
-for-range-declaration:
-   attribute-specifier-seqopt decl-specifier-seq declarator
-   attribute-specifier-seqopt decl-specifier-seq ref-qualifieropt [ identifier-list ]
-
+ 
 for-range-initializer:
    expr-or-braced-init-list
 
@@ -124,11 +120,6 @@ nodeclspec-function-declaration:
 
 alias-declaration:
    using identifier attribute-specifier-seqopt = defining-type-id ;
-
-simple-declaration:
-   decl-specifier-seq init-declarator-listopt ;
-   attribute-specifier-seq decl-specifier-seq init-declarator-list ;
-   attribute-specifier-seqopt decl-specifier-seq ref-qualifieropt [ identifier-list ] initializer ;
 
 decl-specifier:
    storage-class-specifier

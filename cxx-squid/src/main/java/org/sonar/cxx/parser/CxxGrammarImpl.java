@@ -127,8 +127,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
   forRangeDeclSpecifierSeq,
   parameterDeclSpecifierSeq,
   functionDeclSpecifierSeq,
-  simpleDeclSpecifierSeq,
+  declSpecifierSeq,
   memberDeclSpecifierSeq,
+  identifierList,
 
   storageClassSpecifier,
   functionSpecifier,
@@ -354,6 +355,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
 
   private static void misc(LexerfulGrammarBuilder b) {
+    
+    b.rule(identifierList).is( // todo: part of preprocessor?
+      IDENTIFIER, b.zeroOrMore(b.sequence(",", IDENTIFIER)) //C++
+    );
+        
     // C++ Standard, Section 2.14.6 "Boolean literals"
     b.rule(BOOL).is(b.firstOf(CxxKeyword.TRUE, CxxKeyword.FALSE));
     b.rule(NULLPTR).is(CxxKeyword.NULLPTR);
@@ -755,7 +761,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     );
 
     b.rule(forRangeDeclaration).is(
-      b.optional(attributeSpecifierSeq), forRangeDeclSpecifierSeq, declarator // C++
+      b.firstOf(
+        b.sequence(b.optional(attributeSpecifierSeq), forRangeDeclSpecifierSeq, declarator), // C++
+        b.sequence(b.optional(attributeSpecifierSeq), declSpecifierSeq, b.optional(refQualifier), "[", identifierList, "]") // C++
+      )
     );
 
     b.rule(forRangeDeclSpecifierSeq).is( // todo decl-specifier-seq
@@ -824,8 +833,9 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
 
     b.rule(simpleDeclaration).is(
       b.firstOf(
-        b.sequence(b.optional(simpleDeclSpecifierSeq), b.optional(initDeclaratorList), ";"), // C++
-        b.sequence(b.optional(cliAttributes), b.optional(attributeSpecifierSeq), b.optional(simpleDeclSpecifierSeq), b.optional(initDeclaratorList), ";") // C++
+        b.sequence(b.optional(declSpecifierSeq), b.optional(initDeclaratorList), ";"), // C++
+        b.sequence(b.optional(cliAttributes), b.optional(attributeSpecifierSeq), b.optional(declSpecifierSeq), b.optional(initDeclaratorList), ";"), // C++
+        b.sequence(b.optional(attributeSpecifierSeq), declSpecifierSeq, b.optional(refQualifier), "[", identifierList, "]", initializer, ";") // C++
       )
     );
 
@@ -849,11 +859,10 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       )
     );
 
-    b.rule(simpleDeclSpecifierSeq).is( // todo is decl-specifier-seq
+    b.rule(declSpecifierSeq).is( // todo
       b.oneOrMore(
         b.nextNot(b.sequence(b.optional(initDeclaratorList), ";")),
-        declSpecifier,
-        b.optional(attributeSpecifierSeq)
+        b.sequence(declSpecifier, b.optional(attributeSpecifierSeq)) // C++
       )
     );
 
@@ -1037,7 +1046,6 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(attributeSpecifier).is(
       b.firstOf(
         b.sequence("[", "[", attributeList, "]", "]"), // C++
-        cliAttributes, // CLI: todo: check if attributeSpecifierSeq followed by cliAttributes, not needed
         alignmentSpecifier // C++
       ));
 
@@ -1223,11 +1231,14 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
       b.optional(attributeSpecifierSeq)
     );
 
-    b.rule(functionDefinition).is(b.optional(attributeSpecifierSeq), // C++
+    b.rule(functionDefinition).is(
+      b.optional(attributeSpecifierSeq), // C++
+      b.optional(cliAttributes), // CLI
       b.optional(functionDeclSpecifierSeq), // todo is decl-specifier-seq
       declarator, //C++
       b.optional(virtSpecifierSeq), // C++
-      functionBody); // C++
+      functionBody // C++
+    );
 
     b.rule(functionDeclSpecifierSeq).is( // todo is decl-specifier-seq
       b.oneOrMore(
@@ -1529,11 +1540,11 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(cliAccessorSpecification).is(b.zeroOrMore(b.optional(b.sequence(accessSpecifier, ":")), cliAccessorDeclaration));
 
     b.rule(cliAccessorDeclaration).is(
-        b.firstOf(
-            functionDefinition,
-            b.sequence(b.optional(attribute), b.optional(simpleDeclSpecifierSeq), b.optional(memberDeclaratorList), ";")
-            )
-            );
+      b.firstOf(
+        functionDefinition,
+        b.sequence(b.optional(attribute), b.optional(declSpecifierSeq), b.optional(memberDeclaratorList), ";")
+      )
+    );
 
     b.rule(cliEventDefinition).is(
         b.optional(cliAttributes), 
