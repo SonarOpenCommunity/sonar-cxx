@@ -67,7 +67,7 @@ public class StringLiteralDuplicatedCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CxxGrammarImpl.LITERAL)) {
+    if (!node.getToken().isGeneratedCode()) {
       visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
     }
   }
