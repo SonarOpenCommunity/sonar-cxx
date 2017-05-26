@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <string>
+#define MACRO(ex) printf(#ex)
 class A {
     //    @SupressWarnings("allall") // Compliant
     //    @SupressWarnings("allall")
@@ -16,6 +17,8 @@ public:
         printf("ccccc");
         printf("dddd"); // Compliant - too short
         printf("dddd");
+        MACRO(printf()); // Compliant
+        MACRO(printf());
     }
 
     const std::string ACTION_1 = "action1";  // Compliant
