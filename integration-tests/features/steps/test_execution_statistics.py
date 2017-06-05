@@ -2,7 +2,7 @@
 # -*- mode: python; coding: iso-8859-1 -*-
 
 # SonarQube Python Plugin
-# Copyright (C) Waleri Enns
+# Copyright (C) Waleri Enns, Günter Wirth
 # dev@sonar.codehaus.org
 
 # This program is free software; you can redistribute it and/or
@@ -48,118 +48,95 @@ try:
     RESET_ALL = colorama.Style.RESET_ALL
 except ImportError:
     pass
-    
+
 TESTDATADIR = os.path.normpath(os.path.join(os.path.realpath(__file__),
                                             "..", "..", "..", "testdata"))
 SONAR_URL = "http://localhost:9000"
+
+TEST_METRICS_ORDER = [
+    "tests",
+    "test_failures",
+    "test_errors",
+    "skipped_tests",
+    "test_success_density",
+    "test_execution time"
+    ]
+
 
 @given(u'the project "{project}"')
 def step_impl(context, project):
     assert os.path.isdir(os.path.join(TESTDATADIR, project))
     context.project = project
-    url = (SONAR_URL + "/api/rules/app")
-    response = requests.get(url)
-
-    profiles = json.loads(response.text).get("qualityprofiles", None)
+    url = (SONAR_URL + "/api/qualityprofiles/search")
+    response = _restApiGet(url)
+    profiles = _getJson(response)["profiles"]
     data = _gotKeyFromQualityProfile(profiles)
     for key, name in data.iteritems():
         if name == "Sonar way - c++":
             context.profile_key = key
 
+
 @given(u'platform is not "{plat}"')
 def step_impl(context, plat):
     if platform.system() == plat:
         context.scenario.skip(reason='scenario meant to run only in specified platform')
-        
+
+
 @given(u'platform is "{plat}"')
 def step_impl(context, plat):
     if platform.system() != plat:
-        context.scenario.skip(reason='scenario meant to run only in specified platform')        
+        context.scenario.skip(reason='scenario meant to run only in specified platform')
+
 
 @given(u'declared source extensions of language c++ are "{extensions}"')
 def step_impl(context, extensions):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
-    
-    try:
-        
-        url = (SONAR_URL + "/api/settings/set")
-        payload = {'key': 'sonar.cxx.suffixes.sources', 'value': extensions}
-        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
-        if response.status_code != 204:
-            assert False, "cannot set source extensions: %s" % str(response.text)
+    url = (SONAR_URL + "/api/settings/set")
+    payload = {'key': 'sonar.cxx.suffixes.sources', 'value': extensions}
+    _restApiSet(url, payload)
 
-    except requests.exceptions.ConnectionError as e:
-        assert False, "cannot set source extensions, details: %s" % str(e)
 
 @given(u'declared header extensions of language c++ are "{extensions}"')
 def step_impl(context, extensions):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
-    
-    try:
-        
-        url = (SONAR_URL + "/api/settings/set")
-        payload = {'key': 'sonar.cxx.suffixes.headers', 'value': extensions}
-        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
-        if response.status_code != 204:
-            assert False, "cannot set header extensions: %s" % str(response.status_code)
+    url = (SONAR_URL + "/api/settings/set")
+    payload = {'key': 'sonar.cxx.suffixes.headers', 'value': extensions}
+    _restApiSet(url, payload)
 
-    except requests.exceptions.ConnectionError as e:
-        assert False, "cannot set header extensions, details: %s" % str(e)
 
-        
 @given(u'rule "{rule}" is enabled')
 def step_impl(context, rule):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
-    
-    try:
-        
-        url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
-        payload = {'profile_key': context.profile_key, 'rule_key': rule, "severity": "MAJOR"}
-        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
-        if response.status_code != requests.codes.ok:
-            assert False, "cannot change status of rule: %s" % str(response.text)
+    url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
+    payload = {'profile_key': context.profile_key, 'rule_key': rule, "severity": "MAJOR"}
+    _restApiSet(url, payload)
 
-    except requests.exceptions.ConnectionError as e:
-        assert False, "cannot change status of rule, details: %s" % str(e)
-        
+
 @given(u'rule "{rule}" is created based on "{templaterule}" in repository "{repository}"')
 def step_impl(context, rule, templaterule, repository):
     assert context.profile_key != "", "PROFILE KEY NOT FOUND: %s" % str(context.profile_key)
-    
-    try:
-        
-        url = (SONAR_URL + "/api/rules/create")
-        payload = {'custom_key': rule, 'html_description': "nodesc", "name": rule, "severity": "MAJOR", "template_key": templaterule, "markdown_description": "nodesc"}
-        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
+    url = (SONAR_URL + "/api/rules/create")
+    payload = {'custom_key': rule, 'html_description': "nodesc", "name": rule, "severity": "MAJOR", "template_key": templaterule, "markdown_description": "nodesc"}
+    _restApiSet(url, payload)
+    url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
+    payload = {'profile_key': context.profile_key, 'rule_key': repository + ":" + rule, "severity": "MAJOR"}
+    _restApiSet(url, payload)
 
-        if response.status_code != requests.codes.ok:
-            assert False, "cannot change status of rule: %s" % str(response.text)
-            
-    except requests.exceptions.ConnectionError as e:
-        assert False, "cannot change status of rule, details: %s" % str(e)
 
-    try:
-        url = (SONAR_URL + "/api/qualityprofiles/activate_rule")
-        payload = {'profile_key': context.profile_key, 'rule_key': repository + ":" + rule, "severity": "MAJOR"}
-        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
-        if response.status_code != requests.codes.ok:
-            assert False, "cannot change status of rule: %s" % str(response.text)
-
-    except requests.exceptions.ConnectionError as e:
-        assert False, "cannot change status of rule, details: %s" % str(e)            
-        
 @when(u'I run "{command}"')
 def step_impl(context, command):
-    _run_command(context, command)
+    _runCommand(context, command)
 
 
 @then(u'the analysis finishes successfully')
 def step_impl(context):
     assert context.rc == 0, "Exit code is %i, but should be zero" % context.rc
 
+
 @then(u'the analysis in server has completed')
 def step_impl(context):
     assert ensureComputeEngineHasFinishedOk(context.log) == "", ("Analysis in Background Task Failed")
+
 
 @then(u'the analysis log contains no error/warning messages except those matching')
 def step_impl(context):
@@ -171,19 +148,14 @@ def step_impl(context):
          + "".join(badlines)
          + "For details see %s" % context.log)
 
+
 @then(u'delete created rule {rule}')
 def step_impl(context, rule):
-    try:
-        url = (SONAR_URL + "/api/rules/delete")
-        payload = {'key': rule}
-        response = requests.post(url, payload, auth=HTTPBasicAuth('admin', 'admin'))
+    url = (SONAR_URL + "/api/rules/delete")
+    payload = {'key': rule}
+    _restApiSet(url, payload)
 
-        if response.status_code != requests.codes.ok:
-            assert False, "cannot delete rule: %s" % str(response.text)
-            
-    except requests.exceptions.ConnectionError as e:
-        assert False, "cannot delete rule, details: %s" % str(e)
-         
+
 @then(u'the analysis log contains no error/warning messages')
 def step_impl(context):
     badlines, _errors, _warnings = analyselog(context.log)
@@ -209,18 +181,79 @@ def step_impl(context):
 @then(u'the number of violations fed is {number}')
 def step_impl(context, number):
     exp_measures = {"violations": float(number)}
-    assert_measures(context.project, exp_measures)
+    _assertMeasures(context.project, exp_measures)
 
 
-TEST_METRICS_ORDER = [
-    "tests",
-    "test_failures",
-    "test_errors",
-    "skipped_tests",
-    "test_success_density",
-    "test_execution time"
-    ]
+@then(u'the following metrics have following values')
+def step_impl(context):
+    exp_measures = _expMeasuresToDict(context.table)
+    _assertMeasures(context.project, exp_measures)
 
+
+@then(u'the test related metrics have following values: {values}')
+def step_impl(context, values):
+    parsed_values = [value.strip() for value in values.split(",")]
+    exp_measures = _expMeasuresToDict(parsed_values)
+    _assertMeasures(context.project, exp_measures)
+
+
+@then(u'the analysis breaks')
+def step_impl(context):
+    assert context.rc != 0, "Exit code is %i, but should be non zero" % context.rc
+
+
+@then(u'the analysis log contains a line matching')
+def step_impl(context):
+    assert _containsLineMatching(context.log, context.text)
+
+
+@given(u'a report outside the projects directory, e.g. "/tmp/cppcheck-v1.xml"')
+def step_impl(context):
+    report_fname = "cppcheck-v1.xml"
+    source = os.path.join(TESTDATADIR, "cppcheck_project", report_fname)
+    target = os.path.join("/tmp", report_fname)
+    shutil.copyfile(source, target)
+
+
+@when(u'I run sonar-scanner with following options')
+def step_impl(context):
+    arguments = [line for line in context.text.split("\n") if line != '']
+    command = "sonar-scanner " + " ".join(arguments)
+    _runCommand(context, command)
+
+
+
+
+
+def _restApiGet(url):
+    try:
+        response = requests.get(url, timeout=10, auth=HTTPBasicAuth('admin', 'admin'))
+        response.raise_for_status()
+        if not response.text:
+            assert False, "error _restApiGet: no response %s" % url
+        return response
+    except requests.exceptions.RequestException as e:
+        if response.text:
+            assert False, "error _restApiGet: %s -> %s, %s" % url % str(e) % response.text
+        else:
+            assert False, "error _restApiGet: %s -> %s" % url % str(e)
+
+def _restApiSet(url, payload):
+    try:
+        response = requests.post(url, payload, timeout=10, auth=HTTPBasicAuth('admin', 'admin'))
+        response.raise_for_status()
+        return response
+    except requests.exceptions.RequestException as e:
+        if response.text:
+            assert False, "error _restApiSet: %s -> %s, %s" % url % str(e) % response.text
+        else:
+            assert False, "error _restApiSet: %s -> %s" % url % str(e)
+
+def _getJson(response):
+    try:
+        return response.json()
+    except ValueError as e:
+        assert False, "error _getJson: %s, %s" % str(e) % response.text
 
 def _expMeasuresToDict(measures):
     def convertvalue(value):
@@ -236,11 +269,10 @@ def _expMeasuresToDict(measures):
     return res
 
 def _gotKeyFromQualityProfile(measures):
-    return {measure["key"]: measure["name"] + " - " + measure["lang"] for measure in measures}
-    
+    return {measure["key"]: measure["name"] + " - " + measure["language"] for measure in measures}
+
 def _gotMeasuresToDict(measures):
     return {measure["metric"]: measure["value"] for measure in measures}
-
 
 def _diffMeasures(expected, measured):
     difflist = []
@@ -252,64 +284,13 @@ def _diffMeasures(expected, measured):
                 append = True
         except:
             if value_expected != value_measured:
-                append = True    
-        if append:        
+                append = True
+        if append:
             difflist.append("\t%s is actually %s [expected: %s]" % (metric, str(value_measured), str(value_expected)))
-            
+
     return "\n".join(difflist)
 
-
-@then(u'the following metrics have following values')
-def step_impl(context):
-    exp_measures = _expMeasuresToDict(context.table)
-    assert_measures(context.project, exp_measures)
-
-
-def assert_measures(project, measures):
-    metrics_to_query = measures.keys()
-    url = (SONAR_URL + "/api/measures/component?componentKey=" + project + "&metricKeys="
-           + ",".join(metrics_to_query))
-
-    print(BRIGHT + "\nGet measures with query : " + url + RESET_ALL)
-    
-    try:
-        response = requests.get(url)
-        got_measures = {}
-        if response.text:
-            json_measures = json.loads(response.text)["component"]["measures"]
-            if json_measures is not None:
-                got_measures = _gotMeasuresToDict(json_measures)
-
-        diff = _diffMeasures(measures, got_measures)
-    except requests.exceptions.ConnectionError as e:
-        assert False, "cannot query the metrics, details: %s -> url %s" % str(e) % url
-    except:
-        if response.text:
-            assert False, "cannot parse the response: %s" % str(response.text)
-        else:
-            assert False, "cannot parse the response, exception: %s" % str(sys.exc_info()[0])
-
-    assert diff == "", "\n" + diff
-
-
-@then(u'the test related metrics have following values: {values}')
-def step_impl(context, values):
-    parsed_values = [value.strip() for value in values.split(",")]
-    exp_measures = _expMeasuresToDict(parsed_values)
-    assert_measures(context.project, exp_measures)
-
-
-@then(u'the analysis breaks')
-def step_impl(context):
-    assert context.rc != 0, "Exit code is %i, but should be non zero" % context.rc
-
-
-@then(u'the analysis log contains a line matching')
-def step_impl(context):
-    assert contains_line_matching(context.log, context.text)
-
-
-def contains_line_matching(filepath, pattern):
+def _containsLineMatching(filepath, pattern):
     pat = re.compile(pattern)
     with open(filepath) as logfo:
         for line in logfo:
@@ -317,23 +298,22 @@ def contains_line_matching(filepath, pattern):
                 return True
     return False
 
+def _assertMeasures(project, measures):
+    metrics_to_query = measures.keys()
+    url = (SONAR_URL + "/api/measures/component?componentKey=" + project + "&metricKeys="
+           + ",".join(metrics_to_query))
 
-@given(u'a report outside the projects directory, e.g. "/tmp/cppcheck-v1.xml"')
-def step_impl(context):
-    report_fname = "cppcheck-v1.xml"
-    source = os.path.join(TESTDATADIR, "cppcheck_project", report_fname)
-    target = os.path.join("/tmp", report_fname)
-    shutil.copyfile(source, target)
+    print(BRIGHT + "\nGet measures with query : " + url + RESET_ALL)
+    response = _restApiGet(url)
 
+    got_measures = {}
+    json_measures = _getJson(response)["component"]["measures"]
+    got_measures = _gotMeasuresToDict(json_measures)
 
-@when(u'I run sonar-scanner with following options')
-def step_impl(context):
-    arguments = [line for line in context.text.split("\n") if line != '']
-    command = "sonar-scanner " + " ".join(arguments)
-    _run_command(context, command)
+    diff = _diffMeasures(measures, got_measures)
+    assert diff == "", "\n" + diff
 
-
-def _run_command(context, command):
+def _runCommand(context, command):
     context.log = "_%s_.log" % context.project
 
     sonarhome = os.environ.get("SONARHOME", None)
@@ -347,9 +327,15 @@ def _run_command(context, command):
         context.serverlogfd = None
 
     projecthome = os.path.join(TESTDATADIR, context.project)
+
     with open(context.log, "w") as logfile:
-        rc = subprocess.call(command,
-                             cwd=projecthome,
-                             stdout=logfile, stderr=logfile,
-                             shell=True)
-    context.rc = rc
+        proc = subprocess.Popen(command,
+                                shell=True,
+                                cwd=projecthome,
+                                stdout=logfile,
+                                stderr=subprocess.STDOUT
+                               )
+        proc.communicate()
+
+    context.rc = proc.returncode
+

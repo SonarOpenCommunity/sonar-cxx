@@ -38,6 +38,7 @@ GREEN = ""
 RESET = ""
 RESET_ALL = ""
 BRIGHT = ""
+INDENT = "    "
 
 SONAR_URL = "http://localhost:9000"
 
@@ -46,22 +47,22 @@ def sonarlog(sonarhome):
 
 def ensureComputeEngineHasFinishedOk(logpath):
     urlForChecking = ""
-    
+
     print(BRIGHT + "    Read Log : " + logpath + RESET_ALL)
-    
+
     try:
         with open(logpath, "r") as log:
             lines = log.readlines()
             urlForChecking = getUrlForChecking(lines)
     except IOError, e:
         badlines.append(str(e) + "\n")
-        
-        
+
+
     print(BRIGHT + "     Get Analysis In Background : " + urlForChecking + RESET_ALL)
 
     if urlForChecking == "":
         return ""
-        
+
     status = ""
     while True:
         time.sleep(1)
@@ -70,14 +71,14 @@ def ensureComputeEngineHasFinishedOk(logpath):
         print(BRIGHT + "     CURRENT STATUS : " + task["status"] + RESET_ALL)
         if task["status"] == "IN_PROGRESS" or task["status"] == "PENDING":
             continue
-            
+
         if task["status"] == "SUCCESS":
             break
-            
+
         if task["status"] == "FAILED":
             status = "BACKGROUND TASK AS FAILED. CHECK SERVER : " + logpath + ".server"
             break
-        
+
     serverlogurl = urlForChecking.replace("task?id", "logs?taskId")
     r = requests.get(serverlogurl, auth=HTTPBasicAuth('admin', 'admin'),timeout=10)
 
@@ -85,10 +86,10 @@ def ensureComputeEngineHasFinishedOk(logpath):
     f = open(writepath, 'w')
     f.write(r.text)
     f.close()
-    
+
 #    print(BRIGHT + " LOG SERVER : " + r.text + RESET_ALL)
     return status
-    
+
 def analyselog(logpath, toignore=None):
     badlines = []
     errors = warnings = 0
@@ -104,15 +105,15 @@ def analyselog(logpath, toignore=None):
 
 def getUrlForChecking(lines):
     urlForChecking = ""
-    for line in lines:        
+    for line in lines:
         if "INFO: More about the report processing at" in line:
             urlForChecking = line.split("INFO: More about the report processing at")[1].strip()
-            
+
         if "INFO  - More about the report processing at" in line:
             urlForChecking = line.split("INFO  - More about the report processing at")[1].strip()
-            
+
     return urlForChecking
-    
+
 def analyseloglines(lines, toignore=None):
     badlines = []
     errors = warnings = 0
@@ -126,14 +127,12 @@ def analyseloglines(lines, toignore=None):
                 sys.stdout.write("found warning '%s'" % line)
                 badlines.append(line)
                 warnings += 1
-            
-    return badlines, errors, warnings
 
+    return badlines, errors, warnings
 
 def isSonarError(line, toignore_re):
     return (SONAR_ERROR_RE.match(line)
             and (toignore_re is None or not toignore_re.match(line)))
-
 
 def isSonarWarning(line, toignore_re):
     return (SONAR_WARN_RE.match(line)
