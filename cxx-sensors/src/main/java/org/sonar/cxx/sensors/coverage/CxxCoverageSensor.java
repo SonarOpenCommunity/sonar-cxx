@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
