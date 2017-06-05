@@ -39,12 +39,12 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class BullseyeParser extends CxxCoverageParser {
-  public static final Logger LOG = Loggers.get(BullseyeParser.class);
-  private String prevLine;
-  private int totaldecisions;
-  private int totalcovereddecisions;
-  private int totalconditions;
-  private int totalcoveredconditions;
+  private static final Logger LOG = Loggers.get(BullseyeParser.class);
+  private static volatile String prevLine;
+  private static int totaldecisions;
+  private static int totalcovereddecisions;
+  private static int totalconditions;
+  private static int totalcoveredconditions;
 
   public BullseyeParser() {
   }
@@ -85,10 +85,10 @@ public class BullseyeParser extends CxxCoverageParser {
   private void collectCoverageLeafNodes(String refPath, SMInputCursor folder, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
-    refPath = ensureRefPathIsCorrect(refPath);
+    String correctPath = ensureRefPathIsCorrect(refPath);
 
     while (folder.getNext() != null) {
-      File fileName = new File(refPath, folder.getAttrValue("name"));
+      File fileName = new File(correctPath, folder.getAttrValue("name"));
       recTreeTopWalk(fileName, folder, coverageData);
     }
   }
@@ -107,13 +107,13 @@ public class BullseyeParser extends CxxCoverageParser {
   private void collectCoverage2(String refPath, SMInputCursor folder, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
-    refPath = ensureRefPathIsCorrect(refPath);
+    String correctPath = ensureRefPathIsCorrect(refPath);
 
     LinkedList<String> path = new LinkedList<>();
     while (folder.getNext() != null) {
       String folderName = folder.getAttrValue("name");
       path.add(folderName);
-      recTreeWalk(refPath, folder, path, coverageData);
+      recTreeWalk(correctPath, folder, path, coverageData);
       path.removeLast();
     }
   }
@@ -147,7 +147,7 @@ public class BullseyeParser extends CxxCoverageParser {
   private void recTreeWalk(String refPath, SMInputCursor folder, List<String> path, final Map<String, CoverageMeasures> coverageData)
     throws XMLStreamException {
 
-    refPath = ensureRefPathIsCorrect(refPath);
+    String correctPath = ensureRefPathIsCorrect(refPath);
 
     SMInputCursor child = folder.childElementCursor();
     while (child.getNext() != null) {
@@ -164,13 +164,13 @@ public class BullseyeParser extends CxxCoverageParser {
         fileName = fileName.substring(0, fileName.length()-1);
 
         if ((new File(fileName)).isAbsolute()) {
-          refPath = "";
+          correctPath = "";
         }
         CoverageMeasures fileMeasuresBuilderIn = CoverageMeasures.create();
         fileWalk(child, fileMeasuresBuilderIn);
-        coverageData.put(refPath + fileName, fileMeasuresBuilderIn);
+        coverageData.put(correctPath + fileName, fileMeasuresBuilderIn);
       } else {
-        recTreeWalk(refPath, child, path, coverageData);
+        recTreeWalk(correctPath, child, path, coverageData);
       }
       path.remove(path.size() - 1);
     }

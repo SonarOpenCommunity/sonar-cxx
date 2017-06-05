@@ -101,10 +101,10 @@ public class CLanguage extends CxxLanguage {
   
   @Override
   public int hashCode() {
-      return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
-          appendSuper(super.hashCode()).
-          append(getKey()).
-          toHashCode();
+    return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+      appendSuper(super.hashCode()).
+      append(getKey()).
+      toHashCode();
   }
 
   @Override
@@ -126,12 +126,12 @@ public class CLanguage extends CxxLanguage {
 
   @Override
   public String[] getFileSuffixes() {
-    return fileSuffixes;
+    return fileSuffixes.clone();
   }
 
   @Override
   public String[] getSourceFileSuffixes() {
-    return sourceSuffixes;
+    return sourceSuffixes.clone();
   }
 
   @Override
@@ -141,7 +141,7 @@ public class CLanguage extends CxxLanguage {
   
   @Override
   public String[] getHeaderFileSuffixes() {
-    return headerSuffixes;
+    return headerSuffixes.clone();
   }
 
   @Override

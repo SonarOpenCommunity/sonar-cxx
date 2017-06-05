@@ -44,7 +44,7 @@ public class XunitReportParser implements XmlStreamHandler {
    * Returns successfully parsed testcases.
    */
   public List<TestCase> getTestCases() {
-    return testCases;
+    return new LinkedList<>(testCases);
   }
 
   /**

@@ -115,12 +115,12 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     }
   }
 
-    private void checkRegularExpression(String fileContent) {
-      Matcher matcher = searchPattern.matcher(fileContent);
-      if (!matcher.find() || matcher.start() != 0) {
-        getContext().createFileViolation(this, MESSAGE);
-      }
+  private void checkRegularExpression(String fileContent) {
+    Matcher matcher = searchPattern.matcher(fileContent);
+    if (!matcher.find() || matcher.start() != 0) {
+      getContext().createFileViolation(this, MESSAGE);
     }
+  }
 
   private static boolean matches(String[] expectedLines, List<String> lines) {
     boolean result;

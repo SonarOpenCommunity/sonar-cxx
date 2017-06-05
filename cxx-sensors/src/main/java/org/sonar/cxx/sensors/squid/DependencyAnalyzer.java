@@ -79,16 +79,16 @@ public class DependencyAnalyzer {
       String includedFilePath = includedFile != null ? includedFile.absolutePath() : include.getPath();
       Integer prevIncludeLine = firstIncludeLine.put(includedFilePath, include.getLine());
       if (prevIncludeLine != null && duplicateIncludeRule != null) {        
-          NewIssue newIssue = sensorContext.newIssue().forRule(duplicateIncludeRule.ruleKey());
-          NewIssueLocation location = newIssue.newLocation()
-            .on(sonarFile)
-            .at(sonarFile.selectLine(include.getLine() > 0 ? include.getLine() : 1))
-            .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".");
+        NewIssue newIssue = sensorContext.newIssue().forRule(duplicateIncludeRule.ruleKey());
+        NewIssueLocation location = newIssue.newLocation()
+          .on(sonarFile)
+          .at(sonarFile.selectLine(include.getLine() > 0 ? include.getLine() : 1))
+          .message("Remove duplicated include, \"" + includedFilePath + "\" is already included at line " + prevIncludeLine + ".");
 
-          newIssue.at(location);
-          newIssue.save();          
+        newIssue.at(location);
+        newIssue.save();          
       } else if (includedFile == null) {
-        // dont warn about missing files
+        // don't warn about missing files
       } else if (context.fileSystem().hasFiles(fs.predicates().hasPath(sonarFile.absolutePath()))) {
         //Add the dependency in the files graph
         FileEdge fileEdge = new FileEdge(sonarFile, includedFile, include.getLine());

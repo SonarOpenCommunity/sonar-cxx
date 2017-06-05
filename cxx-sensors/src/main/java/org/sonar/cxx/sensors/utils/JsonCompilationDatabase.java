@@ -37,9 +37,17 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * JsonCompilationDatabase
+ */
 public class JsonCompilationDatabase {
-  public static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
+  private static final Logger LOG = Loggers.get(JsonCompilationDatabase.class);
 
+  /**
+   * JsonCompilationDatabase
+   * @param config
+   * @param compileCommandsFile
+   */
   public JsonCompilationDatabase(CxxConfiguration config, File compileCommandsFile) throws IOException {
     LOG.debug("Parsing 'JSON Compilation Database' format");
 
@@ -157,9 +165,9 @@ public class JsonCompilationDatabase {
             stringOpen = '\"';
           else if ((ch == ' ') 
                   && (sb.length() > 0)) {
-              args.add(sb.toString());
-              sb = new StringBuilder();
-            }
+            args.add(sb.toString());
+            sb = new StringBuilder();
+          }
           if (ch != ' ')
             sb.append(ch);
         } else {
@@ -174,8 +182,9 @@ public class JsonCompilationDatabase {
       }
     }
 
-    if (sb.length() > 0)
+    if (sb.length() > 0) {
       args.add(sb.toString());
+    }
 
     return args.toArray(new String[0]);
   }

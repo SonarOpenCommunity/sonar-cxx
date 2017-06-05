@@ -127,17 +127,17 @@ public class CppLanguage extends CxxLanguage {
 
   @Override
   public String[] getFileSuffixes() {
-    return fileSuffixes;
+    return fileSuffixes.clone();
   }
 
   @Override
   public String[] getSourceFileSuffixes() {
-    return sourceSuffixes;
+    return sourceSuffixes.clone();
   }
 
   @Override
   public String[] getHeaderFileSuffixes() {
-    return headerSuffixes;
+    return headerSuffixes.clone();
   }
 
   public List<Class> getChecks() {
@@ -217,3 +217,4 @@ public class CppLanguage extends CxxLanguage {
     return result;
   }  
 }
+

@@ -21,6 +21,9 @@ package org.sonar.cxx.sensors.valgrind;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nullable;
+
 import org.apache.commons.io.FilenameUtils;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -75,11 +78,14 @@ class ValgrindStack {
   /**
    * Returns the last frame (counted from the bottom of the stack) of a function
    * which is in 'our' code
+   * @param basedir
+   * @return ValgrindFrame frame or null
    */
+  @Nullable
   public ValgrindFrame getLastOwnFrame(String basedir) {
-    basedir = FilenameUtils.normalize(basedir);
+    String workdir = FilenameUtils.normalize(basedir);
     for (ValgrindFrame frame : frames) {
-      if (isInside(frame.getDir(), basedir)) {
+      if (isInside(frame.getDir(), workdir)) {
         return frame;
       }
     }

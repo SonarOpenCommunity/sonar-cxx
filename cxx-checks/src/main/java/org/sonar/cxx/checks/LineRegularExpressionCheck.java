@@ -104,21 +104,21 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-      if (compare(invertFilePattern, matchFile())) {
-        List<String> lines;
-        try {
-          lines = Files.readLines(getContext().getFile(), charset);
-        } catch (IOException e) {
-          throw new IllegalStateException(e);
-        }
-        for (int i = 0; i < lines.size(); ++i) {
-          Matcher matcher = pattern.matcher(lines.get(i));
-          if (compare(invertRegularExpression, matcher.find())) {
-            getContext().createLineViolation(this, message, i + 1);
-          }
+    if (compare(invertFilePattern, matchFile())) {
+      List<String> lines;
+      try {
+        lines = Files.readLines(getContext().getFile(), charset);
+      } catch (IOException e) {
+        throw new IllegalStateException(e);
+      }
+      for (int i = 0; i < lines.size(); ++i) {
+        Matcher matcher = pattern.matcher(lines.get(i));
+        if (compare(invertRegularExpression, matcher.find())) {
+          getContext().createLineViolation(this, message, i + 1);
         }
       }
     }
+  }
 
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
@@ -133,3 +133,4 @@ public class LineRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return invert ? !condition : condition;
   }
 }
+

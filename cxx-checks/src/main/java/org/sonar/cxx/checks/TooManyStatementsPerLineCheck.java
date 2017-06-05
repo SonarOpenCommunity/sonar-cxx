@@ -83,7 +83,7 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
           break;
         }
         TokenType type = statement.getToken().getType();
-          if (type.equals(CxxKeyword.CASE) || type.equals(CxxKeyword.DEFAULT)) {
+        if (type.equals(CxxKeyword.CASE) || type.equals(CxxKeyword.DEFAULT)) {
           exclude = true;
           break;
         }
@@ -104,13 +104,13 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
    * Exclude empty expression statement
    */
   private boolean isEmptyExpressionStatement(AstNode astNode) {
-      if (astNode.is(CxxGrammarImpl.expressionStatement) && ";".equals(astNode.getToken().getValue()))
-      {
-        AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.selectionStatement);
-        if (statement != null )
-          return astNode.getTokenLine() == statement.getTokenLine();
+    if (astNode.is(CxxGrammarImpl.expressionStatement) && ";".equals(astNode.getToken().getValue())) {
+      AstNode statement = astNode.getFirstAncestor(CxxGrammarImpl.selectionStatement);
+      if (statement != null ) {
+        return astNode.getTokenLine() == statement.getTokenLine();
       }
-      return false;
+    }
+    return false;
   }
 
   @Override

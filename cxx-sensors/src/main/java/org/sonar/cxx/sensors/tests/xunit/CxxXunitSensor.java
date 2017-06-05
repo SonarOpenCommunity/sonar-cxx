@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 
 import javax.xml.transform.Source;
@@ -47,16 +46,13 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CxxXunitSensor extends CxxReportSensor {
-  public static final Logger LOG = Loggers.get(CxxXunitSensor.class);
+  private static final Logger LOG = Loggers.get(CxxXunitSensor.class);
   public static final String REPORT_PATH_KEY = "xunit.reportPath";
   public static final String KEY = "Xunit";
   public static final String XSLT_URL_KEY = "xunit.xsltURL";
   private static final double PERCENT_BASE = 100d;
      
   private String xsltURL;
-
-  static Pattern classNameOnlyMatchingPattern = Pattern.compile("(?:\\w*::)*?(\\w+?)::\\w+?:\\d+$");
-  static Pattern qualClassNameMatchingPattern = Pattern.compile("((?:\\w*::)*?(\\w+?))::\\w+?:\\d+$");
 
   /**
    * {@inheritDoc}
@@ -82,8 +78,8 @@ public class CxxXunitSensor extends CxxReportSensor {
   public void execute(SensorContext context) {    
     String moduleKey = context.settings().getString("sonar.moduleKey");
     if (moduleKey != null) {
-        LOG.debug("Runs unit test import sensor only at top level project skip : Module Key = '{}'", moduleKey);
-        return;        
+      LOG.debug("Runs unit test import sensor only at top level project skip : Module Key = '{}'", moduleKey);
+      return;        
     }
     
     LOG.debug("Root module imports test metrics: Module Key = '{}'", context.module());    
@@ -156,8 +152,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       double testsPassed = (double) testsCount - testsErrors - testsFailures;
       double successDensity = testsPassed * PERCENT_BASE / testsCount;
 
-      try
-      {
+      try {
         context.<Integer>newMeasure()
            .forMetric(CoreMetrics.TESTS)
            .on(context.module())
@@ -168,9 +163,8 @@ public class CxxXunitSensor extends CxxReportSensor {
         CxxUtils.validateRecovery(ex, this.language);
       }       
 
-      try
-      {
-       context.<Integer>newMeasure()
+      try {
+        context.<Integer>newMeasure()
          .forMetric(CoreMetrics.TEST_ERRORS)
          .on(context.module())
          .withValue(testsErrors)
@@ -180,9 +174,8 @@ public class CxxXunitSensor extends CxxReportSensor {
         CxxUtils.validateRecovery(ex, this.language);
       } 
       
-      try
-      {
-       context.<Integer>newMeasure()
+      try {
+        context.<Integer>newMeasure()
          .forMetric(CoreMetrics.TEST_FAILURES)
          .on(context.module())
          .withValue(testsFailures)
@@ -192,9 +185,8 @@ public class CxxXunitSensor extends CxxReportSensor {
         CxxUtils.validateRecovery(ex, this.language);
       } 
       
-      try
-      {
-       context.<Integer>newMeasure()
+      try {
+        context.<Integer>newMeasure()
          .forMetric(CoreMetrics.SKIPPED_TESTS)
          .on(context.module())
          .withValue(testsSkipped)
@@ -204,9 +196,8 @@ public class CxxXunitSensor extends CxxReportSensor {
         CxxUtils.validateRecovery(ex, this.language);
       } 
 
-      try
-      {
-       context.<Double>newMeasure()
+      try {
+        context.<Double>newMeasure()
          .forMetric(CoreMetrics.TEST_SUCCESS_DENSITY)
          .on(context.module())
          .withValue(ParsingUtils.scaleValue(successDensity))
@@ -216,8 +207,7 @@ public class CxxXunitSensor extends CxxReportSensor {
         CxxUtils.validateRecovery(ex, this.language);
       }       
 
-      try
-      {
+      try {
         context.<Long>newMeasure()
          .forMetric(CoreMetrics.TEST_EXECUTION_TIME)
          .on(context.module())

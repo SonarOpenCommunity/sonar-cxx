@@ -39,7 +39,7 @@ import org.sonar.api.utils.log.Loggers;
 public class SourceCodeProvider {
 
   private final List<File> includeRoots = new LinkedList<>();
-  public static final Logger LOG = Loggers.get(SourceCodeProvider.class);
+  private static final Logger LOG = Loggers.get(SourceCodeProvider.class);
 
   public void setIncludeRoots(List<String> includeRoots, String baseDir) {
     for (String tmp : includeRoots) {
@@ -52,7 +52,7 @@ public class SourceCodeProvider {
       try {
         includeRoot = includeRoot.getCanonicalFile();
       } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", includeRoot);
+        LOG.error("cannot get canonical form of: '{}'", includeRoot, io);
       }
 
       if (includeRoot.isDirectory()) {
@@ -104,16 +104,14 @@ public class SourceCodeProvider {
       try {
         result = result.getCanonicalFile();
       } catch (java.io.IOException io) {
-        LOG.error("cannot get canonical form of: '{}'", result);
+        LOG.error("cannot get canonical form of: '{}'", result, io);
       }
     }
 
     return result;
   }
 
-  public String getSourceCode(File file, Charset charset)
-    throws IOException 
-  {
+  public String getSourceCode(File file, Charset charset) throws IOException {
     byte[] encoded = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
     return new String(encoded, charset);
   }

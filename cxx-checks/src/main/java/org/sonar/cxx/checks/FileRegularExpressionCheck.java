@@ -112,18 +112,18 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-      try {
-        if (!compare(invertFilePattern, matchFile())) {
-          return;
-        }
-        Matcher matcher = pattern.matcher(fromFile(getContext().getFile()));
-        if (compare(invertRegularExpression, matcher.find())) {
-          getContext().createFileViolation(this, message);
-        }
-      } catch (Exception e) { //NOSONAR
-        throw new IllegalStateException(e); 
+    try {
+      if (!compare(invertFilePattern, matchFile())) {
+        return;
       }
+      Matcher matcher = pattern.matcher(fromFile(getContext().getFile()));
+      if (compare(invertRegularExpression, matcher.find())) {
+        getContext().createFileViolation(this, message);
+      }
+    } catch (Exception e) { //NOSONAR
+      throw new IllegalStateException(e); 
     }
+  }
 
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
@@ -146,3 +146,4 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return invert ? !condition : condition;
   }
 }
+

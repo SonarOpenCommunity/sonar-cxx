@@ -57,7 +57,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;
-  private CxxLanguage language;
+  private CxxLanguage language; //NOSONAR
 
   public CxxConfiguration(CxxLanguage language) {
     this.language = language;
@@ -163,7 +163,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setForceIncludeFiles(List<String> forceIncludeFiles) {
-    this.forceIncludeFiles = forceIncludeFiles;
+    this.forceIncludeFiles = new ArrayList<>(forceIncludeFiles);
   }
 
   public void setForceIncludeFiles(@Nullable String[] forceIncludeFiles) {
@@ -173,7 +173,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getForceIncludeFiles() {
-    return forceIncludeFiles;
+    return new ArrayList<>(forceIncludeFiles);
   }
 
   public void setBaseDir(String baseDir) {
@@ -193,7 +193,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public List<String> getCFilesPatterns() {
-    return cFilesPatterns;
+    return new ArrayList<>(cFilesPatterns);
   }
 
   public void setCFilesPatterns(@Nullable String[] cFilesPatterns) {
@@ -203,7 +203,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public void setHeaderFileSuffixes(List<String> headerFileSuffixes) {
-    this.headerFileSuffixes = headerFileSuffixes;
+    this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
   }
 
   public void setHeaderFileSuffixes(@Nullable String[] headerFileSuffixes) {
@@ -225,7 +225,7 @@ public class CxxConfiguration extends SquidConfiguration {
   }
 
   public String getJsonCompilationDatabaseFile() {
-	return jsonCompilationDatabaseFile;
+    return jsonCompilationDatabaseFile;
   }
 
   public void setJsonCompilationDatabaseFile(String jsonCompilationDatabaseFile) {
@@ -282,9 +282,11 @@ public class CxxConfiguration extends SquidConfiguration {
         }
         if ("Visual C++".equals(fileFormat)) {
           cxxVCppParser.parseVCppLog(buildLog, baseDir, charsetName);
-          LOG.info("Parse build log '"+ buildLog.getAbsolutePath()
+          if (LOG.isDebugEnabled()) {
+            LOG.info("Parse build log '"+ buildLog.getAbsolutePath()
                   +"' added includes: '" + uniqueIncludes.size()
                   +"', added defines: '" + uniqueDefines.size() + "'");
+          }
         }
         if(LOG.isDebugEnabled()) {
           LOG.debug("Parse build log OK");

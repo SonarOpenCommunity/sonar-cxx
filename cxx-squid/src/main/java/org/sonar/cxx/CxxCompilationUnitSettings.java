@@ -19,9 +19,13 @@
  */
 package org.sonar.cxx;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * CxxCompilationUnitSettings
+ */
 public class CxxCompilationUnitSettings {
   private Map<String, String> defines = null;
   private List<String> includes = null;
@@ -34,8 +38,9 @@ public class CxxCompilationUnitSettings {
     this.defines = defines;
   }
 
+
   public List<String> getIncludes() {
-    return includes;
+    return new ArrayList<>(includes);
   }
 
   public void setIncludes(List<String> includes) {

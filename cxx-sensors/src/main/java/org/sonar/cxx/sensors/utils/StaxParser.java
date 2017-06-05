@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.utils;
 import com.ctc.wstx.stax.WstxInputFactory;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -30,13 +29,18 @@ import java.net.URL;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLResolver;
 import javax.xml.stream.XMLStreamException;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.staxmate.SMInputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
+/**
+ * helper class StaxParser
+ */
 public class StaxParser {
 
+  private static final Logger LOG = Loggers.get(StaxParser.class);
   private SMInputFactory inf;
   private XmlStreamHandler streamHandler;
   private boolean isoControlCharsAwareParser;
@@ -51,7 +55,7 @@ public class StaxParser {
   }
 
   /**
-   * Stax parser for a given stream handler and ISO control chars set awareness to on.
+   * StaxParser for a given stream handler and ISO control chars set awareness to on.
    * The ISO control chars in the XML file will be replaced by simple spaces, useful for
    * potentially bogus XML files to parse, this has a small perfs overhead so use it only when necessary
    *
@@ -73,23 +77,31 @@ public class StaxParser {
     inf = new SMInputFactory(xmlFactory);
   }
 
+  /**
+   * parse XML stream:
+   * @param xmlFile - java.io.File  = input file
+   */
   public void parse(File xmlFile) throws XMLStreamException {
-    FileInputStream input = null;
-    try {
-      input = new FileInputStream(xmlFile);
+    try (FileInputStream input = new FileInputStream(xmlFile)) {
       parse(input);
-    } catch (FileNotFoundException e) {
-      throw new XMLStreamException(e);
-    } finally {
-      IOUtils.closeQuietly(input);
-    }
+    } catch (IOException e) {
+      LOG.debug("Cannot access file", e);
+    } 
   }
 
+  /**
+   * parse XML stream:
+   * @param xmlInput - java.io.InputStream  = input file
+   */
   public void parse(InputStream xmlInput) throws XMLStreamException {
-    xmlInput = isoControlCharsAwareParser ? new ISOControlCharAwareInputStream(xmlInput) : xmlInput;
-    parse(inf.rootElementCursor(xmlInput));
+    InputStream input = isoControlCharsAwareParser ? new ISOControlCharAwareInputStream(xmlInput) : xmlInput;
+    parse(inf.rootElementCursor(input));
   }
 
+  /**
+   * parse XML stream:
+   * @param xmlReader - java.io.Reader  = input file
+   */
   public void parse(Reader xmlReader) throws XMLStreamException {
     if (isoControlCharsAwareParser) {
       throw new XMLStreamException("Method call not supported when isoControlCharsAwareParser=true");
@@ -97,6 +109,10 @@ public class StaxParser {
     parse(inf.rootElementCursor(xmlReader));
   }
 
+  /**
+   * parse XML stream:
+   * @param xmlUrl - java.net.URL  = input stream
+   */
   public void parse(URL xmlUrl) throws XMLStreamException {
     try {
       parse(xmlUrl.openStream());
@@ -115,22 +131,31 @@ public class StaxParser {
 
   private static class UndeclaredEntitiesXMLResolver implements XMLResolver {
     @Override
-    public Object resolveEntity(String arg0, String arg1, String fileName, String undeclaredEntity) throws XMLStreamException {
-      // avoid problems with XML docs containing undeclared entities.. return the entity under its raw form if not an unicode expression
-      if (StringUtils.startsWithIgnoreCase(undeclaredEntity, "u") && undeclaredEntity.length() == 5) {
-        int unicodeCharHexValue = Integer.parseInt(undeclaredEntity.substring(1), 16);
+    public Object resolveEntity(String arg0, String arg1, String fileName, String undeclaredEntity) 
+                               throws XMLStreamException {
+      // avoid problems with XML docs containing undeclared entities.. 
+      // return the entity under its raw form if not an unicode expression
+      String undeclared = undeclaredEntity;
+      if (StringUtils.startsWithIgnoreCase(undeclared, "u") && undeclared.length() == 5) {
+        int unicodeCharHexValue = Integer.parseInt(undeclared.substring(1), 16);
         if (Character.isDefined(unicodeCharHexValue)) {
-          undeclaredEntity = new String(new char[] {(char) unicodeCharHexValue});
+          undeclared = new String(new char[] {(char) unicodeCharHexValue});
         }
       }
-      return undeclaredEntity;
+      return undeclared;
     }
   }
 
   /**
+   * XmlStreamHandler:
    * Simple interface for handling XML stream to parse
    */
   public interface XmlStreamHandler {
+    
+    /**
+     * stream:
+     * @param rootCursor - org.codehaus.staxmate.i.SMHierarchicCursor
+     */
     void stream(SMHierarchicCursor rootCursor) throws XMLStreamException;
   }
 

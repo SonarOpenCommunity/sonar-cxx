@@ -25,11 +25,9 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.FilenameUtils;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
 import org.sonar.api.batch.sensor.SensorContext;
@@ -37,7 +35,6 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.utils.CxxMetrics;
 import org.sonar.cxx.sensors.utils.CxxUtils;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 import org.sonar.cxx.sensors.utils.StaxParser;
@@ -48,14 +45,14 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * @author jorge costa, stefan weiser
  */
 public class CxxOtherSensor extends CxxReportSensor {
-  public static final Logger LOG = Loggers.get(CxxOtherSensor.class);
+  private static final Logger LOG = Loggers.get(CxxOtherSensor.class);
   public static final String REPORT_PATH_KEY = "other.reportPath";
   public static final String KEY = "other";
   public static final String OTHER_XSLT_KEY = KEY + ".xslt.";
   public static final String STYLESHEET_KEY = ".stylesheet";
   public static final String INPUT_KEY = ".inputs";
   public static final String OUTPUT_KEY = ".outputs";
-  private CxxLanguage cxxLanguage;
+  private final CxxLanguage cxxLanguage;
 
   /**
    * {@inheritDoc}
@@ -85,7 +82,8 @@ public class CxxOtherSensor extends CxxReportSensor {
   }
 
   @Override
-  public void processReport(final SensorContext context, File report) throws XMLStreamException, IOException, URISyntaxException, TransformerException {
+  public void processReport(final SensorContext context, File report) throws XMLStreamException, IOException, 
+                            URISyntaxException, TransformerException {
     LOG.debug("Parsing 'other' format");
 
     StaxParser parser = new StaxParser(new StaxParser.XmlStreamHandler() {
@@ -118,44 +116,54 @@ public class CxxOtherSensor extends CxxReportSensor {
   }  
 
   public void transformFiles(final File baseDir) {
-    Boolean goOn = true;
+    boolean goOn = true;
     for (int i = 1; (i < 10) && goOn; i++) {
       String stylesheetKey = OTHER_XSLT_KEY + i + STYLESHEET_KEY;
       String inputKey = OTHER_XSLT_KEY + i + INPUT_KEY;
       String outputKey = OTHER_XSLT_KEY + i + OUTPUT_KEY;
 
       String stylesheet = resolveFilename(baseDir.getAbsolutePath(), cxxLanguage.getStringOption(stylesheetKey));
+
+
       List<File> inputs = getReports(cxxLanguage, baseDir, inputKey);
-      String outputStrings[] = language.getStringArrayOption(outputKey);
+      String[] outputStrings = language.getStringArrayOption(outputKey);
       List<String> outputs = Arrays.asList((outputStrings != null) ? outputStrings : new String[] {});
 
-      if (inputs.size() != outputs.size()) {
-        LOG.error("Number of source XML files is not equal to the the number of output files.");
+      if (stylesheet == null) {
+        LOG.error(stylesheetKey + " is not defined.");
         goOn = false;
-      } else if ((stylesheet != null) ||
-        ((inputs != null) && (inputs.size() > 0)) ||
-        ((outputs != null) && (outputs.size() > 0))) {
-        if (stylesheet == null) {
-          LOG.error(stylesheetKey + " is not defined.");
-          goOn = false;
-        } else if (inputs == null) {
-          LOG.error(inputKey + " file is not defined.");
-          goOn = false;
-        } else if (outputs == null) {
-          LOG.error(outputKey + " is not defined.");
-          goOn = false;
-        } else {
-          LOG.debug("Converting " + stylesheet + " with " + inputs.toString() + " to " + outputs.toString() + ".");
-          File stylesheetFile = new File(stylesheet);
-          if (stylesheetFile.isAbsolute()) {
-            transformFileList(baseDir.getAbsolutePath(), stylesheetFile, inputs, outputs);
-          }
-        }
       } else {
-          // No keys found.
-          goOn = false;
+        goOn = checkInput(inputKey, outputKey, inputs, outputs); 
+      }
+
+      if (goOn) {
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Converting " + stylesheet + " with " + inputs.toString() + " to " + outputs.toString() + ".");
+        }
+        File stylesheetFile = new File(stylesheet);
+        if (stylesheetFile.isAbsolute()) {
+          transformFileList(baseDir.getAbsolutePath(), stylesheetFile, inputs, outputs);
+        }
       }
     }
+  }
+
+  private boolean checkInput(String inputKey, String outputKey, List<File> inputs, List<String> outputs) {
+    if (inputs.size() != outputs.size()) {
+      LOG.error("Number of source XML files is not equal to the the number of output files.");
+      return false;
+    } 
+
+    if ((inputs == null) || (inputs.isEmpty())) {
+      LOG.error(inputKey + " file is not defined.");
+      return false;
+      }        
+
+    if ((outputs == null) || (outputs.isEmpty())) {
+      LOG.error(outputKey + " is not defined.");
+      return false;
+      }
+    return true;
   }
 
   private void transformFileList(final String baseDir, File stylesheetFile, List<File> inputs, List<String> outputs) {
@@ -163,7 +171,7 @@ public class CxxOtherSensor extends CxxReportSensor {
       try {
         String normalizedOutputFilename = resolveFilename(baseDir, outputs.get(j));
         CxxUtils.transformFile(new StreamSource(stylesheetFile), inputs.get(j), new File(normalizedOutputFilename));
-      } catch (Exception e) {
+      } catch (TransformerException e) {
         String msg = new StringBuilder()
           .append("Cannot transform report files: '")
           .append(e)

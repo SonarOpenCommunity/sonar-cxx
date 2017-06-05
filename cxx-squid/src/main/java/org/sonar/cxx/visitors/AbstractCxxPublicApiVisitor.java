@@ -75,9 +75,6 @@ import com.sonar.sslr.impl.ast.AstXmlPrinter;
 public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
   extends SquidCheck<Grammar> implements AstAndTokenVisitor {
 
-  abstract protected void onPublicApi(AstNode node, String id,
-    List<Token> comments);
-
   private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
 
   private static final boolean DEBUG = false;
@@ -91,14 +88,16 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   private static final String TOKEN_OVERRIDE = "override";
 
+  private List<String> headerFileSuffixes;
+
+  private boolean skipFile = true;
+
+  protected abstract void onPublicApi(AstNode node, String id, List<Token> comments);
+  
   public interface PublicApiHandler {
 
     void onPublicApi(AstNode node, String id, List<Token> comments);
   }
-
-  private List<String> headerFileSuffixes;
-
-  private boolean skipFile = true;
 
   @Override
   public void init() {
@@ -498,17 +497,18 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     // handle cascaded template declarations
     AstNode node = templateDeclaration;
+    AstNode currNode = node;
     List<Token> comments;
     do {
       comments = getBlockDocumentation(node);
       if (!comments.isEmpty()) {
-        templateDeclaration = node;
+        currNode = node;
         break;
       }
       node = node.getFirstAncestor(CxxGrammarImpl.templateDeclaration);
     } while (node != null);
 
-    visitPublicApi(templateDeclaration, id, comments);
+    visitPublicApi(currNode, id, comments);
   }
 
   private void visitFunctionDefinition(AstNode functionDef) {
@@ -845,10 +845,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         if ((triviaToken != null) 
             && (triviaToken.getLine() == line)
             && (isDoxygenInlineComment(triviaToken.getValue()))) {
-              comments.add(triviaToken);
-              LOG.trace("Inline doc: " + triviaToken.getValue());
-            }
+          comments.add(triviaToken);
+          if (LOG.isTraceEnabled()) {
+            LOG.trace("Inline doc: " + triviaToken.getValue());
           }
+        }
+      }
     }
     return comments;
   }
@@ -892,9 +894,8 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
   }
 
-  public AbstractCxxPublicApiVisitor<GRAMMAR> withHeaderFileSuffixes(
-    List<String> headerFileSuffixes) {
-    this.headerFileSuffixes = headerFileSuffixes;
+  public AbstractCxxPublicApiVisitor<GRAMMAR> withHeaderFileSuffixes(List<String> headerFileSuffixes) {
+    this.headerFileSuffixes = new ArrayList<>(headerFileSuffixes);
     return this;
   }
 }

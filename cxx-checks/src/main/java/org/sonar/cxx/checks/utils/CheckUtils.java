@@ -50,8 +50,8 @@ public class CheckUtils {
         && node.getLastChild().is(CxxPunctuator.BR_RIGHT)
         && node.getParent().is(CxxGrammarImpl.expression)
         && !node.isCopyBookOrGeneratedNode()) {
-          return true;
-        }
+      return true;
+    }
     return false;
   }
   

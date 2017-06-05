@@ -38,7 +38,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  */
 public class CxxVeraxxSensor extends CxxReportSensor {
 
-  public static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);  
+  private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);  
   public static final String REPORT_PATH_KEY = "vera.reportPath";
   public static final String KEY = "Vera++";
   
