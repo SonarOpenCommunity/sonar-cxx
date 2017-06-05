@@ -47,6 +47,7 @@ public class BullseyeParser extends CxxCoverageParser {
   private static int totalcoveredconditions;
 
   public BullseyeParser() {
+    // no operation but necessary for list of coverage parsers 
   }
 
   /**

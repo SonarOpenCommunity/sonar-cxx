@@ -35,8 +35,10 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class VisualStudioParser extends CxxCoverageParser {
-  public static final Logger LOG = Loggers.get(VisualStudioParser.class);
+  private static final Logger LOG = Loggers.get(VisualStudioParser.class);
+
   public VisualStudioParser() {
+    // no operation but necessary for list of coverage parsers 
   }
 
   /**
@@ -85,7 +87,8 @@ public class VisualStudioParser extends CxxCoverageParser {
     while (sourceFile.getNext() != null) {
       String id = sourceFile.getAttrValue("id");
       CoverageMeasures builder = coverageData.remove(id);
-      coverageData.put(sourceFile.getAttrValue("path"), builder); // replace id with path
+      // replace id with path
+      coverageData.put(sourceFile.getAttrValue("path"), builder);
     }
   }
 
@@ -109,7 +112,8 @@ public class VisualStudioParser extends CxxCoverageParser {
       String sourceId = range.getAttrValue("source_id");
       int startLine = Integer.parseInt(range.getAttrValue("start_line"));
       int endLine = Integer.parseInt(range.getAttrValue("end_line"));
-      int covered = !"no".equalsIgnoreCase(range.getAttrValue("covered")) ? 1 : 0; // value: yes/no/partial
+      // value: yes/no/partial
+      int covered = !"no".equalsIgnoreCase(range.getAttrValue("covered")) ? 1 : 0;
 
       if (!sourceId.equals(lastSourceId) || builder == null) {
         builder = coverageData.get(sourceId);
