@@ -1,0 +1,1423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  C and C++ rules from  https://clang-analyzer.llvm.org/
+-->
+<rules>
+  <rule>
+    <key>alpha.clone.CloneChecker</key>
+    <name>alpha.clone.CloneChecker</name>
+    <description>
+<![CDATA[
+<p>Reports similar pieces of code.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.BoolAssignment</key>
+    <name>alpha.core.BoolAssignment</name>
+    <description>
+<![CDATA[
+<p>Warn about assigning non-{0,1} values to Boolean variables
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.CallAndMessageUnInitRefArg</key>
+    <name>alpha.core.CallAndMessageUnInitRefArg</name>
+    <description>
+<![CDATA[
+<p>Check for logical errors for function calls and Objective-C message expressions (e.g., uninitialized arguments, null function pointers, and pointer to undefined variables)
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.CastSize</key>
+    <name>alpha.core.CastSize</name>
+    <description>
+<![CDATA[
+<p>Check when casting a malloc'ed type T, whether the size is a multiple of the size of T
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.CastToStruct</key>
+    <name>alpha.core.CastToStruct</name>
+    <description>
+<![CDATA[
+<p>Check for cast from non-struct pointer to struct pointer
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.Conversion</key>
+    <name>alpha.core.Conversion</name>
+    <description>
+<![CDATA[
+<p>Loss of sign/precision in implicit conversions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.DynamicTypeChecker</key>
+    <name>alpha.core.DynamicTypeChecker</name>
+    <description>
+<![CDATA[
+<p>Check for cases where the dynamic and the static type of an object are unrelated.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.FixedAddr</key>
+    <name>alpha.core.FixedAddr</name>
+    <description>
+<![CDATA[
+<p>Check for assignment of a fixed address to a pointer
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.IdenticalExpr</key>
+    <name>alpha.core.IdenticalExpr</name>
+    <description>
+<![CDATA[
+<p>Warn about unintended use of identical expressions in operators
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.PointerArithm</key>
+    <name>alpha.core.PointerArithm</name>
+    <description>
+<![CDATA[
+<p>Check for pointer arithmetic on locations other than array elements
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.PointerSub</key>
+    <name>alpha.core.PointerSub</name>
+    <description>
+<![CDATA[
+<p>Check for pointer subtractions on two pointers pointing to different memory chunks
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.SizeofPtr</key>
+    <name>alpha.core.SizeofPtr</name>
+    <description>
+<![CDATA[
+<p>Warn about unintended use of sizeof() on pointer expressions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.core.TestAfterDivZero</key>
+    <name>alpha.core.TestAfterDivZero</name>
+    <description>
+<![CDATA[
+<p>Check for division by variable that is later compared against 0. Either the comparison is useless or there is division by zero.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.cplusplus.IteratorPastEnd</key>
+    <name>alpha.cplusplus.IteratorPastEnd</name>
+    <description>
+<![CDATA[
+<p>Check iterators used past end
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.deadcode.UnreachableCode</key>
+    <name>alpha.deadcode.UnreachableCode</name>
+    <description>
+<![CDATA[
+<p>Check unreachable code
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.osx.cocoa.DirectIvarAssignment</key>
+    <name>alpha.osx.cocoa.DirectIvarAssignment</name>
+    <description>
+<![CDATA[
+<p>Check for direct assignments to instance variables
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.osx.cocoa.DirectIvarAssignmentForAnnotatedFunctions</key>
+    <name>alpha.osx.cocoa.DirectIvarAssignmentForAnnotatedFunctions</name>
+    <description>
+<![CDATA[
+<p>Check for direct assignments to instance variables in the methods annotated with objc_no_direct_instance_variable_assignment
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.osx.cocoa.InstanceVariableInvalidation</key>
+    <name>alpha.osx.cocoa.InstanceVariableInvalidation</name>
+    <description>
+<![CDATA[
+<p>Check that the invalidatable instance variables are invalidated in the methods annotated with objc_instance_variable_invalidator
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.osx.cocoa.MissingInvalidationMethod</key>
+    <name>alpha.osx.cocoa.MissingInvalidationMethod</name>
+    <description>
+<![CDATA[
+<p>Check that the invalidation methods are present in classes that contain invalidatable instance variables
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.osx.cocoa.localizability.PluralMisuseChecker</key>
+    <name>alpha.osx.cocoa.localizability.PluralMisuseChecker</name>
+    <description>
+<![CDATA[
+<p>Warns against using one vs. many plural pattern in code when generating localized strings.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.security.ArrayBound</key>
+    <name>alpha.security.ArrayBound</name>
+    <description>
+<![CDATA[
+<p>Warn about buffer overflows (older checker)
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.security.ArrayBoundV2</key>
+    <name>alpha.security.ArrayBoundV2</name>
+    <description>
+<![CDATA[
+<p>Warn about buffer overflows (newer checker)
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.security.MallocOverflow</key>
+    <name>alpha.security.MallocOverflow</name>
+    <description>
+<![CDATA[
+<p>Check for overflows in the arguments to malloc()
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.security.ReturnPtrRange</key>
+    <name>alpha.security.ReturnPtrRange</name>
+    <description>
+<![CDATA[
+<p>Check for an out-of-bound pointer being returned to callers
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.security.taint.TaintPropagation</key>
+    <name>alpha.security.taint.TaintPropagation</name>
+    <description>
+<![CDATA[
+<p>Generate taint information used by other checkers
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.BlockInCriticalSection</key>
+    <name>alpha.unix.BlockInCriticalSection</name>
+    <description>
+<![CDATA[
+<p>Check for calls to blocking functions inside a critical section
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.Chroot</key>
+    <name>alpha.unix.Chroot</name>
+    <description>
+<![CDATA[
+<p>Check improper use of chroot
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.PthreadLock</key>
+    <name>alpha.unix.PthreadLock</name>
+    <description>
+<![CDATA[
+<p>Simple lock -> unlock checker
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.SimpleStream</key>
+    <name>alpha.unix.SimpleStream</name>
+    <description>
+<![CDATA[
+<p>Check for misuses of stream APIs
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.Stream</key>
+    <name>alpha.unix.Stream</name>
+    <description>
+<![CDATA[
+<p>Check stream handling functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.cstring.BufferOverlap</key>
+    <name>alpha.unix.cstring.BufferOverlap</name>
+    <description>
+<![CDATA[
+<p>Checks for overlap in two buffer arguments
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.cstring.NotNullTerminated</key>
+    <name>alpha.unix.cstring.NotNullTerminated</name>
+    <description>
+<![CDATA[
+<p>Check for arguments which are not null-terminating strings
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.unix.cstring.OutOfBounds</key>
+    <name>alpha.unix.cstring.OutOfBounds</name>
+    <description>
+<![CDATA[
+<p>Check for out-of-bounds access in string functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.valist.CopyToSelf</key>
+    <name>alpha.valist.CopyToSelf</name>
+    <description>
+<![CDATA[
+<p>Check for va_lists which are copied onto itself.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.valist.Uninitialized</key>
+    <name>alpha.valist.Uninitialized</name>
+    <description>
+<![CDATA[
+<p>Check for usages of uninitialized (or already released) va_lists.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>alpha.valist.Unterminated</key>
+    <name>alpha.valist.Unterminated</name>
+    <description>
+<![CDATA[
+<p>Check for va_lists which are not released by a va_end call.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>alpha</tag>
+  </rule>
+  <rule>
+    <key>apiModeling.google.GTest</key>
+    <name>apiModeling.google.GTest</name>
+    <description>
+<![CDATA[
+<p>Model gtest assertion APIs
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>apimodeling</tag>
+  </rule>
+  <rule>
+    <key>core.CallAndMessage</key>
+    <name>core.CallAndMessage</name>
+    <description>
+<![CDATA[
+<p>Check for logical errors for function calls and Objective-C message expressions (e.g., uninitialized arguments, null function pointers)
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.DivideZero</key>
+    <name>core.DivideZero</name>
+    <description>
+<![CDATA[
+<p>Check for division by zero
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.DynamicTypePropagation</key>
+    <name>core.DynamicTypePropagation</name>
+    <description>
+<![CDATA[
+<p>Generate dynamic type information
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.NonNullParamChecker</key>
+    <name>core.NonNullParamChecker</name>
+    <description>
+<![CDATA[
+<p>Check for null pointers passed as arguments to a function whose arguments are references or marked with the 'nonnull' attribute
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.NullDereference</key>
+    <name>core.NullDereference</name>
+    <description>
+<![CDATA[
+<p>Check for dereferences of null pointers
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.StackAddressEscape</key>
+    <name>core.StackAddressEscape</name>
+    <description>
+<![CDATA[
+<p>Check that addresses to stack memory do not escape the function
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.UndefinedBinaryOperatorResult</key>
+    <name>core.UndefinedBinaryOperatorResult</name>
+    <description>
+<![CDATA[
+<p>Check for undefined results of binary operators
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.VLASize</key>
+    <name>core.VLASize</name>
+    <description>
+<![CDATA[
+<p>Check for declarations of VLA of undefined or zero size
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.builtin.BuiltinFunctions</key>
+    <name>core.builtin.BuiltinFunctions</name>
+    <description>
+<![CDATA[
+<p>Evaluate compiler builtin functions (e.g., alloca())
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.builtin.NoReturnFunctions</key>
+    <name>core.builtin.NoReturnFunctions</name>
+    <description>
+<![CDATA[
+<p>Evaluate "panic" functions that are known to not return to the caller
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.uninitialized.ArraySubscript</key>
+    <name>core.uninitialized.ArraySubscript</name>
+    <description>
+<![CDATA[
+<p>Check for uninitialized values used as array subscripts
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.uninitialized.Assign</key>
+    <name>core.uninitialized.Assign</name>
+    <description>
+<![CDATA[
+<p>Check for assigning uninitialized values
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.uninitialized.Branch</key>
+    <name>core.uninitialized.Branch</name>
+    <description>
+<![CDATA[
+<p>Check for uninitialized values used as branch conditions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.uninitialized.CapturedBlockVariable</key>
+    <name>core.uninitialized.CapturedBlockVariable</name>
+    <description>
+<![CDATA[
+<p>Check for blocks that capture uninitialized values
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>core.uninitialized.UndefReturn</key>
+    <name>core.uninitialized.UndefReturn</name>
+    <description>
+<![CDATA[
+<p>Check for uninitialized values being returned to the caller
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>core</tag>
+  </rule>
+  <rule>
+    <key>cplusplus.NewDelete</key>
+    <name>cplusplus.NewDelete</name>
+    <description>
+<![CDATA[
+<p>Check for double-free and use-after-free problems. Traces memory managed by new/delete.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>cplusplus</tag>
+  </rule>
+  <rule>
+    <key>cplusplus.NewDeleteLeaks</key>
+    <name>cplusplus.NewDeleteLeaks</name>
+    <description>
+<![CDATA[
+<p>Check for memory leaks. Traces memory managed by new/delete.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>cplusplus</tag>
+  </rule>
+  <rule>
+    <key>cplusplus.SelfAssignment</key>
+    <name>cplusplus.SelfAssignment</name>
+    <description>
+<![CDATA[
+<p>Checks C++ copy and move assignment operators for self assignment
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>cplusplus</tag>
+  </rule>
+  <rule>
+    <key>deadcode.DeadStores</key>
+    <name>deadcode.DeadStores</name>
+    <description>
+<![CDATA[
+<p>Check for values stored to variables that are never read afterwards
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>deadcode</tag>
+  </rule>
+  <rule>
+    <key>llvm.Conventions</key>
+    <name>llvm.Conventions</name>
+    <description>
+<![CDATA[
+<p>Check code for LLVM codebase conventions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>llvm</tag>
+  </rule>
+  <rule>
+    <key>nullability.NullPassedToNonnull</key>
+    <name>nullability.NullPassedToNonnull</name>
+    <description>
+<![CDATA[
+<p>Warns when a null pointer is passed to a pointer which has a _Nonnull type.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>nullability</tag>
+  </rule>
+  <rule>
+    <key>nullability.NullReturnedFromNonnull</key>
+    <name>nullability.NullReturnedFromNonnull</name>
+    <description>
+<![CDATA[
+<p>Warns when a null pointer is returned from a function that has _Nonnull return type.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>nullability</tag>
+  </rule>
+  <rule>
+    <key>nullability.NullableDereferenced</key>
+    <name>nullability.NullableDereferenced</name>
+    <description>
+<![CDATA[
+<p>Warns when a nullable pointer is dereferenced.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>nullability</tag>
+  </rule>
+  <rule>
+    <key>nullability.NullablePassedToNonnull</key>
+    <name>nullability.NullablePassedToNonnull</name>
+    <description>
+<![CDATA[
+<p>Warns when a nullable pointer is passed to a pointer which has a _Nonnull type.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>nullability</tag>
+  </rule>
+  <rule>
+    <key>nullability.NullableReturnedFromNonnull</key>
+    <name>nullability.NullableReturnedFromNonnull</name>
+    <description>
+<![CDATA[
+<p>Warns when a nullable pointer is returned from a function that has _Nonnull return type.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>nullability</tag>
+  </rule>
+  <rule>
+    <key>optin.cplusplus.VirtualCall</key>
+    <name>optin.cplusplus.VirtualCall</name>
+    <description>
+<![CDATA[
+<p>Check virtual function calls during construction or destruction
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>optin</tag>
+  </rule>
+  <rule>
+    <key>optin.mpi.MPI-Checker</key>
+    <name>optin.mpi.MPI-Checker</name>
+    <description>
+<![CDATA[
+<p>Checks MPI code
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>optin</tag>
+  </rule>
+  <rule>
+    <key>optin.osx.cocoa.localizability.EmptyLocalizationContextChecker</key>
+    <name>optin.osx.cocoa.localizability.EmptyLocalizationContextChecker</name>
+    <description>
+<![CDATA[
+<p>Check that NSLocalizedString macros include a comment for context
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>optin</tag>
+  </rule>
+  <rule>
+    <key>optin.osx.cocoa.localizability.NonLocalizedStringChecker</key>
+    <name>optin.osx.cocoa.localizability.NonLocalizedStringChecker</name>
+    <description>
+<![CDATA[
+<p>Warns about uses of non-localized NSStrings passed to UI methods expecting localized NSStrings
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>optin</tag>
+  </rule>
+  <rule>
+    <key>optin.performance.Padding</key>
+    <name>optin.performance.Padding</name>
+    <description>
+<![CDATA[
+<p>Check for excessively padded structs.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>optin</tag>
+  </rule>
+  <rule>
+    <key>osx.API</key>
+    <name>osx.API</name>
+    <description>
+<![CDATA[
+<p>Check for proper uses of various Apple APIs
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.NumberObjectConversion</key>
+    <name>osx.NumberObjectConversion</name>
+    <description>
+<![CDATA[
+<p>Check for erroneous conversions of objects representing numbers into numbers
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.ObjCProperty</key>
+    <name>osx.ObjCProperty</name>
+    <description>
+<![CDATA[
+<p>Check for proper uses of Objective-C properties
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.SecKeychainAPI</key>
+    <name>osx.SecKeychainAPI</name>
+    <description>
+<![CDATA[
+<p>Check for proper uses of Secure Keychain APIs
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.AtSync</key>
+    <name>osx.cocoa.AtSync</name>
+    <description>
+<![CDATA[
+<p>Check for nil pointers used as mutexes for @synchronized
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.ClassRelease</key>
+    <name>osx.cocoa.ClassRelease</name>
+    <description>
+<![CDATA[
+<p>Check for sending 'retain', 'release', or 'autorelease' directly to a Class
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.Dealloc</key>
+    <name>osx.cocoa.Dealloc</name>
+    <description>
+<![CDATA[
+<p>Warn about Objective-C classes that lack a correct implementation of -dealloc
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.IncompatibleMethodTypes</key>
+    <name>osx.cocoa.IncompatibleMethodTypes</name>
+    <description>
+<![CDATA[
+<p>Warn about Objective-C method signatures with type incompatibilities
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.Loops</key>
+    <name>osx.cocoa.Loops</name>
+    <description>
+<![CDATA[
+<p>Improved modeling of loops using Cocoa collection types
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.MissingSuperCall</key>
+    <name>osx.cocoa.MissingSuperCall</name>
+    <description>
+<![CDATA[
+<p>Warn about Objective-C methods that lack a necessary call to super
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.NSAutoreleasePool</key>
+    <name>osx.cocoa.NSAutoreleasePool</name>
+    <description>
+<![CDATA[
+<p>Warn for suboptimal uses of NSAutoreleasePool in Objective-C GC mode
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.NSError</key>
+    <name>osx.cocoa.NSError</name>
+    <description>
+<![CDATA[
+<p>Check usage of NSError** parameters
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.NilArg</key>
+    <name>osx.cocoa.NilArg</name>
+    <description>
+<![CDATA[
+<p>Check for prohibited nil arguments to ObjC method calls
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.NonNilReturnValue</key>
+    <name>osx.cocoa.NonNilReturnValue</name>
+    <description>
+<![CDATA[
+<p>Model the APIs that are guaranteed to return a non-nil value
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.ObjCGenerics</key>
+    <name>osx.cocoa.ObjCGenerics</name>
+    <description>
+<![CDATA[
+<p>Check for type errors when using Objective-C generics
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.RetainCount</key>
+    <name>osx.cocoa.RetainCount</name>
+    <description>
+<![CDATA[
+<p>Check for leaks and improper reference count management
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.SelfInit</key>
+    <name>osx.cocoa.SelfInit</name>
+    <description>
+<![CDATA[
+<p>Check that 'self' is properly initialized inside an initializer method
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.SuperDealloc</key>
+    <name>osx.cocoa.SuperDealloc</name>
+    <description>
+<![CDATA[
+<p>Warn about improper use of '[super dealloc]' in Objective-C
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.UnusedIvars</key>
+    <name>osx.cocoa.UnusedIvars</name>
+    <description>
+<![CDATA[
+<p>Warn about private ivars that are never used
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.cocoa.VariadicMethodTypes</key>
+    <name>osx.cocoa.VariadicMethodTypes</name>
+    <description>
+<![CDATA[
+<p>Check for passing non-Objective-C types to variadic collection initialization methods that expect only Objective-C types
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.coreFoundation.CFError</key>
+    <name>osx.coreFoundation.CFError</name>
+    <description>
+<![CDATA[
+<p>Check usage of CFErrorRef* parameters
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.coreFoundation.CFNumber</key>
+    <name>osx.coreFoundation.CFNumber</name>
+    <description>
+<![CDATA[
+<p>Check for proper uses of CFNumber APIs
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.coreFoundation.CFRetainRelease</key>
+    <name>osx.coreFoundation.CFRetainRelease</name>
+    <description>
+<![CDATA[
+<p>Check for null arguments to CFRetain/CFRelease/CFMakeCollectable
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.coreFoundation.containers.OutOfBounds</key>
+    <name>osx.coreFoundation.containers.OutOfBounds</name>
+    <description>
+<![CDATA[
+<p>Checks for index out-of-bounds when using 'CFArray' API
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>osx.coreFoundation.containers.PointerSizedValues</key>
+    <name>osx.coreFoundation.containers.PointerSizedValues</name>
+    <description>
+<![CDATA[
+<p>Warns if 'CFArray', 'CFDictionary', 'CFSet' are created with non-pointer-size values
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>osx</tag>
+  </rule>
+  <rule>
+    <key>security.FloatLoopCounter</key>
+    <name>security.FloatLoopCounter</name>
+    <description>
+<![CDATA[
+<p>Warn on using a floating point value as a loop counter (CERT: FLP30-C, FLP30-CPP)
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.UncheckedReturn</key>
+    <name>security.insecureAPI.UncheckedReturn</name>
+    <description>
+<![CDATA[
+<p>Warn on uses of functions whose return values must be always checked
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.getpw</key>
+    <name>security.insecureAPI.getpw</name>
+    <description>
+<![CDATA[
+<p>Warn on uses of the 'getpw' function
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.gets</key>
+    <name>security.insecureAPI.gets</name>
+    <description>
+<![CDATA[
+<p>Warn on uses of the 'gets' function
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.mkstemp</key>
+    <name>security.insecureAPI.mkstemp</name>
+    <description>
+<![CDATA[
+<p>Warn when 'mkstemp' is passed fewer than 6 X's in the format string
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.mktemp</key>
+    <name>security.insecureAPI.mktemp</name>
+    <description>
+<![CDATA[
+<p>Warn on uses of the 'mktemp' function
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.rand</key>
+    <name>security.insecureAPI.rand</name>
+    <description>
+<![CDATA[
+<p>Warn on uses of the 'rand', 'random', and related functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.strcpy</key>
+    <name>security.insecureAPI.strcpy</name>
+    <description>
+<![CDATA[
+<p>Warn on uses of the 'strcpy' and 'strcat' functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>security.insecureAPI.vfork</key>
+    <name>security.insecureAPI.vfork</name>
+    <description>
+<![CDATA[
+<p>Warn on uses of the 'vfork' function
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>security</tag>
+  </rule>
+  <rule>
+    <key>unix.API</key>
+    <name>unix.API</name>
+    <description>
+<![CDATA[
+<p>Check calls to various UNIX/Posix functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.Malloc</key>
+    <name>unix.Malloc</name>
+    <description>
+<![CDATA[
+<p>Check for memory leaks, double free, and use-after-free problems. Traces memory managed by malloc()/free().
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.MallocSizeof</key>
+    <name>unix.MallocSizeof</name>
+    <description>
+<![CDATA[
+<p>Check for dubious malloc arguments involving sizeof
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.MismatchedDeallocator</key>
+    <name>unix.MismatchedDeallocator</name>
+    <description>
+<![CDATA[
+<p>Check for mismatched deallocators.
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.StdCLibraryFunctions</key>
+    <name>unix.StdCLibraryFunctions</name>
+    <description>
+<![CDATA[
+<p>Improve modeling of the C standard library functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.Vfork</key>
+    <name>unix.Vfork</name>
+    <description>
+<![CDATA[
+<p>Check for proper usage of vfork
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.cstring.BadSizeArg</key>
+    <name>unix.cstring.BadSizeArg</name>
+    <description>
+<![CDATA[
+<p>Check the size argument passed into C string functions for common erroneous patterns
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+  <rule>
+    <key>unix.cstring.NullArg</key>
+    <name>unix.cstring.NullArg</name>
+    <description>
+<![CDATA[
+<p>Check for null pointers being passed as arguments to C string functions
+</p>
+ <h2>References</h2> <p><a href="https://clang-analyzer.llvm.org/" target="_blank">clang-analyzer.llvm.org</a></p> 
+]]>    </description>
+    <severity>MAJOR</severity>
+    <type>BUG</type>
+    <tag>unix</tag>
+  </rule>
+</rules>
