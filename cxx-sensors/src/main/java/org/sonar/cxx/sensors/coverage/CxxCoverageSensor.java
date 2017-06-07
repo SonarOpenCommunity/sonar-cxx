@@ -141,7 +141,8 @@ public class CxxCoverageSensor extends CxxReportSensor {
     }
   }
   
-  private void saveZeroValueForResource(InputFile inputFile, SensorContext context, CoverageType ctype, @Nullable Set<Integer> linesOfCode) {
+  private void saveZeroValueForResource(InputFile inputFile, SensorContext context, CoverageType ctype, 
+                                        @Nullable Set<Integer> linesOfCode) {
     if (linesOfCode != null) {
       LOG.debug("Zeroing {} coverage measures for file '{}'", ctype, inputFile.relativePath());
 
@@ -150,24 +151,26 @@ public class CxxCoverageSensor extends CxxReportSensor {
         .ofType(ctype);
 
       for (Integer line : linesOfCode) {
-//        try {
+        try {
           newCoverage.lineHits(line, 0);
-//        } catch (Exception ex) {
-//          LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", inputFile.relativePath(), line, ex);
-//          CxxUtils.validateRecovery(ex, this.language);
-//        }
+          } catch (RuntimeException ex) {
+          LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", 
+              inputFile.relativePath(), line, ex);
+          CxxUtils.validateRecovery(ex, this.language);
+        }
       }
 
-//      try {
+      try {
         newCoverage.save();
-//      } catch (Exception ex) {
-//        LOG.error("Cannot save measure '{}' : '{}', ignoring measure", inputFile.relativePath(), ex);
-//        CxxUtils.validateRecovery(ex, this.language);
-//      }
+      } catch (RuntimeException ex) {
+        LOG.error("Cannot save measure '{}' : '{}', ignoring measure", inputFile.relativePath(), ex);
+        CxxUtils.validateRecovery(ex, this.language);
+      }
     }
   }
 
-  private Map<String, CoverageMeasures> processReports(final SensorContext context, List<File> reports, Map<String, Map<String, CoverageMeasures>> cacheCov) {
+  private Map<String, CoverageMeasures> processReports(final SensorContext context, List<File> reports, 
+                                                       Map<String, Map<String, CoverageMeasures>> cacheCov) {
     Map<String, CoverageMeasures> measuresTotal = new HashMap<>();
 
     for (File report : reports) {
@@ -236,12 +239,12 @@ public class CxxCoverageSensor extends CxxReportSensor {
           checkConditionCoverage(newCoverage, measure);
         }
 
-//        try {
+        try {
           newCoverage.save();
-//        } catch(Exception ex) {
-//          LOG.error("Cannot save measure '{}' : '{}', ignoring measure", filePath, ex);
-//          CxxUtils.validateRecovery(ex, this.language);
-//        }
+        } catch(RuntimeException ex) {
+          LOG.error("Cannot save measure for file '{}' , ignoring measure. ", filePath, ex);
+          CxxUtils.validateRecovery(ex, this.language);
+        }
       } else {
         LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
       }       
@@ -249,36 +252,34 @@ public class CxxCoverageSensor extends CxxReportSensor {
   }
 
   /**
-   * @param filePath
    * @param newCoverage
    * @param measure
    */
   private void checkConditionCoverage(NewCoverage newCoverage, CoverageMeasure measure) {
     if(measure.getType() == CoverageMeasure.CoverageType.CONDITION) {
-//      try {
+      try {
         newCoverage.conditions(measure.getLine(), measure.getConditions(), measure.getCoveredConditions());
-//      } catch(Exception ex) {
-//        LOG.error("Cannot save Conditions Hits for Line '{}' '{}' : '{}', ignoring measure", 
-//                   filePath, measure.getLine(), ex);
-//        CxxUtils.validateRecovery(ex, this.language);
-//      }
+      } catch(RuntimeException ex) {
+        LOG.error("Cannot save Conditions Hits for Line '{}' , ignoring measure. ", 
+                   measure.getLine(), ex);
+        CxxUtils.validateRecovery(ex, this.language);
+      }
     }
   }
 
   /**
-   * @param filePath
    * @param newCoverage
    * @param measure
    */
   private void checkLineCoverage(NewCoverage newCoverage, CoverageMeasure measure) {
     if(measure.getType() == CoverageMeasure.CoverageType.LINE ) {
-//      try { 
+      try { 
         newCoverage.lineHits(measure.getLine(), measure.getHits());
-//      } catch(Exception ex) {
-//        LOG.error("Cannot save Line Hits for Line '{}' '{}' : '{}', ignoring measure", 
-//                   filePath, measure.getLine(), ex);
-//        CxxUtils.validateRecovery(ex, this.language);
-//      }
+      } catch(RuntimeException ex) {
+        LOG.error("Cannot save Line Hits for Line '{}', ignoring measure. ", 
+                    measure.getLine(), ex);
+        CxxUtils.validateRecovery(ex, this.language);
+      }
     }
   }  
   @Override
