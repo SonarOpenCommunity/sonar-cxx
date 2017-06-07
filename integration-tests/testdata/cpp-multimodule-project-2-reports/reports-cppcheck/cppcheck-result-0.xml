@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <results>
-    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/1/a/dup.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
-    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/1/a/x.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
-    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/1/b/dup.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
-    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/1/b/y.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
+    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/C/E/dup.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
+    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/C/E/x.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
+    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/C/F/dup.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
+    <error file="/home/travis/build/SonarOpenCommunity/sonar-cxx/integration-tests/testdata/cpp-multimodule-project-2/A/C/F/y.cpp" line="2" id="unreadVariable" severity="style" msg="Variable &apos;x&apos; is assigned a value that is never used."/>
 </results>

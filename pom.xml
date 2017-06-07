@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.sonarsource.parent</groupId>
     <artifactId>parent</artifactId>
-    <version>39</version>
+    <version>40</version>
   </parent>
 
   <groupId>org.sonarsource.sonarqube-plugins.cxx</groupId>
@@ -214,6 +214,12 @@
         <groupId>org.sonarsource.sslr</groupId>
         <artifactId>sslr-testing-harness</artifactId>
         <version>${sslr.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+          </exclusion>
+        </exclusions>        
       </dependency>
       <dependency>
         <groupId>org.sonarsource.sslr-squid-bridge</groupId>
@@ -287,7 +293,7 @@
       <dependency>
         <groupId>org.sonarsource.dotnet</groupId>
         <artifactId>sonar-dotnet-tests-library</artifactId>
-        <version>1.4</version>
+        <version>1.6.0.533</version>
       </dependency>
       <dependency>
         <groupId>org.hamcrest</groupId>
