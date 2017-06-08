@@ -39,8 +39,13 @@ import org.sonar.api.utils.log.Loggers;
 public class SourceCodeProvider {
 
   private final List<File> includeRoots = new LinkedList<>();
+  private final List<String> extensionSuffixes = new LinkedList<>();
   public static final Logger LOG = Loggers.get(SourceCodeProvider.class);
 
+  public void setHeadearSuffixes(List<String> extensionSuffixesConf) {
+    extensionSuffixes.addAll(extensionSuffixesConf);
+  }
+  
   public void setIncludeRoots(List<String> includeRoots, String baseDir) {
     for (String tmp : includeRoots) {
 
@@ -64,7 +69,27 @@ public class SourceCodeProvider {
     }
   }
 
-  public File getSourceCodeFile(String filename, String cwd, boolean quoted) {
+  public File getSourceCodeFile(String filename, String cwd, boolean quoted) {        
+    File returnFile = getSourceFile(filename, cwd, quoted);
+    
+    // handles files without extension or if it has extension but not found
+    if (returnFile != null || filename.contains(".")) {
+      return returnFile;
+    } 
+    
+    // tries to find files with defined extensions
+    for (String extension : extensionSuffixes) {
+      String filenameWithExtension = filename + extension;
+      returnFile = getSourceFile(filenameWithExtension, cwd, quoted);
+      if (returnFile != null) {
+        return returnFile;
+      }      
+    }
+    
+    return null;
+  }
+  
+  private File getSourceFile(String filename, String cwd, boolean quoted) {
     File result = null;
     File file = new File(filename);
     if (file.isAbsolute()) {

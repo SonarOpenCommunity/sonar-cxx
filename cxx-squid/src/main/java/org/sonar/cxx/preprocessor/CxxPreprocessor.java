@@ -258,6 +258,7 @@ public class CxxPreprocessor extends Preprocessor {
     this.language = language;
 
     codeProvider = sourceCodeProvider;
+    codeProvider.setHeadearSuffixes(conf.getHeaderFileSuffixes());
     codeProvider.setIncludeRoots(conf.getIncludeDirectories(), conf.getBaseDir());
 
     pplineParser = CppParser.create(conf);

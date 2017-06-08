@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -166,6 +168,17 @@ public class SourceCodeProviderTest {
     assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
   }
 
+  @Test
+  public void getting_file_with_filename_and_cwd_no_extension() {
+    String cwd = new File("src/test/resources/codeprovider").getAbsolutePath();
+    String path = "source";
+    List headers = new LinkedList<>();
+    headers.add(".hh");
+    codeProvider.setHeadearSuffixes(headers);
+    assertEquals(expected, codeProvider.getSourceCodeFile(path, cwd, true));
+    assertEquals(null, codeProvider.getSourceCodeFile(path, cwd, false));
+  }
+  
   @Test
   public void getting_file_with_relpath_and_cwd() {
     String cwd = new File("src/test/resources").getAbsolutePath();
