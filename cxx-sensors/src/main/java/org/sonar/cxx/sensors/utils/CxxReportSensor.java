@@ -269,7 +269,7 @@ public abstract class CxxReportSensor implements Sensor {
             newIssue.at(location);
             newIssue.save();
             violationsCount++;
-          } catch (Exception ex) {
+          } catch (RuntimeException ex) {
             LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
             CxxUtils.validateRecovery(ex, this.language);
           }
@@ -280,7 +280,7 @@ public abstract class CxxReportSensor implements Sensor {
       }
     } else {
       // project level
-//      try {
+      try {
         NewIssue newIssue = sensorContext.newIssue().forRule(
                                  RuleKey.of(ruleRepoKey + this.language.getRepositorySuffix(), ruleId));
         NewIssueLocation location = newIssue.newLocation()
@@ -290,11 +290,11 @@ public abstract class CxxReportSensor implements Sensor {
         newIssue.at(location);
         newIssue.save();
         violationsCount++;
-//      } catch (IOException ex) {
-//        LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue", 
-//                                  ex.getMessage(), ruleRepoKey, ruleId);
-//        CxxUtils.validateRecovery(ex, this.language);
-//      }
+      } catch (RuntimeException ex) {
+        LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue",
+                                  ex.getMessage(), ruleRepoKey, ruleId);
+        CxxUtils.validateRecovery(ex, this.language);
+    }
     }
   }
 
@@ -324,3 +324,4 @@ public abstract class CxxReportSensor implements Sensor {
   protected abstract String reportPathKey();
   protected abstract String getSensorKey();
 }
+
