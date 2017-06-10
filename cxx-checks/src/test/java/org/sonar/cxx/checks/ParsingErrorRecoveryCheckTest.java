@@ -19,14 +19,9 @@
  */
 package org.sonar.cxx.checks;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.junit.Test;
-import org.sonar.api.batch.fs.InputFile;
-import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxAstScanner;
 import org.sonar.cxx.CxxConfiguration;
 import org.sonar.squidbridge.api.SourceFile;

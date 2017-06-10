@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.rats;
 import org.sonar.cxx.sensors.rats.CxxRatsSensor;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.config.Settings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +30,6 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.tests.xunit.CxxXunitSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxRatsSensorTest {

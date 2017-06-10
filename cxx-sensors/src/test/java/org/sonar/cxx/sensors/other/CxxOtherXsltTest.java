@@ -19,12 +19,9 @@
  */
 package org.sonar.cxx.sensors.other;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
-import static org.fest.assertions.Assertions.assertThat;
 import org.junit.Assert;
 
 import org.junit.Before;
@@ -33,8 +30,6 @@ import org.apache.commons.io.FileUtils;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.api.config.Settings;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxOtherXsltTest {

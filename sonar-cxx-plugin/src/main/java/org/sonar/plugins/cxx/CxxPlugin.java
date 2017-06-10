@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import org.sonar.api.Plugin;
-import org.sonar.api.Plugin.Context;
 
 import org.sonar.api.PropertyType;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;

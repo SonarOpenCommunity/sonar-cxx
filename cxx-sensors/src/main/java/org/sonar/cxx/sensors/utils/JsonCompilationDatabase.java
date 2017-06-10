@@ -32,9 +32,7 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxCompilationUnitSettings;
 import org.sonar.cxx.CxxConfiguration;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

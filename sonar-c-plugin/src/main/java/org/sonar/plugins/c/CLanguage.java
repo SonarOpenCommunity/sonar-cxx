@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.config.Settings;
 import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
-import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;

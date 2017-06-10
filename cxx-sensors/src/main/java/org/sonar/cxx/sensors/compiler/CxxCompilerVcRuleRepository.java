@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.CxxLanguage;
@@ -37,7 +36,8 @@ public class CxxCompilerVcRuleRepository extends CxxAbstractRuleRepository {
   /**
    * {@inheritDoc}
    */
-  public CxxCompilerVcRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
+  public CxxCompilerVcRuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, 
+                                     CxxLanguage language) {
     super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
   }
 

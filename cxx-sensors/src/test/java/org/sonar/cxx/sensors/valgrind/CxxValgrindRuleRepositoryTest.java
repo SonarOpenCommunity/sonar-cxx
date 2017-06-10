@@ -28,9 +28,7 @@ import static org.mockito.Mockito.spy;
 
 import java.io.File;
 import java.util.ArrayList;
-import static org.mockito.Mockito.when;
 
-import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinition;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;

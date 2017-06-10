@@ -39,7 +39,6 @@ import org.sonar.squidbridge.SquidAstVisitor;
 import org.sonar.squidbridge.checks.SquidCheck;
 
 import com.sonar.sslr.api.Grammar;
-import org.mockito.Mockito;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 

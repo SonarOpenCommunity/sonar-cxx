@@ -22,7 +22,6 @@ package org.sonar.cxx.sensors.other;
 import org.sonar.cxx.sensors.other.CxxOtherSensor;
 import static org.fest.assertions.Assertions.assertThat;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
-import org.sonar.api.config.Settings;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +31,6 @@ import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
-import static org.fest.assertions.Assertions.assertThat;
 
 public class CxxOtherSensorTest {
 
