@@ -81,8 +81,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
       public void stream(SMHierarchicCursor rootCursor) throws XMLStreamException {
         try {
           rootCursor.advance();
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
-          throw new EmptyReportException(); //NOSONAR
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
+          throw new EmptyReportException(); 
         }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue");

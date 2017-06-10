@@ -57,7 +57,7 @@ public class CxxConfiguration extends SquidConfiguration {
   private HashMap<String, CxxCompilationUnitSettings> compilationUnitSettings = new HashMap<>();
 
   private final CxxVCppBuildLogParser cxxVCppParser;
-  private CxxLanguage language; //NOSONAR
+  private CxxLanguage language; 
 
   public CxxConfiguration(CxxLanguage language) {
     this.language = language;

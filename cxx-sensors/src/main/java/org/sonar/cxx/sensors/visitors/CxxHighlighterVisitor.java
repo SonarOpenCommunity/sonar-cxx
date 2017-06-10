@@ -167,7 +167,7 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
         newHighlighting.highlight(current.startLine(), current.startLineOffset(),
                           current.endLine(), current.endLineOffset(), typeOfText);
       }
-    } catch (Exception e) { //NOSONAR
+    } catch (Exception e) { 
       // ignore highlight errors: parsing errors could lead to wrong location data
       LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(),
                           current.startLine(), current.startLineOffset());

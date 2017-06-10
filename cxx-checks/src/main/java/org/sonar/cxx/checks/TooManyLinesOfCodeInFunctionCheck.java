@@ -40,7 +40,7 @@ import org.sonar.squidbridge.checks.SquidCheck;
 @ActivatedByDefault
 @SqaleConstantRemediation("1h")
 
-public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> { //NOSONAR
+public class TooManyLinesOfCodeInFunctionCheck extends SquidCheck<Grammar> { 
   private static final int DEFAULT_MAXIMUM = 200;
 
   @RuleProperty(

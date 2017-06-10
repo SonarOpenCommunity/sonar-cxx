@@ -319,7 +319,7 @@ public class CxxPreprocessor extends Preprocessor {
     File file = getFileUnderAnalysis();
     String filePath = file == null ? token.getURI().toString() : file.getAbsolutePath();
 
-    if (context.getFile() != currentContextFile) { //NOSONAR
+    if (context.getFile() != currentContextFile) { 
       currentContextFile = context.getFile();
       compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
 
@@ -351,7 +351,7 @@ public class CxxPreprocessor extends Preprocessor {
               Macro macro = parseMacroDefinition("#define " + define);
               if (macro != null) {
                 LOG.debug("storing external macro to unit: '{}'", macro);
-                getMacros().put(macro.name, macro); //NOSONAR
+                getMacros().put(macro.name, macro); 
               }
             }
           }
@@ -833,23 +833,23 @@ public class CxxPreprocessor extends Preprocessor {
     List<Token> rest = new ArrayList<>(tokens);
     try {
       rest = match(rest, "(");
-    } catch (MismatchException me) { //NOSONAR
+    } catch (MismatchException me) { 
       return 0;
     }
 
     try {
       do {
         rest = matchArgument(rest, arguments);
-        try { //NOSONAR
+        try { 
           rest = match(rest, ",");
-        } catch (MismatchException me) { //NOSONAR
+        } catch (MismatchException me) { 
           break;
         }
       } while (true);
-    } catch (MismatchException me) {} //NOSONAR
+    } catch (MismatchException me) {} 
     try {
       rest = match(rest, ")");
-    } catch (MismatchException me) { //NOSONAR
+    } catch (MismatchException me) { 
       LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
       return 0;
     }
@@ -1247,7 +1247,7 @@ public class CxxPreprocessor extends Preprocessor {
       AstNode includeBodyAst = null;
       try {
         includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
-      } catch (com.sonar.sslr.api.RecognitionException re) {  //NOSONAR
+      } catch (com.sonar.sslr.api.RecognitionException re) {  
         parseError = true;
       }
 

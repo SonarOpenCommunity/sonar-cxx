@@ -34,6 +34,10 @@ import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * UseCorrectTypeCheck
+ * 
+ */
 @Rule(
   key = "UseCorrectType",
   name = "C++ type(s) shall be used",
@@ -41,7 +45,7 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR)
 @RuleTemplate
 @NoSqale
-public class UseCorrectTypeCheck extends SquidCheck<Grammar> { //NOSONAR
+public class UseCorrectTypeCheck extends SquidCheck<Grammar> { 
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
     CxxGrammarImpl.typeName,
@@ -50,13 +54,21 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> { //NOSONAR
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "WORD|BOOL|BYTE|FLOAT|NULL";
   private static final String DEFAULT_MESSAGE = "Use C++ types whenever possible";
-
+  private Pattern pattern = null;
+  private final Map<String, Integer> firstOccurrence = new HashMap<>();
+  private final Map<String, Integer> literalsOccurrences = new HashMap<>();
+  /**
+   * regularExpression
+   */
   @RuleProperty(
     key = "regularExpression",
     description = "Type regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
+  /**
+   * message
+   */
   @RuleProperty(
     key = "message",
     description = "The violation message",
@@ -71,9 +83,7 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> { //NOSONAR
     return message;
   }
 
-  private Pattern pattern;
-  private final Map<String, Integer> firstOccurrence = new HashMap<>();
-  private final Map<String, Integer> literalsOccurrences = new HashMap<>();
+
 
   @Override
   public void init() {
@@ -95,10 +105,8 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> { //NOSONAR
 
   @Override
   public void visitNode(AstNode node) {
-    if (node.is(CHECKED_TYPES)) {
-      if (pattern.matcher(node.getTokenOriginalValue()).find()) {
-        visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
-      }
+    if (node.is(CHECKED_TYPES) && pattern.matcher(node.getTokenOriginalValue()).find()) {
+      visitOccurence(node.getTokenOriginalValue(), node.getTokenLine());
     }
   }
 
@@ -107,7 +115,8 @@ public class UseCorrectTypeCheck extends SquidCheck<Grammar> { //NOSONAR
     for (Map.Entry<String, Integer> literalOccurences : literalsOccurrences.entrySet()) {
       Integer occurences = literalOccurences.getValue();
       String literal = literalOccurences.getKey();
-      getContext().createLineViolation(this, "Use the correct type instead of " + literal + " (" + occurences + " times).", firstOccurrence.get(literal));
+      getContext().createLineViolation(this, "Use the correct type instead of "
+                    + literal + " (" + occurences + " times).", firstOccurrence.get(literal));
     }
   }
 

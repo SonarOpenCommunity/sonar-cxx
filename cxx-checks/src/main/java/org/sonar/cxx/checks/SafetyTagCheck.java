@@ -35,6 +35,10 @@ import com.sonar.sslr.api.Trivia;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 
+/**
+ * SafetyTagCheck - testifies whether the file name has suffix "_SAFETY"
+ *                  whenever the pattern "<Safetykey>.*</Safetykey>" exists in the file.
+ */
 @Rule(
   key = "SafetyTag",
   name = "Risk mitigation implementation shall be defined in separate file",
@@ -42,24 +46,33 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
   tags = {Tag.CONVENTION})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor { //NOSONAR
+public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVisitor { 
 
   private static final String DEFAULT_REGULAR_EXPRESSION = "<Safetykey>.*</Safetykey>";
   private static final String DEFAULT_MESSAGE = "Source files implementing risk mitigations shall use special name suffix";
   private static final String DEFAULT_NAME_SUFFIX = "_SAFETY";
-
+  private Pattern pattern= null;
+  /**
+   * regularExpression
+   */
   @RuleProperty(
     key = "regularExpression",
     description = "Comment regular expression rule",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
+  /**
+   * message
+   */
   @RuleProperty(
     key = "message",
     description = "The violation message",
     defaultValue = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'")
   public String message = DEFAULT_MESSAGE + " '" + DEFAULT_NAME_SUFFIX + "'";
 
+  /**
+   * suffix
+   */
   @RuleProperty(
     key = "suffix",
     description = "The appropriate file name suffix",
@@ -77,8 +90,6 @@ public class SafetyTagCheck extends SquidCheck<Grammar> implements AstAndTokenVi
   public String getSuffix() {
     return suffix;
   }
-
-  private Pattern pattern;
 
   @Override
   public void init() {

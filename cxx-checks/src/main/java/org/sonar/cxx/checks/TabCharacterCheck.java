@@ -37,6 +37,10 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * TabCharacterCheck - similar Vera++ rule L002 "Don't use tab characters"
+ * 
+ */
 @Rule(
   key = "TabCharacter",
   name = "Tabulation characters should not be used",
@@ -44,13 +48,14 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-//similar Vera++ rule L002 "Don't use tab characters"
-public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
+public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
   private static final boolean DEFAULT_CREATE_LINE_VIOLATION = false;
+  private Charset charset = Charset.forName("UTF-8");
 
-  private Charset charset;
-
+  /**
+   * createLineViolation
+   */
   @RuleProperty(
     key = "createLineViolation",
     description = "Create violations per line (default is one per file)",
@@ -73,9 +78,11 @@ public class TabCharacterCheck extends SquidCheck<Grammar> implements CxxCharset
     for (int i = 0; i < lines.size(); i++) {
       if (lines.get(i).contains("\t")) {
         if (createLineViolation) {
-          getContext().createLineViolation(this, "Replace all tab characters in this line by sequences of white-spaces.", i + 1);
+          getContext().createLineViolation(this, 
+              "Replace all tab characters in this line by sequences of white-spaces.", i + 1);
         } else {
-          getContext().createFileViolation(this, "Replace all tab characters in this file by sequences of white-spaces.");
+          getContext().createFileViolation(this, 
+              "Replace all tab characters in this file by sequences of white-spaces.");
           break;
         }
       }

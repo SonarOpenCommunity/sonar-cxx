@@ -32,6 +32,10 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 import org.sonar.squidbridge.checks.SquidCheck;
 
+/**
+ * MethodNameCheck 
+ * 
+ */
 @Rule(
   key = "MethodName",
   priority = Priority.MAJOR,
@@ -39,15 +43,18 @@ import org.sonar.squidbridge.checks.SquidCheck;
   tags = {Tag.CONVENTION})
 @SqaleConstantRemediation("10min")
 @ActivatedByDefault
-public class MethodNameCheck extends SquidCheck<Grammar> { //NOSONAR
+public class MethodNameCheck extends SquidCheck<Grammar> { 
 
   private static final String DEFAULT = "^[A-Z][A-Za-z0-9]{2,30}$";
+  private Pattern pattern = null;
 
+  /**
+   * format
+   */
   @RuleProperty(
     key = "format",
     defaultValue = "" + DEFAULT)
   public String format = DEFAULT;
-  private Pattern pattern;
 
   @Override
   public void init() {

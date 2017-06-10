@@ -83,7 +83,7 @@ public class CxxLint {
       reader.read(chars);
       content = new String(chars);
       reader.close();
-    } catch (IOException e) { //NOSONAR
+    } catch (IOException e) { 
     }
     return content;
   }
@@ -95,7 +95,7 @@ public class CxxLint {
    * @throws java.io.IOException
    */
   public static void main(String[] args) 
-          throws InstantiationException, IllegalAccessException, IOException, Exception { //NOSONAR
+          throws InstantiationException, IllegalAccessException, IOException, Exception { 
 
     CommandLineParser commandlineParser = new DefaultParser();
     Options options = CreateCommandLineOptions();
@@ -163,7 +163,7 @@ public class CxxLint {
           try
           {
             templateKey = data.get("templateKeyId").getAsString();
-          } catch(Exception ex) { //NOSONAR
+          } catch(Exception ex) { 
           }
           
           String enabled = data.get("status").getAsString();
@@ -238,7 +238,7 @@ public class CxxLint {
               changeAnnotationValue(a, "key", checkDefined.id);
               break;
             }            
-          } catch (IllegalStateException ex) { //NOSONAR
+          } catch (IllegalStateException ex) { 
             break;
           }
         }
@@ -297,7 +297,7 @@ public class CxxLint {
             key = rule.key();
             break;
           }           
-        } catch(Exception ex) { //NOSONAR
+        } catch(Exception ex) { 
         }
      }
         

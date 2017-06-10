@@ -49,8 +49,8 @@ public class CxxVCppBuildLogParser {
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";  
 
-  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn, //NOSONAR
-      HashMap<String, Set<String>> uniqueDefinesIn) { //NOSONAR
+  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn, 
+      HashMap<String, Set<String>> uniqueDefinesIn) { 
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
@@ -244,7 +244,7 @@ public class CxxVCppBuildLogParser {
       if (!includesPerUnit.contains(includePath)) {
         includesPerUnit.add(includePath);
       }
-    } catch (java.io.IOException io) { //NOSONAR
+    } catch (java.io.IOException io) { 
       LOG.error("Cannot parse include path using element '{}' : '{}'", element,
         io.getMessage());
     }

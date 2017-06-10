@@ -31,22 +31,29 @@ import javax.annotation.Nullable;
 import java.util.regex.Pattern;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * FileNameCheck 
+ * 
+ */
 @Rule(
   key = "FileName",
   priority = Priority.MINOR,
   name = "File names should comply with a naming convention",
   tags = {Tag.CONVENTION})
 @SqaleConstantRemediation("10min")
-public class FileNameCheck extends SquidCheck<Grammar> { //NOSONAR
+public class FileNameCheck extends SquidCheck<Grammar> { 
 
   private static final String DEFAULT = "(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$";
   private static final String MESSAGE = "Rename this file to match this regular expression: \"%s\".";
+  private Pattern pattern = null;
 
+  /**
+   * pattern
+   */
   @RuleProperty(
     key = "format",
     defaultValue = "" + DEFAULT)
   public String format = DEFAULT;
-  private Pattern pattern;
 
   @Override
   public void init() {

@@ -56,8 +56,8 @@ public class CppcheckParserV1 implements CppcheckParser {
 
         try {
           rootCursor.advance(); // results
-        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
-          throw new EmptyReportException(); //NOSONAR
+        } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
+          throw new EmptyReportException(); 
         }
 
         try {

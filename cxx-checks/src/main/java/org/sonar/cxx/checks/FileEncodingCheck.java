@@ -21,6 +21,9 @@ package org.sonar.cxx.checks;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.cxx.visitors.CxxCharsetAwareVisitor;
@@ -31,15 +34,19 @@ import java.nio.file.Files;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.NoSqale;
 
+/**
+ * FileEncodingCheck
+ */
 @Rule(
   key = "FileEncoding",
   name = "Verify that all characters of the file can be encoded with the predefined charset.",
   priority = Priority.MINOR)
 @ActivatedByDefault
 @NoSqale
-public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
+public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
-  private Charset charset;
+  private static final Logger LOG = Loggers.get(FileEncodingCheck.class);
+  private Charset charset = Charset.forName("UTF-8");
 
   @Override
   public void setCharset(Charset charset) {
@@ -50,9 +57,15 @@ public class FileEncodingCheck extends SquidCheck<Grammar> implements CxxCharset
   public void visitFile(AstNode astNode) {
     try {
       Files.readAllLines(getContext().getFile().toPath(), charset);
-    } catch (IOException e) { //NOSONAR
-      getContext().createFileViolation(this, "Not all characters of the file can be encoded with the predefined charset " + charset.name() + ".");
+    } catch (IOException e) { 
+      getContext().createFileViolation(this, 
+          "Not all characters of the file can be encoded with the predefined charset " 
+           + charset.name() + ".");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Cannot Read File", e);
+      }
     }
   }
   
 }
+

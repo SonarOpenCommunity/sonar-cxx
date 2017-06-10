@@ -85,7 +85,7 @@ public abstract class CxxAbstractRuleRepository implements RulesDefinition {
 
           BufferedReader reader = new BufferedReader(new InputStreamReader(input, charset));
           xmlRuleLoader.load(repository, reader);
-        } catch (Exception ex) { //NOSONAR
+        } catch (Exception ex) { 
           LOG.info("Cannot Load XML '{}'", ex);
         }
       }

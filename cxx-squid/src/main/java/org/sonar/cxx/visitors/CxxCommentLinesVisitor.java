@@ -33,10 +33,16 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.api.Trivia;
 
-public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> implements AstAndTokenVisitor { //NOSONAR
+/**
+ * CxxCommentLinesVisitor
+ * @param <GRAMMAR>
+ * 
+ */
+public class CxxCommentLinesVisitor<GRAMMAR extends Grammar> extends SquidAstVisitor<GRAMMAR> 
+                                   implements AstAndTokenVisitor { 
 
   private final Set<Integer> comments = new HashSet<>();
-  private boolean seenFirstToken;
+  private boolean seenFirstToken = false;
 
   @Override
   public void init() {

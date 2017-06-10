@@ -55,8 +55,8 @@ public class XunitReportParser implements XmlStreamHandler {
     SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
     try {
       testSuiteCursor.getNext();
-    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
-      throw new EmptyReportException(); //NOSONAR
+    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
+      throw new EmptyReportException(); 
     }
 
     do {

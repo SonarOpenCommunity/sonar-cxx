@@ -89,7 +89,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public abstract String getRepositoryKey();
 
   public String getRepositorySuffix() {
-    return ""; //NOSONAR
+    return ""; 
   }
   
   public String getPluginProperty(String key) {

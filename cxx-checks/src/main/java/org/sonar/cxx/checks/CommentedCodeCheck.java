@@ -41,6 +41,9 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * CommentedCodeCheck
+ */
 @Rule(
   key = "CommentedCode",
   name = "Sections of code should not be 'commented out'",
@@ -74,14 +77,14 @@ public class CommentedCodeCheck extends SquidCheck<Grammar> implements AstAndTok
   @Override
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
-      if (trivia.isComment() //NOSONAR
+      if (trivia.isComment() 
         && !trivia.getToken().getOriginalValue().startsWith("///")
         && !trivia.getToken().getOriginalValue().startsWith("//!")
-        && !trivia.getToken().getOriginalValue().startsWith("/**") //NOSONAR
+        && !trivia.getToken().getOriginalValue().startsWith("/**") 
         && !trivia.getToken().getOriginalValue().startsWith("/*!")
-        && !trivia.getToken().getOriginalValue().startsWith("/*@") //NOSONAR
+        && !trivia.getToken().getOriginalValue().startsWith("/*@") 
         && !trivia.getToken().getOriginalValue().startsWith("//@")) {
-        String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue())); //NOSONAR
+        String lines[] = regexpToDivideStringByLine.split(getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue())); 
 
         for (int lineOffset = 0; lineOffset < lines.length; lineOffset++) {
           if (codeRecognizer.isLineOfCode(lines[lineOffset])) {

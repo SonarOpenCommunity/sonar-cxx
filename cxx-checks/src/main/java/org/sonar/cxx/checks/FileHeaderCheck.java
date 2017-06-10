@@ -41,6 +41,10 @@ import org.sonar.squidbridge.api.AnalysisException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * FileHeaderCheck - similar Vera++ rule T013 "No copyright notice found"
+ * 
+ */
 @Rule(
   key = "FileHeader",
   name = "Copyright and license headers should be defined in all source files",
@@ -48,12 +52,14 @@ import java.util.regex.Pattern;
   tags = {})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-//similar Vera++ rule T013 "No copyright notice found"
-public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
+public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
   private static final String DEFAULT_HEADER_FORMAT = "";
   private static final String MESSAGE = "Add or update the header of this file.";
-  
+
+  /**
+   * headerFormat
+   */
   @RuleProperty(
     key = "headerFormat",
     description = "Expected copyright and license header (plain text)",
@@ -61,15 +67,18 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
     defaultValue = DEFAULT_HEADER_FORMAT)
   public String headerFormat = DEFAULT_HEADER_FORMAT;
 
+  /**
+   * isRegularExpression
+   */
   @RuleProperty(
     key = "isRegularExpression",
     description = "Whether the headerFormat is a regular expression",
     defaultValue = "false")
   public boolean isRegularExpression;
 
-  private Charset charset;
-  private String[] expectedLines;
-  private Pattern searchPattern;
+  private Charset charset = Charset.forName("UTF-8");
+  private String[] expectedLines = null;
+  private Pattern searchPattern = null;
 
   @Override
   public void setCharset(Charset charset) {
@@ -83,7 +92,9 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
         try {
           searchPattern = Pattern.compile(headerFormat, Pattern.DOTALL);
         } catch (IllegalArgumentException e) {
-          throw new IllegalArgumentException("[" + getClass().getSimpleName() + "] Unable to compile the regular expression: " + headerFormat, e);
+          throw new IllegalArgumentException("[" + getClass().getSimpleName() 
+                                                 + "] Unable to compile the regular expression: " 
+                                                 + headerFormat, e);
         }
       }
     } else {
@@ -105,7 +116,7 @@ public class FileHeaderCheck extends SquidCheck<Grammar> implements CxxCharsetAw
       List<String> lines;
       try {
         lines = Files.readLines(getContext().getFile(), charset);
-      } catch (IOException e) { //NOSONAR
+      } catch (IOException e) { 
         throw new IllegalStateException(e);
       }
 

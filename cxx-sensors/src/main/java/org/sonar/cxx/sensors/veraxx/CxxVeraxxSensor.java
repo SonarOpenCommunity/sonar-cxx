@@ -72,8 +72,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
           try {
             rootCursor.advance();
-          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
-            throw new EmptyReportException();                  //NOSONAR
+          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
+            throw new EmptyReportException();                  
           }
 
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");

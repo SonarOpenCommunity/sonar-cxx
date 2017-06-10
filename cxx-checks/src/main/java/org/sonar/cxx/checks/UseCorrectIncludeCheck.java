@@ -36,6 +36,10 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * UseCorrectIncludeCheck
+ * 
+ */
 @Rule(
   key = "UseCorrectInclude",
   name = "#include directive shall not use relative path",
@@ -43,15 +47,12 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.BLOCKER)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
+public class UseCorrectIncludeCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
-  private static final String DEFAULT_REGULAR_EXPRESSION = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
-  private static final String DEFAULT_MESSAGE = "Use correct #include directives";
-
-  public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
-  public String message = DEFAULT_MESSAGE;
-  private Pattern pattern;
-  private Charset charset;
+  public static final String regularExpression = "#include\\s+(?>\"|\\<)[\\\\/\\.]+";
+  public static final String message = "Use correct #include directives";
+  private Pattern pattern = null;
+  private Charset charset  = Charset.forName("UTF-8");
 
   @Override
   public void init() {

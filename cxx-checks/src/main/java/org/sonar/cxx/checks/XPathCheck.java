@@ -36,7 +36,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class XPathCheck extends AbstractXPathCheck<Grammar> { //NOSONAR
+public class XPathCheck extends AbstractXPathCheck<Grammar> { 
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;

@@ -26,14 +26,17 @@ import org.sonar.sslr.channel.CodeReader;
 import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 
-public class CharacterLiteralsChannel extends Channel<Lexer> { //NOSONAR
+/**
+ * CharacterLiteralsChannel
+ */
+public class CharacterLiteralsChannel extends Channel<Lexer> { 
 
   private static final char EOF = (char) -1;
 
   private final StringBuilder sb = new StringBuilder();
 
-  private int index;
-  private char ch;
+  private int index = 0;
+  private char ch = ' ';
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {

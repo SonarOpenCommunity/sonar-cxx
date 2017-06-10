@@ -65,7 +65,7 @@ public class CxxUnitTestResultsProvider {
     public void execute(SensorContext context) {
       try {
         super.execute(context);
-      } catch (Exception e) { //NOSONAR
+      } catch (Exception e) { 
         String msg = new StringBuilder()
           .append("Cannot feed the data into SonarQube, details: '")
           .append(e)
