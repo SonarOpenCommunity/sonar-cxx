@@ -43,7 +43,7 @@ class DirectoryEdge implements Edge<InputDir> {
   }
 
   public Collection<FileEdge> getRootEdges() {
-    return rootEdges;
+    return new HashSet<>(rootEdges);
   }
 
   @Override

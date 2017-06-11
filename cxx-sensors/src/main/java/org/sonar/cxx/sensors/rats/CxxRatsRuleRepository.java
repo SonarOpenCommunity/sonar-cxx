@@ -29,7 +29,7 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxRatsRuleRepository extends CxxAbstractRuleRepository {
 
-  public static String KEY = "rats";
+  public static final String KEY = "rats";
   public static final String CUSTOM_RULES_KEY = "rats.customRules";
   private static final String NAME = "RATS";
 

@@ -38,8 +38,10 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  * {@inheritDoc}
  */
 public class CoberturaParser extends CxxCoverageParser {
-  public static final Logger LOG = Loggers.get(CoberturaParser.class);
+  private static final Logger LOG = Loggers.get(CoberturaParser.class);
+
   public CoberturaParser() {
+    // no operation but necessary for list of coverage parsers 
   }
 
   /**

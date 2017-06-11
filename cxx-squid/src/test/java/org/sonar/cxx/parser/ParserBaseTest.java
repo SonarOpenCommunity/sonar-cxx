@@ -28,7 +28,6 @@ import com.sonar.sslr.api.Grammar;
 import com.sonar.sslr.impl.Parser;
 import org.sonar.cxx.CxxFileTesterHelper;
 import org.sonar.sslr.grammar.GrammarRuleKey;
-import org.sonar.sslr.grammar.GrammarRuleBuilder;
 
 public class ParserBaseTest {
 

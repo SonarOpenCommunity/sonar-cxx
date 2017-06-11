@@ -22,64 +22,76 @@ package org.sonar.cxx.preprocessor;
 import java.util.Map;
 import java.util.HashMap;
 
+/**
+ * StandardDefinitions
+ * 
+ */
 public final class StandardDefinitions {
 
   private StandardDefinitions() {
   }
 
+  /**
+   * macros
+   * @return <String, String>
+   */
   public static Map<String, String> macros() {
     // This is a collection of standard macros according to
     // http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html
-
-    return new HashMap<String, String>() {{
-        put("__FILE__", "\"file\""); // for now
-        put("__LINE__", "1"); // that should hopefully suffice
-        put("__DATE__", "\"??? ?? ????\""); // indicates 'date unknown'. should suffice
-        put("__TIME__", "\"??:??:??\""); // indicates 'time unknown'. should suffice
-        put("__STDC__", "1");
-        put("__STDC_HOSTED__", "1");
-        put("__cplusplus", "201103L");
-      }};
+    Map<String, String> source = new HashMap<>();
+    source.put("__FILE__", "\"file\"");
+    source.put("__LINE__", "1");
+    // indicates 'date unknown'. should suffice
+    source.put("__DATE__", "\"??? ?? ????\"");
+    // indicates 'time unknown'. should suffice
+    source.put("__TIME__", "\"??:??:??\""); 
+    source.put("__STDC__", "1");
+    source.put("__STDC_HOSTED__", "1");
+    source.put("__cplusplus", "201103L");
+    return source;
   }
-  
+
+  /**
+   * compatibilityMacros
+   * @return <String, String>
+   */
   public static Map<String, String> compatibilityMacros() {
     // This is a collection of macros used to let C code be parsed by C++ parser
-    return new HashMap<String, String>() {{
-        put("alignas", "__alignas");
-        put("alignof", "__alignof");
-        put("catch", "__catch");
-        put("class", "__class");
-        put("constexpr", "__constexpr");
-        put("const_cast", "__const_cast");
-        put("decltype", "__decltype");
-        put("delete", "__delete");
-        put("dynamic_cast", "__dynamic_cast");
-        put("explicit", "__explicit");
-        put("export", "__export");
-        put("final", "__final");
-        put("friend", "__friend");
-        put("mutable", "__mutable");
-        put("namespace", "__namespace");
-        put("new", "__new");
-        put("noexcept", "__noexcept");
-        put("nullptr", "__nullptr");
-        put("operator", "__operator");
-        put("override", "__override");
-        put("private", "__private");
-        put("protected", "__protected");
-        put("public", "__public");
-        put("reinterpret_cast", "__reinterpret_cast");
-        put("static_assert", "__static_assert");
-        put("static_cast", "__static_cast");
-        put("thread_local", "__thread_local");
-        put("throw", "__throw");
-        put("try", "__try");
-        put("typeid", "__typeid");
-        put("typename", "__typename");
-        put("using", "__using");
-        put("template", "__template");
-        put("virtual", "__virtual");
-      }};
+    Map<String, String> source = new HashMap<>();
+    source.put("alignas", "__alignas");
+    source.put("alignof", "__alignof");
+    source.put("catch", "__catch");
+    source.put("class", "__class");
+    source.put("constexpr", "__constexpr");
+    source.put("const_cast", "__const_cast");
+    source.put("decltype", "__decltype");
+    source.put("delete", "__delete");
+    source.put("dynamic_cast", "__dynamic_cast");
+    source.put("explicit", "__explicit");
+    source.put("export", "__export");
+    source.put("final", "__final");
+    source.put("friend", "__friend");
+    source.put("mutable", "__mutable");
+    source.put("namespace", "__namespace");
+    source.put("new", "__new");
+    source.put("noexcept", "__noexcept");
+    source.put("nullptr", "__nullptr");
+    source.put("operator", "__operator");
+    source.put("override", "__override");
+    source.put("private", "__private");
+    source.put("protected", "__protected");
+    source.put("public", "__public");
+    source.put("reinterpret_cast", "__reinterpret_cast");
+    source.put("static_assert", "__static_assert");
+    source.put("static_cast", "__static_cast");
+    source.put("thread_local", "__thread_local");
+    source.put("throw", "__throw");
+    source.put("try", "__try");
+    source.put("typeid", "__typeid");
+    source.put("typename", "__typename");
+    source.put("using", "__using");
+    source.put("template", "__template");
+    source.put("virtual", "__virtual");
+    return source;
   }
-  
 }

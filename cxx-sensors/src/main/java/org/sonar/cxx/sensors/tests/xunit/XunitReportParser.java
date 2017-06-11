@@ -44,7 +44,7 @@ public class XunitReportParser implements XmlStreamHandler {
    * Returns successfully parsed testcases.
    */
   public List<TestCase> getTestCases() {
-    return testCases;
+    return new LinkedList<>(testCases);
   }
 
   /**
@@ -55,8 +55,8 @@ public class XunitReportParser implements XmlStreamHandler {
     SMInputCursor testSuiteCursor = rootCursor.constructDescendantCursor(new ElementFilter("testsuite"));
     try {
       testSuiteCursor.getNext();
-    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
-      throw new EmptyReportException(); //NOSONAR
+    } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
+      throw new EmptyReportException(); 
     }
 
     do {

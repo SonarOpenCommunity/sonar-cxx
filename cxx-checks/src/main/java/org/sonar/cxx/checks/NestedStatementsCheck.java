@@ -37,6 +37,10 @@ import java.util.HashSet;
 import org.sonar.cxx.api.CxxKeyword;
 import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 
+/**
+ * NestedStatementsCheck
+ * 
+ */
 @Rule(
   key = "NestedStatements",
   name = "Control flow statements \"if\", \"switch\", \"try\" and iterators should not be nested too deeply",
@@ -45,7 +49,7 @@ import static org.sonar.cxx.checks.utils.CheckUtils.isIfStatement;
 )
 @ActivatedByDefault
 @SqaleConstantRemediation("10min")
-public class NestedStatementsCheck extends SquidCheck<Grammar> { //NOSONAR
+public class NestedStatementsCheck extends SquidCheck<Grammar> { 
 
   private static final AstNodeType[] CHECKED_TYPES = new AstNodeType[]{
     CxxGrammarImpl.selectionStatement,
@@ -55,6 +59,9 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> { //NOSONAR
 
   private static final int DEFAULT_MAX = 3;
 
+  /**
+   * max
+   */
   @RuleProperty(
     key = "max",
     description = "Maximum allowed control flow statement nesting depth.",
@@ -62,7 +69,7 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> { //NOSONAR
   public int max = DEFAULT_MAX;
 
   private final Set<AstNode> checkedNodes = new HashSet<>();
-  private int nestingLevel;
+  private int nestingLevel = 0;
 
   @Override
   public void init() {

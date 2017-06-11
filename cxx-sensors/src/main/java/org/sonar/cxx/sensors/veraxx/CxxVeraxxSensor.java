@@ -38,7 +38,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
  */
 public class CxxVeraxxSensor extends CxxReportSensor {
 
-  public static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);  
+  private static final Logger LOG = Loggers.get(CxxVeraxxSensor.class);  
   public static final String REPORT_PATH_KEY = "vera.reportPath";
   public static final String KEY = "Vera++";
   
@@ -72,8 +72,8 @@ public class CxxVeraxxSensor extends CxxReportSensor {
         public void stream(SMHierarchicCursor rootCursor) throws javax.xml.stream.XMLStreamException {
           try {
             rootCursor.advance();
-          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { //NOSONAR
-            throw new EmptyReportException();                  //NOSONAR
+          } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
+            throw new EmptyReportException();                  
           }
 
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");

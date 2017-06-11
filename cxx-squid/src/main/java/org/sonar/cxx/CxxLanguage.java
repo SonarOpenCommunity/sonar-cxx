@@ -50,7 +50,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
 
   @Override
   public int hashCode() {
-      return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
+    return new HashCodeBuilder(17, 31). // two randomly chosen prime numbers
           appendSuper(super.hashCode()).
           append(getKey()).
           toHashCode();
@@ -89,7 +89,7 @@ public abstract class CxxLanguage extends AbstractLanguage {
   public abstract String getRepositoryKey();
 
   public String getRepositorySuffix() {
-    return ""; //NOSONAR
+    return ""; 
   }
   
   public String getPluginProperty(String key) {

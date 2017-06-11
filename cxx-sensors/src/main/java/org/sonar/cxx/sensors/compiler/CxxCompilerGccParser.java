@@ -32,7 +32,7 @@ import org.sonar.api.utils.log.Loggers;
  * {@inheritDoc}
  */
 public class CxxCompilerGccParser implements CompilerParser {
-  public static final Logger LOG = Loggers.get(CxxCompilerGccParser.class);
+  private static final Logger LOG = Loggers.get(CxxCompilerGccParser.class);
   public static final String COMPILER_KEY = "GCC";
   // search for single line with compiler warning message - order for groups: 1 = file, 2 = line, 3 = message, 4=id
   public static final String DEFAULT_REGEX_DEF = "^(.*):([0-9]+):[0-9]+:\\x20warning:\\x20(.*)\\x20\\[(.*)\\]$";

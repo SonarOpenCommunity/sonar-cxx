@@ -27,16 +27,17 @@ import com.sonar.sslr.api.Token;
 import com.sonar.sslr.impl.Lexer;
 
 /**
+ * StringLiteralsChannel
  */
-public class StringLiteralsChannel extends Channel<Lexer> { //NOSONAR
+public class StringLiteralsChannel extends Channel<Lexer> { 
 
   private static final char EOF = (char) -1;
 
   private final StringBuilder sb = new StringBuilder();
 
-  private int index;
-  private char ch;
-  private boolean isRawString;
+  private int index = 0;
+  private char ch = ' ';
+  private boolean isRawString = false;
 
   @Override
   public boolean consume(CodeReader code, Lexer output) {

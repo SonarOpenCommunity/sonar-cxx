@@ -22,14 +22,25 @@ package org.sonar.cxx.preprocessor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapChain<K, V> { //NOSONAR
+/**
+ * MapChain 
+ * @param <K>
+ * @param <V>
+ * 
+ */
+public class MapChain<K, V> { 
 
   private final Map<K, V> highPrioMap = new HashMap<>();
   private final Map<K, V> lowPrioMap = new HashMap<>();
   private final Map<K, V> highPrioDisabled = new HashMap<>();
   private final Map<K, V> lowPrioDisabled = new HashMap<>();
-  private boolean isHighPrioEnabled;
+  private boolean isHighPrioEnabled = false;
 
+  /**
+   * get
+   * @param key
+   * @return V
+   */
   public V get(Object key) {
     V value = highPrioMap.get(key);
     return value != null ? value : lowPrioMap.get(key);
@@ -39,6 +50,12 @@ public class MapChain<K, V> { //NOSONAR
     isHighPrioEnabled = value;
   }
 
+  /**
+   * put
+   * @param key
+   * @param value
+   * @return V
+   */
   public V put(K key, V value) {
     if (isHighPrioEnabled) {
       return highPrioMap.put(key, value);
@@ -47,19 +64,35 @@ public class MapChain<K, V> { //NOSONAR
     }
   }
 
+  /**
+   * removeLowPrio
+   * @param key
+   * @return V
+   */
   public V removeLowPrio(K key) {
     return lowPrioMap.remove(key);
   }
 
+  /**
+   * clearLowPrio
+   */
   public void clearLowPrio() {
     lowPrioMap.clear();
   }
 
+  /**
+   * disable
+   * @param key
+   */
   public void disable(K key) {
     move(key, lowPrioMap, lowPrioDisabled);
     move(key, highPrioMap, highPrioDisabled);
   }
 
+  /**
+   * enable
+   * @param key
+   */
   public void enable(K key) {
     move(key, lowPrioDisabled, lowPrioMap);
     move(key, highPrioDisabled, highPrioMap);

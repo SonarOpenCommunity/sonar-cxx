@@ -36,7 +36,7 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class XPathCheck extends AbstractXPathCheck<Grammar> { //NOSONAR
+public class XPathCheck extends AbstractXPathCheck<Grammar> { 
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -80,14 +80,14 @@ public class XPathCheck extends AbstractXPathCheck<Grammar> { //NOSONAR
 
   @Override
   public void visitFile(AstNode fileNode) {
-      if (!matchFilePattern.isEmpty()) {
-        WildcardPattern pattern = WildcardPattern.create(matchFilePattern);
-        String path = PathUtils.sanitize(getContext().getFile().getPath());
-        if (!compare(invertFilePattern, pattern.match(path))) {
-          return;
-        }
+    if (!matchFilePattern.isEmpty()) {
+      WildcardPattern pattern = WildcardPattern.create(matchFilePattern);
+      String path = PathUtils.sanitize(getContext().getFile().getPath());
+      if (!compare(invertFilePattern, pattern.match(path))) {
+        return;
       }
-      super.visitFile(fileNode);
+    }
+    super.visitFile(fileNode);
   }
 
   private boolean compare(boolean invert, boolean condition) {

@@ -37,6 +37,10 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * TooLongLineCheck - similar Vera++ rule L004 "Line too long"
+ * 
+ */
 @Rule(
   key = "TooLongLine",
   name = "Lines of code should not be too long",
@@ -44,25 +48,30 @@ import org.sonar.cxx.tag.Tag;
   priority = Priority.MINOR)
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
-//similar Vera++ rule L004 "Line too long"
-public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
+public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
   private static final int DEFAULT_MAXIMUM_LINE_LENHGTH = 160;
   private static final int DEFAULT_TAB_WIDTH = 8;
 
+  /**
+   * maximumLineLength
+   */
   @RuleProperty(
     key = "maximumLineLength",
     description = "The maximum authorized line length",
     defaultValue = "" + DEFAULT_MAXIMUM_LINE_LENHGTH)
   public int maximumLineLength = DEFAULT_MAXIMUM_LINE_LENHGTH;
 
+  /**
+   * tabWidth
+   */
   @RuleProperty(
     key = "tabWidth",
     description = "Number of spaces in a 'tab' character",
     defaultValue = "" + DEFAULT_TAB_WIDTH)
   public int tabWidth = DEFAULT_TAB_WIDTH;
 
-  private Charset charset;
+  private Charset charset = Charset.forName("UTF-8");
 
   @Override
   public void setCharset(Charset charset) {
@@ -87,7 +96,9 @@ public class TooLongLineCheck extends SquidCheck<Grammar> implements CxxCharsetA
       }
       length = line.length() + length * (tabWidth - 1);
       if (length > maximumLineLength) {
-        getContext().createLineViolation(this, "Split this {0} characters long line (which is greater than {1} authorized).", i + 1, length, maximumLineLength);
+        getContext().createLineViolation(this, 
+            "Split this {0} characters long line (which is greater than {1} authorized).", 
+            i + 1, length, maximumLineLength);
       }
     }
   }

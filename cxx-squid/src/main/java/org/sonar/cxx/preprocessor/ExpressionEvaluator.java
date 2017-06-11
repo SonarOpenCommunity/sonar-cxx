@@ -152,7 +152,8 @@ public final class ExpressionEvaluator {
     } else if (nodeType.equals(CppGrammar.functionlikeMacro)) {
       return evalFunctionlikeMacro(exprAst);
     } else {
-      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" + exprAst.getToken() + "', assuming 0");
+      LOG.error("'evalComplexAst' Unknown expression type '" + nodeType + "' for AstExt '" 
+                + exprAst.getToken() + "', assuming 0");
       return BigInteger.ZERO;
     }
   }
@@ -181,13 +182,14 @@ public final class ExpressionEvaluator {
   }
 
   private static AstNode getNextOperand(@Nullable AstNode node) {
-    if (node != null) {
-      node = node.getNextSibling();
-      if (node != null) {
-        node = node.getNextSibling();
+    AstNode sibling = node;
+    if (sibling != null) {
+      sibling = sibling.getNextSibling();
+      if (sibling != null) {
+        sibling = sibling.getNextSibling();
       }
     }
-    return node;
+    return sibling;
   }
 
   // ////////////// logical expressions ///////////////////////////

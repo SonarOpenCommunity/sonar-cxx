@@ -43,13 +43,17 @@ import org.sonar.api.utils.WildcardPattern;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
 
+/**
+ * FileRegularExpressionCheck
+ * 
+ */
 @Rule(
   key = "FileRegularExpression",
   name = "File RegEx rule",
   priority = Priority.MAJOR)
 @RuleTemplate
 @NoSqale
-public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { //NOSONAR
+public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements CxxCharsetAwareVisitor { 
 
   private static final String DEFAULT_MATCH_FILE_PATTERN = "";
   private static final boolean DEFAULT_INVERT_FILE_PATTERN = false;
@@ -57,34 +61,49 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
   private static final boolean DEFAULT_INVERT_REGULAR_EXPRESSION = false;
   private static final String DEFAULT_MESSAGE = "The regular expression matches this file";
 
-  private Charset charset;
-  private CharsetDecoder decoder;
-  private Pattern pattern;
+  private Charset charset = Charset.forName("UTF-8");
+  private CharsetDecoder decoder = null;
+  private Pattern pattern = null;
 
+  /**
+   * matchFilePattern
+   */
   @RuleProperty(
     key = "matchFilePattern",
     description = "Ant-style matching patterns for path",
     defaultValue = DEFAULT_MATCH_FILE_PATTERN)
   public String matchFilePattern = DEFAULT_MATCH_FILE_PATTERN;
 
+  /**
+   * invertFilePattern
+   */
   @RuleProperty(
     key = "invertFilePattern",
     description = "Invert file pattern comparison",
     defaultValue = "" + DEFAULT_INVERT_FILE_PATTERN)
   public boolean invertFilePattern = DEFAULT_INVERT_FILE_PATTERN;
 
+  /**
+   * regularExpression
+   */
   @RuleProperty(
     key = "regularExpression",
     description = "The regular expression",
     defaultValue = DEFAULT_REGULAR_EXPRESSION)
   public String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 
+  /**
+   * invertRegularExpression
+   */
   @RuleProperty(
     key = "invertRegularExpression",
     description = "Invert regular expression comparison",
     defaultValue = "" + DEFAULT_INVERT_REGULAR_EXPRESSION)
   public boolean invertRegularExpression = DEFAULT_INVERT_REGULAR_EXPRESSION;
 
+  /**
+   * message
+   */
   @RuleProperty(
     key = "message",
     description = "The violation message",
@@ -112,18 +131,18 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
 
   @Override
   public void visitFile(AstNode fileNode) {
-      try {
-        if (!compare(invertFilePattern, matchFile())) {
-          return;
-        }
-        Matcher matcher = pattern.matcher(fromFile(getContext().getFile()));
-        if (compare(invertRegularExpression, matcher.find())) {
-          getContext().createFileViolation(this, message);
-        }
-      } catch (Exception e) { //NOSONAR
-        throw new IllegalStateException(e); 
+    try {
+      if (!compare(invertFilePattern, matchFile())) {
+        return;
       }
+      Matcher matcher = pattern.matcher(fromFile(getContext().getFile()));
+      if (compare(invertRegularExpression, matcher.find())) {
+        getContext().createFileViolation(this, message);
+      }
+    } catch (Exception e) { 
+      throw new IllegalStateException(e); 
     }
+  }
 
   private boolean matchFile() {
     if (!matchFilePattern.isEmpty()) {
@@ -146,3 +165,4 @@ public class FileRegularExpressionCheck extends SquidCheck<Grammar> implements C
     return invert ? !condition : condition;
   }
 }
+

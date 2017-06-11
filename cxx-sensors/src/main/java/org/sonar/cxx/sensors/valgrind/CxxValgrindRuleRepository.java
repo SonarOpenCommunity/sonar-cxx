@@ -29,7 +29,7 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxValgrindRuleRepository extends CxxAbstractRuleRepository {
 
-  static final String KEY = "valgrind";
+  public static final String KEY = "valgrind";
   public static final String CUSTOM_RULES_KEY = "valgrind.customRules";
   private static final String NAME = "Valgrind";
 

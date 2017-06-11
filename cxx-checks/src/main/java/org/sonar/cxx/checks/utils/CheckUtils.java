@@ -45,13 +45,13 @@ public class CheckUtils {
   }
 
   public static boolean isParenthesisedExpression(AstNode node) {
-    if (node.is(CxxGrammarImpl.primaryExpression) //NOSONAR
+    if (node.is(CxxGrammarImpl.primaryExpression) 
         && node.getFirstChild().is(CxxPunctuator.BR_LEFT)
         && node.getLastChild().is(CxxPunctuator.BR_RIGHT)
         && node.getParent().is(CxxGrammarImpl.expression)
         && !node.isCopyBookOrGeneratedNode()) {
-          return true;
-        }
+      return true;
+    }
     return false;
   }
   

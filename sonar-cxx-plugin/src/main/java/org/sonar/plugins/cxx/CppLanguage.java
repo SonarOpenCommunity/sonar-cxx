@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.sonar.api.config.Settings;
 import org.sonar.api.internal.apachecommons.lang.builder.HashCodeBuilder;
-import org.sonar.api.resources.AbstractLanguage;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.checks.BooleanEqualityComparisonCheck;
 import org.sonar.cxx.checks.ClassComplexityCheck;
@@ -74,7 +73,7 @@ import org.sonar.cxx.checks.naming.FunctionNameCheck;
 import org.sonar.cxx.checks.naming.MethodNameCheck;
 
 /**
- *
+ * CppLanguage
  * @author jocs
  */
 public class CppLanguage extends CxxLanguage {
@@ -90,12 +89,16 @@ public class CppLanguage extends CxxLanguage {
   private final String[] headerSuffixes;
   private final String[] fileSuffixes;
   
-  
+  /**
+   * @param settings
+   */
   public CppLanguage(Settings settings) {
     super("c++", "c++", settings);
     
-    sourceSuffixes = createStringArray(settings.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), DEFAULT_SOURCE_SUFFIXES);
-    headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), DEFAULT_HEADER_SUFFIXES);
+    sourceSuffixes = createStringArray(settings.getStringArray(CxxPlugin.SOURCE_FILE_SUFFIXES_KEY), 
+                                                                         DEFAULT_SOURCE_SUFFIXES);
+    headerSuffixes = createStringArray(settings.getStringArray(CxxPlugin.HEADER_FILE_SUFFIXES_KEY), 
+                                                                         DEFAULT_HEADER_SUFFIXES);
     fileSuffixes = mergeArrays(sourceSuffixes, headerSuffixes);    
   }
   
@@ -114,30 +117,26 @@ public class CppLanguage extends CxxLanguage {
       return true;
     }
 
-    if (obj == null) {
-      return false;
+    if (obj != null && this.getClass() == obj.getClass()) {
+      return getKey().equals(((CxxLanguage) obj).getKey()); 
     }
 
-    if (this.getClass() == obj.getClass()) {
-      return getKey().equals(((CxxLanguage) obj).getKey()); 
-    } else {
-      return false;
-    }
+    return false;
   }
 
   @Override
   public String[] getFileSuffixes() {
-    return fileSuffixes;
+    return fileSuffixes.clone();
   }
 
   @Override
   public String[] getSourceFileSuffixes() {
-    return sourceSuffixes;
+    return sourceSuffixes.clone();
   }
 
   @Override
   public String[] getHeaderFileSuffixes() {
-    return headerSuffixes;
+    return headerSuffixes.clone();
   }
 
   public List<Class> getChecks() {
@@ -217,3 +216,4 @@ public class CppLanguage extends CxxLanguage {
     return result;
   }  
 }
+

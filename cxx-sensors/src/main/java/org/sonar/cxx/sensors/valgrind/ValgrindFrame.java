@@ -71,7 +71,7 @@ class ValgrindFrame {
     StringBuilder builder = new StringBuilder().append(ip).append(": ").append(fn);
     if (isLocationKnown()) {
       builder.append(" (")
-        .append("".equals(file) ? ("in " + obj) : (file + getLineStr())) //NOSONAR
+        .append("".equals(file) ? ("in " + obj) : (file + getLineStr())) 
         .append(')');
     }
 
@@ -118,6 +118,6 @@ class ValgrindFrame {
   }
 
   private String getLineStr() {
-    return "".equals(line) ? "" : ":" + line; //NOSONAR
+    return "".equals(line) ? "" : ":" + line; 
   }
 }

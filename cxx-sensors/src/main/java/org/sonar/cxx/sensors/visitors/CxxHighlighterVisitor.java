@@ -121,9 +121,10 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
   @Override
   public void visitFile(@Nullable AstNode astNode) {
     newHighlighting = context.newHighlighting();
-    InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates().is(getContext().getFile().getAbsoluteFile()));
+    InputFile inputFile = context.fileSystem().inputFile(context.fileSystem().predicates()
+                                            .is(getContext().getFile().getAbsoluteFile()));
     if (inputFile != null) {
-    newHighlighting.onFile(inputFile);
+      newHighlighting.onFile(inputFile);
   }
   }
 
@@ -154,20 +155,22 @@ public class CxxHighlighterVisitor extends SquidAstVisitor<Grammar> implements A
           highlight(last, new CommentLocation(trivia.getToken()), TypeOfText.COMMENT);
         } else if (trivia.isSkippedText() 
                     && trivia.getToken().getType().equals(CxxTokenType.PREPROCESSOR)) {
-            highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
-          }
+          highlight(last, new PreprocessorDirectiveLocation(trivia.getToken()), TypeOfText.PREPROCESS_DIRECTIVE);
         }
       }
     }
+  }
 
   private TokenLocation highlight(TokenLocation last, TokenLocation current, TypeOfText typeOfText) {
     try {
       if (!current.overlaps(last)) {
-        newHighlighting.highlight(current.startLine(), current.startLineOffset(), current.endLine(), current.endLineOffset(), typeOfText);
+        newHighlighting.highlight(current.startLine(), current.startLineOffset(),
+                          current.endLine(), current.endLineOffset(), typeOfText);
       }
-    } catch (Exception e) { //NOSONAR
+    } catch (Exception e) { 
       // ignore highlight errors: parsing errors could lead to wrong location data
-      LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(), current.startLine(), current.startLineOffset());
+      LOG.debug("Highligthing error in file '{}' at line:{}, column:{}", getContext().getFile().getAbsoluteFile(),
+                          current.startLine(), current.startLineOffset());
     }
     return current;
   }

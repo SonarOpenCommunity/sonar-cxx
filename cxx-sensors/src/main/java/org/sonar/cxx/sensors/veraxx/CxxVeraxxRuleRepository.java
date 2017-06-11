@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.veraxx;
 
-import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.CxxLanguage;
@@ -30,7 +29,7 @@ import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
  */
 public class CxxVeraxxRuleRepository extends CxxAbstractRuleRepository {
 
-  static final String KEY = "vera++";
+  public static final String KEY = "vera++";
   public static final String CUSTOM_RULES_KEY = "vera++.customRules";
   private static final String NAME = "Vera++";
 

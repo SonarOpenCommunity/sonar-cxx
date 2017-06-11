@@ -72,26 +72,21 @@ public abstract class CxxReportSensor implements Sensor {
   @Override
   public void execute(SensorContext context) {
     try {
-      LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", context.fileSystem().baseDir(), reportPathKey());
+      LOG.info("Searching reports by relative path with basedir '{}' and search prop '{}'", 
+                       context.fileSystem().baseDir(), reportPathKey());
       List<File> reports = getReports(language, context.fileSystem().baseDir(), reportPathKey());
       violationsCount = 0;
       
       for (File report : reports) {
         int prevViolationsCount = violationsCount;
         LOG.info("Processing report '{}'", report);
-        try {
-          processReport(context, report);
-          LOG.debug("{} processed = {}", CxxMetrics.GetKey(this.getSensorKey(), language), violationsCount - prevViolationsCount);
-        } catch (EmptyReportException e) {
-          LOG.warn("The report '{}' seems to be empty, ignoring.", report);
-          CxxUtils.validateRecovery(e, language);
-        }
+        executeReport(context, report, prevViolationsCount);
       }
 
       LOG.info("{} processed = {}", CxxMetrics.GetKey(this.getSensorKey(), language), violationsCount);
           
       String metricKey = CxxMetrics.GetKey(this.getSensorKey(), language);
-      Metric metric = this.language.getMetric(metricKey);
+      Metric<Integer> metric = this.language.getMetric(metricKey);
       
       if (metric != null) {
         context.<Integer>newMeasure()
@@ -111,6 +106,25 @@ public abstract class CxxReportSensor implements Sensor {
     }
   }
 
+  /**
+   * @param context
+   * @param report
+   * @param prevViolationsCount
+   * @throws Exception
+   */
+  private void executeReport(SensorContext context, File report, int prevViolationsCount) throws Exception {
+    try {
+      processReport(context, report);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("{} processed = {}", CxxMetrics.GetKey(this.getSensorKey(), language), 
+                                     violationsCount - prevViolationsCount);
+      }
+    } catch (EmptyReportException e) {
+      LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+      CxxUtils.validateRecovery(e, language);
+    }
+  }
+
   @Override
   public String toString() {
     return getClass().getSimpleName();
@@ -124,15 +138,23 @@ public abstract class CxxReportSensor implements Sensor {
     return value;
   }
 
+  /**
+   * resolveFilename
+   * @param baseDir
+   * @param filename
+   * @return String
+   */
+  @Nullable
   public static String resolveFilename(final String baseDir, final String filename) {
 
-    // Normalization can return null if path is null, is invalid, or is a path with back-ticks outside known directory structure
+    // Normalization can return null if path is null, is invalid, 
+    // or is a path with back-ticks outside known directory structure
     String normalizedPath = FilenameUtils.normalize(filename);
     if ((normalizedPath != null) && (new File(normalizedPath).isAbsolute())) {
       return normalizedPath;
     }
 
-    // Prefix with absolute module base dir, attempt normalization again -- can still get null here
+    // Prefix with absolute module base directory, attempt normalization again -- can still get null here
     normalizedPath = FilenameUtils.normalize(baseDir + File.separator + filename);
     if (normalizedPath != null) {
       return normalizedPath;
@@ -141,6 +163,13 @@ public abstract class CxxReportSensor implements Sensor {
     return null;
   }
 
+  /**
+   * getReports
+   * @param language
+   * @param moduleBaseDir
+   * @param genericReportKeyData
+   * @return File
+   */
   public static List<File> getReports(CxxLanguage language,
           final File moduleBaseDir,
           String genericReportKeyData) {
@@ -151,7 +180,7 @@ public abstract class CxxReportSensor implements Sensor {
       return reports;
     }
     
-    String reportPathStrings[] = language.getStringArrayOption(genericReportKeyData);
+    String[] reportPathStrings = language.getStringArrayOption(genericReportKeyData);
     List<String> reportPaths = Arrays.asList((reportPathStrings != null) ? reportPathStrings : new String[] {});
     if (!reportPaths.isEmpty()) {
       List<String> includes = new ArrayList<>();
@@ -202,7 +231,8 @@ public abstract class CxxReportSensor implements Sensor {
    */
   public void saveUniqueViolation(SensorContext sensorContext, String ruleRepoKey,
                                   @Nullable String file, @Nullable String line, String ruleId, String msg) {
-    if (uniqueIssues.add(file + line + ruleId + msg)) { // StringBuilder is slower
+    // StringBuilder is slower
+    if (uniqueIssues.add(file + line + ruleId + msg)) { 
       saveViolation(sensorContext, ruleRepoKey, file, line, ruleId, msg);
     }
   }
@@ -221,7 +251,8 @@ public abstract class CxxReportSensor implements Sensor {
       String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
       String normalPath = CxxUtils.normalizePathFull(filename, root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
-        InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasAbsolutePath(normalPath));
+        InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem()
+                                                        .predicates().hasAbsolutePath(normalPath));
         if (inputFile != null) {
           try {
             int lines = inputFile.lines();
@@ -238,7 +269,7 @@ public abstract class CxxReportSensor implements Sensor {
             newIssue.at(location);
             newIssue.save();
             violationsCount++;
-          } catch (Exception ex) {
+          } catch (RuntimeException ex) {
             LOG.error("Could not add the issue '{}', skipping issue", ex.getMessage());
             CxxUtils.validateRecovery(ex, this.language);
           }
@@ -247,9 +278,11 @@ public abstract class CxxReportSensor implements Sensor {
           notFoundFiles.add(normalPath);
         }
       }
-    } else { // project level
+    } else {
+      // project level
       try {
-        NewIssue newIssue = sensorContext.newIssue().forRule(RuleKey.of(ruleRepoKey + this.language.getRepositorySuffix(), ruleId));
+        NewIssue newIssue = sensorContext.newIssue().forRule(
+                                 RuleKey.of(ruleRepoKey + this.language.getRepositorySuffix(), ruleId));
         NewIssueLocation location = newIssue.newLocation()
           .on(sensorContext.module())
           .message(msg);
@@ -257,10 +290,11 @@ public abstract class CxxReportSensor implements Sensor {
         newIssue.at(location);
         newIssue.save();
         violationsCount++;
-      } catch (Exception ex) {
-        LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue", ex.getMessage(), ruleRepoKey, ruleId);
+      } catch (RuntimeException ex) {
+        LOG.error("Could not add the issue '{}' for rule '{}:{}', skipping issue",
+                                  ex.getMessage(), ruleRepoKey, ruleId);
         CxxUtils.validateRecovery(ex, this.language);
-      }
+    }
     }
   }
 
@@ -290,3 +324,4 @@ public abstract class CxxReportSensor implements Sensor {
   protected abstract String reportPathKey();
   protected abstract String getSensorKey();
 }
+

@@ -30,7 +30,9 @@ import org.sonar.check.Rule;
 import org.sonar.check.RuleProperty;
 import org.sonar.squidbridge.annotations.NoSqale;
 import org.sonar.squidbridge.annotations.RuleTemplate;
-
+/**
+ * CommentContainsPatternChecker
+ */
 @Rule(
   key = "CommentContainsPatternChecker",
   name = "Regular expression on comment",
@@ -56,6 +58,12 @@ public class CommentContainsPatternChecker {
 
   private Pattern p;
 
+  /**
+   * CommentContainsPatternChecker
+   * @param check
+   * @param pattern
+   * @param message
+   */
   public CommentContainsPatternChecker(SquidCheck<?> check, String pattern, String message) {
     this.check = check;
     this.pattern = pattern;
@@ -63,6 +71,10 @@ public class CommentContainsPatternChecker {
     p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
   }
 
+  /**
+   * visitToken
+   * @param token
+   */
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
       String comment = trivia.getToken().getOriginalValue();
@@ -72,7 +84,7 @@ public class CommentContainsPatternChecker {
         for (int i = 0; i < lines.length; i++) {
           int start = indexOfIgnoreCase(lines[i]);
           if (start != -1 && !isLetterAround(lines[i], start)) {
-            check.getContext().createLineViolation(check, message, trivia.getToken().getLine() + i); //NOSONAR
+            check.getContext().createLineViolation(check, message, trivia.getToken().getLine() + i); 
           }
         }
       }

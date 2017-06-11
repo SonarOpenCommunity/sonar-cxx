@@ -32,6 +32,7 @@ import org.sonar.cxx.sensors.utils.StaxParser;
 class ValgrindReportParser {
 
   public ValgrindReportParser() {
+    // do nothing - just for reference
   }
 
   /**
@@ -46,7 +47,7 @@ class ValgrindReportParser {
 
   private class ValgrindReportStreamHandler implements StaxParser.XmlStreamHandler {
 
-    Set<ValgrindError> valgrindErrors = new HashSet<>();
+    private final Set<ValgrindError> valgrindErrors = new HashSet<>();
 
     /**
      * {@inheritDoc}

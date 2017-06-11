@@ -31,7 +31,6 @@ import static org.mockito.Mockito.when;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.sensors.pclint.CxxPCLintSensor;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCppCheckSensorTest {

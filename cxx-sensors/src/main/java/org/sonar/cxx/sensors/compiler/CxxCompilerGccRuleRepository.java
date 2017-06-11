@@ -19,7 +19,6 @@
  */
 package org.sonar.cxx.sensors.compiler;
 
-import org.sonar.api.config.Settings;
 import org.sonar.api.platform.ServerFileSystem;
 import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
@@ -30,7 +29,7 @@ import org.sonar.cxx.CxxLanguage;
  */
 public class CxxCompilerGccRuleRepository extends CxxAbstractRuleRepository {
 
-  static final String KEY = "compiler-gcc";
+  public static final String KEY = "compiler-gcc";
   public static final String CUSTOM_RULES_KEY = "compiler-gcc.customRules";
   private static final String NAME = "Compiler-GCC";
 

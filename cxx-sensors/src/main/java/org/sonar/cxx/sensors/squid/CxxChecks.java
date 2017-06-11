@@ -93,6 +93,6 @@ public class CxxChecks {
 
   @VisibleForTesting
   public Set<Checks<SquidAstVisitor<Grammar>>> getChecks() {
-    return checksByRepository;
+    return new HashSet<>(checksByRepository);
   }
 }

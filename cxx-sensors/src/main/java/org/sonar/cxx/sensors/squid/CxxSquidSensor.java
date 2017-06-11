@@ -48,8 +48,6 @@ import org.sonar.squidbridge.api.SourceClass;
 import org.sonar.squidbridge.indexer.QueryByParent;
 import org.sonar.squidbridge.indexer.QueryByType;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sonar.sslr.api.Grammar;
 import java.util.HashMap;
 import java.util.Map;
@@ -304,7 +302,7 @@ public class CxxSquidSensor implements Sensor {
       for (CheckMessage message : messages) {
         int line = 1;
         if (message.getLine() != null && message.getLine() > 0) {
-         line = message.getLine();
+          line = message.getLine();
         }
 
         NewIssue newIssue = sensorContext

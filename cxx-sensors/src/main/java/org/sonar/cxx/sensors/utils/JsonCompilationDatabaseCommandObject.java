@@ -59,4 +59,5 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
    * Extension to define include directories
    */
   public List<String> includes;
+
 }

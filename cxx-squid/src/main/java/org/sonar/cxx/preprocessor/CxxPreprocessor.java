@@ -240,7 +240,7 @@ public class CxxPreprocessor extends Preprocessor {
           .setType(STRING)
           .build();
       } catch (java.net.URISyntaxException e) {
-        throw new RuntimeException(e);
+        throw new PreprocessorRuntimeException("URI cannot be handled", e);
       }
 
       getMacros().put(entry.getKey(), new Macro(entry.getKey(), null, Collections.singletonList(bodyToken), false));
@@ -302,7 +302,7 @@ public class CxxPreprocessor extends Preprocessor {
     for (String pattern : cFilesPatterns) {
       String patt = pattern.replace("*", "");
       if (filePath.endsWith(patt)) {
-          LOG.debug("Parse '{}' as C file, ends in '{}'", filePath, pattern);
+        LOG.debug("Parse '{}' as C file, ends in '{}'", filePath, pattern);
         return true;
       }
     }
@@ -319,7 +319,7 @@ public class CxxPreprocessor extends Preprocessor {
     File file = getFileUnderAnalysis();
     String filePath = file == null ? token.getURI().toString() : file.getAbsolutePath();
 
-    if (context.getFile() != currentContextFile) {
+    if (context.getFile() != currentContextFile) { 
       currentContextFile = context.getFile();
       compilationUnitSettings = conf.getCompilationUnitSettings(currentContextFile.getAbsolutePath());
 
@@ -351,7 +351,7 @@ public class CxxPreprocessor extends Preprocessor {
               Macro macro = parseMacroDefinition("#define " + define);
               if (macro != null) {
                 LOG.debug("storing external macro to unit: '{}'", macro);
-                getMacros().put(macro.name, macro); //NOSONAR
+                getMacros().put(macro.name, macro); 
               }
             }
           }
@@ -660,8 +660,10 @@ public class CxxPreprocessor extends Preprocessor {
       }
     } else if (!analysedFiles.contains(includedFile)) {
       analysedFiles.add(includedFile.getAbsoluteFile());
-      LOG.debug("[{}:{}]: processing {}, resolved to file '{}'",
-        new Object[]{filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("[{}:{}]: processing {}, resolved to file '{}'",
+            new Object[]{filename, token.getLine(), token.getValue(), includedFile.getAbsolutePath()});
+      }
 
       globalStateStack.push(currentFileState);
       currentFileState = new State(includedFile);
@@ -828,26 +830,26 @@ public class CxxPreprocessor extends Preprocessor {
   }
 
   private int matchArguments(List<Token> tokens, List<Token> arguments) {
-    List<Token> rest = tokens;
+    List<Token> rest = new ArrayList<>(tokens);
     try {
       rest = match(rest, "(");
-    } catch (MismatchException me) { //NOSONAR
+    } catch (MismatchException me) { 
       return 0;
     }
 
     try {
       do {
         rest = matchArgument(rest, arguments);
-        try { //NOSONAR
+        try { 
           rest = match(rest, ",");
-        } catch (MismatchException me) { //NOSONAR
+        } catch (MismatchException me) { 
           break;
         }
       } while (true);
-    } catch (MismatchException me) {} //NOSONAR
+    } catch (MismatchException me) {} 
     try {
       rest = match(rest, ")");
-    } catch (MismatchException me) { //NOSONAR
+    } catch (MismatchException me) { 
       LOG.error("MismatchException : '{}' rest: '{}'", me.getMessage(), rest);
       return 0;
     }
@@ -922,7 +924,7 @@ public class CxxPreprocessor extends Preprocessor {
         int index = defParamValues.indexOf(curr.getValue());
         if (index == -1) {
           if (tokenPastingRightOp && !curr.getType().equals(WS) &&  !curr.getType().equals(HASHHASH)) {
-              tokenPastingRightOp = false;
+            tokenPastingRightOp = false;
             }
           newTokens.add(curr);
         } else if (index == arguments.size()) {
@@ -1041,7 +1043,7 @@ public class CxxPreprocessor extends Preprocessor {
       if ("##".equals(curr.getValue())) {
         Token pred = predConcatToken(newTokens);
         Token succ = succConcatToken(it);
-        try {
+        if (pred != null && succ != null) {
           newTokens.add(Token.builder()
           .setLine(pred.getLine())
           .setColumn(pred.getColumn())
@@ -1050,8 +1052,8 @@ public class CxxPreprocessor extends Preprocessor {
           .setType(pred.getType())
           .setGeneratedCode(true)
           .build());
-        } catch (NullPointerException ex) {
-          LOG.error ("Missing data : '{}'", ex);
+        } else {
+          LOG.error ("Missing data : succ ='{}' or pred = '{}'", succ, pred);
         }
       } else {
         newTokens.add(curr);
@@ -1061,7 +1063,7 @@ public class CxxPreprocessor extends Preprocessor {
     return newTokens;
   }
 
-@Nullable
+  @Nullable
   private Token predConcatToken(List<Token> tokens) {
     while (!tokens.isEmpty()) {
       Token last = tokens.remove(tokens.size() - 1);
@@ -1088,7 +1090,7 @@ public class CxxPreprocessor extends Preprocessor {
     return null;
   }
 
-@Nullable
+  @Nullable
   private Token succConcatToken(Iterator<Token> it) {
     Token succ = null;
     while (it.hasNext()) {
@@ -1245,7 +1247,7 @@ public class CxxPreprocessor extends Preprocessor {
       AstNode includeBodyAst = null;
       try {
         includeBodyAst = pplineParser.parse("#include " + expandedIncludeBody);
-      } catch (com.sonar.sslr.api.RecognitionException re) {  //NOSONAR
+      } catch (com.sonar.sslr.api.RecognitionException re) {  
         parseError = true;
       }
 
@@ -1282,4 +1284,14 @@ public class CxxPreprocessor extends Preprocessor {
     return currentFileState.includeUnderAnalysis;
   }
 
+  class PreprocessorRuntimeException extends RuntimeException {
+    
+    public PreprocessorRuntimeException(String message) {
+      super(message);
+    }
+    
+    public PreprocessorRuntimeException(String message, Throwable throwable) {
+      super(message, throwable);
+    }
+  }
 }

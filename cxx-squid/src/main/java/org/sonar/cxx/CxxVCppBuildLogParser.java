@@ -23,7 +23,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -32,12 +31,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.sonar.api.utils.log.Logger;
-import org.sonar.api.utils.log.LoggerLevel;
 import org.sonar.api.utils.log.Loggers;
 
 public class CxxVCppBuildLogParser {
@@ -52,8 +49,8 @@ public class CxxVCppBuildLogParser {
   private static final String CPPWINRTVERSION = "__cplusplus_winrt=201009";
   private static final String CPPVERSION = "__cplusplus=199711L";  
 
-  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn, //NOSONAR
-      HashMap<String, Set<String>> uniqueDefinesIn) { //NOSONAR
+  public CxxVCppBuildLogParser(HashMap<String, List<String>> uniqueIncludesIn, 
+      HashMap<String, Set<String>> uniqueDefinesIn) { 
     uniqueIncludes = uniqueIncludesIn;
     uniqueDefines = uniqueDefinesIn;
   }
@@ -174,11 +171,9 @@ public class CxxVCppBuildLogParser {
 
       parseVCppCompilerCLLine(line, currentProjectPath.toAbsolutePath().toString(), fileElement);
     } catch (InvalidPathException ex) {
-      LOG.warn("Cannot extract information from current element: " + data + " : " + ex.getMessage());
-      LOG.error("StackTrace: '{}'", ex);
+      LOG.warn("Cannot extract information from current element: {} - {}",data , ex);
     } catch (NullPointerException ex2) {
-      LOG.error("Bug in parser, please report: '{}' - '{}'", ex2.getMessage(), data + " @ " + currentProjectPath);
-      LOG.error("StackTrace: '{}'", ex2);
+      LOG.error("Bug in parser, please report: '{}' - '{}'", data + " @ " + currentProjectPath, ex2);
     }
   }
 
@@ -242,14 +237,14 @@ public class CxxVCppBuildLogParser {
         if (pseudoAbsolute.exists()) {
           includeRoot = new File(p.getRoot().toString(), includeRoot.getPath());
         } else {
-        includeRoot = new File(project, includeRoot.getPath());
+          includeRoot = new File(project, includeRoot.getPath());
         }
       } 
-        includePath = includeRoot.getCanonicalPath();
+      includePath = includeRoot.getCanonicalPath();
       if (!includesPerUnit.contains(includePath)) {
         includesPerUnit.add(includePath);
       }
-    } catch (java.io.IOException io) { //NOSONAR
+    } catch (java.io.IOException io) { 
       LOG.error("Cannot parse include path using element '{}' : '{}'", element,
         io.getMessage());
     }

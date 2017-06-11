@@ -29,16 +29,18 @@ import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 
-import org.sonar.api.config.Settings;
 import org.sonar.cxx.CxxLanguage;
 
 public class CxxReportSensorTest {
 
   private final String VALID_REPORT_PATH = "cppcheck-reports/cppcheck-result-*.xml";
-  private final String VALID_REPORT_PATH_LIST = "cppcheck-reports/*V1.xml, cppcheck-reports/*V2.xml";
   private final String INVALID_REPORT_PATH = "something";
   private final String REPORT_PATH_PROPERTY_KEY = "cxx.reportPath";
- 
+
+  private CxxReportSensor sensor;
+  private File baseDir;
+  private static FileSystem fs;
+
   private class CxxReportSensorImpl extends CxxReportSensor {
 
     public CxxReportSensorImpl(CxxLanguage language, FileSystem fs) {
@@ -64,10 +66,6 @@ public class CxxReportSensorTest {
       return "testSensor";
     }
   };
-
-  private CxxReportSensor sensor;
-  private File baseDir;
-  private static FileSystem fs;
 
   @Before
   public void init() {
