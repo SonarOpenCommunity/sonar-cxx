@@ -96,7 +96,10 @@ public class CxxPCLintSensor extends CxxReportSensor {
             if (isInputValid(file, line, id, msg)) {
               //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008 have been created in the rule repository
               if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
-                id = mapMisraRulesToUniqueSonarRules(msg);
+                id = mapMisraRulesToUniqueSonarRules(msg, 0);
+              }
+              if (msg.contains("MISRA 2012 Rule")){
+                id = mapMisraRulesToUniqueSonarRules(msg, 1);
               }
               saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
                 file, line, id, msg);
@@ -130,7 +133,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
        * Concatenate M with the MISRA rule number to get the new rule id to save
        * the violation to.
        */
-      private String mapMisraRulesToUniqueSonarRules(String msg) {
+      private String mapMisraRulesToUniqueSonarRules(String msg, int value) {
         Pattern pattern = Pattern.compile(
           // Rule nn.nn -or- Rule nn-nn-nn
           "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])"
@@ -138,7 +141,14 @@ public class CxxPCLintSensor extends CxxReportSensor {
         Matcher matcher = pattern.matcher(msg);
         if (matcher.find()) {
           String misraRule = matcher.group(1);
-          String newKey = "M" + misraRule;
+		  String newKey;
+		  if (value == 1){
+			newKey = "M2012-" + misraRule;
+		  }
+		  else{
+			newKey = "M" + misraRule;
+		  }
+		  
           LOG.debug("Remap MISRA rule {} to key {}", misraRule, newKey);
           return newKey;
         }
