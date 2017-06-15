@@ -40,6 +40,7 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
       // Joining string literals (C++ Standard, "2.2 Phases of translation, Phase 6")
       StringBuilder newStr = null;
       int numberOfStrings = 1;
+      boolean isGenerated = token.isGeneratedCode();
 
       for (;;) {
         Token nextToken = tokens.get(numberOfStrings);
@@ -55,6 +56,8 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
           newStr.append(stripQuotes(token.getValue()));
         }
         newStr.append(stripQuotes(nextToken.getValue()));
+        if (nextToken.isGeneratedCode())
+          isGenerated = true;
         numberOfStrings++;
       }
 
@@ -67,6 +70,7 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
             .setURI(token.getURI())
             .setType(CxxTokenType.STRING)
             .setValueAndOriginalValue(newStr.toString())
+            .setGeneratedCode(isGenerated)
             .build()
         );
         return new PreprocessorAction(numberOfStrings, Collections.EMPTY_LIST, tokensToInject); //@todo deprecated PreprocessorAction

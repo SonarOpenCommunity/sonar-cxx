@@ -2,6 +2,7 @@
 #include <tchar.h>
 #include <string>
 #define MACRO(ex) printf(#ex)
+#define CONCAT_MACRO(ex) printf("eee" #ex "eee")
 class A {
     //    @SupressWarnings("allall") // Compliant
     //    @SupressWarnings("allall")
@@ -19,6 +20,10 @@ public:
         printf("dddd");
         MACRO(printf()); // Compliant
         MACRO(printf());
+        CONCAT_MACRO(printf()); // Compliant
+        CONCAT_MACRO(printf());
+        printf("ee" "eee"); // Non-Compliant
+        printf("ee" "eee");
     }
 
     const std::string ACTION_1 = "action1";  // Compliant
