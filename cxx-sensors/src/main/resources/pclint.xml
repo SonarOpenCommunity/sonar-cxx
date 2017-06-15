@@ -17061,8 +17061,8 @@ immediately cast to the underlying type of the operand.</description>
   									<!-- Rules section 1 -->
 	<rule>
 		<key>M2012-1.1</key>
-		<name>M2012-1.1: violations of the standard C (MISRA C 2012)</name>
-		<description>(Required) violations of the standard C syntax and constraints</description>
+		<name>M2012-1.1: Violations of the standard C (MISRA C 2012)</name>
+		<description>(Required) Violations of the standard C syntax and constraints</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-1.1</internalKey>
 		<severity>CRITICAL</severity>
@@ -17083,7 +17083,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-1.3</key>
-		<name>M2012-1.3: unspecified behaviour (MISRA C 2012)</name>
+		<name>M2012-1.3: Unspecified behaviour (MISRA C 2012)</name>
 		<description>(Required) There shall be no occurrence of undefined or critical unspecified behaviour</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-1.3</internalKey>
@@ -17095,7 +17095,7 @@ immediately cast to the underlying type of the operand.</description>
 										<!-- Rules section 2 -->
 	<rule>
 		<key>M2012-2.1</key>
-		<name>M2012-2.1: unreachable code (MISRA C 2012)</name>
+		<name>M2012-2.1: Unreachable code (MISRA C 2012)</name>
 		<description>(Required) A project shall not contain unreachable code</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-2.1</internalKey>
@@ -17106,7 +17106,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-2.2</key>
-		<name>M2012-2.2: dead code (MISRA C 2012)</name>
+		<name>M2012-2.2: Dead code (MISRA C 2012)</name>
 		<description>(Required) There shall be no dead code</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-2.2</internalKey>
@@ -17117,7 +17117,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-2.3</key>
-		<name>M2012-2.3: unused type declarations (MISRA C 2012)</name>
+		<name>M2012-2.3: Unused type declarations (MISRA C 2012)</name>
 		<description>(Advisory) A project should not contain unused ty pe declarations</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-2.3</internalKey>
@@ -17128,7 +17128,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-2.4</key>
-		<name>M2012-2.4: unused tag declarations (MISRA C 2012)</name>
+		<name>M2012-2.4: Unused tag declarations (MISRA C 2012)</name>
 		<description>(Advisory) A project should not contain unused tag declarations </description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-2.4</internalKey>
@@ -17139,7 +17139,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-2.5</key>
-		<name>M2012-2.5: unused macro declarations (MISRA C 2012)</name>
+		<name>M2012-2.5: Unused macro declarations (MISRA C 2012)</name>
 		<description>(Advisory) A project should not contain unused macro declarations</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-2.5</internalKey>
@@ -17150,7 +17150,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-2.6</key>
-		<name>M2012-2.6: unused label declarations (MISRA C 2012)</name>
+		<name>M2012-2.6: Unused label declarations (MISRA C 2012)</name>
 		<description>(Advisory) A function should not contain unused label declarations</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-2.6</internalKey>
@@ -17161,7 +17161,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-2.7</key>
-		<name>M2012-2.7: unused parameters in functions (MISRA C 2012)</name>
+		<name>M2012-2.7: Unused parameters in functions (MISRA C 2012)</name>
 		<description>(Advisory) There should be no unused parameters in functions</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-2.7</internalKey>
@@ -17208,7 +17208,7 @@ immediately cast to the underlying type of the operand.</description>
 	<rule>
 		<key>M2012-4.2</key>
 		<name>M2012-4.2: Trigraphs (MISRA C 2012)</name>
-		<description>(Advisory) trigraphs should not be used</description>
+		<description>(Advisory) Trigraphs should not be used</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-4.2</internalKey>
 		<severity>MAJOR</severity>
@@ -17530,7 +17530,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-8.14</key>
-		<name>M2012-8.14: restrict type used (MISRA C 2012)</name>
+		<name>M2012-8.14: Restrict type used (MISRA C 2012)</name>
 		<description>(Required) The restrict type qualifier shall not be used</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-8.14</internalKey>
@@ -17787,7 +17787,7 @@ immediately cast to the underlying type of the operand.</description>
 										<!-- Rules section 12 -->
 	<rule>
 		<key>M2012-12.1</key>
-		<name>M2012-12.1: precedence of expression non explicit(MISRA C 2012)</name>
+		<name>M2012-12.1: Precedence of expression non explicit(MISRA C 2012)</name>
 		<description>(Advisory) The precedence of operators within expressions should be made explicit</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-12.1</internalKey>
@@ -17798,7 +17798,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-12.2</key>
-		<name>M2012-12.2: the shift value is at least the precision of the essential type of the left hand side (MISRA C 2012)</name>
+		<name>M2012-12.2: The shift value is at least the precision of the essential type of the left hand side (MISRA C 2012)</name>
 		<description>(Required) The right hand operand of a shift operator shall lie in the range zero to one less than the width in bits of the essential type of the left hand operand</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-12.2</internalKey>
@@ -17887,7 +17887,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-13.6</key>
-		<name>M2012-13.6: sizeof used on expression with side effect (MISRA C 2012)</name>
+		<name>M2012-13.6: Sizeof used on expression with side effect (MISRA C 2012)</name>
 		<description>(Mandatory) The operand of the sizeof operator shall not contain any expression which has potential side effects</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-13.6</internalKey>
@@ -17966,7 +17966,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-15.3</key>
-		<name>M2012-15.3: label declared outside of goto block or enclosing block (MISRA C 2012)</name>
+		<name>M2012-15.3: Label declared outside of goto block or enclosing block (MISRA C 2012)</name>
 		<description>(Required) Any label referenced by a goto statement shall be declared in the same block, or in any block enclosing the goto statement</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-15.3</internalKey>
@@ -17977,7 +17977,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-15.4</key>
-		<name>M2012-15.4: more than one goto or break to terminate operation (MISRA C 2012)</name>
+		<name>M2012-15.4: More than one goto or break to terminate operation (MISRA C 2012)</name>
 		<description>(Advisory) There should be no more than one break or goto statement used to terminate any iteration statement</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-15.4</internalKey>
@@ -18133,7 +18133,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-17.4</key>
-		<name>M2012-17.4: function should return a value (MISRA C 2012)</name>
+		<name>M2012-17.4: Function should return a value (MISRA C 2012)</name>
 		<description>(Mandatory) All exit paths from a function with non-void return type shall have an explicit return statement with an expression</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-17.4</internalKey>
@@ -18433,7 +18433,7 @@ immediately cast to the underlying type of the operand.</description>
 	</rule>
 	<rule>
 		<key>M2012-20.13</key>
-		<name>M2012-20.13: not a valid preprocessing directive (MISRA C 2012)</name>
+		<name>M2012-20.13: Not a valid preprocessing directive (MISRA C 2012)</name>
 		<description>(Required) A line whose first token is # shall be a valid preprocessing directive</description>
 		<tag>misrac3</tag>
 		<internalKey>M2012-20.13</internalKey>
