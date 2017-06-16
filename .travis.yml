@@ -23,6 +23,13 @@ addons:
         - myshorthost
      hostname: myshorthost
 
+before_cache:
+        - rm -rf $HOME/.m2/repository/org/sonarsource/sonarqube-plugins/cxx
+        - find $HOME/.m2 -name resolver-status.properties -exec rm {} \;
+cache:
+    directories:
+        - '$HOME/.m2/repository'
+
 before_install:
         - cat /etc/hosts # optionally check the content
         - travis_retry sudo apt-add-repository -y ppa:boost-latest/ppa
