@@ -19,7 +19,6 @@
  */
 package org.sonar.plugins.cxx;
 
-import org.sonar.cxx.CxxProjectBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -446,7 +445,6 @@ public final class CxxPlugin implements Plugin {
     List<Object> l = new ArrayList<>();
 
     // plugin elements
-    l.add(CxxProjectBuilder.class);
     l.add(CppLanguage.class);
     l.add(CxxDefaultProfile.class);
     l.add(CxxRuleRepository.class);
