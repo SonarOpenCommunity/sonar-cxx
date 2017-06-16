@@ -12,7 +12,7 @@ env:
         - SONARHOME=/tmp/sonarqube-6.4-RC3 SONARAPI=SqApi62
 
 matrix:
-    fast_finished: true
+    fast_finish: true
     allow_failures:
         - env: SONARHOME=/tmp/sonarqube-6.4-RC3 SONARAPI=SqApi62
 
@@ -22,6 +22,14 @@ addons:
      hosts:
         - myshorthost
      hostname: myshorthost
+
+before_cache:
+        # remove all the artifacts that are installed in local repo because of mvn deploy
+        - rm -rf $HOME/.m2/repository/org/sonarsource/sonarqube-plugins/cxx
+        - find $HOME/.m2 -name resolver-status.properties -exec rm {} \;
+cache:
+    directories:
+        - '$HOME/.m2/repository'
 
 before_install:
         - cat /etc/hosts # optionally check the content
