@@ -38,8 +38,9 @@ public class StringLiteralDuplicatedCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), new StringLiteralDuplicatedCheck()); 
         
     checkMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(13).withMessage("Define a constant instead of duplicating this literal \"bbbbb\" 2 times.")
-      .next().atLine(15).withMessage("Define a constant instead of duplicating this literal \"ccccc\" 3 times.");
+      .next().atLine(14).withMessage("Define a constant instead of duplicating this literal \"bbbbb\" 2 times.")
+      .next().atLine(16).withMessage("Define a constant instead of duplicating this literal \"ccccc\" 3 times.")
+      .next().atLine(25).withMessage("Define a constant instead of duplicating this literal \"eeeee\" 2 times.");
   }
 
 }
