@@ -96,8 +96,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
             String msg = errorCursor.getAttrValue("desc");
 
             if (isInputValid(file, line, id, msg)) {
-              if (msg.contains("MISRA"))
-              {
+              if (msg.contains("MISRA")){
                 //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008 have been created in the rule repository
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
                   id = mapMisraRulesToUniqueSonarRules(msg, MISRA);
@@ -105,9 +104,10 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 if (msg.contains("MISRA 2012 Rule")){
                   id = mapMisraRulesToUniqueSonarRules(msg, MISRAC2012);
                 }
-                saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
-                  file, line, id, msg);
               }
+              saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
+                file, line, id, msg);
+              
             }
             else {
               LOG.warn("PC-lint warning ignored: {}", msg);
