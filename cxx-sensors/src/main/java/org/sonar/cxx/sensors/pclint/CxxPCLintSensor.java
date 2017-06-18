@@ -50,8 +50,8 @@ public class CxxPCLintSensor extends CxxReportSensor {
   private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
   public static final String KEY = "PC-Lint";
-  public static final char MISRA = 0;
-  public static final char MISRAC2012 = 1;
+  public static final Boolean MISRA = false;
+  public static final Boolean MISRAC2012 = true;
 
   /**
    * {@inheritDoc}
@@ -96,16 +96,20 @@ public class CxxPCLintSensor extends CxxReportSensor {
             String msg = errorCursor.getAttrValue("desc");
 
             if (isInputValid(file, line, id, msg)) {
-              //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008 have been created in the rule repository
-              if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
-                id = mapMisraRulesToUniqueSonarRules(msg, MISRA);
+              if (msg.contains("MISRA"))
+              {
+                //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008 have been created in the rule repository
+                if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
+                  id = mapMisraRulesToUniqueSonarRules(msg, MISRA);
+                }
+                if (msg.contains("MISRA 2012 Rule")){
+                  id = mapMisraRulesToUniqueSonarRules(msg, MISRAC2012);
+                }
+                saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
+                  file, line, id, msg);
               }
-              if (msg.contains("MISRA 2012 Rule")){
-                id = mapMisraRulesToUniqueSonarRules(msg, MISRAC2012);
-              }
-              saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
-                file, line, id, msg);
-            } else {
+            }
+            else {
               LOG.warn("PC-lint warning ignored: {}", msg);
               LOG.debug("File: {}, Line: {}, ID: {}, msg: {}",
                 new Object[]{file, line, id, msg});
@@ -135,7 +139,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
        * Concatenate M with the MISRA rule number to get the new rule id to save
        * the violation to.
        */
-      private String mapMisraRulesToUniqueSonarRules(String msg, char ruleType) {
+      private String mapMisraRulesToUniqueSonarRules(String msg, Boolean isMisra2012) {
         Pattern pattern = Pattern.compile(
           // Rule nn.nn -or- Rule nn-nn-nn
           "Rule\\x20(\\d{1,2}.\\d{1,2}|\\d{1,2}-\\d{1,2}-\\d{1,2})(,|\\])"
@@ -144,7 +148,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
         if (matcher.find()) {
           String misraRule = matcher.group(1);
 		  String newKey;
-		  if (ruleType == MISRAC2012){
+		  if (true == isMisra2012){
 			newKey = "M2012-" + misraRule;
 		  }
 		  else{
