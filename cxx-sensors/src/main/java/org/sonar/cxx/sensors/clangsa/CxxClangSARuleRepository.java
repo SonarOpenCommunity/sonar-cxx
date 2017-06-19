@@ -1,3 +1,4 @@
+
 /*
  * Sonar C++ Plugin (Community)
  * Copyright (C) 2010-2017 SonarOpenCommunity
@@ -17,21 +18,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.c;
+package org.sonar.cxx.sensors.clangsa;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.sonar.api.platform.ServerFileSystem;
+import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
+import org.sonar.cxx.CxxLanguage;
+import org.sonar.cxx.sensors.utils.CxxAbstractRuleRepository;
 
-import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeVersion;
+/**
+ * {@inheritDoc}
+ */
+public class CxxClangSARuleRepository extends CxxAbstractRuleRepository {
 
-public class CPluginTest {
+  public static final String KEY = "ClangSA";
+  public static final String CUSTOM_RULES_KEY = "clangsa.customRules";
+  private static final String NAME = "Clang-SA";
 
-  @Test
-  public void testGetExtensions() throws Exception {
-   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
-   CPlugin plugin = new CPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(74);
+  /**
+   * {@inheritDoc}
+   */
+  public CxxClangSARuleRepository(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, CxxLanguage language) {
+    super(fileSystem, xmlRuleLoader, KEY, NAME, CUSTOM_RULES_KEY, language);
+  }
+
+  @Override
+  protected String fileName() {
+    return "/clangsa.xml";
   }
 }

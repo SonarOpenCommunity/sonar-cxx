@@ -36,6 +36,8 @@ import org.sonar.api.resources.Qualifiers;
 import org.sonar.api.server.rule.RulesDefinitionXmlLoader;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidyRuleRepository;
 import org.sonar.cxx.sensors.clangtidy.CxxClangTidySensor;
+import org.sonar.cxx.sensors.clangsa.CxxClangSARuleRepository;
+import org.sonar.cxx.sensors.clangsa.CxxClangSASensor;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccParser;
 import org.sonar.cxx.sensors.compiler.CxxCompilerGccRuleRepository;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
@@ -286,6 +288,21 @@ public final class CxxPlugin implements Plugin {
       .type(PropertyType.TEXT)
       .subCategory(subcateg)
       .index(14)
+      .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSASensor.REPORT_PATH_KEY)
+      .name("Clang Static analyzer analyzer report(s)")
+      .description("Path to Clang Static Analyzer reports, relative to projects root."
+        + " If neccessary, <a href='https://ant.apache.org/manual/dirtasks.html'>Ant-style wildcards</a> are at your service.")
+      .subCategory(subcateg)
+      .onQualifiers(Qualifiers.PROJECT, Qualifiers.MODULE)
+      .index(15)
+      .build(),
+      PropertyDefinition.builder(LANG_PROP_PREFIX + CxxClangSARuleRepository.CUSTOM_RULES_KEY)
+      .name("Clang-SA custom rules")
+      .description("NO DESC")
+      .type(PropertyType.TEXT)
+      .subCategory(subcateg)
+      .index(16)
       .build()
     ));
   }
@@ -482,6 +499,7 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxVeraxxSensorImpl.class);
     l.add(CxxValgrindSensorImpl.class);
     l.add(CxxClangTidySensorImpl.class);
+    l.add(CxxClangSASensorImpl.class);
     l.add(CxxExternalRulesSensorImpl.class);
 
     // test sensors
@@ -500,6 +518,7 @@ public final class CxxPlugin implements Plugin {
     l.add(CxxValgrindRuleRepositoryImpl.class);   
     l.add(CxxExternalRuleRepositoryImpl.class);    
     l.add(CxxClangTidyRuleRepositoryImpl.class);
+    l.add(CxxClangSARuleRepositoryImpl.class);
     
     return l;
   }
@@ -566,6 +585,12 @@ public final class CxxPlugin implements Plugin {
   
   public static class CxxClangTidyRuleRepositoryImpl extends CxxClangTidyRuleRepository {
     public CxxClangTidyRuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
+      super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
+    }
+  }
+
+  public static class CxxClangSARuleRepositoryImpl extends CxxClangSARuleRepository {
+    public CxxClangSARuleRepositoryImpl(ServerFileSystem fileSystem, RulesDefinitionXmlLoader xmlRuleLoader, Settings settings) {
       super(fileSystem, xmlRuleLoader, new CppLanguage(settings));      
     }
   }
@@ -636,6 +661,11 @@ public final class CxxPlugin implements Plugin {
             
   public static class CxxClangTidySensorImpl extends CxxClangTidySensor {
     public CxxClangTidySensorImpl(Settings settings) {
+      super(new CppLanguage(settings));      
+    }
+  }  
+  public static class CxxClangSASensorImpl extends CxxClangSASensor {
+    public CxxClangSASensorImpl(Settings settings) {
       super(new CppLanguage(settings));      
     }
   }  

@@ -1,3 +1,4 @@
+
 /*
  * Sonar C++ Plugin (Community)
  * Copyright (C) 2010-2017 SonarOpenCommunity
@@ -17,21 +18,11 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.sonar.plugins.c;
 
-import static org.fest.assertions.Assertions.assertThat;
+/**
+ * Package with sensor to evaluate Cppcheck specific report files.
+ */
+@ParametersAreNonnullByDefault
+package org.sonar.cxx.sensors.clangsa;
 
-import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeVersion;
-
-public class CPluginTest {
-
-  @Test
-  public void testGetExtensions() throws Exception {
-   Plugin.Context context = new Plugin.Context(SonarQubeVersion.V5_6);
-   CPlugin plugin = new CPlugin();
-   plugin.define(context);
-   assertThat(context.getExtensions()).hasSize(74);
-  }
-}
+import javax.annotation.ParametersAreNonnullByDefault;
