@@ -50,8 +50,6 @@ public class CxxPCLintSensor extends CxxReportSensor {
   private static final Logger LOG = Loggers.get(CxxPCLintSensor.class);
   public static final String REPORT_PATH_KEY = "pclint.reportPath";
   public static final String KEY = "PC-Lint";
-  public static final Boolean MISRA = false;
-  public static final Boolean MISRAC2012 = true;
 
   /**
    * {@inheritDoc}
@@ -99,10 +97,10 @@ public class CxxPCLintSensor extends CxxReportSensor {
               if (msg.contains("MISRA")){
                 //remap MISRA IDs. Only Unique rules for MISRA C 2004 and MISRA C/C++ 2008 have been created in the rule repository
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
-                  id = mapMisraRulesToUniqueSonarRules(msg, MISRA);
+                  id = mapMisraRulesToUniqueSonarRules(msg, false);
                 }
                 else if (msg.contains("MISRA 2012 Rule")){
-                  id = mapMisraRulesToUniqueSonarRules(msg, MISRAC2012);
+                  id = mapMisraRulesToUniqueSonarRules(msg, true);
                 }
               }
               saveUniqueViolation(context, CxxPCLintRuleRepository.KEY,
