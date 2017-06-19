@@ -935,18 +935,19 @@ public class CxxPreprocessor extends Preprocessor {
           while (j > 0 && body.get(j - 1).getType().equals(WS)) {
             j--;
           }
-          if (j == 0 || !"##".equals(body.get(--j).getValue())) {
-            continue;
-          }
-          int k = j;
-          while (j > 0 && body.get(j - 1).getType().equals(WS)) {
-            j--;
-          }
-          if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
-            newTokens.remove(newTokens.size() - 1 + j - i); // remove the comma
-            newTokens.remove(newTokens.size() - 1 + k - i); // remove the paste
-                                                            // operator
-          }
+          if (j > 0 && "##".equals(body.get(j - 1).getValue())) {
+            int k = --j;
+            while (j > 0 && body.get(j - 1).getType().equals(WS)) {
+              j--;
+            }
+            if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
+              newTokens.remove(newTokens.size() - 1 + j - i); // remove the comma
+              newTokens.remove(newTokens.size() - 1 + k - i); // remove the paste operator
+            }
+          } else if (j > 0 && ",".equals(body.get(j - 1).getValue()))
+              // Got empty variadic args, remove comma
+              newTokens.remove(newTokens.size() - 1 + j - i);
+
         } else if (index < arguments.size()) {
           // token pasting operator?
           int j = i + 1;
@@ -1012,19 +1013,6 @@ public class CxxPreprocessor extends Preprocessor {
           newTokens.add(n, Token.builder().setLine(newTokens.get(n).getLine()).setColumn(newTokens.get(n).getColumn())
           .setURI(newTokens.get(n).getURI()).setValueAndOriginalValue("\"\"").setType(STRING)
           .setGeneratedCode(true).build());
-          break;
-        } else {
-          break;
-        }
-      }
-    }
-    // drop COMMA from sequence COMMA "," BR ")"
-    if (newTokens.size() > 2 && newTokens.get(newTokens.size() - 1).getType().equals(BR_RIGHT)) {
-      for (int n = newTokens.size() - 2; n != 0; n--) {
-        if (newTokens.get(n).getType().equals(WS)) {
-          newTokens.remove(n);
-        } else if (newTokens.get(n).getType().equals(COMMA)) {
-          newTokens.remove(n);
           break;
         } else {
           break;
