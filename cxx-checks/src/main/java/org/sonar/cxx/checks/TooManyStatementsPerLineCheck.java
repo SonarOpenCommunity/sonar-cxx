@@ -32,6 +32,9 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
+/**
+ * TooManyStatementsPerLineCheck - Statements should be on separate lines
+ */
 @Rule(
   key = "TooManyStatementsPerLine",
   name = "Statements should be on separate lines",
@@ -43,6 +46,10 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
 
   private static final boolean DEFAULT_EXCLUDE_CASE_BREAK = false;
 
+  /**
+   * excludeCaseBreak - Exclude 'break' statement if it is on the same line
+   * as the switch label (case: or default:)
+   */
   @RuleProperty(
     key = "excludeCaseBreak",
     description = "Exclude 'break' statement if it is on the same line as the switch label (case: or default:)",
@@ -109,6 +116,8 @@ public class TooManyStatementsPerLineCheck extends AbstractOneStatementPerLineCh
       if (statement != null ) {
         return astNode.getTokenLine() == statement.getTokenLine();
       }
+
+      return isGeneratedNodeExcluded(astNode);
     }
     return false;
   }

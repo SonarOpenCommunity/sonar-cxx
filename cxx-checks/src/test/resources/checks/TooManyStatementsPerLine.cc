@@ -8,7 +8,7 @@ bool condition = true;
 #define TEST(a,b) if (a) {    \
                   } if (b) {  \
                   }
-
+#define TEST2() doSomething();
 // without alias
 
 class TooManyStatementsPerLine {
@@ -88,6 +88,7 @@ int main()
 			//    fpoly_only(c); // error, enable_if prohibits this
 	S s;
 	fpoly_only(s); // okay, enable_if allows this
+	TEST2(); // OK - empty statement after generated code
 }
 
 template <typename RBM, typename Trainer>
