@@ -17057,4 +17057,1600 @@ immediately cast to the underlying type of the operand.</description>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>
+  <!--MISRA C3 (2012) Rules-->
+  									<!-- Rules section 1 -->
+	<rule>
+		<key>M2012-1.1</key>
+		<name>M2012-1.1: Violations of the standard C (MISRA C 2012)</name>
+		<description>(Required) Violations of the standard C syntax and constraints</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-1.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-1.2</key>
+		<name>M2012-1.2: Language extensions (MISRA C 2012)</name>
+		<description>(Advisory) Language extensions should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-1.2</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-1.3</key>
+		<name>M2012-1.3: Unspecified behaviour (MISRA C 2012)</name>
+		<description>(Required) There shall be no occurrence of undefined or critical unspecified behaviour</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-1.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 2 -->
+	<rule>
+		<key>M2012-2.1</key>
+		<name>M2012-2.1: Unreachable code (MISRA C 2012)</name>
+		<description>(Required) A project shall not contain unreachable code</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-2.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-2.2</key>
+		<name>M2012-2.2: Dead code (MISRA C 2012)</name>
+		<description>(Required) There shall be no dead code</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-2.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-2.3</key>
+		<name>M2012-2.3: Unused type declarations (MISRA C 2012)</name>
+		<description>(Advisory) A project should not contain unused ty pe declarations</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-2.3</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-2.4</key>
+		<name>M2012-2.4: Unused tag declarations (MISRA C 2012)</name>
+		<description>(Advisory) A project should not contain unused tag declarations </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-2.4</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-2.5</key>
+		<name>M2012-2.5: Unused macro declarations (MISRA C 2012)</name>
+		<description>(Advisory) A project should not contain unused macro declarations</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-2.5</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-2.6</key>
+		<name>M2012-2.6: Unused label declarations (MISRA C 2012)</name>
+		<description>(Advisory) A function should not contain unused label declarations</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-2.6</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-2.7</key>
+		<name>M2012-2.7: Unused parameters in functions (MISRA C 2012)</name>
+		<description>(Advisory) There should be no unused parameters in functions</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-2.7</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 3 -->
+	<rule>
+		<key>M2012-3.1</key>
+		<name>M2012-3.1: /* or // used within a comment (MISRA C 2012)</name>
+		<description>(Required) The character sequences /* an d // shall not be used within a comment</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-3.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-3.2</key>
+		<name>M2012-3.2: Line-splicing in // comment (MISRA C 2012)</name>
+		<description>(Required) Line-splicing shall not be used in // comments</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-3.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 4 -->
+	<rule>
+		<key>M2012-4.1</key>
+		<name>M2012-4.1: Escape sequences not terminated (MISRA C 2012)</name>
+		<description>(Required) Octal and hexadecimal escape sequences shall be terminated</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-4.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-4.2</key>
+		<name>M2012-4.2: Trigraphs (MISRA C 2012)</name>
+		<description>(Advisory) Trigraphs should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-4.2</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 5 -->
+	<rule>
+		<key>M2012-5.1</key>
+		<name>M2012-5.1: Indistinct external identifiers (MISRA C 2012)</name>
+		<description>(Required) External identifiers shall be distinct</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.2</key>
+		<name>M2012-5.2: Indistinct identifiers in same scope(MISRA C 2012)</name>
+		<description>(Required) Identifiers declared in the same scope and name space shall be distinct</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.3</key>
+		<name>M2012-5.3: Identifier hiding other identifier(MISRA C 2012)</name>
+		<description>(Required) An identifier declared in an inner scope shall not hide an identifier declared in an outer scope</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.4</key>
+		<name>M2012-5.4: Indistinct macro identifier (MISRA C 2012)</name>
+		<description>(Required) Macro identifiers shall be distinct</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.5</key>
+		<name>M2012-5.5: Identifiers indistinct from macro names (MISRA C 2012)</name>
+		<description>(Required) Identifiers shall be distinct from macro names</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.5</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.6</key>
+		<name>M2012-5.6: A typedef identifier not unique (MISRA C 2012)</name>
+		<description>(Required) A typedef name shall be a unique identifier</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.7</key>
+		<name>M2012-5.7: Tag name identifier not unique (MISRA C 2012)</name>
+		<description>(Required) A tag name shall be a unique identifier</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.8</key>
+		<name>M2012-5.8: Identifiers with external linkage not unique (MISRA C 2012)</name>
+		<description>(Required) Identifiers that define objects or functions with external linkage shall be unique</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.8</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-5.9</key>
+		<name>M2012-5.9: Identifiers with internal linkage not unique (MISRA C 2012)</name>
+		<description>(Required) Identifiers that define objects or functions with internal linkage should be unique</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-5.9</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 6 -->
+	<rule>
+		<key>M2012-6.1</key>
+		<name>M2012-6.1: Bit-fields have not appropriate type (MISRA C 2012)</name>
+		<description>(Required) Bit-fields shall only be declared with an appropriate type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-6.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-6.2</key>
+		<name>M2012-6.2: Single-bit is signed type (MISRA C 2012)</name>
+		<description>(Advisory) Single-bit named bit fields shall not be of a signed type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-6.2</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 7 -->
+	<rule>
+		<key>M2012-7.1</key>
+		<name>M2012-7.1: Octal constants (MISRA C 2012)</name>
+		<description>(Required) Octal constants shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-7.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-7.2</key>
+		<name>M2012-7.2: Unsigned constant integer required a 'U' or 'u' (MISRA C 2012)</name>
+		<description>(Required) A “u” or “U” suffix shall be applied to all integer constants that are represented in an unsigned type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-7.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-7.3</key>
+		<name>M2012-7.3: 'l' used in a literal suffix (MISRA C 2012)</name>
+		<description>(Required) The lowercase character “l” shall not be used in a literal suffix </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-7.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-7.4</key>
+		<name>M2012-7.4: String literal assigned to wrong object (MISRA C 2012)</name>
+		<description>(Required) A string literal shall not be assigned to an object unless the object’s type is “pointer to const-qualifi ed char” </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-7.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 8 -->
+	<rule>
+		<key>M2012-8.1</key>
+		<name>M2012-8.1: Types not explicitly specified (MISRA C 2012)</name>
+		<description>(Required) Types shall be explicitly specified</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.2</key>
+		<name>M2012-8.2: Function prototype missing or incomplete (MISRA C 2012)</name>
+		<description>(Required) Function types shall be in prototype form with named parameters</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.3</key>
+		<name>M2012-8.3: Different declaration of object function(MISRA C 2012)</name>
+		<description>(Required)  All declarations of an object or function shall use the same names and type qualifiers</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.4</key>
+		<name>M2012-8.4: Non compatible declaration with external linkage(MISRA C 2012)</name>
+		<description>(Required) A compatible declaration shall be visible when an object or function with external linkage is defined</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.5</key>
+		<name>M2012-8.5: An external element declared in several files(MISRA C 2012)</name>
+		<description>(Required) An external object or function shall be declared once in one and only one file</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.5</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.6</key>
+		<name>M2012-8.6: Symbol is redeclared or redefined (MISRA C 2012)</name>
+		<description>(Required) An identifier with external linkage shall have exactly one external definition</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.7</key>
+		<name>M2012-8.7: Functions or objects defined with external linkage and is referenced in only one translation unit (MISRA C 2012)</name>
+		<description>(Advisory) Functions and objects should not be defined with external linkage if they are referenced in only one translation unit</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.7</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.8</key>
+		<name>M2012-8.8: Storage class of symbol assumed static (MISRA C 2012)</name>
+		<description>(Required) The static storage class specifier shall be used in all declarations of objects and functions that have internal linkage</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.8</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.9</key>
+		<name>M2012-8.9: Object define outside of block for single function usage(MISRA C 2012)</name>
+		<description>(Advisory) An object should be defined at block scope if its identifier only appears in a single function</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.9</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.10</key>
+		<name>M2012-8.10: Inline function defined without a storage-class specifier (MISRA C 2012)</name>
+		<description>(Required) An inline function shall be declared with the static storage class</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.10</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.11</key>
+		<name>M2012-8.11: Externale array without explicit size (MISRA C 2012)</name>
+		<description>(Advisory) When an array with external linkage is declared, its size should be explicitly specified</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.11</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.12</key>
+		<name>M2012-8.12: Element of enum whithout unique value (MISRA C 2012)</name>
+		<description>(Required) Within an enumerator list, the value of an implicitly-specified enumeration constant shall be unique</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.12</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.13</key>
+		<name>M2012-8.13: Pointer parameter could be declared as pointing to const (MISRA C 2012)</name>
+		<description>(Advisory) A pointer should point to a const-qualified type whenever possible</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.13</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-8.14</key>
+		<name>M2012-8.14: Restrict type used (MISRA C 2012)</name>
+		<description>(Required) The restrict type qualifier shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-8.14</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 9 -->
+	<rule>
+		<key>M2012-9.1</key>
+		<name>M2012-9.1: Symbol read before been set (MISRA C 2012)</name>
+		<description>(Mandatory) The value of an object with automatic storage duration shall not be read before it has been set</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-9.1</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-9.2</key>
+		<name>M2012-9.2: Not initialized in braces (MISRA C 2012)</name>
+		<description>(Required) The initializer for an aggregate or union shall be enclosed in braces</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-9.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-9.3</key>
+		<name>M2012-9.3: Init of array not complete (MISRA C 2012)</name>
+		<description>(Required) Arrays shall not be partially initialized</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-9.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-9.4</key>
+		<name>M2012-9.4: Element initialized more than once (MISRA C 2012)</name>
+		<description>(Required) An element of an object shall not be initialized more than once</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-9.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-9.5</key>
+		<name>M2012-9.5: Size of the array not specified explicitly (MISRA C 2012)</name>
+		<description>(Required) Where designated initializers are used to initialize an array object the size of the array shall be specified explicitly</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-9.5</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 10 -->
+	<rule>
+		<key>M2012-10.1</key>
+		<name>M2012-10.1: Inapropriate essential type (MISRA C 2012)</name>
+		<description>(Required) Operands shall not be of an inappropriate essential type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-10.2</key>
+		<name>M2012-10.2: Inapropriate ussage of character type in operation(MISRA C 2012)</name>
+		<description>(Required) Expressions of essentially character type shall not be used inappropriately in addition and subtraction operations</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-10.3</key>
+		<name>M2012-10.3: Assignation of a narrower essential type (MISRA C 2012)</name>
+		<description>(Required) The value of an expression shall not be assigned to an object with a narrower essential type or of a different essential type category</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-10.4</key>
+		<name>M2012-10.4: Operation with different type cathegory(MISRA C 2012)</name>
+		<description>(Required) Both operands of an operator in which the usual arithmetic conversions are performed shall have the same essential type category</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-10.5</key>
+		<name>M2012-10.5: Cast to an inappropriate type (MISRA C 2012)</name>
+		<description>(Advisory) The value of an expression should not be cast to an inappropriate essential type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.5</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-10.6</key>
+		<name>M2012-10.6: Assignation to object with wider essential type (MISRA C 2012)</name>
+		<description>(Required) The value of a composite expression shall not be assigned to an object with wider essential type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-10.7</key>
+		<name>M2012-10.7: Implicit conversion in arithmetic conversion (MISRA C 2012)</name>
+		<description>(Required) If a composite expression is used as one operand of an operator in which the usual arithmetic conversions are performed then the other operand shall not have wider essential type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-10.8</key>
+		<name>M2012-10.8: Type conversion of composit expression(MISRA C 2012)</name>
+		<description>(Required) The value of a composite expression shall not be cast to a different essential type category or a wider essential type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-10.8</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 11 -->
+	<rule>
+		<key>M2012-11.1</key>
+		<name>M2012-11.1: Convertion between pointer to function and other type(MISRA C 2012)</name>
+		<description>(Required) Conversions shall not be performed between a pointer to a function and any other type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.2</key>
+		<name>M2012-11.2: Conversion between incomplete pointer type and other type (MISRA C 2012)</name>
+		<description>(Required) Conversions shall not be performed between a pointer to an incomplete type and any other type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.3</key>
+		<name>M2012-11.3: Cast between 2 pointers with different type (MISRA C 2012)</name>
+		<description>(Required) A cast shall not be performed between a pointer to object type and a pointer to a different object type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.4</key>
+		<name>M2012-11.4: Conversion between pointer to object and pointer to integer (MISRA C 2012)</name>
+		<description>(Required) A conversion should not be performed between a pointer to object and an integer type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.5</key>
+		<name>M2012-11.5: Conversion between pointer to void and pointer to object(MISRA C 2012)</name>
+		<description>(Required) A conversion should not be performed from pointer to void into pointer to object </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.5</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.6</key>
+		<name>M2012-11.6: Conversion between pointer to void and arithmetic type(MISRA C 2012)</name>
+		<description>(Required) A cast shall not be performed between pointer to void and an arithmetic type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.7</key>
+		<name>M2012-11.7: Conversion between pointer to object and non-integer arithmetic type (MISRA C 2012)</name>
+		<description>(Required) A cast shall not be performed between pointer to object and a non-integer arithmetic type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.8</key>
+		<name>M2012-11.8: Pointer remove qualification to object (MISRA C 2012)</name>
+		<description>(Required) A cast shall not remove any const or volatile qualification from the type pointed to by a pointer</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.8</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-11.9</key>
+		<name>M2012-11.9: Macro NULL used inappropriately (MISRA C 2012)</name>
+		<description>(Required) The macro NULL shall be the only permitted form of integer null pointer constant</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-11.9</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 12 -->
+	<rule>
+		<key>M2012-12.1</key>
+		<name>M2012-12.1: Precedence of expression non explicit(MISRA C 2012)</name>
+		<description>(Advisory) The precedence of operators within expressions should be made explicit</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-12.1</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-12.2</key>
+		<name>M2012-12.2: The shift value is at least the precision of the essential type of the left hand side (MISRA C 2012)</name>
+		<description>(Required) The right hand operand of a shift operator shall lie in the range zero to one less than the width in bits of the essential type of the left hand operand</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-12.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-12.3</key>
+		<name>M2012-12.3: Usage of coma operator (MISRA C 2012)</name>
+		<description>(Advisory) The comma operator should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-12.3</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-12.4</key>
+		<name>M2012-12.4: Overflow in computing constant for operation (MISRA C 2012)</name>
+		<description>(Advisory) Evaluation of constant expressions should not lead to unsigned integer wrap-around</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-12.4</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 13 -->
+	<rule>
+		<key>M2012-13.1</key>
+		<name>M2012-13.1: Initializer list with persistent side effect (MISRA C 2012)</name>
+		<description>(Required) Initializer lists shall not contain persistent side effects </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-13.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-13.2</key>
+		<name>M2012-13.2: Different value of expression and persistent side effect(MISRA C 2012)</name>
+		<description>(Required) The value of an expression and its persistent side effects shall be the same under all permitted evaluation orders</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-13.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-13.3</key>
+		<name>M2012-13.3: Unexpected side effect for (++) or (--) operation (MISRA C 2012)</name>
+		<description>(Advisory) A full expression containing an increment (++) or decrement (--) operator should have no other potential side effects other than that caused by the increment or decrement operator</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-13.3</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-13.4</key>
+		<name>M2012-13.4: Utilisation of assignment operator result (MISRA C 2012)</name>
+		<description>(Advisory) The result of an assignment operator should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-13.4</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-13.5</key>
+		<name>M2012-13.5: Side effects on right hand of logical operator (MISRA C 2012)</name>
+		<description>(Advisory) The right hand operand of a logical &amp;&amp; or || operator shall not contain persistent side effects </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-13.5</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-13.6</key>
+		<name>M2012-13.6: Sizeof used on expression with side effect (MISRA C 2012)</name>
+		<description>(Mandatory) The operand of the sizeof operator shall not contain any expression which has potential side effects</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-13.6</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 14 -->
+	<rule>
+		<key>M2012-14.1</key>
+		<name>M2012-14.1: Use of floating type in a loop (MISRA C 2012)</name>
+		<description>(Required) A loop counter shall not have essentially floating type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-14.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-14.2</key>
+		<name>M2012-14.2: For loop not correct (MISRA C 2012)</name>
+		<description>(Required) A for loop shall be well-formed</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-14.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-14.3</key>
+		<name>M2012-14.3: Always evaluate to same value (MISRA C 2012)</name>
+		<description>(Required) Controlling expressions shall not be invariant</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-14.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-14.4</key>
+		<name>M2012-14.4: Usage of non boolean control expression in if statement (MISRA C 2012)</name>
+		<description>(Required) The controlling expression of an if statement and the controlling expression of an iteration-statement shall have essentially Boolean type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-14.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 15 -->
+	<rule>
+		<key>M2012-15.1</key>
+		<name>M2012-15.1: Usage of Goto (MISRA C 2012)</name>
+		<description>(Advisory) The goto statement should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-15.1</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-15.2</key>
+		<name>M2012-15.2: Goto jump outside of autorized position (MISRA C 2012)</name>
+		<description>(Required) The goto statement shall jump to a label declared later in the same function </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-15.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-15.3</key>
+		<name>M2012-15.3: Label declared outside of goto block or enclosing block (MISRA C 2012)</name>
+		<description>(Required) Any label referenced by a goto statement shall be declared in the same block, or in any block enclosing the goto statement</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-15.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-15.4</key>
+		<name>M2012-15.4: More than one goto or break to terminate operation (MISRA C 2012)</name>
+		<description>(Advisory) There should be no more than one break or goto statement used to terminate any iteration statement</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-15.4</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-15.5</key>
+		<name>M2012-15.5: More than one end point to exit function (MISRA C 2012)</name>
+		<description>(Advisory)  A function should have a single point of exit at the end</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-15.5</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-15.6</key>
+		<name>M2012-15.6: Sub-statement should be a compound statement (MISRA C 2012)</name>
+		<description>(Required) The body of an iteration-statement or a selection-statement shall be acompound-statement</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-15.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-15.7</key>
+		<name>M2012-15.7: Else statment missing (MISRA C 2012)</name>
+		<description>(Required) All if ... else if constructs shall be terminated with an else statement</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-15.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 16 -->
+	<rule>
+		<key>M2012-16.1</key>
+		<name>M2012-16.1: Switch statement not well formed (MISRA C 2012)</name>
+		<description>(Required) All switch statements shall be well-formed</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-16.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-16.2</key>
+		<name>M2012-16.2:  Most closely-enclosing compound statement is not the body of a switch statement (MISRA C 2012)</name>
+		<description>(Advisory) A switch label shall only be used when the most closely-enclosing compound statement is the body of a switch statement </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-16.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-16.3</key>
+		<name>M2012-16.3: Break missing to terminate case (MISRA C 2012)</name>
+		<description>(Required) An unconditional break statement shall terminate every switch-clause</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-16.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-16.4</key>
+		<name>M2012-16.4: Default missing in the switch-case (MISRA C 2012)</name>
+		<description>(Required) Every switch statement shall have a default label</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-16.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-16.5</key>
+		<name>M2012-16.5: Default not in first or salt label (MISRA C 2012)</name>
+		<description>(Required) A default label shall appear as either the first or the last switch label of a switch statement</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-16.5</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-16.6</key>
+		<name>M2012-16.6: Switch statment does not have enough case (MISRA C 2012)</name>
+		<description>(Required) Every switch statement shall have at least two switch-clauses</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-16.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-16.7</key>
+		<name>M2012-16.7: Usage of boolean type for switch statment (MISRA C 2012)</name>
+		<description>(Required) A switch-expression shall not have essentially Boolean type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-16.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 17 -->
+	<rule>
+		<key>M2012-17.1</key>
+		<name>M2012-17.1: Usage of   stdarg.h   is forbidden (MISRA C 2012)</name>
+		<description>(Required) The features of &lt;stdarg.h&gt; shall not be used </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-17.2</key>
+		<name>M2012-17.2: Function calling itself (MISRA C 2012)</name>
+		<description>(Required) Functions shall not call themselves, either directly or indirectly</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-17.3</key>
+		<name>M2012-17.3: Function declared implicitly (MISRA C 2012)</name>
+		<description>(Mandatory) A function shall not be declared implicitly</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.3</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-17.4</key>
+		<name>M2012-17.4: Function should return a value (MISRA C 2012)</name>
+		<description>(Mandatory) All exit paths from a function with non-void return type shall have an explicit return statement with an expression</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.4</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-17.5</key>
+		<name>M2012-17.5: Array has wrong size in function argument (MISRA C 2012)</name>
+		<description>(Advisory) The function argument corresponding to a parameter declared to have an array type shall have an appropriate number of elements</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.5</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-17.6</key>
+		<name>M2012-17.6: Usage of static parameter of an array between [] (MISRA C 2012)</name>
+		<description>(Mandatory) The declaration of an array parameter shall not contain the static keyword between the [ ]</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.6</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-17.7</key>
+		<name>M2012-17.7: Velue returned by function not used (MISRA C 2012)</name>
+		<description>(Required) The value returned by a function having non-void return type shall be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-17.8</key>
+		<name>M2012-17.8: Modification of function parameter (MISRA C 2012)</name>
+		<description>(Advisory) A function parameter should not be modified </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-17.8</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 18 -->
+	<rule>
+		<key>M2012-18.1</key>
+		<name>M2012-18.1: Likely creation of out-of-bounds pointer (MISRA C 2012)</name>
+		<description>(Required) A pointer resulting from arithmetic on a pointer operand shall address an element of the same array as that pointer operand</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-18.2</key>
+		<name>M2012-18.2: Substraction between different array with pointers(MISRA C 2012)</name>
+		<description>(Required) Subtraction between pointers shall only be applied to pointers that address elements of the same array</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-18.3</key>
+		<name>M2012-18.3: Relational or subtract operator applied to pointers  (MISRA C 2012)</name>
+		<description>(Required) The relational operators &gt;, &gt;=, &lt; and &lt;= shall not be applied to objects of pointer type except where they point into the same object</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-18.4</key>
+		<name>M2012-18.4: Increment or subtract operator applied tp pointer (MISRA C 2012)</name>
+		<description>(Advisory) The +, -, += and -= operators should not be applied to an expression of pointer type</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.4</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-18.5</key>
+		<name>M2012-18.5: More than 2 level of pointer (MISRA C 2012)</name>
+		<description>(Advisory) Declarations should contain no more than two levels of pointer nesting</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.5</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-18.6</key>
+		<name>M2012-18.6: Address of object with automatic storage affected to non persistant object (MISRA C 2012)</name>
+		<description>(Required) The address of an object with automatic storage shall not be copied to another object that persists after the first object has ceased to exist</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-18.7</key>
+		<name>M2012-18.7: Usage of flexible array (MISRA C 2012)</name>
+		<description>(Required) Flexible array members shall not be declared</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-18.8</key>
+		<name>M2012-18.8: Variable-length length arrya (MISRA C 2012)</name>
+		<description>(Required) Variable-length array types shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-18.8</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 19 -->
+	<rule>
+		<key>M2012-19.1</key>
+		<name>M2012-19.1: Assignation or copy to an overlapping object (MISRA C 2012)</name>
+		<description>(Mandatory) An object shall not be assigned or copied to an overlapping object</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-19.1</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-19.2</key>
+		<name>M2012-19.2: Usage of Union Keyword (MISRA C 2012)</name>
+		<description>(Advisory) The union keyword should not be used </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-19.2</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 20 -->
+	<rule>
+		<key>M2012-20.1</key>
+		<name>M2012-20.1: #include misplaced (MISRA C 2012)</name>
+		<description>(Advisory) #include directives should only be preceded by preprocessor directives or comments</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.1</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.2</key>
+		<name>M2012-20.2: Wrong character used in header file name (MISRA C 2012)</name>
+		<description>(Required) The ',' or \ characters and the /* or // character sequences shall not occur in a header file name</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.3</key>
+		<name>M2012-20.3: #include followed by wrong sequence (MISRA C 2012)</name>
+		<description>(Required) The #include directive shall be followed by either a &lt;filename&gt; or "filename" sequence</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.4</key>
+		<name>M2012-20.4: Macro name defined with a keyword (MISRA C 2012)</name>
+		<description>(Required) A macro shall not be defined with the same name as a keyword</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.5</key>
+		<name>M2012-20.5: Usage of #undef (MISRA C 2012)</name>
+		<description>(Advisory) #undef should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.5</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.6</key>
+		<name>M2012-20.6: Apparent preprocessor directive in invocation of macro (MISRA C 2012)</name>
+		<description>(Required) Tokens that look like a preprocessing directive shall not occur within a macro argument</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.7</key>
+		<name>M2012-20.7: Unparenthesized parameter in macro (MISRA C 2012)</name>
+		<description>(Required) Expressions resulting from the expansion of macro parameters shall be enclosed in parentheses</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.8</key>
+		<name>M2012-20.8: Conditional of #if does not evaluate to 0 or 1 (MISRA C 2012)</name>
+		<description>(Required) The controlling expression of a #if or #elif preprocessing directive shall evaluate to 0 or 1</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.8</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.9</key>
+		<name>M2012-20.9: Undefined preprocessor variable (MISRA C 2012)</name>
+		<description>(Required) All identifiers used in the controlling expression of #if or #elif preprocessing directives shall be #define'd before evaluation</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.9</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.10</key>
+		<name>M2012-20.10: #or ## processor operator used (MISRA C 2012)</name>
+		<description>(Advisory) The # and ## preprocessor operators should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.10</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.11</key>
+		<name>M2012-20.11: Stringize operator followed by macro parameter followed by pasting operator (MISRA C 2012)</name>
+		<description>(Required) A macro parameter immediately following a # operator shall not immediately be followed by a ## operator</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.11</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.12</key>
+		<name>M2012-20.12: Macro operator usedas an operand to # or ## and is subject to replacment (MISRA C 2012)</name>
+		<description>(Required) A macro parameter used as an operand to the # or ## operators, which is itself subject to further macro replacement, shall only be used as an operand to these operators</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.12</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.13</key>
+		<name>M2012-20.13: Not a valid preprocessing directive (MISRA C 2012)</name>
+		<description>(Required) A line whose first token is # shall be a valid preprocessing directive</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.13</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-20.14</key>
+		<name>M2012-20.14: #else, #elif or #endif not in same file than #if, #ifdef or #ifndef (MISRA C 2012)</name>
+		<description>(Required) All #else, #elif and #endif preprocessor directives shall reside in the same file as the #if, #ifdef or #ifndef directive to which they are related</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-20.14</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 21 -->
+	<rule>
+		<key>M2012-21.1</key>
+		<name>M2012-21.1: Illegal macro name with # usage (MISRA C 2012)</name>
+		<description>(Required) #define and #undef shall not be used on a reserved identifier or reserved macro name</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.2</key>
+		<name>M2012-21.2: Illegal macro name using reserved identifier(MISRA C 2012)</name>
+		<description>(Required) A reserved identifier or macro name shall not be declared</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.2</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.3</key>
+		<name>M2012-21.3: Usage of memory allocation and deallocation from   stdlib.h   is forbidden (MISRA C 2012)</name>
+		<description>(Required) The memory allocation and deallocation functions of &lt;stdlib.h&gt; shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.4</key>
+		<name>M2012-21.4: Usage of   setjmp.h   is forbidden (MISRA C 2012)</name>
+		<description>(Required) The standard header file &lt;setjmp.h&gt; shall not be used </description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.4</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.5</key>
+		<name>M2012-21.5: Usage of   signal.h   is forbidden (MISRA C 2012)</name>
+		<description>(Required) The standard header file &lt;signal.h&gt; shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.5</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.6</key>
+		<name>M2012-21.6: Usage of input/output functions (MISRA C 2012)</name>
+		<description>(Required) The Standard Library input/output functions shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.6</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.7</key>
+		<name>M2012-21.7: Usage of atol, atol and atoll is forbidden (MISRA C 2012)</name>
+		<description>(Required) The atof, atoi, atol and atoll functions of &lt;stdlib.h&gt; shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.7</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.8</key>
+		<name>M2012-21.8: Usage of abort, exit, getenv and system is forbidden (MISRA C 2012)</name>
+		<description>(Required) The library functions abort, exit, getenv and system of &lt;stdlib.h&gt; shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.8</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.9</key>
+		<name>M2012-21.9: Usage of bsearch and qsort is forbidden (MISRA C 2012)</name>
+		<description>(Required) The library functions bsearch and qsort of &lt;stdlib.h&gt; shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.9</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.10</key>
+		<name>M2012-21.10: Usage of time and date function forbidden (MISRA C 2012)</name>
+		<description>(Required) The Standard Library time and date functions shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.10</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.11</key>
+		<name>M2012-21.11: Usage of   tgmath.h   is forbidden (MISRA C 2012)</name>
+		<description>(Required) The standard header file &lt;tgmath.h&gt; shall not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.11</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-21.12</key>
+		<name>M2012-21.12: Usage of exception handling from   fenv.h   is forbidden (MISRA C 2012)</name>
+		<description>(Advisory) The exception handling features of &lt;fenv.h&gt; should not be used</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-21.12</internalKey>
+		<severity>MAJOR</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+										<!-- Rules section 22 -->
+	<rule>
+		<key>M2012-22.1</key>
+		<name>M2012-22.1: Custodial pointer has not been freed or returned (MISRA C 2012)</name>
+		<description>(Required) All resources obtained dynamically by means of Standard Library functions shall be explicitly released</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-22.1</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-22.2</key>
+		<name>M2012-22.2: Block of memory freed in bad conditions (MISRA C 2012)</name>
+		<description>(Mandatory) A block of memory shall only be freed if it was allocated by means of a Standard Library function</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-22.2</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-22.3</key>
+		<name>M2012-22.3: Read and write function made in same time (MISRA C 2012)</name>
+		<description>(Required) The same file shall not be open for read and write access at the same time on different streams</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-22.3</internalKey>
+		<severity>CRITICAL</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-22.4</key>
+		<name>M2012-22.4: Try to write on read only stream (MISRA C 2012)</name>
+		<description>(Mandatory) There shall be no attempt to write to a stream which has been opened as read-only</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-22.4</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-22.5</key>
+		<name>M2012-22.5: Pointer to file dereferenced (MISRA C 2012)</name>
+		<description>(Mandatory) A pointer to a FILE object shall not be dereferenced</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-22.5</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
+	<rule>
+		<key>M2012-22.6</key>
+		<name>M2012-22.6: Value to pointer to file used after been closed (MISRA C 2012)</name>
+		<description>(Mandatory) The value of a pointer to a FILE shall not be used after the associated stream has been closed</description>
+		<tag>misrac3</tag>
+		<internalKey>M2012-22.6</internalKey>
+		<severity>BLOCKER</severity>
+		<type>CODE_SMELL</type>
+		<remediationFunction>LINEAR</remediationFunction>
+		<remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
+	</rule>
 </rules>
