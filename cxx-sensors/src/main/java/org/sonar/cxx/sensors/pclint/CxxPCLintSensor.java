@@ -101,7 +101,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
                 if (msg.contains("MISRA 2004") || msg.contains("MISRA 2008") || msg.contains("MISRA C++ 2008") || msg.contains("MISRA C++ Rule")) {
                   id = mapMisraRulesToUniqueSonarRules(msg, MISRA);
                 }
-                if (msg.contains("MISRA 2012 Rule")){
+                else if (msg.contains("MISRA 2012 Rule")){
                   id = mapMisraRulesToUniqueSonarRules(msg, MISRAC2012);
                 }
               }
