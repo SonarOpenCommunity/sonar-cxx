@@ -935,17 +935,20 @@ public class CxxPreprocessor extends Preprocessor {
           while (j > 0 && body.get(j - 1).getType().equals(WS)) {
             j--;
           }
-          if (j == 0 || !"##".equals(body.get(--j).getValue())) {
-            continue;
-          }
-          int k = j;
-          while (j > 0 && body.get(j - 1).getType().equals(WS)) {
-            j--;
-          }
-          if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
-            newTokens.remove(newTokens.size() - 1 + j - i); // remove the comma
-            newTokens.remove(newTokens.size() - 1 + k - i); // remove the paste
-                                                            // operator
+          if (j != 0 && "##".equals(body.get(--j).getValue())) {
+            int k = j;
+            while (j > 0 && body.get(j - 1).getType().equals(WS)) {
+              j--;
+            }
+            if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
+              newTokens.remove(newTokens.size() - 1 + j - i); // remove the comma
+              newTokens.remove(newTokens.size() - 1 + k - i); // remove the paste
+              // operator
+            }
+          } else {
+            // Got empty variadic args, remove comma
+            if (j > 0 && ",".equals(body.get(j).getValue()))
+              newTokens.remove(newTokens.size() + j - i);
           }
         } else if (index < arguments.size()) {
           // token pasting operator?

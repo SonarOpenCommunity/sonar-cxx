@@ -209,6 +209,11 @@ public class PreprocessorDirectivesTest extends ParserBaseTest {
         + "MACRO(\"error\");"))
         .equals("printf ( \"error\" ) ; EOF"));
 
+    assert (serialize(p.parse(
+        "#define MACRO(s, ...) do { printf(s, __VA_ARGS__); } while (false)\n"
+        + "int main() { MACRO(\"error\"); }"))
+        .equals("int main ( ) { do { printf ( \"error\" ) ; } while ( false ) ; } EOF"));
+
     // without whitespace after the parameter list
     assert (serialize(p.parse(
       "#define foo(a...);\n"
