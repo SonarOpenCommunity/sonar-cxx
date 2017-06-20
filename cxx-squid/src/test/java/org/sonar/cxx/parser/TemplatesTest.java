@@ -146,6 +146,7 @@ public class TemplatesTest extends ParserBaseTest {
     assertThat(p).matches("typename nestedNameSpecifier simpleTemplateId");
     assertThat(p).matches("typename nestedNameSpecifier template simpleTemplateId");
     assertThat(p).matches("typename IDENTIFIER");
+    assertThat(p).matches("typename const IDENTIFIER");
     assertThat(p).matches("IDENTIFIER");
   }
 }
