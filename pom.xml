@@ -167,7 +167,7 @@
     <license.mailto>http://github.com/SonarOpenCommunity/sonar-cxx</license.mailto>
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
     <sonar.version>5.6</sonar.version>
-    <sslr.version>1.21</sslr.version>
+    <sslr.version>1.22</sslr.version>
     <sslr-squid-bridge.version>2.6.1</sslr-squid-bridge.version>
     <sonar.artifact.path>target/${project.artifactId}-${project.version}.jar</sonar.artifact.path>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -194,6 +194,11 @@
         <artifactId>commons-lang</artifactId>
         <version>2.6</version>
       </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>19.0</version>
+      </dependency>      
       <dependency>
         <groupId>org.sonarsource.sonarqube</groupId>
         <artifactId>sonar-testing-harness</artifactId>
@@ -334,7 +339,7 @@
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>3.2</version>
-      </plugin>
+        </plugin>
       </plugins>
     </pluginManagement>
     <!-- To use the plugin goals in your POM or parent POM -->

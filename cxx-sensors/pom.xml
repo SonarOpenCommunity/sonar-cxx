@@ -75,15 +75,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-       <groupId>com.google.guava</groupId>
-       <artifactId>guava</artifactId>
-       <version>10.0.1</version>
-      </dependency>
-     <dependency>
-       <groupId>commons-io</groupId>
-       <artifactId>commons-io</artifactId>
-       <version>2.5</version>
-     </dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
+    </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
@@ -102,7 +101,7 @@
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.googlecode.plist/dd-plist -->
     <dependency>
-    <groupId>com.googlecode.plist</groupId>
+      <groupId>com.googlecode.plist</groupId>
       <artifactId>dd-plist</artifactId>
       <version>1.19</version>
     </dependency>
