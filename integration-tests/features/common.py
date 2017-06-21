@@ -87,7 +87,8 @@ def ensureComputeEngineHasFinishedOk(logpath):
     f.write(r.text)
     f.close()
 
-#    print(BRIGHT + " LOG SERVER : " + r.text + RESET_ALL)
+#    print(BRIGHT + " LOG: " + r.text + RESET_ALL)
+        
     return status
 
 def analyselog(logpath, toignore=None):

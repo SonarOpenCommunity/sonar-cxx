@@ -27,8 +27,6 @@ import org.sonar.cxx.checks.ClassComplexityCheck;
 import org.sonar.cxx.checks.CollapsibleIfCandidateCheck;
 import org.sonar.cxx.checks.CommentRegularExpressionCheck;
 import org.sonar.cxx.checks.CommentedCodeCheck;
-import org.sonar.cxx.checks.CycleBetweenPackagesCheck;
-import org.sonar.cxx.checks.DuplicatedIncludeCheck;
 import org.sonar.cxx.checks.FileComplexityCheck;
 import org.sonar.cxx.checks.FileEncodingCheck;
 import org.sonar.cxx.checks.FileHeaderCheck;
@@ -84,8 +82,6 @@ public final class CxxCheckList {
       CollapsibleIfCandidateCheck.class,
       CommentedCodeCheck.class,
       CommentRegularExpressionCheck.class,
-      CycleBetweenPackagesCheck.class,
-      DuplicatedIncludeCheck.class,
       FileComplexityCheck.class,
       ClassComplexityCheck.class,
       FileHeaderCheck.class,
