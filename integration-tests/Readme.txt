@@ -57,6 +57,10 @@ Features to test
   - valid, invalid and missing reports
   - unknown rule
 
+- Import of Clang Static Analyzer reports
+  - import plist format
+  - import scan-build results (plist)
+  - valid, invalid and missing reports
 
 - Rules from the common-repository
 - Rules implemented in the plugin
