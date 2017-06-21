@@ -78,7 +78,7 @@ public class NestedStatementsCheck extends SquidCheck<Grammar> {
 
   @Override
   public void visitNode(AstNode node) {
-    if (checkedNodes.contains(node)) {
+    if (node.isCopyBookOrGeneratedNode() || checkedNodes.contains(node)) {
       return;
     }
 

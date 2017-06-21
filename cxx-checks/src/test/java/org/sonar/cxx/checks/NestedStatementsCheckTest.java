@@ -40,8 +40,8 @@ public class NestedStatementsCheckTest {
     SourceFile file = CxxAstScanner.scanSingleFile(tester.cxxFile, tester.sensorContext, CxxFileTesterHelper.mockCxxLanguage(), check); 
     
     checkMessagesVerifier.verify(file.getCheckMessages())
-      .next().atLine(62)
-      .next().atLine(67)
+      .next().atLine(64)
+      .next().atLine(69)
       .noMore();
   }
 

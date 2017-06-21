@@ -1,3 +1,5 @@
+#define MACRO(x) if (true) { printf(x); }
+
 class Abc {
   public:
 
@@ -69,6 +71,7 @@ class Abc {
                   } catch (Exception e) {
                     // pass
                   }
+                  MACRO("Macro contain sixth level if, but shouldn't trigger; compiant");
                   break;
               }
             }
