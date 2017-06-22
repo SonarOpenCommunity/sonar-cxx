@@ -56,8 +56,9 @@ public class JoinStringsPreprocessor extends Preprocessor { //@todo deprecated P
           newStr.append(stripQuotes(token.getValue()));
         }
         newStr.append(stripQuotes(nextToken.getValue()));
-        if (nextToken.isGeneratedCode())
+        if (nextToken.isGeneratedCode()) {
           isGenerated = true;
+        }
         numberOfStrings++;
       }
 

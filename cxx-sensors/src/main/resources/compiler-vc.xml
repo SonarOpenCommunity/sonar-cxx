@@ -9926,6 +9926,7 @@ S0 f8(int *p, int *)
 </code></pre>
 see also:</p>
 <p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/docs/Lifetimes%20I%20and%20II%20-%20v0.9.1.pdf" target="_blank">Lifetimes I and II - v0.9.1.pdf</a></p>
 ]]>
     </description>
     <internalKey>C26461</internalKey>
@@ -9996,6 +9997,7 @@ int f5()
 }</code></pre>
 see also:</p>
 <p><a href="https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/" target="_blank">https://blogs.msdn.microsoft.com/vcblog/2017/03/07/check-for-const-correctness-with-the-c-core-guidelines-checker/</a></p>
+<p><a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/docs/Lifetimes%20I%20and%20II%20-%20v0.9.1.pdf" target="_blank">Lifetimes I and II - v0.9.1.pdf</a></p>
 ]]>
     </description>
     <internalKey>C26496</internalKey>

@@ -25,11 +25,14 @@ import java.util.Set;
 
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.in.SMInputCursor;
-import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.sensors.utils.EmptyReportException;
 import org.sonar.cxx.sensors.utils.StaxParser;
 
 class ValgrindReportParser {
+
+  private static final Logger LOG = Loggers.get(ValgrindReportParser.class);
 
   public ValgrindReportParser() {
     // do nothing - just for reference
@@ -37,8 +40,10 @@ class ValgrindReportParser {
 
   /**
    * Parses given valgrind report
+   * @param report
+   * @return Set<ValgrindError>
    */
-  public Set<ValgrindError> processReport(final SensorContext context, File report)
+  public Set<ValgrindError> processReport(File report)
     throws javax.xml.stream.XMLStreamException {
     ValgrindReportStreamHandler streamHandler = new ValgrindReportStreamHandler();
     new StaxParser(streamHandler).parse(report);
@@ -57,6 +62,7 @@ class ValgrindReportParser {
       try {
         rootCursor.advance();
       } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
+        LOG.debug("Cannot read stream", eofExc);
         throw new EmptyReportException();
       }
 

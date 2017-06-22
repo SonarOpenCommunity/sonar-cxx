@@ -219,10 +219,10 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <name>L0019: Useless Declaration</name>
     <description>A type appeared by itself without an associated variable, and the type was not a struct and not a union and not an enum. A double semi-colon can cause this as in:
     int x;;</description>
-    <tag>unused</tag>
+    <tag>bad-practice</tag>
     <internalKey>19</internalKey>
-    <severity>CRITICAL</severity>
-    <type>BUG</type>
+    <severity>MAJOR</severity>
+    <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
     <remediationFunctionGapMultiplier>1min</remediationFunctionGapMultiplier>
   </rule>

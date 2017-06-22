@@ -62,7 +62,6 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
-import org.sonar.cxx.parser.CxxParser;
 import org.sonar.cxx.sensors.compiler.CxxCompilerSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
@@ -233,7 +232,7 @@ public class CxxSquidSensor implements Sensor {
       violationsCount += saveViolations(inputFile, squidFile, context);
     }
 
-    String metricKey = CxxMetrics.GetKey(KEY, language);
+    String metricKey = CxxMetrics.getKey(KEY, language);
     Metric metric = this.language.getMetric(metricKey);
 
     if (metric != null) {

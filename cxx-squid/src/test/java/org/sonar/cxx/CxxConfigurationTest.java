@@ -295,7 +295,7 @@ public class CxxConfigurationTest {
     assertThat(sourceFiles.size()).isEqualTo(files.length);
 
     for (File file : sourceFiles) {
-      Assertions.assertThat(files).as(file.getName());
+      Assertions.assertThat(files).contains(file.getName()).as(file.getName());
     }
   }
 }
