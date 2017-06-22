@@ -1664,8 +1664,8 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
         // FIXME: workaround to parse stuff like "carray<int, 10>"
         // actually, it should be covered by the next rule (constantExpression)
         // but it doesnt work because of ambiguity template syntax <--> relationalExpression
-        b.sequence(shiftExpression, b.next(b.firstOf(">", ","))),
-        b.sequence(constantExpression, b.next(b.firstOf(">", ","))) // C++
+        b.sequence(shiftExpression, b.next(b.firstOf(">", ",", "..."))),
+        b.sequence(constantExpression, b.next(b.firstOf(">", ",", "..."))) // C++
       //        idExpression
       )
     );
