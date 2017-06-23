@@ -84,7 +84,7 @@ public final class CxxLexer {
       .withChannel(regexp(CxxTokenType.NUMBER, "0" + opt(UD_SUFFIX))) // Decimal zero
 
       // C++ Standard, Section 2.14.7 "Pointer literals"
-      .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue()))
+      .withChannel(regexp(CxxTokenType.NUMBER, CxxKeyword.NULLPTR.getValue() + "\\b"))
       // C++ Standard, Section 2.12 "Keywords"
       // C++ Standard, Section 2.11 "Identifiers"
       .withChannel(new IdentifierAndKeywordChannel(and("[a-zA-Z_]", o2n("\\w")), true, CxxKeyword.values()))
