@@ -17,3 +17,11 @@ void g(Args ... args) {
    f(const_cast<const Args*>(&args)...);
    f(h(args ...) + args ...);
 }
+
+template<typename T, T... Ns>
+struct integer_sequence {
+    template< class U >
+    struct rebind {
+        typedef integer_sequence<U, static_cast<U>(Ns)...> type;
+    };
+};
