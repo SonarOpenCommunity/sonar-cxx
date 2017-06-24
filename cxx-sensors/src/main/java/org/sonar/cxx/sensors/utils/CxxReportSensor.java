@@ -83,9 +83,9 @@ public abstract class CxxReportSensor implements Sensor {
         executeReport(context, report, prevViolationsCount);
       }
 
-      LOG.info("{} processed = {}", CxxMetrics.GetKey(this.getSensorKey(), language), violationsCount);
+      LOG.info("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), violationsCount);
           
-      String metricKey = CxxMetrics.GetKey(this.getSensorKey(), language);
+      String metricKey = CxxMetrics.getKey(this.getSensorKey(), language);
       Metric<Integer> metric = this.language.getMetric(metricKey);
       
       if (metric != null) {
@@ -116,11 +116,14 @@ public abstract class CxxReportSensor implements Sensor {
     try {
       processReport(context, report);
       if (LOG.isDebugEnabled()) {
-        LOG.debug("{} processed = {}", CxxMetrics.GetKey(this.getSensorKey(), language), 
+        LOG.debug("{} processed = {}", CxxMetrics.getKey(this.getSensorKey(), language), 
                                      violationsCount - prevViolationsCount);
       }
     } catch (EmptyReportException e) {
       LOG.warn("The report '{}' seems to be empty, ignoring.", report);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Cannot read report", e);
+      }
       CxxUtils.validateRecovery(e, language);
     }
   }

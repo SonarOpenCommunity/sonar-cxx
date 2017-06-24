@@ -39,7 +39,7 @@ import org.sonar.cxx.sensors.utils.CxxReportSensor;
  * @author Bert
  */
 public class CxxCompilerSensor extends CxxReportSensor {
-  public static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
+  private static final Logger LOG = Loggers.get(CxxCompilerSensor.class);
   public static final String REPORT_PATH_KEY = "compiler.reportPath";
   public static final String REPORT_REGEX_DEF = "compiler.regex";
   public static final String REPORT_CHARSET_DEF = "compiler.charset";

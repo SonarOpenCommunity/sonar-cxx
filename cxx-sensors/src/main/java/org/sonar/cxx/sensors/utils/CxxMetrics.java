@@ -41,33 +41,45 @@ import org.sonar.cxx.sensors.veraxx.CxxVeraxxSensor;
  */
 public class CxxMetrics implements Metrics {
   private final CxxLanguage language;
-  
-  public static String GetKey(String key, CxxLanguage language) {
-    return language.getPropertiesKey().toUpperCase(Locale.ENGLISH) + "-" + key.toUpperCase(Locale.ENGLISH);
-  }
-  
+
+  /**
+  * CxxMetrics
+  * @param language
+  **/
   public CxxMetrics(CxxLanguage language) {
     this.language = language;
     
-    this.BuildMetric(CxxCompilerSensor.COMPILER_KEY, "Compiler issues", language);
-    this.BuildMetric(CxxCppCheckSensor.KEY, "CppCheck issues", language);
-    this.BuildMetric(CxxOtherSensor.KEY, "Other tools issues", language);
-    this.BuildMetric(CxxPCLintSensor.KEY, "PC-Lint issues", language);
-    this.BuildMetric(CxxRatsSensor.KEY, "Rats issues", language);    
-    this.BuildMetric(CxxSquidSensor.KEY, "Squid issues", language);      
-    this.BuildMetric(CxxValgrindSensor.KEY, "Valgrind issues", language);    
-    this.BuildMetric(CxxVeraxxSensor.KEY, "Vera issues", language);    
-    this.BuildMetric(CxxDrMemorySensor.KEY, "DrMemory issues", language);  
+    this.buildMetric(CxxCompilerSensor.COMPILER_KEY, "Compiler issues", language);
+    this.buildMetric(CxxCppCheckSensor.KEY, "CppCheck issues", language);
+    this.buildMetric(CxxOtherSensor.KEY, "Other tools issues", language);
+    this.buildMetric(CxxPCLintSensor.KEY, "PC-Lint issues", language);
+    this.buildMetric(CxxRatsSensor.KEY, "Rats issues", language);    
+    this.buildMetric(CxxSquidSensor.KEY, "Squid issues", language);      
+    this.buildMetric(CxxValgrindSensor.KEY, "Valgrind issues", language);    
+    this.buildMetric(CxxVeraxxSensor.KEY, "Vera issues", language);    
+    this.buildMetric(CxxDrMemorySensor.KEY, "DrMemory issues", language);  
   }
+
+  /**
+  * GetKey
+  * @param key
+  * @param language
+  * @return String
+  **/
+  public static String getKey(String key, CxxLanguage language) {
+    return language.getPropertiesKey().toUpperCase(Locale.ENGLISH) + "-" + key.toUpperCase(Locale.ENGLISH);
+  }
+
+
   
   @Override
   public List<Metric> getMetrics() {
     return new ArrayList(this.language.getMetricsCache());
   }
 
-  private void BuildMetric(String key, String description, CxxLanguage language) {
-    String effectiveKey = CxxMetrics.GetKey(key, language);
-    Metric metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
+  private void buildMetric(String key, String description, CxxLanguage language) {
+    String effectiveKey = CxxMetrics.getKey(key, language);
+    Metric<?> metric = new Metric.Builder(effectiveKey, description, Metric.ValueType.INT)
     .setDirection(Metric.DIRECTION_WORST)
     .setQualitative(Boolean.TRUE)
     .setDomain(language.getKey().toUpperCase(Locale.ENGLISH))

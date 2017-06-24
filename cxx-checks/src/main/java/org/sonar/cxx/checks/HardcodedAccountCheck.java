@@ -35,6 +35,9 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 import org.sonar.cxx.tag.Tag;
 
+  /**
+  * HardcodedAccountCheck
+  **/
 @Rule(
   key = "HardcodedAccount",
   name = "Do not hard code sensitive data in programs",
@@ -55,6 +58,9 @@ public class HardcodedAccountCheck extends SquidCheck<Grammar> {
   private static final String DEFAULT_REGULAR_EXPRESSION = "\\bDSN\\b.*=.*;\\b(UID|PWD)\\b=.*;";
   private static volatile Matcher reg = null;
 
+  /**
+  * regularExpression
+  **/
   @RuleProperty(
     key = "regularExpression",
     description = "literal regular expression rule",

@@ -58,15 +58,13 @@ public class JsonCompilationDatabase {
 
     for (JsonCompilationDatabaseCommandObject commandObject : commandObjects) {
 
-      Path cwd = null;
-      Path absPath = null;
+      Path cwd = Paths.get(".");
 
       if (commandObject.directory != null) {
         cwd = Paths.get(commandObject.directory);
-      } else {
-        cwd = Paths.get(".");
       }
-      absPath = cwd.resolve(commandObject.file);
+
+      Path absPath = cwd.resolve(commandObject.file);
 
       if ("__global__".equals(commandObject.file)) {
         CxxCompilationUnitSettings globalSettings = new CxxCompilationUnitSettings();
@@ -90,17 +88,19 @@ public class JsonCompilationDatabase {
     settings.setIncludes(commandObject.includes);
 
     // No need to parse command lines as we have needed information
-    if (commandObject.defines != null || commandObject.includes != null)
+    if (commandObject.defines != null || commandObject.includes != null) {
       return;
+    }
 
     String cmdLine;
 
-    if (commandObject.arguments != null)
+    if (commandObject.arguments != null) {
       cmdLine = commandObject.arguments;
-    else if (commandObject.command != null)
+    } else if (commandObject.command != null) {
       cmdLine = commandObject.command;
-    else
+    } else {
       return;
+    }
 
     String[] args = tokenizeCommandLine(cmdLine);
     boolean nextInclude = false;
@@ -155,25 +155,27 @@ public class JsonCompilationDatabase {
       } else {
         if (stringOpen == 0) {
           // String not open
-          if (ch == '\\')
+          if (ch == '\\') {
             escape = true;
-          else if (ch == '\'')
+          } else if (ch == '\'') {
             stringOpen = '\'';
-          else if (ch == '\"')
+          } else if (ch == '\"') {
             stringOpen = '\"';
-          else if ((ch == ' ') 
+          } else if ((ch == ' ') 
                   && (sb.length() > 0)) {
             args.add(sb.toString());
             sb = new StringBuilder();
           }
-          if (ch != ' ')
+          if (ch != ' ') {
             sb.append(ch);
+          }
         } else {
           // String open
-          if (ch == '\\')
+          if (ch == '\\') {
             escape = true;
-          else if (ch == stringOpen)
+          } else if (ch == stringOpen) {
             stringOpen = 0;
+          }
 
           sb.append(ch);
         }

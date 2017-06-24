@@ -440,12 +440,12 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         .getChildren(CxxGrammarImpl.memberDeclarator);
 
       // if only one declarator, the doc should be placed before the
-      // memberDeclaration, or inlined
+      // memberDeclaration, or in-lined
       if (declarators.size() == 1) {
         visitMemberDeclarator(memberDeclaration);
-      } // if several declarators, doc should be placed before each
-      // declarator, or inlined
-      else {
+      } else {
+      // if several declarator, doc should be placed before each
+      // declarator, or in-lined
         for (AstNode declarator : declarators) {
           visitMemberDeclarator(declarator);
         }
@@ -466,20 +466,17 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     AstNode declSpecifierSeq = simpleDeclNode
       .getFirstChild(CxxGrammarImpl.declSpecifierSeq);
 
-    if (declSpecifierSeq == null) {
-      return false;
-    }
-
-    List<AstNode> declSpecifiers = declSpecifierSeq
-      .getChildren(CxxGrammarImpl.declSpecifier);
-
-    for (AstNode declSpecifier : declSpecifiers) {
-      AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
-      if (friendNode != null) {
-        return true;
+    if (declSpecifierSeq != null) {
+      List<AstNode> declSpecifiers = declSpecifierSeq
+        .getChildren(CxxGrammarImpl.declSpecifier);
+  
+      for (AstNode declSpecifier : declSpecifiers) {
+        AstNode friendNode = declSpecifier.getFirstChild(CxxKeyword.FRIEND);
+        if (friendNode != null) {
+          return true;
+        }
       }
     }
-
     return false;
   }
 
@@ -518,7 +515,7 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         .getFirstChild(CxxGrammarImpl.functionBody);
 
       if ((functionBodyNode != null) && (isDefaultOrDeleteFunctionBody(functionBodyNode))){
-		  	return;
+        return;
 	    }
 
       visitMemberDeclarator(functionDef);

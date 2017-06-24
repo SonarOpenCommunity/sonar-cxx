@@ -53,7 +53,7 @@ public class CxxValgrindSensor extends CxxReportSensor {
     throws javax.xml.stream.XMLStreamException {
     LOG.debug("Parsing 'Valgrind' format");
     ValgrindReportParser parser = new ValgrindReportParser();
-    saveErrors(context, parser.processReport(context, report));
+    saveErrors(context, parser.processReport(report));
   }
 
   @Override

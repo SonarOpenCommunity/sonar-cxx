@@ -45,12 +45,14 @@ public class NoSonarCheck extends SquidCheck<Grammar> implements AstAndTokenVisi
   public void visitToken(Token token) {
     for (Trivia trivia : token.getTrivia()) {
       if (trivia.isComment()) {
-        String[] commentLines = getContext().getCommentAnalyser().getContents(trivia.getToken().getOriginalValue()).split("(\r)?\n|\r", -1);
+        String[] commentLines = getContext().getCommentAnalyser()
+                                .getContents(trivia.getToken().getOriginalValue()).split("(\r)?\n|\r", -1);
         int line = trivia.getToken().getLine();
 
         for (String commentLine : commentLines) {
           if (commentLine.contains("NOSONAR")) {
-            getContext().createLineViolation(this, "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?", line);
+            getContext().createLineViolation(this, 
+                "Is //NOSONAR used to exclude false-positive or to hide real quality flaw ?", line);;
           }
           line++;
         }

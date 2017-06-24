@@ -944,10 +944,10 @@ public class CxxPreprocessor extends Preprocessor {
               newTokens.remove(newTokens.size() - 1 + j - i); // remove the comma
               newTokens.remove(newTokens.size() - 1 + k - i); // remove the paste operator
             }
-          } else if (j > 0 && ",".equals(body.get(j - 1).getValue()))
-              // Got empty variadic args, remove comma
-              newTokens.remove(newTokens.size() - 1 + j - i);
-
+          } else if (j > 0 && ",".equals(body.get(j - 1).getValue())) {
+            // Got empty variadic args, remove comma
+            newTokens.remove(newTokens.size() - 1 + j - i);
+          }
         } else if (index < arguments.size()) {
           // token pasting operator?
           int j = i + 1;
@@ -1228,7 +1228,8 @@ public class CxxPreprocessor extends Preprocessor {
       String includeBody = serialize(stripEOF(node.getTokens()), "");
       String expandedIncludeBody = serialize(stripEOF(CxxLexer.create(this.language, this).lex(includeBody)), "");
       if (LOG.isTraceEnabled()) {
-        LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", includeBody, expandedIncludeBody);
+        LOG.trace("Include resolve macros: includeBody '{}' - expandedIncludeBody: '{}'", 
+                  includeBody, expandedIncludeBody);
       }
 
       boolean parseError = false;
@@ -1239,9 +1240,13 @@ public class CxxPreprocessor extends Preprocessor {
         parseError = true;
       }
 
-      if (parseError || ((includeBodyAst != null) && includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null)) {
+      if (parseError || ((includeBodyAst != null) 
+          && includeBodyAst.getFirstDescendant(CppGrammar.includeBodyFreeform) != null)) {
         LOG.warn("[{}:{}]: cannot parse included filename: '{}'",
           new Object[]{currFileName, token.getLine(), expandedIncludeBody});
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Token : {}", token.toString());
+        }
         return null;
       }
 
@@ -1274,6 +1279,11 @@ public class CxxPreprocessor extends Preprocessor {
 
   class PreprocessorRuntimeException extends RuntimeException {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6568372484065119533L;
+
     public PreprocessorRuntimeException(String message) {
       super(message);
     }

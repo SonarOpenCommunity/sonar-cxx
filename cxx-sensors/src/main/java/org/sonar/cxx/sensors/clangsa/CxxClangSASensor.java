@@ -20,10 +20,6 @@
 package org.sonar.cxx.sensors.clangsa;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.utils.log.Logger;
@@ -31,14 +27,11 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.CxxReportSensor;
 
-import org.xml.sax.SAXException;
-
 import com.dd.plist.PropertyListParser;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.NSArray;
 import com.dd.plist.NSObject;
 import com.dd.plist.NSString;
-import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.NSNumber;
 
 
@@ -47,9 +40,9 @@ import com.dd.plist.NSNumber;
  *
  */
 public class CxxClangSASensor extends CxxReportSensor {
-  public static final Logger LOG = Loggers.get(CxxClangSASensor.class);
+  private static final Logger LOG = Loggers.get(CxxClangSASensor.class);
   public static final String REPORT_PATH_KEY = "clangsa.reportPath";
-  public static String KEY = "ClangSA";
+  public static final String KEY = "ClangSA";
 
   /**
    * {@inheritDoc}

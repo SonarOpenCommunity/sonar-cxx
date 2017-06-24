@@ -20,23 +20,37 @@
 package org.sonar.cxx.sensors.utils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-@SuppressWarnings("serial")
+/**
+ * JsonCompilationDatabaseCommandObject
+ */
 public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
-   * The working directory of the compilation. All paths specified in the command or file fields must be either absolute or relative to this directory.
+   * 
+   */
+  private static final long serialVersionUID = -1274733574224184395L;
+
+  /**
+   * The working directory of the compilation. All paths specified in the command 
+   * or file fields must be either absolute or relative to this directory.
    */
   public String directory;
 
   /**
-   * The main translation unit source processed by this compilation step. This is used by tools as the key into the compilation database. There can be multiple command objects for the same file, for example if the same source file is compiled with different configurations.
+   * The main translation unit source processed by this compilation step. This is 
+   * used by tools as the key into the compilation database. There can be multiple 
+   * command objects for the same file, for example if the same source file is 
+   * compiled with different configurations.
    */
   public String file;
 
   /**
-   * The compile command executed. After JSON unescaping, this must be a valid command to rerun the exact compilation step for the translation unit in the environment the build system uses. Parameters use shell quoting and shell escaping of quotes, with ‘"‘ and ‘\‘ being the only special characters. Shell expansion is not supported.
+   * The compile command executed. After JSON unescaping, this must be a valid command 
+   * to rerun the exact compilation step for the translation unit in the environment 
+   * the build system uses. Parameters use shell quoting and shell escaping of quotes, 
+   * with ‘"‘ and ‘\‘ being the only special characters. Shell expansion is not supported.
    */
   public String command;
 
@@ -46,7 +60,8 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   public String arguments;
 
   /**
-   * The name of the output created by this compilation step. This field is optional. It can be used to distinguish different processing modes of the same input file.
+   * The name of the output created by this compilation step. This field is optional. 
+   * It can be used to distinguish different processing modes of the same input file.
    */
   public String output;
 
@@ -58,6 +73,5 @@ public class JsonCompilationDatabaseCommandObject implements Serializable {
   /**
    * Extension to define include directories
    */
-  public List<String> includes;
-
+  public ArrayList<String> includes; 
 }

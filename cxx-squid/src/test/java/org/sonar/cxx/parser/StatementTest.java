@@ -135,6 +135,7 @@ public class StatementTest extends ParserBaseTest {
 
     assertThat(p).matches("switch (0) { default : break; }");
     assertThat(p).matches("switch (0) { {default : break;} }");
+    assertThat(p).matches("switch (0) { {case 0: default : break;} }");
   }
 
   @Test

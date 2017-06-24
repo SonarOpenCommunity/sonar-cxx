@@ -454,6 +454,9 @@ public final class ExpressionEvaluator {
 
     if (value == null || "".equals(value)) {
       LOG.error("Undefined functionlike macro '{}' assuming 0", macroName);
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Token : {}", exprAst.toString());
+      }
       return BigInteger.ZERO;
     }
 
@@ -462,7 +465,7 @@ public final class ExpressionEvaluator {
 
   public static BigInteger decode(String number) {
 
-    // This fuction is only responsible for providing a string and a radix to BigInteger.
+    // This function is only responsible for providing a string and a radix to BigInteger.
     // The lexer ensures that the number has a valid format.
     
     int radix = 10;

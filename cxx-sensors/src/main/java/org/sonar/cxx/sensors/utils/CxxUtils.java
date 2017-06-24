@@ -53,6 +53,8 @@ public final class CxxUtils {
   /**
    * Normalize the given path to pass it to sonar. Return null if normalization
    * has failed.
+   * @param filename
+   * @return normalized path
    */
   public static String normalizePath(String filename) {
     try {
@@ -64,6 +66,8 @@ public final class CxxUtils {
   }
 
   /**
+   * @param filename
+   * @param baseDir
    * @return returns case sensitive full path
    */
   public static String normalizePathFull(String filename, String baseDir) {
@@ -78,7 +82,13 @@ public final class CxxUtils {
     return filePath;
   }
 
-
+  /**
+   * transformFile
+   * 
+   * @param stylesheetFile  
+   * @param input
+   * @param output
+   */
   public static void transformFile(Source stylesheetFile, File input, File output) throws TransformerException {
     TransformerFactory factory = TransformerFactory.newInstance();
     Transformer transformer = factory.newTransformer(stylesheetFile);
@@ -100,7 +110,13 @@ public final class CxxUtils {
     return sw.getBuffer().toString();
   }
   
-  public static void validateRecovery(Exception ex, CxxLanguage language) throws IllegalStateException {
+  /**
+   * validateRecovery
+   * 
+   * @param ex  
+   * @param language
+   */
+  public static void validateRecovery(Exception ex, CxxLanguage language) {
     if (!language.IsRecoveryEnabled()) {
       LOG.info("Recovery is disabled, failing analysis : '{}'", ex.toString());
       throw new IllegalStateException(ex.getMessage(), ex.getCause());
