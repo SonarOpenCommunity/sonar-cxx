@@ -13,7 +13,7 @@ Object anArray[] = {{13.4f, 3}, {43.28f, 29}, {5.934f, 17}}; // An array of thre
 
 class SequenceClass {
 public:
-    SequenceClass(std::initializer_list<int> list);
+    SequenceClass(std::initializer_list<int> list){};
 };
 SequenceClass some_var = {1, 4, 5, 6};
 
@@ -31,6 +31,12 @@ std::vector<std::string> v3{ "xyzzy", "plugh", "abracadabra" }; // see "Uniform 
 std::pair<std::string, std::string> f(std::pair<std::string, std::string> p)
 {
   return{ p.second, p.first }; // list-initialization in return statement
+}
+
+template <typename T>
+std::string* string_creator()
+{
+    return new T();
 }
 
 int main()
@@ -71,4 +77,17 @@ int main()
     std::cout << n << ' ';
   for (auto n : f.mem2)
     std::cout << n << ' ';
+
+  static const struct
+  {
+    std::string* (*create)();
+  }
+  strings[] =
+  {
+    &string_creator<std::string>
+  };
+
+  for(auto const& s: strings)
+    std::cout << s.create();
+
 }

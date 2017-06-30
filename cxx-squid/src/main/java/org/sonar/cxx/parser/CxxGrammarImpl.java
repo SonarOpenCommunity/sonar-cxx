@@ -415,7 +415,7 @@ public enum CxxGrammarImpl implements GrammarRuleKey {
     b.rule(unqualifiedId).is(
       b.firstOf(
         // Mitigate ambiguity between relational operators < > and angular brackets by looking ahead
-        b.sequence(templateId, b.next(b.firstOf("(", ")", "[", "]", "?", ":", binaryOperator, ",", ";", EOF))), // todo?
+        b.sequence(templateId, b.next(b.firstOf("(", ")", "[", "]", "?", ":", binaryOperator, ",", ";", "}", EOF))), // todo?
         IDENTIFIER, // C++
         operatorFunctionId, // C++
         conversionFunctionId, // C++
