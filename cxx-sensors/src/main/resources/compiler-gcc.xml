@@ -20,7 +20,7 @@ Follow these steps to make your custom Custom rules available in SonarQube:
       ]]>
     </description>
     <severity>MAJOR</severity>
-  </rule>    
+  </rule>
   <rule>
     <key>enabled by default</key>
     <name>Default compiler warnings</name>
@@ -119,6 +119,102 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Walloc-size-larger-than</key>
+    <name>Warn about calls to functions decorated with attribute alloc_size </name>
+    <description>
+    Warn about calls to functions decorated with attribute alloc_size that attempt to allocate objects
+    larger than the specified number of bytes, or where the result of the size computation in an
+    integer type with infinite precision would exceed SIZE_MAX / 2. The option argument n may end in
+    one of the standard suffixes designating a multiple of bytes such as kB and KiB for kilobyte and
+    kibibyte, respectively, MB and MiB for megabyte and mebibyte, and so on.
+    </description>
+    <internalKey>-Walloc-size-larger-than</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Walloc-zero</key>
+    <name>Warn about calls to allocation functions decorated with attribute alloc_size that specify zero bytes</name>
+    <description>
+    Warn about calls to allocation functions decorated with attribute alloc_size that specify zero bytes,
+    including those to the built-in forms of the functions aligned_alloc, alloca, calloc, malloc, and
+    realloc. Because the behavior of these functions when called with a zero size differs among
+    implementations (and in the case of realloc has been deprecated) relying on it may result in subtle
+    portability bugs and should be avoided.
+    </description>
+    <internalKey>-Walloc-zero</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Walloca-larger-than</key>
+    <name>Warn on calls to alloca that are not bounded by a controlling predicate</name>
+    <description>
+    This option warns on calls to alloca that are not bounded by a controlling predicate limiting its
+    argument of integer type to at most n bytes, or calls to alloca where the bound is unknown. Arguments
+    of non-integer types are considered unbounded even if they appear to be constrained to the expected
+    range.
+
+    For example, a bounded case of alloca could be:
+
+    void func (size_t n)
+    {
+      void *p;
+      if (n &lt;= 1000)
+        p = alloca (n);
+      else
+        p = malloc (n);
+      f (p);
+    }
+
+    In the above example, passing -Walloca-larger-than=1000 would not issue a warning because the call to
+    alloca is known to be at most 1000 bytes. However, if -Walloca-larger-than=500 were passed, the
+    compiler would emit a warning.
+
+    Unbounded uses, on the other hand, are uses of alloca with no controlling predicate constraining its
+    integer argument. For example:
+
+    void func ()
+    {
+      void *p = alloca (n);
+      f (p);
+    }
+
+    If -Walloca-larger-than=500 were passed, the above would trigger a warning, but this time because of
+    the lack of bounds checking.
+
+    Note, that even seemingly correct code involving signed integers could cause a warning:
+
+    void func (signed int n)
+    {
+      if (n &lt; 500)
+        {
+          p = alloca (n);
+          f (p);
+        }
+    }
+
+    In the above example, n could be negative, causing a larger than expected argument to be implicitly cast
+    into the alloca call.
+
+    This option also warns when alloca is used in a loop.
+
+    This warning is not enabled by -Wall, and is only active when -ftree-vrp is active (default for -O2 and above).
+
+    See also -Wvla-larger-than=n.
+
+    </description>
+    <internalKey>-Walloca-larger-than</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Warray-bounds</key>
     <name>Warn if an array is accessed out of bounds</name>
     <description>
@@ -183,6 +279,43 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wbool-compare</key>
+    <name>Warn about boolean expression compared with an integer value different from true/false</name>
+    <description>
+    Warn about boolean expression compared with an integer value different from true/false. For instance,
+    the following comparison is always false:
+
+    int n = 5;
+    …
+    if ((n &gt; 1) == 2) { … }
+
+    This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wbool-compare</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wbool-operation</key>
+    <name>Warn about suspicious operations on expressions of a boolean type</name>
+    <description>
+    Warn about suspicious operations on expressions of a boolean type. For instance, bitwise
+    negation of a boolean is very likely a bug in the program. For C, this warning also warns
+    about incrementing or decrementing a boolean, which rarely makes sense. (In C++,
+    decrementing a boolean is always invalid. Incrementing a boolean is invalid in C++1z, and
+    deprecated otherwise.)
+
+    This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wbool-operation</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wbuiltin-macro-redefined</key>
     <name>Warn when a built-in preprocessor macro is undefined or redefined</name>
     <description>
@@ -235,6 +368,32 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wc++14-compat</key>
+    <name>Warn about C++ constructs whose meaning differs between ISO C++ 2011 and ISO C++ 2014</name>
+    <description>
+    Warn about C++ constructs whose meaning differs between ISO C++ 2011 and ISO C++ 2014,
+    This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wc++14-compat</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wc++1z-compat</key>
+    <name>Warn about C++ constructs whose meaning differs between ISO C++ 2014 and the forthoming ISO C++ 2017(?).</name>
+    <description>
+    Warn about C++ constructs whose meaning differs between ISO C++ 2014 and the forthoming ISO C++ 2017(?).
+    This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wc++1z-compat</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wcast-align</key>
     <name>Warn about pointer casts which increase alignment</name>
     <description>
@@ -272,6 +431,23 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wcatch-value</key>
+    <name>Warn about catch handlers that do not catch via reference.</name>
+    <description>
+    Warn about catch handlers that do not catch via reference. With -Wcatch-value=1 (or
+    -Wcatch-value for short) warn about polymorphic class types that are caught by value.
+    With -Wcatch-value=2 warn about all class types that are caught by value. With
+    -Wcatch-value=3 warn about all types that are not caught by reference.
+
+    -Wcatch-value is enabled by -Wall.
+    </description>
+    <internalKey>-Wcatch-value</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wchar-subscripts</key>
     <name>Warn about subscripts whose type is "char"</name>
     <description>
@@ -297,10 +473,46 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wchkp</key>
+    <name>Warn about an invalid memory access that is found by Pointer Bounds Checker (-fcheck-pointer-bounds).</name>
+    <description>
+    Warn about an invalid memory access that is found by Pointer Bounds Checker (-fcheck-pointer-bounds).
+    </description>
+    <internalKey>-Wchkp</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wclass-memaccess</key>
+    <name>Warn when the destination of a call to a raw memory function violate const-correctness or encapsulation, or corrupt the virtual table</name>
+    <description>
+    Warn when the destination of a call to a raw memory function such as memset or memcpy is an object
+    of class type writing into which might bypass the class non-trivial or deleted constructor or copy
+    assignment, violate const-correctness or encapsulation, or corrupt the virtual table. Modifying
+    the representation of such objects may violate invariants maintained by member functions of the
+    class. For example, the call to memset below is undefined becase it modifies a non-trivial class
+    object and is, therefore, diagnosed. The safe way to either initialize or clear the storage of
+    objects of such types is by using the appropriate constructor or assignment operator, if one is
+    available.
+
+    std::string str = "abc";
+    memset (&amp;str, 0, 3);
+
+    The -Wclass-memaccess option is enabled by -Wall.
+    </description>
+    <internalKey>-Wclass-memaccess</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wclobbered</key>
     <name>Warn about variables that might be changed by "longjmp" or "vfork"</name>
     <description>
-     Warn for variables that might be changed by longjmp or vfork.
+    Warn for variables that might be changed by longjmp or vfork.
     </description>
     <internalKey>-Wclobbered</internalKey>
     <severity>CRITICAL</severity>
@@ -316,6 +528,18 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     appears in a // comment.
     </description>
     <internalKey>-Wcomment</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wconditionally-supported</key>
+    <name>Warn for conditionally-supported (C++11 [intro.defs]) constructs. </name>
+    <description>
+    Warn for conditionally-supported (C++11 [intro.defs]) constructs.
+    </description>
+    <internalKey>-Wconditionally-supported</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -412,6 +636,59 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wdangling-else</key>
+    <name>Warn about constructions where there may be confusion to which if statement an else branch belongs.</name>
+    <description>
+    Warn about constructions where there may be confusion to which if statement an else branch
+    belongs. Here is an example of such a case:
+
+    {
+      if (a)
+        if (b)
+          foo ();
+      else
+        bar ();
+    }
+
+    In C/C++, every else branch belongs to the innermost possible if statement, which in this
+    example is if (b). This is often not what the programmer expected, as illustrated in the
+    above example by indentation the programmer chose. When there is the potential for this
+    confusion, GCC issues a warning when this flag is specified. To eliminate the warning, add
+    explicit braces around the innermost if statement so there is no way the else can belong
+    to the enclosing if. The resulting code looks like this:
+
+    {
+      if (a)
+        {
+          if (b)
+            foo ();
+          else
+            bar ();
+        }
+    }
+
+    This warning is enabled by -Wparentheses.
+    </description>
+    <internalKey>-Wdangling-else</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wdate-time</key>
+    <name>Warn when macros __TIME__, __DATE__ or __TIMESTAMP__ are encountered</name>
+    <description>
+    Warn when macros __TIME__, __DATE__ or __TIMESTAMP__ are encountered as they might prevent
+    bit-wise-identical reproducible compilations.
+    </description>
+    <internalKey>-Wdate-time</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wdeclaration-after-statement</key>
     <name>Warn when a declaration is found after a statement</name>
     <description>
@@ -420,6 +697,18 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     ISO C90 and was not supported by GCC versions before GCC 3.0.
     </description>
     <internalKey>-Wdeclaration-after-statement</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wdelete-incomplete</key>
+    <name>Warn when deleting a pointer to incomplete type</name>
+    <description>
+    Warn when deleting a pointer to incomplete type, which may cause undefined behavior at runtime.
+    </description>
+    <internalKey>-Wdelete-incomplete</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -520,6 +809,58 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wduplicate-decl-specifier</key>
+    <name>Warn if a declaration has duplicate const, volatile, restrict or _Atomic specifier.</name>
+    <description>
+    Warn if a declaration has duplicate const, volatile, restrict or _Atomic specifier.
+    </description>
+    <internalKey>-Wduplicate-decl-specifier</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wduplicated-branches</key>
+    <name>Warn when an if-else has identical branches</name>
+    <description>
+    Warn when an if-else has identical branches. This warning detects cases like
+
+    if (p != NULL)
+      return 0;
+    else
+      return 0;
+
+    It doesn’t warn when both branches contain just a null statement. This warning
+    also warn for conditional operators:
+
+      int i = x ? *p : *p;
+
+    </description>
+    <internalKey>-Wduplicated-branches</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wduplicated-cond</key>
+    <name>Warn about duplicated conditions in an if-else-if chain</name>
+    <description>
+    Warn about duplicated conditions in an if-else-if chain. For instance, warn for
+    the following code:
+
+    if (p-&gt;q != NULL) { … }
+    else if (p-&gt;q != NULL) { … }
+
+    </description>
+    <internalKey>-Wduplicated-cond</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Weffc++</key>
     <name>Warn about violations of Effective C++ style rules</name>
     <description>
@@ -569,9 +910,39 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <key>-Wenum-compare</key>
     <name>Warn about comparison of different enum types</name>
     <description>
-    Warn about a comparison between values of different enum types. In C++ this warning is enabled by default.
+    Warn about a comparison between values of different enum types. In C++ this warning
+    is enabled by default.
     </description>
     <internalKey>-Wenum-compare</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wexpansion-to-defined</key>
+    <name>Warn whenever ‘defined’ is encountered in the expansion of a macro</name>
+    <description>
+    Warn whenever ‘defined’ is encountered in the expansion of a macro (including the case
+    where the macro is expanded by an ‘#if’ directive). Such usage is not portable.
+
+    This warning is also enabled by -Wpedantic and -Wextra.
+    </description>
+    <internalKey>-Wexpansion-to-defined</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wfloat-conversion</key>
+    <name>Warn for implicit conversions that reduce the precision of a real value.</name>
+    <description>
+    Warn for implicit conversions that reduce the precision of a real value. This includes
+    conversions from real to integer, and from higher precision real to lower precision
+    real values. This option is also enabled by -Wconversion.
+    </description>
+    <internalKey>-Wfloat-conversion</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -668,6 +1039,79 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wformat-overflow</key>
+    <name>Warn about calls to formatted input/output functions that might overflow the destination buffer</name>
+    <description>
+    Warn about calls to formatted input/output functions such as sprintf and vsprintf
+    that might overflow the destination buffer. When the exact number of bytes written
+    by a format directive cannot be determined at compile-time it is estimated based
+    on heuristics that depend on the level argument and on optimization. While enabling
+    optimization will in most cases improve the accuracy of the warning, it may also
+    result in false positives.
+
+    -Wformat-overflow
+    -Wformat-overflow=1
+
+    Level 1 of -Wformat-overflow enabled by -Wformat employs a conservative approach that
+    warns only about calls that most likely overflow the buffer. At this level, numeric
+    arguments to format directives with unknown values are assumed to have the value of
+    one, and strings of unknown length to be empty. Numeric arguments that are known to
+    be bounded to a subrange of their type, or string arguments whose output is bounded
+    either by their directive’s precision or by a finite set of string literals, are
+    assumed to take on the value within the range that results in the most bytes on
+    output. For example, the call to sprintf below is diagnosed because even with both
+    a and b equal to zero, the terminating NUL character ('\0') appended by the function
+    to the destination buffer will be written past its end. Increasing the size of the
+    buffer by a single byte is sufficient to avoid the warning, though it may not be
+    sufficient to avoid the overflow.
+
+    void f (int a, int b)
+    {
+      char buf [12];
+      sprintf (buf, "a = %i, b = %i\n", a, b);
+    }
+
+    -Wformat-overflow=2
+
+    Level 2 warns also about calls that might overflow the destination buffer given an
+    argument of sufficient length or magnitude. At level 2, unknown numeric arguments are
+    assumed to have the minimum representable value for signed types with a precision
+    greater than 1, and the maximum representable value otherwise. Unknown string
+    arguments whose length cannot be assumed to be bounded either by the directive’s
+    precision, or by a finite set of string literals they may evaluate to, or the
+    character array they may point to, are assumed to be 1 character long.
+
+    At level 2, the call in the example above is again diagnosed, but this time because
+    with a equal to a 32-bit INT_MIN the first %i directive will write some of its digits
+    beyond the end of the destination buffer. To make the call safe regardless of the
+    values of the two variables, the size of the destination buffer must be increased to
+    at least 34 bytes. GCC includes the minimum size of the buffer in an informational
+    note following the warning.
+
+    An alternative to increasing the size of the destination buffer is to constrain the
+    range of formatted values. The maximum length of string arguments can be bounded by
+    specifying the precision in the format directive. When numeric arguments of format
+    directives can be assumed to be bounded by less than the precision of their type,
+    choosing an appropriate length modifier to the format specifier will reduce the
+    required buffer size. For example, if a and b in the example above can be assumed to
+    be within the precision of the short int type then using either the %hi format
+    directive or casting the argument to short reduces the maximum required size of the
+    buffer to 24 bytes.
+
+    void f (int a, int b)
+    {
+      char buf [23];
+      sprintf (buf, "a = %hi, b = %i\n", a, (short)b);
+    }
+
+    </description>
+    <internalKey>-Wformat-overflow</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wformat-security</key>
     <name>Warn about possible security problems with format functions</name>
     <description>
@@ -677,6 +1121,48 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     hole if the format string came from untrusted input and contains %n.
     </description>
     <internalKey>-Wformat-security</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wformat-signedness</key>
+    <name>Warn if the format string requires an unsigned argument and the argument is signed and vice versa.</name>
+    <description>
+    If -Wformat is specified, also warn if the format string requires an unsigned argument and the
+    argument is signed and vice versa.
+    </description>
+    <internalKey>-Wformat-signedness</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wformat-truncation</key>
+    <name>Warn about calls to formatted input/output functions that might result in output truncation</name>
+    <description>
+    Warn about calls to formatted input/output functions such as snprintf and vsnprintf that might
+    result in output truncation. When the exact number of bytes written by a format directive
+    cannot be determined at compile-time it is estimated based on heuristics that depend on the
+    level argument and on optimization. While enabling optimization will in most cases improve the
+    accuracy of the warning, it may also result in false positives. Except as noted otherwise, the
+    option uses the same logic -Wformat-overflow.
+
+    -Wformat-truncation
+    -Wformat-truncation=1
+
+    Level 1 of -Wformat-truncation enabled by -Wformat employs a conservative approach that warns
+    only about calls to bounded functions whose return value is unused and that will most likely
+    result in output truncation.
+
+    -Wformat-truncation=2
+
+    Level 2 warns also about calls to bounded functions whose return value is used and that might
+    result in truncation given an argument of sufficient length or magnitude.
+    </description>
+    <internalKey>-Wformat-truncation</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -702,6 +1188,20 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     allowed.
     </description>
     <internalKey>-Wformat-zero-length</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wframe-address</key>
+    <name>Warn when the ‘__builtin_frame_address’ or ‘__builtin_return_address’ is called with an argument greater than 0</name>
+    <description>
+    Warn when the ‘__builtin_frame_address’ or ‘__builtin_return_address’ is called with
+    an argument greater than 0. Such calls may return indeterminate values or crash the
+    program. The warning is included in -Wall.
+    </description>
+    <internalKey>-Wframe-address</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -748,6 +1248,32 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Whsa</key>
+    <name>Issue a warning when HSAIL cannot be emitted for the compiled function or OpenMP construct.</name>
+    <description>
+    Issue a warning when HSAIL cannot be emitted for the compiled function or OpenMP construct.
+    </description>
+    <internalKey>-Whsa</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wignored-attributes</key>
+    <name>Warn when an attribute is ignored.</name>
+    <description>
+    Warn when an attribute is ignored. This is different from the -Wattributes option in that it
+    warns whenever the compiler decides to drop an attribute, not that the attribute is either
+    unknown, used in a wrong place, etc. This warning is enabled by default.
+    </description>
+    <internalKey>-Wignored-attributes</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wignored-qualifiers</key>
     <name>Warn whenever type qualifiers are ignored.</name>
     <description>
@@ -758,6 +1284,103 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     this option.
     </description>
     <internalKey>-Wignored-qualifiers</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wimplicit-fallthrough</key>
+    <name>Warn when a switch case falls through</name>
+    <description>
+    Warn when a switch case falls through. For example:
+
+    switch (cond)
+      {
+      case 1:
+        a = 1;
+        break;
+      case 2:
+        a = 2;
+      case 3:
+        a = 3;
+        break;
+      }
+
+    This warning does not warn when the last statement of a case cannot fall through, e.g.
+    when there is a return statement or a call to function declared with the noreturn
+    attribute. -Wimplicit-fallthrough= also takes into account control flow statements,
+    such as ifs, and only warns when appropriate. E.g.
+
+    switch (cond)
+      {
+      case 1:
+        if (i &gt; 3) {
+          bar (5);
+          break;
+        } else if (i &lt; 1) {
+          bar (0);
+        } else
+          return;
+      default:
+        …
+      }
+
+    Since there are occasions where a switch case fall through is desirable, GCC provides
+    an attribute, __attribute__ ((fallthrough)), that is to be used along with a null
+    statement to suppress this warning that would normally occur:
+
+    switch (cond)
+      {
+      case 1:
+        bar (0);
+        __attribute__ ((fallthrough));
+      default:
+        …
+      }
+
+    C++17 provides a standard way to suppress the -Wimplicit-fallthrough warning using
+    [[fallthrough]]; instead of the GNU attribute. In C++11 or C++14 users can use
+    [[gnu::fallthrough]];, which is a GNU extension. Instead of these attributes, it is
+    also possible to add a fallthrough comment to silence the warning. The whole body
+    of the C or C++ style comment should match the given regular expressions listed below.
+    The option argument n specifies what kind of comments are accepted:
+
+    -Wimplicit-fallthrough=0 disables the warning altogether.
+    -Wimplicit-fallthrough=1 matches .* regular expression, any comment is used as fallthrough comment.
+    -Wimplicit-fallthrough=2 case insensitively matches .*falls?[ \t-]*thr(ough|u).* regular expression.
+    -Wimplicit-fallthrough=3 case sensitively matches one of the following regular expressions:
+        -fallthrough
+        @fallthrough@
+        lint -fallthrough[ \t]*
+        [ \t.!]*(ELSE,? |INTENTIONAL(LY)? )?
+        FALL(S | |-)?THR(OUGH|U)[ \t.!]*(-[^\n\r]*)?
+        [ \t.!]*(Else,? |Intentional(ly)? )?
+        Fall((s | |-)[Tt]|t)hr(ough|u)[ \t.!]*(-[^\n\r]*)?
+        [ \t.!]*([Ee]lse,? |[Ii]ntentional(ly)? )?
+        fall(s | |-)?thr(ough|u)[ \t.!]*(-[^\n\r]*)?
+    -Wimplicit-fallthrough=4 case sensitively matches one of the following regular expressions:
+        -fallthrough
+        @fallthrough@
+        lint -fallthrough[ \t]*
+        [ \t]*FALLTHR(OUGH|U)[ \t]*
+    -Wimplicit-fallthrough=5 doesn’t recognize any comments as fallthrough comments, only attributes disable the warning.
+
+    The comment needs to be followed after optional whitespace and other comments by case
+    or default keywords or by a user label that precedes some case or default label.
+
+    switch (cond)
+      {
+      case 1:
+        bar (0);
+        /* FALLTHRU */
+      default:
+        …
+      }
+
+    The -Wimplicit-fallthrough=3 warning is enabled by -Wextra.
+    </description>
+    <internalKey>-Wimplicit-fallthrough</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -845,6 +1468,22 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     changes in the source program can cause the warnings produced by -Winline to appear or disappear.
     </description>
     <internalKey>-Winline</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wint-in-bool-context</key>
+    <name>Warn for suspicious use of integer values where boolean values are expected</name>
+    <description>
+    Warn for suspicious use of integer values where boolean values are expected, such as
+    conditional expressions (?:) using non-boolean integer constants in boolean context,
+    like if (a &lt;= b ? 2 : 3). Or left shifting of signed integers in boolean context,
+    like for (a = 0; 1 &lt;&lt; a; a++);. Likewise for all kinds of multiplications
+    regardless of the data type. This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wint-in-bool-context</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -969,6 +1608,61 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wliteral-suffix</key>
+    <name>Warn when a string or character literal is followed by a ud-suffix which does not begin with an underscore</name>
+    <description>
+    Warn when a string or character literal is followed by a ud-suffix which does
+    not begin with an underscore. As a conforming extension, GCC treats such
+    suffixes as separate preprocessing tokens in order to maintain backwards
+    compatibility with code that uses formatting macros from &gt;inttypes.h&gt;. For example:
+
+    #define __STDC_FORMAT_MACROS
+    #include &lt;inttypes.h&gt;
+    #include &lt;stdio.h&gt;
+
+    int main() {
+      int64_t i64 = 123;
+      printf("My int64: %" PRId64"\n", i64);
+    }
+
+    In this case, PRId64 is treated as a separate preprocessing token.
+
+    Additionally, warn when a user-defined literal operator is declared with a
+    literal suffix identifier that doesn’t begin with an underscore. Literal
+    suffix identifiers that don’t begin with an underscore are reserved for
+    future standardization.
+    </description>
+    <internalKey>-Wliteral-suffix</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wlogical-not-parentheses</key>
+    <name>Warn about logical not used on the left hand side operand of a comparison</name>
+    <description>
+    Warn about logical not used on the left hand side operand of a comparison.
+    This option does not warn if the RHS operand is of a boolean type. Its purpose
+    is to detect suspicious code like the following:
+
+          int a;
+          ...
+          if (!a &gt; 1) { ... }
+
+    It is possible to suppress the warning by wrapping the LHS into parentheses:
+
+          if ((!a) &gt; 1) { ... }
+
+    This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wlogical-not-parentheses</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wlogical-op</key>
     <name>Warn when a logical operator is suspiciously always evaluating to true or false</name>
     <description>
@@ -988,6 +1682,19 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     Warn if long long type is used.
     </description>
     <internalKey>-Wlong-long</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wlto-type-mismatch</key>
+    <name>During the link-time optimization warn about type mismatches in global declarations from different compilation units</name>
+    <description>
+    During the link-time optimization warn about type mismatches in global declarations
+    from different compilation units. Requires -flto to be enabled.
+    </description>
+    <internalKey>-Wlto-type-mismatch</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1014,6 +1721,81 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     Warn about maybe uninitialized automatic variables
     </description>
     <internalKey>-Wmaybe-uninitialized</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wmemset-elt-size</key>
+    <name>Warn for suspicious calls to the memset built-in function</name>
+    <description>
+    Warn for suspicious calls to the memset built-in function, if the first argument
+    references an array, and the third argument is a number equal to the number of
+    elements, but not equal to the size of the array in memory. This indicates that
+    the user has omitted a multiplication by the element size.
+
+    This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wmemset-elt-size</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wmemset-transposed-args</key>
+    <name>Warn for suspicious calls to the memset built-in function</name>
+    <description>
+    Warn for suspicious calls to the memset built-in function, if the second argument
+    is not zero and the third argument is zero. This warns e.g. about
+    memset (buf, sizeof buf, 0) where most probably memset (buf, 0, sizeof buf) was
+    meant instead. The diagnostics is only emitted if the third argument is literal
+    zero. If it is some expression that is folded to zero, a cast of zero to some
+    type, etc., it is far less likely that the user has mistakenly exchanged the
+    arguments and no warning is emitted. This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wmemset-transposed-args</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wmisleading-indentation</key>
+    <name>Warn when the indentation of the code does not reflect the block structure</name>
+    <description>
+    Warn when the indentation of the code does not reflect the block structure. Specifically,
+    a warning is issued for if, else, while, and for clauses with a guarded statement that
+    does not use braces, followed by an unguarded statement with the same indentation.
+
+    In the following example, the call to “bar” is misleadingly indented as if it were guarded
+    by the “if” conditional.
+
+      if (some_condition ())
+        foo ();
+        bar ();  /* Gotcha: this is not guarded by the "if".  */
+
+    In the case of mixed tabs and spaces, the warning uses the -ftabstop= option to determine
+    if the statements line up (defaulting to 8).
+
+    The warning is not issued for code involving multiline preprocessor logic such as the
+    following example.
+
+      if (flagA)
+        foo (0);
+    #if SOME_CONDITION_THAT_DOES_NOT_HOLD
+      if (flagB)
+    #endif
+        foo (1);
+
+    The warning is not issued after a #line directive, since this typically indicates
+    autogenerated code, and no assumptions can be made about the layout of the file that the
+    directive references.
+
+    This warning is enabled by -Wall in C and C++.
+    </description>
+    <internalKey>-Wmisleading-indentation</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1174,6 +1956,50 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wmultiple-inheritance</key>
+    <name>Warn when a class is defined with multiple direct base classes</name>
+    <description>
+    Warn when a class is defined with multiple direct base classes. Some coding rules disallow
+    multiple inheritance, and this may be used to enforce that rule. The warning is inactive inside
+    a system header file, such as the STL, so one can still use the STL. One may also define
+    classes that indirectly use multiple inheritance.
+    </description>
+    <internalKey>-Wmultiple-inheritance</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wmultistatement-macros</key>
+    <name>Warn about unsafe multiple statement macros that appear to be guarded by a clause</name>
+    <description>
+    Warn about unsafe multiple statement macros that appear to be guarded by a clause such as if,
+    else, for, switch, or while, in which only the first statement is actually guarded after the
+    macro is expanded.
+
+    For example:
+
+    #define DOIT x++; y++
+    if (c)
+      DOIT;
+
+    will increment y unconditionally, not just when c holds. The can usually be fixed by wrapping
+    the macro in a do-while loop:
+
+    #define DOIT do { x++; y++; } while (0)
+    if (c)
+      DOIT;
+
+    This warning is enabled by -Wall in C and C++.
+    </description>
+    <internalKey>-Wmultistatement-macros</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wnarrowing</key>
     <name>Warn about narrowing conversions within { } that are ill-formed in C++11</name>
     <description>
@@ -1194,12 +2020,51 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wnamespaces</key>
+    <name>Warn when a namespace definition is opened</name>
+    <description>
+    Warn when a namespace definition is opened. Some coding rules disallow namespaces, and this may be
+    used to enforce that rule. The warning is inactive inside a system header file, such as the STL, so
+    one can still use the STL. One may also use using directives and qualified names.
+    </description>
+    <internalKey>-Wnamespaces</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wnested-externs</key>
     <name>Warn about "extern" declarations not at file scope</name>
     <description>
     Warn if an "extern" declaration is encountered within a function.
     </description>
     <internalKey>-Wnested-externs</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wno-aggressive-loop-optimizations</key>
+    <name>Warn if in a loop with constant number of iterations the compiler detects undefined behavior in some statement during one or more of the iterations.</name>
+    <description>
+    Warn if in a loop with constant number of iterations the compiler detects undefined behavior in
+    some statement during one or more of the iterations.
+    </description>
+    <internalKey>-Wno-aggressive-loop-optimizations</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wno-builtin-declaration-mismatch</key>
+    <name>Warn if a built-in function is declared with the wrong signature</name>
+    <description>
+    Warn if a built-in function is declared with the wrong signature. This warning is enabled by default.
+    </description>
+    <internalKey>-Wno-builtin-declaration-mismatch</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1214,6 +2079,19 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     by the compiler to never throw an exception.
     </description>
     <internalKey>-Wnoexcept</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wnoexcept-type</key>
+    <name>Warn if the C++1z feature making noexcept part of a function type changes the mangled name of a symbol relative to C++14</name>
+    <description>
+    Warn if the C++1z feature making noexcept part of a function type changes the mangled name of a
+    symbol relative to C++14. Enabled by -Wabi and -Wc++1z-compat.
+    </description>
+    <internalKey>-Wnoexcept-type</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1267,6 +2145,22 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wnonnull-compare</key>
+    <name>Warn when comparing an argument marked with the nonnull function attribute against null inside the function.</name>
+    <description>
+    Warn when comparing an argument marked with the nonnull function attribute against null
+    inside the function.
+
+    -Wnonnull-compare is included in -Wall. It can be disabled with the -Wno-nonnull-compare
+    option.
+    </description>
+    <internalKey>-Wnonnull-compare</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wnormalized</key>
     <name>Warn about non-normalised Unicode strings</name>
     <description>
@@ -1301,6 +2195,21 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     programming environment is unable to be fixed to display these characters distinctly.
     </description>
     <internalKey>-Wnormalized</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wnull-dereference</key>
+    <name>Warn if the compiler detects paths that trigger erroneous or undefined behavior due to dereferencing a null pointer.</name>
+    <description>
+    Warn if the compiler detects paths that trigger erroneous or undefined behavior due to dereferencing
+    a null pointer. This option is only active when -fdelete-null-pointer-checks is active, which is
+    enabled by optimizations in most targets. The precision of the warnings depends on the optimization
+    options used.
+    </description>
+    <internalKey>-Wnull-dereference</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1417,6 +2326,18 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Woverride-init-side-effects</key>
+    <name>Warn if an initialized field with side effects is overridden when using designated initializers</name>
+    <description>
+    Warn if an initialized field with side effects is overridden when using designated initializers.
+    </description>
+    <internalKey>-Woverride-init-side-effects</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wpacked</key>
     <name>Warn when the packed attribute has no effect on struct layout</name>
     <description>
@@ -1525,6 +2446,50 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wplacement-new</key>
+    <name>Warn about placement new expressions with undefined behavior</name>
+    <description>
+    Warn about placement new expressions with undefined behavior, such as constructing an object in a
+    buffer that is smaller than the type of the object. For example, the placement new expression below
+    is diagnosed because it attempts to construct an array of 64 integers in a buffer only 64 bytes large.
+
+    char buf [64];
+    new (buf) int[64];
+
+    This warning is enabled by default.
+
+    -Wplacement-new=1
+
+    This is the default warning level of -Wplacement-new. At this level the warning is not issued for
+    some strictly undefined constructs that GCC allows as extensions for compatibility with legacy
+    code. For example, the following new expression is not diagnosed at this level even though it has
+    undefined behavior according to the C++ standard because it writes past the end of the one-element
+    array.
+
+    struct S { int n, a[1]; };
+    S *s = (S *)malloc (sizeof *s + 31 * sizeof s->a[0]);
+    new (s->a)int [32]();
+
+    -Wplacement-new=2
+
+    At this level, in addition to diagnosing all the same constructs as at level 1, a diagnostic is
+    also issued for placement new expressions that construct an object in the last member of structure
+    whose type is an array of a single element and whose size is less than the size of the object being
+    constructed. While the previous example would be diagnosed, the following construct makes use of the
+    flexible member array extension to avoid the warning at level 2.
+
+    struct S { int n, a[]; };
+    S *s = (S *)malloc (sizeof *s + 32 * sizeof s->a[0]);
+    new (s->a)int [32]();
+
+    </description>
+    <internalKey>-Wplacement-new</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wpmf-conversions</key>
     <name>Warn when converting the type of pointers to member functions</name>
     <description>
@@ -1545,6 +2510,25 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     pointers to functions.  In C++, warn also when an arithmetic operation involves "NULL".
     </description>
     <internalKey>-Wpointer-arith</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wpointer-compare</key>
+    <name>Warn if a pointer is compared with a zero character constant</name>
+    <description>
+    Warn if a pointer is compared with a zero character constant. This usually means that the
+    pointer was meant to be dereferenced. For example:
+
+    const char *p = foo ();
+    if (p == '\0')
+      return 42;
+
+    Note that the code above is invalid in C++11.
+    </description>
+    <internalKey>-Wpointer-compare</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1642,6 +2626,20 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wregister</key>
+    <name>Warn on uses of the register storage class specifier, except when it is part of the GNU Explicit Register Variables extension</name>
+    <description>
+    Warn on uses of the register storage class specifier, except when it is part of the GNU Explicit
+    Register Variables extension. The use of the register keyword as storage class specifier has been
+    deprecated in C++11 and removed in C++17. Enabled by default with -std=c++1z.
+    </description>
+    <internalKey>-Wregister</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wreorder</key>
     <name>Warn when the compiler reorders code</name>
     <description>
@@ -1658,6 +2656,18 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     the members, emitting a warning to that effect.
     </description>
     <internalKey>-Wreorder</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wrestrict</key>
+    <name>Warn when an argument passed to a restrict-qualified parameter aliases with another argument</name>
+    <description>
+    Warn when an argument passed to a restrict-qualified parameter aliases with another argument.
+    </description>
+    <internalKey>-Wrestrict</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1757,6 +2767,68 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wshift-count-negative</key>
+    <name>Warn if shift count is negative</name>
+    <description>
+    Warn if shift count is negative
+    </description>
+    <internalKey>-Wshift-count-negative</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wshift-count-overflow</key>
+    <name>Warn if shift count &gt;= width of type</name>
+    <description>
+    Warn if shift count &gt;= width of type
+    </description>
+    <internalKey>-Wshift-count-overflow</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wshift-negative-value</key>
+    <name>Warn if left shifting a negative value</name>
+    <description>
+    Warn if left shifting a negative value. This warning is enabled by -Wextra in C99 and C++11
+    modes (and newer).
+    </description>
+    <internalKey>-Wshift-negative-value</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wshift-overflow</key>
+    <name>Warn about left shift overflows</name>
+    <description>
+    Warn about left shift overflows. This warning is enabled by default in C99 and C++11 modes
+    (and newer).
+
+    -Wshift-overflow=1
+
+    This is the warning level of -Wshift-overflow and is enabled by default in C99 and C++11
+    modes (and newer). This warning level does not warn about left-shifting 1 into the sign bit.
+    (However, in C, such an overflow is still rejected in contexts where an integer constant
+    expression is required.)
+
+    -Wshift-overflow=2
+
+    This warning level also warns about left-shifting 1 into the sign bit, unless C++14 mode is
+    active.
+    </description>
+    <internalKey>-Wshift-overflow</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wsign-compare</key>
     <name>Warn about signed-unsigned comparisons</name>
     <description>
@@ -1806,6 +2878,76 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     the user-defined operator =.
     </description>
     <internalKey>-Wsign-promo</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsized-deallocation</key>
+    <name>Warn about a definition of an unsized deallocation function</name>
+    <description>
+    Warn about a definition of an unsized deallocation function
+
+    void operator delete (void *) noexcept;
+    void operator delete[] (void *) noexcept;
+
+    without a definition of the corresponding sized deallocation function
+
+    void operator delete (void *, std::size_t) noexcept;
+    void operator delete[] (void *, std::size_t) noexcept;
+
+    or vice versa. Enabled by -Wextra along with -fsized-deallocation.
+    </description>
+    <internalKey>-Wsized-deallocation</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsizeof-array-argument</key>
+    <name>Warn when the sizeof operator is applied to a parameter that is declared as an array in a function definition</name>
+    <description>
+    Warn when the sizeof operator is applied to a parameter that is declared
+    as an array in a function definition. This warning is enabled by default
+    for C and C++ programs.
+    </description>
+    <internalKey>-Wsizeof-array-argument</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsizeof-pointer-div</key>
+    <name>Warn for suspicious divisions of two sizeof expressions that divide the pointer size by the element size</name>
+    <description>
+    Warn for suspicious divisions of two sizeof expressions that divide the
+    pointer size by the element size, which is the usual way to compute the
+    array size but won’t work out correctly with pointers. This warning
+    warns e.g. about sizeof (ptr) / sizeof (ptr[0]) if ptr is not an array,
+    but a pointer. This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wsizeof-pointer-div</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsizeof-pointer-memaccess</key>
+    <name>Warn for suspicious length parameters to certain string and memory built-in functions if the argument uses sizeof</name>
+    <description>
+    Warn for suspicious length parameters to certain string and memory
+    built-in functions if the argument uses sizeof. This warning warns e.g.
+    about memset (ptr, 0, sizeof (ptr)); if ptr is not an array, but a
+    pointer, and suggests a possible fix, or about
+    memcpy (&amp;foo, ptr, sizeof (&amp;foo));.
+
+    This warning is enabled by -Wall
+    </description>
+    <internalKey>-Wsizeof-pointer-memaccess</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -1975,6 +3117,99 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wstringop-overflow</key>
+    <name>Warn for calls to string manipulation functions such as memcpy and strcpy that are determined to overflow the destination buffer.</name>
+    <description>
+    Warn for calls to string manipulation functions such as memcpy and strcpy that are determined
+    to overflow the destination buffer. The optional argument is one greater than the type of
+    Object Size Checking to perform to determine the size of the destination. See Object Size
+    Checking. The argument is meaningful only for functions that operate on character arrays but
+    not for raw memory functions like memcpy which always make use of Object Size type-0. The
+    option also warns for calls that specify a size in excess of the largest possible object or
+    at most SIZE_MAX / 2 bytes. The option produces the best results with optimization enabled
+    but can detect a small subset of simple buffer overflows even without optimization in calls
+    to the GCC built-in functions like __builtin_memcpy that correspond to the standard functions.
+    In any case, the option warns about just a subset of buffer overflows detected by the
+    corresponding overflow checking built-ins. For example, the option will issue a warning for
+    the strcpy call below because it copies at least 5 characters (the string "blue" including
+    the terminating NUL) into the buffer of size 4.
+
+    enum Color { blue, purple, yellow };
+    const char* f (enum Color clr)
+    {
+      static char buf [4];
+      const char *str;
+      switch (clr)
+        {
+          case blue: str = "blue"; break;
+          case purple: str = "purple"; break;
+          case yellow: str = "yellow"; break;
+        }
+
+      return strcpy (buf, str);   // warning here
+    }
+
+    Option -Wstringop-overflow=2 is enabled by default.
+
+    -Wstringop-overflow
+    -Wstringop-overflow=1
+
+    The -Wstringop-overflow=1 option uses type-zero Object Size Checking to determine the sizes
+    of destination objects. This is the default setting of the option. At this setting the option
+    will not warn for writes past the end of subobjects of larger objects accessed by pointers
+    unless the size of the largest surrounding object is known. When the destination may be one of
+    several objects it is assumed to be the largest one of them. On Linux systems, when
+    optimization is enabled at this setting the option warns for the same code as when the
+    _FORTIFY_SOURCE macro is defined to a non-zero value.
+
+    -Wstringop-overflow=2
+
+    The -Wstringop-overflow=2 option uses type-one Object Size Checking to determine the sizes of
+    destination objects. At this setting the option will warn about overflows when writing to
+    members of the largest complete objects whose exact size is known. It will, however, not warn
+    for excessive writes to the same members of unknown objects referenced by pointers since they
+    may point to arrays containing unknown numbers of elements.
+
+    -Wstringop-overflow=3
+
+    The -Wstringop-overflow=3 option uses type-two Object Size Checking to determine the sizes of
+    destination objects. At this setting the option warns about overflowing the smallest object or
+    data member. This is the most restrictive setting of the option that may result in warnings
+    for safe code.
+
+    -Wstringop-overflow=4
+
+    The -Wstringop-overflow=4 option uses type-three Object Size Checking to determine the sizes
+    of destination objects. At this setting the option will warn about overflowing any data
+    members, and when the destination is one of several objects it uses the size of the largest of
+    them to decide whether to issue a warning. Similarly to -Wstringop-overflow=3 this setting of
+    the option may result in warnings for benign code.
+    </description>
+    <internalKey>-Wstringop-overflow</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsubobject-linkage</key>
+    <name>Warn if a class type has a base or a field whose type uses the anonymous namespace or depends on a type with no linkage</name>
+    <description>
+    Warn if a class type has a base or a field whose type uses the anonymous namespace or depends
+    on a type with no linkage. If a type A depends on a type B with no or internal linkage,
+    defining it in multiple translation units would be an ODR violation because the meaning of B
+    is different in each translation unit. If A only appears in a single translation unit, the
+    best way to silence the warning is to give it internal linkage by putting it in an anonymous
+    namespace as well. The compiler doesn’t give this warning for types defined in the main .C
+    file, as those are unlikely to have multiple definitions.
+    </description>
+    <internalKey>-Wsubobject-linkage</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wsuggest-attribute=const</key>
     <name>Warn about functions which might be candidates for __attribute__((const))</name>
     <description>
@@ -1986,6 +3221,45 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     optimization levels improve the accuracy of the analysis.
     </description>
     <internalKey>-Wsuggest-attribute=const</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsuggest-attribute=format</key>
+    <name>Warn for cases where adding an attribute may be beneficial</name>
+    <description>
+    Warn for cases where adding an attribute may be beneficial. The attributes currently supported are
+    listed below.
+
+    -Wsuggest-attribute=pure
+    -Wsuggest-attribute=const
+    -Wsuggest-attribute=noreturn
+
+    Warn about functions that might be candidates for attributes pure, const or noreturn. The compiler
+    only warns for functions visible in other compilation units or (in the case of pure and const) if
+    it cannot prove that the function returns normally. A function returns normally if it doesn’t
+    contain an infinite loop or return abnormally by throwing, calling abort or trapping. This analysis
+    requires option -fipa-pure-const, which is enabled by default at -O and higher. Higher optimization
+    levels improve the accuracy of the analysis.
+
+    -Wsuggest-attribute=format
+    -Wmissing-format-attribute
+
+    Warn about function pointers that might be candidates for format attributes. Note these are only
+    possible candidates, not absolute ones. GCC guesses that function pointers with format attributes
+    that are used in assignment, initialization, parameter passing or return statements should have a
+    corresponding format attribute in the resulting type. I.e. the left-hand side of the assignment or
+    initialization, the type of the parameter variable, or the return type of the containing function
+    respectively should also have a format attribute to avoid the warning.
+
+    GCC also warns about function definitions that might be candidates for format attributes. Again,
+    these are only possible candidates. GCC guesses that format attributes might be appropriate for any
+    function that calls a function like vprintf or vscanf, but this might not always be the case, and
+    some functions for which format attributes are appropriate may not be detected.
+    </description>
+    <internalKey>-Wsuggest-attribute=format</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2026,6 +3300,49 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wsuggest-final-methods</key>
+    <name>Warn about virtual methods where code quality would be improved if the method were declared with the C++11 final specifier</name>
+    <description>
+    Warn about virtual methods where code quality would be improved if the method were declared with
+    the C++11 final specifier, or, if possible, its type were declared in an anonymous namespace or
+    with the final specifier. This warning is more effective with link-time optimization, where the
+    information about the class hierarchy graph is more complete. It is recommended to first consider
+    suggestions of -Wsuggest-final-types and then rebuild with new annotations.
+    </description>
+    <internalKey>-Wsuggest-final-methods</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsuggest-final-types</key>
+    <name>Warn about types with virtual methods where code quality would be improved if the type were declared with the C++11 final specifier</name>
+    <description>
+    Warn about types with virtual methods where code quality would be improved if the type were declared
+    with the C++11 final specifier, or, if possible, declared in an anonymous namespace. This allows GCC
+    to more aggressively devirtualize the polymorphic calls. This warning is more effective with link
+    time optimization, where the information about the class hierarchy graph is more complete.
+    </description>
+    <internalKey>-Wsuggest-final-types</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsuggest-override</key>
+    <name>Warn about overriding virtual functions that are not marked with the override keyword.</name>
+    <description>
+    Warn about overriding virtual functions that are not marked with the override keyword.
+    </description>
+    <internalKey>-Wsuggest-override</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wsurprising</key>
     <name>Warn about "suspicious" constructs</name>
     <description>
@@ -2047,6 +3364,27 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     is used (even if there is a "default" label).
     </description>
     <internalKey>-Wswitch</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wswitch-bool</key>
+    <name>Warn whenever a switch statement has an index of boolean type and the case values are outside the range of a boolean type.</name>
+    <description>
+    Warn whenever a switch statement has an index of boolean type and the case values are outside the
+    range of a boolean type. It is possible to suppress this warning by casting the controlling
+    expression to a type other than bool. For example:
+
+    switch ((int) (a == 4))
+      {
+      …
+      }
+
+    This warning is enabled by default for C and C++ programs.
+    </description>
+    <internalKey>-Wswitch-bool</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2081,6 +3419,41 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wswitch-unreachable</key>
+    <name>Warn whenever a switch statement contains statements between the controlling expression and the first case label, which will never be executed</name>
+    <description>
+    Warn whenever a switch statement contains statements between the controlling expression
+    and the first case label, which will never be executed. For example:
+
+    switch (cond)
+      {
+       i = 15;
+      …
+       case 5:
+      …
+      }
+
+    -Wswitch-unreachable does not warn if the statement between the controlling expression
+    and the first case label is just a declaration:
+
+    switch (cond)
+      {
+       int i;
+      …
+       case 5:
+       i = 5;
+      …
+      }
+
+    This warning is enabled by default for C and C++ programs.
+    </description>
+    <internalKey>-Wswitch-unreachable</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wsync-nand</key>
     <name>Warn when __sync_fetch_and_nand and __sync_nand_and_fetch built-in functions are used</name>
     <description>
@@ -2088,6 +3461,56 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     used. These functions changed semantics in GCC 4.4.
     </description>
     <internalKey>-Wsync-nand</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wsystem-headers</key>
+    <name>Print warning messages for constructs found in system header files</name>
+    <description>
+    Print warning messages for constructs found in system header files. Warnings from system headers
+    are normally suppressed, on the assumption that they usually do not indicate real problems and
+    would only make the compiler output harder to read. Using this command-line option tells GCC to
+    emit warnings from system headers as if they occurred in user code. However, note that using
+    -Wall in conjunction with this option does not warn about unknown pragmas in system headers—for
+    that, -Wunknown-pragmas must also be used.
+    </description>
+    <internalKey>-Wsystem-headers</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wtautological-compare</key>
+    <name>Warn if a self-comparison always evaluates to true or false.</name>
+    <description>
+    Warn if a self-comparison always evaluates to true or false. This warning detects various mistakes
+    such as:
+
+    int i = 1;
+    …
+    if (i &gt; i) { … }
+
+    This warning is enabled by -Wall.
+    </description>
+    <internalKey>-Wtautological-compare</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wtemplates</key>
+    <name>Warn when a primary template declaration is encountered</name>
+    <description>
+    Warn when a primary template declaration is encountered. Some coding rules disallow templates, and
+    this may be used to enforce that rule. The warning is inactive inside a system header file, such
+    as the STL, so one can still use the STL. One may also instantiate or specialize templates.
+    </description>
+    <internalKey>-Wtemplates</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
@@ -2387,6 +3810,36 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wunused-const-variable</key>
+    <name>Warn whenever a constant static variable is unused aside from its declaration</name>
+    <description>
+    Warn whenever a constant static variable is unused aside from its declaration.
+    -Wunused-const-variable=1 is enabled by -Wunused-variable for C, but not for C++.
+    In C this declares variable storage, but in C++ this is not an error since const
+    variables take the place of #defines.
+
+    To suppress this warning use the unused attribute (see Variable Attributes).
+
+    -Wunused-const-variable=1
+
+    This is the warning level that is enabled by -Wunused-variable for C. It warns only
+    about unused static const variables defined in the main compilation unit, but not
+    about static const variables declared in any header included.
+
+    -Wunused-const-variable=2
+
+    This warning level also warns for unused constant static variables in headers
+    (excluding system headers). This is the warning level of -Wunused-const-variable and
+    must be explicitly requested since in C++ this isn’t an error and in C it might be
+    harder to clean up all headers included.
+    </description>
+    <internalKey>-Wunused-const-variable</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wunused-dummy-argument</key>
     <name>Warn about unused dummy arguments.</name>
     <description>
@@ -2519,6 +3972,30 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wuseless-cast</key>
+    <name>Warn when an expression is casted to its own type</name>
+    <description>
+    Warn when an expression is casted to its own type
+    </description>
+    <internalKey>-Wuseless-cast</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wvarargs</key>
+    <name>Warn upon questionable usage of the macros used to handle variable arguments like va_start</name>
+    <description>
+    Warn upon questionable usage of the macros used to handle variable arguments like va_start.
+    </description>
+    <internalKey>-Wvarargs</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wvariadic-macros</key>
     <name>Warn if variadic macros are used</name>
     <description>
@@ -2548,12 +4025,50 @@ Follow these steps to make your custom Custom rules available in SonarQube:
     <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
   </rule>
   <rule>
+    <key>-Wvirtual-inheritance</key>
+    <name>Warn when a class is defined with a virtual direct base class</name>
+    <description>
+    Warn when a class is defined with a virtual direct base class. Some coding rules disallow multiple
+    inheritance, and this may be used to enforce that rule. The warning is inactive inside a system
+    header file, such as the STL, so one can still use the STL. One may also define classes that
+    indirectly use virtual inheritance.
+    </description>
+    <internalKey>-Wvirtual-inheritance</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
     <key>-Wvla</key>
     <name>Warn if a variable length array is used</name>
     <description>
     Warn if variable length array is used in the code.
     </description>
     <internalKey>-Wvla</internalKey>
+    <severity>CRITICAL</severity>
+    <type>CODE_SMELL</type>
+    <remediationFunction>LINEAR</remediationFunction>
+    <remediationFunctionGapMultiplier>5min</remediationFunctionGapMultiplier>
+  </rule>
+  <rule>
+    <key>-Wvla-larger-than</key>
+    <name>Warn on uses of variable-length arrays where the size is either unbounded, or bounded by an argument that can be larger than n bytes</name>
+    <description>
+    If this option is used, the compiler will warn on uses of variable-length arrays
+    where the size is either unbounded, or bounded by an argument that can be larger
+    than n bytes. This is similar to how -Walloca-larger-than=n works, but with
+    variable-length arrays.
+
+    Note that GCC may optimize small variable-length arrays of a known value into
+    plain arrays, so this warning may not get triggered for such arrays.
+
+    This warning is not enabled by -Wall, and is only active when -ftree-vrp is active
+    (default for -O2 and above).
+
+    See also -Walloca-larger-than=n.
+    </description>
+    <internalKey>-Wvla-larger-than</internalKey>
     <severity>CRITICAL</severity>
     <type>CODE_SMELL</type>
     <remediationFunction>LINEAR</remediationFunction>
