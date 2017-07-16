@@ -40,6 +40,7 @@ import org.sonar.api.batch.sensor.SensorDescriptor;
 import org.sonar.api.batch.sensor.coverage.NewCoverage;
 import org.sonar.api.config.Settings;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.Version;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
@@ -305,7 +306,7 @@ public class CxxCoverageSensor extends CxxReportSensor {
     Map<String, CoverageMeasures> coverageMeasures,
     CoverageType ctype) {
     for (Map.Entry<String, CoverageMeasures> entry : coverageMeasures.entrySet()) {
-      String filePath = entry.getKey();
+      String filePath = PathUtils.sanitize(entry.getKey());
       InputFile cxxFile = context.fileSystem().inputFile(context.fileSystem().predicates().hasPath(filePath));
       if (cxxFile != null) {
         

@@ -20,7 +20,6 @@
 package org.sonar.cxx.sensors.coverage;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -157,26 +156,30 @@ public class BullseyeParser extends CxxCoverageParser {
       String name = child.getAttrValue("name");
       path.add(name);
       if ("src".equalsIgnoreCase(folderChildName)) {
-        String fileName = "";
-        Iterator<String> iterator = path.iterator();
-        while (iterator.hasNext()) {
-          fileName += iterator.next() + File.separator;
-        }
-
-        fileName = fileName.substring(0, fileName.length()-1);
-
-        if ((new File(fileName)).isAbsolute()) {
-          correctPath = "";
-        }
+        String filePath = buildPath(path, correctPath);
         CoverageMeasures fileMeasuresBuilderIn = CoverageMeasures.create();
         fileWalk(child, fileMeasuresBuilderIn);
-        coverageData.put(correctPath + fileName, fileMeasuresBuilderIn);
+        coverageData.put(filePath, fileMeasuresBuilderIn);
       } else {
         recTreeWalk(correctPath, child, path, coverageData);
       }
       path.remove(path.size() - 1);
     }
   }
+
+  /**
+   * @param path
+   * @param correctPath
+   * @return
+   */
+  private String buildPath(List<String> path, String correctPath) {
+    String fileName = String.join(File.separator, path);
+    if (!(new File(fileName)).isAbsolute()) {
+      fileName = correctPath + fileName;
+    } 
+    return PathUtils.sanitize(fileName);
+  }
+
 
   private void saveConditions(CoverageMeasures fileMeasuresBuilderIn) {
     if (totaldecisions > 0 || totalconditions > 0) {

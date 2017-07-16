@@ -184,22 +184,8 @@ public abstract class CxxReportSensor implements Sensor {
     if (reportPaths.isEmpty()) {
       LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
     } else {
-      List<String> includes = new ArrayList<>();
-      for (String reportPath : reportPaths) {
 
-        String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath);
-        if (normalizedPath != null) {
-          includes.add(normalizedPath);
-          continue;
-        }
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Not a valid report path '{}'", reportPath);
-      }
-      }
-
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Normalized report includes to '{}'", includes);
-      }
+      List<String> includes = normalizeReportPaths(moduleBaseDir, reportPaths);
 
       // Includes array cannot contain null elements
       DirectoryScanner directoryScanner = new DirectoryScanner();
@@ -220,6 +206,31 @@ public abstract class CxxReportSensor implements Sensor {
     }
 
     return reports;
+  }
+
+  /**
+   * @param moduleBaseDir
+   * @param reportPaths
+   * @return
+   */
+  private static List<String> normalizeReportPaths(final File moduleBaseDir, List<String> reportPaths) {
+    List<String> includes = new ArrayList<>();
+    for (String reportPath : reportPaths) {
+
+      String normalizedPath = resolveFilename(moduleBaseDir.getAbsolutePath(), reportPath);
+      if (normalizedPath != null) {
+        includes.add(normalizedPath);
+        continue;
+      }
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Not a valid report path '{}'", reportPath);
+      }
+    }
+
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Normalized report includes to '{}'", includes);
+    }
+    return includes;
   }
 
   /**
