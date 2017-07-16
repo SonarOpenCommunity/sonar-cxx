@@ -179,7 +179,7 @@ public class CxxSquidSensor implements Sensor {
     }
     scanner.scanFiles(files);
     
-    (new CxxCoverageSensor(this.cache, this.language)).execute(context, linesOfCode);
+//    (new CxxCoverageSensor(this.cache, this.language, context)).execute(context, linesOfCode);
     
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles, context);

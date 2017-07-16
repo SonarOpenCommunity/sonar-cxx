@@ -29,35 +29,53 @@ import com.sonar.sslr.api.Trivia;
 
 import static com.sonar.sslr.api.GenericTokenType.EOL;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.FileLinesContext;
 import org.sonar.api.measures.FileLinesContextFactory;
+import org.sonar.api.measures.Metric;
+import org.sonar.api.utils.Version;
 import org.sonar.cxx.api.CxxMetric;
 import org.sonar.squidbridge.SquidAstVisitor;
 
 import static org.sonar.cxx.parser.CxxGrammarImpl.LOG;
 
 /**
- * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics used by the DevCockpit.
+ * Visitor that computes {@link CoreMetrics#NCLOC_DATA_KEY} and {@link CoreMetrics#COMMENT_LINES_DATA_KEY} metrics.
  */
 public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements AstAndTokenVisitor {
 
   private final FileLinesContextFactory fileLinesContextFactory;
 
-  private final Set<Integer> linesOfCode = Sets.newHashSet();
-  private final Set<Integer> linesOfComments = Sets.newHashSet();
+  private static final Version SQ_6_2 = Version.create(6, 2);
+  private boolean isSQ_6_2_or_newer;
+  private Set<Integer> linesOfCode = Sets.newHashSet();
+  private Set<Integer> linesOfComments = Sets.newHashSet();
+  private Set<Integer> executableLines = Sets.newHashSet();
   private final FileSystem fileSystem;
   private final Map<InputFile, Set<Integer>> allLinesOfCode;
 
-  public CxxFileLinesVisitor(FileLinesContextFactory fileLinesContextFactory, FileSystem fileSystem, Map<InputFile, Set<Integer>> linesOfCode) {
+  /**
+   * CxxFileLinesVisitor computes Metrics
+   * @param fileLinesContextFactory interface for LOC
+   * @param fileSystem for sensor
+   * @param context of Sensor
+   * @param linesOfCode executable lines
+   */
+  public CxxFileLinesVisitor(FileLinesContextFactory fileLinesContextFactory, FileSystem fileSystem,
+                             SensorContext context, Map<InputFile, Set<Integer>> linesOfCode) {
     this.fileLinesContextFactory = fileLinesContextFactory;
     this.fileSystem = fileSystem;
     this.allLinesOfCode = linesOfCode;
+    if (context.getSonarQubeVersion().isGreaterThanOrEqual(SQ_6_2)) {
+      isSQ_6_2_or_newer = true;
+    }
   }
 
   @Override
@@ -71,6 +89,9 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
       String[] tokenLines = token.getValue().split("\n", -1);
       for (int line = token.getLine(); line < token.getLine() + tokenLines.length; line++) {
         linesOfCode.add(line);
+//        if (!token.isGeneratedCode()) {
+        executableLines.add(line);
+//        }
       }
     }
 
@@ -93,11 +114,10 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
     int fileLength = getContext().peekSourceCode().getInt(CxxMetric.LINES);
     LOG.debug("file lines = {}", fileLength);
     for (int line = 1; line <= fileLength; line++) {
-      if (linesOfCode.contains(line)) {
-        fileLinesContext.setIntValue(CoreMetrics.NCLOC_DATA_KEY, line, 1);
-      }
-      if (linesOfComments.contains(line)) {
-        fileLinesContext.setIntValue(CoreMetrics.COMMENT_LINES_DATA_KEY, line, 1);
+      setCoreMetric(fileLinesContext, linesOfCode.contains(line), line, CoreMetrics.NCLOC_DATA_KEY);
+      setCoreMetric(fileLinesContext, linesOfComments.contains(line), line, CoreMetrics.COMMENT_LINES_DATA_KEY);
+      if(isSQ_6_2_or_newer) {
+        setCoreMetric(fileLinesContext, executableLines.contains(line), line, CoreMetrics.EXECUTABLE_LINES_DATA_KEY);
       }
     }
     fileLinesContext.save();
@@ -106,6 +126,19 @@ public class CxxFileLinesVisitor extends SquidAstVisitor<Grammar> implements Ast
 
     linesOfCode.clear();
     linesOfComments.clear();
+    executableLines.clear();
+  }
+
+  /**
+   * @param fileLinesContext
+   * @param line
+   */
+  private void setCoreMetric(FileLinesContext fileLinesContext, boolean exists, int line, String metricKey) {
+    if (exists) {
+      fileLinesContext.setIntValue(metricKey, line, 1);
+    } else {
+      fileLinesContext.setIntValue(metricKey, line, 0);
+    }
   }
 
 }

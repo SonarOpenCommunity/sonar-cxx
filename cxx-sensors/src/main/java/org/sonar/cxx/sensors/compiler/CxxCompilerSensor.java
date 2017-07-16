@@ -72,7 +72,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * @return CompilerParser
    */
   protected CompilerParser getCompilerParser() {
-    String parserKey = getStringProperty(PARSER_KEY_DEF, DEFAULT_PARSER_DEF);
+    String parserKey = this.language.getStringOption(PARSER_KEY_DEF);
     CompilerParser parser = parsers.get(parserKey);
     if (parser == null) {
       parser = parsers.get(DEFAULT_PARSER_DEF);
@@ -99,7 +99,7 @@ public class CxxCompilerSensor extends CxxReportSensor {
    * @return Value of the property if set and not empty, else default value.
    */
   public String getParserStringProperty(String name, String def) {
-    String s = getStringProperty(name, "");
+    String s = this.language.getStringOption(name);
     if (s == null || s.isEmpty()) {
       return def;
     }

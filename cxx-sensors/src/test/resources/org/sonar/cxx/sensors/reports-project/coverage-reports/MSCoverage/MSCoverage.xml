@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<results>
+  <modules>
+    <module name="motorcontrollertests.dll" path="motorcontrollertests.dll" id="90C384AC434113489E676A60CDB33C3201000000" block_coverage="0.00" line_coverage="0.00" blocks_covered="0" blocks_not_covered="0" lines_covered="0" lines_partially_covered="0" lines_not_covered="0">
+    </module>
+    <module name="motorcontroller.dll" path="motorcontroller.dll" id="A1E1B3AB4B13CA4ABAB1762485ED1A5A01000000" block_coverage="100.00" line_coverage="100.00" blocks_covered="6" blocks_not_covered="0" lines_covered="19" lines_partially_covered="0" lines_not_covered="0">
+      <functions>
+        <function id="71088" name="_DllMain@12" type_name="" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="4" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="1" covered="yes" start_line="8" start_column="0" end_line="8" end_column="0" />
+            <range source_id="1" covered="yes" start_line="9" start_column="0" end_line="9" end_column="0" />
+            <range source_id="1" covered="yes" start_line="17" start_column="0" end_line="17" end_column="0" />
+            <range source_id="1" covered="yes" start_line="18" start_column="0" end_line="18" end_column="0" />
+          </ranges>
+        </function>
+        <function id="71168" name="CMotorController" type_name="CMotorController" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="3" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="0" covered="yes" start_line="9" start_column="0" end_line="9" end_column="0" />
+            <range source_id="0" covered="yes" start_line="10" start_column="0" end_line="10" end_column="0" />
+            <range source_id="0" covered="yes" start_line="11" start_column="0" end_line="11" end_column="0" />
+          </ranges>
+        </function>
+        <function id="71424" name="getDirection" type_name="CMotorController" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="3" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="0" covered="yes" start_line="29" start_column="0" end_line="29" end_column="0" />
+            <range source_id="0" covered="yes" start_line="30" start_column="0" end_line="30" end_column="0" />
+            <range source_id="0" covered="yes" start_line="31" start_column="0" end_line="31" end_column="0" />
+          </ranges>
+        </function>
+        <function id="71488" name="getSpeed" type_name="CMotorController" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="3" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="0" covered="yes" start_line="19" start_column="0" end_line="19" end_column="0" />
+            <range source_id="0" covered="yes" start_line="20" start_column="0" end_line="20" end_column="0" />
+            <range source_id="0" covered="yes" start_line="21" start_column="0" end_line="21" end_column="0" />
+          </ranges>
+        </function>
+        <function id="71552" name="setDirection" type_name="CMotorController" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="3" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="0" covered="yes" start_line="24" start_column="0" end_line="24" end_column="0" />
+            <range source_id="0" covered="yes" start_line="25" start_column="0" end_line="25" end_column="0" />
+            <range source_id="0" covered="yes" start_line="26" start_column="0" end_line="26" end_column="0" />
+          </ranges>
+        </function>
+        <function id="71632" name="setSpeed" type_name="CMotorController" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="3" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="0" covered="yes" start_line="14" start_column="0" end_line="14" end_column="0" />
+            <range source_id="0" covered="yes" start_line="15" start_column="0" end_line="15" end_column="0" />
+            <range source_id="0" covered="yes" start_line="16" start_column="0" end_line="16" end_column="0" />
+          </ranges>
+        </function>
+      </functions>
+      <source_files>
+        <source_file id="0" path="source\motorcontroller\motorcontroller.cpp" checksum_type="MD5" checksum="26CBE880D9B7848E90D9E5CB8D2D387F">
+        </source_file>
+        <source_file id="1" path="source\motorcontroller\dllmain.cpp" checksum_type="MD5" checksum="5D1187EB3B504586C3BAA14D57648DE3">
+        </source_file>
+      </source_files>
+    </module>
+    <module name="rootfinder.dll" path="rootfinder.dll" id="E8A9D1FF141ACB43ABF21234BC6FC09A01000000" block_coverage="100.00" line_coverage="100.00" blocks_covered="10" blocks_not_covered="0" lines_covered="16" lines_partially_covered="0" lines_not_covered="0">
+      <functions>
+        <function id="71328" name="_DllMain@12" type_name="" block_coverage="100.00" line_coverage="100.00" blocks_covered="1" blocks_not_covered="0" lines_covered="4" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="0" covered="yes" start_line="8" start_column="0" end_line="8" end_column="0" />
+            <range source_id="0" covered="yes" start_line="9" start_column="0" end_line="9" end_column="0" />
+            <range source_id="0" covered="yes" start_line="17" start_column="0" end_line="17" end_column="0" />
+            <range source_id="0" covered="yes" start_line="18" start_column="0" end_line="18" end_column="0" />
+          </ranges>
+        </function>
+        <function id="72832" name="SquareRoot" type_name="CRootFinder" block_coverage="100.00" line_coverage="100.00" blocks_covered="9" blocks_not_covered="0" lines_covered="12" lines_partially_covered="0" lines_not_covered="0">
+          <ranges>
+            <range source_id="1" covered="yes" start_line="12" start_column="0" end_line="12" end_column="0" />
+            <range source_id="1" covered="yes" start_line="14" start_column="0" end_line="14" end_column="0" />
+            <range source_id="1" covered="yes" start_line="16" start_column="0" end_line="16" end_column="0" />
+            <range source_id="1" covered="yes" start_line="19" start_column="0" end_line="19" end_column="0" />
+            <range source_id="1" covered="yes" start_line="20" start_column="0" end_line="20" end_column="0" />
+            <range source_id="1" covered="yes" start_line="21" start_column="0" end_line="21" end_column="0" />
+            <range source_id="1" covered="yes" start_line="23" start_column="0" end_line="23" end_column="0" />
+            <range source_id="1" covered="yes" start_line="24" start_column="0" end_line="24" end_column="0" />
+            <range source_id="1" covered="yes" start_line="25" start_column="0" end_line="25" end_column="0" />
+            <range source_id="1" covered="yes" start_line="26" start_column="0" end_line="26" end_column="0" />
+            <range source_id="1" covered="yes" start_line="27" start_column="0" end_line="27" end_column="0" />
+            <range source_id="1" covered="yes" start_line="28" start_column="0" end_line="28" end_column="0" />
+          </ranges>
+        </function>
+      </functions>
+      <source_files>
+        <source_file id="0" path="source\rootfinder\dllmain.cpp" checksum_type="MD5" checksum="5D1187EB3B504586C3BAA14D57648DE3">
+        </source_file>
+        <source_file id="1" path="source\rootfinder\rootfinder.cpp" checksum_type="MD5" checksum="9723D97667A8FD69D91610FA2CAC3E64">
+        </source_file>
+      </source_files>
+    </module>
+    <module name="rootfindertests.dll" path="rootfindertests.dll" id="FB3116647F2D8F40989B8156916EE8F301000000" block_coverage="0.00" line_coverage="0.00" blocks_covered="0" blocks_not_covered="0" lines_covered="0" lines_partially_covered="0" lines_not_covered="0">
+    </module>
+  </modules>
+</results>

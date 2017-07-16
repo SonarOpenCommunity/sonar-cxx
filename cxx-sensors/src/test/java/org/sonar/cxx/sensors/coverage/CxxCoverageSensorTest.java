@@ -21,6 +21,8 @@ package org.sonar.cxx.sensors.coverage;
 
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -37,18 +39,24 @@ import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
+import org.sonar.api.utils.Version;
 import org.sonar.cxx.CxxLanguage;
 import org.sonar.cxx.sensors.utils.TestUtils;
 
 public class CxxCoverageSensorTest {
 
   private CxxCoverageSensor sensor;
+  private File outputDir;
   private DefaultFileSystem fs;
+  private SensorContextTester context;
+  private static final Version SQ_5_6 = Version.create(5, 6);
 
   @Before
   public void setUp() {
+    outputDir = TestUtils.getResource("/org/sonar/cxx/sensors/");
     fs = TestUtils.mockFileSystem();
-  }
+    context = SensorContextTester.create(outputDir);
+ }
 
   @Test
   public void shouldReportCorrectCoverageForAllTypesOfCoverage() {
@@ -67,33 +75,33 @@ public class CxxCoverageSensorTest {
     when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY))
             .thenReturn(true);
     
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     
     Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language);
-    sensor.execute(context, linesOfCode);
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor.execute(context);
     
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isEqualTo(1);
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 3)).isEqualTo(4);
-    assertThat(context.lineHits("myProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 2)).isEqualTo(0);
-    assertThat(context.lineHits("myProjectKey:sources/application/main.cpp", CoverageType.UNIT, 8)).isEqualTo(8);
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.IT, 1)).isEqualTo(1);
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.IT, 3)).isEqualTo(4);
-    assertThat(context.lineHits("myProjectKey:sources/utils/utils.cpp", CoverageType.IT, 2)).isEqualTo(0);
-    assertThat(context.lineHits("myProjectKey:sources/application/main.cpp", CoverageType.IT, 8)).isEqualTo(8);
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.OVERALL, 1)).isEqualTo(1);
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.OVERALL, 3)).isEqualTo(4);
-    assertThat(context.lineHits("myProjectKey:sources/utils/utils.cpp", CoverageType.OVERALL, 2)).isEqualTo(0);
-    assertThat(context.lineHits("myProjectKey:sources/application/main.cpp", CoverageType.OVERALL, 8)).isEqualTo(8);    
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isEqualTo(1);
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 3)).isEqualTo(4);
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 2)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", CoverageType.UNIT, 8)).isEqualTo(8);
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.IT, 1)).isEqualTo(1);
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.IT, 3)).isEqualTo(4);
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", CoverageType.IT, 2)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", CoverageType.IT, 8)).isEqualTo(8);
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.OVERALL, 1)).isEqualTo(1);
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.OVERALL, 3)).isEqualTo(4);
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", CoverageType.OVERALL, 2)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", CoverageType.OVERALL, 8)).isEqualTo(8);    
   }
 
   // @Test @todo
   public void shouldReportNoCoverageSaved() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     CxxLanguage language = TestUtils.mockCxxLanguage();    
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language);
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     //when(context.getResource((InputFile) anyObject())).thenReturn(null);
     sensor.execute(context);
     verify(context, times(0)).newCoverage();
@@ -105,16 +113,16 @@ public class CxxCoverageSensorTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(new String [] { "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml" });    
     
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language);
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
   }
 
   @Test
   public void shouldReportNoCoverageWhenInvalidFilesEmpty() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));    
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));    
         
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(new String [] { "coverage-reports/cobertura/specific-cases/coverage-result-cobertura-empty.xml" });        
@@ -125,19 +133,19 @@ public class CxxCoverageSensorTest {
     when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY))
             .thenReturn(false);
     
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language);
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    assertThat(context.lineHits("myProjectKey:sources/application/main.cpp", CoverageType.UNIT, 1)).isNull();
-    assertThat(context.lineHits("myProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 1)).isNull();
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isNull();
+    assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", CoverageType.UNIT, 1)).isNull();
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 1)).isNull();
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isNull();
   }
 
   @Test
   public void shouldReportNoCoverageWhenInvalidFilesInvalid() {
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/application/main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/utils.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "sources/utils/code_chunks.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n"));
     
     CxxLanguage language = TestUtils.mockCxxLanguage();
     when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(new String [] { "coverage-reports/cobertura/specific-cases/coverage-result-invalid.xml" });        
@@ -148,11 +156,11 @@ public class CxxCoverageSensorTest {
     when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY))
             .thenReturn(false);
     
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language);
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     sensor.execute(context);
-    assertThat(context.lineHits("myProjectKey:sources/application/main.cpp", CoverageType.UNIT, 1)).isNull();
-    assertThat(context.lineHits("myProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 1)).isNull();
-    assertThat(context.lineHits("myProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isNull();
+    assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", CoverageType.UNIT, 1)).isNull();
+    assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 1)).isNull();
+    assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isNull();
   }
 
   @Test
@@ -168,15 +176,15 @@ public class CxxCoverageSensorTest {
     when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY))
             .thenReturn(false);
 
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "project1/source1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "project2/source1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-    context.fileSystem().add(new DefaultInputFile("myProjectKey", "project2/source2.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "project1/source1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "project2/source1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
+    context.fileSystem().add(new DefaultInputFile("ProjectKey", "project2/source2.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
 
     Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
-    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language);
-    sensor.execute(context, linesOfCode);
-    assertThat(context.lineHits("myProjectKey:project1/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(0);
-    assertThat(context.lineHits("myProjectKey:project2/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
-    assertThat(context.lineHits("myProjectKey:project2/source2.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
+    sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
+    sensor.execute(context);
+    assertThat(context.lineHits("ProjectKey:project1/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(0);
+    assertThat(context.lineHits("ProjectKey:project2/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
+    assertThat(context.lineHits("ProjectKey:project2/source2.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
   }
 }

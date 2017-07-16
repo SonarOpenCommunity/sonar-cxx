@@ -28,6 +28,7 @@ import org.sonar.api.PropertyType;
 import org.sonar.api.batch.bootstrap.ProjectDefinition;
 import org.sonar.api.batch.rule.ActiveRules;
 import org.sonar.api.batch.rule.CheckFactory;
+import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.config.PropertyDefinition;
 import org.sonar.api.config.Settings;
 import org.sonar.api.measures.FileLinesContextFactory;
@@ -617,8 +618,8 @@ public final class CPlugin implements Plugin {
   }
   
   public static class CxxCoverageSensorImpl extends CxxCoverageSensor {
-    public CxxCoverageSensorImpl(Settings settings, CxxCoverageAggregator cache) {
-      super(cache, new CLanguage(settings));      
+    public CxxCoverageSensorImpl(Settings settings, CxxCoverageAggregator cache, SensorContext context) {
+      super(cache, new CLanguage(settings), context);      
     }
   } 
   

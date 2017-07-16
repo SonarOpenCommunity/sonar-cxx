@@ -133,14 +133,6 @@ public abstract class CxxReportSensor implements Sensor {
     return getClass().getSimpleName();
   }
 
-  protected String getStringProperty(String name, String def) {
-    String value = this.language.getStringOption(name);
-    if (value == null) {
-      value = def;
-    }
-    return value;
-  }
-
   /**
    * resolveFilename
    * @param baseDir
@@ -185,7 +177,9 @@ public abstract class CxxReportSensor implements Sensor {
     
     String[] reportPathStrings = language.getStringArrayOption(genericReportKeyData);
     List<String> reportPaths = Arrays.asList((reportPathStrings != null) ? reportPathStrings : new String[] {});
-    if (!reportPaths.isEmpty()) {
+    if (reportPaths.isEmpty()) {
+      LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
+    } else {
       List<String> includes = new ArrayList<>();
       for (String reportPath : reportPaths) {
 
@@ -194,11 +188,14 @@ public abstract class CxxReportSensor implements Sensor {
           includes.add(normalizedPath);
           continue;
         }
-
+        if (LOG.isDebugEnabled()) {
         LOG.debug("Not a valid report path '{}'", reportPath);
       }
+      }
 
+      if (LOG.isDebugEnabled()) {
       LOG.debug("Normalized report includes to '{}'", includes);
+      }
 
       // Includes array cannot contain null elements
       DirectoryScanner directoryScanner = new DirectoryScanner();
@@ -216,8 +213,6 @@ public abstract class CxxReportSensor implements Sensor {
       } else {
         LOG.info("Parser will parse '{}' report files", reports.size());
       }
-    } else {
-      LOG.info("Undefined report path value for key '{}'", genericReportKeyData);
     }
 
     return reports;
@@ -252,7 +247,7 @@ public abstract class CxxReportSensor implements Sensor {
     // handles file="" situation -- file level
     if ((filename != null) && (!filename.isEmpty())) {
       String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
-      String normalPath = CxxUtils.normalizePathFull(filename, root);
+      String normalPath = CxxUtils.normalizePathFull(filename.replaceAll("\\\\", "/"), root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem()
                                                         .predicates().hasAbsolutePath(normalPath));
