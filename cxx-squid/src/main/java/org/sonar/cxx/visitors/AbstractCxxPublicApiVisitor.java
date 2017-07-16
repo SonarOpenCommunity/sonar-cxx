@@ -77,7 +77,6 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   private static final Logger LOG = Loggers.get(AbstractCxxPublicApiVisitor.class);
 
-  private static final boolean DEBUG = false;
   /**
    * Dump the AST of the file if true.
    */
@@ -111,10 +110,10 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
   @Override
   public void visitFile(AstNode astNode) {
-    logDebug("API File: " + getContext().getFile().getName());
-
-    logDebug("Header file suffixes: " + headerFileSuffixes);
-
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("API File: " + getContext().getFile().getName());
+      LOG.debug("Header file suffixes: " + headerFileSuffixes);
+    }
     skipFile = true;
 
     if (headerFileSuffixes != null) {
@@ -142,8 +141,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       return;
     }
 
-    logDebug("***** Node: " + astNode);
-
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("***** Node: " + astNode);
+    }
     switch ((CxxGrammarImpl) astNode.getType()) {
       case classSpecifier:
         visitClassSpecifier(astNode);
@@ -178,11 +178,15 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       if (isDoxygenInlineComment(comment)
         || isDoxygenCommentBlock(comment)) {
         doxygenComments.add(token);
-        logDebug("Doc: " + comment.replace("\r\n", ""));
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Doc: " + comment.replace("\r\n", ""));
+        }
       }
     }
 
-    logDebug("Public API: " + id);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Public API: " + id);
+    }
     onPublicApi(node, id, doxygenComments);
   }
 
@@ -397,7 +401,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
 
     if (!isPublicApiMember(classSpecifier)) {
-      logDebug(idName + " not in public API");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(idName + " not in public API");
+      }
     } else {
       visitPublicApi(idNode, idName, getBlockDocumentation(docNode));
     }
@@ -635,7 +641,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
     }
 
     if (isPublicApiMember(aliasDeclNode)) {
-      logDebug("AliasDeclaration");
+      if (LOG.isDebugEnabled()) {
+      LOG.debug("AliasDeclaration");
+      }
 
       AstNode aliasDeclIdNode = aliasDeclNode
         .getFirstDescendant(GenericTokenType.IDENTIFIER);
@@ -679,7 +687,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
       ? UNNAMED_ENUM_ID : enumIdNode.getTokenValue();
 
     if (!isPublicApiMember(enumSpecifierNode)) {
-      logDebug(enumId + " not in public API");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(enumId + " not in public API");
+      }
       return;
     }
 
@@ -861,7 +871,9 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
         Token triviaToken = trivia.getToken();
         if (triviaToken != null) {
           String comment = triviaToken.getValue();
+          if (LOG.isTraceEnabled()) {
           LOG.trace("Doc: {}\n", comment);
+          }
           if (isDoxygenCommentBlock(comment)
             && !isDoxygenInlineComment(comment)) {
             commentTokens.add(triviaToken);
@@ -883,12 +895,6 @@ public abstract class AbstractCxxPublicApiVisitor<GRAMMAR extends Grammar>
 
     return comment.startsWith("/**") || comment.startsWith("/*!")
       || comment.startsWith("///") || comment.startsWith("//!");
-  }
-
-  private void logDebug(String msg) {
-    if (DEBUG) {
-      LOG.debug(msg);
-    }
   }
 
   public AbstractCxxPublicApiVisitor<GRAMMAR> withHeaderFileSuffixes(List<String> headerFileSuffixes) {

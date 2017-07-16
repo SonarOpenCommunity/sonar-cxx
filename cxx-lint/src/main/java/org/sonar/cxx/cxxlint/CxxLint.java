@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -90,12 +91,13 @@ public class CxxLint {
 
   /**
    * @param args the command line arguments
-   * @throws java.lang.InstantiationException
-   * @throws java.lang.IllegalAccessException
-   * @throws java.io.IOException
+   * @throws IOException 
+   * @throws UnsupportedEncodingException 
+   * @throws IllegalAccessException 
+   * @throws InstantiationException 
+   * @throws java.Exception
    */
-  public static void main(String[] args) 
-          throws InstantiationException, IllegalAccessException, IOException, Exception { 
+  public static void main(String[] args) throws UnsupportedEncodingException, IOException, InstantiationException, IllegalAccessException { 
 
     CommandLineParser commandlineParser = new DefaultParser();
     Options options = CreateCommandLineOptions();
@@ -132,13 +134,14 @@ public class CxxLint {
       System.err.println("Parsing Command line Failed.  Reason: " + exp.getMessage());
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp("java -jar CxxLint-<sersion>.jar -f filetoanalyse", options);
-      throw exp;
     }
 
-    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile), new CppLanguage());
 
     String fileName = new File(fileToAnalyse).getName();
     SensorContextTester sensorContext = SensorContextTester.create(new File(fileToAnalyse).getParentFile().toPath());
+
+    CxxConfiguration configuration = new CxxConfiguration(Charset.forName(encodingOfFile), new CppLanguage());
+
     String content = new String(Files.readAllBytes(new File(fileToAnalyse).toPath()), encodingOfFile);
     sensorContext.fileSystem().add(new DefaultInputFile("myProjectKey", fileName).initMetadata(content));
     InputFile cxxFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem().predicates().hasPath(fileName));
@@ -256,7 +259,12 @@ public class CxxLint {
                 } else {
                   char first = Character.toUpperCase(ruleProp.key().charAt(0));
                   Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{value});
+                  try {
                   stmt.execute();
+                  } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                  }
                 }
               }
 
@@ -268,7 +276,12 @@ public class CxxLint {
                 } else {
                   char first = Character.toUpperCase(ruleProp.key().charAt(0));
                   Statement stmt = new Statement(element, "set" + first + ruleProp.key().substring(1), new Object[]{cleanData});
+                  try {
                   stmt.execute();
+                  } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                  }
                 }
               }
             }
