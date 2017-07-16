@@ -101,7 +101,7 @@ public class CxxLint {
 
     CommandLineParser commandlineParser = new DefaultParser();
     Options options = CreateCommandLineOptions();
-    CommandLine parsedArgs;
+    CommandLine parsedArgs = null;
     String settingsFile = "";
     String fileToAnalyse = "";
     String encodingOfFile = "UTF-8";
