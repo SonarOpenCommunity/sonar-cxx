@@ -60,7 +60,7 @@ public class CppcheckParserV2 implements CppcheckParser {
         try {
           rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) {
-          throw new EmptyReportException();
+          throw new EmptyReportException("Cannot read cppcheck report (format V2)", eofExc);
         }
 
         try {

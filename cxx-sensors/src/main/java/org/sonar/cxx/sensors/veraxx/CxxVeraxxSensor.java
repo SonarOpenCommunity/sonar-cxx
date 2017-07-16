@@ -73,7 +73,7 @@ public class CxxVeraxxSensor extends CxxReportSensor {
           try {
             rootCursor.advance();
           } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
-            throw new EmptyReportException();                  
+            throw new EmptyReportException("Cannot read vera++ report ", eofExc);
           }
 
           SMInputCursor fileCursor = rootCursor.childElementCursor("file");

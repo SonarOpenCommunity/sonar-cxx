@@ -82,7 +82,7 @@ public class CxxPCLintSensor extends CxxReportSensor {
         try {
           rootCursor.advance();
         } catch (com.ctc.wstx.exc.WstxEOFException eofExc) { 
-          throw new EmptyReportException(); 
+          throw new EmptyReportException("Cannot read PClint report", eofExc); 
         }
 
         SMInputCursor errorCursor = rootCursor.childElementCursor("issue");
