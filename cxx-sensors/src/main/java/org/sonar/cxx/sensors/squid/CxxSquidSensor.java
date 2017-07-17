@@ -148,11 +148,11 @@ public class CxxSquidSensor implements Sensor {
    */
   @Override
   public void execute(SensorContext context) {       
-    Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
+    Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
         
     List<SquidAstVisitor<Grammar>> visitors = new ArrayList<>((Collection) checks.all());
     visitors.add(new CxxHighlighterVisitor(context));
-    visitors.add(new FileLinesVisitor(fileLinesContextFactory, context.fileSystem(), linesOfCode));
+    visitors.add(new FileLinesVisitor(fileLinesContextFactory, context.fileSystem(), linesOfCodeByFile));
     visitors.add(
             new CxxCpdVisitor(
                     context,
@@ -178,9 +178,9 @@ public class CxxSquidSensor implements Sensor {
       }
     }
     scanner.scanFiles(files);
-    
-//    (new CxxCoverageSensor(this.cache, this.language, context)).execute(context, linesOfCode);
-    
+
+    (new CxxCoverageSensor(this.cache, this.language, context)).execute(context, linesOfCodeByFile);
+
     Collection<SourceCode> squidSourceFiles = scanner.getIndex().search(new QueryByType(SourceFile.class));
     save(squidSourceFiles, context);
   }
