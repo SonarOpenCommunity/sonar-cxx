@@ -22,9 +22,13 @@ package org.sonar.cxx.sensors.coverage;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
-
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
@@ -38,6 +42,7 @@ public class CxxMSCoverageSensorTest {
   private DefaultFileSystem fs;
   private SensorContextTester context;
   private CxxLanguage language;
+  private Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
 
   @Before
   public void setUp() {
@@ -60,7 +65,7 @@ public class CxxMSCoverageSensorTest {
  @Test
   public void shouldReportCorrectCoverage() {
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     assertThat(context.lineHits("ProjectKey:source/motorcontroller/motorcontroller.cpp", CoverageType.UNIT, 20)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:source/rootfinder/rootfinder.cpp", CoverageType.UNIT, 23)).isEqualTo(1);
   }

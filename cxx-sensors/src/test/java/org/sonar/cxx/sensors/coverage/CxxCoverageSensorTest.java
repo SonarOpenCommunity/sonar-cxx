@@ -50,6 +50,7 @@ public class CxxCoverageSensorTest {
   private DefaultFileSystem fs;
   private SensorContextTester context;
   private static final Version SQ_5_6 = Version.create(5, 6);
+  private Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
 
   @Before
   public void setUp() {
@@ -81,7 +82,7 @@ public class CxxCoverageSensorTest {
     
     Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 3)).isEqualTo(4);
@@ -103,7 +104,7 @@ public class CxxCoverageSensorTest {
     CxxLanguage language = TestUtils.mockCxxLanguage();    
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
     //when(context.getResource((InputFile) anyObject())).thenReturn(null);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     verify(context, times(0)).newCoverage();
   }
 
@@ -114,7 +115,7 @@ public class CxxCoverageSensorTest {
     when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(new String [] { "coverage-reports/cobertura/specific-cases/cobertura-bignumberofhits.xml" });    
     
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
   }
 
   @Test
@@ -134,7 +135,7 @@ public class CxxCoverageSensorTest {
             .thenReturn(false);
     
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", CoverageType.UNIT, 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isNull();
@@ -157,7 +158,7 @@ public class CxxCoverageSensorTest {
             .thenReturn(false);
     
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     assertThat(context.lineHits("ProjectKey:sources/application/main.cpp", CoverageType.UNIT, 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/utils.cpp", CoverageType.UNIT, 1)).isNull();
     assertThat(context.lineHits("ProjectKey:sources/utils/code_chunks.cpp", CoverageType.UNIT, 1)).isNull();
@@ -182,7 +183,7 @@ public class CxxCoverageSensorTest {
 
     Map<InputFile, Set<Integer>> linesOfCode = new HashMap<>();
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     assertThat(context.lineHits("ProjectKey:project1/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(0);
     assertThat(context.lineHits("ProjectKey:project2/source1.cpp", CoverageType.UNIT, 4)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:project2/source2.cpp", CoverageType.UNIT, 4)).isEqualTo(1);

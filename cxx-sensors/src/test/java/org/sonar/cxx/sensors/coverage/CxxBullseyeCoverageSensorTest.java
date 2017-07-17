@@ -22,6 +22,8 @@ package org.sonar.cxx.sensors.coverage;
 import org.sonar.cxx.sensors.coverage.CxxCoverageSensor;
 import org.sonar.cxx.sensors.coverage.CxxCoverageCache;
 import static org.fest.assertions.Assertions.assertThat;
+
+import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.batch.sensor.internal.SensorContextTester;
 
@@ -29,6 +31,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.batch.sensor.coverage.CoverageType;
 import org.sonar.cxx.CxxLanguage;
@@ -38,7 +45,8 @@ import org.sonar.cxx.sensors.utils.TestUtils;
 public class CxxBullseyeCoverageSensorTest {
   private CxxCoverageSensor sensor;
   private DefaultFileSystem fs;
-
+  private Map<InputFile, Set<Integer>> linesOfCodeByFile = new HashMap<>();
+  
   @Before
   public void setUp() {
     fs = TestUtils.mockFileSystem();
@@ -62,7 +70,7 @@ public class CxxBullseyeCoverageSensorTest {
     when(language.hasKey(CxxCoverageSensor.IT_REPORT_PATH_KEY)).thenReturn(true);
     when(language.hasKey(CxxCoverageSensor.OVERALL_REPORT_PATH_KEY)).thenReturn(true);
     when(language.hasKey(CxxCoverageSensor.REPORT_PATHS_KEY)).thenReturn(true);
-    
+
     SensorContextTester context = SensorContextTester.create(fs.baseDir());
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "main.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "source_1.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
@@ -70,9 +78,9 @@ public class CxxBullseyeCoverageSensorTest {
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "src/testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "testclass.h").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
     context.fileSystem().add(new DefaultInputFile("ProjectKey", "testclass.cpp").setLanguage("cpp").initMetadata("asd\nasdas\nasda\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"));
-    
+
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     assertThat(context.lineHits("ProjectKey:src/testclass.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:main.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
     assertThat(context.lineHits("ProjectKey:testclass.cpp", CoverageType.UNIT, 7)).isEqualTo(1);
@@ -87,7 +95,7 @@ public class CxxBullseyeCoverageSensorTest {
       coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-win.xml";
     } else {
       coverageReport = "coverage-reports/bullseye/bullseye-coverage-report-data-in-root-node-linux.xml";
-  }
+    }
     when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(new String [] { coverageReport });
     when(language.getStringOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(coverageReport);
 
@@ -105,7 +113,7 @@ public class CxxBullseyeCoverageSensorTest {
     }
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
     if (TestUtils.isWindows()) {
     assertThat(context.lineHits("ProjectKey:C:/randomfoldernamethatihopeknowmachinehas/anotherincludeattop.h", CoverageType.UNIT, 4)).isEqualTo(1);
     } else {
@@ -124,7 +132,7 @@ public class CxxBullseyeCoverageSensorTest {
       coverageReport = "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-win.xml";
     } else {
       coverageReport = "coverage-reports/bullseye/bullseye-coverage-drive-letter-without-slash-linux.xml";
-  }
+    }
     when(language.getStringArrayOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(new String [] { coverageReport });
     when(language.getStringOption(CxxCoverageSensor.REPORT_PATH_KEY)).thenReturn(coverageReport);
 
@@ -142,7 +150,7 @@ public class CxxBullseyeCoverageSensorTest {
     }
 
     sensor = new CxxCoverageSensor(new CxxCoverageCache(), language, context);
-    sensor.execute(context);
+    sensor.execute(context, linesOfCodeByFile);
 
     if (TestUtils.isWindows()) {
       assertThat(context.lineHits("C:/randomfoldernamethatihopeknowmachinehas/test.c", CoverageType.UNIT, 4)).isEqualTo(1);
