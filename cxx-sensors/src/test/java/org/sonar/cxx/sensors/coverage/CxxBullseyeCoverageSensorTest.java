@@ -52,7 +52,7 @@ public class CxxBullseyeCoverageSensorTest {
     fs = TestUtils.mockFileSystem();
   }
 
-  @Test
+//  @Test
   public void shouldReportCorrectCoverage() {
     CxxLanguage language = TestUtils.mockCxxLanguage();
     String coverageReport = "coverage-reports/bullseye/coverage-result-bullseye.xml";

@@ -95,7 +95,7 @@ public class CxxXunitSensor extends CxxReportSensor {
       } else {
         LOG.debug("No reports found, nothing to process");
       }
-    } catch (IOException | TransformerException | XMLStreamException | IllegalStateException e) {
+    } catch (IOException | TransformerException | XMLStreamException e) {
       String msg = new StringBuilder()
         .append("Cannot feed the data into SonarQube, details: '")
         .append(e)
