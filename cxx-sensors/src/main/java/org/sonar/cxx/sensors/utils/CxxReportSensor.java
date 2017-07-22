@@ -38,6 +38,7 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
 import org.sonar.api.config.Settings;
+import org.sonar.api.utils.PathUtils;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.cxx.CxxLanguage;
@@ -250,7 +251,7 @@ public abstract class CxxReportSensor implements Sensor {
     // handles file="" situation -- file level
     if ((filename != null) && (!filename.isEmpty())) {
       String root = sensorContext.fileSystem().baseDir().getAbsolutePath();
-      String normalPath = CxxUtils.normalizePathFull(filename.replaceAll("\\\\", "/"), root);
+      String normalPath = CxxUtils.normalizePathFull(PathUtils.sanitize(filename), root);
       if (normalPath != null && !notFoundFiles.contains(normalPath)) {
         InputFile inputFile = sensorContext.fileSystem().inputFile(sensorContext.fileSystem()
                                                         .predicates().hasAbsolutePath(normalPath));

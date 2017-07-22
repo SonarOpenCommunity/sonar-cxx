@@ -130,32 +130,37 @@ public class CxxCoverageSensor extends CxxReportSensor {
       if (reportPaths.isEmpty()) {
         return;
       }
-      
-      LOG.debug("Parsing coverage reports");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Parsing coverage reports");
+      }
       coverageMeasures = processReports(context, reportPaths, this.cache.unitCoverageCache());
       saveMeasures(context, coverageMeasures, CoverageType.UNIT);
 
     } else {
       if (settings.hasKey(getReportPathKey())) {
-        LOG.debug("Parsing coverage reports");
-//        List<File> reports = getReports(this.language, context.fileSystem().baseDir(), getReportPathKey());
-        List<File> reports = getReportPaths(context);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Parsing coverage reports");
+        }
+        List<File> reports = getReports(context.settings(), context.fileSystem().baseDir(), getReportPathKey());
         coverageMeasures = processReports(context, reports, this.cache.unitCoverageCache());
         saveMeasures(context, coverageMeasures, CoverageType.UNIT);
       }
   
       if (settings.hasKey(getITReportPathKey())) {
-        LOG.debug("Parsing integration test coverage reports");
-//        List<File> itReports = getReports(this.language, context.fileSystem().baseDir(), getITReportPathKey());
-        List<File> itReports = getReportPaths(context);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Parsing integration test coverage reports");
+        }
+        List<File> itReports = getReports(context.settings(), context.fileSystem().baseDir(), getITReportPathKey());
         itCoverageMeasures = processReports(context, itReports, this.cache.integrationCoverageCache());
         saveMeasures(context, itCoverageMeasures, CoverageType.IT);
       }
   
       if (settings.hasKey(getOverallReportPathKey())) {
-        LOG.debug("Parsing overall test coverage reports");
-//        List<File> overallReports = getReports(this.language, context.fileSystem().baseDir(), getOverallReportPathKey());
-        List<File> overallReports = getReportPaths(context);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Parsing overall test coverage reports");
+        }
+        List<File> overallReports = getReports(context.settings(), 
+                                               context.fileSystem().baseDir(), getOverallReportPathKey());
         overallCoverageMeasures = processReports(context, overallReports, this.cache.overallCoverageCache());
         saveMeasures(context, overallCoverageMeasures, CoverageType.OVERALL);
       }
@@ -209,8 +214,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
   private void saveZeroValueForResource(InputFile inputFile, SensorContext context, CoverageType ctype, 
                                         @Nullable Set<Integer> linesOfCode) {
     if (linesOfCode != null) {
-      LOG.debug("Zeroing {} coverage measures for file '{}'", ctype, inputFile.relativePath());
-
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Zeroing {} coverage measures for file '{}'", ctype, inputFile.relativePath());
+      }
       NewCoverage newCoverage = context.newCoverage()
         .onFile(inputFile)
         .ofType(ctype);
@@ -257,7 +263,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
           LOG.debug("Report is empty {}", e);
         }
       } else {
-        LOG.debug("Processing report '{}' skipped - already in cache", report);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Processing report '{}' skipped - already in cache", report);
+        }
       }
     }
     return measuresTotal;
@@ -302,7 +310,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
                   .ofType(ctype);
       
         Collection<CoverageMeasure> measures = entry.getValue().getCoverageMeasures();
-        LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Saving '{}' coverage measures for file '{}'", measures.size(), filePath);
+        }
         for (CoverageMeasure measure : measures) {
           checkLineCoverage(newCoverage, measure);
           checkConditionCoverage(newCoverage, measure);
@@ -315,7 +325,9 @@ public class CxxCoverageSensor extends CxxReportSensor {
           CxxUtils.validateRecovery(ex, this.language);
         }
       } else {
-        LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Cannot find the file '{}', ignoring coverage measures", filePath);
+        }
       }       
     }
   }
